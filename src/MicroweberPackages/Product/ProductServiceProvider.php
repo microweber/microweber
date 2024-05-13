@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
-use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
+//use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsList;
-use MicroweberPackages\Product\Http\Livewire\Admin\ProductsTable;
-use MicroweberPackages\Product\Http\Livewire\ProductsAutoComplete;
+//use MicroweberPackages\Product\Http\Livewire\Admin\ProductsTable;
+//use MicroweberPackages\Product\Http\Livewire\ProductsAutoComplete;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Product\Validators\PriceValidator;
 

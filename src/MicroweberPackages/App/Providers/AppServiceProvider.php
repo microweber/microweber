@@ -174,7 +174,7 @@ class AppServiceProvider extends ServiceProvider
             define('ADMIN_PREFIX', mw_admin_prefix_url());
         }
 
-        if (config::get('microweber.force_https') && !is_cli()) {
+        if (Config::get('microweber.force_https') && !is_cli()) {
             URL::forceScheme("https");
         }
 

@@ -615,6 +615,9 @@ class ContentList extends AdminComponent
                 [
                     'name' => 'Tags',
                     'key' => 'tags'
+                ],[
+                    'name' => 'Category',
+                    'key' => 'category'
                 ]
             ]
         ];

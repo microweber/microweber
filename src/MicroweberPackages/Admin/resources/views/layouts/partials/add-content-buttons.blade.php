@@ -97,7 +97,7 @@ if($editContentBtnData){
 
 
             <p class="  font-weight-bold mb-0 modal-add-new-buttons-p   d-lg-block">
-                @lang('Edit') {{ $editContentBtnData['title'] }}
+                @lang('Edit') {{ character_limiter($editContentBtnData['title'], 50) }}
             </p>
         </div>
 

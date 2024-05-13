@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Install;
 
 use Illuminate\Database\Migrations\Migrator;
+use Illuminate\Support\Facades\Log;
 use function Illuminate\Database\Migrations;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Schema as DbSchema;
@@ -60,6 +61,9 @@ class MicroweberMigrator extends Migrator
                 $this->repository->log($name, $batch);
             }
             $this->note($e->getMessage());
+
+            Log::error($e->getMessage());
+
         }
 
         $runTime = round(microtime(true) - $startTime, 2);

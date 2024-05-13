@@ -205,7 +205,9 @@ Become a financial contributor and help sustain our community. [Contribute here]
 
 ### Translations
 
-You can assist us in translating Microweber. [Contribute here](https://crowdin.com/project/microweber-cms/invite?h=f57b2dfce31781806cc50eda749d20c01582429). Your help is greatly appreciated!
+Translate Microweber into your language! Fork the repository, edit language files in the [lang](https://github.com/microweber/microweber/tree/master/src/MicroweberPackages/Translation/resources/lang) directory, commit changes, and submit a pull request. Your help is greatly appreciated!
+
+
 
 #### Individuals
 

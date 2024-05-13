@@ -77,6 +77,7 @@ use MicroweberPackages\Tax\TaxManagerServiceProvider;
 use MicroweberPackages\Template\TemplateEventServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
+use MicroweberPackages\Update\Providers\UpdateMigratorServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
@@ -207,5 +208,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
+
+        $this->app->register(UpdateMigratorServiceProvider::class);
+
     }
 }
