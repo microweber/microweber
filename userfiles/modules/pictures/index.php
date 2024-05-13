@@ -138,6 +138,10 @@ if (isset($params['rel_id']) == true) {
 
     }
 
+    if(empty($data) ){
+        $no_img = true;
+    }
+
 
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {

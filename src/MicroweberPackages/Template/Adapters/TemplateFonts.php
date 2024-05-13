@@ -2,9 +2,11 @@
 
 namespace MicroweberPackages\Template\Adapters;
 
+use Illuminate\Support\Facades\App;
+
 class TemplateFonts
 {
-    public function getFonts() : array
+    public function getFonts(): array
     {
         // Initialize with default system fonts and additional default fonts
         $defaultFonts = [
@@ -28,7 +30,7 @@ class TemplateFonts
         return $defaultFonts;
     }
 
-    public function getFontsStylesheetCss() : string
+    public function getFontsStylesheetCss(): string
     {
         $googleFontDomain = \MicroweberPackages\Utils\Misc\GoogleFonts::getDomain();
         $enabledCustomFonts = \MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts();
@@ -67,7 +69,12 @@ class TemplateFonts
 
     public function getFontsStylesheetFilename(): string
     {
-        $cache_file_name = 'custom_css.fonts.' . crc32(site_url()) . '.' . MW_VERSION . '.css';
+        if (mw_is_multisite()) {
+            $environment = App::environment();
+            $cache_file_name = 'custom_css.fonts.' . $environment . '.' . MW_VERSION . '.css';
+        } else {
+            $cache_file_name = 'custom_css.fonts.default.' . MW_VERSION . '.css';
+        }
         return $cache_file_name;
     }
 
