@@ -207,7 +207,10 @@ class MigrateOldVersion213 extends Migration
 
 
             //ensure all categories have slug
-            $categories = DB::table('categories')->whereNull('url')->get();
+            $categories = DB::table('categories')
+                ->whereNull('url')
+                ->where('rel_type', 'content')
+                ->get();
             if ($categories) {
                 foreach ($categories as $category) {
                     $categoryArr = (array)$category;
