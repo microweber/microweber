@@ -42,5 +42,29 @@ class OrderController extends AdminController
             'order'=>$order
         ]);
     }
+    public function update(Request $request, $id)
+    {
+        $order = Order::where('id', $id)->first();
+
+        if ($order == false) {
+            return redirect(route('admin.order.index'));
+        }
+        $order->fill($request->all());
+        $order->save();
+
+        return redirect(route('admin.order.show', $id));
+    }
+    public function edit($id)
+    {
+        $order = Order::where('id',$id)->first();
+
+        if ($order == false) {
+            return redirect(route('admin.order.index'));
+        }
+
+        return view('order::admin.orders.edit', [
+            'order'=>$order
+        ]);
+    }
 
 }

@@ -169,7 +169,7 @@ class CategoryTreeData
 
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
                 $skip123 = true;
-                $str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_id=' . $params['try_rel_id'];
+                $str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_type=content&rel_id=' . $params['try_rel_id'];
                 $fors1 = $this->app->database_manager->get($str1);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
