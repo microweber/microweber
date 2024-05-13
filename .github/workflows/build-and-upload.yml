@@ -142,6 +142,7 @@ jobs:
           rm -rf userfiles/cache/*
           rm -rf userfiles/css/*
           rm -rf userfiles/media/*
+          rm -rf userfiles/templates/*
           rm -rf favicon.ico
           rm -f *.php
           rm -f *.yml
