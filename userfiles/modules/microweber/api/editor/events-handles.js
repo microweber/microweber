@@ -11,7 +11,7 @@ class MWEditorEventHandles {
     }
 
     insertBR(e, edit) {
-        if (typeof edit !== 'undefined' && edit && edit.innerHTML) {
+        if (edit && edit.ownerDocument) {
 
             this.scope.state.record({
 
@@ -39,7 +39,7 @@ class MWEditorEventHandles {
 
         e.preventDefault();
 
-        if( typeof edit !== 'undefined' &&  edit && edit.innerHTML) {
+        if(edit && edit.ownerDocument) {
             this.scope.state.record({
                 target: edit,
                 value: edit.innerHTML
