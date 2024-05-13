@@ -47,10 +47,15 @@ export class MWBroadcast extends BaseComponent {
     record(action, data) {
 
         let curr = mw.storage.get('mw-broadcast-data');
-        if(!data){
-            return curr[this.getIdentity()][action];
+        let identity = this.getIdentity();
+
+        if (typeof curr[identity] === 'undefined') {
+            curr[identity] = {};
         }
-        curr[this.getIdentity()][action] = data;
+        if (!data) {
+            return curr[identity][action];
+        }
+        curr[identity][action] = data;
         mw.storage.set('mw-broadcast-data', curr);
     }
 
