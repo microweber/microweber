@@ -245,6 +245,16 @@ mw.askusertostay = false;
         }
 
 
+
+        if(target.nodeName === 'TD' && !explicitAction) {
+            if(action === 'before') {
+                action = 'prepend'
+            } else if(action === 'after') {
+                action = 'append'
+            }
+        }
+
+
         mw.$(target)[explicitAction || action](el);
         mw.load_module(module, '#' + id, function (a,b) {
             if(stateManager) {

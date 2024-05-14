@@ -91,7 +91,8 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
             this.#stateTypeHandles.$liveEditStyle( active.selector,  active.value, false );
         },
         $liveEditCSS: active => {
-            this.#stateTypeHandles.$liveEditCSS( active.selector, active.property, active.value, false);
+
+            this.#stateTypeHandles.$liveEditCSS( active.value.selector, active.value.property, active.value.value, false);
         },
         customAction: active => {
             this.#stateTypeHandles.customAction(active.action, active);
@@ -142,6 +143,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
             mw.top().app.cssEditor.style( selector,  value, false )
         },
         $liveEditCSS: (selector, property, value) => {
+
             mw.top().app.cssEditor.setPropertyForSelector( selector, property, value, false);
         },
         customAction:(action, data) => {
@@ -175,6 +177,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
             return;
         }
         if(target === '$liveEditCSS' && mw.top().app.cssEditor) {
+
             this.#stateTypeDataHandles.$liveEditCSS(data.active);
             return;
         }
