@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,62 +12,55 @@ class CreateUserTable extends Migration
      */
     public function up()
     {
-        $this->createUsersTable();
         app()->database_manager->build_tables($this->getSchema());
-    }
-
-    public function createUsersTable()
-    {
-
-        if (Schema::hasTable('users')) {
-            return;
-        }
-
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->dateTime('expires_on')->nullable();
-            $table->dateTime('last_login')->nullable();
-            $table->string('last_login_ip')->nullable();
-            $table->integer('created_by')->nullable();
-            $table->integer('edited_by')->nullable();
-            $table->string('username')->unique();
-            $table->string('password')->nullable();;
-            $table->string('email')->unique();
-            $table->rememberToken();
-            $table->integer('is_active')->nullable();
-            $table->integer('is_admin')->nullable();
-            $table->integer('is_verified')->nullable();
-            $table->integer('is_public')->nullable();
-            $table->string('basic_mode')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('middle_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('thumbnail')->nullable();
-            $table->integer('parent_id')->nullable();
-            $table->string('api_key')->nullable();
-            $table->text('user_information')->nullable();
-            $table->string('subscr_id')->nullable();
-            $table->string('role')->nullable();
-            $table->string('medium')->nullable();
-            $table->string('oauth_uid')->nullable();
-            $table->string('oauth_provider')->nullable();
-            $table->text('oauth_token')->nullable();
-            $table->text('oauth_token_secret')->nullable();
-            $table->string('profile_url')->nullable();
-            $table->string('website_url')->nullable();
-            $table->string('password_reset_hash')->nullable();
-            $table->dateTime('email_verified_at')->nullable();
-            $table->text('two_factor_recovery_codes')->nullable();
-            $table->text('two_factor_secret')->nullable();
-        });
     }
 
     public function getSchema()
     {
         return [
+            'users' => [
+                'username' => 'string',
+                'password' => 'string',
+                'email' => 'string',
+                'is_active' => 'integer',
+                'is_admin' => 'integer',
+                'is_verified' => 'integer',
+                'is_public' => 'integer',
 
+                'last_login' => 'dateTime',
+                'last_login_ip' => 'string',
+                'created_by' => 'integer',
+                'edited_by' => 'integer',
+
+                'remember_token' => 'string',
+
+                'basic_mode' => 'string',
+                'first_name' => 'string',
+                'middle_name' => 'string',
+                'last_name' => 'string',
+                'phone' => 'string',
+                'thumbnail' => 'string',
+                'parent_id' => 'integer',
+                'api_key' => 'string',
+                'user_information' => 'text',
+                'subscr_id' => 'string',
+                'role' => 'string',
+                'medium' => 'string',
+                'oauth_uid' => 'string',
+                'oauth_provider' => 'string',
+                'oauth_token' => 'text',
+                'oauth_token_secret' => 'text',
+                'profile_url' => 'string',
+                'website_url' => 'string',
+                'password_reset_hash' => 'string',
+                'email_verified_at' => 'dateTime',
+                'two_factor_recovery_codes' => 'text',
+                'two_factor_secret' => 'text',
+                'updated_at' => 'dateTime',
+                'created_at' => 'dateTime',
+                'expires_on' => 'dateTime',
+                '$index' => ['username', 'email'],
+            ],
 
             'users_oauth' => [
                 'user_id' => 'integer',
