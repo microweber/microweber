@@ -15,8 +15,7 @@
 
 
     <link rel="stylesheet" href="<?php print mw_includes_url(); ?>css/fonts/fonts.css">
-    <?php //print \MicroweberPackages\Admin\Facades\AdminManager::headTags();    ?>
-    <?php print mw_admin_header_scripts() ;    ?>
+     <?php print mw_admin_header_scripts() ;    ?>
 
     <script type="text/javascript">
 
@@ -77,8 +76,6 @@
     ?>
     <?php if ($enableLivewireScripts) { ?>
 
-        <?php //print \Livewire\Livewire::scripts(); ?>
-        <?php //print \Livewire\Livewire::styles(); ?>
 
 
 

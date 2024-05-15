@@ -367,10 +367,10 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerHtmlCollective()
     {
-        $this->app->register('Collective\Html\HtmlServiceProvider');
-
-        $this->aliasInstance->alias('Form', 'Collective\Html\FormFacade');
-        $this->aliasInstance->alias('HTML', 'Collective\Html\HtmlFacade');
+//        $this->app->register('Collective\Html\HtmlServiceProvider');
+//
+//        $this->aliasInstance->alias('Form', 'Collective\Html\FormFacade');
+//        $this->aliasInstance->alias('HTML', 'Collective\Html\HtmlFacade');
     }
 
     protected function registerMarkdown()

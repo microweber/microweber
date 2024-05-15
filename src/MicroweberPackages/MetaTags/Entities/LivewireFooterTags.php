@@ -12,7 +12,8 @@ class LivewireFooterTags implements TagInterface, \Stringable
 
         $append_html = '';
 
-        $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
+        $modal = \Livewire\Livewire::mount('livewire-ui-modal');
+
 
          $append_html .= $modal . "\r\n";
 

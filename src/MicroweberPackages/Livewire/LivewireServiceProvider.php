@@ -27,12 +27,9 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
      *
      * @var boolean
      */
-    protected $defer = true;
+ #   protected $defer = false;
 
 
-    public function provides() {
-        return ['Livewire\Livewire'];
-    }
 
     protected function mergeConfigFrom($path, $key)
     {
@@ -41,16 +38,20 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
     }
 
 
-    protected function registerLivewireSingleton()
-    {
-        $this->app->singleton(LivewireManager::class);
-        $this->app->alias(LivewireManager::class, 'livewire');
-     }
+//    protected function registerLivewireSingleton()
+//    {
+//        $this->app->singleton(LivewireManager::class);
+//        $this->app->alias(LivewireManager::class, 'livewire');
+//     }
 
 
     public function register()
     {
-
+        $this->registerLivewireSingleton();
+        $this->registerConfig();
+        $this->bootEventBus();
+        $this->registerMechanisms();
+        $this->registerRoutes();
         include_once __DIR__ . '/Helpers/helpers.php';
 
         $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
@@ -59,7 +60,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         View::addNamespace('livewire', __DIR__ . '/resources/views');
 
         // Load datatables
-        app()->register(LaravelLivewireTablesServiceProvider::class);
+      //  app()->register(LaravelLivewireTablesServiceProvider::class);
         $this->mergeConfigFrom(__DIR__.'/config/livewire-tables.php', 'livewire-tables');
 
         // Load UI Modal
@@ -77,7 +78,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
     protected function registerRoutes()
     {
-        parent::registerRoutes();
+
 
         RouteFacade::get('/livewire/livewire.js', [\MicroweberPackages\Livewire\Http\Controllers\LivewireJavaScriptAssets::class, 'source']);
         RouteFacade::get('/livewire/livewire.js.map', [\MicroweberPackages\Livewire\Http\Controllers\LivewireJavaScriptAssets::class, 'maps']);
