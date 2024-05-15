@@ -24,6 +24,7 @@ class MigrateOldVersion213 extends Migration
         $this->updateContentTable();
         $this->updateCommentsTable();
         $this->updateModulesTable();
+        $this->updateCouponsTable();
 
     }
 
@@ -378,7 +379,7 @@ class MigrateOldVersion213 extends Migration
                 if ($allOldFields) {
                     foreach ($allOldFields as $oldField) {
                         $values = $oldField->custom_field_values_plain;
-                        if($values){
+                        if ($values) {
                             $values = str_replace(',,', '', $values);
                         }
                         $check = DB::table('custom_fields_values')
@@ -503,17 +504,17 @@ class MigrateOldVersion213 extends Migration
 
             if (Schema::hasColumn($table, 'created_at')
                 and Schema::hasColumn($table, 'created_on')) {
-                    //move all to created_at
-                    $all = DB::table($table)->whereNotNull('created_on')->get();
-                    if ($all) {
-                        foreach ($all as $item) {
-                            DB::table($table)->where('id', $item->id)->update(['created_at' => $item->created_on]);
-                        }
+                //move all to created_at
+                $all = DB::table($table)->whereNotNull('created_on')->get();
+                if ($all) {
+                    foreach ($all as $item) {
+                        DB::table($table)->where('id', $item->id)->update(['created_at' => $item->created_on]);
                     }
-                    //remove created_on column
-                    Schema::table($table, function (Blueprint $table) {
-                        $table->dropColumn('created_on');
-                    });
+                }
+                //remove created_on column
+                Schema::table($table, function (Blueprint $table) {
+                    $table->dropColumn('created_on');
+                });
             }
 
             if (!Schema::hasColumn($table, 'updated_at')) {
@@ -525,22 +526,57 @@ class MigrateOldVersion213 extends Migration
 
             if (Schema::hasColumn($table, 'updated_at')
                 and Schema::hasColumn($table, 'updated_on')) {
-                    //move all to created_at
-                    $all = DB::table($table)->whereNotNull('updated_on')->get();
-                    if ($all) {
-                        foreach ($all as $item) {
-                            DB::table($table)->where('id', $item->id)->update(['updated_at' => $item->updated_at]);
-                        }
+                //move all to created_at
+                $all = DB::table($table)->whereNotNull('updated_on')->get();
+                if ($all) {
+                    foreach ($all as $item) {
+                        DB::table($table)->where('id', $item->id)->update(['updated_at' => $item->updated_at]);
                     }
-                    //remove created_on column
-                    Schema::table($table, function (Blueprint $table) {
-                        $table->dropColumn('updated_on');
-                    });
+                }
+                //remove created_on column
+                Schema::table($table, function (Blueprint $table) {
+                    $table->dropColumn('updated_on');
+                });
 
             }
 
         }
 
+    }
+
+    public function updateCouponsTable()
+    {
+        if (!Schema::hasTable('cart_coupons')) {
+            Schema::create('cart_coupons', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('coupon_name')->nullable();
+                $table->string('coupon_code')->nullable();;
+                $table->string('discount_type')->nullable();;
+                $table->integer('discount_value')->nullable();;
+                $table->integer('total_amount')->nullable();;
+                $table->integer('uses_per_coupon')->nullable();;
+                $table->integer('uses_per_customer')->nullable();;
+                $table->integer('is_active')->nullable();;
+                $table->timestamps();
+            });
+        }
+
+        if (!Schema::hasTable('cart_coupon_logs')) {
+            Schema::create('cart_coupon_logs', function (Blueprint $table) {
+
+                $table->increments('id');
+                $table->integer('coupon_id')->nullable();;
+                $table->string('customer_email')->nullable();;
+                $table->string('customer_id')->nullable();;
+
+                $table->string('coupon_code')->nullable();;
+                $table->string('customer_ip')->nullable();;
+                $table->integer('uses_count')->nullable();;
+                $table->dateTime('use_date')->nullable();;
+                $table->timestamps();
+
+            });
+        }
     }
 
 }
