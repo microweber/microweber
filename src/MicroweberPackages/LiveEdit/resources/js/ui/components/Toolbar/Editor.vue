@@ -186,6 +186,28 @@ export default {
                 if (liveEditHelpers.targetIsIcon(element)) {
                     const iconPicker = mw.app.get('iconPicker').pickIcon(element);
 
+                     iconPicker.picker.on('iconReplaced', rdata => {
+                        console.log(rdata);
+
+                        if(rdata.type === 'image') {
+                            var img = mw.element(`<img src="${rdata.url}" class="element">`);
+
+                            var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                            if(edit) {
+                                mw.top().app.registerChangedState(edit, true);
+                            }
+                            mw.element(element).after(img);
+
+                            mw.element(element).remove();
+
+                            if(edit) {
+                                mw.top().app.registerChangedState(edit, true);
+                            }
+
+                            iconPicker.picker.dialog().remove()
+                        }
+
+                     })
                      iconPicker.picker.on('sizeChange', val => {
                          var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
                         if(edit) {

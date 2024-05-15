@@ -432,6 +432,7 @@
                 tabs = tabAccordionBuilder([
                     {title: 'Icons'},
                     {title: 'Options'},
+
                 ]);
                 iconsBlockHolder = tabs.items[0].content;
                 optionsHolder = tabs.items[1].content;
@@ -522,6 +523,28 @@
                     }, 100)
                     cel.append(cpHolder);
                     holder.append(cel);
+                }
+                if(scope.settings.iconOptions.imageReplace) {
+                    var rel = mw.element(`
+                    <div class="my-3">
+                        <label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">${mw.lang('Replace with image')}</label>
+                    </div>`);
+                    var rinput = mw.element(`
+                        <button type="button" style="min-width: 150px" class="btn btn-outline-secondary ">
+                        ${mw.lang('Choose')}
+                        </button>
+                    `);
+                    rinput.on('click', function () {
+                        mw.filePickerDialog( (url) => {
+                            scope.dispatch('iconReplaced', {
+                                type: 'image',
+                                url: url,
+                            });
+                        });
+
+                    });
+                    rel.append(rinput);
+                    holder.append(rel);
                 }
                 if(scope.settings.iconOptions.reset) {
                     var rel = mw.element(`
