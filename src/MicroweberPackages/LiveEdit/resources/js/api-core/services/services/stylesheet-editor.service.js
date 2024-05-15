@@ -320,11 +320,16 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
         const curr = getComputedStyle(node)[prop];
 
+        const sel = mw.tools.generateSelectorForNode(node);
+
+
+
         if(curr !== val && record) {
             this.setPropertyForSelector(sel, prop, curr, record);
+
         }
 
-        const sel = mw.tools.generateSelectorForNode(node);
+
 
         this.setPropertyForSelector(sel, prop, val, record);
 

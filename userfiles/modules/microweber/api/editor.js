@@ -1035,6 +1035,7 @@ var MWEditor = function (options) {
 
         scope.$editArea.on('click', function (e) {
                var target = e.target !== scope.actionWindow.document.body ? scope.getActualTarget(e.target) : scope.actionWindow.document.body;
+
                scope.smallEditorInteract(target);
         });
         this.actionWindow.document.body.appendChild(this.smallEditor.node);
@@ -1045,7 +1046,7 @@ var MWEditor = function (options) {
     };
 
     scope.getActualTarget = function (target) {
-        return mw.tools.firstParentOrCurrentWithTag(scope.api.elementNode(target), ['div', 'ul', 'ol', 'p', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
+        return mw.tools.firstParentOrCurrentWithTag(scope.api.elementNode(target), ['div', 'ul', 'ol', 'p', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'td']);
     };
 
     var _smallEditorExceptionClasses = [
@@ -1099,6 +1100,7 @@ var MWEditor = function (options) {
 
     var _smallEditorInteractTimeout = null;
     this.smallEditorInteract = function (target) {
+        const otarget = target;
         clearTimeout(_smallEditorInteractTimeout);
         _smallEditorInteractTimeout = setTimeout(() => {
             this._smallEditorInteract = false;
@@ -1111,7 +1113,7 @@ var MWEditor = function (options) {
             }
 
 
-            if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
+           if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
                 if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
                     this._smallEditorInteract = target;
