@@ -187,7 +187,7 @@ export default {
                     const iconPicker = mw.app.get('iconPicker').pickIcon(element);
 
                      iconPicker.picker.on('iconReplaced', rdata => {
-                        console.log(rdata);
+
 
                         if(rdata.type === 'image') {
                             var img = mw.element(`<img src="${rdata.url}" class="element">`);

@@ -530,7 +530,7 @@
                         <label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">${mw.lang('Replace with image')}</label>
                     </div>`);
                     var rinput = mw.element(`
-                        <button type="button" style="min-width: 150px" class="btn btn-outline-secondary ">
+                        <button type="button" style="min-width: 150px" class="btn btn-light border-0 go-live-edit-href-set admin-toolbar-buttons ">
                         ${mw.lang('Choose')}
                         </button>
                     `);
