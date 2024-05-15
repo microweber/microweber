@@ -31,15 +31,28 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
         handles.forEach(hndl => {
 
+            let tempStart;
+            let tempEnd;
+
             mw.app.liveEdit.handles.get(hndl)
             .draggable
             .on('dragStart', data => {
                 this.startTarget = DomService.firstParentOrCurrentWithClass(data.element, 'edit');
                 this.startTarget.__html = this.startTarget.innerHTML;
+
+                tempStart = {
+                    target:  this.startTarget,
+                    value:  this.startTarget.__html,
+                }
             })
             .on('beforeDrop', data => {
                 this.endTarget =  DomService.firstParentOrCurrentWithClass(data.event.target, 'edit');
                 this.endTarget.__html = this.endTarget.innerHTML;
+
+                tempEnd = {
+                    target:  this.endTarget,
+                    value:  this.endTarget.__html,
+                }
             })
             .on('drop', data => {
 
@@ -66,8 +79,31 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                     originalEditFieldInnerHTML: endTargethtml,
                 }
 
-                mw.app.state.record(rec1);
-                mw.app.state.record(rec2);
+                /*mw.app.state.record(rec1);
+                mw.app.state.record(rec2);*/
+                mw.app.state.record({
+                    target: "$multistate",
+                    value: [
+                        {...tempStart},
+                        {...tempEnd},
+
+                    ]
+                });
+
+                mw.app.state.record({
+                    target: "$multistate",
+                    value: [
+
+                        {
+                            target:  this.startTarget,
+                            value: this.startTarget.innerHTML,
+                        },
+                        {
+                            target:  this.endTarget,
+                            value: this.endTarget.innerHTML,
+                        }
+                    ]
+                });
 
                 this.startTarget = null;
                 this.endTarget = null;
@@ -155,7 +191,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
         $multistate: (data) => {
             for (let i = 0; i < data.value.length; i++) {
 
-                const type = data.value[i].type;
+                const type = data.value[i].type || 'html';
                 if(this.#stateTypeHandles[type]) {
                     this.#stateTypeDataHandles[type](data.value[i]);
                 }
