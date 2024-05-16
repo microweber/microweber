@@ -4,11 +4,11 @@
         <div class="text-shadow-options">
             <div class="form-group">
                 <SliderSmall label="Horizontal Shadow Length" v-model="textShadowOptions.horizontalLength" :min="-300"
-                             :max="300" :step="1"></SliderSmall>
+                             :max="300" :step="1" :default="0"></SliderSmall>
                 <SliderSmall label="Vertical Shadow Length" v-model="textShadowOptions.verticalLength" :min="-300"
-                             :max="300" :step="1"></SliderSmall>
+                             :max="300" :step="1" :default="0"></SliderSmall>
                 <SliderSmall label="Blur Radius" v-model="textShadowOptions.blurRadius" :min="0" :max="30"
-                             :step="1"></SliderSmall>
+                             :step="1" :default="0"></SliderSmall>
 
                 <ColorPicker v-model="textShadowOptions.shadowColor" :color="textShadowOptions.shadowColor"
                              :label="'Color'" @change="handleTextShadowColorChange"/>
@@ -167,7 +167,7 @@ export default {
                 inset,
             } = this.textShadowOptions;
 
-            const textShadowValue = `${horizontalLength}px ${verticalLength}px ${blurRadius}px ${shadowColor}`;
+            const textShadowValue = `${horizontalLength ?? 1}px ${verticalLength ?? 1}px ${blurRadius ?? 1}px ${shadowColor ?? 'rgba(0,0,0,.2)'}`;
             this.applyPropertyToActiveNode("textShadow", textShadowValue);
         },
     },

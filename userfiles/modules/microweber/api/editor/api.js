@@ -255,7 +255,9 @@
                 const edit = mw.tools.firstParentOrCurrentWithClass(el, 'edit') || scope.$editArea[0];
 
 
-                mw.top().app.registerChange(edit)
+                if(mw.top().app && mw.top().app.registerChange) {
+                    mw.top().app.registerChange(edit)
+                }
 
 
 

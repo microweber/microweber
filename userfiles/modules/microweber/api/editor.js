@@ -1394,13 +1394,13 @@ var MWEditor = function (options) {
                                     let all = ta.querySelectorAll(`*:not(${allowedTags})`);
 
 
-                                    while (ta.querySelectorAll(noBlocksInThese).length) {
+                                    /*while (ta.querySelectorAll(noBlocksInThese).length) {
                                         var first = ta.querySelector(noBlocksInThese);
                                         if(first.id) {
                                             first.id = mw.id('element')
                                         }
                                         mw.tools.setTag(first, 'span')
-                                    }
+                                    }*/
 
                                     var cssKeys = ['fontWeight', 'fontStyle', 'textDecoration', 'fontSize'];
 
@@ -1424,6 +1424,7 @@ var MWEditor = function (options) {
 
                             if(!!content) {
                                 content = content.trim();
+
                                 scope.api.insertHTML(content);
                                 mw.element(ta).remove();
                                 return;
