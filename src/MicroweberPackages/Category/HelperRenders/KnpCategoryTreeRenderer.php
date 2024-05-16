@@ -68,7 +68,7 @@ class KnpCategoryTreeRenderer
         $permalinkStructure = get_option('permalink_structure', 'website');
         $cache_id = __CLASS__ . __FUNCTION__ . crc32(json_encode($params) . $permalinkStructure.current_lang());
         $cache_group = 'categories';
-        $this->use_cache = false;
+
         if ($this->use_cache) {
             $results = cache_get($cache_id, $cache_group, 600);
             if ($results) {

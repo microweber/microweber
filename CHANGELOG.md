@@ -4,6 +4,18 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.0.15] - 2024-05-15
+- Maintenance release
+- Fixes on the Undo and Redo in the live edit
+- Fixes editing text in tables in the live edit
+- Fixes on the button module url picker
+- Fixes on migrations from old versions
+- Fixes editing order in admin panel
+- Other issues
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.14...2.0.15 "")
+
+
+ 
 ## [2.0.14] - 2024-05-07
 - Maintenance release
 - Fixes on the Multi language module

@@ -35,7 +35,7 @@ class PluploadController extends Controller
 
         if (!empty($this->allowedFileTypes)) {
             foreach ($this->allowedFileTypes as $fileType) {
-                foreach ($dangerous as $iDangerous=>$dangerousFileType) {
+                foreach ($dangerous as $iDangerous => $dangerousFileType) {
                     if ($dangerousFileType == $fileType) {
                         unset($dangerous[$iDangerous]);
                     }
@@ -558,12 +558,15 @@ class PluploadController extends Controller
 
                 if ($ext == 'gif' || $ext == 'jpg' || $ext == 'jpeg' || $ext === 'jpe' || $ext == 'png' || $ext == 'svg') {
 
+                    $exifData = $this->readExifData($filePath);
                     $valid = false;
                     if ($ext === 'jpg' || $ext === 'jpeg' || $ext === 'jpe') {
 
                         // This will clear exif data - security issue
                         $imgCreatedFromJpeg = @imagecreatefromjpeg($filePath);
                         if ($imgCreatedFromJpeg) {
+                            $imgCreatedFromJpeg = $this->autoRotateImageIfPossible($imgCreatedFromJpeg,$exifData);
+
                             imagejpeg($imgCreatedFromJpeg, $filePath);  // this will create fresh new image without exif sensitive data
                             $valid = true;
                         }
@@ -571,6 +574,7 @@ class PluploadController extends Controller
 
                         $imgCreatedFromPng = @imagecreatefrompng($filePath);
                         if ($imgCreatedFromPng) {
+                            $imgCreatedFromPng = $this->autoRotateImageIfPossible($imgCreatedFromPng,$exifData);
 
                             // keep bg color transparent
                             imagealphablending($imgCreatedFromPng, false);
@@ -587,6 +591,7 @@ class PluploadController extends Controller
                         $imgCreatedFromGif = @imagecreatefromgif($filePath);
 
                         if ($imgCreatedFromGif) {
+                            $imgCreatedFromGif =  $this->autoRotateImageIfPossible($imgCreatedFromGif,$exifData);
 
                             $filePathOld = stream_get_meta_data(tmpfile())['uri'];
                             copy($filePath, $filePathOld);
@@ -614,7 +619,7 @@ class PluploadController extends Controller
 
                     if (!$valid) {
                         @unlink($filePath);
-                    //    die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
+                        //    die('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
 
                         $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
                         $error_json = json_decode($error_json, true);
@@ -725,14 +730,46 @@ class PluploadController extends Controller
 //        print json_encode($jsonResponse);
 //        exit;
 
-        $response =  response()->json($jsonResponse, 200);
+        $response = response()->json($jsonResponse, 200);
 
         return $response;
         $request = request();
         $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
-        return $middleware->forceAddAddXsrfTokenCookie($request,$response);
+        return $middleware->forceAddAddXsrfTokenCookie($request, $response);
 
 
-       // return response()->json($jsonResponse, 200)->withCookie($cookie);;
+        // return response()->json($jsonResponse, 200)->withCookie($cookie);;
+    }
+
+    private function readExifData($file)
+    {
+        $exif = [];
+        if (function_exists('exif_read_data')) {
+            $exif = @exif_read_data($file);
+        }
+        return $exif;
+
+    }
+
+    private function autoRotateImageIfPossible($image, $exif)
+    {
+        if (function_exists('exif_read_data')) {
+
+            if ($exif and !empty($exif['Orientation'])) {
+                switch ($exif['Orientation']) {
+                    case 8:
+                        $image = imagerotate($image, 90, 0);
+                        break;
+                    case 3:
+                        $image = imagerotate($image, 180, 0);
+                        break;
+                    case 6:
+                        $image = imagerotate($image, -90, 0);
+                        break;
+                }
+            }
+        }
+
+        return $image;
     }
 }
