@@ -62,7 +62,7 @@
         </div>
 
         <!-- Logout Other Devices Confirmation Modal -->
-        <x-microweber-ui::dialog-modal wire:model="confirmingLogout">
+        <x-microweber-ui::dialog-modal wire:model.live="confirmingLogout">
             <x-slot name="title">
                 <?php _e('Logout Other Browser Sessions');?>
             </x-slot>

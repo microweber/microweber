@@ -45,7 +45,7 @@
             <div class="row align-items-center">
                 @if (isset($package['versions']) && !empty($package['versions']))
                 <div class="col-4">
-                    <select class="form-select form-select-sm" wire:model="installVersion" class="form-control">
+                    <select class="form-select form-select-sm" wire:model.live="installVersion" class="form-control">
                         @foreach($package['versions'] as $version)
                             <option value="{{$version}}">{{$version}}</option>
                         @endforeach

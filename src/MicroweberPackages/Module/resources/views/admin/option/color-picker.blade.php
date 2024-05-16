@@ -3,7 +3,7 @@
 
         :label="$label"
 
-        wire:model.debounce.100ms="state.settings.{{ $this->optionKey }}"
+        wire:model.live.debounce.100ms="state.settings.{{ $this->optionKey }}"
 
     />
 </div>

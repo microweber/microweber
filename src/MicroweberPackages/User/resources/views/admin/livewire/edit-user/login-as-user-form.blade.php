@@ -20,7 +20,7 @@
 
 
     <!-- Delete User Confirmation Modal -->
-    <x-microweber-ui::dialog-modal wire:model="confirmingUserLogin">
+    <x-microweber-ui::dialog-modal wire:model.live="confirmingUserLogin">
     <x-slot name="title">
         <?php _e('Login as user');?>
     </x-slot>

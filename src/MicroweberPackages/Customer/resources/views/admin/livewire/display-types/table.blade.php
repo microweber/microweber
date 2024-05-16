@@ -20,7 +20,7 @@
                     <th>
 
                         <div class="custom-control custom-checkbox my-2">
-                            <input type="checkbox" value="{{ $customer->id }}" id="customers-{{ $customer->id }}"  class="js-select-posts-for-action form-check-input"  wire:model="checked">
+                            <input type="checkbox" value="{{ $customer->id }}" id="customers-{{ $customer->id }}"  class="js-select-posts-for-action form-check-input"  wire:model.live="checked">
                             <label for="customers-{{ $customer->id }}" class="custom-control-label"></label>
                         </div>
 

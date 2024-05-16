@@ -26,7 +26,7 @@
             <input type="text" class="form-control" placeholder="Fill the {{$name}}"
 
                    wire:keydown.enter="closeDropdown('{{$this->id}}')"
-                   wire:model.stop="itemValue">
+                   wire:model.live.stop="itemValue">
         </div>
     </div>
 

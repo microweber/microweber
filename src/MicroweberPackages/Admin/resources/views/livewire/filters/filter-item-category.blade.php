@@ -36,8 +36,8 @@
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif " style="width:400px;">
 
-        <input wire:model.stop="itemCategoryValue" id="js-filter-category" type="hidden" />
-        <input wire:model.stop="itemPageValue" id="js-filter-page" type="hidden" />
+        <input wire:model.live.stop="itemCategoryValue" id="js-filter-category" type="hidden" />
+        <input wire:model.live.stop="itemPageValue" id="js-filter-page" type="hidden" />
 
         <div id="js-filter-item-tree-{{$this->id}}" wire:ignore></div>
 

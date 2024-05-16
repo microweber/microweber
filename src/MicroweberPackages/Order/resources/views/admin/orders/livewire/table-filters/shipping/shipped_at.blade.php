@@ -3,5 +3,5 @@
         Shipped at
     </label>
 
-    <input type="date" class="form-control" wire:model="filters.shippedAt" />
+    <input type="date" class="form-control" wire:model.live="filters.shippedAt" />
 </div>

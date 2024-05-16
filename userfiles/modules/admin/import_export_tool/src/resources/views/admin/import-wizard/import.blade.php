@@ -28,7 +28,7 @@
                             }
                         }
                         @endphp
-                        <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
+                        <select class="form-control" wire:model.live="import_feed.primary_key" id="feed_primary_key">
 
                             <option value="">Select</option>
 
@@ -98,7 +98,7 @@
                         <small>Select page to import content</small>
                     </td>
                     <td>
-                        <select class="form-control" id="feed_parent_page" wire:model="import_feed.parent_page">
+                        <select class="form-control" id="feed_parent_page" wire:model.live="import_feed.parent_page">
                             <option value="0" <?php if ((0 == $import_feed['parent_page'])): ?> selected="selected" <?php endif; ?>><?php _e("None"); ?></option>
                             <?php
                             $ptOpts = array();
@@ -123,10 +123,10 @@
                         <small>Download and check images</small>
                     </td>
                     <td>
-                        <input type="radio" id="feed_download_image_1" value="1" wire:model="import_feed.download_images">
+                        <input type="radio" id="feed_download_image_1" value="1" wire:model.live="import_feed.download_images">
                         <label for="feed_download_image_1">Yes</label>
 
-                        <input type="radio" id="feed_download_image_0" value="0" wire:model="import_feed.download_images">
+                        <input type="radio" id="feed_download_image_0" value="0" wire:model.live="import_feed.download_images">
                         <label for="feed_download_image_0">No</label>
                     </td>
                 </tr>
@@ -143,7 +143,7 @@
                             $recomendedSipltToParts = \MicroweberPackages\Export\SessionStepper::recomendedSteps($import_feed['count_of_contents']);
                         }
                         @endphp
-                        <select class="form-control" id="feed_parts" wire:model="import_feed.split_to_parts">
+                        <select class="form-control" id="feed_parts" wire:model.live="import_feed.split_to_parts">
                             <option value="1">1 part(s)</option>
                             <option value="2">2 part(s)</option>
                             <option value="3">3 part(s)</option>
@@ -170,7 +170,7 @@
                                 content</b></label><br><small>Content which are in your site but not
                             in xml anymore</small></td>
                     <td>
-                        <select class="form-control" wire:model="import_feed.old_content_action" id="feed_data_old_content_action">
+                        <select class="form-control" wire:model.live="import_feed.old_content_action" id="feed_data_old_content_action">
                             <option value="nothing" selected="selected">Do nothing</option>
                             <option value="delete">Delete</option>
                             <option value="invisible">Invisible</option>

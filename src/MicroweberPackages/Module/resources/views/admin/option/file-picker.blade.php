@@ -5,6 +5,6 @@
 
         allowedType="{{$this->allowedType}}"
 
-        wire:model.debounce.100ms="state.settings.{{ $this->optionKey }}" />
+        wire:model.live.debounce.100ms="state.settings.{{ $this->optionKey }}" />
 
 </div>

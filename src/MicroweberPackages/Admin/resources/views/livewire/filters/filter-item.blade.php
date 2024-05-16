@@ -26,7 +26,7 @@
                    type="search"
                    wire:keydown.enter="closeDropdown('{{$this->id}}')"
                    wire:click="showDropdown('{{$this->id}}')"
-                   wire:model.debounce.500ms="query"
+                   wire:model.live.debounce.500ms="query"
                    placeholder="{{$placeholder}}"
             >
         </div>
@@ -40,7 +40,7 @@
                 @foreach($data as $i=>$item)
                     <li class="list-group-item cursor-pointer">
                         <label class="form-check-label" for="filterItemRadio{{$i}}-{{$this->id}}">
-                            <input class="form-check-input me-2" type="radio" wire:model="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->id}}">
+                            <input class="form-check-input me-2" type="radio" wire:model.live="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->id}}">
                             {{ $item['value'] }}
                         </label>
                     </li>

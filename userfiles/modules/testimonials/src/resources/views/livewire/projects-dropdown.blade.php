@@ -18,7 +18,7 @@
     <div x-show="openProjects" class="form-control-live-edit-label-wrapper">
 
         <div>
-            <x-microweber-ui::input wire:model="search" placeholder="Search group..." />
+            <x-microweber-ui::input wire:model.live="search" placeholder="Search group..." />
         </div>
 
         <div class="dropdown-menu form-control-live-edit-input ps-0" style="max-height:300px;overflow-y: scroll" :class="[openProjects ? 'show':'']">
@@ -49,14 +49,14 @@
 </div>
 
 
-    <x-microweber-ui::dialog-modal wire:key="addNewProjectModal" wire:model="addNewProjectModal">
+    <x-microweber-ui::dialog-modal wire:key="addNewProjectModal" wire:model.live="addNewProjectModal">
         <x-slot name="title">
             Add new group
         </x-slot>
 
         <x-slot name="content">
             <label class="live-edit-label">Group Name</label>
-            <x-microweber-ui::input type="text" wire:model="newProjectName" />
+            <x-microweber-ui::input type="text" wire:model.live="newProjectName" />
         </x-slot>
 
         <x-slot name="footer">

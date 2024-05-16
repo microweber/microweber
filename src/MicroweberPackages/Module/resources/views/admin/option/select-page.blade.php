@@ -25,7 +25,7 @@
     <div class="dropdown-menu form-control-live-edit-input ps-0" style="max-height:300px;overflow-y: scroll" :class="[openOptions ? 'show':'']">
 
         <div>
-            <x-microweber-ui::input wire:model="search" placeholder="Search here..." />
+            <x-microweber-ui::input wire:model.live="search" placeholder="Search here..." />
         </div>
 
         @if(!empty($pagesTree))

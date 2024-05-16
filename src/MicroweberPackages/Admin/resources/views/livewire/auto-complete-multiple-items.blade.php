@@ -3,7 +3,7 @@
     <div class="input-group">
         <input class="form-control"
            type="search"
-           wire:model.debounce.500ms="query"
+           wire:model.live.debounce.500ms="query"
            wire:keydown.escape="resetProperties"
            wire:keydown.enter="refreshQueryData"
            wire:click="refreshQueryData"
@@ -32,7 +32,7 @@
             @if(!empty($data))
                 @foreach($data as $item)
                     <li class="list-group-item list-group-item-action cursor-pointer d-flex">
-                        <input class="form-check-input me-2" type="checkbox" wire:model="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
+                        <input class="form-check-input me-2" type="checkbox" wire:model.live="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
                         <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
                     </li>
                 @endforeach

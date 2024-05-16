@@ -50,11 +50,11 @@
     <div class="mb-3 d-flex gap-3">
         <div>
             <div>Keyword</div>
-            <input type="text" class="form-control" placeholder="Search..." wire:model="keyword" />
+            <input type="text" class="form-control" placeholder="Search..." wire:model.live="keyword" />
         </div>
         <div style="width:300px">
             <div>List</div>
-            <select class="form-control" wire:model="listId">
+            <select class="form-control" wire:model.live="listId">
                 <option value=""><?php _e('All lists'); ?></option>
                 <?php foreach ($lists as $list): ?>
                 <option value="<?php print $list['id']; ?>"><?php print $list['name']; ?></option>
@@ -95,7 +95,7 @@
             <?php foreach ($subscribers as $key => $subscriber): ?>
             <tr>
                 <td>
-                    <input type="checkbox" wire:model="checked" value="<?php print $subscriber['id']; ?>" />
+                    <input type="checkbox" wire:model.live="checked" value="<?php print $subscriber['id']; ?>" />
                 </td>
                 <td data-label="<?php _e('Name'); ?>"><?php print $subscriber['name']; ?></td>
                 <td data-label="<?php _e('E-mail'); ?>"><?php print $subscriber['email']; ?></td>

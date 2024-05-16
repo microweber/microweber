@@ -72,7 +72,7 @@
                         <div class="mt-3">
                             <x-microweber-ui::label for="show_placeholder" value="Show Placeholder" />
                             <small class="live-edit-label mt-0 mb-3" style="font-size: 8px;">Toggle to turn on the placeholder and write your text below</small>
-                            <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model="state.options.show_placeholder" />
+                            <x-microweber-ui::toggle id="show_placeholder" class="mt-1 block w-full" wire:model.live="state.options.show_placeholder" />
                         </div>
 
                         @if($state and isset($state['options']['show_placeholder']) && $state['options']['show_placeholder'] == 1)

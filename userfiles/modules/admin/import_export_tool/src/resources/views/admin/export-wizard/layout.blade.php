@@ -137,7 +137,7 @@ a.import-wizard-select-type:hover {
                                    wire:blur="closeEditName"
                                     wire:keydown.escape="closeEditName"
                                     wire:keydown.enter="closeEditName"
-                                   wire:model="export_feed.name" class="form-control form-control-lg" />
+                                   wire:model.live="export_feed.name" class="form-control form-control-lg" />
                         </div>
                         @else
                         <div class="h3 ml-2">{{$export_feed['name']}}</div>

@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between">
     <div>
         <label>Search</label>
-        <input type="text" class="form-control" wire:model="keywords" placeholder="Type to search...">
+        <input type="text" class="form-control" wire:model.live="keywords" placeholder="Type to search...">
     </div>
     <div class="d-flex gap-2">
         <div>

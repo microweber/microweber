@@ -82,7 +82,7 @@
 
                 <div class="input-group mb-3">
                     <span class="input-group-text">Upload File Type</span>
-                    <select class="form-select" wire:model="importSubscribers.sourceType">
+                    <select class="form-select" wire:model.live="importSubscribers.sourceType">
                         <option value="downloadLink">Download subscribers list from link</option>
                         <option value="uploadFile">Upload subscribers list from your computer</option>
                     </select>
@@ -151,7 +151,7 @@
                             <div>
                                 <div>
                                     <span>Import to E-mail List</span>
-                                    <select wire:model="list_id" class="form-control">
+                                    <select wire:model.live="list_id" class="form-control">
                                         <option value="0">Default</option>
                                         @if (!empty($this->lists))
                                             @foreach ($this->lists as $list)

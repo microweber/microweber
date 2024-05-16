@@ -16,11 +16,11 @@ mw.on('mlChangedLanguage', function (e, mlCurrentLanguage) {
                 @if($language['locale'] == $defaultLanguage)
                 name="{{$fieldName}}"
                 value="{{$fieldValue}}"
-                wire:model="state.{{$fieldName}}"
+                wire:model.live="state.{{$fieldName}}"
                 @else
                 name="multilanguage[{{$fieldName}}][{{$language['locale']}}]"
                 value="{{$translations[$language['locale']]}}"
-                wire:model="state.multilanguage.{{$fieldName}}.{{$language['locale']}}"
+                wire:model.live="state.multilanguage.{{$fieldName}}.{{$language['locale']}}"
                 style="display:none"
                 @endif
 

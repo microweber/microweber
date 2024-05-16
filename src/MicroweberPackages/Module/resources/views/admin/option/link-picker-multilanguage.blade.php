@@ -21,7 +21,7 @@ currentLanguageData = mlCurrentLanguage;
             @endphp
 
             <div x-show="currentLanguageData.locale == '{{$language['locale']}}'" wire:ignore>
-                 <x-microweber-ui::link-picker :wire:model.debounce.500ms="$wireStateKey" />
+                 <x-microweber-ui::link-picker :wire:model.live.debounce.500ms="$wireStateKey" />
             </div>
 
         @endforeach

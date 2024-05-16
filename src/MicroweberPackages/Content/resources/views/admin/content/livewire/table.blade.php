@@ -24,7 +24,7 @@
 
                         <div class="col-lg-5 col-sm-6 col ms-md-4 me-lg-0 me-4 input-icon">
                             <div class="input-group input-group-flat ">
-                                <input type="text" wire:model.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
+                                <input type="text" wire:model.live.debounce.500ms="filters.keyword" placeholder="<?php _e("Search by keyword"); ?>..." class="form-control" autocomplete="off">
                                 <span class="input-group-text">
                                     @include('content::admin.content.livewire.components.button-filter')
                                     <div class="dropdown-menu p-2">
@@ -35,7 +35,7 @@
                                                     @foreach($dropdownFilterGroup['filters'] as $dropdownFilter)
                                                         <div class="dropdown-item">
                                                              <label class=" form-check form-check-inline mb-0">
-                                                                <input class="form-check-input me-2" type="checkbox" wire:model="showFilters.{{ $dropdownFilter['key'] }}" checked="">
+                                                                <input class="form-check-input me-2" type="checkbox" wire:model.live="showFilters.{{ $dropdownFilter['key'] }}" checked="">
                                                                  <span class="form-check-label">{{ $dropdownFilter['name'] }}</span>
                                                             </label>
                                                         </div>
@@ -179,7 +179,7 @@
                                     @foreach($showColumns as $column=>$columnShow)
                                         <div class="dropdown-item">
                                             <label wire:key="show-column-{{ $loop->index }}"  class="form-check form-check-inline">
-                                                <input class="form-check-input" type="checkbox" wire:model="showColumns.{{$column}}">
+                                                <input class="form-check-input" type="checkbox" wire:model.live="showColumns.{{$column}}">
                                                 <span class="form-check-label">
                                                     {{ _e(ucfirst($column)) }}
                                                 </span>

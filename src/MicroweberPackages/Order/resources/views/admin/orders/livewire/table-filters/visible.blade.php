@@ -3,7 +3,7 @@
         Visible
     </label>
 
-    <select wire:model.stop="filters.visible" class="form-control">
+    <select wire:model.live.stop="filters.visible" class="form-control">
         <option value="">Any</option>
         <option value="1">Published</option>
         <option value="0">Unpublished</option>

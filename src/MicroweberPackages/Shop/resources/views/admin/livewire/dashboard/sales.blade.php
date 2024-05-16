@@ -52,11 +52,11 @@
 
         <label for="start_date">Start date:</label>
 
-        <input type="date" id="start_date" wire:model="filters.from"/>
+        <input type="date" id="start_date" wire:model.live="filters.from"/>
 
         <label for="end_date">End date:</label>
 
-        <input type="date" id="end_date" wire:model="filters.to"/>
+        <input type="date" id="end_date" wire:model.live="filters.to"/>
 
 
     </div>
@@ -83,7 +83,7 @@
 
             <label for="end_date">Category:</label>
 
-            <input type="text" wire:model="filters.categoryId"/>
+            <input type="text" wire:model.live="filters.categoryId"/>
         </div>
 
     </div>

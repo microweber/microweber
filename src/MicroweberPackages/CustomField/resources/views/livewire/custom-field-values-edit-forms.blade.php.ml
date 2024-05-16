@@ -3,7 +3,7 @@
     @if($customField->type =='text')
         <div class="mt-3">
             <x-microweber-ui::label for="as_text_area" value="Use as textarea" />
-            <x-microweber-ui::toggle id="as_text_area" class="mt-1 block w-full" wire:model="state.options.as_text_area" />
+            <x-microweber-ui::toggle id="as_text_area" class="mt-1 block w-full" wire:model.live="state.options.as_text_area" />
         </div>
     @endif
 
@@ -91,11 +91,11 @@
             <div class="d-flex gap-3 mt-3">
                 <div class="w-full">
                     <x-microweber-ui::label for="textarea_rows" value="Textarea Rows" />
-                    <x-microweber-ui::input id="textarea_rows" class="mt-1 block w-full" wire:model="state.options.rows" />
+                    <x-microweber-ui::input id="textarea_rows" class="mt-1 block w-full" wire:model.live="state.options.rows" />
                 </div>
                 <div class="w-full">
                     <x-microweber-ui::label for="textarea_cols" value="Textarea Cols" />
-                    <x-microweber-ui::input id="textarea_cols" class="mt-1 block w-full" wire:model="state.options.cols" />
+                    <x-microweber-ui::input id="textarea_cols" class="mt-1 block w-full" wire:model.live="state.options.cols" />
                 </div>
             </div>
         </div>

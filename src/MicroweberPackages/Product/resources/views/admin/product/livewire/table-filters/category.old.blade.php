@@ -1,7 +1,7 @@
 <div class="me-0 me-md-2 mb-3 mb-md-0 mt-2">
 
-    <input wire:model.stop="filters.category" id="js-filter-category" type="hidden" />
-    <input wire:model.stop="filters.page" id="js-filter-page" type="hidden" />
+    <input wire:model.live.stop="filters.category" id="js-filter-category" type="hidden" />
+    <input wire:model.live.stop="filters.page" id="js-filter-page" type="hidden" />
 
     <button class="btn btn-badge-dropdown btn-outline-dark btn-secondary  btn-sm icon-left" onclick="categoryFilterSelectTree()">
         <i class="fa fa-list"></i> Categories

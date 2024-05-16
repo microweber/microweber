@@ -62,7 +62,7 @@
 
                           <div class="d-flex align-items-center mx-1">
                             <label class="d-xl-block d-none mx-2"><?php _e("Sort") ?></label>
-                            <select x-on:change="openSortDropdown = false" class="form-select form-select-sm" wire:model.stop="filters.orderBy" >
+                            <select x-on:change="openSortDropdown = false" class="form-select form-select-sm" wire:model.live.stop="filters.orderBy" >
                                 <option value=""><?php _e("Any") ?></option>
                                 <option value="id,desc"><?php _e("Id Desc") ?></option>
                                 <option value="id,asc"><?php _e("Id Asc") ?></option>
@@ -74,7 +74,7 @@
 
                             <div class="d-flex align-items-center mx-1">
                                 <label class="d-xl-block d-none mx-2"><?php _e("Limit") ?></label>
-                                <select x-on:change="openSortDropdown = false" class="form-select form-select-sm" wire:model="paginationLimit">
+                                <select x-on:change="openSortDropdown = false" class="form-select form-select-sm" wire:model.live="paginationLimit">
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -96,73 +96,73 @@
                             <div class="dropdown-menu p-3">
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.id">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.id">
                                         <span class="form-check-label"><?php _e("Id") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.image">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.image">
                                         <span class="form-check-label"><?php _e("Image") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.products">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.products">
                                         <span class="form-check-label"><?php _e("Products") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.customer">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.customer">
                                         <span class="form-check-label"><?php _e("Customer") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.total_amount">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.total_amount">
                                         <span class="form-check-label"><?php _e("Total Amount") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.shipping_method">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.shipping_method">
                                         <span class="form-check-label"><?php _e("Shipping Method") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.payment_method">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.payment_method">
                                         <span class="form-check-label"><?php _e("Payment Method") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.payment_status">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.payment_status">
                                         <span class="form-check-label"><?php _e("Payment Status") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.status">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.status">
                                         <span class="form-check-label"><?php _e("Status") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.created_at">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.created_at">
                                         <span class="form-check-label"><?php _e("Created At") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.updated_at">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.updated_at">
                                         <span class="form-check-label"><?php _e("Updated At") ?></span>
                                     </label>
                                 </div>
                                 <div class="dropdown-item">
                                     <label class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" wire:model="showColumns.actions">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="showColumns.actions">
                                         <span class="form-check-label"><?php _e("Actions") ?></span>
                                     </label>
                                 </div>

@@ -131,7 +131,7 @@
 
 
         <div>
-            <x-microweber-ui::dialog-modal id="dddddaa" wire:key="areYouSureDeleteModalOpened" wire:model="areYouSureDeleteModalOpened">
+            <x-microweber-ui::dialog-modal id="dddddaa" wire:key="areYouSureDeleteModalOpened" wire:model.live="areYouSureDeleteModalOpened">
 
                 <x-slot name="title">
                     <?php _e('Are you sure?'); ?>

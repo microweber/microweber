@@ -6,7 +6,7 @@
                 <label class="form-label d-block">
                     {{_e('Your form lists')}}
                 </label>
-                <select wire:model="filter.formListId" class="form-select form-control">
+                <select wire:model.live="filter.formListId" class="form-select form-control">
                     <option>{{_e('All lists')}}</option>
                     @foreach($formsLists as $formsList)
                         <option value="{{$formsList->id}}">{{$formsList->title}} ({{$formsList->formsData->count()}})</option>
@@ -23,7 +23,7 @@
                               d="M796 935 533 672q-30 26-69.959 40.5T378 727q-108.162 0-183.081-75Q120 577 120 471t75-181q75-75 181.5-75t181 75Q632 365 632 471.15 632 514 618 554q-14 40-42 75l264 262-44 44ZM377 667q81.25 0 138.125-57.5T572 471q0-81-56.875-138.5T377 275q-82.083 0-139.542 57.5Q180 390 180 471t57.458 138.5Q294.917 667 377 667Z"/></svg>
                   </span>
                 <input type="text" class="form-control form-control-sm" placeholder="Search..."
-                       wire:model="filter.keyword" />
+                       wire:model.live="filter.keyword" />
                 <div wire:loading wire:target="filter.keyword" class="spinner-border spinner-border-sm" role="status">
                     <span class="visually-hidden">{{  _e("Searching")}}...</span>
                 </div>
@@ -155,7 +155,7 @@
             <div class="form-group">
                 <form method="get">
                     <small>{{_e('Show items per page')}}</small>
-                    <select class="form-select" wire:model="itemsPerPage">
+                    <select class="form-select" wire:model.live="itemsPerPage">
                         <option value="">Select</option>
                         <option value="10">10</option>
                         <option value="30">30</option>

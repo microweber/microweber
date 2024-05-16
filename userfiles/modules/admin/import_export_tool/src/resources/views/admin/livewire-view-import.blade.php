@@ -154,7 +154,7 @@
                                     <small>Select the import to</small>
                                 </td>
                                 <td>
-                                    <select class="form-control" id="feed_import_to" wire:model="import_feed.import_to">
+                                    <select class="form-control" id="feed_import_to" wire:model.live="import_feed.import_to">
                                         <option value="products">Products</option>
                                         <option value="pages">Pages</option>
                                         <option value="posts">Posts</option>
@@ -167,7 +167,7 @@
                                     <small>Select the import to</small>
                                 </td>
                                 <td>
-                                    <select class="form-control" id="feed_parent_page" wire:model="import_feed.parent_page">
+                                    <select class="form-control" id="feed_parent_page" wire:model.live="import_feed.parent_page">
                                         <?php
                                         $posts_parent_page = 0;
                                         ?>
@@ -190,7 +190,7 @@
                                     <small>Select the type of source</small>
                                 </td>
                                 <td>
-                                    <select class="form-control" id="feed_source_type" wire:model="import_feed.source_type">
+                                    <select class="form-control" id="feed_source_type" wire:model.live="import_feed.source_type">
                                         <option value="download_link">Download link</option>
                                         <option value="upload_file">Upload file</option>
                                     </select>
@@ -204,7 +204,7 @@
                                     </td>
                                     <td>
                                         <form wire:submit.prevent="upload">
-                                            <input type="file" wire:model="uploadFile">
+                                            <input type="file" wire:model.live="uploadFile">
                                             @error('uploadFile') <span class="error">{{ $message }}</span> @enderror
                                             <button type="submit" class="btn btn-primary">Upload</button>
                                         </form>
@@ -246,10 +246,10 @@
                                     <small>Download and check images</small>
                                 </td>
                                 <td>
-                                    <input type="radio" id="feed_download_image_1" value="1" wire:model="import_feed.download_images">
+                                    <input type="radio" id="feed_download_image_1" value="1" wire:model.live="import_feed.download_images">
                                     <label for="feed_download_image_1">Yes</label>
 
-                                    <input type="radio" id="feed_download_image_0" value="0" wire:model="import_feed.download_images">
+                                    <input type="radio" id="feed_download_image_0" value="0" wire:model.live="import_feed.download_images">
                                     <label for="feed_download_image_0">No</label>
                                 </td>
                             </tr>
@@ -258,7 +258,7 @@
                                     <small>Split importing</small>
                                 </td>
                                 <td>
-                                    <select class="form-control" id="feed_parts" wire:model="import_feed.split_to_parts">
+                                    <select class="form-control" id="feed_parts" wire:model.live="import_feed.split_to_parts">
                                         <option value="1">1 part(s)</option>
                                         <option value="2">2 part(s)</option>
                                         <option value="3">3 part(s)</option>
@@ -283,7 +283,7 @@
                                     <small>Repeat content tag with elements</small>
                                 </td>
                                 <td>
-                                    <select class="form-control" wire:model="import_feed.content_tag" id="feed_content_tag">
+                                    <select class="form-control" wire:model.live="import_feed.content_tag" id="feed_content_tag">
                                         <option>Select content tag</option>
                                         @if(is_array($this->import_feed['detected_content_tags']))
                                             @foreach($this->import_feed['detected_content_tags'] as $contentTagKey=>$contentTagVal)
@@ -302,7 +302,7 @@
                                     <small>Unique Content ID or Content Model</small>
                                 </td>
                                 <td>
-                                    <select class="form-control" wire:model="import_feed.primary_key" id="feed_primary_key">
+                                    <select class="form-control" wire:model.live="import_feed.primary_key" id="feed_primary_key">
                                         <option value="content_title">Content Title</option>
                                         <option value="content_id">Content ID</option>
                                         <option value="model">Content model</option>
@@ -319,7 +319,7 @@
                                     <small>How can we read the category tree from feed</small>
                                 </td>
                                 <td>
-                                    <select class="form-control" wire:model="import_feed.category_separator" id="feed_category_separator">
+                                    <select class="form-control" wire:model.live="import_feed.category_separator" id="feed_category_separator">
                                         @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                                         <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                                         @endforeach
@@ -332,7 +332,7 @@
                                             content</b></label><br><small>Content which are in your site but not
                                         in xml anymore</small></td>
                                 <td>
-                                    <select class="form-control" wire:model="import_feed.old_content_action" id="feed_data_old_content_action">
+                                    <select class="form-control" wire:model.live="import_feed.old_content_action" id="feed_data_old_content_action">
                                         <option value="nothing" selected="selected">Do nothing</option>
                                         <option value="delete">Delete</option>
                                         <option value="invisible">Invisible</option>
@@ -395,7 +395,7 @@
                                     <br />
 
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" wire:model="delete_also_content" value="1" id="feed_delete_also_content">
+                                        <input class="form-check-input" type="checkbox" wire:model.live="delete_also_content" value="1" id="feed_delete_also_content">
                                         <label for="feed_delete_also_content" class="form-check-label">Delete content from this import</label>
                                     </div>
                                 </td>

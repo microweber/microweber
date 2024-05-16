@@ -69,7 +69,7 @@
         </div>
 
         <!-- Log out Other Devices Confirmation Modal -->
-        <x-user::dialog-modal wire:model="confirmingLogout">
+        <x-user::dialog-modal wire:model.live="confirmingLogout">
             <x-slot name="title">
                 {{ __('Log Out Other Browser Sessions') }}
             </x-slot>

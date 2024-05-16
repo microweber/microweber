@@ -17,7 +17,7 @@
 
     <div class="js-dropdown-select-wrapper {{$activeClass}}">
 
-        <select class="form-control" wire:model="selectField">
+        <select class="form-control" wire:model.live="selectField">
 
             <option value="none">Select</option>
 
@@ -43,7 +43,7 @@
         @endif
 
         @if ($selectField == 'tags')
-            <select class="form-control mt-2" wire:model="tagsSeparator">
+            <select class="form-control mt-2" wire:model.live="tagsSeparator">
                 <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
@@ -58,7 +58,7 @@
         @endif
 
         @if ($selectField == 'category_ids')
-            <select class="form-control mt-2" wire:model="categoryIdSeparator">
+            <select class="form-control mt-2" wire:model.live="categoryIdSeparator">
                 <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
@@ -68,7 +68,7 @@
         @endif
 
         @if ($selectField == 'media_urls')
-            <select class="form-control mt-2" wire:model="mediaUrlSeparator">
+            <select class="form-control mt-2" wire:model.live="mediaUrlSeparator">
                 <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
@@ -78,14 +78,14 @@
 
         @if ($selectField == 'categories')
 
-            <select class="form-control mt-2" wire:model="categorySeparator">
+            <select class="form-control mt-2" wire:model.live="categorySeparator">
                 <option value="">No seperation</option>
                 @foreach(\MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\ItemMapReader::$categorySeparators as $separator)
                     <option value="{{$separator}}">Separate with "{{$separator}}"</option>
                 @endforeach
             </select>
 
-           <select class="form-control mt-2" wire:model="categoryAddType">
+           <select class="form-control mt-2" wire:model.live="categoryAddType">
                 <option value="">Select</option>
                 <option value="seperated">Add categories seperatred</option>
                 <option value="tree">Add categories in tree</option>
@@ -94,7 +94,7 @@
         @endif
 
         @if ($selectField == 'custom_content_data')
-         <input type="text" wire:model="customContentData" placeholder="Please enter content data key" class="form-control mt-2" />
+         <input type="text" wire:model.live="customContentData" placeholder="Please enter content data key" class="form-control mt-2" />
         @endif
 
     </div>

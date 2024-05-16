@@ -17,28 +17,28 @@
 
     <div class="d-flex mb-3 mt-4 gap-3">
         <div class="btn-group w-100" role="group">
-            <input type="radio" wire:model="filter.status" value="all" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-1" autocomplete="off">
+            <input type="radio" wire:model.live="filter.status" value="all" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-1" autocomplete="off">
             <label for="btn-radio-basic-1" type="button" class="btn">{{_e('All')}} <span class="badge badge-primary mx-2">{{$countAll}}</span></label>
 
-            <input type="radio" wire:model="filter.status" value="pending" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-3" autocomplete="off">
+            <input type="radio" wire:model.live="filter.status" value="pending" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-3" autocomplete="off">
             <label for="btn-radio-basic-3" type="button" class="btn">{{_e('Pending')}} <span class="badge badge-primary mx-2">{{$countPending}}</span></label>
 
-            <input type="radio" wire:model="filter.status" value="approved" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-4" autocomplete="off">
+            <input type="radio" wire:model.live="filter.status" value="approved" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-4" autocomplete="off">
             <label for="btn-radio-basic-4" type="button" class="btn">{{_e('Approved')}} <span class="badge badge-primary mx-2">{{$countApproved}}</span></label>
 
-            <input type="radio" wire:model="filter.status" value="spam" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-5" autocomplete="off">
+            <input type="radio" wire:model.live="filter.status" value="spam" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-5" autocomplete="off">
             <label for="btn-radio-basic-5" type="button" class="btn">{{_e('Spam')}} <span class="badge badge-primary mx-2">{{$countSpam}}</span></label>
 
-            <input type="radio" wire:model="filter.status" value="trash" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-6" autocomplete="off">
+            <input type="radio" wire:model.live="filter.status" value="trash" class="btn-check" name="btn-radio-filter-status" id="btn-radio-basic-6" autocomplete="off">
             <label for="btn-radio-basic-6" type="button" class="btn">{{_e('Trash')}} <span class="badge badge-primary mx-2">{{$countTrashed}}</span></label>
         </div>
 
         <div>
             <div class="btn-group w-100" role="group">
-                <input type="radio" wire:model="orderBy" value="newest" class="btn-check" name="btn-radio-order-by" id="btn-radio-basic-8" autocomplete="off">
+                <input type="radio" wire:model.live="orderBy" value="newest" class="btn-check" name="btn-radio-order-by" id="btn-radio-basic-8" autocomplete="off">
                 <label for="btn-radio-basic-8" type="button" class="btn">{{_e('Newest')}} </label>
 
-                <input type="radio" wire:model="orderBy" value="oldest" class="btn-check" name="btn-radio-order-by" id="btn-radio-basic-9" autocomplete="off">
+                <input type="radio" wire:model.live="orderBy" value="oldest" class="btn-check" name="btn-radio-order-by" id="btn-radio-basic-9" autocomplete="off">
                 <label for="btn-radio-basic-9" type="button" class="btn">{{_e('Oldest')}} </label>
             </div>
         </div>
@@ -56,7 +56,7 @@
                           d="M796 935 533 672q-30 26-69.959 40.5T378 727q-108.162 0-183.081-75Q120 577 120 471t75-181q75-75 181.5-75t181 75Q632 365 632 471.15 632 514 618 554q-14 40-42 75l264 262-44 44ZM377 667q81.25 0 138.125-57.5T572 471q0-81-56.875-138.5T377 275q-82.083 0-139.542 57.5Q180 390 180 471t57.458 138.5Q294.917 667 377 667Z"/></svg>
               </span>
                 <input type="text" class="form-control form-control-sm" placeholder="Search..."
-                       wire:model="filter.keyword" />
+                       wire:model.live="filter.keyword" />
                 <div wire:loading wire:target="filter.keyword" class="spinner-border spinner-border-sm" role="status">
                     <span class="visually-hidden">{{  _e("Searching")}}...</span>
                 </div>
@@ -107,7 +107,7 @@
             <div class="form-group">
                 <form method="get">
                     <small>{{_e('Show items per page')}}</small>
-                    <select class="form-select" wire:model="itemsPerPage">
+                    <select class="form-select" wire:model.live="itemsPerPage">
                         <option value="">Select</option>
                         <option value="10">10</option>
                         <option value="30">30</option>

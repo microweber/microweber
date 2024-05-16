@@ -29,7 +29,7 @@
                    type="search"
                    wire:keydown.enter="closeDropdown('{{$this->id}}')"
                    wire:click="showDropdown('{{$this->id}}')"
-                   wire:model.debounce.500ms="query"
+                   wire:model.live.debounce.500ms="query"
                    placeholder="{{$placeholder}}"
             >
         </div>
@@ -46,7 +46,7 @@
         <ul class="list-group list-group-compact mt-4" id="js-filter-items-values-list" style="z-index: 200;max-height: 300px;overflow-x:hidden; overflow-y: scroll;">
             @foreach($data as $item)
                 <li class="list-group-item list-group-item-action cursor-pointer d-flex">
-                    <input class="form-check-input me-2" type="checkbox" wire:model="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
+                    <input class="form-check-input me-2" type="checkbox" wire:model.live="selectedItems" value="{{ $item['key'] }}" id="checkbox-{{ $item['key'] }}">
                     <label class="form-check-label stretched-link" for="checkbox-{{ $item['key'] }}">{{ $item['value'] }}</label>
                 </li>
             @endforeach

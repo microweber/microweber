@@ -15,7 +15,7 @@
 </span>
 
 @once
-<x-microweber-ui::dialog-modal wire:model="confirmingPassword">
+<x-microweber-ui::dialog-modal wire:model.live="confirmingPassword">
     <x-slot name="title">
         {{ $title }}
     </x-slot>

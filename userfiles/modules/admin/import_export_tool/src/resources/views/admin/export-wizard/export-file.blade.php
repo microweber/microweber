@@ -16,7 +16,7 @@
                             $recomendedSipltToParts = \MicroweberPackages\Export\SessionStepper::recomendedSteps($import_feed['count_of_contents']);
                         }
                     @endphp
-                    <select class="form-control" id="feed_parts" wire:model="export_feed.split_to_parts">
+                    <select class="form-control" id="feed_parts" wire:model.live="export_feed.split_to_parts">
                         <option value="1">1 part(s)</option>
                         <option value="2">2 part(s)</option>
                         <option value="3">3 part(s)</option>

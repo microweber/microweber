@@ -62,7 +62,7 @@
                     $selectModernOptions[$item['layout_file']] = $optionHtml;
                 }
             @endphp
-            <x-microweber-ui::select-modern wire:model="settings.template" :options="$selectModernOptions" />
+            <x-microweber-ui::select-modern wire:model.live="settings.template" :options="$selectModernOptions" />
         </div>
 
 

@@ -23,7 +23,7 @@
                     </td>
                     <td>
                         <div class="input-group">
-                            <select class="form-control" wire:model="import_feed.content_tag" id="feed_content_tag">
+                            <select class="form-control" wire:model.live="import_feed.content_tag" id="feed_content_tag">
 
                                 @if($fileExt == 'xls' || $fileExt == 'xlsx')
                                     <option>Select excel sheet</option>

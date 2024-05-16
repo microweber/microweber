@@ -231,7 +231,7 @@ class DropdownMappingPreview extends AdminComponent
 
         $mapKeyHtml = str_replace('.',';',$mapKey);
 
-        $html = '<select class="form-control" wire:model="import_feed.mapped_tags._repeatable_.'.$mapKeyHtml.'">';
+        $html = '<select class="form-control" wire:model.live="import_feed.mapped_tags._repeatable_.'.$mapKeyHtml.'">';
         $html .= '<option value="tags">Tags</option>';
         $html .= '<option value="categories">Categories In Tree</option>';
         $html .= '<option value="first_level_categories">First Level Categories</option>';

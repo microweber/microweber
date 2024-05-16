@@ -2,7 +2,7 @@
     <div class="input-group">
     <input class="form-control"
            type="search"
-           wire:model.debounce.500ms="query"
+           wire:model.live.debounce.500ms="query"
            wire:keydown.escape="resetProperties"
            wire:click="refreshQueryData"
            wire:blur="closeDropdown('{{$this->id}}')"

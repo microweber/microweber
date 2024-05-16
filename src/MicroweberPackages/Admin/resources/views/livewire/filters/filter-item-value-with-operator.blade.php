@@ -36,12 +36,12 @@
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
         <label>{{$name}} </label>
         <div class="mb-3 mb-md-0 input-group">
-            <select class="form-control" wire:model.stop="itemOperatorValue">
+            <select class="form-control" wire:model.live.stop="itemOperatorValue">
                 <option value="greater">More than</option>
                 <option value="lower">Lower than</option>
                 <option value="">Equal to</option>
             </select>
-            <input type="number" class="form-control" placeholder="{{$name}} count" wire:keydown.enter="closeDropdown('{{$this->id}}')" wire:model.stop="itemValue">
+            <input type="number" class="form-control" placeholder="{{$name}} count" wire:keydown.enter="closeDropdown('{{$this->id}}')" wire:model.live.stop="itemValue">
         </div>
     </div>
 

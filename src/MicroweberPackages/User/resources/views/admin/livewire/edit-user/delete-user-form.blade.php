@@ -23,7 +23,7 @@
     </div>
 
     <!-- Delete User Confirmation Modal -->
-    <x-microweber-ui::dialog-modal wire:model="confirmingUserDeletion">
+    <x-microweber-ui::dialog-modal wire:model.live="confirmingUserDeletion">
     <x-slot name="title">
         <?php _e('Delete Account');?>
     </x-slot>

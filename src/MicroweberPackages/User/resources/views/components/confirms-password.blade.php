@@ -15,7 +15,7 @@
 </span>
 
 @once
-<x-user::dialog-modal wire:model="confirmingPassword">
+<x-user::dialog-modal wire:model.live="confirmingPassword">
     <x-slot name="title">
         {{ $title }}
     </x-slot>

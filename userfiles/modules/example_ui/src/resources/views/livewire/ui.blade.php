@@ -132,7 +132,7 @@
 
     <div class="mt-4">
 
-        <x-microweber-ui::dialog-modal wire:model="areYouSureModal">
+        <x-microweber-ui::dialog-modal wire:model.live="areYouSureModal">
             <x-slot name="title">
                 Confirm your action
             </x-slot>
@@ -163,7 +163,7 @@
     </div>
 
     <div class="mt-4">
-        <x-microweber-ui::modal wire:model="showModal">
+        <x-microweber-ui::modal wire:model.live="showModal">
 
             <div style="background:#fff;color:#000;padding:50px 150px">
 
@@ -185,7 +185,7 @@
     </div>
 
     <div class="mt-4">
-        <x-microweber-ui::dialog-modal wire:model="showDialogModal">
+        <x-microweber-ui::dialog-modal wire:model.live="showDialogModal">
             <x-slot name="title">
                 This is the dialog modal
             </x-slot>

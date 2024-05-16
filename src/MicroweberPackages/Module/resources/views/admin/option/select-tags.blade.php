@@ -13,7 +13,7 @@
     </div>
 
     <div>
-        <x-microweber-ui::input wire:model="search" placeholder="Search tags..."  x-on:click="openTags = !openTags" />
+        <x-microweber-ui::input wire:model.live="search" placeholder="Search tags..."  x-on:click="openTags = !openTags" />
     </div>
 
     <div x-show="openTags" class="form-control-live-edit-label-wrapper">

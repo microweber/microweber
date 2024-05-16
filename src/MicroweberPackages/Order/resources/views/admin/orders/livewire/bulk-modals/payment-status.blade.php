@@ -8,7 +8,7 @@
     <div class="modal-body">
         <div>
             Payment Status<br/>
-            <select class="form-control" wire:model="paymentStatus">
+            <select class="form-control" wire:model.live="paymentStatus">
                 <option>Select payment status</option>
                 <option value="1">Paid</option>
                 <option value="0">Unpaid</option>

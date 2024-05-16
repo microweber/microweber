@@ -51,7 +51,7 @@
         <div class="col-md-4 h-auto" style="background:#ececec;">
 
             <div class="mt-3 ms-2">
-                <x-microweber-ui::input wire:model="search" type="text" placeholder="Search fonts..." />
+                <x-microweber-ui::input wire:model.live="search" type="text" placeholder="Search fonts..." />
             </div>
 
             <div class="d-flex flex-column align-items-start gap-2 mt-3 ms-3">

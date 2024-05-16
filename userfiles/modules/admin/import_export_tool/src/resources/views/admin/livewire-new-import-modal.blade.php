@@ -10,7 +10,7 @@
                     <div class="modal-body">
                         <div>
                             Feed Name <br/>
-                            <input type="text" class="form-control" wire:model="new_feed_name">
+                            <input type="text" class="form-control" wire:model.live="new_feed_name">
                         </div>
                     </div>
                     <div class="modal-footer">

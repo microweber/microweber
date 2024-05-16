@@ -5,7 +5,7 @@
 
       <thead>
       <tr class="bg-light">
-          <th scope="col"> <input type="checkbox" wire:model="selectAll" class=""> </th>
+          <th scope="col"> <input type="checkbox" wire:model.live="selectAll" class=""> </th>
           @if($showColumns['id'])
               @include('order::admin.orders.livewire.table-includes.table-th',['name'=>'ID', 'key'=>'id', 'filters'=>$filters])
           @endif
@@ -57,7 +57,7 @@
 
           <tr class="manage-post-item">
               <td>
-                  <input type="checkbox" value="{{ $order->id }}" wire:model="checked">
+                  <input type="checkbox" value="{{ $order->id }}" wire:model.live="checked">
               </td>
               @if($showColumns['id'])
                   <td>

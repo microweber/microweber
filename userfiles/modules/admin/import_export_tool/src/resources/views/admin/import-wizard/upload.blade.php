@@ -51,7 +51,7 @@
 
             <div class="input-group mb-3">
                 <span class="input-group-text">Upload File Type</span>
-                <select class="form-select" wire:model="import_feed.source_type">
+                <select class="form-select" wire:model.live="import_feed.source_type">
                     <option value="download_link">Download feed from link</option>
                     <option value="upload_file">Upload feed from your computer</option>
                 </select>

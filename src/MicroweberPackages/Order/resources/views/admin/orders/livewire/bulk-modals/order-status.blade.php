@@ -8,7 +8,7 @@
     <div class="modal-body">
         <div>
             Order Status<br/>
-            <select class="form-control" wire:model="orderStatus">
+            <select class="form-control" wire:model.live="orderStatus">
                 <option>Select order status</option>
                 @foreach($orderStatuses as $key=>$value)
                 <option value="{{$key}}">{{$value}}</option>
