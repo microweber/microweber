@@ -1,15 +1,16 @@
 name: PHP Templates Tests
-on:
-  workflow_run:
-    workflows: ["Dusk"]
-    types:
-      - completed
-  workflow_dispatch:
-    inputs:
-      templates:
-        description: 'Templates to test'
-        required: true
-        default: 'microweber-templates/big'
+on: [ push ]
+#on:
+#  workflow_run:
+#    workflows: ["Dusk"]
+#    types:
+#      - completed
+#  workflow_dispatch:
+#    inputs:
+#      templates:
+#        description: 'Templates to test'
+#        required: true
+#        default: 'microweber-templates/big'
 
 
 concurrency:
