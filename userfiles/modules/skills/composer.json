@@ -1,0 +1,17 @@
+{
+  "name": "microweber-modules/skills",
+  "description": "Skills",
+  "license": "MIT",
+  "homepage": "https://microweber.org/modules/microweber-modules/skills",
+  "authors": [
+    {
+      "name": "MW Team",
+      "email": "team@microweber.com"
+    }
+  ],
+  "keywords": [
+    "skills"
+  ],
+  "type": "microweber-module",
+  "target-dir": "skills"
+}
