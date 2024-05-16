@@ -24,6 +24,7 @@ export class IconPicker extends MicroweberBaseClass {
                 color: true,
                 size: true,
                 reset: true,
+                imageReplace: true
             }
         };
         var target = $(targetElementSelector)[0];
