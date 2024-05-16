@@ -3,5 +3,3 @@
 
 print view('template::template-settings-sidebar-render-component');
 
-
-?>

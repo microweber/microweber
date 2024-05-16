@@ -1,8 +1,8 @@
-@extends('admin::layouts.iframe')
-
-@section('content')
+<div>
 
     @include('admin::layouts.partials.loads-user-custom-fonts')
+
+
 
     <div wire:ignore>
         <style>
@@ -41,7 +41,6 @@
                 }, askForConfirmText);
 
             }
-
 
 
             document.addEventListener('mw-option-saved', function () {
@@ -178,7 +177,8 @@
                 <div class="d-flex align-items-end" style="display: none">
 
 
-                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Reset stylesheet settings"
+                    <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="Reset stylesheet settings"
                             class="reset-template-settings-and-stylesheet-button" x-on:click="()=> {
                             resetStylesheetSettings();
                         }">
@@ -457,4 +457,7 @@
         @endif
 
     </div>
-@endsection
+
+</div>
+
+
