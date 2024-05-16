@@ -158,7 +158,7 @@ return [
     'render_on_redirect' => false,
 
 
-    'legacy_model_binding' => 1,
+    'legacy_model_binding' => true,
 
     'inject_assets' => false,
 

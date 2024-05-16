@@ -79,11 +79,13 @@
                                 $hasError = false;
                                 $output = false;
 
-                                try {
+
+
+                     /*           try {
                                    print $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
                                         'moduleId' => $moduleId,
                                         'moduleType' => $moduleType,
-                                    ]) ;
+                                    ], 'module-template-settings-'.$moduleId.'-'.uniqid());
 
                                 } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
                                     $hasError = true;
@@ -99,11 +101,18 @@
                                     print '</div>';
                                 } else {
                                     print $output;
-                                }
+                                }*/
 
 
                                 ?>
 
+
+                            @if(livewire_component_exists($componentNameForModuleSkin))
+                                @livewire($componentNameForModuleSkin, [
+                                'moduleId' => $moduleId,
+                                'moduleType' => $moduleType,
+                                ], key('module-template-settings-'.$moduleId))
+                            @endif
 
                         </div>
                         <script>

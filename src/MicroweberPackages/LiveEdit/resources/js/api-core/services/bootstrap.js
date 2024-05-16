@@ -11,11 +11,11 @@ import {KeyboardEvents} from  "./services/keyboard-events.js";
 import {IconPicker} from "./services/icon-picker";
 import {LinkPicker} from "./services/link-picker";
 import {ColorPicker} from "./services/color-picker";
-import '@nextapps-be/livewire-sortablejs';
+//import '@nextapps-be/livewire-sortablejs';
 
 // other libs
-import Alpine from 'alpinejs';
-import focus from '@alpinejs/focus';
+//import Alpine from 'alpinejs';
+//import focus from '@alpinejs/focus';
 import { DynamicTargetMenus } from './services/dynamic-target-menus.js';
 import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas";
 import { SingleFilePickerComponent } from './services/single-file-picker-component.js';
@@ -190,7 +190,7 @@ mw.app = new MWUniversalContainer();
 //}, 300);
 
 // init other libs
-window.Alpine = Alpine;
-Alpine.plugin(focus);
+// window.Alpine = Alpine;
+// Alpine.plugin(focus);
 
-Alpine.start();
+//Alpine.start();
