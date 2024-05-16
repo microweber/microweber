@@ -157,4 +157,14 @@ return [
 
     'render_on_redirect' => false,
 
+
+    'legacy_model_binding' => 1,
+
+    'inject_assets' => false,
+
+    'inject_morph_markers' => true,
+
+    'navigate' => false,
+
+    'pagination_theme' => 'tailwind',
 ];

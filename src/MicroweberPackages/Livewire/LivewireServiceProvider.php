@@ -44,6 +44,35 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 //        $this->app->alias(LivewireManager::class, 'livewire');
 //     }
 
+    protected function getMechanisms()
+    {
+        return [
+            \Livewire\Mechanisms\PersistentMiddleware\PersistentMiddleware::class,
+            \Livewire\Mechanisms\HandleComponents\HandleComponents::class,
+            \Livewire\Mechanisms\HandleRequests\HandleRequests::class,
+            \Livewire\Mechanisms\FrontendAssets\FrontendAssets::class,
+            \Livewire\Mechanisms\ExtendBlade\ExtendBlade::class,
+            \Livewire\Mechanisms\CompileLivewireTags\CompileLivewireTags::class,
+             \Livewire\Mechanisms\ComponentRegistry::class,
+         // MwLivewireComponentRegistry::class,
+            \Livewire\Mechanisms\RenderComponent::class,
+            \Livewire\Mechanisms\DataStore::class,
+        ];
+    }
+    protected function registerConfig()
+    {
+        $config = __DIR__.'/config/livewire.php';
+
+        $this->publishes([$config => base_path('config/livewire.php')], ['livewire', 'livewire:config']);
+
+        $this->mergeConfigFrom($config, 'livewire');
+    }
+    protected function registerMechanisms()
+    {
+        foreach ($this->getMechanisms() as $mechanism) {
+            app($mechanism)->register();
+        }
+    }
 
     public function register()
     {
@@ -70,6 +99,9 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
         // the new mw dialog
         app()->register(LivewireMwModalServiceProvider::class);
+       // $resolver = app()->make(MwLivewireComponentResolver::class);
+       //  dd($reg,$resolver);
+        //app()->make(\Livewire\Mechanisms\ComponentRegistry::class)->resolveMissingComponent($resolver);
 
         parent::register();
 

@@ -80,10 +80,10 @@
                                 $output = false;
 
                                 try {
-                                    $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
+                                   print $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
                                         'moduleId' => $moduleId,
                                         'moduleType' => $moduleType,
-                                    ])->html();
+                                    ]) ;
 
                                 } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
                                     $hasError = true;

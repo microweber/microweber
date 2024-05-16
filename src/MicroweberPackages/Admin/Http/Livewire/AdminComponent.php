@@ -19,7 +19,7 @@ class AdminComponent extends Component
             abort(401, 'Unauthorized action.');
         }
 
-        parent::__construct($id);
+      //  parent::__construct($id);
 
     }
 

@@ -22,6 +22,7 @@ class ModuleSettingsComponent extends AdminComponent
 
     public function mount()
     {
+
         if ($this->settings) {
             foreach ($this->settings as $key => $setting) {
                 $val = get_module_option($key, $this->moduleId);

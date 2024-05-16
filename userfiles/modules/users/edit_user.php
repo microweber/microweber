@@ -311,11 +311,11 @@ $saveRoute = route('api.user.store');
 
                             <div>
 
-                                <?php print \Livewire\Livewire::mount('user::profile.two-factor-authentication-form', [])->html();  ?>
+                                <?php print \Livewire\Livewire::mount('user::profile.two-factor-authentication-form', []);  ?>
 
                             </div>
                             <div>
-                                <?php print \Livewire\Livewire::mount('user::profile.logout-other-browser-sessions-form', [])->html();  ?>
+                                <?php print \Livewire\Livewire::mount('user::profile.logout-other-browser-sessions-form', []);  ?>
 
 
                             </div>

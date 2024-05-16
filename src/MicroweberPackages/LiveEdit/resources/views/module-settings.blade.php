@@ -33,11 +33,6 @@
         if($moduleSettingsRegisteredAlias){
             $livewireComponentName = $moduleSettingsRegisteredAlias;
         }
-//        $output = \Livewire\Livewire::mount('microweber-live-edit::' . $moduleTypeForComponent, [
-//                //'id' => $moduleId,
-//                'moduleId' => $moduleId,
-//                'moduleType' => $moduleType,
-//            ])->html();
 
 
 //        try {

@@ -1,12 +1,14 @@
 <?php
 
 
-function livewire_component_exists($class): bool
+function livewire_component_exists($alias): bool
 {
-    try {
-        \Livewire\Livewire::getClass($class);
+
+    $registry = app(\Livewire\Mechanisms\ComponentRegistry::class);
+
+    if ($registry->getName($alias)) {
         return true;
-    } catch (\Throwable $th) {
-        return false;
     }
+
+    return false;
 }
