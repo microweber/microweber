@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Route as RouteFacade;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
+use Livewire\Mechanisms\HandleRequests\HandleRequests;
 use LivewireUI\Modal\LivewireModalServiceProvider;
 use MicroweberPackages\Livewire\Mechanisms\FrontendAssets\MwLivewireFrontendAssets;
+use MicroweberPackages\Livewire\Mechanisms\HandleRequests\MwLivewireHandleRequests;
 use Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider;
 
 class LivewireServiceProvider extends BaseLivewireServiceProvider
@@ -79,6 +81,8 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
     public function register()
     {
         app()->bind(\Livewire\Mechanisms\FrontendAssets\FrontendAssets::class, MwLivewireFrontendAssets::class);
+        app()->bind(\Livewire\Mechanisms\HandleRequests\HandleRequests::class, MwLivewireHandleRequests::class);
+
 
         $this->registerLivewireSingleton();
         $this->registerConfig();
