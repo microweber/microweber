@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
 use LivewireUI\Modal\LivewireModalServiceProvider;
+use MicroweberPackages\Livewire\Mechanisms\FrontendAssets\MwLivewireFrontendAssets;
 use Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider;
 
 class LivewireServiceProvider extends BaseLivewireServiceProvider
@@ -51,6 +52,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
             \Livewire\Mechanisms\HandleComponents\HandleComponents::class,
             \Livewire\Mechanisms\HandleRequests\HandleRequests::class,
             \Livewire\Mechanisms\FrontendAssets\FrontendAssets::class,
+          //  MwLivewireFrontendAssets::class,
             \Livewire\Mechanisms\ExtendBlade\ExtendBlade::class,
             \Livewire\Mechanisms\CompileLivewireTags\CompileLivewireTags::class,
              \Livewire\Mechanisms\ComponentRegistry::class,
@@ -76,6 +78,8 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
     public function register()
     {
+        app()->bind(\Livewire\Mechanisms\FrontendAssets\FrontendAssets::class, MwLivewireFrontendAssets::class);
+
         $this->registerLivewireSingleton();
         $this->registerConfig();
         $this->bootEventBus();
@@ -87,6 +91,8 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
 
         View::addNamespace('livewire', __DIR__ . '/resources/views');
+
+
 
         // Load datatables
       //  app()->register(LaravelLivewireTablesServiceProvider::class);

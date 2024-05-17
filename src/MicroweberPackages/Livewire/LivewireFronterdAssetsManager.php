@@ -4,9 +4,9 @@ namespace MicroweberPackages\Livewire;
 
 use \Livewire\LivewireManager as BaseLivewireManager;
 
-class LivewireManager extends BaseLivewireManager
+class LivewireFronterdAssetsManager extends BaseLivewireManager
 {
-    protected function copyAssets()
+    public function copyAssets()
     {
         $livewireCacheFolder = base_path() . '/userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
         $livewireCacheFolder = normalize_path($livewireCacheFolder,true);
@@ -15,13 +15,13 @@ class LivewireManager extends BaseLivewireManager
             mkdir_recursive($livewireCacheFolder);
         }
 
-        $livewireCachedFile = $livewireCacheFolder . '/livewire.js';
-        $livewireCachedFileMap = $livewireCacheFolder . '/livewire.js.map';
+        $livewireCachedFile = $livewireCacheFolder . '/livewire.min.js';
+        $livewireCachedFileMap = $livewireCacheFolder . '/livewire.min.js.map';
         $livewireCachedFileManifest = $livewireCacheFolder . '/manifest.json';
 
         if (!is_file($livewireCachedFile)) {
 
-            $livewireOriginalFile = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js');
+            $livewireOriginalFile = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.min.js');
             if (!is_file($livewireOriginalFile)) {
                 throw new \Exception('livewire.js not exist in vendor');
             }
@@ -29,7 +29,7 @@ class LivewireManager extends BaseLivewireManager
             copy($livewireOriginalFile, $livewireCachedFile);
 
 
-            $livewireOriginalFileMap = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.js.map');
+            $livewireOriginalFileMap = realpath(__DIR__ . '/../../../vendor/livewire/livewire/dist/livewire.min.js.map');
             if (!is_file($livewireOriginalFileMap)) {
                 throw new \Exception('livewire.js.map not exist in vendor');
             }
@@ -42,14 +42,14 @@ class LivewireManager extends BaseLivewireManager
             }
         }
     }
-    protected function getAssetPath()
+    public function getAssetPath()
     {
-        $livewireCacheFolder = 'userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/livewire.js';
+        $livewireCacheFolder = 'userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/livewire.min.js';
         return site_url($livewireCacheFolder);
 
     }
-
-    protected function javaScriptAssets($options)
+/*
+    public function javaScriptAssets($options)
     {
         $this->copyAssets();
 
@@ -116,6 +116,6 @@ class LivewireManager extends BaseLivewireManager
     });
 </script>
 HTML;
-    }
+    }*/
 
 }
