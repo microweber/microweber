@@ -44,6 +44,7 @@ class MWEditorEventHandles {
                 target: edit,
                 value: edit.innerHTML
             });
+            edit.classList.add('changed')
         }
     }
 
@@ -168,6 +169,8 @@ class MWEditorEventHandles {
         let focusActualTarget = this.scope.getActualTarget(focusNode);
 
         const isNoclone = mw.tools.hasAnyOfClasses(focusActualTarget, ['col', 'row', 'mw-col', 'mw-row']);
+
+
 
         if(isNoclone) {
             const canHasBR = mw.tools.hasAnyOfClasses(focusActualTarget, ['col',  'mw-col', ]);
