@@ -9,9 +9,11 @@ class MwLivewireHandleRequests extends HandleRequests
     public function getUpdateUri()
     {
         $original = parent::getUpdateUri();
-
-        $original = ltrim($original, '/');
-        $url = site_url($original);
-        return $url;
+        if ($original == '/livewire/update') {
+            $original = ltrim($original, '/');
+            $url = site_url($original);
+            return $url;
+        }
+        return $original;
     }
 }
