@@ -11,7 +11,6 @@
 
         <div x-data="{'logoType': '{{$logoType}}'}" class="card-body" style="padding:5px;padding-bottom:25px;">
 
-
             <script>
                 Livewire.on('mw-option-saved', function ($event) {
                     if ($event.optionKey == 'logotype') {

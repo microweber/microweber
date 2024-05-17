@@ -485,13 +485,11 @@ export default {
                 var canvasWindow = mw.top().app.canvas.getWindow();
                 if (canvasWindow) {
                     if (canvasWindow.Livewire) {
-                       // canvasWindow.Livewire.restart();
-                       // canvasWindow.Livewire.rescan();
-                    //  canvasWindow.Livewire.rescan();
+
                        setTimeout(() => {
 
                            try {
-                               canvasWindow.Livewire.restart();
+                               canvasWindow.Livewire.start();
                            } catch (e) {
 
                                console.error(e);

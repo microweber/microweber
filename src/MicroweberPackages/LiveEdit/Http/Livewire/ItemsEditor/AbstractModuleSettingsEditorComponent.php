@@ -95,7 +95,7 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 
         $this->getItems();
 
-        $this->emit('onItemDeleted');
+        $this->dispatch('onItemDeleted');
 
 
     }
@@ -121,7 +121,7 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         }
         $allItems = [];
         $allItems = array_merge($topItems, $itemsOldSort);
-        $this->emit('onItemChanged');
+        $this->dispatch('onItemChanged');
         $this->saveItems($allItems);
     }
 
@@ -139,7 +139,7 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         );
         save_option($save);
 
-        $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'settings' => $save]);
+        $this->dispatch('settingsChanged', moduleId: $this->moduleId, settings: $save);
 
     }
 }

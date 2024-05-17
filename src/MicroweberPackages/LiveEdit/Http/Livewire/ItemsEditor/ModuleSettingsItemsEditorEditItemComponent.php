@@ -131,27 +131,32 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
         $this->saveItems($allItems);
 
-        $this->emitTo('microweber-live-edit::module-items-editor-list', 'onItemChanged', ['moduleId' => $this->moduleId, 'item' => $newItem, 'isNew' => $isNewItem, 'itemId' => $newItem['itemId']]);
+        $this->dispatch( 'onItemChanged',
+            moduleId: $this->moduleId,
+            item: $newItem,
+            isNew: $isNewItem,
+            itemId: $newItem['itemId']
+        )->to('microweber-live-edit::module-items-editor-list');
 
         $switchToMainTab = true;
         if (isset($options['switchToMainTab'])) {
             $switchToMainTab = $options['switchToMainTab'];
         }
         if ($switchToMainTab) {
-            $this->emit('switchToMainTab');
+            $this->dispatch('switchToMainTab');
         }
 
-        $this->emit('onItemChanged', [
-            'moduleId' => $this->moduleId,
-            'itemId' => $newItem['itemId'],
-            'item' => $newItem,
-            'isNew' => $isNewItem,
-        ]);
+        $this->dispatch('onItemChanged',
+            moduleId: $this->moduleId,
+            itemId : $newItem['itemId'],
+            item : $newItem,
+            isNew: $isNewItem,
+        );
 
     }
 
     public function updatedSettings($settings)
     {
-        $this->emit('settingsChanged', ['moduleId' => $this->moduleId, 'settings' => $this->settings]);
+        $this->dispatch('settingsChanged', moduleId: $this->moduleId, settings: $this->settings);
     }
 }
