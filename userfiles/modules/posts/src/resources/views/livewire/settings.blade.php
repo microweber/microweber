@@ -86,22 +86,25 @@
                         showReadMore: @if (get_option('data-show-read-more', $moduleId) == true) true @else false @endif,
                         showDate: @if (get_option('data-show-date', $moduleId) == true) true @else false @endif
                     }"
-                    x-show="dataDisplayOptions"
+                    x-show="dataDisplayOptions">
 
-                     @mw-option-saved.window="function() {
-                        if($event.detail.optionKey == 'data-show-title') {
-                            showTitle = $event.detail.optionValue;
-                        }
-                         if($event.detail.optionKey == 'data-show-description') {
-                            showDescription = $event.detail.optionValue;
-                        }
-                         if($event.detail.optionKey == 'data-show-read-more') {
-                            showReadMore = $event.detail.optionValue;
-                        }
-                         if($event.detail.optionKey == 'data-show-date') {
-                            showDate = $event.detail.optionValue;
-                        }
-                     }">
+
+                    <script>
+                        Livewire.on('mw-option-saved', function ($event) {
+                            if ($event.detail.optionKey == 'data-show-title') {
+                                Alpine.store('showTitle', $event.detail.optionValue);
+                            }
+                            if ($event.detail.optionKey == 'data-show-description') {
+                                Alpine.store('showDescription', $event.detail.optionValue);
+                            }
+                            if ($event.detail.optionKey == 'data-show-read-more') {
+                                Alpine.store('showReadMore', $event.detail.optionValue);
+                            }
+                            if ($event.detail.optionKey == 'data-show-date') {
+                                Alpine.store('showDate', $event.detail.optionValue);
+                            }
+                        });
+                    </script>
 
                     <div class="mb-3">
                         <livewire:microweber-option::checkbox-single optionName="Thumbnail" optionKey="data-show-thumbnail" :optionGroup="$moduleId" :module="$moduleType"  />
