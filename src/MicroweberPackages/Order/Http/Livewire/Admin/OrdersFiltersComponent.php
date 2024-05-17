@@ -25,8 +25,8 @@ class OrdersFiltersComponent extends Component
 
     public function refreshOrdersTable()
     {
-        $this->emit('autocompleteRefresh');
-        $this->emit('setFiltersToOrders', [
+        $this->dispatch('autocompleteRefresh');
+        $this->dispatch('setFiltersToOrders', [
             'page' => 1,
             'filters' => $this->filters
         ]);

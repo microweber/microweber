@@ -93,7 +93,7 @@ class ListComponent extends AdminComponent
             }
         }
 
-        $this->emit('openModal', 'contact-form.form-data-preview-modal', [
+        $this->dispatch('openModal', 'contact-form.form-data-preview-modal', [
             'formDataId' => $id
         ]);
     }

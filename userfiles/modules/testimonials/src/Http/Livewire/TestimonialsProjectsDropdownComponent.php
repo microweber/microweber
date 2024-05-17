@@ -40,7 +40,7 @@ class TestimonialsProjectsDropdownComponent extends OptionElement
         $this->addNewProjectModal = false;
         $this->newProjectName = '';
 
-        $this->emit('refreshTestimonials');
+        $this->dispatch('refreshTestimonials');
         $this->renderProjects();
     }
 
@@ -54,7 +54,7 @@ class TestimonialsProjectsDropdownComponent extends OptionElement
         Testimonial::where('project_name', $project)->delete();
 
         $this->renderProjects();
-        $this->emit('refreshTestimonials');
+        $this->dispatch('refreshTestimonials');
     }
 
     public function selectProject($project)
@@ -63,7 +63,7 @@ class TestimonialsProjectsDropdownComponent extends OptionElement
         $this->updated();
 
         $this->renderProjects();
-        $this->emit('refreshTestimonials');
+        $this->dispatch('refreshTestimonials');
     }
 
     public function renderProjects()

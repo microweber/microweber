@@ -85,7 +85,7 @@ class ContentList extends AdminComponent
     public function refreshContentListAndDeselectAll()
     {
         $this->deselectAll();
-        $this->emit('refreshContentList');
+        $this->dispatch('refreshContentList');
     }
 
     public function deselectAll()
@@ -246,31 +246,31 @@ class ContentList extends AdminComponent
 
     public function multipleMoveToCategory()
     {
-        $this->emit('multipleMoveToCategory', $this->checked);
+        $this->dispatch('multipleMoveToCategory', $this->checked);
     }
 
     public function multiplePublish()
     {
-        $this->emit('multiplePublish', $this->checked);
+        $this->dispatch('multiplePublish', $this->checked);
     }
 
     public function multipleUnpublish()
     {
-        $this->emit('multipleUnpublish', $this->checked);
+        $this->dispatch('multipleUnpublish', $this->checked);
     }
 
     public function multipleDelete()
     {
-        $this->emit('multipleDelete', $this->checked);
+        $this->dispatch('multipleDelete', $this->checked);
     }
 
     public function multipleUndelete()
     {
-        $this->emit('multipleUndelete', $this->checked);
+        $this->dispatch('multipleUndelete', $this->checked);
     }
     public function multipleDeleteForever()
     {
-        $this->emit('multipleDeleteForever', $this->checked);
+        $this->dispatch('multipleDeleteForever', $this->checked);
     }
 
     public function unpublish($id)
@@ -279,7 +279,7 @@ class ContentList extends AdminComponent
         if ($findContent) {
             $findContent->is_active = 0;
             $findContent->save();
-            $this->emit('refreshContentList');
+            $this->dispatch('refreshContentList');
         }
     }
 
@@ -289,7 +289,7 @@ class ContentList extends AdminComponent
         if ($findContent) {
             $findContent->is_active = 1;
             $findContent->save();
-            $this->emit('refreshContentList');
+            $this->dispatch('refreshContentList');
         }
     }
 
@@ -476,10 +476,10 @@ class ContentList extends AdminComponent
     {
         if (isset($this->filters[$key])) {
             if ($key == 'tags') {
-                $this->emit('tagsResetProperties');
+                $this->dispatch('tagsResetProperties');
             }
             if ($key == 'userId') {
-                $this->emit('usersResetProperties');
+                $this->dispatch('usersResetProperties');
             }
             unset($this->filters[$key]);
         }

@@ -42,8 +42,8 @@ class UserCommentListComponent extends Component {
 
             $getComment->deleteWithReplies();
 
-            $this->emit('commentDeleted', $commentId);
-            $this->emit('$refresh');
+            $this->dispatch('commentDeleted', $commentId);
+            $this->dispatch('$refresh');
         }
     }
 

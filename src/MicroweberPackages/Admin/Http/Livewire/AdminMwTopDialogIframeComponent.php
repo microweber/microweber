@@ -22,6 +22,6 @@ class AdminMwTopDialogIframeComponent extends AdminComponent
 
     public function closeModal()
     {
-        $this->emit('closeMwTopDialogIframe');
+        $this->dispatch('closeMwTopDialogIframe');
     }
 }

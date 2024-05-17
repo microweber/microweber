@@ -22,7 +22,7 @@ class CaptchaConfirmModalComponent extends ModalComponent
     public function confirm()
     {
         if ($this->action) {
-            $this->emit($this->action, $this->captcha);
+            $this->dispatch($this->action, $this->captcha);
         }
     }
 }

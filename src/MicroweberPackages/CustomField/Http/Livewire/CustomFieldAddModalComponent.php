@@ -32,7 +32,7 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
         }
 
         if ($showEditModal) {
-            $this->emit('openMwTopDialogIframe', 'custom-field-edit-modal', [
+            $this->dispatch('openMwTopDialogIframe', 'custom-field-edit-modal', [
                 'customFieldId' => $newCustomFieldId
             ]);
         }
@@ -68,7 +68,7 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
         $this->dispatchBrowserEvent('customFieldAdded');
 
         if ($showEditModal) {
-            $this->emit('openMwTopDialogIframe', 'custom-field-edit-modal', [
+            $this->dispatch('openMwTopDialogIframe', 'custom-field-edit-modal', [
                 'customFieldId' => $newCustomField->id
             ]);
         }

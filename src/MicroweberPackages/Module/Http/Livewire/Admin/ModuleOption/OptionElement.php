@@ -185,7 +185,7 @@ class OptionElement extends AdminComponent
             optionValue: $this->model->option_value
         );
 
-//        $this->emitUp('mwOptionSave', [
+//        $this->dispatchUp('mwOptionSave', [
 //            'optionGroup' => $this->optionGroup,
 //            'optionKey' => $this->optionKey,
 //            'optionValue' => $this->model->option_value

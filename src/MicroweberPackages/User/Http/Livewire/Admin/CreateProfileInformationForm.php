@@ -36,7 +36,7 @@ class CreateProfileInformationForm extends AdminComponent
         $user->fill($this->state);
         $user->save();
 
-        $this->emit('saved');
+        $this->dispatch('saved');
 
         return redirect(route('admin.users.edit', $user->id));
 

@@ -40,7 +40,7 @@ class ModuleSettingsItemsEditorListComponent extends AbstractModuleSettingsEdito
         $allItems = array_merge($topItems, $itemsOldSort);
 
         $this->saveItems($allItems);
-        $this->emit('onItemChanged');
+        $this->dispatch('onItemChanged');
     }
 
 

@@ -101,13 +101,13 @@ class UserCommentReplyComponent extends Component
         ]);
 
         if ($validateCaptcha->fails()) {
-            $this->emit('openModal', 'captcha-confirm-modal', [
+            $this->dispatch('openModal', 'captcha-confirm-modal', [
                 'action'=>'setCaptcha' . md5($this->id)
             ]);
             return false;
         }
 
-        $this->emit('closeModal', 'captcha-confirm-modal');
+        $this->dispatch('closeModal', 'captcha-confirm-modal');
 
         return true;
     }
@@ -202,7 +202,7 @@ class UserCommentReplyComponent extends Component
         $this->state['comment_email'] = '';
         $this->captcha = '';
 
-        $this->emit('commentAdded', $comment->id);
+        $this->dispatch('commentAdded', $comment->id);
 
     }
 }

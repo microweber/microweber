@@ -51,7 +51,7 @@ class UpdatePasswordForm extends AdminComponent
             'password_confirmation' => '',
         ];
 
-        $this->emit('saved');
+        $this->dispatch('saved');
     }
 
     /**

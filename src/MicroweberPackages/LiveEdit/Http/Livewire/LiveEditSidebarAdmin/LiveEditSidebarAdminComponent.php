@@ -18,7 +18,7 @@ class LiveEditSidebarAdminComponent extends AdminComponent
     {
 
         $this->modulesData = $modulesData;
-        $this->emit('onModulesDataPopulated', $modulesData);
+        $this->dispatch('onModulesDataPopulated', $modulesData);
         $this->render();
     }
 

@@ -64,7 +64,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
 
             $this->comment = $comment;
 
-            $this->emit('commentUpdated');
+            $this->dispatch('commentUpdated');
         }
     }
 
@@ -81,7 +81,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
 
             $this->comment = $comment;
 
-            $this->emit('commentUpdated');
+            $this->dispatch('commentUpdated');
         }
     }
 
@@ -98,7 +98,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
 
             $this->comment = $comment;
 
-            $this->emit('commentUpdated');
+            $this->dispatch('commentUpdated');
         }
     }
 
@@ -115,7 +115,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
 
             $this->comment = $comment;
 
-            $this->emit('commentUpdated');
+            $this->dispatch('commentUpdated');
         }
     }
 
@@ -130,7 +130,7 @@ class AdminCommentComponent extends UserCommentReplyComponent
 
             $this->comment = $comment;
 
-            $this->emit('commentUpdated');
+            $this->dispatch('commentUpdated');
         }
     }
 

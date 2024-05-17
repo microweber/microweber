@@ -55,7 +55,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
             $this->authorize('delete', $comment);
             $comment->forceDelete();
 
-            $this->emit('commentUpdated');
+            $this->dispatch('commentUpdated');
         }
     }
 
@@ -66,7 +66,7 @@ class AdminCommentsListComponent extends \MicroweberPackages\Admin\Http\Livewire
             $this->authorize('delete', $comment);
             $comment->delete();
 
-            $this->emit('commentUpdated');
+            $this->dispatch('commentUpdated');
         }
     }
 

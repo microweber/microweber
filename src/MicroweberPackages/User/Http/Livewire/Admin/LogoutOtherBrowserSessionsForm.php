@@ -63,7 +63,7 @@ class LogoutOtherBrowserSessionsForm extends AdminComponent
 
         $this->confirmingLogout = false;
 
-        $this->emit('loggedOut');
+        $this->dispatch('loggedOut');
     }
 
     /**

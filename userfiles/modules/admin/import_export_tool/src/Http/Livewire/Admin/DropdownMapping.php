@@ -198,7 +198,7 @@ class DropdownMapping extends AdminComponent
 
             $findFeed->save();
 
-            $this->emit('refreshImportFeedStateById', $findFeed->id);
+            $this->dispatch('refreshImportFeedStateById', $findFeed->id);
 
         }
     }

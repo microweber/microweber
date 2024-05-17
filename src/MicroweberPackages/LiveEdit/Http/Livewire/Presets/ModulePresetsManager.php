@@ -92,8 +92,8 @@ class ModulePresetsManager extends AdminComponent
         }
         $save = save_module_as_template($savePreset);
 
-        $this->emit('switchToMainTab');
-        $this->emit('settingsChanged', ['moduleId' => $this->moduleId]);
+        $this->dispatch('switchToMainTab');
+        $this->dispatch('settingsChanged', ['moduleId' => $this->moduleId]);
 
         return $this->render();
 
@@ -148,7 +148,7 @@ class ModulePresetsManager extends AdminComponent
     {
         $this->moduleIdFromPreset = false;
         $this->selectedPreset = [];
-        $this->emit('removeSelectedPresetForModule', $applyToModuleId);
+        $this->dispatch('removeSelectedPresetForModule', $applyToModuleId);
 
     }
 
@@ -164,7 +164,7 @@ class ModulePresetsManager extends AdminComponent
                 if ($preset['id'] == $id) {
                     $this->selectedPreset = $preset;
                     $this->moduleIdFromPreset = $preset['module_id'];
-                    $this->emit('applyPreset', $applyToModuleId, $preset);
+                    $this->dispatch('applyPreset', $applyToModuleId, $preset);
                 }
             }
         }

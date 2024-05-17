@@ -71,7 +71,7 @@ class StartImportingModal extends AdminModalComponent
     public function viewReportAndCloseModal()
     {
         $this->closeModal();
-        $this->emit('importingFinished');
+        $this->dispatch('importingFinished');
     }
 
     public function clearLog()

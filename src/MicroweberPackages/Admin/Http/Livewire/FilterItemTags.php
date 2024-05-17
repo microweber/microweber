@@ -26,7 +26,7 @@ class FilterItemTags extends FilterItemMultipleSelectComponent
 
     public function loadMore()
     {
-        $this->emit('loadMoreExecuted');
+        $this->dispatch('loadMoreExecuted');
         $this->perPage = $this->perPage + 5;
         $this->refreshQueryData();
     }

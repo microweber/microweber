@@ -29,7 +29,7 @@ class FormDataPreviewModalComponent extends AdminModalComponent
         }
 
         $formData->delete();
-        $this->emit('loadList');
+        $this->dispatch('loadList');
         $this->closeModal();
     }
 

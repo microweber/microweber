@@ -36,7 +36,7 @@ class NewsletterChooseTemplateModal extends AdminModalComponent
         $newsletterTemplate->text = $templateContentHtml;
         $newsletterTemplate->save();
 
-        $this->emit('newsletter.templateSelected', $name, $filename);
+        $this->dispatch('newsletter.templateSelected', $name, $filename);
         $this->closeModal();
     }
 

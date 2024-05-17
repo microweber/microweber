@@ -20,7 +20,7 @@ class OrdersBulkOrderStatus extends AdminModalComponent
 
         Order::whereIn('id', $this->ids)->update(['order_status'=>$this->orderStatus]);
 
-        $this->emit('refreshOrdersFilters');
+        $this->dispatch('refreshOrdersFilters');
         $this->closeModal();
     }
 

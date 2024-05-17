@@ -59,7 +59,7 @@ class UpdateProfileInformationForm extends AdminComponent
             $findUser->save();
 
             $this->state = $findUser->toArray();
-            $this->emit('$refresh');
+            $this->dispatch('$refresh');
         }
     }
 
@@ -81,7 +81,7 @@ class UpdateProfileInformationForm extends AdminComponent
         $user->save();
 
         $this->state = $user->toArray();
-        $this->emit('$refresh');
+        $this->dispatch('$refresh');
     }
 
     /**
@@ -137,7 +137,7 @@ class UpdateProfileInformationForm extends AdminComponent
             return redirect()->route('admin.profile.show');
         }
 
-        $this->emit('saved');
+        $this->dispatch('saved');
     }
 
     /**

@@ -60,7 +60,7 @@ class UpdateStatusAndRoleForm extends AdminComponent
             'is_active' => $input['is_active'],
         ])->save();
 
-        $this->emit('saved');
+        $this->dispatch('saved');
     }
 
     /**

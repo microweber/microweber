@@ -17,7 +17,7 @@ class OrdersBulkPaymentStatus extends AdminModalComponent
 
         Order::whereIn('id', $this->ids)->update(['is_paid'=>$this->paymentStatus]);
 
-        $this->emit('refreshOrdersFilters');
+        $this->dispatch('refreshOrdersFilters');
         $this->closeModal();
     }
 

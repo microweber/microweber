@@ -47,7 +47,7 @@ class MwModal extends Modal
 
         $this->activeComponent = $id;
 
-        $this->emit('activeModalComponentChanged', [
+        $this->dispatch('activeModalComponentChanged', [
             'id' => $id,
             'modalSettings' => $modalSettings,
         ]);

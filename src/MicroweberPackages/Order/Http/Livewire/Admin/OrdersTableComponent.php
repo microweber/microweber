@@ -127,7 +127,7 @@ class OrdersTableComponent extends AdminComponent
             $this->setPage($data['page']);
         }
 
-        $this->emitSelf('$refresh');
+        $this->dispatchSelf('$refresh');
     }
 
 
@@ -167,7 +167,7 @@ class OrdersTableComponent extends AdminComponent
 
     public function delete($id)
     {
-        $this->emit("openModal", "admin-orders-bulk-delete", ["ids"=>[$id]]);
+        $this->dispatch("openModal", "admin-orders-bulk-delete", ["ids"=>[$id]]);
     }
 
     public function render()

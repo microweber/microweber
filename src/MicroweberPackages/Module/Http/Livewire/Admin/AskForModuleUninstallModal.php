@@ -25,7 +25,7 @@ class AskForModuleUninstallModal extends AdminModalComponent
             ]);
         }
 
-        $this->emit('refreshModuleList');
+        $this->dispatch('refreshModuleList');
 
         $this->closeModal();
     }

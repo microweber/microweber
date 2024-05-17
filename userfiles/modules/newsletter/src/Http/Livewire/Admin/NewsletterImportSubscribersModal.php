@@ -98,7 +98,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
                     'skipped'=>$skipped,
                     'failed'=>$failed
                 ];
-                $this->emit('newsletterSubscribersListUpdated');
+                $this->dispatch('newsletterSubscribersListUpdated');
             }
 
         } else {

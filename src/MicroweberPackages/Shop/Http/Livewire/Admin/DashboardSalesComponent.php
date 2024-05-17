@@ -44,7 +44,7 @@ class DashboardSalesComponent extends Component
 
     public function loadSalesData()
     {
-   //     $this->emit('initSalesChart');
+   //     $this->dispatch('initSalesChart');
 
         // this is used to refresh the chart
         $filters = $this->filters;

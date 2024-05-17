@@ -13,7 +13,7 @@ class OrdersBulkDelete extends AdminModalComponent
     public function delete()
     {
         Order::whereIn('id', $this->ids)->delete();
-        $this->emit('refreshOrdersFilters');
+        $this->dispatch('refreshOrdersFilters');
         $this->closeModal();
     }
 

@@ -14,13 +14,13 @@ class FilterItemValue extends DropdownComponent
     {
         $this->itemValue = '';
         $this->closeDropdown($this->id);
-        $this->emitEvents();
+        $this->dispatchEvents();
     }
 
     public function hideFilterItem($id)
     {
         if ($this->id == $id) {
-            $this->emit('hideFilterItem', $this->itemValueKey);
+            $this->dispatch('hideFilterItem', $this->itemValueKey);
             $this->resetProperties();
         }
     }
@@ -28,11 +28,11 @@ class FilterItemValue extends DropdownComponent
     public function updatedItemValue()
     {
         $this->showDropdown($this->id);
-        $this->emitEvents();
+        $this->dispatchEvents();
     }
 
     public function emitEvents()
     {
-        $this->emit('autoCompleteSelectItem', $this->itemValueKey, $this->itemValue);
+        $this->dispatch('autoCompleteSelectItem', $this->itemValueKey, $this->itemValue);
     }
 }

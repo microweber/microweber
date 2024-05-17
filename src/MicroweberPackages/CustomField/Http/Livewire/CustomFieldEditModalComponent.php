@@ -103,7 +103,7 @@ class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
         unset($this->priceModifiers[$id]);
         unset($this->inputs[$id]);
 
-       // $this->emit('$refresh');
+       // $this->dispatch('$refresh');
         $this->dispatchBrowserEvent('customFieldUpdated');
     }
 

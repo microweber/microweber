@@ -67,7 +67,7 @@ class FilterItemCateogry extends DropdownComponent
 
         $this->showDropdown($this->id);
         $this->calculateSelectedItemsCount();
-        $this->emitEvents();
+        $this->dispatchEvents();
 
     }
 
@@ -87,13 +87,13 @@ class FilterItemCateogry extends DropdownComponent
 
         $this->showDropdown($this->id);
         $this->calculateSelectedItemsCount();
-        $this->emitEvents();
+        $this->dispatchEvents();
     }
 
     public function hideFilterItem($id)
     {
         if ($this->id == $id) {
-            $this->emit('hideFilterItem', strtolower($this->name));
+            $this->dispatch('hideFilterItem', strtolower($this->name));
             // $this->resetProperties();
         }
     }
@@ -101,8 +101,8 @@ class FilterItemCateogry extends DropdownComponent
 
     public function emitEvents()
     {
-        $this->emit('autoCompleteSelectItem', $this->itemCategoryValueKey, $this->itemCategoryValue);
-        $this->emit('autoCompleteSelectItem', $this->itemPageValueKey, $this->itemPageValue);
+        $this->dispatch('autoCompleteSelectItem', $this->itemCategoryValueKey, $this->itemCategoryValue);
+        $this->dispatch('autoCompleteSelectItem', $this->itemPageValueKey, $this->itemPageValue);
     }
 
     public function selectItemCategory($itemId)

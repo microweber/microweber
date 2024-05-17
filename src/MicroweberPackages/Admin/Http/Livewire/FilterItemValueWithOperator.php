@@ -18,13 +18,13 @@ class FilterItemValueWithOperator extends DropdownComponent
         $this->itemValue = '';
         $this->itemOperatorValue = '';
         $this->closeDropdown();
-        $this->emitEvents();
+        $this->dispatchEvents();
     }
 
     public function hideFilterItem($id)
     {
         if ($this->id == $id) {
-            $this->emit('hideFilterItem', $this->itemValueKey);
+            $this->dispatch('hideFilterItem', $this->itemValueKey);
             $this->resetProperties();
         }
     }
@@ -32,18 +32,18 @@ class FilterItemValueWithOperator extends DropdownComponent
     public function updatedItemValue()
     {
         $this->showDropdown($this->id);
-        $this->emitEvents();
+        $this->dispatchEvents();
     }
 
     public function updatedItemOperatorValue()
     {
         $this->showDropdown($this->id);
-        $this->emitEvents();
+        $this->dispatchEvents();
     }
 
     public function emitEvents()
     {
-        $this->emit('autoCompleteSelectItem', $this->itemOperatorValueKey, $this->itemOperatorValue);
-        $this->emit('autoCompleteSelectItem', $this->itemValueKey, $this->itemValue);
+        $this->dispatch('autoCompleteSelectItem', $this->itemOperatorValueKey, $this->itemOperatorValue);
+        $this->dispatch('autoCompleteSelectItem', $this->itemValueKey, $this->itemValue);
     }
 }

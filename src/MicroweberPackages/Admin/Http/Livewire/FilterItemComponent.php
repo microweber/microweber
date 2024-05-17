@@ -19,7 +19,7 @@ class FilterItemComponent extends AutoCompleteComponent
     public function hideFilterItem($id)
     {
         if ($this->id == $id) {
-            $this->emit('hideFilterItem', $this->selectedItemKey);
+            $this->dispatch('hideFilterItem', $this->selectedItemKey);
             $this->resetProperties();
         }
     }
@@ -31,7 +31,7 @@ class FilterItemComponent extends AutoCompleteComponent
 
         if (!empty($this->onChangedEmitEvents)) {
             foreach($this->onChangedEmitEvents as $event) {
-                $this->emit($event);
+                $this->dispatch($event);
             }
         }
     }

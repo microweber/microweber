@@ -18,6 +18,6 @@ class ExampleUiSettingsComponent extends ModuleSettingsComponent
 
     public function showActionMessage()
     {
-        $this->emit('showActionMessage', ['message' => 'This is a message from Example UI module']);
+        $this->dispatch('showActionMessage', ['message' => 'This is a message from Example UI module']);
     }
 }

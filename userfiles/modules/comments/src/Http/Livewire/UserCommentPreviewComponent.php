@@ -45,7 +45,7 @@ class UserCommentPreviewComponent extends Component {
     public function refreshIfReplyIsToMe($id) {
         if ($id == $this->comment->id) {
             $this->showReplies = true;
-            $this->emit('$refresh');
+            $this->dispatch('$refresh');
         }
     }
 
@@ -53,7 +53,7 @@ class UserCommentPreviewComponent extends Component {
     {
        $this->authorize('delete', $this->comment);
 
-       $this->emit('deleteComment', $this->comment->id);
+       $this->dispatch('deleteComment', $this->comment->id);
     }
 
     public function render()

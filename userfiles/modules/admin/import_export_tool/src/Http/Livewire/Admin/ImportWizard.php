@@ -105,7 +105,7 @@ class ImportWizard extends AdminComponent
             $feed = ImportFeed::where('id', $this->import_feed['id'])->first();
             $this->refreshImportFeedState($feed->toArray());
 
-            $this->emit('dropdownMappingPreviewRefresh');
+            $this->dispatch('dropdownMappingPreviewRefresh');
 
         }
     }

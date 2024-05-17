@@ -95,7 +95,7 @@ class ContentFormBuilder extends AdminComponent
 
         }
 
-        $this->emit('content.updated');
+        $this->dispatch('content.updated');
     }
 
     public function render()

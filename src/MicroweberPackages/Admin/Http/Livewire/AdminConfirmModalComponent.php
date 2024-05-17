@@ -28,7 +28,7 @@ class AdminConfirmModalComponent extends AdminModalComponent
     {
         $this->closeModal();
         if ($this->action) {
-            $this->emit($this->action, $this->data);
+            $this->dispatch($this->action, $this->data);
         }
     }
 }

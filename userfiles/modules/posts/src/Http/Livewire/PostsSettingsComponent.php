@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Modules\Posts\Http\Livewire; 
+namespace MicroweberPackages\Modules\Posts\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 
@@ -21,10 +21,10 @@ class PostsSettingsComponent extends ModuleSettingsComponent
             }
 
             if ($e['optionKey'] == 'data-page-id') {
-                $this->emit('autoCompleteSelectItem', 'page', $e['optionValue']);
+                $this->dispatch('autoCompleteSelectItem', 'page', $e['optionValue']);
             }
             if ($e['optionKey'] == 'data-tags') {
-                $this->emit('autoCompleteSelectItem', 'tags', $e['optionValue']);
+                $this->dispatch('autoCompleteSelectItem', 'tags', $e['optionValue']);
             }
         }
     }
