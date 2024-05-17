@@ -78,7 +78,6 @@
 
 
                 <div
-
                     x-data="{
                         showThumbnail: @if (get_option('data-show-thumbnail', $moduleId) == true) true @else false @endif,
                         showTitle: @if (get_option('data-show-title', $moduleId) == true) true @else false @endif,
@@ -86,14 +85,12 @@
                         showReadMore: @if (get_option('data-show-read-more', $moduleId) == true) true @else false @endif,
                         showDate: @if (get_option('data-show-date', $moduleId) == true) true @else false @endif
                     }"
-                    x-show="dataDisplayOptions"
-
-                >
+                    x-show="dataDisplayOptions">
 
                     <script>
                         Livewire.on('mw-option-saved', function ($event) {
                             if ($event.detail.optionKey == 'data-show-title') {
-                                Alpine.store('showTitle', $event.detail.optionValue); 
+                                Alpine.store('showTitle', $event.detail.optionValue);
                             }
                             if ($event.detail.optionKey == 'data-show-description') {
                                 Alpine.store('showDescription', $event.detail.optionValue);
