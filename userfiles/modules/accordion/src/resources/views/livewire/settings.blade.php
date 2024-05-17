@@ -1,17 +1,16 @@
 <div x-data="{
 showEditTab: 'main'
 }"
-
-     @mw-option-saved.window="function() {
-
-                if ($event.detail.optionGroup === '{{$moduleId}}' && $event.detail.optionKey === 'use_content_from_live_edit') {
-                     mw.reload_module_everywhere('{{$moduleType}}', function () {
-                        window.location.reload();
-                     });
-                }
-                }"
 >
-
+    <script>
+        Livewire.on('mw-option-saved', function ($event) {
+            if ($event.detail.optionGroup === '{{$moduleId}}' && $event.detail.optionKey === 'use_content_from_live_edit') {
+                mw.reload_module_everywhere('{{$moduleType}}', function () {
+                    window.location.reload();
+                });
+            }
+        });
+    </script>
 
     <?php
 
