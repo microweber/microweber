@@ -28,13 +28,14 @@
 
 "
 
-    @mw-option-saved.window="function() {
-        if ($event.detail.optionKey == 'show_testimonials_per_project') {
-           Livewire.emit('refreshTestimonials');
-       }
-    }"
-
     >
+        <script>
+            Livewire.on('mw-option-saved', function ($event) {
+                if ($event.detail.optionKey == 'show_testimonials_per_project') {
+                    Livewire.emit('refreshTestimonials');
+                }
+            });
+        </script>
 
         <div class="d-flex justify-content-between align-items-center collapseNav-initialized form-control-live-edit-label-wrapper">
             <div class="d-flex flex-wrap gap-md-4 gap-3">

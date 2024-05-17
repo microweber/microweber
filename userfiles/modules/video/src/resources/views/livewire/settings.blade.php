@@ -30,25 +30,27 @@ showMainEditTab: 'video'
         </div>
     </div>
 
-    <div x-show="showMainEditTab=='video'"
-         x-transition:enter="tab-pane-slide-left-active"
-
-         @mw-option-saved.window="function() {
-             if ($event.detail.optionKey == 'embed_url') {
+    <script>
+        Livewire.on('mw-option-saved', function ($event) {
+            if ($event.detail.optionKey == 'embed_url') {
                 mw.options.saveOption({
                     option_group: $event.detail.optionGroup,
                     option_key: 'upload',
                     option_value: ''
                 });
-             }
-             if ($event.detail.optionKey == 'upload') {
+            }
+            if ($event.detail.optionKey == 'upload') {
                 mw.options.saveOption({
                     option_group: $event.detail.optionGroup,
                     option_key: 'embed_url',
                     option_value: ''
                 });
-             }
-         }"
+            }
+        });
+    </script>
+
+    <div x-show="showMainEditTab=='video'"
+         x-transition:enter="tab-pane-slide-left-active"
     >
 
         <div class="mt-3">
