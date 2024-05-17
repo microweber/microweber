@@ -5,10 +5,10 @@
            wire:model.live.debounce.500ms="query"
            wire:keydown.escape="resetProperties"
            wire:click="refreshQueryData"
-           wire:blur="closeDropdown('{{$this->id}}')"
+           wire:blur="closeDropdown('{{$this->getId()}}')"
 
-           wire:keydown.enter="closeDropdown('{{$this->id}}')"
-           wire:click="showDropdown('{{$this->id}}')"
+           wire:keydown.enter="closeDropdown('{{$this->getId()}}')"
+           wire:click="showDropdown('{{$this->getId()}}')"
 
            placeholder="{{$placeholder}}">
 

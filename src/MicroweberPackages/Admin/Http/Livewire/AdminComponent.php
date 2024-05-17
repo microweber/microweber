@@ -11,6 +11,7 @@ class AdminComponent extends Component
 
     public $globalListeners = [];
 
+
     public function __construct($id = null)
     {
         try {

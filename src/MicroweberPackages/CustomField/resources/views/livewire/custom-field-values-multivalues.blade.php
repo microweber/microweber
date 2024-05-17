@@ -1,7 +1,7 @@
 <div class="mt-3">
     <x-microweber-ui::label value="Values" />
 
-    <div id="js-sortable-items-holder-{{$this->id}}">
+    <div id="js-sortable-items-holder-{{$this->getId()}}">
         @foreach($customField->fieldValue as $fieldValue)
             <div class="d-flex gap-3 mt-3 js-sortable-item" sort-key="{{ $fieldValue->id }}" wire:key="custom-field-vals-{{ $this->id }}-{{ $fieldValue->id }}">
                 <div class="d-flex justify-content-center align-items-center">
@@ -49,15 +49,15 @@
 <div wire:ignore>
     <script>
         window.mw.custom_fields_values_sort = function () {
-            if (!mw.$("#js-sortable-items-holder-{{$this->id}}").hasClass("ui-sortable")) {
-                mw.$("#js-sortable-items-holder-{{$this->id}}").sortable({
+            if (!mw.$("#js-sortable-items-holder-{{$this->getId()}}").hasClass("ui-sortable")) {
+                mw.$("#js-sortable-items-holder-{{$this->getId()}}").sortable({
                     items: '.js-sortable-item',
                     axis: 'y',
                     handle: '.js-sort-handle',
                     update: function () {
                         setTimeout(function () {
                             var obj = {itemIds: []};
-                            var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$this->id}} .js-sortable-item');
+                            var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$this->getId()}} .js-sortable-item');
                             sortableItems.forEach(function (item) {
                                 var id = item.getAttribute('sort-key');
                                 obj.itemIds.push(id);

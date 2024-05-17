@@ -42,7 +42,7 @@
                             </th>
                         </tr>
                         </thead>
-                        <tbody id="js-sortable-items-holder-{{$this->id}}">
+                        <tbody id="js-sortable-items-holder-{{$this->getId()}}">
 
                         @if($customFields->count() == 0)
                             <tr>
@@ -125,15 +125,15 @@
             <script>
                 window.mw.items_editor_sort = function () {
 
-                    if (!mw.$("#js-sortable-items-holder-{{$this->id}}").hasClass("ui-sortable")) {
-                        mw.$("#js-sortable-items-holder-{{$this->id}}").sortable({
+                    if (!mw.$("#js-sortable-items-holder-{{$this->getId()}}").hasClass("ui-sortable")) {
+                        mw.$("#js-sortable-items-holder-{{$this->getId()}}").sortable({
                             items: '.js-sortable-item',
                             axis: 'y',
                             handle: '.js-sort-handle',
                             update: function () {
                                 setTimeout(function () {
                                     var obj = {itemIds: []};
-                                    var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$this->id}} .js-sortable-item');
+                                    var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$this->getId()}} .js-sortable-item');
                                     sortableItems.forEach(function (item) {
                                         var id = item.getAttribute('sort-key');
                                         obj.itemIds.push(id);

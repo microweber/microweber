@@ -12,7 +12,9 @@
     if (isset($params['for-id'])) {
         $relId = $params['for-id'];
     }
-    ?>
 
-    <livewire:custom-fields-list relId="{{$relId}}" relType="{{$relType}}" />
+    ?>
+    <div>
+        <livewire:custom-fields-list relId="{{$relId}}" relType="{{$relType}}"/>
+    </div>
 </div>

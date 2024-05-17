@@ -1,7 +1,7 @@
 <div>
 
 
-    <button type="button" @if($searchable) wire:click="load('{{$this->id}}')" @endif class="btn btn-badge-dropdown btn-outline-dark js-dropdown-toggle-{{$this->id}} @if($selectedItemText) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
+    <button type="button" @if($searchable) wire:click="load('{{$this->getId()}}')" @endif class="btn btn-badge-dropdown btn-outline-dark js-dropdown-toggle-{{$this->getId()}} @if($selectedItemText) btn-secondary @else btn-outline-secondary @endif btn-sm icon-left">
 
        @if($selectedItemText) {{$name}}: {{$selectedItemText}} @else  {{$name}}  @endif
 
@@ -11,21 +11,21 @@
         {{--   @if($selectedItemText)
                <div class="action-dropdown-delete" wire:click="resetProperties"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg></div>
            @endif--}}
-           <div class="action-dropdown-delete" wire:click.stop="hideFilterItem('{{$this->id}}')">
+           <div class="action-dropdown-delete" wire:click.stop="hideFilterItem('{{$this->getId()}}')">
                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
            </div>
        </div>
 
     </button>
 
-    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->id}} @if($showDropdown) active @endif ">
+    <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->getId()}} @if($showDropdown) active @endif ">
 
         @if($searchable)
         <div class="input-group mb-4">
             <input class="form-control"
                    type="search"
-                   wire:keydown.enter="closeDropdown('{{$this->id}}')"
-                   wire:click="showDropdown('{{$this->id}}')"
+                   wire:keydown.enter="closeDropdown('{{$this->getId()}}')"
+                   wire:click="showDropdown('{{$this->getId()}}')"
                    wire:model.live.debounce.500ms="query"
                    placeholder="{{$placeholder}}"
             >
@@ -39,8 +39,8 @@
             @if(!empty($data))
                 @foreach($data as $i=>$item)
                     <li class="list-group-item cursor-pointer">
-                        <label class="form-check-label" for="filterItemRadio{{$i}}-{{$this->id}}">
-                            <input class="form-check-input me-2" type="radio" wire:model.live="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->id}}">
+                        <label class="form-check-label" for="filterItemRadio{{$i}}-{{$this->getId()}}">
+                            <input class="form-check-input me-2" type="radio" wire:model.live="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->getId()}}">
                             {{ $item['value'] }}
                         </label>
                     </li>
@@ -80,12 +80,12 @@
     <script>
         $(document).ready(function() {
            $('body').on('click', function(e) {
-                if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->id}}','js-dropdown-content-{{$this->id}}'])) {
-                    $('.js-dropdown-content-{{$this->id}}').removeClass('active');
+                if (!mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target,['js-dropdown-toggle-{{$this->getId()}}','js-dropdown-content-{{$this->getId()}}'])) {
+                    $('.js-dropdown-content-{{$this->getId()}}').removeClass('active');
                 }
             });
-            $('.js-dropdown-toggle-{{$this->id}}').click(function () {
-                $('.js-dropdown-content-{{$this->id}}').toggleClass('active');
+            $('.js-dropdown-toggle-{{$this->getId()}}').click(function () {
+                $('.js-dropdown-content-{{$this->getId()}}').toggleClass('active');
             });
         });
     </script>
