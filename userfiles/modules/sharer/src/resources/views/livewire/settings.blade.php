@@ -70,9 +70,14 @@ showMainEditTab: 'mainSettings'
             @endphp
             <div class="form-check my-3">
                 <div class="d-flex flex-wrap align-items-center">
-                    <div @mw-option-saved.window="function() {
-                            mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '{{$this->moduleId}}'} || {}))
-                        }" class="d-flex col-xl-3 col-md-6 col-12">
+
+                    <script>
+                        Livewire.on('mw-option-saved', function ($event) {
+                            mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': '{{$this->moduleId}}'} || {}));
+                        });
+                    </script>
+
+                    <div class="d-flex col-xl-3 col-md-6 col-12">
 
                         <livewire:microweber-option::toggle value="y" :optionKey="$socialNetworkOptionKeyEnable" :optionGroup="$moduleId" module="social_links" />
                         <div>

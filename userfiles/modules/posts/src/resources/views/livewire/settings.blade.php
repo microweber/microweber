@@ -63,15 +63,19 @@
             <div
                 x-data="{'dataDisplayOptions': @if (!empty(get_option('data-show', $moduleId))) true @else false @endif }"
 
-                @mw-option-saved.window="function() {
-                    if ($event.detail.optionKey == 'data-show') {
-                        if ($event.detail.optionValue.length > 0) {
-                           dataDisplayOptions = true;
-                       } else {
-                           dataDisplayOptions = false;
-                      }
-                    }
-                }">
+                >
+
+                <script>
+                    Livewire.on('mw-option-saved', function ($event) {
+                        if ($event.detail.optionKey == 'data-show') {
+                            if ($event.detail.optionValue.length > 0) {
+                                Alpine.store('dataDisplayOptions', true);
+                            } else {
+                                Alpine.store('dataDisplayOptions', false);
+                            }
+                        }
+                    });
+                </script>
 
                 <div
 
