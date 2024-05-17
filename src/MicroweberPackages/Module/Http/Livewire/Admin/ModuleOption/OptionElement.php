@@ -131,7 +131,7 @@ class OptionElement extends AdminComponent
         }
         $this->saveOptionData($option);
 
-        $this->emit('settingsChanged', ['optionGroup' => $this->optionGroup,'moduleId' => $this->optionGroup, 'state' => $this->state]);
+        $this->dispatch('settingsChanged', ['optionGroup' => $this->optionGroup,'moduleId' => $this->optionGroup, 'state' => $this->state]);
     }
 
     public function saveOptionData($option)
@@ -179,13 +179,12 @@ class OptionElement extends AdminComponent
         }
         $modelSave = save_option($data);
 
-
-
-        $this->dispatchBrowserEvent('mw-option-saved', [
+        $this->dispatch('mw-option-saved', [
             'optionGroup' => $this->optionGroup,
             'optionKey' => $this->optionKey,
             'optionValue' => $this->model->option_value
         ]);
+
 //        $this->emitUp('mwOptionSave', [
 //            'optionGroup' => $this->optionGroup,
 //            'optionKey' => $this->optionKey,
