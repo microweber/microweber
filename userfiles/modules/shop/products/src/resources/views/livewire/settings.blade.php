@@ -93,7 +93,7 @@
                     <script>
                         Livewire.on('mw-option-saved', function ($event) {
                             if ($event.detail.optionKey == 'data-show-title') {
-                                Alpine.store('showTitle', $event.detail.optionValue);
+                                Alpine.store('showTitle', $event.detail.optionValue); 
                             }
                             if ($event.detail.optionKey == 'data-show-description') {
                                 Alpine.store('showDescription', $event.detail.optionValue);
