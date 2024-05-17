@@ -62,16 +62,20 @@
 
             <div
                 x-data="{'dataDisplayOptions': @if (!empty(get_option('data-show', $moduleId))) true @else false @endif }"
+                >
 
-                @mw-option-saved.window="function() {
-                    if ($event.detail.optionKey == 'data-show') {
-                        if ($event.detail.optionValue.length > 0) {
-                           dataDisplayOptions = true;
-                       } else {
-                           dataDisplayOptions = false;
-                      }
-                    }
-                }">
+                <script>
+                    Livewire.on('mw-option-saved', function ($event) {
+                        if ($event.detail.optionKey == 'data-show') {
+                            if ($event.detail.optionValue.length > 0) {
+                                Alpine.store('dataDisplayOptions', true);
+                            } else {
+                                Alpine.store('dataDisplayOptions', false);
+                            }
+                        }
+                    });
+                </script>
+
 
                 <div
 
@@ -88,17 +92,17 @@
 
                     <script>
                         Livewire.on('mw-option-saved', function ($event) {
-                            if($event.detail.optionKey == 'data-show-title') {
-                                showTitle = $event.detail.optionValue;
+                            if ($event.detail.optionKey == 'data-show-title') {
+                                Alpine.store('showTitle', $event.detail.optionValue);
                             }
-                            if($event.detail.optionKey == 'data-show-description') {
-                                showDescription = $event.detail.optionValue;
+                            if ($event.detail.optionKey == 'data-show-description') {
+                                Alpine.store('showDescription', $event.detail.optionValue);
                             }
-                            if($event.detail.optionKey == 'data-show-read-more') {
-                                showReadMore = $event.detail.optionValue;
+                            if ($event.detail.optionKey == 'data-show-read-more') {
+                                Alpine.store('showReadMore', $event.detail.optionValue);
                             }
-                            if($event.detail.optionKey == 'data-show-date') {
-                                showDate = $event.detail.optionValue;
+                            if ($event.detail.optionKey == 'data-show-date') {
+                                Alpine.store('showDate', $event.detail.optionValue);
                             }
                         });
                     </script>

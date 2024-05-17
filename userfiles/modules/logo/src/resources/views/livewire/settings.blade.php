@@ -14,7 +14,7 @@
             <script>
                 Livewire.on('mw-option-saved', function ($event) {
                     if ($event.optionKey == 'logotype') {
-                        logoType = $event.optionValue;
+                        Alpine.store('logoType', $event.optionValue);
                     }
                     if ($event.optionGroup === '{{$moduleId}}') {
                         mw.reload_module_everywhere('{{$moduleType}}', function () {
