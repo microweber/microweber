@@ -3282,3 +3282,11 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         transform: scale(1.02);
     }
 }
+
+.mw-editor-area {
+    p,h1,h2,h3,h4,h5,h6,ul,li,ol{
+        margin-block: 0;
+        padding-block: 0;
+
+    }
+}

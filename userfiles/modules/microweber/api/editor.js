@@ -2,8 +2,6 @@
 
 
 
-
-
 var EditorPredefinedControls = {
     'default': [
         [ 'bold', 'italic', 'underline' ],
@@ -387,7 +385,9 @@ var MWEditor = function (options) {
             }
             scope._interactionTime = time;
             scope.selection = scope.getSelection();
+
             if (scope.selection.rangeCount === 0) {
+
                 return;
             }
             var range = scope.selection.getRangeAt(0);
@@ -538,6 +538,20 @@ var MWEditor = function (options) {
         scope.state.on('record', () => {
             _observe();
         });
+        $(scope.actionWindow).on('load', function(e){
+            _observe();
+        });
+
+        let _moveTimeout = null;
+
+        $(scope.actionWindow.document).on('mousemove touchmove', function(e){
+            if(!_moveTimeout) {
+                _moveTimeout = setTimeout(function(){
+                    _observe();
+                    _moveTimeout = null
+                }, 300);
+            }
+        })
         $(scope.actionWindow.document).on('click', function(e){
 
             if(e.detail >= 3) {
@@ -571,6 +585,10 @@ var MWEditor = function (options) {
         });
         scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove scroll mouseup', _observe);
         this.createInteractionControls();
+        setTimeout(function (){
+            _observe();
+
+        }, 200);
     };
 
     this._preventEvents = [];
