@@ -179,11 +179,11 @@ class OptionElement extends AdminComponent
         }
         $modelSave = save_option($data);
 
-        $this->dispatch('mw-option-saved', [
-            'optionGroup' => $this->optionGroup,
-            'optionKey' => $this->optionKey,
-            'optionValue' => $this->model->option_value
-        ]);
+        $this->dispatch('mw-option-saved',
+            optionGroup: $this->optionGroup,
+            optionKey: $this->optionKey,
+            optionValue: $this->model->option_value
+        );
 
 //        $this->emitUp('mwOptionSave', [
 //            'optionGroup' => $this->optionGroup,

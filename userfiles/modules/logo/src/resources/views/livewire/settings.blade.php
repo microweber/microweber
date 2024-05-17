@@ -11,22 +11,19 @@
 
         <div x-data="{'logoType': '{{$logoType}}'}" class="card-body" style="padding:5px;padding-bottom:25px;">
 
-            <div @mw-option-saved.window="function() {
-                if ($event.detail.optionKey == 'logotype') {
-                    logoType = $event.detail.optionValue;
-                }
 
-                if ($event.detail.optionGroup === '{{$moduleId}}') {
-
-
-
-                     mw.reload_module_everywhere('{{$moduleType}}', function () {
-
-                        mw.top().app.liveEdit.handles.get('module').position(mw.top().app.liveEdit.handles.get('module').getTarget());
-                    });
-                }
-                }">
-            </div>
+            <script>
+                Livewire.on('mw-option-saved', function ($event) {
+                    if ($event.optionKey == 'logotype') {
+                        logoType = $event.optionValue;
+                    }
+                    if ($event.optionGroup === '{{$moduleId}}') {
+                        mw.reload_module_everywhere('{{$moduleType}}', function () {
+                            mw.top().app.liveEdit.handles.get('module').position(mw.top().app.liveEdit.handles.get('module').getTarget());
+                        });
+                    }
+                });
+            </script>
 
             <div>
                 @php
