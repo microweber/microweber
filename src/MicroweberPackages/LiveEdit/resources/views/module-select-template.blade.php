@@ -116,7 +116,7 @@
 
                         </div>
                         <script>
-                            //    window.livewire.rescan();
+                            //    window.Livewire.rescan();
                         </script>
                     </div>
                 </div>

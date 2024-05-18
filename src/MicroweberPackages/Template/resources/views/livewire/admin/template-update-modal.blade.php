@@ -3,7 +3,7 @@
 
     @if(isset($package['has_update']) && $package['has_update'] && $installVersion == $package['version'])
         <div class="modal-header">
-            <button type="button" class="btn-close" wire:click="$emit('closeModal')" aria-label="Close"></button>
+            <button type="button" class="btn-close" wire:click="$dispatch('closeModal')" aria-label="Close"></button>
         </div>
 
         <div class="modal-body py-4">
@@ -14,7 +14,7 @@
             </div>
 
             <div class="mt-4 text-end">
-                <a class="btn btn-dark me-2" href="" wire:click="$emit('closeModal')" > {{_e('Cancel')}}</a>
+                <a class="btn btn-dark me-2" href="" wire:click="$dispatch('closeModal')" > {{_e('Cancel')}}</a>
 
                 <a vkey="{{$installVersion}}" href="javascript:;"
                    id="js-install-package-action"
@@ -37,7 +37,7 @@
         </label>
 
         <div class="mt-4 text-end">
-            <a class="btn btn-dark me-2" href="" wire:click="$emit('closeModal')" > {{_e('Close')}}</a>
+            <a class="btn btn-dark me-2" href="" wire:click="$dispatch('closeModal')" > {{_e('Close')}}</a>
         </div>
     </div>
 

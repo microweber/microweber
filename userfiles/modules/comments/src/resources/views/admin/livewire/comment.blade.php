@@ -135,7 +135,7 @@ if(!isset($comment) or !$comment) {
                             ];
                         @endphp
                         <button class="mw-admin-action-links text-decoration-none btn btn-link"
-                                onclick="Livewire.emit('openModal', 'admin-confirm-modal', {{ json_encode($deleteModalData) }})">
+                                onclick="Livewire.dispatch('openModal', 'admin-confirm-modal', {{ json_encode($deleteModalData) }})">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
                             {{ _e("Delete forever") }}
                         </button>
@@ -152,7 +152,7 @@ if(!isset($comment) or !$comment) {
                             ];
                         @endphp
                         <button class="mw-admin-action-links text-decoration-none btn btn-link"
-                                onclick="Livewire.emit('openModal', 'admin-confirm-modal', {{ json_encode($trashModalData) }})">
+                                onclick="Livewire.dispatch('openModal', 'admin-confirm-modal', {{ json_encode($trashModalData) }})">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32"><path fill="currentColor" d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path fill="currentColor" d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
                             {{ _e("Trash") }}
                         </button>

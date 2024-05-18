@@ -92,7 +92,7 @@ class LivewireFronterdAssetsManager extends BaseLivewireManager
 
 	{$windowAlpineCheck}
     window.deferLoadingAlpine = function (callback) {
-        window.addEventListener('livewire:load', function () {
+        window.addEventListener('livewire:init', function () {
             callback();
         });
     };
@@ -101,7 +101,7 @@ class LivewireFronterdAssetsManager extends BaseLivewireManager
 
     window.addEventListener('alpine:initializing', function () {
         if (! started) {
-            window.livewire.start();
+            window.Livewire.start();
 
             started = true;
         }
@@ -109,7 +109,7 @@ class LivewireFronterdAssetsManager extends BaseLivewireManager
 
     document.addEventListener("DOMContentLoaded", function () {
         if (! started) {
-            window.livewire.start();
+            window.Livewire.start();
 
             started = true;
         }

@@ -93,7 +93,7 @@ class ModulePresetsManager extends AdminComponent
         $save = save_module_as_template($savePreset);
 
         $this->dispatch('switchToMainTab');
-        $this->dispatch('settingsChanged', ['moduleId' => $this->moduleId]);
+        $this->dispatch('settingsChanged', moduleId: $this->moduleId, moduleType: $this->moduleType, settings: $this->itemState['module_attrs']);
 
         return $this->render();
 

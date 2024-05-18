@@ -11,17 +11,17 @@
     }"
 
      x-init="() => {
-        window.livewire.on('switchToMainTab', () => {
+        window.Livewire.on('switchToMainTab', () => {
             showEditTab = 'testimonials'
         })
 
-         window.livewire.on('editItemById' , (itemId) => {
+         window.Livewire.on('editItemById' , (itemId) => {
             showEditTab = 'editTestimonial'
         })
 
 
-        window.livewire.on('showConfirmDeleteItemById', (itemId) => {
-            Livewire.emit('onShowConfirmDeleteItemById', itemId);
+        window.Livewire.on('showConfirmDeleteItemById', (itemId) => {
+            Livewire.dispatch('onShowConfirmDeleteItemById', itemId);
         })
 
         }
@@ -32,7 +32,7 @@
         <script>
             Livewire.on('mw-option-saved', function ($event) {
                 if ($event.detail.optionKey == 'show_testimonials_per_project') {
-                    Livewire.emit('refreshTestimonials');
+                    Livewire.dispatch('refreshTestimonials');
                 }
             });
         </script>

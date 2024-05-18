@@ -36,9 +36,9 @@
                             <?php _e("Bulk Actions") ?>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> <?php _e("Change Order Status") ?></button></li>
-                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> <?php _e("Change Payment Status") ?></button></li>
-                            <li><button class="dropdown-item" type="button" wire:click='$emit("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> <?php _e("Delete") ?></button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$dispatch("openModal", "admin-orders-bulk-order-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-truck"></i> <?php _e("Change Order Status") ?></button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$dispatch("openModal", "admin-orders-bulk-payment-status", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-money-bill"></i> <?php _e("Change Payment Status") ?></button></li>
+                            <li><button class="dropdown-item" type="button" wire:click='$dispatch("openModal", "admin-orders-bulk-delete", {{ json_encode(["ids" => $checked]) }})'><i class="fa fa-times"></i> <?php _e("Delete") ?></button></li>
                         </ul>
                     </div>
                 </div>

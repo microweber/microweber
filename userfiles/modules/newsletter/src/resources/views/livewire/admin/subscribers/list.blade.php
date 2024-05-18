@@ -29,7 +29,7 @@
                             data: data,
                             success: function (result) {
                                 mw.notification.success('<?php _ejs('Subscriber deleted'); ?>');
-                                window.Livewire.emit('refreshSubscribers');
+                                window.Livewire.dispatch('refreshSubscribers');
                             }
                         });
                     }
@@ -41,7 +41,7 @@
                 <i class="mdi mdi-plus"></i> <?php _e('Add new subscriber'); ?>
             </a>
             <a href="javascript:;" class="btn btn-outline-success mb-3"
-               onclick="Livewire.emit('openModal', 'admin-newsletter-import-subscribers-modal')" >
+               onclick="Livewire.dispatch('openModal', 'admin-newsletter-import-subscribers-modal')" >
                 <?php _e('Import Subscribers'); ?>
             </a>
         </div>

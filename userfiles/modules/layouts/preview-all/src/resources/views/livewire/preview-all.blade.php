@@ -1,7 +1,7 @@
 <div>
 
     <script>
-        window.addEventListener('livewire:load', function () {
+        window.addEventListener('livewire:init', function () {
             mw.top().app.on('layoutsListCategoryFilter', function (category) {
 
             });

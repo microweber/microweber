@@ -43,7 +43,7 @@
                            {{$templateName}}
                        </h2>
                        <a class="tblr-body-color text-decoration-none mw-admin-action-links btn btn-link" href="#"
-                          onclick="Livewire.emit('openModal', 'admin-template-update-modal')"
+                          onclick="Livewire.dispatch('openModal', 'admin-template-update-modal')"
                           class="font-weight-bolder">
                         {{ 'Version' }} : {{$templateVersion}}
                        </a>

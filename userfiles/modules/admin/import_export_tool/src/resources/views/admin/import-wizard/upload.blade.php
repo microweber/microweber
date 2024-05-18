@@ -15,7 +15,7 @@
 
             $(uploader).bind("FileUploaded", function (obj, data) {
 
-                window.Livewire.emit('uploadFeedReadFile', data.name);
+                window.Livewire.dispatch('uploadFeedReadFile', data.name);
 
                 mw.$("#mw_uploader_loading").hide();
                 mw.$("#upload_file_info").html("");
@@ -111,7 +111,7 @@
                 <script type="text/javascript">
                     window.addEventListener('read-feed-from-file', event => {
                         $('.js-read-feed-from-file').show();
-                        window.livewire.emit('readFeedFile');
+                        window.Livewire.dispatch('readFeedFile');
                     });
                 </script>
 

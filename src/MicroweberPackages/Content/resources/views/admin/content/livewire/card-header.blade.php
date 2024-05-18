@@ -4,7 +4,7 @@
 
             <h1 class="main-pages-title d-lg-flex card-title">
 
-                <a class="@if(isset($currentCategory) and $currentCategory) cursor-pointer text-decoration-none @else cursor-pointer text-decoration-none @endif" onclick="livewire.emit('deselectAllCategories');return false;">
+                <a class="@if(isset($currentCategory) and $currentCategory) cursor-pointer text-decoration-none @else cursor-pointer text-decoration-none @endif" onclick="Livewire.dispatch('deselectAllCategories');return false;">
 
 
                     @if($this->contentType == 'content')
@@ -26,7 +26,7 @@
 
             @if(isset($currentPage) and $currentPage)
                 <small class="text-muted"> &nbsp; \ &nbsp; </small>
-                <a class="cursor-pointer form-label text-muted" onclick="livewire.emit('selectPageFromTableList','{{$currentPage['id']}}');return false;">
+                <a class="cursor-pointer form-label text-muted" onclick="Livewire.dispatch('selectPageFromTableList','{{$currentPage['id']}}');return false;">
                     {{$currentPage['title']}}
                 </a>
             @endif
@@ -35,7 +35,7 @@
             @if(isset($currentCategory) and $currentCategory)
                 <small class="text-muted"> &nbsp; \ &nbsp; </small>
 
-                <a class="cursor-pointer form-label text-muted" onclick="livewire.emit('selectCategoryFromTableList','{{$currentCategory['id']}}');return false;">
+                <a class="cursor-pointer form-label text-muted" onclick="Livewire.dispatch('selectCategoryFromTableList','{{$currentCategory['id']}}');return false;">
                 {{$currentCategory['title']}}
                 </a>
             @endif
@@ -49,7 +49,7 @@
             @endif
 
 {{--                @if(isset($currentCategory) and $currentCategory)--}}
-{{--                    <a class="ms-1 text-muted fs-5"  onclick="livewire.emit('deselectAllCategories');return false;">--}}
+{{--                    <a class="ms-1 text-muted fs-5"  onclick="Livewire.dispatch('deselectAllCategories');return false;">--}}
 {{--                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>--}}
 {{--                    </a>--}}
 {{--                @endif--}}

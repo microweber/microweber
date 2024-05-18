@@ -53,7 +53,7 @@
                 }
             }).data('datepicker');
 
-            document.addEventListener('livewire:load', function () {
+            document.addEventListener('livewire:init', function () {
                 if (typeof dateRangeElement !== 'undefined') {
 
                     const dateRangeExp = dateRangeElement.value.split(",");

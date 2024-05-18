@@ -18,6 +18,6 @@ class TocSettingsComponent extends ModuleSettingsComponent
 
     public function showActionMessage()
     {
-        $this->dispatch('showActionMessage', ['message' => 'This is a message from Example UI module']);
+        $this->dispatch('showActionMessage', message: 'This is a message from Example UI module');
     }
 }

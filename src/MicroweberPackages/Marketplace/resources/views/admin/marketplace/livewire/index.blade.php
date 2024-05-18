@@ -77,7 +77,7 @@
                                    <div class="card my-1 mx-1 card-sm card-link card-stacked">
 
                                        @if(isset($marketItem['extra']['_meta']['screenshot']))
-                                           <button id="js-install-package-<?php echo $marketItem['target-dir']; ?>" type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
+                                           <button id="js-install-package-<?php echo $marketItem['target-dir']; ?>" type="button" class="border-0 d-block" onclick="Livewire.dispatch('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
                                                @if($marketItem['type'] == 'microweber-module')
                                                    <div style="background-image:url({{$marketItem['extra']['_meta']['screenshot']}});width: 100%;height: 180px;background-repeat:no-repeat;background-size: contain;background-position: center;" class="card-img-top">
                                                    </div>
@@ -87,7 +87,7 @@
                                                @endif
                                            </button>
                                        @else
-                                           <button id="js-install-package-<?php echo $marketItem['target-dir']; ?>" type="button" class="border-0 d-block" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
+                                           <button id="js-install-package-<?php echo $marketItem['target-dir']; ?>" type="button" class="border-0 d-block" onclick="Livewire.dispatch('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
                                                <div class="card-img-top text-center">
                                                    <i class="mdi mdi-view-grid-plus text-muted"
                                                       style="opacity:0.5;font-size:126px;margin-left: 15px;"></i>
@@ -130,7 +130,7 @@
                                                @endif
 
                                                    @if($marketItem['has_update'])
-                                                       <a href="#" class="badge bg-yellow-lt" onclick="Livewire.emit('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
+                                                       <a href="#" class="badge bg-yellow-lt" onclick="Livewire.dispatch('openModal', 'admin-marketplace-item-modal', {{ json_encode(['name'=>$marketItem['name']]) }})">
                                                            {{_e('Update Available')}}
                                                        </a>
                                                    @endif

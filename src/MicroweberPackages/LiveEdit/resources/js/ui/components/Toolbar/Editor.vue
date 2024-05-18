@@ -486,17 +486,18 @@ export default {
                 if (canvasWindow) {
                     if (canvasWindow.Livewire) {
 
-                       setTimeout(() => {
-
-                           try {
-                               canvasWindow.Livewire.start();
-                           } catch (e) {
-
-                               console.error(e);
-                           }
-
-
-                       }, 100)
+                       // setTimeout(() => {
+                       //
+                       //     try {
+                       //         window.Livewire.initialRenderIsFinished = false;
+                       //         canvasWindow.Livewire.start();
+                       //     } catch (e) {
+                       //
+                       //         console.error(e);
+                       //     }
+                       //
+                       //
+                       // }, 100)
 
                     }
                 }

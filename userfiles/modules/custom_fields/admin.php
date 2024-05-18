@@ -41,7 +41,7 @@ must_have_access();
         addEventListener('DOMContentLoaded', function () {
             if (mw && mw.top && typeof mw.top === 'function' && mw.top().app) {
                 mw.top().app.on('customFieldUpdatedGlobal', () => {
-                    Livewire.emit('customFieldListRefresh');
+                    Livewire.dispatch('customFieldListRefresh');
                     reloadParentModule();
                 });
             }

@@ -24,7 +24,7 @@
             <script>
                 $(document).ready(function() {
 
-                    window.Livewire.emit('startInstalling');
+                    window.Livewire.dispatch('startInstalling');
 
                     var progress = 0;
                     var progressInterval = setInterval(function () {

@@ -52,7 +52,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
 
         app()->database_manager->update_position_field('testimonials', $index);
 
-        $this->dispatch('settingsChanged', ['moduleId' => $this->moduleId]);
+         $this->dispatch('settingsChanged', moduleId: $this->moduleId);
 
         return true;
     }
@@ -70,7 +70,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
         $this->selectedItemsIds = [];
         $this->getItems();
 
-        $this->dispatch('settingsChanged', ['moduleId' => $this->moduleId]);
+        $this->dispatch('settingsChanged', moduleId: $this->moduleId);
 
     }
 
@@ -234,7 +234,7 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
         $this->itemState = [];
 
         $this->dispatch('switchToMainTab');
-        $this->dispatch('settingsChanged', ['moduleId' => $this->moduleId]);
+        $this->dispatch('settingsChanged', moduleId: $this->moduleId);
 
         return $this->render();
     }

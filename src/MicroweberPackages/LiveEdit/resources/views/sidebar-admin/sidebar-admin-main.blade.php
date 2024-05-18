@@ -2,7 +2,7 @@
 
     <script>
 
-        window.addEventListener('livewire:load', function () {
+        window.addEventListener('livewire:init', function () {
 
 
             // Get the liveEditIframeWindow
@@ -92,7 +92,7 @@
             var modulesData = getModulesAndAttributesWithChildren();
 
 
-            Livewire.emit('onLoaded', {
+            Livewire.dispatch('onLoaded', {
                 modules: modulesData,
             });
 

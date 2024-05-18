@@ -202,19 +202,19 @@ showMainEditTab: 'mainSettings'
     <script>
         var canvasWindow = mw.top().app.canvas.getWindow();
         var lastSlideEditItemId = null;
-        window.livewire.on('editItemById' , (itemId) => {
+        window.Livewire.on('editItemById' , (itemId) => {
             lastSlideEditItemId = itemId;
             window.slideModuleSettingsSwitchToSlide(itemId);
 
         });
-        window.livewire.on('onItemChanged', (data) => {
+        window.Livewire.on('onItemChanged', (data) => {
             lastSlideEditItemId = data.itemId;
             if(lastSlideEditItemId) {
                 window.slideModuleSettingsSwitchToSlide(lastSlideEditItemId);
             }
         });
 
-        window.livewire.on('mouseoverItemId' , (itemId) => {
+        window.Livewire.on('mouseoverItemId' , (itemId) => {
             lastSlideEditItemId = itemId;
             if(lastSlideEditItemId) {
                 window.slideModuleSettingsSwitchToSlide(lastSlideEditItemId);

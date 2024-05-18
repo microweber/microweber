@@ -1,7 +1,7 @@
 <div>
 
     <div class="d-flex justify-content-end px-2 py-2">
-        <button type="button" class="btn-close" wire:click="$emit('closeModal', true)"></button>
+        <button type="button" class="btn-close" wire:click="$dispatch('closeModal', true)"></button>
     </div>
 
     <div class="text-center">
@@ -22,7 +22,7 @@
                     <b>Failed:</b> {{ $this->importDone['failed'] }}<br />
                 </p>
                 <div>
-                    <button type="button" class="btn btn-outline-success" wire:click="$emit('closeModal', true)">
+                    <button type="button" class="btn btn-outline-success" wire:click="$dispatch('closeModal', true)">
                         Back to Newsletter
                     </button>
                 </div>
@@ -49,7 +49,7 @@
 
             $(uploader).bind("FileUploaded", function (obj, data) {
 
-                window.Livewire.emit('uploadEmailList', data.name);
+                window.Livewire.dispatch('uploadEmailList', data.name);
 
                 mw.$("#mw_uploader_loading").hide();
                 mw.$("#upload_file_info").html("");

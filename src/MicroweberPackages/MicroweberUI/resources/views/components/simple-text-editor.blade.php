@@ -19,7 +19,7 @@
 
                mw.require('editor.js', true);
 
-           document.addEventListener('livewire:load', function () {
+           document.addEventListener('livewire:init', function () {
                let mwEditorId{{$editorId}} = mw.Editor({
                    selector: '#editor-{{$editorId}}',
                    mode: 'div',

@@ -5,7 +5,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Add new feed import</h5>
-                        <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">Close</button>
+                        <button type="button" class="btn btn-link" wire:click="$dispatch('closeModal')">Close</button>
                     </div>
                     <div class="modal-body">
                         <div>

@@ -11,7 +11,7 @@
             </a>
 
             @if($module->installed == 1)
-                <span wire:click="$emit('openModal', 'admin-ask-for-module-uninstall-modal', {{ json_encode(['moduleId' => $module->id]) }})" type="button" class="mdi mdi-close text-danger modules-uninstall-button"></span>
+                <span wire:click="$dispatch('openModal', 'admin-ask-for-module-uninstall-modal', {{ json_encode(['moduleId' => $module->id]) }})" type="button" class="mdi mdi-close text-danger modules-uninstall-button"></span>
             @endif
 
             @if($module->installed == 0)

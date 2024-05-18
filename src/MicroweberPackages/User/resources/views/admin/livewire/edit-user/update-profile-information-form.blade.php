@@ -34,7 +34,7 @@
                             element: mw.$("#profile-upload-image")
                         });
                         $(uploader).on("FileUploaded", function (a, data) {;
-                            Livewire.emit('updateProfilePhoto', data.src);
+                            Livewire.dispatch('updateProfilePhoto', data.src);
                         });
                     });
                 </script>
@@ -126,7 +126,7 @@
                 </div>
             </div>
             <div class="live-edit-label">
-                <button type="button" class="btn btn-outline-primary" wire:click="$emit('openModal', 'admin::edit-user.update-password-without-confirm-form-modal', {{ json_encode(['userId' => $state['id']]) }})">Change Password</button>
+                <button type="button" class="btn btn-outline-primary" wire:click="$dispatch('openModal', 'admin::edit-user.update-password-without-confirm-form-modal', {{ json_encode(['userId' => $state['id']]) }})">Change Password</button>
             </div>
             @endif
 

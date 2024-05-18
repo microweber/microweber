@@ -77,36 +77,36 @@
         <div x-data="{
 showEditTab: 'main'
 }" x-init="() => {
-    window.livewire.on('switchToMainTab', () => {
+    window.Livewire.on('switchToMainTab', () => {
         showEditTab = 'main'
         var event = new Event('moduleSettings.switchToMainTab', { detail: 'main' });
         window.dispatchEvent(event);
     })
-     window.livewire.on('onItemChanged' , (item) => {
+     window.Livewire.on('onItemChanged' , (item) => {
         mw.notification.success('Changes are saved');
         var event = new Event('moduleSettings.onItemChanged', { detail: item });
         window.dispatchEvent(event);
      });
 
-     window.livewire.on('editItemById' , (itemId) => {
+     window.Livewire.on('editItemById' , (itemId) => {
         var event = new Event('moduleSettings.editItemById', { detail: itemId });
         window.dispatchEvent(event);
         showEditTab = 'tabs-nav-tab-' +  itemId
     })
 
-    window.livewire.on('mouseoverItemId' , (itemId) => {
+    window.Livewire.on('mouseoverItemId' , (itemId) => {
         var event = new Event('moduleSettings.mouseoverItemId',  { detail: itemId });
         window.dispatchEvent(event);
 
     })
 
-    window.livewire.on('mouseoutItemId' , (itemId) => {
+    window.Livewire.on('mouseoutItemId' , (itemId) => {
         var event = new Event('moduleSettings.mouseoutItemId',  { detail: itemId });
         window.dispatchEvent(event);
     })
 
-    window.livewire.on('showConfirmDeleteItemById' , (itemId) => {
-        Livewire.emit('onShowConfirmDeleteItemById',  itemId);
+    window.Livewire.on('showConfirmDeleteItemById' , (itemId) => {
+        Livewire.dispatch('onShowConfirmDeleteItemById',  itemId);
 
         var event = new Event('moduleSettings.showConfirmDeleteItemById',  { detail: itemId });
     })

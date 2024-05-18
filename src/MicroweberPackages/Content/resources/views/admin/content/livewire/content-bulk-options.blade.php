@@ -20,8 +20,8 @@
                     });
                     $.post("<?php print api_link('content/bulk_assign'); ?>", data, function (msg) {
                         mw.notification.msg(msg);
-                        window.livewire.emit('multipleMoveToCategoryExecute');
-                        window.livewire.emit('refreshContentListAndDeselectAll');
+                        window.Livewire.dispatch('multipleMoveToCategoryExecute');
+                        window.Livewire.dispatch('refreshContentListAndDeselectAll');
                         dialog.remove();
                     });
                 });
@@ -92,7 +92,7 @@
     @if($multiplePublishShowModal)
         <script>
             mw.tools.confirm("Are you sure you want to publish the selected data?", function () {
-                window.livewire.emit('multiplePublishExecute');
+                window.Livewire.dispatch('multiplePublishExecute');
             });
         </script>
     @endif
@@ -101,7 +101,7 @@
     @if($multipleUnpublishShowModal)
         <script>
             mw.tools.confirm("Are you sure you want to unpublish the selected data?", function () {
-                window.livewire.emit('multipleUnpublishExecute');
+                window.Livewire.dispatch('multipleUnpublishExecute');
             });
         </script>
     @endif
@@ -109,7 +109,7 @@
     @if($multipleDeleteShowModal)
         <script>
         mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
-            window.livewire.emit('multipleDeleteExecute');
+            window.Livewire.dispatch('multipleDeleteExecute');
         });
         </script>
     @endif
@@ -118,7 +118,7 @@
     @if($multipleUndeleteShowModal)
         <script>
         mw.tools.confirm("Are you sure you want to restore the selected data?", function () {
-            window.livewire.emit('multipleUndeleteExecute');
+            window.Livewire.dispatch('multipleUndeleteExecute');
         });
         </script>
     @endif
@@ -127,7 +127,7 @@
     @if($multipleDeleteForeverShowModal)
         <script>
         mw.tools.confirm("Are you sure you want to delete the selected data forever?", function () {
-            window.livewire.emit('multipleDeleteForeverExecute');
+            window.Livewire.dispatch('multipleDeleteForeverExecute');
         });
         </script>
     @endif

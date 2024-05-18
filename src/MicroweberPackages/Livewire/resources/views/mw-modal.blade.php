@@ -37,7 +37,7 @@
                 let modal = document.getElementById("js-modal-livewire-id-" + openedModalId);
                 if(modal) {
                     modal.style.display = "none";
-                    Livewire.emit('destroyComponent', openedModalId);
+                    Livewire.dispatch('destroyComponent', openedModalId);
                 }
             }
         });

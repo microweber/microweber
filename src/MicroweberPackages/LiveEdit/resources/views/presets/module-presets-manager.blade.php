@@ -11,16 +11,16 @@
 
         mw.initPresetsManager = function () {
 
-            window.livewire.on('switchToMainTab', () => {
+            window.Livewire.on('switchToMainTab', () => {
                 window.initPresetsManagerData.showEditTab = 'main'
             })
 
-            window.livewire.on('editItemById', (itemId) => {
+            window.Livewire.on('editItemById', (itemId) => {
                 window.initPresetsManagerData.showEditTab = 'editItemById'
-                Livewire.emit('onEditItemById', itemId);
+                Livewire.dispatch('onEditItemById', itemId);
             })
 
-            window.livewire.on('saveModuleAsPreset', function () {
+            window.Livewire.on('saveModuleAsPreset', function () {
                 var el = mw.top().app.canvas.getWindow().$('#{{$this->moduleId}}')[0];
                 if(!el){
                     el = mw.top().app.canvas.getWindow().$('[data-module-original-id="{{$this->moduleId}}"]')[0];
@@ -39,15 +39,15 @@
                     attrsObj[attrs[i].name] = attrs[i].value;
                 }
 
-                Livewire.emit('onSaveAsNewPreset', attrsObj);
+                Livewire.dispatch('onSaveAsNewPreset', attrsObj);
             })
 
 
-            window.livewire.on('showConfirmDeleteItemById', (itemId) => {
-                Livewire.emit('onShowConfirmDeleteItemById', itemId);
+            window.Livewire.on('showConfirmDeleteItemById', (itemId) => {
+                Livewire.dispatch('onShowConfirmDeleteItemById', itemId);
             })
 
-            window.livewire.on('removeSelectedPresetForModule', (applyToModuleId) => {
+            window.Livewire.on('removeSelectedPresetForModule', (applyToModuleId) => {
                 var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
                 if (el !== null) {
                      mw.top().app.registerChangedState(el);
@@ -88,7 +88,7 @@
             })
 
 
-            window.livewire.on('applyPreset', (applyToModuleId, preset) => {
+            window.Livewire.on('applyPreset', (applyToModuleId, preset) => {
 
                 var json = preset.module_attrs;
                 var obj = JSON.parse(json);
@@ -168,7 +168,7 @@
                 </div>
             @else
                 <x-microweber-ui::button class="btn btn-primary-outline" type="button"
-                                         wire:click="$emit('saveModuleAsPreset')">@lang('Save as preset')</x-microweber-ui::button>
+                                         wire:click="$dispatch('saveModuleAsPreset')">@lang('Save as preset')</x-microweber-ui::button>
             @endif
 
 

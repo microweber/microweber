@@ -57,7 +57,7 @@
         @endif
 
         <script>
-            window.livewire.on('loadMoreExecuted', () => {
+            window.Livewire.on('loadMoreExecuted', () => {
                 document.getElementById("js-filter-items-values-list").scrollTop = 10000;
             });
         </script>

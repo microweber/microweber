@@ -154,8 +154,8 @@
                     icon: 'trash',
                     action: function () {
 
-                        window.livewire.emit('resetFilter');
-                        window.livewire.emit('showTrashed', 1);
+                        window.Livewire.dispatch('resetFilter');
+                        window.Livewire.dispatch('showTrashed', 1);
 
 
                     }
@@ -382,12 +382,12 @@
                 pagesTree.on('selectionChange', function (items){
                     $.each(items, function (key, item) {
                         if (item.type == 'category') {
-                            window.livewire.emit('showFromCategory', item.id);
+                            window.Livewire.dispatch('showFromCategory', item.id);
                         }
                         if (item.type == 'page') {
-                            window.livewire.emit('showFromPage', item.id);
+                            window.Livewire.dispatch('showFromPage', item.id);
                         }
-                        window.livewire.emit('setFirstPageContentList');
+                        window.Livewire.dispatch('setFirstPageContentList');
 
                     });
                 });
@@ -440,7 +440,7 @@
 
         Livewire.on('deselectAllCategories', function () {
             pagesTree.unselectAll(false);
-            window.livewire.emit('showFromCategory', false);
+            window.Livewire.dispatch('showFromCategory', false);
         });
         Livewire.on('selectCategoryFromTableList', function (id) {
             pagesTree.unselectAll(false);

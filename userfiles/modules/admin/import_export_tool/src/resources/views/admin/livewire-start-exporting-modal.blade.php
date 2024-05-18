@@ -4,7 +4,7 @@
             <div class="mw-modal-content">
                 <div class="mw-modal-header">
                     <h5 class="mw-modal-title">Feed Exporting</h5>
-                    <button type="button" class="btn btn-link" wire:click="$emit('closeModal')">Close</button>
+                    <button type="button" class="btn btn-link" wire:click="$dispatch('closeModal')">Close</button>
                 </div>
                 <div class="mw-modal-body">
 
@@ -41,11 +41,11 @@
             </div>
             <script>
                 setTimeout(function () {
-                    window.Livewire.emit('exportToolNextStep');
+                    window.Livewire.dispatch('exportToolNextStep');
                 }, 1000);
 
                 window.addEventListener('nextStepCompleted', event => {
-                    window.Livewire.emit('exportToolNextStep');
+                    window.Livewire.dispatch('exportToolNextStep');
                 });
             </script>
 

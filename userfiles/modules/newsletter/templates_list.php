@@ -10,7 +10,7 @@ $templates = newsletter_get_templates();
         <h4>List of templates</h4>
     </div>
     <div>
-        <a href="javascript:;" onclick='Livewire.emit("openModal", "admin-newsletter-choose-template-modal")'
+        <a href="javascript:;" onclick='Livewire.dispatch("openModal", "admin-newsletter-choose-template-modal")'
            class="btn btn-outline-primary mb-3"
         >
             <i class="mdi mdi-plus"></i>  <?php _e('Add new template'); ?>

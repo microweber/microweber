@@ -368,7 +368,7 @@ if (isset($isShop) and $isShop){
                                     }
                                 });
 
-                              //  window.livewire.emit('setSelectedIds',selectedCategories);
+                              //  window.Livewire.dispatch('setSelectedIds',selectedCategories);
 
                             });
                         });

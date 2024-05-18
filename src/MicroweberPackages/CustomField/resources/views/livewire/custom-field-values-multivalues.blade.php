@@ -62,7 +62,7 @@
                                 var id = item.getAttribute('sort-key');
                                 obj.itemIds.push(id);
                             });
-                            window.Livewire.emit('onReorderCustomFieldValuesList', obj);
+                            window.Livewire.dispatch('onReorderCustomFieldValuesList', obj);
                         }, 300);
                     },
                     scroll: false

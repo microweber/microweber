@@ -131,7 +131,7 @@ class OptionElement extends AdminComponent
         }
         $this->saveOptionData($option);
 
-        $this->dispatch('settingsChanged', ['optionGroup' => $this->optionGroup,'moduleId' => $this->optionGroup, 'state' => $this->state]);
+        $this->dispatch('settingsChanged',optionGroup: $this->optionGroup,moduleId: $this->optionGroup, state: $this->state);
     }
 
     public function saveOptionData($option)

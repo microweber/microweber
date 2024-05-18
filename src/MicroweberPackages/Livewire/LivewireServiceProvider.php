@@ -99,7 +99,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
 
         // Load datatables
-      //  app()->register(LaravelLivewireTablesServiceProvider::class);
+    //    app()->register(LaravelLivewireTablesServiceProvider::class);
         $this->mergeConfigFrom(__DIR__.'/config/livewire-tables.php', 'livewire-tables');
 
         // Load UI Modal

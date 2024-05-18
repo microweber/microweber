@@ -108,8 +108,8 @@
 
                             <div class="list-group-item js-sortable-item p-2" sort-key="{{ $itemId }}"
                                  wire:key="item-list-edit-{{ $itemId  }}"
-                                 wire:mouseover="$emit('mouseoverItemId', '{{ $itemId }}')"
-                                 wire:mouseout="$emit('mouseoutItemId', '{{ $itemId }}')"
+                                 wire:mouseover="$dispatch('mouseoverItemId', '{{ $itemId }}')"
+                                 wire:mouseout="$dispatch('mouseoutItemId', '{{ $itemId }}')"
                                  id="item-list-id-{{ $itemId }}">
                                 <div class="row align-items-center"  id="item-list-row-{{ $itemId }}">
                                     <div class="col-auto">
@@ -127,7 +127,7 @@
                                     </div>
                                     @if (isset($editorSettings['config']) && isset($editorSettings['config']['listColumns']))
                                         <div class="col text-truncate"
-                                             wire:click="$emit('editItemById', '{{ $itemId }}')" >
+                                             wire:click="$dispatch('editItemById', '{{ $itemId }}')" >
                                             <div class="d-flex align-items-center gap-2">
                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
                                                 @if (isset($item[$columnKey]))
@@ -156,11 +156,11 @@
 
 
                                         <x-microweber-ui::button-action  wire:key="item-list-delete-btn-{{ $itemId  }}" type="button" :tooltip="$deleteButtonText"
-                                                                         wire:click="$emit('onShowConfirmDeleteItemById', '{{ $itemId }}')">
+                                                                         wire:click="$dispatch('onShowConfirmDeleteItemById', '{{ $itemId }}')">
                                                 <?php print $deleteButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 
-                                        <x-microweber-ui::button-action wire:key="item-list-edit-btn-{{ $itemId  }}" type="button" wire:click="$emit('editItemById', '{{ $itemId }}')">
+                                        <x-microweber-ui::button-action wire:key="item-list-edit-btn-{{ $itemId  }}" type="button" wire:click="$dispatch('editItemById', '{{ $itemId }}')">
                                                 <?php print $editButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 
@@ -200,7 +200,7 @@
                                 });
                                 window.mw.notification.success('Reordering items...');
 
-                                window.Livewire.emit('onReorderListItems', obj);
+                                window.Livewire.dispatch('onReorderListItems', obj);
                             }, 500);
 
 
@@ -214,7 +214,7 @@
                 window.mw.items_editor_sort{{$rand}}();
             });
 
-            window.addEventListener('livewire:load', function () {
+            window.addEventListener('livewire:init', function () {
                 window.mw.items_editor_sort{{$rand}}();
             });
         </script>

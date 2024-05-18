@@ -2,7 +2,7 @@
 
     <script>
         mw.top().win.addEventListener("mw.content-saved", (e) => {
-            Livewire.emit('refreshContentList');
+            Livewire.dispatch('refreshContentList');
         });
     </script>
 

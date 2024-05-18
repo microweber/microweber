@@ -37,7 +37,7 @@
                 </td>
                 <td>
                     <button class="btn btn-primary btn-rounded"
-                            wire:click="$emit('openModal', 'import_export_tool::start_exporting_modal',{exportFeedId:{{$export_feed['id']}}})">
+                            wire:click="$dispatch('openModal', 'import_export_tool::start_exporting_modal',{exportFeedId:{{$export_feed['id']}}})">
                         <i class="fa fa-file-export"></i> Start Exporting
                     </button>
                 </td>

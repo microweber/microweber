@@ -11,7 +11,7 @@
     @if(!empty($parentPages))
         <div class="text-muted">
         @foreach ($parentPages as $parentPageId)
-            <a onclick="livewire.emit('selectPageFromTableList', {{$parentPageId}});return false;" href="#" class="my-1 d-block text-muted mw-products-breadcrumb">
+            <a onclick="Livewire.dispatch('selectPageFromTableList', {{$parentPageId}});return false;" href="#" class="my-1 d-block text-muted mw-products-breadcrumb">
                 {{content_title($parentPageId)}}
             </a>
             @if(!$loop->last)
@@ -32,7 +32,7 @@
                 @foreach($content->categories as $category)
                     @if($category->parent)
 
-                        <a onclick="livewire.emit('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
+                        <a onclick="Livewire.dispatch('selectCategoryFromTableList', {{$category->parent->id}});return false;" href="?filters[category]={{$category->parent->id}}&showFilters[category]=1"
                            class="btn btn-link btn-sm p-0">
                         {{$category->parent->title}}
                      </a>
