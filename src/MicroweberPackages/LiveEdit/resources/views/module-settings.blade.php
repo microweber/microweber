@@ -163,7 +163,7 @@
 
 
     <div wire:ignore>
-ssssssss <?php print time(); ?>
+
 
     <script>
         console.log('settingsChanged111')

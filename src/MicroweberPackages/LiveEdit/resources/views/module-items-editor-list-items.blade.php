@@ -180,13 +180,23 @@
 
 
 
-    <div wire:ignore id="sort-script{{ $rand }}" >
+    <div  id="sort-script{{ $rand }}" >
 
-        aaaaaaaaaaa
+
 
         <script>
             window.mw.items_editor_sort{{ $rand }} = function () {
-                if (!mw.$("#js-sortable-items-holder-{{ $rand }}").hasClass("ui-sortable")) {
+
+                var checkIfExist = document.getElementById('js-sortable-items-holder-{{ $rand }}');
+                if(!checkIfExist){
+                    return;
+                }
+                if (mw.$("#js-sortable-items-holder-{{ $rand }}").hasClass("ui-sortable")) {
+                    mw.$("#js-sortable-items-holder-{{ $rand  }}").sortable('destroy');
+                    mw.$("#js-sortable-items-holder-{{ $rand }}").removeClass("ui-sortable");
+                }
+
+                //if (!mw.$("#js-sortable-items-holder-{{ $rand }}").hasClass("ui-sortable")) {
                     mw.$("#js-sortable-items-holder-{{ $rand  }}").sortable({
                         items: '.list-group-item',
                         axis: 'y',
@@ -213,15 +223,42 @@
 
                         scroll: false
                     });
-                }
+             //   }
             }
             $(document).ready(function () {
                 window.mw.items_editor_sort{{$rand}}();
             });
 
             window.addEventListener('livewire:init', function () {
-                 window.mw.items_editor_sort{{$rand}}();
+
+               //window.mw.items_editor_sort{{$rand}}();
+
+                Livewire.hook('component.init', ({ component, cleanup }) => {
+                })
+
+                Livewire.hook('request', ({ uri, options, payload, respond, succeed, fail }) => {
+
+                    respond(({ status, response }) => {
+                       setTimeout(function () {
+                            window.mw.items_editor_sort{{$rand}}();
+                        }, 500);
+
+                    })
+
+
+
+
+                })
+
+
+                Livewire.hook('morph.updated', ({ el, component }) => {
+
+                })
+
+
             });
+
+
         </script>
 
     </div>
