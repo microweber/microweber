@@ -162,11 +162,11 @@
 
 
 
-
-
+    <div wire:ignore>
+ssssssss <?php print time(); ?>
 
     <script>
-
+        console.log('settingsChanged111')
         Livewire.on('settingsChanged', $data => {
 console.log('settingsChanged')
 console.log($data)
@@ -178,7 +178,7 @@ console.log($data)
             }
         })
     </script>
-
+    </div>
 
 
     <script>

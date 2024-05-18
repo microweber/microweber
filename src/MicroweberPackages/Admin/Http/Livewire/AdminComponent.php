@@ -8,7 +8,6 @@ use Livewire\Component;
 class AdminComponent extends Component
 {
     use AuthorizesRequests;
-
     public $globalListeners = [];
 
 

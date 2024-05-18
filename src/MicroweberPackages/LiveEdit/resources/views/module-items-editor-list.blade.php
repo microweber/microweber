@@ -195,13 +195,14 @@ showEditTab: 'main'
 
 
 
-                                    @livewire('microweber-live-edit::module-items-editor-edit-item', [
-                                    'moduleId' => $moduleId,
-                                    'moduleType' => $moduleType,
-                                    'editorSettings' => $editorSettings,
-                                    'itemId' => $itemId,
-                                    ], key('module-settings-list-item-edit'.$moduleId.time().uniqid().$itemId))
 
+
+                                    <livewire:microweber-live-edit::module-items-editor-edit-item
+                                        wire:key="module-settings-list-item-edit{{$moduleId}}{{$itemId}}"
+                                        :moduleId="$moduleId"
+                                        :moduleType="$moduleType"
+                                        :editorSettings="$editorSettings"
+                                        :itemId="$itemId" />
 
                                 </div>
 

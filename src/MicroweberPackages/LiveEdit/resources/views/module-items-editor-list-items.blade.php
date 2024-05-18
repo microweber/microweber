@@ -180,7 +180,10 @@
 
 
 
-    <div wire:ignore>
+    <div wire:ignore id="sort-script{{ $rand }}" >
+
+        aaaaaaaaaaa
+
         <script>
             window.mw.items_editor_sort{{ $rand }} = function () {
                 if (!mw.$("#js-sortable-items-holder-{{ $rand }}").hasClass("ui-sortable")) {
@@ -188,20 +191,22 @@
                         items: '.list-group-item',
                         axis: 'y',
                         handle: '.sortHandle',
-                        update: function () {
+                        stop: function () {
+                            var obj = {itemIds: []};
+                            var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$rand}} .js-sortable-item');
 
-                            setTimeout(function () {
-                                var obj = {itemIds: []};
-                                var sortableItems = document.querySelectorAll('#js-sortable-items-holder-{{$rand}} .js-sortable-item');
+                            sortableItems.forEach(function (item) {
+                                var id = item.getAttribute('sort-key');
+                                obj.itemIds.push(id);
+                            });
+                            window.mw.notification.success('Reordering items...');
 
-                                sortableItems.forEach(function (item) {
-                                    var id = item.getAttribute('sort-key');
-                                    obj.itemIds.push(id);
-                                });
-                                window.mw.notification.success('Reordering items...');
+                            window.Livewire.dispatch('onReorderListItems', {'order': obj});
 
-                                window.Livewire.dispatch('onReorderListItems', obj);
-                            }, 500);
+                            // setTimeout(function () {
+                            //
+                            //     window.location.reload();
+                            // }, 500);
 
 
                         },
@@ -215,7 +220,7 @@
             });
 
             window.addEventListener('livewire:init', function () {
-                window.mw.items_editor_sort{{$rand}}();
+                 window.mw.items_editor_sort{{$rand}}();
             });
         </script>
 

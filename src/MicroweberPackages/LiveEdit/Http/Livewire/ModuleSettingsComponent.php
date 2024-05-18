@@ -41,7 +41,6 @@ class ModuleSettingsComponent extends AdminComponent
                 $this->saveModuleOption($key, $setting, $this->moduleId);
             }
         }
-        $namedParams = ['moduleId' => $this->moduleId, 'moduleType' => $this->moduleType, 'settings' => $settings];
 
         $this->dispatch('settingsChanged',moduleId: $this->moduleId, moduleType: $this->moduleType, settings: $settings);
     }

@@ -1,7 +1,9 @@
 <?php
 
 namespace MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor;
+use Livewire\Attributes\Isolate;
 
+#[Isolate]
 class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsEditorComponent
 {
     public string $view = 'microweber-live-edit::module-items-editor-edit-item';
@@ -11,10 +13,11 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
 
     public $listeners = [
-        'onItemChanged' => '$refresh',
+        // 'onItemChanged' => '$refresh',
         'onItemDeleted' => '$refresh',
-        'refreshComponent' => '$refresh',
-        'onReorderListItems' => 'reorderListItems',
+      //  'onItemChanged' => 'handleOnItemChanged',
+        //  'refreshComponent' => '$refresh',
+        //'onReorderListItems' => 'reorderListItems',
     ];
 
 
@@ -38,9 +41,9 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
     public function updatedItemState()
     {
         if (isset($this->itemState['itemId'])) {
-           $this->submit([
-               'switchToMainTab'=>false
-           ]);
+            $this->submit([
+                'switchToMainTab' => false
+            ]);
         }
     }
 
@@ -131,12 +134,6 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
 
         $this->saveItems($allItems);
 
-        $this->dispatch( 'onItemChanged',
-            moduleId: $this->moduleId,
-            item: $newItem,
-            isNew: $isNewItem,
-            itemId: $newItem['itemId']
-        )->to('microweber-live-edit::module-items-editor-list');
 
         $switchToMainTab = true;
         if (isset($options['switchToMainTab'])) {
@@ -146,12 +143,30 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
             $this->dispatch('switchToMainTab');
         }
 
+//        $this->dispatch('onItemChanged',
+//            moduleId: $this->moduleId,
+//            item: $newItem,
+//            isNew: $isNewItem,
+//            itemId: $newItem['itemId']
+//        )->self();
+
+       $this->dispatch('refreshComponent')->to('microweber-live-edit::module-items-editor-list');
+
         $this->dispatch('onItemChanged',
             moduleId: $this->moduleId,
-            itemId : $newItem['itemId'],
-            item : $newItem,
+            item: $newItem,
             isNew: $isNewItem,
-        );
+            itemId: $newItem['itemId']
+        )->self();
+
+
+//
+//        $this->dispatch('onItemChanged',
+//            moduleId: $this->moduleId,
+//            itemId : $newItem['itemId'],
+//            item : $newItem,
+//            isNew: $isNewItem,
+//        )->to('microweber-live-edit::module-items-editor-list');
 
     }
 

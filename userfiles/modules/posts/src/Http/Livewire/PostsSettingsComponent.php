@@ -21,10 +21,10 @@ class PostsSettingsComponent extends ModuleSettingsComponent
             }
 
             if ($e['optionKey'] == 'data-page-id') {
-                $this->dispatch('autoCompleteSelectItem', 'page', $e['optionValue']);
+                $this->dispatch('autoCompleteSelectItem', page: $e['optionValue']);
             }
             if ($e['optionKey'] == 'data-tags') {
-                $this->dispatch('autoCompleteSelectItem', 'tags', $e['optionValue']);
+                $this->dispatch('autoCompleteSelectItem', tags: $e['optionValue']);
             }
         }
     }
