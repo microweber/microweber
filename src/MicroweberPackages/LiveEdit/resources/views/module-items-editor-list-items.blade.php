@@ -156,7 +156,7 @@
 
 
                                         <x-microweber-ui::button-action  wire:key="item-list-delete-btn-{{ $itemId  }}" type="button" :tooltip="$deleteButtonText"
-                                                                         wire:click="$dispatch('onShowConfirmDeleteItemById', '{{ $itemId }}')">
+                                                                         wire:click="$dispatch('onShowConfirmDeleteItemById', {itemId: '{{ $itemId  }}'})">
                                                 <?php print $deleteButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 

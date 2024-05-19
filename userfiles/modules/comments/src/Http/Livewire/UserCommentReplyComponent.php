@@ -31,7 +31,7 @@ class UserCommentReplyComponent extends Component
     public function getListeners()
     {
         return [
-            "setCaptcha".md5($this->id) => 'setCaptcha',
+            "setCaptcha".md5($this->getId()) => 'setCaptcha',
         ];
     }
 
@@ -102,7 +102,7 @@ class UserCommentReplyComponent extends Component
 
         if ($validateCaptcha->fails()) {
             $this->dispatch('openModal', 'captcha-confirm-modal', [
-                'action'=>'setCaptcha' . md5($this->id)
+                'action'=>'setCaptcha' . md5($this->getId())
             ]);
             return false;
         }

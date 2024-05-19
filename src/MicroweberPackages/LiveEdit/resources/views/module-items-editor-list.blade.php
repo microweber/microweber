@@ -106,7 +106,7 @@ showEditTab: 'main'
     })
 
     window.Livewire.on('showConfirmDeleteItemById' , (itemId) => {
-        Livewire.dispatch('onShowConfirmDeleteItemById',  itemId);
+        Livewire.dispatch('onShowConfirmDeleteItemById', {itemId: itemId});
 
         var event = new Event('moduleSettings.showConfirmDeleteItemById',  { detail: itemId });
     })

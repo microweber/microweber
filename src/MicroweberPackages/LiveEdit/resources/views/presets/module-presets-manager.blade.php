@@ -44,7 +44,7 @@
 
 
             window.Livewire.on('showConfirmDeleteItemById', (itemId) => {
-                Livewire.dispatch('onShowConfirmDeleteItemById', itemId);
+                Livewire.dispatch('onShowConfirmDeleteItemById', {itemId: itemId});
             })
 
             window.Livewire.on('removeSelectedPresetForModule', (applyToModuleId) => {
