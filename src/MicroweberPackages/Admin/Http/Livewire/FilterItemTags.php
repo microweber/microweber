@@ -41,9 +41,9 @@ class FilterItemTags extends FilterItemMultipleSelectComponent
         }
     }
 
-    public function updatedSelectedItems(array $items)
+    public function updateSelectedItems(): void
     {
-        parent::updatedSelectedItems($items);
+        parent::updateSelectedItems();
 
         $this->refreshFirstItemName();
     }

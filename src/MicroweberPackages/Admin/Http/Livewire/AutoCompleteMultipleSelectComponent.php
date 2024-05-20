@@ -39,9 +39,8 @@ class AutoCompleteMultipleSelectComponent extends AutoCompleteComponent
      * @param $items
      * @return void
      */
-    public function updatedSelectedItems(array $items)
+    public function updateSelectedItems(): void
     {
-        $this->selectedItems = $items;
         $this->refreshQueryData();
         $this->dispatch('$refresh');
         $this->dispatch('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItems);
@@ -61,7 +60,7 @@ class AutoCompleteMultipleSelectComponent extends AutoCompleteComponent
         $this->query = '';
         $this->data = false;
         $this->selectedItems = [];
-        $this->updatedSelectedItems([]);
+        $this->updateSelectedItems();
     }
 
     /**
