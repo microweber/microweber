@@ -95,9 +95,13 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $this->selectedItemsIds = [];
 
 
-        $this->getItems();
+       $this->getItems();
 
-        $this->dispatch('onItemDeleted')->to('microweber-live-edit::module-items-editor-list');
+       //$this->dispatch('onItemDeleted')->to('microweber-live-edit::module-items-editor-list');
+
+      //  $this->dispatch('onItemDeleted')0
+$this->js('window.location.reload()');
+      // $this->dispatch('$refresh');
 
 
     }

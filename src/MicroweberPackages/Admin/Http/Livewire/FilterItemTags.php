@@ -60,7 +60,7 @@ class FilterItemTags extends FilterItemMultipleSelectComponent
 
     public function refreshQueryData()
     {
-        $this->showDropdown($this->id);
+        $this->showDropdown($this->getId());
 
         $firstData = [];
 
