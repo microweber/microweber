@@ -9,7 +9,7 @@
     @endforeach
 
     <div class="d-flex justify-content-center mb-3">
-        {{ $comments->links("livewire::tables.bootstrap-4.pagination") }}
+        {{ $comments->links() }}
     </div>
 
 </div>
