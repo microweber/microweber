@@ -159,6 +159,10 @@ class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsE
             itemId: $newItem['itemId']
         )->self();
 
+        if($isNewItem){
+            $this->js('window.location.reload()');
+
+        }
 
 //
 //        $this->dispatch('onItemChanged',

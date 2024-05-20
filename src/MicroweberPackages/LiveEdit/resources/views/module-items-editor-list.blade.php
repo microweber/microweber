@@ -230,12 +230,22 @@ showEditTab: 'main'
         </div>
     </div>
 
-    <div>
+
+
+    <?php $modal_id='modal-items-list-delete-'.uniqid() ?>
+    <div id="<?php print $modal_id ?>">
+
+
+        <script>
+            window.addEventListener('livewire:init', function () {
+
+            });
+        </script>
 
 
 
+        <x-microweber-ui::dialog-modal wire:key="areYouSureDeleteModalOpened" wire:model.live="areYouSureDeleteModalOpened">
 
-        <x-microweber-ui::dialog-modal asdaswire:key="areYouSureDeleteModalOpened" wire:model="areYouSureDeleteModalOpened">
 
 
 
@@ -249,7 +259,7 @@ showEditTab: 'main'
             <x-slot name="footer">
 
 
-                <x-microweber-ui::button-animation type="button" wire:click="$toggle('areYouSureDeleteModalOpened')" wire:loading.attr="disabled">
+                <x-microweber-ui::button-animation type="button" @click="$dispatch('onCloseConfirmDeleteItemByIdModal')" wire:loading.attr="disabled">
                     <?php _e('Cancel'); ?>
                 </x-microweber-ui::button-animation>
                 <x-microweber-ui::button-animation type="button" class="text-danger" @click="$dispatch('onConfirmDeleteSelectedItems')" wire:loading.attr="disabled">

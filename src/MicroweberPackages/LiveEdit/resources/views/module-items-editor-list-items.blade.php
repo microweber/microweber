@@ -189,6 +189,7 @@
 
                 var checkIfExist = document.getElementById('js-sortable-items-holder-{{ $rand }}');
                 if(!checkIfExist){
+
                     return;
                 }
                 if (mw.$("#js-sortable-items-holder-{{ $rand }}").hasClass("ui-sortable")) {

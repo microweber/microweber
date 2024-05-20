@@ -156,25 +156,25 @@ class Template
     /**
      * @deprecated
      */
-    public function append_livewire_to_layout($layout)
-    {
-        $alpineUrl = mw_includes_url() . 'api/libs/alpine/alpine.min.js';
-
-        $alpineScript = '<script src="' . $alpineUrl . '" defer></script>';
-
-        $scripts = \Livewire\Livewire::scripts();
-        $styles = \Livewire\Livewire::styles();
-        $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
-
-
-        $layout = Str::replaceFirst('<head>', '<head>' . $alpineScript, $layout);
-        $layout = Str::replaceFirst('</head>', $styles . '</head>', $layout);
-        $layout = Str::replaceFirst('</head>', $scripts . '</head>', $layout);
-        $layout = Str::replaceFirst('</body>', $modal . '</body>', $layout);
-
-
-        return $layout;
-    }
+//    public function append_livewire_to_layout($layout)
+//    {
+////        $alpineUrl = mw_includes_url() . 'api/libs/alpine/alpine.min.js';
+////
+////        $alpineScript = '<script src="' . $alpineUrl . '" defer></script>';
+//
+//        $scripts = \Livewire\Livewire::scripts();
+//        $styles = \Livewire\Livewire::styles();
+//        $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
+//
+//
+//       // $layout = Str::replaceFirst('<head>', '<head>' . $alpineScript, $layout);
+//        $layout = Str::replaceFirst('</head>', $styles . '</head>', $layout);
+//        $layout = Str::replaceFirst('</head>', $scripts . '</head>', $layout);
+//        $layout = Str::replaceFirst('</body>', $modal . '</body>', $layout);
+//
+//
+//        return $layout;
+//    }
 
 
     public function frontend_append_meta_tags($layout)

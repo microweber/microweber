@@ -15,8 +15,7 @@
     <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
 
 
-    <!-- Alpine v3 -->
-    <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
+{{--    <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>--}}
 
 
 </head>

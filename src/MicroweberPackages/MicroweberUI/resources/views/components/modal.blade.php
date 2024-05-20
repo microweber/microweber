@@ -3,7 +3,7 @@
 
 
 <!-- Modal -->
-<div wire:ignore >
+<div  >
 
     @php
         $id = $id ?? md5($attributes->wire('model'));
@@ -71,7 +71,7 @@
 
 <div x-data="createModalDialogLivewire{{ $id }}('{{ $id }}')"
      x-show="show{{ $id }}"
-     x-init="init()"
+
 
 
     wire:ignore.self

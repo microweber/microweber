@@ -3,6 +3,8 @@
 namespace MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Renderless;
 
 abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 {
@@ -69,6 +71,13 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $this->areYouSureDeleteModalOpened = true;
         $this->selectedItemsIds = [$itemId];
 
+    }
+    #[On('onCloseConfirmDeleteItemByIdModal')]
+    public function closeConfirmDeleteItemByIdModal()
+    {
+        $this->areYouSureDeleteModalOpened = false;
+        $this->selectedItemsIds = [];
+        $this->js('window.location.reload()');
 
     }
 
@@ -129,6 +138,8 @@ $this->js('window.location.reload()');
         $allItems = array_merge($topItems, $itemsOldSort);
         //   $this->dispatch('onItemChanged');
         $this->saveItems($allItems);
+        $this->js('window.location.reload()');
+
     }
 
     public function saveItems($allItems)

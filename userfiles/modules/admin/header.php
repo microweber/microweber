@@ -79,7 +79,7 @@ return;
     <?php print \Livewire\Livewire::styles();    ?>
 
     <!-- Alpine v3 -->
-    <script defer src="<?php print mw_includes_url(); ?>api/libs/alpine/alpine.min.js"></script>
+<!--    <script defer src="--><?php //print mw_includes_url(); ?><!--api/libs/alpine/alpine.min.js"></script>-->
     <!-- Livewire sortable -->
     <script defer src="<?php print mw_includes_url(); ?>api/libs/livewire-sortable/livewire-sortable.js"></script>
 
