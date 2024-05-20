@@ -42,8 +42,9 @@
         "enshrined/svg-sanitize": "0.16.0",
         "erusev/parsedown": "1.7.4",
         "ezyang/htmlpurifier": "*",
+        "filament/filament": "^3.2",
+        "filament/infolists": "^3.2",
         "finlet/flexmail": "dev-master",
-
         "florianv/swap": "^4.3",
         "geoip2/geoip2": "~2.0",
         "graham-campbell/markdown": "*",
@@ -60,7 +61,6 @@
         "laravel/passport": "*",
         "laravel/sanctum": "*",
         "laravel/socialite": "*",
-
         "lcobucci/clock": "2.3.0",
         "lcobucci/jwt": "*",
         "league/csv": "^9.0@dev",
@@ -147,7 +147,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-create-project-cmd": [
             "php artisan key:generate"

@@ -13,6 +13,7 @@ namespace MicroweberPackages\Microweber\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
+use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\BladeUI\Providers\BladeUIServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
@@ -36,6 +37,7 @@ use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
 use MicroweberPackages\Database\DatabaseManagerServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
+use MicroweberPackages\Filament\Providers\FilamentServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\Form\Providers\FormServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
@@ -121,8 +123,9 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(OptionServiceProvider::class);
 
         $this->app->register(InstallServiceProvider::class);
-
+        $this->app->register(FilamentServiceProvider::class);
         $this->app->register(AdminServiceProvider::class);
+        $this->app->register(FilamentAdminPanelProvider::class);
 
 
         $this->app->register(LiveEditServiceProvider::class);
@@ -210,6 +213,8 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(ModuleServiceProvider::class);
 
         $this->app->register(UpdateMigratorServiceProvider::class);
+
+
 
     }
 }
