@@ -205,7 +205,7 @@ class ContentList extends AdminComponent
         $this->setPaginationFirstPage();
     }
 
-    public function updatedShowFilters($value)
+    public function updateShowFilters()
     {
         $this->showFilters = array_filter($this->showFilters);
         if (!empty($this->showFilters)) {

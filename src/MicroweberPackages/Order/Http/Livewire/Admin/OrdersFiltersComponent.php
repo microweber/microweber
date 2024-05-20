@@ -43,7 +43,7 @@ class OrdersFiltersComponent extends Component
         $this->refreshOrdersTable();
     }
 
-    public function updatedShowFilters($value)
+    public function updateShowFilters()
     {
         $this->showFilters = array_filter($this->showFilters);
         if (!empty($this->showFilters)) {
