@@ -67,7 +67,7 @@ class FilterItemCateogry extends DropdownComponent
 
         $this->showDropdown($this->getId());
         $this->calculateSelectedItemsCount();
-        $this->dispatchEvents();
+        // $this->dispatchEvents();
 
     }
 
@@ -87,7 +87,7 @@ class FilterItemCateogry extends DropdownComponent
 
         $this->showDropdown($this->getId());
         $this->calculateSelectedItemsCount();
-        $this->dispatchEvents();
+        // $this->dispatchEvents();
     }
 
     public function hideFilterItem($id)

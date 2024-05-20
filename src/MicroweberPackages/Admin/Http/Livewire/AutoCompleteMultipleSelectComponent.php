@@ -43,7 +43,7 @@ class AutoCompleteMultipleSelectComponent extends AutoCompleteComponent
     {
         $this->selectedItems = $items;
         $this->refreshQueryData();
-        $this->dispatchSelf('$refresh');
+        $this->dispatch('$refresh');
         $this->dispatch('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItems);
 
         if ($this->closeDropdownAfterSelect) {

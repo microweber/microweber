@@ -18,7 +18,7 @@ class FilterItemValueWithOperator extends DropdownComponent
         $this->itemValue = '';
         $this->itemOperatorValue = '';
         $this->closeDropdown();
-        $this->dispatchEvents();
+        // $this->dispatchEvents();
     }
 
     public function hideFilterItem($id)
@@ -32,13 +32,13 @@ class FilterItemValueWithOperator extends DropdownComponent
     public function updatedItemValue()
     {
         $this->showDropdown($this->getId());
-        $this->dispatchEvents();
+        // $this->dispatchEvents();
     }
 
     public function updatedItemOperatorValue()
     {
         $this->showDropdown($this->getId());
-        $this->dispatchEvents();
+        // $this->dispatchEvents();
     }
 
     public function emitEvents()

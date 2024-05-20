@@ -127,7 +127,7 @@ class OrdersTableComponent extends AdminComponent
             $this->setPage($data['page']);
         }
 
-        $this->dispatchSelf('$refresh');
+        $this->dispatch('$refresh');
     }
 
 
