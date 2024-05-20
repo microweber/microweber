@@ -68,6 +68,8 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
     {
         $this->areYouSureDeleteModalOpened = true;
         $this->selectedItemsIds = [$itemId];
+
+
     }
 
 

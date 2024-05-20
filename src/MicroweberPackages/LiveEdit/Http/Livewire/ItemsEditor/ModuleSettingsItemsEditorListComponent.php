@@ -16,6 +16,7 @@ class ModuleSettingsItemsEditorListComponent extends AbstractModuleSettingsEdito
         'refreshComponent' => '$refresh',
         'onReorderListItems' => 'reorderListItems',
         'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',
+        'onConfirmDeleteSelectedItems' => 'confirmDeleteSelectedItems',
     ];
     public function handleOnItemChanged($moduleId, $item, $isNew, $itemId)
     {

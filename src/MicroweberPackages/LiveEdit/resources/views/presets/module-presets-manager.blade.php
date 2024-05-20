@@ -228,7 +228,7 @@
                                                    wire:loading.attr="disabled">
                     <?php _e('Cancel'); ?>
                 </x-microweber-ui::button-animation>
-                <x-microweber-ui::button-animation class="text-danger" wire:click="confirmDeleteSelectedItems()"
+                <x-microweber-ui::button-animation class="text-danger" wire:click="$dispatch('onConfirmDeleteSelectedItems')"
                                                    wire:loading.attr="disabled">
                     <?php _e('Delete'); ?>
                 </x-microweber-ui::button-animation>

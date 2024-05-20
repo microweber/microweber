@@ -21,6 +21,8 @@ class TestimonialsSettingsComponent extends ModuleSettingsComponent
         'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',
         'editItemById' => 'showItemById',
         'onReorderListItems' => 'reorderListItems',
+        'onConfirmDeleteSelectedItems' => 'confirmDeleteSelectedItems',
+
     ];
 
     public function render()
