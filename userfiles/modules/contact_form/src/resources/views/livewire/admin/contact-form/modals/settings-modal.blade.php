@@ -6,7 +6,7 @@
                     <h5 class="mw-modal-title">
                         Contact Form Settings
                     </h5>
-                    <button type="button" class="btn-close" wire:click="$dispatch('closeModal')"
+                    <button type="button" class="btn-close" @click="$dispatch('closeModal')"
                             aria-label="Close"></button>
                 </div>
                 <div class="mw-modal-body">

@@ -1,7 +1,7 @@
 <div>
     <div class="modal-header">
         <h5 class="modal-title">{{_e('Update user password')}}</h5>
-        <button type="button" class="btn-close" wire:click="$dispatch('closeModal')" aria-label="Close"></button>
+        <button type="button" class="btn-close" @click="$dispatch('closeModal')" aria-label="Close"></button>
     </div>
 
     <div class="modal-body">
@@ -64,7 +64,7 @@
                             </div>
                         </div>
 
-                        <button type="button" class="btn btn-outline-primary" wire:click="$dispatch('closeModal')" aria-label="Close">
+                        <button type="button" class="btn btn-outline-primary" @click="$dispatch('closeModal')" aria-label="Close">
                             {{_e('Ok! Close')}}
                         </button>
                     @else

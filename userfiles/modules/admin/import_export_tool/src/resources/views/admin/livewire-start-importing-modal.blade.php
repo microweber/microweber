@@ -4,7 +4,7 @@
             <div class="mw-modal-content">
                 <div class="mw-modal-header">
                     <h5 class="mw-modal-title">Feed Importing</h5>
-                    <button type="button" class="btn btn-link" wire:click="$dispatch('closeModal')">Close</button>
+                    <button type="button" class="btn btn-link" @click="$dispatch('closeModal')">Close</button>
                 </div>
                 <div class="mw-modal-body">
 
@@ -35,7 +35,7 @@
                         @else
                             <h3>Done!</h3>
                             <br/>
-                            <button type="button" wire:click="$dispatch('viewReportAndCloseModal')"
+                            <button type="button" @click="$dispatch('viewReportAndCloseModal')"
                                     class="btn btn-outline-success">View Report
                             </button>
                             <script>

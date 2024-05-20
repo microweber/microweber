@@ -11,7 +11,7 @@
         @endif
 
         <button type="button" class="btn-close" aria-label="Close"
-                wire:click="$dispatch('closeModal')"></button>
+                @click="$dispatch('closeModal')"></button>
     </div>
 
     @if (!isset($package['description']))

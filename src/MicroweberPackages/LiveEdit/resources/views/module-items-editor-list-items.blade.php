@@ -127,7 +127,7 @@
                                     </div>
                                     @if (isset($editorSettings['config']) && isset($editorSettings['config']['listColumns']))
                                         <div class="col text-truncate"
-                                             wire:click="$dispatch('editItemById', '{{ $itemId }}')" >
+                                             @click="$dispatch('editItemById', '{{ $itemId }}')" >
                                             <div class="d-flex align-items-center gap-2">
                                             @foreach ($editorSettings['config']['listColumns'] as $columnKey => $columnLabel)
                                                 @if (isset($item[$columnKey]))
@@ -156,11 +156,11 @@
 
 
                                         <x-microweber-ui::button-action  wire:key="item-list-delete-btn-{{ $itemId  }}" type="button" :tooltip="$deleteButtonText"
-                                                                         wire:click="$dispatch('onShowConfirmDeleteItemById', {itemId: '{{ $itemId  }}'})">
+                                                                         @click="$dispatch('onShowConfirmDeleteItemById', {itemId: '{{ $itemId  }}'})">
                                                 <?php print $deleteButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 
-                                        <x-microweber-ui::button-action wire:key="item-list-edit-btn-{{ $itemId  }}" type="button" wire:click="$dispatch('editItemById', '{{ $itemId }}')">
+                                        <x-microweber-ui::button-action wire:key="item-list-edit-btn-{{ $itemId  }}" type="button" @click="$dispatch('editItemById', '{{ $itemId }}')">
                                                 <?php print $editButtonIconSvg ?>
                                         </x-microweber-ui::button-action>
 

@@ -97,7 +97,7 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 
         $this->getItems();
 
-        $this->dispatch('onItemDeleted');
+        $this->dispatch('onItemDeleted')->to('microweber-live-edit::module-items-editor-list');
 
 
     }
@@ -123,7 +123,7 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         }
         $allItems = [];
         $allItems = array_merge($topItems, $itemsOldSort);
-      //   $this->dispatch('onItemChanged');
+        //   $this->dispatch('onItemChanged');
         $this->saveItems($allItems);
     }
 
@@ -144,8 +144,6 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
         $this->dispatch('settingsChanged', moduleId: $this->moduleId, settings: $save);
 
     }
-
-
 
 
 }

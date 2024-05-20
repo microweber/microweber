@@ -6,7 +6,7 @@
         <h5 class="modal-title">
             {{_e('Comments Settings')}}
         </h5>
-        <button type="button" class="btn-close"  aria-label="Close" wire:click="$dispatch('closeModal')"></button>
+        <button type="button" class="btn-close"  aria-label="Close" @click="$dispatch('closeModal')"></button>
     </div>
 
     <div class="mw-modal-body">
@@ -42,7 +42,7 @@
     </div>
     <div class="mw-modal-footer d-flex justify-content-between align-items-center">
 
-        <button type="button" class="btn btn-link"   aria-label="Close" wire:click="$dispatch('closeModal')">
+        <button type="button" class="btn btn-link"   aria-label="Close" @click="$dispatch('closeModal')">
             {{_e('Close')}}
         </button>
 

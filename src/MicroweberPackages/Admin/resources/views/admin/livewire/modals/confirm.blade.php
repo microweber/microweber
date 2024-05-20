@@ -7,7 +7,7 @@
                         {{$title}}
                     </h5>
                     <button type="button" class="btn-close mw-process-close-modal-button"
-                            wire:click="$dispatch('closeModal')"></button>
+                            @click="$dispatch('closeModal')"></button>
                 </div>
                 <div class="mw-modal-body text-center">
 
@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center align-items-center gap-4 mt-4">
-                        <x-microweber-ui::button-animation wire:click="$dispatch('closeModal')">
+                        <x-microweber-ui::button-animation @click="$dispatch('closeModal')">
                             {{_e('Cancel')}}
                         </x-microweber-ui::button-animation>
                         <x-microweber-ui::button-animation class="text-red" wire:click="confirm">

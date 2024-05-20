@@ -126,7 +126,7 @@
                 </div>
             </div>
             <div class="live-edit-label">
-                <button type="button" class="btn btn-outline-primary" wire:click="$dispatch('openModal', 'admin::edit-user.update-password-without-confirm-form-modal', {{ json_encode(['userId' => $state['id']]) }})">Change Password</button>
+                <button type="button" class="btn btn-outline-primary" @click="$dispatch('openModal', 'admin::edit-user.update-password-without-confirm-form-modal', {{ json_encode(['userId' => $state['id']]) }})">Change Password</button>
             </div>
             @endif
 

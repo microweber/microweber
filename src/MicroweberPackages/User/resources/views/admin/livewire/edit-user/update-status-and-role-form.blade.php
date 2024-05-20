@@ -34,8 +34,8 @@
 
             <br />
             <a href="{{api_url('users/export_my_data?user_id=' . $state['id'])}}" class="btn btn-outline-primary btn-sm"><?php _e('Export user data');?></a>
-            <button type="button" class="btn btn-outline-primary btn-sm" wire:click="$dispatch('openModal', 'admin::user-tos-log', {{ json_encode(['userId' => $state['id']]) }})"><?php _e('Terms agreement log');?></button>
-            <button type="button" class="btn btn-outline-primary btn-sm" wire:click="$dispatch('openModal', 'admin::user-login-attempts', {{ json_encode(['userId' => $state['id']]) }})"><?php _e('Login attempts');?></button>
+            <button type="button" class="btn btn-outline-primary btn-sm" @click="$dispatch('openModal', 'admin::user-tos-log', {{ json_encode(['userId' => $state['id']]) }})"><?php _e('Terms agreement log');?></button>
+            <button type="button" class="btn btn-outline-primary btn-sm" @click="$dispatch('openModal', 'admin::user-login-attempts', {{ json_encode(['userId' => $state['id']]) }})"><?php _e('Login attempts');?></button>
 
         </x-slot>
 

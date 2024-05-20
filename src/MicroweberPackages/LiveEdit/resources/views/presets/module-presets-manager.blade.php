@@ -168,7 +168,7 @@
                 </div>
             @else
                 <x-microweber-ui::button class="btn btn-primary-outline" type="button"
-                                         wire:click="$dispatch('saveModuleAsPreset')">@lang('Save as preset')</x-microweber-ui::button>
+                                         @click="$dispatch('saveModuleAsPreset')">@lang('Save as preset')</x-microweber-ui::button>
             @endif
 
 
@@ -224,11 +224,11 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-microweber-ui::button-animation wire:click="$toggle('areYouSureDeleteModalOpened')"
+                <x-microweber-ui::button-animation @click="$toggle('areYouSureDeleteModalOpened')"
                                                    wire:loading.attr="disabled">
                     <?php _e('Cancel'); ?>
                 </x-microweber-ui::button-animation>
-                <x-microweber-ui::button-animation class="text-danger" wire:click="$dispatch('onConfirmDeleteSelectedItems')"
+                <x-microweber-ui::button-animation class="text-danger" @click="$dispatch('onConfirmDeleteSelectedItems')"
                                                    wire:loading.attr="disabled">
                     <?php _e('Delete'); ?>
                 </x-microweber-ui::button-animation>

@@ -13,6 +13,7 @@ class ModuleSettingsItemsEditorListComponent extends AbstractModuleSettingsEdito
     public $listeners = [
      //  'onItemChanged' => '$refresh',
      'onItemChanged' => 'handleOnItemChanged',
+     'onItemDeleted' => '$refresh',
         'refreshComponent' => '$refresh',
         'onReorderListItems' => 'reorderListItems',
         'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',

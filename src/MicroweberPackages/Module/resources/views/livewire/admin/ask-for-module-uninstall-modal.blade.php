@@ -11,7 +11,7 @@
                                 {{_e('Uninstall')}} {{$moduleData['name']}}
                             </h5>
                             <button type="button" class="btn-close" aria-label="Close"
-                                    wire:click="$dispatch('closeModal')"></button>
+                                    @click="$dispatch('closeModal')"></button>
 
                         </div>
                         <div class="mw-modal-body">
@@ -20,7 +20,7 @@
                         <div
                             class="mw-modal-footer d-flex justify-content-between align-items-center">
                             <button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component"  aria-label="Close"
-                                    wire:click="$dispatch('closeModal')">
+                                    @click="$dispatch('closeModal')">
                                 {{_e('Cancel')}}
                             </button>
 

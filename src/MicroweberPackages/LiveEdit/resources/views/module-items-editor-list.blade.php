@@ -231,7 +231,13 @@ showEditTab: 'main'
     </div>
 
     <div>
-        <x-microweber-ui::dialog-modal wire:key="areYouSureDeleteModalOpened" wire:model.live="areYouSureDeleteModalOpened">
+
+
+
+
+        <x-microweber-ui::dialog-modal asdaswire:key="areYouSureDeleteModalOpened" wire:model="areYouSureDeleteModalOpened">
+
+
 
             <x-slot name="title">
                 <?php _e('Are you sure?'); ?>
@@ -241,10 +247,12 @@ showEditTab: 'main'
             </x-slot>
 
             <x-slot name="footer">
-                <x-microweber-ui::button-animation wire:click="$toggle('areYouSureDeleteModalOpened')" wire:loading.attr="disabled">
+
+
+                <x-microweber-ui::button-animation type="button" @click="$toggle('areYouSureDeleteModalOpened')" wire:loading.attr="disabled">
                     <?php _e('Cancel'); ?>
                 </x-microweber-ui::button-animation>
-                <x-microweber-ui::button-animation class="text-danger" wire:click="$dispatch('onConfirmDeleteSelectedItems')" wire:loading.attr="disabled">
+                <x-microweber-ui::button-animation type="button" class="text-danger" @click="$dispatch('onConfirmDeleteSelectedItems')" wire:loading.attr="disabled">
                     <?php _e('Delete'); ?>
                 </x-microweber-ui::button-animation>
             </x-slot>

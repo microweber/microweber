@@ -9,7 +9,7 @@
                         <h5 class="mw-modal-title">
                             {{$formData->getSubject()}}
                         </h5>
-                        <button type="button" class="btn-close" wire:click="$dispatch('closeModal')"
+                        <button type="button" class="btn-close" @click="$dispatch('closeModal')"
                                 aria-label="Close"></button>
                     </div>
 
@@ -38,7 +38,7 @@
                             @endif
 
                             <button class="btn btn-outline-dark mt-3"
-                                    wire:click="$dispatch('closeModal')"> {{_e('Close')}}</button>
+                                    @click="$dispatch('closeModal')"> {{_e('Close')}}</button>
                         </div>
                     </div>
                 @endif
