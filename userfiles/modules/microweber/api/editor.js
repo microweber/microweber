@@ -355,15 +355,20 @@ var MWEditor = function (options) {
                 }
                 wTarget = wTarget.parentNode;
             }
-            if(!shouldCloseSelects) {
+            if(!shouldCloseSelects && e.target) {
                 var smallEditor = !!scope.smallEditor && scope.smallEditor.get(0);
                 if(smallEditor) {
                     shouldCloseSelects = !smallEditor.contains(e.target);
+
                 }
                 if(!shouldCloseSelects) {
 
                 }
 
+            }
+
+            if(!e.target) {
+                shouldCloseSelects = false;
             }
 
             if(shouldCloseSelects) {
