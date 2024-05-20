@@ -1,13 +1,13 @@
 @php
-    if (! isset($scrollTo)) {
-        $scrollTo = 'body';
-    }
+if (! isset($scrollTo)) {
+    $scrollTo = 'body';
+}
 
-    $scrollIntoViewJsSnippet = ($scrollTo !== false)
-        ? <<<JS
-           (\$el.closest('{$scrollTo}') || document.querySelector('{$scrollTo}')).scrollIntoView()
-        JS
-        : '';
+$scrollIntoViewJsSnippet = ($scrollTo !== false)
+    ? <<<JS
+       (\$el.closest('{$scrollTo}') || document.querySelector('{$scrollTo}')).scrollIntoView()
+    JS
+    : '';
 @endphp
 
 <div>
