@@ -32,7 +32,7 @@
 
             @if($campaignLog)
             <div class="d-flex justify-content-center mb-3 mt-4">
-                {{ $campaignLog->links("livewire-tables::specific.bootstrap-4.pagination") }}
+                {{ $campaignLog->links("livewire::tables.bootstrap-4.pagination") }}
             </div>
             @endif
 

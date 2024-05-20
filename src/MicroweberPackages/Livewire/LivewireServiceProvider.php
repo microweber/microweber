@@ -33,7 +33,6 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
  #   protected $defer = false;
 
 
-
     protected function mergeConfigFrom($path, $key)
     {
         $config = $this->app['config']->get($key, []);
@@ -80,6 +79,7 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
     public function register()
     {
+
         app()->bind(\Livewire\Mechanisms\FrontendAssets\FrontendAssets::class, MwLivewireFrontendAssets::class);
         app()->bind(\Livewire\Mechanisms\HandleRequests\HandleRequests::class, MwLivewireHandleRequests::class);
 
@@ -96,11 +96,6 @@ class LivewireServiceProvider extends BaseLivewireServiceProvider
 
         View::addNamespace('livewire', __DIR__ . '/resources/views');
 
-
-
-        // Load datatables
-       app()->register(LaravelLivewireTablesServiceProvider::class);
-        $this->mergeConfigFrom(__DIR__.'/config/livewire-tables.php', 'livewire-tables');
 
         // Load UI Modal
 //        app()->register(LivewireModalServiceProvider::class);

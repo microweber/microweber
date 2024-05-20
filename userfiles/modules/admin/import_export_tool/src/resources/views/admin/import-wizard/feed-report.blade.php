@@ -42,7 +42,7 @@
             </div>
         @endforeach
 
-     {{$mappedContent->links('livewire-tables::specific.bootstrap-4.pagination')}}
+     {{$mappedContent->links('livewire::tables.bootstrap-4.pagination')}}
 
     @endif
 </div>

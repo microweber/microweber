@@ -140,7 +140,7 @@
                                </div>
                            @endforeach
                            <div class="d-flex justify-content-center mt-4">
-                               {!! $marketplacePagination->links('livewire-tables::specific.bootstrap-4.pagination') !!}
+                               {!! $marketplacePagination->links('livewire::tables.bootstrap-4.pagination') !!}
                            </div>
 
 

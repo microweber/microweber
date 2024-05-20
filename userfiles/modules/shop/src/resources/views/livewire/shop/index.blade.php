@@ -37,7 +37,7 @@
         </div>
 
         <div class="d-flex justify-content-center mb-3">
-            {{ $products->links("livewire-tables::specific.bootstrap-4.pagination") }}
+            {{ $products->links("livewire::tables.bootstrap-4.pagination") }}
         </div>
 
     </div>
