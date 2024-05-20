@@ -18,7 +18,7 @@ class FilterItemComponent extends AutoCompleteComponent
 
     public function hideFilterItem($id)
     {
-        if ($this->id == $id) {
+        if ($this->getId() == $id) {
             $this->dispatch('hideFilterItem', $this->selectedItemKey);
             $this->resetProperties();
         }
@@ -26,7 +26,7 @@ class FilterItemComponent extends AutoCompleteComponent
 
     public function updatedSelectedItem($value)
     {
-        $this->showDropdown($this->id);
+        $this->showDropdown($this->getId());
         $this->selectItem($value);
 
         if (!empty($this->onChangedEmitEvents)) {

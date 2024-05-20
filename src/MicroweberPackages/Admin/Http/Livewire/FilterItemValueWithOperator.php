@@ -23,7 +23,7 @@ class FilterItemValueWithOperator extends DropdownComponent
 
     public function hideFilterItem($id)
     {
-        if ($this->id == $id) {
+        if ($this->getId() == $id) {
             $this->dispatch('hideFilterItem', $this->itemValueKey);
             $this->resetProperties();
         }
@@ -31,13 +31,13 @@ class FilterItemValueWithOperator extends DropdownComponent
 
     public function updatedItemValue()
     {
-        $this->showDropdown($this->id);
+        $this->showDropdown($this->getId());
         $this->dispatchEvents();
     }
 
     public function updatedItemOperatorValue()
     {
-        $this->showDropdown($this->id);
+        $this->showDropdown($this->getId());
         $this->dispatchEvents();
     }
 

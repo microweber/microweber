@@ -35,7 +35,7 @@ class DropdownComponent extends AdminComponent
      */
     public function closeDropdown($wireElementId = false)
     {
-        if ($wireElementId == $this->id) {
+        if ($wireElementId == $this->getId()) {
             $this->showDropdown = 0;
         }
     }
@@ -45,7 +45,7 @@ class DropdownComponent extends AdminComponent
      */
     public function showDropdown($wireElementId = false)
     {
-        if ($wireElementId == $this->id) {
+        if ($wireElementId == $this->getId()) {
             $this->showDropdown = 1;
         }
     }

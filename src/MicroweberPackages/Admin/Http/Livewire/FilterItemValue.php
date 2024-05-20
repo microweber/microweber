@@ -13,13 +13,13 @@ class FilterItemValue extends DropdownComponent
     public function resetProperties()
     {
         $this->itemValue = '';
-        $this->closeDropdown($this->id);
+        $this->closeDropdown($this->getId());
         $this->dispatchEvents();
     }
 
     public function hideFilterItem($id)
     {
-        if ($this->id == $id) {
+        if ($this->getId() == $id) {
             $this->dispatch('hideFilterItem', $this->itemValueKey);
             $this->resetProperties();
         }
@@ -27,7 +27,7 @@ class FilterItemValue extends DropdownComponent
 
     public function updatedItemValue()
     {
-        $this->showDropdown($this->id);
+        $this->showDropdown($this->getId());
         $this->dispatchEvents();
     }
 

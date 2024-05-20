@@ -47,7 +47,7 @@ class AutoCompleteMultipleSelectComponent extends AutoCompleteComponent
         $this->dispatch('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItems);
 
         if ($this->closeDropdownAfterSelect) {
-            $this->closeDropdown($this->id);
+            $this->closeDropdown($this->getId());
         }
 
         $this->refreshPlaceholder();

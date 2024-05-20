@@ -36,7 +36,7 @@ class TagsAutoComplete extends AutoCompleteMultipleSelectComponent
         $get = $query->get();
 
         if ($get != null) {
-            $this->showDropdown($this->id);
+            $this->showDropdown($this->getId());
             $this->data = [];
             foreach ($get as $item) {
                 $this->data[] = ['key'=>$item->slug, 'value'=>$item->name];
