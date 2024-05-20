@@ -267,11 +267,6 @@
 
             <div class="row py-3">
                 <div class="d-flex justify-content-center">
-
-                    <div style="width: 100%">
-                        <span class="text-muted">{{ $contents->total() }} results found</span>
-                    </div>
-
                     <div>
                         {{ $contents->links() }}
                     </div>
