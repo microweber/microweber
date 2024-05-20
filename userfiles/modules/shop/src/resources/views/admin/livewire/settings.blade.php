@@ -2,7 +2,7 @@
 
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Show products from</label>
-        <livewire:microweber-option::dropdown :dropdownOptions="$shopPagesDropdownOptions" optionKey="dropdown" :optionGroup="$moduleId" :module="$moduleType"  />
+        <livewire:microweber-option::dropdown :dropdownOptions="$shopPagesDropdownOptions" optionKey="content_from_id" :optionGroup="$moduleId" :module="$moduleType"  />
     </div>
 
     <div class="d-flex gap-2">
