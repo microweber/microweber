@@ -40,6 +40,8 @@ class Order extends Model
         'state',
         'zip',
         'address',
+        'address2',
+        'other_info',
         'phone',
         'user_ip',
         'is_completed',

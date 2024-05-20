@@ -28,7 +28,7 @@
                    maxHeight: '50vh',
                    interactionControls: [],
                    controls: [
-                       ['italic', 'underline', 'fontSize','fontSelector','strikeThrough', 'removeFormat','textBackgroundColor','textColor']
+                       ['italic', 'underline', 'fontSize', 'strikeThrough', 'removeFormat','textBackgroundColor','textColor']
                    ]
 
                });
