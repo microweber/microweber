@@ -41,7 +41,7 @@
                               </span>
                         </span>
                         <div class="custom-control custom-checkbox d-flex align-items-center">
-                            <input type="checkbox" value="{{ $content->id }}" id="js-content-checkbox-{{ $content->id }}"  class="js-select-posts-for-action form-check-input"  wire:model.live="checked">
+                            <input type="checkbox" value="{{ $content->id }}" id="js-content-checkbox-{{ $content->id }}"  class="js-select-posts-for-action form-check-input" wire:model.live="checked">
                             <label for="js-content-checkbox-{{ $content->id }}" class="custom-control-label"></label>
                         </div>
                     </div>

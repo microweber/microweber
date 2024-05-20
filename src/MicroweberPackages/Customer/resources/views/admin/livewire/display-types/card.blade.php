@@ -12,7 +12,7 @@
                               </span>
                         </span>
                         <div class="custom-control custom-checkbox d-flex align-items-center">
-                            <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action form-check-input"  wire:model.live="checked">
+                            <input type="checkbox" value="{{ $content->id }}" id="products-{{ $content->id }}"  class="js-select-posts-for-action form-check-input" wire:model.live="checked">
                             <label for="products-{{ $content->id }}" class="custom-control-label"></label>
                         </div>
 

@@ -13,7 +13,7 @@ $randId = 'shpr'.md5($this->moduleId . $this->moduleType);
                <label>From</label>
                <div class="input-group">
                    <span class="input-group-text">$</span>
-                   <input type="text" class="form-control"  wire:model.live="priceFrom" id="js-shop-price-range-from-{{$randId}}" aria-label="Amount (to the nearest dollar)">
+                   <input type="text" class="form-control" wire:model.live="priceFrom" id="js-shop-price-range-from-{{$randId}}" aria-label="Amount (to the nearest dollar)">
                </div>
            </div>
            <div>

@@ -7,39 +7,39 @@
             </a>
             <div class="dropdown-menu p-3">
         <h6 class="dropdown-header">Order</h6>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.id"> Id</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.orderStatus"> Order Status
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.id"> Id</label>
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.orderStatus"> Order Status
         </label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.isPaid"> Payment Status</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.amountBetween"> Amount Range</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.productId"> Product </label>
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.isPaid"> Payment Status</label>
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.amountBetween"> Amount Range</label>
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.productId"> Product </label>
 
         <h6 class="dropdown-header">Shipping</h6>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingService"> Shipping Service</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingTrackingNumber">
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingService"> Shipping Service</label>
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingTrackingNumber">
             Shipping Tracking Number</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingStatus"> Shipping
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingStatus"> Shipping
             Status</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippedAt"> Shipped
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippedAt"> Shipped
             at</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingCountry"> Shipping
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingCountry"> Shipping
             Country</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingCity"> Shipping City</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingSate"> Shipping Sate</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingPostCode"> Shipping
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingCity"> Shipping City</label>
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingSate"> Shipping Sate</label>
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingPostCode"> Shipping
             Post Code</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingAddress"> Shipping
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingAddress"> Shipping
             Address</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.shippingPhone"> Shipping
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.shippingPhone"> Shipping
             Phone</label>
 
         <h6 class="dropdown-header">Customer</h6>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.customer"> Customer</label>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.userId"> Registered
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.customer"> Customer</label>
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.userId"> Registered
             User </label>
 
         <h6 class="dropdown-header">Date</h6>
-        <label class="dropdown-item"><input type="checkbox" wire:model.live="showFilters.dateBetween"> Orders Date
+        <label class="dropdown-item"><input type="checkbox"  wire:change="updateShowFilters" wire:model.live="showFilters.dateBetween"> Orders Date
             Range
         </label>
     </div>
