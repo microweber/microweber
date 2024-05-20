@@ -224,7 +224,7 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-microweber-ui::button-animation @click="$toggle('areYouSureDeleteModalOpened')"
+                <x-microweber-ui::button-animation wire:click="$toggle('areYouSureDeleteModalOpened')"
                                                    wire:loading.attr="disabled">
                     <?php _e('Cancel'); ?>
                 </x-microweber-ui::button-animation>

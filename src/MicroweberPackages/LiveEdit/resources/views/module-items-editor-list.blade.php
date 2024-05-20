@@ -249,7 +249,7 @@ showEditTab: 'main'
             <x-slot name="footer">
 
 
-                <x-microweber-ui::button-animation type="button" @click="$toggle('areYouSureDeleteModalOpened')" wire:loading.attr="disabled">
+                <x-microweber-ui::button-animation type="button" wire:click="$toggle('areYouSureDeleteModalOpened')" wire:loading.attr="disabled">
                     <?php _e('Cancel'); ?>
                 </x-microweber-ui::button-animation>
                 <x-microweber-ui::button-animation type="button" class="text-danger" @click="$dispatch('onConfirmDeleteSelectedItems')" wire:loading.attr="disabled">
