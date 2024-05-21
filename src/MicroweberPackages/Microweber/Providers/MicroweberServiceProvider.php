@@ -213,10 +213,10 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 
+
         $this->app->register(FilamentServiceProvider::class);
 
         $this->app->register(FilamentAdminPanelProvider::class);
-
 
     }
 }
