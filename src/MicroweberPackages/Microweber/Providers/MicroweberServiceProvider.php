@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Microweber\Providers;
 
+use Filament\Tables\TablesServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;

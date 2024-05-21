@@ -17,6 +17,7 @@ use Filament\Facades\Filament;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Tables\TablesServiceProvider;
+use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
@@ -30,8 +31,19 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
     public function packageRegistered(): void
     {
         parent::packageRegistered();
+        //register FilamentManager
+
+        $this->app->scoped('filament', function (): FilamentManager {
+            return new FilamentManager();
+        });
+
         $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
-     }
+        $this->app->register(TablesServiceProvider::class);
+        $this->app->register(NotificationsServiceProvider::class);
+        $this->app->register(FormsServiceProvider::class);
+        $this->app->register(WidgetsServiceProvider::class);
+    }
+
     public function packageBooted(): void
     {
         parent::packageBooted();
@@ -40,6 +52,7 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
         $originalFolder = normalize_path($originalFolder, true);
 
         if (is_dir($originalFolder)) {
+            View::addNamespace('filament', $originalFolder . 'filament/resources/views/components');
             View::addNamespace('filament-panels', $originalFolder . 'filament/resources/views');
             View::addNamespace('filament-forms', $originalFolder . 'forms/resources/views');
             View::addNamespace('filament-notifications', $originalFolder . 'notifications/resources/views');
@@ -53,6 +66,7 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             $this->loadTranslationsFrom($originalFolder . 'widgets/resources/lang', 'filament-widgets');
 
         }
+
 
         Filament::serving(function () {
             Filament::registerViteTheme(

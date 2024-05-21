@@ -505,7 +505,6 @@ class UserManager
     public function nice_name($id = false, $mode = 'full')
     {
 
-
         if (!$id) {
             $id = $this->id();
         }
