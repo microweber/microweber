@@ -220,6 +220,7 @@ function is_admin()
     if (app()->bound('user_manager')) {
         return app()->user_manager->is_admin();
     }
+    return false;
 }
 
 function is_live_edit()

@@ -3,6 +3,8 @@
 namespace MicroweberPackages\User\Models;
 
 use EloquentFilter\Filterable;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,7 +30,7 @@ use Illuminate\Validation\Rule;
 
 use carbon\carbon;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
     use HasFactory,
         Notifiable,
@@ -320,6 +322,12 @@ class User extends Authenticatable implements MustVerifyEmail
             $this->{Fortify::username()},
             decrypt($this->two_factor_secret)
         );
+    }
+
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isAdmin();
     }
 
 }

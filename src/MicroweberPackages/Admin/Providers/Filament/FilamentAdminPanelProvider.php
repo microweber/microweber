@@ -24,21 +24,29 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-             ->viteTheme('resources/css/microweber-admin-filament.scss','public/build')
-             ->id('admin')
+           ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
+            ->id('admin')
             ->path('filament')
             ->default()
+            ->login()
+            ->brandName(fn() => config('app.name'))
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
+            ->discoverResources(
+                in: app_path('Filament/Admin/Resources'),
+                for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+              //  Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
+            ->discoverWidgets(
+                in:  app_path('Filament/Admin/Widgets'),
+                for: 'App\\Filament\\Admin\\Widgets'
+            )
             ->widgets([
-                Widgets\AccountWidget::class,
+               // Widgets\AccountWidget::class,
+              //  Widgets\FilamentInfoWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
@@ -52,9 +60,11 @@ class FilamentAdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+          //   ->authGuard('web')
             ->authMiddleware([
-            // Authenticate::class,
-             Admin::class,
+        //       Authenticate::class,
+                \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
+           //  Admin::class,
             ]);
     }
 }

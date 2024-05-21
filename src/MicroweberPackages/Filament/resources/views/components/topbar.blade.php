@@ -43,7 +43,6 @@
 
             @livewire('filament.core.notifications')
 
-            <x-filament::layouts.app.topbar.user-menu />
         </div>
     </div>
 </header>

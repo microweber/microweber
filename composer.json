@@ -43,6 +43,7 @@
         "erusev/parsedown": "1.7.4",
         "ezyang/htmlpurifier": "*",
         "filament/filament": "^3.2",
+        "filament/forms": "^3.2",
         "filament/infolists": "^3.2",
         "finlet/flexmail": "dev-master",
         "florianv/swap": "^4.3",
