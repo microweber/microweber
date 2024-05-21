@@ -23,6 +23,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+
         return $panel
              // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
@@ -30,7 +31,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->path('aaaaaaaa')
             ->default()
               ->login()
-             ->registration()
+           //  ->registration()
             ->brandName(fn() => config('app.name'))
             ->colors([
                 'primary' => Color::Amber,
