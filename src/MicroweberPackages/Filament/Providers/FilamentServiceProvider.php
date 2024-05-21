@@ -25,6 +25,13 @@ use Filament\FilamentServiceProvider as BaseFilamentPackageServiceProvider;
 
 class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
 {
+    use MergesConfig;
+
+    public function packageRegistered(): void
+    {
+        parent::packageRegistered();
+        $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
+     }
     public function packageBooted(): void
     {
         parent::packageBooted();
@@ -53,9 +60,11 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
                 'public/build'
             );
         });
-
-
     }
+
+
+
+
 
 //    use MergesConfig;
 //

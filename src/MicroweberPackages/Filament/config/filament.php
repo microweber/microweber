@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'assets_path' => null,
+    'assets_path' => 'public/vendor/filament',
 
     /*
     |--------------------------------------------------------------------------

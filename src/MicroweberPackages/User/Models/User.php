@@ -27,6 +27,8 @@ use MicroweberPackages\User\Notifications\MailResetPasswordNotification;
 use MicroweberPackages\User\Notifications\MustVerifyEmailTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Validation\Rule;
+use \Illuminate\Support\Facades\Auth;
+
 
 use carbon\carbon;
 
@@ -35,7 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     use HasFactory,
         Notifiable,
         TwoFactorAuthenticatable,
-       // HasRoles,
+        // HasRoles,
         HasApiTokens,
         Filterable,
         HasSearchableTrait,
@@ -124,7 +126,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     );
 
     protected $rules = [
-     //   'email' => 'required'
+        //   'email' => 'required'
     ];
 
     private $validator;
@@ -134,8 +136,8 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         parent::boot();
 
         self::creating(function ($model) {
-           //$model->is_active = 0;
-           $model->is_verified = 0;
+            //$model->is_active = 0;
+            $model->is_verified = 0;
         });
     }
 
@@ -152,7 +154,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     /**
      * Find the user instance for the given username.
      *
-     * @param  string $username
+     * @param string $username
      * @return \App\User
      */
     public function findForPassport($username)
@@ -171,7 +173,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
         $email = $request->email;
         $password = $request->password;
 
-        return (\Auth::attempt(array('email' => $email, 'password' => $password), $remember));
+        return (Auth::attempt(array('email' => $email, 'password' => $password), $remember));
     }
 
     /**
@@ -179,7 +181,7 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
      */
     public function sendPasswordResetNotification($token)
     {
-      $this->notify(new MailResetPasswordNotification($token));
+        $this->notify(new MailResetPasswordNotification($token));
     }
 
     public function customer()

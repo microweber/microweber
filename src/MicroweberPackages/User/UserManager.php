@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\User;
 
-use Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +12,7 @@ use MicroweberPackages\App\LoginAttempt;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Socialite\MicroweberProvider;
 
+use \Illuminate\Support\Facades\Auth;
 
 class UserManager
 {

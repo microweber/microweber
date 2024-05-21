@@ -29,6 +29,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->path('filament')
             ->default()
             ->login()
+            ->registration()
             ->brandName(fn() => config('app.name'))
             ->colors([
                 'primary' => Color::Amber,
@@ -53,9 +54,9 @@ class FilamentAdminPanelProvider extends PanelProvider
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
-                AuthenticateSession::class,
+                //AuthenticateSession::class,
                 ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
+                //VerifyCsrfToken::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
