@@ -31,9 +31,12 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->default()
               ->login()
              ->registration()
-            ->brandName(fn() => config('app.name'))
+            ->brandLogo(function () {
+                return site_url('userfiles/modules/microweber/api/libs/mw-ui/assets/img/logo.svg');
+            })
+            ->sidebarWidth(20)
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Blue,
             ])
             ->discoverResources(
                 in: app_path('Filament/Admin/Resources'),
