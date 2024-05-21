@@ -24,12 +24,12 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-        //   ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
+            //   ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->id('admin')
-            ->path('filament')
+            ->path('aaaaaaaa')
             ->default()
-            ->login()
-            ->registration()
+            //  ->login()
+            //   ->registration()
             ->brandName(fn() => config('app.name'))
             ->colors([
                 'primary' => Color::Amber,
@@ -39,33 +39,33 @@ class FilamentAdminPanelProvider extends PanelProvider
                 for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->pages([
-              //  Pages\Dashboard::class,
+                //  Pages\Dashboard::class,
             ])
             ->discoverWidgets(
-                in:  app_path('Filament/Admin/Widgets'),
+                in: app_path('Filament/Admin/Widgets'),
                 for: 'App\\Filament\\Admin\\Widgets'
             )
             ->widgets([
-               // Widgets\AccountWidget::class,
-              //  Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                //  Widgets\FilamentInfoWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
-                EncryptCookies::class,
+                //  EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
                 AuthenticateSession::class,
                 ShareErrorsFromSession::class,
-                //VerifyCsrfToken::class,
+                VerifyCsrfToken::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-        ->authGuard('web')
+            ->authGuard('web')
             ->authMiddleware([
-            //  Authenticate::class,
-               \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
-           //  Admin::class,
+                //  Authenticate::class,
+                \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
+                //  Admin::class,
             ]);
     }
 }
