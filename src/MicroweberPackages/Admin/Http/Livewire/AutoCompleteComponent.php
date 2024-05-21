@@ -130,6 +130,11 @@ class AutoCompleteComponent extends DropdownComponent
         $this->dispatch('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItem);
     }
 
+    public function updateSelectItem()
+    {
+        $this->selectItem($this->selectedItem);
+    }
+
     public function load($id)
     {
         if ($id == $this->getId()) {
