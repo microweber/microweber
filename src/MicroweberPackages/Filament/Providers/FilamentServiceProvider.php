@@ -69,6 +69,7 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
 
 
         Filament::serving(function () {
+            \Livewire\Livewire::forceAssetInjection();
             Filament::registerViteTheme(
                 'resources/css/microweber-admin-filament.scss',
                 'public/build'

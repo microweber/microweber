@@ -29,8 +29,8 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('aaaaaaaa')
             ->default()
-            //  ->login()
-            //   ->registration()
+              ->login()
+             ->registration()
             ->brandName(fn() => config('app.name'))
             ->colors([
                 'primary' => Color::Amber,
