@@ -32,12 +32,12 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
     {
         parent::packageRegistered();
         //register FilamentManager
+        $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
 
         $this->app->scoped('filament', function (): FilamentManager {
             return new FilamentManager();
         });
 
-        $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
         $this->app->register(TablesServiceProvider::class);
         $this->app->register(NotificationsServiceProvider::class);
         $this->app->register(FormsServiceProvider::class);
@@ -71,6 +71,10 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
         Filament::serving(function () {
             Filament::registerViteTheme(
                 'resources/css/microweber-admin-filament.scss',
+                'public/build'
+            );
+            Filament::registerViteTheme(
+                'resources/css/filament/admin/theme.css',
                 'public/build'
             );
         });
