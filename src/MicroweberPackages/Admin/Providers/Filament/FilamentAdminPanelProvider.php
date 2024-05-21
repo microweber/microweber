@@ -31,6 +31,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->default()
               ->login()
              ->registration()
+            ->brandLogoHeight('35px')
             ->brandLogo(function () {
                 return site_url('userfiles/modules/microweber/api/libs/mw-ui/assets/img/logo.svg');
             })
