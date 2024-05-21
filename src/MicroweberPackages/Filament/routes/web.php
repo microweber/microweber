@@ -114,7 +114,7 @@ Route::name('filament.')
                                             $routes($panel);
                                         }
 
-                                        Route::get('/', RedirectToHomeController::class)->name('home');
+                                        //Route::get('/', RedirectToHomeController::class)->name('filament.home');
 
                                         Route::name('tenant.')->group(function () use ($panel): void {
                                             if ($panel->hasTenantBilling()) {
@@ -134,6 +134,7 @@ Route::name('filament.')
                                         foreach ($panel->getResources() as $resource) {
                                             $resource::registerRoutes($panel);
                                         }
+
                                     });
 
                                 if ($hasTenancy) {
