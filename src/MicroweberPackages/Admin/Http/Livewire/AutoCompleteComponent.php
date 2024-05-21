@@ -125,7 +125,7 @@ class AutoCompleteComponent extends DropdownComponent
         }
 
         $this->refreshQueryData();
-        $this->dispatch('$refresh');
+        $this->dispatch('$refresh')->self();
 
         $this->dispatch('autoCompleteSelectItem', $this->selectedItemKey, $this->selectedItem);
     }

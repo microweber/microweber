@@ -110,7 +110,7 @@ abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 
       //  $this->dispatch('onItemDeleted')0
 $this->js('window.location.reload()');
-      // $this->dispatch('$refresh');
+      // $this->dispatch('$refresh')->self();
 
 
     }

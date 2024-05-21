@@ -213,6 +213,7 @@ class ContentList extends AdminComponent
                 session()->flash('showFilter' . ucfirst($filterKey), '1');
             }
         }
+        $this->dispatch('$refresh')->self();
     }
 
     public function updatedChecked($value)

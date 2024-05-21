@@ -45,7 +45,7 @@ class UserCommentPreviewComponent extends Component {
     public function refreshIfReplyIsToMe($id) {
         if ($id == $this->comment->id) {
             $this->showReplies = true;
-            $this->dispatch('$refresh');
+            $this->dispatch('$refresh')->self();
         }
     }
 

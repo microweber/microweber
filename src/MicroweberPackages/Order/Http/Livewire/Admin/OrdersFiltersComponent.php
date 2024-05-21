@@ -51,6 +51,7 @@ class OrdersFiltersComponent extends Component
                 session()->flash('showFilter' . ucfirst($filterKey), '1');
             }
         }
+        $this->dispatch('$refresh')->self();
     }
 
     public function render()
