@@ -40,7 +40,10 @@
                 @foreach($data as $i=>$item)
                     <li class="list-group-item cursor-pointer">
                         <label class="form-check-label" for="filterItemRadio{{$i}}-{{$this->getId()}}">
-                            <input class="form-check-input me-2" type="radio" wire:model.live="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->getId()}}">
+                            <input class="form-check-input me-2" type="radio"
+                                   name="input-{{$this->getId()}}"
+                                   wire:change="updateSelectItem"
+                                   wire:model.live="selectedItem" value="{{ $item['key'] }}" id="filterItemRadio{{$i}}-{{$this->getId()}}">
                             {{ $item['value'] }}
                         </label>
                     </li>
