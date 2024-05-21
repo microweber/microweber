@@ -1,3 +1,5 @@
+
+
 mw.storage = {
     init: function () {
 
@@ -15,6 +17,18 @@ mw.storage = {
         }
 
 
+    },
+    identity: function () {
+        if(!mw._storageIdentity) {
+            mw._storageIdentity = 'mw-' + Date.now();
+        }
+        return mw._storageIdentity;
+    },
+    rootIdentity: function () {
+        if(!mw.top()._storageIdentity) {
+            mw.top()._storageIdentity = 'mw-' + Date.now();
+        }
+        return mw.top()._storageIdentity;
     },
     set: function (key, val) {
         try {
@@ -59,7 +73,7 @@ mw.storage = {
                         if (t in mw.storage._keys) {
                             var i = 0, l = mw.storage._keys[t].length;
                             for (; i < l; i++) {
-                                mw.storage._keys[t][i].call(diff[t]);
+                                mw.storage._keys[t][i].call(undefined, diff[t]);
                             }
                         }
                     }

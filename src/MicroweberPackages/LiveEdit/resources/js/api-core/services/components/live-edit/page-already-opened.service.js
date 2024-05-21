@@ -1,4 +1,4 @@
-export class MWPageAlreadyOpened{
+export class MWPageAlreadyOpened {
 
     constructor() {
 

@@ -68,19 +68,26 @@ mw.app = new MWUniversalContainer();
         return new SingleFilePickerComponent(options)
     };
 
-    mw.app.broadcast.on('canvasURL', async (data) => {
+
+
+    mw.top().storage.change('mw-broadcast-data', async function() {
 
 
 
-        mw.app.broadcast.record('canvasURL', data.url);
+        let url = mw.top().app.canvas.getUrl();
+
+
+        console.log("", url);
+
+
 
         const isActive = mw.app.documentFocus.isActive();
 
-        if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(data.url) && mw.top().app.canvas.isUrlSame(data.url)  ) {
+        if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(url) && mw.top().app.canvas.isUrlSame(url)  ) {
 
 
 
-            const action = await mw.app.pageAlreadyOpened.handle(data.url);
+            const action = await mw.app.pageAlreadyOpened.handle(url);
 
             if(action) {
 

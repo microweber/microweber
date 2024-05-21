@@ -1,7 +1,53 @@
 import  MicroweberBaseClass  from "../../containers/base-class.js";
 
 
-export class LiveEditCanvas extends MicroweberBaseClass {
+class LiveEditCanvasBase extends MicroweberBaseClass {
+    constructor() {
+        super();
+    }
+
+    getIdentity() {
+        return mw.top().storage.identity()
+    }
+
+    findByKey(key, excludeSameIdentity = false) {
+        let curr = mw.storage.get('mw-broadcast-data');
+        const res = []
+        for(let identity in curr) {
+            if(curr[identity][key] && curr[identity][key] && (!excludeSameIdentity || identity !== this.getIdentity())) {
+                res.push({...curr[identity], identity});
+            }
+        }
+        return res;
+    }
+    findByKeyValue(key, value, excludeSameIdentity = false) {
+        let curr = mw.storage.get('mw-broadcast-data');
+        const res = []
+        for(let identity in curr) {
+            if(curr[identity][key] && curr[identity][key] === value && (!excludeSameIdentity || identity !== this.getIdentity())) {
+                res.push({...curr[identity], identity});
+            }
+        }
+        return res;
+    }
+
+    record(action, data) {
+
+        let curr = mw.storage.get('mw-broadcast-data');
+        let identity = this.getIdentity();
+
+        if (typeof curr[identity] === 'undefined') {
+            curr[identity] = {};
+        }
+        if (!data) {
+            return curr[identity][action];
+        }
+        curr[identity][action] = data;
+        mw.storage.set('mw-broadcast-data', curr);
+    }
+}
+
+export class LiveEditCanvas extends LiveEditCanvasBase {
 
     constructor(options = {}) {
         super();
@@ -30,7 +76,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
     async #registerURL(url){
         const open = async () => {
-            mw.top().app.broadcast.message('canvasURL', {url: this.#urlAsValue(url)});
+
             this.dispatch('setUrl', url);
             if (this.options && this.options.onSetUrl) {
                 await this.options.onSetUrl(url);
@@ -63,7 +109,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
     isUrlOpened(url) {
 
-       return  mw.top().app.broadcast.findByKeyValue('canvasURL', this.#urlAsValue(url), false).length > 1;
+       return  this.findByKeyValue('canvasURL', this.#urlAsValue(url), false).length > 1;
     }
 
 
@@ -111,7 +157,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         return false;
     }
 
-      getUrl(url) {
+      getUrl() {
         return this.#canvas.src;
       }
     async setUrl(url) {

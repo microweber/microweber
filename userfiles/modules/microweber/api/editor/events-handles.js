@@ -26,7 +26,10 @@ class MWEditorEventHandles {
         range.insertNode(br);
         range = range.cloneRange();
 
+        console.log(1)
+
         if(!br.nextSibling || !br.nextSibling.nodeValue) {
+            console.log(2)
             br.after(document.createTextNode('\u200B'))
         }
         range.selectNode ( br );
@@ -164,6 +167,10 @@ class MWEditorEventHandles {
      }
 
      enter(e) {
+
+        if(e && e.shiftKey) {
+            return;
+        }
 
         let focusNode = this.scope.api.elementNode(this.scope.getSelection().focusNode);
         let focusActualTarget = this.scope.getActualTarget(focusNode);
