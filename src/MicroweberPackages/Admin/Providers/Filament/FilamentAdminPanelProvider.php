@@ -24,7 +24,7 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-           ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
+        //   ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->id('admin')
             ->path('filament')
             ->default()
@@ -54,17 +54,17 @@ class FilamentAdminPanelProvider extends PanelProvider
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
-                //AuthenticateSession::class,
+                AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 //VerifyCsrfToken::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-          //   ->authGuard('web')
+        ->authGuard('web')
             ->authMiddleware([
-        //       Authenticate::class,
-                \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
+            //  Authenticate::class,
+               \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
            //  Admin::class,
             ]);
     }
