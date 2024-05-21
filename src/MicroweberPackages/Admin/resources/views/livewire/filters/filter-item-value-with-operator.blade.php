@@ -41,7 +41,7 @@
                 <option value="lower">Lower than</option>
                 <option value="">Equal to</option>
             </select>
-            <input type="number" class="form-control" placeholder="{{$name}} count" wire:keydown.enter="closeDropdown('{{$this->getId()}}')" wire:model.live.stop="itemValue">
+            <input type="number" class="form-control" placeholder="{{$name}} count" wire:keydown.enter="closeDropdown('{{$this->getId()}}')" wire:change="updateItemValue" wire:model.live.stop="itemValue">
         </div>
     </div>
 

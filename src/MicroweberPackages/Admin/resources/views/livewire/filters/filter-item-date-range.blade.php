@@ -22,7 +22,7 @@
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->getId()}} @if($showDropdown) active @endif ">
 
 
-        <input type="hidden" id="js-date-range" wire:model.live.stop="itemValue">
+        <input type="hidden" id="js-date-range" wire:change="updateItemValue" wire:model.live.stop="itemValue">
 
         <div class="mb-3 mb-md-0 input-group">
             <input id="js-date-range-picker" class="form-control" type="text" autocomplete="off" />

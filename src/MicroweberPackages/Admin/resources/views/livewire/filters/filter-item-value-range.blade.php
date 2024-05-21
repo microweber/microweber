@@ -21,7 +21,7 @@
 
     <div class="badge-dropdown position-absolute js-dropdown-content-{{$this->getId()}} @if($showDropdown) active @endif ">
 
-        <input type="hidden" id="js-price-range" wire:model.live.stop="itemValue">
+        <input type="hidden" id="js-price-range" wire:change="updateItemValue" wire:model.live.stop="itemValue">
 
         <div class="mb-3 mb-md-0 input-group">
             <span class="input-group-text">From</span>
