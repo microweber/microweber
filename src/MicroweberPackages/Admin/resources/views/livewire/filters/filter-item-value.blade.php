@@ -26,6 +26,7 @@
             <input type="text" class="form-control" placeholder="Fill the {{$name}}"
 
                    wire:keydown.enter="closeDropdown('{{$this->getId()}}')"
+                   wire:change="updateItemValue"
                    wire:model.live.stop="itemValue">
         </div>
     </div>
