@@ -1,0 +1,12 @@
+.choices__list--multiple .choices__item {
+    @apply rounded-full bg-primary-100 text-primary-700 ring-0 dark:bg-primary-400/20 dark:text-primary-300;
+}
+
+.choices__item--choice.choices__item--selectable {
+    @apply rounded;
+}
+
+.choices__list--dropdown,
+.choices__list[aria-expanded] {
+    @apply rounded-md;
+}

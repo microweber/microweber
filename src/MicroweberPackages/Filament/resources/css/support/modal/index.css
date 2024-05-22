@@ -1,0 +1,20 @@
+.fi-modal-window {
+    @apply ring-0;
+}
+
+.fi-modal:not(.fi-width-screen)
+    .fi-modal-window:not(.fi-modal-slide-over-window) {
+    @apply rounded-lg;
+}
+
+.fi-modal:not(.fi-width-screen)
+    .fi-modal-window:not(.fi-modal-slide-over-window)
+    .fi-modal-header.fi-sticky {
+    @apply rounded-t-lg;
+}
+
+.fi-modal:not(.fi-width-screen)
+    .fi-modal-window:not(.fi-modal-slide-over-window)
+    .fi-modal-footer.fi-sticky {
+    @apply rounded-b-lg;
+}

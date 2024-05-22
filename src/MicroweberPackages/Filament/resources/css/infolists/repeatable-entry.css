@@ -1,0 +1,3 @@
+.fi-in-repeatable.fi-contained .fi-in-repeatable-item {
+    @apply rounded-lg;
+}

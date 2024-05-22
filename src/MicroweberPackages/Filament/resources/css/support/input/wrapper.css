@@ -1,0 +1,27 @@
+.fi-input-wrp {
+    @apply rounded-md;
+
+    &:focus-within {
+        @apply outline outline-4 !ring-1;
+    }
+
+    &:not(.fi-invalid) {
+        @apply ring-gray-950/[15%] dark:ring-white/20;
+
+        &.fi-disabled {
+            @apply dark:ring-white/10;
+        }
+
+        &:focus-within {
+            @apply outline-primary-500/30 ring-gray-950/[15%] dark:outline-primary-400/40 dark:ring-white/20;
+        }
+    }
+
+    &.fi-invalid {
+        @apply ring-danger-600 dark:ring-danger-400;
+
+        &:focus-within {
+            @apply outline-primary-500/30 dark:outline-primary-400/40;
+        }
+    }
+}

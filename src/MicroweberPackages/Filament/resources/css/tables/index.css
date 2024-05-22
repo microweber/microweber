@@ -1,0 +1,30 @@
+@import 'cell';
+@import 'columns';
+@import 'container';
+@import 'header';
+@import 'header-cell';
+@import 'reorder';
+@import 'row';
+@import 'selection';
+@import 'summary';
+@import 'table';
+
+.fi-ta-filters-above-content-ctn {
+    @apply sm:!px-3;
+}
+
+.fi-ta-header-toolbar {
+    @apply sm:!px-3;
+}
+
+.fi-ta-content-grid .fi-ta-record {
+    @apply rounded-lg;
+}
+
+.fi-ta-pagination {
+    @apply !px-0;
+}
+
+.fi-ta-filters-below-content {
+    @apply sm:!px-3;
+}

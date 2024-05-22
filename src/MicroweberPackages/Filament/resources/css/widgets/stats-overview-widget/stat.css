@@ -1,0 +1,7 @@
+.fi-wi-stats-overview-stat {
+    @apply rounded-none shadow-none outline outline-1 outline-gray-200 ring-0 dark:outline-white/5;
+}
+
+.fi-wi-stats-overview-stat-chart {
+    @apply rounded-b-none;
+}

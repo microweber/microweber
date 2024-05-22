@@ -1,0 +1,13 @@
+@import 'item';
+
+.fi-tabs {
+    @apply gap-x-3 shadow-[inset_0_-1px_theme(colors.gray.200)] dark:shadow-[inset_0_-1px_theme(colors.gray.700)];
+}
+
+.fi-tabs:not(.fi-contained) {
+    @apply mx-0 rounded-none bg-transparent p-0 ring-0 dark:bg-transparent;
+}
+
+.fi-tabs.fi-contained {
+    @apply border-b-0 px-0 py-0;
+}

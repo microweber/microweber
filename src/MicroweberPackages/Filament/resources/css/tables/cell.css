@@ -1,0 +1,9 @@
+.fi-ta-cell {
+    &:first-of-type {
+        @apply !ps-0;
+    }
+
+    &:last-of-type {
+        @apply !pe-0;
+    }
+}

@@ -1,0 +1,9 @@
+@import '/vendor/filament/filament/resources/css/index.css';
+@import 'actions';
+@import 'forms';
+@import 'infolists';
+@import 'notifications';
+@import 'panels';
+@import 'support';
+@import 'tables';
+@import 'widgets';

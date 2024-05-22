@@ -1,0 +1,9 @@
+@import 'item';
+
+.fi-topbar {
+    @apply border-b border-gray-200 dark:border-gray-800;
+}
+
+.fi-topbar > nav {
+    @apply shadow-none ring-0;
+}

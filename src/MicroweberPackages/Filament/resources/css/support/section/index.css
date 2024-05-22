@@ -1,0 +1,29 @@
+.fi-section {
+    &:not(.fi-aside) {
+        @apply rounded-none shadow-none ring-0;
+
+        & > .fi-section-header {
+            @apply px-0 pt-0;
+        }
+    }
+}
+
+.fi-section-header {
+    @apply overflow-visible;
+}
+
+.fi-section-content-ctn {
+    @apply border-none;
+}
+
+.fi-section-content {
+    @apply p-0;
+}
+
+.fi-section.fi-aside > .fi-section-content-ctn {
+    @apply rounded-none shadow-none ring-0;
+}
+
+.fi-section-footer {
+    @apply border-none px-0 pb-0;
+}

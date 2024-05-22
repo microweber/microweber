@@ -1,0 +1,21 @@
+.fi-badge {
+    @apply rounded-full ring-0;
+
+    &.fi-color-custom {
+        @apply bg-custom-100 text-custom-700 dark:!bg-custom-400/20 dark:!text-custom-300;
+    }
+
+    &.fi-color-gray {
+        @apply bg-gray-100 dark:bg-gray-400/20 dark:text-gray-300;
+    }
+}
+
+.fi-badge-icon {
+    .fi-color-custom & {
+        @apply text-custom-600 dark:text-custom-400;
+    }
+
+    .fi-color-gray & {
+        @apply text-gray-400 dark:text-gray-400;
+    }
+}

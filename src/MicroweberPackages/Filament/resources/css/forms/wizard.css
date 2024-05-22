@@ -1,0 +1,83 @@
+.fi-fo-wizard-header {
+    @apply justify-start divide-y-0 lg:gap-x-12;
+    counter-reset: step;
+}
+
+.fi-fo-wizard:not(.fi-contained) .fi-fo-wizard-header {
+    @apply rounded-none bg-transparent shadow-none ring-0;
+}
+
+.fi-fo-wizard-header-step {
+    @apply pb-6 md:pb-0;
+    counter-increment: step;
+}
+
+.fi-fo-wizard-header-step:not(.fi-active):not(.fi-completed)
+    .fi-fo-wizard-header-step-icon-ctn {
+    @apply border border-gray-950/10 dark:border-white/20;
+}
+
+.fi-fo-wizard-header-step-button {
+    @apply z-10 items-start p-0;
+
+    &:not(:has(.fi-fo-wizard-header-step-description)) {
+        @apply items-center;
+    }
+}
+
+.fi-fo-wizard-header-step-icon-ctn {
+    position: relative;
+    height: theme(height.8);
+    width: theme(width.8);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        box-shadow: theme(boxShadow.sm);
+        border-radius: theme(borderRadius.full);
+    }
+}
+
+.fi-fo-wizard-header-step.fi-active .fi-fo-wizard-header-step-icon-ctn {
+    @apply border border-primary-600/40 dark:border-primary-500/40;
+}
+
+.fi-fo-wizard-header-step:not(.fi-completed)
+    .fi-fo-wizard-header-step-icon-ctn {
+    @apply bg-gray-50 dark:bg-gray-800;
+}
+
+.fi-fo-wizard-header-step-icon {
+    @apply h-5 w-5;
+}
+
+.fi-fo-wizard-header-step.fi-active .fi-fo-wizard-header-step-icon {
+    @apply dark:text-primary-400;
+}
+
+.fi-fo-wizard-header-step-indicator {
+    @apply invisible relative;
+}
+
+.fi-fo-wizard-header-step.fi-active .fi-fo-wizard-header-step-indicator {
+    @apply dark:text-primary-400;
+}
+
+.fi-fo-wizard-header-step-indicator:after {
+    @apply visible absolute inset-0;
+    content: counter(step);
+    text-align: center;
+}
+
+.fi-fo-wizard-header-step-separator {
+    @apply bottom-0 start-4 top-4 -ms-px block w-0.5 bg-gray-200 dark:bg-gray-800 md:!hidden;
+}
+
+.fi-fo-wizard-header-step.fi-completed .fi-fo-wizard-header-step-separator {
+    @apply bg-primary-600 dark:bg-primary-500;
+}
+
+.fi-fo-wizard-header-step-separator svg {
+    @apply hidden;
+}
