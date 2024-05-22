@@ -1,7 +1,7 @@
 <x-filament-panels::page>
 
-    <h1>
-        TESTT
-    </h1>
+    <div>
+        <livewire:admin-modules-list />
+    </div>
 
 </x-filament-panels::page>
