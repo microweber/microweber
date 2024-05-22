@@ -23,41 +23,6 @@ export class MWBroadcast extends BaseComponent {
 
     #channel = new BroadcastChannel("Microweber");
 
-    findByKey(key, excludeSameIdentity = false) {
-        let curr = mw.storage.get('mw-broadcast-data');
-        const res = []
-        for(let identity in curr) {
-            if(curr[identity][key] && curr[identity][key] && (!excludeSameIdentity || identity !== this.getIdentity())) {
-                res.push({...curr[identity], identity});
-            }
-        }
-        return res;
-    }
-    findByKeyValue(key, value, excludeSameIdentity = false) {
-        let curr = mw.storage.get('mw-broadcast-data');
-        const res = []
-        for(let identity in curr) {
-            if(curr[identity][key] && curr[identity][key] === value && (!excludeSameIdentity || identity !== this.getIdentity())) {
-                res.push({...curr[identity], identity});
-            }
-        }
-        return res;
-    }
-
-    record(action, data) {
-
-        let curr = mw.storage.get('mw-broadcast-data');
-        let identity = this.getIdentity();
-
-        if (typeof curr[identity] === 'undefined') {
-            curr[identity] = {};
-        }
-        if (!data) {
-            return curr[identity][action];
-        }
-        curr[identity][action] = data;
-        mw.storage.set('mw-broadcast-data', curr);
-    }
 
     message(action, data = {}) {
         this.max++;
