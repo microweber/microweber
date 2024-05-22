@@ -3,6 +3,9 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ModuleResource\Pages\ListModules;
+use App\Filament\Admin\Resources\ModuleResource\Pages\ViewModule;
+use Filament\Actions\Action;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -10,6 +13,7 @@ use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Module\Models\Module;
 
@@ -30,11 +34,6 @@ class ModuleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-//            ->recordClasses(function (Module $module) {
-//                return [
-//                   ''
-//                ];
-//            })
             ->columns([
 //                Tables\Columns\Layout\View::make('filament-panels::table.columns.layout.stack')
 //                    ->components([
@@ -45,22 +44,22 @@ class ModuleResource extends Resource
                         ->imageUrl(function (Module $module) {
                             return $module->icon();
                         })
-                        ->action(function (Module $module) {
-                            return redirect($module->adminUrl());
-                        })
+//                        ->action(function (Module $module) {
+//                            return redirect($module->adminUrl());
+//                        })
                         ->grow(false),
 
                     Tables\Columns\TextColumn::make('name')
                         ->searchable()
-                        ->sortable()
                         ->weight(FontWeight::Bold)
-                        ->action(function (Module $module) {
-                            return redirect($module->adminUrl());
-                        })
+//                        ->action(function (Module $module) {
+//                            return redirect($module->adminUrl());
+//                        })
                         ->grow(false),
                 ])
                     ->space(3)
-                    ->alignment(Alignment::Center)
+                    ->alignment(Alignment::Center),
+
             ])
             ->contentGrid([
                 'md' => 4,
@@ -68,8 +67,47 @@ class ModuleResource extends Resource
             ])
             ->paginated(false)
             ->filters([
-                //
-            ])
+
+                Tables\Filters\SelectFilter::make('installed')
+                    ->label('Status')
+                    ->options([
+                        '1' => 'Installed',
+                        '0' => 'Not Installed',
+                    ])
+                    ->label('Installed')
+                    ->placeholder('All')
+                    ->default('1'),
+
+                Tables\Filters\Filter::make('type')
+                    ->form([
+                        Forms\Components\Select::make('type')
+                            ->options([
+                            'live_edit' => 'Live Edit Modules',
+                            'admin' => 'Admin Modules',
+                            'all' => 'All Modules',
+                            'elements' => 'Elements',
+                        ])->default('admin'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['type'])) {
+                            if ($data['type'] == 'live_edit') {
+                                $query->where('ui', 1);
+                            }
+                            if ($data['type'] == 'admin') {
+                                $query->where('ui_admin', 1);
+                            }
+                            if ($data['type'] == 'elements') {
+                                $query->where('as_element', 1);
+                            }
+                        }
+                        return $query;
+                    }),
+
+            ],layout: Tables\Enums\FiltersLayout::Modal)
+            ->filtersTriggerAction(
+                fn (Tables\Actions\Action $action) => $action
+                    ->slideOver()
+            )
             ->actions([
 
             ])
@@ -89,6 +127,7 @@ class ModuleResource extends Resource
     {
         return [
             'index' => ListModules::route('/'),
+            'view' => ViewModule::route('/{record}'),
         ];
     }
 }
