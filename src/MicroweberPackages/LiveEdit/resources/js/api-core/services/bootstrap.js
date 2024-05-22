@@ -77,11 +77,17 @@ mw.app = new MWUniversalContainer();
         let url = mw.top().app.canvas.getUrl();
 
 
-        console.log("", url);
+
 
 
 
         const isActive = mw.app.documentFocus.isActive();
+
+
+
+
+
+
 
         if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(url) && mw.top().app.canvas.isUrlSame(url)  ) {
 
