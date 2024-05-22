@@ -34,6 +34,9 @@ class ModuleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordClasses([
+                'shadow',
+            ])
             ->columns([
 //                Tables\Columns\Layout\View::make('filament-panels::table.columns.layout.stack')
 //                    ->components([
