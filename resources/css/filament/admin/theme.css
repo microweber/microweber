@@ -28,12 +28,6 @@
     .bg-azure-lt {
         @apply bg-blue-300/10;
     }
-    .btn-outline-primary {
-        @apply text-primary-500 border-primary-500;
-    }
-    .btn-outline-primary:hover {
-        @apply text-primary-600 border-primary-600;
-    }
     .form-control {
         @apply block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm;
     }
