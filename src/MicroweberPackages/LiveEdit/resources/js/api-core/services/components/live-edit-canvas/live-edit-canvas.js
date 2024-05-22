@@ -156,9 +156,10 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
         }
         return false;
     }
-
       getUrl() {
-        return this.#canvas.src;
+        if(this.#canvas && this.#canvas.src) {
+            return this.#canvas.src;
+        }
       }
     async setUrl(url) {
 
