@@ -11,10 +11,12 @@
         Livewire.on('openMwTopDialogIframe', (componentName, jsonParams) => {
 
             let params = [];
+            params.componentName = componentName;
             if (jsonParams) {
                 jsonParams.componentName = componentName;
                 params = new URLSearchParams(jsonParams).toString();
             }
+
             let mwNativeModal = mw.top().dialogIframe({
                 url: "{{ route('admin.livewire.components.render-component') }}?" + params,
                 width: 900,
