@@ -1,0 +1,23 @@
+@import 'group';
+@import 'item';
+
+.fi-sidebar {
+    @apply ring-0 lg:!bg-gray-50 lg:dark:!bg-gray-950;
+}
+
+.fi-sidebar-header {
+    @apply border-b border-gray-200 px-8 ring-0 dark:!border-gray-800 lg:!shadow-none;
+    height: calc(4rem + 1px);
+}
+
+.fi-sidebar-nav {
+    @apply gap-y-0 px-0 lg:border-r lg:border-gray-200 lg:dark:border-gray-800;
+}
+
+.fi-sidebar-nav-tenant-menu-ctn {
+    @apply !mx-6;
+}
+
+.fi-sidebar-nav-groups {
+    @apply mx-0 gap-y-0 divide-y divide-gray-950/5 dark:divide-white/5;
+}

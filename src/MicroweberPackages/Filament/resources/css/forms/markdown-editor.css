@@ -1,0 +1,21 @@
+.fi-fo-markdown-editor .EasyMDEContainer {
+    .editor-toolbar {
+        @apply border-none pb-0;
+
+        button {
+            @apply rounded-md hover:bg-transparent focus-visible:bg-transparent dark:hover:bg-transparent dark:focus-visible:bg-transparent;
+
+            &::before {
+                @apply transition duration-75;
+            }
+
+            &:not(.active)::before {
+                @apply bg-gray-500 hover:bg-gray-700 dark:bg-gray-400 dark:hover:bg-gray-200;
+            }
+
+            &.active {
+                @apply bg-transparent dark:bg-transparent;
+            }
+        }
+    }
+}

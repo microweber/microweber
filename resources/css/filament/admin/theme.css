@@ -1,46 +1,13 @@
-@import '/vendor/filament/filament/resources/css/theme.css';
+@import '/src/MicroweberPackages/Filament/resources/css/index.css';
+
+.fi-resource-modules .fi-ta-filter-indicators  {
+    @apply !border-none !bg-transparent !shadow-none !ring-0;
+}
+.fi-resource-modules .fi-ta-record  {
+    @apply p-4;
+}
+.fi-resource-modules .fi-ta-content-grid {
+    @apply !border-none !gap-12 !bg-blue-500/10 !rounded !py-8;
+}
 
 @config 'tailwind.config.js';
-
-.collapse {
-    visibility: visible;
-}
-
-@layer components {
-    .d-flex {
-        @apply flex;
-    }
-    .flex-column {
-        @apply flex-col;
-    }
-    .flex-grow-1 {
-        @apply flex-grow;
-    }
-    .align-items-center {
-        @apply items-center;
-    }
-    .justify-content-between {
-        @apply justify-between;
-    }
-    .justify-content-center {
-        @apply justify-center;
-    }
-    .bg-azure-lt {
-        @apply bg-blue-300/10;
-    }
-    .form-control {
-        @apply block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm;
-    }
-    .btn {
-        @apply block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm;
-    }
-    .position-relative {
-        @apply relative;
-    }
-    .row-cards {
-        @apply grid grid-cols-4 gap-4 p-4;
-    }
-    .modules-card {
-        @apply bg-white rounded-lg shadow-sm p-4;
-    }
-}

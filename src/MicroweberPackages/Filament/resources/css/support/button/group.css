@@ -1,0 +1,15 @@
+.fi-btn-group {
+    @apply rounded-md;
+
+    .fi-btn {
+        @apply rounded-none;
+
+        &:nth-child(1 of .fi-btn) {
+            @apply rounded-es-md rounded-ss-md;
+        }
+
+        &:nth-last-child(1 of .fi-btn) {
+            @apply rounded-ee-md rounded-se-md;
+        }
+    }
+}

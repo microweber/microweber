@@ -1,0 +1,11 @@
+.fi-sidebar-nav .fi-sidebar-group {
+    @apply px-6 py-5;
+}
+
+.fi-sidebar-group .fi-sidebar-group-icon {
+    @apply text-gray-500 dark:text-gray-400;
+}
+
+.fi-sidebar-group .fi-sidebar-group-label {
+    @apply font-medium text-gray-500 dark:text-gray-400;
+}

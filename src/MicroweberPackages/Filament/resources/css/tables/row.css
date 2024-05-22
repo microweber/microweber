@@ -1,0 +1,5 @@
+.fi-ta-row {
+    & > *:first-child::before {
+        @apply dark:!bg-primary-400;
+    }
+}

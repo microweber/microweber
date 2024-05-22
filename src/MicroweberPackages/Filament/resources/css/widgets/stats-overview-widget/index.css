@@ -1,0 +1,5 @@
+@import 'stat';
+
+.fi-wi-stats-overview-stats-ctn {
+    @apply gap-px overflow-hidden rounded-lg ring-1 ring-gray-950/10 dark:ring-white/10;
+}

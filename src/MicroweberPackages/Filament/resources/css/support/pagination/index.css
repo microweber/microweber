@@ -1,0 +1,9 @@
+@import 'item';
+
+.fi-pagination .fi-pagination-items {
+    @apply rounded-none bg-transparent shadow-none ring-0 dark:bg-transparent;
+}
+
+.fi-pagination-overview {
+    @apply text-gray-500 dark:!text-gray-400;
+}

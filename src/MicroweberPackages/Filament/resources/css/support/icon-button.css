@@ -1,0 +1,11 @@
+.fi-icon-btn {
+    @apply rounded-md;
+
+    &:focus-visible {
+        @apply outline outline-4 outline-offset-0 outline-primary-500/30 !ring-0 dark:outline-primary-400/40;
+    }
+}
+
+.fi-icon-btn-badge-ctn {
+    @apply rounded-full;
+}

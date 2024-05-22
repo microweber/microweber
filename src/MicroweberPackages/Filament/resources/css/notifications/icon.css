@@ -1,0 +1,9 @@
+.fi-no-notification-icon {
+    &.fi-color-gray {
+        @apply dark:text-gray-500;
+    }
+
+    &.fi-color-custom {
+        @apply text-custom-500 dark:text-custom-400;
+    }
+}
