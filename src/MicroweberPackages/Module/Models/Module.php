@@ -67,4 +67,9 @@ class Module extends Model
   //      return app()->module_manager->register('order/list', 'MicroweberPackages\Order\Http\Controllers\OrdersController');;
     }
 
+    public function adminUrl()
+    {
+        return module_admin_url($this->module);
+    }
+
 }

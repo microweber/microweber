@@ -66,7 +66,7 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             $this->loadTranslationsFrom($originalFolder . 'widgets/resources/lang', 'filament-widgets');
 
         }
-        View::prependNamespace('filament-panels', dirname(__DIR__).'/resources/views');
+        View::prependNamespace('filament-panels', dirname(__DIR__).'/resources/views/filament');
         //View::prependNamespace('filament-panels', base_path() . '/resources/views');
 
         Filament::serving(function () {

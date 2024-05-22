@@ -1,7 +1,11 @@
 <x-filament-panels::page>
 
-    <div>
-        <livewire:admin-modules-list />
+<div>
+
+    <div class="bg-red-500">
+        HERE TEXT
     </div>
+
+</div>
 
 </x-filament-panels::page>

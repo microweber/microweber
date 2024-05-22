@@ -19,7 +19,7 @@ class ImageUrlColumn extends ImageColumn
         return $this;
     }
 
-    public function getImagePath(): ?string
+    public function getImageUrl(?string $state = null): ?string
     {
         return $this->evaluate($this->imageUrl);
     }
