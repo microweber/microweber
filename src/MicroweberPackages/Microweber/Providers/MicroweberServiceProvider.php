@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Microweber\Providers;
 
+use Filament\MinimalThemeServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
@@ -218,6 +219,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(FilamentServiceProvider::class);
 
         $this->app->register(FilamentAdminPanelProvider::class);
+
 
     }
 }

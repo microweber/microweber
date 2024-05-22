@@ -1,4 +1,4 @@
-@import '/vendor/filament/minimal-theme/resources/css/index.css';
+@import '/src/MicroweberPackages/Filament/resources/css/index.css';
 
 .fi-resource-modules .fi-ta-filter-indicators  {
     @apply !border-none !bg-transparent !shadow-none !ring-0;
