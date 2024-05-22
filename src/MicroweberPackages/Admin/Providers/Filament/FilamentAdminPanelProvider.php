@@ -28,6 +28,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
             ->id('admin')
             ->path('aaaaaaaa')
+            ->databaseNotifications()
             ->default()
               ->login()
              ->registration()
