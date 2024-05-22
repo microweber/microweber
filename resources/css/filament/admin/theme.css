@@ -1,3 +1,13 @@
 @import '/vendor/filament/minimal-theme/resources/css/index.css';
 
+.fi-resource-modules .fi-ta-filter-indicators  {
+    @apply !border-none !bg-transparent !shadow-none !ring-0;
+}
+.fi-resource-modules .fi-ta-record  {
+    @apply p-4;
+}
+.fi-resource-modules .fi-ta-content-grid {
+    @apply !border-none !gap-12 !bg-blue-500/10 !rounded !py-8;
+}
+
 @config 'tailwind.config.js';
