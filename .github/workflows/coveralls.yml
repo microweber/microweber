@@ -21,14 +21,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: dev
-    - name: Npm install
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-        cache-dependency-path: ./package-lock.json
-    - run: npm install
-    - run: npm run build
+
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       with:
@@ -48,6 +41,14 @@ jobs:
         restore-keys: ${{ runner.os }}-composer-
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
+    - name: Npm install
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: ./package-lock.json
+    - run: npm install
+    - run: npm run build
     - name: Run PHPUnit Coverage with Xdebug
       run: composer test:coverage
     - name: Coveralls
