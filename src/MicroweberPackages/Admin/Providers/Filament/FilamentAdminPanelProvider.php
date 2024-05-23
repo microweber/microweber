@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\Admin\Http\Middleware\Admin;
 use MicroweberPackages\Filament\MicroweberTheme;
+use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 
 class FilamentAdminPanelProvider extends PanelProvider
@@ -81,6 +82,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $panel->plugin(new MicroweberTheme());
         $panel->plugin(new UsersFilamentPlugin());
+        $panel->plugin(new MarketplaceFilamentPlugin());
 
         return $panel;
     }
