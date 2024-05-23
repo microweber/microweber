@@ -205,7 +205,7 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
     }
 
       getUrl() {
-        if(this.#canvas && this.#canvas.ownerDocument) {
+        if(this.#canvas && this.#canvas.ownerDocument && this.#canvas.src) {
             return this.#canvas.src;
         }
       }
@@ -242,10 +242,10 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
             url = decodeURIComponent(qurl)
         }
 
-         var valid = URL.parse(url)
-        if(!valid){
-            url = mw.settings.site_url;
-        }
+        //  var valid =  mw.url.validate(url);
+        // if(!valid){
+        //     url = mw.settings.site_url;
+        // }
 
         url = new URL(url);
 
