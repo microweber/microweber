@@ -58,13 +58,11 @@ mw.storage = {
         if (key === 'INIT' && 'addEventListener' in document) {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {
-                    if (e.newValue === null) {
-                        return;
-                    }
 
-                    if (e.oldValue === null) {
-                        return;
-                    }
+
+
+
+
 
                     var _new = JSON.parse(e.newValue || {});
                     var _old = JSON.parse(e.oldValue || {});

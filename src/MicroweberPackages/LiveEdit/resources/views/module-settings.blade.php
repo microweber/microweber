@@ -10,13 +10,15 @@
         <?php
         $moduleTypeOriginal = $moduleType;
         $moduleTypeForLegacyModule = module_name_decode($moduleTypeOriginal);
-
         $moduleType = str_replace('/admin', '', $moduleType);
+       // $moduleTypeForLegacyModule = str_replace('/admin', '', $moduleTypeForLegacyModule);
+
         $moduleTypeForComponent =$moduleType;
         $moduleTypeForComponent = str_replace('/', '-', $moduleTypeForComponent);
        // $moduleTypeForLegacyModule = $moduleTypeForLegacyModule.'/admin';
 
-        $moduleFolder = $moduleTypeForComponent;
+     //   $moduleFolder = $moduleTypeForComponent;
+        $moduleFolder = $moduleTypeForLegacyModule;
         $moduleTypeForComponentDashed = str_replace('_', '-', $moduleTypeForComponent);
 
         $hasError = false;
