@@ -1,5 +1,5 @@
 .fi-sidebar-nav .fi-sidebar-group {
-    @apply px-6 py-5;
+    @apply px-2 py-5;
 }
 
 .fi-sidebar-group .fi-sidebar-group-icon {

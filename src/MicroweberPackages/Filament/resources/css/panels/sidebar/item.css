@@ -7,7 +7,7 @@
         & > .fi-sidebar-item-button {
             .fi-sidebar-item-icon,
             .fi-sidebar-item-label {
-                @apply text-gray-500 dark:text-gray-400;
+                @apply text-black dark:text-gray-400;
             }
 
             &:hover {
@@ -43,11 +43,11 @@
     }
 
     .fi-sidebar-item-icon {
-        @apply h-5 w-5 transition duration-75;
+        @apply h-6 w-6 transition duration-75;
     }
 
     .fi-sidebar-item-label {
-        @apply transition duration-75;
+        @apply transition duration-75 text-sm;
     }
 }
 
