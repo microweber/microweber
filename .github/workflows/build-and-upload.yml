@@ -15,6 +15,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
+
+
+      - name: Install Dependencies
+        run: composer install
+
+      - name: Dump autoload dependecies
+        run: composer dump-autoload
       - name: Npm install
         uses: actions/setup-node@v3
         with:
@@ -23,13 +30,6 @@ jobs:
           cache-dependency-path: ./package-lock.json
       - run: npm install
       - run: npm run build
-
-      - name: Install Dependencies
-        run: composer install
-
-      - name: Dump autoload dependecies
-        run: composer dump-autoload
-
       - name: Test before build
         run: composer test:phpunit
 
