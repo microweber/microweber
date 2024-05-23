@@ -6,7 +6,7 @@
 }
 
 .fi-sidebar-header {
-    @apply !border-0 border-gray-200 px-8 !mt-4 !ring-0 dark:!border-gray-800 lg:!shadow-none;
+    @apply !bg-transparent !border-0 border-gray-200 !px-4 !mt-4 !ring-0 dark:!border-gray-800 lg:!shadow-none;
     height: calc(4rem + 1px);
 }
 

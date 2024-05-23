@@ -36,13 +36,13 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
             ->default()
-              ->login()
-             ->registration()
-            ->brandLogoHeight('35px')
+            ->login()
+            ->registration()
+            ->brandLogoHeight('34px')
             ->brandLogo(function () {
                 return site_url('userfiles/modules/microweber/api/libs/mw-ui/assets/img/logo.svg');
             })
-            ->sidebarWidth(20)
+            ->sidebarWidth('15rem')
             ->colors([
                 'primary' => Color::Blue,
             ])
