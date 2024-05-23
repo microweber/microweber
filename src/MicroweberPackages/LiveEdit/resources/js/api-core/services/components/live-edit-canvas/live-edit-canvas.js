@@ -242,6 +242,11 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
             url = decodeURIComponent(qurl)
         }
 
+         var valid = URL.parse(url)
+        if(!valid){
+            url = mw.settings.site_url;
+        }
+
         url = new URL(url);
 
 
