@@ -22,14 +22,17 @@ class MicroweberTheme implements Plugin
 
     public function panel(Panel $panel): Panel
     {
-        return $panel->plugin(new UsersFilamentPlugin());
+
+      //  return $panel->plugin(new UsersFilamentPlugin());
     }
 
 
 
     public function register(Panel $panel): void
     {
-//        $panel
+          $panel->plugin(UsersFilamentPlugin::make());
+
+        //        $panel
 //            ->resources([
 //                PostResource::class,
 //                CategoryResource::class,
