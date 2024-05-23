@@ -84,8 +84,15 @@ class MarketplaceItem extends Model {
 
             $item = [];
             $item['id'] = $i;
-            $item['name'] = $latestVersion['name'];
-            $item['screenshot_link'] = $latestVersion['screenshot_link'];
+            $item['type'] = $latestVersion['type'];
+            $item['internal_name'] = $latestVersion['name'];
+            $item['name'] = $latestVersion['description'];
+            $item['big_screenshot_link'] = $latestVersion['screenshot_link'];
+
+            $item['screenshot_link'] = '';
+            if (isset($latestVersion['extra']['_meta']['screenshot'])) {
+                $item['screenshot_link'] = $latestVersion['extra']['_meta']['screenshot'];
+            }
 
             $allItems[] = $item;
         }

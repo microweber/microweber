@@ -7,11 +7,15 @@ use App\Filament\Admin\Resources\MarketplaceResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Marketplace\Models\MarketplaceItem;
+use MicroweberPackages\Module\Models\Module;
 
 class MarketplaceResource extends Resource
 {
@@ -37,7 +41,26 @@ class MarketplaceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
+                Tables\Columns\Layout\Stack::make([
+
+                    ImageUrlColumn::make('screenshot_link')
+                        ->imageUrl(function (MarketplaceItem $marketplaceItem) {
+                            return $marketplaceItem->screenshot_link;
+                        })
+                        ->grow(false),
+
+                    Tables\Columns\TextColumn::make('name')
+                        ->searchable()
+                        ->weight(FontWeight::Bold)
+
+                ])
+                ->space(3)
+                ->alignment(Alignment::Center),
+
+            ])
+            ->contentGrid([
+                'md' => 3,
+                'xl' => 3,
             ])
             ->filters([
                 //
