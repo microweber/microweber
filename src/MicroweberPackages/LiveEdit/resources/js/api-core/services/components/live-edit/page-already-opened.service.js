@@ -33,7 +33,7 @@ export class MWPageAlreadyOpened {
                 if(data.skipIdentity && data.skipIdentity.includes(mw.top().app.broadcast.getIdentity())) {
                     return;
                 }
-                mw.top().win.location.href = mw.settings.adminUrl;
+                mw.top().win.location.href = mw.top().settings.adminUrl;
             }
         })
     }

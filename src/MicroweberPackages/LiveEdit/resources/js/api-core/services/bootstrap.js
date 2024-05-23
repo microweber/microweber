@@ -69,28 +69,11 @@ mw.app = new MWUniversalContainer();
     };
 
 
-
-    mw.top().storage.change('mw-broadcast-data', async function() {
-
-
-
+    const handleSameUrl = async () => {
         let url = mw.top().app.canvas.getUrl();
 
 
-
-
-
-
-        const isActive = mw.app.documentFocus.isActive();
-
-
-
-
-
-
-
         if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(url) && mw.top().app.canvas.isUrlSame(url)  ) {
-
 
 
             const action = await mw.app.pageAlreadyOpened.handle(url);
@@ -98,13 +81,26 @@ mw.app = new MWUniversalContainer();
             if(action) {
 
             } else {
-                mw.top().win.location.href = mw.settings.adminUrl;
+                mw.top().win.location.href = mw.top().settings.adminUrl;
             }
 
-
-
         }
-    })
+    }
+
+
+
+    mw.top().app.canvas.on('liveEditCanvasLoaded', async function() {
+        await handleSameUrl();
+    });
+
+    mw.top().storage.change('mw-broadcast-data', async function() {
+
+        await handleSameUrl();
+
+
+    });
+
+
 
 
 

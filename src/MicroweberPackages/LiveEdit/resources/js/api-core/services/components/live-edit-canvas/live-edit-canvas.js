@@ -37,6 +37,9 @@ class LiveEditCanvasBase extends MicroweberBaseClass {
     }
 
     urlAsValue(url) {
+        if(!url) {
+            return ''
+        }
         const urlObj = new URL(url);
         urlObj.search = '';
         urlObj.hash = '';
@@ -138,7 +141,7 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
                 open()
             } else {
 
-                mw.top().win.location.href = mw.settings.adminUrl;
+                mw.top().win.location.href = mw.top().settings.adminUrl;
             }
 
         } else{
