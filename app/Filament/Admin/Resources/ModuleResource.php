@@ -14,6 +14,7 @@ use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Module\Models\Module;
 
@@ -22,6 +23,8 @@ class ModuleResource extends Resource
     protected static ?string $model = Module::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?string $label = 'Modules';
 
     public static function form(Form $form): Form
     {
@@ -117,6 +120,33 @@ class ModuleResource extends Resource
             ->bulkActions([
 
             ]);
+    }
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        /** @var Module $record */
+
+        return [
+            'Module' => $record->name,
+        ];
+    }
+
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('view')
+                ->url(static::getUrl('view', ['record' => $record])),
+        ];
+    }
+
+    /** @return Builder<Module> */
+    public static function getGlobalSearchEloquentQuery(): Builder
+    {
+        return parent::getGlobalSearchEloquentQuery();
     }
 
     public static function getRelations(): array
