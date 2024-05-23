@@ -52,7 +52,7 @@ class MarketplaceResource extends Resource
                     Tables\Columns\TextColumn::make('name')
                         ->searchable()
                         ->columnSpanFull()
-                        ->weight(FontWeight::Bold)
+                        ->weight(FontWeight::Bold),
 
                 ])
                 ->space(3)

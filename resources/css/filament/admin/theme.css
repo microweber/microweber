@@ -70,7 +70,7 @@
     @apply !divide-none;
 }
 .fi-resource-marketplace .fi-ta-content-grid {
-    @apply !px-0;
+    @apply !px-0 !pt-2;
 }
 .fi-resource-marketplace .fi-header {
     @apply mt-4;
