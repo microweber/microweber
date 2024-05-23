@@ -3,6 +3,7 @@
     @php
 
     $showSkinsDropdown = true;
+    $hasLegacySkinSettingsComponent = false;
 
 
         $currentSkin = 'default';
@@ -31,6 +32,12 @@
         if($currentSkin and $hasSkinSettingsComponent){
             $showSkinsDropdown = true;
         }
+        $legacySkinSettingsFileSkin = module_templates($moduleType, $currentSkinName, true);
+        if($legacySkinSettingsFileSkin and !$hasSkinSettingsComponent and is_file($legacySkinSettingsFileSkin)){
+            $showSkinsDropdown = true;
+            $hasLegacySkinSettingsComponent = true;
+        }
+
 
     @endphp
 
@@ -62,7 +69,7 @@
                     $selectModernOptions[$item['layout_file']] = $optionHtml;
                 }
             @endphp
-            <x-microweber-ui::select-modern wire:model.live="settings.template" :options="$selectModernOptions" />
+            <x-microweber-ui::select-modern wire:model="settings.template" :options="$selectModernOptions" />
         </div>
 
 
@@ -79,13 +86,11 @@
                                 $hasError = false;
                                 $output = false;
 
-
-
-                     /*           try {
-                                   print $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
+                                try {
+                                    $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
                                         'moduleId' => $moduleId,
                                         'moduleType' => $moduleType,
-                                    ], 'module-template-settings-'.$moduleId.'-'.uniqid());
+                                    ]) ;
 
                                 } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
                                     $hasError = true;
@@ -101,27 +106,50 @@
                                     print '</div>';
                                 } else {
                                     print $output;
-                                }*/
+                                }
 
 
                                 ?>
 
 
-                            @if(livewire_component_exists($componentNameForModuleSkin))
-                                @livewire($componentNameForModuleSkin, [
-                                'moduleId' => $moduleId,
-                                'moduleType' => $moduleType,
-                                ], key('module-template-settings-'.$moduleId))
-                            @endif
-
                         </div>
                         <script>
-                            //    window.Livewire.rescan();
+                            //    window.livewire.rescan();
                         </script>
                     </div>
                 </div>
 
             @endif
+
+
+            @if($currentSkin && $hasLegacySkinSettingsComponent)
+
+                <script>
+
+                    $(document).ready(function () {
+
+                        mw.options.form('#legacy-module-skin-settings', function () {
+                            mw.notification.success("<?php _ejs("Changes are saved"); ?>.");
+                        });
+                    });
+
+
+                </script>
+
+                <div class="mw-module-skin-setting-inner" id="legacy-module-skin-settings">
+                    <div>
+                        <div>
+                            <?php
+
+                                $params = [];
+                                $params['id'] = $moduleId;
+                                $params['type'] = $moduleType;
+                                include_once($legacySkinSettingsFileSkin) ?>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
         </div>
 
     </div>
