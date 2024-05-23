@@ -16,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
+use MicroweberPackages\Filament\Tables\Columns\SVGColumn;
 use MicroweberPackages\Module\Models\Module;
 
 class ModuleResource extends Resource
@@ -46,13 +47,10 @@ class ModuleResource extends Resource
 //
 //                ]),
                 Tables\Columns\Layout\Stack::make([
-                    ImageUrlColumn::make('icon')
-                        ->imageUrl(function (Module $module) {
-                            return $module->icon();
+                    SVGColumn::make('icon')
+                        ->state(function (Module $module) {
+                            return $module->getIconInline();
                         })
-//                        ->action(function (Module $module) {
-//                            return redirect($module->adminUrl());
-//                        })
                         ->grow(false),
 
                     Tables\Columns\TextColumn::make('name')
