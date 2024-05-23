@@ -22,7 +22,7 @@ class ModuleResource extends Resource
 {
     protected static ?string $model = Module::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'mw-modules';
 
     protected static ?string $label = 'Modules';
 
