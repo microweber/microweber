@@ -48,6 +48,12 @@
 .fi-resource-marketplace .fi-ta-record .image-column-cropped  {
     @apply rounded-t-md;
 }
+.fi-resource-marketplace .fi-ta-record .fi-ta-actions  {
+    @apply transition opacity-0 hover:opacity-100 hover:bg-black/10 rounded-t-md top-0 right-0 absolute w-full h-[11rem] !flex !justify-center !items-center;
+}
+.fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link  {
+    @apply opacity-0 w-full h-full;
+}
 .fi-resource-marketplace .fi-ta-record .fi-ta-text  {
     @apply p-4;
 }
