@@ -259,7 +259,9 @@ class ContentRepository extends AbstractRepository
      */
     public function getEditField($field, $rel_type, $rel_id = false): bool|array
     {
-        $cacheResponse = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($field, $rel_type, $rel_id) {
+
+        $locale = current_lang();
+        $cacheResponse = $this->cacheCallback(__FUNCTION__.$locale, func_get_args(), function () use ($field, $rel_type, $rel_id) {
 
             $check = DB::table('content_fields');
             $check->where('field', $field);
@@ -278,7 +280,7 @@ class ContentRepository extends AbstractRepository
             return false;
         });
 
-
+ //dump($field, $rel_type, $rel_id,$cacheResponse);
         if (!empty($cacheResponse)) {
             $hookParams = [];
             $hookParams['getEditField'] = true;
@@ -453,7 +455,7 @@ class ContentRepository extends AbstractRepository
         }
         foreach ($inheritFrom as $value) {
             $parentContent = $this->getById($value);
-            if ($parentContent and isset($parentContent['id']) && isset($parentContent['active_site_template']) && isset($parentContent['layout_file']) && $parentContent['layout_file'] != 'inherit') {
+            if ($parentContent and isset($parentContent['id'])) {
                 return intval($parentContent['id']);
             }
         }

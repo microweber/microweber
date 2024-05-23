@@ -10,6 +10,8 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Support\HtmlString;
+use MicroweberPackages\User\Filament\UsersFilamentPlugin;
+use MicroweberPackages\User\Providers\UserFilamentServiceProvider;
 
 class MicroweberTheme implements Plugin
 {
@@ -18,8 +20,23 @@ class MicroweberTheme implements Plugin
         return 'microweber-theme';
     }
 
+    public function panel(Panel $panel): Panel
+    {
+        return $panel->plugin(new UsersFilamentPlugin());
+    }
+
+
+
     public function register(Panel $panel): void
     {
+//        $panel
+//            ->resources([
+//                PostResource::class,
+//                CategoryResource::class,
+//            ])
+//            ->pages([
+//                Settings::class,
+//            ]);
     }
 
     public function boot(Panel $panel): void

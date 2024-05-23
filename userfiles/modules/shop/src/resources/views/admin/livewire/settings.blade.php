@@ -1,5 +1,18 @@
 <div>
 
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            document.addEventListener('mw-option-saved', ($event) => {
+                if ($event && $event.detail && $event.detail.optionKey == 'content_from_id') {
+                    window.location.reload();
+                }
+            });
+         });
+
+    </script>
+
+
     <div class="mt-4 mb-3">
         <label class="live-edit-label">Show products from</label>
         <livewire:microweber-option::dropdown :dropdownOptions="$shopPagesDropdownOptions" optionKey="content_from_id" :optionGroup="$moduleId" :module="$moduleType"  />

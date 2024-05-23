@@ -7,7 +7,7 @@ class LiveEditCanvasBase extends MicroweberBaseClass {
     }
 
     getIdentity() {
-        return mw.top().storage.identity()
+        return mw.storage.rootIdentity()
     }
 
     findByKey(key, excludeSameIdentity = false) {
@@ -22,14 +22,34 @@ class LiveEditCanvasBase extends MicroweberBaseClass {
     }
     findByKeyValue(key, value, excludeSameIdentity = false) {
         let curr = mw.storage.get('mw-broadcast-data');
-        const res = []
+        const res = [];
+
+        value = this.urlAsValue(value);
+
         for(let identity in curr) {
-            if(curr[identity][key] && curr[identity][key] === value && (!excludeSameIdentity || identity !== this.getIdentity())) {
+
+            if(curr[identity][key] && this.urlAsValue(curr[identity][key]) === value && (!excludeSameIdentity || identity !== this.getIdentity())) {
                 res.push({...curr[identity], identity});
             }
         }
+
         return res;
     }
+
+    urlAsValue(url) {
+        const urlObj = new URL(url);
+        urlObj.search = '';
+        urlObj.hash = '';
+        let result = urlObj.toString().trim();
+
+        // unify the way urls are stored
+        if(result.lastIndexOf('/') === result.length - 1) {
+            result = result.substring(0, result.length - 1);
+        }
+
+
+        return result;
+    };
 
     record(action, data) {
 
@@ -56,31 +76,56 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
     #canvas = null;
 
 
-    #urlAsValue(url) {
-        const urlObj = new URL(url);
-        urlObj.search = '';
-        urlObj.hash = '';
-        let result = urlObj.toString().trim();
 
-        // unify the way urls are stored
-        if(result.lastIndexOf('/') === result.length - 1) {
-            result = result.substring(0, result.length - 1);
+
+
+
+
+    async #cleanEmpty(curr){
+        if(!curr) {
+            curr = mw.storage.get('mw-broadcast-data');
         }
 
+        for(let identity in curr) {
 
-        return result;
-    };
+            if(Object.keys(curr[identity]).length === 0) {
+                delete curr[identity];
+            }
+        }
+
+        mw.storage.set('mw-broadcast-data', curr);
+    }
+    #unregisterCurrentURL(){
+        const curr = mw.storage.get('mw-broadcast-data');
+        if(!curr[mw.storage.rootIdentity()]) {
+            curr[mw.storage.rootIdentity()] = {}
+        }
+        delete curr[mw.storage.rootIdentity()].canvasURL;
+
+
+        this.#cleanEmpty(curr)
 
 
 
-
+    }
     async #registerURL(url){
         const open = async () => {
+
+            const curr = mw.storage.get('mw-broadcast-data');
+            if(!curr[mw.storage.rootIdentity()]) {
+                curr[mw .storage.rootIdentity()] = {}
+            }
+
+            curr[mw.storage.rootIdentity()].canvasURL = url;
+
+            mw.storage.set('mw-broadcast-data', curr);
+
 
             this.dispatch('setUrl', url);
             if (this.options && this.options.onSetUrl) {
                 await this.options.onSetUrl(url);
             }
+            // this.#cleanEmpty()
         }
 
 
@@ -104,12 +149,14 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
 
     isUrlSame(url) {
 
-        return this.#urlAsValue(url) === this.#urlAsValue(this.#canvas.src);
+        return this.urlAsValue(url) === this.urlAsValue(this.#canvas.src);
     }
 
     isUrlOpened(url) {
 
-       return  this.findByKeyValue('canvasURL', this.#urlAsValue(url), false).length > 1;
+
+
+       return  this.findByKeyValue('canvasURL', this.urlAsValue(url), false).length > 1;
     }
 
 
@@ -156,11 +203,13 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
         }
         return false;
     }
+
       getUrl() {
-        if(this.#canvas && this.#canvas.src) {
+        if(this.#canvas && this.#canvas.ownerDocument && this.#canvas.src) {
             return this.#canvas.src;
         }
       }
+
     async setUrl(url) {
 
 
@@ -193,6 +242,11 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
             url = decodeURIComponent(qurl)
         }
 
+        //  var valid =  mw.url.validate(url);
+        // if(!valid){
+        //     url = mw.settings.site_url;
+        // }
+
         url = new URL(url);
 
 
@@ -219,13 +273,18 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
         target.appendChild(liveEditIframe);
 
 
-        window.onbeforeunload = function () {
+        window.addEventListener('unload', () => {
+            this.#unregisterCurrentURL();
+
+        });
+        window.onbeforeunload = () => {
             if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw
            && liveEditIframe.contentWindow.mw.askusertostay){
 
 
                return true;
            }
+           this.#unregisterCurrentURL();
          };
 
 

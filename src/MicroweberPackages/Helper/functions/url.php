@@ -60,7 +60,6 @@ if (!function_exists('site_url')) {
             $site_url = MW_SITE_URL;
         }
 
-
         if ($site_url == false) {
             $pageURL = 'http';
             if (is_https()) {
@@ -145,7 +144,13 @@ if (!function_exists('site_url')) {
         if(!$site_url  ){
 
             //$site_url = 'http://localhost/';
-             $site_url = config('app.url');
+            $site_url = config('app.url');
+        }
+
+        if($site_url=='http:/./' || $site_url=='http:/../' || $site_url=='http:/'){
+            $site_url = '';
+        }else if($site_url=='https:/./' || $site_url=='https:/../' || $site_url=='https:/'){
+            $site_url = '';
         }
 
         return $site_url . $add_string;
