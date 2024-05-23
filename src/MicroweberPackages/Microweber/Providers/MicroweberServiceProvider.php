@@ -210,7 +210,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(ModuleServiceProvider::class);
 
         $this->app->register(UpdateMigratorServiceProvider::class);
- 
+
 
     }
 }
