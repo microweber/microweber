@@ -211,5 +211,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 
+
+        dd(site_url());
+
     }
 }
