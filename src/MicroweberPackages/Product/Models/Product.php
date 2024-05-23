@@ -168,6 +168,18 @@ class Product extends Content
         return 0;
     }
 
+    public function getPriceDisplayAttribute()
+    {
+        $originalPrice = $this->getPriceAttribute();
+        $specialPrice = $this->getSpecialPriceAttribute();
+
+        if ($specialPrice) {
+            return currency_format($specialPrice);
+        }
+
+        return currency_format($originalPrice);
+    }
+
     public function getPriceModelAttribute()
     {
         // This must return only object model, DON'T CHANGE IT!

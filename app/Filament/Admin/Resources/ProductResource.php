@@ -57,7 +57,7 @@ class ProductResource extends Resource
 
                     ]),
 
-                    Tables\Columns\TextColumn::make('price')
+                    Tables\Columns\TextColumn::make('price_display')
                         ->searchable()
                         ->columnSpanFull()
                         ->weight(FontWeight::Bold),
