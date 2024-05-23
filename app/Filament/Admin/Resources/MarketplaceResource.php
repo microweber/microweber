@@ -6,6 +6,9 @@ use App\Filament\Admin\Resources\MarketplaceResource\Pages;
 use App\Filament\Admin\Resources\MarketplaceResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
@@ -75,6 +78,22 @@ class MarketplaceResource extends Resource
                 Tables\Actions\ViewAction::make()
             ])
             ->bulkActions([
+
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+
+                ImageEntry::make('screenshot_link')
+                    ->defaultImageUrl(function (MarketplaceItem $marketplaceItem) {
+                        return $marketplaceItem->screenshot_link;
+                    })
+                    ->columnSpanFull(),
+
+                TextEntry::make('name'),
 
             ]);
     }

@@ -74,15 +74,15 @@ class ModuleResource extends Resource
             ->paginated(false)
             ->filters([
 
-                Tables\Filters\SelectFilter::make('installed')
-                    ->label('Status')
-                    ->options([
-                        '1' => 'Installed',
-                        '0' => 'Not Installed',
-                    ])
-                    ->label('Installed')
-                    ->placeholder('All')
-                    ->default('1'),
+//                Tables\Filters\SelectFilter::make('installed')
+//                    ->label('Status')
+//                    ->options([
+//                        '1' => 'Installed',
+//                        '0' => 'Not Installed',
+//                    ])
+//                    ->label('Installed')
+//                    ->placeholder('All')
+//                    ->default('1'),
 
                 Tables\Filters\Filter::make('type')
                     ->form([
