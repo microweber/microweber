@@ -17,8 +17,14 @@ class ListMarketplaces extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('Reload Packages'),
-            Actions\Action::make('Licenses'),
+            Actions\Action::make('Reload Packages')
+                ->link()
+                ->color('secondary')
+                ->icon('mw-reload'),
+            Actions\Action::make('Licenses')
+                ->link()
+                ->color('secondary')
+                ->icon('mw-licenses'),
         ];
     }
 
