@@ -11,6 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -28,6 +29,7 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         $panel
+
              // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
             ->id('admin')
@@ -79,6 +81,16 @@ class FilamentAdminPanelProvider extends PanelProvider
                 \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
                 //  Admin::class,
             ]);
+
+        $tableToggle = new TableLayoutTogglePlugin();
+        $tableToggle->defaultLayout('grid');
+        $tableToggle->persistLayoutInLocalStorage(true);
+        $tableToggle->shareLayoutBetweenPages(false);
+        $tableToggle->displayToggleAction();
+        $tableToggle->toggleActionHook('tables::toolbar.search.after');
+        $tableToggle->listLayoutButtonIcon('heroicon-o-list-bullet');
+        $tableToggle->gridLayoutButtonIcon('heroicon-o-squares-2x2');
+        $panel->plugin($tableToggle);
 
         $panel->plugin(new MicroweberTheme());
         $panel->plugin(new UsersFilamentPlugin());

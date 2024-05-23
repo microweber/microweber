@@ -33,53 +33,94 @@ class ProductResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->deferLoading()
-            ->reorderable('position')
-            ->columns([
 
-                Tables\Columns\Layout\Split::make([
+    public static function getListTableColumns(): array {
 
-                    ImageUrlColumn::make('media_url')
-                        ->imageUrl(function (Product $product) {
-                            return $product->mediaUrl();
-                        }),
+        return [
+            ImageUrlColumn::make('media_url')
+                ->imageUrl(function (Product $product) {
+                    return $product->mediaUrl();
+                }),
+
+            Tables\Columns\TextColumn::make('title')
+                ->searchable()
+                ->columnSpanFull()
+                ->weight(FontWeight::Bold),
+
+            Tables\Columns\TextColumn::make('price_display')
+                ->searchable()
+                ->columnSpanFull(),
+
+            Tables\Columns\SelectColumn::make('is_active')
+                ->options([
+                    1 => 'Published',
+                    0 => 'Unpublished',
+                ]),
+
+        ];
+    }
+
+    public static function getGridTableColumns(): array {
+        return [
+            Tables\Columns\Layout\Split::make([
+
+                ImageUrlColumn::make('media_url')
+                    ->imageUrl(function (Product $product) {
+                        return $product->mediaUrl();
+                    }),
 
 
-                    Tables\Columns\Layout\Stack::make([
+                Tables\Columns\Layout\Stack::make([
 
-                        Tables\Columns\TextColumn::make('title')
-                            ->searchable()
-                            ->columnSpanFull()
-                            ->weight(FontWeight::Bold),
-
-
-                    ]),
-
-                    Tables\Columns\TextColumn::make('price_display')
+                    Tables\Columns\TextColumn::make('title')
                         ->searchable()
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->weight(FontWeight::Bold),
 
-                    Tables\Columns\SelectColumn::make('is_active')
-                        ->options([
-                            1 => 'Published',
-                            0 => 'Unpublished',
-                        ]),
-
-
-                    Tables\Columns\TextColumn::make('created_at')
-                        ->searchable()
-                        ->columnSpanFull(),
 
                 ]),
 
+                Tables\Columns\TextColumn::make('price_display')
+                    ->searchable()
+                    ->columnSpanFull(),
+
+                Tables\Columns\SelectColumn::make('is_active')
+                    ->options([
+                        1 => 'Published',
+                        0 => 'Unpublished',
+                    ]),
+
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->searchable()
+                    ->columnSpanFull(),
+
             ])
-            ->contentGrid([
-                'md' => 1,
-                'xl' => 1,
-            ])
+        ];
+    }
+
+    public static function table(Table $table): Table
+    {
+
+        $livewire = $table->getLivewire();
+
+        return $table
+            ->deferLoading()
+            ->reorderable('position')
+            ->columns(
+                $livewire->isGridLayout()
+                    ? static::getGridTableColumns()
+                    : static::getListTableColumns()
+            )
+            ->contentGrid(
+                fn () => $livewire->isListLayout()
+                    ? null
+                    : [
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                    ]
+            )
             ->filters([
                 //
             ])

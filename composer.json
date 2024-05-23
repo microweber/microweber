@@ -51,6 +51,7 @@
         "geoip2/geoip2": "~2.0",
         "graham-campbell/markdown": "*",
         "graham-campbell/security-core": "*",
+        "hydrat/filament-table-layout-toggle": "dev-main",
         "jenssegers/agent": "^3.0@dev",
         "jeremeamia/superclosure": "*",
         "kirschbaum-development/eloquent-power-joins": "*",
