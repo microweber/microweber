@@ -1,13 +1,26 @@
 @import '/src/MicroweberPackages/Filament/resources/css/index.css';
-
+.fi-body {
+    @apply !bg-[#f6f8fb];
+}
 .fi-resource-modules .fi-ta-filter-indicators  {
-    @apply !border-none !bg-transparent !shadow-none !ring-0;
+    @apply !border-none !bg-transparent !shadow-none !ring-0 !pb-4 !px-0;
 }
 .fi-resource-modules .fi-ta-record  {
     @apply p-4;
 }
 .fi-resource-modules .fi-ta-content-grid {
-    @apply !border-none !gap-12 !bg-blue-500/10 !rounded !py-8;
+    @apply !border-none !gap-8 !bg-blue-500/10 !rounded !py-8;
 }
-
+.fi-resource-modules .fi-ta-ctn {
+    @apply !divide-none;
+}
+.fi-resource-modules .fi-ta-header-ctn {
+    @apply !divide-none;
+}
+.fi-resource-modules {
+    @apply bg-white rounded-lg shadow-md p-8 mt-4;
+}
+.fi-resource-modules .fi-breadcrumbs {
+    @apply !hidden;
+}
 @config 'tailwind.config.js';
