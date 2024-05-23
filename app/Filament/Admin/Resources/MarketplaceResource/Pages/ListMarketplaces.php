@@ -25,7 +25,7 @@ class ListMarketplaces extends ListRecords
     public function getTabs(): array
     {
         return [
-            null => Tab::make('All'),
+         //   null => Tab::make('All'),
             'templates' => Tab::make()->query(fn ($query) => $query->where('type', 'microweber-template')),
             'modules' => Tab::make()->query(fn ($query) => $query->where('type', 'microweber-module'))
         ];

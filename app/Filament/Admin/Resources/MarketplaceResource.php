@@ -44,13 +44,14 @@ class MarketplaceResource extends Resource
                 Tables\Columns\Layout\Stack::make([
 
                     ImageUrlColumn::make('screenshot_link')
+                        ->backgroundCropped(100)
                         ->imageUrl(function (MarketplaceItem $marketplaceItem) {
                             return $marketplaceItem->screenshot_link;
-                        })
-                        ->grow(false),
+                        })->columnSpanFull(),
 
                     Tables\Columns\TextColumn::make('name')
                         ->searchable()
+                        ->columnSpanFull()
                         ->weight(FontWeight::Bold)
 
                 ])
@@ -61,6 +62,11 @@ class MarketplaceResource extends Resource
             ->contentGrid([
                 'md' => 3,
                 'xl' => 3,
+            ])
+            ->paginationPageOptions([
+                24,
+                50,
+                100,
             ])
             ->filters([
                 //
