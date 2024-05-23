@@ -2,6 +2,10 @@
 
 namespace MicroweberPackages\User\Filament\Resources;
 
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\User\Filament\Resources\UsersResource\Pages;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -17,10 +21,55 @@ class UsersResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                //
-            ]);
+        $rows = [
+
+            TextInput::make('first_name'),
+            TextInput::make('last_name'),
+
+
+            TextInput::make('username')->required()->unique(
+                ignoreRecord: true,
+            ),
+            TextInput::make('email')->email()->required()->unique(
+                ignoreRecord: true,
+            ),
+            TextInput::make('password')
+                ->password()
+                ->dehydrateStateUsing(static function ($state) use ($form) {
+                    if (!empty($state)) {
+                        return Hash::make($state);
+                    }
+
+                    $user = User::find($form->getColumns());
+                    if ($user) {
+                        return $user->password;
+                    }
+                }),
+            TextInput::make('password_confirmation')
+                ->password()
+                ->required(),
+
+            Select::make('is_admin')
+                ->label('Is Admin')
+                ->options([
+                    '0' => 'No',
+                    '1' => 'Yes',
+                ]),
+
+            Select::make('is_active')
+                ->label('Is Active')
+                ->options([
+                    '0' => 'No',
+                    '1' => 'Yes',
+                ]),
+
+
+
+        ];
+
+        $form->schema($rows);
+
+        return $form;
     }
 
     public static function table(Table $table): Table
