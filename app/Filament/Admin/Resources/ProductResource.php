@@ -36,6 +36,7 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->deferLoading()
             ->reorderable('position')
             ->columns([
 
@@ -59,9 +60,18 @@ class ProductResource extends Resource
 
                     Tables\Columns\TextColumn::make('price_display')
                         ->searchable()
-                        ->columnSpanFull()
-                        ->weight(FontWeight::Bold),
+                        ->columnSpanFull(),
 
+                    Tables\Columns\SelectColumn::make('is_active')
+                        ->options([
+                            1 => 'Published',
+                            0 => 'Unpublished',
+                        ]),
+
+
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->searchable()
+                        ->columnSpanFull(),
 
                 ]),
 
@@ -74,7 +84,7 @@ class ProductResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
