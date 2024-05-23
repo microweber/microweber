@@ -3,6 +3,7 @@
     @php
 
     $showSkinsDropdown = true;
+    $hasLegacySkinSettingsComponent = false;
 
 
         $currentSkin = 'default';
@@ -31,6 +32,12 @@
         if($currentSkin and $hasSkinSettingsComponent){
             $showSkinsDropdown = true;
         }
+        $legacySkinSettingsFileSkin = module_templates($moduleType, $currentSkinName, true);
+        if($legacySkinSettingsFileSkin and !$hasSkinSettingsComponent and is_file($legacySkinSettingsFileSkin)){
+            $showSkinsDropdown = true;
+            $hasLegacySkinSettingsComponent = true;
+        }
+
 
     @endphp
 
@@ -83,7 +90,7 @@
                                     $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
                                         'moduleId' => $moduleId,
                                         'moduleType' => $moduleType,
-                                    ])->html();
+                                    ]) ;
 
                                 } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
                                     $hasError = true;
@@ -113,6 +120,36 @@
                 </div>
 
             @endif
+
+
+            @if($currentSkin && $hasLegacySkinSettingsComponent)
+
+                <script>
+
+                    $(document).ready(function () {
+
+                        mw.options.form('#legacy-module-skin-settings', function () {
+                            mw.notification.success("<?php _ejs("Changes are saved"); ?>.");
+                        });
+                    });
+
+
+                </script>
+
+                <div class="mw-module-skin-setting-inner" id="legacy-module-skin-settings">
+                    <div>
+                        <div>
+                            <?php
+
+                                $params = [];
+                                $params['id'] = $moduleId;
+                                $params['type'] = $moduleType;
+                                include_once($legacySkinSettingsFileSkin) ?>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
         </div>
 
     </div>
