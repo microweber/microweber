@@ -20,7 +20,7 @@ trait MediaTrait
     public function media()
     {
         return $this->hasMany(Media::class, 'rel_id')
-            ->where('rel_type', $this->getMorphClass()) 
+            ->where('rel_type', $this->getMorphClass())
             ->orderBy('position', 'asc');
     }
 
@@ -42,6 +42,11 @@ trait MediaTrait
         }
 
         return pixum(100, 100);
+    }
+
+    public function getMediaUrlAttribute()
+    {
+        return $this->mediaUrl();
     }
 
     public function addMedia($mediaArr)
