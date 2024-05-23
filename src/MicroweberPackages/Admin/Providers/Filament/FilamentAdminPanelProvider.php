@@ -20,17 +20,19 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\Admin\Http\Middleware\Admin;
 use MicroweberPackages\Filament\MicroweberTheme;
+use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 
 class FilamentAdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        return $panel
-            ->plugin(new MicroweberTheme()) 
+        $panel
              // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
             ->id('admin')
             ->path('aaaaaaaa')
+            ->globalSearch(true)
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
             ->default()
               ->login()
@@ -76,5 +78,10 @@ class FilamentAdminPanelProvider extends PanelProvider
                 \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
                 //  Admin::class,
             ]);
+
+        $panel->plugin(new MicroweberTheme());
+        $panel->plugin(new UsersFilamentPlugin());
+
+        return $panel;
     }
 }

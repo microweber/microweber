@@ -20,26 +20,9 @@ class MicroweberTheme implements Plugin
         return 'microweber-theme';
     }
 
-    public function panel(Panel $panel): Panel
-    {
-
-      //  return $panel->plugin(new UsersFilamentPlugin());
-    }
-
-
-
     public function register(Panel $panel): void
     {
-          $panel->plugin(UsersFilamentPlugin::make());
 
-        //        $panel
-//            ->resources([
-//                PostResource::class,
-//                CategoryResource::class,
-//            ])
-//            ->pages([
-//                Settings::class,
-//            ]);
     }
 
     public function boot(Panel $panel): void

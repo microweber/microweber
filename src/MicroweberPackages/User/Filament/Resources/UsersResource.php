@@ -27,7 +27,14 @@ class UsersResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('username'),
+                Tables\Columns\TextColumn::make('phone'),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('first_name'),
+                Tables\Columns\TextColumn::make('last_name'),
+                Tables\Columns\TextColumn::make('created_at'),
+
             ])
             ->filters([
                 //
@@ -52,7 +59,7 @@ class UsersResource extends Resource
     public static function getPages(): array
     {
         return [
-//            'index' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\ListUsers::route('/'),
+            'index' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\ListUsers::route('/'),
 //            'create' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\CreateUsers::route('/create'),
 //            'edit' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\EditUsers::route('/{record}/edit'),
         ];
