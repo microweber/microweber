@@ -17,9 +17,6 @@ use MicroweberPackages\Post\Models\Post;
 
 
 
-/**
- * @runTestsInSeparateProcesses
- */
 class GenerateBackupTest extends TestCase
 {
 /*
@@ -100,7 +97,7 @@ class GenerateBackupTest extends TestCase
     }
 
   */
-    
+
     public function testSingleModuleBackup() {
 
         \Config::set('microweber.allow_php_files_upload', true);
