@@ -116,8 +116,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(ViewServiceProvider::class);
         $this->app->register(MicroweberUIServiceProvider::class);
-        $this->app->register(BladeUIServiceProvider::class);
-        $this->app->register(LivewireServiceProvider::class);
+//        $this->app->register(BladeUIServiceProvider::class);
+    //    $this->app->register(LivewireServiceProvider::class);
 
 
         $this->app->register(FortifyServiceProvider::class);

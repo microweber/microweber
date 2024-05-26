@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a92f1f2f5cf4fcccf00adad532889f04",
+    "content-hash": "d1c51e64ed4ae5c944e1418b5ac2c15a",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -8223,7 +8223,7 @@
         },
         {
             "name": "microweber-packages/laravel-helper-functions",
-            "version": "dev-laravel-11",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "./standalone-packages/microweber-packages/laravel-helper-functions",

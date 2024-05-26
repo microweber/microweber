@@ -92,7 +92,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $tableToggle->gridLayoutButtonIcon('heroicon-o-squares-2x2');
         $panel->plugin($tableToggle);
 
-        $panel->plugin(new MicroweberTheme());
+         $panel->plugin(new MicroweberTheme());
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
 
