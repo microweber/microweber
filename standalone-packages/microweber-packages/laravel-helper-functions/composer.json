@@ -1,0 +1,23 @@
+{
+    "name": "microweber-packages/laravel-helper-functions",
+    "description": "Helper functions for Microweber",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\LaravelHelperFunctions\\": "src/"
+
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Peter Ivanov",
+            "email": "peter@microweber.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

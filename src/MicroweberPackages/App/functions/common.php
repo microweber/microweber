@@ -1,17 +1,12 @@
 <?php
 
-/**
- * Constructor function.
- *
- * @param null $class
- *
- * @return mixed|\MicroweberPackages\Application
- */
-function mw($class = null)
-{
-    return app($class);
-}
 
+if (! function_exists('mw')) {
+    function mw($class = null)
+    {
+        return app($class);
+    }
+}
 
 if (! function_exists('app')) {
     /**
@@ -566,15 +561,16 @@ if (!function_exists('array_recursive_diff')) {
         return $aReturn;
     }
 }
+if (! function_exists('route_exists')) {
 
-function route_exists($routeName) : bool
-{
-    if (\Illuminate\Support\Facades\Route::has($routeName)) {
-        return true;
+    function route_exists($routeName): bool
+    {
+        if (\Illuminate\Support\Facades\Route::has($routeName)) {
+            return true;
+        }
+        return false;
     }
-    return false;
 }
-
 function get_favicon_image()
 {
     $favicon_image = get_option('favicon_image', 'website');

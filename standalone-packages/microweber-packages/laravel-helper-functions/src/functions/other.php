@@ -1,17 +1,6 @@
 <?php
 
-if (!function_exists('str_random')) {
-    /**
-     * If the given value is not an array, wrap it in one.
-     *
-     * @param mixed $value
-     * @return array
-     */
-    function str_random($length = 16)
-    {
-        return \Illuminate\Support\Str::random($length);
-    }
-}
+
 
 function mw_admin_prefix_url()
 {
@@ -552,13 +541,6 @@ function mw_send_anonymous_server_data($params)
     }
 }
 
-
-if (!function_exists('strleft')) {
-    function strleft($s1, $s2)
-    {
-        return substr($s1, 0, strpos($s1, $s2));
-    }
-}
 
 $ex_fields_static = array();
 $_mw_real_table_names = array();
