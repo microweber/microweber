@@ -93,3 +93,18 @@ if (! function_exists('array_trim')) {
     }
 }
 
+
+
+if (!function_exists('parse_params')) {
+    function parse_params($params)
+    {
+        $params2 = array();
+        if (is_string($params)) {
+            $params = parse_str($params, $params2);
+            $params = $params2;
+            unset($params2);
+        }
+
+        return $params;
+    }
+}

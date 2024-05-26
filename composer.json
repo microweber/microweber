@@ -208,19 +208,12 @@
         },
         "laravel": {
             "dont-discover": [
-                "filament/filament",
-                "filament/notifications",
-                "filament/forms",
-                "filament/tables",
-                "blade-ui-kit/blade-heroicons",
-                "blade-ui-kit/blade-ui-kit",
-                "blade-ui-kit/blade-icons",
-                "laravel/passport",
+                "microweber-packages/microweber-app",
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",
                 "laravel/fortify",
-                "livewire/livewire",
+
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
                 "spatie/laravel-ignition",
