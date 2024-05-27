@@ -1,5 +1,8 @@
 <?php
 
+
+
+
 if (!function_exists('url2dir')) {
     function url2dir($path)
     {
@@ -26,3 +29,18 @@ if (!function_exists('dir2url')) {
         return site_url($path);
     }
 }
+
+
+
+if (!function_exists('shop_url')) {
+    function shop_url($add_string = false)
+    {
+        $shopPage = app()->content_repository->getFirstShopPage();
+        if (!empty($shopPage)) {
+            return content_link($shopPage['id']);
+        }
+
+        return site_url();
+    }
+}
+
