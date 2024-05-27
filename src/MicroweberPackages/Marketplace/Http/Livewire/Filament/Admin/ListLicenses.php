@@ -23,6 +23,9 @@ class ListLicenses extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->paginated(false)
+            ->heading('Check your licenses')
+            ->description('From this modal you can manipulate your licenses')
             ->headerActions([
                 Action::make('licenses-refresh')
                     ->label('Refresh Licenses')
