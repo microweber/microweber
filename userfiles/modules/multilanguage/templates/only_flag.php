@@ -62,10 +62,12 @@ description: MW Only flag
 
     <style>
         .multilanguage-display-icon-custom {
-            max-width: 18px;
-            max-height: 18px;
-            margin-right: 5px;
-            margin-top:3px;
+
+            width: 26px;
+            height: 28px;
+            object-fit: contain;
+            max-width: unset;
+            max-height: unset;
         }
     </style>
 
@@ -74,13 +76,9 @@ description: MW Only flag
 
     <div class="mw-dropdown mw-dropdown-default">
     <span class="mw-dropdown-value btn btn-primary btn-sm mw-dropdown-val">
-
-        <?php dump ($supported_languages); ?>
         <?php if (!empty($current_language)): ?>
         <?php if (!empty($current_language['display_icon'])): ?>
-            <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom" />
-
-
+            <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom"/>
         <?php else: ?>
             <span class="flag-icon flag-icon-<?php echo get_flag_icon($current_language['locale']); ?>"></span>
         <?php endif; ?>
