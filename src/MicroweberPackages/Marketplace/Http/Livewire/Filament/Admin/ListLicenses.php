@@ -22,25 +22,14 @@ class ListLicenses extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
-
-//        "created_by" => null
-//        "edited_by" => null
-//        "rel_type" => null
-//        "rel_id" => null
-//        "local_key" => ""
-//        "local_key_hash" => null
-//        "registered_name" => ""
-//        "company_name" => null
-//        "domains" => null
-//        "status" => "Active"
-//        "product_id" => null
-//        "service_id" => 0
-//        "billing_cycle" => null
-//        "reg_on" => null
-//        "due_on" => null
-
         return $table
             ->headerActions([
+                Action::make('licenses-refresh')
+                    ->label('Refresh Licenses')
+                    ->action(function () {
+                        $updateApi = mw('update');
+                        $validateLicense = $updateApi->validate_license();
+                    }),
                 Action::make('license-create')
                     ->label('Add License')
                     ->form([
@@ -50,8 +39,8 @@ class ListLicenses extends Component implements HasForms, HasTable
                             ->rules([
                                 fn (Get $get): \Closure => function (string $attribute, $value, \Closure $fail) use ($get) {
 
-                                    $update_api = mw('update');
-                                    $validateLicense = $update_api->save_license([
+                                    $updateApi = mw('update');
+                                    $validateLicense = $updateApi->save_license([
                                         'local_key' => $value
                                     ]);
                                     if (isset($validateLicense['is_active'])) {
@@ -61,12 +50,7 @@ class ListLicenses extends Component implements HasForms, HasTable
                                     }
                                 },
                             ]),
-                    ])
-                    ->afterFormValidated(function () {
-                       $newLicense = new SystemLicenses();
-                       $newLicense->local_key = 1;
-                       $newLicense->save();
-                    }),
+                    ]),
             ])
             ->query(SystemLicenses::query())
             ->columns([
@@ -82,11 +66,8 @@ class ListLicenses extends Component implements HasForms, HasTable
                 // ...
             ])
             ->actions([
-//                Action::make('edit')
-//                    ->url(fn (SystemLicenses $record): string => route('posts.edit', $record))
-//                    ->openUrlInNewTab(),
-
                 Action::make('license-delete')
+                    ->label('Delete')
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
