@@ -69,6 +69,7 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
         View::prependNamespace('filament-panels', dirname(__DIR__).'/resources/views/filament');
         View::prependNamespace('filament-tables', dirname(__DIR__).'/resources/views/filament-tables');
         View::prependNamespace('filament-infolists', dirname(__DIR__).'/resources/views/filament-infolists');
+        View::prependNamespace('filament-forms', dirname(__DIR__).'/resources/views/filament-forms');
         //View::prependNamespace('filament-panels', base_path() . '/resources/views');
 
         Filament::serving(function () {

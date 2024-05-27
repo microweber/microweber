@@ -17,6 +17,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Marketplace\Models\MarketplaceItem;
 use MicroweberPackages\Module\Models\Module;
@@ -81,49 +82,41 @@ class MarketplaceResource extends Resource
 //                    ->slideOver()
 //                    ->modalCancelAction(false),
 
-                Tables\Actions\Action::make('view-details')
+                Tables\Actions\EditAction::make('view-details')
+                    ->modalHeading('View Marketplace Item')
                     ->modalCancelAction(false)
                     ->modalSubmitAction(false)
                     ->icon('heroicon-m-eye')
+                    ->slideOver()
                     ->form([
 
-                        Forms\Components\Tabs::make('Tabs')
-                            ->tabs([
-                                Forms\Components\Tabs\Tab::make('Package Tab')
+                        Forms\Components\Section::make('Package Details Section')
+                            ->heading(false)
+                            ->columns(2)
+                            ->schema([
+
+                                Forms\Components\Placeholder::make('Package Screenshot')
+                                    ->label(false)
+                                    ->content(function (MarketplaceItem $marketplaceItem) {
+                                        return view('filament-forms::components.placeholder-image-cropped',[
+                                            'image' => $marketplaceItem->screenshot_link
+                                        ]);
+                                    }),
+
+                                Forms\Components\Section::make('Package Information')
+                                    ->heading(false)
+                                    ->columnSpan(1)
+                                    ->columns(1)
                                     ->schema([
-                                        Forms\Components\Section::make('Package Details')
-                                            ->heading(false)
-                                            ->columns(2)
-                                            ->schema([
 
-//                                                ImageEntry::make('screenshot_link')
-//                                                    ->view('filament-infolists::components.image-entry-cropped')
-//                                                    ->width('100%')
-//                                                    ->defaultImageUrl(function (MarketplaceItem $marketplaceItem) {
-//                                                        return $marketplaceItem->screenshot_link;
-//                                                    }),
+                                        Forms\Components\Placeholder::make('Package Name')
+                                            ->label(false)
+                                            ->content(function (MarketplaceItem $marketplaceItem) {
+                                                return new HtmlString("<h2 class='text-2xl'>{$marketplaceItem->name}</h2>");
+                                            }),
 
-                                                Forms\Components\Section::make('Package Information')
-                                                    ->heading(false)
-                                                    ->columnSpan(1)
-                                                    ->columns(1)
-                                                    ->schema([
-
-                                                    Forms\Components\TextInput::make('name')
-                                                        ->label('Name')
-                                                        ->disabled(true),
-
-                                                    ])
-                                            ])
-                                    ]),
-
-                                Forms\Components\Tabs\Tab::make('Details')
-                                    ->schema([
-                                        // ...
                                     ])
                             ])
-                            ->columnSpanFull()
-                            ->activeTab(1)
                     ]),
 
             ])
