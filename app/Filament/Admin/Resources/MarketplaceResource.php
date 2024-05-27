@@ -4,14 +4,15 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\MarketplaceResource\Pages;
 use App\Filament\Admin\Resources\MarketplaceResource\RelationManagers;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\ImageEntry;
-use Filament\Infolists\Components\TextEntry;
+
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\VerticalAlignment;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -76,7 +77,55 @@ class MarketplaceResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
+//                Tables\Actions\ViewAction::make()
+//                    ->slideOver()
+//                    ->modalCancelAction(false),
+
+                Tables\Actions\Action::make('view-details')
+                    ->modalCancelAction(false)
+                    ->modalSubmitAction(false)
+                    ->icon('heroicon-m-eye')
+                    ->form([
+
+                        Forms\Components\Tabs::make('Tabs')
+                            ->tabs([
+                                Forms\Components\Tabs\Tab::make('Package Tab')
+                                    ->schema([
+                                        Forms\Components\Section::make('Package Details')
+                                            ->heading(false)
+                                            ->columns(2)
+                                            ->schema([
+
+//                                                ImageEntry::make('screenshot_link')
+//                                                    ->view('filament-infolists::components.image-entry-cropped')
+//                                                    ->width('100%')
+//                                                    ->defaultImageUrl(function (MarketplaceItem $marketplaceItem) {
+//                                                        return $marketplaceItem->screenshot_link;
+//                                                    }),
+
+                                                Forms\Components\Section::make('Package Information')
+                                                    ->heading(false)
+                                                    ->columnSpan(1)
+                                                    ->columns(1)
+                                                    ->schema([
+
+                                                    Forms\Components\TextInput::make('name')
+                                                        ->label('Name')
+                                                        ->disabled(true),
+
+                                                    ])
+                                            ])
+                                    ]),
+
+                                Forms\Components\Tabs\Tab::make('Details')
+                                    ->schema([
+                                        // ...
+                                    ])
+                            ])
+                            ->columnSpanFull()
+                            ->activeTab(1)
+                    ]),
+
             ])
             ->bulkActions([
 
@@ -87,14 +136,6 @@ class MarketplaceResource extends Resource
     {
         return $infolist
             ->schema([
-
-                ImageEntry::make('screenshot_link')
-                    ->defaultImageUrl(function (MarketplaceItem $marketplaceItem) {
-                        return $marketplaceItem->screenshot_link;
-                    })
-                    ->columnSpanFull(),
-
-                TextEntry::make('name'),
 
             ]);
     }
