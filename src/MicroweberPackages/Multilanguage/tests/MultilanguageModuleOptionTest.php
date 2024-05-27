@@ -52,6 +52,8 @@ class MultilanguageModuleOptionTest extends MultilanguageTestBase
 
         $findTranslation = MultilanguageTranslations::where('locale', $data['lang'])
             ->where('rel_type','options')
+            ->where('rel_id',$findModuleOption->id)
+
             ->where('field_name', 'option_value')->first();
 
 
@@ -75,6 +77,7 @@ class MultilanguageModuleOptionTest extends MultilanguageTestBase
 
         $findTranslation = MultilanguageTranslations::where('locale', $data['lang'])
             ->where('rel_type','options')
+            ->where('rel_id',$findModuleOption->id)
             ->where('field_name', 'option_value')->first();
 
         $this->assertEquals($findTranslation->rel_id, $findModuleOption->id);
