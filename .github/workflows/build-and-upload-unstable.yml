@@ -10,12 +10,21 @@ concurrency:
 jobs:
   microweber-build-and-upload-unstable:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        php-versions: [ '8.2' ]
     steps:
       - uses: actions/checkout@v2
         with:
           repository: ${{ github.repository }}
-
-
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
+          coverage: xdebug
       - name: Get composer cache directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
