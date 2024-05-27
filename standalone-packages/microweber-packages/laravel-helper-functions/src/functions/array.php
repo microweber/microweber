@@ -108,3 +108,37 @@ if (!function_exists('parse_params')) {
         return $params;
     }
 }
+
+
+
+
+if (! function_exists('array_search_multidimensional')){
+    function array_search_multidimensional($array, $column, $key)
+    {
+        return (array_search($key, array_column($array, $column)));
+    }
+}
+
+
+
+if (!function_exists('array_recursive_diff')) {
+    function array_recursive_diff($aArray1, $aArray2) {
+        $aReturn = array();
+
+        foreach ($aArray1 as $mKey => $mValue) {
+            if (array_key_exists($mKey, $aArray2)) {
+                if (is_array($mValue)) {
+                    $aRecursiveDiff = array_recursive_diff($mValue, $aArray2[$mKey]);
+                    if (count($aRecursiveDiff)) { $aReturn[$mKey] = $aRecursiveDiff; }
+                } else {
+                    if ($mValue != $aArray2[$mKey]) {
+                        $aReturn[$mKey] = $mValue;
+                    }
+                }
+            } else {
+                $aReturn[$mKey] = $mValue;
+            }
+        }
+        return $aReturn;
+    }
+}

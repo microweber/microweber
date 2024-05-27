@@ -175,7 +175,7 @@ if (isset($is_elements) and $is_elements == true) {
 }
 
 
-if ($modules_by_categories and is_arr($modules_by_categories) and count($modules_by_categories) > 1) {
+if ($modules_by_categories and is_array($modules_by_categories) and count($modules_by_categories) > 1) {
     $sort_first = array();
 
     $first_keys = array('recommended', 'media', 'content', 'navigation');

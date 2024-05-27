@@ -10,7 +10,7 @@
     <?php
     $backups = app(\MicroweberPackages\Backup\Http\Controllers\Admin\BackupController::class)->get();
     ?>
-    <?php if (isarr($backups)): ?>
+    <?php if (is_array($backups)): ?>
         <?php $i = 1; ?>
        <div class="table-responsive">
            <table class="table card-table table-vcenter">

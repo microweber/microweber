@@ -319,3 +319,34 @@ if (!function_exists('mw_var')) {
         return false;
     }
 }
+
+
+
+/**
+ * Returns the current microtime.
+ *
+ * @return bool|string $date The current microtime
+ *
+ * @category Date
+ *
+ * @link     http://www.webdesign.org/web-programming/php/script-execution-time.8722.html#ixzz2QKEAC7PG
+ */
+if (!function_exists('microtime_float')) {
+    function microtime_float()
+    {
+        list($msec, $sec) = explode(' ', microtime());
+        $microtime = (float)$msec + (float)$sec;
+
+        return $microtime;
+    }
+}
+
+
+if (!function_exists('d')) {
+    function d($dump)
+    {
+        var_dump($dump);
+    }
+}
+
+

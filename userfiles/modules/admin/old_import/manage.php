@@ -1,6 +1,6 @@
 <?php if(!is_admin()){error("must be admin");}; ?>
  <?php $here = $config['url_to_module']; ?>
- 
+
 <p> <?php _e("Supported formats"); ?>
     <a href="<?php print $here; ?>samples/sample.csv" class="mw-ui-link">csv</a>,
     <a href="<?php print $here; ?>samples/sample.json" class="mw-ui-link">json</a>,
@@ -38,7 +38,7 @@
     <tbody>
       <?php
       $backups = false;// mw('Microweber\Utils\Import')->get();
-      if(isarr($backups )): ?>
+      if(is_array($backups )): ?>
       <?php
 	  $i = 1;
 	   foreach($backups  as $item): ?>
@@ -50,10 +50,10 @@
           <td><a class="show-on-hover mw-ui-btn mw-ui-btn-blue" target="_blank" href="<?php print api_url('Microweber/Utils/Import/download'); ?>?file=<?php print $item['filename']  ?>"><?php _e("Download"); ?></a></td>
         <td>
         <!--<a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.admin_import.restore('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>-->
-        
+
         <a class="show-on-hover mw-ui-btn mw-ui-btn-green" href="javascript:mw.confirm_import_file('<?php print $item['filename']  ?>')"><?php _e("Restore"); ?></a>
-        
-        
+
+
         </td>
         <td><a class="show-on-hover mw-ui-btn mw-ui-btn-red" href="javascript:mw.admin_import.remove('<?php print $item['filename']  ?>', '.mw_admin_import_item_<?php print $i ?>')"><?php _e("Delete"); ?></a></td>
       </tr>

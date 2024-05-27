@@ -1773,7 +1773,7 @@ class UserManager
             } else {
                 $a = $disable_edit_users;
             }
-            if (is_arr($a)) {
+            if (is_array($a)) {
                 foreach ($a as $disabled_user_id) {
                     if ($disabled_user_id and $disabled_user_id == $user_id) {
                         return false;
