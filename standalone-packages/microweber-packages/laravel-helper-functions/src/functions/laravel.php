@@ -1833,19 +1833,6 @@ if (! function_exists('array_wrap')) {
 }
 
 
-if (!function_exists('str_random')) {
-    /**
-     * If the given value is not an array, wrap it in one.
-     *
-     * @param mixed $value
-     * @return array
-     */
-    function str_random($length = 16)
-    {
-        return \Illuminate\Support\Str::random($length);
-    }
-}
-
 if (! function_exists('route_exists')) {
     function route_exists($routeName): bool
     {
