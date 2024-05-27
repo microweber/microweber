@@ -1,6 +1,12 @@
 <div class="w-full">
 
-    <div class="image-column-cropped w-full h-[36rem]" style="background-image:url('{!! $image !!}');background-size: cover;background-position: top;">
+    @php
+    if (!isset($maxHeight)) {
+        $maxHeight = '36rem';
+    }
+    @endphp
+
+    <div class="image-column-cropped w-full h-[{{$maxHeight}}]" style="background-image:url('{!! $image !!}');background-size: cover;background-position: top;">
 
     </div>
 

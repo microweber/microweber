@@ -4,7 +4,6 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\MarketplaceResource\Pages;
 use App\Filament\Admin\Resources\MarketplaceResource\RelationManagers;
-use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 
@@ -21,6 +20,7 @@ use Illuminate\Support\HtmlString;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Marketplace\Models\MarketplaceItem;
 use MicroweberPackages\Module\Models\Module;
+use MicroweberPackages\Package\MicroweberComposerClient;
 
 class MarketplaceResource extends Resource
 {
@@ -114,6 +114,76 @@ class MarketplaceResource extends Resource
                                             ->content(function (MarketplaceItem $marketplaceItem) {
                                                 return new HtmlString("<h2 class='text-2xl'>{$marketplaceItem->name}</h2>");
                                             }),
+
+                                        Forms\Components\Placeholder::make('Package Details')
+                                            ->label(false)
+                                            ->content(function (MarketplaceItem $marketplaceItem) {
+                                                $html = "<p class='text-sm'>{$marketplaceItem->description}</p>";
+                                                if ($marketplaceItem['version']) {
+                                                    $html .= "<p class='text-sm'>Version: {$marketplaceItem->version}</p>";
+                                                }
+                                                if ($marketplaceItem['homepage']) {
+                                                    $html .= "<p class='text-sm'>Homepage: <a href='{$marketplaceItem->homepage}' target='_blank'>{$marketplaceItem->homepage}</a></p>";
+                                                }
+                                                if ($marketplaceItem['authorName']) {
+                                                    $html .= "<p class='text-sm'>Author: {$marketplaceItem->authorName} <a class='bold' href='mail:{$marketplaceItem->authorEmail}'>{$marketplaceItem->authorEmail}</a> </p>";
+                                                }
+                                                if ($marketplaceItem['license']) {
+                                                    $html .= "<p class='text-sm'>License: {$marketplaceItem->license} </p>";
+                                                }
+                                                return new HtmlString($html);
+                                            }),
+
+                                        Forms\Components\Actions::make([
+                                            Forms\Components\Actions\Action::make('installPackageVersion')
+                                                ->label('Install')
+                                                ->icon('heroicon-m-cloud-arrow-down')
+                                                ->slideOver()
+                                                ->modalIcon('heroicon-m-cloud-arrow-down')
+                                                ->modalIconColor('success')
+                                                ->modalHeading(function (MarketplaceItem $marketplaceItem) {
+                                                    return "Install {$marketplaceItem->name}";
+                                                })
+                                                ->form([
+                                                    Forms\Components\Select::make('version')
+                                                        ->label('Version')
+                                                        ->hint(function (MarketplaceItem $marketplaceItem) {
+                                                            return new HtmlString("<p class='text-sm'>Latest Version: {$marketplaceItem->version}</p>");
+                                                        })
+                                                        ->options(function (MarketplaceItem $marketplaceItem) {
+                                                            return json_decode($marketplaceItem->versions, TRUE);
+                                                        })
+                                                        ->default(function (MarketplaceItem $marketplaceItem) {
+                                                            return $marketplaceItem->version;
+                                                        })
+                                                        ->required()
+                                                        ->columnSpanFull(),
+                                                    Forms\Components\Placeholder::make('screenshot')
+                                                        ->label(false)
+                                                        ->content(function (MarketplaceItem $marketplaceItem) {
+                                                            $screenshotHtml = view('filament-forms::components.placeholder-image-cropped',[
+                                                                'image' => $marketplaceItem->screenshot_link,
+                                                                'height' => '20rem'
+                                                            ])->render();
+                                                            return new HtmlString("$screenshotHtml");
+                                                        }),
+                                                ])
+                                                ->action(function (MarketplaceItem $marketplaceItem, $data) {
+
+                                                    try {
+                                                        $runner = new MicroweberComposerClient();
+                                                        $results = $runner->requestInstall([
+                                                            'require_name' => $marketplaceItem->internal_name, 'require_version' => $data['version']
+                                                        ]);
+
+                                                       // $runner->requestInstall($results['form_data_module_params']);
+                                                    } catch (\Exception $e) {
+                                                        return $e->getMessage();
+                                                    }
+
+                                                })
+                                                ->requiresConfirmation()
+                                            ])
 
                                     ])
                             ])
