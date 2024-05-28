@@ -1,9 +1,14 @@
 <x-filament-panels::page>
 
     <div>
+
         <div class="">
             <div class="text-green-500 text-3xl">
+                @if($item['type'] == 'microweber-template')
                 Your theme is installed successfully.
+                @else
+                Your module is installed successfully.
+                @endif
             </div>
             <div class="text-2xl">
                 {{ $item['name'] }}
@@ -55,6 +60,8 @@
             </div>
         </div>
         </div>
+
+    </div>
     </div>
 
 </x-filament-panels::page>
