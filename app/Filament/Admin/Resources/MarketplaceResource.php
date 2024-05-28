@@ -65,20 +65,20 @@ class MarketplaceResource extends Resource
 
                     BadgesColumn::make('badges')->badges(function (MarketplaceItem $marketplaceItem) {
                         $badges = [];
-                        if ($marketplaceItem['has_current_install']) {
+                        if ($marketplaceItem['has_current_install'] == 1) {
                             $badges[] = [
                                 'label' => 'Installed',
                                 'color' => 'success',
                             ];
                         } else {
-                            if ($marketplaceItem['available_for_install']) {
+                            if ($marketplaceItem['available_for_install'] == 1) {
                                 $badges[] = [
                                     'label' => 'Available for install',
                                     'color' => 'primary',
                                 ];
                             }
                         }
-                        if ($marketplaceItem['is_paid']) {
+                        if ($marketplaceItem['is_paid'] == 1) {
                             $badges[] = [
                                 'label' => 'Premium',
                                 'color' => 'warning',
