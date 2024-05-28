@@ -7,6 +7,7 @@ use App\Filament\Admin\Resources\MarketplaceResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
 
+use Filament\Forms\Get;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
@@ -150,6 +151,20 @@ class MarketplaceResource extends Resource
 
                                                     Forms\Components\TextInput::make('license_key')
                                                         ->label('License Key')
+                                                        ->rules([
+                                                            fn (Get $get): \Closure => function (string $attribute, $value, \Closure $fail) use ($get) {
+
+                                                                $updateApi = mw('update');
+                                                                $validateLicense = $updateApi->save_license([
+                                                                    'local_key' => $value
+                                                                ]);
+                                                                if (isset($validateLicense['is_active'])) {
+                                                                    return true;
+                                                                } else {
+                                                                    $fail('Invalid license key.');
+                                                                }
+                                                            },
+                                                        ])
                                                         ->required(function (MarketplaceItem $marketplaceItem) {
                                                             if ($marketplaceItem['request_license'] == 1) {
                                                                 return true;
@@ -195,6 +210,7 @@ class MarketplaceResource extends Resource
                                                 ->action(function (MarketplaceItem $marketplaceItem, $data) {
 
                                                     try {
+
                                                         $runner = new MicroweberComposerClient();
                                                         $results = $runner->requestInstall([
                                                             'require_name' => $marketplaceItem->internal_name, 'require_version' => $data['version']

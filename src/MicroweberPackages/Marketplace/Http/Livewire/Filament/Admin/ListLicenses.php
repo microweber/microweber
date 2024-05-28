@@ -12,6 +12,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use MicroweberPackages\App\Models\SystemLicenses;
 
@@ -39,6 +40,9 @@ class ListLicenses extends Component implements HasForms, HasTable
                         TextInput::make('local_key')
                             ->label('License Key')
                             ->helperText('Enter your license key.')
+                            ->hint(function () {
+                                return new HtmlString("<a href='https://microweber.com/pricing#white-label' target='_blank'>You don't have a license key?</a>");
+                            })
                             ->rules([
                                 fn (Get $get): \Closure => function (string $attribute, $value, \Closure $fail) use ($get) {
 
