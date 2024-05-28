@@ -94,6 +94,14 @@ class MarketplaceItem extends Model {
             $item = [];
             $item['id'] = $i;
             $item['type'] = $latestVersion['type'];
+            $item['is_paid'] = $latestVersion['is_paid'];
+            $item['available_for_install'] = $latestVersion['available_for_install'];
+            $item['is_symlink'] = $latestVersion['is_symlink'];
+            $item['has_update'] = $latestVersion['has_update'];
+            $item['has_current_install'] = 0;
+            if (isset($latestVersion['current_install'])) {
+                $item['has_current_install'] = 1;
+            }
             $item['internal_name'] = $latestVersion['name'];
             $item['name'] = $latestVersion['description'];
             $item['big_screenshot_link'] = $latestVersion['screenshot_link'];
@@ -104,6 +112,7 @@ class MarketplaceItem extends Model {
             $item['description'] = 'No description';
             $item['tags'] = 'No tags';
             $item['request_license'] = 0;
+
             if (isset($latestVersion['dist']['type'])) {
                 if ($latestVersion['dist']['type'] == 'license_key') {
                     $item['request_license'] = 1;
