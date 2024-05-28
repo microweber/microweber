@@ -12,6 +12,7 @@ export default {
         './resources/views/filament/admin/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
         './src/MicroweberPackages/**/*.blade.php',
+        './src/MicroweberPackages/**/resources/views/**/*.blade.php',
     ],
     // safelist: [
     //     {

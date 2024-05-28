@@ -6,7 +6,7 @@
     }
     @endphp
 
-    <div class="image-column-cropped w-full h-[{{$maxHeight}}]" style="background-image:url('{!! $image !!}');background-size: cover;background-position: top;">
+    <div class="image-column-cropped w-full" style="height:{{$maxHeight}}; background-image:url('{!! $image !!}');background-size: cover;background-position: top;">
 
     </div>
 
