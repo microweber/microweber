@@ -99,7 +99,7 @@ class MarketplaceItem extends Model {
             $item['is_symlink'] = $latestVersion['is_symlink'];
             $item['has_update'] = $latestVersion['has_update'];
             $item['has_current_install'] = 0;
-            if (isset($latestVersion['current_install'])) {
+            if (isset($latestVersion['current_install']['local_type'])) {
                 $item['has_current_install'] = 1;
             }
             $item['internal_name'] = $latestVersion['name'];

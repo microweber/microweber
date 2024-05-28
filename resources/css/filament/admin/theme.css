@@ -72,8 +72,11 @@
 .fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link span {
     @apply !hidden;
 }
+.fi-resource-marketplace .fi-ta-badges-column  {
+    @apply mx-4 mb-3;
+}
 .fi-resource-marketplace .fi-ta-record .fi-ta-text  {
-    @apply p-4;
+    @apply px-4;
 }
 .fi-resource-marketplace .fi-ta-content-grid {
     @apply !border-none !gap-8 !bg-transparent !py-8;
