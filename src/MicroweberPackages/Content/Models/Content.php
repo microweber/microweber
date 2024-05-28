@@ -152,7 +152,8 @@ class Content extends Model
 
     public function getMorphClass()
     {
-        return 'content';
+        // TODO
+        return Content::class;
     }
 
     public function link()

@@ -7,6 +7,7 @@ use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\Option\Models\ModuleOption;
+use Spatie\Translatable\Exceptions\AttributeIsNotTranslatable;
 
 trait HasMultilanguageTrait
 {
@@ -264,7 +265,9 @@ trait HasMultilanguageTrait
 
                     $findTranslate->field_value = $fieldValue;
                     $findTranslate->save();
+
                     $model->refresh();
+
                 }
             }
         });
@@ -326,9 +329,14 @@ trait HasMultilanguageTrait
     {
         $translation = $this->getOriginal($key);
 
-        $getFormated = $this->getTranslationsFormated();
-        if (isset($getFormated[$locale][$key])) {
-            $translation = $getFormated[$locale][$key];
+        $getTranslation = MultilanguageTranslations::where('rel_id', $this->id)
+            ->where('rel_type', $this->getTable())
+            ->where('field_name', $key)
+            ->where('locale', $locale)
+            ->first();
+
+        if ($getTranslation && $getTranslation->field_value) {
+            $translation = $getTranslation->field_value;
         }
 
         if ($this->hasGetMutator($key)) {
@@ -359,4 +367,41 @@ trait HasMultilanguageTrait
             'fr' => 'testValue_fr',
         ];
     }
+
+    public function setTranslation(string $key, string $locale, $value): self
+    {
+
+        $this->attributes['multilanguage'][$key][$locale] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @throws AttributeIsNotTranslatable
+     */
+    public function setTranslations(string $key, array $translations): self
+    {
+        $this->guardAgainstNonTranslatableAttribute($key);
+
+        if (! empty($translations)) {
+            foreach ($translations as $locale => $translation) {
+                $this->setTranslation($key, $locale, $translation);
+            }
+        } else {
+         //   $this->attributes[$key] = $this->asJson([]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @throws AttributeIsNotTranslatable
+     */
+    protected function guardAgainstNonTranslatableAttribute(string $key): void
+    {
+        if (! $this->isTranslatableAttribute($key)) {
+            throw AttributeIsNotTranslatable::make($key, $this);
+        }
+    }
+
 }
