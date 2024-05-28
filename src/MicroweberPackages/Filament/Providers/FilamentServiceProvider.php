@@ -19,6 +19,7 @@ use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
@@ -85,9 +86,18 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             );
         });
 
-        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
-            $switch
-                ->locales(['bg','ar','en','fr']); // also accepts a closure
+        // TODO
+        $defaultLocales = [];
+        $getSupportedLocales = DB::table('multilanguage_supported_locales')
+            ->where('is_active', 'y')->get();
+        if ($getSupportedLocales->count() > 0) {
+            foreach ($getSupportedLocales as $locale) {
+                $defaultLocales[] = $locale->locale;
+            }
+        }
+
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) use($defaultLocales) {
+            $switch->locales($defaultLocales); // also accepts a closure
         });
 
     }

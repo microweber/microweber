@@ -100,6 +100,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
 
+        // TODO
         $defaultLocales = [];
         $getSupportedLocales = DB::table('multilanguage_supported_locales')
             ->where('is_active', 'y')->get();
