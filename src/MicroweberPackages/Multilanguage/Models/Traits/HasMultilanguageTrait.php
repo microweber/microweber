@@ -285,19 +285,61 @@ trait HasMultilanguageTrait
 
         return $this;
     }
+
+    public function isTranslatableAttribute(string $key): bool
+    {
+        return in_array($key, $this->getTranslatableAttributes());
+    }
+
+    public function getAttributeValue($key): mixed
+    {
+        if (! $this->isTranslatableAttribute($key)) {
+            return parent::getAttributeValue($key);
+        }
+
+        return $this->getTranslation($key, $this->getLocale(), $this->useFallbackLocale());
+    }
+
+    public function useFallbackLocale(): bool
+    {
+        if (property_exists($this, 'useFallbackLocale')) {
+            return $this->useFallbackLocale;
+        }
+
+        return true;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->translationLocale ?: config('app.locale');
+    }
+
+
     public function getTranslatableAttributes(): array
     {
-//        return is_array($this->translatable)
-//            ? $this->translatable
-//            : [];
-        return [
-            'title',
-        ];
-
+        return is_array($this->translatable)
+            ? $this->translatable
+            : [];
     }
+
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
     {
-        return 'THIS IS THE TEXT - ' . $key . ' - ' . $locale;
+        $translation = $this->getOriginal($key);
+
+        $getFormated = $this->getTranslationsFormated();
+        if (isset($getFormated[$locale][$key])) {
+            $translation = $getFormated[$locale][$key];
+        }
+
+        if ($this->hasGetMutator($key)) {
+            return $this->mutateAttribute($key, $translation);
+        }
+
+        if($this->hasAttributeMutator($key)) {
+            return $this->mutateAttributeMarkedAttribute($key, $translation);
+        }
+
+        return $translation;
     }
 
     public function getTranslations(string $key = null, array $allowedLocales = null): array

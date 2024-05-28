@@ -19,10 +19,12 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\Admin\Http\Middleware\Admin;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
+use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
 
@@ -98,7 +100,14 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
 
-        $defaultLocales = ['bg', 'en', 'es', 'fr'];
+        $defaultLocales = [];
+        $getSupportedLocales = DB::table('multilanguage_supported_locales')
+            ->where('is_active', 'y')->get();
+        if ($getSupportedLocales->count() > 0) {
+            foreach ($getSupportedLocales as $locale) {
+                $defaultLocales[] = $locale->locale;
+            }
+        }
 
         $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
         $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
