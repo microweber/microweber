@@ -175,8 +175,10 @@ class MarketplaceResource extends Resource
                                                         $results = $runner->requestInstall([
                                                             'require_name' => $marketplaceItem->internal_name, 'require_version' => $data['version']
                                                         ]);
-
-                                                       // $runner->requestInstall($results['form_data_module_params']);
+                                                        $install = $runner->requestInstall($results['form_data_module_params']);
+                                                        if (isset($install['success'])) {
+                                                            return true;
+                                                        }
                                                     } catch (\Exception $e) {
                                                         return $e->getMessage();
                                                     }
