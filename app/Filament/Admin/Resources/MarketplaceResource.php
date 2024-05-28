@@ -77,12 +77,17 @@ class MarketplaceResource extends Resource
                                     'color' => 'primary',
                                 ];
                             }
-                        }
-                        if ($marketplaceItem['is_paid'] == 1) {
-                            $badges[] = [
-                                'label' => 'Premium',
-                                'color' => 'warning',
-                            ];
+                            if ($marketplaceItem['is_paid'] == 1) {
+                                $badges[] = [
+                                    'label' => 'Premium',
+                                    'color' => 'warning',
+                                ];
+                            } else {
+                                $badges[] = [
+                                    'label' => 'Free',
+                                    'color' => 'success',
+                                ];
+                            }
                         }
                         return $badges;
                     })
