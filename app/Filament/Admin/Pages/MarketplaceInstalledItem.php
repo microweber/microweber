@@ -22,7 +22,21 @@ class MarketplaceInstalledItem extends Page
 
 
         return [
-
+            'item' => [
+                'name' => $item,
+                'description' => 'This is a description of the item',
+                'version' => '1.0.0',
+                'author' => 'Bozhidar Slaveykov',
+                'license' => 'MIT',
+                'tags' => ['theme', 'mw-devs'],
+                'url' => 'https://example.com',
+                'authorUrl' => 'https://example.com',
+                'screenshotUrl'=> 'https://packages.microweberapi.com/meta/microweber-templates-photographer/171/screenshot.jpg',
+                'installed' => true,
+                'enabled' => true,
+                'settingsUrl' => '#',
+                'uninstallUrl' => '#',
+            ],
         ];
     }
 
