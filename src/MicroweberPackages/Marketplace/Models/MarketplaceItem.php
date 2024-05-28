@@ -72,6 +72,15 @@ class MarketplaceItem extends Model {
                     continue;
                 }
             }
+            $versions = [];
+            foreach ($package as $version=>$versionData) {
+                $versions[] = $version;
+            }
+            // Sort versions by newest
+            usort($versions, function($a, $b) {
+                return version_compare($a, $b, '<');
+            });
+            $latestVersionPackage['versions'] = $versions;
             $latestVersionPackage = MicroweberComposerPackage::format($latestVersionPackage);
 
             $latestVersions[$packageName] = $latestVersionPackage;
@@ -88,8 +97,29 @@ class MarketplaceItem extends Model {
             $item['internal_name'] = $latestVersion['name'];
             $item['name'] = $latestVersion['description'];
             $item['big_screenshot_link'] = $latestVersion['screenshot_link'];
+            $item['version'] = $latestVersion['version'];
+            $item['versions'] = json_encode($latestVersion['versions']);
+            $item['author_name'] = false;
+            $item['author_email'] = false;
+            $item['description'] = 'No description';
+            $item['tags'] = 'No tags';
+            $item['request_license'] = 0;
+            if (isset($latestVersion['dist']['type'])) {
+                if ($latestVersion['dist']['type'] == 'license_key') {
+                    $item['request_license'] = 1;
+                }
+            }
 
-            $item['screenshot_link'] = '';
+            if (isset($latestVersion['authors'][0]['name'])) {
+                $item['author_name'] = $latestVersion['authors'][0]['name'];
+                $item['author_email'] = $latestVersion['authors'][0]['email'];
+            }
+            $item['license'] = 'Unknown';
+            if (isset($latestVersion['license'][0])) {
+                $item['license'] = $latestVersion['license'][0];
+            }
+
+            $item['screenshot_link'] = site_url().'src/MicroweberPackages/Marketplace/resources/images/no-module-image.jpg';
             if (isset($latestVersion['extra']['_meta']['screenshot'])) {
                 $item['screenshot_link'] = $latestVersion['extra']['_meta']['screenshot'];
             }

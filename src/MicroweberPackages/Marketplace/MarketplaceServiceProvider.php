@@ -12,6 +12,7 @@ use MicroweberPackages\Admin\Facades\AdminManager;
 use MicroweberPackages\Admin\MenuBuilder\Link;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\MarketplaceItemModal;
+use MicroweberPackages\Marketplace\Http\Livewire\Filament\Admin\ListLicenses;
 
 class MarketplaceServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,7 @@ class MarketplaceServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Livewire::component('admin-list-licenses', ListLicenses::class);
         Livewire::component('admin-marketplace', Marketplace::class);
         Livewire::component('admin-marketplace-item-modal', MarketplaceItemModal::class);
 

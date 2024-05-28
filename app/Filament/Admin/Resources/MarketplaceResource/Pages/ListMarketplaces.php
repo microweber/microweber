@@ -22,6 +22,11 @@ class ListMarketplaces extends ListRecords
                 ->color('secondary')
                 ->icon('mw-reload'),
             Actions\Action::make('Licenses')
+                ->modal('licenses')
+                ->modalSubmitAction(false)
+              //  ->modalCloseButton(false)
+                ->modalCancelAction(false)
+                ->modalContent(view('marketplace::livewire.filament.admin.show-list-licenses'))
                 ->link()
                 ->color('secondary')
                 ->icon('mw-licenses'),
