@@ -13,6 +13,7 @@ namespace MicroweberPackages\Filament\Providers;
 
 
 use Arcanedev\Support\Providers\ServiceProvider;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Facades\Filament;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
@@ -83,6 +84,12 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
                 'public/build'
             );
         });
+
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['ar','en','fr']); // also accepts a closure
+        });
+
     }
 
 
