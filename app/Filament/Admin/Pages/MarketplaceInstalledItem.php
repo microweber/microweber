@@ -14,6 +14,7 @@ class MarketplaceInstalledItem extends Page
     protected static ?string $slug = 'marketplace/installed-item';
 
     protected ?string $heading = 'Installed Item';
+    protected static bool $shouldRegisterNavigation = false;
 
     public function getViewData(): array
     {
