@@ -3292,4 +3292,7 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         padding-block: 0;
 
     }
+    .element{ // chrome 125 new line bug
+        min-height: 1px;
+    }
 }
