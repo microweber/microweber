@@ -29,7 +29,9 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('title')
+                    ->label('Title')
+                    ->required(),
             ]);
     }
 
