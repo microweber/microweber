@@ -20,7 +20,6 @@
                     <div class="mt-6">
                         <x-filament::button
                             icon="heroicon-m-cog"
-                            color="success"
                             href="{{ $item['url'] }}"
                             tag="a"
                         >
