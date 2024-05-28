@@ -99,12 +99,14 @@ class MarketplaceItem extends Model {
             $item['big_screenshot_link'] = $latestVersion['screenshot_link'];
             $item['version'] = $latestVersion['version'];
             $item['versions'] = json_encode($latestVersion['versions']);
-            $item['authorName'] = false;
-            $item['authorEmail'] = false;
+            $item['author_name'] = false;
+            $item['author_email'] = false;
+            $item['description'] = 'No description';
+            $item['tags'] = 'No tags';
 
             if (isset($latestVersion['authors'][0]['name'])) {
-                $item['authorName'] = $latestVersion['authors'][0]['name'];
-                $item['authorEmail'] = $latestVersion['authors'][0]['email'];
+                $item['author_name'] = $latestVersion['authors'][0]['name'];
+                $item['author_email'] = $latestVersion['authors'][0]['email'];
             }
             $item['license'] = 'Unknown';
             if (isset($latestVersion['license'][0])) {

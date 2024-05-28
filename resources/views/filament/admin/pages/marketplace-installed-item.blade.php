@@ -8,17 +8,19 @@
             <div class="text-2xl">
                 {{ $item['name'] }}
             </div>
+            <div class="flex gap-4">
             <div>
-                <img src="{{$item['screenshotUrl']}}" alt="{{ $item['name'] }}"
-                     class="mt-6 w-full h-64 object-cover object-center rounded-lg shadow-md">
+                <img src="{{$item['screenshot_link']}}" alt="{{ $item['name'] }}"
+                     class="mt-6 w-full h-104 object-fi† object-top rounded-lg shadow-md">
             </div>
+                <div class="w-[100rem]">
             <div class="mt-6 text-gray-500">
                 {{ $item['description'] }}
             </div>
             <div class="mt-6">
                 <x-filament::button
                     icon="heroicon-m-cog"
-                    href="{{ $item['url'] }}"
+                    href="{{ $item['name'] }}"
                     tag="a"
                 >
                     Apply Theme
@@ -27,7 +29,7 @@
                 <x-filament::button
                     icon="heroicon-m-x-mark"
                     color="danger"
-                    href="{{ $item['url'] }}"
+                    href="{{ $item['name'] }}"
                     tag="a"
                 >
                     Unistall Theme
@@ -36,8 +38,8 @@
 
             </div>
             <div>
-                Author: <a href="{{ $item['authorUrl'] }}" target="_blank"
-                           class="text-blue-500 hover:text-blue-700">{{ $item['author']}}</a>
+                Author: <a href="email:{{ $item['author_email'] }}" target="_blank"
+                           class="text-blue-500 hover:text-blue-700">{{ $item['author_name']}}</a>
             </div>
             <div>
                 Version: {{ $item['version'] }}
@@ -46,8 +48,12 @@
                 License: {{ $item['license'] }}
             </div>
             <div>
-                Tags: {{ implode(', ', $item['tags']) }}
+                Tags: {{ $item['tags'] }}
             </div>
+            <div>
+                Tags: {{ $item['tags'] }}
+            </div>
+        </div>
         </div>
     </div>
 

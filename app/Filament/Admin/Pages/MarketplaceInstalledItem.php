@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Pages;
 
 use Filament\Pages\Page;
+use MicroweberPackages\Marketplace\Models\MarketplaceItem;
 
 class MarketplaceInstalledItem extends Page
 {
@@ -19,25 +20,15 @@ class MarketplaceInstalledItem extends Page
         $item = request()->get('item');
         $this->heading = $item;
 
+        $findMarketplaceItem = MarketplaceItem::where('internal_name', $item)->first();
+        if ($findMarketplaceItem) {
+            $this->heading = $findMarketplaceItem->name;
+            return [
+                'item'=>$findMarketplaceItem->toArray()
+            ];
+        }
 
-
-        return [
-            'item' => [
-                'name' => $item,
-                'description' => 'This is a description of the item',
-                'version' => '1.0.0',
-                'author' => 'Bozhidar Slaveykov',
-                'license' => 'MIT',
-                'tags' => ['theme', 'mw-devs'],
-                'url' => 'https://example.com',
-                'authorUrl' => 'https://example.com',
-                'screenshotUrl'=> 'https://packages.microweberapi.com/meta/microweber-templates-photographer/171/screenshot.jpg',
-                'installed' => true,
-                'enabled' => true,
-                'settingsUrl' => '#',
-                'uninstallUrl' => '#',
-            ],
-        ];
+        return [];
     }
 
 
