@@ -103,6 +103,12 @@ class MarketplaceItem extends Model {
             $item['author_email'] = false;
             $item['description'] = 'No description';
             $item['tags'] = 'No tags';
+            $item['request_license'] = 0;
+            if (isset($latestVersion['dist']['type'])) {
+                if ($latestVersion['dist']['type'] == 'license_key') {
+                    $item['request_license'] = 1;
+                }
+            }
 
             if (isset($latestVersion['authors'][0]['name'])) {
                 $item['author_name'] = $latestVersion['authors'][0]['name'];

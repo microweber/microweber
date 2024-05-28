@@ -21,6 +21,7 @@ use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Marketplace\Models\MarketplaceItem;
 use MicroweberPackages\Module\Models\Module;
 use MicroweberPackages\Package\MicroweberComposerClient;
+use function Clue\StreamFilter\fun;
 
 class MarketplaceResource extends Resource
 {
@@ -149,6 +150,20 @@ class MarketplaceResource extends Resource
 
                                                     Forms\Components\TextInput::make('license_key')
                                                         ->label('License Key')
+                                                        ->required(function (MarketplaceItem $marketplaceItem) {
+                                                            if ($marketplaceItem['request_license'] == 1) {
+                                                                return true;
+                                                            } else {
+                                                                return false;
+                                                            }
+                                                        })
+                                                        ->hidden(function (MarketplaceItem $marketplaceItem) {
+                                                            if ($marketplaceItem['request_license'] == 1) {
+                                                                return false;
+                                                            } else {
+                                                                return true;
+                                                            }
+                                                        })
                                                         ->hint(function (MarketplaceItem $marketplaceItem) {
                                                             return new HtmlString("<a href='https://microweber.com/pricing#white-label' target='_blank'>You don't have a license key?</a>");
                                                         })
