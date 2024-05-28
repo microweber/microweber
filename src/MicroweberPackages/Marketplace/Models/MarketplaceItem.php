@@ -111,7 +111,7 @@ class MarketplaceItem extends Model {
                 $item['license'] = $latestVersion['license'][0];
             }
 
-            $item['screenshot_link'] = '';
+            $item['screenshot_link'] = site_url().'src/MicroweberPackages/Marketplace/resources/images/no-module-image.jpg';
             if (isset($latestVersion['extra']['_meta']['screenshot'])) {
                 $item['screenshot_link'] = $latestVersion['extra']['_meta']['screenshot'];
             }

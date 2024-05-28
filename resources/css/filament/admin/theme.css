@@ -61,13 +61,13 @@
     @apply rounded-t-md;
 }
 .fi-resource-marketplace .fi-ta-record .fi-ta-actions  {
-    @apply transition opacity-0 hover:opacity-100 hover:bg-black/10 rounded-t-md top-0 right-0 absolute w-full h-[11rem] !flex !justify-center !items-center;
+    @apply transition opacity-0 hover:opacity-100 hover:backdrop-blur-sm hover:bg-black/10 rounded-t-md top-0 right-0 absolute w-full h-[11rem] !flex !justify-center !items-center;
 }
 .fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link  {
     @apply w-full h-full;
 }
 .fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link-icon {
-    @apply !w-12 !h-12;
+    @apply !w-8 !h-8 !text-white/30;
 }
 .fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link span {
     @apply !hidden;

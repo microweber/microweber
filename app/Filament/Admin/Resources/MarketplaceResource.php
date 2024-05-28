@@ -86,7 +86,7 @@ class MarketplaceResource extends Resource
                     ->modalHeading('View Marketplace Item')
                     ->modalCancelAction(false)
                     ->modalSubmitAction(false)
-                    ->icon('heroicon-m-eye')
+                    ->icon('heroicon-m-cloud-arrow-down')
                     ->slideOver()
                     ->form([
 
@@ -215,7 +215,7 @@ class MarketplaceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMarketplaces::route('/'),
+            'index' => Pages\ListMarketplaces::route('/')
         ];
     }
 }
