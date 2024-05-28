@@ -135,8 +135,9 @@ class MarketplaceResource extends Resource
                                             }),
 
                                         Forms\Components\Actions::make([
+
                                             Forms\Components\Actions\Action::make('installPackageVersion')
-                                                ->label('Install')
+                                                ->label('Download & install')
                                                 ->icon('heroicon-m-cloud-arrow-down')
                                                 ->slideOver()
                                                 ->modalIcon('heroicon-m-cloud-arrow-down')
@@ -145,6 +146,14 @@ class MarketplaceResource extends Resource
                                                     return "Install {$marketplaceItem->name}";
                                                 })
                                                 ->form([
+
+                                                    Forms\Components\TextInput::make('license_key')
+                                                        ->label('License Key')
+                                                        ->hint(function (MarketplaceItem $marketplaceItem) {
+                                                            return new HtmlString("<a href='https://microweber.com/pricing#white-label' target='_blank'>You don't have a license key?</a>");
+                                                        })
+                                                        ->columnSpanFull(),
+
                                                     Forms\Components\Select::make('version')
                                                         ->label('Version')
                                                         ->hint(function (MarketplaceItem $marketplaceItem) {
