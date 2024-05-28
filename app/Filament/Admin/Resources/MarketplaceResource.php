@@ -18,6 +18,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
+use MicroweberPackages\Filament\Tables\Columns\BadgesColumn;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Marketplace\Models\MarketplaceItem;
 use MicroweberPackages\Module\Models\Module;
@@ -61,6 +62,35 @@ class MarketplaceResource extends Resource
                         ->searchable()
                         ->columnSpanFull()
                         ->weight(FontWeight::Bold),
+
+                    BadgesColumn::make('badges')->badges(function (MarketplaceItem $marketplaceItem) {
+                        $badges = [];
+                        if ($marketplaceItem['has_current_install'] == 1) {
+                            $badges[] = [
+                                'label' => 'Installed',
+                                'color' => 'success',
+                            ];
+                        } else {
+                            if ($marketplaceItem['available_for_install'] == 1) {
+                                $badges[] = [
+                                    'label' => 'Available for install',
+                                    'color' => 'primary',
+                                ];
+                            }
+                            if ($marketplaceItem['is_paid'] == 1) {
+                                $badges[] = [
+                                    'label' => 'Premium',
+                                    'color' => 'warning',
+                                ];
+                            } else {
+                                $badges[] = [
+                                    'label' => 'Free',
+                                    'color' => 'success',
+                                ];
+                            }
+                        }
+                        return $badges;
+                    })
 
                 ])
                 ->space(3)

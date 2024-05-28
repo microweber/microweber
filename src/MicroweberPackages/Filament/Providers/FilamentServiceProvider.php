@@ -13,6 +13,7 @@ namespace MicroweberPackages\Filament\Providers;
 
 
 use Arcanedev\Support\Providers\ServiceProvider;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Facades\Filament;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
@@ -60,10 +61,10 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             View::addNamespace('filament-widgets', $originalFolder . 'widgets/resources/views');
 
             $this->loadTranslationsFrom($originalFolder . 'filament/resources/lang', 'filament-panels');
-            $this->loadTranslationsFrom($originalFolder . 'forms/resources/lang', 'filament-forms');
-            $this->loadTranslationsFrom($originalFolder . 'notifications/resources/lang', 'filament-notifications');
-            $this->loadTranslationsFrom($originalFolder . 'tables/resources/lang', 'filament-tables');
-            $this->loadTranslationsFrom($originalFolder . 'widgets/resources/lang', 'filament-widgets');
+//            $this->loadTranslationsFrom($originalFolder . 'forms/resources/lang', 'filament-forms');
+//            $this->loadTranslationsFrom($originalFolder . 'notifications/resources/lang', 'filament-notifications');
+//            $this->loadTranslationsFrom($originalFolder . 'tables/resources/lang', 'filament-tables');
+//            $this->loadTranslationsFrom($originalFolder . 'widgets/resources/lang', 'filament-widgets');
 
         }
         View::prependNamespace('filament-panels', dirname(__DIR__).'/resources/views/filament');
@@ -83,6 +84,12 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
                 'public/build'
             );
         });
+
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['bg','ar','en','fr']); // also accepts a closure
+        });
+
     }
 
 

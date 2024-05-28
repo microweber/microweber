@@ -9,6 +9,7 @@ use Filament\MinimalTheme;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
@@ -18,11 +19,14 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\Admin\Http\Middleware\Admin;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
+use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
+use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
 
 class FilamentAdminPanelProvider extends PanelProvider
 {
@@ -92,9 +96,21 @@ class FilamentAdminPanelProvider extends PanelProvider
         $tableToggle->gridLayoutButtonIcon('heroicon-o-squares-2x2');
         $panel->plugin($tableToggle);
 
-         $panel->plugin(new MicroweberTheme());
+        $panel->plugin(new MicroweberTheme());
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
+
+        $defaultLocales = [];
+        $getSupportedLocales = DB::table('multilanguage_supported_locales')
+            ->where('is_active', 'y')->get();
+        if ($getSupportedLocales->count() > 0) {
+            foreach ($getSupportedLocales as $locale) {
+                $defaultLocales[] = $locale->locale;
+            }
+        }
+
+        $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
+        $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
 
         return $panel;
     }

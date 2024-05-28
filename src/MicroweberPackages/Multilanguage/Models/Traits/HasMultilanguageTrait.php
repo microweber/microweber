@@ -276,4 +276,87 @@ trait HasMultilanguageTrait
         return MultilanguageHelpers::getTranslatableModuleOptions();
     }
 
+
+    // SPATIE
+    public $translationLocale = null;
+    public function setLocale(string $locale): self
+    {
+        $this->translationLocale = $locale;
+
+        return $this;
+    }
+
+    public function isTranslatableAttribute(string $key): bool
+    {
+        return in_array($key, $this->getTranslatableAttributes());
+    }
+
+    public function getAttributeValue($key): mixed
+    {
+        if (! $this->isTranslatableAttribute($key)) {
+            return parent::getAttributeValue($key);
+        }
+
+        return $this->getTranslation($key, $this->getLocale(), $this->useFallbackLocale());
+    }
+
+    public function useFallbackLocale(): bool
+    {
+        if (property_exists($this, 'useFallbackLocale')) {
+            return $this->useFallbackLocale;
+        }
+
+        return true;
+    }
+
+    public function getLocale(): string
+    {
+        return $this->translationLocale ?: config('app.locale');
+    }
+
+
+    public function getTranslatableAttributes(): array
+    {
+        return is_array($this->translatable)
+            ? $this->translatable
+            : [];
+    }
+
+    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
+    {
+        $translation = $this->getOriginal($key);
+
+        $getFormated = $this->getTranslationsFormated();
+        if (isset($getFormated[$locale][$key])) {
+            $translation = $getFormated[$locale][$key];
+        }
+
+        if ($this->hasGetMutator($key)) {
+            return $this->mutateAttribute($key, $translation);
+        }
+
+        if($this->hasAttributeMutator($key)) {
+            return $this->mutateAttributeMarkedAttribute($key, $translation);
+        }
+
+        return $translation;
+    }
+
+    public function getTranslations(string $key = null, array $allowedLocales = null): array
+    {
+        if ($key == null) {
+            return [
+                'title' => [
+                    'en' => 'testValue_en',
+                    'de' => 'testValue_de',
+                    'bg' => 'testValue_bg',
+                ],
+            ];
+        }
+        return [
+            'en' => 'testValue_en',
+            'bg' => 'testValue_bg',
+            'fr' => 'testValue_fr',
+        ];
+    }
 }
