@@ -67,9 +67,6 @@
             <div>
                 Tags: {{ $item['tags'] }}
             </div>
-            <div>
-                Tags: {{ $item['tags'] }}
-            </div>
         </div>
         </div>
 
