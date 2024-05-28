@@ -23,22 +23,34 @@
                 {{ $item['description'] }}
             </div>
             <div class="mt-6">
-                <x-filament::button
-                    icon="heroicon-m-cog"
-                    href="{{ $item['name'] }}"
-                    tag="a"
-                >
-                    Apply Theme
-                </x-filament::button>
 
-                <x-filament::button
-                    icon="heroicon-m-x-mark"
-                    color="danger"
-                    href="{{ $item['name'] }}"
-                    tag="a"
-                >
-                    Unistall Theme
-                </x-filament::button>
+                @if($item['type'] == 'microweber-template')
+                    <x-filament::button
+                        icon="heroicon-m-cog"
+                        href="{{ $item['name'] }}"
+                        tag="a"
+                    >
+                        Apply Theme
+                    </x-filament::button>
+
+                    <x-filament::button
+                        icon="heroicon-m-x-mark"
+                        color="danger"
+                        href="{{ $item['name'] }}"
+                        tag="a"
+                    >
+                        Unistall Theme
+                    </x-filament::button>
+
+                @else
+                    <x-filament::button
+                        icon="heroicon-m-cog"
+                        href="{{ $item['name'] }}"
+                        tag="a"
+                    >
+                        Open Module
+                    </x-filament::button>
+                @endif
 
 
             </div>
