@@ -533,7 +533,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
         }
 
 
-        if (first.nodeName !== 'IMG' && !isIcon) {
+        if (first && first.nodeName !== 'IMG' && !isIcon) {
             first = DomService.firstBlockLevel(elements[0]);
         }
 
