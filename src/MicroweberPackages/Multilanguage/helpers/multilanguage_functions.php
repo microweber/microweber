@@ -305,10 +305,22 @@ if (!function_exists('get_supported_languages')) {
 
         if (!empty($languages)) {
             foreach ($languages as &$language) {
-                $language['icon'] = get_flag_icon($language['locale']);
+                $getSupportedLocale = get_supported_locale_by_id($language['id']);
+                 $language['icon'] = get_flag_icon($language['locale']);
                 if (empty($language['display_name'])) {
                     $language['language'] = \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($language['locale']);
                 }
+
+                if (isset($getSupportedLocale['display_icon']) and !empty($getSupportedLocale['display_icon'])) {
+                    $language['display_icon'] =  $getSupportedLocale['display_icon'];
+                }
+                if (isset($getSupportedLocale['display_locale']) and !empty($getSupportedLocale['display_locale'])) {
+                    $language['display_locale'] =  $getSupportedLocale['display_locale'];
+                }
+                if (isset($getSupportedLocale['display_name']) and !empty($getSupportedLocale['display_name'])) {
+                    $language['display_name'] =  $getSupportedLocale['display_name'];
+                }
+
             }
         }
 
