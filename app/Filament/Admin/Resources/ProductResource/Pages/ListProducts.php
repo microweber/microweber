@@ -10,6 +10,7 @@ use Hydrat\TableLayoutToggle\Concerns\HasToggleableTable;
 class ListProducts extends ListRecords
 {
     use HasToggleableTable;
+    use ListRecords\Concerns\Translatable;
 
     protected static string $resource = ProductResource::class;
 
@@ -17,6 +18,7 @@ class ListProducts extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            Actions\LocaleSwitcher::make(),
         ];
     }
 }

@@ -276,4 +276,45 @@ trait HasMultilanguageTrait
         return MultilanguageHelpers::getTranslatableModuleOptions();
     }
 
+
+    // SPATIE
+    public $translationLocale = null;
+    public function setLocale(string $locale): self
+    {
+        $this->translationLocale = $locale;
+
+        return $this;
+    }
+    public function getTranslatableAttributes(): array
+    {
+//        return is_array($this->translatable)
+//            ? $this->translatable
+//            : [];
+        return [
+            'title',
+        ];
+
+    }
+    public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
+    {
+        return 'THIS IS THE TEXT - ' . $key . ' - ' . $locale;
+    }
+
+    public function getTranslations(string $key = null, array $allowedLocales = null): array
+    {
+        if ($key == null) {
+            return [
+                'title' => [
+                    'en' => 'testValue_en',
+                    'de' => 'testValue_de',
+                    'bg' => 'testValue_bg',
+                ],
+            ];
+        }
+        return [
+            'en' => 'testValue_en',
+            'bg' => 'testValue_bg',
+            'fr' => 'testValue_fr',
+        ];
+    }
 }

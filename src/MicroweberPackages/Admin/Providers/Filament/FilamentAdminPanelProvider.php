@@ -9,6 +9,7 @@ use Filament\MinimalTheme;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
@@ -23,6 +24,7 @@ use MicroweberPackages\Admin\Http\Middleware\Admin;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
+use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
 
 class FilamentAdminPanelProvider extends PanelProvider
 {
@@ -92,9 +94,14 @@ class FilamentAdminPanelProvider extends PanelProvider
         $tableToggle->gridLayoutButtonIcon('heroicon-o-squares-2x2');
         $panel->plugin($tableToggle);
 
-         $panel->plugin(new MicroweberTheme());
+        $panel->plugin(new MicroweberTheme());
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
+
+        $defaultLocales = ['bg', 'en', 'es', 'fr'];
+
+        $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
+        $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
 
         return $panel;
     }

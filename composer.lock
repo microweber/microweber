@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f5e7bb7bd920dcb485cfb080b9f879ba",
+    "content-hash": "627b85ad0835307d58d231e1f40dbc35",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3744,6 +3744,52 @@
             "time": "2024-05-08T16:21:24+00:00"
         },
         {
+            "name": "filament/spatie-laravel-translatable-plugin",
+            "version": "3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filamentphp/spatie-laravel-translatable-plugin.git",
+                "reference": "782a0a023b0544d67b0027cbad563f57c5b2809e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filamentphp/spatie-laravel-translatable-plugin/zipball/782a0a023b0544d67b0027cbad563f57c5b2809e",
+                "reference": "782a0a023b0544d67b0027cbad563f57c5b2809e",
+                "shasum": ""
+            },
+            "require": {
+                "filament/support": "self.version",
+                "illuminate/support": "^10.45|^11.0",
+                "php": "^8.1",
+                "spatie/laravel-translatable": "^6.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Filament\\SpatieLaravelTranslatablePluginServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Filament\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Filament support for `spatie/laravel-translatable`.",
+            "homepage": "https://github.com/filamentphp/filament",
+            "support": {
+                "issues": "https://github.com/filamentphp/filament/issues",
+                "source": "https://github.com/filamentphp/filament"
+            },
+            "time": "2024-04-21T22:24:16+00:00"
+        },
+        {
             "name": "filament/support",
             "version": "3.x-dev",
             "source": {
@@ -5650,12 +5696,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e2d55af66635941d931b8e89af17553625c9699d"
+                "reference": "7c2d7c0165582f3dd29052aa7589e4395d0366e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e2d55af66635941d931b8e89af17553625c9699d",
-                "reference": "e2d55af66635941d931b8e89af17553625c9699d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/7c2d7c0165582f3dd29052aa7589e4395d0366e5",
+                "reference": "7c2d7c0165582f3dd29052aa7589e4395d0366e5",
                 "shasum": ""
             },
             "require": {
@@ -5848,7 +5894,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-05-24T14:44:08+00:00"
+            "time": "2024-05-27T15:50:54+00:00"
         },
         {
             "name": "laravel/passport",
@@ -5933,12 +5979,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "dcfdee55dd16ce72fdd1400b521d5371e78a658c"
+                "reference": "9bc4df7c699b0452c6b815e64a2d84b6d7f99400"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/dcfdee55dd16ce72fdd1400b521d5371e78a658c",
-                "reference": "dcfdee55dd16ce72fdd1400b521d5371e78a658c",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/9bc4df7c699b0452c6b815e64a2d84b6d7f99400",
+                "reference": "9bc4df7c699b0452c6b815e64a2d84b6d7f99400",
                 "shasum": ""
             },
             "require": {
@@ -5984,7 +6030,7 @@
                 "issues": "https://github.com/laravel/prompts/issues",
                 "source": "https://github.com/laravel/prompts/tree/main"
             },
-            "time": "2024-05-21T18:07:00+00:00"
+            "time": "2024-05-27T13:53:20+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -12187,12 +12233,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "13c33b5e7e4ee04f5e6c9b55e34beacb2bdafd8d"
+                "reference": "d7f6c8f8c13ca45661872198fa6e282c1f7db6fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/13c33b5e7e4ee04f5e6c9b55e34beacb2bdafd8d",
-                "reference": "13c33b5e7e4ee04f5e6c9b55e34beacb2bdafd8d",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/d7f6c8f8c13ca45661872198fa6e282c1f7db6fb",
+                "reference": "d7f6c8f8c13ca45661872198fa6e282c1f7db6fb",
                 "shasum": ""
             },
             "require": {
@@ -12272,7 +12318,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-20T21:19:49+00:00"
+            "time": "2024-05-27T22:02:01+00:00"
         },
         {
             "name": "rappasoft/laravel-livewire-tables",
@@ -12948,6 +12994,83 @@
             "time": "2023-09-26T20:31:33+00:00"
         },
         {
+            "name": "solution-forest/filament-translate-field",
+            "version": "1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/solutionforest/filament-translate-field.git",
+                "reference": "01bdfdfce312b3a2ecbbb95be0e8188ba1157c36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/solutionforest/filament-translate-field/zipball/01bdfdfce312b3a2ecbbb95be0e8188ba1157c36",
+                "reference": "01bdfdfce312b3a2ecbbb95be0e8188ba1157c36",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SolutionForest\\FilamentTranslateField\\FilamentTranslateFieldServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentTranslateField": "SolutionForest\\FilamentTranslateField\\Facades\\FilamentTranslateField"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SolutionForest\\FilamentTranslateField\\": "src/",
+                    "SolutionForest\\FilamentTranslateField\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carly",
+                    "email": "info@solutionforest.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Filament Translate Field",
+            "homepage": "https://github.com/solution-forest/filament-translate-field",
+            "keywords": [
+                "filament",
+                "filament-translate-field",
+                "laravel",
+                "laravel-translatable",
+                "solution-forest"
+            ],
+            "support": {
+                "issues": "https://github.com/solution-forest/filament-translate-field/issues",
+                "source": "https://github.com/solution-forest/filament-translate-field"
+            },
+            "time": "2024-05-03T04:01:42+00:00"
+        },
+        {
             "name": "spatie/color",
             "version": "1.5.3",
             "source": {
@@ -13350,6 +13473,88 @@
                 }
             ],
             "time": "2024-05-26T01:54:23+00:00"
+        },
+        {
+            "name": "spatie/laravel-translatable",
+            "version": "6.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-translatable.git",
+                "reference": "d55384cbcf867b3cf21ff4d062403596d94acf81"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-translatable/zipball/d55384cbcf867b3cf21ff4d062403596d94acf81",
+                "reference": "d55384cbcf867b3cf21ff4d062403596d94acf81",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0|^10.0|^11.0",
+                "illuminate/support": "^9.0|^10.0|^11.0",
+                "php": "^8.0",
+                "spatie/laravel-package-tools": "^1.11"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.4",
+                "orchestra/testbench": "^7.0|^8.0|^9.0",
+                "pestphp/pest": "^1.20|^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Translatable\\TranslatableServiceProvider"
+                    ]
+                },
+                "aliases": {
+                    "Translatable": "Spatie\\Translatable\\Facades\\Translatable"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Translatable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A trait to make an Eloquent model hold translations",
+            "homepage": "https://github.com/spatie/laravel-translatable",
+            "keywords": [
+                "eloquent",
+                "i8n",
+                "laravel-translatable",
+                "model",
+                "multilingual",
+                "spatie",
+                "translate"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/laravel-translatable/issues",
+                "source": "https://github.com/spatie/laravel-translatable/tree/6.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-05-14T11:35:51+00:00"
         },
         {
             "name": "spatie/macroable",
@@ -15979,12 +16184,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "ec6e34d7e972c21d1e3aa5531dfdf23979c024b6"
+                "reference": "0ec2f36fbd769467f98c9c02cea1b76ed117115d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/ec6e34d7e972c21d1e3aa5531dfdf23979c024b6",
-                "reference": "ec6e34d7e972c21d1e3aa5531dfdf23979c024b6",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/0ec2f36fbd769467f98c9c02cea1b76ed117115d",
+                "reference": "0ec2f36fbd769467f98c9c02cea1b76ed117115d",
                 "shasum": ""
             },
             "require": {
@@ -16036,7 +16241,7 @@
                 "url"
             ],
             "support": {
-                "source": "https://github.com/symfony/routing/tree/v7.1.0-RC1"
+                "source": "https://github.com/symfony/routing/tree/7.1"
             },
             "funding": [
                 {
@@ -16052,7 +16257,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-17T10:55:18+00:00"
+            "time": "2024-05-28T06:54:05+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -16540,12 +16745,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "d4dea606849134a58accb223914589b5227a2b50"
+                "reference": "595e4a4bc2118e7f4884315a684678b9403d44a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/d4dea606849134a58accb223914589b5227a2b50",
-                "reference": "d4dea606849134a58accb223914589b5227a2b50",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/595e4a4bc2118e7f4884315a684678b9403d44a6",
+                "reference": "595e4a4bc2118e7f4884315a684678b9403d44a6",
                 "shasum": ""
             },
             "require": {
@@ -16599,7 +16804,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.1.0-RC1"
+                "source": "https://github.com/symfony/var-dumper/tree/7.1"
             },
             "funding": [
                 {
@@ -16615,7 +16820,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-17T10:55:18+00:00"
+            "time": "2024-05-28T06:54:05+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -20096,6 +20301,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "alexwestergaard/php-ga4": 20,
+        "bezhansalleh/filament-language-switch": 20,
         "finlet/flexmail": 20,
         "hydrat/filament-table-layout-toggle": 20,
         "jenssegers/agent": 20,
@@ -20107,6 +20313,7 @@
         "microweber-packages/microweber-class-alias": 20,
         "opis/closure": 20,
         "phpdocumentor/reflection-docblock": 20,
+        "solution-forest/filament-translate-field": 20,
         "spatie/laravel-googletagmanager": 20,
         "spatie/laravel-menu": 20,
         "spatie/schema-org": 20,

@@ -6,6 +6,7 @@ use App\Filament\Admin\Resources\ProductResource\Pages;
 use App\Filament\Admin\Resources\ProductResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
@@ -16,9 +17,12 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Marketplace\Models\MarketplaceItem;
 use MicroweberPackages\Product\Models\Product;
+use SolutionForest\FilamentTranslateField\Forms\Component\Translate;
 
 class ProductResource extends Resource
 {
+    use Translatable;
+
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'mw-shop';
@@ -29,9 +33,11 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
+
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
-                    ->required(),
+                    ->required()
+
             ]);
     }
 
