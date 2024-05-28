@@ -72,18 +72,22 @@ mw.app = new MWUniversalContainer();
     const handleSameUrl = async () => {
         let url = mw.top().app.canvas.getUrl();
 
+        const isLiveEdit = !!mw.top().app.canvas && mw.top().app.canvas.getWindow() && (self === top || self.frameElement.id === 'live-editor-frame');
 
-        if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(url) && mw.top().app.canvas.isUrlSame(url)  ) {
+
+        if(isLiveEdit) {
+            if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(url) && mw.top().app.canvas.isUrlSame(url)  ) {
 
 
-            const action = await mw.app.pageAlreadyOpened.handle(url);
+                const action = await mw.app.pageAlreadyOpened.handle(url);
 
-            if(action) {
+                if(action) {
 
-            } else {
-                mw.top().win.location.href = mw.top().settings.adminUrl;
+                } else {
+                    mw.top().win.location.href = mw.top().settings.adminUrl;
+                }
+
             }
-
         }
     }
 
