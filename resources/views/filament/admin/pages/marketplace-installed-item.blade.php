@@ -18,8 +18,25 @@
                         {{ $item['description'] }}
                     </div>
                     <div class="mt-6">
-                        <a href="{{ $item['url'] }}" target="_blank" class="text-blue-500 hover:text-blue-700">Apply Theme</a>
-                        <a href="{{ $item['url'] }}" target="_blank" class="text-blue-500 hover:text-blue-700">Unistall</a>
+                        <x-filament::button
+                            icon="heroicon-m-cog"
+                            color="success"
+                            href="{{ $item['url'] }}"
+                            tag="a"
+                        >
+                            Apply Theme
+                        </x-filament::button>
+
+                        <x-filament::button
+                            icon="heroicon-m-x-mark"
+                            color="danger"
+                            href="{{ $item['url'] }}"
+                            tag="a"
+                        >
+                            Unistall Theme
+                        </x-filament::button>
+
+
                     </div>
                     <div>
                         Author: <a href="{{ $item['authorUrl'] }}" target="_blank" class="text-blue-500 hover:text-blue-700">{{ $item['author']}}</a>
