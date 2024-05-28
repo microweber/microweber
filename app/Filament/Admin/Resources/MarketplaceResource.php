@@ -177,7 +177,7 @@ class MarketplaceResource extends Resource
                                                         ]);
                                                         $install = $runner->requestInstall($results['form_data_module_params']);
                                                         if (isset($install['success'])) {
-                                                            return true;
+                                                            return redirect(route('filament.admin.pages.marketplace.installed-item') . '?item=' . $marketplaceItem->internal_name);
                                                         }
                                                     } catch (\Exception $e) {
                                                         return $e->getMessage();
