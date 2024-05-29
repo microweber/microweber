@@ -154,6 +154,11 @@ class ProductResource extends Resource
                                                     Forms\Components\Toggle::make('free_shipping')
                                                         ->columnSpanFull(),
 
+                                                    Forms\Components\Toggle::make('shipping_advanced_settings')
+                                                        ->label('Show advanced weight settings')
+                                                        ->live()
+                                                        ->columnSpanFull(),
+
                                                 ])->columns(2)->hidden(function(Forms\Get $get) {
                                                     return !$get('physical_product');
                                                 }),
@@ -196,7 +201,7 @@ class ProductResource extends Resource
                                                 ])
                                                     ->columns(4)
                                                     ->hidden(function(Forms\Get $get) {
-                                                    return !$get('physical_product');
+                                                    return !$get('shipping_advanced_settings');
                                                 }),
 
                                             ])->columnSpanFull(),
