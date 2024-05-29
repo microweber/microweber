@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Database;
 
 use Doctrine\DBAL\Types\Type;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
@@ -676,41 +677,14 @@ class Utils
         }
     }
 
-    public function add_table_index($aIndexName, $aTable, $aOnColumns, $indexmeta = false)
+// @deprecated
+    public function add_table_index($aIndexName=null, $aTable, $aOnColumns)
     {
-        $aTable = $this->real_table_name($aTable);
-        $function_cache_id = false;
-        $args = func_get_args();
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-            $function_cache_id = 'add_table_index' . crc32($function_cache_id);
-        }
-        if (isset($this->add_table_index_cache[$function_cache_id])) {
-            return true;
-        } else {
-            $this->add_table_index_cache[$function_cache_id] = true;
-        }
-
-        $table_name = $function_cache_id;
-        $cache_group = 'db/' . $table_name;
-        $cache_content = $this->app->cache_manager->get($function_cache_id, $cache_group);
-        if (($cache_content) != false) {
-            return $cache_content;
-        }
-
-        $columns = implode(',', $aOnColumns);
-        $query = $this->query("SHOW INDEX FROM {$aTable} WHERE Key_name = '{$aIndexName}';");
-        if ($indexmeta != false) {
-            $index = $indexmeta;
-        } else {
-            $index = ' INDEX ';
-            //FULLTEXT
-        }
-        if ($query == false) {
-            $q = 'ALTER TABLE ' . $aTable . " ADD $index `" . $aIndexName . '` (' . $columns . ');';
-            $this->q($q);
-        }
-        $this->app->cache_manager->save('--true--', $function_cache_id, $cache_group);
+//        Schema::table($aTable, function (Blueprint $table) use ($aIndexName, $aOnColumns) {
+//             $table->index($aOnColumns,$aIndexName);
+//        });
+//
+//        Schema::getIndexes();
     }
 
     /**
