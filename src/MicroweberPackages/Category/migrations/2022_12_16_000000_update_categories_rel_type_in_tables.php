@@ -24,7 +24,7 @@ class UpdateCategoriesRelTypeInTables extends Migration
         foreach ($tables as $table) {
             if (Schema::hasTable($table)) {
                 \DB::table($table)
-                    ->where('rel_type', 'categories')
+                    ->where('rel_type', morph_name(\MicroweberPackages\Category\Models\Category::class))
                     ->update(['rel_type' => 'category']);
             }
         }

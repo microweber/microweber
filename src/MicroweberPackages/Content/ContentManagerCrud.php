@@ -1160,7 +1160,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
                 })
-                ->whereRelType('content')
+                ->whereRelType(morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->update(['rel_type' => 'content', 'rel_id' => $id]);
 
             DB::table('media')
@@ -1168,7 +1168,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
                 })
-                ->whereRelType('content')
+                ->whereRelType(morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->update(['rel_type' => 'content', 'rel_id' => $id]);
 
         }
