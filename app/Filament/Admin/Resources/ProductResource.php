@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use MicroweberPackages\CustomField\Fields\Checkbox;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Marketplace\Models\MarketplaceItem;
 use MicroweberPackages\Product\Models\Product;
@@ -88,6 +89,39 @@ class ProductResource extends Resource
 
                                         Forms\Components\Section::make('Inventory')
                                             ->schema([
+
+
+                                                Forms\Components\TextInput::make('sku')
+                                                     ->helperText('Stock Keeping Unit'),
+
+                                                Forms\Components\TextInput::make('barcode')
+                                                     ->helperText('ISBN, UPC, GTIN, etc.'),
+
+                                                Forms\Components\Toggle::make('track_quantity')
+                                                    ->label('Track Quantity')
+                                                    ->live()
+                                                    ->default(false),
+
+
+                                                Forms\Components\Group::make([
+                                                    Forms\Components\TextInput::make('quantity')
+                                                        ->numeric()
+                                                        ->rules(['regex:/^\d{1,6}$/'])
+                                                        ->default(0),
+
+                                                    Forms\Components\Checkbox::make('sell_oos')
+                                                        ->label('Continue selling when out of stock')
+                                                        ->default(false),
+
+                                                    Forms\Components\TextInput::make('max_qty_per_order')
+                                                        ->numeric()
+                                                        ->rules(['regex:/^\d{1,6}$/'])
+                                                        ->label('Max quantity per order')
+                                                        ->default(0),
+                                                ])->hidden(function(Forms\Get $get) {
+                                                    return !$get('track_quantity');
+                                                }),
+
 
 
                                             ])->columnSpanFull(),
