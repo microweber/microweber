@@ -78,6 +78,10 @@ class ProductResource extends Resource
                                         Forms\Components\Section::make('Pricing')
                                             ->schema([
 
+                                                Forms\Components\TextInput::make('price')
+                                                    ->numeric()
+                                                    ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                                    ->required(),
 
                                             ])->columnSpanFull(),
 
