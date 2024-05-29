@@ -36,12 +36,15 @@ class ProductResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
+
+
                         Forms\Components\Section::make('General Information')
                             ->heading(false)
                             ->schema([
                                 Forms\Components\TextInput::make('title')
                                     ->required()
                                     ->maxLength(255)
+                                    ->columnSpanFull()
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
                                         if ($operation !== 'create') {
@@ -56,6 +59,7 @@ class ProductResource extends Resource
                                     ->dehydrated()
                                     ->required()
                                     ->maxLength(255)
+                                    ->columnSpanFull()
                                     ->unique(Product::class, 'url', ignoreRecord: true),
 
                                 Forms\Components\MarkdownEditor::make('description')
@@ -63,7 +67,31 @@ class ProductResource extends Resource
                             ])
                             ->columnSpanFull()
                             ->columns(2),
+
+
+                        Forms\Components\Section::make('Pricing')
+                            ->schema([
+
+
+                            ])->columnSpanFull(),
+
+
+                        Forms\Components\Section::make('Inventory')
+                            ->schema([
+
+
+                            ])->columnSpanFull(),
+
+                        Forms\Components\Section::make('Shipping')
+                            ->schema([
+
+
+                            ])->columnSpanFull(),
+
                         ])->columnSpan(['lg' => 2]),
+
+
+
 
                 Forms\Components\Group::make()
                     ->schema([
