@@ -14,10 +14,6 @@
         {
             "type": "composer",
             "url": "https://packages.microweberapi.com/packages.json"
-        },
-        {
-            "type": "path",
-            "url": "./standalone-packages/microweber-packages/laravel-helper-functions"
         }
     ],
     "require": {
@@ -76,6 +72,7 @@
         "microweber-dev/omnipay-przelewy24": "0.2",
         "microweber-modules/standalone-updater": "5.3.8",
         "microweber-packages/composer-client": "2.0",
+        "microweber-packages/laravel-config-extended": "1.1",
         "microweber-packages/laravel-helper-functions": "*",
         "microweber-packages/microweber-class-alias": "dev-master",
         "microweber-templates/big-free": "v16.8",

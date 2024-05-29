@@ -23,6 +23,7 @@ use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Install\MicroweberMigrator;
+use MicroweberPackages\LaravelConfigExtended\ConfigExtendedServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
@@ -167,8 +168,8 @@ class AppServiceProvider extends ServiceProvider
         $this->registerHtmlCollective();
         $this->registerMarkdown();
 
-        $this->app->instance('config', new ConfigSave($this->app));
-        $this->app->register(ConfigSaveServiceProvider::class);
+//        $this->app->instance('config', new ConfigSave($this->app));
+         $this->app->register(ConfigExtendedServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
             define('ADMIN_PREFIX', mw_admin_prefix_url());

@@ -8,7 +8,9 @@
  * https://github.com/microweber/microweber/blob/master/LICENSE
  *
  */
+
 namespace MicroweberPackages\Database;
+
 use Doctrine\DBAL\Types\Type;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -219,7 +221,7 @@ class Utils
             "time_zone_transition",
             "time_zone_transition_type",
             "user"
-         ];
+        ];
 
         $tables = array();
         $engine = $this->get_sql_engine();
@@ -289,7 +291,7 @@ class Utils
                     $starts_with = substr($v, 0, strlen($local_prefix)) === $local_prefix;
 
                     if ($starts_with) {
-                           $v1 = str_replace_first($local_prefix, '', $v);
+                        $v1 = str_replace_first($local_prefix, '', $v);
                         $cms_tables[$k] = $v;
                     } else {
                         //  $cms_tables[$k] = $v;
@@ -381,8 +383,8 @@ class Utils
     /**
      * Returns an array that contains only keys that has the same names as the table fields from the database.
      *
-     * @param  string
-     * @param  array
+     * @param string
+     * @param array
      *
      * @return array
      *
@@ -401,8 +403,8 @@ class Utils
 
         if (isset($this->table_fields[$table])) {
             $fields = $this->table_fields[$table];
-         } else {
-            $this->table_fields[$table] =  $fields = $this->get_fields($table);
+        } else {
+            $this->table_fields[$table] = $fields = $this->get_fields($table);
 
         }
 
@@ -456,20 +458,18 @@ class Utils
         if (!$table) {
             return false;
         }
-         if($use_cache and isset(self::$get_fields_fields_memory[$table])){
-           return self::$get_fields_fields_memory[$table];
+        if ($use_cache and isset(self::$get_fields_fields_memory[$table])) {
+            return self::$get_fields_fields_memory[$table];
         }
 
 
         $key = 'mw_db_get_fields_single' . crc32($table);
-      //  $hash = $table;
-
-
+        //  $hash = $table;
 
 
         if ($use_cache) {
             $fields = mw()->cache_manager->get($key, 'db', $expiresAt);
-            if($fields){
+            if ($fields) {
                 return $fields;
             }
         }
@@ -520,23 +520,40 @@ class Utils
 
         if ($advanced_info) {
             $ready_fields = [];
+            $existing = Schema::getColumns($table);
             foreach ($fields as $field) {
-                try {
-                    $column = Schema::getConnection()->getDoctrineColumn($table_name, $field);
-                    $ready_fields[] = [
-                        'name' => $field,
-                        'type' => $column->getType()->getName()
-                    ];
-                } catch (\Exception $e) {
-                    foreach ($original_fields as $o_field) {
-                        if (isset($o_field->name)) {
-                            $ready_fields[] = [
-                                'name' => $o_field->name,
-                                'type' => $o_field->type
-                            ];
-                        }
+
+                foreach ($existing as $key => $value) {
+                    if($value['name'] != $field){
+                        continue;
                     }
+                    $ready_fields[] = $value;
                 }
+
+
+//                array:37 [
+//                    0 => array:9 [
+//                    "name" => "id"
+//    "type_name" => "integer"
+//    "type" => "integer"
+
+
+//                try {
+//                    $column = Schema::getConnection()->getDoctrineColumn($table_name, $field);
+//                    $ready_fields[] = [
+//                        'name' => $field,
+//                        'type' => $column->getType()->getName()
+//                    ];
+//                } catch (\Exception $e) {
+//                    foreach ($original_fields as $o_field) {
+//                        if (isset($o_field->name)) {
+//                            $ready_fields[] = [
+//                                'name' => $o_field->name,
+//                                'type' => $o_field->type
+//                            ];
+//                        }
+//                    }
+//                }
             }
 
             return $ready_fields;
@@ -546,7 +563,7 @@ class Utils
         // Caching
         if ($use_cache) {
             self::$get_fields_fields_memory[$table] = $fields;
-            mw()->cache_manager->save($fields, $key, $cache_group,$expiresAt);
+            mw()->cache_manager->save($fields, $key, $cache_group, $expiresAt);
         }
 
         return $fields;
@@ -574,7 +591,7 @@ class Utils
         }
         $cache_group = $this->assoc_table_name($table);
         $this->app->cache_manager->delete($cache_group);
-     //   $this->app->cache_manager->delete('global/full_page_cache');
+        //   $this->app->cache_manager->delete('global/full_page_cache');
 
     }
 
@@ -606,7 +623,7 @@ class Utils
             $search = array(
                 '@<script[^>]*?>.*?</script>@si', // Strip out javascript
 
-          //      '@<![\s\S]*?--[ \t\n\r]*>@', // Strip multi-line comments
+                //      '@<![\s\S]*?--[ \t\n\r]*>@', // Strip multi-line comments
             );
             if (is_string($input)) {
                 $output = preg_replace($search, '', $input);
@@ -699,11 +716,11 @@ class Utils
     /**
      * Imposts SQL file in the DB.
      *
-     * @category   Database
-     *
      * @param $full_path_to_file
      *
      * @return bool
+     * @category   Database
+     *
      */
     public function import_sql_file($full_path_to_file)
     {

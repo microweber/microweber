@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Core\DatabaseManager\tests;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
@@ -46,11 +48,13 @@ class DbTest extends TestCase
             'value' => json_encode(['test' => 'test'])
         ]);
 
-       $findCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
+        $findCustomFieldValue = CustomFieldValue::where('id', $customFieldValueId)->first();
 
-       $this->assertEquals($findCustomFieldValue->value, json_encode(['test' => 'test']));
+        $this->assertEquals($findCustomFieldValue->value, json_encode(['test' => 'test']));
     }
-    public function testDbSaveJsonFieldOption(){
+
+    public function testDbSaveJsonFieldOption()
+    {
         $option = [
             'option_group' => 'test',
             'option_key' => 'test',
@@ -75,7 +79,7 @@ class DbTest extends TestCase
             "is_shop" => 1
         ));
 
-        $saved = db_get('content',['id'=>$id]);
+        $saved = db_get('content', ['id' => $id]);
 
         $this->assertEquals($saved[0]['is_shop'], '1');
     }
@@ -247,4 +251,15 @@ class DbTest extends TestCase
         }
     }
 
+    public function testGetFields()
+    {
+        $table = 'content';
+        $tableFields = app()->database_manager->get_fields($table, false, true);
+
+        $this->assertIsArray($tableFields);
+
+        $this->assertIsArray($tableFields[0]);
+        $this->assertArrayHasKey('name', $tableFields[0]);
+        $this->assertEquals('id', $tableFields[0]['name']);
+    }
 }
