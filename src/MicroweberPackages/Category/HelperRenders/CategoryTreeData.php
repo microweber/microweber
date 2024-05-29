@@ -56,6 +56,8 @@ class CategoryTreeData
             $cat_url = $this->app->url_manager->param('categories', true);
             if ($cat_url != false) {
           //      $function_cache_id .= $cat_url;
+            } else {
+                $cat_url = category_id();
             }
         }
 
@@ -228,6 +230,7 @@ class CategoryTreeData
             $cat_get_params['order_by'] = 'position asc';
             $cat_get_params['limit'] = '1000';
             $cat_get_params['data_type'] = 'category';
+            $cat_get_params['parent_id'] = 0;
             $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
             $cat_get_params['rel_type'] = $table_assoc_name;
@@ -258,6 +261,8 @@ class CategoryTreeData
         }
 
         $tree_data = array();
+        $knownChildren = array();
+        $knownParents = array();
         if ($fors) {
             foreach ($fors as $cat) {
 
@@ -293,12 +298,34 @@ class CategoryTreeData
 //                    if (isset($tree[0]) and $tree[0]['id'] == $cat['id']) {
 //                        unset($tree[0]);
 //                    }
+
+                    if(in_array($cat['id'], $knownChildren)) {
+                        continue;
+                    }
+
+                    if(in_array($cat['id'], $knownParents)) {
+                        continue;
+                    }
+
                     if ($tree) {
+                        foreach ($tree as $treeItem) {
+                            $knownChildren[] = $treeItem['id'];
+                        }
+
                         $cat['children'] = $tree;
                     }
-                    $tree_data[] = $cat;
+                    if(!in_array($cat['id'], $knownChildren)) {
+                        $tree_data[] = $cat;
+                     }
+   if(!in_array($cat['id'], $knownParents)) {
+       $knownParents[] = $cat['id'];
+                        $tree_data[] = $cat;
+                     }
+
+                   // $tree_data[] = $cat;
                 }
             }
+
         }
 
         if(isset($params['in_stock'])){
