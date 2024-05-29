@@ -837,7 +837,7 @@ small.text-muted {
 
     &:hover {
         transform: scale(1.1);
-        background-color: #f8fcff !important;
+        //background-color: #f8fcff !important;
     }
 }
 
@@ -3291,5 +3291,8 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         margin-block: 0;
         padding-block: 0;
 
+    }
+    .element{ // chrome 125 new line bug
+        min-height: 1px;
     }
 }

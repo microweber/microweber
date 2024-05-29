@@ -168,6 +168,9 @@ class MWEditorEventHandles {
 
      enter(e) {
 
+        if(!mw.top().app || !mw.top().app.canvas ||  !mw.top().app.canvas.getDocument()        ) {
+            return;
+        }
         if(e && e.shiftKey) {
             return;
         }
