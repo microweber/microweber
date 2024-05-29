@@ -34,11 +34,65 @@ class ProductResource extends Resource
         return $form
             ->schema([
 
-                Forms\Components\TextInput::make('title')
-                    ->label('Title')
-                    ->required()
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('General Information')
+                            ->heading(false)
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                        if ($operation !== 'create') {
+                                            return;
+                                        }
 
-            ]);
+                                        $set('url', Str::slug($state));
+                                    }),
+
+                                Forms\Components\TextInput::make('url')
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->unique(Product::class, 'url', ignoreRecord: true),
+
+                                Forms\Components\MarkdownEditor::make('description')
+                                    ->columnSpan('full'),
+                            ])
+                            ->columnSpanFull()
+                            ->columns(2),
+                        ])->columnSpan(['lg' => 2]),
+
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Visible')
+                            ->schema([
+                                Forms\Components\ToggleButtons::make('is_published')
+                                    ->label(false)
+                                    ->options([
+                                        1 => 'Published',
+                                        0 => 'Unpublished',
+                                    ])
+                                    ->default(true),
+
+                                ]),
+                        Forms\Components\Section::make('Category')
+                            ->schema([
+
+                        ]),
+
+                        Forms\Components\Section::make('Tags')
+                            ->schema([
+                                Forms\Components\TagsInput::make('tags')
+                                    ->label(false)
+                                    ->helperText('Separate using commas or Enter key.')
+                                    ->placeholder('Add a tag'),
+                            ]),
+
+                        ])->columnSpan(['lg' => 1]),
+            ])->columns(3);
     }
 
 
