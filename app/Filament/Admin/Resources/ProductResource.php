@@ -12,6 +12,7 @@ use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
@@ -135,6 +136,28 @@ class ProductResource extends Resource
                     ]),
                 Forms\Components\Tabs\Tab::make('SEO')
                     ->schema([
+
+                        Forms\Components\Section::make('Search engine optimisation (SEO)')
+                            ->description('Add a title and description to see how this product might appear in a search engine listing')
+                            ->schema([
+
+                        Forms\Components\TextInput::make('content_meta_title')
+                            ->label('Meta Title')
+                            ->helperText('Describe for what is this page about in short title')
+                            ->columnSpanFull(),
+
+
+                        Forms\Components\Textarea::make('description')
+                            ->label('Meta Description')
+                            ->helperText('Please provide a brief summary of this web page')
+                            ->columnSpanFull(),
+
+                        Forms\Components\TextInput::make('content_meta_keywords')
+                            ->label('Meta Keywords')
+                            ->helperText('Separate keywords with a comma and space. Type keywords that describe your content - Example: Blog, Online News, Phones for sale')
+                            ->columnSpanFull(),
+
+                        ]),
 
                     ]),
                 Forms\Components\Tabs\Tab::make('Advanced')
