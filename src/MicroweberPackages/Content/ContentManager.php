@@ -301,7 +301,7 @@ class ContentManager
     public function attributes($content_id)
     {
         $data = array();
-        $data['rel_type'] = 'content';
+        $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         $data['rel_id'] = intval($content_id);
 
         return $this->app->attributes_manager->get_values($data);

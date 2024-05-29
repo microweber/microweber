@@ -55,7 +55,7 @@ class DataFieldsManager extends Crud
             }
         }
         if (!isset($data['rel_type']) and isset($data['content_id'])) {
-            $data['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             $data['rel_id'] = $data['content_id'];
         }
         if (isset($data['field_name']) and isset($data['rel_id']) and isset($data['rel_type'])) {
@@ -76,7 +76,7 @@ class DataFieldsManager extends Crud
             $data['field_value'] = json_encode($data['field_value']);
         }
         if (!isset($data['rel_type'])) {
-            $data['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
         if (isset($data['rel_type']) and $data['rel_type'] == 'content') {

@@ -381,7 +381,7 @@ class CategoryManager
         }
 
         if (!isset($data['rel_type'])) {
-            $data['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
         if (isset($params['rel_id'])) {
@@ -390,7 +390,7 @@ class CategoryManager
         }
 
         if (isset($data['parent_page'])) {
-            $data['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             $data['rel_id'] = $data['parent_page'];
         }
 
@@ -448,7 +448,7 @@ class CategoryManager
         $content_ids = false;
         $simple_save = false;
         if (isset($data['content_id']) and !isset($data['rel_type'])) {
-            $data['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             $data['rel_id'] = $data['content_id'];
         }
 
@@ -465,7 +465,7 @@ class CategoryManager
         }
 
         if (isset($data['rel_type']) and ($data['rel_type'] == '') or !isset($data['rel_type'])) {
-            $data['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
 
@@ -499,7 +499,7 @@ class CategoryManager
         }
 
         if (isset($data['parent_page'])) {
-            $data['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             $data['rel_id'] = $data['parent_page'];
         }
 
