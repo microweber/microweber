@@ -91,11 +91,11 @@ trait CategoryTrait
 
         //delete from categories if 1st category is 0
         if (reset($categoryIds) == 0) {
-            CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->delete();
+            CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getTable())->delete();
             return;
         }
 
-        $entityCategories = CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();
+        $entityCategories = CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getTable())->get();
         if ($entityCategories) {
             foreach ($entityCategories as $entityCategory) {
                 if (!in_array($entityCategory->parent_id, $categoryIds)) {
@@ -107,13 +107,13 @@ trait CategoryTrait
         if (!empty($categoryIds)) {
             foreach ($categoryIds as $categoryId) {
 
-                $categoryItem = CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->where('parent_id', $categoryId)->first();
+                $categoryItem = CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getTable())->where('parent_id', $categoryId)->first();
                 if (!$categoryItem) {
                     $categoryItem = new CategoryItem();
                 }
 
                 $categoryItem->rel_id = $this->id;
-                $categoryItem->rel_type = $this->getMorphClass();
+                $categoryItem->rel_type = $this->getTable();
                 $categoryItem->parent_id = $categoryId;
                 $categoryItem->save();
             }
@@ -130,7 +130,7 @@ trait CategoryTrait
     public function categoryItems()
     {
         return $this->hasMany(CategoryItem::class, 'rel_id')
-            ->where('rel_type', $this->getMorphClass());
+            ->where('rel_type', $this->getTable());
     }
 
     public function getParentsByCategoryId($id)

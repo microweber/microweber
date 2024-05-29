@@ -20,7 +20,7 @@ trait MediaTrait
     public function media()
     {
         return $this->hasMany(Media::class, 'rel_id')
-            ->where('rel_type', $this->getMorphClass())
+            ->where('rel_type', $this->getTable())
             ->orderBy('position', 'asc');
     }
 
@@ -119,12 +119,12 @@ trait MediaTrait
 
             Media::where('session_id', Session::getId())
                 ->where('rel_id', 0)
-                ->where('rel_type', $model->getMorphClass())
+                ->where('rel_type', $model->getTable())
                 ->update(['rel_id' => $model->id]);
 
             if (is_array($model->_newMediaToAssociate) && !empty($model->_newMediaToAssociate)) {
                 foreach ($model->_newMediaToAssociate as $mediaArr) {
-                    $mediaArr['rel_type'] = $model->getMorphClass();
+                    $mediaArr['rel_type'] = $model->getTable();
                     $saved = $model->media()->create($mediaArr);
                     if ($saved) {
                         $model->_newMediaToAssociateIds[] = $saved->id;
@@ -147,7 +147,7 @@ trait MediaTrait
             $mediaIds = explode(',', $mediaIds);
         }
 
-        $entityMedias = Media::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();
+        $entityMedias = Media::where('rel_id', $this->id)->where('rel_type', $this->getTable())->get();
         if ($entityMedias) {
             foreach ($entityMedias as $entityMedia) {
                 if (!in_array($entityMedia->id, $mediaIds)) {
@@ -159,13 +159,13 @@ trait MediaTrait
         if (!empty($mediaIds)) {
             foreach ($mediaIds as $mediaId) {
 
-                $media = Media::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->where('id', $mediaId)->first();
+                $media = Media::where('rel_id', $this->id)->where('rel_type', $this->getTable())->where('id', $mediaId)->first();
                 if (!$media) {
                     $media = new Media();
                 }
 
                 $media->rel_id = $this->id;
-                $media->rel_type = $this->getMorphClass();
+                $media->rel_type = $this->getTable();
                 $media->save();
             }
         }

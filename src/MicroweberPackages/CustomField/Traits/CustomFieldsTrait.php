@@ -45,7 +45,7 @@ trait CustomFieldsTrait
             // Append custom fields to content when content is created
             CustomField::where('rel_id', 0)
                 ->where('session_id', app()->user_manager->session_id())//ERROR: Non-static method Illuminate\Contracts\Session\Session::getId() cannot be called statically
-                ->where('rel_type', $model->getMorphClass())
+                ->where('rel_type', $model->getTable())
                 ->update(['rel_id' => $model->id]);
 
             if (!empty($model->_addCustomFields)) {
