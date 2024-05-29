@@ -121,7 +121,7 @@ class OrderFilter extends ModelFilter
 
         $this->query->whereIn('cart_orders.id', function ($subQuery) use ($productId) {
             $subQuery->select('cart.order_id')->from('cart')
-                ->where('cart.rel_type', 'content')
+                ->where('cart.rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class)
                 ->where('cart.rel_id', $productId);
         });
 
@@ -169,7 +169,7 @@ class OrderFilter extends ModelFilter
         } else {
             $this->query->whereIn('cart_orders.id', function ($subQuery) use ($keyword) {
                 $subQuery->select('cart.order_id')->from('cart')
-                    ->where('cart.rel_type', 'content')
+                    ->where('cart.rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class)
                     ->whereNotNull('cart.order_id')
                     ->whereIn('cart.rel_id', function ($subQueryProduct) use ($keyword) {
                         $subQueryProduct->select('content.id')->from('content')->where('content.title', 'LIKE', '%' . $keyword . '%');

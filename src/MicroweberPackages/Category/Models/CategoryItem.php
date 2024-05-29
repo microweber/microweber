@@ -28,6 +28,6 @@ class CategoryItem extends Model
 
     public function contentItems()
     {
-        return $this->hasMany(Content::class, 'id', 'rel_id')->where('rel_type', 'content');
+        return $this->hasMany(Content::class, 'id', 'rel_id')->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class));
     }
 }

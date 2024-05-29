@@ -210,7 +210,7 @@ class MigrateOldVersion213 extends Migration
             //ensure all categories have slug
             $categories = DB::table('categories')
                 ->whereNull('url')
-                ->where('rel_type', 'content')
+                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->get();
             if ($categories) {
                 foreach ($categories as $category) {

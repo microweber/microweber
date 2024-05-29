@@ -336,7 +336,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                     if (isset($data['categories'])) {
                         $to_save['categories'] = $data['categories'];
-                        CategoryItem::where('rel_id', $content_id)->where('rel_type', 'content')->delete();
+                        CategoryItem::where('rel_id', $content_id)->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))->delete();
                     }
                     $this->app->content_manager->save_content($to_save);
                 }

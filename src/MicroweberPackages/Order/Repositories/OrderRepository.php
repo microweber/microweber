@@ -99,7 +99,7 @@ class OrderRepository extends AbstractRepository
     public function getBestSellingProductsForPeriod($params = [])
     {
         $orders = $this->getDefaultQueryForStats($params);
-        $orders->where('cart.rel_type', 'content');
+        $orders->where('cart.rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class));
 
         $orders->join('cart as cart', function ($join) use ($params) {
             $join->on('cart.order_id', '=', 'cart_orders.id');
@@ -163,7 +163,7 @@ class OrderRepository extends AbstractRepository
             $orders->where('cart.rel_id', '=', $params['productId']);
         }
         //  $orders->joinRelationship('cart');
-        $orders->where('cart.rel_type', 'content');
+        $orders->where('cart.rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class));
        // $orders->select(DB::raw('COUNT( cart.rel_id ) as "count"') );
        // $orders->groupBy('cart.rel_id');
       //  $sum =   $orders->count('cart.order_id');

@@ -61,7 +61,7 @@ class ContentRepository extends AbstractRepository
             $categoryIds = [];
             $getCategoryItems = DB::table('categories_items')
                 ->select('parent_id')
-                ->where('rel_type', 'content')
+                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->where('rel_id', $id)
                 ->groupBy('parent_id')
                 ->get();
@@ -102,7 +102,7 @@ class ContentRepository extends AbstractRepository
 
             $getContentData = DB::table('content_data')
                 ->select(['field_name', 'field_value'])
-                ->where('rel_type', 'content')
+                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->where('rel_id', $id)
                 ->get();
 
@@ -129,7 +129,7 @@ class ContentRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
 
             $getContentData = DB::table('content_data')
-                ->where('rel_type', 'content');
+                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class));
 
             if (is_array($relId)) {
                 $getContentData->whereIn('rel_id', $relId);
@@ -167,7 +167,7 @@ class ContentRepository extends AbstractRepository
             $customFields = [];
 
             $getCustomFields = DB::table('custom_fields')
-                ->where('rel_type', 'content')
+                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->where('rel_id', $relId)
                 ->get();
 
@@ -376,7 +376,7 @@ class ContentRepository extends AbstractRepository
             $check = DB::table('media')
                 ->select('filename')
                 ->where('rel_id', $contentId)
-                ->where('rel_type', 'content')
+                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->orderBy('position', 'asc')
                 ->limit(1);
             $media = $check->first();

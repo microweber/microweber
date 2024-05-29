@@ -318,8 +318,7 @@ class CategoryRepository extends AbstractRepository
                 ->where('content.is_active', '=', 1);
         })
             ->select(['categories_items.parent_id', 'categories_items.rel_type', DB::raw('count( DISTINCT `' . $realTableName . '`.`id` ) as count')])
-            ->where('categories_items.rel_type', 'content')
-            ->groupBy('categories_items.parent_id');
+            ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))->groupBy('categories_items.parent_id');
 
 
         return $model;

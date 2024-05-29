@@ -282,7 +282,7 @@ class Product extends Content
     {
 
         $cartQuery = Cart::query();
-        $cartQuery->where('rel_type', 'content');
+        $cartQuery->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class));
         $cartQuery->where('rel_id', $this->getAttribute('id'));
         $cartQuery->whereHas('order');
         return $cartQuery->count();
@@ -381,7 +381,7 @@ class Product extends Content
                   if (!empty($matchWithCartesian)) {
                    foreach ($matchWithCartesian['content_data_variant'] as $contentDataVariant) {
                          $findContentDataVariant = ContentDataVariant::where('rel_id', $variant->id)
-                             ->where('rel_type', 'content')
+                             ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                              ->where('custom_field_id', $contentDataVariant['custom_field_id'])
                              ->where('custom_field_value_id', $contentDataVariant['custom_field_value_id'])
                              ->first();
@@ -422,7 +422,7 @@ class Product extends Content
             foreach ($cartesianProduct['content_data_variant'] as $contentDataVariant) {
 
                 $findContentDataVariant = ContentDataVariant::where('rel_id', $productVariant->id)
-                    ->where('rel_type', 'content')
+                    ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                     ->where('custom_field_id', $contentDataVariant['custom_field_id'])
                     ->where('custom_field_value_id', $contentDataVariant['custom_field_value_id'])
                     ->first();

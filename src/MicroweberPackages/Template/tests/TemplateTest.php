@@ -4,6 +4,7 @@ namespace MicroweberPackages\Template\tests;
 
 
 use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 
@@ -131,10 +132,10 @@ class TemplateTest extends TestCase
     public function testTemplateEditFieldsAreSavedFieldContent()
     {
 
-        $count = \DB::table('content_fields')->where('field', 'content')->where('rel_type', 'content')->count();
+        $count = \DB::table('content_fields')->where('field', 'content')->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))->count();
         $this->assertEquals(0, 0);
 
-        $count = \DB::table('content_fields')->where('field', 'content_body')->where('rel_type', 'content')->count();
+        $count = \DB::table('content_fields')->where('field', 'content_body')->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))->count();
         $this->assertEquals(0, 0);
 
     }

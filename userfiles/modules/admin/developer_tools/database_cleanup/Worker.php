@@ -24,7 +24,7 @@ class Worker {
     public function run() {
 
         $all = DB::table('media')
-            ->where('rel_type', 'content')
+            ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
             ->whereNotIn('rel_id', function ($query) {
                 $query->select('id')->from('content');
             })
@@ -36,7 +36,7 @@ class Worker {
             }
         }
         $all = DB::table('custom_fields')
-            ->where('rel_type', 'content')
+            ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
             ->whereNotIn('rel_id', function ($query) {
                 $query->select('id')->from('content');
             })
@@ -52,7 +52,7 @@ class Worker {
             })
             ->delete();
         DB::table('categories_items')
-            ->where('rel_type', 'content')
+            ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
             ->whereNotIn('rel_id', function ($query) {
                 $query->select('id')->from('content');
             })
@@ -67,7 +67,7 @@ class Worker {
 
 
         $all = DB::table('content_data')
-            ->where('rel_type', 'content')
+            ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
             ->whereNotIn('rel_id', function ($query) {
                 $query->select('id')->from('content');
             })
