@@ -34,97 +34,121 @@ class ProductResource extends Resource
         return $form
             ->schema([
 
-                Forms\Components\Group::make()
+                Forms\Components\Tabs::make('Tabs')
+                    ->tabs([
+
+                        Forms\Components\Tabs\Tab::make('Details')
+                            ->schema([
+
+                                Forms\Components\Group::make()
+                                    ->schema([
+
+                                        Forms\Components\Section::make('General Information')
+                                            ->heading(false)
+                                            ->schema([
+                                                Forms\Components\TextInput::make('title')
+                                                    ->required()
+                                                    ->maxLength(255)
+                                                    ->columnSpanFull()
+                                                    ->live(onBlur: true)
+                                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                                                        if ($operation !== 'create') {
+                                                            return;
+                                                        }
+
+                                                        $set('url', Str::slug($state));
+                                                    }),
+
+                                                Forms\Components\TextInput::make('url')
+                                                    ->disabled()
+                                                    ->dehydrated()
+                                                    ->required()
+                                                    ->maxLength(255)
+                                                    ->columnSpanFull()
+                                                    ->unique(Product::class, 'url', ignoreRecord: true),
+
+                                                Forms\Components\MarkdownEditor::make('description')
+                                                    ->columnSpan('full'),
+                                            ])
+                                            ->columnSpanFull()
+                                            ->columns(2),
+
+
+                                        Forms\Components\Section::make('Pricing')
+                                            ->schema([
+
+
+                                            ])->columnSpanFull(),
+
+
+                                        Forms\Components\Section::make('Inventory')
+                                            ->schema([
+
+
+                                            ])->columnSpanFull(),
+
+                                        Forms\Components\Section::make('Shipping')
+                                            ->schema([
+
+
+                                            ])->columnSpanFull(),
+
+                                    ])->columnSpan(['lg' => 2]),
+
+
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                        Forms\Components\Section::make('Visible')
+                                            ->schema([
+                                                Forms\Components\ToggleButtons::make('is_published')
+                                                    ->label(false)
+                                                    ->options([
+                                                        1 => 'Published',
+                                                        0 => 'Unpublished',
+                                                    ])
+                                                    ->default(true),
+
+                                            ]),
+                                        Forms\Components\Section::make('Category')
+                                            ->schema([
+
+                                            ]),
+
+                                        Forms\Components\Section::make('Tags')
+                                            ->schema([
+                                                Forms\Components\TagsInput::make('tags')
+                                                    ->label(false)
+                                                    ->helperText('Separate using commas or Enter key.')
+                                                    ->placeholder('Add a tag'),
+                                            ]),
+
+                                    ])->columnSpan(['lg' => 1]),
+
+
+
+                            ])->columns(3),
+
+
+                Forms\Components\Tabs\Tab::make('Custom Fields')
                     ->schema([
 
-
-                        Forms\Components\Section::make('General Information')
-                            ->heading(false)
-                            ->schema([
-                                Forms\Components\TextInput::make('title')
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->columnSpanFull()
-                                    ->live(onBlur: true)
-                                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                                        if ($operation !== 'create') {
-                                            return;
-                                        }
-
-                                        $set('url', Str::slug($state));
-                                    }),
-
-                                Forms\Components\TextInput::make('url')
-                                    ->disabled()
-                                    ->dehydrated()
-                                    ->required()
-                                    ->maxLength(255)
-                                    ->columnSpanFull()
-                                    ->unique(Product::class, 'url', ignoreRecord: true),
-
-                                Forms\Components\MarkdownEditor::make('description')
-                                    ->columnSpan('full'),
-                            ])
-                            ->columnSpanFull()
-                            ->columns(2),
-
-
-                        Forms\Components\Section::make('Pricing')
-                            ->schema([
-
-
-                            ])->columnSpanFull(),
-
-
-                        Forms\Components\Section::make('Inventory')
-                            ->schema([
-
-
-                            ])->columnSpanFull(),
-
-                        Forms\Components\Section::make('Shipping')
-                            ->schema([
-
-
-                            ])->columnSpanFull(),
-
-                        ])->columnSpan(['lg' => 2]),
-
-
-
-
-                Forms\Components\Group::make()
+                    ]),
+                Forms\Components\Tabs\Tab::make('SEO')
                     ->schema([
-                        Forms\Components\Section::make('Visible')
-                            ->schema([
-                                Forms\Components\ToggleButtons::make('is_published')
-                                    ->label(false)
-                                    ->options([
-                                        1 => 'Published',
-                                        0 => 'Unpublished',
-                                    ])
-                                    ->default(true),
 
-                                ]),
-                        Forms\Components\Section::make('Category')
-                            ->schema([
+                    ]),
+                Forms\Components\Tabs\Tab::make('Advanced')
+                    ->schema([
 
-                        ]),
+                    ]),
+                    ])->columnSpanFull(),
 
-                        Forms\Components\Section::make('Tags')
-                            ->schema([
-                                Forms\Components\TagsInput::make('tags')
-                                    ->label(false)
-                                    ->helperText('Separate using commas or Enter key.')
-                                    ->placeholder('Add a tag'),
-                            ]),
-
-                        ])->columnSpan(['lg' => 1]),
-            ])->columns(3);
+            ]);
     }
 
 
-    public static function getListTableColumns(): array {
+    public static function getListTableColumns(): array
+    {
 
         return [
             ImageUrlColumn::make('media_url')
@@ -150,7 +174,8 @@ class ProductResource extends Resource
         ];
     }
 
-    public static function getGridTableColumns(): array {
+    public static function getGridTableColumns(): array
+    {
         return [
             Tables\Columns\Layout\Split::make([
 
@@ -203,7 +228,7 @@ class ProductResource extends Resource
                     : static::getListTableColumns()
             )
             ->contentGrid(
-                fn () => $livewire->isListLayout()
+                fn() => $livewire->isListLayout()
                     ? null
                     : [
                         'md' => 1,
