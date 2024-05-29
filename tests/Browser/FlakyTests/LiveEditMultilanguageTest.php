@@ -184,7 +184,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 
 
             // check the database
-            $translationMustBeInOriginal = MultilanguageTranslations::where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class)
+            $translationMustBeInOriginal = MultilanguageTranslations::where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->where('rel_id', $saved_id)
                 ->where('field_name', 'content')
                 ->where('locale', 'en_US')
@@ -195,7 +195,7 @@ class LiveEditMultilanguageTest extends DuskTestCaseMultilanguage
 
             $this->assertEquals('<h1 id="h1-test-element" class="element">This is my text on english language</h1>', $content->content);
 
-            $translationMustBeSaved = MultilanguageTranslations::where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class)
+            $translationMustBeSaved = MultilanguageTranslations::where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                 ->where('rel_id', $saved_id)
                 ->where('field_name', 'content')
                 ->where('locale', 'bg_BG')
