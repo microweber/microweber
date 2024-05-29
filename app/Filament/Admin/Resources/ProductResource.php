@@ -135,6 +135,35 @@ class ProductResource extends Resource
                                                     ->default(true)
                                                     ->live(),
 
+                                                Forms\Components\Group::make([
+                                                    Forms\Components\TextInput::make('shipping_fixed_cost')
+                                                        ->numeric()
+                                                        ->helperText('Used to set your shipping price at checkout and label prices during fulfillment.')
+                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                                        ->suffix(currency_symbol())
+                                                        ->label('Fixed cost')
+                                                        ->default(0),
+
+                                                    Forms\Components\TextInput::make('weight')
+                                                        ->numeric()
+                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                                        ->helperText('Used to calculate shipping rates at checkout and label prices during fulfillment.')
+                                                        ->label('Weight')
+                                                        ->default(0),
+
+                                                    Forms\Components\Toggle::make('free_shipping')
+                                                        ->columnSpanFull(),
+
+                                                    Forms\Components\Toggle::make('shipping_advanced_settings')
+                                                        ->label('Show advanced weight settings')
+                                                        ->live()
+                                                        ->columnSpanFull(),
+
+                                                ])->columns(2)->hidden(function(Forms\Get $get) {
+                                                    return !$get('physical_product');
+                                                }),
+
+
                                                 Forms\Components\Section::make('Shipping Advanced')
                                                     ->heading('Advanced')
                                                     ->description('Advanced product shipping settings.')
@@ -172,7 +201,7 @@ class ProductResource extends Resource
                                                 ])
                                                     ->columns(4)
                                                     ->hidden(function(Forms\Get $get) {
-                                                    return !$get('physical_product');
+                                                    return !$get('shipping_advanced_settings');
                                                 }),
 
                                             ])->columnSpanFull(),
