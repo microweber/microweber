@@ -42,7 +42,7 @@ trait CustomFieldPriceTrait
         static::saved(function ($model) {
             if (isset($model->_addPriceField)) {
 
-                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type', $model->getTable())->first();
+                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type', $model->getMorphClass())->first();
 
                 if (!$price) {
                     $price = new ProductPrice();
@@ -62,7 +62,7 @@ trait CustomFieldPriceTrait
             }
 
             if (isset($model->_removePriceField) and $model->_removePriceField) {
-                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type', $model->getTable())->first();
+                $price = ProductPrice::where('rel_id', $model->id)->where('rel_type', $model->getMorphClass())->first();
                 if($price){
                     $price->delete();
                 }

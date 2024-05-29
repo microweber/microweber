@@ -33,14 +33,14 @@ trait ContentDataTrait
                 foreach($model->_addContentData as $fieldName=>$fieldValue) {
 
                     $findContentData = ContentData::where('rel_id', $model->id)
-                        ->where('rel_type', $model->getTable())
+                        ->where('rel_type', $model->getMorphClass())
                         ->where('field_name', $fieldName)
                         ->first();
                     if ($findContentData == null) {
                         $findContentData = new ContentData();
                         $findContentData->rel_id = $model->id;
                         $findContentData->field_name = $fieldName;
-                        $findContentData->rel_type = $model->getTable();
+                        $findContentData->rel_type = $model->getMorphClass();
                     }
                     $findContentData->field_value = $fieldValue;
                     $findContentData->save();

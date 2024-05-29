@@ -32,7 +32,7 @@ trait HasContentFieldTrait
                 foreach($model->_addContentFields as $fieldName=>$fieldValue) {
 
                     $findContentData = ContentField::where('rel_id', $model->id)
-                        ->where('rel_type', $model->getTable())
+                        ->where('rel_type', $model->getMorphClass())
                         ->where('field', $fieldName)
                         ->first();
 
@@ -40,7 +40,7 @@ trait HasContentFieldTrait
                         $findContentData = new ContentField();
                         $findContentData->rel_id = $model->id;
                         $findContentData->field = $fieldName;
-                        $findContentData->rel_type = $model->getTable();
+                        $findContentData->rel_type = $model->getMorphClass();
                     }
 
                     if (isset($model->_addContentFieldsMl[$fieldName])

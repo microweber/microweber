@@ -14,7 +14,7 @@ class CategoryListener
 
         Media::where('session_id', Session::getId())
             ->where('rel_id', 0)
-            ->where('rel_type', $model->getTable())
+            ->where('rel_type', $model->getMorphClass())
             ->update(['rel_id' => $model->id]);
 
             cache_clear('repositories');
