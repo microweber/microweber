@@ -1161,7 +1161,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
                     $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
                 })
                 ->whereRelType(morph_name(\MicroweberPackages\Content\Models\Content::class))
-                ->update(['rel_type' => 'content', 'rel_id' => $id]);
+                ->update(['rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class), 'rel_id' => $id]);
 
             DB::table('media')
                 ->whereSessionId($sid)
@@ -1169,7 +1169,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
                     $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
                 })
                 ->whereRelType(morph_name(\MicroweberPackages\Content\Models\Content::class))
-                ->update(['rel_type' => 'content', 'rel_id' => $id]);
+                ->update(['rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class), 'rel_id' => $id]);
 
         }
 
