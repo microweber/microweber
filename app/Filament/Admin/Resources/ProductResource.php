@@ -129,6 +129,51 @@ class ProductResource extends Resource
                                         Forms\Components\Section::make('Shipping')
                                             ->schema([
 
+                                                // This is a physical product
+                                                Forms\Components\Toggle::make('physical_product')
+                                                    ->label('This is a physical product')
+                                                    ->default(true)
+                                                    ->live(),
+
+                                                Forms\Components\Section::make('Shipping Advanced')
+                                                    ->heading('Advanced')
+                                                    ->description('Advanced product shipping settings.')
+                                                    ->schema([
+                                                    Forms\Components\TextInput::make('weight')
+                                                        ->numeric()
+                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                                        ->label('Weight (kg)')
+                                                        ->default(0),
+
+
+                                                    Forms\Components\TextInput::make('width')
+                                                        ->numeric()
+                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                                        ->label('Width (cm)')
+                                                        ->default(0),
+
+                                                    Forms\Components\TextInput::make('length')
+                                                        ->numeric()
+                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                                        ->label('Length (cm)')
+                                                        ->default(0),
+
+                                                    Forms\Components\TextInput::make('depth')
+                                                        ->numeric()
+                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                                        ->label('Depth (cm)')
+                                                        ->default(0),
+
+                                                    Forms\Components\Checkbox::make('params_in_checkout')
+                                                        ->label('Show parameters in checkout page')
+                                                        ->columnSpanFull()
+                                                        ->default(false),
+
+                                                ])
+                                                    ->columns(4)
+                                                    ->hidden(function(Forms\Get $get) {
+                                                    return !$get('physical_product');
+                                                }),
 
                                             ])->columnSpanFull(),
 
