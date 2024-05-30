@@ -13,13 +13,13 @@
         </x-slot>
 
         <x-slot name="description">
-            <div class="mb-4">
+            <div class="mb-6">
                @foreach($links as $link)
 
                     <a href="{{ $link['url'] }}">
-                        <div class="flex gap-8 p-4 hover:bg-blue-950/10 rounded-md w-full">
-                            <div class="bg-blue-500/5 shadow-md rounded p-4">
-                                @svg($link['icon'], "h-12 w-12 text-black")
+                        <div class="flex gap-8 p-4 group transition duration-150 hover:bg-blue-500/10 rounded-md w-full">
+                            <div class="flex items-center justify-center bg-blue-500/5 transition duration-150 group-hover:bg-white shadow-md rounded p-4">
+                                @svg($link['icon'], "h-10 w-10 text-black/80")
                             </div>
                             <div class="flex flex-col gap-2 w-full">
                                <div class="font-bold">
