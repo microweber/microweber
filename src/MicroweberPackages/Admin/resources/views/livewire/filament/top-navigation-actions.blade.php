@@ -1,5 +1,5 @@
 <div>
-    <x-filament::modal width="2xl">
+    <x-filament::modal width="lg">
         <x-slot name="trigger">
             <x-filament::button
                 icon="heroicon-m-plus"
@@ -17,8 +17,8 @@
                @foreach($links as $link)
 
                     <a href="{{ $link['url'] }}">
-                        <div class="flex gap-8 p-4 hover:bg-gray-950/5 rounded-md w-full">
-                            <div class="bg-blue-500/10 shadow-md rounded p-4">
+                        <div class="flex gap-8 p-4 hover:bg-blue-950/10 rounded-md w-full">
+                            <div class="bg-blue-500/5 shadow-md rounded p-4">
                                 @svg($link['icon'], "h-12 w-12 text-black")
                             </div>
                             <div class="flex flex-col gap-2 w-full">
