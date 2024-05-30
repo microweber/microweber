@@ -18,9 +18,8 @@ description: List Navigation
 
 ?>
 
+
 <div class="module-categories module-categories-template-default">
-
-		<?php  category_tree($params);  ?>
-
+    <?php  category_tree($params);  ?>
 </div>
 

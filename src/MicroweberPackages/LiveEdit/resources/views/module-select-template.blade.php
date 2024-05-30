@@ -10,9 +10,11 @@
         if(isset($settings['template'])){
             $currentSkin = $settings['template'];
         }
-
+        $moduleTypeForComponent = str_replace('/admin', '', $moduleType);
+        $moduleTypeForComponent = str_replace('/', '.', $moduleTypeForComponent);
+        $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
         $currentSkinName = str_replace('.php', '', $currentSkin);
-        $componentNameForModuleSkin = 'microweber-module-'.$moduleType.'::template-settings-'.$currentSkinName;
+        $componentNameForModuleSkin = 'microweber-module-'.$moduleTypeForComponent.'::template-settings-'.$currentSkinName;
 
         $moduleSkinSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSkinSettings($moduleType, $currentSkinName);
         if($moduleSkinSettingsRegisteredAlias){
@@ -21,8 +23,7 @@
 
         $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
-        $moduleTypeForComponent = str_replace('/', '.', $moduleType);
-        $moduleTypeForComponent = str_replace('_', '-', $moduleType);
+
 
 
         if(count($moduleTemplates) == 1 && !$hasSkinSettingsComponent){
@@ -82,15 +83,15 @@
                         <div>
 
                                 <?php
-                                $moduleTypeForComponent = str_replace('/', '-', $moduleType);
+                             //   $moduleTypeForComponent = str_replace('/', '-', $moduleType);
                                 $hasError = false;
                                 $output = false;
 
                                 try {
-                                    $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
+                                    $output =   \Livewire\Livewire::mount($componentNameForModuleSkin, [
                                         'moduleId' => $moduleId,
                                         'moduleType' => $moduleType,
-                                    ]) ;
+                                    ])->html();
 
                                 } catch (\Livewire\Exceptions\ComponentNotFoundException $e) {
                                     $hasError = true;
@@ -105,6 +106,7 @@
                                     print $output;
                                     print '</div>';
                                 } else {
+
                                     print $output;
                                 }
 
