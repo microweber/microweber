@@ -4,15 +4,15 @@
 }
 
 .module-categories-template-default li li a {
-    padding-left: 20px;
+    padding-left: 20px !important;
 }
 
 .module-categories-template-default li li li a {
-    padding-left: 40px;
+    padding-left: 40px !important;
 }
 
 .module-categories-template-default li li li li a {
-    padding-left: 50px;
+    padding-left: 50px !important;
 }
 
 /* Categories - Template - Horizontal List 1 */
@@ -84,13 +84,14 @@
 }
 
 
-.module-categories-template-default {
-    padding: 30px;
-    background-color: #FBFBFB;
+.module-categories-template-skin-1 {
+    padding: 20px;
+    background-color: color-mix(in srgb, var(--mw-primary-color) 2%, white);
+
     border-radius: 10px;
 
-    li.active a {
-        background-color: #EBF1EF;
+   ul > li.active > a, ul > li > a:hover {
+       background-color: color-mix(in srgb, var(--mw-primary-color) 7%, white);
     }
 
     ul {
@@ -104,7 +105,7 @@
 
             a {
                 color: #000;
-                padding-block: 10px;
+                padding: 10px;
                 display: block;
                 font-size: 20px;
                 font-weight: 500;
