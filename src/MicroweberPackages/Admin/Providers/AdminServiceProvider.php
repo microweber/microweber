@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Http\Livewire\AdminConfirmModalComponent;
+use MicroweberPackages\Admin\Http\Livewire\Filament\TopNavigationActions;
 use MicroweberPackages\Admin\Services\AdminManager;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemCateogry;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemComponent;
@@ -82,6 +83,8 @@ class AdminServiceProvider extends ServiceProvider
     {
        // Livewire::component('admin-auto-complete', AutoCompleteComponent::class);
        //  Livewire::component('admin-auto-complete-multiple-items', AutoCompleteMultipleItemsComponent::class);
+
+        Livewire::component('admin-top-navigation-actions', TopNavigationActions::class);
 
         Livewire::component('admin-users-autocomplete', UsersAutoComplete::class);
         Livewire::component('admin-tags-autocomplete', TagsAutoComplete::class);

@@ -11,6 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -19,6 +20,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\Admin\Http\Middleware\Admin;
@@ -86,6 +88,11 @@ class FilamentAdminPanelProvider extends PanelProvider
                 //  Admin::class,
             ]);
 
+        $panel->renderHook(
+            name: PanelsRenderHook::TOPBAR_START,
+            hook: fn (): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
+        );
+
         $tableToggle = new TableLayoutTogglePlugin();
         $tableToggle->defaultLayout('grid');
         $tableToggle->persistLayoutInLocalStorage(true);
@@ -109,7 +116,6 @@ class FilamentAdminPanelProvider extends PanelProvider
                 $defaultLocales[] = $locale->locale;
             }
         }
-
         $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
         $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
 
