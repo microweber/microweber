@@ -10,6 +10,7 @@ use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
@@ -381,8 +382,24 @@ class ProductResource extends Resource
                     ]
             )
             ->filters([
-                //
+                Tables\Filters\QueryBuilder::make()
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('qty')
+                            ->label('Quantity')
+                            ->relationship('metaData', 'sku'),
+                    ]),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('sku')
+                        ->relationship('metaData', 'sku'),
+                    ]),
+                Tables\Filters\QueryBuilder::make()
+                    ->constraints([
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('barcode')
+                            ->relationship('metaData', 'barcode'),
+                    ]),
             ])
+            ->filtersFormWidth(MaxWidth::Medium)
             ->actions([
                 //Tables\Actions\EditAction::make(),
             ])
