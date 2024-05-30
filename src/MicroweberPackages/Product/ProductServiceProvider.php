@@ -32,6 +32,7 @@ class ProductServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations');
 
         \Validator::extendImplicit('price', PriceValidator::class.'@validate', 'Invalid price value!');
     }
