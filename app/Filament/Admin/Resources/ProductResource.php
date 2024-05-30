@@ -37,6 +37,14 @@ class ProductResource extends Resource
         return $form
             ->schema([
 
+            Forms\Components\Fieldset::make('metaData')
+                ->relationship('metaData')
+                ->schema([
+                    Forms\Components\TextInput::make('sku'),
+                    Forms\Components\TextInput::make('barcode'),
+                ]),
+
+
                 Forms\Components\Tabs::make('Tabs')
                     ->tabs([
 
