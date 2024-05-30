@@ -1,7 +1,7 @@
 @import 'item';
 
 .fi-topbar {
-    @apply !border-0 !px-6;
+    @apply !border-0 !px-0;
 }
 
 .fi-topbar > nav {
