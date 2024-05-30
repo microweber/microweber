@@ -387,14 +387,10 @@ class ProductResource extends Resource
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('qty')
                             ->label('Quantity')
                             ->relationship('metaData', 'sku'),
-                    ]),
-                Tables\Filters\QueryBuilder::make()
-                    ->constraints([
+
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('sku')
                         ->relationship('metaData', 'sku'),
-                    ]),
-                Tables\Filters\QueryBuilder::make()
-                    ->constraints([
+
                         Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('barcode')
                             ->relationship('metaData', 'barcode'),
                     ]),
