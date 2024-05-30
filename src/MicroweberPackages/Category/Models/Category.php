@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Category\Models;
 
 use EloquentFilter\Filterable;
+use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
@@ -17,6 +18,8 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Category extends Model
 {
+   // use HasAttributes;
+
     use HasContentFieldTrait;
     use CacheableQueryBuilderTrait;
     use Filterable;
@@ -26,7 +29,7 @@ class Category extends Model
     use MaxPositionTrait;
     use MediaTrait;
     use HasSlugTrait;
-    use HasMultilanguageTrait;
+     use HasMultilanguageTrait;
 
     protected $table = 'categories';
 
@@ -38,7 +41,7 @@ class Category extends Model
      */
     protected $attributes = [
         'data_type' => 'category',
-        'rel_type' => 'content',
+        'rel_type' => \MicroweberPackages\Content\Models\Content::class,
         'is_active' => '1',
         'is_deleted' => '0',
         'is_hidden' => '0',
@@ -129,10 +132,10 @@ class Category extends Model
 //        return $allCategories;
 //    }
 
-    public function getMorphClass()
-    {
-        return 'category';
-    }
+//    public function getMorphClass()
+//    {
+//        return 'category';
+//    }
 
 
     public static function hasActiveProductInSubcategories($category)

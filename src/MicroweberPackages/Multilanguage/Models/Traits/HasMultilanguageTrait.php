@@ -296,6 +296,9 @@ trait HasMultilanguageTrait
 
     public function getAttributeValue($key): mixed
     {
+        if (! MultilanguageHelpers::multilanguageIsEnabled()) {
+            return parent::getAttributeValue($key);
+        }
         if (! $this->isTranslatableAttribute($key)) {
             return parent::getAttributeValue($key);
         }
@@ -327,7 +330,12 @@ trait HasMultilanguageTrait
 
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
     {
-        $translation = $this->getOriginal($key);
+      //  $translation = $this->getOriginal($key);
+        $translation = parent::getAttributeValue($key);
+        //$translation = $this->getOriginal($key);
+//@todo possible bug on multilanguage with $this->getOriginal($key);, chaged to parent::getAttributeValue($key);
+
+
 
         $getTranslation = MultilanguageTranslations::where('rel_id', $this->id)
             ->where('rel_type', $this->getTable())

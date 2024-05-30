@@ -18,13 +18,6 @@ use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\User\Models\User;
 
 
-class ContentTestModelForCategories extends Model
-{
-    use CategoryTrait;
-
-    protected $table = 'content';
-
-}
 
 class CategoryTest extends TestCase
 {
@@ -69,7 +62,7 @@ class CategoryTest extends TestCase
 
         $category = new Category();
         $category->title = 'Categories';
-        $category->rel_type = 'content';
+        $category->rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);;
         $category->rel_id = $page->id;
         $category->parent_id = 0;
         $category->save();
@@ -293,7 +286,6 @@ class CategoryTest extends TestCase
         $save['url'] = $slug2;
         $save3 = app()->category_repository->save($save);
         $save3Get = get_category_by_id($save3);
-
         $this->assertNotEquals($save3Get["url"], $save2Get["url"]);
         $this->assertNotEquals($save3Get["position"], $save2Get["position"]);
 

@@ -127,4 +127,30 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
 
     }
 
+
+    public function testCategoriesSameSlugMultilang()
+    {
+
+        MultilanguageHelpers::setMultilanguageEnabled(1);
+
+        mw()->lang_helper->set_current_lang('en_US');
+        $this->assertEquals('en_US', mw()->lang_helper->current_lang());
+
+
+        $title = 'Test Category';
+        $slug = 'Test Category' . time();
+        $save = [];
+        $save['title'] = $title;
+        $save['url'] = $slug;
+        $save1 = app()->category_repository->save($save);
+        $save2 = app()->category_repository->save($save);
+        $get1 = get_category_by_id($save1);
+        $get2 = get_category_by_id($save2);
+
+        $this->assertNotEquals($get1['id'], $get2['id']);
+        $this->assertNotEquals($get1['url'], $get2['url']);
+        $this->assertEquals($get1['title'], $get2['title']);
+
+
+    }
 }
