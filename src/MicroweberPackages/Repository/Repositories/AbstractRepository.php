@@ -640,7 +640,7 @@ abstract class AbstractRepository implements Repository
             }
         }
 
-        if ($updateOrCreate == 'create') {
+        if ($updateOrCreate === 'create') {
             $result = $this->create($data);
         } else {
             $result = $this->update($entity, $data);

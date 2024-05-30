@@ -250,7 +250,7 @@ class CategoryManagerTest extends TestCase
 
         $category = new Category();
         $category->title = 'New cat testCategoryJsonTreeAdmin_'.uniqid();
-        $category->rel_type = 'content';
+        $category->rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);;
         $category->rel_id = $newBlogPage->id;
         $category->save();
 

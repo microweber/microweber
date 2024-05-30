@@ -33,14 +33,15 @@ class MediaManager
         }
 
 
+
     }
 
     public function get_picture($content_id, $for = 'content', $full = false)
     {
-        if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages') {
-            $for = 'content';
+        if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages' or $for == 'content') {
+            $for = morph_name(\MicroweberPackages\Content\Models\Content::class);
         } elseif ($for == 'category' or $for == 'categories') {
-            $for = 'category';
+            $for = morph_name(\MicroweberPackages\Category\Models\Category::class);
         }
 
         $media = app()->media_repository->getPictureByRelIdAndRelType($content_id, $for);
@@ -314,7 +315,7 @@ class MediaManager
         if ($params != false and !is_array($params) and intval($params) > 0) {
             $params2 = array();
 
-            $params2['rel_type'] = 'content';
+            $params2['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             $params2['rel_id'] = intval($params);
             $params = $params2;
         } else {
@@ -323,9 +324,13 @@ class MediaManager
 
         if (!isset($params['rel_type']) and isset($params['for'])) {
             $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
+
+            if($params['rel_type'] == 'content'){
+                $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            }
         }
         if (!isset($params['rel_type'])) {
-            $params['rel_type'] = 'content';
+            $params['rel_type'] =  morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
         if (!isset($params['limit'])) {
@@ -334,7 +339,7 @@ class MediaManager
 
         $params['table'] = $table;
         $params['order_by'] = 'position ASC';
-//d($params);
+
         $data = $this->app->database_manager->get($params);
         if (isset($params['single'])) {
             if (isset($data['image_options']) and !is_array($data['image_options'])) {
@@ -386,16 +391,18 @@ class MediaManager
         if (isset($data['content-id'])) {
             $t = trim($data['content-id']);
             $s['rel_id'] = $t;
-            $s['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         } elseif (isset($data['content_id'])) {
             $t = trim($data['content_id']);
             $s['rel_id'] = $t;
-            $s['rel_type'] = 'content';
-            $s['rel_type'] = 'content';
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
         if (isset($data['for'])) {
             $t = trim($data['for']);
+            throw new \Exception('the "for" parameter is deprecated');
+
+
             $t = $this->app->database_manager->assoc_table_name($t);
             $s['rel_type'] = $t;
         }

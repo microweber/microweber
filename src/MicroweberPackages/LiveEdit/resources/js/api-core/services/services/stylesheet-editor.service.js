@@ -298,6 +298,74 @@ export class StylesheetEditor extends MicroweberBaseClass {
         }
     }
 
+    syncEach(selector, fromNode, toNode, callback) {
+        const res = [];
+        const fromAll = fromNode.querySelectorAll(selector);
+        const toAll = toNode.querySelectorAll(selector);
+        for (let i = 0; i < fromAll.length; i++) {
+            callback.call(undefined, fromAll[i], toAll[i]);
+        }
+    }
+
+    cloneNodeStyles(fromNode, toNode) {
+        const selectorFromNode = mw.tools.generateSelectorForNode(fromNode);
+        const selToNode = mw.tools.generateSelectorForNode(toNode);
+
+        const css = this.cloneStyles(selectorFromNode, selToNode);
+
+        console.log(css);
+
+        css.forEach(style => {
+            console.log(toNode, style, true)
+            this.style(toNode, style, true)
+        })
+
+
+
+
+    }
+
+
+
+
+    // cloning only works if source node has styles in the live edit styles
+
+    cloneStyles(fromSelector, toSelector) {
+        const json = this.json.children;
+        const res = [];
+        for (let item in json) {
+            const isMedia = item.indexOf('@') === 0;
+            let target = json[item];
+            if(isMedia) {
+                target = json[item].children
+            }
+            if(target[fromSelector]) {
+                if(!target[toSelector]) {
+                    target[toSelector] = {}
+                }
+
+
+
+                target[toSelector] = Object.assign({}, target[toSelector].attributes || {}, target[fromSelector].attributes);
+
+                if(isMedia) {
+                    json[item].children = target
+                } else {
+                    json[item] = target;
+                }
+
+                res.push(  target[toSelector])
+
+            }
+        }
+        this.save(res);
+        //if(fromSelector.indexOf("mw-element-1716884817110") !== -1) {
+            console.log(9991,  res)
+        //}
+        return res;
+
+    }
+
     temp(node, prop, val, record) {
         if(typeof(val) === 'number') {
 

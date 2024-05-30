@@ -1,11 +1,19 @@
 /* Categories - Template - Default */
-.module-categories-template-default li{
+.module-categories-template-default li {
     list-style: none
 }
 
-.module-categories-template-default li li a{ padding-left: 15px; }
-.module-categories-template-default li li li a{ padding-left: 30px; }
-.module-categories-template-default li li li li a{ padding-left: 40px; }
+.module-categories-template-default li li a {
+    padding-left: 20px !important;
+}
+
+.module-categories-template-default li li li a {
+    padding-left: 40px !important;
+}
+
+.module-categories-template-default li li li li a {
+    padding-left: 50px !important;
+}
 
 /* Categories - Template - Horizontal List 1 */
 .module-categories-template-horizontal-list-1 ul.mw-cats-menu {
@@ -73,4 +81,39 @@
         width: 200px;
         margin: 0 auto;
     }
+}
+
+
+.module-categories-template-skin-1 {
+    padding: 20px;
+    background-color: color-mix(in srgb, var(--mw-primary-color) 2%, white);
+
+    border-radius: 10px;
+
+   ul > li.active > a, ul > li > a:hover {
+       background-color: color-mix(in srgb, var(--mw-primary-color) 7%, white);
+    }
+
+    ul {
+        li {
+
+            ul > li > a {
+                font-weight: 400;
+                padding-block: 5px;
+                font-size: 18px;
+            }
+
+            a {
+                color: #000;
+                padding: 10px;
+                display: block;
+                font-size: 20px;
+                font-weight: 500;
+
+            }
+
+
+        }
+    }
+
 }

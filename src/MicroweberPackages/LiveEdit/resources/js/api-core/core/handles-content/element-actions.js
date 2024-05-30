@@ -177,9 +177,19 @@ export class ElementActions extends MicroweberBaseClass {
             el.style.width = ''
             next.style.width = ''
         }
-        var newNode = ElementManager(el).next().get(0)
+        mw.top().app.cssEditor.cloneNodeStyles(el, next);
+        var newNode = ElementManager(el).next().get(0);
         newNode.id = mw.id();
-        newNode.querySelectorAll('[id]').forEach(node => node.id = mw.id())
+
+
+
+        mw.top().app.cssEditor.syncEach('[id]', el, newNode, function(from, to){
+            to.id = mw.id();
+            mw.top().app.cssEditor.cloneNodeStyles(from, to);
+        });
+
+
+
 
         this.proto.elementHandle.set(el);
 
