@@ -121,7 +121,7 @@ class CategoryTreeData
             if ($page and isset($page['subtype']) and isset($page['subtype_value']) and $page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
                 $parent = $page['subtype_value'];
             } else {
-                $params['rel_type'] = 'content';
+                $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
                 $params['rel_id'] = $params['for_page'];
                 $parent = 0;
             }
@@ -141,7 +141,7 @@ class CategoryTreeData
 
         } else {
             if (!isset($params['for'])) {
-                $params['for'] = 'content';
+                $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             }
 
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {

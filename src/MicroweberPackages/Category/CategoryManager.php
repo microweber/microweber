@@ -82,7 +82,7 @@ class CategoryManager
             $renderer->setUseCache(1);
 
         }
-  //      $renderer->setUseCache(0);
+       $renderer->setUseCache(0);
 
 
 //        if (isset($params['tree_data']) && is_array($params['tree_data'])) {

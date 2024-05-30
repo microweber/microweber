@@ -16,7 +16,7 @@ $no_img = false;
 
 if (isset($params['content_id'])) {
     $params['rel_id'] = intval($params['content_id']);
-    $params['rel_type'] = 'content';
+    $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 }
 if (isset($params['no_img'])){
     $no_img = $params['no_img'];
@@ -28,15 +28,15 @@ if (isset($params['rel'])){
 }
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'post' and defined('POST_ID')) {
     $params['rel_id'] = POST_ID;
-    $params['for'] = 'content';
+    $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 }
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'page' and defined('PAGE_ID')) {
     $params['rel_id'] = PAGE_ID;
-    $params['for'] = 'content';
+    $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 }
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'content' and defined('CONTENT_ID')) {
     $params['rel_id'] = CONTENT_ID;
-    $params['for'] = 'content';
+    $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 }
 
 

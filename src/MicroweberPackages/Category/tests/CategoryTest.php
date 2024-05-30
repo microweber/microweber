@@ -108,6 +108,7 @@ class CategoryTest extends TestCase
         $this->assertEquals($findCategoryProperties->is_active, 1);
 
         $categoryTreeRendered = category_tree(['return_data' => true]);
+
         foreach ($categoriesToSave as $categoryTreePlain) {
             $categoriesToSave = app()->format->stringToTree($categoryTreePlain);
             $this->_assertCategoryRecursive($categoryTreeRendered, $categoriesToSave, $mainCategoryId);

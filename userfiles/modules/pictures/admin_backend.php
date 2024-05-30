@@ -51,7 +51,7 @@ if (!isset($for)) {
 }
 
 if (isset($params['content_id'])) {
-    $for = $params['for'] = 'content';
+    $for = $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
     $for_id = $for_module_id = $params['content_id'];
 } elseif (isset($params['content-id'])) {
     $for_id = $for_module_id = $params['content-id'];
