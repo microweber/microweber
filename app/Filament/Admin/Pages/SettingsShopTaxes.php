@@ -2,9 +2,10 @@
 
 namespace App\Filament\Admin\Pages;
 
+use App\Filament\Admin\Pages\Abstract\SettingsPageDefault;
 use Filament\Pages\Page;
 
-class SettingsShopTaxes extends Page
+class SettingsShopTaxes extends SettingsPageDefault
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
