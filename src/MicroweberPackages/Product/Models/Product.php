@@ -2,29 +2,13 @@
 
 namespace MicroweberPackages\Product\Models;
 
-use EloquentFilter\Filterable;
-use Illuminate\Database\Eloquent\Concerns\HasEvents;
-use Illuminate\Database\Eloquent\Model;
-use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\ContentData\Models\ContentData;
-use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
-use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
-use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
-use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
-use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
-use MicroweberPackages\Database\Traits\HasSlugTrait;
-use MicroweberPackages\Database\Traits\MaxPositionTrait;
-use MicroweberPackages\Database\Traits\ParentCannotBeSelfTrait;
-use MicroweberPackages\Media\Traits\MediaTrait;
-use MicroweberPackages\Menu\Traits\HasMenuItem;
-use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Product\CartesianProduct;
@@ -32,28 +16,10 @@ use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
-use MicroweberPackages\Tag\Traits\TaggableTrait;
 use function Clue\StreamFilter\fun;
 
-class Product extends Model
+class Product extends Content
 {
-    use TaggableTrait;
-    use ContentDataTrait;
-    use CustomFieldsTrait;
-    use CategoryTrait;
-    use HasContentFieldTrait;
-    use HasSlugTrait;
-    use HasSearchableTrait;
-    use HasMenuItem;
-    use MediaTrait;
-    use Filterable;
-    use HasCreatedByFieldsTrait;
-//    use CacheableQueryBuilderTrait;
-    use PowerJoins;
-    use HasEvents;
-    use HasMultilanguageTrait;
-    use MaxPositionTrait;
-    use ParentCannotBeSelfTrait;
 
 //    protected $dispatchesEvents = [
 //        'updated' =>  ProductWasUpdated::class,
@@ -61,8 +27,6 @@ class Product extends Model
 //      //  'updating' =>  ProductWasUpdated::class,
 //     //   'deleted' => ProductWasUpdated::class,
 //    ];
-
-    public $translatable = ['title','url','description','content','content_body','content_meta_title','content_meta_keywords'];
 
 
     /**
@@ -74,7 +38,7 @@ class Product extends Model
 
     protected $table = 'content';
 
-    protected $appends = ['price', 'qty', 'sku'];
+    protected $appends = ['price', 'qty', 'sku', 'content_data'];
 
     //  public $timestamps = false;
 
@@ -111,24 +75,24 @@ class Product extends Model
         ]
     ];
 
-//    public static $contentDataDefault = [
-//        'qty' => 'nolimit',
-//        'sku' => '',
-//        'barcode' => '',
-//        'track_quantity' => '',
-//        'max_quantity_per_order' => '',
-//        'sell_oos' => '',
-//        'physical_product' => '',
-//        'free_shipping' => '',
-//        'shipping_fixed_cost' => '',
-//        'weight_type' => 'kg',
-//        'params_in_checkout' => 0,
-//        'has_special_price' => 0,
-//        'weight' => '',
-//        'width' => '',
-//        'height' => '',
-//        'depth' => ''
-//    ];
+    public static $contentDataDefault = [
+        'qty' => 'nolimit',
+        'sku' => '',
+        'barcode' => '',
+        'track_quantity' => '',
+        'max_quantity_per_order' => '',
+        'sell_oos' => '',
+        'physical_product' => '',
+        'free_shipping' => '',
+        'shipping_fixed_cost' => '',
+        'weight_type' => 'kg',
+        'params_in_checkout' => 0,
+        'has_special_price' => 0,
+        'weight' => '',
+        'width' => '',
+        'height' => '',
+        'depth' => ''
+    ];
 
     public $sortable = [
         'id' => [
@@ -155,10 +119,6 @@ class Product extends Model
         static::addGlobalScope(new ProductScope());
     }
 
-    public function metaData()
-    {
-        return $this->hasOne(ProductMetaData::class, 'product_id', 'id');
-    }
 
     public function modelFilter()
     {
@@ -228,16 +188,14 @@ class Product extends Model
 
     public function getQtyAttribute()
     {
-        if ($this->metaData) {
-            return $this->metaData->qty;
-        }
-        return 0;
+        return $this->getContentDataByFieldName('qty');
     }
 
     public function getSkuAttribute()
     {
-        if ($this->metaData) {
-            return $this->metaData->sku;
+        $sku = $this->getContentDataByFieldName('sku');
+        if ($sku) {
+            return $sku;
         }
         return '';
     }

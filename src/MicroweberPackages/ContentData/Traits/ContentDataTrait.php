@@ -53,9 +53,19 @@ trait ContentDataTrait
         });
     }
 
+
     public function getContentDataAttribute()
     {
-         return $this->contentData()->get();
+        $keyValueMap = [];
+        $contentData = $this->contentData()
+            ->get()
+            ->pluck('field_value', 'field_name')
+            ->toArray();
+        if (!empty($contentData) && is_array($contentData)) {
+            $keyValueMap = $contentData;
+        }
+
+        return $keyValueMap;
     }
 
     public function contentData()
@@ -75,34 +85,27 @@ trait ContentDataTrait
 
     public function getContentDataByFieldName($name)
     {
-        foreach ($this->contentData as $contentDataRow) {
-            if ($contentDataRow->field_name == $name) {
-                return $contentDataRow->field_value;
-            }
+        $contentData = $this->contentData()->where('field_name', $name)->first();
+
+        if ($contentData) {
+            return $contentData->field_value;
         }
 
         return null;
     }
 
+    /**
+     * @param $values is filter array of field names
+     * @return array
+     */
     public function getContentData($values = [])
     {
-        $res = [];
-        $arrData = !empty($this->contentData) ? $this->contentData->toArray() : [];
-
-        if (empty($values)) {
-            return $this->contentData->pluck('field_value', 'field_name')->toArray();
+        $keyValueMap = $this->getContentDataAttribute();
+        if (!empty($values) && is_array($values)) {
+            $keyValueMap = array_intersect_key($keyValueMap, array_flip($values));
         }
 
-        foreach ($values as $value) {
-            foreach ($arrData as $key => $val) {
-
-                if ($val['field_name'] == $value) {
-                    $res[$value] = $val['field_value'];
-                }
-            }
-        }
-
-        return $res;
+        return $keyValueMap;
     }
 
     public function deleteContentData(array $values)
@@ -129,5 +132,4 @@ trait ContentDataTrait
 
         return $query;
     }
-
 }
