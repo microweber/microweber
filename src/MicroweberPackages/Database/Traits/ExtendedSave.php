@@ -557,10 +557,10 @@ trait ExtendedSave
     private function morphClassFromTable($table)
     {
         if ($table == 'content') {
-            return \MicroweberPackages\Content\Models\Content::class;
+            return morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
         if ($table == 'categories') {
-            return \MicroweberPackages\Category\Models\Category::class;
+            return morph_name(\MicroweberPackages\Category\Models\Category::class);
         }
 
         return $table;
