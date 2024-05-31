@@ -19,10 +19,11 @@ class CategoryApiControllerTest extends TestCase
 
         $title = 'category controller test ! - ' . rand();
         $title2 = 'category controller test2 ! - ' . rand();
-
+$random = rand();
 
         $contentData = [
             'label' => 'test',
+            'random' => $random,
         ];
 
 
@@ -47,8 +48,8 @@ class CategoryApiControllerTest extends TestCase
         $this->assertEquals($categorySaved->description, $title);
 
         $find = Category::find($categorySaved->id);
-        $this->assertEquals($find->contentData[0]->field_name, 'label');
-        $this->assertEquals($find->contentData[0]->field_value, 'test');
+        $this->assertEquals($find->contentData['label'], 'test');
+        $this->assertEquals($find->contentData['random'], $random);
 
         $response = $this->call(
             'PUT',
