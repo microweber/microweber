@@ -52,7 +52,7 @@ class Settings extends Page
                 'heading' => (new $settingsPage)->getHeading(),
                 'slug' => (new $settingsPage)->getSlug(),
                 'icon' => (new $settingsPage)->getNavigationIcon(),
-                'router' => (new $settingsPage)::getNavigationUrl(),
+                'url' => (new $settingsPage)::getNavigationUrl(),
             ];
         }
 
