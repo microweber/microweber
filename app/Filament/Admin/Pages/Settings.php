@@ -26,6 +26,16 @@ class Settings extends Page
         $settingsPages[] = new SettingsLanguage();
         $settingsPages[] = new SettingsPrivacyPolicy();
 
+        $settingsPages[] = new SettingsShopGeneral();
+        $settingsPages[] = new SettingsShopShipping();
+        $settingsPages[] = new SettingsShopCoupons();
+        $settingsPages[] = new SettingsShopOffers();
+        $settingsPages[] = new SettingsShopPayments();
+        $settingsPages[] = new SettingsShopTaxes();
+        $settingsPages[] = new SettingsShopInvoices();
+        $settingsPages[] = new SettingsShopAutoRespondEmail();
+        $settingsPages[] = new SettingsShopOther();
+
 
         $settingsGroups = [];
         foreach ($settingsPages as $settingsPage) {
