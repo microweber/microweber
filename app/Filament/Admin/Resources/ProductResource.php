@@ -144,14 +144,15 @@ class ProductResource extends Resource
                                                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                         ->suffix(currency_symbol())
                                                         ->label('Fixed cost')
+                                                        ->columnSpanFull()
                                                         ->default(0),
 
-                                                    Forms\Components\TextInput::make('content_data.weight')
-                                                        ->numeric()
-                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                                        ->helperText('Used to calculate shipping rates at checkout and label prices during fulfillment.')
-                                                        ->label('Weight')
-                                                        ->default(0),
+//                                                    Forms\Components\TextInput::make('content_data.weight')
+//                                                        ->numeric()
+//                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+//                                                        ->helperText('Used to calculate shipping rates at checkout and label prices during fulfillment.')
+//                                                        ->label('Weight')
+//                                                        ->default(0),
 
                                                     Forms\Components\Toggle::make('content_data.free_shipping')
                                                         ->columnSpanFull(),
