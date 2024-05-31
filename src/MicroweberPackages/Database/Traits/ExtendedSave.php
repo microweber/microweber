@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Database\Traits;
 
+use function Termwind\render;
+
 trait ExtendedSave
 {
     private $_extended_save_has_permission = false;
@@ -255,7 +257,9 @@ trait ExtendedSave
                 $data_fields = $data_to_save['data_fields'];
                 if (is_array($data_fields) and !empty($data_fields)) {
                     foreach ($data_fields as $k => $v) {
-                        $morph_name = morph_name(\MicroweberPackages\Content\Models\Content::class);
+                        $morph_name = $this->morphClassFromTable($data_to_save['table']);
+
+                        //content_data
                         $save_content_data_item = array();
                         $save_content_data_item['rel_type'] = $morph_name;
                         $save_content_data_item['rel_id'] = $data_to_save['id'];
@@ -283,6 +287,7 @@ trait ExtendedSave
     {
 
         $cats_modified = false;
+        $morph_name = $this->morphClassFromTable($params['table']);
 
         if ($params and $this->extended_save_has_permission()) {
             event_trigger('mw.database.extended_save_categories', $params);
@@ -302,18 +307,20 @@ trait ExtendedSave
                     $existing_item_ids = array();
 
                     $categories = array_filter($categories);
-                    if(empty($categories)){
+                    if (empty($categories)) {
                         return;
                     }
 
+
                     $save_cat_item = array();
-                    $save_cat_item['rel_type'] = $data_to_save['table'];
+                    $save_cat_item['rel_type'] = $morph_name;
+                    //$save_cat_item['rel_type'] = $data_to_save['table'];
                     $save_cat_item['rel_id'] = $data_to_save['id'];
                     $save_cat_item['data_type'] = 'category';
                     $save_cat_item['no_cache'] = true;
 
-                  //  $check = $this->app->category_manager->get_items($save_cat_item);
-                    $check =get_category_items(false, $save_cat_item['rel_type'], $save_cat_item['rel_id']);
+                    //  $check = $this->app->category_manager->get_items($save_cat_item);
+                    $check = get_category_items(false, $save_cat_item['rel_type'], $save_cat_item['rel_id']);
 
                     if (is_array($check) and !empty($check)) {
                         foreach ($check as $item) {
@@ -334,13 +341,14 @@ trait ExtendedSave
                         if (is_numeric($category) and intval($category) != 0) {
                             // case where we pass array of category ids
                             $save_cat_item = array();
-                            $save_cat_item['rel_type'] = $data_to_save['table'];
+                            $save_cat_item['rel_type'] = $morph_name;
+                            //$save_cat_item['rel_type'] = $data_to_save['table'];
                             $save_cat_item['rel_id'] = $data_to_save['id'];
                             $save_cat_item['parent_id'] = $category;
                             $save_cat_item['no_cache'] = true;
 
                             //$check = $this->app->category_manager->get_items($save_cat_item);
-                            $check = get_category_items($category,$data_to_save['table'],$data_to_save['id']);
+                            $check = get_category_items($category, $data_to_save['table'], $data_to_save['id']);
                             if ($check == false) {
                                 $saved_item_ids[] = $this->app->category_manager->save_item($save_cat_item);
                             }
@@ -352,7 +360,8 @@ trait ExtendedSave
                             $save_cat_item['single'] = true;
                             $save_cat_item['no_cache'] = true;
                             $save_cat_item['fields'] = 'id';
-                            $save_cat_item['rel_type'] = $data_to_save['table'];
+                            $save_cat_item['rel_type'] = $morph_name;
+                            //$save_cat_item['rel_type'] = $data_to_save['table'];
                             $save_cat_item['title'] = $category;
 
 
@@ -380,7 +389,8 @@ trait ExtendedSave
                                 $save_cat_item = array();
                                 $save_cat_item['single'] = true;
                                 $save_cat_item['no_cache'] = true;
-                                $save_cat_item['rel_type'] = $data_to_save['table'];
+                                $save_cat_item['rel_type'] = $morph_name;
+                                //$save_cat_item['rel_type'] = $data_to_save['table'];
 
                                 $category['title'] = str_replace(array("\r\n", "\r", "\n", "\t"), '', $category['title']);
 
@@ -407,7 +417,7 @@ trait ExtendedSave
                         if ($cat_id != false) {
 
                             $save_cat_item = array();
-                            $save_cat_item['rel_type'] = $data_to_save['table'];
+                            $save_cat_item['rel_type'] = $morph_name;
                             $save_cat_item['rel_id'] = $data_to_save['id'];
                             if (is_array($category) and isset($category['parent_id'])) {
                                 $save_cat_item['parent_id'] = $category['parent_id'];
@@ -415,8 +425,8 @@ trait ExtendedSave
                                 $save_cat_item['parent_id'] = $cat_id;
                             }
 
-                            $check =get_category_items($save_cat_item['parent_id'], $save_cat_item['rel_type'], $save_cat_item['rel_id']);
-                             if ($check == false) {
+                            $check = get_category_items($save_cat_item['parent_id'], $save_cat_item['rel_type'], $save_cat_item['rel_id']);
+                            if ($check == false) {
                                 $saved_item_ids[] = $save_item = $this->app->category_manager->save_item($save_cat_item);
                             }
                         }
@@ -427,7 +437,7 @@ trait ExtendedSave
                         // delete all items that are not in the new list
                         foreach ($existing_item_ids as $existing_item_id) {
                             if (!in_array($existing_item_id, $saved_item_ids)) {
-                                 $this->app->category_manager->delete_item($existing_item_id);
+                                $this->app->category_manager->delete_item($existing_item_id);
                             }
                         }
                     }
@@ -436,10 +446,10 @@ trait ExtendedSave
             } else if (isset($data_to_save['categories']) and !$data_to_save['categories']) {
                 // delete all categories items related to this item
                 $save_cat_item = array();
-                $save_cat_item['rel_type'] = $data_to_save['table'];
+                $save_cat_item['rel_type'] =$morph_name;
                 $save_cat_item['rel_id'] = $data_to_save['id'];
                 $save_cat_item['data_type'] = 'category';
-                 $check =get_category_items(false, $save_cat_item['rel_type'], $save_cat_item['rel_id']);
+                $check = get_category_items(false, $save_cat_item['rel_type'], $save_cat_item['rel_id']);
 
                 if (is_array($check) and !empty($check)) {
                     foreach ($check as $item) {
@@ -543,4 +553,17 @@ trait ExtendedSave
     {
         $this->_extended_save_has_permission = $boolean;
     }
+
+    private function morphClassFromTable($table)
+    {
+        if ($table == 'content') {
+            return \MicroweberPackages\Content\Models\Content::class;
+        }
+        if ($table == 'categories') {
+            return \MicroweberPackages\Category\Models\Category::class;
+        }
+
+        return $table;
+    }
+
 }
