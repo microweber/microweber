@@ -255,15 +255,15 @@ trait ExtendedSave
                 $data_fields = $data_to_save['data_fields'];
                 if (is_array($data_fields) and !empty($data_fields)) {
                     foreach ($data_fields as $k => $v) {
-
+                        $morph_name = morph_name(\MicroweberPackages\Content\Models\Content::class);
                         $save_content_data_item = array();
-                        $save_content_data_item['rel_type'] = $data_to_save['table'];
+                        $save_content_data_item['rel_type'] = $morph_name;
                         $save_content_data_item['rel_id'] = $data_to_save['id'];
                         $save_content_data_item['field_name'] = $k;
                         $save_content_data_item['field_value'] = $v;
 
                         $current_data = \DB::table('content_data')
-                            ->where('rel_type', $data_to_save['table'])
+                            ->where('rel_type', $morph_name)
                             ->where('rel_id', $data_to_save['id'])
                             ->where('field_name', $k)
                             ->first();

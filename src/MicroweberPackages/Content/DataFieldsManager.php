@@ -79,7 +79,8 @@ class DataFieldsManager extends Crud
             $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
-        if (isset($data['rel_type']) and $data['rel_type'] == 'content') {
+
+        if (isset($data['rel_type']) and $data['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
             if (isset($data['rel_id'])) {
                 $data['content_id'] = $data['rel_id'];
             }
