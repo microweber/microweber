@@ -30,6 +30,7 @@ class SettingsGeneral extends SettingsPageDefault
             ->schema([
 
                 Section::make('Seo Settings')
+                    ->view('filament-forms::sections.section')
                     ->description(' Fill in the fields for maximum results when finding your website in search engines.')
             ->schema([
 
