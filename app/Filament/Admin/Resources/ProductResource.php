@@ -38,8 +38,6 @@ class ProductResource extends Resource
         return $form
             ->schema([
 
-                Forms\Components\TextInput::make('content_data.sku'),
-
                 Forms\Components\Tabs::make('Tabs')
                     ->tabs([
 
@@ -95,35 +93,35 @@ class ProductResource extends Resource
                                             ->schema([
 
 
-                                                Forms\Components\TextInput::make('sku')
+                                                Forms\Components\TextInput::make('content_data.sku')
                                                      ->helperText('Stock Keeping Unit'),
 
-                                                Forms\Components\TextInput::make('barcode')
+                                                Forms\Components\TextInput::make('content_data.barcode')
                                                      ->helperText('ISBN, UPC, GTIN, etc.'),
 
-                                                Forms\Components\Toggle::make('track_quantity')
+                                                Forms\Components\Toggle::make('content_data.track_quantity')
                                                     ->label('Track Quantity')
                                                     ->live()
                                                     ->default(false),
 
 
                                                 Forms\Components\Group::make([
-                                                    Forms\Components\TextInput::make('quantity')
+                                                    Forms\Components\TextInput::make('content_data.quantity')
                                                         ->numeric()
                                                         ->rules(['regex:/^\d{1,6}$/'])
                                                         ->default(0),
 
-                                                    Forms\Components\Checkbox::make('sell_oos')
+                                                    Forms\Components\Checkbox::make('content_data.sell_oos')
                                                         ->label('Continue selling when out of stock')
                                                         ->default(false),
 
-                                                    Forms\Components\TextInput::make('max_qty_per_order')
+                                                    Forms\Components\TextInput::make('content_data.max_qty_per_order')
                                                         ->numeric()
                                                         ->rules(['regex:/^\d{1,6}$/'])
                                                         ->label('Max quantity per order')
                                                         ->default(0),
                                                 ])->hidden(function(Forms\Get $get) {
-                                                    return !$get('track_quantity');
+                                                    return !$get('content_data.track_quantity');
                                                 }),
 
 
@@ -134,13 +132,13 @@ class ProductResource extends Resource
                                             ->schema([
 
                                                 // This is a physical product
-                                                Forms\Components\Toggle::make('physical_product')
+                                                Forms\Components\Toggle::make('content_data.physical_product')
                                                     ->label('This is a physical product')
                                                     ->default(true)
                                                     ->live(),
 
                                                 Forms\Components\Group::make([
-                                                    Forms\Components\TextInput::make('shipping_fixed_cost')
+                                                    Forms\Components\TextInput::make('content_data.shipping_fixed_cost')
                                                         ->numeric()
                                                         ->helperText('Used to set your shipping price at checkout and label prices during fulfillment.')
                                                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
@@ -148,23 +146,23 @@ class ProductResource extends Resource
                                                         ->label('Fixed cost')
                                                         ->default(0),
 
-                                                    Forms\Components\TextInput::make('weight')
+                                                    Forms\Components\TextInput::make('content_data.weight')
                                                         ->numeric()
                                                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                         ->helperText('Used to calculate shipping rates at checkout and label prices during fulfillment.')
                                                         ->label('Weight')
                                                         ->default(0),
 
-                                                    Forms\Components\Toggle::make('free_shipping')
+                                                    Forms\Components\Toggle::make('content_data.free_shipping')
                                                         ->columnSpanFull(),
 
-                                                    Forms\Components\Toggle::make('shipping_advanced_settings')
+                                                    Forms\Components\Toggle::make('content_data.shipping_advanced_settings')
                                                         ->label('Show advanced weight settings')
                                                         ->live()
                                                         ->columnSpanFull(),
 
                                                 ])->columns(2)->hidden(function(Forms\Get $get) {
-                                                    return !$get('physical_product');
+                                                    return !$get('content_data.physical_product');
                                                 }),
 
 
@@ -172,32 +170,32 @@ class ProductResource extends Resource
                                                     ->heading('Advanced')
                                                     ->description('Advanced product shipping settings.')
                                                     ->schema([
-                                                    Forms\Components\TextInput::make('weight')
+                                                    Forms\Components\TextInput::make('content_data.weight')
                                                         ->numeric()
                                                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                         ->label('Weight (kg)')
                                                         ->default(0),
 
 
-                                                    Forms\Components\TextInput::make('width')
+                                                    Forms\Components\TextInput::make('content_data.width')
                                                         ->numeric()
                                                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                         ->label('Width (cm)')
                                                         ->default(0),
 
-                                                    Forms\Components\TextInput::make('length')
+                                                    Forms\Components\TextInput::make('content_data.length')
                                                         ->numeric()
                                                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                         ->label('Length (cm)')
                                                         ->default(0),
 
-                                                    Forms\Components\TextInput::make('depth')
+                                                    Forms\Components\TextInput::make('content_data.depth')
                                                         ->numeric()
                                                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                                         ->label('Depth (cm)')
                                                         ->default(0),
 
-                                                    Forms\Components\Checkbox::make('params_in_checkout')
+                                                    Forms\Components\Checkbox::make('content_data.params_in_checkout')
                                                         ->label('Show parameters in checkout page')
                                                         ->columnSpanFull()
                                                         ->default(false),
@@ -205,7 +203,7 @@ class ProductResource extends Resource
                                                 ])
                                                     ->columns(4)
                                                     ->hidden(function(Forms\Get $get) {
-                                                    return !$get('shipping_advanced_settings');
+                                                    return !$get('content_data.shipping_advanced_settings');
                                                 }),
 
                                             ])->columnSpanFull(),
