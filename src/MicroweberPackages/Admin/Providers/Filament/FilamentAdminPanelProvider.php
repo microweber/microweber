@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\Admin\Http\Middleware\Admin;
 use MicroweberPackages\Filament\MicroweberTheme;
+use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
@@ -118,6 +119,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         }
         $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
         $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
+        $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLocales($defaultLocales));
 
         return $panel;
     }
