@@ -284,8 +284,17 @@ class CategoryRepository extends AbstractRepository
         return 0;
     }
 
-    public function getItems($categoryId, $relType = 'content', $relId = false)
+    public function getItems($categoryId, $relType = false, $relId = false)
     {
+
+        if($relType == 'content' || $relType == 'category'){
+            $relType = app()->database_manager->morphClassFromTable($relType);
+        }
+
+        if(!$relType){
+            $relType = morph_name(\MicroweberPackages\Content\Models\Content::class);
+        }
+
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId, $relType, $relId) {
             $model = (new CategoryItem())->newQuery();
             if ($categoryId) {

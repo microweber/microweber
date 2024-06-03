@@ -166,7 +166,7 @@ class CategoryTest extends TestCase
 
         $this->assertEquals(1, count($categoryItems));
         $this->assertEquals($mainCategory->id, $categoryItems[0]['parent_id']);
-        $this->assertEquals('content', $categoryItems[0]['rel_type']);
+        $this->assertEquals(morph_name(\MicroweberPackages\Content\Models\Content::class), $categoryItems[0]['rel_type']);
         $this->assertEquals($post->id, $categoryItems[0]['rel_id']);
 
         $options = array();

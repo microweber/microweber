@@ -554,7 +554,7 @@ trait ExtendedSave
         $this->_extended_save_has_permission = $boolean;
     }
 
-    private function morphClassFromTable($table)
+    public function morphClassFromTable($table)
     {
         if ($table == 'content') {
             return morph_name(\MicroweberPackages\Content\Models\Content::class);
