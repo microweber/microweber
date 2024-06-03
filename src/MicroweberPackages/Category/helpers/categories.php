@@ -169,10 +169,9 @@ function category_tree($params = false)
  * @param $relId int|bool
  * @return array|false
  */
-function get_category_items($category_id, $rel_type = 'content', $relId = false)
+function get_category_items($category_id, $rel_type = false, $relId = false)
 {
-          return app()->category_repository->getItems($category_id,$rel_type,$relId);
- //   return app()->category_manager->get_items('parent_id=' . intval($category_id));
+    return app()->category_repository->getItems($category_id, $rel_type, $relId);
 }
 
 function get_category_items_count($category_id)

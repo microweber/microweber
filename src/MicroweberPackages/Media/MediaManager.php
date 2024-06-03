@@ -36,17 +36,21 @@ class MediaManager
 
     }
 
-    public function get_picture($content_id, $for = 'content', $full = false)
+    public function get_picture($rel_id, $rel_type = false, $full = false)
     {
-        if ($for == 'post' or $for == 'posts' or $for == 'page' or $for == 'pages' or $for == 'content') {
-            $for = morph_name(\MicroweberPackages\Content\Models\Content::class);
-        } elseif ($for == 'category' or $for == 'categories') {
-            $for = morph_name(\MicroweberPackages\Category\Models\Category::class);
+
+        if(!$rel_type){
+            $rel_type =  morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
-        $media = app()->media_repository->getPictureByRelIdAndRelType($content_id, $for);
-        if (!empty($media)) {
+        if ($rel_type == 'post' or $rel_type == 'posts' or $rel_type == 'page' or $rel_type == 'pages' or $rel_type == 'content') {
+            $rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);
+        } elseif ($rel_type == 'category' or $rel_type == 'categories') {
+            $rel_type = morph_name(\MicroweberPackages\Category\Models\Category::class);
+        }
 
+        $media = app()->media_repository->getPictureByRelIdAndRelType($rel_id, $rel_type);
+        if (!empty($media)) {
             if ($full) {
                 return $media;
             }

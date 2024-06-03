@@ -1436,7 +1436,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 $results = array();
                 if (isset($page_data['title'])) {
-                    $arr = array('rel_type' => 'content',
+                    $arr = array('rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
                         'field' => 'title',
                         'value' => $page_data['title'],);
                     $results[] = $arr;
@@ -1454,7 +1454,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                 }
                 if (isset($page_data['content']) and $page_data['content'] != '') {
-                    $arr = array('rel_type' => 'content',
+                    $arr = array('rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
                         'field' => 'content',
                         'value' => $page_data['content'],);
                     $results[] = $arr;

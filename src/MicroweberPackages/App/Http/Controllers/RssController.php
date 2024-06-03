@@ -81,7 +81,6 @@ class RssController extends Controller
             'siteUrl' => mw()->url_manager->hostname(),
             'rssData' => $contentData,
         ];
-
         return response()->view('rss::'.$view, $data)->header('Content-Type', 'text/xml');
     }
 
@@ -182,8 +181,13 @@ class RssController extends Controller
         }
 
         if(isset($data['Content-Type'])) {
-            $type = $data['Content-Type'];
-        }
+
+            if(is_array($data['Content-Type'])){ //In some responses Content-type is an array
+                $type = $data['Content-Type'][count($data['Content-Type']) - 1];
+            } else {
+                $type = $data['Content-Type'];
+            }
+          }
 
         $res = [
             'size' => $size,
