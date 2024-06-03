@@ -105,6 +105,16 @@ class SettingsGeneral extends SettingsPageDefault
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its keywords are one of them.')
                             ->placeholder('Enter your website keywords'),
 
+                        Select::make('options.website[permalink_structure]')
+                            ->label('Permalink Structure')
+                            ->live()
+                            ->options([
+                                'post' => 'sample-post',
+                                'page_post' => 'page/sample-post',
+                                'category_post' => 'sample-category/sample-post',
+                                'page_category_post' => 'sample-page/sample-category/sample-post',
+                            ])
+                            ->placeholder('Select Permalink Structure'),
 
                     ]),
 
