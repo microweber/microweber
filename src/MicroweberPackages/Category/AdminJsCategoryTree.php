@@ -261,7 +261,7 @@ class AdminJsCategoryTree
 
         if (!empty($this->categories)) {
             foreach ($this->categories as $category) {
-                $children = $this->getChildren($category['id']);
+                $children = $this->getAndAppendCategoryChildren($category['id']);
                 if (!empty($children)) {
                     $this->appendCategory($category);
                     continue;
@@ -311,7 +311,7 @@ class AdminJsCategoryTree
 
 
         if ($category['parent_id'] == 0) {
-            if ($category['rel_type'] == 'content') {
+            if ($category['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
                 $appendCategory['parent_type'] = 'page';
                 $appendCategory['parent_id'] = $category['rel_id'];
 
@@ -343,6 +343,7 @@ class AdminJsCategoryTree
                 $children[] = $newCategory;
             }
         }
+
         return $children;
     }
 

@@ -123,7 +123,7 @@ class CategoryManager
         $category = $this->get_by_id($category_id);
         if ($category != false) {
             if (isset($category['rel_id']) and intval($category['rel_id']) > 0) {
-                if ($category['rel_type'] == 'content') {
+                if ($category['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
                     $res = $this->app->content_manager->get_by_id($category['rel_id']);
                     if (is_array($res)) {
                         return $res;
@@ -138,7 +138,7 @@ class CategoryManager
                         if (intval($value) != 0) {
                             $category2 = $this->get_by_id($value);
                             if (isset($category2['rel_id']) and intval($category2['rel_id']) > 0) {
-                                if ($category2['rel_type'] == 'content') {
+                                if ($category2['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
                                     $res = $this->app->content_manager->get_by_id($category2['rel_id']);
                                     if (is_array($res)) {
                                         return $res;

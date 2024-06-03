@@ -377,7 +377,7 @@ if (isset($notif_params['quick'])) {
                                 <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-shopping"></i></button>
                             <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'forms_data' AND isset($item['module']) AND $item['module'] == 'contact_form'): ?>
                                 <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-email-check"></i></button>
-                            <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'content' AND isset($item['module']) AND $item['module'] == 'comments'): ?>
+                            <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class) AND isset($item['module']) AND $item['module'] == 'comments'): ?>
                                 <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-comment-account"></i></button>
                             <?php else: ?>
                                 <button type="button" class="btn btn-outline-primary btn-rounded btn-icon"><i class="mdi mdi-bell"></i></button>
@@ -389,7 +389,7 @@ if (isset($notif_params['quick'])) {
                                 <?php include('notif_order.php'); ?>
                             <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'forms_data' AND isset($item['module']) AND $item['module'] == 'contact_form'): ?>
                                 <?php include('notif_form_entry.php'); ?>
-                            <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == 'content' AND isset($item['module']) AND $item['module'] == 'comments'): ?>
+                            <?php elseif (isset($item['rel_type']) AND $item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class) AND isset($item['module']) AND $item['module'] == 'comments'): ?>
                                 <?php include('notif_comment.php'); ?>
                             <?php else: ?>
 

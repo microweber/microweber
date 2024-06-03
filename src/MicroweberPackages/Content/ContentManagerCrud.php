@@ -1338,7 +1338,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         }
 //        if (!isset($data['rel_type'])) {
 //            if (isset($data['rel_type'])) {
-//                if ($data['rel_type'] == 'content' or $data['rel_type'] == 'page' or $data['rel_type'] == 'post' or $data['rel_type'] == 'product') {
+//                if ($data['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class) or $data['rel_type'] == 'page' or $data['rel_type'] == 'post' or $data['rel_type'] == 'product') {
 //                    $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 //                } else {
 //                    $data['rel_type'] = $data['rel_type'];

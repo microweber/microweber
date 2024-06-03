@@ -310,7 +310,7 @@ class CartManager extends Crud
                 if (is_array($item)) {
 
 
-                    if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
+                    if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
                         $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
                         $item['url'] = $this->app->content_manager->link($item['rel_id']);
                         $item['picture'] = $this->app->media_manager->get_picture($item['rel_id']);
@@ -384,7 +384,7 @@ class CartManager extends Crud
                     $item = $this->app->format->render_item_custom_fields_data($item);
                 }
 
-                if (!isset($item['item_image']) and is_array($item) and isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == 'content') {
+                if (!isset($item['item_image']) and is_array($item) and isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
                     $item['item_image'] = get_picture($item['rel_id']);
                 }
 
@@ -473,7 +473,7 @@ class CartManager extends Crud
         $cart['one'] = 1;
         $cart['limit'] = 1;
         $check_cart = $this->get($cart);
-        if (isset($check_cart['rel_type']) and isset($check_cart['rel_id']) and $check_cart['rel_type'] == 'content') {
+        if (isset($check_cart['rel_type']) and isset($check_cart['rel_id']) and $check_cart['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
             $data_fields = $this->app->content_manager->data($check_cart['rel_id'], 1);
             if (isset($check_cart['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
                 $old_qty = intval($data_fields['qty']);
@@ -1103,7 +1103,7 @@ class CartManager extends Crud
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
 
-            if (isset($cart['rel_type']) and isset($cart['rel_id']) and $cart['rel_type'] == 'content') {
+            if (isset($cart['rel_type']) and isset($cart['rel_id']) and $cart['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
                 $cart_return['image'] = $this->app->media_manager->get_picture($cart['rel_id']);
                 $cart_return['product_link'] = $this->app->content_manager->link($cart['rel_id']);
             }

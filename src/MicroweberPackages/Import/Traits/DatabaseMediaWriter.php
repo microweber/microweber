@@ -31,7 +31,7 @@ trait DatabaseMediaWriter {
 
 
 		// Get content for menu
-		if ($item['rel_type'] == 'content') {
+		if ($item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
 			$content = $this->_getContentById($item['rel_id']);
 			if (!empty($content)) {
 				$contentDatabase = $this->_getContentDatabase($content);

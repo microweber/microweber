@@ -325,7 +325,7 @@ class MediaManager
         if (!isset($params['rel_type']) and isset($params['for'])) {
             $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
 
-            if($params['rel_type'] == 'content'){
+            if($params['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)){
                 $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             }
         }

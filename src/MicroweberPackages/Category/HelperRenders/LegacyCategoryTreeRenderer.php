@@ -334,7 +334,7 @@ class LegacyCategoryTreeRenderer
             $cat_get_params['rel_type'] = $table_assoc_name;
 
              $cont_check = true;
-            if ($cat_get_params['rel_type'] == 'content' and $cat_get_params['rel_id']) {
+            if ($cat_get_params['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class) and $cat_get_params['rel_id']) {
                 $cont_check = $this->app->content_manager->get_by_id($cat_get_params['rel_id']);
                 if (!$cont_check) {
                    return;

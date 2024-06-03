@@ -213,7 +213,7 @@ if ($results) {
                 $cat['picture'] = get_picture($cat['id'], 'category');
                 $cat['url'] = category_link($cat['id']);
 
-                if (isset($cat['rel_type']) and $cat['rel_type'] == 'content') {
+                if (isset($cat['rel_type']) and $cat['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
 
                     $cont_params = [];
                     $cont_params['get_extra_data'] = true;
