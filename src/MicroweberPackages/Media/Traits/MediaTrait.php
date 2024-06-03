@@ -85,7 +85,7 @@ trait MediaTrait
                         foreach ($mediaUrls as $url) {
                             save_media(array(
                                 'allow_remote_download' => 1,
-                                'rel_type' => 'content',
+                                'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
                                 'rel_id' => $model->id,
                                 'title' => 'Picture',
                                 'media_type' => 'picture',

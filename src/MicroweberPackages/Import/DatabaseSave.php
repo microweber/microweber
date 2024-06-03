@@ -199,7 +199,7 @@ class DatabaseSave
             if (is_file($newFilename)) {
                 mw()->media_manager->save([
                     'rel_id' => $contentId,
-                    'rel_type' => 'content',
+                    'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
                     'media_type' => 'picture',
                     'name' => $photoId,
                     'filename' => $newFilename

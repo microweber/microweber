@@ -19,7 +19,7 @@ class LegacyMediaTest extends TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         $picture = array(
-            'rel_type' => 'content',
+            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
             'rel_id' => 3,
             'title' => 'My new pic',
             'media_type' => 'picture',
@@ -43,7 +43,7 @@ class LegacyMediaTest extends TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         $picture = array(
-            'rel_type' => 'content',
+            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
             'rel_id' => 3,
             'title' => 'My new pic to del',
             'media_type' => 'picture',
@@ -67,7 +67,7 @@ class LegacyMediaTest extends TestCase
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         $picture = array(
-            'rel_type' => 'content',
+            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
             'rel_id' => 3,
             'title' => 'My new pic',
             'media_type' => 'picture',
@@ -84,7 +84,7 @@ class LegacyMediaTest extends TestCase
         $xss = '<style>@keyframes x{}</style><xss style="animation-name:x" onanimationend="alert(document.cookie)"></xss>';
 
         $picture = array(
-            'rel_type' => 'content',
+            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
             'rel_id' => 3,
             'title' => 'My new pic to xss'.$xss,
             'description' => 'My new pic description xss'.$xss,

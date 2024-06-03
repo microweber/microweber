@@ -204,7 +204,7 @@ class TemplateTest extends TestCase
 
         $newCleanCategoryId = save_category([
             'title' => 'Test Category for post vars' . uniqid(),
-            'rel_type' => 'content',
+            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
             'rel_id' => $newCleanPageId,
         ]);
         $this->assertTrue($newCleanCategoryId > 0);
@@ -259,7 +259,7 @@ class TemplateTest extends TestCase
 
         $newCleanCategoryIdSub = save_category([
             'title' => 'Test Category for post sub vars-' . uniqid(),
-            'rel_type' => 'content',
+            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
             'rel_id' => $newSubPageId,
         ]);
 

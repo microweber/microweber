@@ -42,7 +42,7 @@ class DbTest extends TestCase
     {
 
         $customFieldValueId = db_save('custom_fields_values', [
-            'rel_type' => 'content',
+            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
             'rel_id' => 1,
             'custom_field_id' => 1,
             'value' => json_encode(['test' => 'test'])
