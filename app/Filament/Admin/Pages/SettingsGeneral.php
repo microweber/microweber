@@ -62,7 +62,7 @@ class SettingsGeneral extends SettingsPageDefault
         $getOptions = Option::whereIn('option_group', [
             'website',
         ])->get();
-        
+
         if ($getOptions) {
             foreach ($getOptions as $option) {
                 $this->options[$option->option_group . '['.$option->option_key.']'] = $option->option_value;
@@ -86,19 +86,22 @@ class SettingsGeneral extends SettingsPageDefault
                             ->live()
                             ->label('Website Name')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.')
-                            ->placeholder('Enter your website name'),
+                            ->placeholder('Enter your website name')
+                            ->translatable(),
 
                         Textarea::make('options.website[website_description]')
                             ->live()
                             ->label('Website Description')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its description is one of them.')
-                            ->placeholder('Enter your website description'),
+                            ->placeholder('Enter your website description')
+                            ->translatable(),
 
                         TextInput::make('options.website[website_keywords]')
                             ->live()
                             ->label('Website Keywords')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its keywords are one of them.')
-                            ->placeholder('Enter your website keywords'),
+                            ->placeholder('Enter your website keywords')
+                            ->translatable(),
 
                         Select::make('options.website[permalink_structure]')
                             ->label('Permalink Structure')
