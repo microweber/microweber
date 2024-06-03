@@ -337,6 +337,12 @@ class CategoryRepository extends AbstractRepository
         if (isset($data['parent']) and !isset($data['parent_id'])) {
             $data['parent_id'] = $data['parent'];
         }
+
+        if (isset($data['rel_type'])) {
+
+        }
+
+
         if (isset($data['parent_page'])) {
             $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             $data['rel_id'] = $data['parent_page'];

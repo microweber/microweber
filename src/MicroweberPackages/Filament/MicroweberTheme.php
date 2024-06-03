@@ -60,18 +60,18 @@ class MicroweberTheme implements Plugin
         $footerTags = $head->getFooterMetaTags();
 
         Filament::serving(function () use ($headTags, $footerTags) {
-            FilamentView::registerRenderHook(
-                PanelsRenderHook::HEAD_START,
-                fn(): string => $headTags
-            );
-            FilamentView::registerRenderHook(
-                PanelsRenderHook::BODY_END,
-                fn(): string => $footerTags
-            );
-            FilamentAsset::register([
-                //Js::make('example-external-script', 'external.js'),
-                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
-            ]);
+//            FilamentView::registerRenderHook(
+//                PanelsRenderHook::HEAD_START,
+//                fn(): string => $headTags
+//            );
+//            FilamentView::registerRenderHook(
+//                PanelsRenderHook::BODY_END,
+//                fn(): string => $footerTags
+//            );
+//            FilamentAsset::register([
+//                //Js::make('example-external-script', 'external.js'),
+//                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
+//            ]);
         });
     }
 

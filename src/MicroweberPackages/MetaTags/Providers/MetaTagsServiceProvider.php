@@ -38,7 +38,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
         PackageManager::create('admin', function (Package $package) {
             $package->requires([
-           //    'core_css',
+               'core_css',
                 'admin_default_css_and_js',
                 'core',
                 'admin_custom_css_and_js',
@@ -65,14 +65,14 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'apijs',
                 new \MicroweberPackages\MetaTags\Entities\ApijsScriptTag()
             );
-//            $package->addTag(
-//                'live_wire_head_tags',
-//                new \MicroweberPackages\MetaTags\Entities\LivewireHeadTags()
-//            );
-//            $package->addTag(
-//                'live_wire_footer_tags',
-//                new \MicroweberPackages\MetaTags\Entities\LivewireFooterTags()
-//            );
+            $package->addTag(
+                'live_wire_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\LivewireHeadTags()
+            );
+            $package->addTag(
+                'live_wire_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\LivewireFooterTags()
+            );
 
         });
 
@@ -136,10 +136,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
 
         PackageManager::create('admin_default_css_and_js', function (Package $package) {
-//            $package->addTag(
-//                'admin_default_head_tags',
-//                new \MicroweberPackages\MetaTags\Entities\SystemDefaultAdminCssHeadTags()
-//            );
+            $package->addTag(
+                'admin_default_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\SystemDefaultAdminCssHeadTags()
+            );
             $package->addTag(
                 'admin_web_app_manifest',
                 new \MicroweberPackages\MetaTags\Entities\AdminWebAppManifestTags()
