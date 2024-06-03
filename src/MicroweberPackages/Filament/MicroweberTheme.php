@@ -4,12 +4,18 @@ namespace MicroweberPackages\Filament;
 
 
 use Filament\Contracts\Plugin;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Wizard;
 use Filament\Panel;
+use Filament\Support\Assets\Js;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentColor;
 use Filament\Support\Facades\FilamentIcon;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
+use MicroweberPackages\MetaTags\AdminMetaTagsRenderer;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 use MicroweberPackages\User\Providers\UserFilamentServiceProvider;
 
@@ -29,10 +35,12 @@ class MicroweberTheme implements Plugin
     {
         static::configureColorShades();
         static::configureComponents();
+        static::configureAssets();
     }
 
     public static function configure(): void
     {
+
         static::configureColors();
         static::configureColorShades();
         static::configureComponents();
@@ -42,6 +50,29 @@ class MicroweberTheme implements Plugin
     public static function configureColors(): void
     {
         FilamentColor::register(static::getColors());
+    }
+
+    public static function configureAssets(): void
+    {
+        $head = new AdminMetaTagsRenderer();
+
+        $headTags = $head->getHeadMetaTags();
+        $footerTags = $head->getFooterMetaTags();
+
+        Filament::serving(function () use ($headTags, $footerTags) {
+            FilamentView::registerRenderHook(
+                PanelsRenderHook::HEAD_START,
+                fn(): string => $headTags
+            );
+            FilamentView::registerRenderHook(
+                PanelsRenderHook::BODY_END,
+                fn(): string => $footerTags
+            );
+            FilamentAsset::register([
+                //Js::make('example-external-script', 'external.js'),
+                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
+            ]);
+        });
     }
 
     public static function configureColorShades(): void
@@ -55,7 +86,7 @@ class MicroweberTheme implements Plugin
 
     public static function configureComponents(): void
     {
-        Wizard::configureUsing(fn (Wizard $wizard): Wizard => $wizard->contained(false));
+        Wizard::configureUsing(fn(Wizard $wizard): Wizard => $wizard->contained(false));
     }
 
     public static function configureIcons(): void
