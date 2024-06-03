@@ -338,10 +338,13 @@ class CategoryRepository extends AbstractRepository
             $data['parent_id'] = $data['parent'];
         }
 
-        if (isset($data['rel_type'])) {
+        if (isset($data['rel_type']) and $data['rel_type'] == 'content') {
+            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 
         }
-
+        if (isset($data['rel_type']) and $data['rel_type'] == 'category') {
+            $data['rel_type'] = morph_name(\MicroweberPackages\Category\Models\Category::class);
+        }
 
         if (isset($data['parent_page'])) {
             $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
