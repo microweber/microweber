@@ -43,17 +43,11 @@ class SettingsGeneral extends SettingsPageDefault
             $optionGroup = $parseKey[0];
             $optionKey = str_replace(']', '', $parseKey[1]);
 
-            $option = Option::where('option_group', $optionGroup)->where('option_key', $optionKey)->first();
-            if ($option) {
-                $option->option_value = $value;
-                $option->save();
-            } else {
-                Option::create([
-                    'option_group' => $optionGroup,
-                    'option_key' => $optionKey,
-                    'option_value' => $value,
-                ]);
+            if (empty($optionGroup) || empty($optionKey) || empty($parseKey)) {
+                continue;
             }
+
+            save_option($optionKey, $value, $optionGroup);
 
         }
 
@@ -68,6 +62,7 @@ class SettingsGeneral extends SettingsPageDefault
         $getOptions = Option::whereIn('option_group', [
             'website',
         ])->get();
+        
         if ($getOptions) {
             foreach ($getOptions as $option) {
                 $this->options[$option->option_group . '['.$option->option_key.']'] = $option->option_value;
@@ -105,6 +100,16 @@ class SettingsGeneral extends SettingsPageDefault
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its keywords are one of them.')
                             ->placeholder('Enter your website keywords'),
 
+                        Select::make('options.website[permalink_structure]')
+                            ->label('Permalink Structure')
+                            ->live()
+                            ->options([
+                                'post' => 'sample-post',
+                                'page_post' => 'page/sample-post',
+                                'category_post' => 'sample-category/sample-post',
+                                'page_category_post' => 'sample-page/sample-category/sample-post',
+                            ])
+                            ->placeholder('Select Permalink Structure'),
 
                     ]),
 
