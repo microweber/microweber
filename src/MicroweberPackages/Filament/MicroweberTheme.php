@@ -35,7 +35,7 @@ class MicroweberTheme implements Plugin
     {
         static::configureColorShades();
         static::configureComponents();
-        static::configureAssets();
+    //    static::configureAssets();
     }
 
     public static function configure(): void
@@ -59,20 +59,20 @@ class MicroweberTheme implements Plugin
         $headTags = $head->getHeadMetaTags();
         $footerTags = $head->getFooterMetaTags();
 
-        Filament::serving(function () use ($headTags, $footerTags) {
-//            FilamentView::registerRenderHook(
-//                PanelsRenderHook::HEAD_START,
-//                fn(): string => $headTags
-//            );
-//            FilamentView::registerRenderHook(
-//                PanelsRenderHook::BODY_END,
-//                fn(): string => $footerTags
-//            );
-//            FilamentAsset::register([
-//                //Js::make('example-external-script', 'external.js'),
-//                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
-//            ]);
-        });
+//        Filament::serving(function () use ($headTags, $footerTags) {
+////            FilamentView::registerRenderHook(
+////                PanelsRenderHook::HEAD_START,
+////                fn(): string => $headTags
+////            );
+////            FilamentView::registerRenderHook(
+////                PanelsRenderHook::BODY_END,
+////                fn(): string => $footerTags
+////            );
+////            FilamentAsset::register([
+////                //Js::make('example-external-script', 'external.js'),
+////                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
+////            ]);
+//        });
     }
 
     public static function configureColorShades(): void
