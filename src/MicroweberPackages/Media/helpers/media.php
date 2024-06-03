@@ -28,9 +28,9 @@ api_expose_admin('delete_media', function ($data) {
 });
 
 
-function get_picture($content_id, $for = 'post', $full = false)
+function get_picture($rel_id, $rel_type = false, $full = false)
 {
-    return app()->media_manager->get_picture($content_id, $for, $full);
+    return app()->media_manager->get_picture($rel_id, $rel_type, $full);
 }
 
 function get_picture_by_id($media_id)

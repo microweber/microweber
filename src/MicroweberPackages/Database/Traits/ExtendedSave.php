@@ -556,12 +556,13 @@ trait ExtendedSave
 
     public function morphClassFromTable($table)
     {
-        if ($table == 'content') {
+        if ($table == 'content' or $table == 'post' or $table == 'posts' or $table == 'page' or $table == 'pages') {
             return morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
         if ($table == 'categories') {
             return morph_name(\MicroweberPackages\Category\Models\Category::class);
         }
+
 
         return $table;
     }
