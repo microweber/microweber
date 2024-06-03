@@ -562,11 +562,11 @@ class CartManager extends Crud
             $data['for_id'] = $data['rel_id'];
         }
         if (!isset($data['for']) and !isset($data['rel_type'])) {
-            $data['for'] = 'content';
+            $data['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
         if (isset($data['content_id'])) {
-            $data['for'] = 'content';
+            $data['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             $for_id = $data['for_id'] = $data['content_id'];
         }
         $override = $this->app->event_manager->trigger('mw.shop.update_cart', $data);
@@ -616,7 +616,7 @@ class CartManager extends Crud
             $data['qty'] = $update_qty;
         }
 
-        if ($data['for'] == 'content') {
+        if ($data['for'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
 
             $cont = $this->app->content_manager->get_by_id($for_id);
 

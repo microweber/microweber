@@ -184,7 +184,7 @@ trait ExtendedSave
             if (is_array($data_fields) and !empty($data_fields)) {
                 foreach ($data_fields as $k => $v) {
                     $save_cat_item = array();
-                    $save_cat_item['rel_type'] = $data_to_save['table'];
+                    $save_cat_item['rel_type'] = $this->morphClassFromTable($data_to_save['table']);
                     $save_cat_item['rel_id'] = $data_to_save['id'];
                     $save_cat_item['attribute_name'] = $k;
                     $save_cat_item['attribute_value'] = $v;
@@ -205,7 +205,7 @@ trait ExtendedSave
                 if (is_array($custom_fields) and !empty($custom_fields)) {
                     foreach ($custom_fields as $k => $v) {
                         $save_custom_field_item = array();
-                        $save_custom_field_item['rel_type'] = $data_to_save['table'];
+                        $save_custom_field_item['rel_type'] = $this->morphClassFromTable($data_to_save['table']);
                         $save_custom_field_item['rel_id'] = $data_to_save['id'];
 
                         if (isset($v['name']) and !isset($v['type'])) {
