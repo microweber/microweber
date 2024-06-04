@@ -203,6 +203,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
         $tags = [];
         $tags[] = $this->getModel()->getTable();
         $tags[] = $this->getModel()->getMorphClass();
+        $tags[] = app()->getLocale();
 
         if ($this->eagerLoad) {
             foreach ($this->eagerLoad as $name => $constraints) {
