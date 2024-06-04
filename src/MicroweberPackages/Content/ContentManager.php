@@ -1994,7 +1994,7 @@ class ContentManager
     public function custom_fields($content_id, $full = true, $field_type = false)
     {
         $filter = [];
-        $filter['rel_type'] = 'content';
+        $filter['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         $filter['rel_id'] = $content_id;
         if ($full) {
             $filter['return_full'] = $full;
