@@ -42,9 +42,13 @@ class ContentListLivewireComponentTest extends TestCase
         $contentListTest = Livewire::test(ContentList::class);
         $contentListTest->set('paginate', 200);
         $contentListTest->call('getRenderData');
-        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
-        $responseMethod = reset($response['effects']['returns']);
+
+
+        $response =  $contentListTest->__get('effects');
+        $responseMethod = reset($response['returns']);
         $contentListResponseData = $responseMethod['data']['contents']['data'];
+
+
 
         $findMyPage = false;
         $findMyPost = false;
@@ -90,9 +94,12 @@ class ContentListLivewireComponentTest extends TestCase
             'keyword' => 'My post content - For search'
         ]);
         $contentListTest->call('getRenderData');
-        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
-        $responseMethod = reset($response['effects']['returns']);
+
+        $response =  $contentListTest->__get('effects');
+        $responseMethod = reset($response['returns']);
         $contentListResponseData = $responseMethod['data']['contents']['data'];
+
+
 
         $findMyProduct = false;
         $findMyPost = false;
@@ -134,11 +141,14 @@ class ContentListLivewireComponentTest extends TestCase
             'tags' => 'non-existing-tag'.uniqid()
         ]);
         $contentListTest->call('getRenderData');
-        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
-        $responseMethod = reset($response['effects']['returns']);
-        $contentListResponseData = $responseMethod['data'];
 
-        $this->assertNotEmpty($contentListResponseData);
+
+
+        $response =  $contentListTest->__get('effects');
+        $responseMethod = reset($response['returns']);
+        $contentListResponseData = $responseMethod['data']['contents']['data'];
+
+        $this->assertIsArray($contentListResponseData);
         $this->assertEquals(0, $responseMethod['data']['total']);
 
         // Find with tags
@@ -147,8 +157,9 @@ class ContentListLivewireComponentTest extends TestCase
             'tags' => 'myTag1'
         ]);
         $contentListTest->call('getRenderData');
-        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
-        $responseMethod = reset($response['effects']['returns']);
+
+        $response =  $contentListTest->__get('effects');
+        $responseMethod = reset($response['returns']);
         $contentListResponseData = $responseMethod['data']['contents']['data'];
 
         $this->assertNotEmpty($contentListResponseData);
@@ -169,8 +180,10 @@ class ContentListLivewireComponentTest extends TestCase
 
         $contentListTest = Livewire::test(PagesList::class);
         $contentListTest->call('getRenderData');
-        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
-        $responseMethod = reset($response['effects']['returns']);
+
+
+        $response =  $contentListTest->__get('effects');
+        $responseMethod = reset($response['returns']);
         $contentListResponseData = $responseMethod['data']['contents']['data'];
 
         $findMyPage = false;
@@ -198,8 +211,8 @@ class ContentListLivewireComponentTest extends TestCase
 
         $contentListTest = Livewire::test(PostsList::class);
         $contentListTest->call('getRenderData');
-        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
-        $responseMethod = reset($response['effects']['returns']);
+            $response =  $contentListTest->__get('effects');
+        $responseMethod = reset($response['returns']);
         $contentListResponseData = $responseMethod['data']['contents']['data'];
 
         $findMyPost = false;
@@ -227,8 +240,8 @@ class ContentListLivewireComponentTest extends TestCase
 
         $contentListTest = Livewire::test(ProductsList::class);
         $contentListTest->call('getRenderData');
-        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
-        $responseMethod = reset($response['effects']['returns']);
+            $response =  $contentListTest->__get('effects');
+        $responseMethod = reset($response['returns']);
         $contentListResponseData = $responseMethod['data']['contents']['data'];
 
         $findMyProduct = false;
@@ -265,8 +278,8 @@ class ContentListLivewireComponentTest extends TestCase
             'keyword' => 'My product content - For search'
         ]);
         $contentListTest->call('getRenderData');
-        $response = json_decode($contentListTest->lastResponse->content(),TRUE);
-        $responseMethod = reset($response['effects']['returns']);
+            $response =  $contentListTest->__get('effects');
+        $responseMethod = reset($response['returns']);
         $contentListResponseData = $responseMethod['data']['contents']['data'];
 
         $findMyProduct = false;
