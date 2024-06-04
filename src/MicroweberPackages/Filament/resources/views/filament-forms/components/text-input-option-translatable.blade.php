@@ -91,7 +91,12 @@
                 <x-filament::dropdown.list>
 
                     @foreach($supportedLocales as $supportedLocale)
-                    <x-filament::dropdown.list.item x-on:click="$store.translationLocale.setLocale('{{$supportedLocale}}')">
+                    <x-filament::dropdown.list.item x-on:click="function() {
+
+                        $store.translationLocale.setLocale('{{$supportedLocale}}');
+                        close();
+
+                    }">
                         <div class="flex gap-2 items-center uppercase">
                             <img width="24px" src="{{get_flag_icon_url($supportedLocale)}}" />
                             {{ $supportedLocale }}
