@@ -39,9 +39,9 @@
 
         <div
         >
-        @foreach($supportedLocales as $supportedLocale)
+        @foreach($supportedLanguages as $supportedLanguage)
 
-            <div x-show="$store.translationLocale.locale == '{{$supportedLocale}}'">
+            <div x-show="$store.translationLocale.locale == '{{$supportedLanguage['locale']}}'">
               <x-filament::input
             :attributes="
                 \Filament\Support\prepare_inherited_attributes($getExtraInputAttributeBag())
@@ -51,7 +51,7 @@
                         'autocomplete' => $getAutocomplete(),
                         'autofocus' => $isAutofocused(),
                         'disabled' => $isDisabled,
-                        'id' => $id . '.' . $supportedLocale.'',
+                        'id' => $id . '.' . $supportedLanguage['locale'].'',
                         'inlinePrefix' => $isPrefixInline && (count($prefixActions) || $prefixIcon || filled($prefixLabel)),
                         'inlineSuffix' => $isSuffixInline && (count($suffixActions) || $suffixIcon || filled($suffixLabel)),
                         'inputmode' => $getInputMode(),
@@ -65,7 +65,7 @@
                         'required' => $isRequired() && (! $isConcealed),
                         'step' => $getStep(),
                         'type' => blank($mask) ? $getType() : 'text',
-                        $applyStateBindingModifiers('wire:model') => $statePath . '.' . $supportedLocale.'',
+                        $applyStateBindingModifiers('wire:model') => $statePath . '.' . $supportedLanguage['locale'].'',
                         'x-data' => (count($extraAlpineAttributes) || filled($mask)) ? '{}' : null,
                         'x-mask' . ($mask instanceof \Filament\Support\RawJs ? ':dynamic' : '') => filled($mask) ? $mask : null,
                     ], escape: false)
@@ -83,23 +83,23 @@
                     <button>
                         <div class="flex gap-2 items-center uppercase">
                             <img width="14px" :src="$store.translationLocale.flagUrl" />
-                            <span x-text="$store.translationLocale.locale"></span>
+                            <span x-text="$store.translationLocale.shortLocale"></span>
                         </div>
                     </button>
                 </x-slot>
 
                 <x-filament::dropdown.list>
 
-                    @foreach($supportedLocales as $supportedLocale)
+                    @foreach($supportedLanguages as $supportedLanguage)
                     <x-filament::dropdown.list.item x-on:click="function() {
 
-                        $store.translationLocale.setLocale('{{$supportedLocale}}');
+                        $store.translationLocale.setLocale('{{$supportedLanguage['locale']}}');
                         close();
 
                     }">
                         <div class="flex gap-2 items-center uppercase">
-                            <img width="24px" src="{{get_flag_icon_url($supportedLocale)}}" />
-                            {{ $supportedLocale }}
+                            <img width="24px" src="{{$supportedLanguage['iconUrl']}}" />
+                            {{ $supportedLanguage['abr'] }}
                         </div>
                     </x-filament::dropdown.list.item>
                     @endforeach

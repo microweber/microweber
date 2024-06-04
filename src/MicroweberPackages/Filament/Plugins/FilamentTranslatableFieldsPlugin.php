@@ -12,7 +12,7 @@ use Filament\Panel;
 
 class FilamentTranslatableFieldsPlugin implements Plugin
 {
-    protected array|Closure $supportedLocales = [];
+    protected array|Closure $supportedLanguages = [];
 
     public static function make(): static
     {
@@ -29,20 +29,16 @@ class FilamentTranslatableFieldsPlugin implements Plugin
         return 'outerweb-filament-translatable-fields';
     }
 
-    public function supportedLocales(array|Closure $supportedLocales): static
+    public function supportedLanguages(array|Closure $supportedLanguages): static
     {
-        $this->supportedLocales = $supportedLocales;
+        $this->supportedLanguages = $supportedLanguages;
 
         return $this;
     }
 
-    public function getSupportedLocales(): array
+    public function getSupportedLanguages(): array
     {
-        $locales = is_callable($this->supportedLocales) ? call_user_func($this->supportedLocales) : $this->supportedLocales;
-
-        if (empty($locales)) {
-            $locales[] = config('app.locale');
-        }
+        $locales = is_callable($this->supportedLanguages) ? call_user_func($this->supportedLanguages) : $this->supportedLanguages;
 
         return $locales;
     }
@@ -54,11 +50,11 @@ class FilamentTranslatableFieldsPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
-        $supportedLocales = $this->getSupportedLocales();
+        $supportedLanguages = $this->getSupportedLanguages();
 
-        Field::macro('mwTranslatableOption', function () use ($supportedLocales) {
+        Field::macro('mwTranslatableOption', function () use ($supportedLanguages) {
 
-            if (empty($supportedLocales)) {
+            if (empty($supportedLanguages)) {
                 return $this;
             }
 
@@ -66,7 +62,7 @@ class FilamentTranslatableFieldsPlugin implements Plugin
                 ->live()
                 ->debounce(800)
                 ->view('filament-forms::components.text-input-option-translatable',[
-                    'supportedLocales' => $supportedLocales,
+                    'supportedLanguages' => $supportedLanguages,
                 ]);
 
             return $textInput;

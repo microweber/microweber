@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 if (!function_exists('run_translate_manager')) {
@@ -297,15 +298,44 @@ if (!function_exists('detect_lang_from_url')) {
     }
 }
 
+if (!function_exists('get_supported_language_by_locale')) {
+    function get_supported_language_by_locale($locale)
+    {
+        $langs = get_supported_languages();
+        if ($langs) {
+            foreach ($langs as $lang) {
+                if ($lang['locale'] == $locale) {
+                    return $lang;
+                }
+            }
+        }
+
+        return false;
+    }
+}
 if (!function_exists('get_supported_languages')) {
 
     function get_supported_languages($only_active = false)
     {
-        $languages = app()->multilanguage_repository->getSupportedLocales($only_active);
+        $getSupportedLocalesQuery = DB::table('multilanguage_supported_locales');
+        if ($only_active) {
+            $getSupportedLocalesQuery->where('is_active', 'y');
+        }
+        $getSupportedLocalesQuery->orderBy('position', 'asc');
+
+        $getLanguages = $getSupportedLocalesQuery->get();
+        $languages = [];
+        if (!empty($getLanguages)) {
+            foreach ($getLanguages as $language) {
+                $languages[] = (array)$language;
+            }
+        }
 
         if (!empty($languages)) {
             foreach ($languages as &$language) {
+
                 $getSupportedLocale = get_supported_locale_by_id($language['id']);
+                 $language['abr'] = get_short_abr($language['locale']);
                  $language['icon'] = get_flag_icon($language['locale']);
                  $language['iconUrl'] = get_flag_icon_url($language['locale']);
                 if (empty($language['display_name'])) {
