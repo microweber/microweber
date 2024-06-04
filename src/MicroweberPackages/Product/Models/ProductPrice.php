@@ -23,7 +23,7 @@ class ProductPrice extends CustomField
 
     public function save(array $options = [])
     {
-        $this->rel_type = 'content';
+        $this->rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);
         $this->type = 'price';
 
        return parent::save($options);

@@ -58,6 +58,7 @@ trait CustomFieldPriceTrait
                 }
 
                 $price->rel_id = $model->id;
+                $price->rel_type = $model->getMorphClass();
                 $price->save();
             }
 

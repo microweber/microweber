@@ -176,7 +176,6 @@ class ShopManager
         $cf_params['type'] = 'price';
         $cf_params['return_full'] = true;
 
-        //$prices = $this->app->fields_manager->get($cf_params);
 
         $prices =    app()->content_repository->getCustomFieldsByType($for_id,'price');
 
