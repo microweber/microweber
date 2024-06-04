@@ -31,7 +31,7 @@ class ModuleSettingsItemsEditorTest extends TestCase
                 'url' => site_url() . 'many-other-things/new-url'
             ])
             ->call('submit')
-            ->assertEmitted('onItemChanged');
+            ->assertDispatched('onItemChanged');
 
         $this->assertNotNull($instance);
 

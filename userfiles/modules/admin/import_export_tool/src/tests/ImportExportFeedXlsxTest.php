@@ -90,7 +90,7 @@ class ImportExportFeedXlsxTest extends TestCase
 
         $instance->set('import_feed.content_tag', 'Worksheet')
                 ->call('changeContentTag')
-                ->assertEmitted('dropdownMappingPreviewRefresh')
+                ->assertDispatched('dropdownMappingPreviewRefresh')
                 ->assertSee('Feed is read successfully')
                 ->call('saveMapping')
                 ->set('import_feed.primary_key', 'id')
