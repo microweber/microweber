@@ -2,14 +2,34 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.store('translationLocale', {
 
-        locale: window.filamentData.multilanguage.translationLocale,
-        flagIcons: window.filamentData.multilanguage.flagIcons,
-        flagUrl: window.filamentData.multilanguage.flagIcons[window.filamentData.multilanguage.translationLocale],
+        locale: window.filamentData.multilanguage.translationLocale.locale,
+        shortLocale: window.filamentData.multilanguage.translationLocale.abr,
+        flagUrl: window.filamentData.multilanguage.translationLocale.iconUrl,
         supportedLocales: window.filamentData.multilanguage.supportedLocales,
+
+        getFlagUrl(locale) {
+            let flagUrl = '';
+            this.supportedLocales.forEach((supportedLocale) => {
+                if (supportedLocale.locale == locale) {
+                    flagUrl = supportedLocale.iconUrl;
+                }
+            });
+            return flagUrl;
+        },
+        getShortLocale(locale) {
+            let shortLocale = '';
+            this.supportedLocales.forEach((supportedLocale) => {
+                if (supportedLocale.locale == locale) {
+                    shortLocale = supportedLocale.abr;
+                }
+            });
+            return shortLocale;
+        },
 
         setLocale(locale) {
             this.locale = locale;
-            this.flagUrl = this.flagIcons[locale];
+            this.flagUrl = this.getFlagUrl(locale);
+            this.shortLocale = this.getShortLocale(locale);
         },
 
     })
