@@ -236,6 +236,10 @@ api_expose_admin('save_language_file_content', function ($data) {
     return mw()->lang_helper->save_language_file_content($data);
 });
 
+function get_flag_icon_url($locale)
+{
+    return modules_url() . 'microweber/api/libs/flag-icon-css/flags/1x1/'.get_flag_icon($locale).'.svg';
+}
 function get_flag_icon($locale) {
     return \MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
 }

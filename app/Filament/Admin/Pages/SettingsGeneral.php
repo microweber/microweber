@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Pages;
 
 use App\Filament\Admin\Pages\Abstract\SettingsPageDefault;
+use Filament\Forms\Components\MultiSelect;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
@@ -82,26 +83,34 @@ class SettingsGeneral extends SettingsPageDefault
                     ->description(' Fill in the fields for maximum results when finding your website in search engines.')
                     ->schema([
 
-                        TextInput::make('options.website[website_title]')
-                            ->live()
-                            ->label('Website Name')
+                        TextInput::make('Website Name')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.')
                             ->placeholder('Enter your website name')
-                            ->translatable(),
+                            ->mwTranslatableOption('website_title', 'website'),
 
-                        Textarea::make('options.website[website_description]')
-                            ->live()
-                            ->label('Website Description')
+                        Textarea::make('Website Description')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its description is one of them.')
                             ->placeholder('Enter your website description')
-                            ->translatable(),
+                            ->mwTranslatableOption('website_description', 'website'),
 
-                        TextInput::make('options.website[website_keywords]')
-                            ->live()
-                            ->label('Website Keywords')
+                        TextInput::make('Website Keywords')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its keywords are one of them.')
                             ->placeholder('Enter your website keywords')
-                            ->translatable(),
+                            ->mwTranslatableOption('website_keywords', 'website'),
+
+
+
+//                        Textarea::make('options.website[website_description]')
+//                            ->live()
+//                            ->label('Website Description')
+//                            ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its description is one of them.')
+//                            ->placeholder('Enter your website description'),
+//
+//                        TextInput::make('options.website[website_keywords]')
+//                            ->live()
+//                            ->label('Website Keywords')
+//                            ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its keywords are one of them.')
+//                            ->placeholder('Enter your website keywords'),
 
                         Select::make('options.website[permalink_structure]')
                             ->label('Permalink Structure')

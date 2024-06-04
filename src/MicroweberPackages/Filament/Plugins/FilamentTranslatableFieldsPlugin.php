@@ -5,7 +5,9 @@ namespace MicroweberPackages\Filament\Plugins;
 use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Forms\Components\Field;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\TextInput;
 use Filament\Panel;
 
 class FilamentTranslatableFieldsPlugin implements Plugin
@@ -54,49 +56,21 @@ class FilamentTranslatableFieldsPlugin implements Plugin
     {
         $supportedLocales = $this->getSupportedLocales();
 
-        Field::macro('translatable', function (bool $translatable = true, ?array $customLocales = null, ?array $localeSpecificRules = null) use ($supportedLocales) {
-            if (! $translatable) {
+        Field::macro('mwTranslatableOption', function ($optionKey, $optionGroup) use ($supportedLocales) {
+
+            if (empty($supportedLocales)) {
                 return $this;
             }
 
-            /**
-             * @var Field $field
-             * @var Field $this
-             */
-            $field = $this->getClone();
+            $textInput = TextInput::make('options.' . $optionGroup . '[' . $optionKey . ']')
+                ->view('filament-forms::components.text-input-option-translatable',[
+                    'optionKey' => $optionKey,
+                    'optionGroup' => $optionGroup,
+                    'supportedLocales' => $supportedLocales,
+                ]);
 
-            $tabs = collect($customLocales ?? $supportedLocales)
-                ->map(function ($label, $key) use ($field, $localeSpecificRules) {
-                    $locale = is_string($key) ? $key : $label;
-
-                    $clone = $field
-                        ->getClone()
-                        ->name("{$field->getName()}.{$locale}")
-                        ->label($field->getLabel()." ({$locale})")
-                        ->statePath("{$field->getStatePath(false)}[{$locale}]")
-                    ;
-
-                    if ($localeSpecificRules && isset($localeSpecificRules[$locale])) {
-                        $clone->rules($localeSpecificRules[$locale]);
-                    }
-
-                    // Workaround to add required styling to specific locales without using the required() method
-                    if (in_array('required', $clone->getValidationRules())) {
-                        $clone->required();
-                    }
-
-                    return Tabs\Tab::make($locale)
-                        ->label(is_string($key) ? $label : strtoupper($locale))
-                        ->schema([
-                            $clone
-                        ]);
-                })
-                ->toArray();
-
-            $tabsField = Tabs::make('translations')
-                ->tabs($tabs);
-
-            return $tabsField;
+            return $textInput;
         });
+
     }
 }
