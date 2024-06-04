@@ -7,6 +7,7 @@ use Filament\Contracts\Plugin;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
 
@@ -58,14 +59,36 @@ class FilamentTranslatableFieldsPlugin implements Plugin
                 return $this;
             }
 
-            $textInput = TextInput::make($this->getName())
-                ->live()
-                ->debounce(800)
-                ->view('filament-forms::components.text-input-option-translatable',[
-                    'supportedLanguages' => $supportedLanguages,
-                ]);
+            if (class_basename($this) == 'TextInput') {
 
-            return $textInput;
+                $textInput = TextInput::make($this->getName())
+                    ->live()
+                    ->helperText($this->getHelperText())
+                    ->placeholder($this->getPlaceholder())
+                    ->debounce(800)
+                    ->view('filament-forms::components.text-input-option-translatable', [
+                        'supportedLanguages' => $supportedLanguages,
+                    ]);
+
+                return $textInput;
+            }
+            if (class_basename($this) == 'Textarea') {
+
+                $textarea = Textarea::make($this->getName())
+                    ->live()
+                    ->helperText($this->getHelperText())
+                    ->placeholder($this->getPlaceholder())
+                    ->debounce(800)
+                    ->view('filament-forms::components.textarea-option-translatable', [
+                        'supportedLanguages' => $supportedLanguages
+                    ]);
+
+                return $textarea;
+            }
+
+         //   dd('Unsupported field type: ' . class_basename($this));
+
+            return $this;
         });
 
     }
