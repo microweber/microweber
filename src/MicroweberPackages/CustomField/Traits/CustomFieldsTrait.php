@@ -140,8 +140,8 @@ trait CustomFieldsTrait
 
     public function scopeWhereCustomField($query, $whereArr)
     {
-        foreach ($whereArr as $fieldName => $fieldValue) {
-            $query->where('rel_type', $this->getMorphClass());
+         foreach ($whereArr as $fieldName => $fieldValue) {
+
             $query->whereHas('customField', function ($query) use ($whereArr, $fieldName, $fieldValue) {
 
                 $query->where('name_key', \Str::slug($fieldName, '-'))->whereHas('fieldValue', function ($query) use ($fieldValue) {

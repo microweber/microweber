@@ -19,7 +19,7 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-#[RunTestsInSeparateProcesses] 
+#[RunTestsInSeparateProcesses]
 
 class ImportExportFeedXmlTest extends TestCase
 {
