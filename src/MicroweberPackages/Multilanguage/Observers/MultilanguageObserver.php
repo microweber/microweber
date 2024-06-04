@@ -58,7 +58,8 @@ class MultilanguageObserver
                     continue;
                 }
 
-                $multilanguage[$this->getDefaultLocale()][$fieldName] = $model->$fieldName;
+                $multilanguage[$this->getDefaultLocale()][$fieldName] = $model->getOriginal($fieldName);
+
 
                 if ($findTranslations !== null) {
 
@@ -84,6 +85,7 @@ class MultilanguageObserver
             }*/
 
        // $model->multilanguage = $multilanguage;
+
         $model->multilanguage_translatons = $multilanguage;
         $model->makeHidden(['multilanguage', 'translatable','multilanguage_translatons']);
     }
