@@ -3,17 +3,8 @@
 namespace MicroweberPackages\ContentData\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\ContentData\Traits\ContentDataTrait;
-use Illuminate\Database\Eloquent\Model;
 
 
-class TestModel extends Model
-{
-    use ContentDataTrait;
-
-    protected $table = 'content';
-
-}
 
 
 class CustomModelContentDataTest extends TestCase

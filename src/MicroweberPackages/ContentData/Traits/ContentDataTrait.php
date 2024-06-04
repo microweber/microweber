@@ -70,7 +70,7 @@ trait ContentDataTrait
 
     public function contentData()
     {
-        return $this->morphMany(ContentData::class, 'rel');
+        return $this->morphMany(ContentData::class, 'rel')->where('rel_type', $this->getMorphClass());
     }
 
     /**
