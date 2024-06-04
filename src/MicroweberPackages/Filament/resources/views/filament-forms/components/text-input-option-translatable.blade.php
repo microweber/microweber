@@ -51,7 +51,7 @@
                         'autocomplete' => $getAutocomplete(),
                         'autofocus' => $isAutofocused(),
                         'disabled' => $isDisabled,
-                        'id' => $id . '[' . $supportedLocale.']',
+                        'id' => $id . '.' . $supportedLocale.'',
                         'inlinePrefix' => $isPrefixInline && (count($prefixActions) || $prefixIcon || filled($prefixLabel)),
                         'inlineSuffix' => $isSuffixInline && (count($suffixActions) || $suffixIcon || filled($suffixLabel)),
                         'inputmode' => $getInputMode(),
@@ -65,7 +65,7 @@
                         'required' => $isRequired() && (! $isConcealed),
                         'step' => $getStep(),
                         'type' => blank($mask) ? $getType() : 'text',
-                        $applyStateBindingModifiers('wire:model') => $statePath . '[' . $supportedLocale.']',
+                        $applyStateBindingModifiers('wire:model') => $statePath . '.' . $supportedLocale.'',
                         'x-data' => (count($extraAlpineAttributes) || filled($mask)) ? '{}' : null,
                         'x-mask' . ($mask instanceof \Filament\Support\RawJs ? ':dynamic' : '') => filled($mask) ? $mask : null,
                     ], escape: false)
