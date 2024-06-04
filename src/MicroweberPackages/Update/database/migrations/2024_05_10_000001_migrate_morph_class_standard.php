@@ -22,7 +22,7 @@ class MigrateMorphClassStandard extends Migration
             'categories',
             'comments',
             'mail_subscribers',
-            'multilanguage_translations',
+         //   'multilanguage_translations',
             'rating'
         ];
 

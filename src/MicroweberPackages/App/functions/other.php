@@ -973,7 +973,6 @@ function show_help($section = 'main')
 }
 
 
-
 function get_date_format()
 {
     return mw()->format->get_date_format();
@@ -994,4 +993,13 @@ function get_date_db_format($str_date)
 {
     return mw()->format->get_date_db_format($str_date);
 
+}
+
+if(!function_exists('get_class_protected_property_value')){
+    function get_class_protected_property_value($obj, $prop)
+    {
+        $refl = new ReflectionClass($obj);
+        $reflBar = $refl->getProperty($prop);
+        return $reflBar->getValue($obj);
+    }
 }

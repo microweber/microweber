@@ -189,7 +189,7 @@ trait HasMultilanguageTrait
     public function translations()
     {
         return $this->hasMany(MultilanguageTranslations::class, 'rel_id')
-            ->where('rel_type', $this->getMorphClass());
+            ->where('rel_type', $this->getTable());
     }
 
     public function getTranslationsFormated()
@@ -235,7 +235,7 @@ trait HasMultilanguageTrait
             foreach ($this->_addMultilanguage as $fieldName => $field) {
                 foreach ($field as $fieldLocale => $fieldValue) {
 
-                    if ($fieldLocale == $defaultLocale) {
+                    if ($fieldLocale == '' or $fieldLocale == $defaultLocale) {
                         // skip saving default locale , its saved in the model
                         continue;
                     }

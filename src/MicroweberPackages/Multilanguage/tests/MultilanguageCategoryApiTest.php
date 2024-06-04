@@ -37,7 +37,7 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
 
         $saveMultilanguage = [];
         foreach ($activeLanguages as $language) {
-            $timeRand = time() . rand(111, 999);
+            $timeRand = time() . rand(111, 9991).uniqid();
             $saveMultilanguage['title'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
             $saveMultilanguage['url'][$language['locale']] = $language['id'] . $timeRand;
             $saveMultilanguage['description'][$language['locale']] = $language['locale'] . $language['id'] . $timeRand;
