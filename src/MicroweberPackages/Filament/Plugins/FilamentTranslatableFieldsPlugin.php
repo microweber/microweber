@@ -63,6 +63,7 @@ class FilamentTranslatableFieldsPlugin implements Plugin
             }
 
             $textInput = TextInput::make('options.' . $optionGroup . '[' . $optionKey . ']')
+                ->live()
                 ->view('filament-forms::components.text-input-option-translatable',[
                     'optionKey' => $optionKey,
                     'optionGroup' => $optionGroup,
