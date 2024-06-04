@@ -52,7 +52,14 @@ class UserLivewireComponentsAccessTest extends TestCase
         $this->actingAsAdmin();
 
         foreach ($this->componentsList as $component) {
-            Livewire::test($component)->assertOk();
+
+            try {
+                Livewire::test($component)->assertOk();
+                $this->assertTrue(true, 'Component access success ' . $component);
+
+            } catch (\Exception $e) {
+                $this->assertTrue(false, 'Component access error ' . $component . ' ' . $e->getMessage());
+            }
         }
 
     }
@@ -73,7 +80,18 @@ class UserLivewireComponentsAccessTest extends TestCase
 
         $this->actingAsUser();
         foreach ($this->componentsList as $component) {
-             Livewire::test($component)->assertUnauthorized();
+
+
+            try {
+                Livewire::test($component)->assertUnauthorized();
+                $this->assertTrue(true, 'Component access success ' . $component);
+
+            } catch (\Exception $e) {
+                // continue;
+                $this->assertTrue(false, 'Component access error ' . $component . ' ' . $e->getMessage());
+            }
+
+
         }
      }
 }
