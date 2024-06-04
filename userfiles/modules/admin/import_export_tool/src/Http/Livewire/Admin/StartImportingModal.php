@@ -63,7 +63,7 @@ class StartImportingModal extends AdminModalComponent
             return array("success"=>"Done! All steps are finished.");
         }
 
-        $this->dispatchBrowserEvent('nextStepCompleted', []);
+        $this->dispatch('nextStepCompleted', []);
 
         return [];
     }

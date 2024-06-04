@@ -16,7 +16,7 @@ class AdminMwTopDialogIframeComponent extends AdminComponent
             abort(401, 'Unauthorized action.');
         }
 
-        parent::__construct($id);
+
 
     }
 

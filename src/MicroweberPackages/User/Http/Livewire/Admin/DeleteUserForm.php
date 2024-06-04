@@ -36,7 +36,7 @@ class DeleteUserForm extends AdminComponent
     {
         $this->password = '';
 
-        $this->dispatchBrowserEvent('confirming-delete-user');
+        $this->dispatch('confirming-delete-user');
 
         $this->confirmingUserDeletion = true;
     }

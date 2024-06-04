@@ -1,10 +1,9 @@
-<?php
-
-if(!isset($comment) or !$comment) {
-    return;
-}
-?>
 <div class="card shadow-sm mb-4 bg-silver comments-card" x-data="{showReplyForm: false}">
+
+    @if(!isset($comment) or !$comment)
+        <div class="card-status-start bg-primary">Comment not found</div>
+    @else
+
 
     @if($comment->isPending())
         <div class="card-status-start bg-primary"></div>
@@ -187,5 +186,9 @@ if(!isset($comment) or !$comment) {
 
         </div>
     </div>
+
+
+
+    @endif
 </div>
 

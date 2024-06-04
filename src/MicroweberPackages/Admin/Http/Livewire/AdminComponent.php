@@ -25,7 +25,7 @@ class AdminComponent extends Component
 
 //    public function dispatchGlobalBrowserEvent($event, $data = null)
 //    {
-//        $this->dispatchBrowserEvent('dispatch-global-browser-event', [
+//        $this->dispatch('dispatch-global-browser-event', [
 //            'event' => $event,
 //            'data' => $data
 //        ]);

@@ -12,7 +12,7 @@
     }
 
 @endphp
-
+<div>
 <div class="form-control-live-edit-label-wrapper"
      x-data="{openOptions:false}"
     x-on:click.away="openOptions = false"
@@ -62,4 +62,5 @@
         @endphp
         <x-microweber-ui::select :options="$selectOptions" />
     </div>
+</div>
 </div>
