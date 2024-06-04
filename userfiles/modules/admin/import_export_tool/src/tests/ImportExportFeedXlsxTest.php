@@ -15,10 +15,9 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @runTestsInSeparateProcesses
- */
+#[RunTestsInSeparateProcesses]
 class ImportExportFeedXlsxTest extends TestCase
 {
 

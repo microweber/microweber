@@ -3,9 +3,9 @@
 namespace MicroweberPackages\Core\tests;
 
 
-/**
- * @runTestsInSeparateProcesses
- */
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+
+#[RunTestsInSeparateProcesses]
 class TestArtisanCommand extends TestCase
 {
     public function testIfArtisanCommandReturnErrors()

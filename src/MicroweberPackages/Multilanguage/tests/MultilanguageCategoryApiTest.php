@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-
+#[RunTestsInSeparateProcesses]
 class MultilanguageCategoryApiTest extends MultilanguageTestBase
 {
 

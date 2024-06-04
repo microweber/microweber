@@ -6,15 +6,15 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Assert as PHPUnit;
-/**
- * @runTestsInSeparateProcesses
- */
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+
+#[RunTestsInSeparateProcesses]
 class ModuleListTest extends TestCase
 {
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[RunInSeparateProcess]
+    #[PreserveGlobalState(false)]
     private function testModuleIndex()
     {
         ob_start();
@@ -50,10 +50,8 @@ class ModuleListTest extends TestCase
     }
 
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testModuleAdmin()
     {
         ob_start();
@@ -92,10 +90,8 @@ class ModuleListTest extends TestCase
         ob_get_clean();
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testLoadFromModuleManager()
     {
         ob_start();

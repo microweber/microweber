@@ -6,18 +6,17 @@ namespace MicroweberPackages\Template\tests;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @runTestsInSeparateProcesses
- */
+#[RunTestsInSeparateProcesses]
 class LegacyConstantsTest extends TestCase
 {
 
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testConstantsAreDefined()
     {
         $this->setPreserveGlobalState(false);
