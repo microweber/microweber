@@ -321,6 +321,8 @@ if (!function_exists('get_supported_languages')) {
         if ($only_active) {
             $getSupportedLocalesQuery->where('is_active', 'y');
         }
+        $getSupportedLocalesQuery->where('locale', '!=', '');
+        $getSupportedLocalesQuery->whereNotNull('locale');
         $getSupportedLocalesQuery->orderBy('position', 'asc');
 
         $getLanguages = $getSupportedLocalesQuery->get();
