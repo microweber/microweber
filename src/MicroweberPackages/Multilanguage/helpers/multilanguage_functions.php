@@ -307,6 +307,7 @@ if (!function_exists('get_supported_languages')) {
             foreach ($languages as &$language) {
                 $getSupportedLocale = get_supported_locale_by_id($language['id']);
                  $language['icon'] = get_flag_icon($language['locale']);
+                 $language['iconUrl'] = get_flag_icon_url($language['locale']);
                 if (empty($language['display_name'])) {
                     $language['language'] = \MicroweberPackages\Translation\LanguageHelper::getDisplayLanguage($language['locale']);
                 }

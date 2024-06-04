@@ -5,8 +5,10 @@ namespace MicroweberPackages\Multilanguage;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\SpatieLaravelTranslatablePlugin;
+use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Vite;
 use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
 
@@ -36,10 +38,25 @@ class MultilanguageFilamentPlugin implements Plugin
 
     public function boot(Panel $panel): void
     {
+
+        FilamentAsset::register([
+            Js::make('mw-filament-translatable', Vite::asset('src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js')),
+        ]);
+
+        $flagIconsMap = [];
+        $supportedLocales = get_supported_languages();
+        foreach($supportedLocales as $locale) {
+            $flagIconsMap[$locale['locale']] = $locale['iconUrl'];
+        }
+
+        $multilanguageSharedData = [
+            'translationLocale' => current_lang(),
+            'supportedLocales' => $supportedLocales,
+            'flagIcons' => $flagIconsMap,
+        ];
+
         FilamentAsset::registerScriptData([
-            'multilanguage' => [
-                'currentLanguage' => current_lang(),
-            ],
+            'multilanguage' => $multilanguageSharedData,
         ]);
     }
 
