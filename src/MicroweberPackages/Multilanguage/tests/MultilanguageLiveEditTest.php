@@ -6,16 +6,15 @@ use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @runTestsInSeparateProcesses
- */
+#[RunTestsInSeparateProcesses]
 class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);

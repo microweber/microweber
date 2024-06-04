@@ -5,6 +5,7 @@ use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
 use MicroweberPackages\Post\Models\Post;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 
 /**
@@ -12,9 +13,7 @@ use MicroweberPackages\Post\Models\Post;
  * @author Bobi Microweber
  * @command php phpunit.phar --filter ImportTest
  */
-/**
- * @runTestsInSeparateProcesses
- */
+#[RunTestsInSeparateProcesses]
 class ImportTest extends TestCase
 {
 

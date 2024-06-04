@@ -4,15 +4,14 @@ namespace Tests\Browser\LiveEdit;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditModuleAdd;
 use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
 
-/**
- * @runTestsInSeparateProcesses
- */
+#[RunTestsInSeparateProcesses]
 class LiveEditTest extends DuskTestCase
 {
 

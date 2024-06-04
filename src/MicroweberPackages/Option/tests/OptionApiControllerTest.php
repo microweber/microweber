@@ -5,9 +5,9 @@ namespace MicroweberPackages\Option\tests;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
-/**
- * @runTestsInSeparateProcesses
- */
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+
+#[RunTestsInSeparateProcesses]
 class OptionApiControllerTest extends TestCase
 {
     public function testSaveOption()

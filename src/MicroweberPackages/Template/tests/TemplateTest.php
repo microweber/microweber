@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 class TemplateTest extends TestCase
 {
@@ -140,10 +142,8 @@ class TemplateTest extends TestCase
 
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testTemplateNameAndDirVars()
     {
         $template_name = $this->template_name;
@@ -162,10 +162,8 @@ class TemplateTest extends TestCase
 
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testTemplateNameAndDirVarsForContent()
     {
         $templateName = 'my-test-template';
@@ -292,10 +290,8 @@ class TemplateTest extends TestCase
     }
 
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testTemplateGetLayoutFile()
     {
         $templateName =  $this->template_name;

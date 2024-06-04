@@ -9,18 +9,17 @@ use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Install\DbInstaller;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-/**
- * @runTestsInSeparateProcesses
- */
+#[RunTestsInSeparateProcesses]
 class TemplateServiceProviderBootTest extends TestCase
 {
     public $template_name = 'big';
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[PreserveGlobalState(false)]
+    #[RunInSeparateProcess]
     public function testTemplateServiceProviderIsLoaded()
     {
 
