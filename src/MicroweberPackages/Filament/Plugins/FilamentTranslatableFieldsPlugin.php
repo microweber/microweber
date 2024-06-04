@@ -56,17 +56,15 @@ class FilamentTranslatableFieldsPlugin implements Plugin
     {
         $supportedLocales = $this->getSupportedLocales();
 
-        Field::macro('mwTranslatableOption', function ($optionKey, $optionGroup) use ($supportedLocales) {
+        Field::macro('mwTranslatableOption', function () use ($supportedLocales) {
 
             if (empty($supportedLocales)) {
                 return $this;
             }
 
-            $textInput = TextInput::make('options.' . $optionGroup . '[' . $optionKey . ']')
+            $textInput = TextInput::make($this->getName())
                 ->live()
                 ->view('filament-forms::components.text-input-option-translatable',[
-                    'optionKey' => $optionKey,
-                    'optionGroup' => $optionGroup,
                     'supportedLocales' => $supportedLocales,
                 ]);
 

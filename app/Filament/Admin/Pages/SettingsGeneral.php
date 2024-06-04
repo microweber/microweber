@@ -12,7 +12,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
+use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
+use MicroweberPackages\Option\TranslateTables\TranslateOption;
 use function Clue\StreamFilter\fun;
 
 class SettingsGeneral extends SettingsPageDefault
@@ -27,9 +30,8 @@ class SettingsGeneral extends SettingsPageDefault
     protected static string $description = 'Make basic settings for your website.';
     protected static ?string $navigationGroup = 'Website Settings';
 
-    public $options = [
-        'website'=>[]
-    ];
+    public $options = [];
+    public $translatableOptions = [];
 
     public function updatedOptions()
     {
@@ -38,18 +40,13 @@ class SettingsGeneral extends SettingsPageDefault
             return;
         }
 
-        foreach ($formState['options'] as $key => $value) {
-
-            $parseKey = explode('[', $key);
-            $optionGroup = $parseKey[0];
-            $optionKey = str_replace(']', '', $parseKey[1]);
-
-            if (empty($optionGroup) || empty($optionKey) || empty($parseKey)) {
+        foreach ($formState['options'] as $optionGroup => $options) {
+            if (empty($options)) {
                 continue;
             }
-
-            save_option($optionKey, $value, $optionGroup);
-
+            foreach ($options as $optionKey => $optionValue) {
+                save_option($optionKey, $optionValue, $optionGroup);
+            }
         }
 
         Notification::make()
@@ -58,6 +55,27 @@ class SettingsGeneral extends SettingsPageDefault
             ->send();
 
     }
+
+    public function updatedTranslatableOptions()
+    {
+        $formState = $this->form->getState();
+        if (empty($formState['translatableOptions'])) {
+            return;
+        }
+
+        foreach ($formState['translatableOptions'] as $optionGroup => $options) {
+            if (empty($options)) {
+                continue;
+            }
+            foreach ($options as $optionKey => $optionValueLanguages) {
+                foreach($optionValueLanguages as $optionValueLang=>$optionValue) {
+                    
+                }
+            }
+        }
+
+    }
+
     public function mount()
     {
         $getOptions = Option::whereIn('option_group', [
@@ -66,7 +84,19 @@ class SettingsGeneral extends SettingsPageDefault
 
         if ($getOptions) {
             foreach ($getOptions as $option) {
-                $this->options[$option->option_group . '['.$option->option_key.']'] = $option->option_value;
+                $this->options[$option->option_group][$option->option_key] = $option->option_value;
+            }
+        }
+        $getTranslatableOptions = ModuleOption::whereIn('option_group', [
+            'website',
+        ])->get();
+        if ($getTranslatableOptions) {
+            foreach ($getTranslatableOptions as $option) {
+                if (!empty($option->multilanguage_translatons)) {
+                    foreach($option->multilanguage_translatons as $translationLocale=>$translationField) {
+                        $this->translatableOptions[$option->option_group][$option->option_key][$translationLocale] = $translationField['option_value'];
+                    }
+                }
             }
         }
 
@@ -83,36 +113,26 @@ class SettingsGeneral extends SettingsPageDefault
                     ->description(' Fill in the fields for maximum results when finding your website in search engines.')
                     ->schema([
 
-                        TextInput::make('Website Name')
+                        TextInput::make('translatableOptions.website.website_title')
+                            ->label('Website Name')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.')
                             ->placeholder('Enter your website name')
-                            ->mwTranslatableOption('website_title', 'website'),
+                            ->mwTranslatableOption(),
 
-                        Textarea::make('Website Description')
+                        Textarea::make('translatableOptions.website.website_description')
+                            ->label('Website Description')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its description is one of them.')
                             ->placeholder('Enter your website description')
-                            ->mwTranslatableOption('website_description', 'website'),
+                            ->mwTranslatableOption(),
 
-                        TextInput::make('Website Keywords')
+                        TextInput::make('translatableOptions.website.website_keywords')
+                            ->label('Website Keywords')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its keywords are one of them.')
                             ->placeholder('Enter your website keywords')
-                            ->mwTranslatableOption('website_keywords', 'website'),
+                            ->mwTranslatableOption(),
 
 
-
-//                        Textarea::make('options.website[website_description]')
-//                            ->live()
-//                            ->label('Website Description')
-//                            ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its description is one of them.')
-//                            ->placeholder('Enter your website description'),
-//
-//                        TextInput::make('options.website[website_keywords]')
-//                            ->live()
-//                            ->label('Website Keywords')
-//                            ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its keywords are one of them.')
-//                            ->placeholder('Enter your website keywords'),
-
-                        Select::make('options.website[permalink_structure]')
+                        Select::make('options.website.permalink_structure')
                             ->label('Permalink Structure')
                             ->live()
                             ->options([
