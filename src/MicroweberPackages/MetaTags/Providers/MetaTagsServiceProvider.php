@@ -31,6 +31,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->requires([
                 'core_css',
                 'core',
+                'livewire',
                 'custom_user_css',
                 'custom_user_meta_tags',
             ]);
@@ -41,10 +42,20 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                'core_css',
                 'admin_default_css_and_js',
                 'core',
+                'livewire',
                 'admin_custom_css_and_js',
             ]);
-
         });
+        PackageManager::create('filament', function (Package $package) {
+            $package->requires([
+                'admin_web_app_manifest',
+                'core',
+                 'admin_custom_css_and_js',
+            ]);
+        });
+
+
+
         PackageManager::create('core_css', function (Package $package) {
             $package->addTag(
                 'system_default_css_head_tags',
@@ -65,6 +76,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'apijs',
                 new \MicroweberPackages\MetaTags\Entities\ApijsScriptTag()
             );
+
+        });
+
+        PackageManager::create('livewire', function (Package $package) {
             $package->addTag(
                 'live_wire_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\LivewireHeadTags()
@@ -140,6 +155,13 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'admin_default_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\SystemDefaultAdminCssHeadTags()
             );
+            $package->addTag(
+                'admin_web_app_manifest',
+                new \MicroweberPackages\MetaTags\Entities\AdminWebAppManifestTags()
+            );
+        });
+
+        PackageManager::create('admin_web_app_manifest', function (Package $package) {
             $package->addTag(
                 'admin_web_app_manifest',
                 new \MicroweberPackages\MetaTags\Entities\AdminWebAppManifestTags()
