@@ -28,6 +28,7 @@ use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
+use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
 
@@ -107,19 +108,9 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(new MicroweberTheme());
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
+        $panel->plugin(new MultilanguageFilamentPlugin());
 
-        // TODO
-        $defaultLocales = [];
-        $getSupportedLocales = DB::table('multilanguage_supported_locales')
-            ->where('is_active', 'y')->get();
-        if ($getSupportedLocales->count() > 0) {
-            foreach ($getSupportedLocales as $locale) {
-                $defaultLocales[] = $locale->locale;
-            }
-        }
-        $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
-        $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
-        $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLocales($defaultLocales));
+
 
         return $panel;
     }
