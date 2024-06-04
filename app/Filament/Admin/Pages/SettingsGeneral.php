@@ -68,11 +68,25 @@ class SettingsGeneral extends SettingsPageDefault
                 continue;
             }
             foreach ($options as $optionKey => $optionValueLanguages) {
+                if (empty($optionValueLanguages)) {
+                    continue;
+                }
                 foreach($optionValueLanguages as $optionValueLang=>$optionValue) {
-                    
+                    save_option([
+                        'option_key'=>$optionKey,
+                        'option_value'=>$optionValue,
+                        'option_group'=>$optionGroup,
+                        'lang'=>$optionValueLang,
+                        'module'=>'settings/group/website'
+                    ]);
                 }
             }
         }
+
+        Notification::make()
+            ->title('Settings Updated')
+            ->success()
+            ->send();
 
     }
 

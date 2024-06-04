@@ -64,6 +64,7 @@ class FilamentTranslatableFieldsPlugin implements Plugin
 
             $textInput = TextInput::make($this->getName())
                 ->live()
+                ->debounce(800)
                 ->view('filament-forms::components.text-input-option-translatable',[
                     'supportedLocales' => $supportedLocales,
                 ]);
