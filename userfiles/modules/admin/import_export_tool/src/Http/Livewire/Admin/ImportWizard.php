@@ -49,7 +49,7 @@ class ImportWizard extends AdminComponent
 
         if ($tab == 'upload') {
             if ($this->import_feed['source_type'] == 'upload_file') {
-                $this->dispatchBrowserEvent('initJsUploader');
+                $this->dispatch('initJsUploader');
             }
         }
     }
@@ -82,7 +82,7 @@ class ImportWizard extends AdminComponent
 
         if ($feed->downloadFeed($sourceUrl)) {
             session()->flash('successMessage', 'Feed is downloaded successfully.');
-            $this->dispatchBrowserEvent('read-feed-from-file');
+            $this->dispatch('read-feed-from-file');
         } else {
             session()->flash('errorMessage', 'Feed can\'t be downloaded.');
         }
@@ -163,7 +163,7 @@ class ImportWizard extends AdminComponent
         $feed->last_downloaded_date = Carbon::now();
         $feed->save();
 
-        $this->dispatchBrowserEvent('read-feed-from-file');
+        $this->dispatch('read-feed-from-file');
         session()->flash('successMessage', 'Feed is uploaded successfully.');
 
     }
@@ -198,7 +198,7 @@ class ImportWizard extends AdminComponent
         if ($feed) {
 
             if ($this->import_feed['source_type'] == 'upload_file') {
-                $this->dispatchBrowserEvent('initJsUploader');
+                $this->dispatch('initJsUploader');
             }
 
             $feed->primary_key = $this->import_feed['primary_key'];

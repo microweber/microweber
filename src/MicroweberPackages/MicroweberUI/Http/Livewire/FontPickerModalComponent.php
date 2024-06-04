@@ -11,7 +11,7 @@ use MicroweberPackages\Utils\Misc\GoogleFonts;
 class FontPickerModalComponent extends ModalComponent
 {
     use WithPagination;
-
+    public array $numberOfPaginatorsRendered;
     public $modalSettings = [
         'skin'=>'black',
         'size'=>'large',
@@ -94,7 +94,7 @@ class FontPickerModalComponent extends ModalComponent
 
         save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
 
-        $this->dispatchBrowserEvent('fontAddedToFavorites',[
+        $this->dispatch('fontAddedToFavorites',[
             'fontFamily' => $fontFamily
         ]);
 
@@ -158,7 +158,7 @@ class FontPickerModalComponent extends ModalComponent
 
         $fonts = $this->paginate($filteredFonts, 10);
 
-        $this->dispatchBrowserEvent('font-picker-load-fonts',[
+        $this->dispatch('font-picker-load-fonts',[
             'fonts' => $fonts->items()
         ]);
 

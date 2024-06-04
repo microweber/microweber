@@ -9,6 +9,8 @@ class LayoutsPreviewAllComponent extends ModuleSettingsComponent
 {
     use WithPagination;
 
+    public $page = 1;
+
     public $listeners = [
       'layoutsPreviewAllFilter'=>'$refresh'
     ];

@@ -22,7 +22,7 @@ class AdminModalComponent extends ModalComponent
             abort(401, 'Unauthorized action.');
         }
 
-        parent::__construct($id);
+       // parent::__construct($id);
 
     }
 }

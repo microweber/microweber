@@ -24,7 +24,7 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
         ]);
 
         $this->closeModal();
-        $this->dispatchBrowserEvent('customFieldAdded');
+        $this->dispatch('customFieldAdded');
 
         $showEditModal = true;
         if ($findExisting->type == 'address') {
@@ -65,7 +65,7 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
         }
 
         $this->closeModal();
-        $this->dispatchBrowserEvent('customFieldAdded');
+        $this->dispatch('customFieldAdded');
 
         if ($showEditModal) {
             $this->dispatch('openMwTopDialogIframe', 'custom-field-edit-modal', [

@@ -19,7 +19,7 @@ class AdminCommentReplyComponent extends UserCommentReplyComponent
             abort(401, 'Unauthorized action.');
         }
 
-        parent::__construct($id);
+
 
     }
 }
