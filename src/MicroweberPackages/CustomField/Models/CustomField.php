@@ -46,7 +46,8 @@ class CustomField extends Model
 
     public function fieldValue()
     {
-        return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')->orderBy('position');
+        return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')
+            ->orderBy('position');
     }
 
     public function fieldValueText()
@@ -62,6 +63,7 @@ class CustomField extends Model
     public function fieldValuePrice()
     {
         return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')
+
             ->where('type','price')
             ->orderBy('position');
     }

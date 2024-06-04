@@ -99,7 +99,9 @@ trait CustomFieldsTrait
 
     public function getCustomFieldValueByType($type)
     {
-        $getCustomField = $this->customField()->where('type', $type)->orderBy('position', 'asc')->limit(1)->with('fieldValue')->first();
+        $getCustomField = $this->customField()->where('type', $type)
+            ->orderBy('position', 'asc')->limit(1)
+            ->with('fieldValue')->first();
         if ($getCustomField !== null) {
             $fieldValue = $getCustomField->fieldValue->first();
             if ($fieldValue !== null) {
@@ -118,7 +120,8 @@ trait CustomFieldsTrait
             'custom_field_id',
             'id',
             'id'
-        )->where('custom_fields.type', '=', 'price');
+        )->where('custom_fields.type', '=', 'price')
+            ->where('custom_fields.rel_type', $this->getMorphClass());
 
     }
 
@@ -131,13 +134,16 @@ trait CustomFieldsTrait
             'custom_field_id',
             'id',
             'id'
-        );
+        )->where('rel_type', $this->getMorphClass());
+
     }
 
     public function scopeWhereCustomField($query, $whereArr)
     {
         foreach ($whereArr as $fieldName => $fieldValue) {
+            $query->where('rel_type', $this->getMorphClass());
             $query->whereHas('customField', function ($query) use ($whereArr, $fieldName, $fieldValue) {
+
                 $query->where('name_key', \Str::slug($fieldName, '-'))->whereHas('fieldValue', function ($query) use ($fieldValue) {
                     if (is_array($fieldValue)) {
                         $query->whereIn('value', $fieldValue);
@@ -167,7 +173,9 @@ trait CustomFieldsTrait
 
     public function customField()
     {
-        return $this->morphMany(CustomField::class, 'rel')->orderBy('position','asc');
+        return $this->morphMany(CustomField::class, 'rel' , 'rel_type', 'rel_id')
+            ->where('custom_fields.rel_type', $this->getMorphClass())
+            ->orderBy('position','asc');
     }
 
 }
