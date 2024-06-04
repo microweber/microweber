@@ -331,8 +331,8 @@ trait HasMultilanguageTrait
     public function getTranslation(string $key, string $locale, bool $useFallbackLocale = true): mixed
     {
       //  $translation = $this->getOriginal($key);
-        $translation = parent::getAttributeValue($key);
-        //$translation = $this->getOriginal($key);
+      //  $translation = parent::getAttributeValue($key);
+        $translation = $this->getOriginal($key);
 //@todo possible bug on multilanguage with $this->getOriginal($key);, chaged to parent::getAttributeValue($key);
 
 

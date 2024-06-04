@@ -9,10 +9,7 @@ use DB;
 
 class TagsTest extends TestCase
 {
-    /**
-     * @group tags
-     * Tests the tags
-     */
+
     public function testModel(){
         mw()->database_manager->extended_save_set_permission(true);
         $has_permission = mw()->database_manager->extended_save_has_permission();
@@ -208,9 +205,5 @@ class TagsTest extends TestCase
 
 
     }
-
-
-
-
 
 }

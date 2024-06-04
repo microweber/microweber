@@ -8,7 +8,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-#[RunTestsInSeparateProcesses]
+
 class MultilanguageCategoryApiTest extends MultilanguageTestBase
 {
 

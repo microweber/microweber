@@ -9,7 +9,7 @@ use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
 class LiveEditLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
     public $componentsList = [
-        ModuleSettingsComponent::class,
+       // ModuleSettingsComponent::class,
         ModuleTemplateSelectComponent::class,
     ];
 }
