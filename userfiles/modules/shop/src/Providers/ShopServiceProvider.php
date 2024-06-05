@@ -26,6 +26,9 @@ class ShopServiceProvider extends PackageServiceProvider
 
      //   ModuleAdmin::registerSettings('shop', 'microweber-module-shop::settings');
 
+        ModuleAdmin::registerLiveEditSettingsUrl('shop', site_url('admin-live-edit/shop-settings'));
+
+
     }
 
 }
