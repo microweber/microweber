@@ -16,6 +16,7 @@ use Filament\Tables\TablesServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
+use MicroweberPackages\Admin\Providers\Filament\FilamentLiveEditPanelProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\BladeUI\Providers\BladeUIServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
@@ -220,6 +221,7 @@ class MicroweberServiceProvider extends ServiceProvider
         if (mw_is_installed()) {
             $this->app->register(FilamentServiceProvider::class);
             $this->app->register(FilamentAdminPanelProvider::class);
+            $this->app->register(FilamentLiveEditPanelProvider::class);
         }
 
     }

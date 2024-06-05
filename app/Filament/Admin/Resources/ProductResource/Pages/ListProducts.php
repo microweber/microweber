@@ -14,7 +14,10 @@ class ListProducts extends ListRecords
 
     public function getLayout(): string
     {
-        return static::$layout ?? 'filament-panels::components.layout.live-edit';
+        if (filament()->getCurrentPanel()->getId() == 'admin-live-edit') {
+            return 'filament-panels::components.layout.live-edit';
+        }
+        return parent::getLayout();
     }
 
     protected static string $resource = ProductResource::class;

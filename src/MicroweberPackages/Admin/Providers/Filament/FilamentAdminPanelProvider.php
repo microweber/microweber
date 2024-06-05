@@ -35,14 +35,39 @@ use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
 
 class FilamentAdminPanelProvider extends PanelProvider
 {
+
+    public string $filamentId = 'admin';
+    public string $filamentPath = 'aaaaaaaa';
+
+    public function getPanelPages(): array
+    {
+        return [];
+    }
+
+    public function getPanelMiddlewares(): array
+    {
+        return [
+            //  EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            AuthenticateSession::class,
+            ShareErrorsFromSession::class,
+            VerifyCsrfToken::class,
+            SubstituteBindings::class,
+            DisableBladeIconComponents::class,
+            DispatchServingFilamentEvent::class,
+
+        ];
+    }
+
     public function panel(Panel $panel): Panel
     {
         $panel
 
              // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
-            ->id('admin')
-            ->path('aaaaaaaa')
+            ->id($this->filamentId)
+            ->path($this->filamentPath)
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
@@ -61,10 +86,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 in: app_path('Filament/Admin/Resources'),
                 for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
-            ->pages([
-                //  Pages\Dashboard::class,
-                LogoSettings::class,
-            ])
+            ->pages($this->getPanelPages())
             ->discoverWidgets(
                 in: app_path('Filament/Admin/Widgets'),
                 for: 'App\\Filament\\Admin\\Widgets'
@@ -74,17 +96,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 //  Widgets\FilamentInfoWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
-            ->middleware([
-                //  EncryptCookies::class,
-                AddQueuedCookiesToResponse::class,
-                StartSession::class,
-                AuthenticateSession::class,
-                ShareErrorsFromSession::class,
-                VerifyCsrfToken::class,
-                SubstituteBindings::class,
-                DisableBladeIconComponents::class,
-                DispatchServingFilamentEvent::class,
-            ])
+            ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')
             ->authMiddleware([
                 //  Authenticate::class,
