@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\Modules\Logo\Http\Livewire;
 
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -28,8 +31,24 @@ class LogoSettingsComponent extends Page
     {
         return $form
             ->schema([
-                TextInput::make('logo'),
-                Textarea::make('description'),
+
+                Tabs::make('Options')
+                    ->tabs([
+                        Tabs\Tab::make('Image')
+                            ->schema([
+                                FileUpload::make('options.logo.attachment'),
+                                TextInput::make('options.logo.title')
+                            ]),
+                        Tabs\Tab::make('Text')
+                            ->schema([
+                                TextInput::make('options.logo.text')
+                                    ->label('Logo Text')
+                                    ->helperText('This logo text will appear when image not applied'),
+                                ColorPicker::make('options.logo.text_color')
+                                    ->rgba()
+                            ]),
+                    ]),
+
             ]);
     }
 
