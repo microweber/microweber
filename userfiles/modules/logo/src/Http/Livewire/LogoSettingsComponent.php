@@ -2,22 +2,35 @@
 
 namespace MicroweberPackages\Modules\Logo\Http\Livewire;
 
-use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Pages\Page;
 
-class LogoSettingsComponent extends ModuleSettingsComponent
+class LogoSettingsComponent extends Page
 {
+    protected static bool $showTopBar = false;
+    protected static bool $shouldRegisterNavigation = false;
 
-    public $showModal = false;
-    public $showDialogModal = false;
-    public $areYouSureModal = false;
-
-    public function render()
+    public static function showTopBar(): bool
     {
-        return view('microweber-module-logo::livewire.settings');
+        return self::$showTopBar;
     }
 
-    public function showActionMessage()
+    public function getLayout(): string
     {
-        $this->dispatch('showActionMessage', message: 'This is a message from Example UI module');
+        return static::$layout ?? 'filament-panels::components.layout.live-edit';
     }
+
+    protected static string $view = 'microweber-module-logo::livewire.settings';
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('logo'),
+                Textarea::make('description'),
+            ]);
+    }
+
 }

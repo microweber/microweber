@@ -6,12 +6,16 @@
 
 <x-filament-panels::layout.base :livewire="$livewire">
 
-    @if (filament()->hasTopbar())
-        {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::TOPBAR_BEFORE, scopes: $livewire->getRenderHookScopes()) }}
+    @if (method_exists($livewire, 'showTopBar') && $livewire->showTopBar())
 
-        <x-filament-panels::topbar :navigation="$navigation" />
+        @if (filament()->hasTopbar())
+            {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::TOPBAR_BEFORE, scopes: $livewire->getRenderHookScopes()) }}
 
-        {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::TOPBAR_AFTER, scopes: $livewire->getRenderHookScopes()) }}
+            <x-filament-panels::topbar :navigation="$navigation" />
+
+            {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::TOPBAR_AFTER, scopes: $livewire->getRenderHookScopes()) }}
+        @endif
+
     @endif
 
     <main class="px-8">
