@@ -1,7 +1,8 @@
-<div>
+<div class="flex justify-between w-full">
     <x-filament::modal width="lg">
         <x-slot name="trigger">
             <x-filament::button
+                color="gray"
                 icon="heroicon-m-plus"
             >
                 Add
@@ -36,6 +37,15 @@
             </div>
         </x-slot>
 
-        {{-- Modal content --}}
     </x-filament::modal>
+
+    <x-filament::button
+        color="gray"
+        href="{{site_url('live-edit?editmode:y')}}"
+        tag="a"
+        icon="heroicon-m-pencil"
+    >
+        Live Edit
+    </x-filament::button>
+
 </div>
