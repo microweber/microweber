@@ -199,11 +199,13 @@ MWEditor.controllers = {
                         const target = mw.top().app.liveEdit.handles.get('element').getTarget();
 
                         mw.top().app.liveEdit.selectNode(target)
-                        mw.top().app.richTextEditor.smallEditor.hide();
+                        if(mw.top().app.richTextEditor) {
+                            mw.top().app.richTextEditor.smallEditor.hide()
+                        }
                         mw.top().app.liveEdit.play();
                         mw.top().app.liveEdit.stopTyping();
 
-                        mw.app.canvas.getDocument().querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = false);
+                        mw.app.canvas.getDocument().querySelectorAll('[contenteditable]:not(.mw-richtext)').forEach(node => node.contentEditable = false);
                         //      mw.top().app.liveEdit.handles.get('element').set(target);
                     }, 100);
                 }
@@ -448,24 +450,12 @@ MWEditor.controllers = {
                 }
             });
             el.on('mousedown touchstart',  async function (e) {
-                // if (mw.top().app && mw.top().app.canvas) {
-                //     var liveEditIframe = (mw.app.canvas.getWindow());
-                //
-                //     if (liveEditIframe && liveEditIframe.tinyMCE) {
-                //         // set by tinyMCE
-                //         var editor = liveEditIframe.tinyMCE.activeEditor;
-                //         if (editor) {
-                //             // Execute the bold command
-                //             editor.execCommand('Bold');
-                //         }
-                //         return;
-                //     }
-                //
-                // }
 
-                // api.execCommand('bold');
-                //
-                // return;
+
+
+
+
+
 
                 var sel = api.getSelection();
 

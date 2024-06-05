@@ -2,14 +2,19 @@
 
 
 
+
 if(window.self !== window.top) {
+
+
+
+
 
     mw.require('liveedit.css');
     mw.require('moveable.js');
     //mw.require('options.js');
 
 
-    //mw.lib.require('tinymce');
+     mw.lib.require('tinymce');
     mw.lib.require('jqueryui');
 
     mw.liveEditSaveService = {

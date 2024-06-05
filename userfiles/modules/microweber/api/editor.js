@@ -1,6 +1,4 @@
-
-
-
+mw.lib.require('tinymce')
 
 var EditorPredefinedControls = {
     'default': [
@@ -12,6 +10,10 @@ var EditorPredefinedControls = {
 };
 
 var MWEditor = function (options) {
+
+    return;
+
+
 
     ;(function (){
 
@@ -160,6 +162,11 @@ var MWEditor = function (options) {
 
                 }
                 aptarget.appendChild(int.element.node);
+
+
+
+
+
                 scope.interactionControls.push(int);
             }
         });
@@ -256,7 +263,7 @@ var MWEditor = function (options) {
         return this;
     }
 
-    var notEditableSelectors = scope.settings.notEditableClasses ? scope.settings.notEditableClasses.map(c => `.${c}:not([contenteditable="false"])`).join(',') : null;
+    var notEditableSelectors = scope.settings.notEditableClasses ? scope.settings.notEditableClasses.map(c => `.${c}:not([contenteditable="false"],.mw-richtext)`).join(',') : null;
     var  instance = this;
 
 
@@ -272,6 +279,8 @@ var MWEditor = function (options) {
         var eventIsActionLike = actionLikeEvents.indexOf(e.type) !== -1 ;
         var event = e.originaleEvent ? e.originaleEvent : e;
         var localTarget = event.target;
+
+
 
 
         if(localTarget ) {
@@ -715,9 +724,11 @@ var MWEditor = function (options) {
 
     this._syncTextArea = function (content) {
 
+        if(typeof content === 'undefined'){
+            content = scope.$editArea.html();
+        }
 
-
-        content = clean(content || scope.$editArea.html());
+        content = clean(content );
         if (scope.settings.isTextArea) {
             $(scope.settings.selectorNode).val(content);
             $(scope.settings.selectorNode).trigger('change');
@@ -755,6 +766,41 @@ var MWEditor = function (options) {
             if (this.area.html() === '') {
                 this.area.html('<p class="element" data-mwplaceholder="This is sample text for your page"></p>');
             }
+
+            tinymce.init({
+                target: this.area.get(0).parentNode,
+                plugins: 'table',
+                inline: false,
+                promotion: false,
+                statusbar: false,
+                menubar: 'edit insert view format table tools',
+                noneditable_class: 'module',
+                plugins: [
+                    'noneditable',
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                  ],
+                  plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste"
+                  ],
+                  toolbar: 'undo redo | blocks | ' +
+                  'bold italic forecolor backcolor | alignleft aligncenter ' +
+                  'alignright alignjustify | fontfamily fontsizeinput | bullist numlist outdent indent | ' +
+                  'removeformat ',
+                init_instance_callback: (editor) => {
+                    editor.on('Change Undo Redo', (e) => {
+                      console.log( e);
+                      console.log( tinymce.activeEditor.getContent() );
+
+                      //this._syncTextArea(tinymce.activeEditor.getContent())
+                      this.registerChange(tinymce.activeEditor.getContent())
+                    });
+                  }
+
+              });
         }, 100);
         this.area.get(0).contentEditable = true;
 

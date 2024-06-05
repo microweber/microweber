@@ -143,6 +143,9 @@ export const EditorComponent = function () {
 
 
     frame.contentWindow.document.body.addEventListener('beforeinput', e => {
+        if(!liveEditor || !liveEditor.api) {
+            return;
+        }
         let sel = liveEditor.api.getSelection();
         let focusNode = mw.top().app.richTextEditorAPI.elementNode(sel.focusNode);
         var isModification = /* e.inputType.includes('insert') || */ e.inputType.includes('delete');
@@ -182,16 +185,22 @@ export const EditorComponent = function () {
 
 
     holder.innerHTML = '';
-    holder.appendChild(liveEditor.wrapper);
-
-
-    var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
-    if (typeof memPin === 'undefined' && typeof liveEditor.smallEditorApi !== 'undefined') {
-        liveEditor.smallEditorApi.pin();
+    if(liveEditor && liveEditor.wrapper) {
+        holder.appendChild(liveEditor.wrapper);
     }
-    mw.app.register('richTextEditor', liveEditor);
 
-    mw.app.register('richTextEditorAPI', liveEditor.api);
+
+    if(liveEditor && liveEditor.storage) {
+        var memPin = liveEditor.storage.get(liveEditor.settings.id + '-small-editor-pinned');
+        if (typeof memPin === 'undefined' && typeof liveEditor.smallEditorApi !== 'undefined') {
+            liveEditor.smallEditorApi.pin();
+        }
+        mw.app.register('richTextEditor', liveEditor);
+
+        mw.app.register('richTextEditorAPI', liveEditor.api);
+    }
+
+
 };
 
 

@@ -203,7 +203,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             const prev = elementHandle.getPreviousTarget();
             if(prev) {
                 const target = mw.tools.firstParentOrCurrentWithAnyOfClasses(prev, ['edit', 'safe-mode']);
-                if(lastPrevTarget !== target) {
+                if(lastPrevTarget !== target && mw.top().app.richTextEditorAPI) {
                     mw.top().app.richTextEditorAPI.normalize(target);
                     lastPrevTarget = target;
                 }
@@ -252,7 +252,10 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             scope.handles.set('layout', null);
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
-            mw.top().app.richTextEditor.smallEditor.hide()
+            if(mw.top().app.richTextEditor) {
+                mw.top().app.richTextEditor.smallEditor.hide()
+            }
+
             mw.app.liveEdit.play();
 
             //mw.app.domTreeSelect(target)
@@ -344,7 +347,10 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             scope.handles.get('layout').hide();
             scope.handles.get('element').hide();
             scope.handles.get('interactionHandle').hide();
-            mw.top().app.richTextEditor.smallEditor.hide()
+            if(mw.top().app.richTextEditor) {
+                mw.top().app.richTextEditor.smallEditor.hide()
+            }
+
             mw.app.liveEdit.play();
 
             //mw.app.domTreeSelect(node)
@@ -574,7 +580,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => {
 
-            node.contentEditable = false
+            //node.contentEditable = false
         });
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
 
@@ -1037,10 +1043,13 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             } else if (selected &&  selected === _dblclicktarget) {
                 if(!selected.isContentEditable) {
                     setTimeout(()=>{
-                        var sel = mw.top().app.richTextEditorAPI.getSelection();
-                        if(sel && sel.rangeCount > 0) {
-                            sel.collapseToStart();
+                        if(mw.top().app.richTextEditorAPI) {
+                            var sel = mw.top().app.richTextEditorAPI.getSelection();
+                            if(sel && sel.rangeCount > 0) {
+                                sel.collapseToStart();
+                            }
                         }
+
                     }, 20);
                 }
                 mw.app.editor.dispatch('editNodeRequest', selected);
