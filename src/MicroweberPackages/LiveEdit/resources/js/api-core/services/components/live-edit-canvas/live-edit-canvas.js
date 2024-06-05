@@ -78,6 +78,7 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
 
     #canvas = null;
 
+    sameUrlDialog = false;
 
 
 
@@ -132,7 +133,7 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
         }
 
 
-        if(this.isUrlOpened(url)) {
+        if(this.isUrlOpened(url) && this.sameUrlDialog) {
 
             const action = await mw.app.pageAlreadyOpened.handle(url);
 
@@ -276,18 +277,13 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
         target.appendChild(liveEditIframe);
 
 
-        window.addEventListener('unload', () => {
-            this.#unregisterCurrentURL();
-
-        });
+        window.addEventListener('unload', () =>  this.#unregisterCurrentURL());
+        window.addEventListener('pagehide', () =>  this.#unregisterCurrentURL());
         window.onbeforeunload = () => {
-            if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw
-           && liveEditIframe.contentWindow.mw.askusertostay){
-
-
-               return true;
-           }
-           this.#unregisterCurrentURL();
+            if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw && liveEditIframe.contentWindow.mw.askusertostay){
+                return true;
+            }
+            this.#unregisterCurrentURL();
          };
 
 
