@@ -69,13 +69,16 @@ mw.app = new MWUniversalContainer();
     };
 
 
+    let sameUrlDialog = false;
+
+
     const handleSameUrl = async () => {
         let url = mw.top().app.canvas.getUrl();
 
         const isLiveEdit = !!mw.top().app.canvas && mw.top().app.canvas.getWindow() && (self === top || self.frameElement.id === 'live-editor-frame');
 
 
-        if(isLiveEdit) {
+        if(isLiveEdit && sameUrlDialog) {
             if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(url) && mw.top().app.canvas.isUrlSame(url)  ) {
 
 
