@@ -17,6 +17,6 @@ abstract class LiveEditSettingsPageDefault extends SettingsPageDefault
         return static::$layout ?? 'filament-panels::components.layout.live-edit';
     }
 
-    protected static string $view = 'microweber-module-logo::livewire.settings';
+    protected static string $view = 'filament-panels::components.layout.simple-form';
 
 }
