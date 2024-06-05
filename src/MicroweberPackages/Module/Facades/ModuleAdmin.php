@@ -23,6 +23,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|null getSkinSettings(string $moduleName, string $skinName)
  * @method static string|null getSettingsComponent(string $moduleName)
  * @method static string|null getSkinSettingsComponent(string $moduleName, string $skinName)
+ * @method static string|null registerLiveEditSettingsUrl(string $moduleName, string $url)
+ * @method static string|null getLiveEditSettingsUrl(string $moduleName)
+ * @method static array|null getLiveEditSettingsUrls()
  * @see \MicroweberPackages\Module\ModuleAdminManager
  */
 class ModuleAdmin extends Facade

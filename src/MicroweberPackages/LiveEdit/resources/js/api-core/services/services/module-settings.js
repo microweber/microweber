@@ -113,13 +113,21 @@ export class ModuleSettings extends MicroweberBaseClass {
         }
 
         var moduleTypeOrig = moduleType;
+        var moduleSettingsUrl = null;
+        if(typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+            if (typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+                moduleSettingsUrl = mw.settings.liveEditModuleSettingsUrls[moduleType];
+            }
+        }
         moduleType = moduleType + '/admin';
 
         attrsForSettings.id = moduleId;
         attrsForSettings.type = moduleType;
 
 
-        let modal = this.openSettingsModal(attrsForSettings, moduleId, modalTitle);
+
+
+        let modal = this.openSettingsModal(attrsForSettings, moduleId, modalTitle,moduleSettingsUrl);
 
 
 
@@ -184,7 +192,7 @@ export class ModuleSettings extends MicroweberBaseClass {
     }
 
 
-    openSettingsModal(attrsForSettings, moduleId, modalTitle) {
+    openSettingsModal(attrsForSettings, moduleId, modalTitle,settingsUrl) {
 
         // // hide handles
         // if(mw.top && mw.top().app.liveEdit.handles){
@@ -201,8 +209,12 @@ export class ModuleSettings extends MicroweberBaseClass {
         attrsForSettings.iframe = true;
         attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
+        if(!settingsUrl){
+            settingsUrl = route('live_edit.module_settings');
+        }
 
-        var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+        var src = settingsUrl + "?" + json2url(attrsForSettings);
 
 
         let dialogSettings = {

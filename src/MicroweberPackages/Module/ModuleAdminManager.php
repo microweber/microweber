@@ -1,8 +1,10 @@
 <?php
+
 namespace MicroweberPackages\Module;
 
 
 use Livewire\Livewire;
+
 class ModuleAdminManager
 {
     /**
@@ -28,7 +30,7 @@ class ModuleAdminManager
     public function registerSettingsComponent($moduleName, $componentName)
     {
         $this->settingsComponent[$moduleName] = $componentName;
-        $livewireComponentName = 'microweber-module-'.$moduleName.'::settings';
+        $livewireComponentName = 'microweber-module-' . $moduleName . '::settings';
 
         Livewire::component($livewireComponentName, $componentName);
     }
@@ -46,7 +48,7 @@ class ModuleAdminManager
             $this->skinSettingsComponent[$moduleName] = [];
         }
         $this->skinSettingsComponent[$moduleName][$skinName] = $componentName;
-        $livewireComponentName ='microweber-module-'.$moduleName.'::template-settings-'.$skinName;
+        $livewireComponentName = 'microweber-module-' . $moduleName . '::template-settings-' . $skinName;
         Livewire::component($livewireComponentName, $componentName);
 
 
@@ -82,10 +84,13 @@ class ModuleAdminManager
     }
 
     public $settings = [];
+
     public function registerSettings($moduleName, $componentAlias)
     {
         $this->settings[$moduleName] = $componentAlias;
     }
+
+
     public function getSettings($moduleName)
     {
         return isset($this->settings[$moduleName])
@@ -109,5 +114,27 @@ class ModuleAdminManager
         return isset($this->skinSettings[$moduleName][$skinName])
             ? $this->skinSettings[$moduleName][$skinName]
             : null;
+    }
+
+
+
+
+    public $liveEditModuleSettingsUrls = [];
+
+    public function registerLiveEditSettingsUrl($moduleName, $url)
+    {
+        $this->liveEditModuleSettingsUrls[$moduleName] = $url;
+    }
+
+    public function getLiveEditSettingsUrl($moduleName)
+    {
+        return isset($this->liveEditModuleSettingsUrls[$moduleName])
+            ? $this->liveEditModuleSettingsUrls[$moduleName]
+            : null;
+    }
+
+    public function getLiveEditSettingsUrls()
+    {
+        return $this->liveEditModuleSettingsUrls;
     }
 }
