@@ -14,8 +14,17 @@ class LogoSettings extends LiveEditSettingsPageDefault
     public function getOptionGroups(): array
     {
         return [
-            'logo'
+            static::getOptionGroup()
         ];
+    }
+
+    public static function getOptionGroup()
+    {
+        $optionGroup = 'logo';
+        if (request()->get('id')) {
+            $optionGroup = request()->get('id');
+        }
+        return $optionGroup;
     }
 
     public function getOptionModule(): string
@@ -25,6 +34,8 @@ class LogoSettings extends LiveEditSettingsPageDefault
 
     public function form(Form $form): Form
     {
+        $optionGroup = self::getOptionGroup();
+
         return $form
             ->schema([
 
@@ -32,16 +43,16 @@ class LogoSettings extends LiveEditSettingsPageDefault
                     ->tabs([
                         Tabs\Tab::make('Image')
                             ->schema([
-                                FileUpload::make('options.logo.attachment')->live(),
-                                TextInput::make('options.logo.title')->live()
+                            //    FileUpload::make('options.'.$optionGroup.'.attachment')->live(),
+                                TextInput::make('options.'.$optionGroup.'.title')->live()
                             ]),
                         Tabs\Tab::make('Text')
                             ->schema([
-                                TextInput::make('options.logo.text')
+                                TextInput::make('options.'.$optionGroup.'.text')
                                     ->label('Logo Text')
                                     ->helperText('This logo text will appear when image not applied')
                                     ->live(),
-                                ColorPicker::make('options.logo.text_color')
+                                ColorPicker::make('options.'.$optionGroup.'.text_color')
                                     ->live()
                                     ->rgba()
                             ]),

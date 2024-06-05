@@ -1,5 +1,5 @@
 <div>
-    <div x-data="{ activeTab: 'products' }">
+    <div style="min-height:360px;" x-data="{ activeTab: 'products' }">
 
         <x-filament::tabs>
             <x-filament::tabs.item

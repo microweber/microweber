@@ -35,25 +35,48 @@ abstract class SettingsPageDefault extends Page
 
     public function updatedOptions()
     {
-        $formState = $this->form->getState();
-        if (empty($formState['options'])) {
-            return;
-        }
 
-        foreach ($formState['options'] as $optionGroup => $options) {
+        $changedOption = [];
+        foreach ($this->options as $optionGroup => $options) {
             if (empty($options)) {
                 continue;
             }
             foreach ($options as $optionKey => $optionValue) {
-                save_option($optionKey, $optionValue, $optionGroup);
+                $oldOptionValue = get_option($optionKey, $optionGroup);
+                $isChanged = false;
+                if ($oldOptionValue !== $optionValue) {
+                    $isChanged = true;
+                }
+                if ($isChanged) {
+                    $changedOption = [
+                        'isChanged' => $isChanged,
+                        'option_group' => $optionGroup,
+                        'option_key' => $optionKey,
+                        'option_value' => $optionValue,
+                        'old_option_value' => $oldOptionValue
+                    ];
+                }
             }
         }
 
-        Notification::make()
-            ->title('Settings Updated')
-            ->success()
-            ->send();
+        if (empty($changedOption)) {
+            return;
+        }
 
+        save_option([
+            'option_key'=>$changedOption['option_key'],
+            'option_value'=>$changedOption['option_value'],
+            'option_group'=>$changedOption['option_group'],
+        //    'module'=>static::getOptionModule()
+        ]);
+
+       // if (filament()->getCurrentPanel()->getId() !== 'admin-live-edit') {
+            Notification::make()
+                ->title('Settings Updated')
+                ->body('Settings: ' . $changedOption['option_key'])
+                ->success()
+                ->send();
+       // }
     }
 
     public function updatedTranslatableOptions()
