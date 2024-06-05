@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Admin\Providers\Filament;
 
 use MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings;
+use MicroweberPackages\Modules\Shop\Http\Livewire\ShopSettings;
 
 class FilamentLiveEditPanelProvider extends FilamentAdminPanelProvider
 {
@@ -14,6 +15,7 @@ class FilamentLiveEditPanelProvider extends FilamentAdminPanelProvider
         return [
             //  Pages\Dashboard::class,
             LogoSettings::class,
+            ShopSettings::class
         ];
     }
 

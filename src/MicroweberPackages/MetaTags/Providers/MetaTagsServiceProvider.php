@@ -49,7 +49,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
         PackageManager::create('filament', function (Package $package) {
             $package->requires([
                 'admin_web_app_manifest',
-                'core',
+//                'core',
                  'admin_custom_css_and_js',
             ]);
         });

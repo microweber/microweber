@@ -3,17 +3,14 @@
 namespace MicroweberPackages\Modules\Logo\Http\Livewire;
 
 use App\Filament\Admin\Pages\Abstract\LiveEditSettingsPageDefault;
-use App\Filament\Admin\Pages\Abstract\SettingsPageDefault;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 
 class LogoSettings extends LiveEditSettingsPageDefault
 {
-
     public function getOptionGroups(): array
     {
         return [
