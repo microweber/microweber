@@ -27,7 +27,7 @@ use MicroweberPackages\Admin\Http\Middleware\Admin;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
-use MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettingsComponent;
+use MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings;
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
@@ -63,7 +63,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->pages([
                 //  Pages\Dashboard::class,
-                LogoSettingsComponent::class,
+                LogoSettings::class,
             ])
             ->discoverWidgets(
                 in: app_path('Filament/Admin/Widgets'),

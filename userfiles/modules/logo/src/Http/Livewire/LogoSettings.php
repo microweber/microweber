@@ -10,7 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 
-class LogoSettingsComponent extends Page
+class LogoSettings extends Page
 {
     protected static bool $showTopBar = false;
     protected static bool $shouldRegisterNavigation = false;
