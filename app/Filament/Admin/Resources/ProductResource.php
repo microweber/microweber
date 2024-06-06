@@ -290,6 +290,7 @@ class ProductResource extends Resource
 
         return [
             ImageUrlColumn::make('media_url')
+                ->height(83)
                 ->imageUrl(function (Product $product) {
                     return $product->mediaUrl();
                 }),
@@ -318,6 +319,7 @@ class ProductResource extends Resource
             Tables\Columns\Layout\Split::make([
 
                 ImageUrlColumn::make('media_url')
+                    ->height(83)
                     ->imageUrl(function (Product $product) {
                         return $product->mediaUrl();
                     }),
@@ -330,6 +332,13 @@ class ProductResource extends Resource
                         ->columnSpanFull()
                         ->weight(FontWeight::Bold),
 
+                    Tables\Columns\TextColumn::make('title')
+                        ->searchable()
+                        ->columnSpanFull(),
+
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->searchable()
+                        ->columnSpanFull(),
 
                 ]),
 
