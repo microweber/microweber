@@ -372,7 +372,8 @@ code:			'123456'
 
                            var itemCookiePolicy = item.querySelector('input[name=cookies_policy]');
                            var showLiveChatMessage = item.querySelector('input[name=showLiveChatMessage]');
-                           var unsetDefault = item.querySelector('input[name=unsetDefault]');var panelTogglePosition1 = item.querySelector('#panelTogglePosition1');
+                           var unsetDefault = item.querySelector('input[name=unsetDefault]');
+                           var panelTogglePosition1 = item.querySelector('#panelTogglePosition1');
                            var panelTogglePosition2 = item.querySelector('#panelTogglePosition2');
                            var panelTogglePosition3 = item.querySelector('#panelTogglePosition3');
                            var panelTogglePosition = panelTogglePosition1.checked?'left':panelTogglePosition2.checked?'center':panelTogglePosition3.checked?'right':'left';
