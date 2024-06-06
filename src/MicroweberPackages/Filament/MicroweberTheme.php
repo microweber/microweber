@@ -73,6 +73,11 @@ class MicroweberTheme implements Plugin
 //                //Js::make('example-external-script', 'external.js'),
 //                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
 //            ]);
+//
+/// //            FilamentAsset::register([
+//                //Js::make('example-external-script', 'external.js'),
+//                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
+//            ]);
         });
     }
 

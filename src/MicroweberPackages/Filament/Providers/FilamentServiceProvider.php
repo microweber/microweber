@@ -90,6 +90,8 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
         $defaultLocales = [];
         $defaultLocaleFlags = [];
         $getSupportedLocales = DB::table('multilanguage_supported_locales')
+            ->whereNotNull('locale')
+            ->where('locale', '!=', '')
             ->where('is_active', 'y')->get();
         if ($getSupportedLocales->count() > 0) {
             foreach ($getSupportedLocales as $locale) {

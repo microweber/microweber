@@ -14,7 +14,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/filament/admin/theme.css',
-                'src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js'
+                'src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js',
+                'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-filament-app.js',
             ],
             publicDirectory: "public",
             refresh: true,
