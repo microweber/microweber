@@ -7,19 +7,16 @@ use Livewire\Livewire;
 
 class ModuleAdminManager
 {
-    /**
-     * Store settings components.
-     *
-     * @var array
-     */
-    public $settingsComponent = [];
+    public array $settings = [];
 
-    /**
-     * Store skin settings components.
-     *
-     * @var array
-     */
-    public $skinSettingsComponent = [];
+    public array $settingsComponent = [];
+
+    public array $skinSettingsComponent = [];
+
+    public array $liveEditModuleSettingsUrls = [];
+
+    public array $skinSettings = [];
+
 
     /**
      * Register a settings component for a module.
@@ -27,7 +24,7 @@ class ModuleAdminManager
      * @param string $moduleName
      * @param string $componentName
      */
-    public function registerSettingsComponent($moduleName, $componentName)
+    public function registerSettingsComponent(string $moduleName, string $componentName)
     {
         $this->settingsComponent[$moduleName] = $componentName;
         $livewireComponentName = 'microweber-module-' . $moduleName . '::settings';
@@ -42,7 +39,7 @@ class ModuleAdminManager
      * @param string $skinName
      * @param string $componentName
      */
-    public function registerSkinSettingsComponent($moduleName, $skinName, $componentName)
+    public function registerSkinSettingsComponent(string $moduleName, string $skinName, string $componentName): void
     {
         if (!isset($this->skinSettingsComponent[$moduleName])) {
             $this->skinSettingsComponent[$moduleName] = [];
@@ -61,11 +58,9 @@ class ModuleAdminManager
      *
      * @return string|null
      */
-    public function getSettingsComponent($moduleName)
+    public function getSettingsComponent(string $moduleName): ?string
     {
-        return isset($this->settingsComponent[$moduleName])
-            ? $this->settingsComponent[$moduleName]
-            : null;
+        return $this->settingsComponent[$moduleName] ?? null;
     }
 
     /**
@@ -76,16 +71,13 @@ class ModuleAdminManager
      *
      * @return string|null
      */
-    public function getSkinSettingsComponent($moduleName, $skinName)
+    public function getSkinSettingsComponent(string $moduleName, string $skinName): ?string
     {
-        return isset($this->skinSettingsComponent[$moduleName][$skinName])
-            ? $this->skinSettingsComponent[$moduleName][$skinName]
-            : null;
+        return $this->skinSettingsComponent[$moduleName][$skinName] ?? null;
     }
 
-    public $settings = [];
 
-    public function registerSettings($moduleName, $componentAlias)
+    public function registerSettings($moduleName, $componentAlias): void
     {
         $this->settings[$moduleName] = $componentAlias;
     }
@@ -93,14 +85,11 @@ class ModuleAdminManager
 
     public function getSettings($moduleName)
     {
-        return isset($this->settings[$moduleName])
-            ? $this->settings[$moduleName]
-            : null;
+        return $this->settings[$moduleName] ?? null;
     }
 
-    public $skinSettings = [];
 
-    public function registerSkinSettings($moduleName, $skinName, $componentAlias)
+    public function registerSkinSettings($moduleName, $skinName, $componentAlias): void
     {
         if (!isset($this->skinSettings[$moduleName])) {
             $this->skinSettings[$moduleName] = [];
@@ -111,29 +100,21 @@ class ModuleAdminManager
 
     public function getSkinSettings($moduleName, $skinName)
     {
-        return isset($this->skinSettings[$moduleName][$skinName])
-            ? $this->skinSettings[$moduleName][$skinName]
-            : null;
+        return $this->skinSettings[$moduleName][$skinName] ?? null;
     }
 
 
-
-
-    public $liveEditModuleSettingsUrls = [];
-
-    public function registerLiveEditSettingsUrl($moduleName, $url)
+    public function registerLiveEditSettingsUrl($moduleName, $url): void
     {
         $this->liveEditModuleSettingsUrls[$moduleName] = $url;
     }
 
     public function getLiveEditSettingsUrl($moduleName)
     {
-        return isset($this->liveEditModuleSettingsUrls[$moduleName])
-            ? $this->liveEditModuleSettingsUrls[$moduleName]
-            : null;
+        return $this->liveEditModuleSettingsUrls[$moduleName] ?? null;
     }
 
-    public function getLiveEditSettingsUrls()
+    public function getLiveEditSettingsUrls() : array
     {
         return $this->liveEditModuleSettingsUrls;
     }
