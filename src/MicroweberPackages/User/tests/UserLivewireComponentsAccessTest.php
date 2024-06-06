@@ -59,7 +59,7 @@ class UserLivewireComponentsAccessTest extends TestCase
                 $this->assertTrue(true, 'Component access success ' . $component);
 
             } catch (\Exception $e) {
-                dump($component);
+
                 $this->assertTrue(false, 'Component access error ' . $component . ' ' . $e->getMessage());
             }
         }
