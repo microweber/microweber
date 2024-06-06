@@ -16,6 +16,18 @@
 .fi-resource-list-records-page .gap-y-6:first-child  {
     @apply gap-y-0 pb-8;
 }
+.fi-ta-content {
+    @apply !divide-transparent;
+}
+.fi-ta-content .flex:first-child {
+    @apply !bg-transparent;
+}
+.fi-ta-content .grid .fi-ta-record {
+    @apply !shadow-md;
+}
+.fi-ta-content .grid {
+    @apply !px-2;
+}
 
 /*STYLE MODULES PAGE*/
 .fi-resource-modules .fi-ta-filter-indicators  {
