@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import istanbul from 'vite-plugin-istanbul';
-
+import sass from 'sass';
 export default defineConfig({
     build: {
         open: true,
@@ -12,7 +12,15 @@ export default defineConfig({
         manifest: "manifest.json"
 
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                implementation: sass,
+            }
+        }
+    },
     plugins: [
+
         vue({
             template: {
                 transformAssetUrls: {
@@ -32,6 +40,7 @@ export default defineConfig({
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-filament-app.js',
+                'src/MicroweberPackages/LiveEdit/resources/js/ui/css/admin-filament.scss',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js',
                 'src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js',
 

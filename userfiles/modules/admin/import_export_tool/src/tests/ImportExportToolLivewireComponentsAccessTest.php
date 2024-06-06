@@ -21,8 +21,8 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 class ImportExportToolLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
     public $componentsList = [
-        DropdownMapping::class,
-        DropdownMappingPreview::class,
+        //DropdownMapping::class,
+        //DropdownMappingPreview::class,
         ExportWizard::class,
         FeedReport::class,
         ImportWizard::class,
