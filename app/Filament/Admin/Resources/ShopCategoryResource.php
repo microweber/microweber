@@ -4,7 +4,6 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ShopCategoryResource\Pages;
 use App\Filament\Admin\Resources\ShopCategoryResource\RelationManagers;
-use App\Models\ShopCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,10 +11,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use MicroweberPackages\Category\Models\Category;
 
 class ShopCategoryResource extends Resource
 {
-    protected static ?string $model = ShopCategory::class;
+    protected static ?string $model = Category::class;
 
     //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
