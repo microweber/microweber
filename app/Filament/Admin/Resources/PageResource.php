@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
 
 class PageResource extends Resource
@@ -32,51 +33,91 @@ class PageResource extends Resource
             ]);
     }
 
-    public static function table(Table $table): Table
+
+    public static function getGridTableColumns(): array
     {
-        return $table
-            ->columns([
-                Tables\Columns\Layout\Split::make([
+        return [
+            Tables\Columns\Layout\Split::make([
 
-                    ImageUrlColumn::make('media_url')
-                        ->height(83)
-                        ->imageUrl(function (Product $product) {
-                            return $product->mediaUrl();
-                        }),
-
-
-                    Tables\Columns\Layout\Stack::make([
-
-                        Tables\Columns\TextColumn::make('title')
-                            ->searchable()
-                            ->columnSpanFull()
-                            ->weight(FontWeight::Bold),
-
-                        Tables\Columns\TextColumn::make('created_at')
-                            ->searchable()
-                            ->columnSpanFull(),
-
-                    ]),
+//                ImageUrlColumn::make('media_url')
+//                    ->height(83)
+//                    ->imageUrl(function (Page $page) {
+//                        return $page->mediaUrl();
+//                    }),
 
 
-                    Tables\Columns\SelectColumn::make('is_active')
-                        ->options([
-                            1 => 'Published',
-                            0 => 'Unpublished',
-                        ]),
+                Tables\Columns\Layout\Stack::make([
 
+                    Tables\Columns\TextColumn::make('title')
+                        ->searchable()
+                        ->columnSpanFull()
+                        ->weight(FontWeight::Bold),
 
                     Tables\Columns\TextColumn::make('created_at')
                         ->searchable()
                         ->columnSpanFull(),
 
-                ])
+                ]),
+
+
+                Tables\Columns\SelectColumn::make('is_active')
+                    ->options([
+                        1 => 'Published',
+                        0 => 'Unpublished',
+                    ]),
+
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->searchable()
+                    ->columnSpanFull(),
+
             ])
+        ];
+    }
+    public static function getListTableColumns(): array
+    {
+        return [
+         
+
+            Tables\Columns\TextColumn::make('title')
+                ->searchable()
+                ->columnSpanFull()
+                ->weight(FontWeight::Bold),
+
+            Tables\Columns\SelectColumn::make('is_active')
+                ->options([
+                    1 => 'Published',
+                    0 => 'Unpublished',
+                ]),
+        ];
+    }
+
+    public static function table(Table $table): Table
+    {
+        $livewire = $table->getLivewire();
+
+        return $table
+            ->deferLoading()
+            ->reorderable('position')
+            ->columns(
+                $livewire->isGridLayout()
+                    ? static::getGridTableColumns()
+                    : static::getListTableColumns()
+            )
+            ->contentGrid(
+                fn() => $livewire->isListLayout()
+                    ? null
+                    : [
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 1,
+                    ]
+            )
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+               // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
