@@ -13,7 +13,9 @@ class FilamentLiveEditPanelProvider extends FilamentAdminPanelProvider
 
     public function getPanelPages(): array
     {
-        return ModuleAdmin::getPanelPages();
+        // return ModuleAdmin::getPanelPages();
+        return ModuleAdmin::getLiveEditPanelPages();
+
 //        return [
 //            //  Pages\Dashboard::class,
 //            \MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings::class,

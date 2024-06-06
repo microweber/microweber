@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static array|null getLiveEditSettingsUrls()
  * @method static void registerPanelPage($page)
  * @method static array getPanelPages()
+ * @method static void registerLiveEditPanelPage($page)
+ * @method static array getLiveEditPanelPages()
  * @mixin \MicroweberPackages\Module\ModuleAdminManager
  */
 class ModuleAdmin extends Facade

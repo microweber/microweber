@@ -28,6 +28,7 @@ use MicroweberPackages\Admin\Http\Middleware\Admin;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings;
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
@@ -42,7 +43,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
     public function getPanelPages(): array
     {
-        return [];
+        return ModuleAdmin::getPanelPages();
     }
 
     public function getPanelMiddlewares(): array
