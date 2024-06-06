@@ -6,6 +6,7 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\MinimalTheme;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -74,10 +75,19 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->default()
             ->login()
             ->registration()
+            ->font('Inter')
             ->brandLogoHeight('34px')
             ->brandLogo(function () {
                 return site_url('userfiles/modules/microweber/api/libs/mw-ui/assets/img/logo.svg');
             })
+            ->unsavedChangesAlerts()
+            ->navigationGroups([
+                'Website' => NavigationGroup::make()
+                    ->label('Website'),
+                'Shop' => NavigationGroup::make()
+                    ->icon('mw-shop')
+                    ->label('Shop'),
+            ])
             ->sidebarWidth('15rem')
             ->colors([
                 'primary' => Color::Blue,

@@ -16,6 +16,7 @@ class KitchenSink extends Page
 
     protected static string $view = 'filament.admin.pages.kitchen-sink';
 
+    protected static ?int $navigationSort= 99;
 
     public int $star = 0;
     public int $resetStars = 0;

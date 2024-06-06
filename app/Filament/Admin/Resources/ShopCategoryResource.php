@@ -2,9 +2,9 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\CustomerResource\Pages;
-use App\Filament\Admin\Resources\CustomerResource\RelationManagers;
-use App\Models\Customer;
+use App\Filament\Admin\Resources\ShopCategoryResource\Pages;
+use App\Filament\Admin\Resources\ShopCategoryResource\RelationManagers;
+use App\Models\ShopCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,11 +13,11 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CustomerResource extends Resource
+class ShopCategoryResource extends Resource
 {
-    protected static ?string $model = \MicroweberPackages\Customer\Models\Customer::class;
+    protected static ?string $model = ShopCategory::class;
 
-   // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Shop';
 
@@ -40,7 +40,6 @@ class CustomerResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -49,10 +48,19 @@ class CustomerResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCustomers::route('/'),
+            'index' => Pages\ListShopCategories::route('/'),
+            'create' => Pages\CreateShopCategory::route('/create'),
+            'edit' => Pages\EditShopCategory::route('/{record}/edit'),
         ];
     }
 }
