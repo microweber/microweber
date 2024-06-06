@@ -16,7 +16,6 @@ class Settings extends Page
     {
         $settingsPages = [];
         $settingsPages[] = new SettingsGeneral();
-        $settingsPages[] = new SettingsUpdates();
         $settingsPages[] = new SettingsEmail();
         $settingsPages[] = new SettingsTemplate();
         $settingsPages[] = new SettingsSeo();
@@ -25,6 +24,7 @@ class Settings extends Page
         $settingsPages[] = new SettingsLoginRegister();
         $settingsPages[] = new SettingsLanguage();
         $settingsPages[] = new SettingsPrivacyPolicy();
+        $settingsPages[] = new SettingsUpdates();
 
         $settingsPages[] = new SettingsShopGeneral();
         $settingsPages[] = new SettingsShopShipping();
