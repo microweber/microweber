@@ -21,6 +21,9 @@
  * @category    options internal api
  * @version 1.0
  */
+if(typeof mw === 'undefined') {
+    window.mw = {};
+}
 mw.options = {
     saveOption: function (o, c, err) {
         if (typeof o !== 'object') {

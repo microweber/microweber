@@ -12,7 +12,7 @@ class AdminFilamentJsScriptTag implements TagInterface, \Stringable
     {
         $apijs_combined_loaded = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/admin-filament-app.js');
         $append_html = '' . "\r\n";
-        $append_html .= '<script src="' . $apijs_combined_loaded . '" id="mw-filament-js-core-scripts"></script>' . "\r\n";
+        $append_html .= '<script src="' . $apijs_combined_loaded . '" type="module" id="mw-filament-js-core-scripts"></script>' . "\r\n";
 
         return $append_html;
     }

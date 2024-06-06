@@ -50,7 +50,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->requires([
                 'admin_web_app_manifest',
                 'admin_filament_js',
-              //    'core',
+               //   'core',
                  'admin_custom_css_and_js',
             ]);
         });

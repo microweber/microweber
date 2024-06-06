@@ -21,9 +21,10 @@ import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas";
 import { SingleFilePickerComponent } from './services/single-file-picker-component.js';
 import { MWBroadcast } from './services/broadcast.js';
 import { MWDocumentFocus } from './services/document.focus.service.js';
-import { da } from 'vuetify/locale';
 import { MWPageAlreadyOpened } from './components/live-edit/page-already-opened.service.js';
-
+if(typeof mw === 'undefined') {
+    window.mw = {};
+}
 mw.app = new MWUniversalContainer();
 
 

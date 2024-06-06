@@ -7,6 +7,13 @@ export class MWBroadcast extends BaseComponent {
 
         this.max = 0;
 
+        if(typeof mw === 'undefined') {
+            return;
+        }
+        if(typeof mw.top !== 'function') {
+            return;
+        }
+
         if(! mw.top().MWBroadcastIdentity) {
             mw.top().MWBroadcastIdentity = mw.id();
         }

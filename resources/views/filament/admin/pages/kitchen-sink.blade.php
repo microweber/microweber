@@ -1,5 +1,8 @@
 <x-filament-panels::page>
 
+    {{$this->form}}
+
+
     <h1>
         Modal
     </h1>

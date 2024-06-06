@@ -2,6 +2,17 @@ export class MWPageAlreadyOpened {
 
     constructor() {
 
+
+
+        if(typeof mw === 'undefined') {
+            return;
+        }
+        if(typeof mw.top !== 'function') {
+            return;
+        }
+
+
+
         mw.top().app.broadcast.on('refreshFocusedPage', data => {
             if(!data.url ) {
                 return;
