@@ -1,7 +1,7 @@
 
-mw.require('widgets.css');
-mw.require('form-controls.js');
-mw.lib.require('xss');
+
+
+
 
 
     mw.LinkEditor = function(options) {

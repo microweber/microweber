@@ -1,5 +1,5 @@
 
-mw.require('autocomplete.js');
+
 
 
 mw.IconClassResolver = function ($for) {

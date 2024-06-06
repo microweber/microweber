@@ -7,7 +7,7 @@ services:
 #      - ./:/app
 #    command: composer install
   php-apache:
-    image: thecodingmachine/php:8.1-v4-apache-node16
+    image: thecodingmachine/php:8.2-v4-apache-node16
     ports:
       - 80:80
     volumes:
