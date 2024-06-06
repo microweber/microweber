@@ -83,6 +83,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->unsavedChangesAlerts()
             ->navigationGroups([
                 'Website' => NavigationGroup::make()
+                    ->icon('mw-website')
                     ->label('Website'),
                 'Shop' => NavigationGroup::make()
                     ->icon('mw-shop')
