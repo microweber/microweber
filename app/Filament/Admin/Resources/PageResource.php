@@ -4,14 +4,17 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\PageResource\Pages;
 use App\Filament\Admin\Resources\PageResource\RelationManagers;
-use App\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
+use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Product\Models\Product;
 
 class PageResource extends Resource
 {
@@ -33,7 +36,41 @@ class PageResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\Layout\Split::make([
+
+                    ImageUrlColumn::make('media_url')
+                        ->height(83)
+                        ->imageUrl(function (Product $product) {
+                            return $product->mediaUrl();
+                        }),
+
+
+                    Tables\Columns\Layout\Stack::make([
+
+                        Tables\Columns\TextColumn::make('title')
+                            ->searchable()
+                            ->columnSpanFull()
+                            ->weight(FontWeight::Bold),
+
+                        Tables\Columns\TextColumn::make('created_at')
+                            ->searchable()
+                            ->columnSpanFull(),
+
+                    ]),
+
+
+                    Tables\Columns\SelectColumn::make('is_active')
+                        ->options([
+                            1 => 'Published',
+                            0 => 'Unpublished',
+                        ]),
+
+
+                    Tables\Columns\TextColumn::make('created_at')
+                        ->searchable()
+                        ->columnSpanFull(),
+
+                ])
             ])
             ->filters([
                 //
