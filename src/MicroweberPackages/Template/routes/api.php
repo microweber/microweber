@@ -4,7 +4,7 @@
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
-use \Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
 
 Route::name('api.template.')
