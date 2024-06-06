@@ -75,7 +75,22 @@ class PostResource extends Resource
     public static function getListTableColumns(): array
     {
         return [
-            //
+            ImageUrlColumn::make('media_url')
+                ->height(83)
+                ->imageUrl(function (Post $post) {
+                    return $post->mediaUrl();
+                }),
+
+            Tables\Columns\TextColumn::make('title')
+                ->searchable()
+                ->columnSpanFull()
+                ->weight(FontWeight::Bold),
+
+            Tables\Columns\SelectColumn::make('is_active')
+                ->options([
+                    1 => 'Published',
+                    0 => 'Unpublished',
+                ]),
         ];
     }
     public static function table(Table $table): Table
@@ -83,7 +98,7 @@ class PostResource extends Resource
         $livewire = $table->getLivewire();
 
         return $table
-            ->deferLoading()
+           // ->deferLoading()
             ->reorderable('position')
             ->columns(
                 $livewire->isGridLayout()

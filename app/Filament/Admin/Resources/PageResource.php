@@ -77,7 +77,18 @@ class PageResource extends Resource
     public static function getListTableColumns(): array
     {
         return [
-            //
+         
+
+            Tables\Columns\TextColumn::make('title')
+                ->searchable()
+                ->columnSpanFull()
+                ->weight(FontWeight::Bold),
+
+            Tables\Columns\SelectColumn::make('is_active')
+                ->options([
+                    1 => 'Published',
+                    0 => 'Unpublished',
+                ]),
         ];
     }
 
