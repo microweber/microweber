@@ -21,6 +21,7 @@ use MicroweberPackages\Config\ConfigSaveServiceProvider;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
+use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Install\MicroweberMigrator;
 use MicroweberPackages\LaravelConfigExtended\ConfigExtendedServiceProvider;
@@ -201,6 +202,7 @@ class AppServiceProvider extends ServiceProvider
         if ($is_installed) {
             load_all_service_providers_for_modules();
         }
+        $this->app->register(MicroweberFilamentServiceProvider::class);
 
 
 
@@ -436,7 +438,6 @@ class AppServiceProvider extends ServiceProvider
             }
 
         //    load_all_functions_files_for_modules();
-
             load_all_service_providers_for_modules();
             load_all_functions_files_for_modules();
             load_service_providers_for_template();

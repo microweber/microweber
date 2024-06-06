@@ -5,8 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 $providers= [
-    //  \MicroweberPackages\App\Providers\AppServiceProvider::class,
-  //  \MicroweberPackages\App\Providers\AppServiceProvider::class,
+      \MicroweberPackages\App\Providers\AppServiceProvider::class,
 ];
 
 //return Application::configure(basePath: dirname(__DIR__))

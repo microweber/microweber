@@ -28,6 +28,7 @@ class ShopServiceProvider extends PackageServiceProvider
 
         ModuleAdmin::registerLiveEditSettingsUrl('shop', site_url('admin-live-edit/shop-settings'));
 
+        ModuleAdmin::registerPanelPage(\MicroweberPackages\Modules\Shop\Http\Livewire\ShopSettings::class);
 
     }
 

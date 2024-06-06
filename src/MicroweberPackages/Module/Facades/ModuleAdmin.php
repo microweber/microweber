@@ -26,7 +26,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|null registerLiveEditSettingsUrl(string $moduleName, string $url)
  * @method static string|null getLiveEditSettingsUrl(string $moduleName)
  * @method static array|null getLiveEditSettingsUrls()
- * @see \MicroweberPackages\Module\ModuleAdminManager
+ * @method static void registerPanelPage($page)
+ * @method static array getPanelPages()
+ * @mixin \MicroweberPackages\Module\ModuleAdminManager
  */
 class ModuleAdmin extends Facade
 {
@@ -35,6 +37,7 @@ class ModuleAdmin extends Facade
      * Get the registered name of the component.
      *
      * @return string
+     * @see \MicroweberPackages\Module\ModuleAdminManager
      */
     protected static function getFacadeAccessor()
     {

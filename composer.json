@@ -207,7 +207,7 @@
         },
         "laravel": {
             "dont-discover": [
-                "microweber-packages/microweber-app",
+
                 "laravel/passport",
                 "laravel/sanctum",
                 "laravel/cashier",

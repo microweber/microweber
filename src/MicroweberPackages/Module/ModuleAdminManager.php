@@ -14,6 +14,7 @@ class ModuleAdminManager
     public array $skinSettingsComponent = [];
 
     public array $liveEditModuleSettingsUrls = [];
+    public array $adminPanelPages = [];
 
     public array $skinSettings = [];
 
@@ -117,5 +118,15 @@ class ModuleAdminManager
     public function getLiveEditSettingsUrls() : array
     {
         return $this->liveEditModuleSettingsUrls;
+    }
+
+    public function registerPanelPage($page): void
+    {
+        $this->adminPanelPages[] = $page;
+    }
+
+    public function getPanelPages(): array
+    {
+        return $this->adminPanelPages;
     }
 }
