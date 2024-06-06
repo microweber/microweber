@@ -8,10 +8,5 @@ use Filament\Resources\Pages\CreateRecord;
 
 class CreateProduct extends CreateRecord
 {
-    public function getLayout(): string
-    {
-        return static::$layout ?? 'filament-panels::components.layout.live-edit';
-    }
-
     protected static string $resource = ProductResource::class;
 }
