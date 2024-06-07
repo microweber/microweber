@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
-use App\Filament\Admin\Pages\Abstract\LiveEditSettingsPageDefault;
+use App\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\FileUpload;
@@ -28,7 +28,7 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Tag\Model\Tag;
 
-class ShopSettings extends LiveEditSettingsPageDefault implements HasTable
+class ShopModuleSettings extends LiveEditModuleSettings implements HasTable
 {
     use InteractsWithTable;
 

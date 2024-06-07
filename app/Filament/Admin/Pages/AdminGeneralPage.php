@@ -2,7 +2,7 @@
 
 namespace App\Filament\Admin\Pages;
 
-use App\Filament\Admin\Pages\Abstract\SettingsPageDefault;
+use App\Filament\Admin\Pages\Abstract\AdminSettingsPage;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MultiSelect;
@@ -20,9 +20,8 @@ use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Option\TranslateTables\TranslateOption;
-use function Clue\StreamFilter\fun;
 
-class SettingsGeneral extends SettingsPageDefault
+class AdminGeneralPage extends AdminSettingsPage
 {
 
     protected static ?string $slug = 'settings/general';

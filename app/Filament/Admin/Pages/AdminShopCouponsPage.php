@@ -2,10 +2,10 @@
 
 namespace App\Filament\Admin\Pages;
 
-use App\Filament\Admin\Pages\Abstract\SettingsPageDefault;
+use App\Filament\Admin\Pages\Abstract\AdminSettingsPage;
 use Filament\Pages\Page;
 
-class SettingsShopCoupons extends SettingsPageDefault
+class AdminShopCouponsPage extends AdminSettingsPage
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
