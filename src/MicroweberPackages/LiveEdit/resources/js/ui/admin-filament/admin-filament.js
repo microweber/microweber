@@ -4,11 +4,19 @@ export class AdminFilament extends BaseComponent {
     constructor() {
         super();
 
-        this.init();
+        document.addEventListener('livewire:init', () => {
+            this.init();
+        });
+
+
+
 
     }
 
     init() {
+
+
+
 
         // listen for events from alpine and filament
     }

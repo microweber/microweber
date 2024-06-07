@@ -14,7 +14,7 @@ class AdminFilamentJsScriptTag implements TagInterface, \Stringable
         $styles = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/css/admin-filament.scss');
         $append_html = '' . "\r\n";
         $append_html .= '<script src="' . $srcipts . '" type="module" id="mw-filament-js-core-scripts"></script>' . "\r\n";
-        $append_html .= '<link rel="stylesheet" href="' . $styles . '" id="mw-filament-js-core-styles">' . "\r\n";
+        $append_html .= '<link rel="stylesheet" href="' . $styles . '" id="mw-filament-js-core-styles" />' . "\r\n";
 
         return $append_html;
     }

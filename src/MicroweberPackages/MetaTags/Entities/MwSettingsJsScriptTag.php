@@ -31,7 +31,7 @@ class MwSettingsJsScriptTag implements TagInterface, \Stringable
     public function toArray(): array
     {
         return [
-            'type' => 'apijs',
+            'type' => 'apijs-settings',
         ];
     }
 }

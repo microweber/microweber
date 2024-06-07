@@ -51,7 +51,7 @@ mw.which = function (str, arr_obj, func) {
 
 
 mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
-_Prefixtest = false;
+var _Prefixtest = false;
 mw.JSPrefix = function (property) {
     !_Prefixtest ? _Prefixtest = document.body.style : '';
     if (_Prefixtest[property] !== undefined) {
@@ -69,13 +69,13 @@ mw.JSPrefix = function (property) {
     }
 }
 if (typeof document.hidden !== "undefined") {
-    _mwdochidden = "hidden";
+    var _mwdochidden = "hidden";
 } else if (typeof document.mozHidden !== "undefined") {
-    _mwdochidden = "mozHidden";
+    var _mwdochidden = "mozHidden";
 } else if (typeof document.msHidden !== "undefined") {
-    _mwdochidden = "msHidden";
+    var  _mwdochidden = "msHidden";
 } else if (typeof document.webkitHidden !== "undefined") {
-    _mwdochidden = "webkitHidden";
+    var _mwdochidden = "webkitHidden";
 }
 document.isHidden = function () {
     if (typeof _mwdochidden !== 'undefined') {
