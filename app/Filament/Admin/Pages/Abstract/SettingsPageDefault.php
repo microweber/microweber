@@ -49,7 +49,9 @@ abstract class SettingsPageDefault extends Page
                 ];
                 save_option($optionData);
 
-                Notification::make()
+                //get the minute of the hour and add it to the notification id to make it unique
+                $noficationId = 'settings_updated' . crc32(date('i') . $optionKey.$optionGroup);
+                Notification::make($noficationId)
                     ->title('Settings Updated')
                     ->body('Settings: ' . $optionKey)
                     ->success()

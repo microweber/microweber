@@ -16,7 +16,7 @@ class KitchenSink extends Page
 
     protected static string $view = 'filament.admin.pages.kitchen-sink';
 
-    protected static ?int $navigationSort= 99;
+    protected static ?int $navigationSort = 99;
 
     public int $star = 0;
     public int $resetStars = 0;
@@ -29,8 +29,9 @@ class KitchenSink extends Page
             ->schema([
 
 
-
                 Actions::make([
+
+
                     Actions\Action::make('star')
                         ->icon('heroicon-m-star')
                         ->requiresConfirmation()
@@ -44,7 +45,7 @@ class KitchenSink extends Page
                         ->icon('heroicon-m-x-mark')
                         ->color('danger')
                         ->requiresConfirmation()
-                        ->action(function ( ) {
+                        ->action(function () {
                             Notification::make()
                                 ->title('Saved successfully')
                                 ->success()
@@ -53,23 +54,25 @@ class KitchenSink extends Page
                 ]),
 
 
-
-
-
-
-
                 Tabs::make('Test')
                     ->tabs([
                         Tabs\Tab::make('Image')
                             ->schema([
                                 TextInput::make('backgroundColor')
                                     ->type('color')
-                                    ->label('Background Color') ,
+                                    ->label('Background Color'),
                                 TextInput::make('text')
-                                     ->inputMode('decimal')
+                                    ->inputMode('decimal')
                                     ->label('Text'),
 
+                                ColorPicker::make('hsl_color')
+                                    ->hsl(),
 
+                                ColorPicker::make('rgb_color')
+                                    ->rgb(),
+
+                                ColorPicker::make('rgba_color')
+                                    ->rgba(),
 
 
                             ]),
