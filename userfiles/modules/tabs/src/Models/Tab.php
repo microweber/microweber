@@ -51,6 +51,18 @@ class Tab extends Model
             save_option('settings', json_encode($settings), $optionGroup);
         });
 
+        static::deleting(function ($model) {
+            $optionGroup = $model::$optionGroup;
+            $settings = get_option('settings', $optionGroup);
+            $settings = json_decode($settings, true);
+            if ($settings) {
+                $settings = array_filter($settings, function ($tab) use ($model) {
+                    return $tab['id'] != $model->id;
+                });
+                save_option('settings', json_encode($settings), $optionGroup);
+            }
+        });
+
         static::saving(function ($model) {
 
             $optionGroup = $model::$optionGroup;
@@ -86,14 +98,20 @@ class Tab extends Model
             if (!empty($settings) && is_array($settings)) {
                 $rows = [];
                 foreach ($settings as $tab) {
+                    $id = uniqid();
+                    if (isset($tab['id'])) {
+                        $id = $tab['id'];
+                    } else if (isset($tab['itemId'])) {
+                        $id = $tab['itemId'];
+                    }
                     $rows[] = [
-                        'id' => $tab['id'],
+                        'id' => $id,
                         'title' => $tab['title'] ?? '',
                         'icon' => $tab['icon'] ?? '',
                         'position' => $tab['position'] ?? '',
                     ];
                 }
-//                // Sort by position
+                // Sort by position
                 usort($rows, function ($a, $b) {
                     return $a['position'] <=> $b['position'];
                 });
