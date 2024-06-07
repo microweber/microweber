@@ -12,6 +12,7 @@ use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHe
 use MicroweberPackages\Template\Adapters\TemplateCssParser;
 use MicroweberPackages\Template\Adapters\TemplateCustomCss;
 use MicroweberPackages\Template\Adapters\TemplateFonts;
+use MicroweberPackages\Template\Adapters\TemplateIconFonts;
 use MicroweberPackages\Template\Adapters\TemplateLiveEditCss;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
 
@@ -50,6 +51,13 @@ class Template
      * @var  $fontsAdapter TemplateFonts
      */
     public $fontsAdapter = null;
+
+    /**
+     *
+     * @var  $iconFontsAdapter TemplateIconFonts
+     */
+
+    public $iconFontsAdapter = null;
 
 
     /**
@@ -91,8 +99,12 @@ class Template
         $this->setFontsAdapter(new TemplateFonts());
         $this->setCustomCssAdapter(new TemplateCustomCss());
         $this->setLiveEditCssAdapter(new TemplateLiveEditCss());
+        $this->setIconFontsAdapter(new TemplateIconFonts());
     }
-
+    public function setIconFontsAdapter($adapter)
+    {
+        $this->iconFontsAdapter = $adapter;
+    }
     public function setTemplateAdapter($adapter)
     {
         $this->templateAdapter = $adapter;
@@ -468,6 +480,12 @@ class Template
         return $this->admin->getAdminCssUrl();
     }
 
+
+    public function get_icon_fonts_stylesheet_url()
+    {
+        return $this->iconFontsAdapter->getIconFontsStylesheetUrl();
+    }
+
     public function clear_cached_custom_css()
     {
         $url = api_nosession_url('template/print_custom_css');
@@ -715,6 +733,7 @@ class Template
 
         $this->customCssAdapter->clearCache();
         $this->fontsAdapter->clearCache();
+        $this->iconFontsAdapter->clearCache();
 
 
     }

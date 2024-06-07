@@ -13,7 +13,6 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
         parent::register();
 
 
-
         $this->app->singleton(\MicroweberPackages\MetaTags\FrontendMetaTagsRenderer::class);
         $this->app->singleton(\MicroweberPackages\MetaTags\AdminMetaTagsRenderer::class);
 
@@ -39,7 +38,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
         PackageManager::create('admin', function (Package $package) {
             $package->requires([
-               'core_css',
+                'core_css',
                 'admin_default_css_and_js',
                 'core',
                 'livewire',
@@ -51,11 +50,11 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'mw_settings_js',
                 'admin_web_app_manifest',
                 'admin_filament_js',
-               //   'core',
-                 'admin_custom_css_and_js',
+                'mw_icon_fonts_css',
+                //   'core',
+                'admin_custom_css_and_js',
             ]);
         });
-
 
 
         PackageManager::create('core_css', function (Package $package) {
@@ -188,6 +187,16 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'mw_settings_js_scripts',
                 new \MicroweberPackages\MetaTags\Entities\MwSettingsJsScriptTag()
+            );
+        });
+        PackageManager::create('mw_icon_fonts_css', function (Package $package) {
+            $package->addTag(
+                'mw_icon_fonts_head',
+                new \MicroweberPackages\MetaTags\Entities\IconFontsHeadTag()
+            );
+            $package->addTag(
+                'mw_icon_fonts_footer',
+                new \MicroweberPackages\MetaTags\Entities\IconFontsFooterTag()
             );
         });
 
