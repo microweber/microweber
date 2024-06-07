@@ -419,7 +419,11 @@
             this.center();
             this._afterSize();
             mw.$(this).trigger('Show');
-            mw.trigger('mwDialogShow', this);
+
+            this.dialogMain.ownerDocument.documentElement.classList.add('mw-dialog-opened');
+            if(mw.top().app) {
+                mw.top().app.dispatch('mwDialogShow')
+            }
             return this;
         };
 
@@ -438,7 +442,15 @@
                     mw._iframeDetector.pause = false;
                 }
                 mw.$(this).trigger('Hide');
-                mw.trigger('mwDialogHide', this);
+
+                if(!this.dialogMain.ownerDocument.querySelector('.mw-dialog.active')) {
+                    this.dialogMain.ownerDocument.documentElement.classList.remove('mw-dialog-opened');
+                }
+
+
+                if(mw.top().app) {
+                    mw.top().app.dispatch('mwDialogHide')
+                }
             }
             return this;
         };
@@ -470,7 +482,10 @@
                 this.options.onremove()
             }
             mw.$(this).trigger('Remove');
-            mw.trigger('mwDialogRemove', this);
+
+            if(mw.top().app) {
+                mw.top().app.dispatch('mwDialogRemove')
+            }
 
             this.forceRemove()
         };
