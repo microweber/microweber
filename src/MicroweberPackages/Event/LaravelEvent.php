@@ -33,12 +33,13 @@ class LaravelEvent
             $fns = self::$hooks[$event_name];
             if (is_array($fns)) {
                 $resp = array();
-                foreach ($fns as $fn) {
+                foreach ($fns as $key=>$fn) {
                     if (is_callable($fn)) {
                         $resp[] = call_user_func($fn, $data);
                     } elseif (function_exists($fn)) {
                         $resp[] = $fn($data);
                     }
+                    unset($fns[$key]);
                 }
                 return $resp;
             }

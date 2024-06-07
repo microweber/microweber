@@ -22,7 +22,7 @@ class MigrateMorphClassStandard extends Migration
             'categories',
             'comments',
             'mail_subscribers',
-         //   'multilanguage_translations',
+            //   'multilanguage_translations',
             'rating'
         ];
 
@@ -43,6 +43,25 @@ class MigrateMorphClassStandard extends Migration
                         'rel_type' => $tableData->rel_type
                     ]);
                 }
+            }
+        }
+
+        //taggable type
+        $getTableData = \Illuminate\Support\Facades\DB::table('tagging_tagged')->get();
+        if (!empty($getTableData)) {
+            foreach ($getTableData as $tableData) {
+                if ($tableData->taggable_type == 'modules') {
+                    $tableData->taggable_type = \MicroweberPackages\Module\Models\Module::class;
+                }
+                if ($tableData->taggable_type == 'categories') {
+                    $tableData->taggable_type = \MicroweberPackages\Category\Models\Category::class;
+                }
+                if ($tableData->taggable_type == 'content') {
+                    $tableData->taggable_type = \MicroweberPackages\Content\Models\Content::class;
+                }
+                \Illuminate\Support\Facades\DB::table('tagging_tagged')->where('id', $tableData->id)->update([
+                    'taggable_type' => $tableData->taggable_type
+                ]);
             }
         }
     }
