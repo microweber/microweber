@@ -29,7 +29,7 @@ use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings;
+use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;

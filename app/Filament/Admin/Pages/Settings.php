@@ -15,26 +15,26 @@ class Settings extends Page
     public function getViewData(): array
     {
         $settingsPages = [];
-        $settingsPages[] = new SettingsGeneral();
-        $settingsPages[] = new SettingsEmail();
-        $settingsPages[] = new SettingsTemplate();
-        $settingsPages[] = new SettingsSeo();
-        $settingsPages[] = new SettingsAdvanced();
-        $settingsPages[] = new SettingsFiles();
-        $settingsPages[] = new SettingsLoginRegister();
-        $settingsPages[] = new SettingsLanguage();
-        $settingsPages[] = new SettingsPrivacyPolicy();
-        $settingsPages[] = new SettingsUpdates();
+        $settingsPages[] = new AdminGeneralPage();
+        $settingsPages[] = new AdminEmailPage();
+        $settingsPages[] = new AdminTemplatePage();
+        $settingsPages[] = new AdminSeoPage();
+        $settingsPages[] = new AdminAdvancedPage();
+        $settingsPages[] = new AdminFilesPage();
+        $settingsPages[] = new AdminLoginRegisterPage();
+        $settingsPages[] = new AdminLanguagePage();
+        $settingsPages[] = new AdminPrivacyPolicyPage();
+        $settingsPages[] = new AdminUpdatesPage();
 
-        $settingsPages[] = new SettingsShopGeneral();
-        $settingsPages[] = new SettingsShopShipping();
-        $settingsPages[] = new SettingsShopCoupons();
-        $settingsPages[] = new SettingsShopOffers();
-        $settingsPages[] = new SettingsShopPayments();
-        $settingsPages[] = new SettingsShopTaxes();
-        $settingsPages[] = new SettingsShopInvoices();
-        $settingsPages[] = new SettingsShopAutoRespondEmail();
-        $settingsPages[] = new SettingsShopOther();
+        $settingsPages[] = new AdminShopGeneral();
+        $settingsPages[] = new AdminShopShipping();
+        $settingsPages[] = new AdminShopCouponsPage();
+        $settingsPages[] = new AdminShopOffersPage();
+        $settingsPages[] = new AdminShopPaymentsPage();
+        $settingsPages[] = new AdminShopTaxesPage();
+        $settingsPages[] = new AdminShopInvoicesPage();
+        $settingsPages[] = new AdminShopAutoRespondEmailPage();
+        $settingsPages[] = new AdminShopOtherPage();
 
 
         $settingsGroups = [];
