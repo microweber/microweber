@@ -307,7 +307,7 @@ class ContentRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($contentId, $returnFullTagsData) {
 
             $query = DB::table('tagging_tagged');
-            $query->where('taggable_type', 'content');
+            $query->where('taggable_type',  morph_name(\MicroweberPackages\Content\Models\Content::class));
             if ($contentId) {
                 $query->where('taggable_id', $contentId);
             }
