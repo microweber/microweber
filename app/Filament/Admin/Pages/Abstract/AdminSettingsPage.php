@@ -60,9 +60,9 @@ abstract class AdminSettingsPage extends Page
 
     public function updated($propertyName, $value)
     {
-        $option = array_undot_str($propertyName);
-        if (isset($option['options'])) {
-            foreach ($option['options'] as $optionGroup => $optionKey) {
+        $changedField = array_undot_str($propertyName);
+        if (isset($changedField['options'])) {
+            foreach ($changedField['options'] as $optionGroup => $optionKey) {
 
                 save_option([
                     'option_key' => $optionKey,
@@ -76,49 +76,32 @@ abstract class AdminSettingsPage extends Page
 
                 Notification::make($notificationId)
                     ->title('Settings Updated')
-                    ->body('Settings: ' . $optionKey)
                     ->success()
                     ->send();
             }
         }
+        if (isset($changedField['translatableOptions'])) {
+            foreach ($changedField['translatableOptions'] as $optionGroup => $optionValueLanguages) {
+                foreach ($optionValueLanguages as $optionKey=>$optionValueLang) {
+                    save_option([
+                        'optionValueLanguages' => $optionValueLanguages,
+                        'option_key' => $optionKey,
+                        'option_value' => $value,
+                        'option_group' => $optionGroup,
+                        'lang' => $optionValueLang,
+                        'module' => 'settings/group/website'
+                    ]);
+
+                    Notification::make()
+                        ->title('Settings Updated')
+                        ->success()
+                        ->send();
+                }
+            }
+        }
+
     }
 
-
-//
-//    public function updatedTranslatableOptions()
-//    {
-//        $formState = $this->form->getState();
-//        if (empty($formState['translatableOptions'])) {
-//            return;
-//        }
-//
-//        foreach ($formState['translatableOptions'] as $optionGroup => $options) {
-//            if (empty($options)) {
-//                continue;
-//            }
-//            foreach ($options as $optionKey => $optionValueLanguages) {
-//                if (empty($optionValueLanguages)) {
-//                    continue;
-//                }
-//                foreach ($optionValueLanguages as $optionValueLang => $optionValue) {
-//                    save_option([
-//                        'option_key' => $optionKey,
-//                        'option_value' => $optionValue,
-//                        'option_group' => $optionGroup,
-//                        'lang' => $optionValueLang,
-//                        'module' => $this->getOptionModule()
-//                    ]);
-//                }
-//            }
-//        }
-//
-//        Notification::make()
-//            ->title('Settings Updated')
-//            ->success()
-//            ->send();
-//
-//
-//    }
 
 
 
