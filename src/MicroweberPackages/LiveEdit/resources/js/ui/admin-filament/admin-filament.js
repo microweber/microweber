@@ -27,21 +27,21 @@ export class AdminFilament extends BaseComponent {
         })
 
 
-        Livewire.hook('request', ({ uri, options, payload, respond, succeed, fail }) => {
-            // Runs after commit payloads are compiled, but before a network request is sent...
-
-            respond(({ status, response }) => {
-              //  this.removeLoadingClassToBody();
-            })
-
-            succeed(({ status, json }) => {
-                this.removeLoadingClassToBody();
-            })
-
-            fail(({ status, content, preventDefault }) => {
-                this.removeLoadingClassToBody();
-            })
-        })
+        // Livewire.hook('request', ({ uri, options, payload, respond, succeed, fail }) => {
+        //     // Runs after commit payloads are compiled, but before a network request is sent...
+        //
+        //     respond(({ status, response }) => {
+        //       //  this.removeLoadingClassToBody();
+        //     })
+        //
+        //     succeed(({ status, json }) => {
+        //         this.removeLoadingClassToBody();
+        //     })
+        //
+        //     fail(({ status, content, preventDefault }) => {
+        //         this.removeLoadingClassToBody();
+        //     })
+        // })
 
 
 
@@ -60,25 +60,35 @@ export class AdminFilament extends BaseComponent {
         //     })
         // })
         //
-        Livewire.hook('morph.added', ({el, component}) => {
-           // this.removeLoadingClassToBody();
-        })
-        Livewire.hook('morph.adding', () => {
-          //  this.addLoadingClassToBody();
-        })
 
-        Livewire.hook('morph.updated', ({el, component}) => {
-         //   this.removeLoadingClassToBody();
-        })
-        Livewire.hook('morph.updating', () => {
+        Livewire.hook('message.sent', (message, component) => {
             this.addLoadingClassToBody();
         })
-        Livewire.hook('morph.removed', ({el, component}) => {
-          //  this.removeLoadingClassToBody();
+
+        Livewire.hook('message.processed', (message, component) => {
+            this.removeLoadingClassToBody();
         })
-        Livewire.hook('morph.removing', () => {
-         //   this.addLoadingClassToBody();
-        })
+
+        //
+        // Livewire.hook('morph.added', ({el, component}) => {
+        //    // this.removeLoadingClassToBody();
+        // })
+        // Livewire.hook('morph.adding', () => {
+        //   //  this.addLoadingClassToBody();
+        // })
+        //
+        // Livewire.hook('morph.updated', ({el, component}) => {
+        //  //   this.removeLoadingClassToBody();
+        // })
+        // Livewire.hook('morph.updating', () => {
+        //     this.addLoadingClassToBody();
+        // })
+        // Livewire.hook('morph.removed', ({el, component}) => {
+        //   //  this.removeLoadingClassToBody();
+        // })
+        // Livewire.hook('morph.removing', () => {
+        //  //   this.addLoadingClassToBody();
+        // })
     }
 
     addLoadingClassToBody() {
@@ -91,7 +101,7 @@ export class AdminFilament extends BaseComponent {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(function () {
             document.body.classList.remove('mw-livewire-loading');
-        }, 1500);
+        }, 500);
 
     }
 
