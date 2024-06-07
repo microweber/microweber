@@ -69,11 +69,14 @@ class Tab extends Model
             }
         });
     }
-//
-//    public function getKey()
-//    {
-//        return 'id';
-//    }
+
+    public function getKey()
+    {
+        if ($this->id) {
+            return $this->id;
+        }
+        return 'id';
+    }
 
     public function getRows()
     {

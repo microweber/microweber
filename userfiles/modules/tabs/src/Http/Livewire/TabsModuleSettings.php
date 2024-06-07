@@ -104,14 +104,7 @@ class TabsModuleSettings extends LiveEditModuleSettings implements HasTable
                     }),
             ])
             ->bulkActions([
-//                ActionGroup::make([
-////                    DeleteAction::make('Delete')
-////                        ->after(function () {
-////                            $this->dispatch('mw-option-saved',
-////                                optionGroup: $this->optionGroup
-////                            );
-////                        }),
-//                ])
+
             ]);
     }
 
