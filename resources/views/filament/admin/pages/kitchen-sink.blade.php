@@ -5,22 +5,33 @@
 
     <h1>
         Modal
-        <code>
+        <pre>
             mw.dialog({
-                content: ''
+                content: 'dialog'
             })
-        </code>
+        </pre>
+
+        <x-filament::button color="gray"  @click="mw.dialog({
+                        content: 'dialog'
+                    })">
+            New user
+        </x-filament::button>
     </h1>
 
     <hr>
 
     <h1>
         File picker
-        <code>
+        <pre>
         mw.filePickerDialog( (url) => {
             console.log(url)
         });
-        </code>
+        </pre>
+        <x-filament::button color="gray"  @click="mw.filePickerDialog( (url) => {
+            console.log(url)
+        });">
+            New user
+        </x-filament::button>
     </h1>
 
     <hr>

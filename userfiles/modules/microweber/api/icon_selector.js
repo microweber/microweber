@@ -393,7 +393,7 @@
         };
 
 
-        this.settings = mw.object.extend(true, {}, defaults, options);
+        this.settings = jQuery.extend(true, {}, defaults, options);
 
         var scope = this;
         var tabAccordionBuilder = function (items) {
