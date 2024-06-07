@@ -14,7 +14,7 @@ class Tab extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['title', 'icon'];
+    protected $fillable = ['title', 'icon','position'];
 
     protected array $schema = [
         'id' => 'string',
@@ -51,7 +51,8 @@ class Tab extends Model
             save_option('settings', json_encode($settings), $optionGroup);
         });
 
-        static::updating(function ($model) {
+        static::saving(function ($model) {
+
             $optionGroup = $model::$optionGroup;
             $settings = get_option('settings', $optionGroup);
             $settings = json_decode($settings, true);
@@ -68,11 +69,11 @@ class Tab extends Model
             }
         });
     }
-
-    public function getKey()
-    {
-        return 'id';
-    }
+//
+//    public function getKey()
+//    {
+//        return 'id';
+//    }
 
     public function getRows()
     {
@@ -89,7 +90,7 @@ class Tab extends Model
                         'position' => $tab['position'] ?? '',
                     ];
                 }
-                // Sort by position
+//                // Sort by position
                 usort($rows, function ($a, $b) {
                     return $a['position'] <=> $b['position'];
                 });

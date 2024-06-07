@@ -7,7 +7,9 @@ use App\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -32,7 +34,10 @@ class TabsModuleSettings extends LiveEditModuleSettings implements HasTable
         return $table
             ->query(Tab::queryForOptionGroup($this->getOptionGroup()))
             ->columns([
-
+                TextColumn::make('position')
+                    ->searchable(),
+                TextColumn::make('id')
+                    ->searchable(),
                 TextColumn::make('title')
                     ->searchable(),
                 TextColumn::make('icon')
@@ -47,6 +52,22 @@ class TabsModuleSettings extends LiveEditModuleSettings implements HasTable
             ->filters([
                 // ...
             ])
+            ->reorderRecordsTriggerAction(function () {
+                $tableRecords = $this->getTableRecords();
+                if ($tableRecords) {
+                    foreach ($tableRecords->toArray() as $tableRecord) {
+                        if (isset($tableRecord['id'])) {
+                            $findTab = Tab::where('id', $tableRecord['id'])->first();
+                            if ($findTab) {
+                                $findTab->position = $tableRecord['position'];
+                                $findTab->save();
+                            }
+                        }
+                    }
+                }
+            })
+            ->defaultSort('position')
+            ->reorderable('position')
             ->headerActions([
                 CreateAction::make()
                     ->slideOver()
@@ -74,9 +95,23 @@ class TabsModuleSettings extends LiveEditModuleSettings implements HasTable
                             optionGroup: $this->optionGroup
                         );
                     }),
+                DeleteAction::make('Delete')
+                    ->slideOver()
+                    ->after(function () {
+                        $this->dispatch('mw-option-saved',
+                            optionGroup: $this->optionGroup
+                        );
+                    }),
             ])
             ->bulkActions([
-                // ...
+//                ActionGroup::make([
+////                    DeleteAction::make('Delete')
+////                        ->after(function () {
+////                            $this->dispatch('mw-option-saved',
+////                                optionGroup: $this->optionGroup
+////                            );
+////                        }),
+//                ])
             ]);
     }
 
