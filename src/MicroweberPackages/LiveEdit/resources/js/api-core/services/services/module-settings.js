@@ -272,6 +272,7 @@ export class ModuleSettings extends MicroweberBaseClass {
                         if (body && body.classList.contains('mw-unsaved-changes')) {
                             return true;
                         }
+
                     }
                 }
             }
@@ -289,8 +290,9 @@ export class ModuleSettings extends MicroweberBaseClass {
                     if(iframe && iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.body){
                         var body = iframe.contentWindow.document.body;
                         if (body && body.classList.contains('mw-livewire-loading')) {
-                            return false;
+                            return true;
                         }
+                        return false;
                     }
                 }
             }
