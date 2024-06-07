@@ -32,19 +32,9 @@ class ShopModuleSettings extends LiveEditModuleSettings implements HasTable
 {
     use InteractsWithTable;
 
+    public string $module = 'shop';
+
     protected static string $view = 'microweber-module-shop::admin.filament.shop-settings';
-
-    public function getOptionGroups(): array
-    {
-        return [
-            'shop'
-        ];
-    }
-
-    public function getOptionModule(): string
-    {
-        return 'shop';
-    }
 
     public function table(Table $table): Table
     {
