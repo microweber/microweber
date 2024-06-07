@@ -11,18 +11,25 @@ use Filament\Forms\Form;
 
 class LogoSettings extends LiveEditSettingsPageDefault
 {
+
+    public string $optionGroup = '';
+
     public function getOptionGroups(): array
     {
         return [
-            static::getOptionGroup()
+            $this->getOptionGroup()
         ];
     }
 
-    public static function getOptionGroup()
+    public function getOptionGroup()
     {
         $optionGroup = 'logo';
         if (request()->get('id')) {
             $optionGroup = request()->get('id');
+            $this->optionGroup = $optionGroup;
+        }
+        if ($this->optionGroup != '') {
+            $optionGroup = $this->optionGroup;
         }
         return $optionGroup;
     }
@@ -34,7 +41,9 @@ class LogoSettings extends LiveEditSettingsPageDefault
 
     public function form(Form $form): Form
     {
-        $optionGroup = self::getOptionGroup();
+        $optionGroup = $this->getOptionGroup();
+
+
 
         return $form
             ->schema([
@@ -43,16 +52,16 @@ class LogoSettings extends LiveEditSettingsPageDefault
                     ->tabs([
                         Tabs\Tab::make('Image')
                             ->schema([
-                            //    FileUpload::make('options.'.$optionGroup.'.attachment')->live(),
-                                TextInput::make('options.'.$optionGroup.'.title')->live()
+                                //    FileUpload::make('options.'.$optionGroup.'.attachment')->live(),
+                               // TextInput::make('title')->live()
                             ]),
                         Tabs\Tab::make('Text')
                             ->schema([
-                                TextInput::make('options.'.$optionGroup.'.text')
+                                TextInput::make($this->getFieldName('text', $optionGroup))
                                     ->label('Logo Text')
                                     ->helperText('This logo text will appear when image not applied')
                                     ->live(),
-                                ColorPicker::make('options.'.$optionGroup.'.text_color')
+                                ColorPicker::make( $this->getFieldName('text_color', $optionGroup))
                                     ->live()
                                     ->rgba()
                             ]),
@@ -60,5 +69,7 @@ class LogoSettings extends LiveEditSettingsPageDefault
 
             ]);
     }
+
+
 
 }
