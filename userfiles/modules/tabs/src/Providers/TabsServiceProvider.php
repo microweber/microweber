@@ -23,7 +23,7 @@ class TabsServiceProvider extends PackageServiceProvider
 //        Livewire::component('microweber-module-tabs::settings', TabsSettingsComponent::class);
 //        ModuleAdmin::registerSettings('tabs', 'microweber-module-tabs::settings');
 
-        ModuleAdmin::registerLiveEditSettingsUrl('tabs', site_url('admin-live-edit/tabs-settings'));
+        ModuleAdmin::registerLiveEditSettingsUrl('tabs', site_url('admin-live-edit/tabs-module-settings'));
         ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Tabs\Http\Livewire\TabsModuleSettings::class);
 
     }
