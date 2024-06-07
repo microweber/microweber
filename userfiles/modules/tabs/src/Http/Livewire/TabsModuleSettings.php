@@ -34,16 +34,21 @@ class TabsModuleSettings extends LiveEditModuleSettings implements HasTable
         return $table
             ->query(Tab::queryForOptionGroup($this->getOptionGroup()))
             ->columns([
-                TextColumn::make('position')
-                    ->searchable(),
-                TextColumn::make('id')
-                    ->searchable(),
+//                TextColumn::make('position')
+//                    ->searchable(),
+//                TextColumn::make('id')
+//                    ->searchable(),
                 TextColumn::make('title')
                     ->searchable(),
-                TextColumn::make('icon')
-                    ->searchable(),
+//                TextColumn::make('icon')
+//                    ->searchable(),
 
             ])
+//            ->contentGrid([
+//                'md' => 1,
+//                'lg' => 1,
+//                'xl' => 1,
+//            ])
             ->paginationPageOptions([
                 1,
                 3,
