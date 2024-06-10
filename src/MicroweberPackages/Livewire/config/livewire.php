@@ -56,7 +56,7 @@ return [
     |
     */
   //  'asset_url' => 'resources/js/livewire',
-  'asset_url' => site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js',
+ // 'asset_url' => site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js',
 
     /*
     |--------------------------------------------------------------------------

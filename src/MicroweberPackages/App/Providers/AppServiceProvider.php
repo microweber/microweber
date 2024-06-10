@@ -180,6 +180,16 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme("https");
         }
 
+        URL::forceRootUrl( site_url());
+
+        $is_installed = mw_is_installed();
+        if($is_installed) {
+            //asset_url config
+            if (!Config::get('app.asset_url')) {
+                Config::set('app.asset_url', site_url());
+            }
+        }
+
 
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
@@ -198,7 +208,7 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->register(DuskServiceProvider::class);
             }
         }
-        $is_installed = mw_is_installed();
+
         if ($is_installed) {
             load_all_service_providers_for_modules();
         }
