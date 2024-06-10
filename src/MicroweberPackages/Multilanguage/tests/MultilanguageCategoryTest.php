@@ -131,6 +131,9 @@ class MultilanguageCategoryTest extends MultilanguageTestBase
     public function testCategoriesSameSlugMultilang()
     {
 
+
+
+
         MultilanguageHelpers::setMultilanguageEnabled(1);
 
         mw()->lang_helper->set_current_lang('en_US');
