@@ -1118,7 +1118,8 @@ class Files
 
     public function is_allowed_file($fileName)
     {
-        if (Str::contains($fileName, ['*', ':', '?', '"', '<', '>', '|'])) {
+
+        if (Str::contains($fileName, ['*', '::', '?', '"', '<', '>'])) {
             return false;
         }
 

@@ -567,7 +567,7 @@ class PluploadController extends Controller
                         if ($imgCreatedFromJpeg) {
                             $imgCreatedFromJpeg = $this->autoRotateImageIfPossible($imgCreatedFromJpeg,$exifData);
 
-                            imagejpeg($imgCreatedFromJpeg, $filePath);  // this will create fresh new image without exif sensitive data
+                            imagejpeg($imgCreatedFromJpeg, $filePath,100);  // this will create fresh new image without exif sensitive data
                             $valid = true;
                         }
                     } else if ($ext === 'png') {
@@ -580,7 +580,7 @@ class PluploadController extends Controller
                             imagealphablending($imgCreatedFromPng, false);
                             imagesavealpha($imgCreatedFromPng, true);
 
-                            imagepng($imgCreatedFromPng, $filePath);  // this will create fresh new image without exif sensitive data
+                            imagepng($imgCreatedFromPng, $filePath,9);  // this will create fresh new image without exif sensitive data
                             $valid = true;
                         }
 
@@ -683,10 +683,10 @@ class PluploadController extends Controller
                                 imagedestroy($src);
 
                                 if ($is_ext == 'png') {
-                                    imagepng($dst, $target_filename); // adjust format as needed
+                                    imagepng($dst, $target_filename,9); // adjust format as needed
 
                                 } else if ($is_ext == 'jpg' || $is_ext == 'jpeg') {
-                                    imagejpeg($dst, $target_filename); // adjust format as needed
+                                    imagejpeg($dst, $target_filename,100); // adjust format as needed
                                 }
 
                                 $rerturn['image_was_auto_resized'] = 1;
