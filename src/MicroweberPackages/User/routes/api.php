@@ -57,7 +57,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
 })->name('api.users.export_my_data');
 
 // Admin web
-Route::prefix(mw_admin_prefix_url())->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
+Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
     Route::get('login', 'UserLoginController@index')->name('admin.login')->middleware(['allowed_ips']);
 });
 

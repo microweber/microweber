@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('login', '\MicroweberPackages\User\Http\Controllers\UserLoginController@loginForm')->name('login');
 
 Route::name('admin.')
-    ->prefix(mw_admin_prefix_url())
+    ->prefix(mw_admin_prefix_url_legacy())
     ->middleware([
         'admin',
        // \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,

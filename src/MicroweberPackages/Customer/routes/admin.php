@@ -8,7 +8,7 @@
 */
 
 
-Route::prefix(mw_admin_prefix_url())->name('admin.')
+Route::prefix(mw_admin_prefix_url_legacy())->name('admin.')
     ->namespace('\MicroweberPackages\Customer\Http\Controllers\Admin')
     ->middleware(['admin','api','xss'])->group(function () {
 

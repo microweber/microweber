@@ -1,6 +1,6 @@
 <?php
 
-Route::prefix(mw_admin_prefix_url() . '/settings')
+Route::prefix(mw_admin_prefix_url_legacy() . '/settings')
     ->namespace('\MicroweberPackages\Modules\Settings\Http\Controllers\Admin')
     ->middleware(['admin','api','xss'])->group(function () {
 

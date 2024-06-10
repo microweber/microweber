@@ -8,14 +8,18 @@ use Illuminate\Support\Facades\Auth;
 
 class Authenticate extends Middleware
 {
-    protected function authenticate($request, array $guards): void
+    protected function authenticate($request, array $guards)
     {
-        abort_if(!is_admin(), 403, 'You are not allowed to access this page');
+        //abort_if(!is_admin(), 403, 'You are not allowed to access this page');
+        if (!is_admin()) {
+            return $this->redirectTo($request);
+        }
 
     }
 
     protected function redirectTo($request): string
     {
-        return route('filament.auth.login');
+        //    return route('filament.auth.login');
+        return admin_url('login');
     }
 }

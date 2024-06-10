@@ -2,7 +2,7 @@
 
 
 Route::name('admin.module.')
-    ->prefix(mw_admin_prefix_url())
+    ->prefix(mw_admin_prefix_url_legacy())
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Module\Http\Controllers\Admin')
     ->group(function () {

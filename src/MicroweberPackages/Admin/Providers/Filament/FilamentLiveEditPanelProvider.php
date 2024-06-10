@@ -11,6 +11,11 @@ class FilamentLiveEditPanelProvider extends FilamentAdminPanelProvider
     public string $filamentId = 'admin-live-edit';
     public string $filamentPath = 'admin-live-edit';
 
+    public function __construct($app)
+    {
+        parent::__construct($app);
+        $this->filamentPath = mw_admin_prefix_url_live_edit();
+    }
     public function getPanelPages(): array
     {
         // return ModuleAdmin::getPanelPages();
