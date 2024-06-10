@@ -21,16 +21,17 @@ class LogoModuleSettings extends LiveEditModuleSettings
                     ->tabs([
                         Tabs\Tab::make('Image')
                             ->schema([
-                                TextInput::make('title')
+                                TextInput::make('options.title')
+                                    ->label('Logo Title')
                                     ->live()
                             ]),
                         Tabs\Tab::make('Text')
                             ->schema([
-                                TextInput::make('text')
+                                TextInput::make('options.text')
                                     ->label('Logo Text')
                                     ->helperText('This logo text will appear when image not applied')
                                     ->live(),
-                                ColorPicker::make('text_color')
+                                ColorPicker::make('options.text_color')
                                     ->live()
                                     ->rgba()
                             ]),
