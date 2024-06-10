@@ -154,7 +154,7 @@ class JsCompileController extends Controller
         if (is_admin()) {
             $suffix = 'admin';
             if (defined('mw_admin_prefix_url()')) {
-                $suffix = 'admin_' . crc32(mw_admin_prefix_url());
+                $suffix = 'admin_' . crc32(mw_admin_prefix_url_legacy());
             }
         }
         $hash = crc32(site_url() . template_dir() . current_lang()) . '.' . $suffix . '.' . MW_VERSION;

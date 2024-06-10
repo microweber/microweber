@@ -39,7 +39,13 @@ class FilamentAdminPanelProvider extends PanelProvider
 {
 
     public string $filamentId = 'admin';
-    public string $filamentPath = 'aaaaaaaa';
+    public string $filamentPath = 'admin';
+
+    public function __construct($app)
+    {
+        parent::__construct($app);
+        $this->filamentPath = mw_admin_prefix_url();
+    }
 
     public function getPanelPages(): array
     {
@@ -66,7 +72,7 @@ class FilamentAdminPanelProvider extends PanelProvider
     {
         $panel
 
-             // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
+            // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
             ->id($this->filamentId)
             ->path($this->filamentPath)
@@ -118,7 +124,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $panel->renderHook(
             name: PanelsRenderHook::TOPBAR_START,
-            hook: fn (): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
+            hook: fn(): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
         );
 
         $tableToggle = new TableLayoutTogglePlugin();
@@ -135,7 +141,6 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
-
 
 
         return $panel;

@@ -5,7 +5,7 @@
 // 'middleware' => 'web',
 Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\Admin\Http\Controllers'], function () {
 
-    $admin_url = mw_admin_prefix_url();
+    $admin_url = mw_admin_prefix_url_legacy();
 
     Route::any('/' . $admin_url, 'AdminController@dashboard')->name('admin.home');
     Route::get($admin_url.'/manifest.json','AdminController@webAppManifest' )->name('admin.web-app-manifest');
