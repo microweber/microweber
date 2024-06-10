@@ -96,6 +96,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                 ->modalHeading($editorSettings['config']['addButtonText'])
                 ->slideOver()
                 ->form($formFields)
+                ->createAnother(false)
                 ->after(function () {
                     $this->dispatch('mw-option-saved',
                         optionGroup: $this->optionGroup
@@ -130,6 +131,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
             ->actions([
                 EditAction::make()
                     ->slideOver()
+                    ->hiddenLabel(true)
                     ->form($formFields)->after(function () {
                         $this->dispatch('mw-option-saved',
                             optionGroup: $this->optionGroup
@@ -137,6 +139,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                     }),
                 DeleteAction::make('Delete')
                     ->slideOver()
+                    ->hiddenLabel(true)
                     ->after(function () {
                         $this->dispatch('mw-option-saved',
                             optionGroup: $this->optionGroup
