@@ -17,7 +17,7 @@ class ModuleItemSushi extends Model
     protected $fillable = ['title', 'icon','position'];
 
     protected array $schema = [
-        'itemId' => 'string',
+        'id' => 'string',
         'title' => 'datetime',
         'icon' => 'integer',
         'position' => 'integer',
@@ -42,7 +42,7 @@ class ModuleItemSushi extends Model
                 $settings = [];
             }
             $settings[] = [
-                'itemId' => uniqid(),
+                'id' => uniqid(),
                 'title' => $model->title,
                 'icon' => $model->icon,
                 'position' => 0,
@@ -56,7 +56,7 @@ class ModuleItemSushi extends Model
             $settings = json_decode($settings, true);
             if ($settings) {
                 $settings = array_filter($settings, function ($tab) use ($model) {
-                    return $tab['itemId'] != $model->itemId;
+                    return $tab['id'] != $model->id;
                 });
                 save_option('settings', json_encode($settings), $optionGroup);
             }
@@ -69,7 +69,7 @@ class ModuleItemSushi extends Model
             $settings = json_decode($settings, true);
             if ($settings) {
                 $settings = array_map(function ($tab) use ($model) {
-                    if ($tab['itemId'] == $model->itemId) {
+                    if ($tab['id'] == $model->id) {
                         $tab['title'] = $model->title;
                         $tab['icon'] = $model->icon;
                         $tab['position'] = $model->position;
@@ -98,7 +98,7 @@ class ModuleItemSushi extends Model
                 $rows = [];
                 foreach ($settings as $tab) {
                     $rows[] = [
-                        'itemId' => $tab['itemId'],
+                        'id' => $tab['id'],
                         'title' => $tab['title'] ?? '',
                         'icon' => $tab['icon'] ?? '',
                         'position' => $tab['position'] ?? '',
