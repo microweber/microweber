@@ -102,7 +102,29 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                         optionGroup: $this->optionGroup
                     );
                 });
-
+        }
+        $actions = [];
+        if (isset($editorSettings['config']['editButtonText'])) {
+            $actions[] = EditAction::make($editorSettings['config']['editButtonText'])
+                    ->slideOver()
+                    ->hiddenLabel(true)
+                    ->modalHeading($editorSettings['config']['editButtonText'])
+                    ->form($formFields)->after(function () {
+                        $this->dispatch('mw-option-saved',
+                            optionGroup: $this->optionGroup
+                        );
+                    });
+        }
+        if (isset($editorSettings['config']['deleteButtonText'])) {
+            $actions[] = DeleteAction::make($editorSettings['config']['deleteButtonText'])
+                ->slideOver()
+                ->modalHeading($editorSettings['config']['deleteButtonText'])
+                ->hiddenLabel(true)
+                ->after(function () {
+                    $this->dispatch('mw-option-saved',
+                        optionGroup: $this->optionGroup
+                    );
+                });
         }
 
         //            $builtTable->contentGrid([
@@ -115,8 +137,8 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                 $tableRecords = $this->getTableRecords();
                 if ($tableRecords) {
                     foreach ($tableRecords->toArray() as $tableRecord) {
-                        if (isset($tableRecord['itemId'])) {
-                            $findTab = ModuleItemSushi::where('itemId', $tableRecord['itemId'])->first();
+                        if (isset($tableRecord['id'])) {
+                            $findTab = ModuleItemSushi::where('id', $tableRecord['id'])->first();
                             if ($findTab) {
                                 $findTab->position = $tableRecord['position'];
                                 $findTab->save();
@@ -128,24 +150,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
             ->defaultSort('position')
             ->reorderable('position')
             ->headerActions($headerActions)
-            ->actions([
-                EditAction::make()
-                    ->slideOver()
-                    ->hiddenLabel(true)
-                    ->form($formFields)->after(function () {
-                        $this->dispatch('mw-option-saved',
-                            optionGroup: $this->optionGroup
-                        );
-                    }),
-                DeleteAction::make('Delete')
-                    ->slideOver()
-                    ->hiddenLabel(true)
-                    ->after(function () {
-                        $this->dispatch('mw-option-saved',
-                            optionGroup: $this->optionGroup
-                        );
-                    }),
-            ]);
+            ->actions($actions);
 
 
         return $builtTable;

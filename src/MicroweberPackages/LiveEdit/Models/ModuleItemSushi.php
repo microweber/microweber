@@ -83,8 +83,8 @@ class ModuleItemSushi extends Model
 
     public function getKey()
     {
-        if ($this->itemId) {
-            return $this->itemId;
+        if ($this->id) {
+            return $this->id;
         }
         return 'id';
     }
