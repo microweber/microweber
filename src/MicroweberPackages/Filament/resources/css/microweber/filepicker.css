@@ -7,9 +7,12 @@
 }
 
 .form-control-live-edit-label-wrapper a {
-    @apply hover:bg-white/10 rounded py-2 px-4 text-center text-gray-600 w-full text-sm;
+    @apply hover:bg-white/80 rounded py-2 px-4 text-center text-gray-600 w-full text-sm;
 }
 
 .form-control-live-edit-label-wrapper a.active {
     @apply bg-white;
+}
+.mw-ui-field-holder {
+    @apply w-full border-2 border-dashed border-blue-600 rounded p-2;
 }
