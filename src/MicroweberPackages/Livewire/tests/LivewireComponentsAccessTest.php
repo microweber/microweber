@@ -47,7 +47,7 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 
 
         $skip = [
-            'MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\DropdownMappingPreview'
+            \MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\DropdownMappingPreview::class,
         ];
 
 

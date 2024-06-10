@@ -27,6 +27,11 @@ class MigrateMorphClassStandard extends Migration
         ];
 
         foreach ($tables as $table) {
+
+            if (!Schema::hasTable($table)) {
+                continue;
+            }
+
             $getTableData = \Illuminate\Support\Facades\DB::table($table)->get();
             if (!empty($getTableData)) {
                 foreach ($getTableData as $tableData) {
@@ -47,22 +52,25 @@ class MigrateMorphClassStandard extends Migration
         }
 
         //taggable type
-        $getTableData = \Illuminate\Support\Facades\DB::table('tagging_tagged')->get();
-        if (!empty($getTableData)) {
-            foreach ($getTableData as $tableData) {
-                if ($tableData->taggable_type == 'modules') {
-                    $tableData->taggable_type = \MicroweberPackages\Module\Models\Module::class;
+        if (Schema::hasTable('tagging_tagged')) {
+            $getTableData = \Illuminate\Support\Facades\DB::table('tagging_tagged')->get();
+            if (!empty($getTableData)) {
+                foreach ($getTableData as $tableData) {
+                    if ($tableData->taggable_type == 'modules') {
+                        $tableData->taggable_type = \MicroweberPackages\Module\Models\Module::class;
+                    }
+                    if ($tableData->taggable_type == 'categories') {
+                        $tableData->taggable_type = \MicroweberPackages\Category\Models\Category::class;
+                    }
+                    if ($tableData->taggable_type == 'content') {
+                        $tableData->taggable_type = \MicroweberPackages\Content\Models\Content::class;
+                    }
+                    \Illuminate\Support\Facades\DB::table('tagging_tagged')->where('id', $tableData->id)->update([
+                        'taggable_type' => $tableData->taggable_type
+                    ]);
                 }
-                if ($tableData->taggable_type == 'categories') {
-                    $tableData->taggable_type = \MicroweberPackages\Category\Models\Category::class;
-                }
-                if ($tableData->taggable_type == 'content') {
-                    $tableData->taggable_type = \MicroweberPackages\Content\Models\Content::class;
-                }
-                \Illuminate\Support\Facades\DB::table('tagging_tagged')->where('id', $tableData->id)->update([
-                    'taggable_type' => $tableData->taggable_type
-                ]);
             }
+
         }
     }
 

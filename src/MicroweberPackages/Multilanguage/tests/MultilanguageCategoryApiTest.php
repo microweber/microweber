@@ -9,6 +9,7 @@ use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 
+#[RunTestsInSeparateProcesses]
 class MultilanguageCategoryApiTest extends MultilanguageTestBase
 {
 
@@ -48,7 +49,7 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
 
             route('api.category.store'),
             [
-                'title' => 'TitleApiCategoryStore'.uniqid(), // this text must be overrwrite from multilanguage field
+                'title' => 'TitleApiCategoryStore'.time().uniqid(), // this text must be overrwrite from multilanguage field
                 'multilanguage' => $saveMultilanguage,
             ]
         );
