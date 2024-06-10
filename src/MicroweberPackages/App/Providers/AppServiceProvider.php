@@ -172,9 +172,9 @@ class AppServiceProvider extends ServiceProvider
 //        $this->app->instance('config', new ConfigSave($this->app));
          $this->app->register(ConfigExtendedServiceProvider::class);
 
-//        if (!defined('ADMIN_PREFIX')) {
-//            define('ADMIN_PREFIX', mw_admin_prefix_url_legacy());
-//        }
+        if (!defined('ADMIN_PREFIX')) {
+            define('ADMIN_PREFIX', mw_admin_prefix_url_legacy());
+        }
 
         if (is_https() or (Config::get('microweber.force_https') && !is_cli())) {
             URL::forceScheme("https");
