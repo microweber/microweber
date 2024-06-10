@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * DEPRECATED
+ */
 namespace MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;

@@ -2,6 +2,12 @@
 
     <?php
 
+       /* DEPRECATED*/
+       /* DEPRECATED*/
+       /* DEPRECATED*/
+       /* DEPRECATED*/
+       /* DEPRECATED*/
+       /* DEPRECATED*/
 
     $title = 'My Module';
 
