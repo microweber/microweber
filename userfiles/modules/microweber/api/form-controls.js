@@ -369,7 +369,7 @@ mw.emitter = {
 
             var layoutsData = [];
 
-            var _win = mw.top().app.canvas.getWindow() || window;
+            var _win = mw.top().app.canvas ?  mw.top().app.canvas.getWindow() || window : window;
                 var layouts = _win.$('.module[data-type="layouts"]');
 
                 layouts.each(function () {
@@ -714,7 +714,29 @@ mw.emitter = {
                             }).catch(()=>{
                                 resolve();
                             });
-                })
+                });
+
+
+                new mw.autoComplete({
+                    element: "#mw-live-edit-search-content",
+                    placeholder: "Search content",
+                    ajaxConfig: {
+                        method: 'get',
+                        url: mw.settings.api_url + 'get_content_admin?get_extra_data=1&order_by=updated_at desc&is_active=1&is_deleted=0&keyword=${val}'
+                    },
+                    map: {
+                        value: 'id',
+                        title: 'title',
+                        image: 'picture'
+                    },
+                    selected: [
+                        {
+                            id: 0,
+                            title: '',
+                            placeholder: 'All'
+                        }
+                    ]
+                });
 
                 scope.autoComplete = new TomSelect(treeEl, {
                     valueField: 'id',
@@ -796,7 +818,7 @@ mw.emitter = {
                         }
                     },
                 });
-                console.log
+
 
 
 
@@ -994,7 +1016,7 @@ mw.emitter = {
                 }, 78)
             }
             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
-            mw.require('tree.js');
+
             if(_linkText) {
                 scope.shouldChange = !_linkText.querySelector('input').value.trim();
 

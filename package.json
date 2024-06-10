@@ -35,6 +35,7 @@
     "mitt": "^3.0.0",
     "popper.js": "^1.16.1",
     "react-filerobot-image-editor": "^4.4.0",
+    "tom-select": "^2.3.1",
     "vue": "^3.2.36",
     "vue-color-kit": "^1.0.5",
     "vue-drag-resize": "^1.5.4",
@@ -43,7 +44,7 @@
     "vue3-click-away": "^1.2.4",
     "vue3-tags-input": "^1.0.12",
     "vuetify": "^3.3.19",
-    "xss": "^1.0.15",    
+    "xss": "^1.0.15",
     "y18n": "^5.0.8"
   },
   "devDependencies": {
@@ -77,4 +78,3 @@
     "y18n": "^5.0.8"
   }
 }
-

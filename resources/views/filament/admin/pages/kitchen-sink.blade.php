@@ -30,14 +30,14 @@
         <x-filament::button color="gray"  @click="mw.filePickerDialog( (url) => {
             console.log(url)
         });">
-            New user
+            Pick file
         </x-filament::button>
     </h1>
 
     <hr>
     <h1>
         Url picker
-        <code>
+        <pre>
         var linkEditor = new mw.LinkEditor({
             mode: 'dialog',
         });
@@ -54,7 +54,22 @@
             }
             modal.remove();
         });
-        </code>
+        </pre>
+        <x-filament::button color="gray"  @click="const linkEditor = new mw.LinkEditor({
+            mode: 'dialog',
+        });
+        const val = 'http://google.com'
+        if(val) {
+            linkEditor.setValue(val);
+        }
+
+        linkEditor.promise().then(function (data){
+            const modal = linkEditor.dialog;
+            console.log(data);
+            modal.remove();
+        });">
+            Pick URL
+        </x-filament::button>
     </h1>
 
     <hr>
