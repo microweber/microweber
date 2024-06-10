@@ -17,7 +17,7 @@ class ModuleItemSushi extends Model
     protected $fillable = ['title', 'icon','position'];
 
     protected array $schema = [
-        'id' => 'string',
+        'itemId' => 'string',
         'title' => 'datetime',
         'icon' => 'integer',
         'position' => 'integer',
@@ -42,7 +42,7 @@ class ModuleItemSushi extends Model
                 $settings = [];
             }
             $settings[] = [
-                'id' => uniqid(),
+                'itemId' => uniqid(),
                 'title' => $model->title,
                 'icon' => $model->icon,
                 'position' => 0,
@@ -56,7 +56,7 @@ class ModuleItemSushi extends Model
             $settings = json_decode($settings, true);
             if ($settings) {
                 $settings = array_filter($settings, function ($tab) use ($model) {
-                    return $tab['id'] != $model->id;
+                    return $tab['itemId'] != $model->itemId;
                 });
                 save_option('settings', json_encode($settings), $optionGroup);
             }
@@ -69,7 +69,7 @@ class ModuleItemSushi extends Model
             $settings = json_decode($settings, true);
             if ($settings) {
                 $settings = array_map(function ($tab) use ($model) {
-                    if ($tab['id'] == $model->id) {
+                    if ($tab['itemId'] == $model->itemId) {
                         $tab['title'] = $model->title;
                         $tab['icon'] = $model->icon;
                         $tab['position'] = $model->position;
@@ -83,8 +83,8 @@ class ModuleItemSushi extends Model
 
     public function getKey()
     {
-        if ($this->id) {
-            return $this->id;
+        if ($this->itemId) {
+            return $this->itemId;
         }
         return 'id';
     }
@@ -98,7 +98,7 @@ class ModuleItemSushi extends Model
                 $rows = [];
                 foreach ($settings as $tab) {
                     $rows[] = [
-                        'id' => $tab['id'],
+                        'itemId' => $tab['itemId'],
                         'title' => $tab['title'] ?? '',
                         'icon' => $tab['icon'] ?? '',
                         'position' => $tab['position'] ?? '',
