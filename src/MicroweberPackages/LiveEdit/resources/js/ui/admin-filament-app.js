@@ -5,6 +5,12 @@ window.jQuery = $;
 globalThis.$ = $;
 globalThis.jQuery = $;
 
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN':  (document.querySelector('meta[name="csrf-token"]').content || '').trim()
+    }
+});
+
 import "../api-core/core/core/@core.js";
 
 mw.settings = {
@@ -24,6 +30,8 @@ import "xss";
 import "../../../../../../src/MicroweberPackages/LiveEdit/resources/js/api-core/core/core/i18n.js";
 
 import "../../../../../../userfiles/modules/microweber/api/tools/element.js";
+import "../../../../../../userfiles/modules/microweber/api/tools/cookie.js";
+
 import "../../../../../../userfiles/modules/microweber/api/tools/tabs.js";
 import "../../../../../../userfiles/modules/microweber/api/tools/dialog.js";
 
@@ -41,6 +49,7 @@ mw.admin = new MWUniversalContainer();
 mw.app = mw.admin;
 
 mw.tools = new AdminTools(mw.app);
+
 
 
 mw.app.register('iconPicker', IconPicker);

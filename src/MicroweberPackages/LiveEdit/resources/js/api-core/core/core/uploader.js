@@ -34,7 +34,7 @@
 
         this.getUrl = function () {
             var params = this.urlParams();
-            var empty = mw.tools.isEmptyObject(params);
+            var empty = Object.keys(params).length == 0;
             return this.url() + (empty ? '' : ('?' + $.param(params)));
         };
 

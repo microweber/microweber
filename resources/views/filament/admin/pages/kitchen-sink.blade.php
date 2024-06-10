@@ -89,5 +89,10 @@
 
     <hr>
 
+    <script>
+        mw.button = (type, content)  => {
+            return `<x-filament::button color="gray">${content}</x-filament::button>`;
+        }
+    </script>
 
 </x-filament-panels::page>

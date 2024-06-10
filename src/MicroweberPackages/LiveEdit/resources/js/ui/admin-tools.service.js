@@ -1,6 +1,9 @@
+import {DomHelpers} from "../../../../../../userfiles/modules/microweber/js/tools/domhelpers.js";
+
 export class AdminTools {
     constructor(app) {
         this._app = app;
+        this.extend(DomHelpers)
     }
 
     index(el, parent, selector) {
@@ -17,6 +20,12 @@ export class AdminTools {
         var i = 0, l = all.length;
         for (; i < l; i++) {
             if (el === all[i]) return i;
+        }
+    }
+
+    extend(methods = {}) {
+        for (let i in methods) {
+            this[i] = methods[i];
         }
     }
 
