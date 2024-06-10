@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => 'admin', 'namespace' => '\MicroweberPackages\LiveEdit\Http\Controllers'], function () {
 
-    $admin_url = mw_admin_prefix_url_legacy();
+    $admin_url = mw_admin_prefix_url();
 
     $live_edit_url = 'live-edit';
 
