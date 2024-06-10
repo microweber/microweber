@@ -38,6 +38,7 @@ class TestimonialsModuleSettings extends LiveEditModuleSettings implements HasTa
         return $table
             ->query(Testimonial::query())
             ->reorderable('position')
+            ->defaultSort('position')
             ->columns([
             TextColumn::make('name'),
         ])->headerActions([
