@@ -11,17 +11,20 @@
 
 namespace MicroweberPackages\Livewire;
 
-use Illuminate\Support\Facades\Route as RouteFacade;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
-use Livewire\Mechanisms\HandleRequests\HandleRequests;
-use LivewireUI\Modal\LivewireModalServiceProvider;
-use MicroweberPackages\Livewire\Mechanisms\FrontendAssets\MwLivewireFrontendAssets;
 use MicroweberPackages\Livewire\Mechanisms\HandleRequests\MwLivewireHandleRequests;
-use Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider;
+
+//use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
+//use Livewire\Mechanisms\HandleRequests\HandleRequests;
+//use LivewireUI\Modal\LivewireModalServiceProvider;
+//use MicroweberPackages\Livewire\Mechanisms\FrontendAssets\MwLivewireFrontendAssets;
+//use MicroweberPackages\Livewire\Mechanisms\HandleRequests\MwLivewireHandleRequests;
+//use Rappasoft\LaravelLivewireTables\LaravelLivewireTablesServiceProvider;
 
 class LivewireServiceProvider extends ServiceProvider
 {
@@ -31,13 +34,13 @@ class LivewireServiceProvider extends ServiceProvider
      *
      * @var boolean
      */
- #   protected $defer = false;
+    #   protected $defer = false;
 
 
     protected function mergeConfigFrom($path, $key)
     {
         $config = $this->app['config']->get($key, []);
-        $this->app['config']->set($key, array_merge( $config,require $path,));
+        $this->app['config']->set($key, array_merge($config, require $path,));
     }
 
 
@@ -77,12 +80,51 @@ class LivewireServiceProvider extends ServiceProvider
 //            app($mechanism)->register();
 //        }
 //    }
+    public function boot()
+    {
+         Livewire::setScriptRoute(function ($handle) {
+
+             $url = asset('public/vendor/livewire/livewire.min.js');
+             return Route::get($url, $handle);
+             //   return site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js';
+        });
+
+         // dd(Route::post('livewire/update'));
+//        Livewire::setUpdateRoute(function ($handle) {
+//            $route = Route::post( ('/livewire/update'), $handle)->name('livewire.update');
+//
+//         //   $route->setUri('livewire/update');
+//        //    $route->domain(site_url());
+//
+//           return $route;
+//        });
+//        Livewire::setUpdateRoute(function ($handle) {
+//
+//            return Route::post('livewire/update', $handle);
+//        });
+
+    }
+
+    public function ensureLivewiereFilesAreCopiedToPublicPath()
+    {
+        //check if assets are copied
+        $check = public_path('vendor/livewire/livewire.min.js');
+        if(is_file($check)){
+            return;
+        }
+        Artisan::call('vendor:publish', [
+            '--provider' => 'Livewire\LivewireServiceProvider',
+            '--tag' => 'livewire:assets',
+        ]);
+
+    }
 
     public function register()
     {
-
-//        app()->bind(\Livewire\Mechanisms\FrontendAssets\FrontendAssets::class, MwLivewireFrontendAssets::class);
-//        app()->bind(\Livewire\Mechanisms\HandleRequests\HandleRequests::class, MwLivewireHandleRequests::class);
+        $this->ensureLivewiereFilesAreCopiedToPublicPath();
+        app()->extend(\Livewire\Mechanisms\HandleRequests\HandleRequests::class, function () {
+            return new MwLivewireHandleRequests();
+        });
 //
 //
 //        $this->registerLivewireSingleton();
@@ -93,7 +135,7 @@ class LivewireServiceProvider extends ServiceProvider
 //        include_once __DIR__ . '/Helpers/helpers.php';
 //
 //        $this->mergeConfigFrom(__DIR__.'/config/livewire.php', 'livewire');
-        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
         View::addNamespace('livewire', __DIR__ . '/resources/views');
 
@@ -105,9 +147,10 @@ class LivewireServiceProvider extends ServiceProvider
 
         // the new mw dialog
         app()->register(LivewireMwModalServiceProvider::class);
-       // $resolver = app()->make(MwLivewireComponentResolver::class);
-       //  dd($reg,$resolver);
+        // $resolver = app()->make(MwLivewireComponentResolver::class);
+        //  dd($reg,$resolver);
         //app()->make(\Livewire\Mechanisms\ComponentRegistry::class)->resolveMissingComponent($resolver);
+
 
         parent::register();
 

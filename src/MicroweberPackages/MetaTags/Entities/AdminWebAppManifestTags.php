@@ -20,7 +20,13 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
             //do not append on iframes
             return '';
         }
+        if (!is_admin()) {
+            return '';
+        }
 
+        if (is_ajax()) {
+            return '';
+        }
 
         $manifestRoute = route('admin.web-app-manifest');
         $template_headers_src_items = [];
