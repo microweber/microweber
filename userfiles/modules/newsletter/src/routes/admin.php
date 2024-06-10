@@ -1,7 +1,7 @@
 <?php
 
 Route::name('admin.newsletter.')
-    ->prefix(ADMIN_PREFIX . '/modules/newsletter')
+    ->prefix(mw_admin_prefix_url() . '/modules/newsletter')
     ->middleware(['admin'])
     ->namespace('MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin')
     ->group(function () {
