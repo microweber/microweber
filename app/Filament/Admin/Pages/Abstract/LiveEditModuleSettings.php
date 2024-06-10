@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Pages\Abstract;
 
+use Filament\Forms\Form;
 use Filament\Pages\Page;
 use MicroweberPackages\Option\Models\Option;
 
@@ -10,6 +11,7 @@ abstract class LiveEditModuleSettings extends Page
     public string $module;
     public string $optionGroup;
     public array $options = [];
+    public array $translatableOptions = [];
     protected static bool $showTopBar = false;
     protected static bool $shouldRegisterNavigation = false;
 
@@ -28,6 +30,17 @@ abstract class LiveEditModuleSettings extends Page
 
     public function mount()
     {
+
+        $formInstance = $this->form(new Form($this));
+        $formState = $formInstance->getState();
+
+        if (isset($formState['translatableOptions'])) {
+            $this->translatableOptions = $formState['translatableOptions'];
+        }
+        if (isset($formState['options'])) {
+            $this->options = $formState['options'];
+        }
+
         $getOptions = Option::where('option_group', $this->getOptionGroup())->get();
 
         if ($getOptions) {
@@ -84,19 +97,5 @@ abstract class LiveEditModuleSettings extends Page
         return 'global';
     }
 
-    public function getOptionFieldName(string $optionKey) : string
-    {
-        $optionGroup = $this->getOptionGroup();
-
-        if (empty($this->options[$optionGroup])) {
-            $this->options[$optionGroup] = [];
-        }
-        if (empty($this->options[$optionGroup][$optionKey])) {
-            $this->options[$optionGroup][$optionKey] = '';
-        }
-
-        return 'options.' . $optionGroup . '.' . $optionKey;
-
-    }
 
 }

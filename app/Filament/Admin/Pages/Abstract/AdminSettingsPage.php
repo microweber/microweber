@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Pages\Abstract;
 
 use App\Filament\Admin\Pages\Concerns\HasModuleOption;
 use App\Filament\Admin\Pages\Concerns\HasOptions;
+use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use MicroweberPackages\Option\Models\ModuleOption;
@@ -34,6 +35,17 @@ abstract class AdminSettingsPage extends Page
 
     public function mount()
     {
+
+        $formInstance = $this->form(new Form($this));
+        $formState = $formInstance->getState();
+
+        if (isset($formState['translatableOptions'])) {
+            $this->translatableOptions = $formState['translatableOptions'];
+        }
+        if (isset($formState['options'])) {
+            $this->options = $formState['options'];
+        }
+
         $getOptions = Option::whereIn('option_group', $this->getOptionGroups())->get();
 
         if ($getOptions) {

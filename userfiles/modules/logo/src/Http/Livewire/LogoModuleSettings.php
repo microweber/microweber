@@ -17,27 +17,24 @@ class LogoModuleSettings extends LiveEditModuleSettings
     {
         return $form
             ->schema([
-
                 Tabs::make('Options')
                     ->tabs([
                         Tabs\Tab::make('Image')
                             ->schema([
-                                //    FileUpload::make('options.'.$optionGroup.'.attachment')->live(),
-                                TextInput::make($this->getOptionFieldName('title'))
+                                TextInput::make('title')
                                     ->live()
                             ]),
                         Tabs\Tab::make('Text')
                             ->schema([
-                                TextInput::make($this->getOptionFieldName('text'))
+                                TextInput::make('text')
                                     ->label('Logo Text')
                                     ->helperText('This logo text will appear when image not applied')
                                     ->live(),
-                                ColorPicker::make( $this->getOptionFieldName('text_color'))
+                                ColorPicker::make('text_color')
                                     ->live()
                                     ->rgba()
                             ]),
                     ]),
-
             ]);
     }
 
