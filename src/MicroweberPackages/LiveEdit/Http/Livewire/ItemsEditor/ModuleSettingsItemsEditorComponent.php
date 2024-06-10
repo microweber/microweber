@@ -89,6 +89,21 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
             }
         }
 
+        $headerActions = [];
+        if (isset($editorSettings['config']['addButtonText'])) {
+            $headerActions[] = CreateAction::make()
+                ->label($editorSettings['config']['addButtonText'])
+                ->modalHeading($editorSettings['config']['addButtonText'])
+                ->slideOver()
+                ->form($formFields)
+                ->after(function () {
+                    $this->dispatch('mw-option-saved',
+                        optionGroup: $this->optionGroup
+                    );
+                });
+
+        }
+
         //            $builtTable->contentGrid([
 //                'md' => 1,
 //                'lg' => 1,
@@ -111,17 +126,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
             })
             ->defaultSort('position')
             ->reorderable('position')
-            ->headerActions([
-                CreateAction::make()
-                    ->slideOver()
-                    ->form($formFields)
-                    ->after(function () {
-                        $this->dispatch('mw-option-saved',
-                            optionGroup: $this->optionGroup
-                        );
-                    }),
-
-            ])
+            ->headerActions($headerActions)
             ->actions([
                 EditAction::make()
                     ->slideOver()
