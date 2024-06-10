@@ -11,6 +11,22 @@ class IconFontsHeadTag implements TagInterface, \Stringable
     {
         $html = '';
         $get_icon_fonts_stylesheet_url = app()->template->get_icon_fonts_stylesheet_url();
+        $sets = app()->template->iconFontsAdapter->getIconSets();
+
+
+        $families = [];
+        if ($sets) {
+            foreach ($sets as $set) {
+                if (isset($set['font_family'])) {
+                    $families[] = $set['font_family'];
+                }
+            }
+        }
+        if ($families) {
+            asort($families);
+        }
+        $families_attr = implode(',', $families);
+
 
         $preload = true;
         if ($this->getPlacement() == Meta::PLACEMENT_FOOTER) {
@@ -21,7 +37,7 @@ class IconFontsHeadTag implements TagInterface, \Stringable
             if ($preload) {
                 $html = '<link rel="preload" href="' . $get_icon_fonts_stylesheet_url . '" as="style" crossorigin="anonymous" referrerpolicy="no-referrer" />';
             } else {
-                $html = '<link rel="stylesheet" id="mw-icon-fonts-combined" href="' . $get_icon_fonts_stylesheet_url . '" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
+                $html = '<link rel="stylesheet" id="mw-icon-fonts-combined" href="' . $get_icon_fonts_stylesheet_url . '" data-icon-families="' . $families_attr . '" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
             }
         }
 
