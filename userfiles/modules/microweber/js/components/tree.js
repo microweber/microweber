@@ -13,11 +13,12 @@
 
 
 (function(){
+    /*
     mw.lib.require('jqueryui');
 
     mw.lib.require('nestedSortable');
 
-    mw.require('tree-icons.js');
+    mw.require('tree-icons.js');*/
 
 
     var mwtree = function(config){

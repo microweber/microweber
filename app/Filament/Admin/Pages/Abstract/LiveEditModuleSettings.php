@@ -2,7 +2,9 @@
 
 namespace App\Filament\Admin\Pages\Abstract;
 
+use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Illuminate\Support\Arr;
 use MicroweberPackages\Option\Models\Option;
 
 abstract class LiveEditModuleSettings extends Page
@@ -10,6 +12,7 @@ abstract class LiveEditModuleSettings extends Page
     public string $module;
     public string $optionGroup;
     public array $options = [];
+    public array $translatableOptions = [];
     protected static bool $showTopBar = false;
     protected static bool $shouldRegisterNavigation = false;
 
@@ -28,11 +31,22 @@ abstract class LiveEditModuleSettings extends Page
 
     public function mount()
     {
+
+        $formInstance = $this->form(new Form($this));
+        $formFields = $formInstance->getFlatFields();
+        if (!empty($formFields)) {
+            foreach ($formFields as $field) {
+                $fieldStatePath = $field->getStatePath();
+                $fieldStatePath = array_undot_str($fieldStatePath);
+                $this->options[$fieldStatePath['options']] = '';
+            }
+        }
+
         $getOptions = Option::where('option_group', $this->getOptionGroup())->get();
 
         if ($getOptions) {
             foreach ($getOptions as $option) {
-                $this->options[$option->option_group][$option->option_key] = $option->option_value;
+                $this->options[$option->option_key] = $option->option_value;
             }
         }
 
@@ -41,7 +55,7 @@ abstract class LiveEditModuleSettings extends Page
 //            foreach ($getTranslatableOptions as $option) {
 //                if (!empty($option->multilanguage_translatons)) {
 //                    foreach ($option->multilanguage_translatons as $translationLocale => $translationField) {
-//                        $this->translatableOptions[$option->option_group][$option->option_key][$translationLocale] = $translationField['option_value'];
+//                        $this->translatableOptions[$option->option_key][$translationLocale] = $translationField['option_value'];
 //                    }
 //                }
 //            }
@@ -52,22 +66,21 @@ abstract class LiveEditModuleSettings extends Page
     public function updated($propertyName, $value)
     {
         $option = array_undot_str($propertyName);
+        $optionGroup = $this->getOptionGroup();
 
         if (isset($option['options'])) {
-            foreach ($option['options'] as $optionGroup => $optionKey) {
-                save_option([
-                    'option_key' => $optionKey,
-                    'option_value' => $value,
-                    'option_group' => $optionGroup,
-                    'module' => $this->module
-                ]);
+            save_option([
+                'option_key' => $option['options'],
+                'option_value' => $value,
+                'option_group' => $optionGroup,
+                'module' => $this->module
+            ]);
 
-                $this->dispatch('mw-option-saved',
-                    optionGroup: $optionGroup,
-                    optionKey: $optionKey,
-                    optionValue: $value
-                );
-            }
+            $this->dispatch('mw-option-saved',
+                optionGroup: $optionGroup,
+                optionKey: $option['options'],
+                optionValue: $value
+            );
         }
     }
 
@@ -84,19 +97,5 @@ abstract class LiveEditModuleSettings extends Page
         return 'global';
     }
 
-    public function getOptionFieldName(string $optionKey) : string
-    {
-        $optionGroup = $this->getOptionGroup();
-
-        if (empty($this->options[$optionGroup])) {
-            $this->options[$optionGroup] = [];
-        }
-        if (empty($this->options[$optionGroup][$optionKey])) {
-            $this->options[$optionGroup][$optionKey] = '';
-        }
-
-        return 'options.' . $optionGroup . '.' . $optionKey;
-
-    }
 
 }

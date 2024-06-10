@@ -51,7 +51,7 @@
             return this;
         };
 
-        this.settings =  mw.object.extend({}, defaults, options || {});
+        this.settings =  jQuery.extend({}, defaults, options || {});
 
         if(this.settings.hideTextFied) {
             for (var i = 0; i < this.settings.controllers.length; i++) {
