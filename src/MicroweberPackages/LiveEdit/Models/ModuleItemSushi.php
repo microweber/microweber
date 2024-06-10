@@ -41,9 +41,8 @@ class ModuleItemSushi extends Model
             if (!$settings && !is_array($settings)) {
                 $settings = [];
             }
-            $itemId = uniqid();
             $settings[] = [
-                'id' => $itemId,
+                'id' => uniqid(),
                 'title' => $model->title,
                 'icon' => $model->icon,
                 'position' => 0,
@@ -98,14 +97,8 @@ class ModuleItemSushi extends Model
             if (!empty($settings) && is_array($settings)) {
                 $rows = [];
                 foreach ($settings as $tab) {
-                    $id = uniqid();
-                    if (isset($tab['id'])) {
-                        $id = $tab['id'];
-                    } else if (isset($tab['itemId'])) {
-                        $id = $tab['itemId'];
-                    }
                     $rows[] = [
-                        'id' => $id,
+                        'id' => $tab['id'],
                         'title' => $tab['title'] ?? '',
                         'icon' => $tab['icon'] ?? '',
                         'position' => $tab['position'] ?? '',

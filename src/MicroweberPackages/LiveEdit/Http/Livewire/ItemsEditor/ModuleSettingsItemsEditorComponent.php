@@ -100,7 +100,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                 if ($tableRecords) {
                     foreach ($tableRecords->toArray() as $tableRecord) {
                         if (isset($tableRecord['id'])) {
-                            $findTab = Tab::where('id', $tableRecord['id'])->first();
+                            $findTab = ModuleItemSushi::where('id', $tableRecord['id'])->first();
                             if ($findTab) {
                                 $findTab->position = $tableRecord['position'];
                                 $findTab->save();
