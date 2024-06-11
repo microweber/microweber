@@ -28,7 +28,7 @@
         "blade-ui-kit/blade-ui-kit": "*",
         "butschster/meta-tags": "*",
         "calebporzio/sushi": "^2.4",
-        "composer/composer": "v2.7.4",
+        "composer/composer": "v2.7.7",
         "composer/installers": "1.9.0",
         "darkaonline/l5-swagger": "8.6.0",
         "doctrine/dbal": "3.6.5",
