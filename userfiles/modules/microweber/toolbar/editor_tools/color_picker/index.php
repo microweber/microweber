@@ -101,7 +101,7 @@
 
     setColor = function (color) {
         if (!!window.picker) {
-            var color = color.contains('rgb') ? mw.color.rgbToHex(color) : color;
+            var color = color.includes('rgb') ? mw.color.rgbToHex(color) : color;
             var color = color.replace("#", "");
             picker.fromString(color);
         }

@@ -198,7 +198,7 @@
         if (!mw.top().__dialogsData._esc) {
             mw.top().__dialogsData._esc = true;
             mw.$(document).on('keydown', function (e) {
-                if (mw.event.is.escape(e)) {
+                if(e.key === "Escape") {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
                     if (dlg && dlg.options && dlg.options.closeOnEscape) {
                         dlg._doCloseButton();

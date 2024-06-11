@@ -1,4 +1,4 @@
-mw.require('tree-icons.js');
+// mw.require('tree-icons.js');
 
 mw.coreIcons = {
     category:'mw-icon-category',

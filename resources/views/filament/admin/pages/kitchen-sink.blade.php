@@ -75,6 +75,16 @@
     <hr>
     <h1>
         Tree
+
+        <pre>
+     mw.widget.tree('.my-element');
+     mw.widget.tree(nodeElement);
+        </pre>
+        <div class="tree-example"></div>
+
+        <script>
+            addEventListener('DOMContentLoaded', e => mw.widget.tree('.tree-example'))
+        </script>
     </h1>
 
     <hr>
@@ -100,6 +110,14 @@
 
     <h1>
         Icon picker
+        <pre>
+            mw.app.iconPicker.pickIcon('.icon-example')
+        </pre>
+        <div class="icon-example"></div>
+
+        <script>
+            addEventListener('DOMContentLoaded', e => mw.app.iconPicker.pickIcon('.icon-example'))
+        </script>
     </h1>
 
     <hr>

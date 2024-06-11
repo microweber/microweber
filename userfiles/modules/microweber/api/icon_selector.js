@@ -497,8 +497,8 @@
                     holder.append(sizeel);
                 }
                 if(scope.settings.iconOptions.color) {
-                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">Choose color</label></div>');
-                    cinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-2-column" type="color">');
+                    var cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">Choose color</label></div>');
+                    var cinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-2-column" type="color">');
                     actionNodes.color = cinput;
                     cinput.on('input', function () {
                         scope.dispatch('colorChange', cinput.get(0).value);

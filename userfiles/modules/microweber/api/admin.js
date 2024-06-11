@@ -205,7 +205,7 @@ mw.admin.tree = function (target, opt, mode) {
 
     var tree;
 
-    var params = opt.params, options = opt.options;
+    var params = opt.params, options = opt.options || {};
 
     var url = mw.settings.api_url + 'content/get_admin_js_tree_json';
     var treeEl = document.createElement('div');

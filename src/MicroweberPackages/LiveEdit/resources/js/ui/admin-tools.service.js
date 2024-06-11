@@ -1,9 +1,21 @@
 import {DomHelpers} from "../../../../../../userfiles/modules/microweber/js/tools/domhelpers.js";
+import {iframeAutoHeight} from "../../../../../../userfiles/modules/microweber/js/tools/iframe-auto-height.js";
 
 export class AdminTools {
     constructor(app) {
         this._app = app;
+        this.init();
+    }
+
+    #ready = false;
+
+    init() {
+        if(this.#ready) {
+            return;
+        }
+        this.#ready = true;
         this.extend(DomHelpers)
+        this.iframeAutoHeight = iframeAutoHeight;
     }
 
     index(el, parent, selector) {

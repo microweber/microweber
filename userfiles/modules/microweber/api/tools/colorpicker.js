@@ -1,3 +1,5 @@
+import {AColorPicker} from "a-color-picker";
+
 ;(function () {
     mw._colorPickerDefaults = {
         skin: 'mw-tooltip-default',
@@ -16,9 +18,7 @@
     var colorPickers = [];
 
     mw._colorPicker = function (options) {
-        mw.lib.require('colorpicker');
-
-        if (!mw.tools.colorPickerColors) {
+   if (!mw.tools.colorPickerColors) {
             mw.tools.colorPickerColors = [];
 
 
@@ -398,6 +398,10 @@
 
         return new mw._colorPicker(o);
     };
+
+    console.log(window)
+    console.log(window.$)
+    console.log(window.jQuery)
 
     $(document).ready(function () {
         $(document).on('click', function (e) {

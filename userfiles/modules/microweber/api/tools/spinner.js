@@ -1,4 +1,4 @@
-mw.Spinner = function(options){
+export const Spinner = function(options){
     if(!options || !options.element){
         return;
     }
@@ -78,6 +78,11 @@ mw.Spinner = function(options){
 
 };
 
-mw.spinner = function(options){
-    return new mw.Spinner(options);
-};
+if(window.mw) {
+    mw.Spinner = Spinner;
+    mw.spinner = function(options){
+        return new mw.Spinner(options);
+    };
+}
+
+

@@ -6,7 +6,7 @@
         return;
     }
 
-    var mw = {};
+    window.mw = {};
 
 
 
@@ -550,9 +550,7 @@
     };
 
 
-    if (!window.mw) {
-        window.mw = mw;
-    }
+
 })();
 
 <?php

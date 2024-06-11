@@ -311,7 +311,7 @@
 
         };
 
-        function triggerChange() {
+        this._triggerChange = function(){
             if(!this._selectionChangeDisable) {
                 mw.$(scope).trigger('selectionChange', [scope.selectedData]);
                 scope.dispatch('selectionChange', scope.selectedData)
@@ -393,7 +393,7 @@
             this.getSelected();
 
             if (trigger) {
-                triggerChange();
+                this._triggerChange();
             }
         };
 
@@ -418,7 +418,7 @@
             this.manageUnselected();
             this.getSelected();
             if (trigger) {
-                triggerChange();
+                this._triggerChange();
             }
         };
 
@@ -469,7 +469,7 @@
             this.select(this.options.data);
             this._selectionChangeDisable = false;
             if(trigger) {
-                triggerChange();
+                this._triggerChange();
             }
         };
 
@@ -481,7 +481,7 @@
             this.unselect(this.selectedData);
             this._selectionChangeDisable = false;
             if(trigger) {
-                triggerChange();
+                this._triggerChange();
             }
 
         };
