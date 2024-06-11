@@ -180,17 +180,17 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme("https");
         }
 
-        URL::forceRootUrl( site_url());
+      //  URL::forceRootUrl( site_url());
+//
+//        $is_installed = mw_is_installed();
+//        if($is_installed) {
+//            //asset_url config
+//            if (!Config::get('app.asset_url')) {
+//                Config::set('app.asset_url', site_url());
+//            }
+//        }
 
         $is_installed = mw_is_installed();
-        if($is_installed) {
-            //asset_url config
-            if (!Config::get('app.asset_url')) {
-                Config::set('app.asset_url', site_url());
-            }
-        }
-
-
         $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
         $this->app->register(MicroweberServiceProvider::class);
