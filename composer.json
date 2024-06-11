@@ -54,7 +54,7 @@
         "laravel/cashier": "*",
         "laravel/dusk": "*",
         "laravel/fortify": "*",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "v11.10.0",
         "laravel/passport": "*",
         "laravel/sanctum": "*",
         "laravel/socialite": "*",

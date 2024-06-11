@@ -46,6 +46,8 @@ jobs:
         cache-dependency-path: ./package-lock.json
     - run: npm install
     - run: npm run build
+    - name: List all artisan commands
+      run: php artisan list
     - name: Run PHPUnit
       run: php artisan test
     - name: Upload Screenshots

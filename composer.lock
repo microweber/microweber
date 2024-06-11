@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "efd7f8f4be7d852e08e63670218b1d76",
+    "content-hash": "b2280f568df63600a0f3f3892f84c6e5",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -5683,16 +5683,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "11.x-dev",
+            "version": "v11.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e404bd90a97b2e9ed8a3d2ef53a4312658a4a49a"
+                "reference": "99b4255194912044b75ab72329f8c19e6345720e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e404bd90a97b2e9ed8a3d2ef53a4312658a4a49a",
-                "reference": "e404bd90a97b2e9ed8a3d2ef53a4312658a4a49a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/99b4255194912044b75ab72329f8c19e6345720e",
+                "reference": "99b4255194912044b75ab72329f8c19e6345720e",
                 "shasum": ""
             },
             "require": {
@@ -5841,7 +5841,6 @@
                 "symfony/postmark-mailer": "Required to enable support for the Postmark mail transport (^7.0).",
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^7.0)."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -5885,7 +5884,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2024-06-04T18:12:31+00:00"
+            "time": "2024-06-04T13:45:55+00:00"
         },
         {
             "name": "laravel/passport",
