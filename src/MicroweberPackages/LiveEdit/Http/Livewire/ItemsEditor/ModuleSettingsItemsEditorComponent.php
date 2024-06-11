@@ -35,9 +35,16 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
     {
         return [];
     }
+
+    public function getModel() : string
+    {
+        return ModuleItemSushi::class;
+    }
+
     public function table(Table $table): Table
     {
-        $builtTable = $table->query(ModuleItemSushi::queryForOptionGroup($this->getOptionGroup()));
+
+        $builtTable = $table->query($this->getModel()::queryForOptionGroup($this->getOptionGroup()));
 
         $editorSettings = $this->getEditorSettings();
 

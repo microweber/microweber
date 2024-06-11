@@ -14,5 +14,5 @@
     @apply bg-white;
 }
 .mw-ui-field-holder {
-    @apply w-full border-2 border-dashed border-blue-600 rounded p-2;
+    @apply w-full flex flex-col items-center gap-4 border-2 border-dashed border-blue-600/50 rounded p-12;
 }

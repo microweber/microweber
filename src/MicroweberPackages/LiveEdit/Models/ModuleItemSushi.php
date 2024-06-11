@@ -14,8 +14,6 @@ class ModuleItemSushi extends Model
 
     protected $keyType = 'string';
 
-    protected $fillable = ['title', 'icon','position'];
-
     protected array $schema = [
         'id' => 'string',
         'title' => 'datetime',
