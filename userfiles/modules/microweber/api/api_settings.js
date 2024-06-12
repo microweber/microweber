@@ -65,7 +65,7 @@
                     v.name = "viewport";
                 }
                 v.content = "width=device-width, initial-scale=1.0";
-                mwhead.appendChild(v);
+                mw.head.appendChild(v);
             },
             'css/bootstrap.min.css',
             'css/bootstrap-responsive.min.css',
@@ -80,7 +80,7 @@
                     v.name = "viewport";
                 }
                 v.content = "width=device-width, initial-scale=1.0";
-                mwhead.appendChild(v);
+                mw.head.appendChild(v);
             },
             'css/bootstrap.min.css',
             'js/bootstrap.min.js'
@@ -300,7 +300,7 @@
                     v.name = "viewport";
                 }
                 v.content = "width=device-width, initial-scale=1.0";
-                mwhead.appendChild(v);
+                mw.head.appendChild(v);
             },
             'css/bootstrap.min.css',
             'js/bootstrap.min.js'

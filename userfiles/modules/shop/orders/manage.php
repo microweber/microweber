@@ -9,7 +9,7 @@
 
     mw.require('forms.js', true);
 
-    $(mwd).ready(function () {
+    $(document).ready(function () {
         mw.responsive.table('#shop-orders', {
             breakPoints: responsivetableOrder
         })

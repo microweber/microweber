@@ -19,7 +19,7 @@ import "../../../../../../userfiles/modules/microweber/api/icon_selector.js";
 
 //libs
 import "xss";
-import "a-color-picker";
+
 import TomSelect  from "tom-select";
 
 
@@ -27,6 +27,7 @@ import TomSelect  from "tom-select";
 
 globalThis.TomSelect = TomSelect;
 window.TomSelect = TomSelect;
+
 
 
 
@@ -82,4 +83,4 @@ mw.admin.dispatch('ready');
 
 
 
-console.log('admin-filament-app.js');
+

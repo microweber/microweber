@@ -352,7 +352,7 @@ img{
 
         $("#the_admin_editor .edit").each(function(){ mw.wysiwyg.contentEditable(this, true) });
 
-        $(mwd).on('mousedown', function(e){
+        $(document).on('mousedown', function(e){
             if(!e.target.isContentEditable){
                 var target = null;
                 if(e.target.nodeName === 'A'){

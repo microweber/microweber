@@ -222,7 +222,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == '1') {
         });
     }
 
-    $(mwd).ready(function () {
+    $(document).ready(function () {
         resizeModal();
     });
 </script>

@@ -1,4 +1,4 @@
-import {AColorPicker} from "a-color-picker";
+
 
 ;(function () {
     mw._colorPickerDefaults = {
@@ -150,6 +150,8 @@ import {AColorPicker} from "a-color-picker";
         if (settings.method === 'inline') {
 
             sett.attachTo = $el[0];
+
+            console.log(sett.attachTo.ownerDocument.defaultView);
 
 
             frame = sett.attachTo.ownerDocument.defaultView.AColorPicker.createPicker(sett); // AColorPicker works only with local window
@@ -399,9 +401,7 @@ import {AColorPicker} from "a-color-picker";
         return new mw._colorPicker(o);
     };
 
-    console.log(window)
-    console.log(window.$)
-    console.log(window.jQuery)
+
 
     $(document).ready(function () {
         $(document).on('click', function (e) {

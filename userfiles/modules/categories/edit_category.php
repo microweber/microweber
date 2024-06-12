@@ -565,7 +565,7 @@ if ($creteCategoryIn == 'shop') {
                                             type: 'category'
                                         });
                                     }
-                                    $(mwd).ready(function () {
+                                    $(document).ready(function () {
 
                                         mw.$('input,select,textarea').on('input', function () {
                                             mw.askusertostay = true;

@@ -677,7 +677,7 @@
 
         var comRender = function (options) {
             options = options || {};
-            options = mw.object.extend({}, {
+            options = jQuery.extend({}, {
                 set: scope.selectField.get(0).options[scope.selectField.get(0).selectedIndex]._value,
                 term: scope.searchField.get(0).value
             }, options);
@@ -718,7 +718,7 @@
             var off = scope.settings.iconsPerPage * (conf.page - 1);
             var to = off + Math.min(all.length - off, scope.settings.iconsPerPage);
 
-            return mw.object.extend({}, conf, {
+            return jQuery.extend({}, conf, {
                 data: all.slice(off, to),
                 all: all,
                 off: off

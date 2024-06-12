@@ -11,7 +11,7 @@ class ApijsScriptTag implements TagInterface, \Stringable
     {
         $apijs_combined_loaded = app()->template->get_apijs_combined_url();
         $append_html = '' . "\r\n";
-        $append_html .= '<script src="' . $apijs_combined_loaded . '" id="mw-js-core-scripts"></script>' . "\r\n";
+        $append_html .= '<script  src="' . $apijs_combined_loaded . '" id="mw-js-core-scripts"></script>' . "\r\n";
 
         return $append_html;
     }

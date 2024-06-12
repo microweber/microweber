@@ -28,7 +28,7 @@ class MwEditor extends TextArea
         $html = "<script>
 
                     mw.require('editor.js');
-                    $(mwd).ready(function () {
+                    $(document).ready(function () {
                         mweditor$mwEditorId = mw.Editor({
                         selector: document.getElementById('$mwEditorId'),
                         mode: 'div',

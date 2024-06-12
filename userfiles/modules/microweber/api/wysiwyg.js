@@ -2856,7 +2856,7 @@ $(window).on('load', function () {
         mw.editorIconPicker.tooltip(mw.editorIconPicker.target)
     });
 })
-$(mwd).ready(function () {
+$(document).ready(function () {
 
 
     mw.wysiwyg.initClassApplier();

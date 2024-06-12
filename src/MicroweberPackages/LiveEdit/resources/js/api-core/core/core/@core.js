@@ -17,11 +17,11 @@ if (window.top === window){
 window.mwd = document;
 window.mww  = window;
 
-window.mwhead = document.head || document.getElementsByTagName('head')[0];
+
 
 mw.doc = document;
 mw.win = window;
-mw.head = mwhead;
+mw.head = document.head || document.getElementsByTagName('head')[0];
 
 mw.loaded = false;
 
@@ -59,7 +59,7 @@ mw.log = function() {
 
 mw.$ = function(selector, context) {
     if(typeof selector === 'object' || (typeof selector === 'string' && selector.indexOf('<') !== -1)){ return jQuery(selector); }
-    context = context || mwd;
+    context = context || document;
     if (typeof document.querySelector !== 'undefined') {
         if (typeof selector === 'string') {
             try {

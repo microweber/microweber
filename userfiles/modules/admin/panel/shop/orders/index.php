@@ -50,7 +50,7 @@ $order_id = url_param('vieworder');
     mw.require('forms.js', true);
 
 
-   $(mwd).ready(function(){
+   $(document).ready(function(){
 
 
 

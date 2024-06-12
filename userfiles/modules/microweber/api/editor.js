@@ -77,7 +77,7 @@ var MWEditor = function (options) {
     }
 
     this.settingsExtend = function(options = {}, trigger = true) {
-        this.settings = mw.object.extend({}, this.settings || defaults, options);
+        this.settings = jQuery.extend({}, this.settings || defaults, options);
         _afterSettings();
         if(trigger) {
             this.dispatch('settingsChanged', this.settings);

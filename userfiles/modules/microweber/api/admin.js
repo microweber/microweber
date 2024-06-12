@@ -376,7 +376,7 @@ mw.admin.content.quickEditModalFrame = function (url) {
 }
 
 
-$(mwd).ready(function () {
+$(document).ready(function () {
 
 
     mw.$(document.body).on('keydown', function (e) {
@@ -405,7 +405,7 @@ $(mwd).ready(function () {
     });
 });
 
-$(mww).on('load', function () {
+$(window).on('load', function () {
     mw.on.moduleReload('pages_tree_toolbar', function () {
 
     });

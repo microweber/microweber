@@ -87,7 +87,7 @@ mw.moduleCSS = mw.module_css = function(url){
         el.rel='stylesheet';
         el.type='text/css';
         el.href = url;
-        mw.head.insertBefore(el, mwhead.firstChild);
+        mw.head.insertBefore(el, mw.head.firstChild);
     }
 };
 mw.moduleJS = mw.module_js = function(url){
@@ -482,12 +482,4 @@ mw.get = function(action, params, callback){
         .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
 }
 
-get_content = function(params, callback){
-    var obj = mw.url.getUrlParams("?"+params);
-    if(typeof callback!='function'){
-        mw.get('get_content_admin', obj);
-    }
-    else{
-        mw.get('get_content_admin', obj, function(){callback.call(this)});
-    }
-}
+

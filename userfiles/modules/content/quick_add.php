@@ -123,7 +123,7 @@
  }
 
 
- $(mwd).ready(function(){
+ $(document).ready(function(){
 
     mw.$(".acfle_layouts_browser_template h2").on("click", function(){
       var h = $(this);

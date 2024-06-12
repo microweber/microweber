@@ -92,7 +92,7 @@ class MwEditor extends \MicroweberPackages\FormBuilder\Elements\TextArea
 
                         $html .= "<script>
                                 mw.require('editor.js');
-                                $(mwd).ready(function () {
+                                $(document).ready(function () {
                                 mweditor$mwEditorId = mw.Editor({
                                 selector: '$mwEditorTextareaId',
                                 mode: 'div',

@@ -292,3 +292,19 @@ export class DomService {
 
 
 }
+
+
+if(mw.tools) {
+    const props = Object.getOwnPropertyNames(DomService);
+
+
+    for (let i = 0; i<props.length; i++) {
+
+        if(typeof DomService[props[i]] === 'function') {
+            mw.tools[props[i]] = DomService[props[i]] ;
+        }
+
+    }
+}
+
+

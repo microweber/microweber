@@ -4,7 +4,7 @@
 @import '../../../../../../../userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/components/dialog.scss';
 
 
-body {
-
-}
+@view-transition {
+    navigation: auto;
+  }
 
