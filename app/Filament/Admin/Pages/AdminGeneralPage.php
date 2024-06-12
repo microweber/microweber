@@ -16,6 +16,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -115,11 +116,11 @@ class AdminGeneralPage extends AdminSettingsPage
                             }),
 
                         Split::make([
-                            FileUpload::make('options.website.logo')
+                            MwFileUpload::make('options.website.logo')
                                 ->label('Website Logo')
                                 ->helperText('Select an logo for your website.')
                                 ->live(),
-                            FileUpload::make('options.website.favicon_image')
+                            MwFileUpload::make('options.website.favicon_image')
                                 ->label('Website Favicon')
                                 ->helperText('Select an icon for your website.')
                                 ->live(),
