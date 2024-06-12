@@ -374,11 +374,11 @@ class AppServiceProvider extends ServiceProvider
             'update' => 'UpdateManager',
             'cache_manager' => 'CacheManager',
             'config_manager' => 'ConfigurationManager',
-            'notifications_manager' => 'NotificationsManager',
-            'log_manager' => 'LogManager',
-            'permalink_manager' => 'PermalinkManager',
-            'layouts_manager' => 'LayoutsManager',
-            'lang_helper' => 'Helpers\\Lang'
+          'notifications_manager' => 'NotificationsManager',
+             'log_manager' => 'LogManager',
+           'permalink_manager' => 'PermalinkManager',
+         //    'layouts_manager' => 'LayoutsManager',
+           'lang_helper' => 'Helpers\\Lang'
         ];
 
         foreach ($providers as $alias => $class) {

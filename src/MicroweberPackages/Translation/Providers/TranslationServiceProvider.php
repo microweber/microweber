@@ -67,6 +67,12 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
             //return;
 
             $this->app->terminating(function () {
+                $translator = app()->translator;
+                if(!method_exists($translator, 'getNewKeys')){
+                    // sometimes translator is overriden by other service provider
+                    return;
+                }
+
 
                 $getNewKeys = app()->translator->getNewKeys();
                 if (!empty($getNewKeys)) {
