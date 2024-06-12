@@ -22,7 +22,10 @@ class RepositoryServiceProvider extends ServiceProvider
 //            ContentRepositoryApi::class
 //        );
 
-        AbstractRepository::setCacheInstance($this->app['cache']);
+        $this->app->afterResolving('cache', function () {
+            AbstractRepository::setCacheInstance($this->app['cache']);
+        });
+
         $this->app->register(\Torann\LaravelRepository\RepositoryServiceProvider::class);
 
         /**

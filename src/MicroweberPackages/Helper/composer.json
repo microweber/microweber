@@ -26,6 +26,13 @@
        "functions/url.php"
      ]
   },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MicroweberPackages\\Helper\\HelpersServiceProvider"
+            ]
+        }
+    },
   "homepage": "http://microweber.com",
   "license": "MIT",
   "support": {

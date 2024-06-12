@@ -12,6 +12,7 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
+
          if (!route_exists('admin.web-app-manifest')) {
             return '';
         }

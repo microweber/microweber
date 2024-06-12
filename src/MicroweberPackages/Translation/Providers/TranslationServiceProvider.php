@@ -14,9 +14,6 @@ use MicroweberPackages\Translation\Translator;
 use \WhiteCube\Lingua\Service as Lingua;
 
 
-
-
-
 class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 {
     /**
@@ -58,7 +55,6 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 //            }
 
 
-
             // If you are import old database we must run migrations
 //            if (!Schema::hasTable('translations_keys')) {
 //                app()->mw_migrator->run([
@@ -67,16 +63,18 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 //            }
 
 
-
-
-
-
             // @todo fix the insert logic
-           //return;
+            //return;
 
             $this->app->terminating(function () {
-                $getNewKeys = app()->translator->getNewKeys();
+                $translator = app()->translator;
+                if(!method_exists($translator, 'getNewKeys')){
+                    // sometimes translator is overriden by other service provider
+                    return;
+                }
 
+
+                $getNewKeys = app()->translator->getNewKeys();
                 if (!empty($getNewKeys)) {
 
                     \Config::set('microweber.disable_model_cache', 1);
@@ -92,24 +90,24 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 //                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
                         //\Log::debug($newKey);
 
-                        $findTranslationKey = TranslationKey::where('translation_namespace', $newKey['translation_namespace'])
+                      //  $findTranslationKey = DB::table('translations_keys')
+                        $findTranslationKey = TranslationKey::query()
+                            ->where('translation_namespace', $newKey['translation_namespace'])
                             ->where('translation_group', $newKey['translation_group'])
-                           // ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
+                            // ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
                             ->where('translation_key', $newKey['translation_key'])
                             ->limit(1)
                             ->first();
                         //   \Log::debug($findTranslationKey);
                         if ($findTranslationKey == null) {
                             $toSave[] = $newKey;
-                            // TranslationKey::insert($newKey);
+                             //TranslationKey::insert($newKey);
                         }
                     }
 
-
                     try {
                         if ($toSave) {
-                          //  \Log::debug($getNewKeys);
-                            DB::beginTransaction();
+                             DB::beginTransaction();
 
                             $toSave_chunked = array_chunk($toSave, 100);
                             foreach ($toSave_chunked as $k => $toSave_chunk) {
@@ -118,11 +116,11 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 
 
                             DB::commit();
-                          //  \Cache::tags('translation_keys')->flush();
+                            //  \Cache::tags('translation_keys')->flush();
                         }
                         // all good
                     } catch (\Exception $e) {
-                         DB::rollback();
+                        DB::rollback();
                         // something went wrong
                     }
                 }
@@ -151,7 +149,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
             });
         }
 
-        app()->singleton('translator', function ($app) {
+
+        $this->app->singleton('translator', function ($app) {
             $loader = $app['translation.loader'];
 
             // When registering the translator component, we'll need to set the default
@@ -166,7 +165,9 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
             return $trans;
         });
 
-
+        $this->app->singleton(\Illuminate\Contracts\Translation\Translator::class, function ($app) {
+            return $app['translator'];
+        });
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(TranslationKey::class, function () {
@@ -175,17 +176,15 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
         });
 
 
-
         $this->app->bind('translation_key_repostory', function () {
 
             /**
              * @mixin Application
-             * @property TranslationKeyRepository   $translation_key_repostory
              * @return Application
+             * @property TranslationKeyRepository $translation_key_repostory
              */
             return $this->app->repository_manager->driver(TranslationKey::class);;
         });
-
 
 
     }

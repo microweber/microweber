@@ -2,12 +2,15 @@
 
 namespace MicroweberPackages\App\Providers;
 
+use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Session\SessionServiceProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\ViewServiceProvider;
 use Jenssegers\Agent\Agent;
 
 use MicroweberPackages\Admin\Providers\AdminRouteServiceProvider;
@@ -16,6 +19,7 @@ use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 use MicroweberPackages\App\Http\Middleware\TrimStrings;
 use MicroweberPackages\App\Utils\Parser;
+use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\Config\ConfigSave;
 use MicroweberPackages\Config\ConfigSaveServiceProvider;
 use MicroweberPackages\Content\Models\Content;
@@ -29,6 +33,7 @@ use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 
@@ -85,43 +90,43 @@ class AppServiceProvider extends ServiceProvider
     */
 
     public $laravel_aliases = [
-        'App' => \Illuminate\Support\Facades\App::class,
-        'Arr' => \Illuminate\Support\Arr::class,
-        'Artisan' => \Illuminate\Support\Facades\Artisan::class,
-        'Auth' => \Illuminate\Support\Facades\Auth::class,
-        'Blade' => \Illuminate\Support\Facades\Blade::class,
-        'Broadcast' => \Illuminate\Support\Facades\Broadcast::class,
-        'Bus' => \Illuminate\Support\Facades\Bus::class,
-        'Cache' => \Illuminate\Support\Facades\Cache::class,
-        'Config' => \Illuminate\Support\Facades\Config::class,
-        'Cookie' => \Illuminate\Support\Facades\Cookie::class,
-        'Crypt' => \Illuminate\Support\Facades\Crypt::class,
-        'DB' => \Illuminate\Support\Facades\DB::class,
-        'Eloquent' => \Illuminate\Database\Eloquent\Model::class,
-        'Event' => \Illuminate\Support\Facades\Event::class,
-        //  'File' => \Illuminate\Support\Facades\File::class,
-        'Gate' => \Illuminate\Support\Facades\Gate::class,
-        'Hash' => \Illuminate\Support\Facades\Hash::class,
-        'Http' => \Illuminate\Support\Facades\Http::class,
-        'Lang' => \Illuminate\Support\Facades\Lang::class,
-        'Log' => \Illuminate\Support\Facades\Log::class,
-        'Mail' => \Illuminate\Support\Facades\Mail::class,
-        'Notification' => \Illuminate\Support\Facades\Notification::class,
-        'Password' => \Illuminate\Support\Facades\Password::class,
-        'Queue' => \Illuminate\Support\Facades\Queue::class,
-        'Redirect' => \Illuminate\Support\Facades\Redirect::class,
-        'Redis' => \Illuminate\Support\Facades\Redis::class,
-        'Request' => \Illuminate\Support\Facades\Request::class,
-        'Response' => \Illuminate\Support\Facades\Response::class,
-        'Route' => \Illuminate\Support\Facades\Route::class,
-        'Schema' => \Illuminate\Support\Facades\Schema::class,
-          'Session' => \Illuminate\Support\Facades\Session::class,
-        'Storage' => \Illuminate\Support\Facades\Storage::class,
-        'Str' => \Illuminate\Support\Str::class,
-        'URL' => \Illuminate\Support\Facades\URL::class,
-        'Validator' => \Illuminate\Support\Facades\Validator::class,
-        'View' => \Illuminate\Support\Facades\View::class,
-        'PDF' => \Barryvdh\DomPDF\Facade::class
+//        'App' => \Illuminate\Support\Facades\App::class,
+//        'Arr' => \Illuminate\Support\Arr::class,
+//        'Artisan' => \Illuminate\Support\Facades\Artisan::class,
+//        'Auth' => \Illuminate\Support\Facades\Auth::class,
+//        'Blade' => \Illuminate\Support\Facades\Blade::class,
+//        'Broadcast' => \Illuminate\Support\Facades\Broadcast::class,
+//        'Bus' => \Illuminate\Support\Facades\Bus::class,
+ //       'Cache' => \Illuminate\Support\Facades\Cache::class,
+//        'Config' => \Illuminate\Support\Facades\Config::class,
+//        'Cookie' => \Illuminate\Support\Facades\Cookie::class,
+//        'Crypt' => \Illuminate\Support\Facades\Crypt::class,
+//        'DB' => \Illuminate\Support\Facades\DB::class,
+//        'Eloquent' => \Illuminate\Database\Eloquent\Model::class,
+//        'Event' => \Illuminate\Support\Facades\Event::class,
+//        //  'File' => \Illuminate\Support\Facades\File::class,
+//        'Gate' => \Illuminate\Support\Facades\Gate::class,
+//        'Hash' => \Illuminate\Support\Facades\Hash::class,
+//        'Http' => \Illuminate\Support\Facades\Http::class,
+//        'Lang' => \Illuminate\Support\Facades\Lang::class,
+//        'Log' => \Illuminate\Support\Facades\Log::class,
+//        'Mail' => \Illuminate\Support\Facades\Mail::class,
+//        'Notification' => \Illuminate\Support\Facades\Notification::class,
+//        'Password' => \Illuminate\Support\Facades\Password::class,
+//        'Queue' => \Illuminate\Support\Facades\Queue::class,
+//        'Redirect' => \Illuminate\Support\Facades\Redirect::class,
+//        'Redis' => \Illuminate\Support\Facades\Redis::class,
+//        'Request' => \Illuminate\Support\Facades\Request::class,
+//        'Response' => \Illuminate\Support\Facades\Response::class,
+//        'Route' => \Illuminate\Support\Facades\Route::class,
+//        'Schema' => \Illuminate\Support\Facades\Schema::class,
+//          'Session' => \Illuminate\Support\Facades\Session::class,
+//        'Storage' => \Illuminate\Support\Facades\Storage::class,
+//        'Str' => \Illuminate\Support\Str::class,
+//        'URL' => \Illuminate\Support\Facades\URL::class,
+//        'Validator' => \Illuminate\Support\Facades\Validator::class,
+//        'View' => \Illuminate\Support\Facades\View::class,
+//        'PDF' => \Barryvdh\DomPDF\Facade::class
     ];
 
     public function __construct($app)
@@ -144,9 +149,24 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
+      //  return;
 
-        $this->registerLaravelProviders();
-        $this->registerLaravelAliases();
+
+     $this->app->register(\Illuminate\Cache\CacheServiceProvider::class);
+//        $this->register(new ViewServiceProvider($this));
+//        $this->register(new SessionServiceProvider($this));
+//        $this->register(new FilesystemServiceProvider($this));
+      //  $this->register(new TaggableFileCacheServiceProvider($this));
+       // $this->registerLaravelProviders();
+       $this->registerLaravelAliases();
+
+        $this->app->singleton('mw_migrator', function ($app) {
+            $repository = $app['migration.repository'];
+            return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events']);
+        });
+
+   //  $this->app->register(TranslationServiceProvider::class);
+
 
 
 
@@ -159,15 +179,18 @@ class AppServiceProvider extends ServiceProvider
 
         }
 
+
         $this->app->register(CoreServiceProvider::class);
 
         $this->setEnvironmentDetection();
-        $this->registerUtils();
+       $this->registerUtils();
+        $this->app->register(MicroweberServiceProvider::class);
 
-        $this->registerSingletonProviders();
+      $this->registerSingletonProviders();
 
-        $this->registerHtmlCollective();
-        $this->registerMarkdown();
+    //    $this->registerHtmlCollective();
+     //   $this->registerMarkdown();
+
 
 //        $this->app->instance('config', new ConfigSave($this->app));
          $this->app->register(ConfigExtendedServiceProvider::class);
@@ -177,7 +200,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (is_https() or (Config::get('microweber.force_https') && !is_cli())) {
-            URL::forceScheme("https");
+       //     URL::forceScheme("https");
         }
 
       //  URL::forceRootUrl( site_url());
@@ -191,9 +214,7 @@ class AppServiceProvider extends ServiceProvider
 //        }
 
         $is_installed = mw_is_installed();
-        $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
-
-        $this->app->register(MicroweberServiceProvider::class);
+  //      $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
 
 
@@ -221,10 +242,6 @@ class AppServiceProvider extends ServiceProvider
 
     protected function registerLaravelProviders()
     {
-        $this->app->singleton('mw_migrator', function ($app) {
-            $repository = $app['migration.repository'];
-            return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events']);
-        });
 
         foreach ($this->laravel_providers as $provider) {
             $this->app->register($provider);
@@ -357,11 +374,11 @@ class AppServiceProvider extends ServiceProvider
             'update' => 'UpdateManager',
             'cache_manager' => 'CacheManager',
             'config_manager' => 'ConfigurationManager',
-            'notifications_manager' => 'NotificationsManager',
-            'log_manager' => 'LogManager',
-            'permalink_manager' => 'PermalinkManager',
-            'layouts_manager' => 'LayoutsManager',
-            'lang_helper' => 'Helpers\\Lang'
+          'notifications_manager' => 'NotificationsManager',
+             'log_manager' => 'LogManager',
+           'permalink_manager' => 'PermalinkManager',
+         //    'layouts_manager' => 'LayoutsManager',
+           'lang_helper' => 'Helpers\\Lang'
         ];
 
         foreach ($providers as $alias => $class) {
@@ -472,9 +489,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register(AdminRouteServiceProvider::class);
 
-        if (class_exists(\App\Providers\AppServiceProvider::class)) {
-            app()->register(\App\Providers\AppServiceProvider::class);
-        }
+//        if (class_exists(\App\Providers\AppServiceProvider::class)) {
+//            app()->register(\App\Providers\AppServiceProvider::class);
+//        }
 
          $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 

@@ -108,14 +108,14 @@ class LivewireServiceProvider extends ServiceProvider
     public function ensureLivewiereFilesAreCopiedToPublicPath()
     {
         //check if assets are copied
-        $check = public_path('vendor/livewire/livewire.min.js');
-        if(is_file($check)){
-            return;
-        }
-        Artisan::call('vendor:publish', [
-            '--provider' => 'Livewire\LivewireServiceProvider',
-            '--tag' => 'livewire:assets',
-        ]);
+//        $check = public_path('vendor/livewire/livewire.min.js');
+//        if(is_file($check)){
+//            return;
+//        }
+//        Artisan::call('vendor:publish', [
+//            '--provider' => 'Livewire\LivewireServiceProvider',
+//            '--tag' => 'livewire:assets',
+//        ]);
 
     }
 
@@ -146,7 +146,7 @@ class LivewireServiceProvider extends ServiceProvider
 //
 
         // the new mw dialog
-        app()->register(LivewireMwModalServiceProvider::class);
+       // app()->register(LivewireMwModalServiceProvider::class);
         // $resolver = app()->make(MwLivewireComponentResolver::class);
         //  dd($reg,$resolver);
         //app()->make(\Livewire\Mechanisms\ComponentRegistry::class)->resolveMissingComponent($resolver);
