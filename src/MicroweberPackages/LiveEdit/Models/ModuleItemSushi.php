@@ -16,9 +16,6 @@ class ModuleItemSushi extends Model
 
     protected array $schema = [
         'id' => 'string',
-        'title' => 'datetime',
-        'icon' => 'integer',
-        'position' => 'integer',
     ];
 
     public static function queryForOptionGroup(string $optionGroup = 'general'): Builder
@@ -39,12 +36,18 @@ class ModuleItemSushi extends Model
             if (!$settings && !is_array($settings)) {
                 $settings = [];
             }
-            $settings[] = [
-                'id' => uniqid(),
-                'title' => $model->title,
-                'icon' => $model->icon,
-                'position' => 0,
-            ];
+            $settingItem = [];
+            $settingItem['id'] = uniqid();
+            if (isset($model->fillable) && !empty($model->fillable)) {
+                foreach ($model->fillable as $fillable) {
+                    if ($fillable == 'id') {
+                        continue;
+                    }
+                    $settingItem[$fillable] = $model->$fillable;
+                }
+            }
+            $settings[] = $settingItem;
+
             save_option('settings', json_encode($settings), $optionGroup);
         });
 
@@ -68,9 +71,11 @@ class ModuleItemSushi extends Model
             if ($settings) {
                 $settings = array_map(function ($tab) use ($model) {
                     if ($tab['id'] == $model->id) {
-                        $tab['title'] = $model->title;
-                        $tab['icon'] = $model->icon;
-                        $tab['position'] = $model->position;
+                        if (isset($model->fillable) && !empty($model->fillable)) {
+                            foreach ($model->fillable as $fillable) {
+                                $tab[$fillable] = $model->$fillable;
+                            }
+                        }
                     }
                     return $tab;
                 }, $settings);
@@ -94,14 +99,18 @@ class ModuleItemSushi extends Model
             $settings = json_decode($settings, true);
             if (!empty($settings) && is_array($settings)) {
                 $rows = [];
+
                 foreach ($settings as $tab) {
-                    $rows[] = [
-                        'id' => $tab['id'],
-                        'title' => $tab['title'] ?? '',
-                        'icon' => $tab['icon'] ?? '',
-                        'position' => $tab['position'] ?? '',
-                    ];
+                    $row = [];
+                    $row['id'] = $tab['id'];
+                    if (isset($this->fillable) && !empty($this->fillable)) {
+                        foreach ($this->fillable as $fillable) {
+                            $row[$fillable] = $tab[$fillable] ?? '';
+                        }
+                    }
+                    $rows[] = $row;
                 }
+
                 // Sort by position
                 usort($rows, function ($a, $b) {
                     return $a['position'] <=> $b['position'];

@@ -22,8 +22,11 @@ class TeamcardServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        Livewire::component('microweber-module-teamcard::settings', TeamcardSettingsComponent::class);
-        ModuleAdmin::registerSettings('teamcard', 'microweber-module-teamcard::settings');
+//        Livewire::component('microweber-module-teamcard::settings', TeamcardSettingsComponent::class);
+//        ModuleAdmin::registerSettings('teamcard', 'microweber-module-teamcard::settings');
+
+        ModuleAdmin::registerLiveEditSettingsUrl('teamcard', site_url('admin-live-edit/teamcard-module-settings'));
+        ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Teamcard\Http\Livewire\TeamcardModuleSettings::class);
 
 
     }

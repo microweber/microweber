@@ -13,4 +13,11 @@ class FaqItem extends ModuleItemSushi
         'position',
     ];
 
+    protected array $schema = [
+        'id' => 'string',
+        'question' => 'string',
+        'answer' => 'string',
+        'position' => 'integer',
+    ];
+
 }
