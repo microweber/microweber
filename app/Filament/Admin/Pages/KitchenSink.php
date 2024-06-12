@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 
 class KitchenSink extends Page
 {
@@ -58,6 +59,10 @@ class KitchenSink extends Page
                     ->tabs([
                         Tabs\Tab::make('Image')
                             ->schema([
+
+                                MwFileUpload::make('image')
+                                    ->label('Image'),
+
                                 TextInput::make('backgroundColor')
                                     ->type('color')
                                     ->label('Background Color'),
