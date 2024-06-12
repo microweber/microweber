@@ -71,7 +71,7 @@ class ModuleItemSushi extends Model
             if ($settings) {
                 $settings = array_map(function ($tab) use ($model) {
                     if ($tab['id'] == $model->id) {
-                        if (isset($model->fillable) && !empty($model->fillable)) {
+                        if (!empty($model->fillable)) {
                             foreach ($model->fillable as $fillable) {
                                 $tab[$fillable] = $model->$fillable;
                             }
@@ -103,7 +103,7 @@ class ModuleItemSushi extends Model
                 foreach ($settings as $tab) {
                     $row = [];
                     $row['id'] = $tab['id'];
-                    if (isset($this->fillable) && !empty($this->fillable)) {
+                    if (!empty($this->fillable)) {
                         foreach ($this->fillable as $fillable) {
                             $row[$fillable] = $tab[$fillable] ?? '';
                         }
