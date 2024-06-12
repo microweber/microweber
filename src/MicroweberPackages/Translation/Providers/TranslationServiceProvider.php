@@ -90,7 +90,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
 //                            $newKey['translation_namespace'] = trim($newKey['translation_namespace']);
                         //\Log::debug($newKey);
 
-                        $findTranslationKey = DB::table('translations_keys')
+                      //  $findTranslationKey = DB::table('translations_keys')
+                        $findTranslationKey = TranslationKey::query()
                             ->where('translation_namespace', $newKey['translation_namespace'])
                             ->where('translation_group', $newKey['translation_group'])
                             // ->where(\DB::raw('md5(translation_key)'), md5($newKey['translation_key']))
@@ -100,15 +101,13 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                         //   \Log::debug($findTranslationKey);
                         if ($findTranslationKey == null) {
                             $toSave[] = $newKey;
-                            // TranslationKey::insert($newKey);
+                             //TranslationKey::insert($newKey);
                         }
                     }
 
-
                     try {
                         if ($toSave) {
-                            //  \Log::debug($getNewKeys);
-                            DB::beginTransaction();
+                             DB::beginTransaction();
 
                             $toSave_chunked = array_chunk($toSave, 100);
                             foreach ($toSave_chunked as $k => $toSave_chunk) {
