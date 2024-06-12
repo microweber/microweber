@@ -112,13 +112,16 @@ class MicroweberServiceProvider extends ServiceProvider
     {
 
 
-        $this->app->register(HelpersServiceProvider::class);
+
+        $this->app->register( \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class);
+        $this->app->register(\MicroweberPackages\Database\DatabaseManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(LiveEditRouteServiceProvider::class);
 
         $this->app->register(ViewServiceProvider::class);
         $this->app->register(MicroweberUIServiceProvider::class);
 //        $this->app->register(BladeUIServiceProvider::class);
+        $this->app->register(TemplateManagerServiceProvider::class);
 
         $this->app->register(LivewireServiceProvider::class);
 
@@ -168,8 +171,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(CustomFieldEventServiceProvider::class);
         $this->app->register(TemplateEventServiceProvider::class);
 
-        $this->app->register(TemplateManagerServiceProvider::class);
-        $this->app->register(DatabaseManagerServiceProvider::class);
+        //$this->app->register(DatabaseManagerServiceProvider::class);
         $this->app->register(MetaTagsServiceProvider::class);
 
         // Shop
