@@ -1,5 +1,6 @@
 config/*
 vendor/*
+public/vendor/*
 config/database.php
 config/app.php
 config/debugbar.php
