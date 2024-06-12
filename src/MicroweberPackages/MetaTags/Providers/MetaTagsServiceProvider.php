@@ -47,12 +47,12 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
         });
         PackageManager::create('filament', function (Package $package) {
             $package->requires([
-               // 'mw_settings_js',
-              //  'admin_web_app_manifest',
-               // 'admin_filament_js',
-             //   'mw_icon_fonts_css',
-                //   'core',
-             //   'admin_custom_css_and_js',
+                'mw_settings_js',
+                'admin_web_app_manifest',
+                'admin_filament_js',
+                'mw_icon_fonts_css',
+                   'core',
+                'admin_custom_css_and_js',
             ]);
         });
 
