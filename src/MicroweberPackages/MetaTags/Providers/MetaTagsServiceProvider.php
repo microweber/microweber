@@ -51,7 +51,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'admin_web_app_manifest',
                 'admin_filament_js',
                 'mw_icon_fonts_css',
-                   'core',
+
                 'admin_custom_css_and_js',
             ]);
         });
