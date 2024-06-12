@@ -141,12 +141,12 @@ class LivewireServiceProvider extends ServiceProvider
 
 
         // Load UI Modal
-//        app()->register(LivewireModalServiceProvider::class);
+  //       app()->register(LivewireModalServiceProvider::class);
 //        $this->mergeConfigFrom(__DIR__.'/config/livewire-ui-modal.php', 'livewire-ui-modal');
 //
 
         // the new mw dialog
-       // app()->register(LivewireMwModalServiceProvider::class);
+       app()->register(LivewireMwModalServiceProvider::class);
         // $resolver = app()->make(MwLivewireComponentResolver::class);
         //  dd($reg,$resolver);
         //app()->make(\Livewire\Mechanisms\ComponentRegistry::class)->resolveMissingComponent($resolver);
