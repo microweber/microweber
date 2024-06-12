@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Models\ModuleItemSushi;
 use MicroweberPackages\Modules\Tabs\Models\Tab;
 
@@ -64,7 +65,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                         ->maxLength(255);
                 }
                 if ($schema['type'] == 'image') {
-                    $formFields[] = FileUpload::make($schema['name'])
+                    $formFields[] = MwFileUpload::make($schema['name'])
                         ->label($schema['label'])
                         ->placeholder($schema['placeholder']);
                 }
