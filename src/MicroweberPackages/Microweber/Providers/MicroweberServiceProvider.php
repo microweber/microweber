@@ -47,6 +47,7 @@ use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
+use MicroweberPackages\LaravelConfigExtended\ConfigExtendedServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
@@ -67,6 +68,7 @@ use MicroweberPackages\Option\Providers\OptionServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Order\Providers\OrderServiceProvider;
 use MicroweberPackages\Page\PageServiceProvider;
+use MicroweberPackages\Pagination\PaginationServiceProvider;
 use MicroweberPackages\Payment\PaymentManagerServiceProvider;
 use MicroweberPackages\Post\PostServiceProvider;
 use MicroweberPackages\Product\ProductServiceProvider;
@@ -114,6 +116,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
 
         $this->app->register( \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class);
+        $this->app->register( ConfigExtendedServiceProvider::class);
         $this->app->register(\MicroweberPackages\Database\DatabaseManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(LiveEditRouteServiceProvider::class);
@@ -142,6 +145,9 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         //$this->app->register(DebugbarServiceProvider::class);
+
+        $this->app->register(PaginationServiceProvider::class);
+
 
 
         //   $this->app->register(TaggableFileCacheServiceProvider::class);
