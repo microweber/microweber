@@ -33,7 +33,7 @@ abstract class LiveEditModuleSettings extends Page
     {
 
         $formInstance = $this->form(new Form($this));
-        $formFields = $formInstance->getFlatFields();
+        $formFields = $formInstance->getFlatFields(true);
         if (!empty($formFields)) {
             foreach ($formFields as $field) {
                 $fieldStatePath = $field->getStatePath();
