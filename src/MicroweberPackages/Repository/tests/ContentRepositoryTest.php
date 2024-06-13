@@ -37,7 +37,8 @@ class ContentRepositoryTest extends TestCase
 
 
         foreach ($cont as $con) {
-            $data = $content_repository->findById($con->id)->contentData;
+
+            $data = $content_repository->findById($con->id)->contentData()->get();
             if ($data) {
                 foreach ($data as $dat) {
 
