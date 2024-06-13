@@ -10,6 +10,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
+use MicroweberPackages\Multilanguage\FormElements\Text;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class FilamentTranslatableFieldsPlugin implements Plugin
@@ -78,8 +79,7 @@ class FilamentTranslatableFieldsPlugin implements Plugin
                     ]);
 
                 return $textInput;
-            }
-            if (class_basename($this) == 'Textarea') {
+            } else if (class_basename($this) == 'Textarea') {
 
                 $textarea = Textarea::make($fieldName)
                     ->live()
@@ -93,7 +93,7 @@ class FilamentTranslatableFieldsPlugin implements Plugin
                 return $textarea;
             }
 
-         //   dd('Unsupported field type: ' . class_basename($this));
+            throw new \Exception('Unsupported field type: ' . class_basename($this));
 
             return $this;
         });
