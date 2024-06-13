@@ -18,6 +18,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\LiveEdit\Models\ModuleItemSushi;
 use MicroweberPackages\Modules\Tabs\Models\Tab;
 
@@ -89,10 +90,22 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
             }
         }
         if (isset($editorSettings['config']['listColumns'])) {
-            foreach ($editorSettings['config']['listColumns'] as $key=>$value) {
-                $tableColumns[] = TextColumn::make($key)
-                        ->label($value)
-                        ->searchable();
+            foreach ($editorSettings['config']['listColumns'] as $key=>$columnSettings) {
+                if (isset($columnSettings['type'])) {
+                    if ($columnSettings['type'] == 'text') {
+                        $tableColumns[] = TextColumn::make($key)
+                            ->label($columnSettings['label'])
+                            ->searchable();
+                    }
+                    if ($columnSettings['type'] == 'image') {
+                        $tableColumns[] = ImageUrlColumn::make($key)
+                            ->label($columnSettings['label'])
+                            ->imageUrl(function ($record) use ($key) {
+                                return $record[$key];
+                            })
+                            ->searchable();
+                    }
+                }
             }
         }
         $builtTable->columns($tableColumns);

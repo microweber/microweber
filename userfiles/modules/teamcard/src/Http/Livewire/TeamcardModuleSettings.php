@@ -26,8 +26,14 @@ class TeamcardModuleSettings extends ModuleSettingsItemsEditorComponent
                 'sortItems' => true,
                 'settingsKey' => 'settings',
                 'listColumns' => [
-                    'file' => 'Image',
-                    'name' => 'Name',
+                    'file' => [
+                        'label' => 'Picture',
+                        'type' => 'image',
+                    ],
+                    'name' => [
+                        'label' => 'Name',
+                        'type' => 'text',
+                    ],
                 ],
             ],
             'schema' => [
