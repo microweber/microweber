@@ -157,7 +157,7 @@ class AppServiceProvider extends ServiceProvider
 //        $this->register(new SessionServiceProvider($this));
 //        $this->register(new FilesystemServiceProvider($this));
       //  $this->register(new TaggableFileCacheServiceProvider($this));
-       // $this->registerLaravelProviders();
+       $this->registerLaravelProviders();
        $this->registerLaravelAliases();
 
         $this->app->singleton('mw_migrator', function ($app) {
