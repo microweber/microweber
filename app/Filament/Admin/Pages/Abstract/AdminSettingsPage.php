@@ -37,7 +37,19 @@ abstract class AdminSettingsPage extends Page
     {
 
         $formInstance = $this->form(new Form($this));
-        $formState = $formInstance->getState();
+
+        $formFields = $formInstance->getFlatFields(true);
+        if (!empty($formFields)) {
+            foreach ($formFields as $field) {
+                $fieldStatePath = $field->getStatePath();
+                $fieldStatePath = array_undot_str($fieldStatePath);
+                if (isset($fieldStatePath['options'])) {
+                    foreach ($fieldStatePath['options'] as $optionGroup => $optionKey) {
+                        $this->options[$optionGroup][$optionKey] = '';
+                    }
+                }
+            }
+        }
 
         if (isset($formState['translatableOptions'])) {
             $this->translatableOptions = $formState['translatableOptions'];
