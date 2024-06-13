@@ -50,6 +50,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
         $editorSettings = $this->getEditorSettings();
 
         $formFields = [];
+        $tableColumns = [];
         if (isset($editorSettings['schema'])) {
             foreach ($editorSettings['schema'] as $schema) {
                 if ($schema['type'] == 'text') {
@@ -89,13 +90,12 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
         }
         if (isset($editorSettings['config']['listColumns'])) {
             foreach ($editorSettings['config']['listColumns'] as $key=>$value) {
-                $builtTable->columns([
-                    TextColumn::make($key)
+                $tableColumns[] = TextColumn::make($key)
                         ->label($value)
-                        ->searchable(),
-                ]);
+                        ->searchable();
             }
         }
+        $builtTable->columns($tableColumns);
 
         $headerActions = [];
         if (isset($editorSettings['config']['addButtonText'])) {
