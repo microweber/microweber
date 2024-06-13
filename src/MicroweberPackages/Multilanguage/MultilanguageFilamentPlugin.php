@@ -22,6 +22,12 @@ class MultilanguageFilamentPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
+
+        if (!MultilanguageHelpers::multilanguageIsEnabled()) {
+        //    return;
+        }
+
+
         // TODO
         $defaultLocales = [];
         $getSupportedLocales = DB::table('multilanguage_supported_locales')
@@ -31,14 +37,24 @@ class MultilanguageFilamentPlugin implements Plugin
                 $defaultLocales[] = $locale->locale;
             }
         }
+
+        if (empty($defaultLocales)) {
+            $defaultLocales = ['en_US'];
+        }
+
+
         $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
         $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
         $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
+
+
     }
 
     public function boot(Panel $panel): void
     {
-
+        if (!MultilanguageHelpers::multilanguageIsEnabled()) {
+          //  return;
+        }
         FilamentAsset::register([
             Js::make('mw-filament-translatable', Vite::asset('src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js')),
         ]);
