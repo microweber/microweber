@@ -10,6 +10,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class FilamentTranslatableFieldsPlugin implements Plugin
 {
@@ -56,6 +57,9 @@ class FilamentTranslatableFieldsPlugin implements Plugin
         Field::macro('mwTranslatableOption', function () use ($supportedLanguages) {
 
             if (empty($supportedLanguages)) {
+                return $this;
+            }
+            if (!MultilanguageHelpers::multilanguageIsEnabled()) {
                 return $this;
             }
 

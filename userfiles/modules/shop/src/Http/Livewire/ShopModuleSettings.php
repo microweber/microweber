@@ -93,7 +93,7 @@ class ShopModuleSettings extends LiveEditModuleSettings implements HasTable
         return $form
             ->schema([
 
-                Select::make('options.shop.from_source')
+                Select::make('options.from_source')
                     ->options(function () {
                         return Page::query()->pluck('title', 'id');
                     })
@@ -101,7 +101,7 @@ class ShopModuleSettings extends LiveEditModuleSettings implements HasTable
                     ->label('From source')
                     ->live(),
 
-                Select::make('options.shop.category_filter')
+                Select::make('options.category_filter')
                 ->options([
                     '' => '-- All',
                     'related' => '-- Related',
@@ -109,14 +109,14 @@ class ShopModuleSettings extends LiveEditModuleSettings implements HasTable
                     'current_category' => '-- Current Category',
                 ]),
 
-                TagsInput::make('options.shop.filter_tags')
+                TagsInput::make('options.filter_tags')
                     ->label('Filter tags')
                     ->suggestions(function() {
                         return Tag::query()->pluck('name');
                     })
                     ->live(),
 
-                Radio::make('options.shop.data-show')
+                Radio::make('options.data-show')
                     ->label('Display on post')
                     ->options([
                         'default' => 'Default information from skin',
@@ -128,24 +128,24 @@ class ShopModuleSettings extends LiveEditModuleSettings implements HasTable
 
 
                 Group::make([
-                    Checkbox::make('options.shop.show-thumbnail')
+                    Checkbox::make('options.show-thumbnail')
                         ->label('Show Thumbnail'),
-                    Checkbox::make('options.shop.show-title')
+                    Checkbox::make('options.show-title')
                         ->label('Show Title'),
-                    Checkbox::make('options.shop.show-description')
+                    Checkbox::make('options.show-description')
                         ->label('Show Description'),
-                    Checkbox::make('options.shop.show-read-more')
+                    Checkbox::make('options.show-read-more')
                         ->label('Show Read More'),
-                    Checkbox::make('options.shop.show-created-at')
+                    Checkbox::make('options.show-created-at')
                         ->label('Show Created At'),
-                ])->hidden(fn(Get $get) => $get('options.shop.data-show') !== 'custom'),
+                ])->hidden(fn(Get $get) => $get('options.data-show') !== 'custom'),
 
 
                 Split::make([
-                    TextInput::make('options.shop.post-per-page')
+                    TextInput::make('options.post-per-page')
                         ->numeric()
                         ->label('Post per page'),
-                    Select::make('options.shop.order-boy')
+                    Select::make('options.order-boy')
                         ->options([
                             'position+asc' => 'Position (ASC)',
                             'position+desc' => 'Position (DESC)',
