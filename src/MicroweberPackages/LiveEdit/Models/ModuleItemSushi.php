@@ -113,6 +113,9 @@ class ModuleItemSushi extends Model
 
                 // Sort by position
                 usort($rows, function ($a, $b) {
+                    if (!isset($a['position'])) {
+                        return false;
+                    }
                     return $a['position'] <=> $b['position'];
                 });
                 return $rows;
