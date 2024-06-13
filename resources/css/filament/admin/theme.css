@@ -123,13 +123,10 @@
 .fi-sidebar-group {
     @apply !py-0;
 }
-.cursor-pointer .fi-sidebar-item-label {
-    @apply !bg-red-500;
-}
-.cursor-pointer .fi-sidebar-item-button {
+.fi-sidebar-group .fi-sidebar-item-button {
     @apply !py-1;
 }
-.cursor-pointer .fi-sidebar-item-button .fi-sidebar-item-label {
+.fi-sidebar-group .fi-sidebar-item-button .fi-sidebar-item-label {
     @apply !text-sm;
 }
 .fi-sidebar-item-button {
