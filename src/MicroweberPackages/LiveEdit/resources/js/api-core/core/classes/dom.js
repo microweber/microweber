@@ -77,7 +77,7 @@ export class DomService {
         if (!el) return;
         var curr = el.parentNode;
         while (curr && curr.nodeName !== 'BODY') {
-            if (curr.classList.contains(cls)) {
+            if (curr.classList && curr.classList.contains(cls)) {
                 return true;
             }
             curr = curr.parentNode;
