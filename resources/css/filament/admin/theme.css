@@ -107,4 +107,32 @@
     @apply !hidden;
 }
 
+/*SIDEBAR STYLES*/
+.fi-sidebar-group-label {
+    @apply !text-black;
+}
+.fi-sidebar-group-icon {
+    @apply !text-black;
+}
+.fi-sidebar-nav-groups {
+    @apply !gap-y-2 !-mx-0 !divide-y-0;
+}
+.fi-sidebar-nav-groups .fi-sidebar-item-button {
+    @apply !text-sm;
+}
+.fi-sidebar-group {
+    @apply !py-0;
+}
+.cursor-pointer .fi-sidebar-item-label {
+    @apply !bg-red-500;
+}
+.cursor-pointer .fi-sidebar-item-button {
+    @apply !py-1;
+}
+.cursor-pointer .fi-sidebar-item-button .fi-sidebar-item-label {
+    @apply !text-sm;
+}
+.fi-sidebar-item-button {
+    @apply !py-[0.6rem];
+}
 @config 'tailwind.config.js';
