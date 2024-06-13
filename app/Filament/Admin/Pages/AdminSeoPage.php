@@ -36,8 +36,9 @@ class AdminSeoPage extends AdminSettingsPage
 
                         TextInput::make('options.website.google-site-verification-code')
                             ->label('Google site verification code')
+                            ->live()
                             ->helperText(function() {
-                                return new HtmlString("<small>If you have a Google Tag Manager account, you can verify ownership of a site using your Google Tag Manager container snippet code. To verify ownership using Google Tag Manager: Choose Google Tag Manager in the verification details page for your site, and follow the instructions shown. <a href="https://support.google.com/webmasters/answer/9008080?hl=en#choose_method&amp;zippy=%2Chtml-tag" target="_blank">Read the article here.</a></small>");
+                                return new HtmlString('<small>If you have a Google Tag Manager account, you can verify ownership of a site using your Google Tag Manager container snippet code. To verify ownership using Google Tag Manager: Choose Google Tag Manager in the verification details page for your site, and follow the instructions shown. <a href="https://support.google.com/webmasters/answer/9008080?hl=en#choose_method&amp;zippy=%2Chtml-tag" target="_blank">Read the article here.</a></small>');
                             })
                             ->placeholder('Enter your website name'),
 
