@@ -17,10 +17,13 @@ class KitchenSink extends Page
 
     protected static string $view = 'filament.admin.pages.kitchen-sink';
 
+    protected static ?string $navigationGroup = 'Other';
     protected static ?int $navigationSort = 99;
 
     public int $star = 0;
     public int $resetStars = 0;
+
+    public $image = '';
 
     public function form(Form $form): Form
     {

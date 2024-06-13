@@ -11,6 +11,9 @@ class Settings extends Page
 
     protected static string $view = 'filament.admin.pages.settings';
 
+    protected static ?string $navigationGroup = 'Other';
+
+    protected static ?int $navigationSort = 97;
 
     public function getViewData(): array
     {

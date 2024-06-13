@@ -25,6 +25,8 @@ class ModuleResource extends Resource
 
     protected static ?string $navigationIcon = 'mw-modules';
 
+    protected static ?string $navigationGroup = 'Other';
+
     protected static ?string $label = 'Modules';
 
     public static function form(Form $form): Form
