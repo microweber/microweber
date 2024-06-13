@@ -7,6 +7,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\HtmlString;
 
 class AdminSeoPage extends AdminSettingsPage
 {
@@ -27,17 +29,21 @@ class AdminSeoPage extends AdminSettingsPage
         return $form
             ->schema([
 
-                Section::make('SECTION')
+                Section::make('SEO Settings')
                     ->view('filament-forms::sections.section')
-                    ->description('SECTION DESCRIPTOION')
+                    ->description('Make these settings to get the best results when finding your website.')
                     ->schema([
 
-                        TextInput::make('options.website.test')
-                            ->label('Test Field')
-                            ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.')
+                        TextInput::make('options.website.google-site-verification-code')
+                            ->label('Google site verification code')
+                            ->helperText(function() {
+                                return new HtmlString("<small>If you have a Google Tag Manager account, you can verify ownership of a site using your Google Tag Manager container snippet code. To verify ownership using Google Tag Manager: Choose Google Tag Manager in the verification details page for your site, and follow the instructions shown. <a href="https://support.google.com/webmasters/answer/9008080?hl=en#choose_method&amp;zippy=%2Chtml-tag" target="_blank">Read the article here.</a></small>");
+                            })
                             ->placeholder('Enter your website name'),
 
-                    ])
+                    ]),
+
+
 
             ]);
     }
