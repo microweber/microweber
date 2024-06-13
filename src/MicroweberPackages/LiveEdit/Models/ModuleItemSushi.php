@@ -36,8 +36,9 @@ class ModuleItemSushi extends Model
             if (!$settings && !is_array($settings)) {
                 $settings = [];
             }
+            $autoId = count($settings) + 1;
             $settingItem = [];
-            $settingItem['id'] = uniqid();
+            $settingItem['id'] = $autoId;
             if (isset($model->fillable) && !empty($model->fillable)) {
                 foreach ($model->fillable as $fillable) {
                     if ($fillable == 'id') {
