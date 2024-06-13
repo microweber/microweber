@@ -53,7 +53,10 @@ class AdminSeoPage extends AdminSettingsPage
                         TextInput::make('options.website.qko')
                             ->label('pokazwa se pri toggle')
                             ->hidden(function(Get $get) {
-                                return $get('options.website.toggle') !== '1';
+                                if ($get('options.website.toggle')) {
+                                    return false;
+                                }
+                                return true;
                             })
                             ->live()
                             ->helperText('pokazwa se pri toggle'),
