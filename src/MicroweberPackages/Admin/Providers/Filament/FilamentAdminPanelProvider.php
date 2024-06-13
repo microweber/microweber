@@ -89,12 +89,18 @@ class FilamentAdminPanelProvider extends PanelProvider
             })
             ->unsavedChangesAlerts()
             ->navigationGroups([
+                'Dashboard' => NavigationGroup::make()
+                    ->label('')
+                     ->collapsible(false),
                 'Website' => NavigationGroup::make()
                     ->icon('mw-website')
                     ->label('Website'),
                 'Shop' => NavigationGroup::make()
                     ->icon('mw-shop')
                     ->label('Shop'),
+                'Other' => NavigationGroup::make()
+                    ->label('Other')
+                    ->collapsible(false),
             ])
             ->sidebarWidth('15rem')
             ->colors([
