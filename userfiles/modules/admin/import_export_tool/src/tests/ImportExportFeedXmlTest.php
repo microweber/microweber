@@ -62,7 +62,7 @@ class ImportExportFeedXmlTest extends TestCase
             ->call('selectImportTo', 'products')
             ->set('import_feed.source_type', 'upload_file')
             ->call('readUploadedFile', $fakerFile->name)
-            ->assertDispatchedBrowserEvent('read-feed-from-file')
+            ->assertDispatched('read-feed-from-file')
             ->assertSuccessful()
             ->assertSee('Feed is uploaded successfully');
 

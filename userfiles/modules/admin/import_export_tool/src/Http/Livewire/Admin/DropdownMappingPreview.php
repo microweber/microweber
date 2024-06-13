@@ -349,7 +349,7 @@ class DropdownMappingPreview extends AdminComponent
                 'mapKey'=>$mapKeyHtml,
                 'value'=>$value,
             ]
-        )->html();
+        );
 
     }
 
