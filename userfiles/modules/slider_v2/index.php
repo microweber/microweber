@@ -21,7 +21,7 @@ $currentSlide = 0;
 
 if (!empty($slides)) {
     foreach ($slides as $iSlide => $slide) {
-        $slidesIndexes[$slide['itemId']] = $iSlide;
+        $slidesIndexes[$slide['id']] = $iSlide;
     }
  //   $slidesOrderedByDate = collect($slides)->sortBy('updatedAt')->reverse()->toArray();
   //  $currentSlide = key($slidesOrderedByDate);
