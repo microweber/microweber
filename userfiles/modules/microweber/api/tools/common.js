@@ -14,7 +14,7 @@ $(window).load(function () {
 
     mw.dropdown();
 });
-$(document).ready(function () {
+$(mwd).ready(function () {
     mw.tools.constructions();
     mw.dropdown();
     mw.$(document.body).ajaxStop(function () {

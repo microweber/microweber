@@ -1,4 +1,4 @@
-mw.tabs = function (obj, element, model) {
+mw.tools.tabGroup = function (obj, element, model) {
     /*
     *
     *  {

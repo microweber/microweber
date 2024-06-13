@@ -18,7 +18,7 @@
         };
 
         var normalizeAccept = function (type) {
-
+           
             type = (type || '').trim().toLowerCase();
             if(!type) return '*';
             if (type === 'image' || type === 'images') return '.png,.gif,.jpg,.jpeg,.bmp,.svg,.ico,.avif,.webp';
@@ -31,13 +31,13 @@
 
         var scope = this;
         this.settings = $.extend({}, defaults, options);
-
+       
         this.settings.accept = normalizeAccept(this.settings.accept);
-
+        
 
         this.getUrl = function () {
             var params = this.urlParams();
-            var empty = Object.keys(params).length == 0;
+            var empty = mw.tools.isEmptyObject(params);
             return this.url() + (empty ? '' : ('?' + $.param(params)));
         };
 
@@ -448,8 +448,7 @@
 
 
 
-            // return mw.jqxhr(xhrOptions);
-            return jQuery.ajax(xhrOptions);
+            return mw.jqxhr(xhrOptions);
         };
     };
 

@@ -143,8 +143,9 @@ export class DomService {
     static firstParentOrCurrentWithClass (el, cls) {
         if (!el) return false;
         var curr = el;
-        while (curr && curr.nodeName !== 'BODY') {
-            if (curr.classList.contains(cls)) {
+        while (curr && curr.nodeName !== 'BODY' ) {
+
+            if (curr.nodeType === 1 && curr.classList.contains(cls)) {
                 return curr;
             }
             curr = curr.parentNode;

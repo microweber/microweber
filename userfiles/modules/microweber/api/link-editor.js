@@ -1,7 +1,7 @@
 
-
-
-
+mw.require('widgets.css');
+mw.require('form-controls.js');
+mw.lib.require('xss');
 
 
     mw.LinkEditor = function(options) {
@@ -51,7 +51,7 @@
             return this;
         };
 
-        this.settings =  jQuery.extend({}, defaults, options || {});
+        this.settings =  mw.object.extend({}, defaults, options || {});
 
         if(this.settings.hideTextFied) {
             for (var i = 0; i < this.settings.controllers.length; i++) {

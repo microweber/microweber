@@ -1,5 +1,6 @@
 
-
+mw.require('uploader.js');
+mw.require('filemanager.js');
 
 var fileUploadProgress = function (fileName, progress, target) {
     if (!target) {

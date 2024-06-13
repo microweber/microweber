@@ -1,5 +1,5 @@
-
-  const DomHelpers = {
+(function(){
+var domHelp = {
     classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition, exception) {
         if (el_obj.element && el_obj.namespace) {
             el = el_obj.element;
@@ -710,11 +710,7 @@
     }
 };
 
-
-for (let i in DomHelpers) {
-
-    mw.tools[i] = DomHelpers[i];
+for (var i in domHelp) {
+    mw.tools[i] = domHelp[i];
 }
-
-
-
+})();

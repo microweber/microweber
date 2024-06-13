@@ -1,7 +1,10 @@
     mw.components = {
     _rangeOnce: false,
     'range': function(el){
-        mw.lib.require('jqueryui');
+        if(mw.lib) {
+            mw.lib.require('jqueryui');
+        }
+
         var options = this._options(el);
         var defaults = {
             range: 'min',
@@ -72,7 +75,7 @@
             inputEl._time = null;
         }
 
-        
+
         var picker = mw.colorPicker({
             element:inputEl,
             position:settings.position,
