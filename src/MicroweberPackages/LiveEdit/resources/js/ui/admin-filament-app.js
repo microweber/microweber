@@ -58,6 +58,7 @@ import "../../../../../../userfiles/modules/microweber/api/filepicker.js";
 import "../../../../../../userfiles/modules/microweber/api/link-editor.js";
 import "../../../../../../userfiles/modules/microweber/api/color.js";
 import "../../../../../../userfiles/modules/microweber/api/tools/colorpicker.js";
+import "../../../../../../src/MicroweberPackages/LiveEdit/resources/js/api-core/core/core/components.js";
 
 
 //widgets

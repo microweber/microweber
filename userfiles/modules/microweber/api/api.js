@@ -142,7 +142,9 @@ mw.askusertostay = false;
     }
   }
 
-
+  warnOnLeave = function(){
+     mw.tools.confirm("<?php _ejs("You have unsaved changes! Are you sure"); ?>?");
+  };
 
   mw.module = {
     inViewport(el) {
@@ -276,15 +278,15 @@ mw.askusertostay = false;
     }
   }
 
+  mwd = document;
 
+  mww = window;
 
+  mwhead = document.head || document.getElementsByTagName('head')[0];
 
-
-  mw.head = document.head || document.getElementsByTagName('head')[0];
-
-  mw.doc = document;
+  mw.doc = mwd;
   mw.win = window;
-  mw.head = mw.head;
+  mw.head = mwhead;
 
   mw.loaded = false;
 
@@ -362,7 +364,7 @@ mw.askusertostay = false;
       var string = t !== "css" ? "<script  "+defer+"  src='" + url + "'></script>" : "<link "+cssRel+" href='" + url + "' />";
 
           if(typeof $.fn === 'object'){
-              $(mw.head).append(string);
+              $(mwhead).append(string);
           }
           else{
               var el;
@@ -371,7 +373,7 @@ mw.askusertostay = false;
                   el.src = url;
                   el.defer = !!defer;
                   el.setAttribute('type', 'text/javascript');
-                  mw.head.appendChild(el);
+                  mwhead.appendChild(el);
               }
               else{
 
@@ -386,7 +388,7 @@ mw.askusertostay = false;
 
 
                  el.href = url;
-                 mw.head.appendChild(el);
+                 mwhead.appendChild(el);
               }
           }
 
@@ -435,7 +437,7 @@ mw.requireAsync = (url, key) => {
       el.rel='preload';
       el.addEventListener('load', e => el.rel='stylesheet');
       el.href = url;
-      mw.head.insertBefore(el, mw.head.firstChild);
+      mwhead.insertBefore(el, mwhead.firstChild);
     }
   };
   mw.moduleJS = mw.module_js = function(url){
@@ -944,7 +946,7 @@ mw.requireAsync = (url, key) => {
 
   mw.$ = function(selector, context) {
     if(typeof selector === 'object' || (typeof selector === 'string' && selector.indexOf('<') !== -1)){ return jQuery(selector); }
-    context = context || document;
+    context = context || mwd;
     if (typeof document.querySelector !== 'undefined') {
       if (typeof selector === 'string') {
         try {
@@ -978,8 +980,17 @@ mw.requireAsync = (url, key) => {
         .error(function(data) { return typeof callback === 'function' ? callback.call(data) : data;  });
   }
 
+  get_content = function(params, callback){
+    var obj = mw.url.getUrlParams("?"+params);
+    if(typeof callback!='function'){
+       mw.get('get_content_admin', obj);
+    }
+    else{
+       mw.get('get_content_admin', obj, function(){callback.call(this)});
+    }
+  }
 
-
+  mw.get_content = get_content
 
   mw.serializeFields =  function(id, ignorenopost){
     var ignorenopost = ignorenopost || false;

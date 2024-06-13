@@ -393,7 +393,7 @@
         };
 
 
-        this.settings = jQuery.extend(true, {}, defaults, options);
+        this.settings = mw.object.extend(true, {}, defaults, options);
 
         var scope = this;
         var tabAccordionBuilder = function (items) {
@@ -497,8 +497,8 @@
                     holder.append(sizeel);
                 }
                 if(scope.settings.iconOptions.color) {
-                    var cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">Choose color</label></div>');
-                    var cinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-2-column" type="color">');
+                    cel = mw.element('<div class="mwiconlist-settings-section-block-item"><label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">Choose color</label></div>');
+                    cinput = mw.element('<input class="mw-icon-selector-form-control mw-icon-selector-2-column" type="color">');
                     actionNodes.color = cinput;
                     cinput.on('input', function () {
                         scope.dispatch('colorChange', cinput.get(0).value);
@@ -677,7 +677,7 @@
 
         var comRender = function (options) {
             options = options || {};
-            options = jQuery.extend({}, {
+            options = mw.object.extend({}, {
                 set: scope.selectField.get(0).options[scope.selectField.get(0).selectedIndex]._value,
                 term: scope.searchField.get(0).value
             }, options);
@@ -718,7 +718,7 @@
             var off = scope.settings.iconsPerPage * (conf.page - 1);
             var to = off + Math.min(all.length - off, scope.settings.iconsPerPage);
 
-            return jQuery.extend({}, conf, {
+            return mw.object.extend({}, conf, {
                 data: all.slice(off, to),
                 all: all,
                 off: off

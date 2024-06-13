@@ -198,7 +198,7 @@
         if (!mw.top().__dialogsData._esc) {
             mw.top().__dialogsData._esc = true;
             mw.$(document).on('keydown', function (e) {
-                if(e.key === "Escape") {
+                if (mw.event.is.escape(e)) {
                     var dlg = mw.top().__dialogs[mw.top().__dialogs.length - 1];
                     if (dlg && dlg.options && dlg.options.closeOnEscape) {
                         dlg._doCloseButton();
@@ -419,11 +419,7 @@
             this.center();
             this._afterSize();
             mw.$(this).trigger('Show');
-
-            this.dialogMain.ownerDocument.documentElement.classList.add('mw-dialog-opened');
-            if(mw.top().app) {
-                mw.top().app.dispatch('mwDialogShow')
-            }
+            mw.trigger('mwDialogShow', this);
             return this;
         };
 
@@ -442,15 +438,7 @@
                     mw._iframeDetector.pause = false;
                 }
                 mw.$(this).trigger('Hide');
-
-                if(!this.dialogMain.ownerDocument.querySelector('.mw-dialog.active')) {
-                    this.dialogMain.ownerDocument.documentElement.classList.remove('mw-dialog-opened');
-                }
-
-
-                if(mw.top().app) {
-                    mw.top().app.dispatch('mwDialogHide')
-                }
+                mw.trigger('mwDialogHide', this);
             }
             return this;
         };
@@ -482,10 +470,7 @@
                 this.options.onremove()
             }
             mw.$(this).trigger('Remove');
-
-            if(mw.top().app) {
-                mw.top().app.dispatch('mwDialogRemove')
-            }
+            mw.trigger('mwDialogRemove', this);
 
             this.forceRemove()
         };
@@ -876,6 +861,35 @@
 })(window.mw);
 
 
+(function () {
+    function scoped() {
+        var all = document.querySelectorAll('style[scoped]'), i = 0;
 
+        try {
+            for( ; i < all.length; i++ ) {
+                var parent = all[i].parentNode;
+                parent.id = parent.id || mw.id('scoped-id-');
+                var prefix = '#' + parent.id + ' ';
+                var rules = all[i].sheet.rules;
+                var r = 0;
+                for ( ; r < rules.length; r++) {
+                    var newRule = prefix + rules[r].cssText;
+                    all[i].sheet.deleteRule(r);
+                    all[i].sheet.insertRule(newRule, r);
+                }
+                all[i].removeAttribute('scoped');
+            }
+        }
+        catch(error) {
+
+        }
+
+
+    }
+    scoped();
+    $(window).on('load', function () {
+        scoped();
+    });
+})();
 
 

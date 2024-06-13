@@ -205,7 +205,7 @@ mw.admin.tree = function (target, opt, mode) {
 
     var tree;
 
-    var params = opt.params, options = opt.options || {};
+    var params = opt.params, options = opt.options;
 
     var url = mw.settings.api_url + 'content/get_admin_js_tree_json';
     var treeEl = document.createElement('div');
@@ -376,7 +376,7 @@ mw.admin.content.quickEditModalFrame = function (url) {
 }
 
 
-$(document).ready(function () {
+$(mwd).ready(function () {
 
 
     mw.$(document.body).on('keydown', function (e) {
@@ -405,7 +405,7 @@ $(document).ready(function () {
     });
 });
 
-$(window).on('load', function () {
+$(mww).on('load', function () {
     mw.on.moduleReload('pages_tree_toolbar', function () {
 
     });

@@ -1,5 +1,3 @@
-
-
 ;(function () {
     mw._colorPickerDefaults = {
         skin: 'mw-tooltip-default',
@@ -18,7 +16,9 @@
     var colorPickers = [];
 
     mw._colorPicker = function (options) {
-   if (!mw.tools.colorPickerColors) {
+        mw.lib.require('colorpicker');
+
+        if (!mw.tools.colorPickerColors) {
             mw.tools.colorPickerColors = [];
 
 
@@ -150,8 +150,6 @@
         if (settings.method === 'inline') {
 
             sett.attachTo = $el[0];
-
-            console.log(sett.attachTo.ownerDocument.defaultView);
 
 
             frame = sett.attachTo.ownerDocument.defaultView.AColorPicker.createPicker(sett); // AColorPicker works only with local window
@@ -400,8 +398,6 @@
 
         return new mw._colorPicker(o);
     };
-
-
 
     $(document).ready(function () {
         $(document).on('click', function (e) {

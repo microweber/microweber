@@ -1,5 +1,5 @@
 (function (){
-
+    mw.require('filemanager.css');
     var FileManager = function (options) {
 
         var scope = this;

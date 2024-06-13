@@ -22,7 +22,7 @@ mw.color = {
         if(typeof color == 'object'){
           color = color.r + ',' + color.g + ',' + color.b;
         }
-        if(color.includes('rgb')){
+        if(color.contains('rgb')){
           color = color.replace(/rgba/g, '').replace(/rgb/g, '').replace(/\(|\)/g, "").replace(/\s/g, "");
         }
         color = color.split(',');
@@ -57,7 +57,7 @@ mw.color = {
     colorParse:function(CSScolor){
         CSScolor = CSScolor || 'rgb(0,0,0,0)';
         var final = {r:0,g:0,b:0,alpha:0};
-        if(CSScolor.includes('rgb')){
+        if(CSScolor.contains('rgb')){
           var parse = CSScolor.replace(/rgba/g, '').replace(/rgb/g, '').replace(/\(|\)/g, "").replace(/\s/g, "").split(',');
           final.r = parseInt(parse[0], 10);
           final.g = parseInt(parse[1], 10);

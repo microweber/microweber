@@ -9,7 +9,7 @@ mw.on = function(eventName, callback){
     });
 };
 mw.trigger = function(eventName, paramsArray){
-    return mw.$([window, mw._on._eventsRegister]).trigger(eventName, paramsArray);
+    return mw.$([mww, mw._on._eventsRegister]).trigger(eventName, paramsArray);
 };
 
 mw._on = {
@@ -278,7 +278,7 @@ DOMChange:function(element, callback, attr, a){
   userIteractionInitRegister: new Date().getTime(),
   userIteractionInit: function(){
       var max = 378;
-      mw.$(document).on('mousemove touchstart click keydown resize ajaxStop', function(){
+      mw.$(mwd).on('mousemove touchstart click keydown resize ajaxStop', function(){
           var time = new Date().getTime();
           if((time - mw._on.userIteractionInitRegister) > max){
               mw._on.userIteractionInitRegister = time;
