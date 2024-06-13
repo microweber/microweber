@@ -11,6 +11,7 @@ class TeamcardItem extends ModuleItemSushi
         'name',
         'file',
         'bio',
+        'role',
         'website',
         'position',
     ];
@@ -19,6 +20,7 @@ class TeamcardItem extends ModuleItemSushi
         'name' => 'string',
         'file' => 'string',
         'bio' => 'string',
+        'role' => 'string',
         'website' => 'string',
         'position' => 'integer',
     ];

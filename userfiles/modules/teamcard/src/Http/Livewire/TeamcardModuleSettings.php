@@ -15,7 +15,7 @@ class TeamcardModuleSettings extends ModuleSettingsItemsEditorComponent
         return TeamcardItem::class;
     }
 
-    public function getEditorSettings() : array
+    public function getEditorSettings(): array
     {
         return [
             'config' => [
@@ -44,23 +44,24 @@ class TeamcardModuleSettings extends ModuleSettingsItemsEditorComponent
                     'placeholder' => 'Team member picture',
                     'name' => 'file',
 
-                ], [
+                ],
+                [
                     'type' => 'textarea',
                     'label' => 'Team member bio',
                     'name' => 'bio',
                     'placeholder' => 'Enter bio',
                     'help' => 'Enter bio',
                     'maxlength' => '150'
-                ]
-                , [
+                ],
+                [
                     'type' => 'text',
                     'label' => 'Team member role',
                     'name' => 'role',
                     'placeholder' => 'Enter role',
                     'help' => 'Enter role',
-                ]
-                , [
-                    'type' => 'url',
+                ],
+                [
+                    'type' => 'text',
                     'label' => 'Team member website',
                     'name' => 'website',
                     'placeholder' => 'https://yourwebsite.com',
