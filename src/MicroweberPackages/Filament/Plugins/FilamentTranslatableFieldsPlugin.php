@@ -64,11 +64,11 @@ class FilamentTranslatableFieldsPlugin implements Plugin
             }
 
             $fieldName = $this->getName();
-            $fieldLabel = str_replace('options.', 'translatableOptions.', $fieldName);
+            $fieldName = str_replace('options.', 'translatableOptions.', $fieldName);
 
             if (class_basename($this) == 'TextInput') {
 
-                $textInput = TextInput::make($fieldLabel)
+                $textInput = TextInput::make($fieldName)
                     ->live()
                     ->helperText($this->getHelperText())
                     ->placeholder($this->getPlaceholder())
@@ -81,7 +81,7 @@ class FilamentTranslatableFieldsPlugin implements Plugin
             }
             if (class_basename($this) == 'Textarea') {
 
-                $textarea = Textarea::make($fieldLabel)
+                $textarea = Textarea::make($fieldName)
                     ->live()
                     ->helperText($this->getHelperText())
                     ->placeholder($this->getPlaceholder())
