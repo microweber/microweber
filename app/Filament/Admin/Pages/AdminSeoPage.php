@@ -49,7 +49,7 @@ class AdminSeoPage extends AdminSettingsPage
                             ->label('Google Analytics ID')
                             ->live()
                             ->helperText(function () {
-                                return new HtmlString('<small class="mb-2 text-muted">Google Analytics property ID is the identifier associated with your account and used by Google Analytics to collect the data. How to find it read here." class="text-blue-500" target="_blank">Read the article here.</a></small>');
+                                return new HtmlString('<small class="text-muted d-block mb-2">Google Analytics property ID is the identifier associated with your account and used by Google Analytics to collect the data. <a class="text-blue-500" href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">How to find it read here.</a></small>');
                             })
                             ->placeholder('UA- 12345678-9'),
 
@@ -61,7 +61,7 @@ class AdminSeoPage extends AdminSettingsPage
                                 return new HtmlString('<small class="mb-2 text-muted">Enable Google Analytics Server Side Tracking</small>');
                                 }),
 
-                                Group::make([
+                                Section::make([
                                     TextInput::make('options.website.google-measurement-api-secret')
                                         ->label('Google Measurement Api Secret')
                                         ->live()
@@ -87,7 +87,7 @@ class AdminSeoPage extends AdminSettingsPage
                                         ->helperText(function () {
                                             return new HtmlString('<small class="mb-2 text-muted">Enable Google Measurement Enhanced Conversion</small>');
                                         }),
-                                            Group::make([
+                                            Section::make([
                                                 TextInput::make('options.website.google-enhanced-conversion-id')
                                                     ->label('Conversion ID')
                                                     ->live()
@@ -99,7 +99,13 @@ class AdminSeoPage extends AdminSettingsPage
                                                     ->placeholder('Enter your Google Measurement Enhanced Conversion Label'),
 
 
-                                            ]) ,
+                                            ]) ->hidden(function (Get $get) {
+
+                                                if ($get('options.website.google-enhanced-conversions-enabled')) {
+                                                    return false;
+                                                }
+                                                return true;
+                                            }),
 
                                     TextInput::make('options.website.facebook-pixel-id')
                                         ->label('Facebook pixel ID')
@@ -118,10 +124,49 @@ class AdminSeoPage extends AdminSettingsPage
                                     }
                                     return true;
                                 }),
+                        Toggle::make('options.website.other-search-engines-enabled')
+                            ->label('Other search engines')
+                            ->live(),
+
+                        Section::make([
+                            TextInput::make('options.website.bing-site-verification-code')
+                                ->label('Bing')
+                                ->live()
+                                ->helperText(function () {
+                                    return new HtmlString('<small class="text-muted d-block mb-2">You can find a tutorials in internet where and how to find the code.</small>');
+                                }),
+
+                            TextInput::make('options.website.alexa-site-verification-code')
+                                ->label('Alexa')
+                                ->live()
+                                ->helperText(function () {
+                                    return new HtmlString('<small class="text-muted d-block mb-2">You can find a tutorials in internet where and how to find the code.</small>');
+                                }),
+
+
+                            TextInput::make('options.website.pinterest-site-verification-code')
+                                ->label('Pinterest')
+                                ->live()
+                                ->helperText(function () {
+                                    return new HtmlString('<small class="text-muted d-block mb-2">You can find a tutorials in internet where and how to find the code.</small>');
+                                }),
+
+                            TextInput::make('options.website.yandex-site-verification-code')
+                                ->label('Site verification code for Yandex')
+                                ->live()
+                                ->helperText(function () {
+                                    return new HtmlString('<small class="text-muted d-block mb-2">You can find a tutorials in internet where and how to find the code.</small>');
+                                }),
+
+                        ]) ->hidden(function (Get $get) {
+
+                            if ($get('options.website.other-search-engines-enabled')) {
+                                return false;
+                            }
+                            return true;
+                        }),
 
                     ]),
-
-
             ]);
     }
 }
