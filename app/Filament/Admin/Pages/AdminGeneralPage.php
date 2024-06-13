@@ -44,22 +44,25 @@ class AdminGeneralPage extends AdminSettingsPage
                     ->description('Fill in the fields for maximum results when finding your website in search engines.')
                     ->schema([
 
-                        TextInput::make('translatableOptions.website.website_title')
+                        TextInput::make('options.website.website_title')
                             ->label('Website Name')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its name is one of them.')
                             ->placeholder('Enter your website name')
+                            ->live()
                             ->mwTranslatableOption(),
 
-                        Textarea::make('translatableOptions.website.website_description')
+                        Textarea::make('options.website.website_description')
                             ->label('Website Description')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its description is one of them.')
                             ->placeholder('Enter your website description')
+                            ->live()
                             ->mwTranslatableOption(),
 
-                        TextInput::make('translatableOptions.website.website_keywords')
+                        TextInput::make('options.website.website_keywords')
                             ->label('Website Keywords')
                             ->helperText('This is very important for search engines. Your website will be categorized by many criteria and its keywords are one of them.')
                             ->placeholder('Enter your website keywords')
+                            ->live()
                             ->mwTranslatableOption(),
 
 
