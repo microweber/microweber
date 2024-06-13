@@ -25,7 +25,7 @@ class MultilanguageFilamentPlugin implements Plugin
 
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
 
-         //  return;
+       //    return;
         }
 
 
@@ -56,7 +56,7 @@ class MultilanguageFilamentPlugin implements Plugin
     public function boot(Panel $panel): void
     {
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
-        //   return;
+           // return;
         }
         FilamentAsset::register([
             Js::make('mw-filament-translatable', Vite::asset('src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js')),
