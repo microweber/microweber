@@ -109,10 +109,10 @@
 
 /*SIDEBAR STYLES*/
 .fi-sidebar-group-label {
-    @apply !text-black;
+    
 }
 .fi-sidebar-group-icon {
-    @apply !text-black;
+
 }
 .fi-sidebar-nav-groups {
     @apply !gap-y-2 !-mx-0 !divide-y-0;
