@@ -27,7 +27,7 @@ runs:
         php-version: ${{ inputs.php_version }}
         extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml, bcmath, intl, sodium
         ini-values: post_max_size=2560M, max_execution_time=1800, memory_limit=2560M,
-        tools: phpunit:10.1.3, composer
+        tools: phpunit, composer
     - name: Get composer cache directory
       id: composer-cache
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
