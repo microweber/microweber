@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Tabs\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\Modules\Tabs\Models\Tab;
+use MicroweberPackages\Modules\Tabs\Models\TabItem;
 
 class TabsModuleSettings extends ModuleSettingsItemsEditorComponent
 {
@@ -11,6 +12,13 @@ class TabsModuleSettings extends ModuleSettingsItemsEditorComponent
     public string $module = 'tabs';
 
     protected static string $view = 'microweber-module-tabs::livewire.tabs-module-settings';
+
+
+    public function getModel(): string
+    {
+        return TabItem::class;
+    }
+
 
     public function getEditorSettings() : array
     {
@@ -23,7 +31,10 @@ class TabsModuleSettings extends ModuleSettingsItemsEditorComponent
                 'sortItems' => true,
                 'settingsKey' => 'settings',
                 'listColumns' => [
-                    'title' => 'Title',
+                    'title'=>[
+                        'label'=>'Title',
+                        'type'=>'text'
+                    ]
                 ],
             ],
             'schema' => [
