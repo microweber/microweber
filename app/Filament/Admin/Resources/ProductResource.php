@@ -247,7 +247,12 @@ class ProductResource extends Resource
 
                 Forms\Components\Tabs\Tab::make('Custom Fields')
                     ->schema([
-
+                        Forms\Components\Section::make('Custom Fields')
+                            ->heading(false)
+                        ->schema([
+                            Forms\Components\View::make('custom_field::livewire.filament.admin.show-list-custom-fields')
+                                ->columnSpanFull(),
+                        ]),
                     ]),
                 Forms\Components\Tabs\Tab::make('SEO')
                     ->schema([
