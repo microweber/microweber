@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 #[RunTestsInSeparateProcesses]
 class UserLivewireComponentsAccessTest extends TestCase
 {
-    use UserTestHelperTrait;
+    use \MicroweberPackages\User\tests\UserTestHelperTrait;
 
     public $componentsList = [
         UsersList::class,

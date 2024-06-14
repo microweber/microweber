@@ -4,7 +4,7 @@ namespace MicroweberPackages\LiveEdit\tests;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
-use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
 
 class LiveEditLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {

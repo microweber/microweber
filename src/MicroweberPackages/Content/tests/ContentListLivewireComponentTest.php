@@ -12,7 +12,7 @@ use MicroweberPackages\Post\Http\Livewire\Admin\PostsList;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsList;
 use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Notification\tests\UserTestHelperTrait;
+use MicroweberPackages\User\tests\UserTestHelperTrait;
 
 class ContentListLivewireComponentTest extends TestCase
 {

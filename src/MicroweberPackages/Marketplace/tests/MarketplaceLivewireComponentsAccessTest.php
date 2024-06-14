@@ -4,7 +4,7 @@ namespace MicroweberPackages\Marketplace\tests;
 
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\MarketplaceItemModal;
-use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
 
 class MarketplaceLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {

@@ -14,7 +14,7 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\NoExpo
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartExportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartImportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ViewImport;
-use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 #[RunTestsInSeparateProcesses]

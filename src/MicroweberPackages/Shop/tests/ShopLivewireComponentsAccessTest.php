@@ -4,7 +4,7 @@ namespace MicroweberPackages\Shop\tests;
 
 
 use MicroweberPackages\Shop\Http\Livewire\Admin\DashboardSalesComponent;
-use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
 
 class ShopLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
