@@ -95,7 +95,7 @@
         "scssphp/scssphp": "1.10.0",
         "simshaun/recurr": "*",
         "solution-forest/filament-translate-field": "1.x-dev",
-        "spatie/ignition": "*",
+
         "spatie/laravel-googletagmanager": "dev-main",
         "spatie/laravel-menu": "dev-main",
         "spatie/laravel-package-tools": "*",
@@ -126,7 +126,8 @@
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "mockery/mockery": "^1.6",
-        "phpunit/phpunit": "^11.0.1"
+        "phpunit/phpunit": "^11.0.1",
+        "spatie/ignition": "*"
     },
     "autoload": {
         "psr-4": {
