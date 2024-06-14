@@ -1,4 +1,4 @@
-import BaseComponent from "../../api-core/services/containers/base-class.js";
+import BaseComponent from "../core/base-class.js";
 
 export class AdminFilament extends BaseComponent {
     constructor() {
