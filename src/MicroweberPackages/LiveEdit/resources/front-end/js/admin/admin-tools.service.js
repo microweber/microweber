@@ -1,5 +1,5 @@
-import {DomHelpers} from "../../../../../../userfiles/modules/microweber/js/tools/domhelpers.js";
-import {iframeAutoHeight} from "../../../../../../userfiles/modules/microweber/js/tools/iframe-auto-height.js";
+import {DomHelpers} from "../tools/domhelpers.js";
+import {iframeAutoHeight} from "../tools/iframe-auto-height.js";
 
 export class AdminTools {
     constructor(app) {
