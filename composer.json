@@ -176,6 +176,7 @@
                 "laravel/sanctum",
                 "laravel/cashier",
                 "laravel/fortify",
+                "laravel/dusk",
 
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
