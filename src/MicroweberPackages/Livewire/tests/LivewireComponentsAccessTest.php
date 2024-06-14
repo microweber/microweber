@@ -6,7 +6,7 @@ namespace MicroweberPackages\Livewire\tests;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Facade;
 use Livewire\Livewire;
-use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
 
 
 class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest

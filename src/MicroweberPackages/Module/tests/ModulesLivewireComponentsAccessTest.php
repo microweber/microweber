@@ -4,7 +4,7 @@ namespace MicroweberPackages\Module\tests;
 
 use MicroweberPackages\Module\Http\Livewire\Admin\AskForModuleUninstallModal;
 use MicroweberPackages\Module\Http\Livewire\Admin\ListModules;
-use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
 
 class ModulesLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {

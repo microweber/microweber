@@ -25,7 +25,7 @@ use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Notifications\NewRegistration;
 use MicroweberPackages\User\Notifications\VerifyEmail;
-use MicroweberPackages\User\tests\UserTestHelperTrait;
+use MicroweberPackages\Notification\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Illuminate\Support\Facades\Hash;

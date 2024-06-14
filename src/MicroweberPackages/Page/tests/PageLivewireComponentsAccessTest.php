@@ -4,7 +4,7 @@ namespace MicroweberPackages\Page\tests;
 
 
 use MicroweberPackages\Page\Http\Livewire\Admin\PagesList;
-use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
 
 class PageLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {

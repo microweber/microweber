@@ -39,6 +39,8 @@ jobs:
       - name: Remove screenshot layout test
         run: |
           rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
+      - name: List env
+        run: php artisan env
       - name: List artisan commands
         run: php artisan list
       - name: Run Laravel Server

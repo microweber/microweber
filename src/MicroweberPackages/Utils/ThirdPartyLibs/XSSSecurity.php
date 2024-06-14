@@ -12,7 +12,7 @@
  */
 
 //namespace GrahamCampbell\Security;
-namespace MicroweberPackages\ThirdPartyLibs;
+namespace MicroweberPackages\Utils\ThirdPartyLibs;
 
 /**
  * This is the security class.

@@ -16,7 +16,7 @@
  * @author     Robert Hafner <tedivm@tedivm.com>
  */
 
-namespace MicroweberPackages\ThirdPartyLibs\JShrink;
+namespace MicroweberPackages\Utils\ThirdPartyLibs\JShrink;
 
 /**
  * Minifier

@@ -4,7 +4,7 @@ namespace MicroweberPackages\Content\tests;
 
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentBulkOptions;
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
-use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
 
 class ContentLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {

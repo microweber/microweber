@@ -209,7 +209,7 @@ class ImageLib
 ## --------------------------------------------------------
     private function initialise()
     {
-        $this->psdReaderPath = dirname(__FILE__) . '/classPhpPsdReader.php';
+        $this->psdReaderPath = dirname(__FILE__) . '/PhpPsdReader.php';
         $this->filterOverlayPath = dirname(__FILE__) . '/filters';
         // *** Set if image should be interlaced or not.
         $this->isInterlace = false;

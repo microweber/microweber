@@ -13,7 +13,7 @@ use MicroweberPackages\Order\Http\Livewire\Admin\OrdersShippingCityAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersShippingCountryAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersShippingStateAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersTableComponent;
-use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
 
 class OrderLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {

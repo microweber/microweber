@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Export;
 
 
-class EncodingFix extends \MicroweberPackages\Backup\EncodingFix
+class EncodingFix extends \MicroweberPackages\Import\EncodingFix
 {
 
 }

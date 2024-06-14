@@ -20,7 +20,7 @@ use MicroweberPackages\Admin\Http\Livewire\FilterItemValueRange;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemValueWithOperator;
 use MicroweberPackages\Admin\Http\Livewire\TagsAutoComplete;
 use MicroweberPackages\Admin\Http\Livewire\UsersAutoComplete;
-use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
 
 class AdminLivewireComponentsTest extends UserLivewireComponentsAccessTest
 {

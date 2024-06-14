@@ -4,7 +4,7 @@ namespace MicroweberPackages\Template\tests;
 
 
 use MicroweberPackages\Template\Http\Livewire\Admin\AdminTemplateUpdateModal;
-use MicroweberPackages\User\tests\UserLivewireComponentsAccessTest;
+use MicroweberPackages\Notification\tests\UserLivewireComponentsAccessTest;
 
 class TemplateLivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 {
