@@ -38,6 +38,7 @@ abstract class AdminSettingsPage extends Page
 
         $formInstance = $this->form(new Form($this));
 
+        $booleanFields = [];
         $formFields = $formInstance->getFlatFields(true);
         if (!empty($formFields)) {
             foreach ($formFields as $field) {
@@ -45,6 +46,9 @@ abstract class AdminSettingsPage extends Page
                 $fieldStatePath = array_undot_str($fieldStatePath);
                 if (isset($fieldStatePath['options'])) {
                     foreach ($fieldStatePath['options'] as $optionGroup => $optionKey) {
+                        if (class_basename($field) == 'Toggle' || class_basename($field) == 'Checkbox') {
+                            $booleanFields[$optionGroup][] = $optionKey;
+                        }
                         $this->options[$optionGroup][$optionKey] = '';
                     }
                 }
@@ -62,6 +66,15 @@ abstract class AdminSettingsPage extends Page
 
         if ($getOptions) {
             foreach ($getOptions as $option) {
+                if (isset($booleanFields[$option->option_group])) {
+                    if (in_array($option->option_key, $booleanFields[$option->option_group])) {
+                        if ($option->option_value == 'y' || $option->option_value == 1) {
+                            $option->option_value = true;
+                        } else {
+                            $option->option_value = false;
+                        }
+                    }
+                }
                 $this->options[$option->option_group][$option->option_key] = $option->option_value;
             }
         }
