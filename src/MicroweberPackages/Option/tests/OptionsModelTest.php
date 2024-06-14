@@ -10,7 +10,7 @@ use MicroweberPackages\Option\Events\OptionIsUpdating;
 use MicroweberPackages\Option\Events\OptionWasDeleted;
 use MicroweberPackages\Option\Events\OptionWasRetrieved;
 use MicroweberPackages\Option\Events\OptionWasUpdated;
-use MicroweberPackages\Option\Facades\Option as OptionFacade;
+use MicroweberPackages\Category\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\Models\Option;
 
 class OptionsModelTest extends TestCase
