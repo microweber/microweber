@@ -1,12 +1,14 @@
 
 
+
+
 mw.IconClassResolver = function ($for) {
     if (!$for) {
         return '';
     }
     switch ($for) {
         case 'shop': $for = 'mdi mdi-shopping'; break;
-        case 'website': $for = 'mdi mdi-earth'; break;s
+        case 'website': $for = 'mdi mdi-earth'; break;
         case 'module': $for = 'mdi mdi-view-grid-plus'; break;
         case 'marketplace': $for = 'mdi mdi-fruit-cherries'; break;
         case 'users': $for = 'mdi mdi-account-multiple'; break;
