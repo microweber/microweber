@@ -100,17 +100,50 @@ class AdminEmailPage extends AdminSettingsPage
                                     ->live()
                                     ->options([
                                         '' => 'None',
-                                        'gmail' => 'Gmail',
-                                        'smtp' => 'Smtp',
-                                        'cpanel' => 'Cpanel',
-                                        'plesk' => 'Plesk',
-                                        'config' => 'Config'
+                                        'ssl' => 'SSL',
+                                        'tls' => 'TLS',
                                     ]),
+
+                                Select::make('options.email.smtp_secure')
+                                    ->label('SMTP Secure')
+                                    ->live()
+                                    ->options([
+                                        '' => 'None',
+                                        'ssl' => 'SSL',
+                                        'tls' => 'TLS',
+                                    ]),
+
 
 
                             ]) ->hidden(function (Get $get) {
 
-                                if ($get('options.email.email_transport') == 'smtp') {
+                                if ($get('options.email.email_transport') == 'cpanel') {
+                                    return false;
+                                }
+                                return true;
+                            }),
+
+                            Group::make([
+
+                                TextInput::make('options.email.smtp_username')
+                                    ->label('Cpanel Username')
+                                    ->live()
+                                    ->placeholder('e.g. user@email.com'),
+
+                                TextInput::make('options.email.smtp_password')
+                                    ->label('Cpanel Password')
+                                    ->live()
+                                    ->password()
+                                    ->placeholder('your password here'),
+
+                                TextInput::make('options.email.smtp_host')
+                                    ->label('Cpanel Host')
+                                    ->live()
+                                    ->placeholder('e.g. smtp.gmail.com'),
+
+                            ]) ->hidden(function (Get $get) {
+
+                                if ($get('options.email.email_transport') == 'cpanel') {
                                     return false;
                                 }
                                 return true;
