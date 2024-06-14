@@ -32,7 +32,31 @@ class AdminEmailPage extends AdminSettingsPage
         return $form
             ->schema([
 
-                Section::make('Register options')
+                Section::make('System e-mail website settings')
+                    ->view('filament-forms::sections.section')
+                    ->description('Deliver messages related with new registration, password resets and others system functionalities.')
+                    ->schema([
+
+
+                        TextInput::make('options.email.email_from')
+                            ->label('From e-mail address')
+                            ->live()
+                            ->helperText(function () {
+                                return new HtmlString('<small class="text-muted d-block mb-2">The website will send emails on behalf of this address</small>');
+                            })
+                            ->placeholder('e.g. noreply@yourwebsite.com'),
+
+                        TextInput::make('options.email.email_from_name')
+                            ->label('From name')
+                            ->live()
+                            ->helperText(function () {
+                                return new HtmlString('<small class="text-muted d-block mb-2">The website will use this name for the emails</small>');
+                            })
+                            ->placeholder('e.g. Your Website Name'),
+
+                    ]),
+
+                Section::make('General e-mail provider settings')
                     ->view('filament-forms::sections.section')
                     ->description('Set your settings for proper login and register functionality.')
                     ->schema([
