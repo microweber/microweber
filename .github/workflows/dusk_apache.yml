@@ -24,7 +24,9 @@ jobs:
         with:
           php_version: ${{ matrix.php-versions }}
       - name: Install Composer dependencies
-        run: composer install --dev
+        run: composer install --no-interaction --no-progress --no-suggest
+      - name: Copy .env.testing to .env
+        run: cp .env.testing .env
       - name: Npm install
         uses: actions/setup-node@v3
         with:
