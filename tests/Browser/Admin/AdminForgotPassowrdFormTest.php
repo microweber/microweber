@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\PasswordReset;
 use MicroweberPackages\User\Models\User;
-use Tests\Browser\Multilanguage\Components\AdminLogin;
-use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminForgotPassowrdFormTest extends DuskTestCase

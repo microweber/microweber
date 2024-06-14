@@ -7,10 +7,10 @@ use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Page\Models\Page;
-use Tests\Browser\Multilanguage\Components\AdminContentCustomFieldAdd;
-use Tests\Browser\Multilanguage\Components\AdminContentImageAdd;
-use Tests\Browser\Multilanguage\Components\AdminLogin;
-use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\AdminContentCustomFieldAdd;
+use Tests\Browser\Components\AdminContentImageAdd;
+use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminAddPageTest extends DuskTestCase

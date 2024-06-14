@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Browser\Multilanguage\LiveEdit;
+namespace Tests\Browser\LiveEdit;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
-use Tests\Browser\Multilanguage\Components\AdminLogin;
-use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
-use Tests\Browser\Multilanguage\Components\LiveEditModuleAdd;
-use Tests\Browser\Multilanguage\Components\LiveEditSaveButton;
+use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\LiveEditModuleAdd;
+use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
 
 #[RunTestsInSeparateProcesses]

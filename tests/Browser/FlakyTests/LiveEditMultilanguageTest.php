@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\Browser\Multilanguage\FlakyTests;
+namespace Tests\Browser\FlakyTests;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
-use Tests\Browser\Multilanguage\Components\AdminContentMultilanguage;
-use Tests\Browser\Multilanguage\Components\AdminLogin;
-use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
-use Tests\Browser\Multilanguage\Components\FrontendSwitchLanguage;
-use Tests\Browser\Multilanguage\Components\LiveEditSaveButton;
-use Tests\Browser\Multilanguage\Components\LiveEditSwitchLanguage;
-use Tests\Browser\Multilanguage\Components\LiveEditWaitUntilLoaded;
+use Tests\Browser\Components\AdminContentMultilanguage;
+use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\FrontendSwitchLanguage;
+use Tests\Browser\Components\LiveEditSaveButton;
+use Tests\Browser\Components\LiveEditSwitchLanguage;
+use Tests\Browser\Components\LiveEditWaitUntilLoaded;
 use Tests\DuskTestCaseMultilanguage;
 
 

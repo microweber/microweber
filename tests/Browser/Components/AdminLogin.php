@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Multilanguage\Components;
+namespace Tests\Browser\Components;
 
 use Composer\Config;
 use Facebook\WebDriver\WebDriverBy;

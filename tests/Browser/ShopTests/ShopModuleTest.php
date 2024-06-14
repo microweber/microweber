@@ -1,10 +1,10 @@
 <?php
-namespace Tests\Browser\Multilanguage\ShopTests;
+namespace Tests\Browser\ShopTests;
 
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Product\Models\Product;
-use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 use function app;
 use function content_link;

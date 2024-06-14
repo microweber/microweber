@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Core\DatabaseManager\tests;
+namespace MicroweberPackages\Database\tests;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;

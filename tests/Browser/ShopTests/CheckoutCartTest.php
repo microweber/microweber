@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Browser\Multilanguage\ShopTests;
+namespace Tests\Browser\ShopTests;
 
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Order\Models\Order;
-use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 use function app;
 use function get_option;

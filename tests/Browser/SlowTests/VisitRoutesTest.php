@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser\Multilanguage\SlowTests;
+namespace Tests\Browser\SlowTests;
 
 use Laravel\Dusk\Browser;
-use Tests\Browser\Multilanguage\Components\AdminLogin;
-use Tests\Browser\Multilanguage\Components\EnvCheck;
+use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\EnvCheck;
 use Tests\DuskTestCase;
 
 class VisitRoutesTest extends DuskTestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Media\tests;
+namespace MicroweberPackages\Category\tests;
 
 
 use MicroweberPackages\Category\Models\Category;

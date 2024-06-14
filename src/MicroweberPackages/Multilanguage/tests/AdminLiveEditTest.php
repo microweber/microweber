@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\App\tests;
+namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\FrontendController;

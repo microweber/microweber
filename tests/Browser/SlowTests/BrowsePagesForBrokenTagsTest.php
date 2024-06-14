@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Browser\Multilanguage\SlowTests;
+namespace Tests\Browser\SlowTests;
 
 use Laravel\Dusk\Browser;
 use MicroweberPackages\App\Http\Controllers\SitemapController;
-use Tests\Browser\Multilanguage\Components\AdminLogin;
-use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
-use Tests\Browser\Multilanguage\Components\TakeFullpageScreenshot;
+use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\TakeFullpageScreenshot;
 use Tests\DuskTestCase;
 
 class BrowsePagesForBrokenTagsTest extends DuskTestCase

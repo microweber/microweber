@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser\Multilanguage\SlowTests;
+namespace Tests\Browser\SlowTests;
 
 use Laravel\Dusk\Browser;
-use Tests\Browser\Multilanguage\Components\AdminLogin;
-use Tests\Browser\Multilanguage\Components\AdminMakeInstall;
+use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\AdminMakeInstall;
 use Tests\DuskTestCase;
 
 class AdminViewDashboardTest extends DuskTestCase

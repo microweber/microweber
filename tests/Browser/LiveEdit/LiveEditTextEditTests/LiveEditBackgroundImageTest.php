@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Browser\Multilanguage\LiveEdit\LiveEditTextEditTests;
+namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
 
 
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
 use Laravel\Dusk\Browser;
-use Tests\Browser\Multilanguage\Components\AdminContentImageAdd;
-use Tests\Browser\Multilanguage\Components\AdminLogin;
-use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
-use Tests\Browser\Multilanguage\Components\LiveEditSaveButton;
-use Tests\Browser\Multilanguage\Components\LiveEditWaitUntilLoaded;
+use Tests\Browser\Components\AdminContentImageAdd;
+use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Components\LiveEditSaveButton;
+use Tests\Browser\Components\LiveEditWaitUntilLoaded;
 use Tests\DuskTestCase;
 
 class LiveEditBackgroundImageTest extends DuskTestCase
