@@ -3,6 +3,8 @@
 namespace App\Filament\Admin\Pages;
 
 use App\Filament\Admin\Pages\Abstract\AdminSettingsPage;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -20,6 +22,13 @@ class AdminPrivacyPolicyPage extends AdminSettingsPage
 
     protected static string $description = 'Configure your privacy policy settings';
 
+    public array $optionGroups = [
+        'users',
+        'module-settings-group-website-group-settings-group-privacy',
+        'contact_form_default'
+
+    ];
+
 
     public function form(Form $form): Form
     {
@@ -29,7 +38,7 @@ class AdminPrivacyPolicyPage extends AdminSettingsPage
                 Section::make('Privacy policy settings')
                     ->view('filament-forms::sections.section')
                     ->description('A Privacy Policy is a legal agreement that explains what kinds of personal information you gather from website visitors, how you use this information, and how you keep it safe. Examples of personal information might include: Names. Dates of birth.
-The General Data Protection Regulation (EU) 2016/679 (GDPR) is a regulation in EU law on data protection and privacy in the European Union (EU) and the European Economic Area (EEA).')
+                                    The General Data Protection Regulation (EU) 2016/679 (GDPR) is a regulation in EU law on data protection and privacy in the European Union (EU) and the European Economic Area (EEA).')
                     ->schema([
 
                         Toggle::make('options.users.require_terms')
@@ -58,7 +67,31 @@ The General Data Protection Regulation (EU) 2016/679 (GDPR) is a regulation in E
 
 
 
-                    ]),
+                ]),
+
+                Section::make('Contact form settings')
+                    ->view('filament-forms::sections.section')
+                    ->description('Make settings for your contact form (there may be more than one) related to the conditions for sending data and using the website.')
+                    ->schema([
+
+                        Toggle::make('options.module-settings-group-website-group-settings-group-privacy.require_terms')
+                            ->label('Users must agree to the terms and conditions')
+                            ->live()
+                            ->helperText(function () {
+                                return new HtmlString('<small class="text-muted d-block mb-2">If the user does not agree to the terms, he will not be able to use the contact form</small>');
+                            }),
+                        
+                        Placeholder::make('documentation')
+                            ->label('Saving data and emails')
+                            ->content(new HtmlString('Will you save the information from the emails in your database on the website?'))
+                            ->live(),
+
+                        Checkbox::make('options.contact_form_default.skip_saving_emails')
+                            ->label('Skip saving emails in my website database.')
+                            ->live()
+
+
+                ]),
             ]);
     }
 }
