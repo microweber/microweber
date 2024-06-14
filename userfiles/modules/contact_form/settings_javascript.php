@@ -67,7 +67,7 @@ if (!user_can_access('module.contact_form.index')) {
 
 
 <?php
-$checkEmailFromGlobal = \MicroweberPackages\Option\Facades\Option::getValue('email_from', 'email');
+$checkEmailFromGlobal = \MicroweberPackages\Category\Facades\Option::getValue('email_from', 'email');
 if (empty($checkEmailFromGlobal)):
     ?>
     <div class="alert alert-dismissible alert-danger">
