@@ -61,7 +61,7 @@
         "laravel/sanctum": "*",
         "laravel/socialite": "*",
         "laravel/tinker": "^2.9",
-        "lcobucci/clock": "2.3.0",
+
         "lcobucci/jwt": "*",
         "league/csv": "^9.0@dev",
         "league/omnipay": "*",
