@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa9f0bb81241ec93730007f9920633f5",
+    "content-hash": "56359aca75738b83f296c38f88064468",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -4955,6 +4955,80 @@
                 }
             ],
             "time": "2024-05-21T21:26:50+00:00"
+        },
+        {
+            "name": "jaocero/radio-deck",
+            "version": "v1.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/199ocero/radio-deck.git",
+                "reference": "3965811babc43f1ca12ef5523b9a4d30d58e0093"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/199ocero/radio-deck/zipball/3965811babc43f1ca12ef5523b9a4d30d58e0093",
+                "reference": "3965811babc43f1ca12ef5523b9a4d30d58e0093",
+                "shasum": ""
+            },
+            "require": {
+                "filament/forms": "^3.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JaOcero\\RadioDeck\\RadioDeckServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JaOcero\\RadioDeck\\": "src/",
+                    "JaOcero\\RadioDeck\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jay-Are Ocero",
+                    "email": "199ocero@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Turn filament default radio button into a selectable card with icons, title and description.",
+            "homepage": "https://github.com/jaocero/radio-deck",
+            "keywords": [
+                "filament-form",
+                "filament-plugin",
+                "filamentphp",
+                "jaocero",
+                "laravel",
+                "radio-deck"
+            ],
+            "support": {
+                "issues": "https://github.com/jaocero/radio-deck/issues",
+                "source": "https://github.com/jaocero/radio-deck"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/jaocero",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-05-30T13:40:53+00:00"
         },
         {
             "name": "jaybizzle/crawler-detect",

@@ -48,6 +48,7 @@
         "graham-campbell/markdown": "*",
         "graham-campbell/security-core": "*",
         "hydrat/filament-table-layout-toggle": "dev-main",
+        "jaocero/radio-deck": "^1.2",
         "jenssegers/agent": "^3.0@dev",
         "jeremeamia/superclosure": "*",
         "kirschbaum-development/eloquent-power-joins": "*",
@@ -61,7 +62,6 @@
         "laravel/sanctum": "*",
         "laravel/socialite": "*",
         "laravel/tinker": "^2.9",
-
         "lcobucci/jwt": "*",
         "league/csv": "^9.0@dev",
         "league/omnipay": "*",
@@ -79,6 +79,7 @@
         "microweber-packages/microweber-class-alias": "dev-master",
         "microweber-templates/big-free": "v16.8",
         "mtrajano/laravel-swagger": "0.6.4",
+        "nunomaduro/collision": "^8.0",
         "omnipay/authorizenet": "*",
         "omnipay/mollie": "*",
         "omnipay/paypal": "*",
@@ -119,8 +120,7 @@
         "whitecube/lingua": "1.1.0",
         "wikimedia/composer-merge-plugin": "dev-master",
         "wikimedia/less.php": "3.1.0",
-        "wire-elements/modal": "^2.0",
-        "nunomaduro/collision": "^8.0"
+        "wire-elements/modal": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
