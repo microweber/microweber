@@ -14,9 +14,9 @@ use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\User\Models\User;
-use Tests\Browser\Components\AdminMakeInstall;
-use Tests\Browser\Components\BaseComponent;
-use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Multilanguage\Components\AdminMakeInstall;
+use Tests\Browser\Multilanguage\Components\BaseComponent;
+use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
 
 abstract class DuskTestCase extends BaseTestCase
 {

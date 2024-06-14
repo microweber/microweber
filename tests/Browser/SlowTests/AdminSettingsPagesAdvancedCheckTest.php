@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Browser\SlowTests;
+namespace Tests\Browser\Multilanguage\SlowTests;
 
 use Arcanedev\SeoHelper\Entities\Analytics;
 use Arcanedev\SeoHelper\Entities\OpenGraph\Graph;
 use Arcanedev\SeoHelper\Entities\Twitter\Card;
 use Arcanedev\SeoHelper\Entities\Webmasters;
 use Laravel\Dusk\Browser;
-use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
 use Tests\DuskTestCase;
 use function admin_url;
 use function save_option;

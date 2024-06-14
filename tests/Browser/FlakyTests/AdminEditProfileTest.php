@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Browser\FlakyTests;
+namespace Tests\Browser\Multilanguage\FlakyTests;
 
 use App\Models\User;
 use Faker\Factory;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
-use Tests\Browser\Components\AdminLogin;
-use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Browser\LiveEdit\LiveEditTextEditTests;
+namespace Tests\Browser\Multilanguage\LiveEdit\LiveEditTextEditTests;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
-use Tests\Browser\Components\AdminLogin;
-use Tests\Browser\Components\ChekForJavascriptErrors;
-use Tests\Browser\Components\LiveEditSaveButton;
-use Tests\Browser\Components\LiveEditWaitUntilLoaded;
-use Tests\Browser\Components\WysiwygSmallEditorButtonClick;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
+use Tests\Browser\Multilanguage\Components\LiveEditSaveButton;
+use Tests\Browser\Multilanguage\Components\LiveEditWaitUntilLoaded;
+use Tests\Browser\Multilanguage\Components\WysiwygSmallEditorButtonClick;
 use Tests\DuskTestCase;
 
 class LiveEditWysiwygAlignTest extends DuskTestCase

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Browser\ShopTests;
+namespace Tests\Browser\Multilanguage\ShopTests;
 
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Product\Models\Product;
-use Tests\Browser\Components\AdminLogin;
-use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminShopOffersTest extends DuskTestCase

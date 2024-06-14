@@ -5,10 +5,10 @@ namespace Tests\Browser\Admin;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\tests\TestHelpers;
-use Tests\Browser\Components\AdminContentImageAdd;
-use Tests\Browser\Components\AdminLogin;
-use Tests\Browser\Components\ChekForJavascriptErrors;
-use Tests\Browser\Components\EnvCheck;
+use Tests\Browser\Multilanguage\Components\AdminContentImageAdd;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
+use Tests\Browser\Multilanguage\Components\EnvCheck;
 use Tests\DuskTestCase;
 
 class AdminAddCategoryTest extends DuskTestCase

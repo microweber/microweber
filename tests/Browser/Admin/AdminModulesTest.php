@@ -3,8 +3,8 @@
 namespace Tests\Browser\Admin;
 
 use Laravel\Dusk\Browser;
-use Tests\Browser\Components\AdminLogin;
-use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminModulesTest extends DuskTestCase

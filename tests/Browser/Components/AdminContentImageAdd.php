@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Components;
+namespace Tests\Browser\Multilanguage\Components;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Multilanguage;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
-use Tests\Browser\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
 use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Multilanguage;
+namespace Tests\Browser\Multilanguage\Multilanguage;
 
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -8,12 +8,12 @@ use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Post\Models\Post;
-use Tests\Browser\Components\AdminCategoryMultilanguage;
-use Tests\Browser\Components\AdminContentImageAdd;
-use Tests\Browser\Components\AdminContentMultilanguage;
-use Tests\Browser\Components\AdminLogin;
-use Tests\Browser\Components\ChekForJavascriptErrors;
-use Tests\Browser\Components\FrontendSwitchLanguage;
+use Tests\Browser\Multilanguage\Components\AdminCategoryMultilanguage;
+use Tests\Browser\Multilanguage\Components\AdminContentImageAdd;
+use Tests\Browser\Multilanguage\Components\AdminContentMultilanguage;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
+use Tests\Browser\Multilanguage\Components\FrontendSwitchLanguage;
 use Tests\DuskTestCaseMultilanguage;
 
 class AdminMultilanguageAddCategoryTest extends DuskTestCaseMultilanguage

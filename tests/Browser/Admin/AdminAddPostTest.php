@@ -6,12 +6,12 @@ use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Post\Models\Post;
-use Tests\Browser\Components\AdminContentCategorySelect;
-use Tests\Browser\Components\AdminContentCustomFieldAdd;
-use Tests\Browser\Components\AdminContentImageAdd;
-use Tests\Browser\Components\AdminContentTagAdd;
-use Tests\Browser\Components\AdminLogin;
-use Tests\Browser\Components\ChekForJavascriptErrors;
+use Tests\Browser\Multilanguage\Components\AdminContentCategorySelect;
+use Tests\Browser\Multilanguage\Components\AdminContentCustomFieldAdd;
+use Tests\Browser\Multilanguage\Components\AdminContentImageAdd;
+use Tests\Browser\Multilanguage\Components\AdminContentTagAdd;
+use Tests\Browser\Multilanguage\Components\AdminLogin;
+use Tests\Browser\Multilanguage\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 
 class AdminAddPostTest extends DuskTestCase

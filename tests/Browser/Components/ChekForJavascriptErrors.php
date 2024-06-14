@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser\Components;
+namespace Tests\Browser\Multilanguage\Components;
 
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Assert as PHPUnit;

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\User\Models\User;
-use Tests\Browser\Components\AdminMakeInstall;
+use Tests\Browser\Multilanguage\Components\AdminMakeInstall;
 use Tests\DuskTestCase;
 
 class AdminAATest extends DuskTestCase
