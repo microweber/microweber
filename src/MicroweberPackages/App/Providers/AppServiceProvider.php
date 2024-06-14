@@ -20,8 +20,6 @@ use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 use MicroweberPackages\App\Http\Middleware\TrimStrings;
 use MicroweberPackages\App\Utils\Parser;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
-use MicroweberPackages\Config\ConfigSave;
-use MicroweberPackages\Config\ConfigSaveServiceProvider;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
@@ -36,7 +34,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
-use NunoMaduro\Collision\Adapters\Laravel\CollisionServiceProvider;
+
 
 // Shop
 
@@ -256,7 +254,7 @@ class AppServiceProvider extends ServiceProvider
         }
         if ($this->app->environment('local', 'testing')) {
             if (is_cli()) {
-                $this->app->register(CollisionServiceProvider::class);
+               // $this->app->register(CollisionServiceProvider::class);
                 $this->app->register(DuskServiceProvider::class);
             }
         }

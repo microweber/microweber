@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Option\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Category\Facades\Option as OptionFacade;
+use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\Models\Option;
 
 class OptionsTest extends TestCase

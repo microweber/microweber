@@ -16,7 +16,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
 use MicroweberPackages\Option\TranslateTables\TranslateOption;
-use MicroweberPackages\Category\Facades\Option as OptionFacade;
+use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\GlobalOptions;
 use MicroweberPackages\Option\Models\Option as OptionModel;
 use MicroweberPackages\Option\Models\Option;

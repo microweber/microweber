@@ -173,7 +173,7 @@ $for_module_id = $mod_id;
                         </div>
 
                         <div class="form-group mb-4">
-                            <?php $emailAutorespondEnable = \MicroweberPackages\Category\Facades\Option::getValue('email_autorespond_enable', $mod_id); ?>
+                            <?php $emailAutorespondEnable = \MicroweberPackages\Option\Facades\Option::getValue('email_autorespond_enable', $mod_id); ?>
                             <div class="form-check form-switch pl-0">
                                 <input type="checkbox" module="contact_form" onchange="toggleAutoRespondFields(event)"
                                        data-value-checked="y" data-value-unchecked="n"
@@ -242,7 +242,7 @@ $for_module_id = $mod_id;
                                 </div>
 
                                 <div class="form-group mb-4">
-                                    <?php $emailAutorespondCustomSender = \MicroweberPackages\Category\Facades\Option::getValue('email_autorespond_custom_sender', $mod_id); ?>
+                                    <?php $emailAutorespondCustomSender = \MicroweberPackages\Option\Facades\Option::getValue('email_autorespond_custom_sender', $mod_id); ?>
                                     <div class="form-check form-switch pl-0">
                                         <input type="checkbox" onchange="toggleAutorespondCustomSender(event)"
                                                data-value-checked="y" data-value-unchecked="n"
@@ -341,7 +341,7 @@ $for_module_id = $mod_id;
                     </div>
 
                     <div class="form-group mb-4">
-                        <?php $emailCustomReceivers = \MicroweberPackages\Category\Facades\Option::getValue('email_custom_receivers', $mod_id); ?>
+                        <?php $emailCustomReceivers = \MicroweberPackages\Option\Facades\Option::getValue('email_custom_receivers', $mod_id); ?>
                         <div class="form-check form-switch pl-0">
                             <input type="checkbox" module="contact_form" onchange="toggleCustomReceivers(event)"
                                    data-value-checked="y" data-value-unchecked="n"
