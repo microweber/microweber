@@ -15,6 +15,8 @@ class CustomField extends Model
    /// use HasMultilanguageTrait;
 
     protected $fillable = [
+        'rel_id',
+        'rel_type',
         'value',
         'type',
         'options',
@@ -43,6 +45,17 @@ class CustomField extends Model
     protected $attributes = [
         'is_active' => 1,
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+
+           // dd(333);
+
+        });
+    }
 
     public function fieldValue()
     {

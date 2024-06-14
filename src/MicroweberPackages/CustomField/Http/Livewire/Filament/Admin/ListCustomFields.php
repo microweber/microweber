@@ -7,6 +7,9 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -22,21 +25,34 @@ class ListCustomFields extends Component implements HasForms, HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    public $relType = '';
+    public $relId = '';
+
     public function table(Table $table): Table
     {
+        $modelQuery = CustomField::query();
+//        if ($this->relType) {
+//            $modelQuery->where('rel_type', $this->relType);
+//        }
+//        if ($this->relId) {
+//            $modelQuery->where('rel_id', $this->relId);
+//        }
         return $table
             ->paginated(false)
             ->heading('Custom Fields')
             ->headerActions([
-
                 Action::make('custom-field-create')
                     ->label('Add custom field')
+                    ->model(CustomField::class)
                     ->form([
 
-
+                        TextInput::make('name')
+                            ->label('Name')
+                            ->placeholder('Name')
+                            ->required(), 
                     ]),
             ])
-            ->query(CustomField::query())
+            ->query($modelQuery)
             ->columns([
                 TextColumn::make('name')
                     ->label('Name'),
@@ -49,7 +65,19 @@ class ListCustomFields extends Component implements HasForms, HasTable
                 // ...
             ])
             ->actions([
-                Action::make('custom-field-delete')
+                EditAction::make('custom-field-edit')
+                    ->label('Edit')
+                    ->icon('heroicon-o-pencil')
+                    ->form([
+
+                        TextInput::make('name')
+                            ->label('Name')
+                            ->placeholder('Name')
+                            ->required(),
+
+                    ]),
+
+                DeleteAction::make('custom-field-delete')
                     ->label('Delete')
                     ->color('danger')
                     ->icon('heroicon-o-trash')
@@ -57,7 +85,7 @@ class ListCustomFields extends Component implements HasForms, HasTable
                     ->action(fn (CustomField $record) => $record->delete())
             ])
             ->bulkActions([
-                // ...
+                DeleteBulkAction::make()
             ]);
     }
 
