@@ -1,6 +1,7 @@
 <?php
 namespace MicroweberPackages\CustomField\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -46,13 +47,39 @@ class CustomField extends Model
         'is_active' => 1,
     ];
 
+    protected static string $relType = '';
+    protected static string $relId = '';
+
+    public static function queryForRelTypeRelId(string $relType = '',string $relId = ''): Builder
+    {
+        static::$relType = $relType;
+        static::$relId = $relId;
+
+        $query = static::query();
+        if (static::$relType) {
+            $query->where('rel_type', static::$relType);
+        }
+        if (static::$relId) {
+            $query->where('rel_id', static::$relId);
+        }
+
+        return $query;
+    }
+
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
 
-           // dd(333);
+            $relType = $model::$relType;
+            $relId = $model::$relId;
+            if (!empty($relType)) {
+                $model->rel_type = $relType;
+            }
+            if (!empty($relId)) {
+                $model->rel_id = $relId;
+            }
 
         });
     }

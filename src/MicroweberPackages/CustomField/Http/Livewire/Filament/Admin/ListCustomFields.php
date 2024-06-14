@@ -7,6 +7,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
@@ -30,26 +31,19 @@ class ListCustomFields extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
-        $modelQuery = CustomField::query();
-//        if ($this->relType) {
-//            $modelQuery->where('rel_type', $this->relType);
-//        }
-//        if ($this->relId) {
-//            $modelQuery->where('rel_id', $this->relId);
-//        }
+        $modelQuery = CustomField::queryForRelTypeRelId($this->relType, $this->relId);
+
         return $table
             ->paginated(false)
             ->heading('Custom Fields')
             ->headerActions([
-                Action::make('custom-field-create')
+                CreateAction::make('custom-field-create')
                     ->label('Add custom field')
-                    ->model(CustomField::class)
                     ->form([
-
                         TextInput::make('name')
                             ->label('Name')
                             ->placeholder('Name')
-                            ->required(), 
+                            ->required(),
                     ]),
             ])
             ->query($modelQuery)
