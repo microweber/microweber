@@ -18,7 +18,6 @@ class CustomField extends Model
     protected $fillable = [
         'rel_id',
         'rel_type',
-        'value',
         'type',
         'options',
         'name',

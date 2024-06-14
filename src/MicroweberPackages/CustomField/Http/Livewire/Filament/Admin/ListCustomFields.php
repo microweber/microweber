@@ -8,6 +8,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Wizard;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
@@ -22,8 +23,10 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\HtmlString;
+use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Livewire\Component;
 use MicroweberPackages\App\Models\SystemLicenses;
+use MicroweberPackages\CustomField\Enums\CustomFieldTypes;
 use MicroweberPackages\CustomField\Fields\Text;
 use MicroweberPackages\CustomField\Models\CustomField;
 
@@ -40,6 +43,85 @@ class ListCustomFields extends Component implements HasForms, HasTable
         $modelQuery = CustomField::queryForRelTypeRelId($this->relType, $this->relId);
 
 
+        $editForm = [
+            TextInput::make('name')
+                ->label('Name')
+                ->placeholder('Name')
+                ->required(),
+            Toggle::make('as_textarea')
+                ->label('Use as textarea')
+                ->columnSpanFull()
+                ->default(false),
+            TextInput::make('value')
+                ->label('Value')
+                ->placeholder('Value'),
+
+            Toggle::make('show_placeholder')
+                ->helperText('Toggle to turn on the placeholder and write your text below')
+                ->label('Show placeholder')
+                ->columnSpanFull(),
+            Toggle::make('required')
+                ->helperText('Toggle to make this field required for the user')
+                ->label('Required'),
+            Toggle::make('show_label')
+                ->helperText('Toggle to turn on the label and write your text below')
+                ->label('Show label'),
+            Section::make([
+                Grid::make(3)
+                    ->schema([
+                        Select::make('field_size_desktop')
+                            ->label('Grid Desktop')
+                            ->options([
+                                'col-1' => 'col-1',
+                                'col-2' => 'col-2',
+                                'col-3' => 'col-3',
+                                'col-4' => 'col-4',
+                                'col-5' => 'col-5',
+                                'col-6' => 'col-6',
+                                'col-7' => 'col-7',
+                                'col-8' => 'col-8',
+                                'col-9' => 'col-9',
+                                'col-10' => 'col-10',
+                                'col-11' => 'col-11',
+                                'col-12' => 'col-12',
+                            ]),
+                        Select::make('field_size_tablet')
+                            ->label('Grid Tablet')
+                            ->options([
+                                'col-1' => 'col-1',
+                                'col-2' => 'col-2',
+                                'col-3' => 'col-3',
+                                'col-4' => 'col-4',
+                                'col-5' => 'col-5',
+                                'col-6' => 'col-6',
+                                'col-7' => 'col-7',
+                                'col-8' => 'col-8',
+                                'col-9' => 'col-9',
+                                'col-10' => 'col-10',
+                                'col-11' => 'col-11',
+                                'col-12' => 'col-12',
+                            ]),
+                        Select::make('field_size_mobile')
+                            ->label('Grid Mobile')
+                            ->options([
+                                'col-1' => 'col-1',
+                                'col-2' => 'col-2',
+                                'col-3' => 'col-3',
+                                'col-4' => 'col-4',
+                                'col-5' => 'col-5',
+                                'col-6' => 'col-6',
+                                'col-7' => 'col-7',
+                                'col-8' => 'col-8',
+                                'col-9' => 'col-9',
+                                'col-10' => 'col-10',
+                                'col-11' => 'col-11',
+                                'col-12' => 'col-12',
+                            ])
+                    ])
+
+                ]),
+        ];
+
         return $table
             ->paginated(false)
             ->heading('Custom Fields')
@@ -47,82 +129,18 @@ class ListCustomFields extends Component implements HasForms, HasTable
                 CreateAction::make('custom-field-create')
                     ->label('Add custom field')
                     ->form([
-                        Select::make('type')
-                            ->options(mw()->ui->custom_fields()),
-                        TextInput::make('name')
-                            ->label('Name')
-                            ->placeholder('Name')
-                            ->required(),
-                        Toggle::make('as_textarea')
-                            ->label('Use as textarea')
-                            ->columnSpanFull()
-                            ->default(false),
-                        TextInput::make('value')
-                            ->label('Value')
-                            ->placeholder('Value'),
-
-                        Toggle::make('show_placeholder')
-                            ->helperText('Toggle to turn on the placeholder and write your text below')
-                            ->label('Show placeholder')
-                            ->columnSpanFull(),
-                        Toggle::make('required')
-                            ->helperText('Toggle to make this field required for the user')
-                            ->label('Required'),
-                        Toggle::make('show_label')
-                            ->helperText('Toggle to turn on the label and write your text below')
-                            ->label('Show label'),
-                        Section::make([
-                            Grid::make(3)
+                        Wizard::make([
+                            Wizard\Step::make('Type')
                                 ->schema([
-                                    Select::make('field_size_desktop')
-                                        ->label('Grid Desktop')
-                                        ->options([
-                                            'col-1' => 'col-1',
-                                            'col-2' => 'col-2',
-                                            'col-3' => 'col-3',
-                                            'col-4' => 'col-4',
-                                            'col-5' => 'col-5',
-                                            'col-6' => 'col-6',
-                                            'col-7' => 'col-7',
-                                            'col-8' => 'col-8',
-                                            'col-9' => 'col-9',
-                                            'col-10' => 'col-10',
-                                            'col-11' => 'col-11',
-                                            'col-12' => 'col-12',
-                                        ]),
-                                    Select::make('field_size_tablet')
-                                        ->label('Grid Tablet')
-                                        ->options([
-                                            'col-1' => 'col-1',
-                                            'col-2' => 'col-2',
-                                            'col-3' => 'col-3',
-                                            'col-4' => 'col-4',
-                                            'col-5' => 'col-5',
-                                            'col-6' => 'col-6',
-                                            'col-7' => 'col-7',
-                                            'col-8' => 'col-8',
-                                            'col-9' => 'col-9',
-                                            'col-10' => 'col-10',
-                                            'col-11' => 'col-11',
-                                            'col-12' => 'col-12',
-                                        ]),
-                                    Select::make('field_size_mobile')
-                                        ->label('Grid Mobile')
-                                        ->options([
-                                            'col-1' => 'col-1',
-                                            'col-2' => 'col-2',
-                                            'col-3' => 'col-3',
-                                            'col-4' => 'col-4',
-                                            'col-5' => 'col-5',
-                                            'col-6' => 'col-6',
-                                            'col-7' => 'col-7',
-                                            'col-8' => 'col-8',
-                                            'col-9' => 'col-9',
-                                            'col-10' => 'col-10',
-                                            'col-11' => 'col-11',
-                                            'col-12' => 'col-12',
-                                        ])
-                                ])
+                                    RadioDeck::make('type')
+                                        ->options(CustomFieldTypes::class)
+                                        ->descriptions(CustomFieldTypes::class)
+                                        ->icons(CustomFieldTypes::class)
+                                        ->required()
+                                        ->columns(3),
+                                ]),
+                            Wizard\Step::make('Settings')
+                                ->schema($editForm),
                         ])
                     ]),
             ])
@@ -142,14 +160,7 @@ class ListCustomFields extends Component implements HasForms, HasTable
                 EditAction::make('custom-field-edit')
                     ->label('Edit')
                     ->icon('heroicon-o-pencil')
-                    ->form([
-
-                        TextInput::make('name')
-                            ->label('Name')
-                            ->placeholder('Name')
-                            ->required(),
-
-                    ]),
+                    ->form($editForm),
 
                 DeleteAction::make('custom-field-delete')
                     ->label('Delete')
