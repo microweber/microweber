@@ -65,7 +65,7 @@ class AdminAdvancedPage extends AdminSettingsPage
                             ->live()
                             ->rows(5)
                             ->cols(5),
-                        
+
                     ]),
             ]);
     }
