@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\App\Utils\Adapters\Cache;
 
-use Illuminate\Cache\tags;
 use Illuminate\Support\Facades\Cache;
 
 class LaravelCache

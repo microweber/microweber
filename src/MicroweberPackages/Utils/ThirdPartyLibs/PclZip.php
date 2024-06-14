@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\ThirdPartyLibs;
+namespace MicroweberPackages\Utils\ThirdPartyLibs;
 // --------------------------------------------------------------------------------
 // PhpConcept Library - Zip Module 2.8.2
 // --------------------------------------------------------------------------------

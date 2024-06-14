@@ -5,7 +5,7 @@ $dir = __DIR__;
 $dir = str_replace('Import\Formats', '', $dir);
 $dir = str_replace('Import/Formats', '', $dir);
 
-use MicroweberPackages\Backup\EncodingFix;
+use MicroweberPackages\Import\EncodingFix;
 
 class JsonReader extends DefaultReader
 {

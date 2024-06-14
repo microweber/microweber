@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Backup;
+namespace MicroweberPackages\Import;
 
 /**
  * Microweber - Backup Module Database Save
@@ -43,7 +43,7 @@ class EncodingFix
 				}
 			});
 		}
-		
+
 		return $content;
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\User\tests;
+namespace MicroweberPackages\Notification\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Utils\Mail\MailSender;

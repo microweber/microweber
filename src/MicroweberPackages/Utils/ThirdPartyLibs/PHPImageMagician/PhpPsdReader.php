@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\ThirdPartyLibs\PHPImageMagician;
+namespace MicroweberPackages\Utils\ThirdPartyLibs\PHPImageMagician;
 
 
 /* This file is released under the GPL, any version you like
