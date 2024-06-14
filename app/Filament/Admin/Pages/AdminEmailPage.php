@@ -38,7 +38,7 @@ class AdminEmailPage extends AdminSettingsPage
                     ->schema([
 
 
-                    Select::make('option.email.email_transport')
+                    Select::make('options.email.email_transport')
                         ->label('Email Transport')
                         ->live()
                         ->options([
@@ -67,6 +67,50 @@ class AdminEmailPage extends AdminSettingsPage
                             ]) ->hidden(function (Get $get) {
 
                                 if ($get('options.email.email_transport') == 'gmail') {
+                                    return false;
+                                }
+                                return true;
+                            }),
+
+                            Group::make([
+
+                                TextInput::make('options.email.smtp_username')
+                                    ->label('SMTP Username')
+                                    ->live()
+                                    ->placeholder('e.g. user@email.com'),
+
+                                TextInput::make('options.email.smtp_password')
+                                    ->label('Gmail Password')
+                                    ->live()
+                                    ->password()
+                                    ->placeholder('your password here'),
+
+                                TextInput::make('options.email.smtp_host')
+                                    ->label('SMTP Host')
+                                    ->live()
+                                    ->placeholder('e.g. smtp.gmail.com'),
+
+                                TextInput::make('options.email.smtp_port')
+                                    ->label('SMTP Port')
+                                    ->live()
+                                    ->placeholder('e.g. 587'),
+
+                                Select::make('options.email.smtp_auth')
+                                    ->label('Enable SMTP authentication')
+                                    ->live()
+                                    ->options([
+                                        '' => 'None',
+                                        'gmail' => 'Gmail',
+                                        'smtp' => 'Smtp',
+                                        'cpanel' => 'Cpanel',
+                                        'plesk' => 'Plesk',
+                                        'config' => 'Config'
+                                    ]),
+
+
+                            ]) ->hidden(function (Get $get) {
+
+                                if ($get('options.email.email_transport') == 'smtp') {
                                     return false;
                                 }
                                 return true;
