@@ -21,7 +21,9 @@ class AdminLoginRegisterPage extends AdminSettingsPage
 
     protected static string $description = 'Configure your login and registration settings';
 
-
+    public array $optionGroups = [
+        'users'
+    ];
 
     public function form(Form $form): Form
     {
