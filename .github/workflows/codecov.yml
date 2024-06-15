@@ -11,6 +11,8 @@ concurrency:
 jobs:
   main-codecov:
     runs-on: ubuntu-latest
+    env:
+      COMPOSER_ALLOW_SUPERUSER: 1
     strategy:
       fail-fast: true
       max-parallel: 1
