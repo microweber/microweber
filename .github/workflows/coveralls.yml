@@ -19,9 +19,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-        ref: dev
-
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       with:
@@ -57,16 +54,7 @@ jobs:
         flag-name: run-${{ join(matrix.*, '-') }}
         parallel: true
         files: clover.xml
-#    - name: SonarQube Scan
-#      uses: sonarsource/sonarqube-scan-action@master
-#      env:
-#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-#      with:
-#        args: >
-#          -Dproject.settings=./sonar-project.properties
-#          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-#          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+
   dusk-coveralls:
     needs: main-coveralls
     runs-on: ubuntu-latest
@@ -78,8 +66,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-        ref: dev
     - uses: ./.github/actions/setup-php
       with:
         php_version: ${{ matrix.php-versions }}
@@ -124,17 +110,6 @@ jobs:
         flag-name: run-${{ join(matrix.*, '-') }}
         parallel: true
         files: tests/coverages/dusk-clover.xml tests/coverages/js-report/lcov.info
-#    - name: SonarQube Scan
-#      uses: sonarsource/sonarqube-scan-action@master
-#      env:
-#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-#      with:
-#        args: >
-#          -Dproject.settings=./sonar-project.properties
-#          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-#          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-
     - name: Upload Screenshots
       if: failure()
       uses: actions/upload-artifact@v2
