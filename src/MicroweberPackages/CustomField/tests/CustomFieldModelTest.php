@@ -83,11 +83,11 @@ class CustomFieldModelTest extends TestCase
 
         $some_random = 'some-material-' . uniqid();
 
-
+$name = 'material-' . uniqid();
         $newProduct->setCustomField(
             [
                 'type' => 'dropdown',
-                'name' => 'material',
+                'name' =>$name,
                 'value' => ['jeans', 'cotton', $some_random],
                 'options' => [],
 
@@ -98,7 +98,7 @@ class CustomFieldModelTest extends TestCase
         $newProduct->save();
 
         $prod = Product::whereCustomField([
-            'material' => $some_random,
+            $name => $some_random,
         ])->first();
 
         $this->assertEquals($prod->title, $title);
@@ -114,12 +114,12 @@ class CustomFieldModelTest extends TestCase
         }
         $fields_arr = $fields->toArray();
         $name_keys = array_column($fields_arr, 'name_key');
-        $this->assertContains('material', $name_keys);
+        $this->assertContains($name, $name_keys);
         $this->assertContains('size', $name_keys);
         $this->assertContains('cviat', $name_keys);
 
         $names = array_column($fields_arr, 'name');
-        $this->assertContains('material', $names);
+        $this->assertContains($name, $names);
         $this->assertContains('size', $names);
         $this->assertContains('цвят', $names);
 

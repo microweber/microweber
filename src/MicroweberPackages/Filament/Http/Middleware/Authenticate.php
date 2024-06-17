@@ -10,10 +10,12 @@ class Authenticate extends Middleware
 {
     protected function authenticate($request, array $guards)
     {
-        //abort_if(!is_admin(), 403, 'You are not allowed to access this page');
-        if (!is_admin()) {
-            return $this->redirectTo($request);
-        }
+         abort_if(!is_admin(), 403, 'You are not allowed to access this page');
+
+
+//        if (!is_admin()) {
+//            return $this->redirectTo($request);
+//        }
 
     }
 
