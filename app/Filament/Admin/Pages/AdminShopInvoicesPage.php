@@ -7,6 +7,8 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Illuminate\Support\HtmlString;
@@ -42,63 +44,95 @@ class AdminShopInvoicesPage extends AdminSettingsPage
                             ->label('Enable invoicing')
                             ->live(),
 
-
                         MwFileUpload::make('options.shop.invoice_company_logo')
                             ->label('Company Logo')
                             ->helperText('Select an Company Logo for your website.')
                             ->live(),
 
 
-
-                                Select::make('options.payments.currency')
-                                    ->label('Set default currency')
-                                    ->live()
-                                    ->options([
-                                        'USD' => 'USD',
-                                        'EUR' => 'EUR',
-                                        'GBP' => 'GBP',
-                                        'AUD' => 'AUD',
-                                        'CAD' => 'CAD',
-                                        'JPY' => 'JPY',
-                                        'CNY' => 'CNY',
-                                        'INR' => 'INR',
-                                        'RUB' => 'RUB',
-                                        'UAH' => 'UAH',
-                                        'PLN' => 'PLN',
-                                        'CHF' => 'CHF',
-                                        'SEK' => 'SEK',
-                                        'NOK' => 'NOK',
-                                        'DKK' => 'DKK',
-                                        'CZK' => 'CZK',
-                                        'HUF' => 'HUF',
-                                        'HRK' => 'HRK',
-                                        'BGN' => 'BGN',
+                        TextInput::make('options.shop.invoice_company_name')
+                            ->label('Company Name')
+                            ->placeholder('Enter your company name')
+                            ->live(),
 
 
-                                    ])
-                                    ->helperText(function () {
-                                        return new HtmlString('<small class="mb-2 text-muted">Default currency with which you will accept payments.</small>');
-                                    }),
+                        Select::make('options.shop.invoice_company_country')
+                            ->label('Company Country')
+                            ->live()
+                            ->options([
+                                '' => 'Select country',
+                                'US' => 'United States',
+                                'CA' => 'Canada',
+                                'GB' => 'United Kingdom',
+                                'AU' => 'Australia',
+                                'DE' => 'Germany',
+                                'NL' => 'Netherlands',
+                                'SE' => 'Sweden',
+                                'NO' => 'Norway',
+                                'DK' => 'Denmark',
+                                'FI' => 'Finland',
+                                'IE' => 'Ireland',
+                                'CH' => 'Switzerland',
+                                'AT' => 'Austria',
+                                'BE' => 'Belgium',
+                                'LU' => 'Luxembourg',
+                                'FR' => 'France',
+                                'IT' => 'Italy',
+                                'ES' => 'Spain',
+                                'PT' => 'Portugal',
+                                'GR' => 'Greece',
+                                'CZ' => 'Czech Republic',
+                                'PL' => 'Poland',
+                                'HU' => 'Hungary',
+                                'RO' => 'Romania',
+                                'BG' => 'Bulgaria',
+                                'HR' => 'Croatia',
+                                'RS' => 'Serbia',
+                                'SI' => 'Slovenia',
+                                'SK' => 'Slovakia',
+                                'LT' => 'Lithuania',
+                                'LV' => 'Latvia',
+                                'EE' => 'Estonia',
+                                'MT' => 'Malta',
+                                'CY' => 'Cyprus',
+                            ]),
 
-                                Select::make('options.payments.currency_symbol_position')
-                                    ->label('Currency symbol position')
-                                    ->live()
-                                    ->options([
-                                        '' => 'Default',
-                                        'before' => 'Before amount',
-                                        'after' => 'After amount',
-                                    ])
-                                    ->helperText(function () {
-                                        return new HtmlString('<small class="mb-2 text-muted">Where to display the currency symbol before, after or by default relative to the amount.</small>');
-                                    }),
 
-                                Select::make('options.payments.currency_symbol_decimal')
-                                    ->label('Show Decimals')
-                                    ->live()
-                                    ->options([
-                                        '' => 'Always',
-                                        'when_needed' => 'When needed',
-                                    ]),
+                        TextInput::make('options.shop.invoice_company_city')
+                            ->label('Company City')
+                            ->placeholder('Enter your company name')
+                            ->live(),
+
+                        TextInput::make('options.shop.invoice_company_address')
+                            ->label('Company Address')
+                            ->placeholder('Enter your company address')
+                            ->live(),
+
+                        TextInput::make('options.shop.invoice_company_vat_number')
+                            ->label('Company VAT Number')
+                            ->placeholder('Enter your company vat number')
+                            ->live(),
+
+                        TextInput::make('options.shop.invoice_id_company_number')
+                            ->label('ID Company Number')
+                            ->placeholder('Enter your ID company number')
+                            ->live(),
+
+                        Textarea::make('options.shop.invoice_company_bank_details')
+                            ->label('Additional information')
+                            ->live()
+                            ->rows(5)
+                            ->cols(5)
+                            ->placeholder('For example: reason for taxes'),
+
+
+                        Textarea::make('options.shop.invoice_company_bank_details')
+                            ->label('Bank transfer details')
+                            ->live()
+                            ->rows(5)
+                            ->cols(5)
+                            ->placeholder('For example: reason for taxes'),
+
                     ]),
             ]);
 
