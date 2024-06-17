@@ -7,7 +7,7 @@ use Filament\Pages\Page;
 
 class AdminShopOtherPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-general';
 
     protected static string $view = 'filament.admin.pages.settings-shop-other';
 

@@ -7,7 +7,7 @@ use Filament\Pages\Page;
 
 class AdminLanguagePage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-language';
 
     protected static string $view = 'filament.admin.pages.settings-language';
 

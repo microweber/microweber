@@ -1,4 +1,7 @@
 <?php
+/**
+ * DEPRECATED
+ */
 namespace MicroweberPackages\Modules\LayoutContent\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;

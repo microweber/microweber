@@ -47,7 +47,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
     {
 
         $builtTable = $table->query($this->getModel()::queryForOptionGroup($this->getOptionGroup()));
-
+        
         $editorSettings = $this->getEditorSettings();
 
         $formFields = [];

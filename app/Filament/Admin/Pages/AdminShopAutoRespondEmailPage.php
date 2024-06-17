@@ -7,7 +7,7 @@ use Filament\Pages\Page;
 
 class AdminShopAutoRespondEmailPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-autorespondEmail';
 
     protected static string $view = 'filament.admin.pages.settings-shop-auto-respond-email';
 
