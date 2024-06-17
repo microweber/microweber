@@ -16,36 +16,37 @@ class ProductApiControllerTest extends TestCase
     {
         $categoryIds = [];
 
-        $user = User::where('is_admin','=', '1')->first();
+        $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
 
         $category = new Category();
-        $category->title = 'New cat for my custom model'. rand();
+        $category->title = 'New cat for my custom model' . rand();
         $category->save();
         $categoryIds[] = $category->id;
 
         $category = new Category();
-        $category->title = 'New cat for my custom model'. rand();
+        $category->title = 'New cat for my custom model' . rand();
         $category->save();
         $categoryIds[] = $category->id;
 
-        $title = 'Iphone and spire 4ever! - '. rand();
-        $title2 = 'Iphone and spire 4ever! 2 - '. rand();
+        $title = 'Iphone and spire 4ever! - ' . rand();
+        $title2 = 'Iphone and spire 4ever! 2 - ' . rand();
         $contentBody = 'This is my cool product descriotion.';
 
-        $price = rand(111,999);
+        $price = rand(111, 999);
+        $rand = rand(111, 999);
         $qty = rand();
         $sku = rand();
         $contentData = [
-          'fanta'=>'cocacolla',
-          'price'=>$price,
-          'qty'=>$qty,
-          'sku'=>$sku
+            'fanta' => 'cocacolla',
+            'dataFieldTest' => $rand,
+            'qty' => $qty,
+            'sku' => $sku
         ];
 
         $customFields = [
-          'price'=>$price
+            'price' => $price
         ];
 
         $response = $this->call(
@@ -53,20 +54,22 @@ class ProductApiControllerTest extends TestCase
             route('api.product.store'),
             [
                 'title' => $title,
-                'category_ids'=>implode(',', $categoryIds),
+                'category_ids' => implode(',', $categoryIds),
                 'content_body' => $contentBody,
                 'content' => '',
-                'custom_fields'=>$customFields,
-                'content_data'=>$contentData
+                'custom_fields' => $customFields,
+                'content_data' => $contentData
             ]
         );
 
-        $productDataSaved = $response->getData()->data;
-        $this->assertEquals($productDataSaved->title, $title);
-        $this->assertEquals($productDataSaved->price, $price);
-        $this->assertEquals($productDataSaved->qty, $qty);
-        $this->assertEquals($productDataSaved->sku, $sku);
 
+        $productDataSaved = $response->getData()->data;
+ 
+        $this->assertEquals($productDataSaved->title, $title);
+        $this->assertEquals($productDataSaved->content_data->dataFieldTest, $rand);
+        $this->assertEquals($productDataSaved->qty, $qty);
+        $this->assertEquals($productDataSaved->price, $price);
+        $this->assertEquals($productDataSaved->sku, $sku);
 
 
         $response = $this->call(
@@ -91,7 +94,7 @@ class ProductApiControllerTest extends TestCase
             'PUT',
             route('api.product.update', [
                 'product' => $productDataSaved->id,
-                'title'=>'new-title',
+                'title' => 'new-title',
                 'price' => '',
             ])
 
@@ -106,7 +109,7 @@ class ProductApiControllerTest extends TestCase
             'PUT',
             route('api.product.update', [
                 'product' => $productDataSaved->id,
-                'title'=>'second new title',
+                'title' => 'second new title',
                 'price' => 0,
             ])
 
@@ -117,12 +120,11 @@ class ProductApiControllerTest extends TestCase
         $this->assertEquals($productDataSaved->price, 0);
 
 
-
         $response = $this->call(
             'PUT',
             route('api.product.update', [
                 'product' => $productDataSaved->id,
-                'title'=>'second new product title',
+                'title' => 'second new product title',
                 'price' => $price,
             ])
 
@@ -135,7 +137,7 @@ class ProductApiControllerTest extends TestCase
 
     public function testSaveProductFromController()
     {
-        $user = User::where('is_admin','=', '1')->first();
+        $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
         $title = 'Test add product from api ' . rand();
@@ -197,7 +199,6 @@ class ProductApiControllerTest extends TestCase
         $this->assertEquals($product_data->data->title, $title2);
 
 
-
         $response = $this->call(
             'GET',
             route('api.product.index',
@@ -206,14 +207,14 @@ class ProductApiControllerTest extends TestCase
         );
 
         $product_data = $response->getData();
-        $this->assertEquals(true,!empty($product_data->data));
+        $this->assertEquals(true, !empty($product_data->data));
 
         $response = $this->call(
             'GET',
             route('api.product.quick-view',
                 [
                     'id' => $product_id,
-                    'json'=>true
+                    'json' => true
                 ])
         );
         $response->getContent();
@@ -249,7 +250,6 @@ class ProductApiControllerTest extends TestCase
 
         $this->assertNotEmpty($contentData);
     }
-
 
 
     public function testProductDiscountLabelValues()
