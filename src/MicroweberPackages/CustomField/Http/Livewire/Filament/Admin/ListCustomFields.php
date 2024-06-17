@@ -4,7 +4,9 @@ namespace MicroweberPackages\CustomField\Http\Livewire\Filament\Admin;
 
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -19,6 +21,7 @@ use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -39,27 +42,46 @@ class ListCustomFields extends Component implements HasForms, HasTable
 
     public $relType = '';
     public $relId = '';
+    public $type = '';
 
     public function table(Table $table): Table
     {
         $modelQuery = CustomField::queryForRelTypeRelId($this->relType, $this->relId);
 
 
-        $editForm = [
-            TextInput::make('name')
-                ->label('Name')
-                ->placeholder('Name')
-                ->required(),
-            Toggle::make('as_textarea')
-                ->label('Use as textarea')
-                ->columnSpanFull()
-                ->default(false),
+        $editForm = [];
+        $editForm[] = TextInput::make('name')
+            ->label('Name')
+            ->placeholder('Name')
+            ->required();
 
-//            TextInput::make('fieldValue.value')
+
+        $editForm[] = Group::make()
+            ->relationship('fieldValueSingle')
+            ->hidden(function (Get $get) {
+                if ($get('type') == 'text') {
+                    return false;
+                }
+                return true;
+            })
+            ->schema([
+                TextInput::make('value'),
+            ]);
+
+
+//        $editForm[] =
+//            Toggle::make('as_textarea')
+//                ->label('Use as textarea')
+//                ->columnSpanFull()
+//                ->default(false);
+//
+//        $editForm[] = TextInput::make('fieldValue.value')
 //                ->label('Value')
-//                ->placeholder('Value'),
+//                ->placeholder('Value');
 
-            Repeater::make('fieldValue')
+
+//
+        $editForm[] = Repeater::make('fieldValue')
                 ->relationship('fieldValue')
                 ->reorderable()
                 ->cloneable()
@@ -69,73 +91,81 @@ class ListCustomFields extends Component implements HasForms, HasTable
                     TextInput::make('value')
                         ->required(),
                 ])
-                ->columns(1),
-
-            Toggle::make('show_placeholder')
-                ->helperText('Toggle to turn on the placeholder and write your text below')
-                ->label('Show placeholder')
-                ->columnSpanFull(),
-            Toggle::make('required')
-                ->helperText('Toggle to make this field required for the user')
-                ->label('Required'),
-            Toggle::make('show_label')
-                ->helperText('Toggle to turn on the label and write your text below')
-                ->label('Show label'),
-            Section::make([
-                Grid::make(3)
-                    ->schema([
-                        Select::make('field_size_desktop')
-                            ->label('Grid Desktop')
-                            ->options([
-                                'col-1' => 'col-1',
-                                'col-2' => 'col-2',
-                                'col-3' => 'col-3',
-                                'col-4' => 'col-4',
-                                'col-5' => 'col-5',
-                                'col-6' => 'col-6',
-                                'col-7' => 'col-7',
-                                'col-8' => 'col-8',
-                                'col-9' => 'col-9',
-                                'col-10' => 'col-10',
-                                'col-11' => 'col-11',
-                                'col-12' => 'col-12',
-                            ]),
-                        Select::make('field_size_tablet')
-                            ->label('Grid Tablet')
-                            ->options([
-                                'col-1' => 'col-1',
-                                'col-2' => 'col-2',
-                                'col-3' => 'col-3',
-                                'col-4' => 'col-4',
-                                'col-5' => 'col-5',
-                                'col-6' => 'col-6',
-                                'col-7' => 'col-7',
-                                'col-8' => 'col-8',
-                                'col-9' => 'col-9',
-                                'col-10' => 'col-10',
-                                'col-11' => 'col-11',
-                                'col-12' => 'col-12',
-                            ]),
-                        Select::make('field_size_mobile')
-                            ->label('Grid Mobile')
-                            ->options([
-                                'col-1' => 'col-1',
-                                'col-2' => 'col-2',
-                                'col-3' => 'col-3',
-                                'col-4' => 'col-4',
-                                'col-5' => 'col-5',
-                                'col-6' => 'col-6',
-                                'col-7' => 'col-7',
-                                'col-8' => 'col-8',
-                                'col-9' => 'col-9',
-                                'col-10' => 'col-10',
-                                'col-11' => 'col-11',
-                                'col-12' => 'col-12',
-                            ])
-                    ])
-
-                ]),
-        ];
+                ->hidden(function (Get $get) {
+                    if ($get('type') == 'radio'
+                        || $get('type') == 'dropdown'
+                        || $get('type') == 'checkbox') {
+                        return false;
+                    }
+                    return true;
+                })
+                ->columns(1);
+//
+//            Toggle::make('show_placeholder')
+//                ->helperText('Toggle to turn on the placeholder and write your text below')
+//                ->label('Show placeholder')
+//                ->columnSpanFull(),
+//            Toggle::make('required')
+//                ->helperText('Toggle to make this field required for the user')
+//                ->label('Required'),
+//            Toggle::make('show_label')
+//                ->helperText('Toggle to turn on the label and write your text below')
+//                ->label('Show label'),
+//            Section::make([
+//                Grid::make(3)
+//                    ->schema([
+//                        Select::make('field_size_desktop')
+//                            ->label('Grid Desktop')
+//                            ->options([
+//                                'col-1' => 'col-1',
+//                                'col-2' => 'col-2',
+//                                'col-3' => 'col-3',
+//                                'col-4' => 'col-4',
+//                                'col-5' => 'col-5',
+//                                'col-6' => 'col-6',
+//                                'col-7' => 'col-7',
+//                                'col-8' => 'col-8',
+//                                'col-9' => 'col-9',
+//                                'col-10' => 'col-10',
+//                                'col-11' => 'col-11',
+//                                'col-12' => 'col-12',
+//                            ]),
+//                        Select::make('field_size_tablet')
+//                            ->label('Grid Tablet')
+//                            ->options([
+//                                'col-1' => 'col-1',
+//                                'col-2' => 'col-2',
+//                                'col-3' => 'col-3',
+//                                'col-4' => 'col-4',
+//                                'col-5' => 'col-5',
+//                                'col-6' => 'col-6',
+//                                'col-7' => 'col-7',
+//                                'col-8' => 'col-8',
+//                                'col-9' => 'col-9',
+//                                'col-10' => 'col-10',
+//                                'col-11' => 'col-11',
+//                                'col-12' => 'col-12',
+//                            ]),
+//                        Select::make('field_size_mobile')
+//                            ->label('Grid Mobile')
+//                            ->options([
+//                                'col-1' => 'col-1',
+//                                'col-2' => 'col-2',
+//                                'col-3' => 'col-3',
+//                                'col-4' => 'col-4',
+//                                'col-5' => 'col-5',
+//                                'col-6' => 'col-6',
+//                                'col-7' => 'col-7',
+//                                'col-8' => 'col-8',
+//                                'col-9' => 'col-9',
+//                                'col-10' => 'col-10',
+//                                'col-11' => 'col-11',
+//                                'col-12' => 'col-12',
+//                            ])
+//                    ])
+//
+//                ]),
+//        ];
 
         return $table
             ->paginated(false)
@@ -150,9 +180,10 @@ class ListCustomFields extends Component implements HasForms, HasTable
                                     RadioDeck::make('type')
                                         ->label('Custom field type')
                                         ->options(CustomFieldTypes::class)
-                                      //  ->descriptions(CustomFieldTypes::class)
+                                        //  ->descriptions(CustomFieldTypes::class)
                                         ->icons(CustomFieldTypes::class)
                                         ->required()
+                                        ->live()
                                         ->color('primary')
                                         ->columns(3),
                                 ]),
@@ -165,10 +196,32 @@ class ListCustomFields extends Component implements HasForms, HasTable
             ->columns([
                 TextColumn::make('name')
                     ->label('Name'),
-                TextColumn::make('type')
-                    ->label('Type'),
+                IconColumn::make('type')
+                    ->icon(function (CustomField $customField) {
+                        $icon = CustomFieldTypes::from($customField->type);
+                        return $icon->getIcons();
+                    }),
                 TextColumn::make('value')
-                    ->label('Value')
+                    ->state(function (CustomField $customField) {
+                        if ($customField->type == 'text') {
+                            if ($customField->fieldValueSingle) {
+                                return $customField->fieldValueSingle->value;
+                            }
+                        }
+                        if ($customField->type == 'radio'
+                            || $customField->type == 'dropdown'
+                            || $customField->type == 'checkbox') {
+                            if ($customField->fieldValue) {
+                                if (!empty($customField->fieldValue)) {
+                                    $values = [];
+                                    foreach ($customField->fieldValue as $value) {
+                                        $values[] = $value->value;
+                                    }
+                                    return implode(', ', $values);
+                                }
+                            }
+                        }
+                    })->label('Value')
             ])
             ->filters([
                 // ...
