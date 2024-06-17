@@ -136,7 +136,7 @@ class ListCustomFields extends Component implements HasForms, HasTable
                                         ->options(CustomFieldTypes::class)
                                         ->descriptions(CustomFieldTypes::class)
                                         ->icons(CustomFieldTypes::class)
-                                        ->required()
+                                       // ->required()
                                         ->columns(3),
                                 ]),
                             Wizard\Step::make('Settings')
