@@ -21,10 +21,10 @@ $currentSlide = 0;
 
 if (!empty($slides)) {
     foreach ($slides as $iSlide => $slide) {
+        $slide['itemId'] = $slide['id'];
         $slidesIndexes[$slide['id']] = $iSlide;
+        $slides[$iSlide]= $slide;
     }
- //   $slidesOrderedByDate = collect($slides)->sortBy('updatedAt')->reverse()->toArray();
-  //  $currentSlide = key($slidesOrderedByDate);
 }
 
 $moduleTemplate = get_module_option('template', $params['id']);
