@@ -22,8 +22,7 @@ class CustomField extends Model
         'options',
         'name',
         'name_key',
-        'value',
-
+//        'value',
         // 'created_by'
     ];
 

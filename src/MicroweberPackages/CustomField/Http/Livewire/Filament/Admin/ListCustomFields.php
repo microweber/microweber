@@ -2,8 +2,10 @@
 
 namespace MicroweberPackages\CustomField\Http\Livewire\Filament\Admin;
 
+use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -52,9 +54,22 @@ class ListCustomFields extends Component implements HasForms, HasTable
                 ->label('Use as textarea')
                 ->columnSpanFull()
                 ->default(false),
-            TextInput::make('value')
-                ->label('Value')
-                ->placeholder('Value'),
+
+//            TextInput::make('fieldValue.value')
+//                ->label('Value')
+//                ->placeholder('Value'),
+
+            Repeater::make('fieldValue')
+                ->relationship('fieldValue')
+                ->reorderable()
+                ->cloneable()
+                ->collapsible()
+                ->addable()
+                ->schema([
+                    TextInput::make('value')
+                        ->required(),
+                ])
+                ->columns(1),
 
             Toggle::make('show_placeholder')
                 ->helperText('Toggle to turn on the placeholder and write your text below')
