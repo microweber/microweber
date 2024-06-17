@@ -1,4 +1,7 @@
 <?php
+
+namespace MicroweberPackages\Utils\Zip;
+
 /*
  * ZlibDecompress.php
  * (c) 2007 Emanuele Iannone <emanuele@fondani.it>
@@ -46,14 +49,14 @@ class ZlibDecompress {
 	var $out; //unsigned char *out;         /* output buffer */
 	//var $outlen; //unsigned long outlen;       /* available space at out */
 	var $outcnt; //unsigned long outcnt;       /* bytes written to out so far */
-	
+
 	/* input state */
 	var $in; //unsigned char *in;          /* input buffer */
 	var $inlen; //unsigned long inlen;        /* available input at in */
 	var $incnt; //unsigned long incnt;        /* bytes read so far */
 	var $bitbuf; //int bitbuf;                 /* bit buffer */
 	var $bitcnt; //int bitcnt;                 /* number of bits in bit buffer */
-	
+
 	var $fixed_lencode = null;
 	var $fixed_distcode = null;
 
@@ -71,7 +74,7 @@ class ZlibDecompress {
         0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
         7, 7, 8, 8, 9, 9, 10, 10, 11, 11,
         12, 12, 13, 13);
-        
+
   var $order = array(      /* permutation of code length codes */
       16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15);
 
@@ -118,7 +121,7 @@ class ZlibDecompress {
 	 *   block (if it was a fixed or dynamic block) are undefined and have no
 	 *   expected values to check.
 	 *
-	 */      
+	 */
 	function inflate($compressed_data) {
     /* initialize output state */
     $this->out = "";
@@ -130,7 +133,7 @@ class ZlibDecompress {
     $this->incnt = 0;
     $this->bitbuf = 0;
     $this->bitcnt = 0;
- 
+
 	  /* process blocks until last block or error */
 	  do {
 			$last = $this->bits(1);         /* one if last block */
@@ -140,9 +143,9 @@ class ZlibDecompress {
 			      ($type == 2 ? $this->dynamic() :
 						-1));               /* type == 3, invalid */
 			if ($err != 0) break;        /* return with error */
-	  } 
+	  }
 	  while (!$last);
-	
+
 	  /* update the lengths and return */
 	  if ($err <= 0) {
 			return $this->out;
@@ -151,7 +154,7 @@ class ZlibDecompress {
 	  	return false;
 	  }
   }
-      
+
 	/**
 	 * Return $need bits from the input stream.  This always leaves less than
 	 * eight bits in the buffer.  bits() works properly for need == 0.
@@ -176,15 +179,15 @@ class ZlibDecompress {
 	    $val |= ord($this->in[$this->incnt++]) << $this->bitcnt;  /* load eight bits */
 	    $this->bitcnt += 8;
 		}
-		
+
 		/* drop need bits and update buffer, always zero to seven bits left */
 		$this->bitbuf = $val >> $need;
 		$this->bitcnt -= $need;
-		
+
 		/* return need bits, zeroing the bits above that */
 		return (int)($val & ((1 << $need) - 1));
 	}
-	
+
 	/**
 	 * Process a stored block.
 	 *
@@ -202,24 +205,24 @@ class ZlibDecompress {
 	 * - A stored block can have zero length.  This is sometimes used to byte-align
 	 *   subsets of the compressed data for random access or partial recovery.
 	 */
-	function stored() {  
+	function stored() {
 		/* discard leftover bits from current byte (assumes s->bitcnt < 8) */
 		$this->bitbuf = 0;
 		$this->bitcnt = 0;
-		
+
 		/* get length and check against its one's complement */
 		if ($this->incnt + 4 > $this->inlen) return 2;  /* not enough input */
-		
+
 		$len = $this->in[$this->incnt++]; /* length of stored block */
 		$len |= $this->in[$this->incnt++] << 8;
 		if ($this->in[$this->incnt++] != (~$len & 0xff) ||
 				$this->in[$this->incnt++] != ((~$len >> 8) & 0xff))
 				return -2;                              /* didn't match complement! */
-		
+
 		/* copy len bytes from in to out */
 		if ($this->incnt + $len > $this->inlen) return 2;    /* not enough input */
 		while ($len--) $this->out[$this->outcnt++] = $this->in[$this->incnt++];
-		
+
 		/* done with a valid stored block */
 		return 0;
 	}
@@ -252,7 +255,7 @@ class ZlibDecompress {
     /* build fixed huffman tables if first call (may not be thread safe) */
     if ($this->fixed_lencode == null) {
       $lengths = array(); // short lengths[FIXLCODES];
-      
+
       /* literal/length table */
       for ($symbol = 0; $symbol < 144; $symbol++)
           $lengths[$symbol] = 8;
@@ -262,20 +265,20 @@ class ZlibDecompress {
           $lengths[$symbol] = 7;
       for (; $symbol < FIXLCODES; $symbol++)
           $lengths[$symbol] = 8;
-          
+
       $this->fixed_lencode = new HuffmanTable($lengths, FIXLCODES);
 
       /* distance table */
-      for ($symbol = 0; $symbol < MAXDCODES; $symbol++) 
+      for ($symbol = 0; $symbol < MAXDCODES; $symbol++)
       	$lengths[$symbol] = 5;
-      
+
       $this->fixed_distcode = new HuffmanTable($lengths, MAXDCODES);
     }
 
     /* decode data until end-of-block code */
     return $this->codes($this->fixed_lencode, $this->fixed_distcode);
 	}
-	
+
 	/*
 	 * Process a dynamic codes block.
 	 *
@@ -422,7 +425,7 @@ class ZlibDecompress {
     /* decode data until end-of-block code */
     return $this->codes($lencode, $distcode);
 	}
-	
+
 	/**
 	 * Decode literal/length and distance codes until an end-of-block code.
 	 *
@@ -505,7 +508,7 @@ class ZlibDecompress {
           $this->outcnt++;
         }
 	    }
-    } 
+    }
     while ($symbol != 256);            /* end of block symbol */
 
     /* done with a valid fixed or dynamic block */
@@ -534,7 +537,7 @@ class ZlibDecompress {
 	 *
 	 * - Incomplete codes are handled by this decoder, since they are permitted
 	 *   in the deflate format.  See the format notes for fixed() and dynamic().
-	 */	
+	 */
 //	function decode($huffman) {
 //    $code = $first = $index = 0;
 //    for ($len = 1; $len <= MAXBITS; $len++) {
@@ -549,7 +552,7 @@ class ZlibDecompress {
 //    }
 //    return -9;                          /* ran out of codes */
 //	}
-	
+
 	/*
 	 * A faster version of decode() for real applications of this code.   It's not
 	 * as readable, but it makes puff() twice as fast.  And it only makes the code

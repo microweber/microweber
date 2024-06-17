@@ -126,7 +126,7 @@ class Worker
 
         $db_file = $this->create();
 
-        $zip = new \Microweber\Utils\Zip($filename);
+        $zip = new \MicroweberPackages\Utils\Zip\Zip($filename);
         $zip->setZipFile($filename);
         $zip->setComment("Microweber export of the userfiles folder and db.
 				\n The Microweber version at the time of export was {MW_VERSION}

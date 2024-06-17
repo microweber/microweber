@@ -1,6 +1,6 @@
 <?php
 
-namespace Microweber\Utils;
+namespace MicroweberPackages\Utils\Zip;
 
 
 ///*
@@ -13,10 +13,10 @@ namespace Microweber\Utils;
 //struct huffman {
 //    short *count;       /* number of symbols of each length */
 //    short *symbol;      /* canonically ordered symbols */
-//};	  
+//};
 
 define('MAXBITS', 15);              /* maximum bits in a code */
-		
+
 class HuffmanTable {
 	var $count;
 	var $symbol;
@@ -61,7 +61,7 @@ class HuffmanTable {
 	  //short offs[MAXBITS+1];      /* offsets in symbol table for each length */
 		$this->count = array();
 		$this->symbol = array();
-		
+
 	  /* count number of codes of each length */
 	  for ($len = 0; $len <= MAXBITS; $len++)
 	      $this->count[$len] = 0;
@@ -81,20 +81,20 @@ class HuffmanTable {
 	      	break;
 	      }
 		  }                                   /* left > 0 means incomplete */
-		
+
 		  if ($left >= 0) {
 			  /* generate offsets into symbol table for each length for sorting */
 			  $offs[1] = 0;
 			  for ($len = 1; $len < MAXBITS; $len++)
 					$offs[$len + 1] = $offs[$len] + $this->count[$len];
-			
+
 			  /*
 			   * put symbols in table sorted by length, by symbol order within each
 			   * length
 			   */
 			  for ($symbol = 0; $symbol < $n; $symbol++)
 					if ($length[$symbol] != 0) $this->symbol[$offs[$length[$symbol]]++] = $symbol;
-			
+
 			  /* return zero for complete set, positive for incomplete set */
 			  $this->error = $left;
 		  }

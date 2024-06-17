@@ -1478,7 +1478,7 @@ class FrontendController extends Controller
         }
 
         if ($updateSitemap) {
-            $map = new \Microweber\Utils\Sitemap($sm_file);
+            $map = new \MicroweberPackages\Utils\Zip\Sitemap($sm_file);
             $map->file = $sm_file;
 
             // >>> Add categories

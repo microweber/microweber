@@ -23,7 +23,7 @@ use Composer\Util\ProcessExecutor;
 use Composer\Util\RemoteFilesystem;
 use Composer\IO\IOInterface;
 use MicroweberPackages\Package\PackageManagerUnzipOnChunksException;
-use Microweber\Utils\Unzip;
+use MicroweberPackages\Utils\Zip\Unzip;
 use Symfony\Component\Process\ExecutableFinder;
 use ZipArchive;
 
