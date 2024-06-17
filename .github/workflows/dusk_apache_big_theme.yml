@@ -58,7 +58,7 @@ jobs:
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
-          composer test:dusk
+          composer test-dusk
 #      - name: Run Dusk Flaky Tests
 #        run: |
 #          php artisan dusk --testsuite MicroweberFlakyTests

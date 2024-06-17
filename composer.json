@@ -165,6 +165,16 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+
+        "test": [
+            "@php artisan test"
+        ],
+        "test-coverage": [
+            "php -d xdebug.mode=coverage artisan test --coverage -c \"phpunit-coverage.xml\""
+        ],
+        "test-dusk": [
+            "@php artisan dusk"
         ]
     },
     "extra": {

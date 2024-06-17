@@ -45,7 +45,7 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader
     - name: Run PHPUnit Coverage with Xdebug
-      run: composer test:coverage
+      run: composer test-coverage
     - name: Coveralls
       uses: coverallsapp/github-action@v2
       with:

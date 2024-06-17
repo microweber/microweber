@@ -40,7 +40,7 @@ jobs:
       - run: npm install
       - run: npm run build
       - name: Test before build
-        run: composer test:phpunit
+        run: composer test
 
 
 
