@@ -15,7 +15,7 @@ use Illuminate\Support\HtmlString;
 
 class AdminSeoPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-seo';
 
     protected static ?string $navigationGroup = 'Website Settings';
 
