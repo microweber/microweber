@@ -173,8 +173,8 @@ mw.CSSParser = function(el){
     }
 
     f.transform = function(){
-     var transform = mw.JSPrefix('transform');
-     var transform = css[transform];
+
+     var transform = css['transform'];
      if(transform==="" || transform==="none"){
        return [1, 0, 0, 1, 0, 0];
      }
@@ -334,8 +334,8 @@ mw.CSSParser = function(el){
 
 
     f.shadow = function(){
-      var shadow =  mw.JSPrefix('boxShadow');
-      var shadow = css[shadow].replace(/, /g, ",").split(" ");
+
+      var shadow = css['boxShadow'].replace(/, /g, ",").split(" ");
       return {
         color: shadow[0],
         left:shadow[1],

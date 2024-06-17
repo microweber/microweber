@@ -1,10 +1,12 @@
-mw.tools.progressDefaults = {
+
+
+ const progressDefaults = {
     skin: 'mw-ui-progress',
-    action: mw.msg.loading + '...',
+    action: `${mw.lang('Loading')}...`,
     progress: 0
 };
 
-mw.tools.progress = function (obj) {
+export const Progress = function (obj) {
     if (typeof obj.element === 'string') {
         obj.element = mw.$(obj.element)[0];
     }
@@ -13,7 +15,7 @@ mw.tools.progress = function (obj) {
         obj.element.progressOptions.show()
         return obj.element.progressOptions;
     }
-    obj = $.extend({}, mw.tools.progressDefaults, obj);
+    obj = $.extend({}, progressDefaults, obj);
     if(obj.progress > 100 ) {
         obj.progress = 100;
     }
@@ -54,7 +56,7 @@ mw.tools.progress = function (obj) {
     return options;
 };
 
-mw.tools.loading = function (element, progress, speed) {
+export const Loading = function (element, progress, speed) {
     /*
 
      progress:number 0 - 100,
@@ -93,7 +95,7 @@ mw.tools.loading = function (element, progress, speed) {
     if (element.__loadingTime) {
         clearTimeout(element.__loadingTime)
     }
-    mw.require('css_parser.js')
+
 
     var isLoading = mw.tools.hasClass(element, 'mw-loading');
     var el = element.querySelector('.mw-progress');
@@ -109,7 +111,7 @@ mw.tools.loading = function (element, progress, speed) {
         el.remove();
         return;
     }
-    var pos = mw.CSSParser(element).get.position();
+    var pos = getComputedStyle(element).position;
     if (pos === 'static') {
         element.style.position = 'relative';
     }
@@ -133,3 +135,5 @@ mw.tools.loading = function (element, progress, speed) {
         }, 700)
     }
 };
+
+
