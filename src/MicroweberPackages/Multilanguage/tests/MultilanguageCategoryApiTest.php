@@ -4,6 +4,7 @@ namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
@@ -16,6 +17,12 @@ class MultilanguageCategoryApiTest extends MultilanguageTestBase
 
     public function testSave()
     {
+
+        //Truncate Category
+        Category::truncate();
+        //Truncate Multilanguage
+        MultilanguageTranslations::truncate();
+
         MultilanguageHelpers::setMultilanguageEnabled(1);
 
         $params = [

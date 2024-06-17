@@ -15,7 +15,7 @@ use Illuminate\Support\HtmlString;
 
 class AdminEmailPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-email';
 
     protected static string $view = 'filament.admin.pages.settings-email';
 
