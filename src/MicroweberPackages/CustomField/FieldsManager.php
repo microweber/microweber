@@ -407,13 +407,13 @@ class FieldsManager
             $customField = CustomField::where('id', $fieldData['id'])->first();
         }
 
+        if (isset($fieldData['rel_type'])) {
+            if ($fieldData['rel_type'] == 'content' || $fieldData['rel_type'] == 'categories') {
 
-        if($fieldData['rel_type'] == 'content' || $fieldData['rel_type'] == 'categories' ){
+                $fieldData['rel_type'] = app()->database_manager->morphClassFromTable($fieldData['rel_type']);
 
-            $fieldData['rel_type'] = app()->database_manager->morphClassFromTable($fieldData['rel_type']);
-
+            }
         }
-
 
         if ($customField == null) {
 
