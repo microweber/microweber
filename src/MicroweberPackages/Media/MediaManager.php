@@ -404,10 +404,11 @@ class MediaManager
 
         if (isset($data['for'])) {
             $t = trim($data['for']);
-            throw new \Exception('the "for" parameter is deprecated');
+          //  throw new \Exception('the "for" parameter is deprecated');
 
 
-            $t = $this->app->database_manager->assoc_table_name($t);
+          //  $t = $this->app->database_manager->assoc_table_name($t);
+            $t = $this->app->database_manager->morphClassFromTable($t);
             $s['rel_type'] = $t;
         }
         if (isset($data['rel_id'])) {
@@ -416,6 +417,8 @@ class MediaManager
         }
         if (isset($data['rel_type'])) {
             $t = $data['rel_type'];
+            $t = $this->app->database_manager->morphClassFromTable($t);
+
             $s['rel_type'] = $t;
         }
 
