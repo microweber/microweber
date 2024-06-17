@@ -52,7 +52,7 @@ jobs:
     - name: List all artisan commands
       run: php artisan list
     - name: Run PHPUnit Coverage with Xdebug
-      run: composer test:coverage
+      run: composer test-coverage
     - name: Coveralls
       uses: coverallsapp/github-action@v2
       with:
@@ -118,7 +118,7 @@ jobs:
     - name: Run Dusk Tests
       run: |
         chmod -R 0755 vendor/laravel/dusk/bin/
-        composer test:dusk
+        composer test-dusk
     - name: Combine JS coverage
       run: |
         nyc merge tests/coverages/js tests/coverages/coverage.raw.json
