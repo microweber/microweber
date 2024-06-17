@@ -22,73 +22,10 @@ mw.controllers = {};
 mw.external_tool = function (url) {
     return !url.contains("/") ? mw.settings.site_url + "editor_tools/" + url : url;
 };
-// Polyfill for escape/unescape
-if (!window.unescape) {
-    window.unescape = function (s) {
-        return s.replace(/%([0-9A-F]{2})/g, function (m, p) {
-            return String.fromCharCode('0x' + p);
-        });
-    };
-}
-if (!window.escape) {
-    window.escape = function (s) {
-        var chr, hex, i = 0, l = s.length, out = '';
-        for (; i < l; i++) {
-            chr = s.charAt(i);
-            if (chr.search(/[A-Za-z0-9\@\*\_\+\-\.\/]/) > -1) {
-                out += chr;
-                continue;
-            }
-            hex = s.charCodeAt(i).toString(16);
-            out += '%' + ( hex.length % 2 !== 0 ? '0' : '' ) + hex;
-        }
-        return out;
-    };
-}
 
 
 
 
-mw.which = function (str, arr_obj, func) {
-    if (arr_obj instanceof Array) {
-        var l = arr_obj.length, i = 0;
-        for (; i < l; i++) {
-            if (arr_obj[i] === str) {
-                func.call(arr_obj[i]);
-                return arr_obj[i];
-            }
-        }
-    }
-    else {
-        for (var i in arr_obj) {
-            if (i === str) {
-                func.call(arr_obj[i]);
-                return arr_obj[i];
-            }
-        }
-    }
-};
-
-
-
-mw._JSPrefixes = ['Moz', 'Webkit', 'O', 'ms'];
-let _Prefixtest = false;
-mw.JSPrefix = function (property) {
-    !_Prefixtest ? _Prefixtest = document.body.style : '';
-    if (_Prefixtest[property] !== undefined) {
-        return property;
-    }
-    else {
-        var property = property.charAt(0).toUpperCase() + property.slice(1),
-            len = mw._JSPrefixes.length,
-            i = 0;
-        for (; i < len; i++) {
-            if (_Prefixtest[mw._JSPrefixes[i] + property] !== undefined) {
-                return mw._JSPrefixes[i] + property;
-            }
-        }
-    }
-}
 let _mwdochidden;
 if (typeof document.hidden !== "undefined") {
     _mwdochidden = "hidden";
