@@ -7,7 +7,7 @@ use Filament\Pages\Page;
 
 class AdminUpdatesPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-updates';
 
     protected static string $view = 'filament.admin.pages.settings-updates';
 

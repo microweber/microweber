@@ -15,7 +15,7 @@ use Illuminate\Support\HtmlString;
 
 class AdminPrivacyPolicyPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-privacy';
 
     protected static string $view = 'filament.admin.pages.settings-privacy-policy';
 

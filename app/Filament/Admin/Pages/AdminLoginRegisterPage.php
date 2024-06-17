@@ -13,7 +13,7 @@ use Illuminate\Support\HtmlString;
 
 class AdminLoginRegisterPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-login';
 
     protected static string $view = 'filament.admin.pages.settings-login-register';
 
