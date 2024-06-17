@@ -47,12 +47,7 @@ if (!window.escape) {
 }
 
 
-Array.prototype.remove = Array.prototype.remove || function (what) {
-    var i = 0, l = this.length;
-    for ( ; i < l; i++) {
-        this[i] === what ? this.splice(i, 1) : '';
-    }
-};
+
 
 mw.which = function (str, arr_obj, func) {
     if (arr_obj instanceof Array) {

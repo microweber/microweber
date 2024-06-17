@@ -40,18 +40,19 @@ import "../core/icon-resolver.js";
 
 
 
-console.log(mw.tools);
-console.log(mw.tools);
 
 
-// import "../tools/loading.js";
 
-console.log(mw.tools);
-console.log(mw.tools);
+import {Progress, Loading} from "../tools/loading.js";
+
+mw.tools.progress = Progress;
+mw.tools.loading = Loading;
+
+
 import "../tools/storage.js";
 import "../tools/element.js";
 import "../tools/cookie.js";
-import "../tools/common-extend.js";
+ import "../tools/common-extend.js";
 import "../tools/tabs.js";
 import "../tools/spinner.js";
 
