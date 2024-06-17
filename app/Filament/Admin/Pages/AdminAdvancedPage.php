@@ -14,7 +14,7 @@ use Illuminate\Support\HtmlString;
 
 class AdminAdvancedPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-advanced';
 
     protected static string $view = 'filament.admin.pages.settings-advanced';
 
