@@ -10,6 +10,7 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard;
@@ -55,32 +56,45 @@ class ListCustomFields extends Component implements HasForms, HasTable
             ->placeholder('Name')
             ->required();
 
-
         $editForm[] = Group::make()
-            ->relationship('fieldValueSingle')
             ->hidden(function (Get $get) {
-                if ($get('type') == 'text') {
-                    return false;
+                $hide = false;
+                if ($get('type') == 'radio'
+                    || $get('type') == 'dropdown'
+                    || $get('type') == 'checkbox') {
+                    $hide = true;
                 }
-                return true;
+                return $hide;
             })
             ->schema([
-                TextInput::make('value'),
-            ]);
+                Group::make()
+                    ->relationship('fieldValueSingle')
+                    ->schema([
+                        TextInput::make('value'),
+                    ])->hidden(function (Get $get) {
+                        if ($get('options.as_textarea')) {
+                            return true;
+                        }
+                        return false;
+                    }),
+                Group::make()
+                    ->relationship('fieldValueSingle')
+                    ->schema([
+                        Textarea::make('value'),
+                    ])->hidden(function (Get $get) {
+                        if ($get('options.as_textarea')) {
+                            return false;
+                        }
+                        return true;
+                    }),
+                Toggle::make('options.as_textarea')
+                    ->live()
+                    ->label('Use as textarea')
+                    ->columnSpanFull()
+                    ->default(false)
+        ]);
 
 
-//        $editForm[] =
-//            Toggle::make('as_textarea')
-//                ->label('Use as textarea')
-//                ->columnSpanFull()
-//                ->default(false);
-//
-//        $editForm[] = TextInput::make('fieldValue.value')
-//                ->label('Value')
-//                ->placeholder('Value');
-
-
-//
         $editForm[] = Repeater::make('fieldValue')
                 ->relationship('fieldValue')
                 ->reorderable()
@@ -92,29 +106,30 @@ class ListCustomFields extends Component implements HasForms, HasTable
                         ->required(),
                 ])
                 ->hidden(function (Get $get) {
+                    $hide = true;
                     if ($get('type') == 'radio'
                         || $get('type') == 'dropdown'
                         || $get('type') == 'checkbox') {
-                        return false;
+                        $hide = false;
                     }
-                    return true;
+                    return $hide;
                 })
                 ->columns(1);
-//
-//            Toggle::make('show_placeholder')
+
+//            Toggle::make('options.show_placeholder')
 //                ->helperText('Toggle to turn on the placeholder and write your text below')
 //                ->label('Show placeholder')
 //                ->columnSpanFull(),
-//            Toggle::make('required')
+//            Toggle::make('options.required')
 //                ->helperText('Toggle to make this field required for the user')
 //                ->label('Required'),
-//            Toggle::make('show_label')
+//            Toggle::make('options.show_label')
 //                ->helperText('Toggle to turn on the label and write your text below')
 //                ->label('Show label'),
 //            Section::make([
 //                Grid::make(3)
 //                    ->schema([
-//                        Select::make('field_size_desktop')
+//                        Select::make('options.field_size_desktop')
 //                            ->label('Grid Desktop')
 //                            ->options([
 //                                'col-1' => 'col-1',
@@ -130,7 +145,7 @@ class ListCustomFields extends Component implements HasForms, HasTable
 //                                'col-11' => 'col-11',
 //                                'col-12' => 'col-12',
 //                            ]),
-//                        Select::make('field_size_tablet')
+//                        Select::make('options.field_size_tablet')
 //                            ->label('Grid Tablet')
 //                            ->options([
 //                                'col-1' => 'col-1',
@@ -146,7 +161,7 @@ class ListCustomFields extends Component implements HasForms, HasTable
 //                                'col-11' => 'col-11',
 //                                'col-12' => 'col-12',
 //                            ]),
-//                        Select::make('field_size_mobile')
+//                        Select::make('options.field_size_mobile')
 //                            ->label('Grid Mobile')
 //                            ->options([
 //                                'col-1' => 'col-1',
@@ -203,11 +218,6 @@ class ListCustomFields extends Component implements HasForms, HasTable
                     }),
                 TextColumn::make('value')
                     ->state(function (CustomField $customField) {
-                        if ($customField->type == 'text') {
-                            if ($customField->fieldValueSingle) {
-                                return $customField->fieldValueSingle->value;
-                            }
-                        }
                         if ($customField->type == 'radio'
                             || $customField->type == 'dropdown'
                             || $customField->type == 'checkbox') {
@@ -220,6 +230,8 @@ class ListCustomFields extends Component implements HasForms, HasTable
                                     return implode(', ', $values);
                                 }
                             }
+                        } else if ($customField->fieldValueSingle) {
+                            return $customField->fieldValueSingle->value;
                         }
                     })->label('Value')
             ])

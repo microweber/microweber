@@ -89,6 +89,11 @@ class CustomField extends Model
             ->orderBy('position');
     }
 
+    public function fieldValueSingle()
+    {
+        return $this->hasOne(CustomFieldValue::class, 'custom_field_id', 'id');
+    }
+
     public function fieldValueText()
     {
         $fieldValues = $this->fieldValue()->pluck('value');
