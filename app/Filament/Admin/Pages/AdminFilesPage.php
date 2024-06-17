@@ -7,7 +7,7 @@ use Filament\Pages\Page;
 
 class AdminFilesPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-files';
 
     protected static string $view = 'filament.admin.pages.settings-files';
 
