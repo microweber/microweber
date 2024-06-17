@@ -14,7 +14,7 @@ use Illuminate\Support\HtmlString;
 
 class AdminShopGeneral extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-settings';
 
     protected static string $view = 'filament.admin.pages.settings-shop-general';
 
