@@ -48,8 +48,8 @@ jobs:
       - run: npm run build
       - name: List all artisan commands
         run: php artisan list
-#      - name: Run PHPUnit
-#        run: php artisan test
+      - name: Run PHPUnit
+        run: php artisan test
       - name: Remove screenshot layout test
         run: |
           rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php
@@ -65,7 +65,7 @@ jobs:
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
-          composer test:dusk
+          php artisan dusk
       - name: Upload Screenshots
         if: failure()
         uses: actions/upload-artifact@v2
