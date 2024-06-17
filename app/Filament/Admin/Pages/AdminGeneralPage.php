@@ -28,6 +28,8 @@ class AdminGeneralPage extends AdminSettingsPage
     protected static ?string $slug = 'settings/general';
 
     protected static string $view = 'filament.admin.pages.settings-general';
+    protected static ?string $navigationIcon = 'mw-general';
+
 
     protected static ?string $title = 'General';
 
