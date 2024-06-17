@@ -408,15 +408,24 @@ class FieldsManager
         }
 
 
+        if($fieldData['rel_type'] == 'content' || $fieldData['rel_type'] == 'categories' ){
+
+            $fieldData['rel_type'] = app()->database_manager->morphClassFromTable($fieldData['rel_type']);
+
+        }
+
+
         if ($customField == null) {
 
             if (!isset($fieldData['rel_type']) and isset($fieldData['content_id'])) {
-                $fieldData['rel_type'] = 'content';
+                $fieldData['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             }
 
             if (!isset($fieldData['rel_id']) and isset($fieldData['content_id'])) {
                 $fieldData['rel_id'] = $fieldData['content_id'];
             }
+
+
 
 
             $customField = new CustomField();

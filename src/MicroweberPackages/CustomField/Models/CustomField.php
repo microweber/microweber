@@ -22,7 +22,8 @@ class CustomField extends Model
         'options',
         'name',
         'name_key',
-        // 'edited_by',
+        'value',
+
         // 'created_by'
     ];
 
@@ -110,6 +111,7 @@ class CustomField extends Model
     public function save(array $options = [])
     {
         $customFieldValueToSave = null;
+
         if (isset($this->value)) {
             $customFieldValueToSave = $this->value;
             unset($this->value);
