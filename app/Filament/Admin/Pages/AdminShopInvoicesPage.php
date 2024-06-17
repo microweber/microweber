@@ -7,7 +7,7 @@ use Filament\Pages\Page;
 
 class AdminShopInvoicesPage extends AdminSettingsPage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'mw-invoices';
 
     protected static string $view = 'filament.admin.pages.settings-shop-invoices';
 
