@@ -20,7 +20,6 @@ trait CustomFieldsTrait
     public static function bootCustomFieldsTrait()
     {
         static::saving(function ($model) {
-
             if (isset($model->attributes['custom_fields'])) {
                 foreach ($model->attributes['custom_fields'] as $key => $value) {
 
@@ -122,7 +121,7 @@ trait CustomFieldsTrait
             'id',
             'id'
         )->where('custom_fields.type', '=', 'price')
-          ;
+            ->where('custom_fields.rel_type', $this->getMorphClass());
 
     }
 
@@ -175,7 +174,7 @@ trait CustomFieldsTrait
     public function customField()
     {
         return $this->morphMany(CustomField::class, 'rel' , 'rel_type', 'rel_id')
-         //   ->where('custom_fields.rel_type', $this->getMorphClass())
+            ->where('custom_fields.rel_type', $this->getMorphClass())
             ->orderBy('position','asc');
     }
 
