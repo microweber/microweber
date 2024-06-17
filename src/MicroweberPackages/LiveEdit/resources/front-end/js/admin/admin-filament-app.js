@@ -1,14 +1,9 @@
 
 
-
-
-
-
 import "../core/@core.js";
 import "./admin-filament-app.globals.js";
 import "../core/url.js";
 import "../core/events.js";
-
 
 
 
@@ -45,8 +40,14 @@ import "../core/icon-resolver.js";
 
 
 
+console.log(mw.tools);
+console.log(mw.tools);
 
-import "../tools/loading.js";
+
+// import "../tools/loading.js";
+
+console.log(mw.tools);
+console.log(mw.tools);
 import "../tools/storage.js";
 import "../tools/element.js";
 import "../tools/cookie.js";
@@ -78,7 +79,7 @@ import "../components/components.js";
 
 //widgets
 import "../widgets/tree.js";
-import {IconPicker} from "../widgets/icon-picker.js";
+import { IconPicker } from "../widgets/icon-picker.js";
 
 
 
