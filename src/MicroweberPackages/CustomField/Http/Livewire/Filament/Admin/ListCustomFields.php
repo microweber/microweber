@@ -133,16 +133,18 @@ class ListCustomFields extends Component implements HasForms, HasTable
                             Wizard\Step::make('Type')
                                 ->schema([
                                     RadioDeck::make('type')
+                                        ->label('Custom field type')
                                         ->options(CustomFieldTypes::class)
-                                        ->descriptions(CustomFieldTypes::class)
+                                      //  ->descriptions(CustomFieldTypes::class)
                                         ->icons(CustomFieldTypes::class)
-                                       // ->required()
+                                        ->required()
+                                        ->color('primary')
                                         ->columns(3),
                                 ]),
                             Wizard\Step::make('Settings')
                                 ->schema($editForm),
                         ])
-                    ]),
+                    ])->createAnother(false),
             ])
             ->query($modelQuery)
             ->columns([

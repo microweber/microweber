@@ -92,7 +92,7 @@ class MicroweberTheme implements Plugin
 
     public static function configureComponents(): void
     {
-        Wizard::configureUsing(fn(Wizard $wizard): Wizard => $wizard->contained(false));
+      //  Wizard::configureUsing(fn(Wizard $wizard): Wizard => $wizard->contained(false));
     }
 
     public static function configureIcons(): void
