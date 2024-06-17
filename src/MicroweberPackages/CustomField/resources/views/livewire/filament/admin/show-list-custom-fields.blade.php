@@ -1,7 +1,14 @@
 <div>
 
+    @php
+    $relId = 0;
+    if (isset($this->data['id'])) {
+        $relId = $this->data['id'];
+    }
+    @endphp
+
   @livewire('admin-list-custom-fields', [
-    'relId' => $this->data['id'],
+    'relId' => $relId,
     'relType' => morph_name($this->getModel()),
 ])
 </div>

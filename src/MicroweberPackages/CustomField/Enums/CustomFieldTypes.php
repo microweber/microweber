@@ -10,7 +10,7 @@ enum CustomFieldTypes: string implements HasLabel, HasDescriptions, HasIcons
 {
     case PRICE = 'price';
     case TEXT = 'text';
-    case BUTTON = 'button';
+//    case BUTTON = 'button';
     case RADIO = 'radio';
     case DROPDOWN = 'dropdown';
     case CHECKBOX = 'checkbox';
@@ -26,6 +26,7 @@ enum CustomFieldTypes: string implements HasLabel, HasDescriptions, HasIcons
     case UPLOAD = 'upload';
     case PROPERTY = 'property';
     case BREAKLINE = 'breakline';
+
     case HIDDEN = 'hidden';
 
 
@@ -34,7 +35,7 @@ enum CustomFieldTypes: string implements HasLabel, HasDescriptions, HasIcons
         return match ($this) {
             self::PRICE => 'Price',
             self::TEXT => 'Text Field',
-            self::BUTTON => 'Button',
+       //     self::BUTTON => 'Button',
             self::RADIO => 'Single Choice',
             self::DROPDOWN => 'Dropdown',
             self::CHECKBOX => 'Multiple choices',
@@ -59,7 +60,7 @@ enum CustomFieldTypes: string implements HasLabel, HasDescriptions, HasIcons
         return match ($this) {
             self::PRICE => 'Price field',
             self::TEXT => 'Text field',
-            self::BUTTON => 'Button field',
+//            self::BUTTON => 'Button field',
             self::RADIO => 'Single choice field',
             self::DROPDOWN => 'Dropdown field',
             self::CHECKBOX => 'Multiple choices field',
@@ -82,25 +83,25 @@ enum CustomFieldTypes: string implements HasLabel, HasDescriptions, HasIcons
     public function getIcons(): ?string
     {
         return match ($this) {
-            self::PRICE => 'heroicon-m-device-phone-mobile',
-            self::TEXT => 'heroicon-o-pencil',
-            self::BUTTON => 'heroicon-o-pencil',
-            self::RADIO => 'heroicon-o-pencil',
-            self::DROPDOWN => 'heroicon-o-pencil',
-            self::CHECKBOX => 'heroicon-o-pencil',
-            self::NUMBER => 'heroicon-o-pencil',
-            self::PHONE => 'heroicon-o-pencil',
-            self::SITE => 'heroicon-o-pencil',
-            self::EMAIL => 'heroicon-o-pencil',
-            self::ADDRESS => 'heroicon-o-pencil',
-            self::COUNTRY => 'heroicon-o-pencil',
-            self::DATE => 'heroicon-o-pencil',
-            self::TIME => 'heroicon-o-pencil',
-            self::COLOR => 'heroicon-o-pencil',
-            self::UPLOAD => 'heroicon-o-pencil',
-            self::PROPERTY => 'heroicon-o-pencil',
+            self::PRICE => 'heroicon-o-currency-dollar',
+            self::TEXT => 'mw-text',
+//            self::BUTTON => 'heroicon-o-pencil',
+            self::RADIO => 'mw-radio-checked',
+            self::DROPDOWN => 'mw-dropdown',
+            self::CHECKBOX => 'mw-checkbox',
+            self::NUMBER => 'mw-numbers',
+            self::PHONE => 'heroicon-o-phone',
+            self::SITE => 'heroicon-o-globe-europe-africa',
+            self::EMAIL => 'heroicon-o-at-symbol',
+            self::ADDRESS => 'heroicon-o-map-pin',
+            self::COUNTRY => 'heroicon-o-home',
+            self::DATE => 'heroicon-o-calendar-days',
+            self::TIME => 'heroicon-o-clock',
+            self::COLOR => 'heroicon-o-paint-brush',
+            self::UPLOAD => 'heroicon-o-arrow-up-tray',
+            self::PROPERTY => 'mw-info',
             self::BREAKLINE => 'heroicon-o-pencil',
-            self::HIDDEN => 'heroicon-o-pencil',
+            self::HIDDEN => 'mw-hidden',
 
         };
     }

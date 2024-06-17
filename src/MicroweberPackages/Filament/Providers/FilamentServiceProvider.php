@@ -74,6 +74,8 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
         View::prependNamespace('filament-forms', dirname(__DIR__).'/resources/views/filament-forms');
         //View::prependNamespace('filament-panels', base_path() . '/resources/views');
 
+        View::prependNamespace('radio-deck', dirname(__DIR__).'/resources/views/radio-deck');
+
         Filament::serving(function () {
             \Livewire\Livewire::forceAssetInjection();
             Filament::registerViteTheme(
