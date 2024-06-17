@@ -8,6 +8,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 
 class LogoModuleSettings extends LiveEditModuleSettings
 {
@@ -21,8 +22,11 @@ class LogoModuleSettings extends LiveEditModuleSettings
                     ->tabs([
                         Tabs\Tab::make('Image')
                             ->schema([
-                                TextInput::make('options.title')
-                                    ->label('Logo Title')
+                                MwFileUpload::make('options.logoimage')
+                                    ->live(),
+                                TextInput::make('options.size')
+                                    ->label('Logo Size')
+                                    ->numeric()
                                     ->live()
                             ]),
                         Tabs\Tab::make('Text')
