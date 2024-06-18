@@ -1,4 +1,3 @@
-@teleport('body')
 
 @if ($this instanceof \Filament\Actions\Contracts\HasActions && (! $this->hasActionsModalRendered))
     <form wire:submit.prevent="callMountedAction">
@@ -295,6 +294,3 @@
         $this->hasFormsModalRendered = true;
     @endphp
 @endif
-
-
-@endteleport
