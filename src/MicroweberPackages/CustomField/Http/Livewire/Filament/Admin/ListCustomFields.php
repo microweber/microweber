@@ -7,6 +7,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -48,7 +49,8 @@ class ListCustomFields extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
-        $modelQuery = CustomField::queryForRelTypeRelId($this->relType, $this->relId)
+        $modelQuery = CustomField::where('rel_type', $this->relType)
+            ->where('rel_id', $this->relId)
             ->orderBy('position', 'asc');
 
 
@@ -57,6 +59,10 @@ class ListCustomFields extends Component implements HasForms, HasTable
             ->label('Name')
             ->placeholder('Name')
             ->required();
+        $editForm[] = Hidden::make('rel_type')
+            ->default($this->relType);
+        $editForm[] = Hidden::make('rel_id')
+            ->default($this->relId);
 
         $editForm[] = Group::make()
             ->hidden(function (Get $get) {

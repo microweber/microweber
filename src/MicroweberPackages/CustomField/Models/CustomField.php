@@ -46,33 +46,34 @@ class CustomField extends Model
         'is_active' => 1,
     ];
 
-    protected static string $relType = '';
-    protected static string $relId = '';
-
-    public static function queryForRelTypeRelId(string $relType = '',string $relId = ''): Builder
-    {
-        static::$relType = $relType;
-        static::$relId = $relId;
-
-        $query = static::query();
-        if (static::$relType) {
-            $query->where('rel_type', static::$relType);
-        }
-        if (static::$relId) {
-            $query->where('rel_id', static::$relId);
-        }
-
-        return $query;
-    }
+//    protected string $relType = '';
+//    protected string $relId = '';
+//
+//    public function queryForRelTypeRelId(string $relType = '',string $relId = ''): Builder
+//    {
+//       // static::$relType = $relType;
+//        //static::$relId = $relId;
+//
+//        $query = static::query();
+//       // if (static::$relType) {
+//            $query->where('rel_type', $relType);
+//       // }
+//        //if (static::$relId) {
+//            $query->where('rel_id', $relId);
+//       // }
+//
+//        return $query;
+//    }
 
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
+            $attributes = $model->getAttributes();
+            $relType = $attributes['rel_type'] ?? '';
+            $relId = $attributes['rel_id'] ?? '';
 
-            $relType = $model::$relType;
-            $relId = $model::$relId;
             if (!empty($relType)) {
                 $model->rel_type = $relType;
             }
