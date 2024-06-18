@@ -47,7 +47,6 @@
         <div class="py-6">
             <div x-show="activeTab === 'details'">
                 <form wire:submit="save">
-                    {{$this->seoForm}}
                     {{$this->form}}
                 </form>
             </div>
