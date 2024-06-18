@@ -1,6 +1,7 @@
 
 export const DomHelpers = {
     classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition, exception) {
+        let el, exceptions;
         if (el_obj.element && el_obj.namespace) {
             el = el_obj.element;
             namespace = el_obj.namespace;
@@ -25,7 +26,7 @@ export const DomHelpers = {
             var cls = el.className.split(" "), l = cls.length, i = 0, final = [];
             for (; i < l; i++) {
                 if (namespacePosition === 'contains') {
-                    if (!cls[i].contains(namespace) || exceptions.indexOf(cls[i]) !== -1) {
+                    if (!cls[i].includes(namespace) || exceptions.indexOf(cls[i]) !== -1) {
                         final.push(cls[i]);
                     }
                 }

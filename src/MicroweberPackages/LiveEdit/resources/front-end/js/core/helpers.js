@@ -1,5 +1,5 @@
-;(function(expose){
-    var helpers = {
+
+    export const Helpers = {
         fragment: function(){
             if(!this._fragment){
                 this._fragment = document.createElement('div');
@@ -470,45 +470,8 @@
             }
             return true;
         },
-        objLenght: function (obj) {
-            var len = 0, x;
-            if (obj.constructor === {}.constructor) {
-                for ( x in obj ) {
-                    len++;
-                }
-            }
-            return len;
-        },
-        scaleTo: function (selector, w, h) {
-            w = w || 800;
-            h = h || 600;
-            var is_percent = w.toString().contains("%") ? true : false;
-            var item = mw.$(selector);
-            if (item.hasClass('mw-scaleto') || w == 'close') {
-                item.removeClass('mw-scaleto');
-                item.removeAttr('style');
-            }
-            else {
-                item.parent().height(item.height());
-                item.addClass('mw-scaleto');
-                if (is_percent) {
-                    item.css({
-                        width: w,
-                        height: h,
-                        left: ((100 - parseFloat(w)) / 2) + "%",
-                        top: ((100 - parseFloat(h)) / 2) + "%"
-                    });
-                }
-                else {
-                    item.css({
-                        width: w,
-                        height: h,
-                        marginLeft: -w / 2,
-                        marginTop: -h / 2
-                    });
-                }
-            }
-        },
+
+
         getFirstEqualFromTwoArrays: function (a, b) {
             var ia = 0, ib = 0, la = a.length, lb = b.length;
             loop:
@@ -524,7 +487,15 @@
         has: function (el, what) {
             return el.querySelector(what) !== null;
         },
-
+        html_info: function (html) {
+            if (typeof mw._html_info === 'undefined') {
+                mw._html_info = document.createElement('div');
+                mw._html_info.id = 'mw-html-info';
+                document.body.appendChild(mw._html_info);
+            }
+            mw.$(mw._html_info).html(html);
+            return mw._html_info;
+        },
         image_info: function (a, callback) {
             var img = document.createElement('img');
             img.className = 'semi_hidden';
@@ -829,7 +800,4 @@
         }
     }
 
-    Object.assign(expose, helpers);
-    expose.matches('init');
 
-})(mw.tools);

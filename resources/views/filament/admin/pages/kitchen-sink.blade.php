@@ -96,7 +96,48 @@
 
     <h1>
         Confirm dialog
+
+        <pre>
+    const dialogConfirm = await mw.confirm('Confirm your choice?').promise();
+    console.log(dialogConfirm);
+
+        </pre>
+
+        <x-filament::button color="gray"  @click="const dialogConfirm = await mw.confirm('Confirm your choice?').promise();
+            console.log(dialogConfirm)  ">
+            Confirm
+        </x-filament::button>
     </h1>
+
+    <h1>
+        Alert dialog
+
+        <pre>
+ mw.alert('Hello world');
+
+
+        </pre>
+
+        <x-filament::button color="gray"  @click="mw.alert('Hello world');">
+        Alert
+        </x-filament::button>
+    </h1>
+
+    <h1>
+        Prompt dialog
+
+        <pre>
+const dialogPrompt = await mw.prompt('Enter your name').promise();
+console.log(dialogPrompt);
+
+        </pre>
+
+        <x-filament::button color="gray"  @click="const dialogPrompt = await mw.prompt('Enter your name').promise();
+            console.log(dialogPrompt)">
+            Prompt
+        </x-filament::button>
+    </h1>
+
 
     <hr>
 
@@ -111,13 +152,35 @@
     <h1>
         Icon picker
         <pre>
-            mw.app.iconPicker.pickIcon('.icon-example')
+        addEventListener('DOMContentLoaded', e => {
+                mw.iconLoader()
+
+                .addIconSet('iconsMindLine')
+                .addIconSet('iconsMindSolid')
+                .addIconSet('fontAwesome')
+                .addIconSet('materialDesignIcons')
+            })
+
+            // const icon = await mw.app.iconPicker.pickIcon('.icon-example').promise()
         </pre>
         <div class="icon-example"></div>
-
         <script>
-            addEventListener('DOMContentLoaded', e => mw.app.iconPicker.pickIcon('.icon-example'))
+
+            addEventListener('DOMContentLoaded', e => {
+                mw.iconLoader()
+
+                .addIconSet('iconsMindLine')
+                .addIconSet('iconsMindSolid')
+                .addIconSet('fontAwesome')
+                .addIconSet('materialDesignIcons')
+            })
+
         </script>
+        <x-filament::button color="gray"  @click="const picker = mw.app.iconPicker.pickIcon(document.querySelector('.icon-example')); await picker.promise()">
+            Pick icon
+        </x-filament::button>
+
+
     </h1>
 
     <hr>

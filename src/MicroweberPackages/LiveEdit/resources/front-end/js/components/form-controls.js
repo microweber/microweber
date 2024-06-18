@@ -369,7 +369,7 @@ mw.emitter = {
 
             var layoutsData = [];
 
-            var _win = mw.top().app.canvas.getWindow() || window;
+            var _win = mw.top().app && mw.top().app.canvas ? mw.top().app.canvas.getWindow() || window : window;
                 var layouts = _win.$('.module[data-type="layouts"]');
 
                 layouts.each(function () {
@@ -994,7 +994,7 @@ mw.emitter = {
                 }, 78)
             }
             var url = typeof this.settings.dataUrl === 'function' ? this.settings.dataUrl() : this.settings.dataUrl;
-            mw.require('tree.js');
+
             if(_linkText) {
                 scope.shouldChange = !_linkText.querySelector('input').value.trim();
 
