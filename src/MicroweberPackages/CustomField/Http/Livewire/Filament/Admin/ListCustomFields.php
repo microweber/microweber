@@ -283,14 +283,12 @@ class ListCustomFields extends Component implements HasForms, HasTable
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->action(fn(CustomField $record) => $record->delete())
             ])
             ->bulkActions([
                 DeleteBulkAction::make('delete-custom-fields')
                     ->icon('heroicon-o-trash')
                     ->label('Delete')
-                    ->requiresConfirmation()
-                    ->action(fn(CustomField $record) => $record->delete())
+                    ->requiresConfirmation(),
             ]);
     }
 
