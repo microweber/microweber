@@ -6,6 +6,7 @@ namespace MicroweberPackages\Modules\Btn\Providers;
 
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
+use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonModuleSettings;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsBootstrapTemplateComponent;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsComponent;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsDefaultTemplateComponent;
@@ -27,13 +28,17 @@ class BtnServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-        Livewire::component('microweber-module-btn::settings', ButtonSettingsComponent::class);
-        Livewire::component('microweber-module-btn::template-settings-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
-        Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
+//        Livewire::component('microweber-module-btn::settings', ButtonSettingsComponent::class);
+//        Livewire::component('microweber-module-btn::template-settings-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
+//        Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
+//
+//        ModuleAdmin::registerSettings('btn', 'microweber-module-btn::settings');
+//        ModuleAdmin::registerSkinSettings('btn', 'default', 'microweber-module-btn::template-settings-default');
+//        ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
 
-        ModuleAdmin::registerSettings('btn', 'microweber-module-btn::settings');
-        ModuleAdmin::registerSkinSettings('btn', 'default', 'microweber-module-btn::template-settings-default');
-        ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
+        ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
+        ModuleAdmin::registerLiveEditPanelPage(ButtonModuleSettings::class);
+
 
     }
 
