@@ -16,6 +16,12 @@ class ModuleAdminManager
     public array $liveEditModuleSettingsUrls = [];
     public array $adminPanelPages = [];
     public array $adminPanelPagesWithLocation = [];
+
+    public array $adminPanelWidgets = [
+        'default' => [
+
+        ],
+    ];
     public array $liveEditPanelPages = [];
 
     public array $skinSettings = [];
@@ -154,5 +160,20 @@ class ModuleAdminManager
     public function getLiveEditPanelPages(): array
     {
         return $this->liveEditPanelPages;
+    }
+
+
+    public function registerAdminPanelWidget($widget, $location = 'default'): void
+    {
+        if (!isset($this->adminPanelWidgets[$location])) {
+            $this->adminPanelWidgets[$location] = [];
+        }
+
+        $this->adminPanelWidgets[$location][] = $widget;
+    }
+
+    public function getAdminPanelWidgets($location = 'default'): array
+    {
+        return $this->adminPanelWidgets[$location] ?? [];
     }
 }

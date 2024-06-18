@@ -12,6 +12,7 @@ use Illuminate\View\View;
 use Livewire\Livewire;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegisteredListener;
 use MicroweberPackages\SiteStats\Filament\SiteStatsDashboard;
+use MicroweberPackages\SiteStats\Filament\SiteStatsDashboardChart;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
@@ -33,20 +34,28 @@ class SiteStatsServiceProvider extends PackageServiceProvider
 
         Livewire::component('microweber-module-sitestats::settings', SiteStatsSettingsComponent::class);
         Livewire::component('microweber-module-sitestats::dashboard', SiteStatsDashboard::class);
+        Livewire::component('microweber-module-sitestats::dashboard-chart', SiteStatsDashboardChart::class);
 
 
         ModuleAdmin::registerSettings('site_stats', 'microweber-module-sitestats::settings');
 
 
         Event::listen(ServingFilament::class, function () {
-            FilamentView::registerRenderHook(
-                PanelsRenderHook::CONTENT_END,
-                fn(): string => Blade::render('@livewire(\'microweber-module-sitestats::dashboard\')'),
-                scopes: Dashboard::class,
-            );
-            //   ModuleAdmin::registerPanelPage(SiteStatsDashboard::class,'filament.admin.pages.dashboard');
+
+            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboardChart::class, 'filament.admin.pages.dashboard');
+            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboard::class, 'filament.admin.pages.dashboard');
         });
-        //ModuleAdmin::registerPanelPage(SiteStatsDashboard::class,'admin.dashboard');
+
+
+//        Event::listen(ServingFilament::class, function () {
+//            FilamentView::registerRenderHook(
+//                PanelsRenderHook::CONTENT_END,
+//                fn(): string => Blade::render('@livewire(\'microweber-module-sitestats::dashboard-chart\')'),
+//                scopes: Dashboard::class,
+//            );
+//            //   ModuleAdmin::registerPanelPage(SiteStatsDashboard::class,'filament.admin.pages.dashboard');
+//        });
+        //  ModuleAdmin::registerPanelPage(SiteStatsDashboard::class,'admin.dashboard');
 
         // if google or fb pixel is enabled
         $this->app->register(\MicroweberPackages\Modules\SiteStats\Providers\UtmTrackingEventsServiceProvider::class);
