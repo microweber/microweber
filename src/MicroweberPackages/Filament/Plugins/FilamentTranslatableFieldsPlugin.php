@@ -10,6 +10,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Panel;
+use Filament\Tables\Actions\Action;
 use MicroweberPackages\Multilanguage\FormElements\Text;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
@@ -54,6 +55,13 @@ class FilamentTranslatableFieldsPlugin implements Plugin
     public function boot(Panel $panel): void
     {
         $supportedLanguages = $this->getSupportedLanguages();
+
+//        Modal::macro('teleport', function ($teleportTo) {
+//            if ($teleportTo == 'body') {
+//                $this->view = 'filament-actions::components.actions.teleport-to-body';
+//            }
+//            return $this;
+//        });
 
         Field::macro('mwTranslatableOption', function () use ($supportedLanguages) {
 

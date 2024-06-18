@@ -5,6 +5,7 @@ namespace App\Filament\Admin\Resources;
 use App\Filament\Admin\Resources\ProductResource\Pages;
 use App\Filament\Admin\Resources\ProductResource\RelationManagers;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\RelationManagers\RelationGroup;
@@ -34,16 +35,45 @@ class ProductResource extends Resource
 
     protected static ?string $navigationGroup = 'Shop';
 
+    public static function seoForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Section::make('Search engine optimisation (SEO)')
+                            ->description('Add a title and description to see how this product might appear in a search engine listing')
+                            ->schema([
+
+
+                        Forms\Components\TextInput::make('content_meta_title')
+                            ->label('Meta Title')
+                            ->helperText('Describe for what is this page about in short title')
+                            ->columnSpanFull(),
+
+
+                        Forms\Components\Textarea::make('description')
+                            ->label('Meta Description')
+                            ->helperText('Please provide a brief summary of this web page')
+                            ->columnSpanFull(),
+
+                        Forms\Components\TextInput::make('content_meta_keywords')
+                            ->label('Meta Keywords')
+                            ->helperText('Separate keywords with a comma and space. Type keywords that describe your content - Example: Blog, Online News, Phones for sale')
+                            ->columnSpanFull(),
+
+            ])
+            ]);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
 
-                Forms\Components\Tabs::make('Tabs')
-                    ->tabs([
-
-                        Forms\Components\Tabs\Tab::make('Details')
-                            ->schema([
+//                Forms\Components\Tabs::make('Tabs')
+//                    ->tabs([
+//
+//                        Forms\Components\Tabs\Tab::make('Details')
+//                            ->schema([
 //
   Forms\Components\Group::make([
 
@@ -247,40 +277,22 @@ class ProductResource extends Resource
 
                             ])->columns(3)->columnSpanFull(),
 
-                            ])->columns(3),
+//                            ])->columns(3),
 
 
-                Forms\Components\Tabs\Tab::make('Custom Fields')
-                    ->schema([
-                        Forms\Components\Section::make('Custom Fields')
-                            ->heading(false)
-                        ->schema([
-                            Forms\Components\View::make('custom_field::livewire.filament.admin.show-list-custom-fields')
-                                ->columnSpanFull(),
-                        ]),
-                    ]),
+//                Forms\Components\Tabs\Tab::make('Custom Fields')
+//                    ->schema([
+//                        Forms\Components\Section::make('Custom Fields')
+//                            ->heading(false)
+//                        ->schema([
+//                            Forms\Components\View::make('custom_field::livewire.filament.admin.show-list-custom-fields')
+//                                ->columnSpanFull(),
+//                        ]),
+//                    ]),
 //                Forms\Components\Tabs\Tab::make('SEO')
 //                    ->schema([
 //
-//                        Forms\Components\Section::make('Search engine optimisation (SEO)')
-//                            ->description('Add a title and description to see how this product might appear in a search engine listing')
-//                            ->schema([
 //
-//                        Forms\Components\TextInput::make('content_meta_title')
-//                            ->label('Meta Title')
-//                            ->helperText('Describe for what is this page about in short title')
-//                            ->columnSpanFull(),
-//
-//
-//                        Forms\Components\Textarea::make('description')
-//                            ->label('Meta Description')
-//                            ->helperText('Please provide a brief summary of this web page')
-//                            ->columnSpanFull(),
-//
-//                        Forms\Components\TextInput::make('content_meta_keywords')
-//                            ->label('Meta Keywords')
-//                            ->helperText('Separate keywords with a comma and space. Type keywords that describe your content - Example: Blog, Online News, Phones for sale')
-//                            ->columnSpanFull(),
 //
 //                        ]),
 //
@@ -289,7 +301,7 @@ class ProductResource extends Resource
 //                    ->schema([
 //
 //                    ]),
-                    ])->columnSpanFull(),
+//                    ])->columnSpanFull(),
 
             ]);
     }

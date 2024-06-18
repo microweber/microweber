@@ -196,6 +196,7 @@ class ListCustomFields extends Component implements HasForms, HasTable
             ->reorderable('position')
             ->headerActions([
                 CreateAction::make('custom-field-create-action')
+                   // ->teleport('body')
                     ->label('Add custom field')
                     ->form([
                         Wizard::make([
