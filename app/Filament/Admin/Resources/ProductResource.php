@@ -39,11 +39,11 @@ class ProductResource extends Resource
         return $form
             ->schema([
 
-//                Forms\Components\Tabs::make('Tabs')
-//                    ->tabs([
+                Forms\Components\Tabs::make('Tabs')
+                    ->tabs([
 
-//                        Forms\Components\Tabs\Tab::make('Details')
-//                            ->schema([
+                        Forms\Components\Tabs\Tab::make('Details')
+                            ->schema([
 //
   Forms\Components\Group::make([
 
@@ -247,18 +247,18 @@ class ProductResource extends Resource
 
                             ])->columns(3)->columnSpanFull(),
 
-//                            ])->columns(3),
+                            ])->columns(3),
 
 
-//                Forms\Components\Tabs\Tab::make('Custom Fields')
-//                    ->schema([
-//                        Forms\Components\Section::make('Custom Fields')
-//                            ->heading(false)
-//                        ->schema([
-//                            Forms\Components\View::make('custom_field::livewire.filament.admin.show-list-custom-fields')
-//                                ->columnSpanFull(),
-//                        ]),
-//                    ]),
+                Forms\Components\Tabs\Tab::make('Custom Fields')
+                    ->schema([
+                        Forms\Components\Section::make('Custom Fields')
+                            ->heading(false)
+                        ->schema([
+                            Forms\Components\View::make('custom_field::livewire.filament.admin.show-list-custom-fields')
+                                ->columnSpanFull(),
+                        ]),
+                    ]),
 //                Forms\Components\Tabs\Tab::make('SEO')
 //                    ->schema([
 //
@@ -289,7 +289,7 @@ class ProductResource extends Resource
 //                    ->schema([
 //
 //                    ]),
-//                    ])->columnSpanFull(),
+                    ])->columnSpanFull(),
 
             ]);
     }
@@ -421,7 +421,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\CustomFieldsRelationManager::class
+//            RelationManagers\CustomFieldsRelationManager::class
         ];
     }
 
