@@ -17,6 +17,7 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
@@ -47,7 +48,8 @@ class ListCustomFields extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
-        $modelQuery = CustomField::queryForRelTypeRelId($this->relType, $this->relId);
+        $modelQuery = CustomField::queryForRelTypeRelId($this->relType, $this->relId)
+            ->orderBy('position', 'asc');
 
 
         $editForm = [];
@@ -92,29 +94,29 @@ class ListCustomFields extends Component implements HasForms, HasTable
                     ->label('Use as textarea')
                     ->columnSpanFull()
                     ->default(false)
-        ]);
+            ]);
 
 
         $editForm[] = Repeater::make('fieldValue')
-                ->relationship('fieldValue')
-                ->reorderable()
-                ->cloneable()
-                ->collapsible()
-                ->addable()
-                ->schema([
-                    TextInput::make('value')
-                        ->required(),
-                ])
-                ->hidden(function (Get $get) {
-                    $hide = true;
-                    if ($get('type') == 'radio'
-                        || $get('type') == 'dropdown'
-                        || $get('type') == 'checkbox') {
-                        $hide = false;
-                    }
-                    return $hide;
-                })
-                ->columns(1);
+            ->relationship('fieldValue')
+            ->reorderable()
+            ->cloneable()
+            ->collapsible()
+            ->addable()
+            ->schema([
+                TextInput::make('value')
+                    ->required(),
+            ])
+            ->hidden(function (Get $get) {
+                $hide = true;
+                if ($get('type') == 'radio'
+                    || $get('type') == 'dropdown'
+                    || $get('type') == 'checkbox') {
+                    $hide = false;
+                }
+                return $hide;
+            })
+            ->columns(1);
 
 //            Toggle::make('options.show_placeholder')
 //                ->helperText('Toggle to turn on the placeholder and write your text below')
@@ -185,26 +187,52 @@ class ListCustomFields extends Component implements HasForms, HasTable
         return $table
             ->paginated(false)
             ->heading('Custom Fields')
+            ->reorderable('position')
             ->headerActions([
-                CreateAction::make('custom-field-create')
+                CreateAction::make('custom-field-create-action')
                     ->label('Add custom field')
                     ->form([
                         Wizard::make([
-                            Wizard\Step::make('Type')
-                                ->schema([
-                                    RadioDeck::make('type')
-                                        ->label('Custom field type')
-                                        ->options(CustomFieldTypes::class)
-                                        //  ->descriptions(CustomFieldTypes::class)
-                                        ->icons(CustomFieldTypes::class)
-                                        ->required()
-                                        ->live()
-                                        ->color('primary')
-                                        ->columns(3),
-                                ]),
-                            Wizard\Step::make('Settings')
-                                ->schema($editForm),
-                        ])
+                                Wizard\Step::make('Type')
+                                    ->schema([
+                                        RadioDeck::make('type')
+                                            ->afterStateUpdated(function (Get $get, Set $set) {
+
+                                                $set('type', $get('type'));
+                                                $statePath = 'mountedTableActionsData.0';
+                                                $this->dispatchFormEvent('wizard::nextStep', statePath: $statePath, currentStepIndex: 0);
+
+                                            })
+                                            ->label('Custom field type')
+                                            ->options(CustomFieldTypes::class)
+                                            //  ->descriptions(CustomFieldTypes::class)
+                                            ->icons(CustomFieldTypes::class)
+                                            ->required()
+                                            ->live()
+                                            ->color('primary')
+                                            ->columns(3),
+                                    ]),
+                                Wizard\Step::make('Settings')
+                                    ->schema($editForm),
+                            ]
+                        )
+//                            ->startOnStep(function (Get $get) {
+//
+//                            $step = 1;
+//                            if ($get('type') !== null) {
+//                                $step = 2;
+//                            }
+//
+//                         return $step;
+//                        })
+
+//                            ->afterStateUpdated(function (Get $get, Set $set) {
+//
+//                               // $set('type', $get('type'));
+//                              //  $statePath = 'mountedTableActionsData.0.custom-fields-create';
+//                              //  $this->dispatchFormEvent('wizard::nextStep' ,statePath: $statePath,currentStepIndex:0);
+//
+//                            })
                     ])->createAnother(false),
             ])
             ->query($modelQuery)
@@ -249,10 +277,14 @@ class ListCustomFields extends Component implements HasForms, HasTable
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->action(fn (CustomField $record) => $record->delete())
+                    ->action(fn(CustomField $record) => $record->delete())
             ])
             ->bulkActions([
-                DeleteBulkAction::make()
+                DeleteBulkAction::make('delete-custom-fields')
+                    ->icon('heroicon-o-trash')
+                    ->label('Delete')
+                    ->requiresConfirmation()
+                    ->action(fn(CustomField $record) => $record->delete())
             ]);
     }
 
