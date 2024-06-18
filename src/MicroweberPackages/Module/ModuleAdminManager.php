@@ -15,6 +15,7 @@ class ModuleAdminManager
 
     public array $liveEditModuleSettingsUrls = [];
     public array $adminPanelPages = [];
+    public array $adminPanelPagesWithLocation = [];
     public array $liveEditPanelPages = [];
 
     public array $skinSettings = [];
@@ -25,6 +26,7 @@ class ModuleAdminManager
      *
      * @param string $moduleName
      * @param string $componentName
+     * @deprecated
      */
     public function registerSettingsComponent(string $moduleName, string $componentName)
     {
@@ -116,18 +118,31 @@ class ModuleAdminManager
         return $this->liveEditModuleSettingsUrls[$moduleName] ?? null;
     }
 
-    public function getLiveEditSettingsUrls() : array
+    public function getLiveEditSettingsUrls(): array
     {
         return $this->liveEditModuleSettingsUrls;
     }
 
-    public function registerPanelPage($page): void
+    public function registerPanelPage($page, $location): void
     {
-        $this->adminPanelPages[] = $page;
+
+        if ($location) {
+            if (!isset($this->adminPanelPagesWithLocation[$location])) {
+                $this->adminPanelPagesWithLocation[$location] = [];
+            }
+
+            $this->adminPanelPagesWithLocation[$location][] = $page;
+        } else {
+            $this->adminPanelPages[] = $page;
+        }
     }
 
-    public function getPanelPages(): array
+    public function getPanelPages($location = null): array
     {
+        if ($location) {
+            return $this->adminPanelPagesWithLocation[$location] ?? [];
+        }
+
         return $this->adminPanelPages;
     }
 

@@ -8,6 +8,8 @@ use MicroweberPackages\Admin\MenuBuilder\Menu;
 use MicroweberPackages\Template\Traits\HasMenus;
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
+
+
 class AdminManager
 {
     use HasMenus;
@@ -15,8 +17,8 @@ class AdminManager
 
     public function __construct()
     {
-        $this->addDefaultScripts();
-        $this->addDefaultStyles();
+       // $this->addDefaultScripts();
+     //   $this->addDefaultStyles();
         $this->addDefaultCustomTags();
 
         $this->initMenus();

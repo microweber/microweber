@@ -15,10 +15,8 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Class ModuleAdmin
  *
- * @method static void registerSettingsComponent(string $moduleType, string $componentName)
- * @method static void registerSkinSettingsComponent(string $moduleType, string $skinName, string $componentName)
- * @method static void registerSettings(string $moduleType, string $componentAlias)
- * @method static void registerSkinSettings(string $moduleType, string $skinName, string $componentAlias)
+
+ *
  * @method static string|null getSettings(string $moduleType)
  * @method static string|null getSkinSettings(string $moduleName, string $skinName)
  * @method static string|null getSettingsComponent(string $moduleName)
@@ -26,11 +24,18 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|null registerLiveEditSettingsUrl(string $moduleName, string $url)
  * @method static string|null getLiveEditSettingsUrl(string $moduleName)
  * @method static array|null getLiveEditSettingsUrls()
- * @method static void registerPanelPage($page)
+ * @method static void registerPanelPage($page,$location=null)
  * @method static array getPanelPages()
  * @method static void registerLiveEditPanelPage($page)
  * @method static array getLiveEditPanelPages()
  * @mixin \MicroweberPackages\Module\ModuleAdminManager
+ * @see \MicroweberPackages\Module\ModuleAdminManager
+ *
+ * @method static void registerSettingsComponent(string $moduleType, string $componentName)
+ * @method static void registerSkinSettingsComponent(string $moduleType, string $skinName, string $componentName)
+ * @method static void registerSettings(string $moduleType, string $componentAlias)
+ * @method static void registerSkinSettings(string $moduleType, string $skinName, string $componentAlias)
+ *
  */
 class ModuleAdmin extends Facade
 {
