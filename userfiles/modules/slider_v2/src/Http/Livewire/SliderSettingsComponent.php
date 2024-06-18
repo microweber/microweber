@@ -2,10 +2,17 @@
 namespace MicroweberPackages\Modules\SliderV2\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
+use MicroweberPackages\Modules\SliderV2\Models\SliderItem;
+use MicroweberPackages\Modules\Teamcard\Models\TeamcardItem;
 
 class SliderSettingsComponent extends ModuleSettingsItemsEditorComponent
 {
     public string $module = 'slider_v2';
+
+    public function getModel(): string
+    {
+        return SliderItem::class;
+    }
 
     public function getEditorSettings() : array
     {
@@ -18,8 +25,14 @@ class SliderSettingsComponent extends ModuleSettingsItemsEditorComponent
                 'sortItems' => true,
                 'settingsKey' => 'settings',
                 'listColumns' => [
-                    'image' => 'Image',
-                    'title' => 'Title',
+                    'image'=>[
+                        'label' => 'Image',
+                        'type' => 'image',
+                    ],
+                    'title'=>[
+                        'label' => 'Title',
+                        'type' => 'text',
+                    ],
                 ],
                 'realtimeEditing' => true,
             ],
