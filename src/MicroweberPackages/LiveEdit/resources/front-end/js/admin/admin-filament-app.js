@@ -44,9 +44,14 @@ import "../core/icon-resolver.js";
 
 
 import {Progress, Loading} from "../tools/loading.js";
+import {Helpers} from "../core/Helpers.js";
 
 mw.tools.progress = Progress;
 mw.tools.loading = Loading;
+
+for ( let i in Helpers ) {
+    mw.tools[i] = Helpers[i];
+}
 
 
 import "../tools/storage.js";
@@ -61,10 +66,17 @@ import "../tools/spinner.js";
 import "../components/icon_selector.js";
 import "../components/tree.js";
 import "../components/tags.js";
+import "../components/uiaccordion.js";
 
 
 
 import "../components/dialog.js";
+import {Alert, Confirm, Prompt} from "../components/system-dialogs.js";
+
+mw.alert = Alert;
+mw.confirm = Confirm;
+mw.prompt = Prompt;
+
 
 import "../components/autocomplete.js";
 import "../components/form-controls.js";
@@ -102,3 +114,79 @@ mw.admin.dispatch('ready');
 
 
 
+mw.required = [] ;
+mw.require = function(url, inHead, key, defered) {
+    if(!url) return;
+    var defer;
+    if(defered) {
+        defer = ' defer ';
+    } else {
+        defer = '   '
+    }
+    if(typeof inHead === 'boolean' || typeof inHead === 'undefined'){
+        inHead = inHead || false;
+    }
+    var keyString;
+    if(typeof inHead === 'string'){
+        keyString = ''+inHead;
+        inHead = key || false;
+    }
+    if(typeof key === 'string'){
+        keyString = key;
+    }
+    var toPush = url, urlModified = false;
+    if (!!keyString) {
+        toPush = keyString;
+        urlModified = true
+    }
+    var t = url.split('.').pop();
+    url = url.includes('//') ? url : (t !== "css" ? mw.settings.includes_url + "api/" + url  :  mw.settings.includes_url + "css/" + url);
+    if(!urlModified) toPush = url;
+    if (!~mw.required.indexOf(toPush)) {
+
+      mw.required.push(toPush);
+      url = url.includes("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
+      if(document.querySelector('link[href="'+url+'"],script[src="'+url+'"]') !== null){
+          return
+      }
+
+      var cssRel = " rel='stylesheet' ";
+
+      if(defered){
+        cssRel = " rel='preload' as='style' onload='this.onload=null;this.rel=\'stylesheet\'' ";
+      }
+
+
+      var string = t !== "css" ? "<script "+defer+"  src='" + url + "'></script>" : "<link "+cssRel+" href='" + url + "' />";
+
+          if(typeof $.fn === 'object'){
+              $(mw.head).append(string);
+          }
+          else{
+              var el;
+              if( t !== "css")  {
+                  el = document.createElement('script');
+                  el.src = url;
+                  el.defer = !!defer;
+                  el.setAttribute('type', 'text/javascript');
+                  mw.head.appendChild(el);
+              }
+              else{
+
+                 el = document.createElement('link');
+                 if(defered) {
+                    el.as='style';
+                    el.rel='preload';
+                    el.addEventListener('load', e => el.rel='stylesheet');
+                 } else {
+                    el.rel='stylesheet';
+                 }
+
+
+                 el.href = url;
+                 mw.head.appendChild(el);
+              }
+          }
+
+    }
+  };

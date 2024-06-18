@@ -71,6 +71,7 @@
                     target.classList.add(icon);
                 },
                 remove: function (target) {
+
                     mw.tools.classNamespaceDelete(target, 'mw-micon-', undefined, undefined, []);
                 },
                 icons: function () {
