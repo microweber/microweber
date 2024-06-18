@@ -8,6 +8,8 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class SiteStatsDashboard extends BaseWidget
 {
+
+
     protected function getStats(): array
     {
         return [

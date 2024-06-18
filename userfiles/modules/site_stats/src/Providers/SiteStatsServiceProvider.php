@@ -33,12 +33,14 @@ class SiteStatsServiceProvider extends PackageServiceProvider
 
         Livewire::component('microweber-module-sitestats::settings', SiteStatsSettingsComponent::class);
         Livewire::component('microweber-module-sitestats::dashboard', SiteStatsDashboard::class);
+
+
         ModuleAdmin::registerSettings('site_stats', 'microweber-module-sitestats::settings');
 
 
         Event::listen(ServingFilament::class, function () {
             FilamentView::registerRenderHook(
-                PanelsRenderHook::PAGE_END,
+                PanelsRenderHook::CONTENT_END,
                 fn(): string => Blade::render('@livewire(\'microweber-module-sitestats::dashboard\')'),
                 scopes: Dashboard::class,
             );
