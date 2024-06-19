@@ -12,6 +12,8 @@ class ViewModule extends ViewRecord
 {
     protected static string $resource = ModuleResource::class;
 
+    protected static string $view = 'view-module';
+
     protected function getHeaderActions(): array
     {
         return [
