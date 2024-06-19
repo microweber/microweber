@@ -52,6 +52,11 @@ class FilamentAdminPanelProvider extends PanelProvider
         return ModuleAdmin::getPanelPages();
     }
 
+    public function getPanelResources(): array
+    {
+        return ModuleAdmin::getPanelResources();
+    }
+
     public function getPanelMiddlewares(): array
     {
         return [
@@ -91,7 +96,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->navigationGroups([
                 'Dashboard' => NavigationGroup::make()
                     ->label('')
-                     ->collapsible(false),
+                    ->collapsible(false),
                 'Website' => NavigationGroup::make()
                     ->icon('mw-website')
                     ->label('Website'),
@@ -115,9 +120,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 in: app_path('Filament/Admin/Widgets'),
                 for: 'App\\Filament\\Admin\\Widgets'
             )
-            ->resources(
-                ModuleAdmin::getPanelResources()
-            )
+            ->resources($this->getPanelResources())
             ->widgets([
                 // Widgets\AccountWidget::class,
                 //  Widgets\FilamentInfoWidget::class,
