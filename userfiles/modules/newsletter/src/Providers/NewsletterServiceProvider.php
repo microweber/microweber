@@ -39,7 +39,6 @@ class NewsletterServiceProvider extends PackageServiceProvider
         Livewire::component('admin-newsletter-import-subscribers-modal', NewsletterImportSubscribersModal::class);
         Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
 
-        ModuleAdmin::registerPanelResource(SenderAccountResource::class);
 
 
         //
@@ -58,6 +57,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/web.php');
+        ModuleAdmin::registerPanelResource(SenderAccountResource::class);
 
         if (is_cli()) {
             $this->commands(ProcessCampaigns::class);

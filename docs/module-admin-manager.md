@@ -17,6 +17,7 @@ Livewire::component('microweber-module-sitestats::dashboard-chart', SiteStatsDas
 
 
 ModuleAdmin::registerSettings('site_stats', 'microweber-module-sitestats::settings');
+ModuleAdmin::registerPanelResource(MyResoure::class)
 
  
 Event::listen(ServingFilament::class, function () {
