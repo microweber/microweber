@@ -21,15 +21,30 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|null getSkinSettings(string $moduleName, string $skinName)
  * @method static string|null getSettingsComponent(string $moduleName)
  * @method static string|null getSkinSettingsComponent(string $moduleName, string $skinName)
+ *
+ *
+ * For live Edit
  * @method static string|null registerLiveEditSettingsUrl(string $moduleName, string $url)
  * @method static string|null getLiveEditSettingsUrl(string $moduleName)
  * @method static array|null getLiveEditSettingsUrls()
+ *
+ * For admin
+ * @method static void registerAdminUrl($module, $url)
+ * @method static string|null getAdminUrl(string $moduleName)
+ * @method static array getAdminUrls()
+ *
+ * For filament
  * @method static void registerPanelPage($page,$location=null)
  * @method static array getPanelPages()
  * @method static void registerLiveEditPanelPage($page)
  * @method static array getLiveEditPanelPages()
  * @method static void registerAdminPanelWidget($widget, $location = 'default')
  * @method static array getAdminPanelWidgets($location = 'default')
+ *
+ *
+ *
+ *
+ *
  * @mixin \MicroweberPackages\Module\ModuleAdminManager
  * @see \MicroweberPackages\Module\ModuleAdminManager
  *

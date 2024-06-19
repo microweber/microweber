@@ -164,6 +164,12 @@ function module_admin_url($module_name = false)
 {
     $module = module_info($module_name);
 
+
+    $urlFromModuleAdmin = \MicroweberPackages\Module\Facades\ModuleAdmin::getAdminUrl($module_name);
+    if($urlFromModuleAdmin){
+        return $urlFromModuleAdmin;
+    }
+
     if (isset($module['settings']['routes']['admin'])) {
         if (Route::has($module['settings']['routes']['admin'])) {
             return route($module['settings']['routes']['admin']);

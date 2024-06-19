@@ -12,15 +12,14 @@ class ModuleAdminManager
     public array $settingsComponent = [];
 
     public array $skinSettingsComponent = [];
+    public array $modulesAdminUrls = [];
 
     public array $liveEditModuleSettingsUrls = [];
     public array $adminPanelPages = [];
     public array $adminPanelPagesWithLocation = [];
 
     public array $adminPanelWidgets = [
-        'default' => [
-
-        ],
+        'default' => [],
     ];
     public array $liveEditPanelPages = [];
 
@@ -176,4 +175,22 @@ class ModuleAdminManager
     {
         return $this->adminPanelWidgets[$location] ?? [];
     }
+
+
+
+    public function registerAdminUrl($module, $url): void
+    {
+        $this->modulesAdminUrls[$module] = $url;
+    }
+
+    public function getAdminUrl($module)
+    {
+        return $this->modulesAdminUrls[$module] ?? null;
+    }
+
+    public function getAdminUrls(): array
+    {
+        return $this->modulesAdminUrls;
+    }
+
 }

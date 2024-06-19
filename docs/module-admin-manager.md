@@ -18,7 +18,7 @@ Livewire::component('microweber-module-sitestats::dashboard-chart', SiteStatsDas
 
 ModuleAdmin::registerSettings('site_stats', 'microweber-module-sitestats::settings');
 
-
+ 
 Event::listen(ServingFilament::class, function () {
 
     ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboardChart::class, 'filament.admin.pages.dashboard');
@@ -26,3 +26,6 @@ Event::listen(ServingFilament::class, function () {
 });
 
 ```
+
+
+ 

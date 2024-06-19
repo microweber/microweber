@@ -22,6 +22,8 @@ class FaqServiceProvider extends PackageServiceProvider
 //        Livewire::component('microweber-module-faq::settings', FaqSettingsComponent::class);
 //        ModuleAdmin::registerSettings('faq', 'microweber-module-faq::settings');
 
+
+        ModuleAdmin::registerAdminUrl('faq', admin_url('faq-module-settings'));
         ModuleAdmin::registerLiveEditSettingsUrl('faq', site_url('admin-live-edit/faq-module-settings'));
         ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Faq\Http\Livewire\FaqModuleSettings::class);
 
