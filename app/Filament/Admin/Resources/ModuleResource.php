@@ -61,7 +61,7 @@ class ModuleResource extends Resource
 //                        })
                             ->grow(false),
                     ])->url(function (Module $module) {
-                        return redirect($module->adminUrl());
+                        return $module->adminUrl();
                     }),
 
 

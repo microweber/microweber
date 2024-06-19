@@ -2,7 +2,7 @@
 class="clickable-column"
 >
 
-    <a href="{{$this->getUrl()}}"
+    <a href="{{$getUrl()}}"
 
         {{
            $attributes
