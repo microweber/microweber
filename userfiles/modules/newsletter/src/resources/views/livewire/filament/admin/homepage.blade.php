@@ -42,4 +42,21 @@
         @endforeach
     </div>
 
+    <div class="shadow bg-white rounded p-4 mt-4 border border-gray-500/10 border-l-4 border-l-blue-500 text-sm text-blue-500">
+        Add this to your cron jobs to process campaigns. Frequency must be every 30 minutes.
+        <div class="flex gap-2 items-center mt-2">
+            <code class="rounded text-[0.6rem] px-2 uppercase bg-gray-200 text-gray-600">
+                php artisan newsletter:process-campaigns
+            </code>
+            or
+            <a href="javascript:;" class="rounded text-[0.6rem] px-2 uppercase text-blue-500 border border-blue-500">
+                run the process manually
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        @livewire('admin-newsletter-campaign-list')
+    </div>
+
 </div>
