@@ -1,7 +1,7 @@
 <?php
 /*
 type: layout
-name: Button dialog
+name: Button dialog with button
 description: Opens video in a popup
 */
 ?>
@@ -22,8 +22,7 @@ description: Opens video in a popup
                 skin: 'video',
                 closeButtonAppendTo: '.mw-dialog-holder',
                 width: <?php print $params['width']  ?>,
-                height: 100%,
-                top: 50%;
+                height: 800,
             });
             var dialog = mw.dialog.get()
 
@@ -37,30 +36,14 @@ description: Opens video in a popup
 </script>
 <style>
 
-
-
-
     #video-dialog-button-<?php echo $params['id']; ?>{
         font-size: 0;
+    }
 
-    }
-    #video-dialog-button-<?php echo $params['id']; ?>:after{
-        content: "\e977";
-        font-family: 'icomoon-solid';
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        font-size: 100px;
-        color: var(--mw-primary-color);
-    }
 </style>
 
 
 
 <template id="video-dialog-template-<?php echo $params['id']; ?>" style="display: none"><?php echo $code; ?></template>
-<span id="video-dialog-button-<?php echo $params['id']; ?>"></span>
+<span class="d-block p-5" id="video-dialog-button-<?php echo $params['id']; ?>"> <module type="btn" button_style="btn-primary" button_text="Play Video"/></span>
 
