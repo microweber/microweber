@@ -115,6 +115,9 @@ class FilamentAdminPanelProvider extends PanelProvider
                 in: app_path('Filament/Admin/Widgets'),
                 for: 'App\\Filament\\Admin\\Widgets'
             )
+            ->resources(
+                ModuleAdmin::getPanelResources()
+            )
             ->widgets([
                 // Widgets\AccountWidget::class,
                 //  Widgets\FilamentInfoWidget::class,

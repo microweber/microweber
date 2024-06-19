@@ -21,6 +21,9 @@ class ModuleAdminManager
     public array $adminPanelWidgets = [
         'default' => [],
     ];
+
+    public $panelResources = [];
+
     public array $liveEditPanelPages = [];
 
     public array $skinSettings = [];
@@ -191,6 +194,16 @@ class ModuleAdminManager
     public function getAdminUrls(): array
     {
         return $this->modulesAdminUrls;
+    }
+
+    public function registerPanelResource($resource): void
+    {
+        $this->panelResources[] = $resource;
+    }
+
+    public function getPanelResources(): array
+    {
+        return $this->panelResources;
     }
 
 }

@@ -38,6 +38,9 @@ use Illuminate\Support\Facades\Facade;
  * @method static array getPanelPages()
  * @method static void registerLiveEditPanelPage($page)
  * @method static array getLiveEditPanelPages()
+ * @method static void registerPanelResource($resource)
+ * @method static array getPanelResources()
+ *
  * @method static void registerAdminPanelWidget($widget, $location = 'default')
  * @method static array getAdminPanelWidgets($location = 'default')
  *
