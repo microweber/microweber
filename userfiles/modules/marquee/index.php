@@ -16,21 +16,21 @@ if (!empty($getMarqueeOptions)) {
 $text = $marqueeOptions['text'];
 $fontSize = $marqueeOptions['fontSize'];
 
-$animationSpeed = 10;
+$animationSpeed = 100;
 if ($marqueeOptions['animationSpeed'] == 'slow') {
-    $animationSpeed = 9;
+    $animationSpeed = 50;
 }
 if ($marqueeOptions['animationSpeed'] == 'medium') {
-    $animationSpeed = 6;
+    $animationSpeed = 150;
 }
 if ($marqueeOptions['animationSpeed'] == 'high') {
-    $animationSpeed = 3;
+    $animationSpeed = 250;
 }
 if ($marqueeOptions['animationSpeed'] == 'fast') {
-    $animationSpeed = 2.5;
+    $animationSpeed = 350;
 }
 if ($marqueeOptions['animationSpeed'] == 'ultra_fast') {
-    $animationSpeed = 2;
+    $animationSpeed = 450;
 }
 
 $module_template = $marqueeOptions['data-template'];
