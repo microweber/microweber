@@ -39,14 +39,9 @@ class NewsletterServiceProvider extends PackageServiceProvider
         Livewire::component('admin-newsletter-import-subscribers-modal', NewsletterImportSubscribersModal::class);
         Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
 
-
-
-        //
-//        Event::listen(ServingFilament::class, function () {
-//
-//            ModuleAdmin::registerAdminUrl('newsletter', route('admin.newsletter.index'));
-//
-//        });
+        Event::listen(ServingFilament::class, function () {
+            ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin.resources.newsletter.sender-accounts.index'));
+        });
 
 
     }
