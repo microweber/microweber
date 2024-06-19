@@ -17,6 +17,10 @@ class SenderAccountResource extends Resource
 
     protected static ?string $navigationGroup = 'Newsletter';
 
+    protected static ?string $slug = 'newsletter/sender-accounts';
+
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form

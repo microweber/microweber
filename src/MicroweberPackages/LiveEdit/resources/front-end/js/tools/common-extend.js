@@ -20,7 +20,7 @@ setInterval(function(){
 
 mw.controllers = {};
 mw.external_tool = function (url) {
-    return !url.contains("/") ? mw.settings.site_url + "editor_tools/" + url : url;
+    return !url.includes("/") ? mw.settings.site_url + "editor_tools/" + url : url;
 };
 
 

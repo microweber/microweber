@@ -131,7 +131,7 @@ class ModuleAdminManager
         return $this->liveEditModuleSettingsUrls;
     }
 
-    public function registerPanelPage($page, $location): void
+    public function registerPanelPage($page, $location = null): void
     {
 
         if ($location) {
