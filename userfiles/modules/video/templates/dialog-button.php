@@ -45,5 +45,5 @@ description: Opens video in a popup
 
 
 <template id="video-dialog-template-<?php echo $params['id']; ?>" style="display: none"><?php echo $code; ?></template>
-<span class="d-block p-5" id="video-dialog-button-<?php echo $params['id']; ?>"> <module type="btn" button_style="btn-primary" button_text="Play Video"/></span>
+<span id="video-dialog-button-<?php echo $params['id']; ?>"> <module type="btn" button_style="btn-primary" button_text="Play Video"/></span>
 
