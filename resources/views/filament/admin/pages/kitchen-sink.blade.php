@@ -6,9 +6,9 @@
     <h1>
         Modal
         <pre>
-            mw.dialog({
-                content: 'dialog'
-            })
+    mw.dialog({
+        content: 'dialog'
+    })
         </pre>
 
         <x-filament::button color="gray"  @click="mw.dialog({
@@ -23,9 +23,9 @@
     <h1>
         File picker
         <pre>
-        mw.filePickerDialog( (url) => {
-            console.log(url)
-        });
+mw.filePickerDialog( (url) => {
+    console.log(url)
+});
         </pre>
         <x-filament::button color="gray"  @click="mw.filePickerDialog( (url) => {
             console.log(url)
@@ -38,22 +38,22 @@
     <h1>
         Url picker
         <pre>
-        var linkEditor = new mw.LinkEditor({
-            mode: 'dialog',
-        });
-        var val = 'http://google.com'
-        if(val) {
-            linkEditor.setValue(val);
-        }
+var linkEditor = new mw.LinkEditor({
+    mode: 'dialog',
+});
+var val = 'http://google.com'
+if(val) {
+    linkEditor.setValue(val);
+}
 
-        linkEditor.promise().then(function (data){
-            var modal = linkEditor.dialog;
-            if(data) {
+linkEditor.promise().then(function (data){
+    var modal = linkEditor.dialog;
+    if(data) {
 
 
-            }
-            modal.remove();
-        });
+    }
+    modal.remove();
+});
         </pre>
         <x-filament::button color="gray"  @click="const linkEditor = new mw.LinkEditor({
             mode: 'dialog',
@@ -144,6 +144,26 @@ console.log(dialogPrompt);
 
     <h1>
         Iframe auto height
+
+        <pre>
+<code>
+    mw.tools.iframeAutoHeight(document.querySelector('.mw-dialog iframe'))
+</code>
+        </pre>
+
+
+
+
+        <x-filament::button color="gray"  @click="mw.dialogIframe({
+            url: 'http://127.0.0.2/admin/kitchen-sink/',
+            width:'90%',
+            height:'auto',
+
+        }); mw.tools.iframeAutoHeight(document.querySelector('.mw-dialog iframe'))">
+            Dialog iframe
+        </x-filament::button>
+
+
     </h1>
 
     <hr>
@@ -152,31 +172,36 @@ console.log(dialogPrompt);
     <h1>
         Icon picker
         <pre>
-        addEventListener('DOMContentLoaded', e => {
-                mw.iconLoader()
+    addEventListener('DOMContentLoaded', e => {
+        mw.iconLoader()
+            .addIconSet('iconsMindLine')
+            .addIconSet('iconsMindSolid')
+            .addIconSet('fontAwesome')
+            .addIconSet('materialDesignIcons');
 
-                .addIconSet('iconsMindLine')
-                .addIconSet('iconsMindSolid')
-                .addIconSet('fontAwesome')
-                .addIconSet('materialDesignIcons')
-            })
+        document.querySelector('.my-button').addEventListener('click', async e => {
+            const result = await mw.app.iconPicker.pickIcon('.icon-example').promise();
+            console.log(result);
+            console.log(result.icon);
+        });
+    });
 
-            // const icon = await mw.app.iconPicker.pickIcon('.icon-example').promise()
+
         </pre>
-        <div class="icon-example"></div>
+
         <script>
 
             addEventListener('DOMContentLoaded', e => {
                 mw.iconLoader()
-
-                .addIconSet('iconsMindLine')
-                .addIconSet('iconsMindSolid')
-                .addIconSet('fontAwesome')
-                .addIconSet('materialDesignIcons')
+                    .addIconSet('iconsMindLine')
+                    .addIconSet('iconsMindSolid')
+                    .addIconSet('fontAwesome')
+                    .addIconSet('materialDesignIcons');
             })
 
         </script>
         <x-filament::button color="gray"  @click="const picker = mw.app.iconPicker.pickIcon(document.querySelector('.icon-example')); await picker.promise()">
+            <span class="icon-example mw-micon-Add-Bag"></span>
             Pick icon
         </x-filament::button>
 
