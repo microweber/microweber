@@ -33,11 +33,20 @@
 .fi-resource-modules .fi-ta-filter-indicators  {
     @apply !border-none !bg-transparent !shadow-none !ring-0 !pb-4 !px-0 !justify-start;
 }
+.fi-resource-modules .fi-ta-record .py-4  {
+    @apply !p-0;
+}
+.fi-resource-modules .fi-ta-record .ps-4  {
+    @apply !p-0;
+}
 .fi-resource-modules .fi-ta-record  {
-    @apply p-4;
+
+}
+.fi-resource-modules .clickable-column {
+    @apply hover:bg-gray-500/5;
 }
 .fi-resource-modules .fi-ta-content-grid {
-    @apply !border-none !gap-8 !bg-blue-500/10 dark:!bg-white/5 !rounded !py-8;
+    @apply !border-none !gap-8 !bg-blue-500/10 dark:!bg-white/5 !rounded !p-8;
 }
 
 .fi-resource-modules section.flex {

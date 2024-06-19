@@ -15,6 +15,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Filament\Tables\Columns\ClickableColumn;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Filament\Tables\Columns\SVGColumn;
 use MicroweberPackages\Module\Models\Module;
@@ -44,27 +45,25 @@ class ModuleResource extends Resource
                 'shadow',
             ])
             ->columns([
-//                Tables\Columns\Layout\View::make('filament-panels::table.columns.layout.stack')
-//                    ->components([
-//
-//                ]),
-                Tables\Columns\Layout\Stack::make([
-                    SVGColumn::make('icon')
-                        ->state(function (Module $module) {
-                            return $module->getIconInline();
-                        })
-                        ->grow(false),
 
-                    Tables\Columns\TextColumn::make('name')
-                        ->searchable()
-                        ->weight(FontWeight::Bold)
+                    ClickableColumn::make([
+                        SVGColumn::make('icon')
+                            ->state(function (Module $module) {
+                                return $module->getIconInline();
+                            })
+                            ->grow(false),
+
+                        Tables\Columns\TextColumn::make('name')
+                            ->searchable()
+                            ->weight(FontWeight::Bold)
 //                        ->action(function (Module $module) {
 //                            return redirect($module->adminUrl());
 //                        })
-                        ->grow(false),
-                ])
-                    ->space(3)
-                    ->alignment(Alignment::Center),
+                            ->grow(false),
+                    ])->url(function (Module $module) {
+                        return redirect($module->adminUrl());
+                    }),
+
 
             ])
             ->contentGrid([
@@ -160,7 +159,6 @@ class ModuleResource extends Resource
     {
         return [
             'index' => ListModules::route('/'),
-            'view' => ViewModule::route('/{record}'),
         ];
     }
 }
