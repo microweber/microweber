@@ -58,6 +58,14 @@ class SliderV2 {
         if (this.config.autoplay) {
             swiperConfig.autoplay = true;
         }
+
+        if (this.config.delay) {
+        //    swiperConfig.delay = this.config.delay;
+            swiperConfig.autoplay = {
+                delay: this.config.delay,
+            };
+
+        }
         if (this.config.pagination.element) {
             swiperConfig.pagination = {
                 el: this.config.pagination.element,
