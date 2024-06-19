@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Providers;
 
+use BladeUI\Icons\Factory;
 use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,15 @@ class NewsletterServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
+
+
+        // Register Microweber Icons set
+        $this->callAfterResolving(Factory::class, function (Factory $factory) {
+            $factory->add('newsletter', [
+                'path' => realpath(__DIR__ . '/../resources/svg'),
+                'prefix' => 'newsletter',
+            ]);
+        });
 
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/web.php');

@@ -10,6 +10,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
 use Filament\Pages\Page;
+use Filament\Support\Enums\IconSize;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -50,6 +51,16 @@ class SenderAccounts extends Page implements HasTable
                                 'amazon_ses' => 'Amazon SES',
                                 'sparkpost' => 'Sparkpost',
                             ])
+                            ->icons([
+                                'php_mail' => 'newsletter-php',
+                                'smtp' => 'newsletter-smtp',
+                                'mailchimp' => 'newsletter-mailchimp',
+                                'mailgun' => 'newsletter-mailgun',
+                                'mandrill' => 'newsletter-mandrill',
+                                'amazon_ses' => 'newsletter-amazon-ses',
+                                'sparkpost' => 'newsletter-sparkpost',
+                            ])
+                            ->iconSize(IconSize::Large)
                             ->columns(2)
                             ->color('primary')
                             ->required()
