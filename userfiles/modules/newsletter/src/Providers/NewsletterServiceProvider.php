@@ -9,6 +9,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\SenderAccounts;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountResource;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\Filament\CampaignsList;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterCampaignsLogModal;
@@ -58,7 +59,8 @@ class NewsletterServiceProvider extends PackageServiceProvider
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/web.php');
         ModuleAdmin::registerPanelPage(Homepage::class);
-        ModuleAdmin::registerPanelResource(SenderAccountResource::class);
+        ModuleAdmin::registerPanelPage(SenderAccounts::class);
+      //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);
 
         if (is_cli()) {
             $this->commands(ProcessCampaigns::class);

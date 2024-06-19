@@ -22,39 +22,6 @@ class Homepage extends Page
         $emailsSentCount = NewsletterCampaignsSendLog::count();
         $subscribersCount = NewsletterSubscriber::count();
 
-        $tabLinks = [
-            [
-                'name' => 'Campaigns',
-                'icon' => 'heroicon-o-envelope',
-                'route' => 'filament.admin.pages.newsletter.homepage',
-            ],
-            [
-                'name' => 'Lists',
-                'icon' => 'heroicon-o-queue-list',
-                'route' => '',
-            ],
-            [
-                'name' => 'Subscribers',
-                'icon' => 'heroicon-o-bell-alert',
-                'route' => '',
-            ],
-            [
-                'name' => 'Templates',
-                'icon' => 'heroicon-o-paint-brush',
-                'route' => '',
-            ],
-            [
-                'name' => 'Sender Accounts',
-                'icon' => 'heroicon-o-paper-airplane',
-                'route' => 'filament.admin.pages.newsletter.sender-accounts',
-            ],
-            [
-                'name' => 'Settings',
-                'icon' => 'heroicon-o-cog',
-                'route' => '',
-            ],
-        ];
-
         $dashboardStats = [
             [
                 'name' => 'Subscribers',
@@ -74,12 +41,11 @@ class Homepage extends Page
             [
                 'name' => 'Emails Sent',
                 'value' => $emailsSentCount,
-                'icon' => 'heroicon-o-mail-opened',
+                'icon' => 'heroicon-o-envelope',
             ],
         ];
 
         return [
-            'tabLinks' => $tabLinks,
             'dashboardStats' => $dashboardStats,
         ];
     }
