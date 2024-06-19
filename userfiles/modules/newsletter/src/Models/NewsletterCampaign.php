@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Newsletter\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterSubscribersList;
 
 class NewsletterCampaign extends Model
 {
@@ -15,7 +16,8 @@ class NewsletterCampaign extends Model
 
    public function getSubscribersAttribute()
    {
-       return 0;
+       return NewsletterSubscriberList::where('list_id', $this->list_id)->count();
+
    }
 
     public function getScheduledAttribute()
