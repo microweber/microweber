@@ -19,6 +19,10 @@ $slides = json_decode($settings, true);
 $slidesIndexes = [];
 $currentSlide = 0;
 
+
+$isAutoSlideEnabled = get_module_option('data-auto-slide', $params['id']);
+$slideInterval = get_module_option('data-slide-time', $params['id']);
+
 if (!empty($slides)) {
     foreach ($slides as $iSlide => $slide) {
         $slide['itemId'] = $slide['id'];
@@ -66,6 +70,17 @@ $moduleHash = md5($params['id']);
        window.sliderV2<?php echo $moduleHash; ?> = null;
        window.sliderV2<?php echo $moduleHash; ?> = new SliderV2('#js-slider-<?php echo $params['id']; ?>', {
             loop: true,
+
+           <?php if($isAutoSlideEnabled): ?>
+
+            autoplay:true,
+            <?php endif; ?>
+           <?php if($slideInterval): ?>
+
+           delay: <?php echo intval($slideInterval); ?>,
+
+           <?php endif; ?>
+
             pagination: {
                 element: '#js-slide-pagination-<?php echo $params['id']; ?>',
             },

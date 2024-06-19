@@ -281,6 +281,24 @@ showMainEditTab: 'mainSettings'
             <div>
                 <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>
             </div>
+
+
+
+
+
+            <div>
+                <label class="live-edit-label">{{__('Auto Sliding')}} </label>
+                <livewire:microweber-option::toggle optionKey="data-auto-slide" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
+            <div class="mt-3">
+                <label class="live-edit-label">{{__('Slide timing')}} </label>
+                <label class="live-edit-label">
+                    @lang('Set the time between slides in milliseconds')
+                </label>
+                <livewire:microweber-option::text optionKey="data-slide-time" :optionGroup="$moduleId" :module="$moduleType"  />
+            </div>
+
         </div>
 
     @endif

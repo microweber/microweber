@@ -201,6 +201,16 @@ class Template
 
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
 
+
+
+
+        $liveEditTags =  new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadTags();
+        $liveEditTagsHtml = $liveEditTags->toHtml();
+
+        if($liveEditTagsHtml){
+            $layout = Str::replaceFirst('</head>', $liveEditTagsHtml . '</head>', $layout);
+        }
+
         $meta = mw_footer_scripts();
         $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
 
