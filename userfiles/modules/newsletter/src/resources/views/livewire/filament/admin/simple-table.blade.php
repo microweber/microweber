@@ -1,3 +1,7 @@
 <div>
-    {{ $table }}
+
+    <x-filament::section>
+        {{ $this->table }}
+    </x-filament::section>
+
 </div>

@@ -10,6 +10,7 @@ use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountResource;
+use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\Filament\CampaignsList;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterCampaignsLogModal;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterChooseTemplateModal;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterDashboardStats;
@@ -33,12 +34,15 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
         $this->loadViewsFrom((dirname(__DIR__)) . '/resources/views', 'microweber-module-newsletter');
 
-        Livewire::component('admin-newsletter-subscribers-list', NewsletterSubscribersList::class);
-        Livewire::component('admin-newsletter-choose-template-modal', NewsletterChooseTemplateModal::class);
-        Livewire::component('admin-newsletter-process-campaigns-modal', NewsletterProcessCampaignsModal::class);
-        Livewire::component('admin-newsletter-campaigns-log-modal', NewsletterCampaignsLogModal::class);
-        Livewire::component('admin-newsletter-import-subscribers-modal', NewsletterImportSubscribersModal::class);
-        Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
+//        Livewire::component('admin-newsletter-subscribers-list', NewsletterSubscribersList::class);
+//        Livewire::component('admin-newsletter-choose-template-modal', NewsletterChooseTemplateModal::class);
+//        Livewire::component('admin-newsletter-process-campaigns-modal', NewsletterProcessCampaignsModal::class);
+//        Livewire::component('admin-newsletter-campaigns-log-modal', NewsletterCampaignsLogModal::class);
+//        Livewire::component('admin-newsletter-import-subscribers-modal', NewsletterImportSubscribersModal::class);
+//        Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
+//
+
+        Livewire::component('admin-newsletter-campaign-list', CampaignsList::class);
 
         Event::listen(ServingFilament::class, function () {
             ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin.pages.newsletter.homepage'));
