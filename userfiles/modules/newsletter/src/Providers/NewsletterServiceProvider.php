@@ -2,7 +2,11 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Providers;
 
+use Filament\Events\ServingFilament;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterCampaignsLogModal;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterChooseTemplateModal;
@@ -33,6 +37,14 @@ class NewsletterServiceProvider extends PackageServiceProvider
         Livewire::component('admin-newsletter-campaigns-log-modal', NewsletterCampaignsLogModal::class);
         Livewire::component('admin-newsletter-import-subscribers-modal', NewsletterImportSubscribersModal::class);
         Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
+
+        Event::listen(ServingFilament::class, function () {
+
+            ModuleAdmin::registerAdminUrl('newsletter', route('admin.newsletter.index'));
+
+        });
+
+
     }
 
     public function register(): void

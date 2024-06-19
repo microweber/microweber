@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Modules\Testimonials\Providers;
 
+use Filament\Events\ServingFilament;
+use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Testimonials\Http\Livewire\TestimonialsProjectsDropdownComponent;
@@ -24,6 +26,9 @@ class TestimonialsServiceProvider extends PackageServiceProvider
 //        Livewire::component('microweber-module-testimonials::projects-dropdown', TestimonialsProjectsDropdownComponent::class);
 //
 //        ModuleAdmin::registerSettings('testimonials', 'microweber-module-testimonials::settings');
+        Event::listen(ServingFilament::class, function () {
+            ModuleAdmin::registerAdminUrl('testimonials', admin_url('testimonials-module-settings'));
+        });
 
         ModuleAdmin::registerLiveEditSettingsUrl('testimonials', site_url('admin-live-edit/testimonials-module-settings'));
         ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Testimonials\Http\Livewire\TestimonialsModuleSettings::class);
