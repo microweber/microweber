@@ -26,7 +26,7 @@
             [
                 'name' => 'Templates',
                 'icon' => 'heroicon-o-paint-brush',
-                'route' => '',
+                'route' => 'filament.admin.pages.newsletter.templates',
             ],
             [
                 'name' => 'Sender Accounts',
