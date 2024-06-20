@@ -38,7 +38,7 @@
                 </x-filament::tabs>
             </div>
             <div>
-                <x-filament::button color="success" size="lg" wire:click="save">
+                <x-filament::button color="success" size="lg" wire:click="saveContent">
                     SAVE
                 </x-filament::button>
             </div>
@@ -47,7 +47,7 @@
 
         <div class="py-6">
             <div x-show="activeTab === 'details'">
-                <form wire:submit="save">
+                <form wire:submit="saveContent">
                     {{$this->form}}
                 </form>
             </div>
@@ -68,14 +68,20 @@
                 </x-filament::section>
             </div>
 
+
+            @if(isset($this->seoForm) and $this->seoForm)
             <div x-show="activeTab === 'seo'">
-                <form wire:submit="save">
+                <form wire:submit="saveContent">
                     {{$this->seoForm}}
                 </form>
             </div>
+            @endif
 
             <div x-show="activeTab === 'advanced'">
-                Advanced
+
+
+
+
             </div>
 
         </div>

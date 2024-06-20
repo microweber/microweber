@@ -9,7 +9,7 @@
     <x-filament-panels::form
         id="form"
         :wire:key="$this->getId() . '.forms.' . $this->getFormStatePath()"
-        wire:submit="save"
+        wire:submit="saveContent"
     >
         @include('content::admin.content.filament.render-edit-record-forms')
 

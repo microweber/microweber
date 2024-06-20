@@ -25,10 +25,8 @@ class ContentResource extends Resource
 
     protected static ?string $model = \MicroweberPackages\Content\Models\Content::class;
 
-    // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static bool $shouldRegisterNavigation = false;
-
 
     public static function seoForm(Form $form): Form
     {
@@ -37,7 +35,6 @@ class ContentResource extends Resource
                 Forms\Components\Section::make('Search engine optimisation (SEO)')
                     ->description('Add a title and description to see how this product might appear in a search engine listing')
                     ->schema([
-
 
                         Forms\Components\TextInput::make('content_meta_title')
                             ->label('Meta Title')
@@ -59,8 +56,39 @@ class ContentResource extends Resource
             ]);
     }
 
+
     public static function form(Form $form): Form
     {
+
+        $livewire = $form->getLivewire();
+
+        $contentType = 'page';
+        $contentSubtype = 'static';
+
+        if (
+            $livewire instanceof \App\Filament\Admin\Resources\PageResource\Pages\CreatePage ||
+            $livewire instanceof \App\Filament\Admin\Resources\PageResource\Pages\EditPage
+        ) {
+            $contentType = 'page';
+            $contentSubtype = 'static';
+        }
+
+        if (
+            $livewire instanceof \App\Filament\Admin\Resources\PostResource\Pages\CreatePost ||
+            $livewire instanceof \App\Filament\Admin\Resources\PostResource\Pages\EditPost
+        ) {
+            $contentType = 'post';
+            $contentSubtype = 'post';
+
+        }
+
+        if ($livewire instanceof \App\Filament\Admin\Resources\ProductResource\Pages\CreateProduct ||
+            $livewire instanceof \App\Filament\Admin\Resources\ProductResource\Pages\EditProduct) {
+            $contentType = 'product';
+            $contentSubtype = 'product';
+        }
+
+
         return $form
             ->schema([
 
@@ -74,6 +102,16 @@ class ContentResource extends Resource
 
                     Forms\Components\Group::make()
                         ->schema([
+
+                            Forms\Components\TextInput::make('content_type')
+                                ->default($contentType)
+                                ->hidden(),
+
+
+                            Forms\Components\TextInput::make('subtype')
+                                ->default($contentSubtype)
+                                ->hidden(),
+
 
                             Forms\Components\Section::make('General Information')
                                 ->heading(false)
@@ -92,7 +130,7 @@ class ContentResource extends Resource
                                         }),
 
                                     Forms\Components\TextInput::make('url')
-                                        ->disabled()
+                                        //     ->disabled()
                                         ->dehydrated()
                                         ->required()
                                         ->maxLength(255)
@@ -114,7 +152,9 @@ class ContentResource extends Resource
                                         ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
                                         ->required(),
 
-                                ])->columnSpanFull(),
+                                ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                                    return $get('content_type') == 'product';
+                                }),
 
 
                             Forms\Components\Section::make('Inventory')
@@ -153,7 +193,9 @@ class ContentResource extends Resource
                                     }),
 
 
-                                ])->columnSpanFull(),
+                                ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                                    return $get('content_type') == 'product';
+                                }),
 
                             Forms\Components\Section::make('Shipping')
                                 ->schema([
@@ -230,11 +272,13 @@ class ContentResource extends Resource
 
                                         ])
                                         ->columns(4)
-                                        ->hidden(function (Forms\Get $get) {
-                                            return !$get('content_data.shipping_advanced_settings');
+                                        ->visible(function (Forms\Get $get) {
+                                            return $get('content_data.shipping_advanced_settings');
                                         }),
 
-                                ])->columnSpanFull(),
+                                ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                                    return $get('content_type') == 'product';
+                                }),
 
                         ])->columnSpan(['lg' => 2]),
 
