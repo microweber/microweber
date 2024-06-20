@@ -15,6 +15,9 @@
     window.addEventListener('saveHtml', function (e) {
         alert(e.detail);
     });
+    window.addEventListener('backTo', function (e) {
+        window.location.href = '{{route('filament.admin.pages.newsletter.templates')}}';
+    });
 
     window.addEventListener('selectImage', function () {
         mw.filePickerDialog( (url) => {

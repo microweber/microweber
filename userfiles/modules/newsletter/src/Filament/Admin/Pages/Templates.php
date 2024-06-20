@@ -12,6 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
 use Filament\Pages\Page;
 use Filament\Support\Enums\IconSize;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -58,12 +59,14 @@ class Templates extends Page implements HasTable
                 //
             ])
             ->headerActions([
-                CreateAction::make()
-                    ->label('Add Template')
-                    ->form($editForm),
+                Action::make('Add Template')
+                    ->url(fn() => route('filament.admin.pages.newsletter.template-editor')),
+
             ])
             ->actions([
-                EditAction::make()->form($editForm),
+                Action::make('Edit')
+                    ->icon('heroicon-m-pencil-square')
+                    ->url(fn(NewsletterTemplate $template) => route('filament.admin.pages.newsletter.template-editor').'?id='.$template->id),
                 DeleteAction::make(),
             ])
             ->bulkActions([
