@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
-use Dotswan\FilamentGrapesjs\Fields\GrapesJs;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -41,9 +40,6 @@ class Templates extends Page implements HasTable
             TextInput::make('title')
                 ->label('Title')
                 ->required(),
-
-            GrapesJs::make('text')
-                ->id('text'),
 
 
         ];
