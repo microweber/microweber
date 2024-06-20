@@ -23,11 +23,11 @@
                 'icon' => 'heroicon-o-bell-alert',
                 'route' => 'filament.admin.pages.newsletter.subscribers',
             ],
-            [
-                'name' => 'Templates',
-                'icon' => 'heroicon-o-paint-brush',
-                'route' => 'filament.admin.pages.newsletter.templates',
-            ],
+//            [
+//                'name' => 'Templates',
+//                'icon' => 'heroicon-o-paint-brush',
+//                'route' => 'filament.admin.pages.newsletter.templates',
+//            ],
             [
                 'name' => 'Sender Accounts',
                 'icon' => 'heroicon-o-paper-airplane',
