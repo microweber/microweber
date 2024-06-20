@@ -11,6 +11,7 @@ use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\SenderAccounts;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Subscribers;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Templates;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountResource;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\Filament\CampaignsList;
@@ -72,6 +73,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
         ModuleAdmin::registerPanelPage(Homepage::class);
         ModuleAdmin::registerPanelPage(SenderAccounts::class);
         ModuleAdmin::registerPanelPage(Templates::class);
+        ModuleAdmin::registerPanelPage(Subscribers::class);
       //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);
 
         if (is_cli()) {

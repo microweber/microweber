@@ -21,7 +21,7 @@
             [
                 'name' => 'Subscribers',
                 'icon' => 'heroicon-o-bell-alert',
-                'route' => '',
+                'route' => 'filament.admin.pages.newsletter.subscribers',
             ],
             [
                 'name' => 'Templates',
