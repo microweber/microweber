@@ -16,7 +16,7 @@
             [
                 'name' => 'Lists',
                 'icon' => 'heroicon-o-queue-list',
-                'route' => '',
+                'route' => 'filament.admin.pages.newsletter.lists',
             ],
             [
                 'name' => 'Subscribers',
