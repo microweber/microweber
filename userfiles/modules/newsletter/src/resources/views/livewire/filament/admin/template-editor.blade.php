@@ -12,13 +12,17 @@
 <script type="module" crossorigin src="{{modules_url()}}newsletter/js/email-editor.js"></script>
 
 <script>
-    document.addEventListener('selectImage', function () {
+    window.addEventListener('saveHtml', function (e) {
+        alert(e.detail);
+    });
+
+    window.addEventListener('selectImage', function () {
         mw.filePickerDialog( (url) => {
             const event = new CustomEvent("selectedImage", { detail: url });
             window.dispatchEvent(event);
         });
     });
-    document.addEventListener('selectUrl', function (e) {
+    window.addEventListener('selectUrl', function (e) {
         var linkEditor = new mw.LinkEditor({
             mode: 'dialog',
         });
