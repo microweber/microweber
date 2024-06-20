@@ -90,6 +90,33 @@ linkEditor.promise().then(function (data){
     <hr>
     <h1>
         Editor
+
+        <div class="richtext-example"></div>
+
+        <pre>
+            const editor = new mw.richTextEditor({
+                target: '.richtext-example'
+            });
+            const editor = new mw.richTextEditor({
+                target: document.querySelector('.some-selector')
+            })
+
+            editor.on('change', val => {
+                console.log(val)
+            })
+        </pre>
+        <script>
+            addEventListener('load', () => {
+                const editor = new mw.richTextEditor({
+                    target: '.richtext-example'
+                });
+
+                editor.on('change', val => {
+                    console.log(val)
+                })
+            })
+
+        </script>
     </h1>
 
     <hr>

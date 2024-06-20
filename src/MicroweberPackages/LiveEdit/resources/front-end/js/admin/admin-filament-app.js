@@ -12,6 +12,7 @@ import {AdminTools} from "./admin-tools.service.js";
 import {AdminFilament} from "./admin-filament.js";
 
 
+
 window.mw.tools = new AdminTools(mw.app);
 
 
@@ -72,10 +73,12 @@ import "../components/uiaccordion.js";
 
 import "../components/dialog.js";
 import {Alert, Confirm, Prompt} from "../components/system-dialogs.js";
+import {RichTextEditor} from "../components/richtext-editor.js";
 
 mw.alert = Alert;
 mw.confirm = Confirm;
 mw.prompt = Prompt;
+mw.richTextEditor = RichTextEditor;
 
 
 import "../components/autocomplete.js";

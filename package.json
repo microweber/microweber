@@ -37,6 +37,7 @@
     "mitt": "^3.0.0",
     "popper.js": "^1.16.1",
     "react-filerobot-image-editor": "^4.4.0",
+    "tinymce": "^7.2.0",
     "tom-select": "^2.3.1",
     "vue": "^3.2.36",
     "vue-color-kit": "^1.0.5",
