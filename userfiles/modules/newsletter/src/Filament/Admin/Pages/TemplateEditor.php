@@ -10,6 +10,8 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 
 class TemplateEditor extends Page
 {
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $slug = 'newsletter/template-editor';
 
     protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.template-editor';

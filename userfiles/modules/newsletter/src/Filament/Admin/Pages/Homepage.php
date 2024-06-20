@@ -15,6 +15,8 @@ class Homepage extends Page
 
     protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.homepage';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected function getViewData(): array
     {
         $campaignsCount = NewsletterCampaign::count();

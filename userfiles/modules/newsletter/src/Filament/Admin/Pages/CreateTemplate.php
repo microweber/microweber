@@ -14,6 +14,8 @@ class CreateTemplate extends Page
 
     protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.create-template';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected function getViewData(): array
     {
         $emailTemplates = [];

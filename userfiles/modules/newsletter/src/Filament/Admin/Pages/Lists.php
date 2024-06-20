@@ -31,6 +31,8 @@ class Lists extends Page implements HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $slug = 'newsletter/lists';
 
     protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.sender-accounts';

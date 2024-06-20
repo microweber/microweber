@@ -31,6 +31,7 @@ class Subscribers extends Page implements HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $slug = 'newsletter/subscribers';
 
     protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.sender-accounts';

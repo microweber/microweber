@@ -26,6 +26,8 @@ class SenderAccounts extends Page implements HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $slug = 'newsletter/sender-accounts';
 
     protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.sender-accounts';
