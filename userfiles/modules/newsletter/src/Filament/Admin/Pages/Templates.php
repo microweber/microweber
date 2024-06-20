@@ -60,7 +60,7 @@ class Templates extends Page implements HasTable
             ])
             ->headerActions([
                 Action::make('Add Template')
-                    ->url(fn() => route('filament.admin.pages.newsletter.template-editor')),
+                    ->url(fn() => route('filament.admin.pages.newsletter.create-template')),
 
             ])
             ->actions([
