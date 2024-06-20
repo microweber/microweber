@@ -30,14 +30,15 @@ class CreateContent extends CreateRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\CreateAction::make()->action('saveContent')->label('Save')->color('success'),
             Actions\LocaleSwitcher::make(),
-
         ];
     }
 
     protected function getFormActions(): array
     {
         return [
+         //   Actions\CreateAction::make()->action('saveContent')->label('Save')->color('success'),
 
         ];
     }

@@ -36,11 +36,7 @@
                     </x-filament::tabs.item>
                 </x-filament::tabs>
             </div>
-            <div>
-                <x-filament::button color="success" size="lg" wire:click="saveContent">
-                    SAVE
-                </x-filament::button>
-            </div>
+
         </div>
 
 
