@@ -21,17 +21,17 @@
     <div class="grid grid-cols-3 gap-4">
         @foreach($emailTemplates as $template)
 
-            <div class="justify-content-center items-center bg-white rounded shadow h-[20rem]">
+            <div class="bg-white rounded shadow h-[25rem]">
                 <div style="width: 800px; height: 800px; overflow: hidden; box-sizing: border-box; transform-origin: left top 0px; transform: scale(0.37);">
                     <iframe data-src="{{ $template['demoUrl'] }}" scrolling="no" style="height: 100%; width: 100%; display: block; border: 0px transparent;">
 
                     </iframe>
                 </div>
-                <a href="" class="text-blue-600 hover:text-blue-800">
-                    <div class="p-4">
+                <div>
+                    <a href="#" class="text-blue-600 hover:text-blue-800">
                         {{ $template['name'] }}
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
 
         @endforeach
