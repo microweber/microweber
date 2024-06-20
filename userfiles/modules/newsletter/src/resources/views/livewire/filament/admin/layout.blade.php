@@ -50,11 +50,12 @@
                     $activeClass = 'bg-gray-500/10 dark:bg-gray-800 text-black/90 dark:text-white';
                 }
             @endphp
+
             <a
                 @if($tab['route'])
                     href="{{route($tab['route'])}}"
                 @endif
-                class="first:rounded-l-lg last:rounded-r-lg flex items-center justify-center gap-3 w-full py-4 px-2 hover:bg-gray-500/5 {{$activeClass}}">
+                class="first:rounded-l-lg last:rounded-r-lg cursor-pointer flex items-center justify-center gap-3 w-full py-4 px-2 hover:bg-gray-500/5 {{$activeClass}}">
                 @svg($tab['icon'], "h-6 w-6 text-black/90 dark:text-white")
                 {{$tab['name']}}
             </a>
