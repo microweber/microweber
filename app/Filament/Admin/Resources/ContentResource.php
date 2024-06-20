@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\User\Models\User;
 
 class ContentResource extends Resource
 {
@@ -56,6 +57,88 @@ class ContentResource extends Resource
             ]);
     }
 
+    public static function advancedSettingsForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Section::make('Advanced Settings')
+                    ->description('You can configure advanced settings for this content')
+                    ->schema([
+
+                        Forms\Components\TextInput::make('original_link')
+                            ->label('Redirect URL')
+                            ->helperText('Redirect to another URL when this content is accessed')
+                            ->columnSpanFull(),
+
+
+                        Forms\Components\Toggle::make('require_login')
+                            ->label('Require login')
+                            ->helperText('Require user to be logged in to view this content')
+                            ->columnSpanFull(),
+
+
+                        Forms\Components\Select::make('created_by')
+                            ->label('Author')
+                            ->placeholder('Select author')
+                            // ->options(User::all()->pluck('email', 'id'))
+                            ->getSearchResultsUsing(fn(string $search) => User::where('email', 'like', "%{$search}%")->limit(50)->pluck('email', 'id'))
+                            ->getOptionLabelUsing(fn($value): ?string => User::find($value)?->email)
+                            ->getSelectedRecordUsing(fn($value) => User::find($value))
+                            ->searchable(),
+
+
+                        //change conten type select
+                        Forms\Components\Select::make('content_type')
+                            ->label('Content Type')
+                            ->options([
+                                'page' => 'Page',
+                                'post' => 'Post',
+                                'product' => 'Product',
+                            ]),
+
+
+                        Forms\Components\Select::make('subtype')
+                            ->label('Content Subtype')
+                            ->options([
+                                'static' => 'Static',
+                                'post' => 'Post',
+                                'product' => 'Product',
+                                'dynamic' => 'Dynamic',
+                            ]),
+
+
+                        Forms\Components\DateTimePicker::make('created_at')
+                            ->label('Created At')
+                            ->date(function ($record) {
+
+                                return isset($record->updated_at) ? $record->created_at->format('Y-m-d H:i:s') : null;
+                            })
+                            ->format('Y-m-d H:i:s')
+                            ->columnSpanFull(),
+
+                        Forms\Components\DateTimePicker::make('updated_at')
+                            ->label('Updated At')
+                            ->date(function ($record) {
+
+                                return isset($record->updated_at) ? $record->updated_at->format('Y-m-d H:i:s') : null;
+                            })
+                            ->format('Y-m-d H:i:s')
+                            ->columnSpanFull(),
+
+                        Forms\Components\Placeholder::make('id')
+                            ->label('ID')
+                            ->inlineLabel(true)
+                            ->content(function ($record) {
+                                return $record->id;
+                            })->visible(function (Forms\Get $get) {
+                                return $get('id');
+                            }),
+
+
+                    ])
+            ]);
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -64,6 +147,8 @@ class ContentResource extends Resource
 
         $contentType = 'page';
         $contentSubtype = 'static';
+
+        $id = 0;
 
         if (
             $livewire instanceof \App\Filament\Admin\Resources\PageResource\Pages\CreatePage ||
@@ -88,6 +173,11 @@ class ContentResource extends Resource
             $contentSubtype = 'product';
         }
 
+        $record = $form->getRecord();
+        if ($record) {
+            $id = $record->id;
+        }
+
 
         return $form
             ->schema([
@@ -102,6 +192,11 @@ class ContentResource extends Resource
 
                     Forms\Components\Group::make()
                         ->schema([
+
+                            Forms\Components\TextInput::make('id')
+                                ->default($id)
+                                ->hidden(),
+
 
                             Forms\Components\TextInput::make('content_type')
                                 ->default($contentType)

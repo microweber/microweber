@@ -1,4 +1,3 @@
-
 <div>
     <div x-data="{ activeTab: 'details' }">
 
@@ -70,20 +69,25 @@
 
 
             @if(isset($this->seoForm) and $this->seoForm)
-            <div x-show="activeTab === 'seo'">
-                <form wire:submit="saveContent">
-                    {{$this->seoForm}}
-                </form>
-            </div>
+                <div x-show="activeTab === 'seo'">
+                    <form wire:submit="saveContent">
+                        {{$this->seoForm}}
+                    </form>
+                </div>
             @endif
 
-            <div x-show="activeTab === 'advanced'">
 
 
+            @if(isset($this->advancedSettingsForm) and $this->advancedSettingsForm)
+                <div x-show="activeTab === 'advanced'">
+
+                    <form wire:submit="saveContent">
+                        {{$this->advancedSettingsForm}}
+                    </form>
 
 
-            </div>
-
+                </div>
+            @endif
         </div>
 
 
