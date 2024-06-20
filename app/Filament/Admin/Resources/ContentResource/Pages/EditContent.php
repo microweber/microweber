@@ -20,18 +20,19 @@ class EditContent extends EditRecord
     protected static string $resource = ContentResource::class;
 
 
-
     protected function getForms(): array
     {
-         return $this->getEditContentForms();
+        return $this->getEditContentForms();
     }
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
             Actions\LocaleSwitcher::make(),
+            Actions\DeleteAction::make()->outlined(),
+            Actions\EditAction::make()->action('saveContent')->label('Save')->color('success'),
         ];
     }
+
 
 }
