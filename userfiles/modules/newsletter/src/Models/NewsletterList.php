@@ -7,4 +7,10 @@ class NewsletterList extends Model
 {
     public $table = 'newsletter_lists';
 
+    public function getSubscribersAttribute()
+    {
+        $subscribers = NewsletterSubscriberList::where('list_id', $this->id)->count();
+
+        return $subscribers;
+    }
 }
