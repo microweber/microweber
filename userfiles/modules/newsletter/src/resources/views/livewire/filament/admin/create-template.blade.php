@@ -23,7 +23,7 @@
 
             <a href="{{route('filament.admin.pages.newsletter.template-editor')}}">
                 <div class="bg-white rounded shadow h-[20rem]">
-                    <div style="pointer-events:none;width: 800px; height: 200px; overflow: hidden; box-sizing: border-box; transform-origin: left top 0px; transform: scale(0.37);">
+                    <div style="pointer-events:none;width: 800px; height: 800px; overflow: hidden; box-sizing: border-box; transform-origin: left top 0px; transform: scale(0.37);">
                         <iframe data-src="{{ $template['demoUrl'] }}" scrolling="no" style="pointer-events:none;height: 100%; width: 100%; display: block; border: 0px transparent;">
 
                         </iframe>
