@@ -44,7 +44,7 @@ import "../core/icon-resolver.js";
 
 
 import {Progress, Loading} from "../tools/loading.js";
-import {Helpers} from "../core/Helpers.js";
+import {Helpers} from "../core/helpers.js";
 
 mw.tools.progress = Progress;
 mw.tools.loading = Loading;
