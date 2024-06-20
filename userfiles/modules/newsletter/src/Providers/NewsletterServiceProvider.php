@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateTemplate;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Lists;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\SenderAccounts;
@@ -78,6 +79,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
         ModuleAdmin::registerPanelPage(Subscribers::class);
         ModuleAdmin::registerPanelPage(Lists::class);
         ModuleAdmin::registerPanelPage(TemplateEditor::class);
+        ModuleAdmin::registerPanelPage(CreateTemplate::class);
       //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);
 
         if (is_cli()) {
