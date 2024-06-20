@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\Admin\Providers\Filament;
 
+use App\Filament\Admin\Resources\ContentResource;
+use App\Filament\Admin\Resources\PostResource;
+use App\Filament\Admin\Resources\ProductResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -138,6 +141,18 @@ class FilamentAdminPanelProvider extends PanelProvider
             name: PanelsRenderHook::TOPBAR_START,
             hook: fn(): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
         );
+
+
+        $panel->renderHook(
+            name: \Filament\Tables\View\TablesRenderHook::TOOLBAR_SEARCH_BEFORE,
+            hook: fn(): string => 'category tree must be here placeholder',
+            scopes: [
+                ContentResource\Pages\ListContents::class,
+                PostResource\Pages\ListPosts::class,
+                ProductResource\Pages\ListProducts::class
+            ]
+        );
+
 
         $tableToggle = new TableLayoutTogglePlugin();
         $tableToggle->defaultLayout('grid');
