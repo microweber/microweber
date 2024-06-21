@@ -8,12 +8,16 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
@@ -47,14 +51,22 @@ class CreateCampaign extends Page
         }
         $countSubscribers = NewsletterSubscriber::count();
 
-        return $form->schema([
+        return $form
+            ->model(NewsletterCampaign::class)
+            ->schema([
 
             Wizard::make([
-                Wizard\Step::make('Email')
-                    ->icon('heroicon-o-paint-brush')
-                    ->schema([
-                        SelectTemplate::make('state.template'),
-                    ]),
+//                Wizard\Step::make('Design')
+//                    ->icon('heroicon-o-paint-brush')
+//                    ->schema([
+//                        SelectTemplate::make('state.template'),
+//                    ]),
+//                Wizard\Step::make('Content')
+//                    ->icon('heroicon-o-document-text')
+//                    ->schema([
+//                        View::make('state.template')
+//                            ->view('microweber-module-newsletter::livewire.filament.admin.template-editor-iframe')
+//                    ]),
                 Wizard\Step::make('Recipients')
                     ->icon('heroicon-o-users')
                     ->schema([
@@ -164,7 +176,16 @@ class CreateCampaign extends Page
 
                 ])
 
-            ])->persistStepInQueryString(),
+            ])->submitAction(new HtmlString(Blade::render(<<<BLADE
+                        <x-filament::button
+                            type="submit"
+                            size="lg"
+                            icon="heroicon-o-rocket-launch"
+                        >
+                            Send campaign
+                        </x-filament::button>
+                    BLADE)))
+                ->persistStepInQueryString(),
 
         ]);
     }

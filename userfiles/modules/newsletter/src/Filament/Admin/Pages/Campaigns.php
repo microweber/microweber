@@ -1,10 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\Filament;
+namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -13,22 +14,29 @@ use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 
-class CampaignsList extends Component implements HasForms, HasTable
+class Campaigns extends Page implements HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;
-    public function render(): View
-    {
-        return view('microweber-module-newsletter::livewire.filament.admin.simple-table');
-    }
+
+    protected static bool $shouldRegisterNavigation = false;
+
+    protected static ?string $slug = 'newsletter/campaigns';
+
+    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.campaigns';
+
 
     public function table(Table $table): Table
     {
         return $table
             ->query(NewsletterCampaign::query())
             ->paginated(false)
-            ->heading('Campaigns lists')
-            ->headerActions([])
+            ->heading('Campaigns')
+            ->headerActions([
+                CreateAction::make('create')
+                    ->label('Start new campaign')
+                    ->icon('heroicon-o-rocket-launch')
+            ])
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('list.name'),
