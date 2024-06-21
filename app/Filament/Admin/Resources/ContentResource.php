@@ -15,6 +15,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Livewire\Component;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Content\Models\Content;
@@ -202,7 +203,7 @@ class ContentResource extends Resource
                                         ->label('Template')
                                         ->default($active_site_template)
                                         ->live()
-                                        // ->reactive()
+                                        ->reactive()
                                         ->options(function (Forms\Get $get, Forms\Set $set) use ($templates) {
                                             return collect($templates)->mapWithKeys(function ($template) {
                                                 return [$template['dir_name'] => $template['name']];
@@ -214,10 +215,12 @@ class ContentResource extends Resource
                                             ->getChildComponentContainer()
                                             ->fill())
                                         ->columnSpanFull(),
+
+
                                     Forms\Components\Select::make('layout_file')
                                         ->label('Layout')
                                         ->live()
-                                        //   ->reactive()
+                                        ->reactive()
                                         ->options(function (Forms\Get $get, Forms\Set $set) {
                                             $active_site_template = $get('active_site_template');
 
@@ -234,7 +237,22 @@ class ContentResource extends Resource
                                             });
 
                                         })
+                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
+
+                                            $data = $livewire->data;
+                                            $livewire->dispatch('dynamicPreviewLayoutChange', data: $data);
+
+
+                                        })
                                         ->key('dynamicSelectLayout')
+                                        ->columnSpanFull(),
+
+                                    Forms\Components\View::make('content::admin.content.filament.render-template-preview-iframe')
+                                        ->viewData(['url' => ''])
+//                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state) {
+//                                            dd($get);
+//                                        })
+                                        ->key('dynamicPreviewLayout')
                                         ->columnSpanFull(),
 
 
