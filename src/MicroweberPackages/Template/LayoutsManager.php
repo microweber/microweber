@@ -147,12 +147,14 @@ class LayoutsManager
     {
         $options = parse_params($options);
         if (!isset($options['path'])) {
+
             if (isset($options['site_template']) and (strtolower($options['site_template']) != 'default') and (trim($options['site_template']) != '')) {
                 $tmpl = trim($options['site_template']);
                 $check_dir = templates_dir() . '' . $tmpl;
 
                 if (is_dir($check_dir)) {
                     $the_active_site_template = $tmpl;
+                    $path = $check_dir;
                 } else {
                     $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                 }

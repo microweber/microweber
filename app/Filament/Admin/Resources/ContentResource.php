@@ -37,6 +37,8 @@ class ContentResource extends Resource
         $contentType = 'page';
         $contentSubtype = 'static';
 
+        $isShop = false;
+
         $id = 0;
 
         if (
@@ -66,6 +68,13 @@ class ContentResource extends Resource
         if ($record) {
             $id = $record->id;
         }
+        $templates = site_templates();
+        $active_site_template = template_name();
+//        $layout_options['site_template'] = $active_site_template;
+//        $layout_options['no_cache'] = true;
+//        $layout_options['no_folder_sort'] = true;
+//
+//        $layouts = mw()->layouts_manager->get_all($layout_options);
 
 
         return $form
@@ -93,6 +102,11 @@ class ContentResource extends Resource
 
 
                             Forms\Components\TextInput::make('subtype')
+                                ->default($contentSubtype)
+                                ->hidden(),
+
+
+                            Forms\Components\TextInput::make('is_shop')
                                 ->default($contentSubtype)
                                 ->hidden(),
 
@@ -180,6 +194,54 @@ class ContentResource extends Resource
                                 ])->columnSpanFull()->visible(function (Forms\Get $get) {
                                     return $get('content_type') == 'product';
                                 }),
+
+
+                            Forms\Components\Section::make('Select Template')
+                                ->schema([
+                                    Forms\Components\Select::make('active_site_template')
+                                        ->label('Template')
+                                        ->default($active_site_template)
+                                        ->live()
+                                        // ->reactive()
+                                        ->options(function (Forms\Get $get, Forms\Set $set) use ($templates) {
+                                            return collect($templates)->mapWithKeys(function ($template) {
+                                                return [$template['dir_name'] => $template['name']];
+                                            });
+                                        })
+                                        ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
+                                            ->getContainer()
+                                            ->getComponent('dynamicSelectLayout')
+                                            ->getChildComponentContainer()
+                                            ->fill())
+                                        ->columnSpanFull(),
+                                    Forms\Components\Select::make('layout_file')
+                                        ->label('Layout')
+                                        ->live()
+                                        //   ->reactive()
+                                        ->options(function (Forms\Get $get, Forms\Set $set) {
+                                            $active_site_template = $get('active_site_template');
+
+                                            $layout_options = [];
+                                            $layout_options['site_template'] = $active_site_template;
+                                            $layout_options['no_cache'] = true;
+                                            $layout_options['no_folder_sort'] = true;
+
+                                            $layouts = mw()->layouts_manager->get_all($layout_options);
+
+
+                                            return collect($layouts)->mapWithKeys(function ($layout) {
+                                                return [$layout['layout_file'] => $layout['name']];
+                                            });
+
+                                        })
+                                        ->key('dynamicSelectLayout')
+                                        ->columnSpanFull(),
+
+
+                                ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                                    return $get('content_type') == 'page';
+                                }),
+
 
                             Forms\Components\Section::make('Shipping')
                                 ->schema([
@@ -412,15 +474,15 @@ class ContentResource extends Resource
 //
 //                                return isset($record->updated_at) ? $record->created_at->format('Y-m-d H:i:s') : null;
 //                            })
-                          //  ->format('Y-m-d H:i:s')
+                            //  ->format('Y-m-d H:i:s')
                             ->columnSpanFull(),
 
                         Forms\Components\DateTimePicker::make('updated_at')
                             ->label('Updated At')
- //                            ->date(function ($record) {
+                            //                            ->date(function ($record) {
 //                                return isset($record->updated_at) ? $record->updated_at : null;
 //                            })
-                       //     ->format('Y-m-d H:i:s')
+                            //     ->format('Y-m-d H:i:s')
                             ->columnSpanFull(),
 
                         Forms\Components\Placeholder::make('id')
@@ -431,7 +493,6 @@ class ContentResource extends Resource
                             })->visible(function (Forms\Get $get) {
                                 return $get('id');
                             }),
-
 
 
                     ])
