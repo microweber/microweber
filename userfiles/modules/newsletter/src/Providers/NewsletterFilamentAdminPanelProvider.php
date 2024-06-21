@@ -12,6 +12,8 @@ use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountResource;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 
@@ -22,14 +24,10 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
         $panel
             // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
-            ->id('admin/newsletter')
+            ->id('admin-newsletter')
             ->path('admin/newsletter')
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
-            ->databaseNotifications()
-//            ->default()
-//            ->login()
-//            ->registration()
             ->font('Inter')
             ->brandLogoHeight('34px')
             ->brandLogo(function () {
@@ -42,6 +40,10 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ])
             ->pages([
                 Homepage::class
+            ])
+            ->resources([
+                SenderAccountResource::class,
+                SubscribersResource::class
             ])
             ->widgets([
                 // Widgets\AccountWidget::class,

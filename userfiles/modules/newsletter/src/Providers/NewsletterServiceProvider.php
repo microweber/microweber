@@ -52,7 +52,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
 //
 
         Event::listen(ServingFilament::class, function () {
-//            ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin.pages.newsletter.homepage'));
+            ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin-newsletter.pages.homepage'));
         });
 
     }
