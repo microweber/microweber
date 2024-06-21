@@ -398,7 +398,7 @@
 
                     if(xhrReq.status === 200) {
                         if (data && (data.form_data_required || data.form_data_module)) {
-                            mw.extradataForm(xhrOptions, data, mw.jqxhr);
+                            mw.extradataForm(xhrOptions, data, jQuery.ajax);
                         }
                         else {
                             scope.removeFile(data.file);
@@ -445,7 +445,7 @@
 
 
 
-            return mw.jqxhr(xhrOptions);
+            return jQuery.ajax(xhrOptions);
         };
     };
 
