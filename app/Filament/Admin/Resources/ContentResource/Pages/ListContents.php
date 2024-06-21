@@ -7,6 +7,9 @@ use App\Filament\Admin\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Hydrat\TableLayoutToggle\Concerns\HasToggleableTable;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Builder;
+use function Filament\Support\generate_search_column_expression;
 
 class ListContents extends ListRecords
 {
@@ -27,4 +30,6 @@ class ListContents extends ListRecords
             Actions\LocaleSwitcher::make(),
         ];
     }
+
+
 }
