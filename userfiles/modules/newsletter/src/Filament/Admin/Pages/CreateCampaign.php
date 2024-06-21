@@ -4,6 +4,8 @@ namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
@@ -29,27 +31,35 @@ class CreateCampaign extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public $template = '';
-    public $recipientsFrom = '';
+    public $state = [];
 
     public function form(Form $form): Form
     {
 
+        $lists = [];
+        $listDescriptions = [];
+        $findLists = NewsletterList::all();
+        if ($findLists) {
+            foreach ($findLists as $list) {
+                $lists[$list->id] = $list->name;
+                $listDescriptions[$list->id] =  $list->subscribers()->count() . ' subscribers found in this list.';
+            }
+        }
         $countSubscribers = NewsletterSubscriber::count();
 
         return $form->schema([
 
             Wizard::make([
-//                Wizard\Step::make('Email')
-//                    ->icon('heroicon-o-paint-brush')
-//                    ->schema([
-//                        SelectTemplate::make('template'),
-//                    ]),
+                Wizard\Step::make('Email')
+                    ->icon('heroicon-o-paint-brush')
+                    ->schema([
+                        SelectTemplate::make('state.template'),
+                    ]),
                 Wizard\Step::make('Recipients')
                     ->icon('heroicon-o-users')
                     ->schema([
 
-                        RadioDeck::make('recipientsFrom')
+                        RadioDeck::make('state.recipientsFrom')
                             ->columns(3)
                             ->icons([
                                 'all_subscribers' => 'heroicon-o-users',
@@ -58,29 +68,35 @@ class CreateCampaign extends Page
                             ])
                             ->color('primary')
                             ->live()
+                            ->descriptions([
+                                'all_subscribers' => $countSubscribers . ' subscribers found in all lists.',
+                                'specific_lists' => 'Send to existing lists.',
+                                'import_new_list' => 'Create new list or import list from file.',
+                            ])
                             ->options([
-                                'all_subscribers' => 'All subscribers' . ' (' . $countSubscribers . ')',
+                                'all_subscribers' => 'All subscribers',
                                 'specific_lists' => 'Specific lists',
                                 'import_new_list' => 'Import new list',
                             ]),
 
-                        Radio::make('list_id')
+                        Radio::make('state.list_id')
                             ->label('Select list')
                             ->hidden(function (Get $get) {
-                                if ($get('recipientsFrom') == 'specific_lists') {
+                                if ($get('state.recipientsFrom') == 'specific_lists') {
                                     return false;
                                 }
                                 return true;
                             })
-                            ->options(NewsletterList::all()->pluck('name', 'id')),
+                            ->descriptions($listDescriptions)
+                            ->options($lists),
 
                         Group::make([
-                            TextInput::make('list_name')
+                            TextInput::make('state.list_name')
                                 ->label('List name'),
-                            MwFileUpload::make('upload_list_file')
+                            MwFileUpload::make('state.upload_list_file')
                                 ->label('Upload list file'),
                         ])->hidden(function (Get $get) {
-                            if ($get('recipientsFrom') == 'import_new_list') {
+                            if ($get('state.recipientsFrom') == 'import_new_list') {
                                 return false;
                             }
                             return true;
@@ -88,12 +104,67 @@ class CreateCampaign extends Page
 
 
                     ]),
-                Wizard\Step::make('Delivery')
-                    ->icon('heroicon-o-paper-airplane')
+                Wizard\Step::make('Schedule')
+                   // ->description('Select when you would you like this email to launch.')
+                    ->icon('heroicon-o-calendar-days')
                     ->schema([
-                        // ...
+
+                        RadioDeck::make('state.deliveryType')
+                            ->columns(2)
+                            ->icons([
+                                'send_now' => 'heroicon-o-rocket-launch',
+                                'schedule' => 'heroicon-o-clock',
+                            ])
+                            ->color('primary')
+                            ->live()
+                            ->descriptions([
+                                'send_now' => 'Send campaign now.',
+                                'schedule' => 'Schedule campaign for later.',
+                            ])
+                            ->options([
+                                'send_now' => 'Send now',
+                                'schedule' => 'Schedule',
+                            ]),
+
+                        DateTimePicker::make('state.scheduled_at')
+                            ->hidden(function (Get $get) {
+                            if ($get('state.deliveryType') == 'schedule') {
+                                return false;
+                            }
+                            return true;
+                        }),
+
+                        Checkbox::make('state.advanceOptions')
+                            ->label('Advance options')
+                            ->live(),
+
+                        Group::make([
+
+                            TextInput::make('state.sendingLimit')
+                                ->label('Sending limit (Per day)')
+                                ->helperText('Set the maximum number of emails to be sent per day ')
+                                ->numeric()
+                                ->default(300)
+                                ->label('Sending limit'),
+
+                        ])->hidden(function (Get $get) {
+                            if ($get('state.advanceOptions')
+                                && $get('state.deliveryType') == 'schedule') {
+                                return false;
+                            }
+                            return true;
+                        }),
+
                     ]),
-            ])
+
+                Wizard\Step::make('Send')
+                   // ->description('Review and send your campaign.')
+                    ->icon('heroicon-o-rocket-launch')
+                ->schema([
+
+                ])
+
+            ])->persistStepInQueryString(),
 
         ]);
     }
