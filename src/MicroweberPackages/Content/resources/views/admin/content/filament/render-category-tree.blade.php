@@ -31,8 +31,8 @@
                 treeControllBox.show()
                 pagesTree = await mw.widget.tree(`#${id}`);
 
-                pagesTree.on('selectionChange', e => {
-                    const result = pagesTree.getSelected();
+                pagesTree.tree.on('selectionChange', e => {
+                    const result = pagesTree.tree.getSelected();
 
                     console.log(result);
                 })
