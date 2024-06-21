@@ -13,10 +13,10 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountResource\Pages\ManageSenderAccounts;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 
-class SenderAccountResource extends Resource
+class SenderAccountsResource extends Resource
 {
     protected static ?string $model = NewsletterSenderAccount::class;
 
