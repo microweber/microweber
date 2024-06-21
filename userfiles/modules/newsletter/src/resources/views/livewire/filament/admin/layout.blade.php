@@ -1,17 +1,26 @@
 <div>
 
     <div class="mt-6 mb-4">
-        <h1 class="text-2xl">
-            Newsletter PRO v3.0
-        </h1>
+
+        <div class="mt-4 flex items-center justify-between">
+            <h1 class="text-2xl">
+                Newsletter PRO v3.0
+            </h1>
+        </div>
+
     </div>
 
     @php
     $tabLinks = [
             [
-                'name' => 'Campaigns',
-                'icon' => 'heroicon-o-envelope',
+                'name' => 'Dashboard',
+                'icon' => 'heroicon-o-home',
                 'route' => 'filament.admin.pages.newsletter.homepage',
+            ],
+            [
+                'name' => 'Campaigns',
+                'icon' => 'heroicon-o-megaphone',
+                'route' => 'filament.admin.pages.newsletter.campaigns',
             ],
             [
                 'name' => 'Lists',

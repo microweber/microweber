@@ -11,11 +11,16 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 class Homepage extends Page
 {
 
-    protected static ?string $slug = 'newsletter/homepage';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.homepage';
+    protected static ?string $navigationIcon = 'heroicon-o-home';
 
-    protected static bool $shouldRegisterNavigation = false;
+    protected static ?string $navigationGroup = 'Email Marketing';
+
+//    protected static ?string $slug = 'newsletter/homepage';
+
+    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.homepage-new';
+
+//    protected static bool $shouldRegisterNavigation = false;
 
     protected function getViewData(): array
     {

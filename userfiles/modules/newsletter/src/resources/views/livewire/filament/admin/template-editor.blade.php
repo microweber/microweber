@@ -16,7 +16,7 @@
         alert(e.detail);
     });
     window.addEventListener('backTo', function (e) {
-        window.location.href = '{{route('filament.admin.pages.newsletter.templates')}}';
+        window.location.href = '{{route('filament.admin.pages.newsletter.create-campaign')}}';
     });
 
     window.addEventListener('selectImage', function () {

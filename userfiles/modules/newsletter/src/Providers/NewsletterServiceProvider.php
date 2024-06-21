@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Campaigns;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateTemplate;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
@@ -50,19 +51,15 @@ class NewsletterServiceProvider extends PackageServiceProvider
 //        Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
 //
 
-        Livewire::component('admin-newsletter-campaign-list', CampaignsList::class);
-
         Event::listen(ServingFilament::class, function () {
-            ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin.pages.newsletter.homepage'));
+            ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin-newsletter.pages.homepage'));
         });
-
 
     }
 
     public function register(): void
     {
         parent::register();
-
 
         // Register Microweber Icons set
         $this->callAfterResolving(Factory::class, function (Factory $factory) {
@@ -74,14 +71,15 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/web.php');
-        ModuleAdmin::registerPanelPage(Homepage::class);
-        ModuleAdmin::registerPanelPage(SenderAccounts::class);
-        ModuleAdmin::registerPanelPage(Templates::class);
-        ModuleAdmin::registerPanelPage(Subscribers::class);
-        ModuleAdmin::registerPanelPage(Lists::class);
-        ModuleAdmin::registerPanelPage(TemplateEditor::class);
-       // ModuleAdmin::registerPanelPage(CreateTemplate::class);
-        ModuleAdmin::registerPanelPage(CreateCampaign::class);
+//        ModuleAdmin::registerPanelPage(Homepage::class);
+//        ModuleAdmin::registerPanelPage(SenderAccounts::class);
+//        ModuleAdmin::registerPanelPage(Templates::class);
+//        ModuleAdmin::registerPanelPage(Subscribers::class);
+//        ModuleAdmin::registerPanelPage(Lists::class);
+//        ModuleAdmin::registerPanelPage(Campaigns::class);
+//        ModuleAdmin::registerPanelPage(TemplateEditor::class);
+//       // ModuleAdmin::registerPanelPage(CreateTemplate::class);
+//        ModuleAdmin::registerPanelPage(CreateCampaign::class);
       //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);
 
         if (is_cli()) {

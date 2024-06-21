@@ -24,6 +24,7 @@ class SelectTemplate extends Field
                 'filename' => $filename,
                 'demoUrl'=>route('admin.newsletter.preview-email-template-iframe') . '?filename=' . $filename,
             ];
+            break;
         }
 
         return $emailTemplates;
