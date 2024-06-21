@@ -183,6 +183,11 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'admin_head_tags_filament_js',
                 new \MicroweberPackages\MetaTags\Entities\AdminFilamentJsScriptTag()
             );
+
+            $package->addTag(
+                'admin_disable_google_translate_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\DisableGoogleTranslateHeadTags()
+            );
         });
 
         PackageManager::create('mw_settings_js', function (Package $package) {
