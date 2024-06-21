@@ -229,10 +229,8 @@ class MicroweberTemplate
     public function setVariablesFromContent($content = false)
     {
 
-
         $page = false;
         $content_orig = $content;
-
         if (is_array($content)) {
             if (!isset($content['active_site_template']) and isset($content['id']) and $content['id'] != 0) {
                 $content = app()->content_manager->get_by_id($content['id']);
@@ -242,6 +240,7 @@ class MicroweberTemplate
                 $page = $content;
             } elseif (isset($content['active_site_template'])) {
                 $page = $content;
+
             }
 
             if ($page == false) {
@@ -350,9 +349,10 @@ class MicroweberTemplate
             $the_active_site_template = $content['active_site_template'];
         } elseif (isset($content_orig) and !isset($content_orig['id']) and isset($content_orig['active_site_template']) and ($content_orig['active_site_template']) != '' and strtolower($content_orig['active_site_template']) != 'default' and strtolower($content_orig['active_site_template']) != 'inherit') {
             $the_active_site_template = $content_orig['active_site_template'];
+        } elseif (isset($content_orig) and isset($content_orig['active_site_template'])) {
+            $the_active_site_template = $content_orig['active_site_template'];
         } else {
             $the_active_site_template = app()->option_manager->get('current_template', 'template');
-            //
         }
 
 

@@ -209,11 +209,50 @@ class ContentResource extends Resource
                                                 return [$template['dir_name'] => $template['name']];
                                             });
                                         })
+                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
+
+
+
+
+
+                                        })
                                         ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
                                             ->getContainer()
                                             ->getComponent('dynamicSelectLayout')
                                             ->getChildComponentContainer()
                                             ->fill())
+
+                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
+
+                                            $data = $livewire->data;
+
+                                            $layout_options = array();
+
+                                            $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
+                                            $layout_options['active_site_template'] = $active_site_template;
+
+                                            $layout_file = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
+
+
+                                            $layout_options['layout_file'] = $layout_file;
+                                            $layout_options['no_cache'] = true;
+                                            $layout_options['no_folder_sort'] = true;
+
+                                            $layout = mw()->layouts_manager->get_layout_details($layout_options);
+                                            $url = '';
+
+
+                                            if (isset($layout['layout_file_preview_url'])) {
+                                                $url = $layout['layout_file_preview_url'];
+                                            }
+
+
+                                            $livewire->dispatch('dynamicPreviewLayoutChange', data: $data, iframePreviewUrl: $url);
+
+
+
+
+                                        })
                                         ->columnSpanFull(),
 
 
@@ -240,7 +279,29 @@ class ContentResource extends Resource
                                         ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
 
                                             $data = $livewire->data;
-                                            $livewire->dispatch('dynamicPreviewLayoutChange', data: $data);
+
+                                            $layout_options = array();
+
+                                            $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
+                                            $layout_options['active_site_template'] = $active_site_template;
+
+                                            $layout_file = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
+
+
+                                            $layout_options['layout_file'] = $layout_file;
+                                            $layout_options['no_cache'] = true;
+                                            $layout_options['no_folder_sort'] = true;
+
+                                            $layout = mw()->layouts_manager->get_layout_details($layout_options);
+                                            $url = '';
+
+
+                                            if (isset($layout['layout_file_preview_url'])) {
+                                                $url = $layout['layout_file_preview_url'];
+                                            }
+
+
+                                            $livewire->dispatch('dynamicPreviewLayoutChange', data: $data, iframePreviewUrl: $url);
 
 
                                         })

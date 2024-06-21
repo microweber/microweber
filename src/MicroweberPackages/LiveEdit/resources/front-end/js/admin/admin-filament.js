@@ -1,8 +1,14 @@
 import BaseComponent from "../core/base-class.js";
+import AdminFilamentHelpers from "./admin-filament-helpers.js";
 
 export class AdminFilament extends BaseComponent {
+
+    helpers = null;
+
     constructor() {
         super();
+
+        this.helpers = new AdminFilamentHelpers();
 
         document.addEventListener('livewire:init', () => {
             this.init();

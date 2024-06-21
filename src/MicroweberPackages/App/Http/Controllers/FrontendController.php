@@ -61,7 +61,7 @@ class FrontendController extends Controller
             $installer = new InstallController($this->app);
             return $installer->index();
         } elseif (defined('MW_VERSION')) {
-                $this->app->update->perform_post_update_if_needed();
+            $this->app->update->perform_post_update_if_needed();
 
         }
 
@@ -311,6 +311,13 @@ class FrontendController extends Controller
         } else {
             $page_url = app()->url_manager->param_unset('preview_layout', $page_url);
         }
+        $create_new_page_param = app()->url_manager->param('create_new_page');
+
+        if (is_admin() && $create_new_page_param) {
+            $this->create_new_page = true;
+
+        }
+
 
         if (isset($request_params['content_id']) and intval($request_params['content_id']) != 0) {
             $page = $this->app->content_manager->get_by_id($request_params['content_id']);
@@ -348,6 +355,7 @@ class FrontendController extends Controller
                 if (isset($is_layout_file) and $is_layout_file != false) {
                     $page['layout_file'] = $is_layout_file;
                 }
+
                 if (isset($request_params['inherit_template_from']) and $request_params['inherit_template_from'] != 0) {
                     $page['parent'] = intval($request_params['inherit_template_from']);
                     $inherit_from = $this->app->content_manager->get_by_id($request_params['inherit_template_from']);
@@ -432,6 +440,8 @@ class FrontendController extends Controller
 
             }
         }
+
+
         $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
         if ($is_preview_template) {
             $the_active_site_template = $is_preview_template;
@@ -439,7 +449,7 @@ class FrontendController extends Controller
             if (!defined('ACTIVE_SITE_TEMPLATE')) {
                 $content['active_site_template'] = $is_preview_template;
 
-                $this->app->content_manager->define_constants($content);
+                //  $this->app->content_manager->define_constants($content);
             }
         }
 
@@ -829,8 +839,6 @@ class FrontendController extends Controller
         }
 
 
-
-
         if ($is_preview_template != false) {
             $is_preview_template = str_replace('____', DS, $is_preview_template);
             $is_preview_template = sanitize_path($is_preview_template);
@@ -859,7 +867,6 @@ class FrontendController extends Controller
         if ($is_custom_view and $is_custom_view != false) {
             $content['custom_view'] = $is_custom_view;
         }
-
         if (isset($content['is_active']) and ($content['is_active'] == 'n' or $content['is_active'] == 0)) {
             if (app()->user_manager->is_admin() == false) {
                 $page_non_active = array();
@@ -901,11 +908,15 @@ class FrontendController extends Controller
                 // $this->app->template->head('<link rel="canonical" href="' . site_url() . '">');
             }
         }
+        if ($is_preview_template and is_admin()) {
+
+            $content['active_site_template'] = $is_preview_template;
+        }
+
 
         $this->app->content_manager->define_constants($content);
 
         $the_active_site_template = app()->template->templateAdapter->getTemplateFolderName();
-
 
 
         event_trigger('mw.front', $content);
@@ -969,7 +980,7 @@ class FrontendController extends Controller
 
                 if (!is_admin()) {
                     $load_template_404 = template_dir() . '404.php';
-                    $load_template_404_2 = TEMPLATES_DIR . 'default/404.php';
+                    $load_template_404_2 = templates_dir() . 'default/404.php';
                     if (is_file($load_template_404)) {
                         $render_file = $load_template_404;
                     } else {
@@ -1112,7 +1123,6 @@ class FrontendController extends Controller
 //            $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
 
-
 //            $headers = event_trigger('site_header', $the_active_site_template);
 //            $template_headers_append = '';
 //            $one = 1;
@@ -1131,7 +1141,7 @@ class FrontendController extends Controller
 //                }
 //            }
 
-           // $template_footer_src = $this->app->template->foot(true);
+            // $template_footer_src = $this->app->template->foot(true);
 
 // moved to src/MicroweberPackages/MetaTags/Entities/CustomHeadTagsFromCallback.php
 //            $template_headers_src = $this->app->template->head(true);
@@ -1180,16 +1190,14 @@ class FrontendController extends Controller
 //                }
 
 
-
                 $l = $this->app->template->frontend_append_meta_tags($l);
 
                 // @todo remove this and fix src/MicroweberPackages/MetaTags/Entities/LivewireHeadTags.php
-             //   $l = $this->app->template->append_livewire_to_layout($l);
+                //   $l = $this->app->template->append_livewire_to_layout($l);
 
 
-             //   $l = $this->app->template->append_api_js_to_layout($l);
+                //   $l = $this->app->template->append_api_js_to_layout($l);
             }
-
 
 
             if (isset($content['active_site_template']) and $content['active_site_template'] == 'default' and $the_active_site_template != 'default' and $the_active_site_template != 'mw_default') {
@@ -1201,30 +1209,30 @@ class FrontendController extends Controller
             }
 
             // if ($is_editmode == true) {
-         /*   if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
-                if (!defined('CONTENT_TEMPLATE')) {
-                    define('CONTENT_TEMPLATE', $content['active_site_template']);
-                }
+            /*   if (isset($content['active_site_template']) and trim($content['active_site_template']) != '' and $content['active_site_template'] != 'default') {
+                   if (!defined('CONTENT_TEMPLATE')) {
+                       define('CONTENT_TEMPLATE', $content['active_site_template']);
+                   }
 
-                $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
+                   $custom_live_edit = TEMPLATES_DIR . DS . $content['active_site_template'] . DS . 'live_edit.css';
 
-                 $live_edit_css_folder = userfiles_path() . 'css' . DS . $content['active_site_template'] . DS;
-                $live_edit_url_folder = userfiles_url() . 'css/' . $content['active_site_template'] . '/';
-                $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
-            } else {
-                if (!defined('CONTENT_TEMPLATE')) {
-                    define('CONTENT_TEMPLATE', $the_active_site_template);
-                }
+                    $live_edit_css_folder = userfiles_path() . 'css' . DS . $content['active_site_template'] . DS;
+                   $live_edit_url_folder = userfiles_url() . 'css/' . $content['active_site_template'] . '/';
+                   $custom_live_edit = $live_edit_css_folder . DS . 'live_edit.css';
+               } else {
+                   if (!defined('CONTENT_TEMPLATE')) {
+                       define('CONTENT_TEMPLATE', $the_active_site_template);
+                   }
 
-                //                if ($the_active_site_template == 'mw_default') {
-                //                    $the_active_site_template = 'default';
-                //                }
-                $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
+                   //                if ($the_active_site_template == 'mw_default') {
+                   //                    $the_active_site_template = 'default';
+                   //                }
+                   $custom_live_edit = TEMPLATE_DIR . DS . 'live_edit.css';
 
-                $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
-                $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
-                $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
-            }*/
+                   $live_edit_css_folder = userfiles_path() . 'css' . DS . $the_active_site_template . DS;
+                   $live_edit_url_folder = userfiles_url() . 'css/' . $the_active_site_template . '/';
+                   $custom_live_edit = $live_edit_css_folder . 'live_edit.css';
+               }*/
 
 
             // moved to src/MicroweberPackages/MetaTags/Entities/LiveEditCssHeadTags.php
@@ -1286,7 +1294,6 @@ class FrontendController extends Controller
 //            if ($website_head_tags != false) {
 //                $l = str_ireplace('</head>', $website_head_tags . '</head>', $l, $rep_count);
 //            }
-
 
 
             // moved to src/MicroweberPackages/MetaTags/Entities/GeneratorHeadTag.php
@@ -1619,7 +1626,6 @@ class FrontendController extends Controller
             // error out
         }
     }
-
 
 
 }
