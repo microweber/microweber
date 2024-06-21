@@ -429,7 +429,7 @@ class LayoutsManager
 
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['layout_file_preview'] = $layout_file_preview;
-                            $to_return_temp['layout_file_preview_url'] = site_url('new-content-preview-' . uniqid()) . '?content_id=0&no_editmode=true&preview_layout=' . $layout_file_preview;
+                            $to_return_temp['layout_file_preview_url'] = site_url('new-content-preview-' . uniqid()) . '?content_id=0&no_editmode=true&preview_layout=' . $layout_file_preview.'&preview_template='.$the_active_site_template;
 
                             $to_return_temp['filename'] = $filename;
                             $screen = str_ireplace('.php', '.png', $filename);
