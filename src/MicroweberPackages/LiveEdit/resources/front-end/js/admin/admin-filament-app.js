@@ -74,8 +74,10 @@ import "../components/uiaccordion.js";
 import "../components/dialog.js";
 import {Alert, Confirm, Prompt} from "../components/system-dialogs.js";
 import {RichTextEditor} from "../components/richtext-editor.js";
+import {ControlBox} from "../components/control_box.js";
 
 mw.alert = Alert;
+mw.controlBox = ControlBox;
 mw.confirm = Confirm;
 mw.prompt = Prompt;
 mw.richTextEditor = RichTextEditor;

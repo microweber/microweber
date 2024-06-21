@@ -11,20 +11,40 @@
 
 </div>
 
-<div class="mw-tree-container">
 
-</div>
 @script
 <script>
 
     document.addEventListener('livewire:initialized', () => {
 
-        Livewire.on('showCategoriesSelectorPanel', () => {
+        let treeControllBox = false, pagesTree ;
+
+        Livewire.on('showCategoriesSelectorPanel', async () => {
+            if(!treeControllBox) {
+                const id = mw.id();
+                treeControllBox = new mw.controlBox({
+                    content: `<div id="${id}" style="min-width: 250px;padding: 50px 0 0 30px"></div>`,
+                    position:  'left',
+                    id: `${id}`,
+                    closeButton: true
+                });
+                treeControllBox.show()
+                pagesTree = await mw.widget.tree(`#${id}`);
+
+                pagesTree.on('selectionChange', e => {
+                    const result = pagesTree.getSelected();
+
+                    console.log(result);
+                })
+
+            } else {
+                treeControllBox.toggle();
+            }
+
+            console.log(treeControllBox);
+            console.log(pagesTree);
 
 
-            var pagesTree = mw.widget.tree('.mw-tree-container');
-
-            console.log(pagesTree)
 
 
         });

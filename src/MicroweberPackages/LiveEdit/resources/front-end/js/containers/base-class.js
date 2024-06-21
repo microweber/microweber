@@ -31,6 +31,17 @@ class MicroweberBaseClass {
         return this.dispatch(e, f)
     };
 
+    #styles = {};
+
+    css(id, styles, forced) {
+        if(!this.#styles[id] || forced) {
+            this.#styles[id] = true;
+            const style = document.createElement('style');
+            style.appendChild(document.createTextNode(styles));
+            document.head.appendChild(style);
+        }
+    }
+
 }
 
 export default MicroweberBaseClass;
