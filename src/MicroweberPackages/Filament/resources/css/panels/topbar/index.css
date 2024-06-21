@@ -5,5 +5,5 @@
 }
 
 .fi-topbar > nav {
-    @apply !shadow-none ring-0 bg-[#f6f8fb];
+    @apply !shadow-none ring-0 bg-[#fff] !mb-4;
 }

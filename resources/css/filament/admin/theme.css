@@ -2,9 +2,6 @@
 .fi-body {
     @apply !bg-[#f6f6f4];
 }
-.fi-topbar {
-    background:#fff !important;
-}
 
 /*GLOBAL RESOURCE STYLES*/
 .fi-resource-list-records-page {

@@ -22,7 +22,7 @@
         <h3 class="font-bold">Quick actions</h3>
         <div class="flex gap-8 mt-2">
             @foreach ($quickActions as $action)
-                <a href="{{$action['url']}}" class="bg-white hover:shadow rounded-2xl border border-gray-500/60 flex items-center gap-3 w-full py-4 px-6 hover:bg-gray-500/5">
+                <a href="{{$action['url']}}" class="bg-white hover:shadow rounded-2xl border border-gray-500/20 flex items-center gap-3 w-full py-4 px-6 hover:bg-gray-500/5">
                     @svg($action['icon'], "h-6 w-6 text-blue-500")
                     {{$action['name']}}
                 </a>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="mt-8 flex gap-8 bg-white rounded-lg border border-gray-500/60">
+    <div class="mt-8 flex gap-8 bg-white rounded-lg border border-gray-500/20">
         @if(isset($dashboardStats))
             @foreach ($dashboardStats as $statsI=>$stats)
 
