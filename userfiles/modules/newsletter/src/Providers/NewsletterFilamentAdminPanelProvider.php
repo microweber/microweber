@@ -8,6 +8,7 @@ use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
@@ -33,9 +34,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->font('Inter')
             ->brandLogoHeight('34px')
-            ->brandLogo(function () {
-                return site_url('userfiles/modules/microweber/api/libs/mw-ui/assets/img/logo.svg');
-            })
+            ->brandLogo(fn () => view('microweber-module-newsletter::livewire.filament.admin.logo'))
             ->unsavedChangesAlerts()
             ->sidebarWidth('15rem')
             ->colors([
@@ -63,6 +62,22 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
                 //  Admin::class,
             ]);
+
+        $panel->renderHook(
+            name: PanelsRenderHook::SIDEBAR_NAV_START,
+            hook: fn(): string => Blade::render('
+            <div class="p-4 w-full mb-4">
+            <x-filament::button outlined
+                    href="'.admin_url().'"
+                    tag="a"
+                    icon="heroicon-o-pencil"
+                    class="w-full"
+                >
+                    Create
+                </x-filament::button>
+                </div>
+                ')
+        );
 
 
         return $panel;

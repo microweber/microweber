@@ -20,6 +20,7 @@ export default {
         './src/MicroweberPackages/**/resources/views/**/*.blade.php',
         './vendor/jaocero/radio-deck/resources/views/**/*.blade.php',
         './userfiles/modules/**/*.blade.php',
+        './userfiles/modules/**/src/resources/views/**/*.blade.php',
     ],
     // safelist: [
     //     {

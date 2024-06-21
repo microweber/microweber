@@ -1,6 +1,6 @@
 @import '/src/MicroweberPackages/Filament/resources/css/index.css';
 .fi-body {
-    @apply !bg-[#f6f8fb];
+    @apply !bg-[#ebebeb];
 }
 
 /*GLOBAL RESOURCE STYLES*/
