@@ -75,12 +75,18 @@ import "../components/dialog.js";
 import {Alert, Confirm, Prompt} from "../components/system-dialogs.js";
 import {RichTextEditor} from "../components/richtext-editor.js";
 import {ControlBox} from "../components/control_box.js";
+import {SystemDialogsService} from "../components/modules-dialogs.js";
 
 mw.alert = Alert;
 mw.controlBox = ControlBox;
 mw.confirm = Confirm;
 mw.prompt = Prompt;
 mw.richTextEditor = RichTextEditor;
+
+for (let i in SystemDialogsService) {
+    mw.tools[i] = SystemDialogsService[i];
+}
+mw.systemDialogsService = SystemDialogsService;
 
 
 import "../components/autocomplete.js";
@@ -93,6 +99,7 @@ import "../components/link-editor.js";
 import "../components/color.js";
 import "../components/colorpicker.js";
 import "../components/components.js";
+import "../components/notification.js";
 
 
 //widgets

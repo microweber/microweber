@@ -18,7 +18,7 @@
         };
 
         var normalizeAccept = function (type) {
-           
+
             type = (type || '').trim().toLowerCase();
             if(!type) return '*';
             if (type === 'image' || type === 'images') return '.png,.gif,.jpg,.jpeg,.bmp,.svg,.ico,.avif,.webp';
@@ -31,9 +31,9 @@
 
         var scope = this;
         this.settings = $.extend({}, defaults, options);
-       
+
         this.settings.accept = normalizeAccept(this.settings.accept);
-        
+
 
         this.getUrl = function () {
             var params = this.urlParams();
@@ -401,7 +401,7 @@
 
                     if(xhrReq.status === 200) {
                         if (data && (data.form_data_required || data.form_data_module)) {
-                            mw.extradataForm(xhrOptions, data, mw.jqxhr);
+                            mw.extradataForm(xhrOptions, data, jQuery.ajax);
                         }
                         else {
                             scope.removeFile(data.file);
@@ -448,7 +448,7 @@
 
 
 
-            return mw.jqxhr(xhrOptions);
+            return jQuery.ajax(xhrOptions);
         };
     };
 
