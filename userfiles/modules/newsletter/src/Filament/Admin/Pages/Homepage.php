@@ -14,7 +14,7 @@ class Homepage extends Page
 
     protected static ?string $navigationIcon = 'heroicon-o-home';
 
-    protected static ?string $navigationGroup = 'Email Marketing';
+//    protected static ?string $navigationGroup = 'Email Marketing';
 
 //    protected static ?string $slug = 'newsletter/homepage';
 

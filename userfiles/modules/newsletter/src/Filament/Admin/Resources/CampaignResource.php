@@ -32,7 +32,9 @@ class CampaignResource extends Resource
 
     protected static ?string $label = 'Campaigns';
 
-    protected static ?string $navigationGroup = 'Email Marketing';
+    protected static ?string $navigationLabel = 'All';
+
+    protected static ?string $navigationGroup = 'Campaigns';
 
     protected static ?int $navigationSort = 2;
 

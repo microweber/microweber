@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources;
 
-use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
@@ -14,52 +13,39 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\ManageCampaigns;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\ListResource\Pages\ManageLists;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource\Pages\ManageSubscribers;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
-use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
-class SubscribersResource extends Resource
+class ListResource extends Resource
 {
-    protected static ?string $model = NewsletterSubscriber::class;
+    protected static ?string $model = NewsletterList::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-o-list-bullet';
 
-    protected static ?string $label = 'Subscribers';
+//    protected static ?string $slug = 'newsletter/sender-accounts';
 
-    protected static ?string $navigationGroup = 'Mail';
+//    protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?int $navigationSort = 4;
+    protected static ?string $label = 'Lists';
+
+    protected static ?string $navigationGroup = 'Campaigns';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
 
-                TextInput::make('email')
-                    ->label('Email')
-                    ->placeholder('Enter email')
-                    ->required()
-                    ->email()
-                    ->unique('newsletter_subscribers', 'email'),
                 TextInput::make('name')
                     ->label('Name')
                     ->placeholder('Enter name'),
-                CheckboxList::make('lists')
-                    ->label('Subscribed for lists')
-                    ->options(function () {
-                        $lists = [];
-                        $lists[0] = 'Default';
-                        $getLists = NewsletterList::query()->pluck('name', 'id');
-                        if ($getLists) {
-                            foreach ($getLists as $key => $value) {
-                                $lists[$key] = $value;
-                            }
-                        }
-                        return $lists;
-                    })
-
 
             ]);
     }
@@ -68,10 +54,8 @@ class SubscribersResource extends Resource
     {
         return $table
             ->columns([
-
-                TextColumn::make('email'),
-                TextColumn::make('name'),
-
+                TextColumn::make('name')->searchable(),
+                TextColumn::make('subscribers'),
             ])
             ->filters([
                 //
@@ -90,7 +74,7 @@ class SubscribersResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageSubscribers::route('/'),
+            'index' => ManageLists::route('/'),
         ];
     }
 }

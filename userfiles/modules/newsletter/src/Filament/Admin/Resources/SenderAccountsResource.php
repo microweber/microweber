@@ -26,9 +26,9 @@ class SenderAccountsResource extends Resource
 
 //    protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?string $label = 'Sender Accounts';
+    protected static ?string $label = 'Senders';
 
-    protected static ?string $navigationGroup = 'Email Marketing';
+    protected static ?string $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 4;
 

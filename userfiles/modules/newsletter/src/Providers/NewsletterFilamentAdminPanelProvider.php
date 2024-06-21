@@ -13,6 +13,7 @@ use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\CampaignResource;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\ListResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
@@ -25,7 +26,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
     {
         $panel
             // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
-//            ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
+            ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
             ->id('admin-newsletter')
             ->path('admin/newsletter')
             ->globalSearch(true)
@@ -47,7 +48,8 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 SenderAccountsResource::class,
                 SubscribersResource::class,
                 TemplatesResource::class,
-                CampaignResource::class
+                CampaignResource::class,
+                ListResource::class
             ])
             ->widgets([
                 // Widgets\AccountWidget::class,

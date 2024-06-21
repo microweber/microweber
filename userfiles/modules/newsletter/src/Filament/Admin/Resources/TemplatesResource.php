@@ -28,11 +28,11 @@ class TemplatesResource extends Resource
 
 //    protected static bool $shouldRegisterNavigation = false;
 
-    protected static ?string $label = 'Email Templates';
+    protected static ?string $label = 'Designs';
 
-    protected static ?string $navigationGroup = 'Email Marketing';
+    protected static ?string $navigationGroup = 'Mail';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
