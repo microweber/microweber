@@ -97,6 +97,15 @@ class ContentResource extends Resource
         return $form
             ->schema([
 
+                MwTree::make('mw_parent_page_and_category_state')
+                    ->label('MW TREE')
+                    ->live()
+                    ->default([
+                        'page' => 545,
+                        'categories' => [1,2,3,4]
+                    ]),
+
+
 //                Forms\Components\Tabs::make('Tabs')
 //                    ->tabs([
 //
@@ -433,7 +442,7 @@ class ContentResource extends Resource
                                 ]),
                             Forms\Components\Section::make('Parent page')
                                 ->schema([
-                                    MwTree::make('mw_parent_page_and_category')->default($mw_parent_page_and_category)->live()
+
                                 ]),
 
 
