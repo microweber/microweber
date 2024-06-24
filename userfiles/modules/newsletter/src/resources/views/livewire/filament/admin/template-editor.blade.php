@@ -1,3 +1,4 @@
+<div>
 @php
     $templateId = request()->get('id') ?? null;
 @endphp
@@ -13,12 +14,40 @@
 
 <script type="module" crossorigin src="{{modules_url()}}newsletter/js/email-editor.js"></script>
 
+
+@php
+    $findNewsletterTemplate = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::find($templateId);
+    if ($findNewsletterTemplate) {
+        $templateJson = $findNewsletterTemplate->json;
+    } else {
+        $templateJson = json_encode([]);
+    }
+@endphp
+
+@if($templateJson)
+    <script>
+        let jsonLoaded = false;
+        window.addEventListener('editorLoaded', function (e) {
+            if (!jsonLoaded) {
+                jsonLoaded = true;
+                const event = new CustomEvent("loadJsonTemplate", {
+                    detail: {
+                        json: '{{base64_encode($templateJson)}}',
+                    }
+                });
+                window.dispatchEvent(event);
+            }
+        });
+    </script>
+@endif
+
 <script>
+
     window.addEventListener('saveHtml', function (e) {
         fetch("{{route('admin.newsletter.templates.edit',$templateId)}}", {
             method: "POST",
             body: JSON.stringify({
-                html: e.detail,
+                template: e.detail,
             })
         })
             .then((response) => response.json())
@@ -58,3 +87,4 @@
 
 <div id="root"></div>
 
+</div>
