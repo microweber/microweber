@@ -71,6 +71,18 @@ class ContentResource extends Resource
         }
         $templates = site_templates();
         $active_site_template = template_name();
+
+
+
+        $parent = 0;
+        if($record){
+            $parent = $record->parent;
+        }
+
+
+
+
+
 //        $layout_options['site_template'] = $active_site_template;
 //        $layout_options['no_cache'] = true;
 //        $layout_options['no_folder_sort'] = true;
@@ -104,6 +116,11 @@ class ContentResource extends Resource
 
                             Forms\Components\TextInput::make('subtype')
                                 ->default($contentSubtype)
+                                ->hidden(),
+
+
+                            Forms\Components\TextInput::make('parent')
+                                ->default($parent)
                                 ->hidden(),
 
 
@@ -322,6 +339,11 @@ class ContentResource extends Resource
                                 }),
 
 
+
+
+
+
+
                             Forms\Components\Section::make('Shipping')
                                 ->schema([
 
@@ -421,6 +443,13 @@ class ContentResource extends Resource
                                         ->default(true),
 
                                 ]),
+                            Forms\Components\Section::make('Parent page')
+                                ->schema([
+                                    Forms\Components\View::make('content::admin.content.filament.edit-record-render-category-tree')
+                                        ->viewData(['parent' => $parent, 'content_type' => $contentType, 'subtype' => $contentSubtype])
+                                ]),
+
+
                             Forms\Components\Section::make('Category')
                                 ->schema([
 
