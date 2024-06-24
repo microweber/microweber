@@ -1,6 +1,6 @@
 
 .x-close-modal-link {
-    @apply absolute top-10 right-10 text-black cursor-pointer text-2xl;
+    @apply absolute top-3 right-3 text-black cursor-pointer text-2xl;
 }
 
 .modal-header, .modal-body, .modal-footer {
@@ -33,5 +33,25 @@
 }
 
 .form-check {
-    @apply flex items-center mb-4;
+    @apply flex items-center mb-4 !gap-2;
 }
+
+
+.mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper {
+    @apply !bg-gray-100 rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
+}
+
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
+    @apply rounded !p-1.5 border-2 border-gray-300 bg-gray-100 text-gray-600 shadow-none border-none;
+}
+
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
+    @apply !bg-white border-none;
+  }
+
+
+.mw-live-edit-resolutions-wrapper svg, .mw-live-edit-right-sidebar-wrapper svg {
+    @apply fill-black;
+}
+
+

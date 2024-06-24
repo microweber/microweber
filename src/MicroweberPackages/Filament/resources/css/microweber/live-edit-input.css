@@ -3,7 +3,17 @@
     display: block;
     line-height: 22px;
     min-height: 45px;
-    outline: 0 !important;
+    border-width: 0px;
+    border-width: 0px;
+    outline:0; /* I have also tried outline:none */
+    -webkit-appearance:none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -webkit-appearance:none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
     margin: 0 7px;
     position: relative
 }
@@ -44,7 +54,12 @@
     caret-color: #000;
     min-height: 45px;
     width: 100%;
-    outline: 0 !important;
+    border-width: 0px;
+    outline:0; /* I have also tried outline:none */
+    -webkit-appearance:none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
     background-color: #f0f0f0;
     padding-inline-start: 10px
 }
@@ -55,7 +70,12 @@
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible, .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus, .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible {
-    outline: 0 !important;
+    border-width: 0px;
+    outline:0; /* I have also tried outline:none */
+    -webkit-appearance:none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
     background-color: transparent
 }
 

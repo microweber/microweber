@@ -3,7 +3,7 @@
 }
 
 .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
-    @apply w-full flex items-center justify-center rounded bg-gray-100 p-2 ps-0 py-2 gap-4;
+    @apply w-full flex items-center justify-center rounded bg-gray-100 p-1.5 gap-2;
 }
 
 .form-control-live-edit-label-wrapper a {
@@ -42,7 +42,7 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {
-    @apply bg-white px-6 flex-1;
+    @apply bg-white !p-7 flex-1;
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller--radio-list {
