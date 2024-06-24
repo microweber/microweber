@@ -26,8 +26,8 @@
         })
     </script>
 
-    @if($this->data)
-        @dump($this->data['mw_parent_page_and_category_state'])
+    @if($this->data) 
+        {{json_encode($this->data['mw_parent_page_and_category_state'],JSON_PRETTY_PRINT)}}
     @endif
 
     <div
