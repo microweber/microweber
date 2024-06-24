@@ -72,68 +72,7 @@ aaaaaaaaaaaaaaa
         </div>
 
 
-        <style>
-            .preview_frame_container {
-                position: relative;
-                overflow: hidden;
-            }
 
-            .preview_frame_container.preview-in-self {
-
-                height: calc(50vh - 80px);
-
-            }
-
-            .preview_frame_container.preview-in-self iframe {
-                height: calc(200vh - 160px) !important;
-            }
-
-            .preview_frame_container.preview-in-iframe {
-                height: 800px;
-
-            }
-
-            .preview_frame_container.preview-in-iframe iframe {
-                height: 1600px !important;
-            }
-
-            .preview_frame_wrapper {
-                position: relative;
-            }
-
-            .preview_frame_wrapper .mw-spinner {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-
-            .preview_frame_container iframe {
-                @if (isset($iframeWidth))
- width: {{$iframeWidth}};
-                @else
- width: 400%;
-                @endif
-                @if(isset($transformScale))
- transform: scale({{$transformScale}});
-                @else
- transform: scale(0.25);
-                @endif
-
- top: 0;
-                position: absolute;
-                left: 0;
-                transform-origin: 0 0;
-                border: 1px solid silver;
-                transition: .3s;
-            }
-
-            .preview_frame_wrapper.has-mw-spinner iframe {
-                opacity: 0;
-            }
-
-
-        </style>
 
 
     </div>
@@ -147,10 +86,14 @@ aaaaaaaaaaaaaaa
 
         document.addEventListener('livewire:initialized', () => {
 
+            const tplPreview = new mw.templatePreview({
+                element: '.preview_frame_container_holder'
+            });
+
             Livewire.on('dynamicPreviewLayoutChange', (data) => {
 
                 if (data && data.iframePreviewUrl) {
-                    mw.admin.filament.helpers.templatePreviewHelper().rend(data.iframePreviewUrl)
+                    tplPreview.rend(data.iframePreviewUrl)
                 }
 
 
@@ -158,7 +101,7 @@ aaaaaaaaaaaaaaa
             @if($url)
 
 
-            mw.admin.filament.helpers.templatePreviewHelper().rend('{!! $url !!}')
+            tplPreview.rend('{!! $url !!}')
             @endif
 
 

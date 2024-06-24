@@ -76,12 +76,14 @@ import {Alert, Confirm, Prompt} from "../components/system-dialogs.js";
 import {RichTextEditor} from "../components/richtext-editor.js";
 import {ControlBox} from "../components/control_box.js";
 import {SystemDialogsService} from "../components/modules-dialogs.js";
+import {TemplatePreview} from "../admin/template-preview.service.js";
 
 mw.alert = Alert;
 mw.controlBox = ControlBox;
 mw.confirm = Confirm;
 mw.prompt = Prompt;
 mw.richTextEditor = RichTextEditor;
+mw.templatePreview = TemplatePreview;
 
 for (let i in SystemDialogsService) {
     mw.tools[i] = SystemDialogsService[i];
