@@ -1,6 +1,6 @@
 
 .x-close-modal-link {
-    @apply absolute top-10 right-10 text-black cursor-pointer text-2xl;
+    @apply absolute top-3 right-3 text-black cursor-pointer text-2xl;
 }
 
 .modal-header, .modal-body, .modal-footer {
