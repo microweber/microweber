@@ -12,6 +12,6 @@
 @import 'microweber/live-edit-input.css';
 @import 'microweber/linkpicker.css';
 @import 'microweber/general-styles.css';
-@import '../../../../../userfiles/modules/microweber/api/libs/bootstrap5/scss/grid-only.scss';
 @import 'microweber/tomselect.css';
+@import 'microweber/grid-only.css';
 
