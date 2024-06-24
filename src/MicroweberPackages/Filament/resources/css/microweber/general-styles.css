@@ -1,0 +1,29 @@
+
+.x-close-modal-link {
+    @apply absolute top-10 right-10 text-black cursor-pointer text-2xl;
+}
+
+.modal-header, .modal-body, .modal-footer {
+    @apply text-black border-0;
+}
+
+.font-weight-bold {
+    @apply font-bold;
+}
+
+.form-label {
+    @apply text-black;
+}
+
+.live-edit-label {
+    padding: 0 7px;
+
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-size: 9.75px;
+    letter-spacing: 0.75px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+
+    @apply font-semibold text-gray-600 ps-0 block overflow-hidden box-border uppercase my-2;
+}

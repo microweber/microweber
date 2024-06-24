@@ -3,7 +3,7 @@
     display: block;
     line-height: 22px;
     min-height: 45px;
-    outline: 0;
+    outline: 0 !important;
     margin: 0 7px;
     position: relative
 }
@@ -44,7 +44,7 @@
     caret-color: #000;
     min-height: 45px;
     width: 100%;
-    outline: 0;
+    outline: 0 !important;
     background-color: #f0f0f0;
     padding-inline-start: 10px
 }
@@ -55,7 +55,7 @@
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible, .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus, .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible {
-    outline: 0;
+    outline: 0 !important;
     background-color: transparent
 }
 
@@ -114,3 +114,5 @@
 .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
     width: 100%
 }
+
+
