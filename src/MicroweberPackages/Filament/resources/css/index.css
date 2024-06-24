@@ -8,3 +8,8 @@
 @import 'tables';
 @import 'widgets';
 @import 'microweber/filepicker.css';
+@import 'microweber/live-edit-action-links.css';
+@import 'microweber/live-edit-input.css';
+@import 'microweber/linkpicker.css';
+@import 'microweber/general-styles.css';
+@import '../../../../../userfiles/modules/microweber/api/libs/bootstrap5/scss/grid-only.scss';
