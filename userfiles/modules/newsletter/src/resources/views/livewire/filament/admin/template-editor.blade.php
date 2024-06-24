@@ -1,4 +1,6 @@
-
+@php
+    $templateId = request()->get('id') ?? null;
+@endphp
 <style>
     main {
         padding:0 !important;
@@ -13,10 +15,24 @@
 
 <script>
     window.addEventListener('saveHtml', function (e) {
-        alert(e.detail);
+        fetch("{{route('admin.newsletter.templates.edit',$templateId)}}", {
+            method: "POST",
+            body: JSON.stringify({
+                html: e.detail,
+            })
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if(data.success) {
+                    alert('Template saved');
+                } else {
+                    alert('Error saving template');
+                }
+            });
+
     });
     window.addEventListener('backTo', function (e) {
-        window.location.href = '{{route('filament.admin.pages.newsletter.create-campaign')}}';
+        window.location.href = '';
     });
 
     window.addEventListener('selectImage', function () {

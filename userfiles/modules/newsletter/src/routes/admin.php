@@ -15,7 +15,7 @@ Route::name('admin.newsletter.')
         Route::get('/sender-accounts', 'AdminController@senderAccounts')->name('sender-accounts');
         Route::get('/settings', 'AdminController@settings')->name('settings');
 
-        Route::get('/templates/edit/{id}', 'AdminController@templatesEdit')->name('templates.edit');
+        Route::post('/templates/edit/{id}', 'AdminController@templatesEdit')->name('templates.edit');
 
         Route::get('/templates/preview/{id}', function ($id) {
 

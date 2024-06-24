@@ -77,7 +77,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
 //        ModuleAdmin::registerPanelPage(Subscribers::class);
 //        ModuleAdmin::registerPanelPage(Lists::class);
 //        ModuleAdmin::registerPanelPage(Campaigns::class);
-//        ModuleAdmin::registerPanelPage(TemplateEditor::class);
+        ModuleAdmin::registerPanelPage(TemplateEditor::class);
 //       // ModuleAdmin::registerPanelPage(CreateTemplate::class);
 //        ModuleAdmin::registerPanelPage(CreateCampaign::class);
       //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);
