@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwTree;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Content\Models\Content;
@@ -29,6 +30,7 @@ class ContentResource extends Resource
 
 
     protected static bool $shouldRegisterNavigation = false;
+
 
     public static function form(Form $form): Form
     {
@@ -73,15 +75,17 @@ class ContentResource extends Resource
         $active_site_template = template_name();
 
 
-
         $parent = 0;
-        if($record){
+        if ($record) {
             $parent = $record->parent;
         }
 
 
-
-
+        $mw_parent_page_and_category = [];
+        if ($parent) {
+            $mw_parent_page_and_category['page'] = $parent;
+            $mw_parent_page_and_category['categories'] = [1,2,3,4];
+        }
 
 //        $layout_options['site_template'] = $active_site_template;
 //        $layout_options['no_cache'] = true;
@@ -116,11 +120,6 @@ class ContentResource extends Resource
 
                             Forms\Components\TextInput::make('subtype')
                                 ->default($contentSubtype)
-                                ->hidden(),
-
-
-                            Forms\Components\TextInput::make('parent')
-                                ->default($parent)
                                 ->hidden(),
 
 
@@ -229,16 +228,12 @@ class ContentResource extends Resource
                                         ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
 
 
-
-
-
                                         })
                                         ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
                                             ->getContainer()
                                             ->getComponent('dynamicSelectLayout')
                                             ->getChildComponentContainer()
                                             ->fill())
-
                                         ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
 
                                             $data = $livewire->data;
@@ -265,8 +260,6 @@ class ContentResource extends Resource
 
 
                                             $livewire->dispatch('dynamicPreviewLayoutChange', data: $data, iframePreviewUrl: $url);
-
-
 
 
                                         })
@@ -337,11 +330,6 @@ class ContentResource extends Resource
                                 ])->columnSpanFull()->visible(function (Forms\Get $get) {
                                     return $get('content_type') == 'page';
                                 }),
-
-
-
-
-
 
 
                             Forms\Components\Section::make('Shipping')
@@ -445,8 +433,7 @@ class ContentResource extends Resource
                                 ]),
                             Forms\Components\Section::make('Parent page')
                                 ->schema([
-                                    Forms\Components\View::make('content::admin.content.filament.edit-record-render-category-tree')
-                                        ->viewData(['parent' => $parent, 'content_type' => $contentType, 'subtype' => $contentSubtype])
+                                    MwTree::make('mw_parent_page_and_category')->default($mw_parent_page_and_category)->live()
                                 ]),
 
 
