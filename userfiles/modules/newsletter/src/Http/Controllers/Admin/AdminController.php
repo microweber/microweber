@@ -36,7 +36,7 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
         return view('microweber-module-newsletter::admin.templates');
     }
 
-    public function templatesEdit(Request $request,$templateId)
+    public function templatesEdit(Request $request, $templateId)
     {
 
         $findNewsletterTemplate = NewsletterTemplate::where('id',$templateId)->first();
@@ -46,7 +46,27 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
             ];
         }
 
-        $findNewsletterTemplate->text = $request->get('html');
+        $template = $request->json('template');
+
+        if (!isset($template['json'])) {
+            return [
+                'error' => 'Template can\'t be empty'
+            ];
+        }
+        if (!isset($template['html'])) {
+            return [
+                'error' => 'Template can\'t be empty'
+            ];
+        }
+        $checkJson = json_decode($template['json'], true);
+        if (!$checkJson) {
+            return [
+                'error' => 'Invalid json'
+            ];
+        }
+
+        $findNewsletterTemplate->text = $template['html'];
+        $findNewsletterTemplate->json = $template['json'];
         $findNewsletterTemplate->save();
 
         return [

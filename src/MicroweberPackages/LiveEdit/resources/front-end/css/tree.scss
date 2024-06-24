@@ -1,0 +1,10 @@
+.mw-tree-item-content{
+    @apply py-0.5 flex items-center gap-x-0.5 w-full
+    .mw-tree-item-title {
+        @apply py-0.5 flex items-center gap-x-0.5 w-full
+    }
+
+    .mw-tree-toggler{
+        @apply hs-accordion-toggle size-6 flex justify-center items-center hover:bg-gray-100 rounded-md focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-neutral-700 dark:focus:bg-neutral-700
+    }
+}

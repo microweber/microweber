@@ -13,6 +13,7 @@ class NewsletterTemplate extends Model
     protected $fillable = [
         'title',
         'text',
+        'json',
     ];
 
 }

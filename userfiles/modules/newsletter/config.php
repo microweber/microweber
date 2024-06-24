@@ -102,11 +102,12 @@ $config['tables'] = array (
     ),
 
 	'newsletter_templates' => array (
-			'id' => 'integer',
-			'title' => 'text',
-			'text' => 'text',
-			'created_at' => 'dateTime',
-            'updated_at' => 'dateTime'
+        'id' => 'integer',
+        'title' => 'text',
+        'text' => 'text',
+        'json' => 'text',
+        'created_at' => 'dateTime',
+        'updated_at' => 'dateTime'
 	)
 );
 
