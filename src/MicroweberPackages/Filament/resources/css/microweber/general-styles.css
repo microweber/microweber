@@ -47,7 +47,7 @@
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
     @apply !bg-white border-none;
-  }
+}
 
 
 .mw-live-edit-resolutions-wrapper svg, .mw-live-edit-right-sidebar-wrapper svg {
@@ -55,3 +55,246 @@
 }
 
 
+.admin-thumb-item-uploader,
+input.mw-uploader-input,
+.mw-filepicker-root .mw-ui-field-holder input.mw-uploader-input {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100% !important;
+    height: 100% !important;
+    font-size: 99px;
+    opacity: 0 !important;
+}
+
+.cat_selector_view_ctrl {
+    clear: both;
+    padding: 7px 10px;
+    font-size: 11px;
+    position: absolute;
+    z-index: 2;
+    right: 15px;
+    top: 6px;
+    display: none;
+}
+
+.cat_selector_view_ctrl a {
+    padding: 2px 12px;
+    border: 1px solid transparent;
+    font-size: 11px;
+    border-radius: 2px;
+}
+
+.cat_selector_view_ctrl a.active {
+    background: #E1E1E1;
+    border-color: #BDBBBB;
+}
+
+
+.mw-tag-selector.mw-ui-field-full {
+    width: 100%;
+}
+
+.mw-tag-selector > span > i:after {
+    font-family: Microweber;
+    font-style: normal;
+}
+
+.mw-tag-selector > span > i.have_category:after {
+    content: '\0071'
+}
+
+.mw-tag-selector > span > i.is_page:after {
+    content: '\0071';
+}
+
+.mw-tag-selector > span > i.category_element:after {
+    content: '\0063';
+}
+
+.mw-tag-selector > span > i.is_shop:after {
+    content: 's';
+}
+
+.mw-tag-selector > span > i.is_blog:after {
+    content: '\0062';
+}
+
+.mw-tag-selector > span > i.is_home:after {
+    content: '\0105'
+}
+
+div.mw-custom-fields-tags a.ui-draggable-dragging:after {
+    display: none !important;
+}
+
+.mw-tag-selector .mw-ui-invisible-field {
+    font-size: 14px;
+    padding: 7px 0;
+}
+
+
+.mw-file-drop-zone {
+    border: 2px dashed #4592ff;
+    width: 100%;
+    background-image: url("../../../../../../src/MicroweberPackages/Admin/resources/mw-svg/dropable_zone_bg.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    position: relative;
+}
+
+.mw-file-drop-zone:hover {
+    border-color: rgba(0, 0, 0, 0.125);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.mw-file-drop-zone .mw-file-drop-zone-holder {
+    padding: 40px;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mw-file-drop-zone .mw-file-drop-zone-holder .mw-file-drop-zone-img {
+    background-image: url("../../../../../../src/MicroweberPackages/Admin/resources/mw-svg/dropable_zone_image.svg");
+    width: 70px;
+    height: 55px;
+    background-size: contain;
+    margin-bottom: 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.mw-file-drop-zone .mw-file-drop-zone-holder .mw-ui-progress-small {
+    width: 180px;
+    @apply mb-5 max-w-full;
+}
+
+.mw-file-drop-zone .mw-file-drop-zone-holder .mw-ui-btn {
+
+    @apply mb-5;
+}
+
+.mw-file-drop-zone .mw-file-drop-zone-holder p {
+    @apply text-gray-600 mb-0;
+}
+
+.mw-file-drop-zone.mw-file-drop-zone-small {
+    background-image: unset;
+    /*width: auto;*/
+    display: inline-block;
+}
+
+.mw-file-drop-zone.mw-file-drop-zone-small .mw-file-drop-zone-holder {
+
+    @apply text-center p-2;
+}
+
+.mw-file-drop-zone.mw-file-drop-zone-small .mw-file-drop-zone-holder .mw-ui-btn {
+    @apply mb-0;
+}
+
+.mw-file-drop-zone.mw-file-drop-square-zone.mw-file-drop-small-zone {
+    min-width: 115px;
+}
+
+.mw-file-drop-zone.mw-file-drop-square-zone:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.mw-file-drop-zone.mw-file-drop-square-zone .mw-file-drop-zone-holder {
+    @apply justify-center position-absolute left-0 top-0 bottom-0 right-0;
+
+}
+
+.mw-uploader-type-holder, .mw-ui-field-holder {
+    @apply relative w-full border-0;
+
+}
+
+.btn-primary {
+    @apply text-white bg-blue-600 border-blue-600 py-2 px-4 rounded min-h-5;
+}
+
+.mw-ui-progress {
+    position: relative;
+    height: 19px;
+    min-width: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #EEEEEE;
+    border: 1px solid #919191;
+    border-radius: 10px;
+    display: flex;
+    align-items: center; }
+
+.mw-ui-progress .mw-ui-progress-bar {
+    max-width: 100%;
+    height: 100%;
+    background-color: #4592ff;
+    position: absolute;
+    top: 0;
+    left: 0; }
+
+.mw-ui-progress-info {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 9px;
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 0 0 6px;
+    z-index: 2; }
+
+.mw-ui-progress-percent {
+    font-weight: bold;
+    color: white;
+    margin-inline-start: 5px;
+    font-size: 9px;
+    position: relative;
+    display: inline-block;
+    z-index: 2; }
+
+/* Small progressbar */
+.mw-ui-progress-small,
+.mw-ui-progress-small .mw-ui-progress-bar {
+    height: 8px;
+    overflow: hidden;
+    position: relative;
+    max-width: 100%; }
+
+.mw-ui-progress-small .mw-ui-progress-bar {
+    height: 100%; }
+
+.mw-ui-progress-small {
+    background-color: #e9ecef;
+    border: 1px solid #919191;
+    border-radius: 10px; }
+
+.mw-ui-progress-small .mw-ui-progress-bar {
+    background-color: #4592ff; }
+
+.mw-ui-progress-small .mw-ui-progress-info,
+.mw-ui-progress-small .mw-ui-progress-percent {
+    display: none; }
+
+.mw-file-drop-zone .mw-file-drop-zone-holder p {
+    @apply text-gray-600 mb-0;
+}
+
+
+.form-control {
+    @apply py-1 px-2 min-h-10;
+}

@@ -144,17 +144,17 @@ mw.filePicker = function (options) {
 
     this.components = {
         _$inputWrapper: function (label) {
-            var html = '<div class="mw-ui-field-holder">' +
+            var html = '<div class="form-control-live-edit-label-wrapper">' +
                 /*'<label>' + label + '</label>' +*/
                 '</div>';
             return mw.$(html);
         },
         url: function () {
-            var $input = $('<input class="form-control" placeholder="http://example.com/image.jpg">');
+            var $input = $('<input class="form-control-live-edit-label-wrapper" placeholder="http://example.com/image.jpg">');
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
-            $input.before('<label class="form-label">'+mw.lang('Insert file url')+'</label>');
+            $input.before('<label class="live-edit-label">'+mw.lang('Insert file url')+'</label>');
 
             $input.on('input', function () {
                 var val = this.value.trim();
