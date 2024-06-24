@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
 class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminController {
 
@@ -37,9 +38,21 @@ class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminCo
 
     public function templatesEdit(Request $request,$templateId)
     {
-        return view('microweber-module-newsletter::admin.templates_edit', [
-            'templateId' => $templateId
-        ]);
+
+        $findNewsletterTemplate = NewsletterTemplate::where('id',$templateId)->first();
+        if(!$findNewsletterTemplate){
+            return [
+                'error' => 'Template not found'
+            ];
+        }
+
+        $findNewsletterTemplate->text = $request->get('html');
+        $findNewsletterTemplate->save();
+
+        return [
+            'success' => 'Template updated'
+        ];
+
     }
 
     public function settings(Request $request)

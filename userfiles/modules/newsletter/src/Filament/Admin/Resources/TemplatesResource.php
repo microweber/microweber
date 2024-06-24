@@ -38,15 +38,9 @@ class TemplatesResource extends Resource
     {
         return $form
             ->schema([
-
-
                 TextInput::make('title')
                     ->label('Title')
                     ->required(),
-
-
-
-
             ]);
     }
 
@@ -54,7 +48,6 @@ class TemplatesResource extends Resource
     {
         return $table
             ->columns([
-
                 TextColumn::make('title'),
                 TextColumn::make('created_at')
             ])
@@ -62,7 +55,12 @@ class TemplatesResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Edit')
+                    ->icon('heroicon-o-pencil')
+                    ->url(function ($record) {
+                        return route('filament.admin.pages.newsletter.template-editor') . '?id=' . $record->id;
+                    }),
+                //Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
