@@ -240,8 +240,9 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             $this->rules['email'] = [
                 'min:0',
                 'max:500',
-                Rule::unique('users', 'email')->ignore($data['id'], 'email')
+                'unique:users,email,'.$data['id'].',id'
             ];
+
         } else if (isset($data['email']) && !empty($data['email'])) {
             $this->rules['email'] = 'min:0|max:500|unique:users';
         }
