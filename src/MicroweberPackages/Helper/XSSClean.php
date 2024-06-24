@@ -72,7 +72,7 @@ class XSSClean
 
 
          // from https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#ontransitionend
-        $cleanStrings =  MwHtmlSanitizerReference::MW_NOT_ALLOWED_ATTRIBUTES;
+        $cleanStrings =  MwHtmlSanitizerReference::getNotAllowedAttributes();
 
         $antiXss = new AntiXSS();
         $antiXss->addEvilHtmlTags($cleanStrings);
