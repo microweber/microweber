@@ -150,7 +150,7 @@ mw.filePicker = function (options) {
             return mw.$(html);
         },
         url: function () {
-            var $input = $('<input class="form-control-live-edit-label-wrapper" placeholder="http://example.com/image.jpg">');
+            var $input = $('<input class="form-control-live-edit-input" placeholder="http://example.com/image.jpg">');
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
