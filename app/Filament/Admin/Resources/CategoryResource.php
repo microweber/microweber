@@ -23,9 +23,31 @@ class CategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
+
         return $form
             ->schema([
-                //
+                Forms\Components\Group::make()
+                    ->schema([
+
+                        Forms\Components\TextInput::make('id')
+                            ->hidden(),
+                        Forms\Components\TextInput::make('parent_id'),
+                        Forms\Components\TextInput::make('rel_type'),
+                        Forms\Components\TextInput::make('rel_id'),
+
+                        Forms\Components\TextInput::make('title')
+                            ->label('Title')
+                            ->required(),
+                        Forms\Components\TextInput::make('url')
+                            ->label('Url')
+                            ->required(),
+
+                        Forms\Components\TextInput::make('description')->label('Description'),
+                        Forms\Components\TextInput::make('category_meta_title')->label('Meta Title'),
+                        Forms\Components\TextInput::make('category_meta_description')->label('Meta Description'),
+
+
+                    ])
             ]);
     }
 

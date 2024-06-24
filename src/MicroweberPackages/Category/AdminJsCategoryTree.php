@@ -108,7 +108,7 @@ class AdminJsCategoryTree
 
                 if ($filterByBlog) {
                     if ($page['subtype'] != 'dynamic' || $page['is_shop'] == 1) {
-                        continue;
+                     //   continue;
                     }
                 }
 

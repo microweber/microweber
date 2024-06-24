@@ -11,27 +11,6 @@ class MwTree extends Field
 {
     use HasPlaceholder;
 
-
-
-//    protected function setUp(): void
-//    {
-//
-//
-//
-//        parent::setUp();
-//
-//    //    $this->default([]);
-//
-////        $this->dehydrateStateUsing(static function (?array $state) {
-////
-////            dd($state);
-////            return collect($state ?? [])
-////                ->filter(static fn (?string $value, ?string $key): bool => filled($key))
-////                ->map(static fn (?string $value): ?string => filled($value) ? $value : null)
-////                ->all();
-////        });
-//
-//    }
     protected string $view = 'filament-forms::components.mw-tree';
 
 }

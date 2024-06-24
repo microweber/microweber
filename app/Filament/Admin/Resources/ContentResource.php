@@ -42,6 +42,8 @@ class ContentResource extends Resource
 
         $isShop = false;
 
+
+        $category_ids =  '';
         $id = 0;
 
         if (
@@ -81,29 +83,9 @@ class ContentResource extends Resource
         }
 
 
-        $mw_parent_page_and_category = [];
-        if ($parent) {
-            $mw_parent_page_and_category['page'] = $parent;
-            $mw_parent_page_and_category['categories'] = [1,2,3,4];
-        }
-
-//        $layout_options['site_template'] = $active_site_template;
-//        $layout_options['no_cache'] = true;
-//        $layout_options['no_folder_sort'] = true;
-//
-//        $layouts = mw()->layouts_manager->get_all($layout_options);
-
 
         return $form
             ->schema([
-
-                MwTree::make('mw_parent_page_and_category_state')
-                    ->label('MW TREE')
-                    ->live()
-                    ->default([
-                        'page' => 545,
-                        'categories' => [1,2,3,4]
-                    ]),
 
 
 //                Forms\Components\Tabs::make('Tabs')
@@ -125,6 +107,9 @@ class ContentResource extends Resource
                             Forms\Components\TextInput::make('content_type')
                                 ->default($contentType)
                                 ->hidden(),
+               Forms\Components\TextInput::make('category_ids')
+                                ->default($category_ids)
+                                 ,
 
 
                             Forms\Components\TextInput::make('subtype')
@@ -135,6 +120,9 @@ class ContentResource extends Resource
                             Forms\Components\TextInput::make('is_shop')
                                 ->default($contentSubtype)
                                 ->hidden(),
+
+                            Forms\Components\TextInput::make('parent')
+                                ->default($parent),
 
 
                             Forms\Components\Section::make('General Information')
@@ -442,7 +430,31 @@ class ContentResource extends Resource
                                 ]),
                             Forms\Components\Section::make('Parent page')
                                 ->schema([
+                                    MwTree::make('mw_parent_page_and_category_state')
+                                        ->live()
+                                        ->default([
+                                            'page' => $parent,
+                                            'categories' => $category_ids
+                                        ])->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
 
+                                            $id = $get('id');
+                                            if ($state) {
+                                                foreach ($state as $item) {
+                                                    $cats = [];
+                                                    if (isset($item['type']) and $item['type'] == 'page') {
+                                                        if ($item['id'] != $id) {
+                                                            $set('parent', $item['id']);
+                                                        }
+                                                    }
+                                                    if (isset($item['type']) and $item['type'] == 'category') {
+                                                        $cats[] = $item['id'];
+                                                    }
+                                                    if ($cats) {
+                                                        $set('category_ids', implode(',', $cats));
+                                                    }
+                                                }
+                                            }
+                                        }),
                                 ]),
 
 
