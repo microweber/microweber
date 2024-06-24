@@ -297,4 +297,15 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .form-control {
     @apply py-1 px-2 min-h-10;
+
+}
+
+.dropdown-item {
+    @apply py-1 px-3 mb-3;
+}
+
+.mw-file-manager-search-button {
+    @apply flex items-center justify-center h-11 w-11;
+    border: 1px solid #ececec;
+
 }

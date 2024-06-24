@@ -65,4 +65,6 @@
     @apply h-full pb-3;
 }
 
-
+.mw-ui-form-controllers-footer {
+    @apply !border-0 mb-3;
+}

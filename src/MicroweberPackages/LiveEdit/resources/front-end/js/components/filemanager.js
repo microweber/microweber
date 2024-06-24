@@ -951,9 +951,9 @@
 
 
 
-              var html = `<div class="row g-2 mw-file-manager-search">
+              var html = `<div class="row g-2 mw-file-manager-search form-control-live-edit-label-wrapper">
               <div class="col">
-                <input type="text" class="form-control" placeholder="Search">
+                <input type="text" class="form-control-live-edit-input form-select" placeholder="Search">
               </div>
               <div class="col-auto">
                 <button class="btn btn-icon mw-file-manager-search-button" aria-label="Button">

@@ -1,6 +1,6 @@
 .ts-control {
-    border: 1px solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius);
+    border: 1px solid #ececec;
+    border-radius: 5px;
     box-shadow: none;
     box-sizing: border-box;
     flex-wrap: wrap;
@@ -16,7 +16,7 @@
 }
 
 .full .ts-control {
-    background-color: var(--bs-body-bg)
+    @apply bg-white;
 }
 
 .disabled .ts-control, .disabled .ts-control * {
@@ -99,7 +99,7 @@
 }
 
 .disabled .ts-control {
-    background-color: var(--bs-secondary-bg);
+    @apply bg-white;
     opacity: .5
 }
 
@@ -112,7 +112,7 @@
 .ts-dropdown {
     @apply bg-white;
     border: 1px solid #d0d0d0;
-    border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
+    border-radius: 0 0 5px 5px;
     border-top: 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
     box-sizing: border-box;
@@ -246,9 +246,9 @@
 }
 
 .ts-wrapper .dropdown-header {
-    background: color-mix(var(--bs-body-bg), #d0d0d0, 85%);
+    background: color-mix(#fff, #d0d0d0, 85%);
     border-bottom: 1px solid #d0d0d0;
-    border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+    border-radius: 5px 5px 0 0;
     padding: 6px .75rem;
     position: relative
 }
@@ -269,7 +269,7 @@
 }
 
 .plugin-dropdown_input.focus.dropdown-active .ts-control {
-    border: 1px solid var(--bs-border-color);
+    border: 1px solid #ececec;
     box-shadow: none;
     box-shadow: var(--bs-box-shadow-inset)
 }
@@ -424,7 +424,8 @@
 }
 
 .ts-wrapper {
-    position: relative
+    position: relative;
+    @apply mb-3;
 }
 
 .ts-control, .ts-control input, .ts-dropdown {
@@ -534,7 +535,7 @@
 }
 
 .ts-wrapper.is-valid, .was-validated .valid, .was-validated :valid + .ts-wrapper {
-    border-color: var(--bs-form-valid-color)
+    border-color: green
 }
 
 .ts-wrapper.is-valid:not(.single), .was-validated .valid:not(.single), .was-validated :valid + .ts-wrapper:not(.single) {
@@ -552,21 +553,21 @@
 }
 
 .ts-wrapper.is-valid.focus .ts-control, .was-validated .valid.focus .ts-control, .was-validated :valid + .ts-wrapper.focus .ts-control {
-    border-color: var(--bs-form-valid-color);
-    box-shadow: 0 0 0 .25rem rgba(var(--bs-form-valid-color), .25)
+    border-color: green;
+    box-shadow: 0 0 0 .25rem rgba(green, .25)
 }
 
 .ts-wrapper {
     display: flex;
-    min-height: calc(1.5em + .75rem + var(--bs-border-width) * 2)
+    min-height: calc(1.5em + .75rem + 1px * 2)
 }
 
 .input-group-sm > .ts-wrapper, .ts-wrapper.form-control-sm, .ts-wrapper.form-select-sm {
-    min-height: calc(1.5em + .5rem + var(--bs-border-width) * 2)
+    min-height: calc(1.5em + .5rem + 1px * 2)
 }
 
 .input-group-sm > .ts-wrapper .ts-control, .ts-wrapper.form-control-sm .ts-control, .ts-wrapper.form-select-sm .ts-control {
-    border-radius: var(--bs-border-radius-sm);
+    border-radius: 3px;
     font-size: .875rem
 }
 
@@ -576,7 +577,7 @@
 }
 
 .input-group-sm > .ts-wrapper.multi.has-items .ts-control, .ts-wrapper.form-control-sm.multi.has-items .ts-control, .ts-wrapper.form-select-sm.multi.has-items .ts-control {
-    padding-top: calc(.75em - .40625rem + var(--bs-border-width) * 2 / 2 - (var(--bs-border-width) + 1px) * 2 / 2) !important
+    padding-top: calc(.75em - .40625rem + 1px * 2 / 2 - (1px + 1px) * 2 / 2) !important
 }
 
 .ts-wrapper.multi.has-items .ts-control {
@@ -585,15 +586,15 @@
 }
 
 .ts-wrapper.multi .ts-control > div {
-    border-radius: calc(var(--bs-border-radius) - 1px)
+    border-radius: calc(5px - 1px)
 }
 
 .input-group-lg > .ts-wrapper, .ts-wrapper.form-control-lg, .ts-wrapper.form-select-lg {
-    min-height: calc(1.5em + 1rem + var(--bs-border-width) * 2)
+    min-height: calc(1.5em + 1rem + 1px * 2)
 }
 
 .input-group-lg > .ts-wrapper .ts-control, .ts-wrapper.form-control-lg .ts-control, .ts-wrapper.form-select-lg .ts-control {
-    border-radius: var(--bs-border-radius-lg);
+    border-radius: 10px;
     font-size: 1.25rem
 }
 
