@@ -64,9 +64,13 @@
         window.location.href = '';
     });
 
-    window.addEventListener('selectImage', function () {
+    window.addEventListener('selectImage', function (selectImageEvent) {
         mw.filePickerDialog( (url) => {
-            const event = new CustomEvent("selectedImage", { detail: url });
+            const event = new CustomEvent("selectedImage", { detail: {
+                    url: url,
+                    blockId: selectImageEvent.detail.blockId,
+                }
+            });
             window.dispatchEvent(event);
         });
     });
