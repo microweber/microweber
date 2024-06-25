@@ -113,8 +113,8 @@ class ContentResource extends Resource
         return $form
             ->schema([
 
-                Forms\Components\CheckboxList::make('belongsToMenus')
-                ->relationship(titleAttribute: 'title'),
+//                Forms\Components\CheckboxList::make('belongsToMenus')
+//                ->relationship(titleAttribute: 'title'),
 
 
 //                Forms\Components\Tabs::make('Tabs')
@@ -413,19 +413,20 @@ class ContentResource extends Resource
 
                             Forms\Components\Section::make('Menus')
                                 ->schema([
-                                    Forms\Components\CheckboxList::make('sadasdas')->label(false)
-//                                        ->formatStateUsing(function (Forms\Get $get, Forms\Set $set, ?array $state) use($selectedMenus) {
-//                                           if($selectedMenus){
-//                                               foreach ($selectedMenus as $key=>$menu){
+//                                    Forms\Components\CheckboxList::make('Menu')->label(false)
+////                                        ->formatStateUsing(function (Forms\Get $get, Forms\Set $set, ?array $state) use($selectedMenus) {
+////                                           if($selectedMenus){
+////                                               foreach ($selectedMenus as $key=>$menu){
+////
+////                                                   $set('add_content_to_menu'.$key, $menu);
+////                                               }
+////                                               //$set('add_content_to_menu', $selectedMenus);
+////                                           }
+////                                        })
+//                              //          ->options($menusCheckboxes)
+//                                    ->relationship(titleAttribute: 'title', name: 'belongsToMenus')
 //
-//                                                   $set('add_content_to_menu'.$key, $menu);
-//                                               }
-//                                               //$set('add_content_to_menu', $selectedMenus);
-//                                           }
-//                                        })
-                              //          ->options($menusCheckboxes)
-                                //    ->relationship(titleAttribute: 'title', name: 'belongsToMenus')
-                                   //     ->default($selectedMenus),
+//                                   //     ->default($selectedMenus),
 
                                 ])
                         ])->columnSpan(['lg' => 1]),

@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Menu\Traits;
 
 use MicroweberPackages\Menu\Models\Menu;
+use MicroweberPackages\Menu\Models\MenuItem;
 
 trait HasMenuItem
 {
@@ -59,18 +60,12 @@ trait HasMenuItem
 
     public function menuItems()
     {
-        return $this->hasMany(Menu::class, 'content_id');
+        return $this->hasMany(MenuItem::class, 'content_id');
     }
 
-    public function belongsToMenus()
-    {
-        return $this->belongsToMany(Menu::class, 'menus', 'menus.content_id', 'menu_id')
-            ->where('menus.item_type', '=', 'menu_item');
-    }
 
     public function getMenusAttribute()
     {
-
         $menus = $this->menuItems()->get();
         return $menus;
 

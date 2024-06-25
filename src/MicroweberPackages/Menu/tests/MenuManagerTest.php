@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Menu\tests;
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class MenuManagerTest extends TestCase
@@ -30,7 +31,7 @@ class MenuManagerTest extends TestCase
             'title' => $this->page_title,
             'content_type' => 'page',
             'is_active' => 1,
-            'url'=> 'test-page-' . uniqid(),
+            'url' => 'test-page-' . uniqid(),
         ];
         $this->page_id = save_content($params);
         $this->assertGreaterThan(0, $this->page_id);
@@ -54,8 +55,6 @@ class MenuManagerTest extends TestCase
         $this->assertGreaterThan(0, $menu_item_add_page);
 
 
-
-
     }
 
 
@@ -71,7 +70,7 @@ class MenuManagerTest extends TestCase
             'menu_id' => $menu['id'],
         );
 
-        $testIsInMenu = is_in_menu( $menu['id'], $save_page_id);
+        $testIsInMenu = is_in_menu($menu['id'], $save_page_id);
         $this->assertTrue($testIsInMenu);
 
         $menu_tree = menu_tree($params);
@@ -95,7 +94,7 @@ class MenuManagerTest extends TestCase
     {
         // Create a subpage
         $params = [
-            'title' => $this->page_title .' subpage',
+            'title' => $this->page_title . ' subpage',
             'content_type' => 'page',
             'is_active' => 1,
             'parent' => $this->page_id,
@@ -113,18 +112,18 @@ class MenuManagerTest extends TestCase
         $menu_item_add_page = app()->menu_manager->menu_item_save($params);
         $this->assertGreaterThan(0, $menu_item_add_page);
 
-        $testIsInMenu = is_in_menu( $menu['id'], $subpage_id);
+        $testIsInMenu = is_in_menu($menu['id'], $subpage_id);
         $this->assertTrue($testIsInMenu);
 
 
         //move to submenu of parent page
-        $menuItemOfParentPage =  app()->menu_manager->get_menu_items('single=1&content_id='.$this->page_id);
-        $menuItemOfSubpage =  app()->menu_manager->get_menu_items('single=1&content_id='.$subpage_id);
+        $menuItemOfParentPage = app()->menu_manager->get_menu_items('single=1&content_id=' . $this->page_id);
+        $menuItemOfSubpage = app()->menu_manager->get_menu_items('single=1&content_id=' . $subpage_id);
 
         $params = array(
             'id' => $menuItemOfSubpage['id'],
             'parent_id' => $menuItemOfParentPage['id'],
-            'url'=>site_url().'this-is-the-url/custom-url'
+            'url' => site_url() . 'this-is-the-url/custom-url'
         );
         $menu_item_add_page = app()->menu_manager->menu_item_save($params);
 
@@ -133,10 +132,10 @@ class MenuManagerTest extends TestCase
         $this->assertEquals($findSavedMenu->url, '{SITE_URL}this-is-the-url/custom-url');
 
 
-        $testIsInMenu = is_in_menu( $menu['id'], $subpage_id);
+        $testIsInMenu = is_in_menu($menu['id'], $subpage_id);
         $this->assertTrue($testIsInMenu);
 
-        $testIsInMenuOtherPage = is_in_menu( $menu['id'], 0);
+        $testIsInMenuOtherPage = is_in_menu($menu['id'], 0);
         $testIsInMenuOtherPage2 = is_in_menu(0, 0);
         $this->assertFalse($testIsInMenuOtherPage);
         $this->assertFalse($testIsInMenuOtherPage2);
@@ -157,30 +156,51 @@ class MenuManagerTest extends TestCase
             'preview_layout_file' => 'clean.php',
             'active_site_template' => 'default',
             'is_active' => 1,
-            'add_content_to_menu'=> [
+            'add_content_to_menu' => [
                 $this->menu_id
             ]
         ]);
-        $testIsInMenu = is_in_menu( $this->menu_id, $newCleanPageId);
+        $testIsInMenu = is_in_menu($this->menu_id, $newCleanPageId);
         $this->assertTrue($testIsInMenu);
 
 
         $newCleanPageId = save_content([
             'id' => $newCleanPageId,
 
-            'add_content_to_menu'=> [
+            'add_content_to_menu' => [
                 $this->menu_id
             ]
         ]);
 
-        $testIsInMenu = is_in_menu( $this->menu_id, $newCleanPageId);
+        $testIsInMenu = is_in_menu($this->menu_id, $newCleanPageId);
         $this->assertTrue($testIsInMenu);
 
-        $menuItemOfPage =  app()->menu_manager->get_menu_items('content_id='.$newCleanPageId);
+        $menuItemOfPage = app()->menu_manager->get_menu_items('content_id=' . $newCleanPageId);
         $this->assertIsArray($menuItemOfPage);
-        $this->assertEquals(count($menuItemOfPage) , 1);
+        $this->assertEquals(count($menuItemOfPage), 1);
 
     }
 
+
+    public function testMenuContentAddedFromRelation()
+    {
+
+        $newCleanPageId = save_content([
+            'subtype' => 'static',
+            'title' => 'testMenuContentAddedFromRelation',
+
+        ]);
+        $find = Content::where('id', $newCleanPageId)->first();
+        $menu = get_menus('single=1&title=' . $this->menu_title);
+        $find->menuItems()->create([
+            'title' => 'test',
+            'parent_id' => $menu['id'],
+            'is_active' => 1,
+            'position' => 1
+        ]);
+        $this->assertNotEmpty($find->menuItems()->get());
+        $testIsInMenu = is_in_menu($menu['id'], $newCleanPageId);
+        $this->assertTrue($testIsInMenu);
+    }
 
 }
