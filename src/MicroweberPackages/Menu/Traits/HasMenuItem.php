@@ -62,12 +62,11 @@ trait HasMenuItem
         return $this->hasMany(Menu::class, 'content_id');
     }
 
-
     public function belongsToMenus()
     {
-        $this->belongsToMany(Menu::class, 'menu_items', 'content_id', 'menu_id');
+        return $this->belongsToMany(Menu::class, 'menus', 'menus.content_id', 'menu_id')
+            ->where('menus.item_type', '=', 'menu_item');
     }
-
 
     public function getMenusAttribute()
     {
