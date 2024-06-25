@@ -6,7 +6,7 @@
         </div>
 
         <div class="mt-3">
-            <livewire:microweber-option::range-slider labelUnit="px" min="9" max="140" label="Text - Size" optionKey="fontSize" :optionGroup="$moduleId" :module="$moduleType"  />
+            <livewire:microweber-option::range-slider labelUnit="px" min="9" max="250" label="Text - Size" optionKey="fontSize" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
 
         <div class="mt-3">
