@@ -113,6 +113,9 @@ class ContentResource extends Resource
         return $form
             ->schema([
 
+                Forms\Components\CheckboxList::make('belongsToMenus')
+                ->relationship(titleAttribute: 'title'),
+
 
 //                Forms\Components\Tabs::make('Tabs')
 //                    ->tabs([
