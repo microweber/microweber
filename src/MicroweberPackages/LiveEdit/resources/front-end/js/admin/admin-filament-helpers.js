@@ -1,5 +1,4 @@
 import BaseComponent from "../core/base-class.js";
-import TemplatePreview from "./template-preview.service.js";
 
 const css = ``;
 

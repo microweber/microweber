@@ -13,12 +13,10 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/filament/admin/theme.css',
-                'src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js',
+
                 'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js',
-                'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-app.js',
-                // 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-filament-app.js',
-                'src/MicroweberPackages/LiveEdit/resources/js/ui/css/admin-filament.scss',
+
+
             ],
             publicDirectory: "public",
             refresh: true,

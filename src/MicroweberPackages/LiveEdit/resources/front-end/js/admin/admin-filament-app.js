@@ -19,16 +19,11 @@ window.mw.tools = new AdminTools(mw.app);
 
 
 
-//libs
-import "xss";
-
-import TomSelect  from "tom-select";
 
 
 
 
-globalThis.TomSelect = TomSelect;
-window.TomSelect = TomSelect;
+
 
 
 
@@ -55,6 +50,7 @@ for ( let i in Helpers ) {
 }
 
 
+
 import "../tools/storage.js";
 import "../tools/element.js";
 import "../tools/cookie.js";
@@ -73,7 +69,7 @@ import "../components/uiaccordion.js";
 
 import "../components/dialog.js";
 import {Alert, Confirm, Prompt} from "../components/system-dialogs.js";
-import {RichTextEditor} from "../components/richtext-editor.js";
+
 import {ControlBox} from "../components/control_box.js";
 import {SystemDialogsService} from "../components/modules-dialogs.js";
 import {TemplatePreview} from "../admin/template-preview.service.js";
@@ -82,7 +78,7 @@ mw.alert = Alert;
 mw.controlBox = ControlBox;
 mw.confirm = Confirm;
 mw.prompt = Prompt;
-mw.richTextEditor = RichTextEditor;
+
 mw.templatePreview = TemplatePreview;
 
 for (let i in SystemDialogsService) {
