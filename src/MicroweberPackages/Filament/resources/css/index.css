@@ -13,6 +13,7 @@
 @import 'microweber/linkpicker.css';
 @import 'microweber/general-styles.css';
 @import 'microweber/tomselect.css';
+@import '../../../LiveEdit/resources/front-end/css/tree.scss';
+
 @import 'microweber/grid-only.css';
 @import 'microweber/pagination.css';
-
