@@ -68,14 +68,17 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
 //            $this->loadTranslationsFrom($originalFolder . 'widgets/resources/lang', 'filament-widgets');
 
         }
-        View::prependNamespace('filament-panels', dirname(__DIR__).'/resources/views/filament');
-        View::prependNamespace('filament-tables', dirname(__DIR__).'/resources/views/filament-tables');
-        View::prependNamespace('filament-infolists', dirname(__DIR__).'/resources/views/filament-infolists');
-        View::prependNamespace('filament-forms', dirname(__DIR__).'/resources/views/filament-forms');
-        View::prependNamespace('filament-actions', dirname(__DIR__).'/resources/views/filament-actions');
+        View::prependNamespace('filament-panels', dirname(__DIR__) . '/resources/views/filament');
+        View::prependNamespace('filament-tables', dirname(__DIR__) . '/resources/views/filament-tables');
+        View::prependNamespace('filament-infolists', dirname(__DIR__) . '/resources/views/filament-infolists');
+        View::prependNamespace('filament-forms', dirname(__DIR__) . '/resources/views/filament-forms');
+        View::prependNamespace('filament-actions', dirname(__DIR__) . '/resources/views/filament-actions');
         //View::prependNamespace('filament-panels', base_path() . '/resources/views');
 
-        View::prependNamespace('radio-deck', dirname(__DIR__).'/resources/views/radio-deck');
+        View::prependNamespace('radio-deck', dirname(__DIR__) . '/resources/views/radio-deck');
+
+        View::prependNamespace('filament-title-with-slug', dirname(__DIR__) . '/resources/packages/filament-title-with-slug/views');
+        $this->loadTranslationsFrom(dirname(__DIR__) . '/resources/packages/filament-title-with-slug/lang', 'filament-title-with-slug');
 
         Filament::serving(function () {
             \Livewire\Livewire::forceAssetInjection();
@@ -98,13 +101,13 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             ->where('is_active', 'y')->get();
         if ($getSupportedLocales->count() > 0) {
             foreach ($getSupportedLocales as $locale) {
-                $flagUrl = modules_url() . 'microweber/api/libs/flag-icon-css/flags/1x1/'.get_flag_icon($locale->locale).'.svg';
+                $flagUrl = modules_url() . 'microweber/api/libs/flag-icon-css/flags/1x1/' . get_flag_icon($locale->locale) . '.svg';
                 $defaultLocaleFlags[$locale->locale] = $flagUrl;
                 $defaultLocales[] = $locale->locale;
             }
         }
 
-        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) use($defaultLocales,$defaultLocaleFlags) {
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) use ($defaultLocales, $defaultLocaleFlags) {
             $switch->flags($defaultLocaleFlags);
             $switch->locales($defaultLocales); // also accepts a closure
         });
