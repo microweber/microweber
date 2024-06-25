@@ -3,7 +3,9 @@
 namespace App\Filament\Admin\Pages;
 
 use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -55,8 +57,28 @@ class KitchenSink extends Page
                                 ->success()
                                 ->send();
                         }),
-                ]),
 
+
+                ]),
+                Radio::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'scheduled' => 'Scheduled',
+                        'published' => 'Published'
+                    ])
+                    ->descriptions([
+                        'draft' => 'Is not visible.',
+                        'scheduled' => 'Will be visible.',
+                        'published' => 'Is visible.'
+                    ]),
+                CheckboxList::make('technologies')
+                    ->options([
+                        'tailwind' => 'Tailwind CSS',
+                        'alpine' => 'Alpine.js',
+                        'laravel' => 'Laravel',
+                        'livewire' => 'Laravel Livewire',
+                    ])
+                    ->disableOptionWhen(fn (string $value): bool => $value === 'livewire'),
 
                 Tabs::make('Test')
                     ->tabs([
