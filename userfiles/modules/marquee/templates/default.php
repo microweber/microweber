@@ -13,6 +13,14 @@
 
 ?>
 
+
+<style>
+    .module-marquee span, .module-marquee p {
+        line-height: normal !important;
+    }
+
+</style>
+
 <?php $randId = md5($params['id']); ?>
 
 <style>
