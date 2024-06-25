@@ -5,6 +5,9 @@ $marqueeOptions['data-template'] = '';
 $marqueeOptions['text'] = 'Your cool text here!';
 $marqueeOptions['fontSize'] = "46";
 $marqueeOptions['animationSpeed'] = "normal";
+$marqueeOptions['textWeight'] = "normal";
+$marqueeOptions['textStyle'] = "normal";
+$marqueeOptions['textColor'] = "#000000";
 
 $getMarqueeOptions = \MicroweberPackages\Option\Models\ModuleOption::where('option_group', $params['id'])->get();
 if (!empty($getMarqueeOptions)) {
@@ -15,6 +18,12 @@ if (!empty($getMarqueeOptions)) {
 
 $text = $marqueeOptions['text'];
 $fontSize = $marqueeOptions['fontSize'];
+$textWeight = $marqueeOptions['textWeight'];
+$textStyle = $marqueeOptions['textStyle'];
+$textColor = $marqueeOptions['textColor'];
+
+
+
 
 $animationSpeed = 100;
 if ($marqueeOptions['animationSpeed'] == 'slow') {

@@ -13,12 +13,24 @@
 
 ?>
 
+
+<style>
+    .module-marquee span, .module-marquee p {
+        line-height: normal !important;
+    }
+
+</style>
+
 <?php $randId = md5($params['id']); ?>
 
 <style>
     #v-marquee-<?php echo $randId; ?>{
         overflow: hidden;
         font-size: <?php echo $fontSize; ?>px;
+        color: <?php echo $textColor; ?>;
+        font-weight: <?php echo $textWeight; ?>;
+        font-style: <?php echo $textStyle; ?>;
+
     }
 </style>
 
