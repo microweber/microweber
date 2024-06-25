@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
 use MicroweberPackages\Filament\Forms\Components\MwTree;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Product\Models\Product;
@@ -127,26 +128,37 @@ class ContentResource extends Resource
                             Forms\Components\Section::make('General Information')
                                 ->heading(false)
                                 ->schema([
-                                    Forms\Components\TextInput::make('title')
-                                        ->required()
-                                        ->maxLength(255)
-                                        ->columnSpanFull()
-                                        ->live(onBlur: true)
-                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                                            if ($operation !== 'create') {
-                                                return;
-                                            }
 
-                                            $set('url', Str::slug($state));
-                                        }),
+                                    MwTitleWithSlugInput::make(
+                                        urlHost: site_url(),
+                                        fieldTitle: 'title',
+                                        fieldSlug: 'url',
+                                        titleLabel: 'Title',
+                                        slugLabel: 'Link:',
+                                    )
+                                        ->columnSpanFull(),
 
-                                    Forms\Components\TextInput::make('url')
-                                        //     ->disabled()
-                                        ->dehydrated()
-                                        ->required()
-                                        ->maxLength(255)
-                                        ->columnSpanFull()
-                                        ->unique(Content::class, 'url', ignoreRecord: true),
+
+//                                    Forms\Components\TextInput::make('title')
+//                                        ->required()
+//                                        ->maxLength(255)
+//                                        ->columnSpanFull()
+//                                        ->live(onBlur: true)
+//                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+//                                            if ($operation !== 'create') {
+//                                                return;
+//                                            }
+//
+//                                            $set('url', Str::slug($state));
+//                                        }),
+//
+//                                    Forms\Components\TextInput::make('url')
+//                                        //     ->disabled()
+//                                        ->dehydrated()
+//                                        ->required()
+//                                        ->maxLength(255)
+//                                        ->columnSpanFull()
+//                                        ->unique(Content::class, 'url', ignoreRecord: true),
 
                                     Forms\Components\MarkdownEditor::make('description')
                                         ->columnSpan('full'),
