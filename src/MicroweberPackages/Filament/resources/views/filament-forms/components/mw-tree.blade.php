@@ -26,9 +26,18 @@
         })
     </script>
 
-    @if($this->data) 
-        {{json_encode($this->data['mw_parent_page_and_category_state'],JSON_PRETTY_PRINT)}}
-    @endif
+
+
+   <?php
+
+   /*
+   @if($this->data)
+   {{json_encode($this->data['mw_parent_page_and_category_state'],JSON_PRETTY_PRINT)}}
+   @endif
+    */
+   ?>
+
+
 
     <div
         x-data="mwTreeFormComponent({

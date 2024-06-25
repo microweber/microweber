@@ -43,7 +43,7 @@ class ContentResource extends Resource
         $isShop = false;
 
 
-        $category_ids =  '';
+        $category_ids = '';
         $id = 0;
 
         if (
@@ -83,7 +83,6 @@ class ContentResource extends Resource
         }
 
 
-
         return $form
             ->schema([
 
@@ -107,9 +106,9 @@ class ContentResource extends Resource
                             Forms\Components\TextInput::make('content_type')
                                 ->default($contentType)
                                 ->hidden(),
-               Forms\Components\TextInput::make('category_ids')
+                            Forms\Components\TextInput::make('category_ids')
                                 ->default($category_ids)
-                                 ,
+                            ,
 
 
                             Forms\Components\TextInput::make('subtype')
@@ -436,18 +435,26 @@ class ContentResource extends Resource
                                             'page' => $parent,
                                             'categories' => $category_ids
                                         ])->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
-
                                             $id = $get('id');
+                                            $setParentPage = 0;
                                             if ($state) {
                                                 foreach ($state as $item) {
                                                     $cats = [];
                                                     if (isset($item['type']) and $item['type'] == 'page') {
                                                         if ($item['id'] != $id) {
                                                             $set('parent', $item['id']);
+                                                            $setParentPage = $item['id'];
                                                         }
                                                     }
                                                     if (isset($item['type']) and $item['type'] == 'category') {
                                                         $cats[] = $item['id'];
+                                                        if (!$setParentPage) {
+                                                            if (isset($item['parent_page'])
+                                                                and isset($item['parent_page']['id'])
+                                                                and $item['parent_page']['content_type'] == 'page') {
+                                                                $setParentPage = $item['parent_page']['id'];
+                                                            }
+                                                        }
                                                     }
                                                     if ($cats) {
                                                         $set('category_ids', implode(',', $cats));
