@@ -1,7 +1,8 @@
 .mw-admin-action-links {
     position: relative;
     text-decoration: none !important;
-    color: #000; }
+    @apply text-black dark:text-white;
+     }
 .mw-admin-action-links:disabled {
     opacity: .3;
     pointer-events: none; }
@@ -22,14 +23,16 @@
     position: absolute;
     content: '';
     bottom: 5px;
-    left: 0; 
+    left: 0;
     height: 2px;
     width: 0;
-    background-color: #000;
+    @apply bg-black dark:bg-white;
+
     opacity: 0;
     transition: .5s; }
 .mw-admin-action-links:hover, .mw-admin-action-links:active, .mw-admin-action-links:focus, .mw-admin-action-links.active, .mw-admin-action-links.mw-action-links-with-accordion:not(.collapsed) {
-    color: #000 !important;
+    @apply !text-black dark:!text-white;
+
     font-weight: 500; }
 .mw-admin-action-links:hover:after, .mw-admin-action-links:active:after, .mw-admin-action-links:focus:after, .mw-admin-action-links.active:after, .mw-admin-action-links.mw-action-links-with-accordion:not(.collapsed):after {
     width: 100%;
