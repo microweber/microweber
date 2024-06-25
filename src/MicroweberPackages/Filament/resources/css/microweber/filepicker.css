@@ -16,3 +16,7 @@
 .mw-ui-field-holder {
     @apply w-full flex flex-col items-center gap-4 border-2 border-dashed border-blue-600/50 rounded p-12;
 }
+
+.mw-file-manager-bar-view-type-selector .btn-group, .mw-file-manager-bar-view-type-selector {
+    @apply !flex gap-3 items-center;
+}

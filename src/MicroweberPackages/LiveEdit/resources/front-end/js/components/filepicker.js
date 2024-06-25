@@ -155,6 +155,7 @@ mw.filePicker = function (options) {
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
             $input.before('<label class="live-edit-label">'+mw.lang('Insert file url')+'</label>');
+            $input.after('<span class="form-control-live-edit-bottom-effect"></span>' );
 
             $input.on('input', function () {
                 var val = this.value.trim();
