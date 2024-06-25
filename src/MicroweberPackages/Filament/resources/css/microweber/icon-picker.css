@@ -1,0 +1,155 @@
+
+/* Icon pickers */
+.mw-icon-list {
+    width: 360px;
+    text-align: justify; }
+
+.mw-icon-list select {
+    width: auto;
+    min-width: 60px; }
+
+.mwiconlist-icon:hover {
+    background-color: #efecec3d; }
+
+.mw-icon-list .mw-ui-btn-nav {
+    padding-bottom: 16px; }
+
+.mw-icon-list .mw-ui-btn-nav,
+.mw-icon-list .mw-ui-btn-nav input {
+    width: 100%; }
+
+.mw-icon-list h5 {
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    opacity: .6; }
+
+.mwiconlist-section .mw-paging a {
+    display: none; }
+
+.mwiconlist-section .mw-paging {
+    margin-top: 15px; }
+
+.mwiconlist-section .mw-paging a.mw-paging-visible-range {
+    display: inline-block; }
+
+.mwiconlist-section + h5 {
+    padding-top: 16px; }
+
+.mwiconlist-icon {
+    transition: opacity .3s, transform .3s;
+    padding: 10px;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    font-size: 22px !important;
+    border-radius: 3px;
+
+    width: 12%;
+    color: #939393;
+    display: inline-block;
+    cursor: pointer;
+    font-style: normal; }
+
+.mwiconlist-icon svg {
+    width: 35px !important;
+    height: 35px !important; }
+
+.mw-icon-selector-paging {
+    display: block;
+    width: 100%; }
+
+.mwiconlist-settings-section-block-item .mw-field {
+    width: 100%; }
+
+.mwiconlist-settings-section {
+    box-shadow: none; }
+
+.mwiconlist-settings-section-block-item .mw-ui-label {
+    padding: 5px 0  !important;
+    font-weight: normal !important;
+    font-size: 12px !important;
+    text-transform: none !important;
+    margin: 0 !important;
+    line-height: normal !important; }
+
+.mwiconlist-settings-section-block-item [type="color"] {
+    height: 30px !important;
+    padding: 0 !important; }
+
+.mwiconlist-settings-section-block-item [type="range"] {
+    -webkit-appearance: slider-horizontal !important;
+    appearance: slider-horizontal !important; }
+
+.mwiconlist-settings-section-block-item {
+    display: block; }
+
+.mwiconlist-settings-section-block-item + .mwiconlist-settings-section-block-item {
+    padding-top: 16px;
+    margin-top: 16px;
+    border-top: 1px solid #efecec; }
+
+.mwiconlist-settings-section-color-picker {
+    appearance: none;
+    -webkit-appearance: none;
+    display: block;
+    background: #ffffff;
+    border: none;
+    height: 35px;
+    width: 45px;
+    cursor: pointer; }
+
+.mw-tooltip .mwiconlist-section,
+.mwiconlist-settings-section-block-item {
+    width: 360px; }
+
+.mwiconlist-settings-section-block-item
+.mw-tooltip .mwiconlist-section {
+    max-width: 95%; }
+
+.mwiconlist-icon-hidden {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.5, 0.5);
+    position: absolute;
+    pointer-events: none;
+    z-index: 0; }
+
+.mwiconlist-section-wrapper {
+    clear: both;
+    width: 100%;
+    padding-top: 10px; }
+
+.mw-icon-selector-root .mw-ui-searchfield {
+    margin: 10px 0 0; }
+
+.mw-icon-selector-root .mw-ui-box {
+    border-width: 1px; }
+
+.mw-icon-selector-root .mw-ui-box,
+.mw-icon-selector-root .mw-accordion-item.active {
+    box-shadow: none !important; }
+
+.mw-icon-selector-root .mw-icon-selector-paging a {
+    display: none; }
+
+.mw-icon-selector-root .mw-icon-selector-paging a.mw-paging-visible-range {
+    display: inline-block; }
+
+.mw-icon-selector-root {
+    width: 400px; }
+
+.mw-icon-picker-icons-holder > div {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; }
+
+.mw-icon-picker-icons-holder {
+    clear: both;
+    padding: 15px 0 0;
+    width: 100%; }
+
+.mw-icon-selector-paging {
+    margin: 10px 0 0;
+    clear: both;
+    display: block; }
