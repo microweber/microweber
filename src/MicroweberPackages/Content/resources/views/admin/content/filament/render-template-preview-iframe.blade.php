@@ -46,14 +46,12 @@
     @endphp
 
 
-
-
     <div>
 
         <div class="preview_frame_wrapper preview_frame_wrapper_holder loading left" wire:ignore>
             <div class="preview_frame_container preview_frame_container_holder">
 
-aaaaaaaaaaaaaaa
+
             </div>
 
             <div class="card placeholder-glow mw-add-post-placeholder-loading">
@@ -62,17 +60,11 @@ aaaaaaaaaaaaaaa
                     <div class="placeholder col-9 mb-3"></div>
                     <div class="placeholder placeholder-xs col-10"></div>
                     <div class="placeholder placeholder-xs col-11"></div>
-                    <div class="mt-3">
-                        <a href="#" tabindex="-1" class="btn btn-primary disabled placeholder col-4"
-                           aria-hidden="true"></a>
-                    </div>
+
                 </div>
             </div>
 
         </div>
-
-
-
 
 
     </div>

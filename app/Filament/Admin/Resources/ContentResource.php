@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ContentResource\Pages;
-use App\Filament\Admin\Resources\ContentResource\RelationManagers;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
@@ -16,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
 use MicroweberPackages\Filament\Forms\Components\MwTree;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
@@ -83,7 +83,7 @@ class ContentResource extends Resource
             $parent = $record->parent;
         }
 
-
+        $site_url = site_url();
         return $form
             ->schema([
 
@@ -130,11 +130,12 @@ class ContentResource extends Resource
                                 ->schema([
 
                                     MwTitleWithSlugInput::make(
-                                        urlHost: site_url(),
                                         fieldTitle: 'title',
                                         fieldSlug: 'url',
+                                        urlHost: $site_url,
                                         titleLabel: 'Title',
                                         slugLabel: 'Link:',
+
                                     )
                                         ->columnSpanFull(),
 
@@ -219,123 +220,14 @@ class ContentResource extends Resource
                                 ])->columnSpanFull()->visible(function (Forms\Get $get) {
                                     return $get('content_type') == 'product';
                                 }),
-
-
                             Forms\Components\Section::make('Select Template')
-                                ->schema([
-                                    Forms\Components\Select::make('active_site_template')
-                                        ->label('Template')
-                                        ->default($active_site_template)
-                                        ->live()
-                                        ->reactive()
-                                        ->options(function (Forms\Get $get, Forms\Set $set) use ($templates) {
-                                            return collect($templates)->mapWithKeys(function ($template) {
-                                                return [$template['dir_name'] => $template['name']];
-                                            });
-                                        })
-                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
-
-
-                                        })
-                                        ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
-                                            ->getContainer()
-                                            ->getComponent('dynamicSelectLayout')
-                                            ->getChildComponentContainer()
-                                            ->fill())
-                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
-
-                                            $data = $livewire->data;
-
-                                            $layout_options = array();
-
-                                            $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
-                                            $layout_options['active_site_template'] = $active_site_template;
-
-                                            $layout_file = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
-
-
-                                            $layout_options['layout_file'] = $layout_file;
-                                            $layout_options['no_cache'] = true;
-                                            $layout_options['no_folder_sort'] = true;
-
-                                            $layout = mw()->layouts_manager->get_layout_details($layout_options);
-                                            $url = '';
-
-
-                                            if (isset($layout['layout_file_preview_url'])) {
-                                                $url = $layout['layout_file_preview_url'];
-                                            }
-
-
-                                            $livewire->dispatch('dynamicPreviewLayoutChange', data: $data, iframePreviewUrl: $url);
-
-
-                                        })
-                                        ->columnSpanFull(),
-
-
-                                    Forms\Components\Select::make('layout_file')
-                                        ->label('Layout')
-                                        ->live()
-                                        ->reactive()
-                                        ->options(function (Forms\Get $get, Forms\Set $set) {
-                                            $active_site_template = $get('active_site_template');
-
-                                            $layout_options = [];
-                                            $layout_options['site_template'] = $active_site_template;
-                                            $layout_options['no_cache'] = true;
-                                            $layout_options['no_folder_sort'] = true;
-
-                                            $layouts = mw()->layouts_manager->get_all($layout_options);
-
-
-                                            return collect($layouts)->mapWithKeys(function ($layout) {
-                                                return [$layout['layout_file'] => $layout['name']];
-                                            });
-
-                                        })
-                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
-
-                                            $data = $livewire->data;
-
-                                            $layout_options = array();
-
-                                            $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
-                                            $layout_options['active_site_template'] = $active_site_template;
-
-                                            $layout_file = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
-
-
-                                            $layout_options['layout_file'] = $layout_file;
-                                            $layout_options['no_cache'] = true;
-                                            $layout_options['no_folder_sort'] = true;
-
-                                            $layout = mw()->layouts_manager->get_layout_details($layout_options);
-                                            $url = '';
-
-
-                                            if (isset($layout['layout_file_preview_url'])) {
-                                                $url = $layout['layout_file_preview_url'];
-                                            }
-
-
-                                            $livewire->dispatch('dynamicPreviewLayoutChange', data: $data, iframePreviewUrl: $url);
-
-
-                                        })
-                                        ->key('dynamicSelectLayout')
-                                        ->columnSpanFull(),
-
-                                    Forms\Components\View::make('content::admin.content.filament.render-template-preview-iframe')
-                                        ->viewData(['url' => ''])
-//                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state) {
-//                                            dd($get);
-//                                        })
-                                        ->key('dynamicPreviewLayout')
-                                        ->columnSpanFull(),
-
-
-                                ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                                ->schema(
+                                    [
+                                        MwSelectTemplateForPage::make(
+                                            'active_site_template',
+                                            'layout_file')
+                                            ->columnSpanFull(),
+                                    ])->columnSpanFull()->visible(function (Forms\Get $get) {
                                     return $get('content_type') == 'page';
                                 }),
 
