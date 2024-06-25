@@ -177,7 +177,7 @@ mw.tabAccordion = function (options, accordion) {
 
     this.createTabs = function () {
         this.nav = document.createElement('div');
-        this.nav.className = 'mx-3';
+        this.nav.className = 'mx-3 mb-3';
         mw.$(this.accordion.titles)
             .each(function (i) {
                 scope.nav.appendChild(scope.createTabButton($(this).html(), i))

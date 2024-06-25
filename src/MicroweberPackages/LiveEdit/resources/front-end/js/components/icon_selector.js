@@ -426,7 +426,7 @@
 
         var createUI = function () {
             var root = mw.element({
-                props: { className: 'mw-icon-selector-root mx-auto w-100' }
+                props: { className: 'mw-icon-selector-root mx-auto w-100 my-3' }
             });
             var iconsBlockHolder, tabs, optionsHolder, iconsHolder;
             if(scope.settings.iconOptions) {
@@ -531,7 +531,7 @@
                         <label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">${mw.lang('Replace with image')}</label>
                     </div>`);
                     var rinput = mw.element(`
-                        <button type="button" style="min-width: 150px" class="btn btn-light border-0 go-live-edit-href-set admin-toolbar-buttons mx-2">
+                        <button type="button" style="min-width: 150px" class="btn btn-light border-0 go-live-edit-href-set admin-toolbar-buttons">
                         ${mw.lang('Choose')}
                         </button>
                     `);
