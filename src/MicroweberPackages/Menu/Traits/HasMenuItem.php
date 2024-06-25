@@ -17,7 +17,8 @@ trait HasMenuItem
 
     public function initializeHasMenuItem()
     {
-         $this->fillable[] = 'add_content_to_menu';
+        $this->fillable[] = 'add_content_to_menu';
+        $this->casts['add_content_to_menu'] = 'array';
     }
 
     public function addToMenu($contentId)
@@ -43,7 +44,7 @@ trait HasMenuItem
             if (!empty(self::$addContentToMenu) && is_array(self::$addContentToMenu)) {
                 foreach (self::$addContentToMenu as $menuId) {
                     // check if content is already in menu
-                    if(!app()->menu_manager->is_in_menu($menuId, $model->id)) {
+                    if (!app()->menu_manager->is_in_menu($menuId, $model->id)) {
                         app()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
                     }
                 }
@@ -51,15 +52,30 @@ trait HasMenuItem
 
         });
 
-        static::deleting(function($model)
-        {
+        static::deleting(function ($model) {
             $model->menuItems()->delete();
         });
     }
 
     public function menuItems()
     {
-        return $this->hasMany( Menu::class, 'content_id');
+        return $this->hasMany(Menu::class, 'content_id');
     }
+
+
+    public function belongsToMenus()
+    {
+        $this->belongsToMany(Menu::class, 'menu_items', 'content_id', 'menu_id');
+    }
+
+
+    public function getMenusAttribute()
+    {
+
+        $menus = $this->menuItems()->get();
+        return $menus;
+
+    }
+
 
 }

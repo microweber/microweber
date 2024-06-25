@@ -138,7 +138,7 @@ class MwSelectTemplateForPage
             ->columnSpanFull();
 
 
-        $templatePreviewBlock = Forms\Components\View::make('content::admin.content.filament.render-template-preview-iframe')
+        $templatePreviewBlock = Forms\Components\View::make('filament-forms::components.mw-render-template-preview-iframe')
             ->viewData(['url' => ''])
 //                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state) {
 //                                            dd($get);

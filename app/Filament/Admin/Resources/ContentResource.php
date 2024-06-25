@@ -74,6 +74,32 @@ class ContentResource extends Resource
         if ($record) {
             $id = $record->id;
         }
+
+
+
+        $menus = get_menus();
+        $menusCheckboxes = [];
+        $selectedMenus = [];
+        if ($menus) {
+            foreach ($menus as $menu) {
+                $menusCheckboxes[$menu['id']] = $menu['title'];
+
+                if (is_in_menu($menu['id'], $id)) {
+                    $selectedMenus[$menu['id']] = $menu['title'];
+                }
+            }
+        }
+
+        if(!empty($selectedMenus)){
+            $record->add_content_to_menu = $selectedMenus;
+
+        }
+
+//dd($record->menuItems());
+//dd($record->add_content_to_menu);
+
+
+
         $templates = site_templates();
         $active_site_template = template_name();
 
@@ -382,6 +408,23 @@ class ContentResource extends Resource
                                         ->placeholder('Add a tag'),
                                 ]),
 
+                            Forms\Components\Section::make('Menus')
+                                ->schema([
+                                    Forms\Components\CheckboxList::make('sadasdas')->label(false)
+//                                        ->formatStateUsing(function (Forms\Get $get, Forms\Set $set, ?array $state) use($selectedMenus) {
+//                                           if($selectedMenus){
+//                                               foreach ($selectedMenus as $key=>$menu){
+//
+//                                                   $set('add_content_to_menu'.$key, $menu);
+//                                               }
+//                                               //$set('add_content_to_menu', $selectedMenus);
+//                                           }
+//                                        })
+                              //          ->options($menusCheckboxes)
+                                //    ->relationship(titleAttribute: 'title', name: 'belongsToMenus')
+                                   //     ->default($selectedMenus),
+
+                                ])
                         ])->columnSpan(['lg' => 1]),
 
 
