@@ -1,10 +1,10 @@
 
 .x-close-modal-link {
-    @apply absolute top-3 right-3 text-black cursor-pointer text-2xl;
+    @apply absolute top-3 right-3 text-black dark:text-white cursor-pointer text-2xl;
 }
 
 .modal-header, .modal-body, .modal-footer {
-    @apply text-black border-0;
+    @apply text-black dark:text-white border-0;
 }
 
 .font-weight-bold {
@@ -12,7 +12,7 @@
 }
 
 .form-label {
-    @apply text-black;
+    @apply text-black dark:text-white;
 }
 
 .live-edit-label {
@@ -25,7 +25,7 @@
     line-height: 16px;
     text-overflow: ellipsis;
 
-    @apply font-semibold text-gray-600 ps-0 block overflow-hidden box-border uppercase my-2;
+    @apply font-semibold text-gray-600 dark:text-white ps-0 block overflow-hidden box-border uppercase my-2;
 }
 
 .form-check-input {
@@ -38,15 +38,15 @@
 
 
 .mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper {
-    @apply !bg-gray-100 rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
+    @apply !bg-gray-100 dark:!bg-black dark:text-white rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
-    @apply rounded !p-1.5 border-2 border-gray-300 bg-gray-100 text-gray-600 shadow-none border-none;
+    @apply rounded !p-1.5 border-2 border-gray-300 bg-gray-100 dark:text-white dark:bg-gray-900  text-gray-600 dark:text-white shadow-none border-none;
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
-    @apply !bg-white border-none;
+    @apply !bg-white dark:!bg-gray-950 dark:text-white border-none;
 }
 
 
@@ -175,7 +175,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-file-drop-zone .mw-file-drop-zone-holder p {
-    @apply text-gray-600 mb-0;
+    @apply text-gray-600 dark:text-white mb-0;
 }
 
 .mw-file-drop-zone.mw-file-drop-zone-small {
@@ -284,7 +284,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply hidden; }
 
 .mw-file-drop-zone .mw-file-drop-zone-holder p {
-    @apply text-gray-600 mb-0;
+    @apply text-gray-600 dark:text-white mb-0;
 }
 
 
@@ -304,7 +304,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .settings-title-inside {
-    @apply text-xl font-bold text-gray-900 leading-5;
+    @apply text-xl font-bold text-gray-900 dark:text-white dark:text-white leading-5;
 }
 
 .mw-dialog-skin-default .mw-dialog-header {
@@ -313,4 +313,13 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .mw-file-manager-list-item-thumb {
     @apply !bg-contain;
+}
+
+
+.mw-dialog-container {
+    @apply bg-white dark:bg-gray-900 dark:text-white;
+}
+
+.mw-dialog-header {
+    @apply bg-white dark:!bg-gray-950 dark:text-white;
 }

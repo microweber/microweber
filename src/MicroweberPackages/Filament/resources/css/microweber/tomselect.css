@@ -16,7 +16,7 @@
 }
 
 .full .ts-control {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-900;
 }
 
 .disabled .ts-control, .disabled .ts-control * {
@@ -99,7 +99,7 @@
 }
 
 .disabled .ts-control {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-900;
     opacity: .5
 }
 
@@ -110,7 +110,7 @@
 }
 
 .ts-dropdown {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-900;
     border: 1px solid #d0d0d0;
     border-radius: 0 0 5px 5px;
     border-top: 0;
@@ -153,7 +153,7 @@
 }
 
 .ts-dropdown .optgroup-header {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-900;
     color: #6c757d;
     cursor: default
 }
@@ -233,7 +233,7 @@
     position: absolute;
     right: calc(.75rem - 5px);
     top: 50%;
-    transform: translateY(-50%);
+    transform: trangrayY(-50%);
     transition: opacity .5s
 }
 
@@ -265,7 +265,8 @@
 }
 
 .ts-wrapper .dropdown-header-close:hover {
-    color: #000
+    @apply text-black dark:text-white;
+
 }
 
 .plugin-dropdown_input.focus.dropdown-active .ts-control {
@@ -436,7 +437,7 @@
 }
 
 .ts-control, .ts-wrapper.single.input-active .ts-control {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-900;
     cursor: text
 }
 
@@ -453,7 +454,7 @@
 }
 
 .ts-dropdown, .ts-dropdown.form-control, .ts-dropdown.form-select {
-    @apply bg-white;
+    @apply bg-white dark:bg-gray-900;
     border: 1px solid #ececec;
     border-radius: .375rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
