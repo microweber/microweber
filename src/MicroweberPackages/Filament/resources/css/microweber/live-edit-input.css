@@ -14,8 +14,9 @@
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
-    margin: 0 7px;
-    position: relative
+    margin: 3 7px;
+    position: relative;
+
 }
 
 .form-control-live-edit-label-wrapper textarea.form-control-live-edit-input {
