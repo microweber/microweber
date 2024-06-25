@@ -54,6 +54,7 @@ export default defineConfig({
 
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
                 // 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-filament-app.js',
+                'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js',
                 'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-app.js',
 
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/css/admin-filament.scss',
