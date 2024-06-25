@@ -3,6 +3,8 @@
     <div class="card-body" style="padding:5px;padding-bottom:25px;">
         <div>
             <label class="live-edit-label"><?php _e("Text"); ?></label>
+            <livewire:microweber-option::text optionKey="text" :optionGroup="$moduleId" :module="$moduleType"  />
+
         </div>
 
         <div class="mt-3">
@@ -57,8 +59,5 @@
         <div class="mt-3">
             <livewire:microweber-option::range-slider labelUnit="px" min="9" max="250" label="Text - Size" optionKey="fontSize" :optionGroup="$moduleId" :module="$moduleType"  />
         </div>
-
-
     </div>
-
 </div>

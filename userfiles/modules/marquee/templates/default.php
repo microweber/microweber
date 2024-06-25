@@ -27,9 +27,9 @@
     #v-marquee-<?php echo $randId; ?>{
         overflow: hidden;
         font-size: <?php echo $fontSize; ?>px;
-        color: <?php echo $textColor; ?>px;
-        font-weight: <?php echo $textWeight; ?>px;
-        text-style: <?php echo $textStyle; ?>px;
+        color: <?php echo $textColor; ?>;
+        font-weight: <?php echo $textWeight; ?>;
+        font-style: <?php echo $textStyle; ?>;
 
     }
 </style>
