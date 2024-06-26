@@ -81,9 +81,33 @@ linkEditor.promise().then(function (data){
      mw.widget.tree(nodeElement);
         </pre>
         <div class="tree-example"></div>
+        <div class="tree-example-context"></div>
 
         <script>
             addEventListener('DOMContentLoaded', e => mw.widget.tree('.tree-example'))
+            addEventListener('DOMContentLoaded', e => mw.widget.tree('.tree-example-context', {
+                options: {
+                    contextMenu: [
+
+                        {
+                            title: 'Edit',
+                            icon: 'mdi mdi-pencil',
+                            action: function (element, data, menuitem) {
+
+                            }
+                        },
+                        {
+                            title: 'Delete',
+                            icon: 'mdi mdi-trash',
+                            action: function (element, data, menuitem) {
+                                element.remove()
+                            }
+                        },
+
+                    ]
+                }
+
+            }))
         </script>
     </h1>
 
