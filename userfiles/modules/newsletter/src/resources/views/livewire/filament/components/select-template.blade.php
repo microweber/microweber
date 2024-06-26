@@ -6,7 +6,7 @@
                <div class="group rounded-md border border-gray-500/10 bg-white hover:shadow-xl">
                    <div class="relative">
                        <div>
-                           <img src="{{$template['screenshot']}}" alt="{{$template['name']}}" class="rounded-md w-full object-cover max-h-[26rem]">
+                           <img src="{{$template['screenshot']}}" alt="{{$template['name']}}" class="rounded-md w-full object-top object-cover max-h-[26rem]">
                        </div>
                        <div class="opacity-0 group-hover:opacity-100 transition absolute top-0 w-full h-full flex items-center gap-4 p-8 backdrop-blur-sm">
                        <div class="w-full flex items-center justify-center gap-4">
