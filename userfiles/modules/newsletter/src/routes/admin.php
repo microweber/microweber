@@ -45,7 +45,7 @@ Route::name('admin.newsletter.')
                 'name' => 'Jhon Doe',
                 'unsubscribe_url' => '',
                 'email' => 'jhon@doe.com',
-                'html' => 'test',
+                'html' => $templateHtml,
             ]);
 
         })->name('preview-email-template');
