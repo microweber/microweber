@@ -27,13 +27,16 @@ export const Prompt = function (q, callback, currentVal) {
     if(!q) return ;
 
      var input = document.createElement('input');
-    input.className = 'mw-ui-field w100';
+    input.className = 'form-control-live-edit-input';
+
+    var bottomEffect = document.createElement('span');
+    bottomEffect.className = 'form-control-live-edit-bottom-effect';
 
 
-    var question = mw.$('<div class="mw-dialog-container"><label class="live-edit-label">'+q+'</label></div>');
-    question.append(input)
+    var question = mw.$('<div class="form-control-live-edit-label-wrapper"><label class="live-edit-label">'+q+'</label> </div>');
+    question.append(input, bottomEffect);
     var footer = mw.$('<div class="mw-dialog-footer">');
-    var ok = mw.$('<button type="button" disabled class="btn-primary">'+mw.lang('OK')+'</button>');
+    var ok = mw.$('<button type="button" disabled class="btn btn-primary">'+mw.lang('OK')+'</button>');
     var cancel = mw.$('<span class="btn">'+mw.lang('Cancel')+'</span>');
     footer.append(cancel);
     footer.append(ok);
