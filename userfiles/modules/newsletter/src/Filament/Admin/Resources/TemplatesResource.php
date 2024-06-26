@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources;
 
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -15,6 +16,7 @@ use Filament\Tables\Table;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
+use MicroweberPackages\Modules\Newsletter\Filament\Components\SelectTemplate;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
@@ -38,9 +40,10 @@ class TemplatesResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->label('Title')
-                    ->required(),
+                SelectTemplate::make('template')
+                    ->label('Template')
+                    ->required()
+                    ->default('default'),
             ]);
     }
 
