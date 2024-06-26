@@ -15,6 +15,8 @@
 
 <?php $randId = md5($params['id']); ?>
 
+
+
 <style>
     #v-marquee-<?php echo $randId; ?>{
         overflow: hidden;
@@ -25,7 +27,48 @@
         font-style: <?php echo $textStyle; ?>;
 
 
+    }
+    @media only screen and (max-width: 1399px) {
+        #v-marquee-<?php echo $randId; ?> {
+            font-size: max(15px, <?php echo $fontSize * 0.8 ?>px);
 
+        }
+    }
+    @media only screen and (max-width: 1199px) {
+        #v-marquee-<?php echo $randId; ?> {
+            font-size: max(15px, <?php echo $fontSize * 0.65 ?>px);
+
+        }
+    }
+    @media only screen and (max-width: 991px) {
+        #v-marquee-<?php echo $randId; ?> {
+            font-size: max(15px, <?php echo $fontSize * 0.55 ?>px);
+
+        }
+    }
+    @media only screen and (max-width: 767px) {
+        #v-marquee-<?php echo $randId; ?> {
+            font-size: max(15px, <?php echo $fontSize * 0.45 ?>px);
+
+        }
+    }
+    @media only screen and (max-width: 575px) {
+        #v-marquee-<?php echo $randId; ?> {
+            font-size: max(15px, <?php echo $fontSize * 0.4 ?>px);
+
+        }
+    }
+    @media only screen and (max-width: 479px) {
+        #v-marquee-<?php echo $randId; ?> {
+            font-size: max(15px, <?php echo $fontSize * 0.3 ?>px);
+
+        }
+    }
+    @media only screen and (max-width: 375px) {
+        #v-marquee-<?php echo $randId; ?> {
+            font-size: max(15px, <?php echo $fontSize * 0.2 ?>px);
+
+        }
     }
 </style>
 
