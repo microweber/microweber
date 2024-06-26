@@ -7,14 +7,25 @@ use Filament\Resources\Pages\ManageRecords;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Components\SelectTemplate;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
 class ManageTemplates extends ManageRecords
 {
     protected static string $resource = TemplatesResource::class;
 
-    public function startWithTemplate()
+    public function startWithTemplate($template)
     {
+        $templateJson = file_get_contents(modules_path() . 'newsletter/src/resources/views/email-templates/' . $template. '.json');
+        if (!$templateJson) {
+            return;
+        }
 
+        $newTemplate = new NewsletterTemplate();
+        $newTemplate->title = 'New template';
+        $newTemplate->json = $templateJson;
+        $newTemplate->save();
+
+        return redirect(route('filament.admin.pages.newsletter.template-editor') . '?id=' . $newTemplate->id);
     }
 
     protected function getHeaderActions(): array
