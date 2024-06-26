@@ -23,7 +23,11 @@ class ManageTemplates extends ManageRecords
         $findLastTemplate = NewsletterTemplate::orderBy('id', 'desc')->first();
 
         $newTemplate = new NewsletterTemplate();
-        $newTemplate->title = 'New template (' . ($findLastTemplate->id + 1) . ')';
+        if ($findLastTemplate) {
+            $newTemplate->title = 'New template (' . ($findLastTemplate->id + 1) . ')';
+        } else {
+            $newTemplate->title = 'New template';
+        }
         $newTemplate->json = $templateJson;
         $newTemplate->save();
 
