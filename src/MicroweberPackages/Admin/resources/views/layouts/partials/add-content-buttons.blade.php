@@ -206,7 +206,7 @@ if($editContentBtnData){
                 <?php if ($additionalButtons){ ?>
                 <span  class="mw-add-content-quick-parents d-flex gap-2">
                       <?php foreach ($additionalButtons as $additionalButton){ ?>
-                    <a href="<?php print $additionalButton['url']; ?>" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs ">
+                    <a href="<?php print $additionalButton['url']; ?>" class="mw-admin-action-links mw-adm-liveedit-tabs ">
                             <?php print $additionalButton['title']; ?></a>
                      <?php } ?>
                 </span>
@@ -253,7 +253,7 @@ if($editContentBtnData){
                 <?php if ($additionalButtons){ ?>
             <span  class="mw-add-content-quick-parents d-flex gap-2">
                       <?php foreach ($additionalButtons as $additionalButton){ ?>
-                    <a href="<?php print $additionalButton['url']; ?>" class="btn btn-link mw-admin-action-links mw-adm-liveedit-tabs ">
+                    <a href="<?php print $additionalButton['url']; ?>" class="mw-admin-action-links mw-adm-liveedit-tabs ">
                             <?php print $additionalButton['title']; ?></a>
                      <?php } ?>
                 </span>

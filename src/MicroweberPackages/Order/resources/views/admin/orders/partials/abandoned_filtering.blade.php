@@ -29,7 +29,7 @@
             <a href="{{route('admin.order.index')}}" class="btn btn-link  mw-admin-action-links me-2">
                 <?php _e("Completed orders"); ?> (<?php echo $orders_count; ?>)
             </a>
-            <a href="{{route('admin.order.abandoned')}}" class="btn btn-link mw-admin-action-links">
+            <a href="{{route('admin.order.abandoned')}}" class="mw-admin-action-links">
                 <?php _e("Abandoned carts"); ?> (<?php echo $abandoned_count; ?>)
             </a>
         </div>

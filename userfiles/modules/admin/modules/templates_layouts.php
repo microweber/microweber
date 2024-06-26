@@ -386,7 +386,7 @@ $current_template = false;
                                 </div>
 
                             <div class="reset-current-template mt-4">
-                                <button type="button" class="js-reset-layout btn btn-link mw-admin-action-links mw-adm-liveedit-tabs text-danger ms-2">Reset Layout</button>
+                                <button type="button" class="js-reset-layout mw-admin-action-links mw-adm-liveedit-tabs text-danger ms-2">Reset Layout</button>
                             </div>
 
                             <?php endif; ?>

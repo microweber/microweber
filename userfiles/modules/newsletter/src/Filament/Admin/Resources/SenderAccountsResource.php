@@ -178,10 +178,11 @@ class SenderAccountsResource extends Resource
                         ]),
                     Wizard\Step::make('Sender Details')
                         ->schema([
-                            TextInput::make('name')
-                                ->label('Name')
-                                ->required()
-                                ->helperText('Enter the name of the sender account'),
+//                            TextInput::make('name')
+//                                ->label('Name')
+//                                ->required()
+//                                ->disabled()
+//                                ->helperText('Enter the name of the sender account'),
                             TextInput::make('from_name')
                                 ->label('From Name')
                                 ->required()
@@ -207,7 +208,21 @@ class SenderAccountsResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                Tables\Columns\IconColumn::make('account_type')
+                    ->label('Type')
+                    ->icon(fn (string $state): string => match ($state) {
+                        'php_mail' => 'newsletter-php',
+                        'smtp' => 'newsletter-smtp',
+                        'mailchimp' => 'newsletter-mailchimp',
+                        'mailgun' => 'newsletter-mailgun',
+                        'mandrill' => 'newsletter-mandrill',
+                        'amazon_ses' => 'newsletter-amazon-ses',
+                        'sparkpost' => 'newsletter-sparkpost',
+                    }),
+                TextColumn::make('provider')
+                    ->state(function (NewsletterSenderAccount $senderAccount) {
+                        return strtoupper($senderAccount->account_type);
+                    }),
                 TextColumn::make('from_name'),
                 TextColumn::make('from_email'),
                 TextColumn::make('reply_email'),

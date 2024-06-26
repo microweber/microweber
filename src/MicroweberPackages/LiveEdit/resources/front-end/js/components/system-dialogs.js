@@ -3,7 +3,7 @@ export const Alert = function (text) {
     var html = ''
         + '<div class="mw_alert">'
         + '<div class="mw-alert-holder">' + text + '</div>'
-        + '<div><span class="btn btn-primary mb-2" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></div>'
+        + '<div class="mw-dialog-footer"><span class="btn btn-primary mb-2" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></div>'
         + '</div>';
 
     if (mw.$("#mw_alert").length === 0) {
@@ -27,14 +27,17 @@ export const Prompt = function (q, callback, currentVal) {
     if(!q) return ;
 
      var input = document.createElement('input');
-    input.className = 'mw-ui-field w100';
+    input.className = 'form-control-live-edit-input';
+
+    var bottomEffect = document.createElement('span');
+    bottomEffect.className = 'form-control-live-edit-bottom-effect';
 
 
-    var question = mw.$('<div class="mw-prompt-input-container"><label class="mw-ui-label">'+q+'</label></div>');
-    question.append(input)
-    var footer = mw.$('<div class="mw-prompt-input-footer">');
-    var ok = mw.$('<button type="button" disabled class="mw-ui-btn mw-ui-btn-info">'+mw.lang('OK')+'</button>');
-    var cancel = mw.$('<span class="mw-ui-btn">'+mw.lang('Cancel')+'</span>');
+    var question = mw.$('<div class="form-control-live-edit-label-wrapper"><label class="live-edit-label">'+q+'</label> </div>');
+    question.append(input, bottomEffect);
+    var footer = mw.$('<div class="mw-dialog-footer">');
+    var ok = mw.$('<button type="button" disabled class="btn btn-primary">'+mw.lang('OK')+'</button>');
+    var cancel = mw.$('<span class="btn">'+mw.lang('Cancel')+'</span>');
     footer.append(cancel);
     footer.append(ok);
     console.log(mw.top())

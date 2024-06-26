@@ -2,6 +2,8 @@
     position: relative;
     text-decoration: none !important;
     @apply text-black dark:text-white;
+
+    @apply hover:cursor-pointer;
      }
 .mw-admin-action-links:disabled {
     opacity: .3;
