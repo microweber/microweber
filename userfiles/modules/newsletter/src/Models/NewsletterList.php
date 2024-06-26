@@ -7,6 +7,10 @@ class NewsletterList extends Model
 {
     public $table = 'newsletter_lists';
 
+    public $fillable = [
+        'name',
+    ];
+
     public function subscribers()
     {
         return $this->hasMany(NewsletterSubscriberList::class, 'list_id');

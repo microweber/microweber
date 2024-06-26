@@ -8,6 +8,9 @@ class NewsletterCampaign extends Model
 {
     public $table = 'newsletter_campaigns';
 
+    public $fillable = [
+        'sender_account_id'
+    ];
 
    public function list()
    {
