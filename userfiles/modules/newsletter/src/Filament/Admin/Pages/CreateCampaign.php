@@ -3,7 +3,8 @@
 namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
 
-use Filament\Forms\Components\Actions;
+use Filament\Actions\CreateAction;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
@@ -162,15 +163,19 @@ class CreateCampaign extends Page
                         ->icon('heroicon-o-user')
                         ->schema([
 
-                            Actions::make([
-                                Actions\Action::make('Add new sender')
-                                    ->link()
-                                    ->icon('heroicon-o-arrow-trending-up')
-                                    ->form(SenderAccountsResource::getEditFormArray())
-                                    ->color('primary')
-                            ])->alignEnd(),
-
                             RadioDeck::make('sender_account_id')
+                                ->hintActions([
+                                    Action::make('Add new sender')
+                                        ->link()
+                                        ->icon('heroicon-o-arrow-trending-up')
+                                        ->form(SenderAccountsResource::getEditFormArray())
+                                        ->action(function (array $data): void {
+                                            $newsletterSenderAccount = new NewsletterSenderAccount();
+                                            $newsletterSenderAccount->fill($data);
+                                            $newsletterSenderAccount->save();
+                                        })
+                                        ->color('primary'),
+                                ])
                                 ->label('Select sender')
                                 ->columns(2)
                                 ->padding('py-4 px-8')

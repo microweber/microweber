@@ -12,7 +12,13 @@ class NewsletterCampaign extends Model
         'sender_account_id'
     ];
 
-   public function list()
+
+    public function senderAccount()
+    {
+        return $this->hasOne(NewsletterSenderAccount::class, 'id', 'sender_account_id');
+    }
+
+    public function list()
    {
        return $this->hasOne(NewsletterList::class, 'id', 'list_id');
    }
