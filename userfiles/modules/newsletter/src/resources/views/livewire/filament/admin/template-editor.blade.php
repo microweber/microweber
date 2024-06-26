@@ -61,7 +61,7 @@
 
     });
     window.addEventListener('backTo', function (e) {
-        window.location.href = '';
+        window.location.href = '{{admin_url('newsletter/templates')}}';
     });
 
     window.addEventListener('selectImage', function (selectImageEvent) {
