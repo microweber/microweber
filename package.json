@@ -38,9 +38,11 @@
         "vue3-click-away": "^1.2.4",
         "vue3-tags-input": "^1.0.12",
         "vuetify": "^3.3.19",
-        "y18n": "^5.0.8"
+        "y18n": "^5.0.8",
+        "braces": ">=3.0.3"
     },
     "devDependencies": {
+        "braces": ">=3.0.3",
         "@nextapps-be/livewire-sortablejs": "^0.2.0",
         "autoprefixer": "^10.4.13",
         "axios": ">=1.6.5",
