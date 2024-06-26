@@ -208,10 +208,10 @@ class SenderAccountsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\IconColumn::make('icon')
-                    ->icon(function (NewsletterSenderAccount $senderAccount) {
-                      return 'newsletter-php';
-                    }),
+//                Tables\Columns\IconColumn::make('icon')
+//                    ->icon(function (NewsletterSenderAccount $senderAccount) {
+//                      return 'newsletter-php';
+//                    }),
                // TextColumn::make('name'),
                 TextColumn::make('from_name'),
                 TextColumn::make('from_email'),
