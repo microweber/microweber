@@ -223,10 +223,10 @@ class SenderAccountsResource extends Resource
                         'amazon_ses' => 'newsletter-amazon-ses',
                         'sparkpost' => 'newsletter-sparkpost',
                     }),
-                TextColumn::make('provider')
-                    ->state(function (NewsletterSenderAccount $senderAccount) {
-                        return strtoupper($senderAccount->account_type);
-                    }),
+//                TextColumn::make('provider')
+//                    ->state(function (NewsletterSenderAccount $senderAccount) {
+//                        return strtoupper($senderAccount->account_type);
+//                    }),
                 TextColumn::make('from_name'),
                 TextColumn::make('from_email'),
                 TextColumn::make('reply_email'),

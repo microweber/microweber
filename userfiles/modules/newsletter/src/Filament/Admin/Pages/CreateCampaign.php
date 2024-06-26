@@ -165,16 +165,22 @@ class CreateCampaign extends Page
 
                             RadioDeck::make('sender_account_id')
                                 ->hintActions([
-                                    Action::make('Add new sender')
+                                    Action::make('Manage Senders')
                                         ->link()
-                                        ->icon('heroicon-o-arrow-trending-up')
-                                        ->form(SenderAccountsResource::getEditFormArray())
-                                        ->action(function (array $data): void {
-                                            $newsletterSenderAccount = new NewsletterSenderAccount();
-                                            $newsletterSenderAccount->fill($data);
-                                            $newsletterSenderAccount->save();
-                                        })
-                                        ->color('primary'),
+                                        ->url(admin_url('newsletter/sender-accounts'))
+                                        ->openUrlInNewTab()
+                                        ->icon('heroicon-o-cog'),
+
+//                                    Action::make('Add new sender')
+//                                        ->link()
+//                                        ->icon('heroicon-o-arrow-trending-up')
+//                                        ->form(SenderAccountsResource::getEditFormArray())
+//                                        ->action(function (array $data): void {
+//                                            $newsletterSenderAccount = new NewsletterSenderAccount();
+//                                            $newsletterSenderAccount->fill($data);
+//                                            $newsletterSenderAccount->save();
+//                                        })
+//                                        ->color('primary'),
                                 ])
                                 ->label('Select sender')
                                 ->columns(2)
