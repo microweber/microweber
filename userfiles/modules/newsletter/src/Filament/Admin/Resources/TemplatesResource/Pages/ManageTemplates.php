@@ -12,6 +12,11 @@ class ManageTemplates extends ManageRecords
 {
     protected static string $resource = TemplatesResource::class;
 
+    public function startWithTemplate()
+    {
+
+    }
+
     protected function getHeaderActions(): array
     {
         return [
