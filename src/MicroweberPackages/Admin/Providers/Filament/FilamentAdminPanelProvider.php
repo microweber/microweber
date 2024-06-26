@@ -10,6 +10,7 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\MinimalTheme;
 use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -109,6 +110,13 @@ class FilamentAdminPanelProvider extends PanelProvider
                 'Other' => NavigationGroup::make()
                     ->label('Other')
                     ->collapsible(false),
+            ])
+            ->navigationItems([
+                NavigationItem::make('E-mail Marketing')
+                    ->url(admin_url('newsletter/homepage'))
+                    ->group('Other')
+                    ->sort(300)
+                    ->icon('heroicon-o-megaphone'),
             ])
             ->sidebarWidth('15rem')
             ->colors([
