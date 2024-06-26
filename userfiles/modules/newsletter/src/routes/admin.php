@@ -34,7 +34,10 @@ Route::name('admin.newsletter.')
             if (!$templateFilename) {
                 return;
             }
-            $templateFilename = $templateFilename . '.html';
+            $templateHtml = file_get_contents(modules_path() . 'newsletter/src/resources/views/email-templates/' . $templateFilename. '.html');
+            if (!$templateHtml) {
+                return;
+            }
 
             return view('microweber-module-newsletter::email-templates.preview', [
                 'content' => 'This is a test content',
@@ -42,7 +45,7 @@ Route::name('admin.newsletter.')
                 'name' => 'Jhon Doe',
                 'unsubscribe_url' => '',
                 'email' => 'jhon@doe.com',
-                'templateFilename' => $templateFilename,
+                'html' => 'test',
             ]);
 
         })->name('preview-email-template');
