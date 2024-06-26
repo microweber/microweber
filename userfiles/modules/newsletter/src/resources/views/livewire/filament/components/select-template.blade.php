@@ -1,6 +1,6 @@
 <div>
 
-       <div class="grid grid-cols-2 gap-4">
+       <div class="grid grid-cols-3 gap-4">
            @foreach($getEmailTemplates() as $template)
 
                <div class="group rounded-md border border-gray-500/10 bg-white hover:shadow-xl">
