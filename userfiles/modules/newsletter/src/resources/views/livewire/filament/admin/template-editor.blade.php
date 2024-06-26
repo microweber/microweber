@@ -32,7 +32,7 @@
                 jsonLoaded = true;
                 const event = new CustomEvent("loadJsonTemplate", {
                     detail: {
-                        json: '{{base64_encode($templateJson)}}',
+                        json: {!! $templateJson !!},
                     }
                 });
                 window.dispatchEvent(event);
