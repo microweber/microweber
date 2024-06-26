@@ -40,10 +40,7 @@ class TemplatesResource extends Resource
     {
         return $form
             ->schema([
-                SelectTemplate::make('template')
-                    ->label('Template')
-                    ->required()
-                    ->default('default'),
+
             ]);
     }
 
