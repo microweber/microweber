@@ -8,18 +8,26 @@
 
 namespace MicroweberPackages\Menu\Traits;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Menu\Models\MenuItem;
 
 trait HasMenuItem
 {
     public static $addContentToMenu = [];
+    public static $setMenuIdsForContent = null;
+    private $_setMenuIdsForContent = null;
 
 
     public function initializeHasMenuItem()
     {
         $this->fillable[] = 'add_content_to_menu';
+        $this->fillable[] = '_setMenuIdsForContent';
+       //  $this->hidden[] = 'contentMenuIdsSet';
+        // $this->hidden[] = 'contentMenuIdsSet';
         $this->casts['add_content_to_menu'] = 'array';
+       // $this->casts['contentMenuIdsSet'] = 'array';
+       //$this->casts['menuIds'] = 'array';
     }
 
     public function addToMenu($contentId)
@@ -29,14 +37,22 @@ trait HasMenuItem
 
     public static function bootHasMenuItem()
     {
+        static::updated(function ($model) {
 
+        });
         static::saving(function ($model) {
 
             // append content to categories
             if (isset($model->add_content_to_menu)) {
-                self::$addContentToMenu = $model->add_content_to_menu;
+                 self::$addContentToMenu = $model->add_content_to_menu;
+            }
+
+            if (isset($model->_setMenuIdsForContent)) {
+                 self::$setMenuIdsForContent = $model->_setMenuIdsForContent;
             }
             unset($model->add_content_to_menu);
+            unset($model->_setMenuIdsForContent);
+
         });
 
 
@@ -50,8 +66,22 @@ trait HasMenuItem
                     }
                 }
             }
+            if(isset(self::$setMenuIdsForContent)){
+               if(empty(self::$setMenuIdsForContent)){
+                   $model->menuItems()->delete();
+               } else {
+
+                   foreach (self::$setMenuIdsForContent as $menuId) {
+
+                       if (!app()->menu_manager->is_in_menu($menuId, $model->id)) {
+                           app()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
+                       }
+                   }
+               }
+            }
 
         });
+
 
         static::deleting(function ($model) {
             $model->menuItems()->delete();
@@ -61,14 +91,33 @@ trait HasMenuItem
     public function menuItems()
     {
         return $this->hasMany(MenuItem::class, 'content_id');
+        //        return $this->belongsToMany(MenuItem::class, 'content', 'id','id', 'id', 'content_id');
     }
 
-
-    public function getMenusAttribute()
+    public function setMenuIds($value)
     {
-        $menus = $this->menuItems()->get();
-        return $menus;
+      $this->_setMenuIdsForContent = $value;
+    }
 
+    public function getMenuIdsAttribute()
+    {
+
+       $menus = $this->menuItems()->get();
+
+//        $menus = DB::table('menus')
+//            ->select('parent_id')
+//            ->where('item_type', 'menu_item')
+//            ->where('content_id', $this->id)
+//            ->get();
+
+        $menusItems = [];
+        if ($menus) {
+            foreach ($menus as $menu) {
+                $menusItems[] = $menu->parent_id;
+            }
+        }
+
+        return $menusItems;
     }
 
 

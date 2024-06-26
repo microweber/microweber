@@ -10,6 +10,7 @@ use MicroweberPackages\Content\Models\ContentRelated;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Menu\Models\Menu;
+use MicroweberPackages\Menu\Models\MenuItem;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 
@@ -17,15 +18,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 {
     public function add_content_to_menu($content_id, $menu_id = false)
     {
-        $id = $this->app->user_manager->is_admin();
-        if (defined('MW_API_CALL') and $id == false) {
-            return;
-        }
-        $new_item = false;
-        $id = $this->app->user_manager->is_admin();
-        if (defined('MW_API_CALL') and $id == false) {
-            return;
-        }
+
         if (isset($content_id['id'])) {
             $content_id = $content_id['id'];
         }
@@ -70,15 +63,16 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
         }
 
+
         if (isset($add_to_menus_int) and is_array($add_to_menus_int)) {
-            Menu::where('content_id', $content_id)
-                ->where('item_type', 'menu_item')
-                ->whereNotIn('parent_id', $add_to_menus_int)
-                ->delete();
+//            MenuItem::where('content_id', $content_id)
+//               // ->where('item_type', 'menu_item')
+//                ->whereNotIn('parent_id', $add_to_menus_int)
+//                ->delete();
             foreach ($add_to_menus_int as $value) {
                 //  $check = $this->app->menu_manager->get_menu_items("parent_id={$value}&content_id=$content_id");
 
-                $check = Menu::where('content_id', $content_id)
+                $check = MenuItem::where('content_id', $content_id)
                     ->where('item_type', 'menu_item')
                     ->where('parent_id', $value)
                     ->count();
@@ -99,6 +93,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                     $save['url'] = '';
                     $save['content_id'] = $content_id;
+
 
                     $new_item = $this->app->database_manager->save($menus, $save);
 

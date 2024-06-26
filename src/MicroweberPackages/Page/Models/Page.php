@@ -9,8 +9,7 @@ use MicroweberPackages\Media\Traits\MediaTrait;
 
 class Page extends Content
 {
-    use HasSlugTrait;
-    use MediaTrait;
+
 
     protected $table = 'content';
     protected $primaryKey = 'id';

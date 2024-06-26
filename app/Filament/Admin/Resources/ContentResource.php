@@ -12,9 +12,11 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwSelectMenuForPage;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
 use MicroweberPackages\Filament\Forms\Components\MwTree;
@@ -75,43 +77,92 @@ class ContentResource extends Resource
             $id = $record->id;
         }
 
+        $selectedMenus = [];
+        if ($record) {
+            $selectedMenus = $record->menuIds;
 
+        }
 
         $menus = get_menus();
         $menusCheckboxes = [];
-        $selectedMenus = [];
+       // $selectedMenus = [];
+
         if ($menus) {
             foreach ($menus as $menu) {
                 $menusCheckboxes[$menu['id']] = $menu['title'];
 
                 if (is_in_menu($menu['id'], $id)) {
-                    $selectedMenus[$menu['id']] = $menu['title'];
+              //      $selectedMenus[$menu['id']] = $menu['title'];
                 }
             }
         }
 
-        if(!empty($selectedMenus)){
-            $record->add_content_to_menu = $selectedMenus;
+        if (!empty($selectedMenus)) {
+            //    $record->add_content_to_menu = $selectedMenus;
 
         }
 
 //dd($record->menuItems());
-//dd($record->add_content_to_menu);
-
 
 
         $templates = site_templates();
         $active_site_template = template_name();
 
-
+        $menuIds = $selectedMenus;
         $parent = 0;
         if ($record) {
             $parent = $record->parent;
         }
 
+//        $livewire->selectedMenus = $selectedMenus;
+//        $livewire->menus = $menus;
+//        $livewire->existingMenus = $menusCheckboxes;
+        // $livewire->menuIds = $menuIds;
+
+        //  $menuIds = $record->menuIds;
         $site_url = site_url();
         return $form
             ->schema([
+
+
+                Forms\Components\CheckboxList::make('menuIds')
+                    //   ->hiddenLabel(true)
+                    ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
+
+                        if ($selectedMenus) {
+                            $set('menuIds', $selectedMenus);
+                        } else {
+                            $set('menuIds', []);
+                        }
+                    })
+
+
+//                    ->beforeStateDehydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($menuIds) {
+//                        $items = $menuIds;
+//                        if ($items) {
+//                            $set('menuIds', $items);
+//                        }
+//                    })
+                    ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, ?Model $record) {
+                        $items = $state;
+
+                        if (is_array($items) and !empty($items)) {
+                            $items = array_filter($items);
+                            $items = array_values($items);
+                            $set('menuIds', $items);
+                        } else {
+                            $set('menuIds', []);
+                        }
+
+                        if ($items) {
+                            $record->setMenuIds($items);
+                        } else {
+                            $record->setMenuIds([]);
+
+                        }
+                    })
+                    ->options($menusCheckboxes),
+
 
 //                Forms\Components\CheckboxList::make('belongsToMenus')
 //                ->relationship(titleAttribute: 'title'),
@@ -413,20 +464,7 @@ class ContentResource extends Resource
 
                             Forms\Components\Section::make('Menus')
                                 ->schema([
-//                                    Forms\Components\CheckboxList::make('Menu')->label(false)
-////                                        ->formatStateUsing(function (Forms\Get $get, Forms\Set $set, ?array $state) use($selectedMenus) {
-////                                           if($selectedMenus){
-////                                               foreach ($selectedMenus as $key=>$menu){
-////
-////                                                   $set('add_content_to_menu'.$key, $menu);
-////                                               }
-////                                               //$set('add_content_to_menu', $selectedMenus);
-////                                           }
-////                                        })
-//                              //          ->options($menusCheckboxes)
-//                                    ->relationship(titleAttribute: 'title', name: 'belongsToMenus')
-//
-//                                   //     ->default($selectedMenus),
+
 
                                 ])
                         ])->columnSpan(['lg' => 1]),

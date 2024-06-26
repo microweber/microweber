@@ -15,6 +15,8 @@ class EditContent extends EditRecord
 
     public $activeLocale;
 
+
+
     protected static string $view = 'content::admin.content.filament.edit-record';
 
     protected static string $resource = ContentResource::class;
@@ -24,6 +26,7 @@ class EditContent extends EditRecord
     {
         return $this->getEditContentForms();
     }
+
 
     protected function getHeaderActions(): array
     {

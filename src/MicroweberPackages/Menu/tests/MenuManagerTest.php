@@ -203,4 +203,24 @@ class MenuManagerTest extends TestCase
         $this->assertTrue($testIsInMenu);
     }
 
+    public function testMenuIdsArrtbuteOnModel()
+    {
+        $newCleanPageId = save_content([
+            'subtype' => 'static',
+            'title' => 'testMenuIdsArrtbuteOnModel',
+
+        ]);
+        $menu = get_menus('single=1&title=' . $this->menu_title);
+
+        $find = Content::where('id', $newCleanPageId)->first();
+
+        $find->setMenuIds([$menu['id']]);
+
+        $find->save();
+
+        $testIsInMenu = is_in_menu($menu['id'], $newCleanPageId);
+
+        $this->assertTrue($testIsInMenu);
+    }
+
 }
