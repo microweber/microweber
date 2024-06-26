@@ -24,6 +24,8 @@
         font-weight: <?php echo $textWeight; ?>;
         font-style: <?php echo $textStyle; ?>;
 
+
+
     }
 </style>
 
