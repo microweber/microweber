@@ -15,16 +15,16 @@ class SelectTemplate extends Field
         $emailTemplates = [];
 
         $templatesPath = modules_path() .'newsletter/src/resources/views/email-templates';
-        $templates = glob($templatesPath . '/*.blade.php');
+        $templates = glob($templatesPath . '/*.json');
 
         foreach ($templates as $template) {
-            $filename = basename($template, '.blade.php');
+            $filename = basename($template, '.json');
+            $screenshotUrl = modules_url() . 'newsletter/src/resources/views/email-templates/' . $filename . '.png';
             $emailTemplates[] = [
                 'name' => $filename,
                 'filename' => $filename,
-                'demoUrl'=>route('admin.newsletter.preview-email-template-iframe') . '?filename=' . $filename,
+                'screenshot' => $screenshotUrl,
             ];
-            break;
         }
 
         return $emailTemplates;

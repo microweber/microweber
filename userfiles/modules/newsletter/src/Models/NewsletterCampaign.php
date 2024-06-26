@@ -8,8 +8,17 @@ class NewsletterCampaign extends Model
 {
     public $table = 'newsletter_campaigns';
 
+    public $fillable = [
+        'sender_account_id'
+    ];
 
-   public function list()
+
+    public function senderAccount()
+    {
+        return $this->hasOne(NewsletterSenderAccount::class, 'id', 'sender_account_id');
+    }
+
+    public function list()
    {
        return $this->hasOne(NewsletterList::class, 'id', 'list_id');
    }

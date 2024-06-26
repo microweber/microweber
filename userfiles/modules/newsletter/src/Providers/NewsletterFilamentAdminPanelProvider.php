@@ -12,6 +12,7 @@ use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\CampaignResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\ListResource;
@@ -41,7 +42,8 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 'primary' => Color::Blue,
             ])
             ->pages([
-                Homepage::class
+                Homepage::class,
+                CreateCampaign::class
             ])
             ->resources([
                 SenderAccountsResource::class,
@@ -68,7 +70,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             hook: fn(): string => Blade::render('
             <div class="p-4 w-full mb-4">
             <x-filament::button outlined
-                    href="'.admin_url().'"
+                    href="'.admin_url('newsletter/create-campaign').'"
                     tag="a"
                     icon="heroicon-o-pencil"
                     class="w-full"

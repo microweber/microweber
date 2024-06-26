@@ -1,24 +1,36 @@
 <div>
-       <script>
-           document.addEventListener('DOMContentLoaded', function () {
-               const iframes = document.querySelectorAll('iframe[data-src]');
-               iframes.forEach(iframe => {
-                   iframe.src = iframe.dataset.src;
-               });
-           });
-       </script>
+
        <div class="grid grid-cols-3 gap-4">
            @foreach($getEmailTemplates() as $template)
 
-               <a href="{{route('filament.admin.pages.newsletter.template-editor')}}">
-                   <div class="bg-white rounded shadow h-[20rem]">
-{{--                       <div style="pointer-events:none;width: 800px; height: 800px; overflow: hidden; box-sizing: border-box; transform-origin: left top 0px; transform: scale(0.37);">--}}
-                           <iframe data-src="{{ $template['demoUrl'] }}" scrolling="no" style="pointer-events:none;height: 100%; width: 100%; display: block; border: 0px transparent;">
-
-                           </iframe>
-{{--                       </div>--}}
+               <div class="group rounded-md border border-gray-500/10 bg-white hover:shadow-xl">
+                   <div class="relative">
+                       <div>
+                           <img src="{{$template['screenshot']}}" alt="{{$template['name']}}" class="rounded-md w-full object-top object-cover max-h-[26rem]">
+                       </div>
+                       <div class="opacity-0 group-hover:opacity-100 transition absolute top-0 w-full h-full flex items-center gap-4 p-8 backdrop-blur-sm">
+                       <div class="w-full flex items-center justify-center gap-4">
+                           <x-filament::button
+                               size="sm"
+                               color="info"
+                               wire:click="startWithTemplate('{{$template['name']}}')"
+                               tag="a"
+                           >
+                               Start
+                           </x-filament::button>
+                           <x-filament::button
+                               size="sm"
+                               color="gray"
+                               href="{{admin_url('modules/newsletter/preview-email-template')}}?filename={{$template['name']}}"
+                               tag="a"
+                               target="_blank"
+                           >
+                               Preview
+                           </x-filament::button>
+                       </div>
+                       </div>
                    </div>
-               </a>
+               </div>
 
            @endforeach
 
