@@ -70,14 +70,14 @@ export default defineConfig({
         }),
 
 
-        istanbul({
-            include: 'src/MicroweberPackages/LiveEdit/*',
-            exclude: ['node_modules', 'tests/'],
-            extension: [ '.js', '.ts', '.vue' ],
-            forceBuildInstrument: true,
-            requireEnv: true,
-            //requireEnv: false,
-        })
+        // istanbul({
+        //     include: 'src/MicroweberPackages/LiveEdit/*',
+        //     exclude: ['node_modules', 'tests/'],
+        //     extension: [ '.js', '.ts', '.vue' ],
+        //     forceBuildInstrument: true,
+        //     requireEnv: true,
+        //     //requireEnv: false,
+        // })
 
     ]
 });
