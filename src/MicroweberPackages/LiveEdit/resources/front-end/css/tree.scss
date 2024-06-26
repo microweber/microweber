@@ -1,10 +1,20 @@
 .mw-tree-item-content{
-    @apply py-1 flex;
+    @apply py-1 flex relative;
     .mw-tree-item-title{
         @apply gap-1 flex;
     }
+    .form-check + .mw-tree-item-title{
+        @apply ps-2;
+    }
     tree-label {
-         @apply hidden
+        position: absolute;
+        left: 0;
+        top: 2px;
 
     }
+}
+
+
+.btn {
+   @apply flex inline-block align-middle text-center select-none border font-normal rounded py-1 px-3 leading-normal no-underline;
 }
