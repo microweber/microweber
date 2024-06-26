@@ -1,8 +1,5 @@
-@extends('microweber-module-newsletter::livewire.filament.admin.layout')
-
-@section('newsletter-content')
-
-    <div class="text-center mt-12 mb-6">
+<div>
+    <div class="text-center my-12">
         <h1 class="text-2xl font-bold">
             Creating a new email marketing campaign
         </h1>
@@ -14,4 +11,4 @@
         {{$this->form}}
     </div>
 
-@endsection
+</div>
