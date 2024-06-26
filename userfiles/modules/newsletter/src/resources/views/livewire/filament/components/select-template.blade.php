@@ -21,8 +21,9 @@
                            <x-filament::button
                                size="sm"
                                color="gray"
-                               href="{{admin_url('newsletter/email-templates/' . $template['name'])}}"
+                               href="{{admin_url('modules/newsletter/preview-email-template')}}?filename={{$template['name']}}"
                                tag="a"
+                               target="_blank"
                            >
                                Preview
                            </x-filament::button>
