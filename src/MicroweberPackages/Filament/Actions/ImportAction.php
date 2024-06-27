@@ -4,6 +4,7 @@ namespace MicroweberPackages\Filament\Actions;
 
 use Filament\Tables\Actions\ImportAction as ImportTableAction;
 use MicroweberPackages\Filament\MwFilamentImport;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 
 class ImportAction extends \Filament\Actions\ImportAction
 {
@@ -15,7 +16,7 @@ class ImportAction extends \Filament\Actions\ImportAction
 
             $import =  MwFilamentImport::startImport($action, $data);
 
-            $this->dispatch('subscribersImported');
+            $this->dispatchTo(CreateCampaign::class, 'subscribersImported');
 
             return $import;
         });

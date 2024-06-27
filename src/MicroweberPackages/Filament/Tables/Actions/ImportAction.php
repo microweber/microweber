@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use League\Csv\Reader as CsvReader;
 use League\Csv\Statement;
 use MicroweberPackages\Filament\MwFilamentImport;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 
 class ImportAction extends \Filament\Tables\Actions\ImportAction
 {
@@ -20,7 +21,7 @@ class ImportAction extends \Filament\Tables\Actions\ImportAction
 
             $import =  MwFilamentImport::startImport($action, $data);
 
-            $this->dispatch('subscribersImported');
+            $this->dispatchTo(CreateCampaign::class, 'subscribersImported');
 
             return $import;
         });
