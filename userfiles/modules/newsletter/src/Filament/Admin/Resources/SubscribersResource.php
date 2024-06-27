@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources;
 
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
@@ -16,6 +17,7 @@ use Filament\Tables\Table;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource\Pages\ManageSubscribers;
+use MicroweberPackages\Modules\Newsletter\Filament\Imports\NewsletterSubscriberImporter;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
@@ -75,6 +77,10 @@ class SubscribersResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->headerActions([
+                Tables\Actions\ImportAction::make('importProducts')
+                    ->importer(NewsletterSubscriberImporter::class)
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
