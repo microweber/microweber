@@ -5,6 +5,13 @@ namespace MicroweberPackages\Modules\Newsletter\Filament\Imports;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Get;
+use MicroweberPackages\FormBuilder\Elements\RadioButton;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 
 class NewsletterSubscriberImporter extends Importer
@@ -19,6 +26,38 @@ class NewsletterSubscriberImporter extends Importer
             ImportColumn::make('email')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+        ];
+    }
+
+    public static function getOptionsFormComponents(): array
+    {
+        return [
+            Radio::make('select_list')
+                ->label('')
+                ->live()
+                ->default('import_to_new_list')
+                ->options([
+                    'import_to_new_list' => 'Create new list and import subscribers',
+                    'import_to_existing_list' => 'Import subscribers to existing list',
+                ]),
+
+            TextInput::make('new_list_name')
+                ->hidden(function (Get $get){
+                if ($get('select_list') == 'import_to_new_list') {
+                    return false;
+                }
+                return true;
+            }),
+
+            CheckboxList::make('lists')
+                ->hidden(function (Get $get){
+                    if ($get('select_list') == 'import_to_existing_list') {
+                        return false;
+                    }
+                    return true;
+                })
+                ->label('Import subscribers to list')
+                ->options(NewsletterList::all()->pluck('name', 'id')->toArray()),
         ];
     }
 

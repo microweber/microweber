@@ -75,17 +75,17 @@ class SubscribersResource extends Resource
     {
         return $table
             ->columns([
-
                 TextColumn::make('email'),
                 TextColumn::make('name'),
-
             ])
             ->filters([
                 //
             ])
             ->headerActions([
                 \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importProducts')
-                    ->importer(NewsletterSubscriberImporter::class)
+                    ->icon('heroicon-m-cloud-arrow-up')
+                    ->importer(NewsletterSubscriberImporter::class),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
