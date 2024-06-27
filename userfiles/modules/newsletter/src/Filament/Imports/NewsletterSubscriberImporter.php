@@ -5,7 +5,15 @@ namespace MicroweberPackages\Modules\Newsletter\Filament\Imports;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
 use Filament\Actions\Imports\Models\Import;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Get;
+use MicroweberPackages\FormBuilder\Elements\RadioButton;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList;
 
 class NewsletterSubscriberImporter extends Importer
 {
@@ -22,12 +30,80 @@ class NewsletterSubscriberImporter extends Importer
         ];
     }
 
+    public static function getOptionsFormComponents(): array
+    {
+        return [
+            Radio::make('select_list')
+                ->label('')
+                ->live()
+                ->default('import_to_new_list')
+                ->options([
+                    'import_to_new_list' => 'Create new list and import subscribers',
+                    'import_to_existing_list' => 'Import subscribers to existing list',
+                ]),
+
+            TextInput::make('new_list_name')
+                ->hidden(function (Get $get){
+                if ($get('select_list') == 'import_to_new_list') {
+                    return false;
+                }
+                return true;
+            }),
+
+            CheckboxList::make('lists')
+                ->hidden(function (Get $get){
+                    if ($get('select_list') == 'import_to_existing_list') {
+                        return false;
+                    }
+                    return true;
+                })
+                ->label('Import subscribers to list')
+                ->options(NewsletterList::all()->pluck('name', 'id')->toArray()),
+        ];
+    }
+
     public function resolveRecord(): ?NewsletterSubscriber
     {
-         return NewsletterSubscriber::firstOrNew([
-             // Update existing records, matching them by `$this->data['column_name']`
-             'email' => $this->data['email'],
-         ]);
+
+        $listIds = [];
+        if (isset($this->options['select_list'])) {
+            if (isset($this->options['new_list_name']) && $this->options['select_list'] == 'import_to_new_list') {
+                $findList = NewsletterList::where('name', $this->options['new_list_name'])->first();
+                if (!$findList) {
+                    $list = new NewsletterList();
+                    $list->name = $this->options['new_list_name'];
+                    $list->save();
+                    $listIds[] = $list->id;
+                } else {
+                    $listIds[] = $findList->id;
+                }
+            } else {
+                $listIds = $this->options['lists'];
+            }
+        }
+
+        $findSubscriber = NewsletterSubscriber::where('email', $this->data['email'])->first();
+        if (!$findSubscriber) {
+            $findSubscriber = new NewsletterSubscriber();
+            $findSubscriber->email = $this->data['email'];
+            $findSubscriber->save();
+        }
+
+        if (!empty($listIds)) {
+            foreach($listIds as $listId) {
+                $findSubscriberList = NewsletterSubscriberList::where('subscriber_id', $findSubscriber->id)
+                    ->where('list_id', $listId)
+                    ->first();
+                if (!$findSubscriberList) {
+                    $subscriberList = new NewsletterSubscriberList();
+                    $subscriberList->subscriber_id = $findSubscriber->id;
+                    $subscriberList->list_id = $listId;
+                    $subscriberList->save();
+                }
+            }
+        }
+
+        return $findSubscriber;
     }
 
     public static function getCompletedNotificationBody(Import $import): string

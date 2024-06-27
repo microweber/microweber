@@ -13,7 +13,7 @@ class NewsletterList extends Model
 
     public function subscribers()
     {
-        return $this->hasMany(NewsletterSubscriberList::class, 'list_id');
+        return $this->hasMany(NewsletterSubscriberList::class, 'list_id', 'id');
     }
 
     public function getSubscribersAttribute()

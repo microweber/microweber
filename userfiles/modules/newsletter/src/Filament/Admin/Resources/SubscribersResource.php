@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources;
 
 use Filament\Actions\ImportAction;
+use Filament\Actions\Imports\Models\Import;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\TextInput;
@@ -12,9 +13,13 @@ use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
+use Filament\Tables\Actions\ImportAction as ImportTableAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Arr;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
+use League\Csv\Reader as CsvReader;
+use League\Csv\Statement;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource\Pages\ManageSubscribers;
 use MicroweberPackages\Modules\Newsletter\Filament\Imports\NewsletterSubscriberImporter;
@@ -70,17 +75,17 @@ class SubscribersResource extends Resource
     {
         return $table
             ->columns([
-
                 TextColumn::make('email'),
                 TextColumn::make('name'),
-
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\ImportAction::make('importProducts')
-                    ->importer(NewsletterSubscriberImporter::class)
+                \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importProducts')
+                    ->icon('heroicon-m-cloud-arrow-up')
+                    ->importer(NewsletterSubscriberImporter::class),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
