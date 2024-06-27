@@ -9,25 +9,6 @@ class Button
     {
         $html = '';
 
-//
-//        "data" => array:2 [▼
-//    "style" => array:3 [▼
-//      "fontSize" => 18
-//      "textAlign" => "center"
-//      "padding" => array:4 [▼
-//        "top" => 16
-//        "bottom" => 16
-//        "right" => 24
-//        "left" => 24
-//      ]
-//    ]
-//    "props" => array:5 [▼
-//      "buttonStyle" => "pill"
-//      "fullWidth" => false
-//      "size" => "medium"
-//      "text" => "Start Now"
-//      "url" => "https://www.usewaypoint.com"
-
         $css = [];
         if (isset($params['data']['style']['fontSize'])) {
             $css[] = 'font-size: ' . $params['data']['style']['fontSize'] . 'px;';
