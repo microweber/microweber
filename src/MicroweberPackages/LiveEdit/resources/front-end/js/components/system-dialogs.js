@@ -3,7 +3,7 @@ export const Alert = function (text) {
     var html = ''
         + '<div class="mw_alert">'
         + '<div class="mw-alert-holder">' + text + '</div>'
-        + '<div class="mw-dialog-footer"><span class="btn btn-primary mb-2" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></div>'
+        + '<div class="mw-alert-footer !p-0"><span class="btn btn-primary mb-2" onclick="mw.dialog.remove(this);"><b>' + mw.msg.ok + '</b></span></div>'
         + '</div>';
 
     if (mw.$("#mw_alert").length === 0) {
