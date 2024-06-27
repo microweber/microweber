@@ -4,6 +4,8 @@ namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
 
 use Filament\Actions\CreateAction;
+use Filament\Actions\ImportAction;
+use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
@@ -25,6 +27,7 @@ use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Components\SelectTemplate;
+use MicroweberPackages\Modules\Newsletter\Filament\Imports\NewsletterSubscriberImporter;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
@@ -145,10 +148,15 @@ class CreateCampaign extends Page
                                 ->options($lists),
 
                             Group::make([
-                                TextInput::make('state.list_name')
-                                    ->label('List name'),
-                                MwFileUpload::make('state.upload_list_file')
-                                    ->label('Upload list file'),
+
+//                                Actions::make([
+//
+//                                ]),
+
+//                                TextInput::make('state.list_name')
+//                                    ->label('List name'),
+//                                MwFileUpload::make('state.upload_list_file')
+//                                    ->label('Upload list file'),
                             ])->hidden(function (Get $get) {
                                 if ($get('state.recipientsFrom') == 'import_new_list') {
                                     return false;
