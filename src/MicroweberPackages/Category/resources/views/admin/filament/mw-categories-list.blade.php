@@ -9,7 +9,7 @@
 
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_BEFORE, scopes: $this->getRenderHookScopes()) }}
 
-        aasdasdsa
+
 
 
         @php
@@ -20,7 +20,7 @@
 
 
         @endphp
-        jhhhhhhhhhhhhhhhh
+
 
 
         @script
@@ -108,10 +108,12 @@
         ?>
 
 
-        <div wire:ignore id="mw-tree-edit-content-{{$suffix}}">Loading...</div>
+            <div wire:ignore id="mw-tree-edit-content-{{$suffix}}"></div>
+        
 
 
-        ads5sad51sa1asdasd53sa
+
+
 
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::RESOURCE_PAGES_LIST_RECORDS_TABLE_AFTER, scopes: $this->getRenderHookScopes()) }}
     </div>
