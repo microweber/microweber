@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Modules\Newsletter\EmailTemplateRendering\Elements;
 
-class Button
+class Button extends DefaultElement
 {
 
     public function render($params = [])

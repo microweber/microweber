@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Modules\Newsletter\EmailTemplateRendering\Elements;
 
-class Heading
+class Heading extends DefaultElement
 {
 
     public function render($params = [])

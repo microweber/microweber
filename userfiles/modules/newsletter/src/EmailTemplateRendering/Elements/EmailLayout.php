@@ -2,13 +2,8 @@
 
 namespace MicroweberPackages\Modules\Newsletter\EmailTemplateRendering\Elements;
 
-class EmailLayout
+class EmailLayout extends DefaultElement
 {
-    public $structure = [];
-    public function setStructure($structure)
-    {
-        $this->structure = $structure;
-    }
     public function render($params = [])
     {
 
@@ -56,25 +51,5 @@ class EmailLayout
         $html .= '</html>';
 
         return $html;
-    }
-
-    public function renderChildren($childrenId)
-    {
-
-        if (isset($this->structure[$childrenId])) {
-
-            $childrenElement = $this->structure[$childrenId];
-
-            try {
-                $elementType = app()->make('MicroweberPackages\\Modules\\Newsletter\\EmailTemplateRendering\Elements\\' . $childrenElement['type']);
-                //   $elementType->setStructure($this->structure);
-                return $elementType->render($childrenElement);
-            } catch (\Exception $e) {
-                return 'Error: ' . $e->getMessage();
-            }
-
-        //    dd($childrenElement);
-        }
-
     }
 }
