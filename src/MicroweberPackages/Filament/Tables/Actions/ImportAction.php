@@ -12,7 +12,6 @@ use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 
 class ImportAction extends \Filament\Tables\Actions\ImportAction
 {
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -21,7 +20,7 @@ class ImportAction extends \Filament\Tables\Actions\ImportAction
 
             $import =  MwFilamentImport::startImport($action, $data);
 
-            $this->dispatchTo(CreateCampaign::class, 'subscribersImported');
+            $this->dispatchTo('subscribersImported');
 
             return $import;
         });

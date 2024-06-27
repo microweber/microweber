@@ -8,18 +8,34 @@ use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 
 class ImportAction extends \Filament\Actions\ImportAction
 {
+    public $importedData = [];
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->action(function (\Filament\Actions\ImportAction|ImportTableAction $action, array $data) {
 
-            $import =  MwFilamentImport::startImport($action, $data);
+            $this->importedData = MwFilamentImport::startImport($action, $data);
 
-            $this->dispatchTo(CreateCampaign::class, 'subscribersImported');
+            if ($this->afterImport) {
+                $this->evaluate($this->afterImport);
+            }
 
-            return $import;
         });
 
     }
+
+    public function getImportedData()
+    {
+        return $this->importedData;
+    }
+
+    public function afterImport(callable $callback): static
+    {
+        $this->afterImport = $callback;
+
+        return $this;
+    }
+
+
 }
