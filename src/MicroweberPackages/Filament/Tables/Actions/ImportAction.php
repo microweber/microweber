@@ -2,12 +2,11 @@
 
 namespace MicroweberPackages\Filament\Tables\Actions;
 
-use Closure;
+use Filament\Actions\Imports\Models\Import;
 use Filament\Tables\Actions\ImportAction as ImportTableAction;
 use Illuminate\Support\Arr;
 use League\Csv\Reader as CsvReader;
 use League\Csv\Statement;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class ImportAction extends \Filament\Tables\Actions\ImportAction
 {
@@ -35,17 +34,22 @@ class ImportAction extends \Filament\Tables\Actions\ImportAction
             $csvReader->setHeaderOffset($action->getHeaderOffset() ?? 0);
             $csvResults = Statement::create()->process($csvReader);
 
-            $importRecords = [];
+            $user = auth()->user();
+            $import = app(Import::class);
+            $import->user()->associate($user);
+            $import->file_name = $csvFile->getClientOriginalName();
+            $import->file_path = $csvFile->getRealPath();
+            $import->importer = $action->getImporter();
+
+            $options = array_merge(
+                $action->getOptions(),
+                Arr::except($data, ['file', 'columnMap']),
+            );
+            $importerInstance = $import->getImporter($data['columnMap'], $options);
+
             foreach($csvResults->getRecords() as $record) {
-                $recordMap = [];
-                foreach($data['columnMap'] as $field => $originalField) {
-                    $recordMap[$field] = $record[$originalField];
-                }
-
-                $importRecords[] = $recordMap;
+                $importerInstance($record);
             }
-
-         //   dd($importRecords);
 
         });
 
