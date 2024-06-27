@@ -10,19 +10,61 @@
     :has-inline-label="$hasInlineLabel"
 >
     <script>
+
+
         document.addEventListener('alpine:init', () => {
 
             Alpine.data('mwTreeFormComponent', ({state}) => ({
                 state,
                 async init() {
-
-                    var opts = {
-                        options: {
-                            selectable: true,
-                            sortable: false
-                        }
+                    var skip = [];
+                    var selectedData = [];
+                    var options = {
+                        selectable: true
                     };
 
+                    @if(isset($singleSelect) and $singleSelect)
+
+                        options.singleSelect = true;
+
+                    @endif
+
+                    @if(isset($selectedPage) and $selectedPage)
+
+                    selectedData.push({
+                        id: '{{$selectedPage}}',
+                        type: 'page'
+                    })
+
+                    @endif
+
+                    @if(isset($selectedCategories) and $selectedCategories)
+
+                        @foreach($selectedCategories as $selectedCategory)
+
+                        selectedData.push({
+                            id: {{intval($selectedCategory)}},
+                            type: 'category'
+                        })
+
+
+                        @endforeach
+
+                     @endif
+
+                    if (selectedData.length > 0) {
+                        options.selectedData = selectedData;
+                    }
+                    if(skip.length > 0){
+                        options.skip = skip;
+                    }
+
+                    console.log(options);
+
+
+                    var opts = {
+                        options
+                    };
 
                     let pagesTree = await mw.widget.tree('#mw-tree-edit-content', opts);
                     pagesTree.tree.on('selectionChange', e => {

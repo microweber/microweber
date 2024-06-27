@@ -12,6 +12,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Filament\Forms\Components\MwTree;
 
 class CategoryResource extends Resource
 {
@@ -24,16 +26,65 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
 
+        $selectedPage = 0;
+        $selectedCategories = [];
+        $livewire = $form->getLivewire();
+        $record = $form->getRecord();
+
+        if ($record) {
+            if ($record->parent_id) {
+                $selectedCategories[] = $record->parent_id;
+            } elseif ($record->rel_id) {
+                $selectedPage = $record->rel_id;
+            }
+        }
+
+
         return $form
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
+
+
+                        MwTree::make('mw_parent_page_and_category_state')
+                            ->live()
+                            ->viewData([
+                                'singleSelect' => true,
+                                'selectedPage' => $selectedPage,
+                                'selectedCategories' => $selectedCategories
+                            ])
+                            ->default([
+                                //  'page' => $parent,
+                                //'categories' => $category_ids
+                            ])->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
+                                if (!$state) {
+                                    $set('parent_id', '');
+                                    $set('rel_type', '');
+                                    $set('rel_id', '');
+                                }
+                                if ($state) {
+                                    foreach ($state as $item) {
+                                        if (isset($item['type']) and $item['type'] == 'page') {
+                                            $set('rel_type', morph_name(Content::class));
+                                            $set('rel_id', $item['id']);
+                                            $set('parent_id', '');
+                                        }
+                                        if (isset($item['type']) and $item['type'] == 'category') {
+                                            $set('parent_id', $item['id']);
+                                            $set('rel_type', '');
+                                            $set('rel_id', '');
+                                        }
+                                    }
+                                }
+                            }),
+
 
                         Forms\Components\TextInput::make('id')
                             ->hidden(),
                         Forms\Components\TextInput::make('parent_id'),
                         Forms\Components\TextInput::make('rel_type'),
                         Forms\Components\TextInput::make('rel_id'),
+
 
                         Forms\Components\TextInput::make('title')
                             ->label('Title')
@@ -55,7 +106,22 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                //
+
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('url')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('description')
+                    ->searchable()
+                    ->hidden(),
+                Tables\Columns\TextColumn::make('category_meta_title')
+                    ->searchable()
+                    ->hidden(),
+                Tables\Columns\TextColumn::make('category_meta_description')
+                    ->searchable()
+                    ->hidden(),
             ])
             ->filters([
                 //
