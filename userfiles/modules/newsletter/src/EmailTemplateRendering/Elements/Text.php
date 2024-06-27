@@ -21,7 +21,7 @@ class Text extends DefaultElement
         if (isset($params['data']['style']['padding'])) {
             $css[] = 'padding: ' . $params['data']['style']['padding']['top'] . 'px ' . $params['data']['style']['padding']['right'] . 'px ' . $params['data']['style']['padding']['bottom'] . 'px ' . $params['data']['style']['padding']['left'] . 'px;';
         }
-        
+
         $html .= '<div style="'.implode(' ', $css).'">';
 
         if (isset($params['data']['props']['text'])) {
