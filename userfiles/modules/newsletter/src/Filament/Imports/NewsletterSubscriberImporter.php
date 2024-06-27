@@ -82,25 +82,28 @@ class NewsletterSubscriberImporter extends Importer
             }
         }
 
-        $subscriber =  NewsletterSubscriber::firstOrNew([
-             'email' => $this->data['email'],
-         ]);
+        $findSubscriber = NewsletterSubscriber::where('email', $this->data['email'])->first();
+        if (!$findSubscriber) {
+            $findSubscriber = new NewsletterSubscriber();
+            $findSubscriber->email = $this->data['email'];
+            $findSubscriber->save();
+        }
 
         if (!empty($listIds)) {
             foreach($listIds as $listId) {
-                $findSubscriberList = NewsletterSubscriberList::where('subscriber_id', $subscriber->id)
+                $findSubscriberList = NewsletterSubscriberList::where('subscriber_id', $findSubscriber->id)
                     ->where('list_id', $listId)
                     ->first();
                 if (!$findSubscriberList) {
                     $subscriberList = new NewsletterSubscriberList();
-                    $subscriberList->subscriber_id = $subscriber->id;
+                    $subscriberList->subscriber_id = $findSubscriber->id;
                     $subscriberList->list_id = $listId;
                     $subscriberList->save();
                 }
             }
         }
 
-        return $subscriber;
+        return $findSubscriber;
     }
 
     public static function getCompletedNotificationBody(Import $import): string
