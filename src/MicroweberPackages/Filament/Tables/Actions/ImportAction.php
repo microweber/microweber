@@ -18,8 +18,11 @@ class ImportAction extends \Filament\Tables\Actions\ImportAction
 
         $this->action(function (\Filament\Actions\ImportAction|ImportTableAction $action, array $data) {
 
-            return MwFilamentImport::startImport($action, $data);
+            $import =  MwFilamentImport::startImport($action, $data);
 
+            $this->dispatch('subscribersImported');
+
+            return $import;
         });
 
     }

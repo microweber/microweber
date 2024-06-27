@@ -44,9 +44,10 @@ class CreateCampaign extends Page
 
     public $state = [];
 
+    protected $listeners = ['subscribersImported' => '$refresh'];
+
     public function form(Form $form): Form
     {
-
         $lists = [];
         $listDescriptions = [];
         $findLists = NewsletterList::all();
