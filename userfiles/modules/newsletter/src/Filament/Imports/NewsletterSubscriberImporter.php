@@ -13,6 +13,7 @@ use Filament\Forms\Get;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList;
 
 class NewsletterSubscriberImporter extends Importer
 {
@@ -63,10 +64,43 @@ class NewsletterSubscriberImporter extends Importer
 
     public function resolveRecord(): ?NewsletterSubscriber
     {
-         return NewsletterSubscriber::firstOrNew([
-             // Update existing records, matching them by `$this->data['column_name']`
+
+        $listIds = [];
+        if (isset($this->options['select_list'])) {
+            if (isset($this->options['new_list_name']) && $this->options['select_list'] == 'import_to_new_list') {
+                $findList = NewsletterList::where('name', $this->options['new_list_name'])->first();
+                if (!$findList) {
+                    $list = new NewsletterList();
+                    $list->name = $this->options['new_list_name'];
+                    $list->save();
+                    $listIds[] = $list->id;
+                } else {
+                    $listIds[] = $findList->id;
+                }
+            } else {
+                $listIds = $this->options['lists'];
+            }
+        }
+
+        $subscriber =  NewsletterSubscriber::firstOrNew([
              'email' => $this->data['email'],
          ]);
+
+        if (!empty($listIds)) {
+            foreach($listIds as $listId) {
+                $findSubscriberList = NewsletterSubscriberList::where('subscriber_id', $subscriber->id)
+                    ->where('list_id', $listId)
+                    ->first();
+                if (!$findSubscriberList) {
+                    $subscriberList = new NewsletterSubscriberList();
+                    $subscriberList->subscriber_id = $subscriber->id;
+                    $subscriberList->list_id = $listId;
+                    $subscriberList->save();
+                }
+            }
+        }
+
+        return $subscriber;
     }
 
     public static function getCompletedNotificationBody(Import $import): string
