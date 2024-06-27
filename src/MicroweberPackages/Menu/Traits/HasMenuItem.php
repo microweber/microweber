@@ -23,16 +23,20 @@ trait HasMenuItem
     {
         $this->fillable[] = 'add_content_to_menu';
         $this->fillable[] = '_setMenuIdsForContent';
-       //  $this->hidden[] = 'contentMenuIdsSet';
+        //  $this->hidden[] = 'contentMenuIdsSet';
         // $this->hidden[] = 'contentMenuIdsSet';
         $this->casts['add_content_to_menu'] = 'array';
-       // $this->casts['contentMenuIdsSet'] = 'array';
-       //$this->casts['menuIds'] = 'array';
+        // $this->casts['contentMenuIdsSet'] = 'array';
+        //$this->casts['menuIds'] = 'array';
     }
 
     public function addToMenu($contentId)
     {
-        self::$addContentToMenu[] = $contentId;
+        if (is_array($contentId)) {
+            self::$addContentToMenu = array_merge(self::$addContentToMenu, $contentId);
+        } else {
+            self::$addContentToMenu[] = $contentId;
+        }
     }
 
     public static function bootHasMenuItem()
@@ -44,11 +48,11 @@ trait HasMenuItem
 
             // append content to categories
             if (isset($model->add_content_to_menu)) {
-                 self::$addContentToMenu = $model->add_content_to_menu;
+                self::$addContentToMenu = $model->add_content_to_menu;
             }
 
             if (isset($model->_setMenuIdsForContent)) {
-                 self::$setMenuIdsForContent = $model->_setMenuIdsForContent;
+                self::$setMenuIdsForContent = $model->_setMenuIdsForContent;
             }
             unset($model->add_content_to_menu);
             unset($model->_setMenuIdsForContent);
@@ -57,27 +61,36 @@ trait HasMenuItem
 
 
         static::saved(function ($model) {
-
+            $meuIdsToKeep = [];
             if (!empty(self::$addContentToMenu) && is_array(self::$addContentToMenu)) {
                 foreach (self::$addContentToMenu as $menuId) {
                     // check if content is already in menu
                     if (!app()->menu_manager->is_in_menu($menuId, $model->id)) {
                         app()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
                     }
+                    $meuIdsToKeep[] = $menuId;
                 }
             }
-            if(isset(self::$setMenuIdsForContent)){
-               if(empty(self::$setMenuIdsForContent)){
-                   $model->menuItems()->delete();
-               } else {
+            if (isset(self::$setMenuIdsForContent)) {
+                if (empty(self::$setMenuIdsForContent)) {
+                    $model->menuItems()->delete();
+                } else {
 
-                   foreach (self::$setMenuIdsForContent as $menuId) {
+                    foreach (self::$setMenuIdsForContent as $menuId) {
+                        $meuIdsToKeep[] = $menuId;
+                        if (!app()->menu_manager->is_in_menu($menuId, $model->id)) {
+                            app()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
+                        }
+                    }
 
-                       if (!app()->menu_manager->is_in_menu($menuId, $model->id)) {
-                           app()->content_manager->helpers->add_content_to_menu($model->id, $menuId);
-                       }
-                   }
-               }
+                }
+            }
+
+            if (!empty($meuIdsToKeep)) {
+                $model->menuItems()->whereNotIn('parent_id', $meuIdsToKeep)
+                    ->where('item_type', 'menu_item')
+                    ->where('content_id', $model->id)
+                    ->delete();
             }
 
         });
@@ -96,13 +109,19 @@ trait HasMenuItem
 
     public function setMenuIds($value)
     {
-      $this->_setMenuIdsForContent = $value;
+
+        if (!is_array($value)) {
+            $this->_setMenuIdsForContent = [$value];
+
+        } else {
+            $this->_setMenuIdsForContent = $value;
+        }
     }
 
     public function getMenuIdsAttribute()
     {
 
-       $menus = $this->menuItems()->get();
+        $menus = $this->menuItems()->get();
 
 //        $menus = DB::table('menus')
 //            ->select('parent_id')
