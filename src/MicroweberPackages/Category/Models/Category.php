@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Category\Models;
 
 use EloquentFilter\Filterable;
@@ -18,7 +19,7 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 
 class Category extends Model
 {
-   // use HasAttributes;
+    // use HasAttributes;
 
     use HasContentFieldTrait;
     use CacheableQueryBuilderTrait;
@@ -29,11 +30,11 @@ class Category extends Model
     use MaxPositionTrait;
     use MediaTrait;
     use HasSlugTrait;
-     use HasMultilanguageTrait;
+    use HasMultilanguageTrait;
 
     protected $table = 'categories';
 
-  //  public $timestamps = false;
+    //  public $timestamps = false;
 
     /**
      * The model's default values for attributes.
@@ -58,9 +59,9 @@ class Category extends Model
         "title",
         "content",
         "description",
-       // "category-parent-selector",
+        // "category-parent-selector",
         "position",
-      //  "thumbnail",
+        //  "thumbnail",
         "url",
         "users_can_create_content",
         "category_subtype",
@@ -75,9 +76,9 @@ class Category extends Model
     ];
 
     public $casts = [
-        'category_subtype_settings'=>'array',
-        'position'=>'integer',
-        'parent_id'=>'integer',
+        'category_subtype_settings' => 'array',
+        'position' => 'integer',
+        'parent_id' => 'integer',
     ];
 
     protected $searchable = [
@@ -103,7 +104,7 @@ class Category extends Model
 
     public $cacheTagsToClear = ['content', 'content_fields_drafts', 'menu', 'content_fields', 'content_data', 'categories'];
 
-    public $translatable = ['title','url','description','content','category_meta_keywords','category_meta_description','category_meta_title'];
+    public $translatable = ['title', 'url', 'description', 'content', 'category_meta_keywords', 'category_meta_description', 'category_meta_title'];
 
     public function modelFilter()
     {
@@ -117,8 +118,14 @@ class Category extends Model
 
     public function children()
     {
-         return $this->hasMany(Category::class, 'parent_id', 'id');
+        return $this->hasMany(Category::class, 'parent_id', 'id');
     }
+
+    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
 
     public function link()
     {
@@ -141,21 +148,21 @@ class Category extends Model
     public static function hasActiveProductInSubcategories($category)
     {
 
-        if(empty($category) || count($category->items) == 0) {
+        if (empty($category) || count($category->items) == 0) {
             return false;
         }
 
-        foreach($category->items as $item) {
+        foreach ($category->items as $item) {
             $product = \MicroweberPackages\Product\Models\Product::find($item->rel_id);
 
-            if($product->in_stock) {
+            if ($product->in_stock) {
                 return true;
             }
         }
 
-        if(count($category->children) > 0) {
-            foreach($category->children as $childCat) {
-                if(self::hasActiveProductInSubcategories($childCat)) {
+        if (count($category->children) > 0) {
+            foreach ($category->children as $childCat) {
+                if (self::hasActiveProductInSubcategories($childCat)) {
                     return true;
                 }
             }

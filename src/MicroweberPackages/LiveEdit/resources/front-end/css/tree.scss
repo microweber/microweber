@@ -333,19 +333,21 @@ visibility: visible;
 
             transition: .3s;
             &:before{
-                content: "\F0142";
-                color: var(--tblr-body-color);
+                background-size: 24px auto;
+                width: 12px;
+                height: 12px;
+                 display: inline-block;
+                 content: '';
+                 position: relative;
+                 top: 1px;
+                 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2371717a'%3E%3Cpath d='M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z'%3E%3C/path%3E%3C/svg%3E");
+                 background-repeat: no-repeat;
+                 background-position: center;
             }
 
         }
     }
-    & > li li .mw-tree-item-content-root {
-        .mw-tree-toggler{
 
-            margin-inline: -40px -39px;
-            margin-block: 2px 0;
-        }
-    }
   .mw-tree-toggler svg {
     content: '';
     width: 20px;

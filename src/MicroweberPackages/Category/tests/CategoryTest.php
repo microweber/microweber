@@ -230,7 +230,7 @@ class CategoryTest extends TestCase
         $newPage->save();
 
         $cat = $newPage->categories->first();
- 
+
         $this->assertNotEmpty($cat);
         $this->assertEquals($cat->parent->title, $title);
 
