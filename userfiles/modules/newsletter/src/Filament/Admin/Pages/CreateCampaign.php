@@ -64,7 +64,7 @@ class CreateCampaign extends Page
             $recipientsOptions['all_subscribers'] = 'All subscribers';
         }
 
-        $recipientsOptions['import_new_list'] = 'Import new list';
+     //   $recipientsOptions['import_new_list'] = 'Import new list';
 
         if (!empty($lists)) {
             $recipientsOptions['specific_lists'] = 'Specific lists';
@@ -108,6 +108,10 @@ class CreateCampaign extends Page
                         ->schema([
 
                             RadioDeck::make('state.recipientsFrom')
+                                ->hintActions([
+                                    Action::make('Import new subscribers')
+                                        ->view('microweber-module-newsletter::livewire.filament.admin.render-import-subscribers-action')
+                                ])
                                 ->label('Select subscribers')
                                 ->columns(count($recipientsOptions))
                                 ->padding('py-4 px-8')

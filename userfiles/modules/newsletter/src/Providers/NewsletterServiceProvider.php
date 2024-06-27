@@ -5,27 +5,13 @@ namespace MicroweberPackages\Modules\Newsletter\Providers;
 use BladeUI\Icons\Factory;
 use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Campaigns;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateTemplate;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Lists;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\SenderAccounts;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Subscribers;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\TemplateEditor;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Templates;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountResource;
-use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\Filament\CampaignsList;
-use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterCampaignsLogModal;
-use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterChooseTemplateModal;
-use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterDashboardStats;
-use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterImportSubscribersModal;
-use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterProcessCampaignsModal;
-use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterSubscribersList;
+use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\Filament\NewsletterImportSubscribersActionButton;
+
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -49,6 +35,8 @@ class NewsletterServiceProvider extends PackageServiceProvider
 //        Livewire::component('admin-newsletter-campaigns-log-modal', NewsletterCampaignsLogModal::class);
 //        Livewire::component('admin-newsletter-import-subscribers-modal', NewsletterImportSubscribersModal::class);
 //        Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
+//
+        Livewire::component('admin-newsletter-import-subscribers-action-button', NewsletterImportSubscribersActionButton::class);
 //
 
         Event::listen(ServingFilament::class, function () {
