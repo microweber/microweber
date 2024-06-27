@@ -390,5 +390,5 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-sidebar-group-items {
-    @apply gap-y-5;
+    @apply gap-y-4;
 }
