@@ -179,6 +179,12 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
 
         PackageManager::create('admin_filament_js', function (Package $package) {
+
+            $package->addTag(
+                'admin_head_tags_filament_js_libs',
+                new \MicroweberPackages\MetaTags\Entities\AdminFilamentJsLibsScriptTag()
+            );
+
             $package->addTag(
                 'admin_head_tags_filament_js',
                 new \MicroweberPackages\MetaTags\Entities\AdminFilamentJsScriptTag()

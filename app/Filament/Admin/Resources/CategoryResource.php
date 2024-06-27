@@ -104,7 +104,9 @@ class CategoryResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
+
+
+        $table
             ->columns([
 
                 Tables\Columns\TextColumn::make('title')
@@ -134,7 +136,13 @@ class CategoryResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+
+
+        return $table;
     }
+
+
+
 
     public static function getRelations(): array
     {
