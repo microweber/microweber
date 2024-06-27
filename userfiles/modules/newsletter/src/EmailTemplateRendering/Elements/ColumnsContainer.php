@@ -37,6 +37,8 @@ class ColumnsContainer extends DefaultElement
 
         $html .= '</div>';
 
+        $html .= '</div>';
+
         return $html;
     }
 
