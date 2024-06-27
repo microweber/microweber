@@ -30,14 +30,6 @@ trait HasMenuItem
         //$this->casts['menuIds'] = 'array';
     }
 
-    public function addToMenu($contentId)
-    {
-        if (is_array($contentId)) {
-            self::$addContentToMenu = array_merge(self::$addContentToMenu, $contentId);
-        } else {
-            self::$addContentToMenu[] = $contentId;
-        }
-    }
 
     public static function bootHasMenuItem()
     {
@@ -139,5 +131,16 @@ trait HasMenuItem
         return $menusItems;
     }
 
+
+
+
+    //    public function addToMenu($contentId)
+//    {
+//        if (is_array($contentId)) {
+//            self::$addContentToMenu = array_merge(self::$addContentToMenu, $contentId);
+//        } else {
+//            self::$addContentToMenu[] = $contentId;
+//        }
+//    }
 
 }

@@ -13,15 +13,16 @@ trait CategoryTrait
 
     public function initializeCategoryTrait()
     {
-      //  $this->appends[] = 'categories';
+        //  $this->appends[] = 'categories';
         //	$this->with[] = 'categoryItems';
         $this->fillable[] = 'category_ids';
     }
 
 
-    public function scopeWhereCategoryIds($query, $ids = false) {
+    public function scopeWhereCategoryIds($query, $ids = false)
+    {
 
-       // $excludeIds = [];
+        // $excludeIds = [];
         $table = $this->getMorphClass();
 
         if (is_string($ids)) {
@@ -33,15 +34,15 @@ trait CategoryTrait
         if (is_array($ids)) {
             $ids = array_filter($ids);
             if (!empty($ids)) {
-             //   if (!isset($search_joined_tables_check['categories_items'])) {
-                     $query->whereIn('content.id', function ($subQuery) use ($table, $ids) {
-                        $subQuery->select('categories_items.rel_id');
-                        $subQuery->from('categories_items');
-                        $subQuery->where('categories_items.rel_type', '=', $table);
-                        $subQuery->whereIn('categories_items.parent_id',$ids);
-                        $subQuery->groupBy('categories_items.rel_id');
-                        return $subQuery;
-                    });
+                //   if (!isset($search_joined_tables_check['categories_items'])) {
+                $query->whereIn('content.id', function ($subQuery) use ($table, $ids) {
+                    $subQuery->select('categories_items.rel_id');
+                    $subQuery->from('categories_items');
+                    $subQuery->where('categories_items.rel_type', '=', $table);
+                    $subQuery->whereIn('categories_items.parent_id', $ids);
+                    $subQuery->groupBy('categories_items.rel_id');
+                    return $subQuery;
+                });
 
 
 //                    $query = $query->join('categories_items', function ($join) use ($table, $ids) {
@@ -51,7 +52,7 @@ trait CategoryTrait
 //                        }*/
 //                        $join->whereIn('categories_items.parent_id', $ids)->distinct();
 //                    });
-             //   }
+                //   }
                 //$query = $query->distinct();
 
             }
@@ -69,17 +70,127 @@ trait CategoryTrait
     {
         static::saving(function ($model) {
             // append content to categories
-            if (isset($model->category_ids)) {
-                $model->_addContentToCategory = $model->category_ids;
-            }
+//            if (isset($model->category_ids)) {
+//                 $model->_addContentToCategory = $model->category_ids;
+//            }
             unset($model->category_ids);
         });
 
         static::saved(function ($model) {
             if (isset($model->_addContentToCategory)) {
+
                 $model->_setCategories($model->_addContentToCategory);
             }
         });
+    }
+
+
+    /*
+        public function categories()
+    // moved to getCategoriesAttribute
+        {
+            return $this->hasMany(Category::class, 'rel_id');
+        }*/
+
+    public function categoryItems()
+    {
+        return $this->hasMany(CategoryItem::class, 'rel_id')
+            ->where('rel_type', $this->getMorphClass());
+    }
+
+    public function getParentsByCategoryId($id)
+    {
+        $findCategory = Category::select(['id', 'parent_id'])->where('id', $id)->first();
+        if ($findCategory) {
+            $category = $findCategory->toArray();
+            $category['parents'] = $this->getParentsByCategoryId($findCategory->parent_id);
+            return $category;
+        }
+
+        return [];
+    }
+
+    public function getCategoriesAttribute(){
+        $modelCats = $this->categoryItems()
+            ->with('category')->get();
+
+        return $modelCats;
+    }
+
+    public function setCategoryIdsAttribute($categoryIds)
+    {
+        $this->_addContentToCategory = $categoryIds;
+        return $this;
+    }
+    public function getCategoryIdsAttribute()
+    {
+        $categories = [];
+        $modelCats = $this->categoryItems()
+            ->with('category')->get();
+
+
+        if ($modelCats) {
+            foreach ($modelCats as $category) {
+                $categories[] = $category->category->id;
+            }
+        }
+
+        return $categories;
+    }
+
+    public function getCategoryItemsAttribute()
+    {
+        $categoryItems = [];
+        foreach ($this->categoryItems()
+                     ->with('category')->get() as $category) {
+            $categoryItems[] = $category;
+        }
+        return collect($categoryItems);
+    }
+
+    public function hasCategories()
+    {
+        $categories = $this->getCategoryItemsAttribute();
+        if ($categories and count($categories) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function categoryName()
+    {
+        $categories = $this->getCategoryItemsAttribute();
+        if ($categories and isset($categories[0])) {
+            $categoryTitle = category_title($categories[0]->id);
+            if (!empty($categoryTitle)) {
+                return $categoryTitle;
+            }
+        }
+        return false;
+    }
+
+    public function categoryNames()
+    {
+        $categories = $this->getCategoryItemsAttribute();
+        if ($categories) {
+            $categoryNames = [];
+            foreach ($categories as $category) {
+                $categoryTitle = category_title($category->id);
+                if (empty($categoryTitle)) {
+                    continue;
+                }
+                $categoryNames[] = $categoryTitle;
+            }
+            return implode(', ', $categoryNames);
+        }
+        return false;
+    }
+
+    public function setCategories($categoryIds)
+    {
+
+        $this->_addContentToCategory = $categoryIds;
+        return $this;
     }
 
     private function _setCategories($categoryIds)
@@ -119,77 +230,5 @@ trait CategoryTrait
             }
         }
 
-    }
-/*
-    public function categories()
-// moved to getCategoriesAttribute
-    {
-        return $this->hasMany(Category::class, 'rel_id');
-    }*/
-
-    public function categoryItems()
-    {
-        return $this->hasMany(CategoryItem::class, 'rel_id')
-            ->where('rel_type', $this->getMorphClass());
-    }
-
-    public function getParentsByCategoryId($id)
-    {
-        $findCategory = Category::select(['id','parent_id'])->where('id', $id)->first();
-        if ($findCategory) {
-            $category = $findCategory->toArray();
-            $category['parents'] = $this->getParentsByCategoryId($findCategory->parent_id);
-            return $category;
-        }
-
-        return [];
-    }
-
-    public function getCategoriesAttribute()
-    {
-        $categories = [];
-        foreach ($this->categoryItems()
-                     ->with('category')->get() as $category) {
-            $categories[] = $category;
-        }
-        return collect($categories);
-    }
-
-    public function hasCategories()
-    {
-        $categories = $this->categoryNames();
-        if ($categories) {
-            return true;
-        }
-        return false;
-    }
-
-    public function categoryName()
-    {
-        $categories = $this->getCategoriesAttribute();
-        if ($categories) {
-            $categoryTitle = category_title($categories[0]->id);
-            if (!empty($categoryTitle)) {
-                return $categoryTitle;
-            }
-        }
-        return false;
-    }
-
-    public function categoryNames()
-    {
-        $categories = $this->getCategoriesAttribute();
-        if ($categories) {
-            $categoryNames = [];
-            foreach ($categories as $category) {
-                $categoryTitle = category_title($category->id);
-                if (empty($categoryTitle)) {
-                    continue;
-                }
-                $categoryNames[] = $categoryTitle;
-            }
-            return implode(', ', $categoryNames);
-        }
-        return false;
     }
 }

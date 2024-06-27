@@ -15,7 +15,16 @@
             Alpine.data('mwTreeFormComponent', ({state}) => ({
                 state,
                 async init() {
-                    let pagesTree = await mw.widget.tree('#mw-tree-edit-content');
+
+                    var opts = {
+                        options: {
+                            selectable: true,
+                            sortable: false
+                        }
+                    };
+
+
+                    let pagesTree = await mw.widget.tree('#mw-tree-edit-content', opts);
                     pagesTree.tree.on('selectionChange', e => {
                         let result = pagesTree.tree.getSelected();
                         this.state = result;
@@ -27,16 +36,14 @@
     </script>
 
 
+    <?php
 
-   <?php
-
-   /*
-   @if($this->data)
-   {{json_encode($this->data['mw_parent_page_and_category_state'],JSON_PRETTY_PRINT)}}
-   @endif
-    */
-   ?>
-
+    /*
+    @if($this->data)
+    {{json_encode($this->data['mw_parent_page_and_category_state'],JSON_PRETTY_PRINT)}}
+    @endif
+     */
+    ?>
 
 
     <div
