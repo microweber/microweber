@@ -42,8 +42,22 @@ class MwFilamentImport
         );
         $importerInstance = $import->getImporter($data['columnMap'], $options);
 
+
+        $importedRecords = [];
+        $importedRecordsCount = 0;
         foreach($csvResults->getRecords() as $record) {
             $importerInstance($record);
+            if ($importerInstance->getRecord()) {
+                $importedRecordsCount++;
+                $importedRecords[] = $importerInstance->getRecord();
+            }
         }
+
+        return [
+            'importOptions' => $options,
+            'importedRecords' => $importedRecords,
+            'importedRecordsCount' => $importedRecordsCount,
+        ];
+
     }
 }

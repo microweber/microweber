@@ -33,6 +33,7 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
+use Livewire\Attributes\On;
 
 class CreateCampaign extends Page
 {
@@ -44,7 +45,12 @@ class CreateCampaign extends Page
 
     public $state = [];
 
-    protected $listeners = ['subscribersImported' => '$refresh'];
+    #[On('subscribers-imported')]
+    public function subscribersImported($listId = null) {
+
+        $this->state['recipientsFrom'] = 'specific_lists';
+        $this->state['list_id'] = $listId;
+    }
 
     public function form(Form $form): Form
     {
@@ -151,25 +157,6 @@ class CreateCampaign extends Page
                                 })
                                 ->descriptions($listDescriptions)
                                 ->options($lists),
-
-                            Group::make([
-
-//                                Actions::make([
-//                                    ImportAction::make('importProducts')
-//                                        ->icon('heroicon-m-cloud-arrow-up')
-//                                        ->importer(NewsletterSubscriberImporter::class),
-//                                ]),
-
-//                                TextInput::make('state.list_name')
-//                                    ->label('List name'),
-//                                MwFileUpload::make('state.upload_list_file')
-//                                    ->label('Upload list file'),
-                            ])->hidden(function (Get $get) {
-                                if ($get('state.recipientsFrom') == 'import_new_list') {
-                                    return false;
-                                }
-                                return true;
-                            }),
 
 
                         ]),
