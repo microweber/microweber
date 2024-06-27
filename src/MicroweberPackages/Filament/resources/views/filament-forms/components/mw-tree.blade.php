@@ -9,6 +9,20 @@
     :field="$field"
     :has-inline-label="$hasInlineLabel"
 >
+
+
+    @php
+    $suffix = '';
+
+    $suffix = $this->getId();
+
+
+
+    @endphp
+
+
+
+
     <script>
 
 
@@ -43,7 +57,7 @@
                         @foreach($selectedCategories as $selectedCategory)
 
                         selectedData.push({
-                            id: {{intval($selectedCategory)}},
+                            id: {{$selectedCategory}},
                             type: 'category'
                         })
 
@@ -66,7 +80,7 @@
                         options
                     };
 
-                    let pagesTree = await mw.widget.tree('#mw-tree-edit-content', opts);
+                    let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
                     pagesTree.tree.on('selectionChange', e => {
                         let result = pagesTree.tree.getSelected();
                         this.state = result;
@@ -94,7 +108,7 @@
             })"
     >
 
-        <div wire:ignore id="mw-tree-edit-content">Loading...</div>
+        <div wire:ignore id="mw-tree-edit-content-{{$suffix}}">Loading...</div>
 
     </div>
 

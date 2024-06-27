@@ -55,6 +55,7 @@
                 singleSelect: false,
                 clickSelect: false,
                 selectedData:[],
+                openSelectedDataItems: true,
                 skip:[],
                 contextMenu:false,
                 append:false,
@@ -337,10 +338,14 @@
             this.stateStorage.set(this.options.id, data);
         };
 
-        this.restoreState = function(){
+        this.restoreState = function(data){
             if(!this.options.saveState) return;
-            var data = this.stateStorage.get(this.options.id);
+            if(!data) {
+              data = this.stateStorage.get(this.options.id);
+            }
+
             if(!data) return;
+
             try{
                 $.each(data, function(){
                     if(typeof this.id === 'string'){
@@ -1097,9 +1102,16 @@
             })
         };
 
-        this.loadSelected = function(){
+        this.loadSelected = function(openSelectedDataItems){
             if(this.selectedData){
                 scope.select(this.selectedData);
+                if(this.options.openSelectedDataItems){
+                    this.selectedData.forEach(obj => {
+                        jQuery(this.get(obj)).parents('li').each(function(){
+                            scope.open(this)
+                        })
+                    })
+                }
             }
         };
         this.init = function(){
@@ -1112,11 +1124,12 @@
             this.prepend();
             this.addHelperClasses();
             this.restoreState();
-            this.loadSelected();
+            // this.loadSelected();
             this.search();
             this.resizable();
-            setTimeout(function(){
-                mw.$(scope).trigger('ready');
+            setTimeout(() => {
+                this.loadSelected();
+                mw.$(this).trigger('ready');
             }, 78)
         };
 
