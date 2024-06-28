@@ -76,6 +76,7 @@ ForceType 'text/css; charset=UTF-8'
     RewriteRule ^config/(.*)?$ / [F,L]
     RewriteRule ^bootstrap/(.*)?$ / [F,L]
     RewriteRule ^tests/(.*)?$ / [F,L]
+    RewriteRule ^node_modules/(.*)?$ / [F,L]
     RewriteRule ^composer\.(lock|json)$ / [F,L]
 
 
