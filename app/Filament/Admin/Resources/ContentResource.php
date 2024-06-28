@@ -408,7 +408,7 @@ class ContentResource extends Resource
                                 ->schema([
                                     Forms\Components\View::make('filament-forms::admin.mw-tree')->viewData([
                                         'selectedPage' => $parent,
-                                        'categories' => $category_ids
+                                        'selectedCategories' => $category_ids
                                     ]),
                                 ]),
 

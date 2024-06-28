@@ -50,6 +50,12 @@
 
                     @if(isset($selectedCategories) and $selectedCategories)
 
+                    @php
+                    if(!is_array($selectedCategories)){
+                        $selectedCategories = explode(',',$selectedCategories);
+                    }
+                    $selectedCategories = array_map('intval',$selectedCategories);
+                    @endphp
                     @foreach($selectedCategories as $selectedCategory)
 
                     selectedData.push({
