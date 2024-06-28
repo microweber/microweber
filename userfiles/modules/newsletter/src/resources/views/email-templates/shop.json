@@ -1,0 +1,1008 @@
+{
+  "root": {
+    "type": "EmailLayout",
+    "data": {
+      "backdropColor": "#e5e5e5",
+      "borderRadius": 0,
+      "canvasColor": "#FFFFFF",
+      "textColor": "#262626",
+      "fontFamily": "ORGANIC_SANS",
+      "childrenIds": [
+        "block-1719405268248",
+        "block-1719488128109",
+        "block-1719487660189",
+        "block-1719488133790",
+        "block-1719488097065",
+        "block-1719235734312",
+        "block-1719488064313",
+        "block-1719235762413",
+        "block-1719487959665",
+        "block-1719487975567",
+        "block-1719488000566",
+        "block-1719488245238",
+        "block-1719488256105",
+        "block-1719488259054",
+        "block-1719488261082",
+        "block-1719235831131",
+        "block-1719474310541",
+        "block-1719236929075",
+        "block-1719488857523",
+        "block-1719236900673"
+      ]
+    }
+  },
+  "block-1719235654126": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontWeight": "bold",
+        "textAlign": "right",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "HOSTING"
+      }
+    }
+  },
+  "block-1719235670110": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "width": 260,
+        "height": null,
+        "url": "http://test.microweber.com/userfiles/media/default/logo.svg",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719235734312": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#ffffff",
+        "backgroundColor": "#000000",
+        "fontSize": 30,
+        "fontWeight": "bold",
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 24,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "Up to 50% off Selected Womens Items"
+      }
+    }
+  },
+  "block-1719235762413": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "url": "https://test.microweber.com/userfiles/media/default/bg-1-1.jpg",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719234855277": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719235831131": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Don't Miss This Offer",
+        "level": "h1"
+      },
+      "style": {
+        "color": "#ffffff",
+        "backgroundColor": "#000000",
+        "textAlign": "center",
+        "padding": {
+          "top": 36,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      }
+    }
+  },
+  "block-1719235982133": {
+    "type": "Container",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "childrenIds": [
+          "block-1719235986099"
+        ]
+      }
+    }
+  },
+  "block-1719235986099": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontWeight": "normal",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": " Keep your store and customers secure "
+      }
+    }
+  },
+  "block-1719236225088": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 14,
+        "fontWeight": "normal",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 24,
+          "left": 20
+        }
+      },
+      "props": {
+        "text": "Increase traffic and maximize sales by building a super-fast store optimized for SEO. With CloudFlare Enterprise CDN, your store loads quickly regardless of customers location, ensuring your store is loved by human shoppers and search engines alike."
+      }
+    }
+  },
+  "block-1719236396340": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 0
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#ffffff",
+        "buttonTextColor": "#9333EA",
+        "text": "LEARN MORE ->",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1719236456975": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 24,
+          "left": 20
+        }
+      },
+      "props": {
+        "text": "Build Super-Fast Online Stores"
+      }
+    }
+  },
+  "block-1719236521440": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719236583231": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 8
+        }
+      },
+      "props": {
+        "text": "Seamless Sales Experiences That Convert"
+      }
+    }
+  },
+  "block-1719236592465": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 13,
+        "fontWeight": "normal",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 8
+        }
+      },
+      "props": {
+        "text": "Scale your store with built-in conversion optimization tools like order bumps, social proof notifications and distraction-free checkouts on any device. Motivate customers to complete their purchases by creating a sense of urgency using low-stock inventory indications and free shipping alerts."
+      }
+    }
+  },
+  "block-1719236662034": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "fontSize": 15,
+        "textAlign": "left",
+        "padding": {
+          "top": 12,
+          "bottom": 28,
+          "right": 12,
+          "left": 0
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#ffffff",
+        "buttonTextColor": "#7C3AED",
+        "size": "x-small",
+        "text": "SEE HOW TO DO IT",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1719236900673": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 12,
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 36,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
+      }
+    }
+  },
+  "block-1719236929075": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontWeight": "normal",
+        "padding": {
+          "top": 52,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "markdown": true,
+        "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  |  Unsubscribe "
+      }
+    }
+  },
+  "block-1719405268248": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 24,
+          "left": 24
+        },
+        "textAlign": "center"
+      },
+      "props": {
+        "width": 200,
+        "url": "https://test.microweber.com/userfiles/media/default/599154bb89160-thumb900.webp",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719474310541": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "backgroundColor": "#000000",
+        "fontSize": 18,
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 36,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#ffffff",
+        "buttonStyle": "pill",
+        "buttonTextColor": "#000000",
+        "fullWidth": false,
+        "size": "medium",
+        "text": "Shop Now",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1719487660189": {
+    "type": "Html",
+    "data": {
+      "style": {
+        "fontSize": 16,
+        "textAlign": null,
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "contents": "<div style=\"text-align: center; display: flex; justify-content: center; gap: 20px;\"> <a href=\"\">HOME</a>  <a href=\"\">NEW</a>  <a href=\"\">WOMEN</a> <a href=\"\">KIDS</a>   <a href=\"\">BLOG</a> \n</div>"
+      }
+    }
+  },
+  "block-1719487959665": {
+    "type": "Heading",
+    "data": {
+      "props": {
+        "text": "Fashion your self this season",
+        "level": "h1"
+      },
+      "style": {
+        "textAlign": "center",
+        "padding": {
+          "top": 28,
+          "bottom": 12,
+          "right": 24,
+          "left": 24
+        }
+      }
+    }
+  },
+  "block-1719487975567": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#737373",
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 40,
+          "left": 40
+        }
+      },
+      "props": {
+        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth."
+      }
+    }
+  },
+  "block-1719488000566": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 40,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#000000",
+        "buttonStyle": "rectangle",
+        "text": "Browse Shop",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1719488064313": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 15,
+        "fontWeight": "normal",
+        "textAlign": "center",
+        "padding": {
+          "top": 32,
+          "bottom": 32,
+          "right": 48,
+          "left": 48
+        }
+      },
+      "props": {
+        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      }
+    }
+  },
+  "block-1719488097065": {
+    "type": "Spacer",
+    "data": {
+      "props": {
+        "height": 12
+      }
+    }
+  },
+  "block-1719488128109": {
+    "type": "Divider",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "right": 0,
+          "bottom": 16,
+          "left": 0
+        }
+      },
+      "props": {
+        "lineColor": "#CCCCCC"
+      }
+    }
+  },
+  "block-1719488133790": {
+    "type": "Divider",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "right": 0,
+          "bottom": 16,
+          "left": 0
+        }
+      },
+      "props": {
+        "lineColor": "#CCCCCC"
+      }
+    }
+  },
+  "block-1719488245238": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "backgroundColor": "#FFC0D0",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "fixedWidths": [
+          null,
+          null,
+          null
+        ],
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "columns": [
+          {
+            "childrenIds": [
+              "block-1719488629438",
+              "block-1719488491506",
+              "block-1719488494711"
+            ]
+          },
+          {
+            "childrenIds": [
+              "block-1719488250696"
+            ]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-1719488250696": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "url": "https://test.microweber.com/userfiles/media/default/product-1.jpg",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719488256105": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "backgroundColor": "#FFC0D0",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "fixedWidths": [
+          null,
+          null,
+          null
+        ],
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "columns": [
+          {
+            "childrenIds": [
+              "block-1719488279784"
+            ]
+          },
+          {
+            "childrenIds": [
+              "block-1719488813540",
+              "block-1719488501937",
+              "block-1719488503503"
+            ]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-1719488259054": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "backgroundColor": "#FFC0D0",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "fixedWidths": [
+          null,
+          null,
+          null
+        ],
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "columns": [
+          {
+            "childrenIds": [
+              "block-1719488830130",
+              "block-1719488507724",
+              "block-1719488509563"
+            ]
+          },
+          {
+            "childrenIds": [
+              "block-1719488281912"
+            ]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-1719488261082": {
+    "type": "ColumnsContainer",
+    "data": {
+      "style": {
+        "backgroundColor": "#FFC0D0",
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "fixedWidths": [
+          null,
+          null,
+          null
+        ],
+        "columnsCount": 2,
+        "columnsGap": 0,
+        "columns": [
+          {
+            "childrenIds": [
+              "block-1719488283592"
+            ]
+          },
+          {
+            "childrenIds": [
+              "block-1719488841388",
+              "block-1719488515224",
+              "block-1719488517243"
+            ]
+          },
+          {
+            "childrenIds": []
+          }
+        ]
+      }
+    }
+  },
+  "block-1719488279784": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "url": "https://test.microweber.com/userfiles/media/default/product-2.jpg",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719488281912": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "url": "https://test.microweber.com/userfiles/media/default/product-3.jpg",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719488283592": {
+    "type": "Image",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 0,
+          "bottom": 0,
+          "right": 0,
+          "left": 0
+        }
+      },
+      "props": {
+        "url": "https://test.microweber.com/userfiles/media/default/product-4.jpg",
+        "alt": "Sample product",
+        "linkHref": null,
+        "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719488491506": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 20,
+        "fontWeight": "bold",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "Young Woman Dress"
+      }
+    }
+  },
+  "block-1719488494711": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#171717",
+        "fontWeight": "normal",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      }
+    }
+  },
+  "block-1719488501937": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 20,
+        "fontWeight": "bold",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "Young Woman Dress"
+      }
+    }
+  },
+  "block-1719488503503": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#171717",
+        "fontWeight": "normal",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      }
+    }
+  },
+  "block-1719488507724": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 20,
+        "fontWeight": "normal",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "Young Woman Dress"
+      }
+    }
+  },
+  "block-1719488509563": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#171717",
+        "fontWeight": "normal",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      }
+    }
+  },
+  "block-1719488515224": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontSize": 20,
+        "fontWeight": "bold",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "Young Woman Dress"
+      }
+    }
+  },
+  "block-1719488517243": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "color": "#171717",
+        "fontWeight": "normal",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+      }
+    }
+  },
+  "block-1719488629438": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#000000",
+        "buttonStyle": "rectangle",
+        "text": "$100.00",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1719488813540": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#000000",
+        "buttonStyle": "rectangle",
+        "text": "$100.00",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1719488830130": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#000000",
+        "buttonStyle": "rectangle",
+        "text": "$100.00",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1719488841388": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "buttonBackgroundColor": "#000000",
+        "buttonStyle": "rectangle",
+        "text": "$100.00",
+        "url": "https://www.usewaypoint.com"
+      }
+    }
+  },
+  "block-1719488857523": {
+    "type": "Divider",
+    "data": {
+      "style": {
+        "padding": {
+          "top": 16,
+          "right": 0,
+          "bottom": 16,
+          "left": 0
+        }
+      },
+      "props": {
+        "lineColor": "#CCCCCC"
+      }
+    }
+  }
+}

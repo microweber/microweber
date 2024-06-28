@@ -37,10 +37,10 @@ Route::name('admin.newsletter.')
             $templateJson = file_get_contents(modules_path() . 'newsletter/src/resources/views/email-templates/' . $templateFilename. '.json');
             $templateJson = json_decode($templateJson, true);
 
-            $templateHtml = file_get_contents(modules_path() . 'newsletter/src/resources/views/email-templates/' . $templateFilename. '.html');
-            if (!$templateHtml) {
-                return;
-            }
+//            $templateHtml = file_get_contents(modules_path() . 'newsletter/src/resources/views/email-templates/' . $templateFilename. '.html');
+//            if (!$templateHtml) {
+//                return;
+//            }
 
             $render = new \MicroweberPackages\Modules\Newsletter\EmailTemplateRendering\Render();
             $templateHtml = $render->html($templateJson);

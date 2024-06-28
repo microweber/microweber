@@ -2,22 +2,20 @@
   "root": {
     "type": "EmailLayout",
     "data": {
-      "backdropColor": "#222222",
-      "borderColor": "#262626",
-      "borderRadius": 8,
-      "canvasColor": "#1c1c1c",
-      "textColor": "#ffffff",
-      "fontFamily": "ROUNDED_SANS",
+      "backdropColor": "#e5e5e5",
+      "borderRadius": 24,
+      "canvasColor": "#FFFFFF",
+      "textColor": "#262626",
+      "fontFamily": "HEAVY_SANS",
       "childrenIds": [
         "block-1719405268248",
         "block-1719235734312",
         "block-1719235762413",
         "block-1719235786545",
         "block-1719235831131",
-        "block-1719235850661",
         "block-1719235922032",
-        "block-1719235944714",
-        "block-1719236832256",
+        "block-1719474310541",
+        "block-1719236929075",
         "block-1719236900673"
       ]
     }
@@ -65,18 +63,18 @@
     "type": "Text",
     "data": {
       "style": {
-        "fontSize": 32,
-        "fontWeight": "normal",
+        "fontSize": 30,
+        "fontWeight": "bold",
         "textAlign": "center",
         "padding": {
           "top": 16,
-          "bottom": 16,
+          "bottom": 24,
           "right": 24,
           "left": 24
         }
       },
       "props": {
-        "text": "Launching new version of Microweber"
+        "text": "Some Welcome Text Here"
       }
     }
   },
@@ -92,7 +90,7 @@
         }
       },
       "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/version-2.jpg",
+        "url": "https://test.microweber.com/userfiles/media/default/104332490001.jpg",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -133,7 +131,7 @@
         }
       },
       "props": {
-        "text": "Start selling online like a pro with eCommerce Hosting by Microweber. Launching an online store with Microweber has never been easier with the new eCommerce Hosting plans including state of the art hosting, Microweber Website Builder."
+        "text": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable."
       }
     }
   },
@@ -141,8 +139,8 @@
     "type": "Heading",
     "data": {
       "props": {
-        "text": " Launch a sales-optimized store faster than ever and start selling today.",
-        "level": "h3"
+        "text": "Don't Miss This Offer",
+        "level": "h1"
       },
       "style": {
         "textAlign": "center",
@@ -152,29 +150,6 @@
           "right": 24,
           "left": 24
         }
-      }
-    }
-  },
-  "block-1719235850661": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 17,
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "fullWidth": false,
-        "size": "medium",
-        "text": "EXPLORE PLANS",
-        "url": "https://www.usewaypoint.com"
       }
     }
   },
@@ -182,7 +157,7 @@
     "type": "Text",
     "data": {
       "style": {
-        "fontSize": 29,
+        "fontSize": 19,
         "fontWeight": "bold",
         "textAlign": "center",
         "padding": {
@@ -194,25 +169,6 @@
       },
       "props": {
         "text": "Starting at $4.99/month\n "
-      }
-    }
-  },
-  "block-1719235944714": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 20,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "Start selling now with a hosting plan thats got it all:\n\n\n"
       }
     }
   },
@@ -383,26 +339,6 @@
       }
     }
   },
-  "block-1719236832256": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "markdown": true,
-        "text": "\nThank you,\n<b>The Microweber Team</b>"
-      }
-    }
-  },
   "block-1719236900673": {
     "type": "Text",
     "data": {
@@ -422,12 +358,30 @@
       }
     }
   },
+  "block-1719236929075": {
+    "type": "Text",
+    "data": {
+      "style": {
+        "fontWeight": "normal",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "markdown": true,
+        "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  |  Unsubscribe "
+      }
+    }
+  },
   "block-1719405268248": {
     "type": "Image",
     "data": {
       "style": {
         "padding": {
-          "top": 24,
+          "top": 16,
           "bottom": 16,
           "right": 24,
           "left": 24
@@ -436,10 +390,32 @@
       },
       "props": {
         "width": 200,
-        "url": "https://test.microweber.com/userfiles/media/default/logo.svg",
+        "url": "https://test.microweber.com/userfiles/media/default/599154bb89160-thumb900.webp",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
+      }
+    }
+  },
+  "block-1719474310541": {
+    "type": "Button",
+    "data": {
+      "style": {
+        "fontSize": 18,
+        "textAlign": "center",
+        "padding": {
+          "top": 16,
+          "bottom": 16,
+          "right": 24,
+          "left": 24
+        }
+      },
+      "props": {
+        "buttonStyle": "pill",
+        "fullWidth": false,
+        "size": "medium",
+        "text": "Start Now",
+        "url": "https://www.usewaypoint.com"
       }
     }
   }

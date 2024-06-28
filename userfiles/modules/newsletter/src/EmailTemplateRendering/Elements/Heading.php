@@ -25,6 +25,10 @@ class Heading extends DefaultElement
 
         $html .= '<div style="'.implode(' ', $css).'">';
 
+        if (!isset($params['data']['props']['level'])) {
+            $params['data']['props']['level'] = 'h1';
+        }
+
         if (isset($params['data']['props']['text'])) {
             $html .= '<'.$params['data']['props']['level'].'>'.$params['data']['props']['text'].'</'.$params['data']['props']['level'].'>';
         }

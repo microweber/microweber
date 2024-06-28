@@ -2,17 +2,17 @@
 
     <style>
         .iframe-container {
-            position: relative;
+            /*position: relative;*/
         }
         .iframe {
-            width: 800px;
+            /*width: 800px;
             height: 800px;
             transform-origin: 0 0;
             position: absolute;
             left: 0;
             top: 0;
             transform: scale(0.37);
-            border: 0px transparent;
+            border: 0px transparent;*/
         }
     </style>
 
