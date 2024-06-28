@@ -1102,9 +1102,9 @@
             })
         };
 
-        this.loadSelected = function(openSelectedDataItems){
+        this.loadSelected = function(){
             if(this.selectedData){
-                scope.select(this.selectedData);
+                scope.select(this.selectedData, undefined, false);
                 if(this.options.openSelectedDataItems){
                     this.selectedData.forEach(obj => {
                         jQuery(this.get(obj)).parents('li').each(function(){
