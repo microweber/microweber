@@ -12,15 +12,14 @@ trait CategoryTrait
     private $_removeFromAllCategories = false;
 
 
-
     public function initializeCategoryTrait()
     {
         //  $this->appends[] = 'categories';
         //	$this->with[] = 'categoryItems';
-       // $this->fillable[] = 'category_ids';
+        // $this->fillable[] = 'category_ids';
         $this->fillable[] = 'categoryIds';
-       // $this->casts['category_ids'] = 'array';
-         $this->casts['categoryIds'] = 'array';
+        // $this->casts['category_ids'] = 'array';
+        $this->casts['categoryIds'] = 'array';
     }
 
 
@@ -75,15 +74,18 @@ trait CategoryTrait
     {
         static::saving(function ($model) {
 
-             unset($model->category_ids);
+            unset($model->category_ids);
             unset($model->categoryIds);
         });
 
         static::saved(function ($model) {
 
-             if (isset($model->_addContentToCategory)) {
+            if (isset($model->_addContentToCategory)) {
 
                 $model->_saveCategoriesToModel($model->_addContentToCategory);
+            } else if (isset($model->_removeFromAllCategories) and $model->_removeFromAllCategories) {
+
+                $model->categoryItems()->delete();
             }
         });
     }
@@ -114,7 +116,8 @@ trait CategoryTrait
         return [];
     }
 
-    public function getCategoriesAttribute(){
+    public function getCategoriesAttribute()
+    {
         $modelCats = $this->categoryItems()
             ->with('category')->get();
 
@@ -124,10 +127,18 @@ trait CategoryTrait
     public function setCategoryIdsAttribute($categoryIds)
     {
 
+        if (!$categoryIds) {
+            $this->_removeFromAllCategories = true;
+        } else {
+            $this->_removeFromAllCategories = false;
+            $this->_addContentToCategory = $categoryIds;
 
-        $this->_addContentToCategory = $categoryIds;
+        }
+
+
         return $this;
     }
+
     public function getCategoryIdsAttribute()
     {
         $categories = [];
@@ -137,7 +148,7 @@ trait CategoryTrait
 
         if ($modelCats) {
             foreach ($modelCats as $category) {
-                if(isset($category->category) and isset($category->category->id)) {
+                if (isset($category->category) and isset($category->category->id)) {
                     $categories[] = $category->category->id;
                 }
             }
