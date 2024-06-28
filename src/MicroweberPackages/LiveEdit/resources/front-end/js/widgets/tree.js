@@ -67,7 +67,7 @@ mw.widget.tree = function (target, opt, mode) {
             searchInput: true,
             on: {
                 selectionChange: function () {
-                    mw.askusertostay = true;
+                //    mw.askusertostay = true;
 
                 }
             }

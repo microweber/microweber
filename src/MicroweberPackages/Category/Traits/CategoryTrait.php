@@ -11,11 +11,16 @@ trait CategoryTrait
     private $_addContentToCategory = null;
     private $_removeFromAllCategories = false;
 
+
+
     public function initializeCategoryTrait()
     {
         //  $this->appends[] = 'categories';
         //	$this->with[] = 'categoryItems';
-        $this->fillable[] = 'category_ids';
+       // $this->fillable[] = 'category_ids';
+        $this->fillable[] = 'categoryIds';
+       // $this->casts['category_ids'] = 'array';
+         $this->casts['categoryIds'] = 'array';
     }
 
 
@@ -69,17 +74,16 @@ trait CategoryTrait
     public static function bootCategoryTrait()
     {
         static::saving(function ($model) {
-            // append content to categories
-//            if (isset($model->category_ids)) {
-//                 $model->_addContentToCategory = $model->category_ids;
-//            }
-            unset($model->category_ids);
+
+             unset($model->category_ids);
+            unset($model->categoryIds);
         });
 
         static::saved(function ($model) {
-            if (isset($model->_addContentToCategory)) {
 
-                $model->_setCategories($model->_addContentToCategory);
+             if (isset($model->_addContentToCategory)) {
+
+                $model->_saveCategoriesToModel($model->_addContentToCategory);
             }
         });
     }
@@ -119,6 +123,8 @@ trait CategoryTrait
 
     public function setCategoryIdsAttribute($categoryIds)
     {
+
+
         $this->_addContentToCategory = $categoryIds;
         return $this;
     }
@@ -131,7 +137,9 @@ trait CategoryTrait
 
         if ($modelCats) {
             foreach ($modelCats as $category) {
-                $categories[] = $category->category->id;
+                if(isset($category->category) and isset($category->category->id)) {
+                    $categories[] = $category->category->id;
+                }
             }
         }
 
@@ -193,12 +201,14 @@ trait CategoryTrait
         return $this;
     }
 
-    private function _setCategories($categoryIds)
+    private function _saveCategoriesToModel($categoryIds)
     {
 
         if (!is_array($categoryIds)) {
             $categoryIds = explode(',', $categoryIds);
         }
+
+        $categoryIds = array_map('intval', $categoryIds);
 
         //delete from categories if 1st category is 0
         if (reset($categoryIds) == 0) {

@@ -1,26 +1,19 @@
-@php
-    use Filament\Support\Facades\FilamentView;
+<div>
+    @php
+        use Filament\Support\Facades\FilamentView;
 
-    $id = $getId();
-    $statePath = $getStatePath();
-@endphp
-<x-dynamic-component
-    :component="$getFieldWrapperView()"
-    :field="$field"
-    :has-inline-label="$hasInlineLabel"
->
-
+        $id = $getId();
+        $statePath = $getStatePath();
+    @endphp
 
     @php
-    $suffix = '';
+        $suffix = '';
 
-    $suffix = $this->getId();
+        $suffix = $this->getId();
 
 
 
     @endphp
-
-
 
 
     <script>
@@ -54,22 +47,22 @@
 
                     @if(isset($selectedCategories) and $selectedCategories)
 
-                        @foreach($selectedCategories as $selectedCategory)
+                    @foreach($selectedCategories as $selectedCategory)
 
-                        selectedData.push({
-                            id: {{$selectedCategory}},
-                            type: 'category'
-                        })
+                    selectedData.push({
+                        id: {{$selectedCategory}},
+                        type: 'category'
+                    })
 
 
-                        @endforeach
+                    @endforeach
 
-                     @endif
+                        @endif
 
                     if (selectedData.length > 0) {
                         options.selectedData = selectedData;
                     }
-                    if(skip.length > 0){
+                    if (skip.length > 0) {
                         options.skip = skip;
                     }
 
@@ -82,8 +75,29 @@
 
                     let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
                     pagesTree.tree.on('selectionChange', e => {
-                        let result = pagesTree.tree.getSelected();
-                        this.state = result;
+                        let items = pagesTree.tree.getSelected();
+                        // console.log(this.state)
+                        let selectedCategories = [];
+                        let selectedParentPage = 0;
+                        $.each(items, function (key, item) {
+                            if (item.type == 'category') {
+                                selectedCategories.push(item.id)
+                            }
+                            if (item.type == 'page') {
+                                selectedParentPage = (item.id)
+                            }
+                        });
+
+                        //if(selectedParentPage){
+                        this.state.parent = selectedParentPage;
+                        // }
+
+                        this.state.categoryIds = selectedCategories;
+
+
+                        //this.state = result;
+                        //  Livewire.dispatch('mwTreeSelectionChange', items);
+                        //Livewire.set('parent','2')
                     })
                 }
             }))
@@ -113,6 +127,4 @@
     </div>
 
 
-</x-dynamic-component>
-
-
+</div>

@@ -24,6 +24,7 @@ use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\User\Models\User;
+use Livewire\Attributes\On;
 
 class ContentResource extends Resource
 {
@@ -33,6 +34,7 @@ class ContentResource extends Resource
 
 
     protected static bool $shouldRegisterNavigation = false;
+
 
 
     public static function form(Form $form): Form
@@ -177,7 +179,8 @@ class ContentResource extends Resource
                                     }
                                 })
                             ,
-
+                            Forms\Components\TextInput::make('parent')
+                                ->default($parent),
 
                             Forms\Components\TextInput::make('subtype')
                                 ->default($contentSubtype)
@@ -188,8 +191,7 @@ class ContentResource extends Resource
                                 ->default($contentSubtype)
                                 ->hidden(),
 
-                            Forms\Components\TextInput::make('parent')
-                                ->default($parent),
+
 
 
                             Forms\Components\Section::make('General Information')
@@ -398,46 +400,18 @@ class ContentResource extends Resource
                                         ->default(true),
 
                                 ]),
+
+//filament-forms::components.mw-file-upload
+
+
+
+
                             Forms\Components\Section::make('Parent page')
                                 ->schema([
-                                    MwTree::make('mw_parent_page_and_category_state')
-                                        ->live()
-                                        ->default([
-                                            'page' => $parent,
-                                            'categories' => $category_ids
-                                        ])->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
-                                            $id = $get('id');
-                                            $setParentPage = 0;
-                                            if ($state) {
-                                                $cats = [];
-                                                foreach ($state as $item) {
-
-                                                    if (isset($item['type']) and $item['type'] == 'page') {
-                                                        if ($item['id'] != $id) {
-                                                            $set('parent', $item['id']);
-                                                            $setParentPage = $item['id'];
-                                                        }
-                                                    }
-                                                    if (isset($item['type']) and $item['type'] == 'category') {
-                                                        $cats[] = $item['id'];
-                                                        if (!$setParentPage) {
-                                                            if (isset($item['parent_page'])
-                                                                and isset($item['parent_page']['id'])
-                                                                and $item['parent_page']['content_type'] == 'page') {
-                                                                $setParentPage = $item['parent_page']['id'];
-                                                            }
-                                                        }
-                                                    }
-
-
-                                                }
-
-                                                if ($cats) {
-                                                    $set('category_ids', implode(',', $cats));
-                                                }
-
-                                            }
-                                        }),
+                                    Forms\Components\View::make('filament-forms::admin.mw-tree')->viewData([
+                                        'page' => $parent,
+                                        'categories' => $category_ids
+                                    ]),
                                 ]),
 
 
