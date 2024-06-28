@@ -102,6 +102,7 @@ import "../components/notification.js";
 
 //widgets
 import "../widgets/tree.js";
+import {CategoriesAdminListComponent} from "./categories-admin-list.component.js";
 import { IconPicker } from "../widgets/icon-picker.js";
 
 
@@ -113,7 +114,11 @@ import { IconPicker } from "../widgets/icon-picker.js";
 mw.app.register('iconPicker', IconPicker);
 
 
+
 mw.admin.filament = new AdminFilament();
+mw.admin.categoriesTree = (target, opt) => new CategoriesAdminListComponent();
+
+
 
 
 
