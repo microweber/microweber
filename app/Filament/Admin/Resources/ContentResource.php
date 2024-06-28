@@ -36,7 +36,6 @@ class ContentResource extends Resource
     protected static bool $shouldRegisterNavigation = false;
 
 
-
     public static function form(Form $form): Form
     {
 
@@ -113,15 +112,15 @@ class ContentResource extends Resource
         $parent = 0;
         if ($record) {
             $parent = $record->parent;
-            $category_ids_array =  $record->getCategoryIdsAttribute();
-            if(!empty($category_ids_array)){
+            $category_ids_array = $record->getCategoryIdsAttribute();
+            if (!empty($category_ids_array)) {
                 $category_ids = implode(',', $category_ids_array);
             }
 
         }
 
 
- //dd($category_ids);
+        //dd($category_ids);
 //        $livewire->selectedMenus = $selectedMenus;
 //        $livewire->menus = $menus;
 //        $livewire->existingMenus = $menusCheckboxes;
@@ -157,10 +156,13 @@ class ContentResource extends Resource
                                 ->default($contentType)
                                 ->hidden(),
                             Forms\Components\TextInput::make('categoryIds')
-                               // ->default($category_ids)
+                                ->default($category_ids)
                                 ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($category_ids) {
 
                                     if ($category_ids) {
+                                        if (!is_array($category_ids)) {
+                                            $category_ids = explode(',', $category_ids);
+                                        }
                                         $set('categoryIds', $category_ids);
                                     } else {
                                         $set('categoryIds', []);
@@ -169,7 +171,7 @@ class ContentResource extends Resource
                             ,
 
                             Forms\Components\TextInput::make('menuIds')
-                               // ->default($category_ids)
+                                ->default($selectedMenus)
                                 ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
 
                                     if ($selectedMenus) {
@@ -190,8 +192,6 @@ class ContentResource extends Resource
                             Forms\Components\TextInput::make('is_shop')
                                 ->default($contentSubtype)
                                 ->hidden(),
-
-
 
 
                             Forms\Components\Section::make('General Information')
@@ -404,12 +404,10 @@ class ContentResource extends Resource
 //filament-forms::components.mw-file-upload
 
 
-
-
                             Forms\Components\Section::make('Parent page')
                                 ->schema([
                                     Forms\Components\View::make('filament-forms::admin.mw-tree')->viewData([
-                                        'page' => $parent,
+                                        'selectedPage' => $parent,
                                         'categories' => $category_ids
                                     ]),
                                 ]),

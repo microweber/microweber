@@ -1,3 +1,6 @@
+@props(['selectedCategories','selectedPage'])
+
+
 <div>
     @php
         use Filament\Support\Facades\FilamentView;
@@ -75,6 +78,10 @@
 
                     let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
                     pagesTree.tree.on('selectionChange', e => {
+
+
+                        console.log('selectionChange');
+
                         let items = pagesTree.tree.getSelected();
                         // console.log(this.state)
                         let selectedCategories = [];

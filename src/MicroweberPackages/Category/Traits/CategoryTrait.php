@@ -9,7 +9,7 @@ trait CategoryTrait
 {
 
     private $_addContentToCategory = null;
-    private $_removeFromAllCategories = false;
+    private $_removeFromAllCategories = null;
 
 
     public function initializeCategoryTrait()
@@ -223,8 +223,8 @@ trait CategoryTrait
 
         //delete from categories if 1st category is 0
         if (reset($categoryIds) == 0) {
-            CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->delete();
-            return;
+         //   CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->delete();
+          //  return;
         }
 
         $entityCategories = CategoryItem::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();
