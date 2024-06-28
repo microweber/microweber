@@ -166,6 +166,18 @@ class ContentResource extends Resource
                                 })
                             ,
 
+                            Forms\Components\TextInput::make('menuIds')
+                               // ->default($category_ids)
+                                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
+
+                                    if ($selectedMenus) {
+                                        $set('menuIds', $selectedMenus);
+                                    } else {
+                                        $set('menuIds', []);
+                                    }
+                                })
+                            ,
+
 
                             Forms\Components\TextInput::make('subtype')
                                 ->default($contentSubtype)
@@ -447,32 +459,32 @@ class ContentResource extends Resource
 
                                     Forms\Components\CheckboxList::make('menuIds')
                                         //   ->hiddenLabel(true)
-                                        ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
-
-                                            if ($selectedMenus) {
-                                                $set('menuIds', $selectedMenus);
-                                            } else {
-                                                $set('menuIds', []);
-                                            }
-                                        })
-                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, ?Model $record) {
-                                            $items = $state;
-
-                                            if (is_array($items) and !empty($items)) {
-                                                $items = array_filter($items);
-                                                $items = array_values($items);
-                                                $set('menuIds', $items);
-                                            } else {
-                                                $set('menuIds', []);
-                                            }
-
-                                            if ($items) {
-                                                $record->setMenuIds($items);
-                                            } else {
-                                                $record->setMenuIds([]);
-
-                                            }
-                                        })
+//                                        ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
+//
+//                                            if ($selectedMenus) {
+//                                                $set('menuIds', $selectedMenus);
+//                                            } else {
+//                                                $set('menuIds', []);
+//                                            }
+//                                        })
+//                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, ?Model $record) {
+//                                            $items = $state;
+//
+//                                            if (is_array($items) and !empty($items)) {
+//                                                $items = array_filter($items);
+//                                                $items = array_values($items);
+//                                                $set('menuIds', $items);
+//                                            } else {
+//                                                $set('menuIds', []);
+//                                            }
+//
+//                                            if ($items) {
+//                                                //$record->setMenuIds($items);
+//                                            } else {
+//                                                //$record->setMenuIds([]);
+//
+//                                            }
+//                                        })
                                         ->options($menusCheckboxes),
                                 ])
                         ])->columnSpan(['lg' => 1]),

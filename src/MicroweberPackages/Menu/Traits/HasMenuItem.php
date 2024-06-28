@@ -23,11 +23,12 @@ trait HasMenuItem
     {
         $this->fillable[] = 'add_content_to_menu';
         $this->fillable[] = '_setMenuIdsForContent';
+        $this->fillable[] = 'menuIds';
         //  $this->hidden[] = 'contentMenuIdsSet';
         // $this->hidden[] = 'contentMenuIdsSet';
         $this->casts['add_content_to_menu'] = 'array';
         // $this->casts['contentMenuIdsSet'] = 'array';
-        //$this->casts['menuIds'] = 'array';
+      //   $this->casts['menuIds'] = 'array';
     }
 
 
@@ -46,6 +47,12 @@ trait HasMenuItem
             if (isset($model->_setMenuIdsForContent)) {
                 self::$setMenuIdsForContent = $model->_setMenuIdsForContent;
             }
+
+            if (isset($model->attributes) and isset($model->attributes['menuIds'])) {
+
+                self::$setMenuIdsForContent = $model->attributes['menuIds'];
+            }
+            unset($model->menuIds);
             unset($model->add_content_to_menu);
             unset($model->_setMenuIdsForContent);
 
