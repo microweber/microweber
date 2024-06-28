@@ -23,7 +23,7 @@ class SelectTemplate extends Field
             $emailTemplates[] = [
                 'name' => $filename,
                 'filename' => $filename,
-                'screenshot' => $screenshotUrl,
+                'screenshot' => $screenshotUrl
             ];
         }
 
