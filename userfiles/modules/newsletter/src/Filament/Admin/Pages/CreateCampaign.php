@@ -164,7 +164,6 @@ class CreateCampaign extends Page
                     Wizard\Step::make('From Email')
                         ->icon('heroicon-o-user')
                         ->schema([
-
                             RadioDeck::make('sender_account_id')
                                 ->hintActions([
                                     Action::make('Manage Senders')
@@ -172,17 +171,6 @@ class CreateCampaign extends Page
                                         ->url(admin_url('newsletter/sender-accounts'))
                                         ->openUrlInNewTab()
                                         ->icon('heroicon-o-cog'),
-
-//                                    Action::make('Add new sender')
-//                                        ->link()
-//                                        ->icon('heroicon-o-arrow-trending-up')
-//                                        ->form(SenderAccountsResource::getEditFormArray())
-//                                        ->action(function (array $data): void {
-//                                            $newsletterSenderAccount = new NewsletterSenderAccount();
-//                                            $newsletterSenderAccount->fill($data);
-//                                            $newsletterSenderAccount->save();
-//                                        })
-//                                        ->color('primary'),
                                 ])
                                 ->label('Select sender')
                                 ->columns(2)
@@ -202,7 +190,6 @@ class CreateCampaign extends Page
                                 ->icons($senderIcons)
                                 ->descriptions($senderDescriptions)
                                 ->options($senderOptions),
-
                             ]),
 
                     Wizard\Step::make('Schedule')
