@@ -34,6 +34,7 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use Livewire\Attributes\On;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
 class CreateCampaign extends Page
 {
@@ -164,7 +165,7 @@ class CreateCampaign extends Page
                     Wizard\Step::make('From Email')
                         ->icon('heroicon-o-user')
                         ->schema([
-                            RadioDeck::make('sender_account_id')
+                            RadioDeck::make('state.sender_account_id')
                                 ->hintActions([
                                     Action::make('Manage Senders')
                                         ->link()
@@ -222,8 +223,14 @@ class CreateCampaign extends Page
                                     return true;
                                 }),
 
-                            Checkbox::make('state.advanceOptions')
-                                ->label('Advance options')
+                            Checkbox::make('state.advancedOptions')
+                                ->label('Advanced options')
+                                ->hidden(function (Get $get) {
+                                    if ($get('state.deliveryType') == 'schedule') {
+                                        return false;
+                                    }
+                                    return true;
+                                })
                                 ->live(),
 
                             Group::make([
@@ -248,7 +255,12 @@ class CreateCampaign extends Page
                     Wizard\Step::make('Design')
                         ->icon('heroicon-o-paint-brush')
                         ->schema([
-                            SelectTemplate::make('state.template'),
+
+                            Select::make('state.email_template_id')
+                                ->label('Select Desgin')
+                                ->options(NewsletterTemplate::all()->pluck('title', 'id')),
+
+//                            SelectTemplate::make('state.template'),
                         ]),
 
                     Wizard\Step::make('Send')
@@ -256,21 +268,28 @@ class CreateCampaign extends Page
                         ->icon('heroicon-o-rocket-launch')
                         ->schema([
 
+                           Action::make([
+                               Action::make('Send campaign')
+                                   ->submit()
+                                   ->icon('heroicon-o-rocket-launch')
+                           ])
 
 
-                        ])
+                        ])->afterValidation(function () {
+                            dd($this->state);
+                        })
 
                 ])
                     ->columnSpanFull()
-                    ->submitAction(new HtmlString(Blade::render(<<<BLADE
-                        <x-filament::button
-                            type="submit"
-                            size="lg"
-                            icon="heroicon-o-rocket-launch"
-                        >
-                            Send campaign
-                        </x-filament::button>
-                    BLADE)))
+//                    ->submitAction(new HtmlString(Blade::render(<<<BLADE
+//                        <x-filament::button
+//                            type="submit"
+//                            size="lg"
+//                            icon="heroicon-o-rocket-launch"
+//                        >
+//                            Send campaign
+//                        </x-filament::button>
+//                    BLADE)))
                     ->persistStepInQueryString(),
 
             ]);
