@@ -9,9 +9,18 @@ class NewsletterCampaign extends Model
     public $table = 'newsletter_campaigns';
 
     public $fillable = [
-        'sender_account_id'
+        'sender_account_id',
+        'email_template_id',
+        'list_id',
+        'name',
+        'subject',
+        'from_name',
+        'from_email',
+        'sending_limit_per_day',
+        'is_scheduled',
+        'scheduled_at',
+        'is_done',
     ];
-
 
     public function senderAccount()
     {
