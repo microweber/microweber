@@ -21,6 +21,12 @@ class Text extends DefaultElement
         if (isset($params['data']['style']['padding'])) {
             $css[] = 'padding: ' . $params['data']['style']['padding']['top'] . 'px ' . $params['data']['style']['padding']['right'] . 'px ' . $params['data']['style']['padding']['bottom'] . 'px ' . $params['data']['style']['padding']['left'] . 'px;';
         }
+        if (isset($params['data']['style']['color'])) {
+            $css[] = 'color: ' . $params['data']['style']['color'] . ';';
+        }
+        if (isset($params['data']['style']['backgroundColor'])) {
+            $css[] = 'background-color: ' . $params['data']['style']['backgroundColor'] . ';';
+        }
 
         $html .= '<div style="'.implode(' ', $css).'">';
 

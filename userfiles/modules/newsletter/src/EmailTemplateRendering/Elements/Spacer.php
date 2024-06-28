@@ -9,6 +9,12 @@ class Spacer extends DefaultElement
     {
         $html = '';
 
+        $css = [];
+        if (isset($params['data']['props']['height'])) {
+            $css[] = 'height: ' . $params['data']['props']['height'] . 'px;';
+        }
+
+        $html .= '<div style="'.implode(' ', $css).'"></div>';
 
         return $html;
     }

@@ -20,7 +20,7 @@ class ColumnsContainer extends DefaultElement
         $columnsGap = $params['data']['props']['columnsGap'];
         $columns = $params['data']['props']['columns'];
 
-        $html .= '<div style="display: flex; gap:'.$columnsGap.'px ">';
+        $html .= '<div style="display:flex;gap:'.$columnsGap.'px ">';
 
         if (isset($params['data']['props']['columns'])) {
             foreach ($columns as $column) {
@@ -28,15 +28,16 @@ class ColumnsContainer extends DefaultElement
                     if (empty($column['childrenIds'])) {
                         continue;
                     }
+                    $html .= '<div>';
                     foreach ($column['childrenIds'] as $childrenId) {
                         $html .= $this->renderChildren($childrenId);
                     }
+                    $html .= '</div>';
                 }
             }
         }
 
         $html .= '</div>';
-
         $html .= '</div>';
 
         return $html;

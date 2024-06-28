@@ -48,6 +48,14 @@ class Button extends DefaultElement
                 $buttonDefaultStyle['padding'] = '15px 25px';
             }
         }
+        if (isset($params['data']['props']['buttonStyle'])) {
+            if ($params['data']['props']['buttonStyle'] == 'pill') {
+                $buttonDefaultStyle['border-radius'] = '50px';
+            }
+            if ($params['data']['props']['buttonStyle'] == 'rounded') {
+                $buttonDefaultStyle['border-radius'] = '5px';
+            }
+        }
 
         $cssButton = [];
         $cssButton[] = 'color: ' . $buttonDefaultStyle['color'] . ';';
@@ -56,7 +64,9 @@ class Button extends DefaultElement
         $cssButton[] = 'display: ' . $buttonDefaultStyle['display'] . ';';
         $cssButton[] = 'padding: ' . $buttonDefaultStyle['padding'] . ';';
         $cssButton[] = 'text-decoration: ' . $buttonDefaultStyle['text-decoration'] . ';';
-
+        if (isset($buttonDefaultStyle['border-radius'])) {
+            $cssButton[] = 'border-radius: ' . $buttonDefaultStyle['border-radius'] . ';';
+        }
 
         $html .= '<div style="'.implode(' ', $css).'">';
             $html .= '<a style="'.implode(' ', $cssButton).'" href="'.$params['data']['props']['url'].'">';
