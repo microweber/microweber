@@ -401,8 +401,6 @@ class ContentResource extends Resource
 
                                 ]),
 
-//filament-forms::components.mw-file-upload
-
 
                             Forms\Components\Section::make('Parent page')
                                 ->schema([
@@ -639,12 +637,28 @@ class ContentResource extends Resource
 
                 ImageUrlColumn::make('media_url')
                     ->height(83)
-                    ->imageUrl(function (Product $product) {
+                    ->imageUrl(function (Content $product) {
                         return $product->mediaUrl();
                     }),
 
 
                 Tables\Columns\Layout\Stack::make([
+                    Tables\Columns\TextColumn::make('id'),
+
+
+                    Tables\Columns\IconColumn::make('subtype')
+                        ->icons([
+                            'heroicon-o-x-circle',
+                            'heroicon-o-document-text' => 'page',
+                            'heroicon-o-cog-6-tooth' => 'static',
+                            'heroicon-o-pencil' => 'dynamic',
+                            'heroicon-o-presentation-chart-line' => 'post',
+                            'heroicon-o-shopping-cart' => 'product',
+                        ]),
+
+                ]),
+                Tables\Columns\Layout\Stack::make([
+
 
                     Tables\Columns\TextColumn::make('title')
                         ->searchable()
