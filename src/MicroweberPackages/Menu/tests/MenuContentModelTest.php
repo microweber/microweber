@@ -31,4 +31,25 @@ class MenuContentModelTest extends TestCase
     }
 
 
+    public function testIfMenuIdsAttrbuteIsSavedFromSetMenuIdsMethod()
+    {
+
+        $menu = new Menu();
+        $menu->title = 'test menu';
+        $menu->save();
+        $menu_id = $menu->id;
+
+
+        $content = new Content();
+        $content->title = 'test content';
+
+        $content->menuIds = [$menu_id];
+
+        $content->save();
+
+        $this->assertNotEmpty($content->menuItems()->get());
+
+    }
+    
+
 }

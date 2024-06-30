@@ -642,22 +642,11 @@ class ContentResource extends Resource
                     }),
 
 
+
                 Tables\Columns\Layout\Stack::make([
-                    Tables\Columns\TextColumn::make('id'),
-
-
-                    Tables\Columns\IconColumn::make('subtype')
-                        ->icons([
-                            'heroicon-o-x-circle',
-                            'heroicon-o-document-text' => 'page',
-                            'heroicon-o-cog-6-tooth' => 'static',
-                            'heroicon-o-pencil' => 'dynamic',
-                            'heroicon-o-presentation-chart-line' => 'post',
-                            'heroicon-o-shopping-cart' => 'product',
-                        ]),
-
-                ]),
-                Tables\Columns\Layout\Stack::make([
+                    Tables\Columns\TextColumn::make('id')
+                        ->width(50)
+                        ->columnSpan('sm')->searchable(),
 
 
                     Tables\Columns\TextColumn::make('title')
