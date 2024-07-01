@@ -10,6 +10,7 @@ use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -19,6 +20,7 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Pages\Page;
+use Filament\Support\Colors\Color;
 use Filament\Support\Enums\IconSize;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
@@ -210,6 +212,7 @@ class CreateCampaign extends Page
                                     'send_now' => 'Send campaign now.',
                                     'schedule' => 'Schedule campaign for later.',
                                 ])
+                                ->default('send_now')
                                 ->options([
                                     'send_now' => 'Send now',
                                     'schedule' => 'Schedule',
@@ -268,29 +271,37 @@ class CreateCampaign extends Page
                         ->icon('heroicon-o-rocket-launch')
                         ->schema([
 
-                           Action::make([
-                               Action::make('Send campaign')
-                                   ->submit()
-                                   ->icon('heroicon-o-rocket-launch')
-                           ])
+                            View::make('state.preview')
+                                ->view('microweber-module-newsletter::livewire.filament.admin.preview-campaign',[
+                                    'state' => $this->state
+                                ]),
+
+                            Actions::make([
+                                Action::make('Send campaign')
+                                    ->icon('heroicon-o-rocket-launch')
+                                    ->requiresConfirmation(true)
+                                    ->after(function () {
+                                        // Send campaign
+                                        dd($this->state);
+                                    }),
+                                Action::make('Preview E-mail')
+                                    ->label('Preview E-mail')
+                                    ->link()
+                                    ->url(function() {
+                                        return admin_url('modules/newsletter/preview-email-template').'?filename=mockup1';
+                                    })
+                                    ->openUrlInNewTab()
+                                    ->icon('heroicon-o-eye'),
+
+                            ])->alignCenter(),
 
 
                         ])->afterValidation(function () {
                             dd($this->state);
                         })
 
-                ])
-                    ->columnSpanFull()
-//                    ->submitAction(new HtmlString(Blade::render(<<<BLADE
-//                        <x-filament::button
-//                            type="submit"
-//                            size="lg"
-//                            icon="heroicon-o-rocket-launch"
-//                        >
-//                            Send campaign
-//                        </x-filament::button>
-//                    BLADE)))
-                    ->persistStepInQueryString(),
+                ])->persistStepInQueryString()
+                ->columnSpanFull(),
 
             ]);
     }
