@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Media;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use MicroweberPackages\Media\Models\Media;
@@ -24,6 +25,16 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
     public function register()
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+
+
+      // add disk to config
+        config(['filesystems.disks.media' => [
+            'driver' => 'local',
+            'root' => media_uploads_path(),
+            'url' => media_uploads_url(),
+            'visibility' => 'public',
+        ]]);
+
 
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {

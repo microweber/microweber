@@ -109,6 +109,7 @@ class ContentResource extends Resource
         $active_site_template = template_name();
 
         $menuIds = $selectedMenus;
+        $mediaFiles = [];
         $parent = 0;
         if ($record) {
             $parent = $record->parent;
@@ -116,8 +117,13 @@ class ContentResource extends Resource
             if (!empty($category_ids_array)) {
                 $category_ids = implode(',', $category_ids_array);
             }
+            $mediaFiles = $record->getMediaFilesAttribute();
 
         }
+
+//dd($mediaFiles);
+
+
 
         $sessionId = session()->getId();
         //dd($category_ids);
@@ -130,6 +136,44 @@ class ContentResource extends Resource
         $site_url = site_url();
         return $form
             ->schema([
+
+                Forms\Components\Section::make('Images')
+                    ->schema([
+
+                        Forms\Components\FileUpload::make('media_ids')
+//                           ->loadStateFromRelationshipsUsing(function (Model $record, Forms\Components\FileUpload $component) use ($mediaFiles) {
+//
+//                               $mediaFiles=[
+//                                   '1' => 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+//                                   '2' => 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
+//                               ];
+//                               $component->state($mediaFiles);
+////                             dd();
+////                              return $mediaFiles;
+//                            })
+                      //      ->imagePreviewHeight('150')
+
+                            ->loadingIndicatorPosition('left')
+
+                            ->multiple()
+                            ->reorderable()
+                            ->downloadable()
+                            ->image()
+                            ->moveFiles()
+                            ->imageEditor()
+
+                            ->storeFileNamesIn('media_ids')
+                            ->appendFiles()
+                            ->disk('media')
+                        // ->storeFileNamesIn('media_urls')
+
+//                                    SpatieMediaLibraryFileUpload::make('media')
+//                                        ->collection('product-images')
+//                                        ->multiple()
+//                                        ->maxFiles(5)
+//                                        ->hiddenLabel(),
+                    ])
+                    ->collapsible(),
 
 
 //                Forms\Components\CheckboxList::make('belongsToMenus')
@@ -196,6 +240,11 @@ class ContentResource extends Resource
                                 ->default($contentSubtype)
                                 ->hidden(),
 
+//
+//
+//                            Forms\Components\FileUpload::make('image')
+//                                ->image()
+//                                ->imageEditor(),
 
                             Forms\Components\Section::make('General Information')
                                 ->heading(false)
