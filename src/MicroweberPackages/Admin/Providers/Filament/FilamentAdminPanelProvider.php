@@ -115,7 +115,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 NavigationItem::make('E-mail Marketing')
                     ->url(admin_url('newsletter/homepage'))
                     ->group('Other')
-                    ->sort(300)
+                    ->sort(2)
                     ->icon('heroicon-o-megaphone'),
             ])
             ->sidebarWidth('15rem')

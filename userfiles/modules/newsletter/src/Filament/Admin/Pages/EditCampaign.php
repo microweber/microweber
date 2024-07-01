@@ -1,57 +1,50 @@
 <?php
 
-namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources;
+namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
+
+use Filament\Actions\CreateAction;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
-use Filament\Resources\Resource;
+use Filament\Pages\Page;
+use Filament\Support\Colors\Color;
 use Filament\Support\Enums\IconSize;
-use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
-use Livewire\Attributes\On;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\EditCampaign;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\CampaignResource\Pages\ManageCampaigns;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
+use MicroweberPackages\FormBuilder\Elements\RadioButton;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Components\SelectTemplate;
+use MicroweberPackages\Modules\Newsletter\Filament\Imports\NewsletterSubscriberImporter;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
+use Livewire\Attributes\On;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
-class CampaignResource extends Resource
+class EditCampaign extends Page
 {
-    protected static ?string $model = NewsletterCampaign::class;
+    protected static ?string $slug = 'newsletter/edit-campaign/{id}';
 
-    protected static ?string $navigationIcon = 'heroicon-o-megaphone';
+    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.edit-campaign';
 
-//    protected static ?string $slug = 'newsletter/sender-accounts';
-
-//    protected static bool $shouldRegisterNavigation = false;
-
-    protected static ?string $label = 'Campaigns';
-
-    protected static ?string $navigationLabel = 'Campaigns';
-
-    protected static ?string $navigationGroup = 'Campaigns';
-
-    protected static ?int $navigationSort = 2;
+    protected static bool $shouldRegisterNavigation = false;
 
     public $state = [];
 
@@ -62,7 +55,7 @@ class CampaignResource extends Resource
         $this->state['list_id'] = $listId;
     }
 
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
         $lists = [];
         $listDescriptions = [];
@@ -81,7 +74,7 @@ class CampaignResource extends Resource
             $recipientsOptions['all_subscribers'] = 'All subscribers';
         }
 
-        //   $recipientsOptions['import_new_list'] = 'Import new list';
+     //   $recipientsOptions['import_new_list'] = 'Import new list';
 
         if (!empty($lists)) {
             $recipientsOptions['specific_lists'] = 'Specific lists';
@@ -189,7 +182,7 @@ class CampaignResource extends Resource
                                 ->label('Select sender')
                                 ->columns(2)
                                 ->padding('py-4 px-8')
-                                ->gap('gap-0')
+                                    ->gap('gap-0')
                                 ->iconSize(IconSize::Large)
                                 ->extraCardsAttributes([ // Extra Attributes to add to the card HTML element
                                     'class' => 'rounded-xl'
@@ -204,7 +197,7 @@ class CampaignResource extends Resource
                                 ->icons($senderIcons)
                                 ->descriptions($senderDescriptions)
                                 ->options($senderOptions),
-                        ]),
+                            ]),
 
                     Wizard\Step::make('Schedule')
                         // ->description('Select when you would you like this email to launch.')
@@ -282,10 +275,10 @@ class CampaignResource extends Resource
                         ->icon('heroicon-o-rocket-launch')
                         ->schema([
 
-//                            View::make('state.preview')
-//                                ->view('microweber-module-newsletter::livewire.filament.admin.preview-campaign',[
-//                                    'state' => $this->state
-//                                ]),
+                            View::make('state.preview')
+                                ->view('microweber-module-newsletter::livewire.filament.admin.preview-campaign',[
+                                    'state' => $this->state
+                                ]),
 
                             Actions::make([
                                 Action::make('Send campaign')
@@ -312,41 +305,9 @@ class CampaignResource extends Resource
                         })
 
                 ])->persistStepInQueryString()
-                    ->columnSpanFull(),
+                ->columnSpanFull(),
 
             ]);
     }
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                TextColumn::make('name')->searchable(),
-                TextColumn::make('list.name'),
-                TextColumn::make('subscribers'),
-                TextColumn::make('scheduled'),
-                TextColumn::make('scheduled_at'),
-                TextColumn::make('done'),
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => ManageCampaigns::route('/'),
-            'edit' => EditCampaign::route('/{record}/edit'),
-        ];
-    }
 }
