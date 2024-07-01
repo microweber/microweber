@@ -88,6 +88,7 @@ mw.systemDialogsService = SystemDialogsService;
 
 
 import "../components/autocomplete.js";
+import "../components/select.js";
 import "../components/form-controls.js";
 import "../components/uploader.js";
 import "../components/filemanager.js";
@@ -116,7 +117,7 @@ mw.app.register('iconPicker', IconPicker);
 
 
 mw.admin.filament = new AdminFilament();
-mw.admin.categoriesTree = (target, opt) => new CategoriesAdminListComponent();
+mw.admin.categoriesTree = (target, opt) => new CategoriesAdminListComponent(target, opt);
 
 
 

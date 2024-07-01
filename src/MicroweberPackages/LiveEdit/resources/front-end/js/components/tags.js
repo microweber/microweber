@@ -212,6 +212,7 @@ mw.tags = mw.chips = function(options){
             };
 
             $.extend(config, options);
+            console.log(config)
 
          config.tagBtnClass +=  '  btn';
 
@@ -314,9 +315,19 @@ mw.treeTags = mw.treeChips = function(options){
     var treeHolder = options.treeHolder || mw.$('<div class="mw-tree-tag-tree-holder"></div>');
 
     var treeSettings = $.extend({}, this.options, {element:treeHolder});
-    var tagsSettings = $.extend({}, this.options, {element:tagsHolder, data:this.options.selectedData || []});
+
+
+    const treeSelectedData = (selectedData) => {
+        return (this.options.selectedData || []).map(obj => {
+            return Object.assign({}, obj, scope.tree.get(obj)._data);
+        });
+    }
+
 
     this.tree = new mw.tree(treeSettings);
+
+
+    var tagsSettings = $.extend({}, this.options, {element:tagsHolder, data: treeSelectedData(this.options.selectedData || [])});
 
     this.tags = new mw.tags(tagsSettings);
 
