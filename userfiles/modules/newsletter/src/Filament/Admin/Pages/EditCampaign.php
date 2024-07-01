@@ -46,13 +46,20 @@ class EditCampaign extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public $state = [];
+    public $state = [
+        'name' => 'xxx',
+    ];
 
     #[On('subscribers-imported')]
     public function subscribersImported($listId = null) {
 
         $this->state['recipientsFrom'] = 'specific_lists';
         $this->state['list_id'] = $listId;
+    }
+
+    public function mounted()
+    {
+
     }
 
     public function form(Form $form): Form
@@ -102,9 +109,10 @@ class EditCampaign extends Page
         }
 
         return $form
+            ->fill($this->state)
             ->schema([
 
-                TextInput::make('name')
+                TextInput::make('state.name')
                     ->label('Campaign name')
                     ->required()
                     ->placeholder('Enter campaign name'),
