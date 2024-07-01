@@ -102,8 +102,12 @@ class EditCampaign extends Page
         }
 
         return $form
-            ->model(NewsletterCampaign::class)
             ->schema([
+
+                TextInput::make('name')
+                    ->label('Campaign name')
+                    ->required()
+                    ->placeholder('Enter campaign name'),
 
                 Wizard::make([
 
