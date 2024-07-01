@@ -42,9 +42,18 @@ trait CustomFieldsTrait
 
         static::saved(function ($model) {
 
+
+            //$sessionId = app()->user_manager->session_id();
+
+            if(isset($model->attributes['session_id']) and $model->attributes['session_id']){
+                $sessionId = $model->attributes['session_id'];
+            } else {
+                $sessionId = app()->user_manager->session_id();
+            }
+
             // Append custom fields to content when content is created
             CustomField::where('rel_id', 0)
-                ->where('session_id', app()->user_manager->session_id())//ERROR: Non-static method Illuminate\Contracts\Session\Session::getId() cannot be called statically
+                ->where('session_id', $sessionId)//ERROR: Non-static method Illuminate\Contracts\Session\Session::getId() cannot be called statically
                 ->where('rel_type', $model->getMorphClass())
                 ->update(['rel_id' => $model->id]);
 

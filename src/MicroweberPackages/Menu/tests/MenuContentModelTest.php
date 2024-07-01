@@ -50,6 +50,6 @@ class MenuContentModelTest extends TestCase
         $this->assertNotEmpty($content->menuItems()->get());
 
     }
-    
+
 
 }
