@@ -46,12 +46,22 @@ class ListCustomFields extends Component implements HasForms, HasTable
     public $relType = '';
     public $relId = '';
     public $type = '';
+    public $sessionId = '';
 
     public function table(Table $table): Table
     {
+
         $modelQuery = CustomField::where('rel_type', $this->relType)
-            ->where('rel_id', $this->relId)
-            ->orderBy('position', 'asc');
+            ->where('rel_id', $this->relId);
+
+        if(isset($this->sessionId) && $this->sessionId){
+            $modelQuery = $modelQuery->where('session_id', $this->sessionId);
+        }
+
+
+        $modelQuery = $modelQuery->orderBy('position', 'asc');
+
+
 
 
         $editForm = [];
@@ -63,6 +73,13 @@ class ListCustomFields extends Component implements HasForms, HasTable
             ->default($this->relType);
         $editForm[] = Hidden::make('rel_id')
             ->default($this->relId);
+
+        if(isset($this->sessionId) && $this->sessionId){
+            $editForm[] = TextInput::make('session_id')
+                ->default($this->sessionId);
+        }
+
+
 
         $editForm[] = Group::make()
             ->hidden(function (Get $get) {

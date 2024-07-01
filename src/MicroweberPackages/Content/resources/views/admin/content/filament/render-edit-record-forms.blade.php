@@ -54,12 +54,26 @@
                         if (isset($this->data['id'])) {
                             $relId = $this->data['id'];
                         }
+
+
+                         $customFieldParams = [
+                            'relId' => $relId,
+                            'relType' => morph_name($this->getModel()),
+                        ];
+
+                        if($relId == 0){
+                            if (isset($this->data['session_id']) and $this->data['session_id']) {
+                                $customFieldParams['sessionId'] = $this->data['session_id'];
+                            }
+                        }
+
+
+
+
+
                     @endphp
 
-                    @livewire('admin-list-custom-fields', [
-                    'relId' => $relId,
-                    'relType' => morph_name($this->getModel()),
-                    ])
+                    @livewire('admin-list-custom-fields',$customFieldParams)
                 </x-filament::section>
             </div>
 

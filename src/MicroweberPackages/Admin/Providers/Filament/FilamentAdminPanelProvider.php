@@ -65,10 +65,10 @@ class FilamentAdminPanelProvider extends PanelProvider
     {
         return [
             //  EncryptCookies::class,
-            AddQueuedCookiesToResponse::class,
-            StartSession::class,
-            AuthenticateSession::class,
-            ShareErrorsFromSession::class,
+//            AddQueuedCookiesToResponse::class,
+//            StartSession::class,
+//            AuthenticateSession::class,
+//            ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             DisableBladeIconComponents::class,

@@ -23,6 +23,7 @@ class CustomField extends Model
         'name',
         'name_key',
         'value',
+        'session_id',
         // 'created_by'
     ];
 
@@ -131,7 +132,7 @@ class CustomField extends Model
             $this->name_key = \Str::slug($this->name, '-');
         }
 
-        if ($this->rel_id < 1) {
+        if ($this->rel_id == 0 and !isset($this->session_id)) {
             $this->session_id = app()->user_manager->session_id();
         }
 

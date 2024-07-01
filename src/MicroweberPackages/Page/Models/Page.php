@@ -13,31 +13,31 @@ class Page extends Content
 
     protected $table = 'content';
     protected $primaryKey = 'id';
-
-    protected $fillable = [
-        "subtype",
-        "subtype_value",
-        "content_type",
-        "parent",
-        "layout_file",
-        "active_site_template",
-        "title",
-        "url",
-        "content_meta_title",
-        "content",
-        "description",
-        "content_body",
-        "content_meta_keywords",
-        "original_link",
-        "require_login",
-        "created_by",
-        "is_home",
-        "is_shop",
-        "is_active",
-        "updated_at",
-        "created_at",
-        "position",
-    ];
+//
+//    protected $fillable = [
+//        "subtype",
+//        "subtype_value",
+//        "content_type",
+//        "parent",
+//        "layout_file",
+//        "active_site_template",
+//        "title",
+//        "url",
+//        "content_meta_title",
+//        "content",
+//        "description",
+//        "content_body",
+//        "content_meta_keywords",
+//        "original_link",
+//        "require_login",
+//        "created_by",
+//        "is_home",
+//        "is_shop",
+//        "is_active",
+//        "updated_at",
+//        "created_at",
+//        "position",
+//    ];
 
     /**
      * The "booted" method of the model.

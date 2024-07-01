@@ -109,6 +109,7 @@ class Content extends Model
         "is_shop",
         "is_active",
         "is_deleted",
+        "session_id",
         "updated_at",
         "created_at",
     ];

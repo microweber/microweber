@@ -119,7 +119,7 @@ class ContentResource extends Resource
 
         }
 
-
+        $sessionId = session()->getId();
         //dd($category_ids);
 //        $livewire->selectedMenus = $selectedMenus;
 //        $livewire->menus = $menus;
@@ -150,6 +150,9 @@ class ContentResource extends Resource
                             Forms\Components\TextInput::make('id')
                                 ->default($id)
                                 ->hidden(),
+            Forms\Components\TextInput::make('session_id')
+                                ->default($sessionId)
+                              ,
 
 
                             Forms\Components\TextInput::make('content_type')
@@ -391,7 +394,7 @@ class ContentResource extends Resource
                         ->schema([
                             Forms\Components\Section::make('Visible')
                                 ->schema([
-                                    Forms\Components\ToggleButtons::make('is_published')
+                                    Forms\Components\ToggleButtons::make('is_active')
                                         ->label(false)
                                         ->options([
                                             1 => 'Published',
@@ -640,7 +643,6 @@ class ContentResource extends Resource
                     ->imageUrl(function (Content $product) {
                         return $product->mediaUrl();
                     }),
-
 
 
                 Tables\Columns\Layout\Stack::make([
