@@ -118,7 +118,7 @@
 
 /*SIDEBAR STYLES*/
 .fi-sidebar-group-label {
-
+    @apply uppercase text-[0.7rem];
 }
 .fi-sidebar-group-icon {
 
@@ -141,4 +141,5 @@
 .fi-sidebar-item-button {
     @apply !py-[0.6rem];
 }
+
 @config 'tailwind.config.js';
