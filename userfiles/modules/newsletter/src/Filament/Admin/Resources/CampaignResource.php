@@ -41,7 +41,7 @@ class CampaignResource extends Resource
 
     protected static ?string $label = 'Campaigns';
 
-    protected static ?string $navigationLabel = 'All';
+    protected static ?string $navigationLabel = 'Campaigns';
 
     protected static ?string $navigationGroup = 'Campaigns';
 

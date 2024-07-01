@@ -15,7 +15,10 @@ class ManageCampaigns extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+//            Actions\CreateAction::make(),
+              Actions\Action::make('create')
+                ->label('Create Campaign')
+                ->url(route('filament.admin-newsletter.pages.create-campaign')),
         ];
     }
 }

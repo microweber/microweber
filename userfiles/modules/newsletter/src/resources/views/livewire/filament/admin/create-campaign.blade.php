@@ -3,7 +3,7 @@
     <div class="flex justify-center items-center w-full h-full">
     <div x-data="{
         name: @entangle('name'),
-    }" class="my-24 w-[30rem] m-auto">
+    }" class="my-24 w-[36rem] m-auto">
 
 
          <h3 class="text-xl mb-4">
