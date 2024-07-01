@@ -10,11 +10,14 @@ trait MediaTrait
 {
     private $_newMediaToAssociate = []; //When enter in bootHasCustomFieldsTrait
     private $_newMediaToAssociateIds = [];
+    private $_newMediaFiles = null;
 
     public function initializeMediaTrait()
     {
         $this->fillable[] = 'media_ids';
         $this->fillable[] = 'media_urls';
+        $this->fillable[] = 'media_files';
+        $this->casts['media_files'] = 'array';
     }
 
     public function media()
@@ -23,6 +26,7 @@ trait MediaTrait
             ->where('rel_type', $this->getMorphClass())
             ->orderBy('position', 'asc');
     }
+
 
     public function thumbnail($width = 100, $height = 100, $crop = false)
     {
@@ -66,9 +70,28 @@ trait MediaTrait
         return $this->media()->get();
     }
 
+    public function getMediaFilesAttribute()
+    {
+        $medias = $this->media()->get();
+
+        $mediaFiles = [];
+        if ($medias) {
+            foreach ($medias as $media) {
+                $mediaFiles[] = $media->filename;
+            }
+        }
+        return $mediaFiles;
+    }
+
     public static function bootMediaTrait()
     {
         static::saving(function ($model) {
+            if (isset($model->media_files)) {
+
+                $model->_newMediaFiles = $model->media_files;
+                unset($model->media_files);
+
+            }
 
             if (isset($model->media_urls)) {
                 if (!empty($model->media_urls)) {
@@ -84,7 +107,7 @@ trait MediaTrait
                     if (!empty($mediaUrls)) {
                         foreach ($mediaUrls as $url) {
                             save_media(array(
-                                'allow_remote_download' => 1,
+                                //  'allow_remote_download' => 1,
                                 'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
                                 'rel_id' => $model->id,
                                 'title' => 'Picture',
@@ -117,11 +140,25 @@ trait MediaTrait
 
         static::saved(function ($model) {
 
+
             Media::where('session_id', Session::getId())
                 ->where('rel_id', 0)
                 ->where('rel_type', $model->getMorphClass())
                 ->update(['rel_id' => $model->id]);
 
+            if (is_array($model->_newMediaFiles)) {
+                foreach ($model->_newMediaFiles as $filename) {
+                    $mediaArr = [];
+                    $mediaArr['rel_type'] = $model->getMorphClass();
+                    $mediaArr['rel_id'] = $model->id;
+                    $mediaArr['filename'] = media_uploads_url() . $filename;
+                    $saved = $model->media()->create($mediaArr);
+                    if ($saved) {
+                        $model->_newMediaToAssociateIds[] = $saved->id;
+                    }
+                }
+
+            }
             if (is_array($model->_newMediaToAssociate) && !empty($model->_newMediaToAssociate)) {
                 foreach ($model->_newMediaToAssociate as $mediaArr) {
                     $mediaArr['rel_type'] = $model->getMorphClass();
@@ -134,6 +171,10 @@ trait MediaTrait
                 $model->_newMediaToAssociate = []; //empty the array
                 $model->refresh();
 
+               // $model->setMedias($model->_newMediaToAssociateIds);
+            }
+
+            if(!empty($model->_newMediaToAssociateIds)){
                 $model->setMedias($model->_newMediaToAssociateIds);
             }
 
