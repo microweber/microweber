@@ -117,7 +117,7 @@ class ContentResource extends Resource
             if (!empty($category_ids_array)) {
                 $category_ids = implode(',', $category_ids_array);
             }
-            $mediaFiles = $record->getMediaFilesAttribute();
+        //    $mediaFiles = $record->getMediaFilesAttribute();
 
         }
 
@@ -160,6 +160,10 @@ class ContentResource extends Resource
                             ->downloadable()
                             ->image()
                             ->moveFiles()
+                            ->extraAttributes([
+                                'data-mw-uploader-skin' => 'mw-small',
+                            ])
+
                             ->imageEditor()
 
                             ->storeFileNamesIn('media_ids')
