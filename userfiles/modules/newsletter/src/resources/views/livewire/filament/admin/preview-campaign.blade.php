@@ -47,13 +47,19 @@
             <h3 class="font-bold">
                 Email from
             </h3>
-            <div class="flex flex-column gap-4 text-sm dark:text-white/80 text-black/80">
+            <div class="flex flex-col gap-y-2 text-sm dark:text-white/80 text-black/80">
                 @php
                 $senderAccount = $model->senderAccount()->first();
                 @endphp
-                Name: {{$senderAccount->from_name}}  <br />
-                From: {{$senderAccount->from_email}} <br />
-                Reply: {{$senderAccount->reply_email}}
+                <div>
+                    Name: {{$senderAccount->from_name}}
+                </div>
+                <div>
+                    From: {{$senderAccount->from_email}}
+                </div>
+                <div>
+                    Reply: {{$senderAccount->reply_email}}
+                </div>
             </div>
         </div>
     </div>
@@ -68,7 +74,12 @@
                 Schedule
             </h3>
             <div class="text-sm dark:text-white/80 text-black/80">
+                @if($model->delivery_type == 'send_now')
                 Sending campaign right now (Send now)
+                @endif
+                @if($model->delivery_type == 'schedule')
+                Scheduled for {{$model->delivery_date}}
+                @endif
             </div>
         </div>
     </div>
