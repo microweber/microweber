@@ -47,7 +47,7 @@
             <h3 class="font-bold">
                 Email from
             </h3>
-            <div class="flex flex-col gap-y-2 text-sm dark:text-white/80 text-black/80">
+            <div class="flex flex-col gap-y-1 text-sm dark:text-white/80 text-black/80">
                 @php
                 $senderAccount = $model->senderAccount()->first();
                 @endphp

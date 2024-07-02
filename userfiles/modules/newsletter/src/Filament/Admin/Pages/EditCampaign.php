@@ -127,11 +127,6 @@ class EditCampaign extends Page
             ->fill($this->state)
             ->schema([
 
-                TextInput::make('state.name')
-                    ->label('Campaign name')
-                    ->required()
-                    ->placeholder('Enter campaign name'),
-
                 Wizard::make([
 
 //                Wizard\Step::make('Content')
