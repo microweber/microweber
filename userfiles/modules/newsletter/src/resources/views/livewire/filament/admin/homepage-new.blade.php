@@ -4,17 +4,12 @@
             [
                 'name' => 'Create new campaign',
                 'icon' => 'heroicon-o-document-text',
-                'url' => ''
+                'url' => route('filament.admin-newsletter.pages.create-campaign')
             ],
             [
-                'name' => 'Add a subscriber',
-                'icon' => 'heroicon-o-user-plus',
-                'url' => ''
-            ],
-            [
-                'name' => 'Import contacts',
+                'name' => 'Manage Subscribers',
                 'icon' => 'heroicon-o-users',
-                'url' => ''
+                'url' => route('filament.admin-newsletter.resources.subscribers.index')
             ]
         ];
     @endphp
@@ -22,7 +17,7 @@
         <h3 class="font-bold">Quick actions</h3>
         <div class="flex gap-8 mt-2">
             @foreach ($quickActions as $action)
-                <a href="{{$action['url']}}" class="bg-white hover:shadow rounded-2xl border border-gray-500/20 flex items-center gap-3 w-full py-4 px-6 hover:bg-gray-500/5">
+                <a href="{{$action['url']}}" class="bg-white hover:shadow rounded-lg border border-gray-500/20 flex items-center gap-3 w-full py-4 px-6 hover:bg-gray-500/5">
                     @svg($action['icon'], "h-6 w-6 text-blue-500")
                     {{$action['name']}}
                 </a>
