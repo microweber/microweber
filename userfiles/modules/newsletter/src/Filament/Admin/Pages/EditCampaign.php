@@ -60,18 +60,21 @@ class EditCampaign extends Page
     {
         $key = str_replace('state.', '', $key);
 
-        $find = NewsletterCampaign::find($this->state['id']);
-        if ($find) {
-            $find->fill([$key => $value]);
-            $find->save();
-            $this->model = $find;
+        $campaign = NewsletterCampaign::where('id', $this->state['id'])->first();
+
+        if ($campaign) {
+            $campaign->fill([$key => $value]);
+            $campaign->save();
+            $this->model = $campaign;
         }
 
     }
 
-    public function mount($id)
+    public function mount()
     {
-        $campaign = NewsletterCampaign::find($id);
+        $id = request()->route('id');
+        $campaign = NewsletterCampaign::where('id', $id)->first();
+
         if ($campaign) {
             $this->model = $campaign;
             $this->state = $campaign->toArray();

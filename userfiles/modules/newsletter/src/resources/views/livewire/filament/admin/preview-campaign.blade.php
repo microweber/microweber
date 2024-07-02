@@ -31,13 +31,23 @@
                 @endif
                 @if ($model->recipients_from === 'specific_lists')
                     Specific list
-                    <span>(<b>{{$model->countSubscribers()}}</b> subscribers in <b>{{$model->listName()}}</b>)</span>
+                    @php
+                        $list = $model->list()->first();
+                    @endphp
+                    @if ($list)
+                    <span>(<b>{{$model->countSubscribers()}}</b> subscribers in <b>{{$list->name}}</b>)</span>
+                    @endif
                 @endif
             </div>
         </div>
     </div>
 
 
+    @php
+        $senderAccount = $model->senderAccount()->first();
+    @endphp
+
+    @if($senderAccount)
     <div class="flex gap-4 bg-blue-500/5 dark:bg-white/5 dark:border-white/10 rounded-2xl p-8 mt-4">
         <div class="flex items-center justify-center">
             <div class="bg-blue-500/10 dark:bg-white/5 transition duration-150 bg-white rounded-xl p-4">
@@ -49,9 +59,6 @@
                 Email from
             </h3>
             <div class="flex flex-col gap-y-1 text-sm dark:text-white/80 text-black/80">
-                @php
-                $senderAccount = $model->senderAccount()->first();
-                @endphp
                 <div>
                     {{$senderAccount->from_name}} ({{$senderAccount->from_email}})
                 </div>
@@ -61,6 +68,7 @@
             </div>
         </div>
     </div>
+    @endif
 
 
     <div class="flex gap-4 bg-blue-500/5 dark:bg-white/5 dark:border-white/10 rounded-2xl p-8 mt-4">
