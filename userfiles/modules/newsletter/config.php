@@ -11,28 +11,30 @@ $config['version'] = "2.0";
 $config['tables'] = array (
 
 	'newsletter_subscribers' => array (
-			'id' => 'integer',
-			'name' => 'text',
-			'email' => 'text',
-			'created_at' => 'dateTime',
-			'confirmation_code' => 'text',
-			'is_subscribed' => 'integer'
+        'id' => 'integer',
+        'name' => 'text',
+        'email' => 'text',
+        'created_at' => 'dateTime',
+        'confirmation_code' => 'text',
+        'is_subscribed' => 'integer'
 	),
 
 	'newsletter_campaigns' => array (
-			'id' => 'integer',
-			'name' => 'text',
-			'subject' => 'text',
-			'from_name' => 'text',
-			// 'from_email' => 'text',
-			'created_at' => 'dateTime',
-            'email_template_id' => 'integer',
-			'list_id' => 'integer',
-			'sender_account_id' => 'integer',
-            'sending_limit_per_day' => 'integer',
-            'is_scheduled' => 'integer',
-            'scheduled_at' => 'dateTime',
-			'is_done' => 'integer'
+        'id' => 'integer',
+        'name' => 'text',
+        'subject' => 'text',
+        'recipients_from' => 'text',
+        'delivery_type' => 'text',
+        'from_name' => 'text',
+        // 'from_email' => 'text',
+        'created_at' => 'dateTime',
+        'email_template_id' => 'integer',
+        'list_id' => 'integer',
+        'sender_account_id' => 'integer',
+        'sending_limit_per_day' => 'integer',
+        'is_scheduled' => 'integer',
+        'scheduled_at' => 'dateTime',
+        'is_done' => 'integer'
 	),
 
 	'newsletter_campaigns_send_log' => array (
@@ -110,9 +112,6 @@ $config['tables'] = array (
         'updated_at' => 'dateTime'
 	)
 );
-
-
-
 
 $config['settings']['autoload_namespace'] = [
     [

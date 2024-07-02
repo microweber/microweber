@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Modules\Newsletter\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,9 @@ class NewsletterCampaign extends Model
         'is_scheduled',
         'scheduled_at',
         'is_done',
+        'recipients_from',
+        'delivery_type',
+
     ];
 
     public function senderAccount()
@@ -30,19 +34,33 @@ class NewsletterCampaign extends Model
     }
 
     public function list()
-   {
-       return $this->hasOne(NewsletterList::class, 'id', 'list_id');
-   }
+    {
+        return $this->hasOne(NewsletterList::class, 'id', 'list_id');
+    }
 
-   public function getSubscribersAttribute()
-   {
-       return NewsletterSubscriberList::where('list_id', $this->list_id)->count();
+    public function listName()
+    {
+        return $this->list->name;
+    }
 
-   }
+    public function countSubscribers()
+    {
+        if ($this->recipients_from == 'specific_list') {
+            return NewsletterSubscriberList::where('list_id', $this->list_id)->count();
+        } else {
+            return NewsletterSubscriber::all()->count();
+        }
+    }
+
+    public function getSubscribersAttribute()
+    {
+        return NewsletterSubscriberList::where('list_id', $this->list_id)->count();
+
+    }
 
     public function getScheduledAttribute()
     {
-         return 0;
+        return 0;
     }
 
     public function getScheduledAtAttribute()
@@ -52,6 +70,6 @@ class NewsletterCampaign extends Model
 
     public function getDoneAttribute()
     {
-         return 0;
+        return 0;
     }
 }

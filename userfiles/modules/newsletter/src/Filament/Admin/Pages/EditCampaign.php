@@ -46,20 +46,35 @@ class EditCampaign extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public $state = [
-        'name' => 'xxx',
-    ];
+    public $state = [];
+    private $model;
 
     #[On('subscribers-imported')]
     public function subscribersImported($listId = null) {
 
-        $this->state['recipientsFrom'] = 'specific_lists';
+        $this->state['recipients_from'] = 'specific_lists';
         $this->state['list_id'] = $listId;
     }
 
-    public function mounted()
+    public function updated($key, $value)
     {
+        $key = str_replace('state.', '', $key);
 
+        $find = NewsletterCampaign::find($this->state['id']);
+        if ($find) {
+            $find->fill([$key => $value]);
+            $find->save();
+        }
+
+    }
+
+    public function mount($id)
+    {
+        $campaign = NewsletterCampaign::find($id);
+        if ($campaign) {
+            $this->model = $campaign;
+            $this->state = $campaign->toArray();
+        }
     }
 
     public function form(Form $form): Form
@@ -129,7 +144,8 @@ class EditCampaign extends Page
                         ->icon('heroicon-o-users')
                         ->schema([
 
-                            RadioDeck::make('state.recipientsFrom')
+                            RadioDeck::make('state.recipients_from')
+                                ->live()
                                 ->hintActions([
                                     Action::make('Import new subscribers')
                                         ->view('microweber-module-newsletter::livewire.filament.admin.render-import-subscribers-action')
@@ -164,8 +180,9 @@ class EditCampaign extends Page
 
                             Radio::make('state.list_id')
                                 ->label('Select list')
+                                ->live()
                                 ->hidden(function (Get $get) {
-                                    if ($get('state.recipientsFrom') == 'specific_lists') {
+                                    if ($get('state.recipients_from') == 'specific_lists') {
                                         return false;
                                     }
                                     return true;
@@ -180,6 +197,7 @@ class EditCampaign extends Page
                         ->icon('heroicon-o-user')
                         ->schema([
                             RadioDeck::make('state.sender_account_id')
+                                ->live()
                                 ->hintActions([
                                     Action::make('Manage Senders')
                                         ->link()
@@ -212,7 +230,7 @@ class EditCampaign extends Page
                         ->icon('heroicon-o-calendar-days')
                         ->schema([
 
-                            RadioDeck::make('state.deliveryType')
+                            RadioDeck::make('state.delivery_type')
                                 ->columns(2)
                                 ->icons([
                                     'send_now' => 'heroicon-o-rocket-launch',
@@ -231,17 +249,18 @@ class EditCampaign extends Page
                                 ]),
 
                             DateTimePicker::make('state.scheduled_at')
+                                ->live()
                                 ->hidden(function (Get $get) {
-                                    if ($get('state.deliveryType') == 'schedule') {
+                                    if ($get('state.delivery_type') == 'schedule') {
                                         return false;
                                     }
                                     return true;
                                 }),
 
-                            Checkbox::make('state.advancedOptions')
+                            Checkbox::make('state.advanced_options')
                                 ->label('Advanced options')
                                 ->hidden(function (Get $get) {
-                                    if ($get('state.deliveryType') == 'schedule') {
+                                    if ($get('state.delivery_type') == 'schedule') {
                                         return false;
                                     }
                                     return true;
@@ -250,16 +269,17 @@ class EditCampaign extends Page
 
                             Group::make([
 
-                                TextInput::make('state.sendingLimit')
+                                TextInput::make('state.sending_limit_per_day')
                                     ->label('Sending limit (Per day)')
                                     ->helperText('Set the maximum number of emails to be sent per day ')
                                     ->numeric()
                                     ->default(300)
+                                    ->live()
                                     ->label('Sending limit'),
 
                             ])->hidden(function (Get $get) {
-                                if ($get('state.advanceOptions')
-                                    && $get('state.deliveryType') == 'schedule') {
+                                if ($get('state.advanced_options')
+                                    && $get('state.delivery_type') == 'schedule') {
                                     return false;
                                 }
                                 return true;
@@ -272,7 +292,8 @@ class EditCampaign extends Page
                         ->schema([
 
                             Select::make('state.email_template_id')
-                                ->label('Select Desgin')
+                                ->live()
+                                ->label('Select Design')
                                 ->options(NewsletterTemplate::all()->pluck('title', 'id')),
 
 //                            SelectTemplate::make('state.template'),
@@ -285,7 +306,7 @@ class EditCampaign extends Page
 
                             View::make('state.preview')
                                 ->view('microweber-module-newsletter::livewire.filament.admin.preview-campaign',[
-                                    'state' => $this->state
+                                    'model' => $this->model,
                                 ]),
 
                             Actions::make([
