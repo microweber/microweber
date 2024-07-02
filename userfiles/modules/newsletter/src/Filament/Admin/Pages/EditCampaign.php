@@ -289,13 +289,14 @@ class EditCampaign extends Page
                     Wizard\Step::make('Design')
                         ->icon('heroicon-o-paint-brush')
                         ->schema([
+//
+//                            Select::make('state.email_template_id')
+//                                ->live()
+//                                ->label('Select Design')
+//                                ->options(NewsletterTemplate::all()->pluck('title', 'id')),
 
-                            Select::make('state.email_template_id')
-                                ->live()
-                                ->label('Select Design')
-                                ->options(NewsletterTemplate::all()->pluck('title', 'id')),
-
-//                            SelectTemplate::make('state.template'),
+                            SelectTemplate::make('state.template')
+                                ->setCampaignId($this->state['id']),
                         ]),
 
                     Wizard\Step::make('Send')

@@ -9,6 +9,13 @@ class SelectTemplate extends Field
 
     protected string $view = 'microweber-module-newsletter::livewire.filament.components.select-template';
 
+    public $campaignId;
+
+    public function setCampaignId($id)
+    {
+        $this->campaignId = $id;
+        return $this;
+    }
 
     public function getEmailTemplates()
     {
