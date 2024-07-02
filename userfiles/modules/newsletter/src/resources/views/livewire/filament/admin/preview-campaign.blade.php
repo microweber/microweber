@@ -1,5 +1,6 @@
 <div>
 
+    @if($model)
 
     <div>
         <h3 class="text-xl">
@@ -52,10 +53,7 @@
                 $senderAccount = $model->senderAccount()->first();
                 @endphp
                 <div>
-                    Name: {{$senderAccount->from_name}}
-                </div>
-                <div>
-                    From: {{$senderAccount->from_email}}
+                    {{$senderAccount->from_name}} ({{$senderAccount->from_email}})
                 </div>
                 <div>
                     Reply: {{$senderAccount->reply_email}}
@@ -85,5 +83,6 @@
     </div>
 
 
+    @endif
 
 </div>
