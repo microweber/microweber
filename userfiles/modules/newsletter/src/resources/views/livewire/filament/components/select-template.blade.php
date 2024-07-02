@@ -17,15 +17,6 @@
         }
     </style>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const iframes = document.querySelectorAll('iframe');
-            iframes.forEach(iframe => {
-                iframe.src = iframe.dataset.src;
-            });
-        });
-    </script>
-
        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
            @foreach($getEmailTemplates() as $template)
 
@@ -34,31 +25,37 @@
 
                        <div class="iframe-container rounded-md">
                            <iframe
-                               data-src="{{admin_url('modules/newsletter/preview-email-template')}}?filename={{$template['name']}}"
+                               loading="lazy"
+                               src="{{admin_url('modules/newsletter/preview-email-template')}}?filename={{$template['name']}}"
                                scrolling="no"
                                class="iframe rounded-md"></iframe>
                        </div>
 
-                       <div class="opacity-0 group-hover:opacity-100 transition absolute top-0 w-full h-full flex items-center gap-4 p-8 backdrop-blur-sm">
-                       <div class="w-full flex items-center justify-center gap-4">
-                           <x-filament::button
-                               size="sm"
-                               color="info"
-                               wire:click="startWithTemplate('{{$template['name']}}')"
-                               tag="a"
-                           >
-                               Start
-                           </x-filament::button>
-                           <x-filament::button
-                               size="sm"
-                               color="gray"
-                               href="{{admin_url('modules/newsletter/preview-email-template')}}?filename={{$template['name']}}"
-                               tag="a"
-                               target="_blank"
-                           >
-                               Preview
-                           </x-filament::button>
-                       </div>
+                       <div class="p-4">
+                            <h3 class="text-lg font-semibold">{{ucfirst($template['name'])}}</h3>
+                        </div>
+
+                       <div class="opacity-0 group-hover:opacity-100 transition absolute top-0 w-full h-full flex items-center gap-4 p-8 backdrop-blur-md">
+                           
+                           <div class="w-full flex items-center justify-center gap-4">
+                               <x-filament::button
+                                   size="sm"
+                                   color="info"
+                                   wire:click="startWithTemplate('{{$template['name']}}')"
+                                   tag="a"
+                               >
+                                   Start
+                               </x-filament::button>
+                               <x-filament::button
+                                   size="sm"
+                                   color="gray"
+                                   href="{{admin_url('modules/newsletter/preview-email-template')}}?filename={{$template['name']}}"
+                                   tag="a"
+                                   target="_blank"
+                               >
+                                   Preview
+                               </x-filament::button>
+                           </div>
                        </div>
                    </div>
                </div>
