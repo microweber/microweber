@@ -64,6 +64,7 @@ class EditCampaign extends Page
         if ($find) {
             $find->fill([$key => $value]);
             $find->save();
+            $this->model = $find;
         }
 
     }

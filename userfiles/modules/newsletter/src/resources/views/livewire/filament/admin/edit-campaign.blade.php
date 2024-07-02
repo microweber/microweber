@@ -1,12 +1,5 @@
 <div>
-    <div class="text-center my-12">
-        <h1 class="text-2xl font-bold">
-            Setup your email marketing campaign
-        </h1>
-        <p class="text-gray-600">
-            Continue with the wizard to create a new email marketing campaign
-        </p>
-
+    <div class="text-center my-8">
         <div x-data="editCampaignTitle()" class="flex items-center justify-center p-4 m-auto">
             <a @click.prevent @click="toggleEditingState" x-show="!isEditing" class="flex gap-1 select-none cursor-pointer text-2xl">
                 <span x-text="text"></span>
@@ -37,6 +30,15 @@
             };
         }
     </script>
+
+        <div class="mt-4">
+            <h1 class="text-2xl font-bold">
+                Setup your email marketing campaign
+            </h1>
+            <p class="text-gray-600">
+                Continue with the wizard to create a new email marketing campaign
+            </p>
+        </div>
 
     </div>
 
