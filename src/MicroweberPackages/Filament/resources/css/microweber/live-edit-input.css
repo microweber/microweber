@@ -44,7 +44,7 @@
 /*    @apply bg-gray-100 border-gray-100;*/
 /*}*/
 
-.fi-global-search svg {
+.fi-global-search svg, .fi-input-wrp  svg {
     @apply top-[10px] z-10 right-[10px] absolute;
 }
 
