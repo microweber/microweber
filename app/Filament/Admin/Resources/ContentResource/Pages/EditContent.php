@@ -33,7 +33,6 @@ class EditContent extends EditRecord
     {
         if ($data) {
             foreach ($data as $key => $value) {
-
                 $this->data[$key] = $value;
             }
         }

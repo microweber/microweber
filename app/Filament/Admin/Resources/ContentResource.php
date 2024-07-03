@@ -126,7 +126,7 @@ class ContentResource extends Resource
         }
         //dd($mediaFiles);
 
-
+$componentName = $livewire->getName();
         $sessionId = session()->getId();
         //dd($category_ids);
 //        $livewire->selectedMenus = $selectedMenus;
@@ -145,33 +145,36 @@ class ContentResource extends Resource
 
 //                        MwImagesForModel::make('mediaIds'),
 
-//                        Forms\Components\Livewire::make('admin-list-media-for-model', [
-//                            'relType' => $modelName,
-//                            'relId' => $id,
-//                            'mediaFiles' => $mediaFiles,
-//                            'mediaUrls' => $mediaUrls,
-//                            'sessionId' => $sessionId,
+                        Forms\Components\Livewire::make('admin-list-media-for-model', [
+                            'relType' => $modelName,
+                            'relId' => $id,
+                            'mediaFiles' => $mediaFiles,
+                            'mediaUrls' => $mediaUrls,
+
+                            'parentComponentName' => $componentName,
+
+                            'sessionId' => $sessionId
+
+                        ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
+
+                        }) ,
+//                        Forms\Components\ViewField::make('mediaIds')
+//                            ->view('media::admin.filament.forms.attach-media-to-model')
 //
-//                        ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
-//dd('aaaaaaaaaa');
-//                        }) ,
-                        Forms\Components\ViewField::make('mediaIds')
-                            ->view('media::admin.filament.forms.attach-media-to-model')
-
-                            ->viewData([
-
-                                'relType' => $modelName,
-                                'relId' => $id,
-                                'sessionId' => $sessionId,
-
-
-
-//                                'mediaFiles' => $mediaFiles,
-//                                'mediaUrls' => $mediaUrls,
+//                            ->viewData([
+//
+//                                'relType' => $modelName,
+//                                'relId' => $id,
 //                                'sessionId' => $sessionId,
-//                                'contentId' => $id,
-
-                            ])
+//
+//
+//
+////                                'mediaFiles' => $mediaFiles,
+////                                'mediaUrls' => $mediaUrls,
+////                                'sessionId' => $sessionId,
+////                                'contentId' => $id,
+//
+//                            ])
 
 
                     ])

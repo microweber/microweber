@@ -82,7 +82,13 @@
                             x-data-id="{{ $item->id }}"
                             class="py-2 bg-white px-4"
                         >
-                            {{ $item->filename }}
+                           POS {{ $item->position }}
+
+
+                           ID    {{ $item->id }}
+
+                            <img height="20" width="20" src="{{ $item->filename }}" /> {{ $item->filename }}
+
                         </div>
                     @endforeach
                 </div>

@@ -39,7 +39,7 @@ class ListMediaForModel extends AdminComponent
         if ($this->relType) {
             $itemsQuery->where('rel_type', $this->relType);
         }
-        $itemsQuery->orderBy('position', 'desc');
+        $itemsQuery->orderBy('position', 'asc');
         return $itemsQuery;
     }
 
@@ -54,11 +54,20 @@ class ListMediaForModel extends AdminComponent
         //sort by position
 
         $items = $itemsQuery->whereIn('id', $itemsSortedIds)->get();
+
         $position = 0;
         foreach ($items as $item) {
-            $position++;
-            $item->position = $position;
-            $item->save();
+           foreach ($itemsSortedIds as $itemsSortedId){
+                if($itemsSortedId == $item->id){
+                     $position++;
+                     $item->position = $position;
+                     $item->save();
+                }
+           }
+
+//            $position++;
+//            $item->position = $position;
+//            $item->save();
         }
         $this->refreshMediaData();
 
@@ -68,7 +77,7 @@ class ListMediaForModel extends AdminComponent
         if ($this->parentComponentName) {
              $this->dispatch('modifyParentComponentData', $data)->to($this->parentComponentName);
         }
-      //  $this->dispatch('$refresh');
+        $this->dispatch('$refresh');
 
     }
     #[On('addMediaItem')]
