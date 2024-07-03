@@ -19,6 +19,12 @@
 
 }
 
+.fi-input-wrp:has(.fi-input:focus) {
+    outline: none;
+    border: none;
+    box-shadow: none !important;
+}
+
 .fi-input-wrp:has(.fi-input:focus):after {
     width: 100%;
     border: none;
