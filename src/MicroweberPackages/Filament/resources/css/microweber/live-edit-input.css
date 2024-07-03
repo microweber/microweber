@@ -19,13 +19,13 @@
 
 }
 
-.fi-input-wrp:has(.fi-input:focus) {
+.fi-input-wrp:has(.fi-input:focus), .fi-input-wrp:has(textarea:focus-visible) {
     outline: none;
     border: none;
     box-shadow: none !important;
 }
 
-.fi-input-wrp:has(.fi-input:focus):after {
+.fi-input-wrp:has(.fi-input:focus):after, .fi-input-wrp:has(textarea:focus-visible):after {
     width: 100%;
     border: none;
 }
@@ -69,7 +69,18 @@
     border-color: #f0f0f0 !important
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select, .fi-input, .fi-select-input {
+.fi-global-search svg {
+    top: 10px;
+    z-index: 1;
+    right: 10px;
+    position: absolute;
+}
+
+.fi-global-search {
+    @apply relative;
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select, .fi-input, .fi-select-input, .fi-input-wrp textarea {
     border: none;
     flex: 1 1 0%;
     font-size: 14px;
@@ -85,7 +96,7 @@
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     background-color: #f0f0f0;
-    padding-inline-start: 10px
+    padding-inline-start: 10px;
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled, .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled {
