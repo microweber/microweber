@@ -6,6 +6,7 @@ use App\Filament\Admin\Resources\ContentResource;
 use Filament\Actions;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\EditRecord;
+use Livewire\Attributes\On;
 use MicroweberPackages\Content\Concerns\HasEditContentForms;
 
 class EditContent extends EditRecord
@@ -27,6 +28,17 @@ class EditContent extends EditRecord
         return $this->getEditContentForms();
     }
 
+    #[On('modifyParentComponentData')]
+    public function modifyParentComponentData($data): void
+    {
+        if ($data) {
+            foreach ($data as $key => $value) {
+
+                $this->data[$key] = $value;
+            }
+        }
+
+    }
 
     protected function getHeaderActions(): array
     {

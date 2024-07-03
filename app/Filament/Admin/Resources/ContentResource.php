@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use MicroweberPackages\Filament\Forms\Components\MwFileUploadGallery;
+use MicroweberPackages\Filament\Forms\Components\MwImagesForModel;
 use MicroweberPackages\Filament\Forms\Components\MwSelectMenuForPage;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
@@ -74,7 +75,7 @@ class ContentResource extends Resource
         }
 
         $record = $form->getRecord();
-        $model = (morph_name($livewire->getModel()));
+        $modelName = (morph_name($livewire->getModel()));
         $id = 0;
         if ($record) {
             $id = $record->id;
@@ -142,32 +143,35 @@ class ContentResource extends Resource
                     ->schema([
 
 
+//                        MwImagesForModel::make('mediaIds'),
 
-                        Forms\Components\Livewire::make('admin-list-media-for-model',[
-                            'relType' => $model,
-                            'relId' => $id,
-                            'mediaFiles' => $mediaFiles,
-                            'mediaUrls' => $mediaUrls,
-                            'sessionId' => $sessionId,
-
-                        ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set,Forms\Get $get, ?Model $record) {
-
-                        })
-                          ,
-//                        Forms\Components\View::make('media::admin.filament.forms.attach-media-to-model')
-//                            ->viewData([
-//                                'fieldName' => 'mediaIds',
-//                                'relType' => $model,
-//                                'relId' => $id,
-//f
+//                        Forms\Components\Livewire::make('admin-list-media-for-model', [
+//                            'relType' => $modelName,
+//                            'relId' => $id,
+//                            'mediaFiles' => $mediaFiles,
+//                            'mediaUrls' => $mediaUrls,
+//                            'sessionId' => $sessionId,
 //
-////                                'mediaFiles' => $mediaFiles,
-////                                'mediaUrls' => $mediaUrls,
-////                                'sessionId' => $sessionId,
-////                                'contentId' => $id,
-//
-//                            ])
+//                        ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
+//dd('aaaaaaaaaa');
+//                        }) ,
+                        Forms\Components\ViewField::make('mediaIds')
+                            ->view('media::admin.filament.forms.attach-media-to-model')
 
+                            ->viewData([
+
+                                'relType' => $modelName,
+                                'relId' => $id,
+                                'sessionId' => $sessionId,
+
+
+
+//                                'mediaFiles' => $mediaFiles,
+//                                'mediaUrls' => $mediaUrls,
+//                                'sessionId' => $sessionId,
+//                                'contentId' => $id,
+
+                            ])
 
 
                     ])
@@ -195,7 +199,9 @@ class ContentResource extends Resource
                             Forms\Components\TextInput::make('session_id')
                                 ->default($sessionId)
                             ,
+                            Forms\Components\TextInput::make('mediaIds')
 
+                            ,
 
                             Forms\Components\TextInput::make('content_type')
                                 ->default($contentType)

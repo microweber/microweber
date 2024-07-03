@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\CreateRecord;
 use MicroweberPackages\Content\Concerns\HasEditContentForms;
+use Livewire\Attributes\On;
 
 class CreateContent extends CreateRecord
 {
@@ -27,6 +28,19 @@ class CreateContent extends CreateRecord
         return $this->getEditContentForms();
     }
 
+    #[On('modifyParentComponentData')]
+    public function modifyParentComponentData($data): void
+    {
+        if ($data) {
+            foreach ($data as $key => $value) {
+
+                $this->data[$key] = $value;
+            }
+        }
+
+    }
+
+
     protected function getHeaderActions(): array
     {
         return [
@@ -38,7 +52,7 @@ class CreateContent extends CreateRecord
     protected function getFormActions(): array
     {
         return [
-         //   Actions\CreateAction::make()->action('saveContent')->label('Save')->color('success'),
+            //   Actions\CreateAction::make()->action('saveContent')->label('Save')->color('success'),
 
         ];
     }

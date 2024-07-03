@@ -19,6 +19,7 @@ trait MediaTrait
         $this->fillable[] = 'mediaUrls';
         $this->casts['media_files'] = 'array';
         $this->casts['mediaUrls'] = 'array';
+        $this->casts['mediaIds'] = 'array';
     }
 
     public function media()
