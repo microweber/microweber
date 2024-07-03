@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwFileUploadGallery;
 use MicroweberPackages\Filament\Forms\Components\MwSelectMenuForPage;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
@@ -46,8 +47,7 @@ class ContentResource extends Resource
 
         $isShop = false;
 
-
-        $category_ids = '';
+        $categoryIds = '';
         $id = 0;
 
         if (
@@ -74,19 +74,22 @@ class ContentResource extends Resource
         }
 
         $record = $form->getRecord();
+        $model = (morph_name($livewire->getModel()));
+        $id = 0;
         if ($record) {
             $id = $record->id;
         }
 
-        $selectedMenus = [];
+        $menuIds = [];
         if ($record) {
-            $selectedMenus = $record->menuIds;
+            $menuIds = $record->menuIds;
 
         }
 
 
         $menus = get_menus();
         $menusCheckboxes = [];
+        $mediaUrls = [];
         // $selectedMenus = [];
 
         if ($menus) {
@@ -99,7 +102,7 @@ class ContentResource extends Resource
             }
         }
 
-        if (!empty($selectedMenus)) {
+        if (!empty($menuIds)) {
             //    $record->add_content_to_menu = $selectedMenus;
 
         }
@@ -108,21 +111,19 @@ class ContentResource extends Resource
         $templates = site_templates();
         $active_site_template = template_name();
 
-        $menuIds = $selectedMenus;
+
         $mediaFiles = [];
         $parent = 0;
         if ($record) {
             $parent = $record->parent;
             $category_ids_array = $record->getCategoryIdsAttribute();
             if (!empty($category_ids_array)) {
-                $category_ids = implode(',', $category_ids_array);
+                $categoryIds = implode(',', $category_ids_array);
             }
-        //    $mediaFiles = $record->getMediaFilesAttribute();
+            //  $mediaFiles = $record->getMediaFilesAttribute();
 
         }
-
-//dd($mediaFiles);
-
+        //dd($mediaFiles);
 
 
         $sessionId = session()->getId();
@@ -140,42 +141,35 @@ class ContentResource extends Resource
                 Forms\Components\Section::make('Images')
                     ->schema([
 
-                        Forms\Components\FileUpload::make('media_ids')
-//                           ->loadStateFromRelationshipsUsing(function (Model $record, Forms\Components\FileUpload $component) use ($mediaFiles) {
+
+
+                        Forms\Components\Livewire::make('admin-list-media-for-model',[
+                            'relType' => $model,
+                            'relId' => $id,
+                            'mediaFiles' => $mediaFiles,
+                            'mediaUrls' => $mediaUrls,
+                            'sessionId' => $sessionId,
+
+                        ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set,Forms\Get $get, ?Model $record) {
+
+                        })
+                          ,
+//                        Forms\Components\View::make('media::admin.filament.forms.attach-media-to-model')
+//                            ->viewData([
+//                                'fieldName' => 'mediaIds',
+//                                'relType' => $model,
+//                                'relId' => $id,
+//f
 //
-//                               $mediaFiles=[
-//                                   '1' => 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
-//                                   '2' => 'https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png',
-//                               ];
-//                               $component->state($mediaFiles);
-////                             dd();
-////                              return $mediaFiles;
-//                            })
-                      //      ->imagePreviewHeight('150')
+////                                'mediaFiles' => $mediaFiles,
+////                                'mediaUrls' => $mediaUrls,
+////                                'sessionId' => $sessionId,
+////                                'contentId' => $id,
+//
+//                            ])
 
-                            ->loadingIndicatorPosition('left')
 
-                            ->multiple()
-                            ->reorderable()
-                            ->downloadable()
-                            ->image()
-                            ->moveFiles()
-                            ->extraAttributes([
-                                'data-mw-uploader-skin' => 'mw-small',
-                            ])
 
-                            ->imageEditor()
-
-                            ->storeFileNamesIn('media_ids')
-                            ->appendFiles()
-                            ->disk('media')
-                        // ->storeFileNamesIn('media_urls')
-
-//                                    SpatieMediaLibraryFileUpload::make('media')
-//                                        ->collection('product-images')
-//                                        ->multiple()
-//                                        ->maxFiles(5)
-//                                        ->hiddenLabel(),
                     ])
                     ->collapsible(),
 
@@ -198,23 +192,23 @@ class ContentResource extends Resource
                             Forms\Components\TextInput::make('id')
                                 ->default($id)
                                 ->hidden(),
-            Forms\Components\TextInput::make('session_id')
+                            Forms\Components\TextInput::make('session_id')
                                 ->default($sessionId)
-                              ,
+                            ,
 
 
                             Forms\Components\TextInput::make('content_type')
                                 ->default($contentType)
                                 ->hidden(),
                             Forms\Components\TextInput::make('categoryIds')
-                                ->default($category_ids)
-                                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($category_ids) {
+                                ->default($categoryIds)
+                                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($categoryIds) {
 
-                                    if ($category_ids) {
-                                        if (!is_array($category_ids)) {
-                                            $category_ids = explode(',', $category_ids);
+                                    if ($categoryIds) {
+                                        if (!is_array($categoryIds)) {
+                                            $categoryIds = explode(',', $categoryIds);
                                         }
-                                        $set('categoryIds', $category_ids);
+                                        $set('categoryIds', $categoryIds);
                                     } else {
                                         $set('categoryIds', []);
                                     }
@@ -222,11 +216,11 @@ class ContentResource extends Resource
                             ,
 
                             Forms\Components\TextInput::make('menuIds')
-                                ->default($selectedMenus)
-                                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
+                                ->default($menuIds)
+                                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($menuIds) {
 
-                                    if ($selectedMenus) {
-                                        $set('menuIds', $selectedMenus);
+                                    if ($menuIds) {
+                                        $set('menuIds', $menuIds);
                                     } else {
                                         $set('menuIds', []);
                                     }
@@ -462,7 +456,7 @@ class ContentResource extends Resource
                                 ->schema([
                                     Forms\Components\View::make('filament-forms::admin.mw-tree')->viewData([
                                         'selectedPage' => $parent,
-                                        'selectedCategories' => $category_ids
+                                        'selectedCategories' => $categoryIds
                                     ]),
                                 ]),
 

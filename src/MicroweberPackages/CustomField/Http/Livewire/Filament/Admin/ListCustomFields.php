@@ -33,12 +33,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Livewire\Component;
+use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\CustomField\Enums\CustomFieldTypes;
 use MicroweberPackages\CustomField\Fields\Text;
 use MicroweberPackages\CustomField\Models\CustomField;
 
-class ListCustomFields extends Component implements HasForms, HasTable
+class ListCustomFields extends AdminComponent implements HasForms, HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;

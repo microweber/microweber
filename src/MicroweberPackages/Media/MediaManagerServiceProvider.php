@@ -13,8 +13,12 @@ namespace MicroweberPackages\Media;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
+
+use Livewire\Livewire;
+use MicroweberPackages\Media\Http\Livewire\Admin\ListMediaForModel;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 
@@ -26,6 +30,9 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
+        View::addNamespace('media', __DIR__ . '/resources/views');
+
+        Livewire::component('admin-list-media-for-model', ListMediaForModel::class);
 
       // add disk to config
         config(['filesystems.disks.media' => [
@@ -73,12 +80,7 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
         });
 
 
-        Config::set('filesystems.disks.media', [
-            'driver' => 'local',
-            'root' => media_uploads_path(),
-            'url' => media_uploads_url(),
-            'visibility' => 'public',
-        ]);
+
     }
 
     /**

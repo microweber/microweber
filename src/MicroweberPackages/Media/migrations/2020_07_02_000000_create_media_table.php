@@ -23,7 +23,7 @@ class CreateMediaTable extends Migration
                 $table->text('media_type')->nullable()->index();
 
                 $table->string('rel_type')->nullable()->index();
-                $table->string('rel_id')->nullable()->index();
+                $table->string('rel_id')->nullable();
 
                 $table->integer('created_by')->nullable();
                 $table->integer('edited_by')->nullable();

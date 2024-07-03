@@ -21,10 +21,8 @@ use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Menu\Traits\HasMenuItem;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use MicroweberPackages\Tag\Traits\TaggableTrait;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Content extends Model implements HasMedia
+class Content extends Model
 {
     use TaggableTrait;
     use ContentDataTrait;
@@ -34,9 +32,7 @@ class Content extends Model implements HasMedia
     use HasSlugTrait;
     use HasSearchableTrait;
     use HasMenuItem;
-   // use MediaTrait;
-    use InteractsWithMedia;
-
+    use MediaTrait;
     use Filterable;
     use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
