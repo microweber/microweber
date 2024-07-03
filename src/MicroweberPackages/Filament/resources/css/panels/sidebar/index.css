@@ -1,6 +1,9 @@
 @import 'group';
 @import 'item';
 
+.fi-sidebar-group .fi-sidebar-item-button .fi-sidebar-item-label {
+    @apply !text-xl;
+}
 .fi-sidebar {
     @apply !ring-0 !border-0 lg:!bg-white lg:dark:!bg-gray-950;
 }
@@ -20,4 +23,26 @@
 
 .fi-sidebar-nav-groups {
     @apply mx-0 gap-y-0 divide-y divide-gray-950/5 dark:divide-white/5;
+}
+
+.fi-sidebar-group-items {
+    @apply gap-y-4;
+}
+
+.admin-toolbar-add {
+    @apply !text-lg !font-semibold text-black bg-sky-200 hover:text-white;
+}
+
+.admin-toolbar-live-edit {
+    @apply !text-lg !font-semibold text-black bg-green-200 hover:!bg-green-500 hover:text-white;
+}
+
+
+.admin-toolbar-buttons svg {
+    @apply fill-black hover:fill-white dark:fill-white;
+}
+
+
+.admin-toolbar-buttons:hover svg {
+    @apply fill-white;
 }

@@ -2,8 +2,8 @@
     <x-filament::modal width="lg">
         <x-slot name="trigger">
             <x-filament::button
-                color="gray"
                 icon="heroicon-m-plus"
+                class="admin-toolbar-buttons admin-toolbar-add"
             >
                 Add
             </x-filament::button>
@@ -40,10 +40,10 @@
     </x-filament::modal>
 
     <x-filament::button
-        color="gray"
         href="{{site_url('live-edit?editmode:y')}}"
         tag="a"
         icon="heroicon-m-pencil"
+        class="admin-toolbar-buttons admin-toolbar-live-edit"
     >
         Live Edit
     </x-filament::button>

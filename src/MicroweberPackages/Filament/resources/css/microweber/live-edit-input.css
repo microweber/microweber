@@ -1,4 +1,4 @@
-.form-control-live-edit-label-wrapper {
+.form-control-live-edit-label-wrapper, .fi-input-wrp {
     cursor: inherit;
     display: block;
     line-height: 22px;
@@ -17,6 +17,23 @@
     margin: 3 7px;
     position: relative;
 
+}
+
+.fi-input-wrp:has(.fi-input:focus):after {
+    width: 100%;
+    border: none;
+}
+
+
+.fi-input-wrp:after {
+    background-color: #0e0e0e;
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 1px;
+    position: absolute;
+    transition: width .25s cubic-bezier(.4, 0, .68, .06);
+    width: 0;
 }
 
 .form-control-live-edit-label-wrapper textarea.form-control-live-edit-input {
@@ -46,7 +63,7 @@
     border-color: #f0f0f0 !important
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
+.form-control-live-edit-label-wrapper .form-control-live-edit-input, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select, .fi-input, .fi-select-input {
     border: none;
     flex: 1 1 0%;
     font-size: 14px;
