@@ -243,6 +243,14 @@ class EditCampaign extends Page
                                 ->required()
                                 ->live()
                                 ->hintActions([
+                                    Action::make('Add Sender')
+                                        ->after(function ($data) {
+                                            $new = new NewsletterSenderAccount();
+                                            $new->fill($data);
+                                            $new->save();
+                                        })
+                                        ->form(SenderAccountsResource::getEditFormArray())
+                                        ->icon('heroicon-o-plus'),
                                     Action::make('Manage Senders')
                                         ->link()
                                         ->url(admin_url('newsletter/sender-accounts'))
