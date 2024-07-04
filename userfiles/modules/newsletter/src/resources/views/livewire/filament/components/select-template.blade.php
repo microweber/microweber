@@ -23,6 +23,12 @@
 
     @if($campaign['emailTemplate'])
 
+        <style>
+            .iframe-container {
+                height:450px !important;
+            }
+        </style>
+
         <div class="flex gap-4 justify-end mb-4">
             <x-filament::button
                 size="sm"
@@ -46,7 +52,6 @@
             <iframe
                 loading="lazy"
                 src="{{admin_url('modules/newsletter/preview-email-template-saved')}}?id={{$campaign['emailTemplate']['id']}}"
-                scrolling="no"
                 class="iframe rounded-md"></iframe>
         </div>
 

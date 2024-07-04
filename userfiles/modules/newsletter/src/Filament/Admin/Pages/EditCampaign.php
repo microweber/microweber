@@ -181,6 +181,7 @@ class EditCampaign extends Page
 
                             RadioDeck::make('state.recipients_from')
                                 ->live()
+                                ->required()
                                 ->hintActions([
                                     Action::make('Import new subscribers')
                                         ->view('microweber-module-newsletter::livewire.filament.admin.render-import-subscribers-action')
@@ -232,6 +233,7 @@ class EditCampaign extends Page
                         ->icon('heroicon-o-user')
                         ->schema([
                             RadioDeck::make('state.sender_account_id')
+                                ->required()
                                 ->live()
                                 ->hintActions([
                                     Action::make('Manage Senders')
@@ -267,6 +269,7 @@ class EditCampaign extends Page
 
                             RadioDeck::make('state.delivery_type')
                                 ->columns(2)
+                                ->required()
                                 ->icons([
                                     'send_now' => 'heroicon-o-rocket-launch',
                                     'schedule' => 'heroicon-o-clock',
@@ -357,7 +360,7 @@ class EditCampaign extends Page
                                     ->label('Preview E-mail')
                                     ->link()
                                     ->url(function() {
-                                        return admin_url('modules/newsletter/preview-email-template').'?filename=mockup1';
+                                        return admin_url('modules/newsletter/preview-email-template-saved').'?id='.$this->state['email_template_id'];
                                     })
                                     ->openUrlInNewTab()
                                     ->icon('heroicon-o-eye'),
