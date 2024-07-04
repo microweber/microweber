@@ -151,7 +151,7 @@ class ContentResource extends Resource
                             'parentComponentName' => $componentName,
                             'createdBy' => user_id(),
 
-                           // 'sessionId' => $sessionId
+                            // 'sessionId' => $sessionId
 
                         ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
 
@@ -671,9 +671,10 @@ class ContentResource extends Resource
         return [
             ImageUrlColumn::make('media_url')
                 ->height(83)
-                ->imageUrl(function (Product $product) {
-                    return $product->mediaUrl();
+                ->imageUrl(function (Model $record) {
+                    return $record->mediaUrl();
                 }),
+
 
             Tables\Columns\TextColumn::make('title')
                 ->searchable()
@@ -700,8 +701,10 @@ class ContentResource extends Resource
 
                 ImageUrlColumn::make('media_url')
                     ->height(83)
-                    ->imageUrl(function (Content $product) {
-                        return $product->mediaUrl();
+                    ->imageUrl(function (Model $record) {
+
+
+                        return $record->mediaUrl();
                     }),
 
 
