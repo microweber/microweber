@@ -22,6 +22,7 @@ use Filament\Forms\Get;
 use Filament\Pages\Page;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Exceptions\Halt;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
@@ -217,6 +218,12 @@ class EditCampaign extends Page
                             Radio::make('state.list_id')
                                 ->label('Select list')
                                 ->live()
+                                ->required(function (Get $get) {
+                                    if ($get('state.recipients_from') == 'specific_lists') {
+                                        return true;
+                                    }
+                                    return false;
+                                })
                                 ->hidden(function (Get $get) {
                                     if ($get('state.recipients_from') == 'specific_lists') {
                                         return false;
@@ -327,14 +334,15 @@ class EditCampaign extends Page
 
                     Wizard\Step::make('Design')
                         ->icon('heroicon-o-paint-brush')
+                        ->beforeValidation(function () {
+                            if (!isset($this->state['email_template_id'])) {
+                                throw new Halt('Please select a design.');
+                            }
+                        })
                         ->schema([
-//
-//                            Select::make('state.email_template_id')
-//                                ->live()
-//                                ->label('Select Design')
-//                                ->options(NewsletterTemplate::all()->pluck('title', 'id')),
-
-                            SelectTemplate::make('state.template')
+                            SelectTemplate::make('state.email_template_id')
+                                ->label('Select design')
+                                ->required()
                                 ->setCampaignId($this->state['id']),
                         ]),
 

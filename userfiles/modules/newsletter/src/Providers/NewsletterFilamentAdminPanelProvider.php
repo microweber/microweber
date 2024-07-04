@@ -6,6 +6,8 @@ use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
+use Filament\Widgets\AccountWidget;
+use Filament\Widgets\FilamentInfoWidget;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
@@ -20,6 +22,7 @@ use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\ListResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
+use MicroweberPackages\Modules\Newsletter\Filament\Widgets\StatsOverviewWidget;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 
@@ -55,9 +58,9 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 ListResource::class
             ])
             ->widgets([
-                // Widgets\AccountWidget::class,
-                //  Widgets\FilamentInfoWidget::class,
-//                Widgets\FilamentInfoWidget::class,
+                 StatsOverviewWidget::class,
+                 AccountWidget::class,
+                 FilamentInfoWidget::class,
             ])
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')
