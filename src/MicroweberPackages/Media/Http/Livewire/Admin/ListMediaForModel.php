@@ -24,7 +24,7 @@ class ListMediaForModel extends AdminComponent
     public $relId = '';
     public $sessionId = '';
     public $createdBy = '';
-    public $mediaItems = '';
+    public $mediaItems = [];
     public $mediaIds = [];
 
     public $parentComponentName = '';

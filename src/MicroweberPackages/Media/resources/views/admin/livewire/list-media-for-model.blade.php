@@ -16,11 +16,13 @@
         </script>
         <script>
             document.addEventListener('alpine:init', () => {
-                Alpine.data('mediaManager', () => ({
+                Alpine.data('mediaManager', ({mediaItems}) => ({
                     modalImageSettingsOpen: false,
                     selectedImages: [],
-                    init() {
 
+                    mediaItems,
+                    init() {
+                        console.log('mediaItems', this.mediaItems);
                     },
 
                     async bulkDeleteSelectedMedia() {
@@ -66,7 +68,7 @@
                 @if($this->mediaItems and !empty($this->mediaItems))
 
                     <div
-                        x-data="mediaManager"
+                        x-data="mediaManager({ mediaItems:$wire.$entangle('mediaItems') })"
 
                         x-on:end="
 
@@ -84,7 +86,7 @@
                     >
 
 
-                        <div x-show="selectedImages.length > 0" class="admin-thumbs-holder-bulk-actions">
+                        <div x-show="mediaItems && mediaItems.length > 0 && selectedImages && selectedImages.length > 0" class="admin-thumbs-holder-bulk-actions">
 
 
                             <button type="button" @click="bulkDeleteSelectedMedia()">Delete selected</button>
