@@ -16,7 +16,19 @@ class Media extends Model
 
     public $table = 'media';
 
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'id',
+        'title',
+        'description',
+        'rel_id',
+        'rel_type',
+        'media_type',
+        'position',
+        'filename',
+        'session_id',
+        'image_options',
+    ];
+
 
     protected $casts = [
         'image_options' => 'json',

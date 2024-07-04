@@ -8,12 +8,14 @@ use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\CreateRecord;
 use MicroweberPackages\Content\Concerns\HasEditContentForms;
 use Livewire\Attributes\On;
+use MicroweberPackages\Filament\Concerns\ModifyComponentData;
 
 class CreateContent extends CreateRecord
 {
 
     use Translatable;
     use HasEditContentForms;
+    use ModifyComponentData;
 
     public $activeLocale;
 
@@ -28,17 +30,6 @@ class CreateContent extends CreateRecord
         return $this->getEditContentForms();
     }
 
-    #[On('modifyParentComponentData')]
-    public function modifyParentComponentData($data): void
-    {
-        if ($data) {
-            foreach ($data as $key => $value) {
-
-                $this->data[$key] = $value;
-            }
-        }
-
-    }
 
 
     protected function getHeaderActions(): array
