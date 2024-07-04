@@ -23,6 +23,7 @@ use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccount
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\StatsOverviewWidget;
+use MicroweberPackages\Modules\Newsletter\Filament\Widgets\SubscribersChart;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 
@@ -58,7 +59,8 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
                 ListResource::class
             ])
             ->widgets([
-                 StatsOverviewWidget::class
+                StatsOverviewWidget::class,
+                SubscribersChart::class
             ])
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')
