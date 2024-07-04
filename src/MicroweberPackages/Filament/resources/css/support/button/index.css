@@ -11,3 +11,8 @@
 .fi-btn-badge-ctn {
     @apply rounded-full;
 }
+
+
+.fi-btn[data-mw-style="icon-only"] {
+    @apply !gap-0;
+}
