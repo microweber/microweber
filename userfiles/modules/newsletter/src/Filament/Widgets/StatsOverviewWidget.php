@@ -18,6 +18,29 @@ class StatsOverviewWidget extends BaseWidget
 
     protected static ?int $sort = 0;
 
+    private function getEmailsSentChart($datesArray)
+    {
+        $emailsSentCount = NewsletterCampaignsSendLog::count();
+
+        $emailsSentCountByDates = [];
+        foreach ($datesArray as $date) {
+            $emailsSentCountByDates[$date] = NewsletterCampaignsSendLog::whereDate('created_at', $date)->count();
+        }
+
+        $emailsSentChart = Stat::make('Emails Sent', $emailsSentCount)
+            ->description('E-mails sent')
+            ->chart($emailsSentCountByDates);
+        if ($emailsSentCount === 0) {
+            $emailsSentChart->color('gray');
+            $emailsSentChart->descriptionIcon('heroicon-m-arrow-trending-down');
+        } elseif (end($emailsSentCountByDates) > 0) {
+            $emailsSentChart->descriptionIcon('heroicon-m-arrow-trending-up');
+            $emailsSentChart->color('success');
+        }
+
+        return $emailsSentChart;
+
+    }
     private function getSubscribersChart($datesArray)
     {
         $subscribersCount = NewsletterSubscriber::count();
@@ -71,10 +94,6 @@ class StatsOverviewWidget extends BaseWidget
             $datesArray[] = $date->format('Y-m-d');
         }
 
-        $listsCount = NewsletterList::count();
-        $emailsSentCount = NewsletterCampaignsSendLog::count();
-
-
         $charts = [];
 
         // Camapigns
@@ -83,25 +102,10 @@ class StatsOverviewWidget extends BaseWidget
         // Subscribers
         $charts[] = $this->getSubscribersChart($datesArray);
 
+        // Emails Sent
+        $charts[] = $this->getEmailsSentChart($datesArray);
+
         return $charts;
 
-
-        return [
-            Stat::make('Lists', $listsCount)
-                ->description('3% decrease')
-                ->descriptionIcon('heroicon-m-arrow-trending-down')
-                ->chart([17, 16, 14, 15, 14, 13, 12])
-                ->color('danger'),
-            Stat::make('Emails sent', $emailsSentCount)
-                ->description('7% increase')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart([15, 4, 10, 2, 12, 4, 12])
-                ->color('success'),
-            Stat::make('Subscribers', $subscribersCount)
-                ->description('7% increase')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart([15, 4, 10, 2, 12, 4, 12])
-                ->color('success'),
-        ];
     }
 }
