@@ -28,6 +28,7 @@ use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
 use MicroweberPackages\Modules\Newsletter\Filament\Components\SelectTemplate;
 use MicroweberPackages\Modules\Newsletter\Filament\Imports\NewsletterSubscriberImporter;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
@@ -79,6 +80,13 @@ class EditCampaign extends Page
             $this->model = $campaign;
             $this->state = $campaign->toArray();
         }
+    }
+
+
+    public function startWithTemplate($templateName)
+    {
+        $mt = new ManageTemplates();
+        return $mt->startWithTemplate($templateName);
     }
 
     public function form(Form $form): Form
