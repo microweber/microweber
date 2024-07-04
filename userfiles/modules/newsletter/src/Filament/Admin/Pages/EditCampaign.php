@@ -249,10 +249,15 @@ class EditCampaign extends Page
                                             $new->fill($data);
                                             $new->save();
                                         })
+                                        ->button()
+                                        ->size('xl')
+                                        ->color('primary')
                                         ->form(SenderAccountsResource::getEditFormArray())
                                         ->icon('heroicon-o-plus'),
                                     Action::make('Manage Senders')
-                                        ->link()
+                                        ->button()
+                                        ->size('xl')
+                                        ->outlined()
                                         ->url(admin_url('newsletter/sender-accounts'))
                                         ->openUrlInNewTab()
                                         ->icon('heroicon-o-cog'),
