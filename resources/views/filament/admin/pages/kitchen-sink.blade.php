@@ -1,5 +1,8 @@
 <x-filament-panels::page>
 
+    <div>
+        Icons path: /src/MicroweberPackages/Admin/resources/mw-svg/
+    </div>
     <div class="grid grid-cols-4 gap-4">
         @foreach($this->getIcons() as $icon)
             <div class="flex flex-col bg-blue-500/10 dark:bg-white/5 transition duration-150 group-hover:bg-white rounded-xl p-4">
