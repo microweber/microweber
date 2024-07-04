@@ -44,14 +44,14 @@ class CreateContent extends CreateRecord
 
             Actions\EditAction::make()->action('saveContentAndGoLiveEdit')
                 // ->icon('heroicon-o-pencil')
-                ->icon('heroicon-o-pencil')
+                ->icon('heroicon-m-eye')
                 ->label('Live edit')
                 ->size('xl')
                 ->color('info'),
 
             Actions\EditAction::make()
                 ->action('saveContent')
-                ->icon('heroicon-m-eye')
+                ->icon('mw-save')
                 ->size('xl')
                 ->label('Save')
                 ->color('success'),
