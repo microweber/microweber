@@ -1,24 +1,55 @@
 <x-filament-panels::page>
 
-    <div>
-        Icons path: /src/MicroweberPackages/Admin/resources/mw-svg/
-    </div>
-    <div class="grid grid-cols-4 gap-4">
-        @foreach($this->getIcons() as $icon)
-            <div class="flex flex-col bg-blue-500/10 dark:bg-white/5 transition duration-150 group-hover:bg-white rounded-xl p-4">
-                <div class="flex items-center justify-center ">
-                    @svg('mw-'.$icon, "h-12 w-12 text-black/90 dark:text-white")
-                </div>
-                <div class="w-full text-center mt-2">
-                    mw-{{$icon}}
-                </div>
+    <div x-data="{ activeTab: 'form' }">
+
+    <x-filament::tabs >
+        <x-filament::tabs.item
+            alpine-active="activeTab === 'form'"
+            x-on:click="activeTab = 'form'"
+        >
+            Form
+        </x-filament::tabs.item>
+
+        <x-filament::tabs.item
+            alpine-active="activeTab === 'icons'"
+            x-on:click="activeTab = 'icons'"
+        >
+            Icons
+        </x-filament::tabs.item>
+
+        <x-filament::tabs.item
+            alpine-active="activeTab === 'other'"
+            x-on:click="activeTab = 'other'"
+        >
+            Other
+        </x-filament::tabs.item>
+
+    </x-filament::tabs>
+
+        <div x-show="activeTab == 'icons'" class="mt-4">
+            <div>
+                Icons path: /src/MicroweberPackages/Admin/resources/mw-svg/
             </div>
-        @endforeach
-    </div>
+            <div class="grid grid-cols-4 gap-4 mt-2">
+                @foreach($this->getIcons() as $icon)
+                    <div class="flex flex-col bg-blue-500/10 dark:bg-white/5 transition duration-150 group-hover:bg-white rounded-xl p-4">
+                        <div class="flex items-center justify-center ">
+                            @svg('mw-'.$icon, "h-12 w-12 text-black/90 dark:text-white")
+                        </div>
+                        <div class="w-full text-center mt-2">
+                            mw-{{$icon}}
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
 
-    {{$this->form}}
 
+        <div x-show="activeTab == 'form'" class="mt-4">
+         {{$this->form}}
+        </div>
 
+        <div x-show="activeTab == 'other'" class="mt-4">
     <h1>
         Modal
         <pre>
@@ -282,5 +313,8 @@ console.log(dialogPrompt);
             return `<x-filament::button color="gray">${content}</x-filament::button>`;
         }
     </script>
+
+    </div>
+    </div>
 
 </x-filament-panels::page>
