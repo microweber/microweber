@@ -47,6 +47,7 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable
     public $relType = '';
     public $relId = '';
     public $type = '';
+    public $createdBy = '';
     public $sessionId = '';
 
     public function table(Table $table): Table
@@ -55,14 +56,15 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable
         $modelQuery = CustomField::where('rel_type', $this->relType)
             ->where('rel_id', $this->relId);
 
-        if(isset($this->sessionId) && $this->sessionId){
+        if (isset($this->sessionId) && $this->sessionId) {
             $modelQuery = $modelQuery->where('session_id', $this->sessionId);
+        }
+        if (isset($this->createdBy) && $this->createdBy) {
+            $modelQuery = $modelQuery->where('created_by', $this->createdBy);
         }
 
 
         $modelQuery = $modelQuery->orderBy('position', 'asc');
-
-
 
 
         $editForm = [];
@@ -75,11 +77,14 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable
         $editForm[] = Hidden::make('rel_id')
             ->default($this->relId);
 
-        if(isset($this->sessionId) && $this->sessionId){
+        if (isset($this->sessionId) && $this->sessionId) {
             $editForm[] = TextInput::make('session_id')
-                ->default($this->sessionId);
+                ->default($this->sessionId)->hidden();
         }
-
+        if (isset($this->createdBy) && $this->createdBy) {
+            $editForm[] = TextInput::make('created_by')
+                ->default($this->createdBy)->hidden();
+        }
 
 
         $editForm[] = Group::make()
@@ -214,7 +219,7 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable
             ->reorderable('position')
             ->headerActions([
                 CreateAction::make('custom-field-create-action')
-                   // ->teleport('body')
+                    // ->teleport('body')
                     ->label('Add custom field')
                     ->form([
                         Wizard::make([

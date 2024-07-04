@@ -35,8 +35,12 @@ class ListMediaForModel extends AdminComponent
             $itemsQuery->where('rel_id', $this->relId);
         } else if ($this->sessionId) {
             $itemsQuery->where('session_id', $this->sessionId);
+            $itemsQuery->where('rel_id', 0);
         } else if ($this->createdBy) {
             $itemsQuery->where('created_by', $this->createdBy);
+            $itemsQuery->where('rel_id', 0);
+
+
         }
 
         if ($this->relType) {

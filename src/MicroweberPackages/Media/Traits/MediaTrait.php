@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Media\Traits;
 
 use Illuminate\Support\Facades\Session;
+use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Media\Models\Media;
 
 
@@ -173,6 +174,14 @@ trait MediaTrait
                 ->where('rel_id', 0)
                 ->where('rel_type', $model->getMorphClass())
                 ->update(['rel_id' => $model->id]);
+
+            $appendByUserId = user_id();
+            if($appendByUserId){
+                Media::where('rel_id', 0)
+                    ->where('rel_type', $model->getMorphClass())
+                    ->where('created_by', $appendByUserId)
+                    ->update(['rel_id' => $model->id]);
+            }
 
             if (is_array($model->_newMediaFiles)) {
                 foreach ($model->_newMediaFiles as $filename) {
