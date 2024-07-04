@@ -62,9 +62,10 @@
                         ];
 
                         if($relId == 0){
-                            if (isset($this->data['session_id']) and $this->data['session_id']) {
-                                $customFieldParams['sessionId'] = $this->data['session_id'];
-                            }
+                             $customFieldParams['createdBy'] =  user_id();
+//                            if (isset($this->data['session_id']) and $this->data['session_id']) {
+//                                $customFieldParams['sessionId'] = $this->data['session_id'];
+//                            }
                         }
 
 

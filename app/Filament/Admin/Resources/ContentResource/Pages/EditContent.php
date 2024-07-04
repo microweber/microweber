@@ -6,12 +6,15 @@ use App\Filament\Admin\Resources\ContentResource;
 use Filament\Actions;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\EditRecord;
+use Livewire\Attributes\On;
 use MicroweberPackages\Content\Concerns\HasEditContentForms;
+use MicroweberPackages\Filament\Concerns\ModifyComponentData;
 
 class EditContent extends EditRecord
 {
     use Translatable;
     use HasEditContentForms;
+    use ModifyComponentData;
 
     public $activeLocale;
 
@@ -26,6 +29,7 @@ class EditContent extends EditRecord
     {
         return $this->getEditContentForms();
     }
+
 
 
     protected function getHeaderActions(): array

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Media\Traits;
 
 use Illuminate\Support\Facades\Session;
+use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Media\Models\Media;
 
 
@@ -10,15 +11,15 @@ trait MediaTrait
 {
     private $_newMediaToAssociate = []; //When enter in bootHasCustomFieldsTrait
     private $_newMediaToAssociateIds = [];
-    private $_newMediaFiles = null;
 
     public function initializeMediaTrait()
     {
-        $this->fillable[] = 'media_ids';
-        $this->fillable[] = 'media_files';
-        $this->fillable[] = 'mediaUrls';
-        $this->casts['media_files'] = 'array';
-        $this->casts['mediaUrls'] = 'array';
+        $this->fillable[] = 'mediaIds';
+        // $this->fillable[] = 'media_files';
+        //    $this->fillable[] = 'mediaUrls';
+        // $this->casts['media_files'] = 'array';
+        $this->casts['mediaIds'] = 'array';
+        // $this->casts['mediaUrls'] = 'array';
     }
 
     public function media()
@@ -93,6 +94,33 @@ trait MediaTrait
                 unset($model->media_files);
 
             }
+            if (isset($model->_newMediaFiles)) {
+
+                $model->_newMediaFiles = $model->_newMediaFiles;
+                unset($model->_newMediaFiles);
+
+            }
+
+            if (isset($model->attributes['media_files'])) {
+                $model->_newMediaFiles = $model->attributes['media_files'];
+                unset($model->attributes['media_files']);
+
+            }
+
+            if (array_key_exists('mediaIds', $model->attributes)) {
+
+                $model->_newMediaToAssociateIds = $model->attributes['mediaIds'];
+                unset($model->attributes['mediaIds']);
+
+            }
+
+
+            if (isset($model->mediaIds)) {
+
+                $model->_newMediaToAssociateIds = $model->mediaIds;
+                unset($model->mediaIds);
+
+            }
 
             if (isset($model->media_urls)) {
                 if (!empty($model->media_urls)) {
@@ -109,7 +137,7 @@ trait MediaTrait
                         foreach ($mediaUrls as $url) {
                             save_media(array(
                                 //  'allow_remote_download' => 1,
-                                'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
+                                'rel_type' => $this->getMorphClass(),
                                 'rel_id' => $model->id,
                                 'title' => 'Picture',
                                 'media_type' => 'picture',
@@ -147,6 +175,14 @@ trait MediaTrait
                 ->where('rel_type', $model->getMorphClass())
                 ->update(['rel_id' => $model->id]);
 
+            $appendByUserId = user_id();
+            if($appendByUserId){
+                Media::where('rel_id', 0)
+                    ->where('rel_type', $model->getMorphClass())
+                    ->where('created_by', $appendByUserId)
+                    ->update(['rel_id' => $model->id]);
+            }
+
             if (is_array($model->_newMediaFiles)) {
                 foreach ($model->_newMediaFiles as $filename) {
                     $mediaArr = [];
@@ -172,10 +208,11 @@ trait MediaTrait
                 $model->_newMediaToAssociate = []; //empty the array
                 $model->refresh();
 
-               // $model->setMedias($model->_newMediaToAssociateIds);
+                // $model->setMedias($model->_newMediaToAssociateIds);
             }
 
-            if(!empty($model->_newMediaToAssociateIds)){
+            if (!empty($model->_newMediaToAssociateIds)) {
+
                 $model->setMedias($model->_newMediaToAssociateIds);
             }
 
@@ -189,27 +226,35 @@ trait MediaTrait
             $mediaIds = explode(',', $mediaIds);
         }
 
-        $entityMedias = Media::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();
-        if ($entityMedias) {
-            foreach ($entityMedias as $entityMedia) {
-                if (!in_array($entityMedia->id, $mediaIds)) {
-                    $entityMedia->delete();
-                }
-            }
-        }
+//        $entityMedias = Media::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();
+//        if ($entityMedias) {
+//            foreach ($entityMedias as $entityMedia) {
+//                if (!in_array($entityMedia->id, $mediaIds)) {
+//                    $entityMedia->delete();
+//                }
+//            }
+//        }
+
+        $relId = isset($this->id) ? $this->id : $this->attributes['id'] ?? null;
+        $relType = $this->getMorphClass();
+
 
         if (!empty($mediaIds)) {
             foreach ($mediaIds as $mediaId) {
 
-                $media = Media::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->where('id', $mediaId)->first();
+                $media = Media::where('id', $mediaId)->first();
                 if (!$media) {
-                    $media = new Media();
+                    continue;
                 }
 
-                $media->rel_id = $this->id;
-                $media->rel_type = $this->getMorphClass();
+                $media->rel_id = $relId;
+                $media->rel_type = $relType;
                 $media->save();
             }
+
+            //clean the other
+            Media::where('rel_id', $relId)->where('rel_type', $relType)->whereNotIn('id', $mediaIds)->delete();
+
         }
 
     }

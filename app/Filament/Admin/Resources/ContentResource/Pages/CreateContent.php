@@ -7,12 +7,15 @@ use Filament\Actions;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\CreateRecord;
 use MicroweberPackages\Content\Concerns\HasEditContentForms;
+use Livewire\Attributes\On;
+use MicroweberPackages\Filament\Concerns\ModifyComponentData;
 
 class CreateContent extends CreateRecord
 {
 
     use Translatable;
     use HasEditContentForms;
+    use ModifyComponentData;
 
     public $activeLocale;
 
@@ -27,6 +30,8 @@ class CreateContent extends CreateRecord
         return $this->getEditContentForms();
     }
 
+
+
     protected function getHeaderActions(): array
     {
         return [
@@ -38,7 +43,7 @@ class CreateContent extends CreateRecord
     protected function getFormActions(): array
     {
         return [
-         //   Actions\CreateAction::make()->action('saveContent')->label('Save')->color('success'),
+            //   Actions\CreateAction::make()->action('saveContent')->label('Save')->color('success'),
 
         ];
     }
