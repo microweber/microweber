@@ -1820,18 +1820,22 @@ class ContentManager
         $content = $this->get_by_id($id);
 
         if (isset($content['content_type']) && $content['content_type'] == 'product') {
-            return route('admin.product.edit', $id);
+           // return route('admin.product.edit', $id);
+            return admin_url('products/'.$id.'/edit');
         }
 
         if (isset($content['content_type']) && $content['content_type'] == 'post') {
-            return route('admin.post.edit', $id);
+           // return route('admin.post.edit', $id);
+            return admin_url('posts/'.$id.'/edit');
         }
 
         if (isset($content['content_type']) && $content['content_type'] == 'page') {
-            return route('admin.page.edit', $id);
+            return admin_url('pages/'.$id.'/edit');
+          //  return route('admin.page.edit', $id);
         }
 
-        return route('admin.content.edit', $id);
+       // return route('admin.content.edit', $id);
+        return admin_url('content/'.$id.'/edit');
 
     }
 

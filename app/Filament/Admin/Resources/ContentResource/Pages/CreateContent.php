@@ -8,6 +8,7 @@ use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\CreateRecord;
 use MicroweberPackages\Content\Concerns\HasEditContentForms;
 use Livewire\Attributes\On;
+use MicroweberPackages\Filament\Actions\DeleteActionOnlyIcon;
 use MicroweberPackages\Filament\Concerns\ModifyComponentData;
 
 class CreateContent extends CreateRecord
@@ -31,12 +32,29 @@ class CreateContent extends CreateRecord
     }
 
 
-
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->action('saveContent')->label('Save')->color('success'),
-            Actions\LocaleSwitcher::make(),
+//            DeleteActionOnlyIcon::make()
+//                ->label('Delete')
+//                ->icon('heroicon-o-trash')
+//                ->size('xl')
+//                ->onlyIconAndTooltip()
+//                ->outlined(),
+
+            Actions\EditAction::make()->action('saveContentAndGoLiveEdit')
+                // ->icon('heroicon-o-pencil')
+                ->icon('heroicon-o-pencil')
+                ->label('Live edit')
+                ->size('xl')
+                ->color('info'),
+
+            Actions\EditAction::make()
+                ->action('saveContent')
+                ->icon('heroicon-m-eye')
+                ->size('xl')
+                ->label('Save')
+                ->color('success'),
         ];
     }
 

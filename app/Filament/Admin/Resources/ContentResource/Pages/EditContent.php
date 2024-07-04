@@ -8,6 +8,8 @@ use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\EditRecord;
 use Livewire\Attributes\On;
 use MicroweberPackages\Content\Concerns\HasEditContentForms;
+use MicroweberPackages\Filament\Actions\DeleteAction;
+use MicroweberPackages\Filament\Actions\DeleteActionOnlyIcon;
 use MicroweberPackages\Filament\Concerns\ModifyComponentData;
 
 class EditContent extends EditRecord
@@ -17,7 +19,6 @@ class EditContent extends EditRecord
     use ModifyComponentData;
 
     public $activeLocale;
-
 
 
     protected static string $view = 'content::admin.content.filament.edit-record';
@@ -31,13 +32,31 @@ class EditContent extends EditRecord
     }
 
 
-
     protected function getHeaderActions(): array
     {
         return [
-            Actions\LocaleSwitcher::make(),
-            Actions\DeleteAction::make()->outlined(),
-            Actions\EditAction::make()->action('saveContent')->label('Save')->color('success'),
+            //   Actions\LocaleSwitcher::make(),
+            //   Actions\DeleteAction::make()
+            DeleteActionOnlyIcon::make()
+                ->label('Delete')
+                ->icon('heroicon-o-trash')
+                ->size('xl')
+                ->onlyIconAndTooltip()
+                ->outlined(),
+
+            Actions\EditAction::make()->action('saveContentAndGoLiveEdit')
+                // ->icon('heroicon-o-pencil')
+                ->icon('heroicon-o-pencil')
+                ->label('Live edit')
+                ->size('xl')
+                ->color('info'),
+
+            Actions\EditAction::make()
+                ->action('saveContent')
+                ->icon('heroicon-m-eye')
+                ->size('xl')
+                ->label('Save')
+                ->color('success'),
         ];
     }
 

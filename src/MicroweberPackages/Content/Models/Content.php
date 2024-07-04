@@ -169,7 +169,7 @@ class Content extends Model
 
     public function liveEditLink()
     {
-        return content_edit_link($this->id);
+        return content_link($this->id).'?editmode=y';
     }
 
     public function getDescriptionAttribute($value)

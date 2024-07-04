@@ -40,7 +40,7 @@
     </x-filament::modal>
 
     <x-filament::button
-        href="{{site_url('live-edit?editmode:y')}}"
+        href="{{site_url('?editmode=y')}}"
         tag="a"
         icon="heroicon-m-pencil"
         class="admin-toolbar-buttons admin-toolbar-live-edit"
