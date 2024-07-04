@@ -1,5 +1,9 @@
 <div>
 
+    @php
+        $model = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::find($this->state['id']);
+    @endphp
+
     @if($model)
 
     <div>

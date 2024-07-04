@@ -1,3 +1,7 @@
+<x-dynamic-component
+    :component="$getFieldWrapperView()"
+    :field="$field"
+>
 <div>
 
     <style>
@@ -109,3 +113,4 @@
        </div>
     @endif
 </div>
+</x-dynamic-component>
