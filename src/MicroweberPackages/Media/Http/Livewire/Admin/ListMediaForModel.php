@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Media\Http\Livewire\Admin;
 
+use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Contracts\View\View;
@@ -15,6 +17,7 @@ class ListMediaForModel extends AdminComponent
 {
 
     //use  InteractsWithForms;
+    use InteractsWithActions;
 
 
     public $relType = '';
@@ -134,6 +137,20 @@ class ListMediaForModel extends AdminComponent
         }
 
     }
+
+
+    #[On('deleteMediaItemById')]
+    public function deleteMediaItemById($id = false)
+    {
+        $mediaId = $id;
+        if (!$mediaId) {
+            return;
+        }
+        Media::where('id', $mediaId)->delete();
+
+        $this->refreshMediaData();
+    }
+
 
 
     public function render(): View
