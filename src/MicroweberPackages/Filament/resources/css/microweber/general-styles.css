@@ -423,7 +423,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .image-settings {
-    @apply fill-white text-[20px] w-[20px] h-[20px] !cursor-pointer absolute top-[5px] right-[3px] transition-all duration-300 opacity-70 border-0 stroke-none z-20;
+    @apply fill-white text-[20px] text-white w-[20px] h-[20px] !cursor-pointer absolute top-[5px] right-[3px] transition-all duration-300 opacity-70 border-0 z-20;
 }
 
 .admin-thumb-item:hover .image-settings {
