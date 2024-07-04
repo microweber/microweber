@@ -17,6 +17,33 @@
         }
     </style>
 
+    @php
+    $campaign = $getCampaign();
+    @endphp
+
+    @if($campaign['emailTemplate'])
+
+        <div class="flex justify-content-end">
+            <x-filament::button
+                size="sm"
+                color="gray"
+                href="{{route('filament.admin.pages.newsletter.template-editor') . '?id=' . $campaign['emailTemplate']['id'] . '&campaignId=' . $campaign['campaignId']}}"
+                tag="a"
+                target="_blank"
+            >
+                Edit Template
+            </x-filament::button>
+        </div>
+
+        <div class="iframe-container rounded-md">
+            <iframe
+                loading="lazy"
+                src="{{admin_url('modules/newsletter/preview-email-template-saved')}}?id={{$campaign['emailTemplate']['id']}}"
+                scrolling="no"
+                class="iframe rounded-md"></iframe>
+        </div>
+
+    @else
        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
            @foreach($getEmailTemplates() as $template)
 
@@ -68,5 +95,5 @@
            @endforeach
 
        </div>
-
+    @endif
 </div>

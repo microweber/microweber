@@ -28,6 +28,26 @@ Route::name('admin.newsletter.')
 
         })->name('templates.preview');
 
+        Route::get('/preview-email-template-saved', function() {
+
+            $templateId = request()->get('id');
+            $emailTemplate = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::where('id', $templateId)->first();
+            if (!$emailTemplate) {
+                return;
+            }
+
+            return view('microweber-module-newsletter::email-templates.preview', [
+                'content' => 'This is a test content',
+                'title' => 'This is a test title',
+                'name' => 'Jhon Doe',
+                'unsubscribe_url' => '',
+                'email' => 'jhon@doe.com',
+                'html' => $emailTemplate->text,
+            ]);
+
+
+        });
+
         Route::get('/preview-email-template', function() {
 
             $templateFilename = request()->get('filename');

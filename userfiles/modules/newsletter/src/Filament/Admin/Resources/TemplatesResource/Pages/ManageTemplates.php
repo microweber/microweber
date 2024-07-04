@@ -24,9 +24,9 @@ class ManageTemplates extends ManageRecords
 
         $newTemplate = new NewsletterTemplate();
         if ($findLastTemplate) {
-            $newTemplate->title = 'New template (' . ($findLastTemplate->id + 1) . ')';
+            $newTemplate->title = ucfirst($template) . ' (' . ($findLastTemplate->id + 1) . ')';
         } else {
-            $newTemplate->title = 'New template';
+            $newTemplate->title = ucfirst($template);
         }
         $newTemplate->json = $templateJson;
         $newTemplate->save();
