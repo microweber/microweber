@@ -27,6 +27,7 @@
             <x-filament::button
                 size="sm"
                 color="gray"
+                onclick="confirm('Are you sure you want to change the template?') || event.stopImmediatePropagation()"
                 wire:click="deleteTemplate"
             >
                 Change Template
