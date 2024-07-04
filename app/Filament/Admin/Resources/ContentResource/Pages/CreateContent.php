@@ -35,8 +35,10 @@ class CreateContent extends CreateRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\EditAction::make()->action('saveContentAndGoLiveEdit')->label('saveContentAndGoLiveEdit')->color('success'),
+
             Actions\CreateAction::make()->action('saveContent')->label('Save')->color('success'),
-            Actions\LocaleSwitcher::make(),
+         //  Actions\LocaleSwitcher::make(),
         ];
     }
 

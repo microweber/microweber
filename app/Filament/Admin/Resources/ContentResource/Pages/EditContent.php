@@ -35,8 +35,9 @@ class EditContent extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\LocaleSwitcher::make(),
+         //   Actions\LocaleSwitcher::make(),
             Actions\DeleteAction::make()->outlined(),
+            Actions\EditAction::make()->action('saveContentAndGoLiveEdit')->label('saveContentAndGoLiveEdit')->color('success'),
             Actions\EditAction::make()->action('saveContent')->label('Save')->color('success'),
         ];
     }

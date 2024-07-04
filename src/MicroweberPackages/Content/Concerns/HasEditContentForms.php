@@ -8,6 +8,18 @@ use Filament\Resources\Pages\Page;
 trait HasEditContentForms
 {
 
+    public function saveContentAndGoLiveEdit()
+    {
+        $this->saveContent();
+        return $this->goLiveEdit();
+    }
+
+    public function goLiveEdit()
+    {
+        return redirect($this->record->liveEditLink());
+
+    }
+
     public function saveContent(): void
     {
         $shouldRedirect = true;
