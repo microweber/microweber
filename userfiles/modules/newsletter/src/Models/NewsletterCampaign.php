@@ -9,8 +9,6 @@ class NewsletterCampaign extends Model
 {
     public $table = 'newsletter_campaigns';
 
-    public $timestamps = false;
-
     public $fillable = [
         'sender_account_id',
         'email_template_id',

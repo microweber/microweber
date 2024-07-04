@@ -15,6 +15,7 @@ $config['tables'] = array (
         'name' => 'text',
         'email' => 'text',
         'created_at' => 'dateTime',
+        'updated_at' => 'dateTime',
         'confirmation_code' => 'text',
         'is_subscribed' => 'integer'
 	),
@@ -28,6 +29,7 @@ $config['tables'] = array (
         'from_name' => 'text',
         // 'from_email' => 'text',
         'created_at' => 'dateTime',
+        'updated_at' => 'dateTime',
         'email_template_id' => 'integer',
         'list_id' => 'integer',
         'sender_account_id' => 'integer',
