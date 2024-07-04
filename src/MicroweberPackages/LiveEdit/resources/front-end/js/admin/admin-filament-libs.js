@@ -17,7 +17,7 @@ import * as AColorPicker from "a-color-picker";
 window.AColorPicker = AColorPicker;
 
 
-mw.richTextEditor = RichTextEditor;
+mw.richTextEditor = options => new RichTextEditor(options);
 
 
 import $ from "jquery";

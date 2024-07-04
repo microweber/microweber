@@ -18,7 +18,7 @@ window.mw.tools = new AdminTools(mw.app);
 
 
 
-
+mw.pause = time => new Promise((resolve) => setTimeout(resolve, time || 0));
 
 
 
@@ -64,6 +64,7 @@ import "../components/icon_selector.js";
 import "../components/tree.js";
 import "../components/tags.js";
 import "../components/uiaccordion.js";
+
 
 
 

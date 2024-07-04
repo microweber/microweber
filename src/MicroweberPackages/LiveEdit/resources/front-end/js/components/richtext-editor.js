@@ -64,6 +64,7 @@ export class RichTextEditor extends BaseComponent {
             options.target = options.selector;
         }
         this.settings = Object.assign({}, this.#defaultOptions(), options);
+        console.log(this.settings)
     }
 
     #defaultOptions() {
@@ -76,12 +77,12 @@ export class RichTextEditor extends BaseComponent {
             statusbar: false,
             menubar: 'edit insert view format table tools',
             noneditable_class: 'module',
-            plugins: [
+           /* plugins: [
                 'noneditable',
                 'advlist', 'lists', 'mwLink', 'image', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                 'media', 'table', 'help', 'wordcount'
-            ],
+            ],*/
             plugins: [
                 "advlist autolink lists mwLink link image charmap print preview anchor",
                 "searchreplace visualblocks code",
