@@ -635,19 +635,16 @@ class ContentResource extends Resource
 
                         Forms\Components\DateTimePicker::make('created_at')
                             ->label('Created At')
-//                            ->date(function ($record) {
-//
-//                                return isset($record->updated_at) ? $record->created_at->format('Y-m-d H:i:s') : null;
-//                            })
-                            //  ->format('Y-m-d H:i:s')
+                            ->format('Y-m-d H:i:s')
+                            ->native(false)
+                            ->displayFormat('Y-m-d H:i:s')
                             ->columnSpanFull(),
 
                         Forms\Components\DateTimePicker::make('updated_at')
                             ->label('Updated At')
-                            //                            ->date(function ($record) {
-//                                return isset($record->updated_at) ? $record->updated_at : null;
-//                            })
-                            //     ->format('Y-m-d H:i:s')
+                            ->format('Y-m-d H:i:s')
+                            ->native(false)
+                            ->displayFormat('Y-m-d H:i:s')
                             ->columnSpanFull(),
 
                         Forms\Components\Placeholder::make('id')
