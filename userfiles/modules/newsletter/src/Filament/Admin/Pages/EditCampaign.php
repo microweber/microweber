@@ -82,6 +82,17 @@ class EditCampaign extends Page
         }
     }
 
+    public function deleteTemplate()
+    {
+        $findCampaign = NewsletterCampaign::where('id', $this->state['id'])->first();
+        if (!$findCampaign) {
+            return;
+        }
+
+        $findCampaign->email_template_id = null;
+        $findCampaign->save();
+
+    }
 
     public function startWithTemplate($template)
     {

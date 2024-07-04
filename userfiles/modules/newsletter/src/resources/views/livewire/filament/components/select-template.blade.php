@@ -23,13 +23,19 @@
 
     @if($campaign['emailTemplate'])
 
-        <div class="flex justify-content-end">
+        <div class="flex gap-4 justify-end mb-4">
+            <x-filament::button
+                size="sm"
+                color="gray"
+                wire:click="deleteTemplate"
+            >
+                Change Template
+            </x-filament::button>
             <x-filament::button
                 size="sm"
                 color="gray"
                 href="{{route('filament.admin.pages.newsletter.template-editor') . '?id=' . $campaign['emailTemplate']['id'] . '&campaignId=' . $campaign['campaignId']}}"
                 tag="a"
-                target="_blank"
             >
                 Edit Template
             </x-filament::button>
