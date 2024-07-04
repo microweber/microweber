@@ -151,6 +151,17 @@ class ListMediaForModel extends AdminComponent
         $this->refreshMediaData();
     }
 
+    #[On('deleteMediaItemsByIds')]
+    public function deleteMediaItemsByIds($ids = false)
+    {
+        $mediaId = $ids;
+        if (!$mediaId) {
+            return;
+        }
+        Media::whereIn('id', $mediaId)->delete();
+
+        $this->refreshMediaData();
+    }
 
 
     public function render(): View
