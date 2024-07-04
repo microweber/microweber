@@ -20,6 +20,7 @@ class ListMediaForModel extends AdminComponent
     public $relType = '';
     public $relId = '';
     public $sessionId = '';
+    public $createdBy = '';
     public $mediaItems = '';
     public $mediaIds = [];
 
@@ -34,6 +35,8 @@ class ListMediaForModel extends AdminComponent
             $itemsQuery->where('rel_id', $this->relId);
         } else if ($this->sessionId) {
             $itemsQuery->where('session_id', $this->sessionId);
+        } else if ($this->createdBy) {
+            $itemsQuery->where('created_by', $this->createdBy);
         }
 
         if ($this->relType) {
@@ -46,7 +49,7 @@ class ListMediaForModel extends AdminComponent
     #[On('mediaItemsSort')]
     public function mediaItemsSort($itemsSortedIds)
     {
-        if(!$itemsSortedIds){
+        if (!$itemsSortedIds) {
             return;
         }
         $itemsQuery = $this->getQueryBuilder();
@@ -65,11 +68,12 @@ class ListMediaForModel extends AdminComponent
             'mediaIds' => $this->mediaIds
         ];
         if ($this->parentComponentName) {
-             $this->dispatch('modifyComponentData', $data)->to($this->parentComponentName);
+            $this->dispatch('modifyComponentData', $data)->to($this->parentComponentName);
         }
-      //  $this->dispatch('$refresh');
+        //  $this->dispatch('$refresh');
 
     }
+
     #[On('addMediaItem')]
     public function addMediaItem($url = false)
     {
@@ -89,8 +93,14 @@ class ListMediaForModel extends AdminComponent
             $mediaItem->rel_type = $this->relType;
             $mediaItem->rel_id = $this->relId;
             $mediaItem->filename = $url;
+            if ($this->createdBy) {
+                $mediaItem->created_by = $this->createdBy;
+            }
             if (!$this->relId) {
-                $mediaItem->session_id = $this->sessionId;
+                if ($this->sessionId) {
+                    $mediaItem->session_id = $this->sessionId;
+                }
+
             }
 
             $mediaItem->save();
@@ -105,7 +115,7 @@ class ListMediaForModel extends AdminComponent
         if ($this->parentComponentName) {
             $this->dispatch('modifyComponentData', $data)->to($this->parentComponentName);
         }
-     //   $this->dispatch('$refresh');
+        //   $this->dispatch('$refresh');
     }
 
     public function refreshMediaData()

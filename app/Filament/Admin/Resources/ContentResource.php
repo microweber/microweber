@@ -122,7 +122,7 @@ class ContentResource extends Resource
         }
         //dd($mediaFiles);
 
-$componentName = $livewire->getName();
+        $componentName = $livewire->getName();
         $sessionId = session()->getId();
         //dd($category_ids);
 //        $livewire->selectedMenus = $selectedMenus;
@@ -148,12 +148,13 @@ $componentName = $livewire->getName();
                             'mediaUrls' => $mediaUrls,
 
                             'parentComponentName' => $componentName,
+                            'createdBy' => user_id(),
 
-                            'sessionId' => $sessionId
+                           // 'sessionId' => $sessionId
 
                         ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
 
-                        }) ,
+                        }),
 //                        Forms\Components\ViewField::make('mediaIds')
 //                            ->view('media::admin.filament.forms.attach-media-to-model')
 //
