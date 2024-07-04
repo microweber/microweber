@@ -10,6 +10,8 @@
 
  */
 
+import { fa } from "vuetify/locale";
+
 
 mw.Select = function(options) {
     var defaults = {
@@ -105,6 +107,40 @@ mw.Select = function(options) {
             scope.xhr = null;
         });
     };
+
+    this._disabled = false;
+
+    this.disable = () => {
+        this._disabled = true;
+        this.root.classList.add('disabled');
+    }
+
+    this.enable = () => {
+        this._disabled = false;
+        this.root.classList.remove('disabled');
+    }
+
+    this.disabled = (state) => {
+        if(typeof state === "undefined") {
+            return this._disabled;
+        }
+        if(state === true) {
+            this.disable();
+        } else if(state === false) {
+            this.enable();
+        }
+    }
+
+    this.enabled = (state) => {
+        if(typeof state === "undefined") {
+            return !this._disabled;
+        }
+        if(state === false) {
+            this.disable();
+        } else if(state === true) {
+            this.enable();
+        }
+    }
 
     this.filter = function (val) {
         val = (val || '').trim().toLowerCase();

@@ -212,7 +212,7 @@ mw.tags = mw.chips = function(options){
             };
 
             $.extend(config, options);
-            console.log(config)
+
 
          config.tagBtnClass +=  '  btn';
 
