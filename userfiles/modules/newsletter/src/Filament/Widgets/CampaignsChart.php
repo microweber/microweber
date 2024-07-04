@@ -4,11 +4,12 @@ namespace MicroweberPackages\Modules\Newsletter\Filament\Widgets;
 
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 
-class SubscribersChart extends ChartWidget
+class CampaignsChart extends ChartWidget
 {
-    protected static ?string $heading = 'Subscribers';
+    protected static ?string $heading = 'Campaigns';
 
     protected static ?int $sort = 2;
 
@@ -30,21 +31,19 @@ class SubscribersChart extends ChartWidget
             ];
         }
 
-        $subscribersTotal = NewsletterSubscriber::count();
-
         $datesHumanFormated = [];
-        $subscribersCountByMonths = [];
+        $campaignsCountByMonths = [];
         foreach ($monthsArray as $date) {
             $dateHuman = Carbon::parse($date['start'])->format('M');
-            $subscribersCountByMonths[$dateHuman] = NewsletterSubscriber::whereBetween('created_at', [$date['start'],$date['end']])->count();
+            $campaignsCountByMonths[$dateHuman] = NewsletterCampaign::whereBetween('created_at', [$date['start'],$date['end']])->count();
             $datesHumanFormated[] = $dateHuman;
         }
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Subscribers',
-                    'data' => $subscribersCountByMonths,
+                    'label' => 'Campaigns',
+                    'data' => $campaignsCountByMonths,
                     'fill' => 'start',
                 ],
             ],
