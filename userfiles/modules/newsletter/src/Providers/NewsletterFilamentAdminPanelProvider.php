@@ -61,8 +61,8 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ])
             ->widgets([
                 StatsOverviewWidget::class,
+                CampaignsChart::class,
                 SubscribersChart::class,
-                CampaignsChart::class
             ])
             ->middleware($this->getPanelMiddlewares())
             ->authGuard('web')
