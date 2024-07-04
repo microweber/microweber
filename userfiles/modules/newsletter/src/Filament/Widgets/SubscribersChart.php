@@ -30,8 +30,6 @@ class SubscribersChart extends ChartWidget
             ];
         }
 
-        $subscribersTotal = NewsletterSubscriber::count();
-
         $datesHumanFormated = [];
         $subscribersCountByMonths = [];
         foreach ($monthsArray as $date) {
