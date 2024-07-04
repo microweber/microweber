@@ -7,6 +7,10 @@ use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Number;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 
 class StatsOverviewWidget extends BaseWidget
 {
@@ -14,54 +18,86 @@ class StatsOverviewWidget extends BaseWidget
 
     protected static ?int $sort = 0;
 
+    private function getSubscribersChart($datesArray)
+    {
+        $subscribersCount = NewsletterSubscriber::count();
+
+        $subscribersCountByDates = [];
+        foreach ($datesArray as $date) {
+            $subscribersCountByDates[$date] = NewsletterSubscriber::whereDate('created_at', $date)->count();
+        }
+
+        $subscribersChart = Stat::make('Subscribers', $subscribersCount)
+            ->description('Newsletter subscribers')
+            ->chart($subscribersCountByDates);
+        if ($subscribersCount === 0) {
+            $subscribersChart->color('gray');
+            $subscribersChart->descriptionIcon('heroicon-m-arrow-trending-down');
+        } elseif (end($subscribersCountByDates) > 0) {
+            $subscribersChart->descriptionIcon('heroicon-m-arrow-trending-up');
+            $subscribersChart->color('success');
+        }
+
+        return $subscribersChart;
+    }
+    private function getCampaignsChart($datesArray)
+    {
+        $campaignsCount = NewsletterCampaign::count();
+
+        $campaignsCountByDates = [];
+        foreach ($datesArray as $date) {
+            $campaignsCountByDates[$date] = NewsletterCampaign::whereDate('created_at', $date)->count();
+        }
+
+        $campaignsChart = Stat::make('Campaigns', $campaignsCount)
+            ->description('E-mail marketing campaigns')
+            ->chart($campaignsCountByDates);
+        if ($campaignsCount === 0) {
+            $campaignsChart->color('gray');
+            $campaignsChart->descriptionIcon('heroicon-m-arrow-trending-down');
+        } elseif (end($campaignsCountByDates) > 0) {
+            $campaignsChart->descriptionIcon('heroicon-m-arrow-trending-up');
+            $campaignsChart->color('success');
+        }
+        return $campaignsChart;
+    }
+
     protected function getStats(): array
     {
+        $startDate = Carbon::now()->subDays(7);
+        $endDate = Carbon::now()->endOfDay();
+        $datesArray = [];
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            $datesArray[] = $date->format('Y-m-d');
+        }
 
-        $startDate = ! is_null($this->filters['startDate'] ?? null) ?
-            Carbon::parse($this->filters['startDate']) :
-            null;
+        $listsCount = NewsletterList::count();
+        $emailsSentCount = NewsletterCampaignsSendLog::count();
 
-        $endDate = ! is_null($this->filters['endDate'] ?? null) ?
-            Carbon::parse($this->filters['endDate']) :
-            now();
 
-        $isBusinessCustomersOnly = $this->filters['businessCustomersOnly'] ?? null;
-        $businessCustomerMultiplier = match (true) {
-            boolval($isBusinessCustomersOnly) => 2 / 3,
-            blank($isBusinessCustomersOnly) => 1,
-            default => 1 / 3,
-        };
+        $charts = [];
 
-        $diffInDays = $startDate ? $startDate->diffInDays($endDate) : 0;
+        // Camapigns
+        $charts[] = $this->getCampaignsChart($datesArray);
 
-        $revenue = (int) (($startDate ? ($diffInDays * 137) : 192100) * $businessCustomerMultiplier);
-        $newCustomers = (int) (($startDate ? ($diffInDays * 7) : 1340) * $businessCustomerMultiplier);
-        $newOrders = (int) (($startDate ? ($diffInDays * 13) : 3543) * $businessCustomerMultiplier);
+        // Subscribers
+        $charts[] = $this->getSubscribersChart($datesArray);
 
-        $formatNumber = function (int $number): string {
-            if ($number < 1000) {
-                return (string) Number::format($number, 0);
-            }
+        return $charts;
 
-            if ($number < 1000000) {
-                return Number::format($number / 1000, 2) . 'k';
-            }
-
-            return Number::format($number / 1000000, 2) . 'm';
-        };
 
         return [
-            Stat::make('Revenue', '$' . $formatNumber($revenue))
-                ->description('32k increase')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart([7, 2, 10, 3, 15, 4, 17])
-                ->color('success'),
-            Stat::make('New customers', $formatNumber($newCustomers))
+            Stat::make('Lists', $listsCount)
                 ->description('3% decrease')
                 ->descriptionIcon('heroicon-m-arrow-trending-down')
                 ->chart([17, 16, 14, 15, 14, 13, 12])
                 ->color('danger'),
-            Stat::make('New orders', $formatNumber($newOrders))
+            Stat::make('Emails sent', $emailsSentCount)
+                ->description('7% increase')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->chart([15, 4, 10, 2, 12, 4, 12])
+                ->color('success'),
+            Stat::make('Subscribers', $subscribersCount)
                 ->description('7% increase')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->chart([15, 4, 10, 2, 12, 4, 12])
