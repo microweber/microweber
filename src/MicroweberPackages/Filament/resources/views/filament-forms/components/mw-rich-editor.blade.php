@@ -1,102 +1,163 @@
-@php
-    use Filament\Support\Facades\FilamentView;
+<x-dynamic-component
+        :component="$getFieldWrapperView()"
+        :field="$field"
+        class="relative z-0"
+>
+    <div
+            x-data="{ state: $wire.entangle('{{ $getStatePath() }}'), initialized: false }"
+            x-load-js="[@js(\Illuminate\Support\Facades\Vite::asset('src/MicroweberPackages/Filament/resources/js/tiny-editor.js'))]"
+            x-init="(() => {
+            $nextTick(() => {
+                tinymce.createEditor('tiny-editor-{{ $getId() }}', {
+                    target: $refs.tinymce,
+                    deprecation_warnings: false,
 
-    $id = $getId();
-    $statePath = $getStatePath();
-@endphp
 
-<x-dynamic-component :component="$getFieldWrapperView()" :field="$field">
-    @if ($isDisabled())
-        <div
-            x-data="{
-                state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
-            }"
-            x-html="state"
-            class="fi-fo-rich-editor fi-disabled prose block w-full max-w-none rounded-lg bg-gray-50 px-3 py-3 text-gray-500 shadow-sm ring-1 ring-gray-950/10 dark:prose-invert dark:bg-transparent dark:text-gray-400 dark:ring-white/10 sm:text-sm"
-        ></div>
-    @else
-        <x-filament::input.wrapper
-            :valid="! $errors->has($statePath)"
-            :attributes="
-                \Filament\Support\prepare_inherited_attributes($getExtraAttributeBag())
-                    ->class(['fi-fo-rich-editor max-w-full overflow-x-auto'])">
-            <div
-                x-data="richEditorFormComponent({
-                            state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')", isOptimisticallyLive: false) }},
-                        })"
-                x-ignore
-                x-on:trix-attachment-add="
-                    if (! $event.attachment.file) return
+                    toolbar_sticky_offset: 64,
+                    skin: {
+                        light: 'oxide',
+                        dark: 'oxide-dark',
+                        system: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oxide-dark' : 'oxide',
+                    }[typeof theme === 'undefined' ? 'light' : theme],
+                    content_css: {
+                        light: 'default',
+                        dark: 'dark',
+                        system: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
+                    }[typeof theme === 'undefined' ? 'light' : theme],
 
-                    let attachment = $event.attachment
+                    branding: false,
+                    images_upload_handler: (blobInfo, success, failure, progress) => {
+                        if (!blobInfo.blob()) return
 
-                    $wire.upload(
-                        `componentFileAttachments.{{ $statePath }}`,
-                        attachment.file,
-                        () => {
-                            $wire
-                                .getFormComponentFileAttachmentUrl('{{ $statePath }}')
-                                .then((url) => {
-                                    attachment.setAttributes({
-                                        url: url,
-                                        href: url,
+                        $wire.upload(`componentFileAttachments.{{ $getStatePath() }}`, blobInfo.blob(), () => {
+                            $wire.getFormComponentFileAttachmentUrl('{{ $getStatePath() }}').then((url) => {
+                                if (!url) {
+                                    failure('{{ __('Error uploading file') }}')
+                                    return
+                                }
+                                success(url)
+                            })
+                        })
+                    },
+                    file_picker_callback: (cb, value, meta) => {
+                        const input = document.createElement('input');
+                        input.setAttribute('type', 'file');
+                        input.addEventListener('change', (e) => {
+                            const file = e.target.files[0];
+                            const reader = new FileReader();
+                            reader.addEventListener('load', () => {
+                                $wire.upload(`componentFileAttachments.{{ $getStatePath() }}`, file, () => {
+                                    $wire.getFormComponentFileAttachmentUrl('{{ $getStatePath() }}').then((url) => {
+                                        if (!url) {
+                                            cb('{{ __('Error uploading file') }}')
+                                            return
+                                        }
+                                        cb(url)
                                     })
                                 })
-                        },
-                    )
-                "
-                x-on:trix-change="
-                    let value = $event.target.value
+                            });
+                            reader.readAsDataURL(file);
+                        });
 
-                    $nextTick(() => {
-                        if (! $refs.trix) {
-                            return
+                        input.click();
+                    },
+                    automatic_uploads: true,
+
+                    setup: function(editor) {
+                        if(!window.tinySettingsCopy) {
+                            window.tinySettingsCopy = [];
                         }
 
-                        state = value
-                    })
-                "
-                @if ($isLiveDebounced())
-                    x-on:trix-change.debounce.{{ $getLiveDebounce() }}="
-                        $nextTick(() => {
-                            if (! $refs.trix) {
-                                return
-                            }
+                        if (!window.tinySettingsCopy.some(obj => obj.id === editor.settings.id)) {
+                            window.tinySettingsCopy.push(editor.settings);
+                        }
 
-                            $wire.call('$refresh')
+                        editor.on('blur', function(e) {
+                            state = editor.getContent()
                         })
-                    "
-                @endif
 
-                {{ $getExtraAlpineAttributeBag() }}
-            >
-                <input
-                    id="trix-value-{{ $id }}"
-                    x-ref="trixValue"
-                    type="text"
-                />
+                        editor.on('init', function(e) {
+                            if (state != null) {
+                                editor.setContent(state)
+                            }
+                        })
 
+                        editor.on('OpenWindow', function(e) {
+                            target = e.target.container.closest('.fi-modal')
+                            if (target) target.setAttribute('x-trap.noscroll', 'false')
 
-                <textarea
-                    @if ($isAutofocused())
-                        autofocus
-                    @endif
-                    id="{{ $id }}"
-                    input="trix-value-{{ $id }}"
+                            target = e.target.container.closest('.jetstream-modal')
+                            if (target) {
+                                targetDiv = target.children[1]
+                                targetDiv.setAttribute('x-trap.inert.noscroll', 'false')
+                            }
+                        })
+
+                        editor.on('CloseWindow', function(e) {
+                            target = e.target.container.closest('.fi-modal')
+                            if (target) target.setAttribute('x-trap.noscroll', 'isOpen')
+
+                            target = e.target.container.closest('.jetstream-modal')
+                            if (target) {
+                                targetDiv = target.children[1]
+                                targetDiv.setAttribute('x-trap.inert.noscroll', 'show')
+                            }
+                        })
+
+                        function putCursorToEnd() {
+                            editor.selection.select(editor.getBody(), true);
+                            editor.selection.collapse(false);
+                        }
+
+                        $watch('state', function(newstate) {
+                            // unfortunately livewire doesn't provide a way to 'unwatch' so this listener sticks
+                            // around even after this component is torn down. Which means that we need to check
+                            // that editor.container exists. If it doesn't exist we do nothing because that means
+                            // the editor was removed from the DOM
+                            if (editor.container && newstate !== editor.getContent()) {
+                                editor.resetContent(newstate || '');
+                                putCursorToEnd();
+                            }
+                        });
+                    },
+
+                }).render();
+            });
+
+            // We initialize here because if the component is first loaded from within a modal DOMContentLoaded
+            // won't fire and if we want to register a Livewire.hook listener Livewire.hook isn't available from
+            // inside the once body
+            if (!window.tinyMceInitialized) {
+                window.tinyMceInitialized = true;
+                $nextTick(() => {
+                    Livewire.hook('morph.removed', (el, component) => {
+                        if (el.el.nodeName === 'INPUT' && el.el.getAttribute('x-ref') === 'tinymce') {
+                            tinymce.get(el.el.id)?.remove();
+                        }
+                    });
+                });
+            }
+        })()"
+            x-cloak
+            class="overflow-hidden"
+            wire:ignore
+    >
+        @unless($isDisabled())
+            <textarea
+                    id="tiny-editor-{{ $getId() }}"
+
+                    x-ref="tinymce"
                     placeholder="{{ $getPlaceholder() }}"
-                    toolbar="trix-toolbar-{{ $id }}"
-                    @if ($isLiveOnBlur())
-                        x-on:blur="$wire.call('$refresh')"
-                    @endif
-                    x-ref="trix"
-                    wire:ignore
-                    {{
-                        $getExtraInputAttributeBag()->class([
-                            'prose min-h-[theme(spacing.48)] max-w-none !border-none px-3 py-1.5 text-base text-gray-950 dark:prose-invert focus-visible:outline-none dark:text-white sm:text-sm sm:leading-6',
-                        ])
-                    }}
-                ></textarea>
-            </div>
-        </x-filament::input.wrapper>
-    @endif
+            ></textarea>
+        @else
+            <div
+                    x-html="state"
+                    @style([
+                        'max-height: '.$getPreviewMaxHeight().'px' => $getPreviewMaxHeight() > 0,
+                        'min-height: '.$getPreviewMinHeight().'px' => $getPreviewMinHeight() > 0,
+                    ])
+                    class="block w-full max-w-none rounded-lg border border-gray-300 bg-white p-3 opacity-70 shadow-sm transition duration-75 prose dark:prose-invert dark:border-gray-600 dark:bg-gray-700 dark:text-white overflow-y-auto"
+            ></div>
+        @endunless
+    </div>
 </x-dynamic-component>

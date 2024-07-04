@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwRichEditor;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
@@ -286,8 +287,14 @@ class ContentResource extends Resource
 //                                        ->columnSpanFull()
 //                                        ->unique(Content::class, 'url', ignoreRecord: true),
 
-                                    Forms\Components\MarkdownEditor::make('description')
+                                    Forms\Components\TextInput::make('description')
                                         ->columnSpan('full'),
+
+                                    MwRichEditor::make('content_body')
+                                        ->columnSpan('full')
+                                        ->visible(function (Forms\Get $get) {
+                                            return $get('content_type') !== 'page';
+                                        }),
                                 ])
                                 ->columnSpanFull()
                                 ->columns(2),
