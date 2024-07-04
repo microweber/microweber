@@ -1,5 +1,15 @@
 <x-filament-panels::page>
 
+    <div class="grid grid-cols-12 gap-4">
+        @foreach($this->getIcons() as $icon)
+            <x-filament::button
+                icon="mw-{{$icon}}"
+                color="gray">
+                mw-{{$icon}}
+            </x-filament::button>
+        @endforeach
+    </div>
+
     {{$this->form}}
 
 
