@@ -2,11 +2,14 @@
 
     <div class="grid grid-cols-4 gap-4">
         @foreach($this->getIcons() as $icon)
-            <x-filament::button
-                icon="mw-{{$icon}}"
-                color="gray">
-                mw-{{$icon}}
-            </x-filament::button>
+            <div class="flex flex-col bg-blue-500/10 dark:bg-white/5 transition duration-150 group-hover:bg-white rounded-xl p-4">
+                <div class="flex items-center justify-center ">
+                    @svg('mw-'.$icon, "h-12 w-12 text-black/90 dark:text-white")
+                </div>
+                <div class="w-full text-center mt-2">
+                    mw-{{$icon}}
+                </div>
+            </div>
         @endforeach
     </div>
 
