@@ -35,17 +35,22 @@
                             <h3 class="text-lg font-semibold">{{ucfirst($template['name'])}}</h3>
                         </div>
 
-                       <div class="opacity-0 group-hover:opacity-100 transition absolute top-0 w-full h-full flex items-center gap-4 p-8 backdrop-blur-md">
+                       <div class="opacity-0 group-hover:opacity-100 transition absolute top-0 w-full h-full flex items-center gap-4 p-8 backdrop-blur-sm">
 
                            <div class="w-full flex items-center justify-center gap-4">
+
                                <x-filament::button
                                    size="sm"
                                    color="info"
                                    wire:click="startWithTemplate('{{$template['name']}}')"
-                                   tag="a"
                                >
+                                  @if($getCampaignId())
+                                   Use
+                                  @else
                                    Start
+                                  @endif
                                </x-filament::button>
+
                                <x-filament::button
                                    size="sm"
                                    color="gray"

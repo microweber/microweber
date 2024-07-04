@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Newsletter\Filament\Components;
 
 use Filament\Forms\Components\Field;
+use Filament\Forms\Components\Actions\Action;
 
 class SelectTemplate extends Field
 {
@@ -15,6 +16,11 @@ class SelectTemplate extends Field
     {
         $this->campaignId = $id;
         return $this;
+    }
+
+    public function getCampaignId()
+    {
+        return $this->campaignId;
     }
 
     public function getEmailTemplates()
