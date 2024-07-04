@@ -1,6 +1,8 @@
 <div>
+<div>
 @php
     $templateId = request()->get('id') ?? null;
+    $campaignId = request()->get('campaignId') ?? null;
 @endphp
 <style>
     main {
@@ -43,6 +45,23 @@
 
 <script>
 
+    function afterSaveHtml(data)
+    {
+        @if($campaignId)
+
+            window.location.href = '{{admin_url('newsletter/newsletter/edit-campaign/'.$campaignId.'?step=design')}}';
+
+        @else
+
+        if(data.success) {
+            alert('Template saved');
+        } else {
+            alert('Error saving template');
+        }
+
+        @endif
+    }
+
     window.addEventListener('saveHtml', function (e) {
         fetch("{{route('admin.newsletter.templates.edit',$templateId)}}", {
             method: "POST",
@@ -52,16 +71,16 @@
         })
             .then((response) => response.json())
             .then((data) => {
-                if(data.success) {
-                    alert('Template saved');
-                } else {
-                    alert('Error saving template');
-                }
+                afterSaveHtml(data);
             });
 
     });
     window.addEventListener('backTo', function (e) {
+        @if($campaignId)
+        window.location.href = '{{admin_url('newsletter/newsletter/edit-campaign/'.$campaignId.'?step=design')}}';
+        @else
         window.location.href = '{{admin_url('newsletter/templates')}}';
+        @endif
     });
 
     window.addEventListener('selectImage', function (selectImageEvent) {
@@ -91,4 +110,5 @@
 
 <div id="root"></div>
 
+</div>
 </div>

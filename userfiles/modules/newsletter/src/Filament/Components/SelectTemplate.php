@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Newsletter\Filament\Components;
 
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Actions\Action;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
 class SelectTemplate extends Field
 {
@@ -21,6 +22,18 @@ class SelectTemplate extends Field
     public function getCampaignId()
     {
         return $this->campaignId;
+    }
+
+    public function getCampaign()
+    {
+        $model = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $this->campaignId)->first();
+        $emailTemplate = NewsletterTemplate::where('id', $model->email_template_id)->first();
+
+        return [
+            'campaignId' => $model->id,
+            'campaign' => $model,
+            'emailTemplate'=> $emailTemplate
+        ];
     }
 
     public function getEmailTemplates()

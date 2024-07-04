@@ -392,3 +392,49 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .fi-sidebar-group-items {
     @apply gap-y-4;
 }
+
+
+.mw-post-media-img {
+    @apply block bg-no-repeat bg-center bg-cover cursor-grab bg-[#f2f3f5] overflow-hidden absolute top-0 left-0 w-full h-full;
+}
+
+.admin-thumbs-holder {
+    @apply pt-0 inline-block align-top w-full;
+}
+
+.admin-thumb-item {
+    @apply block relative float-left min-h-[110px] w-[110px] my-0 mx-[1%] border border-[#cfcfcf] cursor-grab;
+}
+
+.admin-thumbs-holder .admin-thumb-item:first-child {
+    @apply w-[165px] h-[165px] mt-0 mb-0;
+}
+
+.admin-thumb-item:after {
+    @apply absolute block content-[''] w-full h-full top-0 left-0;
+}
+
+.admin-thumb-item .form-check {
+    @apply absolute top-[5px] left-[5px] z-10 transition-all duration-300;
+}
+
+.admin-thumbs-holder .admin-thumb-item.mw-post-media-img {
+    @apply inline-block w-full h-full;
+}
+
+.image-settings {
+    @apply fill-white text-[20px] w-[20px] h-[20px] !cursor-pointer absolute top-[5px] right-[3px] transition-all duration-300 opacity-70 border-0 stroke-none z-20;
+}
+
+.admin-thumb-item:hover .image-settings {
+    @apply opacity-100;
+}
+
+.admin-thumb-item:hover .image-settings.remove-image {
+    @apply fill-[#ff4f52];
+}
+
+.image-settings.settings-img {
+    @apply mr-[23px];
+}
+

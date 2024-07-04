@@ -82,11 +82,39 @@ class EditCampaign extends Page
         }
     }
 
-
-    public function startWithTemplate($templateName)
+    public function deleteTemplate()
     {
-        $mt = new ManageTemplates();
-        return $mt->startWithTemplate($templateName);
+        $findCampaign = NewsletterCampaign::where('id', $this->state['id'])->first();
+        if (!$findCampaign) {
+            return;
+        }
+
+        $findCampaign->email_template_id = null;
+        $findCampaign->save();
+
+    }
+
+    public function startWithTemplate($template)
+    {
+        $templateJson = file_get_contents(modules_path() . 'newsletter/src/resources/views/email-templates/' . $template. '.json');
+        if (!$templateJson) {
+            return;
+        }
+
+        $findCampaign = NewsletterCampaign::where('id', $this->state['id'])->first();
+        if (!$findCampaign) {
+            return;
+        }
+
+        $newTemplate = new NewsletterTemplate();
+        $newTemplate->title = $findCampaign->name . ' ' . ucfirst($template);
+        $newTemplate->json = $templateJson;
+        $newTemplate->save();
+
+        $findCampaign->email_template_id = $newTemplate->id;
+        $findCampaign->save();
+
+        return redirect(route('filament.admin.pages.newsletter.template-editor') . '?id=' . $newTemplate->id . '&campaignId=' . $findCampaign->id);
     }
 
     public function form(Form $form): Form
