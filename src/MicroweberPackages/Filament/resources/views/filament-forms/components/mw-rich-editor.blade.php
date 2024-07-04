@@ -3,65 +3,26 @@
         :field="$field"
         class="relative z-0"
 >
+
+
+<script>
+
+
+</script>
     <div
             x-data="{ state: $wire.entangle('{{ $getStatePath() }}'), initialized: false }"
             x-load-js="[@js(\Illuminate\Support\Facades\Vite::asset('src/MicroweberPackages/Filament/resources/js/tiny-editor.js'))]"
             x-init="(() => {
-            $nextTick(() => {
-                tinymce.createEditor('tiny-editor-{{ $getId() }}', {
-                    target: $refs.tinymce,
+            $nextTick(async () => {
+                // tinymce.createEditor('tiny-editor-{{ $getId() }}', {
+
+                  mw.richTextEditor({
+                    target: document.querySelector('[data-id=\'tiny-editor-{{ $getId() }}\']'),
                     deprecation_warnings: false,
 
 
                     toolbar_sticky_offset: 64,
-                    skin: {
-                        light: 'oxide',
-                        dark: 'oxide-dark',
-                        system: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oxide-dark' : 'oxide',
-                    }[typeof theme === 'undefined' ? 'light' : theme],
-                    content_css: {
-                        light: 'default',
-                        dark: 'dark',
-                        system: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default',
-                    }[typeof theme === 'undefined' ? 'light' : theme],
 
-                    branding: false,
-                    images_upload_handler: (blobInfo, success, failure, progress) => {
-                        if (!blobInfo.blob()) return
-
-                        $wire.upload(`componentFileAttachments.{{ $getStatePath() }}`, blobInfo.blob(), () => {
-                            $wire.getFormComponentFileAttachmentUrl('{{ $getStatePath() }}').then((url) => {
-                                if (!url) {
-                                    failure('{{ __('Error uploading file') }}')
-                                    return
-                                }
-                                success(url)
-                            })
-                        })
-                    },
-                    file_picker_callback: (cb, value, meta) => {
-                        const input = document.createElement('input');
-                        input.setAttribute('type', 'file');
-                        input.addEventListener('change', (e) => {
-                            const file = e.target.files[0];
-                            const reader = new FileReader();
-                            reader.addEventListener('load', () => {
-                                $wire.upload(`componentFileAttachments.{{ $getStatePath() }}`, file, () => {
-                                    $wire.getFormComponentFileAttachmentUrl('{{ $getStatePath() }}').then((url) => {
-                                        if (!url) {
-                                            cb('{{ __('Error uploading file') }}')
-                                            return
-                                        }
-                                        cb(url)
-                                    })
-                                })
-                            });
-                            reader.readAsDataURL(file);
-                        });
-
-                        input.click();
-                    },
-                    automatic_uploads: true,
 
                     setup: function(editor) {
                         if(!window.tinySettingsCopy) {
@@ -121,12 +82,10 @@
                         });
                     },
 
-                }).render();
+                })
             });
 
-            // We initialize here because if the component is first loaded from within a modal DOMContentLoaded
-            // won't fire and if we want to register a Livewire.hook listener Livewire.hook isn't available from
-            // inside the once body
+
             if (!window.tinyMceInitialized) {
                 window.tinyMceInitialized = true;
                 $nextTick(() => {
@@ -144,7 +103,7 @@
     >
         @unless($isDisabled())
             <textarea
-                    id="tiny-editor-{{ $getId() }}"
+                    data-id="tiny-editor-{{ $getId() }}"
 
                     x-ref="tinymce"
                     placeholder="{{ $getPlaceholder() }}"
