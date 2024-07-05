@@ -35,17 +35,20 @@ use Illuminate\Support\Facades\Facade;
  *
  * For filament
  * @method static void registerPanelPage($page,$location=null)
- * @method static array getPanelPages()
+ * @method static array getPanelPages($location=null)
  * @method static void registerLiveEditPanelPage($page)
  * @method static array getLiveEditPanelPages()
  * @method static void registerPanelResource($resource)
  * @method static array getPanelResources()
  *
+ *
+ *
  * @method static void registerAdminPanelWidget($widget, $location = 'default')
  * @method static array getAdminPanelWidgets($location = 'default')
  *
  *
- *
+ * @method static void registerPanelPlugin($page, $location = null)
+ * @method static array getPanelPlugins($location = null)
  *
  *
  * @mixin \MicroweberPackages\Module\ModuleAdminManager

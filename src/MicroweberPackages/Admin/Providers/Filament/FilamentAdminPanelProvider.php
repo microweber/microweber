@@ -126,6 +126,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                 in: app_path('Filament/Admin/Resources'),
                 for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+            ->discoverPages(in: app_path('MicroweberPackages/Menu/Filament/Admin/Pages'), for: 'MicroweberPackages\\Menu\\Filament\\Admin\\Pages')
             ->pages($this->getPanelPages())
             ->discoverWidgets(
                 in: app_path('Filament/Admin/Widgets'),
@@ -162,6 +163,9 @@ class FilamentAdminPanelProvider extends PanelProvider
         );
 
 
+        $registeredPlugins = ModuleAdmin::getPanelPlugins();
+
+
         $tableToggle = new TableLayoutTogglePlugin();
         $tableToggle->defaultLayout('grid');
         $tableToggle->persistLayoutInLocalStorage(true);
@@ -176,6 +180,13 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
+
+        if($registeredPlugins){
+            foreach ($registeredPlugins as $registeredPlugin) {
+                $plugin = new $registeredPlugin;
+                $panel->plugin($plugin);
+            }
+        }
 
 
         return $panel;
