@@ -75,6 +75,9 @@ class NewsletterCampaign extends Model
 
     public function getStatusAttribute()
     {
+        if ($this->status) {
+            return $this->status;
+        }
         return self::STATUS_DRAFT;
     }
 }
