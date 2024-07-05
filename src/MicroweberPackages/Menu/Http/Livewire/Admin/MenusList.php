@@ -9,6 +9,7 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -32,42 +33,44 @@ class MenusList extends Component implements HasForms, HasActions
                 $record?->delete();
             });
     }
+
     public function editAction(): Action
     {
         return Action::make('edit')
+            ->mountUsing(function (Form $form, array $arguments) {
+                $record = Menu::find($arguments['id']);
+                $form->fill($record->toArray());
 
-            ->action(function (array $arguments) {
-
-
-
-                $record = Menu::find( $arguments['id']);
-
-                return EditAction::make()
-                    ->record($record)
-                    ->form([
-                        TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
-                    ]);
-            });
-    }
-
-    public function editMenuByIdAction($id): Action
-    {
-        $record = Menu::find($id);
-
-        return EditAction::make()
-            ->record($record)
+            })
             ->form([
-                TextInput::make('name')
+                TextInput::make('id')
+                    ->required()
+                    ->hidden(),
+
+                TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-            ]);
 
+                TextInput::make('item_type')
+                    ->required()
+                    ->maxLength(255),
 
+            ])->record(function (array $arguments) {
+                $record = Menu::find($arguments['id']);
+                return $record;
+            })
+            ->action(function (array $data, array $arguments) {
 
-
+                dd($data);
+                dd($arguments);
+//                $record = Menu::find($arguments['id']);
+//
+//                return EditAction::make()
+//                    ->record($record)
+//
+            })->slideOver();
     }
+
 
     public function render(): View
     {

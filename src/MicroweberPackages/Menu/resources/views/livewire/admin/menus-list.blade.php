@@ -1,10 +1,9 @@
 <div>
     @foreach ($menus as $menu)
-        <h2>{{ $menu->name }}</h2>
+        <h2> {{ $menu->id }}  {{ $menu->title }}   {{ $menu->item_type }}</h2>
 
 
 
-    {{--    {{ ($this->editMenuByIdAction($menu->id)) }}--}}
 
         {{ ($this->editAction)(['id' => $menu->id]) }}
 
