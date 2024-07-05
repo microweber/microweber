@@ -15,12 +15,12 @@
             });
         </script>
         <script>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('mediaManager', ({mediaItems}) => ({
+            function mwMediaManagerComponent({ mediaItems }) {
+                return {
+                    mediaItems,
                     modalImageSettingsOpen: false,
                     selectedImages: [],
 
-                    mediaItems,
                     init() {
                         console.log('mediaItems', this.mediaItems);
                     },
@@ -39,9 +39,8 @@
                             this.$wire.dispatch('deleteMediaItemById', {id: id})
                         }
                     }
-
-                }))
-            })
+                }
+            }
         </script>
 
         <div
@@ -73,17 +72,11 @@
                 @if($this->mediaItems and !empty($this->mediaItems))
 
                     <div
-                        xxxx-data="{ mediaItems: @json($this->mediaItems) }"
 
-                        xxxxxxxxxxxxx-data="mediaManager({
-                          mediaItems: @entangle('mediaItems').live,
-                        })"
-                        x-data="mediaManager({
-                          mediaItems: $wire.entangle('mediaItems').live,
+                        x-data="mwMediaManagerComponent({
+                            mediaItems: $wire.entangle('mediaItems'),
                         })"
 
-
-                        xxxxx-init=""
 
                         x-on:end="
 
