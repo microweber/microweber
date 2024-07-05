@@ -87,6 +87,8 @@ class ProcessCampaign extends Page
 
 class ProcessCampaignsLogger extends DefaultLogger {
 
+    protected static $logFileName = 'newsletter-campaign-process.log';
+
     public function info($msg) {
         $this->setLogInfo($msg . '<br>');
     }

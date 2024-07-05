@@ -9,6 +9,13 @@ class NewsletterCampaign extends Model
 {
     public $table = 'newsletter_campaigns';
 
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_SENT = 'sent';
+    public const STATUS_PAUSED = 'paused';
+    public const STATUS_CANCELED = 'canceled';
+
+
     public $fillable = [
         'sender_account_id',
         'email_template_id',
@@ -66,8 +73,8 @@ class NewsletterCampaign extends Model
         return 0;
     }
 
-    public function getDoneAttribute()
+    public function getStatusAttribute()
     {
-        return 0;
+        return self::STATUS_DRAFT;
     }
 }

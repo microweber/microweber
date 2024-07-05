@@ -58,9 +58,19 @@ class CampaignResource extends Resource
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('list.name'),
                 TextColumn::make('subscribers'),
-                TextColumn::make('scheduled'),
-                TextColumn::make('scheduled_at'),
-                TextColumn::make('done'),
+//                TextColumn::make('scheduled'),
+//                TextColumn::make('scheduled_at'),
+                TextColumn::make('status')
+                    ->badge()
+                    ->formatStateUsing(function ($state) {
+                        return mb_strtoupper($state);
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'draft' => 'gray',
+                        'processing' => 'warning',
+                        'finished' => 'success',
+                        'canceled' => 'danger',
+                    }),
             ])
             ->filters([
                 //
