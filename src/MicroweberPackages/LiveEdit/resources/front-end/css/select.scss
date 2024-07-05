@@ -21,6 +21,7 @@
     ::-webkit-scrollbar-thumb:hover {
         background: #222;
     }
+
     .mw-select-options{
         visibility: hidden;
         opacity: 0;
@@ -29,7 +30,7 @@
         position: absolute;
         top: 100%;
         left: 0;
-        background-color: white;
+
         min-width: 100%;
         border-radius: 0 0 3px 3px;
         overflow: auto;
@@ -52,8 +53,8 @@
             position: relative;
             &.active,
             &:hover{
-                background-color: #e1f1fd;
-                border-color: #4592ff;
+
+
                 z-index: 1;
             }
         }
@@ -101,10 +102,14 @@
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
-            content: "\0136";
-            font-family: Microweber !important;
-            color: #c5c5c5;
-            font-size: 10px;
+            width: 20px;
+            height: 20px;
+            content: '';
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center center;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='silver' viewBox='0 0 24 24'%3E%3Cpath d='M7,10L12,15L17,10H7Z' /%3E%3C/svg%3E");
+
             z-index: 2;
         }
     }
@@ -124,7 +129,7 @@
         left: 0;
         z-index: 1;
         width: calc(100% - 35px);
-        width: -webkit-calc(100% - 35px);
+
         height: 100%;
         display: flex;
         align-items: center;
@@ -158,4 +163,32 @@
 html[dir="rtl"] .mw-select .mw-select-value:after {
     right: auto;
     left: 15px;
+}
+
+.mw-select{
+    .mw-select-options{
+        background-color: white;
+        .mw-select-option{
+            &.active,
+            &:hover{
+                background-color: #e1f1fd;
+                border-color: #4592ff;
+            }
+        }
+    }
+}
+
+html.dark {
+    .mw-select{
+        .mw-select-options{
+            background-color: rgb(31, 31, 31);
+            .mw-select-option{
+                &.active,
+                &:hover{
+                    background-color: rgb(44, 44, 44);
+                    border-color: #4592ff;
+                }
+            }
+        }
+    }
 }

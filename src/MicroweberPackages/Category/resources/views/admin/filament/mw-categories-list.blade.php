@@ -35,13 +35,8 @@
                 var skip = [];
                 var selectedData = [];
                 var options = {
-                    //sortable: '>.type-category',
-                   // sortableHandle: '.mw-tree-item-content',
-                    sortable: false,
-                    selectable: false,
-                    singleSelect: true,
-                    saveState: false,
-                    skin: 'category-manager',
+
+
                 };
 
                 @if(isset($singleSelect) and $singleSelect)
@@ -87,7 +82,13 @@
                     options
                 };
 
-                let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
+                // let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
+
+                let pagesTree = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}', opts);
+                let pagesTree2 = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}2', {...opts, skin: 'default'});
+
+                console.log(pagesTree)
+
                 pagesTree.tree.on('selectionChange', e => {
                     let result = pagesTree.tree.getSelected();
                     this.state = result;
@@ -109,7 +110,7 @@
 
 
             <div wire:ignore id="mw-tree-edit-content-{{$suffix}}"></div>
-        
+
 
 
 
