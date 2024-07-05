@@ -21,7 +21,7 @@ export class CategoriesAdminListComponent extends MicroweberBaseClass {
 
         this.target = target;
         this.settings = this.config(opt);
-        console.log("", this.settings);
+
         this.init();
     }
 
@@ -72,11 +72,8 @@ export class CategoriesAdminListComponent extends MicroweberBaseClass {
                 this.dropdown.disabled(this.bulkService.selectedCategories.length === 0)
                 this.tree.on('selectionChange', _ => this.dropdown.disabled(this.bulkService.selectedCategories.length === 0));
 
-                console.log(this.tree)
-                this.tree.on('selectionChange', _ => {
-                    console.log(this.bulkService.selectedCategories)
-                    console.log(this.dropdown.disabled())
-                })
+
+
 
 
                 this.tree.list.parentNode.insertBefore(dropdown, this.tree.list);
