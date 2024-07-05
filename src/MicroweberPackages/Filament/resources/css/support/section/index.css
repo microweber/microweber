@@ -1,12 +1,11 @@
-.fi-section {
-    &:not(.fi-aside) {
-        @apply rounded-md ring-0;
-
-        & > .fi-section-header {
-            @apply pb-0;
-        }
-    }
+.fi-section:not(.fi-aside) {
+    @apply rounded-md ring-0;
 }
+
+.fi-section:not(.fi-aside) > .fi-section-header {
+    @apply pb-0;
+}
+
 
 .fi-section-header {
     @apply overflow-visible;
@@ -16,9 +15,9 @@
     @apply border-none;
 }
 
-.fi-section-content {
-    @apply shadow-md;
-}
+/*.fi-section-content {*/
+/*    @apply shadow-md;*/
+/*}*/
 
 .fi-section.fi-aside > .fi-section-content-ctn {
     @apply rounded-md ring-0;
