@@ -36,9 +36,10 @@ function get_category_by_id($id = 0)
 {
     return app()->category_manager->get_by_id($id);
 }
+
 function get_category_by_url($url)
 {
-    return  app()->category_repository->getByColumnNameAndColumnValue('url', $url);
+    return app()->category_repository->getByColumnNameAndColumnValue('url', $url);
 }
 
 function get_categories($data)
@@ -139,10 +140,6 @@ function get_category_id_from_url($url = false)
  *
  * @desc        prints category_tree of UL and LI
  *
- * @category    categories
- *
- * @author      Microweber
- *
  * @param  $params = array();
  * @param  $params ['parent'] = false; //parent id
  * @param  $params ['link'] = false; // the link on for the <a href
@@ -157,6 +154,10 @@ function get_category_id_from_url($url = false)
  * @param  $params ['content_type'] = false; //if this is set it will include only categories from desired type
  * @param  $params ['list_tag'] = 'select';
  * @param  $params ['list_item_tag'] = "option";
+ * @category    categories
+ *
+ * @author      Microweber
+ *
  */
 function category_tree($params = false)
 {
@@ -181,14 +182,21 @@ function get_category_items_count($category_id)
 
 function get_category_edit_link($category_id)
 {
-    $admin_edit_url = route('admin.category.edit', $category_id);
+    if ($category_id == 0) {
+        $admin_edit_url = admin_url('categories/create/');
 
-    $checkPage = get_page_for_category($category_id);
-    if (!empty($checkPage)) {
-        if ($checkPage['is_shop'] == 1) {
-            $admin_edit_url = route('admin.shop.category.edit', $category_id);
-        }
+    } else {
+        $admin_edit_url = admin_url('category/edit/' . $category_id);
+
     }
+//    $admin_edit_url = route('admin.category.edit', $category_id);
+//
+//    $checkPage = get_page_for_category($category_id);
+//    if (!empty($checkPage)) {
+//        if ($checkPage['is_shop'] == 1) {
+//            $admin_edit_url = route('admin.shop.category.edit', $category_id);
+//        }
+//    }
 
     return $admin_edit_url;
 }

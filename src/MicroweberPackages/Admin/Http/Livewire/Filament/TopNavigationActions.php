@@ -27,30 +27,29 @@ class TopNavigationActions extends Component implements HasForms, HasActions
         $links[] = [
             'title' => 'New Page',
             'description' => 'Create a new page to your website or online store, choose from pre-pared page designs ',
-            'url' => '',
+            'url' => admin_url('pages/create'),
             'icon' => 'mw-add-page',
         ];
         $links[] = [
             'title' => 'New Post',
             'description' => 'Add new post to your blog page, linked to category of main page on your website ',
-            'url' => '',
+            'url' => admin_url('posts/create'),
             'icon' => 'mw-add-post',
         ];
         $links[] = [
             'title' => 'New Category',
             'description' => 'Add new category and organize your blog posts or items from the shop in the right way ',
-            'url' => '',
-            'icon' => 'mw-add-category',
-        ];
+            'url' => admin_url('categories/create'),
+            'icon' => 'mw-add-category',];
         $links[] = [
             'title' => 'New Product',
             'description' => 'Add new product to your online store, choose from pre-pared product designs ',
-            'url' => '',
+            'url' =>admin_url('products/create'),
             'icon' => 'mw-add-product',
         ];
 
         return view('admin::livewire.filament.top-navigation-actions', [
-            'links'=> $links,
+            'links' => $links,
         ]);
     }
 }
