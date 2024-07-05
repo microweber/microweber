@@ -15,15 +15,15 @@
             });
         </script>
         <script>
-            function mwMediaManagerComponent({ mediaItems }) {
+            function mwMediaManagerComponent({mediaIds}) {
                 return {
-                    mediaItems,
+                    mediaIds,
                     modalImageSettingsOpen: false,
                     selectedImages: [],
 
                     init() {
-                        alert(22);
-                        console.log('mediaItems', this.mediaItems);
+
+                   //     console.log('mwMediaManagerComponent', this.mediaIds);
                     },
 
                     async bulkDeleteSelectedMedia() {
@@ -65,20 +65,17 @@
             <hr class="h-px mb-8 mt-4 bg-gray-200 border-0 dark:bg-gray-700 w-full">
 
 
-
-
-
             <div class="w-full mb-3">
                 @if($this->mediaItems and !empty($this->mediaItems))
 
                     <div
 
                         x-data="mwMediaManagerComponent({
-                            mediaItems: $wire.$entangle('annnnn')
+                            mediaIds: $wire.$entangle('mediaIds')
                         })"
                         x-on:end="
 
-                        console.log('itemsSortedIdsEnd', $event);
+
 
                     itemsSortedIds = $event.target.querySelectorAll('[x-sortable-item]');
 
@@ -92,7 +89,8 @@
                     >
 
 
-                        <div x-show="mediaItems && mediaItems.length > 0 && selectedImages && selectedImages.length > 0" class="admin-thumbs-holder-bulk-actions">
+                        <div x-show="mediaIds && mediaIds.length > 0 && selectedImages && selectedImages.length > 0"
+                             class="admin-thumbs-holder-bulk-actions">
 
 
                             <button type="button" @click="bulkDeleteSelectedMedia()">Delete selected</button>

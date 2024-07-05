@@ -24,18 +24,12 @@ class ListMediaForModel extends AdminComponent
     public $relId = '';
     public $sessionId = '';
     public $createdBy = '';
-    public $mediaItems = [
-        'test',
-        'test2'
-    ];
+    public $mediaItems = [];
     public $mediaIds = [];
 
     public $parentComponentName = '';
 
-    public $annnnn = [
-        'wfafwa',
-        'fwafwa'
-    ];
+
 
 
     public function getQueryBuilder()
