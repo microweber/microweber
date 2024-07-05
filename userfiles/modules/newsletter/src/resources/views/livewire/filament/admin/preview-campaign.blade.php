@@ -20,7 +20,7 @@
             @if ($model->recipients_from === 'all_subscribers')
             @svg("heroicon-o-users", "h-6 w-6 text-black/90 dark:text-white")
             @endif
-            @if ($model->recipients_from === 'specific_lists')
+            @if ($model->recipients_from === 'specific_list')
             @svg("heroicon-o-list-bullet", "h-6 w-6 text-black/90 dark:text-white")
             @endif
         </div>
@@ -33,7 +33,7 @@
                     All subscribers
                     <span>({{$model->countSubscribers()}} selected)</span>
                 @endif
-                @if ($model->recipients_from === 'specific_lists')
+                @if ($model->recipients_from === 'specific_list')
                     Specific list
                     @php
                         $list = $model->list()->first();
