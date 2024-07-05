@@ -30,7 +30,7 @@ class NewsletterCampaign extends Model
         'is_done',
         'recipients_from',
         'delivery_type',
-
+        'status',
     ];
 
     public function senderAccount()
@@ -75,7 +75,7 @@ class NewsletterCampaign extends Model
 
     public function getStatusAttribute()
     {
-        if ($this->status) {
+        if (property_exists($this, 'status')) {
             return $this->status;
         }
         return self::STATUS_DRAFT;

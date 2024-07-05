@@ -56,6 +56,7 @@ class CreateCampaign extends Page
 
         $campaign = new NewsletterCampaign();
         $campaign->name = $this->name;
+        $campaign->status = NewsletterCampaign::STATUS_DRAFT;
         $campaign->save();
 
         return redirect()->route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id);
