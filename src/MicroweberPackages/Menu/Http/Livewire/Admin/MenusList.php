@@ -6,6 +6,7 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -43,31 +44,21 @@ class MenusList extends Component implements HasForms, HasActions
 
             })
             ->form([
-                TextInput::make('id')
-                    ->required()
-                    ->hidden(),
-
+                Hidden::make('id')
+                    ->required(),
                 TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-
                 TextInput::make('item_type')
                     ->required()
                     ->maxLength(255),
-
             ])->record(function (array $arguments) {
                 $record = Menu::find($arguments['id']);
                 return $record;
             })
             ->action(function (array $data, array $arguments) {
-
-                dd($data);
-                dd($arguments);
-//                $record = Menu::find($arguments['id']);
-//
-//                return EditAction::make()
-//                    ->record($record)
-//
+                $record = Menu::find($data['id']);
+                $record->update($data);
             })->slideOver();
     }
 

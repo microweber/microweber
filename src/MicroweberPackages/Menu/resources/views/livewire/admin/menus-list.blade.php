@@ -1,15 +1,35 @@
 <div>
-    @foreach ($menus as $menu)
-        <h2> {{ $menu->id }}  {{ $menu->title }}   {{ $menu->item_type }}</h2>
+
+
+    <div class="admin-thumbs-holder" x-sortable>
+
+
+        @foreach ($menus as $menu)
+
+
+
+            <div
+                    x-sortable-handle
+                    x-sortable-item="{{ $menu->id }}"
+
+            >
 
 
 
 
-        {{ ($this->editAction)(['id' => $menu->id]) }}
+
+                <h2> {{ $menu->id }}  {{ $menu->title }}   {{ $menu->item_type }}</h2>
 
 
-        {{ ($this->deleteAction)(['id' => $menu->id]) }}
-    @endforeach
+                {{ ($this->editAction)(['id' => $menu->id]) }}
+
+
+                {{ ($this->deleteAction)(['id' => $menu->id]) }}
+
+            </div>
+        @endforeach
+
+    </div>
 
     <x-filament-actions::modals/>
 </div>
