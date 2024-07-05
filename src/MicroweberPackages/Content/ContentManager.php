@@ -1817,6 +1817,9 @@ class ContentManager
 
     public function edit_link($id = 0)
     {
+
+
+
         $content = $this->get_by_id($id);
 
         if (isset($content['content_type']) && $content['content_type'] == 'product') {
