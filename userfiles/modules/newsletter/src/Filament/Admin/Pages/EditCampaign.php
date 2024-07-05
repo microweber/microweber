@@ -54,7 +54,7 @@ class EditCampaign extends Page
     #[On('subscribers-imported')]
     public function subscribersImported($listId = null) {
 
-        $this->state['recipients_from'] = 'specific_lists';
+        $this->state['recipients_from'] = 'specific_list';
         $this->state['list_id'] = $listId;
     }
 
@@ -140,7 +140,7 @@ class EditCampaign extends Page
      //   $recipientsOptions['import_new_list'] = 'Import new list';
 
         if (!empty($lists)) {
-            $recipientsOptions['specific_lists'] = 'Specific lists';
+            $recipientsOptions['specific_list'] = 'Specific lists';
         }
 
         $senderOptions = [];
@@ -202,7 +202,7 @@ class EditCampaign extends Page
                                 ])
                                 ->icons([
                                     'all_subscribers' => 'heroicon-o-users',
-                                    'specific_lists' => 'heroicon-o-list-bullet',
+                                    'specific_list' => 'heroicon-o-list-bullet',
                                     'import_new_list' => 'heroicon-o-arrow-up-tray',
                                 ])
                                 ->iconSize(IconSize::Large)
@@ -210,7 +210,7 @@ class EditCampaign extends Page
                                 ->live()
                                 ->descriptions([
                                     'all_subscribers' => $countSubscribers . ' subscribers found in all lists.',
-                                    'specific_lists' => 'Send to existing lists.',
+                                    'specific_list' => 'Send to existing lists.',
                                     'import_new_list' => 'Create new list or import list from file.',
                                 ])
                                 ->options($recipientsOptions),
@@ -219,13 +219,13 @@ class EditCampaign extends Page
                                 ->label('Select list')
                                 ->live()
                                 ->required(function (Get $get) {
-                                    if ($get('state.recipients_from') == 'specific_lists') {
+                                    if ($get('state.recipients_from') == 'specific_list') {
                                         return true;
                                     }
                                     return false;
                                 })
                                 ->hidden(function (Get $get) {
-                                    if ($get('state.recipients_from') == 'specific_lists') {
+                                    if ($get('state.recipients_from') == 'specific_list') {
                                         return false;
                                     }
                                     return true;
