@@ -9,6 +9,13 @@ class NewsletterCampaign extends Model
 {
     public $table = 'newsletter_campaigns';
 
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_SENT = 'sent';
+    public const STATUS_PAUSED = 'paused';
+    public const STATUS_CANCELED = 'canceled';
+
+
     public $fillable = [
         'sender_account_id',
         'email_template_id',
@@ -23,7 +30,7 @@ class NewsletterCampaign extends Model
         'is_done',
         'recipients_from',
         'delivery_type',
-
+        'status',
     ];
 
     public function senderAccount()
@@ -66,8 +73,11 @@ class NewsletterCampaign extends Model
         return 0;
     }
 
-    public function getDoneAttribute()
+    public function getStatusAttribute()
     {
-        return 0;
+        if (property_exists($this, 'status')) {
+            return $this->status;
+        }
+        return self::STATUS_DRAFT;
     }
 }

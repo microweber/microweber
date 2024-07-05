@@ -36,7 +36,8 @@ $config['tables'] = array (
         'sending_limit_per_day' => 'integer',
         'is_scheduled' => 'integer',
         'scheduled_at' => 'dateTime',
-        'is_done' => 'integer'
+        'is_done' => 'integer',
+        'status' => 'text'
 	),
 
 	'newsletter_campaigns_send_log' => array (
