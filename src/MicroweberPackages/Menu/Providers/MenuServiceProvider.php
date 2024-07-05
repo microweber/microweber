@@ -11,11 +11,16 @@
 
 namespace MicroweberPackages\Menu\Providers;
 
+use Filament\Events\ServingFilament;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Menu\Filament\Admin\MenuFilamentPlugin;
 use MicroweberPackages\Menu\MenuManager;
 use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
+use src\Filament\Admin\Pages\AdminMenusPage;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -45,6 +50,22 @@ class MenuServiceProvider extends ServiceProvider
         $this->app->bind('menu_repository', function ($app) {
             return $this->app->repository_manager->driver(Menu::class);;
         });
+
+
+
+        ModuleAdmin::registerPanelPlugin(MenuFilamentPlugin::class);
+
+        Event::listen(ServingFilament::class, function () {
+
+
+            ModuleAdmin::registerPanelPage(\MicroweberPackages\Menu\Filament\Admin\Pages\AdminMenusPage::class, 'settings');
+        });
+
+
+
+
+
+
     }
 
     /**

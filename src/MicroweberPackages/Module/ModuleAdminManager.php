@@ -154,6 +154,34 @@ class ModuleAdminManager
         return $this->adminPanelPages;
     }
 
+
+    public array $adminPanelPlugins = [];
+    public array $adminPanelPluginsWithLocation = [];
+
+
+    public function registerPanelPlugin($plugin, $panelName = null): void
+    {
+
+        if ($panelName) {
+            if (!isset($this->adminPanelPluginsWithLocation[$panelName])) {
+                $this->adminPanelPluginsWithLocation[$panelName] = [];
+            }
+
+            $this->adminPanelPluginsWithLocation[$panelName][] = $plugin;
+        } else {
+            $this->adminPanelPlugins[] = $plugin;
+        }
+    }
+
+    public function getPanelPlugins($location = null): array
+    {
+        if ($location) {
+            return $this->adminPanelPluginsWithLocation[$location] ?? [];
+        }
+
+        return $this->adminPanelPlugins;
+    }
+
     public function registerLiveEditPanelPage($page): void
     {
         $this->liveEditPanelPages[] = $page;
@@ -178,7 +206,6 @@ class ModuleAdminManager
     {
         return $this->adminPanelWidgets[$location] ?? [];
     }
-
 
 
     public function registerAdminUrl($module, $url): void

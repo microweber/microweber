@@ -3,7 +3,8 @@
 namespace App\Filament\Admin\Pages;
 
 use Filament\Pages\Page;
-use Illuminate\Contracts\View\View;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
+
 
 class Settings extends Page
 {
@@ -38,6 +39,15 @@ class Settings extends Page
         $settingsPages[] = new AdminShopInvoicesPage();
         $settingsPages[] = new AdminShopAutoRespondEmailPage();
         $settingsPages[] = new AdminShopOtherPage();
+        $settingsPages[] = new AdminShopOtherPage();
+
+//
+        $registeredSettingsPages = ModuleAdmin::getPanelPages('settings');
+        if (!empty($registeredSettingsPages)) {
+            foreach ($registeredSettingsPages as $registeredSettingsPage) {
+                $settingsPages[] = new $registeredSettingsPage;
+            }
+        }
 
 
         $settingsGroups = [];

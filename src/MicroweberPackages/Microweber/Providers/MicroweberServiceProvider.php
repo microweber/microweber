@@ -160,6 +160,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
+        $this->app->register(ModuleServiceProvider::class);
+
         $this->app->register(PageServiceProvider::class);
         $this->app->register(ContentServiceProvider::class);
         $this->app->register(ContentManagerServiceProvider::class);
@@ -222,7 +224,6 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(BlogServiceProvider::class);
 
         $this->app->register(MultilanguageServiceProvider::class);
-        $this->app->register(ModuleServiceProvider::class);
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 
