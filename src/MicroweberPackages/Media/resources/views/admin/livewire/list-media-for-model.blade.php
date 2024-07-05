@@ -22,6 +22,7 @@
                     selectedImages: [],
 
                     init() {
+                        alert(22);
                         console.log('mediaItems', this.mediaItems);
                     },
 
@@ -67,17 +68,14 @@
 
 
 
-
             <div class="w-full mb-3">
                 @if($this->mediaItems and !empty($this->mediaItems))
 
                     <div
 
                         x-data="mwMediaManagerComponent({
-                            mediaItems: $wire.entangle('mediaItems'),
+                            mediaItems: $wire.$entangle('annnnn')
                         })"
-
-
                         x-on:end="
 
                         console.log('itemsSortedIdsEnd', $event);
