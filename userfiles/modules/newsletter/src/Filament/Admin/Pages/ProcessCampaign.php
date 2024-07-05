@@ -38,45 +38,12 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use Livewire\Attributes\On;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
-class CreateCampaign extends Page
+class ProcessCampaign extends Page
 {
-//    protected static ?string $slug = 'newsletter/create-campaign';
+    protected static ?string $slug = 'process-campaign/{id}';
 
-    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.create-campaign';
+    protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.process-campaign';
 
     protected static bool $shouldRegisterNavigation = false;
-
-    public $name = '';
-
-    public function createCampaign()
-    {
-        $this->validate([
-            'name' => 'required',
-        ]);
-
-        $campaign = new NewsletterCampaign();
-        $campaign->name = $this->name;
-        $campaign->save();
-
-        return redirect()->route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id);
-    }
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->model(NewsletterCampaign::class)
-            ->schema([
-
-        TextInput::make('name')
-            ->label('Name')
-            ->hiddenLabel()
-            ->required()
-            ->placeholder('Enter your campaign name...'),
-
-
-        ]);
-
-
-    }
 
 }

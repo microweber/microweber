@@ -17,6 +17,7 @@ use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\EditCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
+use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\ProcessCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\CampaignResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\ListResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
@@ -50,7 +51,8 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->pages([
                 Homepage::class,
                 CreateCampaign::class,
-                EditCampaign::class
+                EditCampaign::class,
+                ProcessCampaign::class
             ])
             ->resources([
                 SenderAccountsResource::class,

@@ -42,7 +42,7 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
 class EditCampaign extends Page
 {
-    protected static ?string $slug = 'newsletter/edit-campaign/{id}';
+    protected static ?string $slug = 'edit-campaign/{id}';
 
     protected static string $view = 'microweber-module-newsletter::livewire.filament.admin.edit-campaign';
 
@@ -375,7 +375,7 @@ class EditCampaign extends Page
                                     ->requiresConfirmation(true)
                                     ->after(function () {
                                         // Send campaign
-                                        dd($this->state);
+                                        return $this->redirect(route('filament.admin-newsletter.pages.process-campaign.{id}', $this->state['id']));
                                     }),
                                 Action::make('Preview E-mail')
                                     ->label('Preview E-mail')
@@ -389,9 +389,7 @@ class EditCampaign extends Page
                             ])->alignCenter(),
 
 
-                        ])->afterValidation(function () {
-                            dd($this->state);
-                        })
+                        ]),
 
                 ])->persistStepInQueryString()
                 ->columnSpanFull(),
