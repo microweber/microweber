@@ -64,11 +64,26 @@
 
             <hr class="h-px mb-8 mt-4 bg-gray-200 border-0 dark:bg-gray-700 w-full">
 
+
+
+
+
+
             <div class="w-full mb-3">
                 @if($this->mediaItems and !empty($this->mediaItems))
 
                     <div
-                        x-data="mediaManager({ mediaItems:$wire.$entangle('mediaItems') })"
+                        xxxx-data="{ mediaItems: @json($this->mediaItems) }"
+
+                        xxxxxxxxxxxxx-data="mediaManager({
+                          mediaItems: @entangle('mediaItems').live,
+                        })"
+                        x-data="mediaManager({
+                          mediaItems: $wire.entangle('mediaItems').live,
+                        })"
+
+
+                        xxxxx-init=""
 
                         x-on:end="
 
