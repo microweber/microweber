@@ -18,7 +18,7 @@ window.mw.tools = new AdminTools(mw.app);
 
 
 
-mw.pause = time => new Promise((resolve) => setTimeout(resolve, time || 0));
+mw.pause = time => new Promise(resolve => setTimeout(resolve, time || 0));
 
 
 
@@ -70,6 +70,7 @@ import "../components/uiaccordion.js";
 
 import "../components/dialog.js";
 import {Alert, Confirm, Prompt} from "../components/system-dialogs.js";
+import {SchemaForm} from "../components/schema-form.js";
 
 import {ControlBox} from "../components/control_box.js";
 import {SystemDialogsService} from "../components/modules-dialogs.js";
@@ -79,6 +80,8 @@ mw.alert = Alert;
 mw.controlBox = ControlBox;
 mw.confirm = Confirm;
 mw.prompt = Prompt;
+
+mw.schemaForm = options => new SchemaForm(options);
 
 mw.templatePreview = TemplatePreview;
 
@@ -100,6 +103,7 @@ import "../components/color.js";
 import "../components/colorpicker.js";
 import "../components/components.js";
 import "../components/notification.js";
+import "../components/schema-form.js";
 
 
 //widgets

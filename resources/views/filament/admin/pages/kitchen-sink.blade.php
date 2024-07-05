@@ -165,10 +165,10 @@ linkEditor.promise().then(function (data){
         <div class="richtext-example"></div>
 
         <pre>
-            const editor = new mw.richTextEditor({
+            const editor = mw.richTextEditor({
                 target: '.richtext-example'
             });
-            const editor = new mw.richTextEditor({
+            const editor = mw.richTextEditor({
                 target: document.querySelector('.some-selector')
             })
 
@@ -178,7 +178,7 @@ linkEditor.promise().then(function (data){
         </pre>
         <script>
             addEventListener('load', () => {
-                const editor = new mw.richTextEditor({
+                const editor = mw.richTextEditor({
                     target: '.richtext-example'
                 });
 
@@ -307,12 +307,142 @@ console.log(dialogPrompt);
     </h1>
 
     <hr>
+    <h1>
+            Schema Form
+            <pre>
+
+    const exampleData = [
+            {
+                type: 'text',
+                name: 'firstName',
+                value: 'John',
+                label: 'Enter your name',
+                placeholder: 'e.g.: Bill',
+                required: false,
+            },
+            {
+                type: 'email',
+                name: 'mail',
+                value: 'test@test.com',
+                label: 'Enter your email',
+                placeholder: 'contact@example.com',
+                required: true
+            },
+            {
+                type: 'select',
+                name: 'car',
+                value: 1,
+                label: 'Enter your car',
+                placeholder: 'Choose a car model',
+                required: true,
+                options: [
+                    {value: 1, title: 'Bentley'},
+                    {value: 2, title: 'Brabus'},
+                ]
+            },
+            {
+                type: 'checkbox',
+                name: 'car2',
+                value: 2,
+                label: 'Enter your car',
+                placeholder: 'Choose a car model',
+                required: true,
+                options: [
+                    {value: 1, title: 'Bentley'},
+                    {value: 2, title: 'Brabus'},
+                ]
+            },
+        ];
+
+                const schemaForm = mw.schemaForm({
+                    target: node,
+                    data: exampleData
+                });
+
+                schemaForm.on('change', value => {
+                    console.log(value);
+                });
+
+                schemaForm.setValue([{name: 'car', value: 1}])
+
+                console.log(schemaForm.getValue());
+
+
+            </pre>
+    </h1>
+
 
     <script>
-        mw.button = (type, content)  => {
-            return `<x-filament::button color="gray">${content}</x-filament::button>`;
-        }
+
+    addEventListener('load', () => {
+        const exampleData = [
+            {
+                type: 'text',
+                name: 'firstName',
+                value: 'John',
+                label: 'Enter your name',
+                placeholder: 'e.g.: Bill',
+                required: false,
+            },
+            {
+                type: 'email',
+                name: 'mail',
+                value: 'test@test.com',
+                label: 'Enter your email',
+                placeholder: 'contact@example.com',
+                required: true
+            },
+            {
+                type: 'select',
+                name: 'car',
+                value: 1,
+                label: 'Enter your car',
+                placeholder: 'Choose a car model',
+                required: true,
+                options: [
+                    {value: 1, title: 'Bentley'},
+                    {value: 2, title: 'Brabus'},
+                ]
+            },
+            {
+                type: 'checkbox',
+                name: 'car2',
+                value: 2,
+                label: 'Enter your car',
+                placeholder: 'Choose a car model',
+                required: true,
+                options: [
+                    {value: 1, title: 'Bentley'},
+                    {value: 2, title: 'Brabus'},
+                ]
+            },
+        ];
+
+                const schemaForm = mw.schemaForm({
+                    target: '#schema-form',
+                    data: exampleData
+                });
+
+                schemaForm.on('change', value => {
+                    console.log(value);
+                });
+
+                schemaForm.setValue([{name: 'car', value: 1}])
+
+                document.querySelector('#schema-form').addEventListener('submit', e => {
+                    console.log(schemaForm.getValue());
+                    e.preventDefault();
+                });
+
+                console.log(schemaForm.getValue());
+    })
+
     </script>
+
+    <form id="schema-form"></form>
+
+    <button type="submit" form="schema-form" class="btn">Submit</button>
+
 
     </div>
     </div>
