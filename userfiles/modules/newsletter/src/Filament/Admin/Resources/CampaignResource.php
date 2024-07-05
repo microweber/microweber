@@ -66,7 +66,11 @@ class CampaignResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('edit')
+                    ->label('Edit')
+                    ->icon('heroicon-o-pencil')
+                    ->url(fn (NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.newsletter.edit-campaign.{id}', $campaign->id)),
+//                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

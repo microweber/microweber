@@ -43,17 +43,18 @@ class SubscribersResource extends Resource
     {
         return $form
             ->schema([
-
                 TextInput::make('email')
                     ->label('Email')
                     ->placeholder('Enter email')
                     ->required()
-                    ->email()
-                    ->unique('newsletter_subscribers', 'email'),
+                    ->email(),
+
                 TextInput::make('name')
                     ->label('Name')
                     ->placeholder('Enter name'),
+
                 CheckboxList::make('lists')
+                    ->relationship('lists', 'name')
                     ->label('Subscribed for lists')
                     ->options(function () {
                         $lists = [];
@@ -75,9 +76,28 @@ class SubscribersResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('email'),
-                TextColumn::make('name'),
+
+                    Tables\Columns\TextColumn::make('name')
+                        ->searchable()
+                        ->sortable()
+                        ->weight('medium')
+                        ->alignLeft(),
+
+                    Tables\Columns\TextColumn::make('email')
+                        ->label('Email address')
+                        ->searchable()
+                        ->sortable()
+                        ->color('gray')
+                        ->alignLeft(),
+
+                    Tables\Columns\TextColumn::make('lists.name')
+                        ->label('Lists')
+                        ->listWithLineBreaks()
+                        ->limitList(2)
+                        ->expandableLimitedList(),
+
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])
