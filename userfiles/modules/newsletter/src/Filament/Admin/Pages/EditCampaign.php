@@ -345,7 +345,7 @@ class EditCampaign extends Page
 
                         ]),
 
-                    Wizard\Step::make('Design')
+                    Wizard\Step::make('Content')
                         ->icon('heroicon-o-paint-brush')
                         ->beforeValidation(function () {
                             if (!isset($this->state['email_template_id'])) {
@@ -353,6 +353,11 @@ class EditCampaign extends Page
                             }
                         })
                         ->schema([
+                            TextInput::make('state.subject')
+                                ->label('E-mail Subject')
+                                ->helperText('Enter the subject of your email.')
+                                ->required()
+                                ->live(),
                             SelectTemplate::make('state.email_template_id')
                                 ->label('Select design')
                                 ->required()

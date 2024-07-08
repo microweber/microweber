@@ -89,25 +89,27 @@ class ProcessCampaign extends Page
                 continue;
             }
 
-            $newsletterMailSender = new NewsletterMailSender();
-            $newsletterMailSender->setCampaign($campaign->toArray());
-            $newsletterMailSender->setSubscriber($subscriber->toArray());
-            $newsletterMailSender->setSender($sender->toArray());
-            $newsletterMailSender->setTemplate($template->toArray());
-            $sendMailResponse = $newsletterMailSender->sendMail();
+            try {
+                $newsletterMailSender = new NewsletterMailSender();
+                $newsletterMailSender->setCampaign($campaign->toArray());
+                $newsletterMailSender->setSubscriber($subscriber->toArray());
+                $newsletterMailSender->setSender($sender->toArray());
+                $newsletterMailSender->setTemplate($template->toArray());
+                $sendMailResponse = $newsletterMailSender->sendMail();
 
-            dd($sendMailResponse);
+                if ($sendMailResponse['success']) {
+                    $campaignSendLog = new NewsletterCampaignsSendLog();
+                    $campaignSendLog->campaign_id = $campaign->id;
+                    $campaignSendLog->subscriber_id = $subscriber->id;
+                    $campaignSendLog->is_sent = 1;
+                    $campaignSendLog->save();
+                }
 
-            if ($sendMailResponse['success']) {
-
-                newsletter_campaigns_send_log($campaign['id'], $subscriber['id']);
-
-            } else {
+            } catch (\Exception $e) {
                 $subscriber['error'] = true;
                 if (isset($sendMailResponse['message'])) {
                     $subscriber['error_message'] = $sendMailResponse['message'];
                 }
-
             }
 
             $this->lastProcessed[] = $subscriber;
