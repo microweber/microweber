@@ -11,7 +11,7 @@ class NewsletterCampaign extends Model
 
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PROCESSING = 'processing';
-    public const STATUS_SENT = 'sent';
+    public const STATUS_FINISHED = 'finished';
     public const STATUS_PAUSED = 'paused';
     public const STATUS_CANCELED = 'canceled';
 
@@ -75,9 +75,19 @@ class NewsletterCampaign extends Model
 
     public function getStatusAttribute()
     {
-        if (property_exists($this, 'status')) {
-            return $this->status;
+        if (isset($this->attributes['status'])) {
+            return $this->attributes['status'];
         }
         return self::STATUS_DRAFT;
+    }
+
+    public static function markAsFinished($campaignId)
+    {
+        $campaign = NewsletterCampaign::where('id', $campaignId)->first();
+        if ($campaign) {
+            $campaign->status = self::STATUS_FINISHED;
+            $campaign->is_done = 1;
+            $campaign->save();
+        }
     }
 }

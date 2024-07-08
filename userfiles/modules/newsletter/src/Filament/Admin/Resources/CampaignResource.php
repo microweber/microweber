@@ -65,11 +65,18 @@ class CampaignResource extends Resource
                     ->formatStateUsing(function ($state) {
                         return mb_strtoupper($state);
                     })
-                    ->color(fn (string $state): string => match ($state) {
-                        'draft' => 'gray',
-                        'processing' => 'warning',
-                        'finished' => 'success',
-                        'canceled' => 'danger',
+                    ->color(function($state) {
+                        if ($state == NewsletterCampaign::STATUS_DRAFT) {
+                            return 'gray';
+                        } elseif ($state == NewsletterCampaign::STATUS_PROCESSING) {
+                            return 'warning';
+                        } elseif ($state == NewsletterCampaign::STATUS_FINISHED) {
+                            return 'success';
+                        } elseif ($state == NewsletterCampaign::STATUS_CANCELED) {
+                            return 'danger';
+                        } else {
+                            return 'gray';
+                        }
                     }),
             ])
             ->filters([

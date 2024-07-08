@@ -42,19 +42,30 @@ class ProcessCampaign extends Page
     {
         $findCampaign = NewsletterCampaign::where('id', $id)->first();
         if ($findCampaign) {
+
             $this->campaign = $findCampaign;
+            if ($this->campaign->status == NewsletterCampaign::STATUS_FINISHED) {
+                $this->finished = 1;
+            }
         }
     }
 
     #[On('execute-next-step')]
     public function executeNextStep()
     {
-        if ($this->finished) {
+        $campaign = $this->campaign;
+        if ($campaign->status == NewsletterCampaign::STATUS_FINISHED) {
+            $this->finished = 1;
             $this->dispatch('campaign-finished');
             return;
         }
 
-        $campaign = $this->campaign;
+        if ($this->finished) {
+            NewsletterCampaign::markAsFinished($campaign->id);
+            $this->dispatch('campaign-finished');
+            return;
+        }
+
         $sender = NewsletterSenderAccount::where('id', $campaign->sender_account_id)->first();
         $template = NewsletterTemplate::where('id', $campaign->email_template_id)->first();
 
@@ -68,6 +79,7 @@ class ProcessCampaign extends Page
 
         $subscribers = $findSubscribers->items();
         if (empty($subscribers)) {
+            NewsletterCampaign::markAsFinished($campaign->id);
             $this->finished = 1;
             $this->dispatch('campaign-finished');
             return;
@@ -119,6 +131,7 @@ class ProcessCampaign extends Page
         }
 
         if ($this->step >= $this->totalSteps) {
+            NewsletterCampaign::markAsFinished($campaign->id);
             $this->finished = 1;
             $this->dispatch('campaign-finished');
         }
