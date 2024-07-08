@@ -52,17 +52,30 @@ class ProcessCampaign extends Page
 
         $campaign = $this->campaign;
         $findSubscribersQuery = NewsletterSubscriber::query();
-        $findSubscribersQuery->whereHas('lists', function ($query) use($campaign) {
-            $query->where('list_id', $campaign->list_id);
-        });
+//        $findSubscribersQuery->whereHas('lists', function ($query) use($campaign) {
+//            $query->where('list_id', $campaign->list_id);
+//        });
 
-        $batchSize = 5;
+        $batchSize = 1;
         $findSubscribers = $findSubscribersQuery->paginate($batchSize, ['*'], 'step', $this->step);
 
+        $subscribers = $findSubscribers->items();
+        if (empty($subscribers)) {
+            $this->finished = 1;
+            $this->dispatch('campaign-finished');
+            return;
+        }
+
         $this->step = $this->step + 1;
-        $this->lastProcessed = $findSubscribers->items();
         $this->totalSteps = $findSubscribers->lastPage();
 
+        $sliceLatestSend = 8;
+        foreach ($subscribers as $subscriber) {
+            $this->lastProcessed[] = $subscriber;
+            if (count($this->lastProcessed) >= $sliceLatestSend) {
+                $this->lastProcessed = array_slice($this->lastProcessed, -$sliceLatestSend, $sliceLatestSend);
+            }
+        }
 
         if ($this->step >= $this->totalSteps) {
             $this->finished = 1;

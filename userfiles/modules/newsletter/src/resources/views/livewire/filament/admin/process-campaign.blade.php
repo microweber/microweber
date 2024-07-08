@@ -57,7 +57,7 @@
         </div>
         @else
             @foreach($lastProcessed as $process)
-                <div class="p-2 bg-white rounded mt-2 border-l-4 border-blue-500">
+                <div class="p-2 bg-black/30 rounded mt-4 border-l-4 border-blue-500">
                     <p>{{ $process['email'] }}</p>
                     @if(empty($process['name']))
                         {{ $process['name'] }}
