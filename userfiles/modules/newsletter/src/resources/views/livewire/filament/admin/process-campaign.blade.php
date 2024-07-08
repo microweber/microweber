@@ -8,7 +8,12 @@
 
     @if($this->finished)
         <div class="mt-4">
-            <div class="p-4 bg-green-500 text-white rounded text-center">
+            <div class="p-4 border border-green/500 bg-green-500/10 text-green-500 rounded text-center">
+                <div class="flex items-center justify-center text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="6em" height="6em" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 7L10 17l-5-5" />
+                    </svg>
+                </div>
                 <h3 class="text-2xl">
                     Campaign has been finished.
                 </h3>
@@ -57,7 +62,7 @@
         </div>
         @else
             @foreach($lastProcessed as $process)
-                <div class="p-2 bg-gray-200 rounded mt-4 border-l-4 border-blue-500">
+                <div class="p-2 bg-gray-500 rounded mt-4 border-l-4 border-blue-500">
                     <p>{{ $process['email'] }}</p>
                     @if(empty($process['name']))
                         {{ $process['name'] }}

@@ -5,9 +5,13 @@ namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
 use Filament\Pages\Page;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
+use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
 
 class ProcessCampaign extends Page
 {
@@ -51,10 +55,13 @@ class ProcessCampaign extends Page
         }
 
         $campaign = $this->campaign;
+        $sender = NewsletterSenderAccount::where('id', $campaign->sender_account_id)->first();
+        $template = NewsletterTemplate::where('id', $campaign->email_template_id)->first();
+
         $findSubscribersQuery = NewsletterSubscriber::query();
-//        $findSubscribersQuery->whereHas('lists', function ($query) use($campaign) {
-//            $query->where('list_id', $campaign->list_id);
-//        });
+        $findSubscribersQuery->whereHas('lists', function ($query) use($campaign) {
+            $query->where('list_id', $campaign->list_id);
+        });
 
         $batchSize = 1;
         $findSubscribers = $findSubscribersQuery->paginate($batchSize, ['*'], 'step', $this->step);
@@ -71,6 +78,38 @@ class ProcessCampaign extends Page
 
         $sliceLatestSend = 8;
         foreach ($subscribers as $subscriber) {
+
+            $findCampaignSendLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)
+                ->where('subscriber_id', $subscriber->id)
+                ->where('is_sent', 1)
+                ->first();
+            if (!empty($findCampaignSendLog)) {
+                $subscriber['error'] = true;
+                $subscriber['error_message'] = 'Already sent';
+                continue;
+            }
+
+            $newsletterMailSender = new NewsletterMailSender();
+            $newsletterMailSender->setCampaign($campaign->toArray());
+            $newsletterMailSender->setSubscriber($subscriber->toArray());
+            $newsletterMailSender->setSender($sender->toArray());
+            $newsletterMailSender->setTemplate($template->toArray());
+            $sendMailResponse = $newsletterMailSender->sendMail();
+
+            dd($sendMailResponse);
+
+            if ($sendMailResponse['success']) {
+
+                newsletter_campaigns_send_log($campaign['id'], $subscriber['id']);
+
+            } else {
+                $subscriber['error'] = true;
+                if (isset($sendMailResponse['message'])) {
+                    $subscriber['error_message'] = $sendMailResponse['message'];
+                }
+
+            }
+
             $this->lastProcessed[] = $subscriber;
             if (count($this->lastProcessed) >= $sliceLatestSend) {
                 $this->lastProcessed = array_slice($this->lastProcessed, -$sliceLatestSend, $sliceLatestSend);
