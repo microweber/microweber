@@ -50,12 +50,14 @@ class ProcessCampaign extends Page
             return;
         }
 
-        $batchSize = 4;
         $campaign = $this->campaign;
-        $findSubscribers = NewsletterSubscriber::whereHas('lists', function ($query) use($campaign) {
+        $findSubscribersQuery = NewsletterSubscriber::query();
+        $findSubscribersQuery->whereHas('lists', function ($query) use($campaign) {
             $query->where('list_id', $campaign->list_id);
-        })
-            ->paginate($batchSize, ['*'], 'step', $this->step);
+        });
+
+        $batchSize = 5;
+        $findSubscribers = $findSubscribersQuery->paginate($batchSize, ['*'], 'step', $this->step);
 
         $this->step = $this->step + 1;
         $this->lastProcessed = $findSubscribers->items();

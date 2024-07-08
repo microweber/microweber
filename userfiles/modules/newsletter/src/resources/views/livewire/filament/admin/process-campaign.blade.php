@@ -45,21 +45,26 @@
 
     <div class="mt-4">
 
-       <div class="p-2 bg-white rounded">
-           Start processing campaign...
-       </div>
-
-        <div>
+        <div class="bg-white rounded p-2">
             Current step: {{ $step }}
             <br />
             Total steps: {{ $totalSteps }}
         </div>
 
-        @foreach($lastProcessed as $process)
-            <div class="p-2 bg-white rounded mt-2">
-                @dump($process)
-            </div>
-        @endforeach
+        @if (empty($lastProcessed))
+        <div class="p-2 bg-white rounded mt-2">
+            Start processing campaign...
+        </div>
+        @else
+            @foreach($lastProcessed as $process)
+                <div class="p-2 bg-white rounded mt-2 border-l-4 border-blue-500">
+                    <p>{{ $process['email'] }}</p>
+                    @if(empty($process['name']))
+                        {{ $process['name'] }}
+                    @endif
+                </div>
+            @endforeach
+        @endif
 
     </div>
     @endif
