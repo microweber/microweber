@@ -26,6 +26,12 @@ class ProcessCampaign extends Page
     #[Url]
     public ?int $step = 0;
 
+     #[Url]
+    public ?int $finished = 0;
+
+     public array $lastProcessed = [];
+
+
     public function mount($id)
     {
         $findCampaign = NewsletterCampaign::where('id', $id)->first();
@@ -47,7 +53,23 @@ class ProcessCampaign extends Page
     #[On('execute-next-step')]
     public function executeNextStep()
     {
+        if ($this->finished) {
+            $this->dispatch('campaign-finished');
+            return;
+        }
+
         $this->step = $this->step + 1;
-      //  sleep(2);
+
+
+        $this->lastProcessed[] = $this->step;
+        if (count($this->lastProcessed) > 10) {
+            // cut the last 10
+            $this->lastProcessed = array_slice($this->lastProcessed, -10);
+        }
+
+        if ($this->step > 100) {
+            $this->finished = 1;
+            $this->dispatch('campaign-finished');
+        }
     }
 }
