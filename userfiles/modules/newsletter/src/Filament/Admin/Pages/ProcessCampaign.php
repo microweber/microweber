@@ -29,6 +29,8 @@ class ProcessCampaign extends Page
      #[Url]
     public ?int $finished = 0;
 
+     public $totalSteps = 0;
+
      public array $lastProcessed = [];
 
 
@@ -40,16 +42,6 @@ class ProcessCampaign extends Page
         }
     }
 
-    #[On('start-processing-campaign')]
-    public function startProcessingCampaign()
-    {
-        $campaign = $this->campaign;
-        $findSubscribers = NewsletterSubscriber::whereHas('lists', function ($query) use($campaign) {
-            $query->where('list_id', $campaign->list_id);
-        })->get();
-
-    }
-
     #[On('execute-next-step')]
     public function executeNextStep()
     {
@@ -58,16 +50,19 @@ class ProcessCampaign extends Page
             return;
         }
 
+        $batchSize = 4;
+        $campaign = $this->campaign;
+        $findSubscribers = NewsletterSubscriber::whereHas('lists', function ($query) use($campaign) {
+            $query->where('list_id', $campaign->list_id);
+        })
+            ->paginate($batchSize, ['*'], 'step', $this->step);
+
         $this->step = $this->step + 1;
+        $this->lastProcessed = $findSubscribers->items();
+        $this->totalSteps = $findSubscribers->lastPage();
 
 
-        $this->lastProcessed[] = $this->step;
-        if (count($this->lastProcessed) > 10) {
-            // cut the last 10
-            $this->lastProcessed = array_slice($this->lastProcessed, -10);
-        }
-
-        if ($this->step > 100) {
+        if ($this->step >= $this->totalSteps) {
             $this->finished = 1;
             $this->dispatch('campaign-finished');
         }

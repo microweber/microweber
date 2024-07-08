@@ -22,14 +22,11 @@
 
     @script
     <script>
-        let processing = false;
         let finished = false;
-        async function startProcessingCampaign() {
-            await $wire.dispatch('start-processing-campaign');
-            processing = true;
-            await executeNextStep();
-        }
         async function executeNextStep() {
+            if (finished) {
+                return;
+            }
             await $wire.dispatch('execute-next-step');
             setTimeout(() => {
                 if (!finished) {
@@ -37,8 +34,8 @@
                 }
             }, 1000);
         }
-        
-        await startProcessingCampaign();
+
+        await executeNextStep();
 
         $wire.on('campaign-finished', () => {
             finished = true;
@@ -52,9 +49,15 @@
            Start processing campaign...
        </div>
 
+        <div>
+            Current step: {{ $step }}
+            <br />
+            Total steps: {{ $totalSteps }}
+        </div>
+
         @foreach($lastProcessed as $process)
             <div class="p-2 bg-white rounded mt-2">
-                {{ $process }}
+                @dump($process)
             </div>
         @endforeach
 
