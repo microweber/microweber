@@ -45,6 +45,7 @@ $config['tables'] = array (
         'campaign_id' => 'integer',
         'subscriber_id' => 'integer',
         'created_at' => 'dateTime',
+        'updated_at' => 'dateTime',
         'is_sent' => 'integer'
 	),
 
