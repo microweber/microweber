@@ -49,7 +49,7 @@
     {
         @if($campaignId)
 
-            window.location.href = '{{admin_url('newsletter/newsletter/edit-campaign/'.$campaignId.'?step=design')}}';
+            window.location.href = '{{admin_url('newsletter/edit-campaign/'.$campaignId.'?step=design')}}';
 
         @else
 
@@ -77,7 +77,7 @@
     });
     window.addEventListener('backTo', function (e) {
         @if($campaignId)
-        window.location.href = '{{admin_url('newsletter/newsletter/edit-campaign/'.$campaignId.'?step=design')}}';
+        window.location.href = '{{admin_url('newsletter/edit-campaign/'.$campaignId.'?step=design')}}';
         @else
         window.location.href = '{{admin_url('newsletter/templates')}}';
         @endif
