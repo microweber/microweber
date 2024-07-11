@@ -14,6 +14,8 @@ mw.widget.tree = function (target, opt, mode) {
         opt = {};
     }
 
+
+
     mw.spinner({element: target, size: 32, decorate: true});
 
     var tree;
@@ -96,6 +98,7 @@ mw.widget.tree = function (target, opt, mode) {
         $.get(url, function (data) {
             treeSettings.data = data;
             tree = new mw[mode](treeSettings);
+
             var res =  {
                 tree: mode === 'tree' ? tree : tree.tree,
                 tags: mode === 'tree' ? null : tree.tags,

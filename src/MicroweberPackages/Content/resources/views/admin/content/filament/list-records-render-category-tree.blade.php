@@ -29,7 +29,7 @@
                     closeButton: true
                 });
                 treeControllBox.show()
-                pagesTree = await mw.widget.tree(`#${id}`);
+                pagesTree = await mw.widget.tree(`#${id}`, {selectableNodes: false, selectable: false, singleSelect: true,}, 'tree');
 
                 pagesTree.tree.on('selectionChange', e => {
                     const result = pagesTree.tree.getSelected();

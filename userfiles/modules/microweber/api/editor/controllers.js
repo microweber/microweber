@@ -199,7 +199,7 @@ MWEditor.controllers = {
                         const target = mw.top().app.liveEdit.handles.get('element').getTarget();
 
                         mw.top().app.liveEdit.selectNode(target)
-                        mw.top().app.richTextEditor.smallEditor.hide();
+                        mw.top().app.richTextEditor?.smallEditor?.hide();
                         mw.top().app.liveEdit.play();
                         mw.top().app.liveEdit.stopTyping();
 

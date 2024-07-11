@@ -171,6 +171,45 @@ export default {
               }
             }
           });
+
+
+
+
+          let _currentRichtextTarget = null;
+          let _currentRichtextTargetditor = null;
+
+          const getRichtextditor = () => {
+            if(_currentRichtextTargetditor) {
+                if(Array.isArray(_currentRichtextTargetditor)) {
+                    return _currentRichtextTargetditor[0]
+                }
+            }
+            return _currentRichtextTargetditor;
+          }
+
+            mw.top().app.canvas.on('canvasDocumentClickStart', (e) => {
+
+
+
+
+
+
+                if(_currentRichtextTarget) {
+                    if(!_currentRichtextTarget.contains(e.target) && !mw.tools.firstParentOrCurrentWithClass(e.target, 'tox')) {
+                        const editor = getRichtextditor();
+                        if(editor) {
+                            getRichtextditor().destroy();
+                        }
+
+                        _currentRichtextTarget = null;
+                        _currentRichtextTargetditor = null;
+                    }
+                }
+
+
+            });
+
+
             mw.app.editor.on('editNodeRequest', async (element) => {
 
                 if (mw.app.isPreview()) {
@@ -183,7 +222,112 @@ export default {
                     return mw.app.liveEdit.elementHandleContent.elementActions.imagePicker(onResult);
                 }
 
-                if (liveEditHelpers.targetIsIcon(element)) {
+                const isRichtext = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['mw-richtext']);
+
+                console.log(isRichtext)
+
+                if (isRichtext) {
+                    if (isRichtext.classList.contains('mce-content-body')) {
+                        isRichtext.contentEditable = true;
+                    }
+                    if (!isRichtext.classList.contains('mce-content-body')) {
+
+
+
+                        if(isRichtext.firstChild && isRichtext.firstChild.nodeType === 3) {
+                            isRichtext.firstChild.textContent = isRichtext.firstChild.textContent.replace(/(\r\n|\n|\r)/gm, '').trim();
+                        }
+                        if(isRichtext.lastChild && isRichtext.lastChild.nodeType === 3) {
+                            isRichtext.lastChild.textContent = isRichtext.lastChild.textContent.replace(/(\r\n|\n|\r)/gm, '').trim()
+                        }
+
+                        isRichtext.contentEditable = true;
+
+                        _currentRichtextTarget = isRichtext;
+
+
+
+                        console.log(99)
+
+
+                    _currentRichtextTargetditor = await mw.top().app.canvas.getWindow().tinymce.init({
+                        target: isRichtext,
+
+                        inline: true,
+                        promotion: false,
+                        statusbar: false,
+                        menubar:false,
+                        //menubar: 'edit insert view format table tools',
+                        noneditable_class: 'module',
+                        toolbar_sticky: true,
+                        remove_linebreaks : false,
+                        /*force_br_newlines : false,
+                        force_p_newlines : false,
+                        forced_root_block : false,
+                        newline_behavior: 'linebreak',
+                        newline_behavior: '',*/
+                        plugins: [
+
+                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                        ],
+
+                        toolbar: ' blocks | ' +
+                        'bold italic forecolor backcolor | mwLink unlink | alignleft aligncenter  ' +
+                        'alignright alignjustify | fontfamily fontsizeinput | bullist numlist outdent indent | ' +
+                        'table quicktable ' +
+                        'removeformat ',
+                        // table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
+
+                        init_instance_callback: (editor) => {
+
+                            isRichtext.querySelectorAll('p:empty').forEach(node => node.remove())
+
+                            editor.on('Change  ', (e) => {
+
+
+                            mw.app.registerChangedState(isRichtext, true)
+
+
+                            });
+                        },
+                        setup: (editor) => {
+
+                        editor.ui.registry.addButton('mwLink', {
+                        icon: '<svg viewBox="0 0 24 24"> <path fill="currentColor" d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" /></svg>',
+                        icon: 'link',
+                        onAction: (_) =>  {
+
+
+                        var linkEditor = new mw.LinkEditor({
+                            mode: 'dialog',
+                            hideTextFied: true
+                        });
+
+
+
+                        linkEditor.promise().then(function (data){
+                            var modal = linkEditor.dialog;
+                            if(data) {
+
+                                editor.execCommand('CreateLink', false, data.url);
+                                modal.remove();
+                            } else {
+                                modal.remove();
+                            }
+                        });
+                        }
+                        });
+
+
+                        },
+
+                    });
+
+
+                }
+            } else if (liveEditHelpers.targetIsIcon(element)) {
                     const iconPicker = mw.app.get('iconPicker').pickIcon(element);
 
                      iconPicker.picker.on('iconReplaced', rdata => {
@@ -317,6 +461,8 @@ export default {
                     }
 
                 } else {
+
+                    return;
 
 
 

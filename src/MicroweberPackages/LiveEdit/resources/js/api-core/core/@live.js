@@ -204,7 +204,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             if(prev) {
                 const target = mw.tools.firstParentOrCurrentWithAnyOfClasses(prev, ['edit', 'safe-mode']);
                 if(lastPrevTarget !== target) {
-                    mw.top().app.richTextEditorAPI.normalize(target);
+                    mw.top().app?.richTextEditorAPI?.normalize(target);
                     lastPrevTarget = target;
                 }
 
@@ -252,7 +252,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             scope.handles.set('layout', null);
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
-            mw.top().app.richTextEditor.smallEditor.hide()
+            mw.top().app.richTextEditor?.smallEditor.hide()
             mw.app.liveEdit.play();
 
             //mw.app.domTreeSelect(target)
@@ -344,7 +344,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             scope.handles.get('layout').hide();
             scope.handles.get('element').hide();
             scope.handles.get('interactionHandle').hide();
-            mw.top().app.richTextEditor.smallEditor.hide()
+            mw.top().app.richTextEditor?.smallEditor.hide()
             mw.app.liveEdit.play();
 
             //mw.app.domTreeSelect(node)
@@ -732,6 +732,9 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             var target = e.target ? e.target : e;
 
 
+            if (target && mw.tools.firstParentOrCurrentWithClass(target, 'tox')) {
+                return;
+            }
             if (target && target.className && typeof target.className === 'string' && target.className.indexOf('layout-plus') !== -1) {
                 return;
             }
@@ -1037,7 +1040,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             } else if (selected &&  selected === _dblclicktarget) {
                 if(!selected.isContentEditable) {
                     setTimeout(()=>{
-                        var sel = mw.top().app.richTextEditorAPI.getSelection();
+                        var sel = mw.top().app.richTextEditorAPI?.getSelection();
                         if(sel && sel.rangeCount > 0) {
                             sel.collapseToStart();
                         }
@@ -1086,7 +1089,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
 
             if (_canSelect && !this.handles.targetIsOrInsideHandle(e.target ) ) {
 
-                var target = e.target;
+
 
                 _eventsHandle(e);
 

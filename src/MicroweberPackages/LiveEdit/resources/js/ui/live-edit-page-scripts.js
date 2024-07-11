@@ -9,7 +9,7 @@ if(window.self !== window.top) {
     //mw.require('options.js');
 
 
-    //mw.lib.require('tinymce');
+     mw.lib.require('tinymce');
     mw.lib.require('jqueryui');
 
     mw.liveEditSaveService = {
@@ -89,6 +89,7 @@ if(window.self !== window.top) {
             root = root || document.body;
             var doc = mw.tools.parseHtml(root.innerHTML);
             mw.$('.element-current', doc).removeClass('element-current');
+            mw.$('.mce-content-body', doc).removeClass('mce-content-body');
             mw.$('.element-active', doc).removeClass('element-active');
             mw.$('.disable-resize', doc).removeClass('disable-resize');
             mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');

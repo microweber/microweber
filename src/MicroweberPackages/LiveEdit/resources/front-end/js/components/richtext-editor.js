@@ -69,7 +69,7 @@ export class RichTextEditor extends BaseComponent {
 
     #defaultOptions() {
         return {
-            base_url: '/my/tinymce/dir',
+             base_url: './',
             cache_suffix: '?v=1',
             target: null,
             inline: false,

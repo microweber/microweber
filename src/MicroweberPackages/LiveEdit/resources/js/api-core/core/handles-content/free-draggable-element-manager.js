@@ -195,8 +195,25 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
             this.init();
         });
 
-        mw.top().app.state.on('undo', () => this.initLayouts());
-        mw.top().app.state.on('redo', () => this.initLayouts());
+        const handleStateChange = () => {
+            this.initLayouts();
+            mw.top().app.canvas.getDocument()
+                .querySelectorAll('.mce-content-body, .mce-content-focus')
+                .forEach(element => {
+                    element.classList.remove("mce-content-body", "mce-content-focus");
+                })
+
+            console.log(document)
+        }
+
+        mw.top().app.state.on('undo', () => {
+            handleStateChange();
+
+        });
+        mw.top().app.state.on('redo', () => {
+            handleStateChange();
+
+        });
 
 
         this.#handleTargetChange();

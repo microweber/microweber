@@ -42,7 +42,7 @@ export class CategoriesAdminListComponent extends MicroweberBaseClass {
                 rowSelect : false,
                 singleSelect: false,
                 multiPageSelect: false,
-                allowPageSelect: false,
+                disableSelectTypes: ['page'],
                 saveState: false,
                 searchInput: document.getElementById('category-tree-search'),
                 skin: 'category-manager',
@@ -55,7 +55,7 @@ export class CategoriesAdminListComponent extends MicroweberBaseClass {
 
     init() {
         return new Promise(resolve => {
-            mw.widget.tree(this.target, this.settings).then((instance) => {
+            mw.widget.tree(this.target, this.settings, 'tree').then((instance) => {
                 this.instance = instance;
                 this.tree = this.instance.tree;
                 this.tags = this.instance.tags;

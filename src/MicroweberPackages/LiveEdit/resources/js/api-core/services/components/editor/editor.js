@@ -5,6 +5,8 @@ mw.require('css_parser.js');
 export const EditorComponent = function () {
     var holder = document.querySelector('#mw-live-edit-editor');
 
+return;
+
     var _fontFamilyProvider = function () {
         var _e = {};
         this.on = function (e, f) {
