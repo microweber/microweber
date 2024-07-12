@@ -118,6 +118,10 @@ export const liveEditComponent = () => {
     };
 
     mw.app.registerChangedState = function(element, isNow){
+
+
+
+
         mw.app.registerChange(element);
         mw.app.registerUndoState(element, isNow);
         mw.app.registerAskUserToStay(true);

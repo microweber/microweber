@@ -200,7 +200,8 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
             mw.top().app.canvas.getDocument()
                 .querySelectorAll('.mce-content-body, .mce-content-focus')
                 .forEach(element => {
-                    element.classList.remove("mce-content-body", "mce-content-focus");
+                    element.classList.remove("mce-content-body");
+                    element.classList.remove("mce-content-focus");
                 })
 
             console.log(document)

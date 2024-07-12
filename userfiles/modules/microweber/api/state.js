@@ -143,12 +143,13 @@
             return !!this._state.length;
         };
 
-        this.eventData = function(){
+        this.eventData = function(action){
             return {
                 hasPrev: this.hasPrev,
                 hasNext: this.hasNext,
                 active: this.active(),
-                activeIndex: this.activeIndex()
+                activeIndex: this.activeIndex(),
+                action
             };
         };
         this.afterChange = function(action){
@@ -175,8 +176,8 @@
                 this.dispatch(action, this.eventData());
             }
             if(action !== false){
-                mw.$(this).trigger('change', [this.eventData()]);
-                this.dispatch('change', this.eventData());
+                mw.$(this).trigger('change', [this.eventData(action)]);
+                this.dispatch('change', this.eventData(action));
             }
             return this;
         };

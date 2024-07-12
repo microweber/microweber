@@ -90,6 +90,7 @@ if(window.self !== window.top) {
             var doc = mw.tools.parseHtml(root.innerHTML);
             mw.$('.element-current', doc).removeClass('element-current');
             mw.$('.mce-content-body', doc).removeClass('mce-content-body');
+            mw.$('.mce-content-focus', doc).removeClass('mce-content-focus');
             mw.$('.element-active', doc).removeClass('element-active');
             mw.$('.disable-resize', doc).removeClass('disable-resize');
             mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');

@@ -12,6 +12,7 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
         this.dragElementTargetForUndo = null;
 
         mw.app.state.on('change', (data) => {
+
             this.handleUndoRedo(data);
         });
 
@@ -204,6 +205,13 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
         var target = data.active.target;
 
+        if((data.action === 'stateUndo' || data.action === 'stateRedo') && data.active.target && data.active.target.__mceEditor ) {
+            if(data.action === 'stateUndo') {
+                data.active.target.__mceEditor.undo()
+            } else if(data.action === 'stateRedo') {
+                data.active.target.__mceEditor.redo()
+            }
+        }
         if(target === '$multistate' ) {
             this.#stateTypeHandles.$multistate(data.active);
             return;

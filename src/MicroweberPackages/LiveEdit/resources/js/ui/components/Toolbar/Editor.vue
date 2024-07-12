@@ -222,11 +222,8 @@ export default {
                     return mw.app.liveEdit.elementHandleContent.elementActions.imagePicker(onResult);
                 }
 
-                const isRichtext = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['mw-richtext']);
 
-                console.log(isRichtext)
-
-                if (isRichtext) {
+                async function richtext (isRichtext) {
                     if (isRichtext.classList.contains('mce-content-body')) {
                         isRichtext.contentEditable = true;
                     }
@@ -246,8 +243,11 @@ export default {
                         _currentRichtextTarget = isRichtext;
 
 
+                        isRichtext.querySelectorAll('.module').forEach(node => {
+                            node.contentEditable = false;
+                        })
 
-                        console.log(99)
+
 
 
                     _currentRichtextTargetditor = await mw.top().app.canvas.getWindow().tinymce.init({
@@ -284,10 +284,15 @@ export default {
 
                             isRichtext.querySelectorAll('p:empty').forEach(node => node.remove())
 
+                            isRichtext.querySelectorAll('.module').forEach(node => {
+                                node.contentEditable = false;
+                            })
+
                             editor.on('Change  ', (e) => {
 
+                                isRichtext.__mceEditor = _currentRichtextTargetditor;
 
-                            mw.app.registerChangedState(isRichtext, true)
+                                mw.app.registerChangedState(isRichtext, true);
 
 
                             });
@@ -326,7 +331,20 @@ export default {
                     });
 
 
+
+
                 }
+                }
+
+                const isRichtext = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['mw-richtext']);
+
+
+
+
+                if (isRichtext) {
+
+                    await richtext(isRichtext)
+
             } else if (liveEditHelpers.targetIsIcon(element)) {
                     const iconPicker = mw.app.get('iconPicker').pickIcon(element);
 
@@ -462,7 +480,7 @@ export default {
 
                 } else {
 
-                    return;
+
 
 
 
@@ -531,11 +549,20 @@ export default {
 
 
 
+
+
                         editTarget.contentEditable = true;
 
                         element.focus();
 
                         editTarget.contentEditable = true;
+
+
+                        await richtext(editTarget)
+
+
+
+
                         mw.app.liveEdit.pause();
 
 
@@ -544,10 +571,10 @@ export default {
                             editTarget.__mw_movable.selfElement.style.display = 'none';
                         }
 
-                       mw.app.richTextEditor.smallEditorInteract(element);
-                       mw.app.richTextEditor.positionSmallEditor(element);
+                       mw.app.richTextEditor?.smallEditorInteract(element);
+                       mw.app.richTextEditor?.positionSmallEditor(element);
 
-                       mw.app.richTextEditor.observe();
+                       mw.app.richTextEditor?.observe();
 
 
 
