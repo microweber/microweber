@@ -222,6 +222,8 @@ export default {
                     return mw.app.liveEdit.elementHandleContent.elementActions.imagePicker(onResult);
                 }
 
+                console.log(element)
+
 
                 async function richtext (isRichtext) {
                     if (isRichtext.classList.contains('mce-content-body')) {
@@ -253,6 +255,8 @@ export default {
                     _currentRichtextTargetditor = await mw.top().app.canvas.getWindow().tinymce.init({
                         target: isRichtext,
 
+                        forced_root_block : 'mw-element',
+                        newline_behavior: 'linebreak',
                         inline: true,
                         promotion: false,
                         statusbar: false,
@@ -263,14 +267,15 @@ export default {
                         remove_linebreaks : false,
                         /*force_br_newlines : false,
                         force_p_newlines : false,
-                        forced_root_block : false,
+
                         newline_behavior: 'linebreak',
                         newline_behavior: '',*/
                         plugins: [
 
                             'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                            'insertdatetime', 'media', 'table', 'help',
+                            'image', 'editimage'
                         ],
 
                         toolbar: ' blocks | ' +
@@ -296,6 +301,8 @@ export default {
 
 
                             });
+
+                            editor.focus()
                         },
                         setup: (editor) => {
 

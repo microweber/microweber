@@ -207,9 +207,11 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
         if((data.action === 'stateUndo' || data.action === 'stateRedo') && data.active.target && data.active.target.__mceEditor ) {
             if(data.action === 'stateUndo') {
-                data.active.target.__mceEditor.undo()
+                data.active.target.__mceEditor.undo();
+                return;
             } else if(data.action === 'stateRedo') {
-                data.active.target.__mceEditor.redo()
+                data.active.target.__mceEditor.redo();
+                return;
             }
         }
         if(target === '$multistate' ) {
