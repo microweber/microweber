@@ -1,97 +1,65 @@
 <div>
-    <style>
-        .list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .item {
-            margin: 5px 0;
-            padding: 10px;
-            background-color: #f0f0f0;
-            cursor: move;
-        }
-        .item ul {
-            padding-left: 20px;
-        }
-    </style>
+    <div wire:ignore>
+
+        <script>
+            function sortableData() {
+                return {
+                    init() {
+
+                        //onclick on .menu_element alert
+                        var menuElements = document.querySelectorAll('.admin-menu-items-holder .menu_element_link');
+                        for (var i = 0; i < menuElements.length; i++) {
+                            if (menuElements[i].classList.contains('binded-click')) {
+                                continue;
+                            }
+                            menuElements[i].classList.add('binded-click');
 
 
+                            menuElements[i].addEventListener('click', (e)  =>{
+                                e.stopPropagation();
+                                e.preventDefault();
 
-    <div x-data="sortableData()" x-init="init()">
-        <ul id="parent-list" class="list">
-            <li class="item" data-id="1">Item 1
-                <ul class="list">
-                    <li class="item" data-id="1-1">Subitem 1-1</li>
-                    <li class="item" data-id="1-2">Subitem 1-2</li>
-                </ul>
-            </li>
-            <li class="item" data-id="2">Item 2
-                <ul class="list">
-                    <li class="item" data-id="2-1">Subitem 2-1</li>
-                </ul>
-            </li>
-            <li class="item" data-id="3">Item 3</li>
-        </ul>
-    </div>
+                                var id = e.target.getAttribute('data-item-id');
+                              //  Livewire.dispatch('editMenuItem',{id: id});
 
-    <script>
-        function sortableData() {
-            return {
-                init() {
-                    const parentList = document.getElementById('parent-list');
-                    new Sortable(parentList, {
-                        group: 'nested',
-                        animation: 150,
-                        fallbackOnBody: true,
-                        swapThreshold: 0.65,
-                        onEnd: this.updateOrder
-                    });
+                                this.$wire.mountAction('editAction', { id: id })
 
-                    // Initialize nested lists
-                    const nestedLists = parentList.querySelectorAll('.list');
-                    nestedLists.forEach((list) => {
-                        new Sortable(list, {
-                            group: 'nested',
-                            animation: 150,
-                            fallbackOnBody: true,
-                            swapThreshold: 0.65,
-                            onEnd: this.updateOrder
-                        });
-                    });
-                },
-                updateOrder(event) {
-                    console.log('Item moved:', event.item);
-                    console.log('New index:', event.newIndex);
-                    // Implement logic to handle updated order here
+
+                                //s  alert(id)
+                            });
+                        }
+
+                    },
+                    updateOrder(event) {
+
+                    }
                 }
             }
-        }
-    </script>
 
 
+        </script>
+    </div>
+
+    <div x-data="sortableData()" x-init="init()">
+
+    </div>
 
 
-
-
-
-    aaaaaaaaaaaaaaa
-
-    <div class="admin-thumbs-holder" x-sortable>
+    <div class="admin-menu-items-holder">
 
 
         @foreach ($menus as $menu)
 
+            <div>
 
 
-            <div
-                    x-sortable-handle
-                    x-sortable-item="{{ $menu->id }}"
+                @php
+                    $params = array(
+                      'menu_id' => $menu->id,
 
-            >
-
-
-
+                  );
+                     print  menu_tree($params);
+                @endphp
 
 
                 <h2> {{ $menu->id }}  {{ $menu->title }}   {{ $menu->item_type }}</h2>
@@ -109,13 +77,6 @@
 
 
     aaaaaa
-
-
-
-
-
-
-
 
 
     <x-filament-actions::modals/>

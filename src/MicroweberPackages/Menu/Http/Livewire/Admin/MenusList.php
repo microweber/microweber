@@ -15,6 +15,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use MicroweberPackages\Menu\Models\Menu;
 
@@ -22,6 +23,13 @@ class MenusList extends Component implements HasForms, HasActions
 {
     use InteractsWithActions;
     use InteractsWithForms;
+
+    #[On('editMenuItem')]
+    public function editMenuItem($id)
+    {
+        return $this->editAction()(['id' => $id]);
+      //  return $this->editAction()(['id' => $id])->mount(['id' => $id]);
+    }
 
     public function deleteAction(): Action
     {
@@ -56,7 +64,7 @@ class MenusList extends Component implements HasForms, HasActions
                 $record = Menu::find($arguments['id']);
                 return $record;
             })
-            ->action(function (array $data, array $arguments) {
+            ->action(function (array $data) {
                 $record = Menu::find($data['id']);
                 $record->update($data);
             })->slideOver();
@@ -66,7 +74,7 @@ class MenusList extends Component implements HasForms, HasActions
     public function render(): View
     {
         return view('menu::livewire.admin.menus-list', [
-            'menus' => Menu::all(),
+            'menus' => Menu::where('item_type', 'menu')->get()
         ]);
     }
 }
