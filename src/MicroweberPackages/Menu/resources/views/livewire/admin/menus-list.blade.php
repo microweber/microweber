@@ -34,38 +34,31 @@
                 return {
                     async init() {
 
+
+                        const collect = target => {
+                            if(!target) {
+                                console.log('target is not defined')
+                                return [];
+                            }
+                            return Array.from(target.querySelectorAll('li')).map(node => {
+                                const parent = node.parentNode.closest('li');
+                                return {
+                                    id: node.dataset.itemId,
+                                    parentId: parent  ? parent.dataset.itemId : 0
+                                }
+                            });
+                        }
+
+                        var _orderChangeHandleTimeout = null;
+
                         var _orderChangeHandle = function (e, ui){
-                            setTimeout(function(){
+                            clearTimeout(_orderChangeHandleTimeout);
+                            _orderChangeHandleTimeout = setTimeout(function(){
+                               var result = collect(e.target);
 
-                            //
-                               var result = $(ui).toArray({startDepthCount: 0, excludeRoot: false});
                                console.log(result)
-                                console.log(ui)
 
-
-                                // var old = $.extend({},ui.item[0]._data);
-                                // var obj = ui.item[0]._data;
-                                // var objParent = ui.item[0].parentNode.parentNode._data;
-                                // ui.item[0].dataset.parent_id = objParent ? objParent.id : 0;
-                                //
-                                // obj.parent_id = objParent ? objParent.id : 0;
-                                // obj.parent_type = objParent ? objParent.id : 'page';
-                                // var newdata = [];
-                                // mw.$('li', scope.list).each(function(){
-                                //     if(this._data) newdata.push(this._data);
-                                // });
-                                // scope.options.data = newdata;
-                                // var local = [];
-                                // mw.$(ui.item[0].parentNode).children('li').each(function(){
-                                //     if(this._data) {
-                                //         local.push(this._data.id);
-                                //     }
-                                // });
-                                // //$(scope.list).remove();
-                                // //scope.init();
-                                // mw.$(scope).trigger('orderChange', [obj, scope.options.data, old, local]);
-                                // scope.dispatch('orderChange', [obj, scope.options.data, old, local]);
-                            }, 110);
+                            }, 100);
                         };
 
 
