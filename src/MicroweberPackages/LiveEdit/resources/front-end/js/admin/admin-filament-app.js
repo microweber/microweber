@@ -43,6 +43,7 @@ import {Progress, Loading} from "../tools/loading.js";
 import {Helpers} from "../core/helpers.js";
 
 mw.tools.progress = Progress;
+mw.progress = Progress;
 mw.tools.loading = Loading;
 
 for ( let i in Helpers ) {
