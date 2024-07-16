@@ -48,6 +48,8 @@ export class RichTextEditor extends BaseComponent {
         super();
         this.#config(options);
 
+        // moved to plugins/mwlink/plugin.min.js
+        //
         // this.on('setup', editor => {
         //     MWLink(editor);
         // });
@@ -70,11 +72,21 @@ export class RichTextEditor extends BaseComponent {
     #defaultOptions() {
         return {
             base_url: mw.settings.libs_url + 'tinymce/',
+            document_base_url: mw.settings.site_url,
+            relative_urls: false,
+            remove_script_host: false,
+
+
             cache_suffix: '?v=1',
             target: null,
             inline: false,
             promotion: false,
+            element_format: 'xhtml',
+            extended_valid_elements: 'div[*],module[*]',
+
+
             statusbar: false,
+
             menubar: 'edit insert view format table tools',
             noneditable_class: 'module',
             /* plugins: [
