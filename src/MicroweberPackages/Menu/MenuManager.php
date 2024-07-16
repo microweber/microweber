@@ -33,8 +33,7 @@ class MenuManager
                 $this->app = mw();
             }
         }
-     }
-
+    }
 
 
     public function menu_create($data_to_save)
@@ -110,9 +109,8 @@ class MenuManager
         }
 
 
-
         if (isset($data_to_save['url']) && !empty($data_to_save['url'])) {
-            $data_to_save['url'] =app()->url_manager->replace_site_url($data_to_save['url']);
+            $data_to_save['url'] = app()->url_manager->replace_site_url($data_to_save['url']);
         }
 
         if (isset($data_to_save['parent_id'])) {
@@ -128,7 +126,7 @@ class MenuManager
         if ($saveMenu == null) {
             $saveMenu = new Models\Menu();
         }
-        foreach ($data_to_save as $key => $value){
+        foreach ($data_to_save as $key => $value) {
             $saveMenu->$key = $value;
         }
 
@@ -226,7 +224,6 @@ class MenuManager
 //        }\
 
 
-
         $data_to_return = [];
 
         $params = array();
@@ -237,10 +234,10 @@ class MenuManager
 
         $menus = 'menus';
 
-      //  $menu_params = array();
-    //    $menu_params['parent_id'] = $menu_id;
-       // $menu_params['table'] = $menus;
-       // $menu_params['order_by'] = 'position ASC';
+        //  $menu_params = array();
+        //    $menu_params['parent_id'] = $menu_id;
+        // $menu_params['table'] = $menus;
+        // $menu_params['order_by'] = 'position ASC';
 
         $q = app()->menu_repository->getMenusByParentId($menu_id);
 
@@ -397,12 +394,10 @@ class MenuManager
 
         }
         $cur_content_id_data = [];
-        if(content_id()){
+        if (content_id()) {
             $cur_content_id_data = get_content_by_id(content_id());
 
         }
-
-
 
 
 //        if (isset($params_o['li_submenu_a_class']) != false) {
@@ -427,44 +422,42 @@ class MenuManager
         $res_count = 0;
 
 
-
         foreach ($q as $item) {
 
-         /*   $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
-            if (is_array($override) && isset($override[0])) {
-                $item = $override[0];
-            }*/
+            /*   $override = $this->app->event_manager->trigger('menu.after.get_item', $item);
+               if (is_array($override) && isset($override[0])) {
+                   $item = $override[0];
+               }*/
 
             $title = '';
             $url = '';
             $is_active = true;
-            if(isset($item['url']) and is_string($item['url'])) {
+            if (isset($item['url']) and is_string($item['url'])) {
                 $url = $item['url'] = trim($item['url']);
             }
-            if (isset($item['content_id']) and intval($item['content_id']) > 0 ) {
-                 $cont = $this->app->content_manager->get_by_id($item['content_id']);
+            if (isset($item['content_id']) and intval($item['content_id']) > 0) {
+                $cont = $this->app->content_manager->get_by_id($item['content_id']);
 
 
                 if (is_array($cont) and isset($cont['is_deleted']) and $cont['is_deleted'] == 1) {
 
-                     $is_active = false;
-                     $cont = false;
-                     // skip the deleted item
-                     continue;
+                    $is_active = false;
+                    $cont = false;
+                    // skip the deleted item
+                    continue;
                 } else if (is_array($cont) and isset($cont['is_active']) and $cont['is_active'] == 0) {
                     $is_active = false;
                     $cont = false;
-                }
-                elseif
-                 (!$cont){
+                } elseif
+                (!$cont) {
                     continue;
                 }
                 $full_item = $item;
-              //
+                //
                 if (is_array($cont) and !empty($cont)) {
 
                     $title = $cont['title'];
-                       $url = $this->app->content_manager->link($cont['id']);
+                    $url = $this->app->content_manager->link($cont['id']);
 
                     if ($cont['is_active'] != 1) {
                         $is_active = false;
@@ -487,7 +480,7 @@ class MenuManager
             }
 
             if (trim($item['url'] != '')) {
-               $url = $item['url'];
+                $url = $item['url'];
             }
 
 
@@ -503,7 +496,7 @@ class MenuManager
 
             if (trim($item['url'] != '')) {
 
-               $item['url'] = $this->app->format->replace_once('{SITE_URL}', $site_url, $item['url']);
+                $item['url'] = $this->app->format->replace_once('{SITE_URL}', $site_url, $item['url']);
             }
 
 
@@ -516,16 +509,16 @@ class MenuManager
                 }
             } elseif (trim($item['url'] == '') and $cur_content_id_data and isset($cur_content_id_data['parent']) and $cur_content_id_data['parent'] and $item['content_id'] == $cur_content_id_data['parent']) {
                 $active_class = 'active';
-                 // $active_class = 'active-parent';
+                // $active_class = 'active-parent';
             } elseif (trim($item['url'] == '') and content_id() and $item['content_id'] == content_id()) {
                 $active_class = 'active';
-             } elseif (trim($item['url'] == '') and page_id() and $item['content_id'] == page_id()) {
+            } elseif (trim($item['url'] == '') and page_id() and $item['content_id'] == page_id()) {
                 $active_class = 'active';
             } elseif (trim($item['url'] == '') and post_id() and $item['content_id'] == post_id()) {
                 $active_class = 'active';
             } elseif (trim($item['url'] == '') and category_id() and intval($item['categories_id']) != 0 and $item['categories_id'] == category_id()) {
                 $active_class = 'active';
-            } elseif (isset($cont['parent']) and page_id()  and $cont['parent'] == page_id() ) {
+            } elseif (isset($cont['parent']) and page_id() and $cont['parent'] == page_id()) {
                 // $active_class = 'active';
             } elseif (trim($item['url'] == '') and isset($cont['parent']) and defined('MAIN_PAGE_ID') and MAIN_PAGE_ID != 0 and $item['content_id'] == MAIN_PAGE_ID) {
                 $active_class = 'active';
@@ -533,9 +526,9 @@ class MenuManager
             } elseif (trim($item['url'] != '') and $item['url'] == $cur_url) {
                 $active_class = 'active';
                 $active_class = 'active-parent';
-            } elseif (trim($item['url'] == '') and $item['content_id'] != 0 and page_id() ) {
-                 $cont_link = $this->app->content_manager->link(page_id() );
-                 if ($item['content_id'] == page_id()  and $cont_link == $item['url']) {
+            } elseif (trim($item['url'] == '') and $item['content_id'] != 0 and page_id()) {
+                $cont_link = $this->app->content_manager->link(page_id());
+                if ($item['content_id'] == page_id() and $cont_link == $item['url']) {
                     $active_class = 'active';
                 } elseif ($cont_link == $item['url']) {
                     $active_class = 'active';
@@ -568,42 +561,42 @@ class MenuManager
                 $has_childs = false;
                 $has_childs_class = false;
 
-/*
-                $sub_menu_params = array();
-                $sub_menu_params['parent_id'] = $item['id'];
-                $sub_menu_params['table'] = $menus;
-                $sub_menu_params['item_type'] = 'menu_item';
-               // $sub_menu_params['count'] = true;
-                $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
-                */
+                /*
+                                $sub_menu_params = array();
+                                $sub_menu_params['parent_id'] = $item['id'];
+                                $sub_menu_params['table'] = $menus;
+                                $sub_menu_params['item_type'] = 'menu_item';
+                               // $sub_menu_params['count'] = true;
+                                $sub_menu_q = $this->app->database_manager->get($sub_menu_params);
+                                */
 
                 $sub_menu_q = app()->menu_repository->getMenusByParentIdAndItemType($item['id'], 'menu_item');
 
                 if ($sub_menu_q) {
 
 
-                    foreach ($sub_menu_q as $ik=> $sub_menu_q_item_inner){
+                    foreach ($sub_menu_q as $ik => $sub_menu_q_item_inner) {
                         $check_if_content_exists = true;
-                         if(isset($sub_menu_q_item_inner['content_id']) and $sub_menu_q_item_inner['content_id']){
+                        if (isset($sub_menu_q_item_inner['content_id']) and $sub_menu_q_item_inner['content_id']) {
                             $check_if_content_exists_by_id = $this->app->content_manager->get_by_id($sub_menu_q_item_inner['content_id']);
-                             if(!$check_if_content_exists_by_id){
+                            if (!$check_if_content_exists_by_id) {
                                 $check_if_content_exists = false;
-                            } else{
-                                 if(isset($check_if_content_exists_by_id['content_id']) and intval($check_if_content_exists_by_id['is_deleted']) == 1) {
-                                     $check_if_content_exists = false;
-                                 }
-                             }
+                            } else {
+                                if (isset($check_if_content_exists_by_id['content_id']) and intval($check_if_content_exists_by_id['is_deleted']) == 1) {
+                                    $check_if_content_exists = false;
+                                }
+                            }
                         }
-                        if(!$check_if_content_exists){
-                           unset($sub_menu_q[$ik]) ;
+                        if (!$check_if_content_exists) {
+                            unset($sub_menu_q[$ik]);
                         }
                     }
 
 
                     //  $has_childs_class = 'have-submenu';
-                    if($sub_menu_q){
+                    if ($sub_menu_q) {
                         $has_childs = true;
-                     $has_childs_class = $li_submenu_class;
+                        $has_childs_class = $li_submenu_class;
                     }
                 }
 
@@ -616,8 +609,8 @@ class MenuManager
 
 
                 if (isset($item['url_target']) and trim($item['url_target']) != '') {
-                    $url_target  =$item['url_target'];
-                    $url_target_attr_string = ' target="'.$url_target.'" ';
+                    $url_target = $item['url_target'];
+                    $url_target_attr_string = ' target="' . $url_target . '" ';
 
                 }
 
@@ -646,7 +639,6 @@ class MenuManager
                 }
 
                 $to_print .= '<' . $li_tag . ' role="menuitem" class="{li_class}' . ' ' . $active_class . '  ' . $has_childs_class . ' {nest_level}" data-item-id="' . $item['id'] . '" >';
-
 
 
                 if ($show_images == true && $depth == 0 && isset($item['default_image']) and $item['default_image']) {
@@ -678,7 +670,7 @@ class MenuManager
                 }
 
                 foreach ($item as $key => $value) {
-                    if(!is_string($value)){
+                    if (!is_string($value)) {
                         $value = strval($value);
                     }
                     if (is_string($value) and is_string($key) and $value) {
@@ -784,7 +776,7 @@ class MenuManager
                             if (isset($li_class_deep)) {
                                 $menu_params['li_class_deep'] = $li_class_deep;
                             }
- if (isset($return_data) and $return_data) {
+                            if (isset($return_data) and $return_data) {
                                 $menu_params['return_data'] = $return_data;
                             }
 
@@ -798,7 +790,6 @@ class MenuManager
                             if (isset($depth)) {
                                 $menu_params['depth'] = $depth + 1;
                             }
-
 
 
                             $menu_items_render = $this->menu_tree($menu_params);
@@ -821,7 +812,7 @@ class MenuManager
                     }
                 }
 
-                if(isset($menu_items_render) and $return_data){
+                if (isset($menu_items_render) and $return_data) {
                     $item['children'] = $menu_items_render;
                 }
 
@@ -839,34 +830,34 @@ class MenuManager
                 $to_print = str_replace('{nest_level}', 'depth-' . $depth, $to_print);
 
 
-/*
-                if(isset($item['auto_populate']) and $item['auto_populate'] and $item['auto_populate'] == 'all') {
+                /*
+                                if(isset($item['auto_populate']) and $item['auto_populate'] and $item['auto_populate'] == 'all') {
 
-                    if(isset($item['content_id']) and intval($item['content_id']) != 0){
-                        $pt = array();
-                        $pt['parent'] = intval($item['content_id']);
-                        $pt['link'] = $link;
-                        $pt['a_class'] = $a_class;
-                        $pt['ul_class'] = $ul_class;
-                        $pt['li_tag'] = $li_tag;
-                        $pt['ul_tag'] = $ul_tag;
-                        if($li_submenu_a_link){
-                        $pt['li_submenu_a_link'] = $li_submenu_a_link;
-                        }
-                        $pt['return_data'] = 1;
+                                    if(isset($item['content_id']) and intval($item['content_id']) != 0){
+                                        $pt = array();
+                                        $pt['parent'] = intval($item['content_id']);
+                                        $pt['link'] = $link;
+                                        $pt['a_class'] = $a_class;
+                                        $pt['ul_class'] = $ul_class;
+                                        $pt['li_tag'] = $li_tag;
+                                        $pt['ul_tag'] = $ul_tag;
+                                        if($li_submenu_a_link){
+                                        $pt['li_submenu_a_link'] = $li_submenu_a_link;
+                                        }
+                                        $pt['return_data'] = 1;
 
-                       // dd($this->app->content_manager->pages_tree($pt));
+                                       // dd($this->app->content_manager->pages_tree($pt));
 
-                     //    $pt['include_all_content'] = intval($item['content_id']);
+                                     //    $pt['include_all_content'] = intval($item['content_id']);
 
-                     //   $to_print = $to_print .  $this->app->content_manager->pages_tree($pt);
-                    //    dd($this->app->content_manager->pages_tree($pt));
+                                     //   $to_print = $to_print .  $this->app->content_manager->pages_tree($pt);
+                                    //    dd($this->app->content_manager->pages_tree($pt));
 
-                    }
-                }
-*/
+                                    }
+                                }
+                */
 
-                if (isset($menu_items_render) and is_string($menu_items_render) and  strval($menu_items_render) != '') {
+                if (isset($menu_items_render) and is_string($menu_items_render) and strval($menu_items_render) != '') {
                     $to_print .= strval($menu_items_render);
                     ++$res_count;
                 }
@@ -874,7 +865,7 @@ class MenuManager
                 $to_print .= '</' . $li_tag . '>';
             }
 
-            if($return_data){
+            if ($return_data) {
                 $data_to_return[] = $item;
             }
 
@@ -887,7 +878,7 @@ class MenuManager
         }
 
         if ($has_items) {
-            if($return_data){
+            if ($return_data) {
                 return $data_to_return;
             }
 
@@ -943,19 +934,49 @@ class MenuManager
 
     public function menu_items_reorder($data)
     {
+        $itemsReadyParents = [];
+        $itemsReadyIds = [];
+
+        if (isset($data['items']) and !empty($data['items'])) {
+
+            foreach ($data['items'] as $item) {
+                if (isset($item['id']) and isset($item['parentId'])) {
+                    if ($item['id'] != $item['parentId']) {
+                        $itemsReadyParents[$item['id']] = $item['parentId'];
+                        $itemsReadyIds[] = $item['id'];
+                    }
+                }
+
+            }
+        }
+
         $return_res = false;
+
+        if ($itemsReadyParents) {
+            $data['ids_parents'] = $itemsReadyParents;
+        }
+
+
         if (isset($data['ids_parents'])) {
             $value = $data['ids_parents'];
             if (is_array($value)) {
-                foreach ($value as $value2 => $k) {
-                    $k = intval($k);
-                    $value2 = intval($value2);
+                foreach ($value as $menuId => $parentId) {
+                    $parentId = intval($parentId);
+                    $menuId = intval($menuId);
 
-                    \DB::table('menus')->whereId($value2)->where('id', '!=', $k)->whereItemType('menu_item')->update(['parent_id' => $k]);
+                    \DB::table('menus')
+                        ->whereId($menuId)
+                        ->where('id', '!=', $parentId)
+                        ->whereItemType('menu_item')
+                        ->update(['parent_id' => $parentId]);
 
 
                 }
             }
+        }
+
+        if ($itemsReadyIds) {
+            $data['ids'] = $itemsReadyIds;
         }
 
         if (isset($data['ids'])) {
@@ -1011,7 +1032,9 @@ class MenuManager
             return false;
         }
     }
-    public function get_menu_items_recursively($menu_id = null) {
+
+    public function get_menu_items_recursively($menu_id = null)
+    {
         $menu_items = [];
         $children = $this->get_menu_items("parent_id={$menu_id}");
 
@@ -1019,7 +1042,7 @@ class MenuManager
             foreach ($children as $child) {
                 $menu_items[] = $child;
                 // Recursively fetch children of the current menu item
-                $menu_items = array_merge($menu_items, $this->get_menu_items_recursively( $child['id']));
+                $menu_items = array_merge($menu_items, $this->get_menu_items_recursively($child['id']));
             }
         }
         return $menu_items;
