@@ -28,7 +28,10 @@
 
 
                     editMediaOptionsById(id) {
-                        alert(id)
+
+
+                        this.$wire.mountAction('editAction', {id: id})
+
                     },
 
                     async bulkDeleteSelectedMedia() {
@@ -166,6 +169,9 @@
 
             </div>
         </div>
+
+
+        <x-filament-actions::modals/>
     </div>
 </div>
 

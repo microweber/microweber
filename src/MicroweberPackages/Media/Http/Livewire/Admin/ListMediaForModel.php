@@ -4,8 +4,13 @@ namespace MicroweberPackages\Media\Http\Livewire\Admin;
 
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
 use Illuminate\Contracts\View\View;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use MicroweberPackages\Media\Models\Media;
@@ -13,11 +18,13 @@ use Livewire\Attributes\On;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 
-class ListMediaForModel extends AdminComponent
-{
 
-    //use  InteractsWithForms;
+class ListMediaForModel extends AdminComponent implements HasForms, HasActions
+{
     use InteractsWithActions;
+    use InteractsWithForms;
+
+
 
 
     public $relType = '';
@@ -29,6 +36,36 @@ class ListMediaForModel extends AdminComponent
 
     public $parentComponentName = '';
 
+
+
+    public function editAction(): Action
+    {
+        return Action::make('edit')
+            ->mountUsing(function (Form $form, array $arguments) {
+                $record = Media::find($arguments['id']);
+                $form->fill($record->toArray());
+
+            })
+            ->form([
+                Hidden::make('id')
+                    ->required(),
+                TextInput::make('title')
+                    ->required()
+                    ->maxLength(255),
+
+                TextInput::make('description')
+                    ->required()
+                    ->maxLength(2550),
+
+            ])->record(function (array $arguments) {
+                $record = Media::find($arguments['id']);
+                return $record;
+            })
+            ->action(function (array $data) {
+                $record = Media::find($data['id']);
+                $record->update($data);
+            })->slideOver();
+    }
 
 
 
