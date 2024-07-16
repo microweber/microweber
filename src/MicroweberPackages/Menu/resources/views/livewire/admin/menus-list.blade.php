@@ -21,7 +21,7 @@
         <script>
             function sortableData() {
                 return {
-                    init() {
+                    async init() {
 
                         var _orderChangeHandle = function (e, ui){
                             setTimeout(function(){
@@ -50,8 +50,7 @@
                             }, 110);
                         };
 
-                        console.log(1111111111111111111)
-                        console.log($('ul','.admin-menu-items-holder'))
+
 
 
                         var sortableLists = $('ul','.admin-menu-items-holder');
@@ -61,7 +60,7 @@
                             $(sortableLists[i]).nestedSortable({
                                 items: ".menu_element",
                                 listType:'ul',
-                                handle:'.menu_element',
+                                //handle:'.menu_element',
                                 start: function(){ // firefox triggers click when drag ends
                                     // scope._disableClick = true;
                                 },
