@@ -25,8 +25,6 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
     use InteractsWithForms;
 
 
-
-
     public $relType = '';
     public $relId = '';
     public $sessionId = '';
@@ -35,7 +33,6 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
     public $mediaIds = [];
 
     public $parentComponentName = '';
-
 
 
     public function editAction(): Action
@@ -50,11 +47,11 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
                 Hidden::make('id')
                     ->required(),
                 TextInput::make('title')
-                    ->required()
+
                     ->maxLength(255),
 
                 TextInput::make('description')
-                    ->required()
+
                     ->maxLength(2550),
 
             ])->record(function (array $arguments) {
@@ -66,7 +63,6 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
                 $record->update($data);
             })->slideOver();
     }
-
 
 
     public function getQueryBuilder()
@@ -175,6 +171,23 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
             $this->mediaIds = [];
         }
 
+    }
+
+    #[On('rotateMediaById')]
+    public function rotateMediaById($id = false)
+    {
+        $mediaId = $id;
+        if (!$mediaId) {
+            return;
+        }
+        $media = Media::where('id', $mediaId)->first();
+        if (!$media) {
+            return;
+        }
+
+        app()->media_manager->rotate_media_file_by_id($mediaId);
+
+        $this->dispatch('imageIsRotated', $mediaId);
     }
 
 

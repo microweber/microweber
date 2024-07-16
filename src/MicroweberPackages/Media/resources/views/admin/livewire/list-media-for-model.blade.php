@@ -23,6 +23,28 @@
 
                     init() {
 
+                        this.$wire.on('imageIsRotated', ($mediaId) => {
+                            var id = $mediaId;
+                            var timeout =null;
+
+                            // Clear any existing timeout
+                            if (timeout) {
+                                clearTimeout(timeout);
+                            }
+
+
+                            timeout = setTimeout(() => {
+                                var el = document.querySelector('.mw-post-media-img[data-id="' + id + '"]');
+                                if (el) {
+                                    var url = el.style.backgroundImage;
+                                    url = url.replace('url(', '').replace(')', '').replace(/\"/gi, "");
+                                    el.style.backgroundImage = 'url(' + url + '?' + Math.random() + ')';
+                                }
+                            },500)
+                        });
+
+
+
                         //     console.log('mwMediaManagerComponent', this.mediaIds);
                     },
 
@@ -47,6 +69,12 @@
                         if (dialogConfirm) {
                             this.$wire.dispatch('deleteMediaItemById', {id: id})
                         }
+                    },
+                    async rotateMediaById(id) {
+                        this.$wire.dispatch('rotateMediaById', {id: id})
+
+
+
                     }
                 }
             }
@@ -121,22 +149,27 @@
 
 
 
-                            <span class="mw-post-media-img" style="background-image: url('{{ $item->filename }}');">
+                            <span class="mw-post-media-img" style="background-image: url('{{ $item->filename }}');"
+                                  data-id="{{ $item->id }}">
 
 
                             </span>
 
+                                    <a @click="rotateMediaById('{{ $item->id }}')"
+                                       class="image-settings settings-img tip"
+                                       style="margin-right: 43px">
+                                        @svg('mw-media-item-rotate-small')
+                                    </a>
 
 
-                                    <a @click="editMediaOptionsById('{{ $item->id }}')" class="image-settings settings-img tip">
+                                    <a @click="editMediaOptionsById('{{ $item->id }}')"
+                                       class="image-settings settings-img tip">
                                         @svg('mw-media-item-edit-small')
                                     </a>
 
                                     <a @click="deleteMediaById('{{ $item->id }}')">
                                         @svg('mw-media-item-delete-small')
                                     </a>
-
-
 
 
                                     <label class="form-check form-check-inline">
@@ -146,8 +179,6 @@
                                 </div>
 
                             @endforeach
-
-
 
 
                         </div>

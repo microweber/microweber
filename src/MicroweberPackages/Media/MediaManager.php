@@ -4,10 +4,10 @@ namespace MicroweberPackages\Media;
 
 use Conner\Tagging\Model\Tagged;
 use Illuminate\Support\Str;
-use \Intervention\Image\ImageManagerStatic as Image;
 use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Media\Models\MediaThumbnail;
+use MicroweberPackages\Utils\Media\ImageRotator;
 use MicroweberPackages\Utils\Media\Thumbnailer;
 use MicroweberPackages\Utils\System\Files;
 
@@ -33,14 +33,13 @@ class MediaManager
         }
 
 
-
     }
 
     public function get_picture($rel_id, $rel_type = false, $full = false)
     {
 
-        if(!$rel_type){
-            $rel_type =  morph_name(\MicroweberPackages\Content\Models\Content::class);
+        if (!$rel_type) {
+            $rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
         if ($rel_type == 'post' or $rel_type == 'posts' or $rel_type == 'page' or $rel_type == 'pages' or $rel_type == 'content') {
@@ -329,12 +328,12 @@ class MediaManager
         if (!isset($params['rel_type']) and isset($params['for'])) {
             $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
 
-            if($params['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)){
+            if ($params['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
                 $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
             }
         }
         if (!isset($params['rel_type'])) {
-            $params['rel_type'] =  morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
         }
 
         if (!isset($params['limit'])) {
@@ -404,10 +403,10 @@ class MediaManager
 
         if (isset($data['for'])) {
             $t = trim($data['for']);
-          //  throw new \Exception('the "for" parameter is deprecated');
+            //  throw new \Exception('the "for" parameter is deprecated');
 
 
-          //  $t = $this->app->database_manager->assoc_table_name($t);
+            //  $t = $this->app->database_manager->assoc_table_name($t);
             $t = $this->app->database_manager->morphClassFromTable($t);
             $s['rel_type'] = $t;
         }
@@ -528,7 +527,7 @@ class MediaManager
             $s['filename'] = $data['src'];
         }
         if (isset($s['filename']) && !is_string($s['filename'])) {
-           return false;
+            return false;
         }
 
         if (!isset($data['position']) and !isset($s['id'])) {
@@ -846,7 +845,7 @@ class MediaManager
         $cd_relative = $this->thumbnails_path_in_userfiles . DS . $width . DS;
 
         $ext = strtolower(get_file_extension($base_src));
-        if($ext == 'svg'){
+        if ($ext == 'svg') {
             return $src;
         }
 
@@ -931,7 +930,7 @@ class MediaManager
             if (!$check) {
                 $media_tn_temp = new MediaThumbnail();
                 $media_tn_temp->filename = $cache_id_without_ext;
-                $media_tn_temp->uuid = (string) Str::orderedUuid();
+                $media_tn_temp->uuid = (string)Str::orderedUuid();
                 //$media_tn_temp->filename = null;
                 $media_tn_temp->image_options = $cache_id_data;
                 $media_tn_temp->save();
@@ -1174,6 +1173,25 @@ class MediaManager
         header('Content-Length: ' . filesize($cache_path));
         return readfile($cache_path);
 
+    }
+
+    public function rotate_media_file_by_id($mediaId)
+    {
+        $media = Media::where('id', $mediaId)->first();
+        if (!$media) {
+            return;
+        }
+
+        $filename = $media->filename;
+        $filename = url2dir($filename);
+        if ($filename and is_file($filename)) {
+
+
+            $rotator = new ImageRotator($filename);
+            $rotator->rotateAndSave(90);
+
+            $this->app->cache_manager->delete('media');
+         }
     }
 
     public function tn_cache_id($params)

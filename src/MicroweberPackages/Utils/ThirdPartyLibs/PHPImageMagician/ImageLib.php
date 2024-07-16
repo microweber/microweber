@@ -215,6 +215,13 @@ class ImageLib
         $this->isInterlace = false;
     }
 
+
+    public function rotateImage($angle)
+    {
+        $this->imageResized = imagerotate($this->imageResized, $angle, 0);
+
+    }
+
     /*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*-
         Resize
     *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*-*/
