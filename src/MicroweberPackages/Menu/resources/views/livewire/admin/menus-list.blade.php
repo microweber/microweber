@@ -17,19 +17,19 @@
     <div>
 
         <style>
-            ul {
+            .admin-menu-items-holder ul {
                 list-style-type: none;
                 margin: 0;
                 padding: 0;
             }
 
-            ul ul {
+            .admin-menu-items-holder ul ul {
                 margin-left: 20px;
             }
         </style>
 
         <script>
-            function sortableData() {
+            function sortableMenu() {
                 return {
                     async init() {
 
@@ -99,30 +99,27 @@
                         }
 
 
-                        //
-                        // //onclick on .menu_element alert
-                        // var menuElements = document.querySelectorAll('.admin-menu-items-holder .menu_element_link');
-                        // for (var i = 0; i < menuElements.length; i++) {
-                        //     if (menuElements[i].classList.contains('binded-click')) {
-                        //         continue;
-                        //     }
-                        //     menuElements[i].classList.add('binded-click');
-                        //
-                        //
-                        //     menuElements[i].addEventListener('click', (e) => {
-                        //         e.stopPropagation();
-                        //         e.preventDefault();
-                        //
-                        //         var id = e.target.getAttribute('data-item-id');
-                        //         //  Livewire.dispatch('editMenuItem',{id: id});
-                        //
-                        //         this.$wire.mountAction('editAction', {id: id})
-                        //
-                        //
-                        //         //s  alert(id)
-                        //     });
-                        //
-                        // }
+                        // //onclick on .menu_element
+                        var menuElements = document.querySelectorAll('.admin-menu-items-holder .menu_element_link');
+                        for (var i = 0; i < menuElements.length; i++) {
+                            if (menuElements[i].classList.contains('binded-click')) {
+                                continue;
+                            }
+                            menuElements[i].classList.add('binded-click');
+
+
+                            menuElements[i].addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+
+                                var id = e.target.getAttribute('data-item-id');
+
+                                this.$wire.mountAction('editAction', {id: id})
+
+
+                            });
+
+                        }
 
                     },
                     updateOrder(event) {
@@ -134,8 +131,8 @@
 
         </script>
     </div>
-
-    <div x-data="sortableData()" x-init="init()">
+    {{ ($this->createAction) }}
+    <div x-data="sortableMenu()" x-init="init()">
 
 
         <div class="admin-menu-items-holder">
@@ -158,6 +155,7 @@
                     <h2> {{ $menu->id }}  {{ $menu->title }}   {{ $menu->item_type }}</h2>
 
 
+                    {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
                     {{ ($this->editAction)(['id' => $menu->id]) }}
 
 

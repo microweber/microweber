@@ -5,6 +5,7 @@ namespace MicroweberPackages\Menu\Http\Livewire\Admin;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
+use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
@@ -15,6 +16,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use MicroweberPackages\Menu\Models\Menu;
@@ -35,6 +37,55 @@ class MenusList extends Component implements HasForms, HasActions
 
                 $record?->delete();
             });
+    }
+
+    public function addMenuItemAction(): Action
+    {
+        return CreateAction::make('addMenuItemAction')
+            ->mountUsing(function (Form $form, array $arguments) {
+
+                $form->fill($arguments);
+            })
+            ->label('Add new menu item')
+            ->form([
+
+                TextInput::make('parent_id'),
+                TextInput::make('title')
+                    // ->required()
+                    ->maxLength(255),
+                TextInput::make('item_type')
+                    // ->required()
+                    ->maxLength(255),
+            ])
+            ->action(function (array $data) {
+
+                $record = Menu::newModelInstance();
+                $record->fill($data);
+                $record->save();
+
+            })->slideOver();
+    }
+
+    public function createAction(): Action
+    {
+        return CreateAction::make('create')
+            ->label('Add new menu')
+            ->form([
+                Hidden::make('id'),
+                TextInput::make('title')
+                    // ->required()
+                    ->maxLength(255),
+                TextInput::make('item_type')
+                    // ->required()
+                    ->maxLength(255),
+            ])
+            ->action(function (array $data) {
+
+                $record = Menu::newModelInstance();
+                $record->fill($data);
+                $record->save();
+
+            })->slideOver();
     }
 
     public function editAction(): Action
