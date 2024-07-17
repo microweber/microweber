@@ -46,7 +46,7 @@
                             }
 
 
-                            return Array.from(target.querySelectorAll('li')).map(node => {
+                            return Array.from(closestMenuIdElement.querySelectorAll('li')).map(node => {
                                 const parent = node.parentNode.closest('li');
                                 return {
                                     id: node.dataset.itemId,
@@ -63,8 +63,10 @@
                                 var result = collectTreeElements(e.target);
                                 result = {'items': result};
 
+
+
                                 $.post("<?php echo route('api.menu.item.reorder'); ?>", result, function () {
-                                    if (mw.notification != undefined) {
+                                    if (mw.notification) {
                                         mw.notification.success('<?php _ejs("Menu changes are saved"); ?>');
                                     }
                                 });

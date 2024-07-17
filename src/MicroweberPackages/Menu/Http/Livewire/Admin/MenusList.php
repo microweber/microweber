@@ -24,12 +24,6 @@ class MenusList extends Component implements HasForms, HasActions
     use InteractsWithActions;
     use InteractsWithForms;
 
-    #[On('editMenuItem')]
-    public function editMenuItem($id)
-    {
-        return $this->editAction()(['id' => $id]);
-      //  return $this->editAction()(['id' => $id])->mount(['id' => $id]);
-    }
 
     public function deleteAction(): Action
     {
