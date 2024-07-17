@@ -22,20 +22,22 @@ class Cart extends Model
     public $table = 'cart';
 
     public $fillable = [
-        'email',
-        'first_name',
-        'last_name',
-        'country',
-        'amount',
-        'payment_amount',
-        'transaction_id',
-        'city',
-        'state',
-        'zip',
-        'address',
-        'phone',
-        'user_ip',
-        'payment_gw'
+        'rel_type',
+        'rel_id',
+
+        'price',
+        'currency',
+        'qty',
+
+        'order_id',
+        'order_completed',
+
+        'description',
+        'link',
+        'other_info',
+        'custom_fields_data',
+        'custom_fields_json',
+
     ];
 
     use Filterable;

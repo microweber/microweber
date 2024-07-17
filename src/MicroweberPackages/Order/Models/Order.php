@@ -15,6 +15,7 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Kirschbaum\PowerJoins\PowerJoins;
+use MicroweberPackages\Cart\Concerns\HasCartItems;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
@@ -26,9 +27,14 @@ class Order extends Model
     use Filterable;
     use PowerJoins;
 
+
+    use HasCartItems;
+
     public $table = 'cart_orders';
     public $fillable = [
         'id',
+        'order_id',
+        'customer_id',
         'email',
         'first_name',
         'last_name',
@@ -36,6 +42,8 @@ class Order extends Model
         'amount',
         'payment_amount',
         'transaction_id',
+        'order_completed',
+        'is_paid',
         'city',
         'state',
         'zip',
@@ -57,14 +65,10 @@ class Order extends Model
         return $this->provideFilter(OrderFilter::class);
     }
 
-    public function cart()
-    {
-        return $this->hasMany(Cart::class);
-    }
 
     public function customer()
     {
-        return $this->hasOne(Customer::class);
+        return $this->hasOne(Customer::class, 'id', 'customer_id');
     }
 
     public function shippingMethodName()
@@ -146,6 +150,7 @@ class Order extends Model
     {
         return $this->hasOne(User::class, 'id', 'created_by');
     }
+
 
     public function getPaymentStatuses()
     {
