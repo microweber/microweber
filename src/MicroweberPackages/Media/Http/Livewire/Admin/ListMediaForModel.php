@@ -85,6 +85,7 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
             $itemsQuery->where('rel_type', $this->relType);
         }
         $itemsQuery->orderBy('position', 'asc');
+
         return $itemsQuery;
     }
 

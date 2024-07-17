@@ -223,7 +223,11 @@ trait MediaTrait
     {
 
         if (is_string($mediaIds)) {
+            $mediaIds = str_replace(' ', '', $mediaIds);
+            $mediaIds = str_replace('[', '', $mediaIds);
+            $mediaIds = str_replace(']', '', $mediaIds);
             $mediaIds = explode(',', $mediaIds);
+            $mediaIds = array_map('intval', $mediaIds);
         }
 
 //        $entityMedias = Media::where('rel_id', $this->id)->where('rel_type', $this->getMorphClass())->get();
