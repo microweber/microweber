@@ -10,7 +10,7 @@ class Authenticate extends Middleware
 {
     protected function authenticate($request, array $guards)
     {
-         abort_if(!is_admin(), 403, 'You are not allowed to access this page');
+         abort_if(!is_admin(), 403, 'You are not allowed to access this page, please login as admin');
 
 
 //        if (!is_admin()) {

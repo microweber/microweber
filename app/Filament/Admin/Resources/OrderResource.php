@@ -44,7 +44,7 @@ class OrderResource extends Resource
                                     ->modalDescription('All existing items will be removed from the order.')
                                     ->requiresConfirmation()
                                     ->color('danger')
-                                    ->action(fn(Forms\Set $set) => $set('items', [])),
+                                    ->action(fn(Forms\Set $set) => $set('cart', [])),
                             ])
                             ->schema([
                                 static::getItemsRepeater(),
@@ -72,7 +72,30 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('order_id')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('customer_id')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('customer.email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+
+                //order_completed
+                Tables\Columns\BooleanColumn::make('order_completed')
+                    ->label('Order completed')
+                    ->sortable()
+                    ->toggleable(),
+
+                Tables\Columns\BooleanColumn::make('is_paid')
+                    ->label('Is paid')
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
                 //

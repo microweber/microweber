@@ -12,11 +12,20 @@
 namespace MicroweberPackages\Shipping;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Application;
 
 class ShippingManagerServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+        View::addNamespace('shipping', __DIR__ . '/resources/views');
+
+    }
+
     /**
      * Bootstrap the application services.
      *
