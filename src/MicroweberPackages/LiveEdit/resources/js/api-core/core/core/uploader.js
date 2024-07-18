@@ -32,6 +32,12 @@
         this.settings = $.extend({}, defaults, options);
         this.settings.accept = normalizeAccept(this.settings.accept);
 
+        var _e = {};
+
+        this.on = function (e, f) { _e[e] ? _e[e].push(f) : (_e[e] = [f]) };
+
+        this.dispatch = function (e, f) { _e[e] ? _e[e].forEach(function (c){ c.call(this, f); }) : ''; };
+
         this.getUrl = function () {
             var params = this.urlParams();
             var empty = Object.keys(params).length == 0;
@@ -141,6 +147,7 @@
                     }
                 }
                 $(scope).trigger('FilesAdded', [files]);
+                this.dispatch('filesAdded', [files]);
                 if(this.settings.autostart) {
                     this.uploadFiles();
                 }
@@ -180,9 +187,15 @@
         this.initDropZone = function () {
             if (!!this.settings.dropZone) {
                 mw.$(this.settings.dropZone).each(function () {
-                    $(this).on('dragover', function (e) {
+                    $(this)
+                    .on('dragleave', function (e) {
+                        $(this).removeClass("mw-dropzone--drag-over");
+                    })
+                    .on('dragover', function (e) {
+                        $(this).addClass("mw-dropzone--drag-over");
                         e.preventDefault();
                     }).on('drop', function (e) {
+                        $(this).removeClass("mw-dropzone--drag-over");
                         var dt = e.dataTransfer || e.originalEvent.dataTransfer;
                         e.preventDefault();
                         if (dt && dt.items) {
@@ -344,6 +357,7 @@
                     if(scope.settings.on.filesUploaded) {
                         scope.settings.on.filesUploaded();
                     }
+                    this.dispatch('filesUploaded')
                     $(scope).trigger('FilesUploaded');
 
                 }
@@ -460,6 +474,23 @@
 
         return new Uploader($.extend(true, {}, mw.uploadGlobalSettings, options));
     };
+
+    mw.dropZone = (target, options = {}) => {
+        if (target.dropZone) {
+            options = target;
+            target = target.dropZone;
+        }
+        options.dropZone = target
+        jQuery(target).each((i, node) => node.classList.add('mw-dropzone'));
+        const up = mw.upload(options);
+        up.on('filesAdded', function (e) {
+            mw.spinner({element: target, decorate: true}).show()
+        }).on('filesUploaded', function (e) {
+            mw.spinner({element: target}).remove()
+        });
+        return up;
+    }
+
 
 
 

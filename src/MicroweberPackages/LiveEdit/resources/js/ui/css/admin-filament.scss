@@ -2,6 +2,8 @@
 @import '../../../../../../../userfiles/modules/microweber/css/filemanager.css';
 @import '../../../../../../../userfiles/modules/microweber/css/widgets.css';
 @import '../../../front-end/css/select.scss';
+@import '../../../front-end/css/dropzone.scss';
+@import '../../../front-end/css/notification.scss';
 
 @import '../../../../../../../userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css/components/dialog.scss';
 @import '../../../front-end/js/libs/tinymce/skin.min.css';
@@ -12,3 +14,6 @@
     navigation: auto;
 }
 
+html, body{
+    scrollbar-gutter: stable;
+}
