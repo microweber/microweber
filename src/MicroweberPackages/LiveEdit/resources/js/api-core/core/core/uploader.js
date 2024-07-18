@@ -287,6 +287,7 @@
                                     scope.settings.on.progress(dataProgress, res);
                                 }
                                 $(scope).trigger('FileUploaded', [res]);
+scope.dispatch('fileUploaded', res);
                                 if(scope.settings.on.fileUploaded) {
                                     scope.settings.on.fileUploaded(res);
                                 }
@@ -485,7 +486,8 @@
         const up = mw.upload(options);
         up.on('filesAdded', function (e) {
             mw.spinner({element: target, decorate: true}).show()
-        }).on('filesUploaded', function (e) {
+        });
+        up.on('filesUploaded', function (e) {
             mw.spinner({element: target}).remove()
         });
         return up;
