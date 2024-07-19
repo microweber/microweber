@@ -11,6 +11,8 @@ import "../core/events.js";
 import {AdminTools} from "./admin-tools.service.js";
 import {AdminFilament} from "./admin-filament.js";
 
+import LiveEditImageDialog from "../../../js/api-core/services/components/live-edit/live-edit-image-dialog.js";
+
 
 
 window.mw.tools = new AdminTools(mw.app);
@@ -33,7 +35,7 @@ mw.pause = time => new Promise(resolve => setTimeout(resolve, time || 0));
 import "../core/i18n.js";
 import "../core/objects.js";
 import "../core/icon-resolver.js";
-
+import {normalizeBase64Images, normalizeBase64Image} from "../../../front-end/js/tools/base64-images.js";
 
 
 
@@ -50,6 +52,7 @@ for ( let i in Helpers ) {
     mw.tools[i] = Helpers[i];
 }
 
+mw.app.editImageDialog =  new LiveEditImageDialog();
 
 
 import "../tools/storage.js";
@@ -81,6 +84,9 @@ mw.alert = Alert;
 mw.controlBox = ControlBox;
 mw.confirm = Confirm;
 mw.prompt = Prompt;
+
+mw.app.normalizeBase64Image = normalizeBase64Image;
+mw.app.normalizeBase64Images = normalizeBase64Images;
 
 mw.schemaForm = options => new SchemaForm(options);
 

@@ -128,7 +128,11 @@ export class LiveEditImageDialog extends BaseComponent {
 
             footer.find('[data-action="save"]').on('click', function () {
 
-                mw.top().app.registerChange(this);
+                if(mw.top().app && mw.top().app.registerChange) {
+                    mw.top().app.registerChange(this);
+                }
+
+
                 var _img = new Image();
                 const currentImgData = imageEditor.getCurrentImgData();
                 _img.src = currentImgData.imageData.imageBase64;
