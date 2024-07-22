@@ -1227,18 +1227,19 @@
         "type": "Button",
         "data": {
             "style": {
+                "backgroundColor": "#000000",
                 "fontSize": 11,
                 "textAlign": "center",
                 "padding": {
-                    "top": 10,
+                    "top": 0,
                     "bottom": 10,
                     "right": 0,
                     "left": 0
                 }
             },
             "props": {
-                "buttonBackgroundColor": "#FFFFFF",
-                "buttonTextColor": "#000000",
+                "buttonBackgroundColor": "#000000",
+                "buttonTextColor": "#ffffff",
                 "fullWidth": false,
                 "text": "Unsubscribe me",
                 "url": "{{unsubscribeUrl}}"
