@@ -118,8 +118,13 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
     }
 
     #[On('addMediaItem')]
-    public function addMediaItem($url = false)
+    public function addMediaItem($data = [])
     {
+        $url = false;
+
+        if(isset($data['url'])){
+            $url = $data['url'];
+        }
         if (!$url) {
             return;
         }
@@ -210,6 +215,7 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
         }
 
     }
+
 
 
     #[On('deleteMediaItemById')]

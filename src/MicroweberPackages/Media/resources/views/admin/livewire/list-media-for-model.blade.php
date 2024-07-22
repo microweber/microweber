@@ -11,7 +11,12 @@
 
         <script>
             document.addEventListener('livewire:init', function () {
+                mw.dropZone('#mw-image-dropzone').on('fileUploaded', res => {
+                    var data = {}
+                    data.url = res.src
+                    Livewire.dispatch('addMediaItem', {data: data})
 
+                })
             });
         </script>
         <script>
@@ -23,29 +28,7 @@
 
                     init() {
 
-                        this.$wire.on('imageIsRotated', ($mediaId) => {
-                            var id = $mediaId;
-                            var timeout =null;
 
-                            // Clear any existing timeout
-                            if (timeout) {
-                                clearTimeout(timeout);
-                            }
-
-
-                            timeout = setTimeout(() => {
-                                var el = document.querySelector('.mw-post-media-img[data-id="' + id + '"]');
-                                if (el) {
-                                    var url = el.style.backgroundImage;
-                                    url = url.replace('url(', '').replace(')', '').replace(/\"/gi, "");
-                                    el.style.backgroundImage = 'url(' + url + '?' + Math.random() + ')';
-                                }
-                            },500)
-                        });
-
-
-
-                        //     console.log('mwMediaManagerComponent', this.mediaIds);
                     },
 
 
@@ -70,7 +53,7 @@
                             this.$wire.dispatch('deleteMediaItemById', {id: id})
                         }
                     },
-                    async editImageFilename(id,url) {
+                    async editImageFilename(id, url) {
 
                         const editedImage = await mw.top().app.editImageDialog.editImageUrl(url);
 
@@ -82,7 +65,9 @@
         </script>
 
         <div
+            id="mw-image-dropzone"
             class="w-full flex flex-col p-3 items-center justify-center border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+
             <button
 
                 class="w-full py-6 full flex flex-col items-center justify-center"
