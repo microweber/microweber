@@ -70,10 +70,11 @@
                             this.$wire.dispatch('deleteMediaItemById', {id: id})
                         }
                     },
-                    async rotateMediaById(id) {
-                        this.$wire.dispatch('rotateMediaById', {id: id})
+                    async editImageFilename(id,url) {
 
+                        const editedImage = await mw.top().app.editImageDialog.editImageUrl(url);
 
+                        this.$wire.dispatch('updateImageFilename', {id: id, data: editedImage})
 
                     }
                 }
@@ -155,10 +156,10 @@
 
                             </span>
 
-                                    <a @click="rotateMediaById('{{ $item->id }}')"
+                                    <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
                                        class="image-settings settings-img tip"
                                        style="margin-right: 43px">
-                                        @svg('mw-media-item-rotate-small')
+                                        @svg('mw-image-edit')
                                     </a>
 
 

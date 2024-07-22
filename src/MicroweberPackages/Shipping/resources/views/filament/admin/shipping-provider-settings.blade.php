@@ -5,7 +5,7 @@
 >
 
     <div x-data="{ state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$getStatePath()}')") }} }">
-        {{ $getRecord()->provider }}
+        {{ $getRecord() }}
     </div>
 
 </x-dynamic-component>

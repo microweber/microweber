@@ -174,8 +174,24 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
 
     }
 
-    #[On('rotateMediaById')]
-    public function rotateMediaById($id = false)
+//    #[On('rotateMediaById')]
+//    public function rotateMediaById($id = false)
+//    {
+//        $mediaId = $id;
+//        if (!$mediaId) {
+//            return;
+//        }
+//        $media = Media::where('id', $mediaId)->first();
+//        if (!$media) {
+//            return;
+//        }
+//
+//        app()->media_manager->rotate_media_file_by_id($mediaId);
+//
+//        $this->dispatch('imageIsRotated', $mediaId);
+//    }
+    #[On('updateImageFilename')]
+    public function updateImageFilename($id = false,$data=[])
     {
         $mediaId = $id;
         if (!$mediaId) {
@@ -186,9 +202,13 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
             return;
         }
 
-        app()->media_manager->rotate_media_file_by_id($mediaId);
 
-        $this->dispatch('imageIsRotated', $mediaId);
+        if(isset($data['src'])){
+            $media->filename = $data['src'];
+            $media->save();
+            $this->refreshMediaData();
+        }
+
     }
 
 
