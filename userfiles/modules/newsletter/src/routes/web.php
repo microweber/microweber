@@ -11,7 +11,12 @@ Route::name('web.newsletter.')
             if ($campaignId) {
                 $findCampaign = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
                 if ($findCampaign) {
-                    
+                    $newsletterCampaignPixel = new \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignPixel();
+                    $newsletterCampaignPixel->campaign_id = $campaignId;
+                    $newsletterCampaignPixel->email = request()->get('email');
+                    $newsletterCampaignPixel->ip = request()->ip();
+                    $newsletterCampaignPixel->user_agent = request()->userAgent();
+                    $newsletterCampaignPixel->save();
                 }
             }
 

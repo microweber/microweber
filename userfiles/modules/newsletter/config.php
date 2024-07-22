@@ -49,6 +49,16 @@ $config['tables'] = array (
         'is_sent' => 'integer'
 	),
 
+    'newsletter_campaigns_pixel' => array (
+        'id' => 'integer',
+        'campaign_id' => 'integer',
+        'email' => 'text',
+        'ip' => 'text',
+        'user_agent' => 'text',
+        'created_at' => 'dateTime',
+        'updated_at' => 'dateTime',
+    ),
+
 	'newsletter_sender_accounts' => array(
 		'id' => 'integer',
 		'name' => 'text',
