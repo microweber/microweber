@@ -60,6 +60,11 @@ class CampaignResource extends Resource
                 TextColumn::make('subscribers'),
 //                TextColumn::make('scheduled'),
 //                TextColumn::make('scheduled_at'),
+                TextColumn::make('opened')
+                    ->badge()
+                    ->color(function() {
+                        return 'success';
+                    }),
                 TextColumn::make('status')
                     ->badge()
                     ->formatStateUsing(function ($state) {
