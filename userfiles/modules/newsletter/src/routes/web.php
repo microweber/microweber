@@ -5,6 +5,24 @@ Route::name('web.newsletter.')
     ->middleware(['web'])
     ->group(function () {
 
+        Route::get('/pixel', function() {
+
+            $campaignId = request()->get('campaign_id');
+            if ($campaignId) {
+                $findCampaign = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
+                if ($findCampaign) {
+                    
+                }
+            }
+
+            return response()->stream(function() {
+                $png = imagecreatetruecolor(1, 1);
+                imagepng($png);
+            }, 200, ['Content-type' => 'image/png']);
+
+        })->name('pixel');
+
+
         Route::get('/unsubscribe', function() {
 
             $email = request()->get('email');
