@@ -314,6 +314,7 @@
         "type": "Text",
         "data": {
             "style": {
+                "textAlign": "center",
                 "backgroundColor": "#F7FAFA",
                 "fontWeight": "normal",
                 "padding": {
@@ -325,7 +326,7 @@
             },
             "props": {
                 "markdown": true,
-                "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  |  Unsubscribe "
+                "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences "
             }
         }
     },
