@@ -1242,7 +1242,7 @@
                 "buttonTextColor": "#ffffff",
                 "fullWidth": false,
                 "text": "Unsubscribe me",
-                "url": "{{unsubscribeUrl}}"
+                "url": "{{ unsubscribe }}"
             }
         }
     }
