@@ -1,1224 +1,1248 @@
 {
-  "root": {
-    "type": "EmailLayout",
-    "data": {
-      "backdropColor": "#e5e5e5",
-      "canvasColor": "#FFFFFF",
-      "textColor": "#262626",
-      "fontFamily": "HEAVY_SANS",
-      "childrenIds": [
-        "block-1719477500085",
-        "block-1719477659726",
-        "block-1719235721093",
-        "block-1719477814976",
-        "block-1719477864789",
-        "block-1719235734312",
-        "block-1719477960596",
-        "block-1719235973149",
-        "block-1719478319457",
-        "block-1719478323167",
-        "block-1719478335465",
-        "block-1719478343195",
-        "block-1719478518877",
-        "block-1719478408857",
-        "block-1719478503782",
-        "block-1719478461783",
-        "block-1719478455185",
-        "block-1719478458248",
-        "block-1719478466217",
-        "block-1719478494574",
-        "block-1719236832256",
-        "block-1719236929075",
-        "block-1719236900673"
-      ]
-    }
-  },
-  "block-1719235654126": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "bold",
-        "textAlign": "right",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "HOSTING"
-      }
-    }
-  },
-  "block-1719235721093": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#000000",
-        "fontSize": 35,
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "WINTER IS COMING"
-      }
-    }
-  },
-  "block-1719235734312": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 40,
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 40,
-          "bottom": 40,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "BEST ARTICLES IN THIS MONTH"
-      }
-    }
-  },
-  "block-1719234855277": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719235973149": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
+    "root": {
+        "type": "EmailLayout",
+        "data": {
+            "backdropColor": "#e5e5e5",
+            "canvasColor": "#FFFFFF",
+            "textColor": "#262626",
+            "fontFamily": "HEAVY_SANS",
             "childrenIds": [
-              "block-1719478847519"
+                "block-1719477500085",
+                "block-1719477659726",
+                "block-1719235721093",
+                "block-1719477814976",
+                "block-1719477864789",
+                "block-1719235734312",
+                "block-1719477960596",
+                "block-1719235973149",
+                "block-1719478319457",
+                "block-1719478323167",
+                "block-1719478335465",
+                "block-1719478343195",
+                "block-1719478518877",
+                "block-1719478408857",
+                "block-1719478503782",
+                "block-1719478461783",
+                "block-1719478455185",
+                "block-1719478458248",
+                "block-1719478466217",
+                "block-1719478494574",
+                "block-1719236832256",
+                "block-1719236929075",
+                "block-1719236900673",
+                "block-1721637941896"
             ]
-          },
-          {
-            "childrenIds": [
-              "block-1719478994824",
-              "block-1719235982133",
-              "block-1719479002651",
-              "block-1719479006468"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719235982133": {
-    "type": "Container",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
         }
-      },
-      "props": {
-        "childrenIds": [
-          "block-1719478997570"
-        ]
-      }
-    }
-  },
-  "block-1719236521440": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235654126": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "bold",
+                "textAlign": "right",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "HOSTING"
+            }
         }
-      },
-      "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719236662034": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 15,
-        "textAlign": "left",
-        "padding": {
-          "top": 12,
-          "bottom": 28,
-          "right": 12,
-          "left": 0
+    },
+    "block-1719235721093": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#000000",
+                "fontSize": 35,
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "WINTER IS COMING"
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonTextColor": "#7C3AED",
-        "size": "x-small",
-        "text": "SEE HOW TO DO IT",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719236832256": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#000000",
-        "fontSize": 18,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 40,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235734312": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 40,
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 40,
+                    "bottom": 40,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "BEST ARTICLES IN THIS MONTH"
+            }
         }
-      },
-      "props": {
-        "markdown": true,
-        "text": "\nThank you,\n<b>The Microweber Team</b>"
-      }
-    }
-  },
-  "block-1719236900673": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#000000",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 40,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719234855277": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
-      }
-    }
-  },
-  "block-1719236929075": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#000000",
-        "fontWeight": "normal",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235973149": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719478847519"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719478994824",
+                            "block-1719235982133",
+                            "block-1719479002651",
+                            "block-1719479006468"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "markdown": true,
-        "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  |  Unsubscribe "
-      }
-    }
-  },
-  "block-1719477500085": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235982133": {
+        "type": "Container",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "childrenIds": [
+                    "block-1719478997570"
+                ]
+            }
         }
-      },
-      "props": {
-        "width": null,
-        "url": "https://test.microweber.com/userfiles/media/default/bg-1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719477659726": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "backgroundColor": "#000000",
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 40,
-          "bottom": 44,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236521440": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonStyle": "rectangle",
-        "buttonTextColor": "#000000",
-        "size": "large",
-        "text": "WINTER",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719477814976": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#000000",
-        "fontSize": 13,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236662034": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 15,
+                "textAlign": "left",
+                "padding": {
+                    "top": 12,
+                    "bottom": 28,
+                    "right": 12,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#7C3AED",
+                "size": "x-small",
+                "text": "SEE HOW TO DO IT",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia.\n\n"
-      }
-    }
-  },
-  "block-1719477864789": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "backgroundColor": "#000000",
-        "textAlign": "center",
-        "padding": {
-          "top": 32,
-          "bottom": 44,
-          "right": 28,
-          "left": 24
+    },
+    "block-1719236832256": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#000000",
+                "fontSize": 18,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 40,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "markdown": true,
+                "text": "\nThank you,\n<b>The Microweber Team</b>"
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "size": "medium",
-        "text": "Read more",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719477960596": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236900673": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#000000",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 40,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
+            }
         }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719477972471"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719478071885",
-              "block-1719477980271",
-              "block-1719477976050",
-              "block-1719477984237"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719477972471": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719236929075": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "textAlign": "center",
+                "color": "#ffffff",
+                "backgroundColor": "#000000",
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "markdown": true,
+                "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  "
+            }
         }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719477976050": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719477500085": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "width": null,
+                "url": "https://test.microweber.com/userfiles/media/default/bg-1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719477980271": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Tips For Winter Season\n",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719477659726": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "backgroundColor": "#000000",
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 40,
+                    "bottom": 44,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonStyle": "rectangle",
+                "buttonTextColor": "#000000",
+                "size": "large",
+                "text": "WINTER",
+                "url": "https://www.microweber.com"
+            }
         }
-      }
-    }
-  },
-  "block-1719477984237": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "textAlign": "left",
-        "padding": {
-          "top": 16,
-          "bottom": 4,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719477814976": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#000000",
+                "fontSize": 13,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia.\n\n"
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "size": "small",
-        "text": "Read more",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719478071885": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719477864789": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "backgroundColor": "#000000",
+                "textAlign": "center",
+                "padding": {
+                    "top": 32,
+                    "bottom": 44,
+                    "right": 28,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#2563EB",
+                "buttonStyle": "pill",
+                "size": "medium",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD"
-      }
-    }
-  },
-  "block-1719478319457": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719477960596": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719477972471"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719478071885",
+                            "block-1719477980271",
+                            "block-1719477976050",
+                            "block-1719477984237"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719478850009"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719479017070",
-              "block-1719479011853",
-              "block-1719479014199",
-              "block-1719479021612"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719478323167": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719477972471": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719478851289"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719479027906",
-              "block-1719479025942",
-              "block-1719479030482",
-              "block-1719479032748"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719478335465": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719477976050": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
         }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719478852630"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719479042166",
-              "block-1719479039260",
-              "block-1719479047547",
-              "block-1719479051935"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719478343195": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719477980271": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Tips For Winter Season\n",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
         }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719478854383"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719479060067",
-              "block-1719479058322",
-              "block-1719479062222",
-              "block-1719479065721"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719478408857": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719477984237": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "textAlign": "left",
+                "padding": {
+                    "top": 16,
+                    "bottom": 4,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#2563EB",
+                "buttonStyle": "pill",
+                "size": "small",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/bg-2.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719478455185": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Be Ready For a Winter Season"
-      },
-      "style": {
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478071885": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD"
+            }
         }
-      }
-    }
-  },
-  "block-1719478458248": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 60,
-          "left": 60
+    },
+    "block-1719478319457": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719478850009"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719479017070",
+                            "block-1719479011853",
+                            "block-1719479014199",
+                            "block-1719479021612"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "text": "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.\n\n"
-      }
-    }
-  },
-  "block-1719478461783": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478323167": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719478851289"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719479027906",
+                            "block-1719479025942",
+                            "block-1719479030482",
+                            "block-1719479032748"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD"
-      }
-    }
-  },
-  "block-1719478466217": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "textAlign": "center",
-        "padding": {
-          "top": 12,
-          "bottom": 12,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478335465": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719478852630"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719479042166",
+                            "block-1719479039260",
+                            "block-1719479047547",
+                            "block-1719479051935"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "text": "Read more",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719478494574": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 40
-      }
-    }
-  },
-  "block-1719478503782": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 40
-      }
-    }
-  },
-  "block-1719478518877": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 48
-      }
-    }
-  },
-  "block-1719478847519": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719478343195": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719478854383"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719479060067",
+                            "block-1719479058322",
+                            "block-1719479062222",
+                            "block-1719479065721"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-2.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719478850009": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719478408857": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/bg-2.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-3.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719478851289": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719478455185": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Be Ready For a Winter Season"
+            },
+            "style": {
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
         }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-4.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719478852630": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719478458248": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 60,
+                    "left": 60
+                }
+            },
+            "props": {
+                "text": "Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.\n\n"
+            }
         }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-5.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719478854383": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719478461783": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD"
+            }
         }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-6.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719478994824": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478466217": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "textAlign": "center",
+                "padding": {
+                    "top": 12,
+                    "bottom": 12,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#2563EB",
+                "buttonStyle": "pill",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD"
-      }
-    }
-  },
-  "block-1719478997570": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Tips For Winter Season\n",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478494574": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 40
+            }
         }
-      }
-    }
-  },
-  "block-1719479002651": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478503782": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 40
+            }
         }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719479006468": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478518877": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 48
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "size": "small",
-        "text": "Read more",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719479011853": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Tips For Winter Season\n",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478847519": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-2.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      }
-    }
-  },
-  "block-1719479014199": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478850009": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-3.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719479017070": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478851289": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-4.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD"
-      }
-    }
-  },
-  "block-1719479021612": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478852630": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-5.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "size": "small",
-        "text": "Read more",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719479025942": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Tips For Winter Season\n",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478854383": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-6.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      }
-    }
-  },
-  "block-1719479027906": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478994824": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD"
+            }
         }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD"
-      }
-    }
-  },
-  "block-1719479030482": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719478997570": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Tips For Winter Season\n",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
         }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719479032748": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479002651": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "size": "small",
-        "text": "Read more",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719479039260": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Tips For Winter Season\n",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479006468": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#2563EB",
+                "buttonStyle": "pill",
+                "size": "small",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
         }
-      }
-    }
-  },
-  "block-1719479042166": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479011853": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Tips For Winter Season\n",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
         }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD"
-      }
-    }
-  },
-  "block-1719479047547": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479014199": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
         }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719479051935": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479017070": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD"
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "size": "small",
-        "text": "Read more",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719479058322": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Tips For Winter Season\n",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479021612": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#2563EB",
+                "buttonStyle": "pill",
+                "size": "small",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
         }
-      }
-    }
-  },
-  "block-1719479060067": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479025942": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Tips For Winter Season\n",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
         }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD"
-      }
-    }
-  },
-  "block-1719479062222": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479027906": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD"
+            }
         }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719479065721": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719479030482": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#2563EB",
-        "buttonStyle": "pill",
-        "size": "small",
-        "text": "Read more",
-        "url": "https://www.microweber.com"
-      }
+    },
+    "block-1719479032748": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#2563EB",
+                "buttonStyle": "pill",
+                "size": "small",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1719479039260": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Tips For Winter Season\n",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719479042166": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD"
+            }
+        }
+    },
+    "block-1719479047547": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
+        }
+    },
+    "block-1719479051935": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#2563EB",
+                "buttonStyle": "pill",
+                "size": "small",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1719479058322": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Tips For Winter Season\n",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719479060067": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD"
+            }
+        }
+    },
+    "block-1719479062222": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
+        }
+    },
+    "block-1719479065721": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#2563EB",
+                "buttonStyle": "pill",
+                "size": "small",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1721637941896": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 11,
+                "textAlign": "center",
+                "padding": {
+                    "top": 10,
+                    "bottom": 10,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#FFFFFF",
+                "buttonTextColor": "#000000",
+                "fullWidth": false,
+                "text": "Unsubscribe me",
+                "url": "{{unsubscribeUrl}}"
+            }
+        }
     }
-  }
 }
