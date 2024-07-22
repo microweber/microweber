@@ -1,706 +1,730 @@
 {
-  "root": {
-    "type": "EmailLayout",
-    "data": {
-      "backdropColor": "#e5e5e5",
-      "canvasColor": "#FFFFFF",
-      "textColor": "#262626",
-      "fontFamily": "HEAVY_SANS",
-      "childrenIds": [
-        "block-1719235629010",
-        "block-1719235721093",
-        "block-1719235734312",
-        "block-1719235762413",
-        "block-1719235786545",
-        "block-1719235831131",
-        "block-1719235850661",
-        "block-1719235922032",
-        "block-1719235944714",
-        "block-1719235973149",
-        "block-1719236337624",
-        "block-1719236197853",
-        "block-1719236532693",
-        "block-1719236813369",
-        "block-1719236832256",
-        "block-1719236872024",
-        "block-1719236929075",
-        "block-1719236900673"
-      ]
-    }
-  },
-  "block-1719235629010": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
+    "root": {
+        "type": "EmailLayout",
+        "data": {
+            "backdropColor": "#e5e5e5",
+            "canvasColor": "#FFFFFF",
+            "textColor": "#262626",
+            "fontFamily": "HEAVY_SANS",
             "childrenIds": [
-              "block-1719235670110"
+                "block-1719235629010",
+                "block-1719235721093",
+                "block-1719235734312",
+                "block-1719235762413",
+                "block-1719235786545",
+                "block-1719235831131",
+                "block-1719235850661",
+                "block-1719235922032",
+                "block-1719235944714",
+                "block-1719235973149",
+                "block-1719236337624",
+                "block-1719236197853",
+                "block-1719236532693",
+                "block-1719236813369",
+                "block-1719236832256",
+                "block-1719236872024",
+                "block-1719236929075",
+                "block-1719236900673",
+                "block-1721637941896"
             ]
-          },
-          {
-            "childrenIds": [
-              "block-1719235654126"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719235654126": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "bold",
-        "textAlign": "right",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
         }
-      },
-      "props": {
-        "text": "HOSTING"
-      }
-    }
-  },
-  "block-1719235670110": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235629010": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719235670110"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719235654126"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "width": 260,
-        "height": null,
-        "url": "http://test.microweber.com/userfiles/media/default/logo.svg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719235721093": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235654126": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "bold",
+                "textAlign": "right",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "HOSTING"
+            }
         }
-      },
-      "props": {
-        "text": "Website Builder by Microweber"
-      }
-    }
-  },
-  "block-1719235734312": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 30,
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235670110": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "width": 260,
+                "height": null,
+                "url": "http://test.microweber.com/userfiles/media/default/logo.svg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "Everything You Need to Launch a Highly Converting Store"
-      }
-    }
-  },
-  "block-1719235762413": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235721093": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Website Builder by Microweber"
+            }
         }
-      },
-      "props": {
-        "url": "http://test.microweber.com/userfiles/media/default/unnamed.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719234855277": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235734312": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 30,
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Everything You Need to Launch a Highly Converting Store"
+            }
         }
-      },
-      "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719235786545": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 16,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235762413": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://test.microweber.com/userfiles/media/default/unnamed.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "Start selling online like a pro with eCommerce Hosting by Microweber. Launching an online store with Microweber has never been easier with the new eCommerce Hosting plans including state of the art hosting, Microweber Website Builder."
-      }
-    }
-  },
-  "block-1719235831131": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": " Launch a sales-optimized store faster than ever and start selling today.",
-        "level": "h3"
-      },
-      "style": {
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719234855277": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      }
-    }
-  },
-  "block-1719235850661": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 17,
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235786545": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 16,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Start selling online like a pro with eCommerce Hosting by Microweber. Launching an online store with Microweber has never been easier with the new eCommerce Hosting plans including state of the art hosting, Microweber Website Builder."
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#7C3AED",
-        "buttonStyle": "rectangle",
-        "fullWidth": false,
-        "text": "EXPLORE PLANS",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719235922032": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 29,
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235831131": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": " Launch a sales-optimized store faster than ever and start selling today.",
+                "level": "h3"
+            },
+            "style": {
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
         }
-      },
-      "props": {
-        "text": "Starting at $4.99/month\n "
-      }
-    }
-  },
-  "block-1719235944714": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 20,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235850661": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 17,
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#7C3AED",
+                "buttonStyle": "rectangle",
+                "fullWidth": false,
+                "text": "EXPLORE PLANS",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "text": "Start selling now with a hosting plan thats got it all:"
-      }
-    }
-  },
-  "block-1719235973149": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235922032": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 29,
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Starting at $4.99/month\n "
+            }
         }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719235975766"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719235982133"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719235975766": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235944714": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 20,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Start selling now with a hosting plan thats got it all:"
+            }
         }
-      },
-      "props": {
-        "text": " Build super-fast stores "
-      }
-    }
-  },
-  "block-1719235982133": {
-    "type": "Container",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235973149": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719235975766"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719235982133"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "childrenIds": [
-          "block-1719235986099"
-        ]
-      }
-    }
-  },
-  "block-1719235986099": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235975766": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": " Build super-fast stores "
+            }
         }
-      },
-      "props": {
-        "text": " Keep your store and customers secure "
-      }
-    }
-  },
-  "block-1719236197853": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235982133": {
+        "type": "Container",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "childrenIds": [
+                    "block-1719235986099"
+                ]
+            }
         }
-      },
-      "props": {
-        "fixedWidths": [
-          null,
-          null,
-          null
-        ],
-        "columnsCount": 2,
-        "columnsGap": 0,
-        "contentAlignment": "top",
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719236201804"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719236456975",
-              "block-1719236225088",
-              "block-1719236396340"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719236201804": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235986099": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": " Keep your store and customers secure "
+            }
         }
-      },
-      "props": {
-        "url": "http://test.microweber.com/userfiles/media/default/3.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719236225088": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 20
+    },
+    "block-1719236197853": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "fixedWidths": [
+                    null,
+                    null,
+                    null
+                ],
+                "columnsCount": 2,
+                "columnsGap": 0,
+                "contentAlignment": "top",
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719236201804"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719236456975",
+                            "block-1719236225088",
+                            "block-1719236396340"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "text": "Increase traffic and maximize sales by building a super-fast store optimized for SEO. With CloudFlare Enterprise CDN, your store loads quickly regardless of customers location, ensuring your store is loved by human shoppers and search engines alike."
-      }
-    }
-  },
-  "block-1719236337624": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 60
-      }
-    }
-  },
-  "block-1719236396340": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 0
+    },
+    "block-1719236201804": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://test.microweber.com/userfiles/media/default/3.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonTextColor": "#9333EA",
-        "text": "LEARN MORE ->",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719236456975": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 20
+    },
+    "block-1719236225088": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 20
+                }
+            },
+            "props": {
+                "text": "Increase traffic and maximize sales by building a super-fast store optimized for SEO. With CloudFlare Enterprise CDN, your store loads quickly regardless of customers location, ensuring your store is loved by human shoppers and search engines alike."
+            }
         }
-      },
-      "props": {
-        "text": "Build Super-Fast Online Stores"
-      }
-    }
-  },
-  "block-1719236532693": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719236337624": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 60
+            }
         }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "contentAlignment": "top",
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719236538628"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719236583231",
-              "block-1719236592465",
-              "block-1719236662034"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719236538628": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719236396340": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#9333EA",
+                "text": "LEARN MORE ->",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "url": "http://test.microweber.com/userfiles/media/default/333.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "top"
-      }
-    }
-  },
-  "block-1719236521440": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236456975": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 20
+                }
+            },
+            "props": {
+                "text": "Build Super-Fast Online Stores"
+            }
         }
-      },
-      "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719236583231": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 8
+    },
+    "block-1719236532693": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "contentAlignment": "top",
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719236538628"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719236583231",
+                            "block-1719236592465",
+                            "block-1719236662034"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
         }
-      },
-      "props": {
-        "text": "Seamless Sales Experiences That Convert"
-      }
-    }
-  },
-  "block-1719236592465": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 8
+    },
+    "block-1719236538628": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://test.microweber.com/userfiles/media/default/333.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "top"
+            }
         }
-      },
-      "props": {
-        "text": "Scale your store with built-in conversion optimization tools like order bumps, social proof notifications and distraction-free checkouts on any device. Motivate customers to complete their purchases by creating a sense of urgency using low-stock inventory indications and free shipping alerts."
-      }
-    }
-  },
-  "block-1719236662034": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 15,
-        "textAlign": "left",
-        "padding": {
-          "top": 12,
-          "bottom": 28,
-          "right": 12,
-          "left": 0
+    },
+    "block-1719236521440": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonTextColor": "#7C3AED",
-        "size": "x-small",
-        "text": "SEE HOW TO DO IT",
-        "url": "https://www.microweber.com"
-      }
-    }
-  },
-  "block-1719236813369": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 12,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236583231": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 8
+                }
+            },
+            "props": {
+                "text": "Seamless Sales Experiences That Convert"
+            }
         }
-      },
-      "props": {
-        "text": "*For selected plans"
-      }
-    }
-  },
-  "block-1719236832256": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236592465": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 8
+                }
+            },
+            "props": {
+                "text": "Scale your store with built-in conversion optimization tools like order bumps, social proof notifications and distraction-free checkouts on any device. Motivate customers to complete their purchases by creating a sense of urgency using low-stock inventory indications and free shipping alerts."
+            }
         }
-      },
-      "props": {
-        "markdown": true,
-        "text": "\nThank you,\n<b>The Microweber Team</b>"
-      }
-    }
-  },
-  "block-1719236872024": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236662034": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 15,
+                "textAlign": "left",
+                "padding": {
+                    "top": 12,
+                    "bottom": 28,
+                    "right": 12,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#7C3AED",
+                "size": "x-small",
+                "text": "SEE HOW TO DO IT",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "markdown": false,
-        "text": "© 2024 Tuval Street 40, Ramat Gan 5252247, Israel"
-      }
-    }
-  },
-  "block-1719236900673": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236813369": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 12,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "*For selected plans"
+            }
         }
-      },
-      "props": {
-        "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
-      }
-    }
-  },
-  "block-1719236929075": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236832256": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "markdown": true,
+                "text": "\nThank you,\n<b>The Microweber Team</b>"
+            }
         }
-      },
-      "props": {
-        "markdown": true,
-        "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  |  Unsubscribe "
-      }
+    },
+    "block-1719236872024": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "markdown": false,
+                "text": "© 2024 Tuval Street 40, Ramat Gan 5252247, Israel"
+            }
+        }
+    },
+    "block-1719236900673": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
+            }
+        }
+    },
+    "block-1719236929075": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "textAlign": "center",
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "markdown": true,
+                "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  "
+            }
+        }
+    },
+    "block-1721637941896": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 11,
+                "textAlign": "center",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#000000",
+                "fullWidth": false,
+                "text": "Unsubscribe me",
+                "url": "{{unsubscribeUrl}}"
+            }
+        }
     }
-  }
 }
