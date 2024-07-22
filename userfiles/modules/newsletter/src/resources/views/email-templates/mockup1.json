@@ -16,7 +16,8 @@
         "block-1719235922032",
         "block-1719474310541",
         "block-1719236929075",
-        "block-1719236900673"
+        "block-1719236900673",
+        "block-1721637941896"
       ]
     }
   },
@@ -418,5 +419,27 @@
         "url": "https://www.usewaypoint.com"
       }
     }
+  },
+  "block-1721637941896": {
+      "type": "Button",
+      "data": {
+          "style": {
+              "fontSize": 11,
+              "textAlign": "center",
+              "padding": {
+                  "top": 0,
+                  "bottom": 0,
+                  "right": 0,
+                  "left": 0
+              }
+          },
+          "props": {
+              "buttonBackgroundColor": "#ffffff",
+              "buttonTextColor": "#000000",
+              "fullWidth": false,
+              "text": "Unsubscribe for this newsletter",
+              "url": "{{unsubscribeUrl}}"
+          }
+      }
   }
 }

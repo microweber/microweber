@@ -25,7 +25,7 @@
     $campaign = $getCampaign();
     @endphp
 
-    @if($campaign['emailTemplate'])
+    @if(isset($campaign['emailTemplate']))
 
         <style>
             .iframe-container {
