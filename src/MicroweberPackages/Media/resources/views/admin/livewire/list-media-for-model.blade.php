@@ -74,7 +74,7 @@
                 type="button" x-on:click="()=> {
 
                 mw.filePickerDialog((url) => {
-                   $dispatch('addMediaItem', { url: url })
+                   $dispatch('addMediaItem', { data: { url: url } })
                 });
 
                 }">

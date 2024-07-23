@@ -136,47 +136,7 @@ class ContentResource extends Resource
         return $form
             ->schema([
 
-                Forms\Components\Section::make('Images')
-                    ->schema([
 
-
-//                        MwImagesForModel::make('mediaIds'),
-
-                        Forms\Components\Livewire::make('admin-list-media-for-model', [
-                            'relType' => $modelName,
-                            'relId' => $id,
-                            'mediaFiles' => $mediaFiles,
-                            'mediaUrls' => $mediaUrls,
-
-                            'parentComponentName' => $componentName,
-                            'createdBy' => user_id(),
-
-                            // 'sessionId' => $sessionId
-
-                        ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
-
-                        }),
-//                        Forms\Components\ViewField::make('mediaIds')
-//                            ->view('media::admin.filament.forms.attach-media-to-model')
-//
-//                            ->viewData([
-//
-//                                'relType' => $modelName,
-//                                'relId' => $id,
-//                                'sessionId' => $sessionId,
-//
-//
-//
-////                                'mediaFiles' => $mediaFiles,
-////                                'mediaUrls' => $mediaUrls,
-////                                'sessionId' => $sessionId,
-////                                'contentId' => $id,
-//
-//                            ])
-
-
-                    ])
-                    ->collapsible(),
 
 
 //                Forms\Components\CheckboxList::make('belongsToMenus')
@@ -194,20 +154,20 @@ class ContentResource extends Resource
                     Forms\Components\Group::make()
                         ->schema([
 
-                            Forms\Components\TextInput::make('id')
+                            Forms\Components\Hidden::make('id')
                                 ->default($id)
                                 ->hidden(),
-                            Forms\Components\TextInput::make('session_id')
+                            Forms\Components\Hidden::make('session_id')
                                 ->default($sessionId)
                             ,
-                            Forms\Components\TextInput::make('mediaIds')
+                            Forms\Components\Hidden::make('mediaIds')
 
                             ,
 
-                            Forms\Components\TextInput::make('content_type')
+                            Forms\Components\Hidden::make('content_type')
                                 ->default($contentType)
                                 ->hidden(),
-                            Forms\Components\TextInput::make('categoryIds')
+                            Forms\Components\Hidden::make('categoryIds')
                                 ->default($categoryIds)
                                 ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($categoryIds) {
 
@@ -222,7 +182,7 @@ class ContentResource extends Resource
                                 })
                             ,
 
-                            Forms\Components\TextInput::make('menuIds')
+                            Forms\Components\Hidden::make('menuIds')
                                 ->default($menuIds)
                                 ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($menuIds) {
 
@@ -233,17 +193,20 @@ class ContentResource extends Resource
                                     }
                                 })
                             ,
-                            Forms\Components\TextInput::make('parent')
+                            Forms\Components\Hidden::make('parent')
                                 ->default($parent),
 
-                            Forms\Components\TextInput::make('subtype')
+                            Forms\Components\Hidden::make('subtype')
                                 ->default($contentSubtype)
                                 ->hidden(),
 
 
                             Forms\Components\TextInput::make('is_shop')
-                                ->default($contentSubtype)
-                                ->hidden(),
+                                ->default(0)
+                                ->visible(function (Forms\Get $get) {
+                                    return $get('content_type') === 'page';
+                                }),
+
 
 //
 //
@@ -298,6 +261,35 @@ class ContentResource extends Resource
                                 ])
                                 ->columnSpanFull()
                                 ->columns(2),
+
+
+
+
+                            Forms\Components\Section::make('Images')
+                                ->schema([
+
+
+//                        MwImagesForModel::make('mediaIds'),
+
+                                    Forms\Components\Livewire::make('admin-list-media-for-model', [
+                                        'relType' => $modelName,
+                                        'relId' => $id,
+                                        'mediaFiles' => $mediaFiles,
+                                        'mediaUrls' => $mediaUrls,
+
+                                        'parentComponentName' => $componentName,
+                                        'createdBy' => user_id(),
+
+                                        // 'sessionId' => $sessionId
+
+                                    ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
+
+                                    }),
+
+
+                                ])
+                                ->collapsible(),
+
 
 
                             Forms\Components\Section::make('Pricing')
@@ -752,6 +744,8 @@ class ContentResource extends Resource
         $livewire = $table->getLivewire();
 
         return $table
+            ->paginated([10, 25, 50, 100, 250,'all'])
+            ->defaultPaginationPageOption(250)
             ->deferLoading()
             ->reorderable('position')
             ->columns(
