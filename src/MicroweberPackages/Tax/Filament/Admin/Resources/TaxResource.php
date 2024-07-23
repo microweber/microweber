@@ -2,8 +2,12 @@
 
 namespace MicroweberPackages\Tax\Filament\Admin\Resources;
 
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Illuminate\Support\HtmlString;
 use MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource\Pages;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -43,6 +47,7 @@ class TaxResource extends Resource
                     ->label('Rate')
                     ->placeholder('Rate')
                     ->required()
+                    ->live()
                     ->numeric()
                     ->columnSpan('full'),
 
@@ -51,6 +56,30 @@ class TaxResource extends Resource
                     ->placeholder('Description')
                     ->columnSpan('full'),
 
+                Placeholder::make('example_display')
+                    ->label('Tax Display')
+                    ->columnSpan('full')
+                    ->live()
+                    ->content(function (Set $set, Get $get) {
+                        $exampleTaxFor100Dollars = 0;
+
+                        $taxType = $get('type');
+                        if ($taxType == 'percentage') {
+                            $exampleTaxFor100Dollars = $get('rate') / 100 * 100;
+                        } elseif ($taxType == 'fixed') {
+                            $exampleTaxFor100Dollars = $get('rate') ;
+                        }
+
+
+                        return new HtmlString("
+            <div class='bg-gray-100 p-4 rounded-lg'>
+                <div class='mt-2'>
+                    <div class='text-sm'>For \$100, the tax will be: <span class='font-semibold'>\$$exampleTaxFor100Dollars</span></div>
+                </div>
+            </div>
+");
+                    }),
+
 
             ]);
     }
@@ -58,6 +87,8 @@ class TaxResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('No Taxes')
+            ->emptyStateDescription('Add new taxes to your store.')
             ->columns([
 
                 Tables\Columns\TextColumn::make('name')
@@ -81,7 +112,7 @@ class TaxResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

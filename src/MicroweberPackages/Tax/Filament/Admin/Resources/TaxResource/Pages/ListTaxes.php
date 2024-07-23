@@ -8,6 +8,8 @@ use MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource;
 
 class ListTaxes extends ListRecords
 {
+
+
     protected static string $resource = TaxResource::class;
 
     protected function getHeaderActions(): array

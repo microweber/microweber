@@ -48,7 +48,7 @@ class ShippingProviderResource extends Resource
                 ->columnSpan('full'),
 
             Forms\Components\Toggle::make('is_active')
-                ->default(0)
+                ->default(1)
                 ->label('Is Active')
                 ->columnSpan('full')
                 ->required(),
@@ -143,6 +143,9 @@ class ShippingProviderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+
+            ->emptyStateHeading('No Shipping Providers')
+            ->emptyStateDescription('Add new shipping providers to your store.')
             ->columns([
 
                 Tables\Columns\TextColumn::make('id')
