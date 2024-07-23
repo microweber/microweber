@@ -27,6 +27,10 @@ class SelectTemplate extends Field
     public function getCampaign()
     {
         $model = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $this->campaignId)->first();
+
+        if (!$model) {
+            return [];
+        }
         $emailTemplate = NewsletterTemplate::where('id', $model->email_template_id)->first();
 
         return [

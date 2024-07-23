@@ -63,6 +63,11 @@ class NewsletterCampaign extends Model
 
     }
 
+    public function getOpenedAttribute()
+    {
+        return NewsletterCampaignPixel::where('campaign_id', $this->id)->count();
+    }
+
     public function getScheduledAttribute()
     {
         return 0;

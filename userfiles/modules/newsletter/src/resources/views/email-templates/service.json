@@ -1,1757 +1,1781 @@
 {
-  "root": {
-    "type": "EmailLayout",
-    "data": {
-      "backdropColor": "#e5e5e5",
-      "canvasColor": "#FFFFFF",
-      "textColor": "#262626",
-      "fontFamily": "HEAVY_SANS",
-      "childrenIds": [
-        "block-1719235629010",
-        "block-1719491007254",
-        "block-1719235734312",
-        "block-1719490995955",
-        "block-1719235762413",
-        "block-1719491053624",
-        "block-1719491069942",
-        "block-1719235786545",
-        "block-1719493288673",
-        "block-1719491826866",
-        "block-1719491830362",
-        "block-1719493008537",
-        "block-1719493018334",
-        "block-1719493029593",
-        "block-1719493027480",
-        "block-1719491832349",
-        "block-1719493307009",
-        "block-1719493499006",
-        "block-1719493634772",
-        "block-1719493637117",
-        "block-1719493659689",
-        "block-1719493494249",
-        "block-1719493496721",
-        "block-1719493501468",
-        "block-1719493683883",
-        "block-1719493844611",
-        "block-1719493822669",
-        "block-1719493826569",
-        "block-1719493862382",
-        "block-1719494224095",
-        "block-1719494164716",
-        "block-1719494206456",
-        "block-1719494281708",
-        "block-1719494285756",
-        "block-1719494271213",
-        "block-1719494792754",
-        "block-1719494795904",
-        "block-1719494800067",
-        "block-1719236832256",
-        "block-1719236929075",
-        "block-1719236900673"
-      ]
-    }
-  },
-  "block-1719235629010": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "fixedWidths": [
-          200,
-          null,
-          null
-        ],
-        "columnsCount": 2,
-        "columnsGap": 0,
-        "columns": [
-          {
+    "root": {
+        "type": "EmailLayout",
+        "data": {
+            "backdropColor": "#e5e5e5",
+            "canvasColor": "#FFFFFF",
+            "textColor": "#262626",
+            "fontFamily": "HEAVY_SANS",
             "childrenIds": [
-              "block-1719490586082"
+                "block-1719235629010",
+                "block-1719491007254",
+                "block-1719235734312",
+                "block-1719490995955",
+                "block-1719235762413",
+                "block-1719491053624",
+                "block-1719491069942",
+                "block-1719235786545",
+                "block-1719493288673",
+                "block-1719491826866",
+                "block-1719491830362",
+                "block-1719493008537",
+                "block-1719493018334",
+                "block-1719493029593",
+                "block-1719493027480",
+                "block-1719491832349",
+                "block-1719493307009",
+                "block-1719493499006",
+                "block-1719493634772",
+                "block-1719493637117",
+                "block-1719493659689",
+                "block-1719493494249",
+                "block-1719493496721",
+                "block-1719493501468",
+                "block-1719493683883",
+                "block-1719493844611",
+                "block-1719493822669",
+                "block-1719493826569",
+                "block-1719493862382",
+                "block-1719494224095",
+                "block-1719494164716",
+                "block-1719494206456",
+                "block-1719494281708",
+                "block-1719494285756",
+                "block-1719494271213",
+                "block-1719494792754",
+                "block-1719494795904",
+                "block-1719494800067",
+                "block-1719236832256",
+                "block-1719236929075",
+                "block-1719236900673",
+                "block-1721637941896"
             ]
-          },
-          {
-            "childrenIds": [
-              "block-1719490635617"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719235734312": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 30,
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "We Create Modern Website"
-      }
-    }
-  },
-  "block-1719235762413": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/bg-1-2.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719234855277": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719235786545": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 16,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719235975766": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": " Build super-fast stores "
-      }
-    }
-  },
-  "block-1719235982133": {
-    "type": "Container",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "childrenIds": [
-          "block-1719235986099"
-        ]
-      }
-    }
-  },
-  "block-1719235986099": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": " Keep your store and customers secure "
-      }
-    }
-  },
-  "block-1719236201804": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "http://test.microweber.com/userfiles/media/default/3.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719236225088": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 20
-        }
-      },
-      "props": {
-        "text": "Increase traffic and maximize sales by building a super-fast store optimized for SEO. With CloudFlare Enterprise CDN, your store loads quickly regardless of customers location, ensuring your store is loved by human shoppers and search engines alike."
-      }
-    }
-  },
-  "block-1719236396340": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 0
-        }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonTextColor": "#9333EA",
-        "text": "LEARN MORE ->",
-        "url": "https://www.usewaypoint.com"
-      }
-    }
-  },
-  "block-1719236456975": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 20
-        }
-      },
-      "props": {
-        "text": "Build Super-Fast Online Stores"
-      }
-    }
-  },
-  "block-1719236538628": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "http://test.microweber.com/userfiles/media/default/333.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "top"
-      }
-    }
-  },
-  "block-1719236521440": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719236583231": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 8
-        }
-      },
-      "props": {
-        "text": "Seamless Sales Experiences That Convert"
-      }
-    }
-  },
-  "block-1719236592465": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 8
-        }
-      },
-      "props": {
-        "text": "Scale your store with built-in conversion optimization tools like order bumps, social proof notifications and distraction-free checkouts on any device. Motivate customers to complete their purchases by creating a sense of urgency using low-stock inventory indications and free shipping alerts."
-      }
-    }
-  },
-  "block-1719236662034": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 15,
-        "textAlign": "left",
-        "padding": {
-          "top": 12,
-          "bottom": 28,
-          "right": 12,
-          "left": 0
-        }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonTextColor": "#7C3AED",
-        "size": "x-small",
-        "text": "SEE HOW TO DO IT",
-        "url": "https://www.usewaypoint.com"
-      }
-    }
-  },
-  "block-1719236832256": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#000000",
-        "fontSize": 18,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 36,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "markdown": true,
-        "text": "\nThank you,\n<b>The Microweber Team</b>"
-      }
-    }
-  },
-  "block-1719236900673": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#000000",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 24,
-          "bottom": 36,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
-      }
-    }
-  },
-  "block-1719236929075": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#000000",
-        "fontWeight": "normal",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "markdown": true,
-        "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  |  Unsubscribe "
-      }
-    }
-  },
-  "block-1719490586082": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 20,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "CORPORATE"
-      }
-    }
-  },
-  "block-1719490635617": {
-    "type": "Html",
-    "data": {
-      "style": {
-        "color": "#525252",
-        "fontSize": 16,
-        "textAlign": null,
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "contents": "<a href=\"\"> Home </a> <a href=\"\"> About </a> <a href=\"\"> <a href=\"\"> Works</a> </a> <a href=\"\"> Blog </a>\n<a href=\"\"> Contact</a> </div>"
-      }
-    }
-  },
-  "block-1719490995955": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 44,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth."
-      }
-    }
-  },
-  "block-1719491007254": {
-    "type": "Divider",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "right": 0,
-          "bottom": 16,
-          "left": 0
-        }
-      },
-      "props": {
-        "lineColor": "#CCCCCC"
-      }
-    }
-  },
-  "block-1719491053624": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 40
-      }
-    }
-  },
-  "block-1719491069942": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "OUR SERVICES"
-      },
-      "style": {
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719491826866": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Branding"
-      },
-      "style": {
-        "backgroundColor": "#F7F7F7",
-        "textAlign": "center",
-        "padding": {
-          "top": 36,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719491830362": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "backgroundColor": "#F7F7F7",
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 36,
-          "right": 16,
-          "left": 16
-        }
-      },
-      "props": {
-        "text": "Far far away, behind the word mountains, far from the countries"
-      }
-    }
-  },
-  "block-1719491832349": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 44
-      }
-    }
-  },
-  "block-1719493008537": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Design"
-      },
-      "style": {
-        "backgroundColor": "#EBEBEB",
-        "textAlign": "center",
-        "padding": {
-          "top": 36,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719493018334": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "backgroundColor": "#EBEBEB",
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 36,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "Far far away, behind the word mountains, far from the countries\n\n"
-      }
-    }
-  },
-  "block-1719493027480": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#000000",
-        "backgroundColor": "#F7F7F7",
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 36,
-          "right": 20,
-          "left": 20
-        }
-      },
-      "props": {
-        "text": "Far far away, behind the word mountains, far from the countries"
-      }
-    }
-  },
-  "block-1719493029593": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Development"
-      },
-      "style": {
-        "backgroundColor": "#F7F7F7",
-        "textAlign": "center",
-        "padding": {
-          "top": 36,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719493288673": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 8
-      }
-    }
-  },
-  "block-1719493307009": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 0,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719493327437"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719493332775",
-              "block-1719493337284",
-              "block-1719493340392"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719493327437": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/about.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719493332775": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "BUSINESS STRATEGY",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719493337284": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719493340392": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "buttonBackgroundColor": "#261bff",
-        "text": "Read more",
-        "url": "https://www.usewaypoint.com"
-      }
-    }
-  },
-  "block-1719493494249": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719493524103"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719493526977"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719493496721": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719493525643"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719493528361"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719493499006": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 32
-      }
-    }
-  },
-  "block-1719493501468": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 32
-      }
-    }
-  },
-  "block-1719493524103": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-1_1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719493525643": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-3_1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719493526977": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-2_1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719493528361": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/work-4_1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719493634772": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "PROJECTS"
-      },
-      "style": {
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719493637117": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719493659689": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 24
-      }
-    }
-  },
-  "block-1719493683883": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "width": null,
-        "height": null,
-        "url": "https://test.microweber.com/userfiles/media/default/bg-1-3.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719493822669": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "OUR BLOG"
-      },
-      "style": {
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719493826569": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719493844611": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 28
-      }
-    }
-  },
-  "block-1719493862382": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 8,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719493891585",
-              "block-1719493905117",
-              "block-1719493898299",
-              "block-1719493900419",
-              "block-1719493908399"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719493893271",
-              "block-1719493911895",
-              "block-1719493914164",
-              "block-1719493915863",
-              "block-1719493917649"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719493891585": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/blog-1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719493893271": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/blog-2.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719493898299": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Business Key to Success",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 12,
-          "bottom": 16,
-          "right": 0,
-          "left": 0
-        }
-      }
-    }
-  },
-  "block-1719493900419": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "Far far away, behind the word mountains, far from the countries"
-      }
-    }
-  },
-  "block-1719493905117": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontWeight": "normal",
-        "padding": {
-          "top": 24,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD\n\n"
-      }
-    }
-  },
-  "block-1719493908399": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "buttonBackgroundColor": "#0d00ff",
-        "size": "small",
-        "text": "Read more",
-        "url": "https://www.usewaypoint.com"
-      }
-    }
-  },
-  "block-1719493911895": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontWeight": "normal",
-        "padding": {
-          "top": 24,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "POSTED ON FEB 18, 2019 FOOD\n\n"
-      }
-    }
-  },
-  "block-1719493914164": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Web Design Technique\n",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 0,
-          "left": 0
-        }
-      }
-    }
-  },
-  "block-1719493915863": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "Far far away, behind the word mountains, far from the countries"
-      }
-    }
-  },
-  "block-1719493917649": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "buttonBackgroundColor": "#0d00ff",
-        "size": "small",
-        "text": "Read more",
-        "url": "https://www.usewaypoint.com"
-      }
-    }
-  },
-  "block-1719494164716": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "OUR TEAM"
-      },
-      "style": {
-        "backgroundColor": "#FAFAFA",
-        "textAlign": "center",
-        "padding": {
-          "top": 28,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719494206456": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "backgroundColor": "#FAFAFA",
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 28,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
-      }
-    }
-  },
-  "block-1719494224095": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 32
-      }
-    }
-  },
-  "block-1719494271213": {
-    "type": "Spacer",
-    "data": {
-      "props": {
-        "height": 40
-      }
-    }
-  },
-  "block-1719494281708": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719494340860",
-              "block-1719494348779",
-              "block-1719494352939",
-              "block-1719494354651"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719494358194",
-              "block-1719494363732",
-              "block-1719494365922",
-              "block-1719494367338"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719494285756": {
-    "type": "ColumnsContainer",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "columnsCount": 2,
-        "columnsGap": 16,
-        "columns": [
-          {
-            "childrenIds": [
-              "block-1719494581868"
-            ]
-          },
-          {
-            "childrenIds": [
-              "block-1719494584804",
-              "block-1719494592721",
-              "block-1719494595623",
-              "block-1719494599214",
-              "block-1719494600556",
-              "block-1719494602888",
-              "block-1719494604615"
-            ]
-          },
-          {
-            "childrenIds": []
-          }
-        ]
-      }
-    }
-  },
-  "block-1719494340860": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/person-1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719494348779": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "Ronald Tuff"
-      }
-    }
-  },
-  "block-1719494352939": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 8,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "Businessman"
-      }
-    }
-  },
-  "block-1719494354651": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "Far far away, behind the word mountains\n\n"
-      }
-    }
-  },
-  "block-1719494358194": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/person-2.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719494363732": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "Willam Clarson"
-      }
-    }
-  },
-  "block-1719494365922": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 8,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "Businessman"
-      }
-    }
-  },
-  "block-1719494367338": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "Far far away, behind the word mountains\n\n"
-      }
-    }
-  },
-  "block-1719494581868": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/bg-2-1.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719494584804": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "OUR FEATURES",
-        "level": "h3"
-      },
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 0,
-          "left": 0
-        }
-      }
-    }
-  },
-  "block-1719494592721": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "bold",
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "Responsive"
-      }
-    }
-  },
-  "block-1719494595623": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their"
-      }
-    }
-  },
-  "block-1719494599214": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 16,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "Responsive"
-      }
-    }
-  },
-  "block-1719494600556": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their"
-      }
-    }
-  },
-  "block-1719494602888": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "bold",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "Responsive"
-      }
-    }
-  },
-  "block-1719494604615": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#737373",
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their"
-      }
-    }
-  },
-  "block-1719494792754": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "GET READY FOR MODERN DESIGN"
-      },
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#0D0CB5",
-        "textAlign": "center",
-        "padding": {
-          "top": 32,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      }
-    }
-  },
-  "block-1719494795904": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "color": "#ffffff",
-        "backgroundColor": "#0D0CB5",
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.\n\n"
-      }
-    }
-  },
-  "block-1719494800067": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "backgroundColor": "#0D0CB5",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 32,
-          "right": 24,
-          "left": 24
-        }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonStyle": "rectangle",
-        "buttonTextColor": "#000000",
-        "text": "Get Started",
-        "url": "https://www.usewaypoint.com"
-      }
+        }
+    },
+    "block-1719235629010": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "fixedWidths": [
+                    200,
+                    null,
+                    null
+                ],
+                "columnsCount": 2,
+                "columnsGap": 0,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719490586082"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719490635617"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
+        }
+    },
+    "block-1719235734312": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 30,
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "We Create Modern Website"
+            }
+        }
+    },
+    "block-1719235762413": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/bg-1-2.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719234855277": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719235786545": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 16,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
+        }
+    },
+    "block-1719235975766": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": " Build super-fast stores "
+            }
+        }
+    },
+    "block-1719235982133": {
+        "type": "Container",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "childrenIds": [
+                    "block-1719235986099"
+                ]
+            }
+        }
+    },
+    "block-1719235986099": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": " Keep your store and customers secure "
+            }
+        }
+    },
+    "block-1719236201804": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://test.microweber.com/userfiles/media/default/3.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719236225088": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 20
+                }
+            },
+            "props": {
+                "text": "Increase traffic and maximize sales by building a super-fast store optimized for SEO. With CloudFlare Enterprise CDN, your store loads quickly regardless of customers location, ensuring your store is loved by human shoppers and search engines alike."
+            }
+        }
+    },
+    "block-1719236396340": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#9333EA",
+                "text": "LEARN MORE ->",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1719236456975": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 20
+                }
+            },
+            "props": {
+                "text": "Build Super-Fast Online Stores"
+            }
+        }
+    },
+    "block-1719236538628": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://test.microweber.com/userfiles/media/default/333.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "top"
+            }
+        }
+    },
+    "block-1719236521440": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719236583231": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 8
+                }
+            },
+            "props": {
+                "text": "Seamless Sales Experiences That Convert"
+            }
+        }
+    },
+    "block-1719236592465": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 8
+                }
+            },
+            "props": {
+                "text": "Scale your store with built-in conversion optimization tools like order bumps, social proof notifications and distraction-free checkouts on any device. Motivate customers to complete their purchases by creating a sense of urgency using low-stock inventory indications and free shipping alerts."
+            }
+        }
+    },
+    "block-1719236662034": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 15,
+                "textAlign": "left",
+                "padding": {
+                    "top": 12,
+                    "bottom": 28,
+                    "right": 12,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#7C3AED",
+                "size": "x-small",
+                "text": "SEE HOW TO DO IT",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1719236832256": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#000000",
+                "fontSize": 18,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 36,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "markdown": true,
+                "text": "\nThank you,\n<b>The Microweber Team</b>"
+            }
+        }
+    },
+    "block-1719236900673": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#000000",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 24,
+                    "bottom": 36,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
+            }
+        }
+    },
+    "block-1719236929075": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#000000",
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "markdown": true,
+                "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  "
+            }
+        }
+    },
+    "block-1719490586082": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 20,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "CORPORATE"
+            }
+        }
+    },
+    "block-1719490635617": {
+        "type": "Html",
+        "data": {
+            "style": {
+                "color": "#525252",
+                "fontSize": 16,
+                "textAlign": null,
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "contents": "<a href=\"\"> Home </a> <a href=\"\"> About </a> <a href=\"\"> <a href=\"\"> Works</a> </a> <a href=\"\"> Blog </a>\n<a href=\"\"> Contact</a> </div>"
+            }
+        }
+    },
+    "block-1719490995955": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 44,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth."
+            }
+        }
+    },
+    "block-1719491007254": {
+        "type": "Divider",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "right": 0,
+                    "bottom": 16,
+                    "left": 0
+                }
+            },
+            "props": {
+                "lineColor": "#CCCCCC"
+            }
+        }
+    },
+    "block-1719491053624": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 40
+            }
+        }
+    },
+    "block-1719491069942": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "OUR SERVICES"
+            },
+            "style": {
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719491826866": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Branding"
+            },
+            "style": {
+                "backgroundColor": "#F7F7F7",
+                "textAlign": "center",
+                "padding": {
+                    "top": 36,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719491830362": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "backgroundColor": "#F7F7F7",
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 36,
+                    "right": 16,
+                    "left": 16
+                }
+            },
+            "props": {
+                "text": "Far far away, behind the word mountains, far from the countries"
+            }
+        }
+    },
+    "block-1719491832349": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 44
+            }
+        }
+    },
+    "block-1719493008537": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Design"
+            },
+            "style": {
+                "backgroundColor": "#EBEBEB",
+                "textAlign": "center",
+                "padding": {
+                    "top": 36,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719493018334": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "backgroundColor": "#EBEBEB",
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 36,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Far far away, behind the word mountains, far from the countries\n\n"
+            }
+        }
+    },
+    "block-1719493027480": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#000000",
+                "backgroundColor": "#F7F7F7",
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 36,
+                    "right": 20,
+                    "left": 20
+                }
+            },
+            "props": {
+                "text": "Far far away, behind the word mountains, far from the countries"
+            }
+        }
+    },
+    "block-1719493029593": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Development"
+            },
+            "style": {
+                "backgroundColor": "#F7F7F7",
+                "textAlign": "center",
+                "padding": {
+                    "top": 36,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719493288673": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 8
+            }
+        }
+    },
+    "block-1719493307009": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 0,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719493327437"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719493332775",
+                            "block-1719493337284",
+                            "block-1719493340392"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
+        }
+    },
+    "block-1719493327437": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/about.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719493332775": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "BUSINESS STRATEGY",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719493337284": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
+        }
+    },
+    "block-1719493340392": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#261bff",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1719493494249": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719493524103"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719493526977"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
+        }
+    },
+    "block-1719493496721": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719493525643"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719493528361"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
+        }
+    },
+    "block-1719493499006": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 32
+            }
+        }
+    },
+    "block-1719493501468": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 32
+            }
+        }
+    },
+    "block-1719493524103": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-1_1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719493525643": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-3_1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719493526977": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-2_1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719493528361": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/work-4_1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719493634772": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "PROJECTS"
+            },
+            "style": {
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719493637117": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
+        }
+    },
+    "block-1719493659689": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 24
+            }
+        }
+    },
+    "block-1719493683883": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "width": null,
+                "height": null,
+                "url": "https://test.microweber.com/userfiles/media/default/bg-1-3.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719493822669": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "OUR BLOG"
+            },
+            "style": {
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719493826569": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
+        }
+    },
+    "block-1719493844611": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 28
+            }
+        }
+    },
+    "block-1719493862382": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 8,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719493891585",
+                            "block-1719493905117",
+                            "block-1719493898299",
+                            "block-1719493900419",
+                            "block-1719493908399"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719493893271",
+                            "block-1719493911895",
+                            "block-1719493914164",
+                            "block-1719493915863",
+                            "block-1719493917649"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
+        }
+    },
+    "block-1719493891585": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/blog-1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719493893271": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/blog-2.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719493898299": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Business Key to Success",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 12,
+                    "bottom": 16,
+                    "right": 0,
+                    "left": 0
+                }
+            }
+        }
+    },
+    "block-1719493900419": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "Far far away, behind the word mountains, far from the countries"
+            }
+        }
+    },
+    "block-1719493905117": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 24,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD\n\n"
+            }
+        }
+    },
+    "block-1719493908399": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#0d00ff",
+                "size": "small",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1719493911895": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 24,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "POSTED ON FEB 18, 2019 FOOD\n\n"
+            }
+        }
+    },
+    "block-1719493914164": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Web Design Technique\n",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 0,
+                    "left": 0
+                }
+            }
+        }
+    },
+    "block-1719493915863": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "Far far away, behind the word mountains, far from the countries"
+            }
+        }
+    },
+    "block-1719493917649": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#0d00ff",
+                "size": "small",
+                "text": "Read more",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1719494164716": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "OUR TEAM"
+            },
+            "style": {
+                "backgroundColor": "#FAFAFA",
+                "textAlign": "center",
+                "padding": {
+                    "top": 28,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719494206456": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "backgroundColor": "#FAFAFA",
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 28,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia."
+            }
+        }
+    },
+    "block-1719494224095": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 32
+            }
+        }
+    },
+    "block-1719494271213": {
+        "type": "Spacer",
+        "data": {
+            "props": {
+                "height": 40
+            }
+        }
+    },
+    "block-1719494281708": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719494340860",
+                            "block-1719494348779",
+                            "block-1719494352939",
+                            "block-1719494354651"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719494358194",
+                            "block-1719494363732",
+                            "block-1719494365922",
+                            "block-1719494367338"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
+        }
+    },
+    "block-1719494285756": {
+        "type": "ColumnsContainer",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "columnsCount": 2,
+                "columnsGap": 16,
+                "columns": [
+                    {
+                        "childrenIds": [
+                            "block-1719494581868"
+                        ]
+                    },
+                    {
+                        "childrenIds": [
+                            "block-1719494584804",
+                            "block-1719494592721",
+                            "block-1719494595623",
+                            "block-1719494599214",
+                            "block-1719494600556",
+                            "block-1719494602888",
+                            "block-1719494604615"
+                        ]
+                    },
+                    {
+                        "childrenIds": []
+                    }
+                ]
+            }
+        }
+    },
+    "block-1719494340860": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/person-1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719494348779": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Ronald Tuff"
+            }
+        }
+    },
+    "block-1719494352939": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 8,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Businessman"
+            }
+        }
+    },
+    "block-1719494354651": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Far far away, behind the word mountains\n\n"
+            }
+        }
+    },
+    "block-1719494358194": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/person-2.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719494363732": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Willam Clarson"
+            }
+        }
+    },
+    "block-1719494365922": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 8,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Businessman"
+            }
+        }
+    },
+    "block-1719494367338": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Far far away, behind the word mountains\n\n"
+            }
+        }
+    },
+    "block-1719494581868": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/bg-2-1.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719494584804": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "OUR FEATURES",
+                "level": "h3"
+            },
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 0,
+                    "left": 0
+                }
+            }
+        }
+    },
+    "block-1719494592721": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "Responsive"
+            }
+        }
+    },
+    "block-1719494595623": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their"
+            }
+        }
+    },
+    "block-1719494599214": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 16,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "Responsive"
+            }
+        }
+    },
+    "block-1719494600556": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their"
+            }
+        }
+    },
+    "block-1719494602888": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "Responsive"
+            }
+        }
+    },
+    "block-1719494604615": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#737373",
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their"
+            }
+        }
+    },
+    "block-1719494792754": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "GET READY FOR MODERN DESIGN"
+            },
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#0D0CB5",
+                "textAlign": "center",
+                "padding": {
+                    "top": 32,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
+        }
+    },
+    "block-1719494795904": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "color": "#ffffff",
+                "backgroundColor": "#0D0CB5",
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.\n\n"
+            }
+        }
+    },
+    "block-1719494800067": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "backgroundColor": "#0D0CB5",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 32,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonStyle": "rectangle",
+                "buttonTextColor": "#000000",
+                "text": "Get Started",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1721637941896": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 11,
+                "textAlign": "center",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#000000",
+                "fullWidth": false,
+                "text": "Unsubscribe me",
+                "url": "{{ unsubscribe }}"
+            }
+        }
     }
-  }
 }

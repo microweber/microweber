@@ -27,7 +27,8 @@
         "block-1719474310541",
         "block-1719236929075",
         "block-1719488857523",
-        "block-1719236900673"
+        "block-1719236900673",
+        "block-1721637941896"
       ]
     }
   },
@@ -217,7 +218,7 @@
         "buttonBackgroundColor": "#ffffff",
         "buttonTextColor": "#9333EA",
         "text": "LEARN MORE ->",
-        "url": "https://www.usewaypoint.com"
+        "url": "https://www.microweber.com"
       }
     }
   },
@@ -312,7 +313,7 @@
         "buttonTextColor": "#7C3AED",
         "size": "x-small",
         "text": "SEE HOW TO DO IT",
-        "url": "https://www.usewaypoint.com"
+        "url": "https://www.microweber.com"
       }
     }
   },
@@ -339,6 +340,7 @@
     "type": "Text",
     "data": {
       "style": {
+          "textAlign": "center",
         "fontWeight": "normal",
         "padding": {
           "top": 52,
@@ -349,7 +351,7 @@
       },
       "props": {
         "markdown": true,
-        "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  |  Unsubscribe "
+        "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  "
       }
     }
   },
@@ -395,7 +397,7 @@
         "fullWidth": false,
         "size": "medium",
         "text": "Shop Now",
-        "url": "https://www.usewaypoint.com"
+        "url": "https://www.microweber.com"
       }
     }
   },
@@ -470,7 +472,7 @@
         "buttonBackgroundColor": "#000000",
         "buttonStyle": "rectangle",
         "text": "Browse Shop",
-        "url": "https://www.usewaypoint.com"
+        "url": "https://www.microweber.com"
       }
     }
   },
@@ -928,7 +930,7 @@
         "buttonBackgroundColor": "#000000",
         "buttonStyle": "rectangle",
         "text": "$100.00",
-        "url": "https://www.usewaypoint.com"
+        "url": "https://www.microweber.com"
       }
     }
   },
@@ -947,7 +949,7 @@
         "buttonBackgroundColor": "#000000",
         "buttonStyle": "rectangle",
         "text": "$100.00",
-        "url": "https://www.usewaypoint.com"
+        "url": "https://www.microweber.com"
       }
     }
   },
@@ -966,7 +968,7 @@
         "buttonBackgroundColor": "#000000",
         "buttonStyle": "rectangle",
         "text": "$100.00",
-        "url": "https://www.usewaypoint.com"
+        "url": "https://www.microweber.com"
       }
     }
   },
@@ -985,7 +987,7 @@
         "buttonBackgroundColor": "#000000",
         "buttonStyle": "rectangle",
         "text": "$100.00",
-        "url": "https://www.usewaypoint.com"
+        "url": "https://www.microweber.com"
       }
     }
   },
@@ -1004,5 +1006,27 @@
         "lineColor": "#CCCCCC"
       }
     }
-  }
+  },
+    "block-1721637941896": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 11,
+                "textAlign": "center",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#000000",
+                "fullWidth": false,
+                "text": "Unsubscribe me",
+                "url": "{{ unsubscribe }}"
+            }
+        }
+    }
 }

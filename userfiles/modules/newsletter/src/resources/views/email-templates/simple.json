@@ -1,422 +1,446 @@
 {
-  "root": {
-    "type": "EmailLayout",
-    "data": {
-      "backdropColor": "#e5e5e5",
-      "borderRadius": 24,
-      "canvasColor": "#FFFFFF",
-      "textColor": "#262626",
-      "fontFamily": "HEAVY_SANS",
-      "childrenIds": [
-        "block-1719405268248",
-        "block-1719235734312",
-        "block-1719235762413",
-        "block-1719235786545",
-        "block-1719235831131",
-        "block-1719235922032",
-        "block-1719474310541",
-        "block-1719236929075",
-        "block-1719236900673"
-      ]
-    }
-  },
-  "block-1719235654126": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "bold",
-        "textAlign": "right",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    "root": {
+        "type": "EmailLayout",
+        "data": {
+            "backdropColor": "#e5e5e5",
+            "borderRadius": 24,
+            "canvasColor": "#FFFFFF",
+            "textColor": "#262626",
+            "fontFamily": "HEAVY_SANS",
+            "childrenIds": [
+                "block-1719405268248",
+                "block-1719235734312",
+                "block-1719235762413",
+                "block-1719235786545",
+                "block-1719235831131",
+                "block-1719235922032",
+                "block-1719474310541",
+                "block-1719236929075",
+                "block-1719236900673",
+                "block-1721637941896"
+            ]
         }
-      },
-      "props": {
-        "text": "HOSTING"
-      }
-    }
-  },
-  "block-1719235670110": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235654126": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "bold",
+                "textAlign": "right",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "HOSTING"
+            }
         }
-      },
-      "props": {
-        "width": 260,
-        "height": null,
-        "url": "http://test.microweber.com/userfiles/media/default/logo.svg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719235734312": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 30,
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 24,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235670110": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "width": 260,
+                "height": null,
+                "url": "http://test.microweber.com/userfiles/media/default/logo.svg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "Some Welcome Text Here"
-      }
-    }
-  },
-  "block-1719235762413": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235734312": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 30,
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 24,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Some Welcome Text Here"
+            }
         }
-      },
-      "props": {
-        "url": "https://test.microweber.com/userfiles/media/default/104332490001.jpg",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719234855277": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235762413": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "https://test.microweber.com/userfiles/media/default/104332490001.jpg",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719235786545": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 16,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719234855277": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable."
-      }
-    }
-  },
-  "block-1719235831131": {
-    "type": "Heading",
-    "data": {
-      "props": {
-        "text": "Don't Miss This Offer",
-        "level": "h1"
-      },
-      "style": {
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235786545": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 16,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable."
+            }
         }
-      }
-    }
-  },
-  "block-1719235922032": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 19,
-        "fontWeight": "bold",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235831131": {
+        "type": "Heading",
+        "data": {
+            "props": {
+                "text": "Don't Miss This Offer",
+                "level": "h1"
+            },
+            "style": {
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            }
         }
-      },
-      "props": {
-        "text": "Starting at $4.99/month\n "
-      }
-    }
-  },
-  "block-1719235982133": {
-    "type": "Container",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 0
+    },
+    "block-1719235922032": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 19,
+                "fontWeight": "bold",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "Starting at $4.99/month\n "
+            }
         }
-      },
-      "props": {
-        "childrenIds": [
-          "block-1719235986099"
-        ]
-      }
-    }
-  },
-  "block-1719235986099": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719235982133": {
+        "type": "Container",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "childrenIds": [
+                    "block-1719235986099"
+                ]
+            }
         }
-      },
-      "props": {
-        "text": " Keep your store and customers secure "
-      }
-    }
-  },
-  "block-1719236225088": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 14,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 20
+    },
+    "block-1719235986099": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": " Keep your store and customers secure "
+            }
         }
-      },
-      "props": {
-        "text": "Increase traffic and maximize sales by building a super-fast store optimized for SEO. With CloudFlare Enterprise CDN, your store loads quickly regardless of customers location, ensuring your store is loved by human shoppers and search engines alike."
-      }
-    }
-  },
-  "block-1719236396340": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 0
+    },
+    "block-1719236225088": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 14,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 20
+                }
+            },
+            "props": {
+                "text": "Increase traffic and maximize sales by building a super-fast store optimized for SEO. With CloudFlare Enterprise CDN, your store loads quickly regardless of customers location, ensuring your store is loved by human shoppers and search engines alike."
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonTextColor": "#9333EA",
-        "text": "LEARN MORE ->",
-        "url": "https://www.usewaypoint.com"
-      }
-    }
-  },
-  "block-1719236456975": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 24,
-          "left": 20
+    },
+    "block-1719236396340": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#9333EA",
+                "text": "LEARN MORE ->",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "text": "Build Super-Fast Online Stores"
-      }
-    }
-  },
-  "block-1719236521440": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236456975": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 24,
+                    "left": 20
+                }
+            },
+            "props": {
+                "text": "Build Super-Fast Online Stores"
+            }
         }
-      },
-      "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719236583231": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "fontWeight": "bold",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 8
+    },
+    "block-1719236521440": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
         }
-      },
-      "props": {
-        "text": "Seamless Sales Experiences That Convert"
-      }
-    }
-  },
-  "block-1719236592465": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 13,
-        "fontWeight": "normal",
-        "padding": {
-          "top": 0,
-          "bottom": 0,
-          "right": 0,
-          "left": 8
+    },
+    "block-1719236583231": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 8
+                }
+            },
+            "props": {
+                "text": "Seamless Sales Experiences That Convert"
+            }
         }
-      },
-      "props": {
-        "text": "Scale your store with built-in conversion optimization tools like order bumps, social proof notifications and distraction-free checkouts on any device. Motivate customers to complete their purchases by creating a sense of urgency using low-stock inventory indications and free shipping alerts."
-      }
-    }
-  },
-  "block-1719236662034": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 15,
-        "textAlign": "left",
-        "padding": {
-          "top": 12,
-          "bottom": 28,
-          "right": 12,
-          "left": 0
+    },
+    "block-1719236592465": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 13,
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 8
+                }
+            },
+            "props": {
+                "text": "Scale your store with built-in conversion optimization tools like order bumps, social proof notifications and distraction-free checkouts on any device. Motivate customers to complete their purchases by creating a sense of urgency using low-stock inventory indications and free shipping alerts."
+            }
         }
-      },
-      "props": {
-        "buttonBackgroundColor": "#ffffff",
-        "buttonTextColor": "#7C3AED",
-        "size": "x-small",
-        "text": "SEE HOW TO DO IT",
-        "url": "https://www.usewaypoint.com"
-      }
-    }
-  },
-  "block-1719236900673": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontSize": 12,
-        "fontWeight": "normal",
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236662034": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 15,
+                "textAlign": "left",
+                "padding": {
+                    "top": 12,
+                    "bottom": 28,
+                    "right": 12,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#7C3AED",
+                "size": "x-small",
+                "text": "SEE HOW TO DO IT",
+                "url": "https://www.microweber.com"
+            }
         }
-      },
-      "props": {
-        "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
-      }
-    }
-  },
-  "block-1719236929075": {
-    "type": "Text",
-    "data": {
-      "style": {
-        "fontWeight": "normal",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236900673": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "fontSize": 12,
+                "fontWeight": "normal",
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "text": "This email is intended for email@youremail.com.\nTo ensure delivery of this email and future mailings, please add us to your contacts book or safe senders list.\n"
+            }
         }
-      },
-      "props": {
-        "markdown": true,
-        "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences  |  Unsubscribe "
-      }
-    }
-  },
-  "block-1719405268248": {
-    "type": "Image",
-    "data": {
-      "style": {
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
-        },
-        "textAlign": "center"
-      },
-      "props": {
-        "width": 200,
-        "url": "https://test.microweber.com/userfiles/media/default/599154bb89160-thumb900.webp",
-        "alt": "Sample product",
-        "linkHref": null,
-        "contentAlignment": "middle"
-      }
-    }
-  },
-  "block-1719474310541": {
-    "type": "Button",
-    "data": {
-      "style": {
-        "fontSize": 18,
-        "textAlign": "center",
-        "padding": {
-          "top": 16,
-          "bottom": 16,
-          "right": 24,
-          "left": 24
+    },
+    "block-1719236929075": {
+        "type": "Text",
+        "data": {
+            "style": {
+                "textAlign": "center",
+                "fontWeight": "normal",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "markdown": true,
+                "text": " <a href=\"\">Help Center</a>  |  Terms & Conditions  |  Update Email Preferences "
+            }
         }
-      },
-      "props": {
-        "buttonStyle": "pill",
-        "fullWidth": false,
-        "size": "medium",
-        "text": "Start Now",
-        "url": "https://www.usewaypoint.com"
-      }
+    },
+    "block-1719405268248": {
+        "type": "Image",
+        "data": {
+            "style": {
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                },
+                "textAlign": "center"
+            },
+            "props": {
+                "width": 200,
+                "url": "https://test.microweber.com/userfiles/media/default/599154bb89160-thumb900.webp",
+                "alt": "Sample product",
+                "linkHref": null,
+                "contentAlignment": "middle"
+            }
+        }
+    },
+    "block-1719474310541": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 18,
+                "textAlign": "center",
+                "padding": {
+                    "top": 16,
+                    "bottom": 16,
+                    "right": 24,
+                    "left": 24
+                }
+            },
+            "props": {
+                "buttonStyle": "pill",
+                "fullWidth": false,
+                "size": "medium",
+                "text": "Start Now",
+                "url": "https://www.microweber.com"
+            }
+        }
+    },
+    "block-1721637941896": {
+        "type": "Button",
+        "data": {
+            "style": {
+                "fontSize": 11,
+                "textAlign": "center",
+                "padding": {
+                    "top": 0,
+                    "bottom": 0,
+                    "right": 0,
+                    "left": 0
+                }
+            },
+            "props": {
+                "buttonBackgroundColor": "#ffffff",
+                "buttonTextColor": "#000000",
+                "fullWidth": false,
+                "text": "Unsubscribe me",
+                "url": "{{ unsubscribe }}"
+            }
+        }
     }
-  }
 }

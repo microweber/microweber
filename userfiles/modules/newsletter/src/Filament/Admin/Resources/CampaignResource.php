@@ -60,6 +60,11 @@ class CampaignResource extends Resource
                 TextColumn::make('subscribers'),
 //                TextColumn::make('scheduled'),
 //                TextColumn::make('scheduled_at'),
+                TextColumn::make('opened')
+                    ->badge()
+                    ->color(function() {
+                        return 'success';
+                    }),
                 TextColumn::make('status')
                     ->badge()
                     ->formatStateUsing(function ($state) {
@@ -86,6 +91,7 @@ class CampaignResource extends Resource
                 Tables\Actions\Action::make('edit')
                     ->label('Edit')
                     ->icon('heroicon-o-pencil')
+                    ->hidden(fn (NewsletterCampaign $campaign) => $campaign->status == NewsletterCampaign::STATUS_FINISHED)
                     ->url(fn (NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
 //                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
