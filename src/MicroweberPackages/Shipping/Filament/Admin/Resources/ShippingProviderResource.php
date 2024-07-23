@@ -16,30 +16,24 @@ class ShippingProviderResource extends Resource
 
     //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationGroup = 'Shop Settings';
 
 
     public static function form(Form $form): Form
     {
         $schema = [
 
-            //name
             Forms\Components\TextInput::make('name')
                 ->label('Name')
                 ->placeholder('Name')
                 ->required()
                 ->columnSpan('full'),
 
-            //type dropdown
-
             Forms\Components\Select::make('provider')
                 ->label('Provider')
                 ->live()
                 ->reactive()
                 ->afterStateUpdated(function (Forms\Components\Select $component, Forms\Set $set, ?string $state) {
-                    if ($state == 'free_shipping') {
-                        //    $set('settings.shipping_cost', 0);
-                    }
 
                     $set('provider', $state);
                 })
@@ -52,7 +46,6 @@ class ShippingProviderResource extends Resource
                 ])
                 ->required()
                 ->columnSpan('full'),
-
 
             Forms\Components\Toggle::make('is_active')
                 ->default(0)

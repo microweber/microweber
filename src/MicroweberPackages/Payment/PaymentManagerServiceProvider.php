@@ -12,11 +12,23 @@
 namespace MicroweberPackages\Payment;
 
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\App\Application;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
+use MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource;
 
 class PaymentManagerServiceProvider extends ServiceProvider
 {
+    public function register(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+        View::addNamespace('payment', __DIR__ . '/resources/views');
+        ModuleAdmin::registerPanelResource(PaymentProviderResource::class);
+    }
+
+
+
     /**
      * Bootstrap the application services.
      *
@@ -29,10 +41,7 @@ class PaymentManagerServiceProvider extends ServiceProvider
          */
 
         $this->app->singleton('payment_manager', function ($app) {
-            /**
-             * @var Application $app
-             */
-            return new PaymentManager($app->make(Container::class));
+              return new PaymentManager($app->make(Container::class));
         });
 
 

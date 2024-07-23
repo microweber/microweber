@@ -1,13 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Shipping\Models;
+namespace MicroweberPackages\Payment\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class ShippingProvider extends Model
+class PaymentProvider extends \Illuminate\Database\Eloquent\Model
 {
     protected $fillable = [
-
         'id',
         'name',
         'provider',
@@ -16,13 +13,9 @@ class ShippingProvider extends Model
         'is_default',
         'settings',
         'position',
-
-
     ];
 
     protected $casts = [
         'settings' => 'array',
     ];
-
-
 }

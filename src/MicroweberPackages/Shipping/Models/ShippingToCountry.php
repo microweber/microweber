@@ -14,9 +14,13 @@ namespace MicroweberPackages\Shipping\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Class ShippingToCountry
+ *
+ * @deprecated
+ */
 class ShippingToCountry extends Model
 {
-
     use Notifiable;
 
     public $table = 'cart_shipping';
