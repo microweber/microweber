@@ -14,9 +14,9 @@ class PaymentMethodManager extends Manager
         }
     }
 
-    public function getDrivers()
+    public function getProviders()
     {
-        return array_merge($this->customCreators, $this->drivers);
+        return array_keys($this->customCreators);
     }
 
 }

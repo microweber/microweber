@@ -20,14 +20,10 @@ abstract class PaymentMethod
         return [];
     }
 
-    public function settingsSchema() : array
+    public function getSettingsForm($form): array
     {
         return [];
     }
-
-
-
-
 
 
 }

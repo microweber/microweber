@@ -31,12 +31,17 @@ class PaymentManagerServiceProvider extends ServiceProvider
         });
 
         $this->app->resolving('payment_method_manager', function (PaymentMethodManager $paymentManager) {
-             $paymentManager->extend('pay_on_delivery', function () {
+            $paymentManager->extend('pay_on_delivery', function () {
                 return new \MicroweberPackages\Payment\Providers\PayOnDelivery();
             });
+
+            $paymentManager->extend('paypal', function () {
+                return new \MicroweberPackages\Payment\Providers\PayPal();
+            });
+            $paymentManager->extend('stripe', function () {
+                return new \MicroweberPackages\Payment\Providers\Stripe();
+            });
         });
-
-
 
 
         ModuleAdmin::registerPanelResource(PaymentProviderResource::class);
@@ -59,9 +64,6 @@ class PaymentManagerServiceProvider extends ServiceProvider
         $this->app->singleton('payment_manager', function ($app) {
             return new PaymentManager($app->make(Container::class));
         });
-
-
-
 
 
     }

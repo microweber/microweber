@@ -22,6 +22,9 @@ class PaymentProviderResource extends Resource
     public static function form(Form $form): Form
     {
 
+        $paymentDrivers = app()->payment_method_manager->getProviders();
+
+
         $schema = [
 
             Forms\Components\TextInput::make('name')
@@ -34,16 +37,25 @@ class PaymentProviderResource extends Resource
                 ->label('Provider')
                 ->live()
                 ->reactive()
-                ->afterStateUpdated(function (Forms\Components\Select $component, Forms\Set $set, ?string $state) {
-
+                ->afterStateUpdated(function (Forms\Components\Select $component, Forms\Set $set, Forms\Get $get, ?string $state) {
                     $set('provider', $state);
                 })
                 ->placeholder('Select Provider')
-                ->options([
-                    'pay_on_delivery' => 'Pay on Delivery',
-                    'paypal' => 'Paypal',
-
-                ])
+                ->options(function () use ($paymentDrivers) {
+                    if ($paymentDrivers) {
+                        $options = [];
+                        foreach ($paymentDrivers as $paymentDriver) {
+                            $driver = app()->payment_method_manager->driver($paymentDriver);
+                            $options[$paymentDriver] = $driver->title();
+                        }
+                        return $options;
+                    }
+                })
+//                ->options([
+//                    'pay_on_delivery' => 'Pay on Delivery',
+//                    'paypal' => 'Paypal',
+//
+//                ])
                 ->required()
                 ->columnSpan('full'),
 
@@ -58,7 +70,18 @@ class PaymentProviderResource extends Resource
         //   $schema = array_merge($schema, $provderForm);
 
 
-        $paymentDrivers = app()->payment_method_manager->getDrivers();
+        if ($paymentDrivers) {
+            foreach ($paymentDrivers as $paymentDriver) {
+                $driver = app()->payment_method_manager->driver($paymentDriver);
+                if (method_exists($driver, 'getSettingsForm')) {
+                    $provderForm = $driver->getSettingsForm($form);
+                    if ($provderForm) {
+
+                        $schema = array_merge($schema, $provderForm);
+                    }
+                }
+            }
+        }
 
 
         return $form

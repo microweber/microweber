@@ -9,12 +9,12 @@ use Filament\Tables;
 use Filament\Tables\Table;
 
 
-class PayOnDelivery extends \MicroweberPackages\Payment\PaymentMethod
+class Stripe extends \MicroweberPackages\Payment\PaymentMethod
 {
 
     public function title(): string
     {
-        return 'Pay on delivery';
+        return 'Stripe';
     }
 
     public function process($data = [])
@@ -35,21 +35,24 @@ class PayOnDelivery extends \MicroweberPackages\Payment\PaymentMethod
                     $provider = $get('provider');
 
                     return [
-                        Forms\Components\Textarea::make('payment_instructions')
-                            ->label('Payment Instructions')
+                        Forms\Components\TextInput::make('stripe_publishable_key')
+                            ->label('Publishable Key')
                             ->columnSpan('full')
-                            ->default('')
+                            ->placeholder('Enter your Stripe publishable key')
+                            ->default(''),
+                        Forms\Components\TextInput::make('stripe_secret_key')
+                            ->label('Secret Key')
+                            ->columnSpan('full')
+                            ->placeholder('Enter your Stripe secret key')
+                            ->default(''),
                     ];
-
                 })
                 ->visible(function (Forms\Get $get) {
                     return (
-                        $get('provider') === 'pay_on_delivery'
-
+                        $get('provider') === 'stripe'
                     );
                 })
-                ->columns(2)
-            ,
+
 
         ];
     }
@@ -57,7 +60,7 @@ class PayOnDelivery extends \MicroweberPackages\Payment\PaymentMethod
 
     public function view(): string
     {
-        return 'payment::pay_on_delivery';
+        return 'payment::stripe';
     }
 
 }
