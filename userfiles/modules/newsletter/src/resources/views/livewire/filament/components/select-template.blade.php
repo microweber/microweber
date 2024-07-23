@@ -138,7 +138,7 @@
                        <div class="iframe-container rounded-md">
                            <iframe
                                loading="lazy"
-                               src=""
+                               src="{{admin_url('modules/newsletter/preview-email-template-saved')}}?id={{$template['id']}}"
                                scrolling="no"
                                class="iframe rounded-md"></iframe>
                        </div>
@@ -166,7 +166,7 @@
                                <x-filament::button
                                    size="sm"
                                    color="gray"
-                                   href=""
+                                   href="{{admin_url('modules/newsletter/preview-email-template-saved')}}?id={{$template['id']}}"
                                    tag="a"
                                    target="_blank"
                                >
