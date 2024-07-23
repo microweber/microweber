@@ -36,6 +36,9 @@ class EmailLayout extends DefaultElement
         $html .= '</head>';
 
         $html .= '<body style="'.implode(' ', $cssBody).'">';
+        $html .= '<style>';
+        $html .= 'a { color: #000; text-decoration: none; };';
+        $html .= '</style>';
 
         $html .= '<div style="margin:0 auto;max-width:600px;'.implode(' ', $css).'">';
 

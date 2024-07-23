@@ -95,6 +95,26 @@ class EditCampaign extends Page
 
     }
 
+    public function startWithTemplateById($templateId)
+    {
+        $findNewsletterTemplate = NewsletterTemplate::where('id', $templateId)->first();
+        if (!$findNewsletterTemplate) {
+            return;
+        }
+
+        $findCampaign = NewsletterCampaign::where('id', $this->state['id'])->first();
+        if (!$findCampaign) {
+            return;
+        }
+
+
+        $findCampaign->email_template_id = $findNewsletterTemplate->id;
+        $findCampaign->save();
+
+        return redirect(route('filament.admin.pages.newsletter.template-editor') . '?id=' . $findNewsletterTemplate->id . '&campaignId=' . $findCampaign->id);
+
+
+    }
     public function startWithTemplate($template)
     {
         $templateJson = file_get_contents(modules_path() . 'newsletter/src/resources/views/email-templates/' . $template. '.json');
