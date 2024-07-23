@@ -76,10 +76,14 @@
 
     });
     window.addEventListener('backTo', function (e) {
-        @if($campaignId)
+        @if($campaignId) // give the space between if cause broke javascript
+
         window.location.href = '{{admin_url('newsletter/edit-campaign/'.$campaignId.'?step=content')}}';
+
         @else
+
         window.location.href = '{{admin_url('newsletter/templates')}}';
+
         @endif
     });
 
