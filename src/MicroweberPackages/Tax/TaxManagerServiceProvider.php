@@ -24,7 +24,20 @@ class TaxManagerServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
+        $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
+        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
         View::addNamespace('tax', __DIR__ . '/resources/views');
+
+
+        /**
+         * @property \MicroweberPackages\Tax\TaxManager $tax_manager
+         */
+        app()->singleton('tax_manager', function ($app) {
+            return new TaxManager();
+        });
+
+
+
         ModuleAdmin::registerPanelResource(TaxResource::class);
     }
 
@@ -35,17 +48,8 @@ class TaxManagerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
-         * @property \MicroweberPackages\Tax $tax_manager
-         */
-        $this->app->singleton('tax_manager', function ($app) {
-            return new TaxManager();
-        });
 
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations/');
 
-        $this->loadRoutesFrom((__DIR__) . '/routes/api.php');
-        $this->loadRoutesFrom((__DIR__) . '/routes/web.php');
     }
 
 }

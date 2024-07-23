@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\Payment\Traits;
 
-
+/**
+ * @deprecated  Deprecated
+ */
 trait LegacyPaymentProviderHelperTrait
 {
 

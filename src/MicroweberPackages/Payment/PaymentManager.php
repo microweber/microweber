@@ -18,7 +18,7 @@ use MicroweberPackages\Payment\Providers\NoPaymentProvider;
 
 
 /**
- * @mixin AbstractPaymentProvider
+ * @deprecated  use PaymentMethodManager
  */
 class PaymentManager extends Manager
 {

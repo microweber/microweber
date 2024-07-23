@@ -3,7 +3,9 @@
 
 namespace MicroweberPackages\Payment\Providers;
 
-
+/**
+ * @deprecated  Deprecated
+ */
 abstract class AbstractPaymentProvider
 {
     public $name = 'Payment provider';

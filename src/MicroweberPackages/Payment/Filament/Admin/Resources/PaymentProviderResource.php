@@ -66,17 +66,14 @@ class PaymentProviderResource extends Resource
                 ->required(),
         ];
 
-        //  $provderForm = static::getProviderSettingsForm($form);
-        //   $schema = array_merge($schema, $provderForm);
 
 
         if ($paymentDrivers) {
             foreach ($paymentDrivers as $paymentDriver) {
                 $driver = app()->payment_method_manager->driver($paymentDriver);
-                if (method_exists($driver, 'getSettingsForm')) {
+                if (is_object($driver) and method_exists($driver, 'getSettingsForm')) {
                     $provderForm = $driver->getSettingsForm($form);
                     if ($provderForm) {
-
                         $schema = array_merge($schema, $provderForm);
                     }
                 }
