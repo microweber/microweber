@@ -24,9 +24,25 @@ class PaymentManagerServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         View::addNamespace('payment', __DIR__ . '/resources/views');
-        ModuleAdmin::registerPanelResource(PaymentProviderResource::class);
-    }
 
+        $this->app->singleton('payment_method_manager', function ($app) {
+
+            return new PaymentMethodManager($app->make(Container::class));
+        });
+
+        $this->app->resolving('payment_method_manager', function (PaymentMethodManager $paymentManager) {
+             $paymentManager->extend('pay_on_delivery', function () {
+                return new \MicroweberPackages\Payment\Providers\PayOnDelivery();
+            });
+        });
+
+
+
+
+        ModuleAdmin::registerPanelResource(PaymentProviderResource::class);
+
+
+    }
 
 
     /**
@@ -41,8 +57,10 @@ class PaymentManagerServiceProvider extends ServiceProvider
          */
 
         $this->app->singleton('payment_manager', function ($app) {
-              return new PaymentManager($app->make(Container::class));
+            return new PaymentManager($app->make(Container::class));
         });
+
+
 
 
 

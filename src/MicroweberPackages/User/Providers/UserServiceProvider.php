@@ -46,7 +46,9 @@ class UserServiceProvider extends AuthServiceProvider
     public function register()
     {
         $this->app->register(\MicroweberPackages\User\Providers\AuthServiceProvider::class);
-
+        $this->app->singleton('user_manager', function ($app) {
+            return new UserManager();
+        });
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadRoutesFrom(__DIR__. '/../routes/api.php');
@@ -119,9 +121,7 @@ class UserServiceProvider extends AuthServiceProvider
 
      //   Passport::ignoreMigrations();
 
-        $this->app->singleton('user_manager', function ($app) {
-            return new UserManager();
-        });
+
 
         // Register Validators
         Validator::extendImplicit(

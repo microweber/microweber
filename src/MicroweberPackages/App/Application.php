@@ -26,6 +26,7 @@ use MicroweberPackages\Offer\Repositories\OfferRepository;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Order\Repositories\OrderRepository;
 use MicroweberPackages\Payment\PaymentManager;
+use MicroweberPackages\Payment\PaymentMethodManager;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
 use MicroweberPackages\Translation\Translator;
@@ -116,6 +117,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property MultilanguageRepository       $multilanguage_repository
  * @property TranslateManager       $translate_manager
  * @property Microweber       $microweber
+ * @property PaymentMethodManager       $payment_method_manager
 
 
 
