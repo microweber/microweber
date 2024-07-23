@@ -18,9 +18,9 @@ class CreateTaxTypesTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->decimal('rate', 5, 2);
-            $table->tinyInteger('compound_tax')->default(0);
-            $table->tinyInteger('collective_tax')->default(0);
             $table->text('description')->nullable();
+            $table->text('settings')->nullable();
+
             $table->timestamps();
         });
     }

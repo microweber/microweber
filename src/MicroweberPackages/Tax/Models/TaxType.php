@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Tax\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -12,16 +13,17 @@ class TaxType extends Model
     protected $table = 'tax_types';
 
     protected $fillable = [
+        'id',
         'name',
         'type',
         'rate',
-        'compound_tax',
-        'collective_tax',
-        'description'
+        'description',
+        'settings'
     ];
 
     protected $casts = [
-        'percent' => 'float'
+        'percent' => 'float',
+        'settings' => 'array'
     ];
 
 }

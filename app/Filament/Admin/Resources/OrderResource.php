@@ -235,6 +235,9 @@ class OrderResource extends Resource
                     ->allowHtml(true)
                     ->preload(true)
                     ->options(Product::query()->whereNotNull('title')->pluck('title', 'id'))
+                 //   ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->title} {$record->price}")
+
+
                     ->required()
                   //  ->reactive()
 

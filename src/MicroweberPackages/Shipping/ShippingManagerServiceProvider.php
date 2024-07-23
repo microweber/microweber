@@ -46,6 +46,8 @@ class ShippingManagerServiceProvider extends ServiceProvider
             return new ShippingManager($app->make(Container::class));
         });
 
+
+
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
     }

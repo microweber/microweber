@@ -16,7 +16,7 @@ class ShippingProviderResource extends Resource
 
     //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Shop Settings';
+    protected static ?string $navigationGroup = 'Shop';
 
 
     public static function form(Form $form): Form
