@@ -34,14 +34,19 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
 
         Livewire::component('admin-list-media-for-model', ListMediaForModel::class);
 
-      // add disk to config
+        // add disk to config
         config(['filesystems.disks.media' => [
             'driver' => 'local',
             'root' => media_uploads_path(),
             'url' => media_uploads_url(),
             'visibility' => 'public',
         ]]);
-
+        config(['filesystems.disks.public' => [
+            'driver' => 'local',
+            'root' => media_uploads_path(),
+            'url' => media_uploads_url(),
+            'visibility' => 'public',
+        ]]);
 
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
@@ -52,7 +57,7 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
 
 
         /**
-         * @property MediaRepository   $media_repository
+         * @property MediaRepository $media_repository
          */
         $this->app->bind('media_repository', function () {
             return $this->app->repository_manager->driver(Media::class);;
@@ -60,7 +65,6 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
 
 
     }
-
 
 
     /**
@@ -73,12 +77,11 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
         /**
-         * @property \MicroweberPackages\Media\MediaManager    $media_manager
+         * @property \MicroweberPackages\Media\MediaManager $media_manager
          */
         $this->app->singleton('media_manager', function ($app) {
             return new MediaManager();
         });
-
 
 
     }

@@ -14,7 +14,7 @@ namespace MicroweberPackages\Shipping\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Shipping extends Model
+class ShippingToCountry extends Model
 {
 
     use Notifiable;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ShippingProviderResource\Pages;
+namespace MicroweberPackages\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages;
 
-use App\Filament\Admin\Resources\ShippingProviderResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use MicroweberPackages\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 
 class EditShippingProvider extends EditRecord
 {

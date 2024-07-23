@@ -9,6 +9,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Order\Models\Order;
 use Filament\Forms\Components\Actions\Action;
@@ -144,7 +145,6 @@ class OrderResource extends Resource
                 ->relationship('customer', 'email')
                 ->searchable()
                 ->native(false)
-
                 ->required()
                 ->createOptionForm([
                     Forms\Components\TextInput::make('first_name')
@@ -208,6 +208,11 @@ class OrderResource extends Resource
         ];
     }
 
+    public static function getCleanOptionString(Model $model): string
+    {
+        return $model->title . ' (' . $model->price . ')';
+    }
+
     public static function getItemsRepeater(): Repeater
     {
 
@@ -225,10 +230,20 @@ class OrderResource extends Resource
 
                 Forms\Components\Select::make('rel_id')
                     ->label('Product')
-                    ->native(false)
+                //    ->native(false)
+
+                    ->allowHtml(true)
+                    ->preload(true)
                     ->options(Product::query()->whereNotNull('title')->pluck('title', 'id'))
                     ->required()
-                    ->reactive()
+                  //  ->reactive()
+
+//                    ->getOptionLabelUsing(function ($value): string {
+//
+//                        $product = Product::find($value);
+//
+//                        return static::getCleanOptionString($product);
+//                    })
                     ->afterStateUpdated(fn($state, Forms\Set $set) => $set('price', Product::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()

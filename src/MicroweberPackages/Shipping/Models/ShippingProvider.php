@@ -20,6 +20,10 @@ class ShippingProvider extends Model
 
     ];
 
+    protected $casts = [
+        'settings' => 'array',
+    ];
+
     public function getResource()
     {
         return null;

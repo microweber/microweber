@@ -18,12 +18,6 @@ use MicroweberPackages\Shipping\Providers\NoShippingDriver;
 
 
 /**
- * ShippingManager module api.
- */
-// ------------------------------------------------------------------------
-
-
-/**
  * @mixin AbstractShippingDriver
  */
 class ShippingManager extends Manager
@@ -34,7 +28,7 @@ class ShippingManager extends Manager
 
     /**
      * Get default driver instance.
-     *
+     * @deprecated
      * @return AbstractShippingDriver
      *
      * @throws \InvalidArgumentException
@@ -83,6 +77,10 @@ class ShippingManager extends Manager
     }
 
 
+
+    /**
+     * @deprecated
+     */
     public function getShippingModules($only_enabled = true)
     {
 
