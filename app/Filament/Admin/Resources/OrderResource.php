@@ -233,23 +233,26 @@ class OrderResource extends Resource
 
                 Forms\Components\Select::make('rel_id')
                     ->label('Product')
-                //    ->native(false)
-
                     ->allowHtml(true)
                     ->preload(true)
-                    ->options(Product::query()->whereNotNull('title')->pluck('title', 'id'))
-                 //   ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->title} {$record->price}")
+                    ->options(function () {
+                        $options = [];
+                        $products = Product::all();
+                        if ($products) {
+                            foreach ($products as $product) {
+                                $html = '';
+                                $html .= '<div class="flex gap-2 items-center">';
+                                $html .= '<img src="'.$product->thumbnail().'" width="16px" />';
+                                $html .=  $product->title;
+                                $html .= '</div>';
+                                $options[$product->id] = $html;
+                            }
+                        }
 
-
+                        return $options;
+                    })
+                   // ->options(Product::query()->whereNotNull('title')->pluck('title', 'id'))
                     ->required()
-                  //  ->reactive()
-
-//                    ->getOptionLabelUsing(function ($value): string {
-//
-//                        $product = Product::find($value);
-//
-//                        return static::getCleanOptionString($product);
-//                    })
                     ->afterStateUpdated(fn($state, Forms\Set $set) => $set('price', Product::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
