@@ -7,7 +7,17 @@ export default defineConfig({
         port: 3000,
         assetsInlineLimit: 0,
         outDir: './public/build',
-        manifest: "manifest.json"
+        manifest: "manifest.json",
+        target: 'esnext',
+        rollupOptions: {
+            output: {
+                globals: {
+                    jquery: 'window.jQuery',
+                    $: 'window.$',
+                    mw: 'window.mw',
+                }
+            }
+        },
 
     },
     plugins: [

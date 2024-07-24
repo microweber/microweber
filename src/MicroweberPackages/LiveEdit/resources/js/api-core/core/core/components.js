@@ -1,9 +1,7 @@
     mw.components = {
     _rangeOnce: false,
     'range': function(el){
-        if(mw.lib) {
-            mw.lib.require('jqueryui');
-        }
+
 
         var options = this._options(el);
         var defaults = {

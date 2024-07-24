@@ -563,6 +563,7 @@ html[dir="rtl"]{
         align-items: center;
         justify-content: space-between;
         width: 100%;
+        min-height: 55px;
         &.item-selectable-true{
             padding-inline-start: 25px !important;
             .mw-ui-check{
@@ -571,6 +572,13 @@ html[dir="rtl"]{
 
             cursor: auto;
 
+        }
+        tree-label {
+            position: static;
+        }
+         .form-check+.mw-tree-item-title {
+
+            padding-inline-start: .5rem;
         }
 
     }
@@ -641,14 +649,14 @@ html[dir="rtl"]{
     li[data-type="category"] {
         & > .mw-tree-item-content-root {
             .mw-tree-item-content{
-                background: var(--tblr-bg-surface);
+                background: white;
                 padding: 0.5rem 1rem;
 
                 overflow: hidden;
                 border-radius: 10px;
                 margin-bottom: 0.5rem;
                 &:hover{
-                    background: var(--tblr-bg-surface);
+
                     border-color: #eeeff1;
 
                     box-shadow: -1px 1px 1px 0 rgba(0, 0, 0, .11);
@@ -664,11 +672,12 @@ html[dir="rtl"]{
             .mw-tree-item-content{
                 padding: 15px 25px 10px 25px;
                 background-color: #fff;
+                border-radius: 10px;
 
                 border-bottom: 0;
                 position: relative;
                 overflow: hidden;
-                background-color: var(--tblr-bg-surface);
+
                 margin-bottom: 10px;
             }
         }

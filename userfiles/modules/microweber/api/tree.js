@@ -13,11 +13,11 @@
 
 
 (function(){
-    mw.lib.require('jqueryui');
+  /*   mw.lib.require('jqueryui');
 
     mw.lib.require('nestedSortable');
 
-    mw.require('tree-icons.js');
+   mw.require('tree-icons.js'); */
 
 
     var mwtree = function(config){
@@ -735,6 +735,7 @@
         };
 
         this.sortable = function(){
+
             if(this.options.sortable){
                 var selector = '.type-category, .type-page';
                 if(typeof this.options.sortable === 'string') {
@@ -747,23 +748,28 @@
                 if(this.options.createSortableHandle) {
                     this.options.createSortableHandle(this.list);
                 }
-                items.sortable({
-                    items: selector,
-                    start: function(){ // firefox triggers click when drag ends
-                        scope._disableClick = true;
-                    },
-                    stop: function(){
-                        setTimeout(() => {scope._disableClick = false;}, 78)
+                if($.fn.sortable) {
+                    items.sortable({
+                        items: selector,
+                        start: function(){ // firefox triggers click when drag ends
+                            scope._disableClick = true;
+                        },
+                        stop: function(){
+                            setTimeout(() => {scope._disableClick = false;}, 78)
 
-                    },
-                    axis:'y',
-                    listType:'ul',
-                    handle: scope.options.sortableHandle || '.mw-tree-item-title',
-                    update:function(e, ui){
+                        },
+                        axis:'y',
+                        listType:'ul',
+                        handle: scope.options.sortableHandle || '.mw-tree-item-title',
+                        update:function(e, ui){
 
-                        _orderChangeHandle(e, ui)
-                    }
-                });
+                            _orderChangeHandle(e, ui)
+                        }
+                    });
+                } else {
+                    console.log('$.fn.sortable is not defined')
+                }
+
             }
         };
 
@@ -1098,7 +1104,14 @@
 
         this.loadSelected = function(){
             if(this.selectedData){
-                scope.select(this.selectedData);
+                scope.select(this.selectedData, undefined, false);
+                if(this.options.openSelectedDataItems){
+                    this.selectedData.forEach(obj => {
+                        jQuery(this.get(obj)).parents('li').each(function(){
+                            scope.open(this)
+                        })
+                    })
+                }
             }
         };
         this.init = function(){

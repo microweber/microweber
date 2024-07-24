@@ -10,7 +10,6 @@ export default defineConfig({
         assetsInlineLimit: 0,
         outDir: './public/build',
         manifest: "manifest.json",
-
         rollupOptions: {
             output: {
                 globals: {
@@ -19,7 +18,9 @@ export default defineConfig({
                     mw: 'window.mw',
                 }
             }
-        }
+        },
+
+        target: 'esnext'
 
 
     },

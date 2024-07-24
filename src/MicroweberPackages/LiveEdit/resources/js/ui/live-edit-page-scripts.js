@@ -10,7 +10,7 @@ if(window.self !== window.top) {
 
 
      mw.lib.require('tinymce');
-    mw.lib.require('jqueryui');
+
 
     mw.liveEditSaveService = {
         grammarlyFix: function (data) {

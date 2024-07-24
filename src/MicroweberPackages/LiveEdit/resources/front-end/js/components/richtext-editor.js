@@ -66,7 +66,7 @@ export class RichTextEditor extends BaseComponent {
             options.target = options.selector;
         }
         this.settings = Object.assign({}, this.#defaultOptions(), options);
-        console.log(this.settings)
+
     }
 
     #defaultOptions() {

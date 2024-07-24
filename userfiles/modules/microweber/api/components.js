@@ -1,7 +1,7 @@
     mw.components = {
     _rangeOnce: false,
     'range': function(el){
-        mw.lib.require('jqueryui');
+
         var options = this._options(el);
         var defaults = {
             range: 'min',
@@ -72,7 +72,7 @@
             inputEl._time = null;
         }
 
-        
+
         var picker = mw.colorPicker({
             element:inputEl,
             position:settings.position,
@@ -87,24 +87,7 @@
             }, 10);
         });
     },
-    'file-uploader':function(el){
-        var options = this._options(el);
-        var defaults = {
-            element: el
-        };
-        var settings = $.extend({}, defaults, options);
-        var ch = mw.$(el).attr("onchange");
 
-        mw.fileWindow({
-            types:'media',
-            change:function(url){
-                try{
-                    eval(ch);
-                }
-                catch(err){}
-            }
-        });
-    },
     'modules-tabs':function(el){
         var options = this._options(el);
         options.breakPoint = 100; //makes accordion if less then 100px

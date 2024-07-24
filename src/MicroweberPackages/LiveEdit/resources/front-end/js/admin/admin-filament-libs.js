@@ -1,6 +1,24 @@
 //libs
 import "xss";
 
+
+// import "jquery";
+
+// import jQuery from 'jquery';
+const jQuery  = (await import("jquery/dist/jquery.js")).default;
+
+
+
+
+
+window.$ = jQuery;
+window.jQuery = jQuery;
+globalThis.$ = jQuery;
+globalThis.jQuery = jQuery;
+
+await import("jquery-ui/dist/jquery-ui.js");
+
+
 import TomSelect  from "tom-select";
 
 import {RichTextEditor} from "../components/richtext-editor.js";
@@ -20,11 +38,10 @@ window.AColorPicker = AColorPicker;
 mw.richTextEditor = options => new RichTextEditor(options);
 
 
-import $ from "jquery";
-window.$ = $;
-window.jQuery = $;
-globalThis.$ = $;
-globalThis.jQuery = $;
+
+
+
+// import "jquery-ui/dist/jquery-ui.js";
 
 
 $.ajaxSetup({
@@ -32,3 +49,4 @@ $.ajaxSetup({
         'X-CSRF-TOKEN':  (document.querySelector('meta[name="csrf-token"]').content || '').trim()
     }
 });
+
