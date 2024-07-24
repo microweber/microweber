@@ -19,6 +19,7 @@ use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\IconSize;
@@ -39,6 +40,7 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use Livewire\Attributes\On;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
+use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
 
 class EditCampaign extends Page
 {
@@ -410,6 +412,53 @@ class EditCampaign extends Page
                                     })
                                     ->openUrlInNewTab()
                                     ->icon('heroicon-o-eye'),
+                                Action::make('Send test E-mail')
+                                    ->icon('heroicon-o-beaker')
+                                    ->link()
+                                    ->form([
+                                        TextInput::make('testName')
+                                                ->label('Test name')
+                                                ->live(),
+                                        TextInput::make('testEmail')
+                                            ->label('Test email')
+                                            ->email()
+                                            ->required()
+                                            ->live(),
+                                    ])
+                                    ->action(function (array $data) {
+
+                                        $testName = $data['testName'];
+                                        $testEmail = $data['testEmail'];
+
+                                        try {
+                                            $template = NewsletterTemplate::where('id', $this->state['email_template_id'])->first();
+                                            $campaign = NewsletterCampaign::where('id', $this->state['id'])->first();
+                                            $sender = NewsletterSenderAccount::where('id', $this->state['sender_account_id'])->first();
+
+                                            $newsletterMailSender = new NewsletterMailSender();
+                                            $newsletterMailSender->setCampaign($campaign->toArray());
+                                            $newsletterMailSender->setSubscriber([
+                                                'name' => $testName,
+                                                'first_name' => $testName,
+                                                'email' => $testEmail,
+                                            ]);
+                                            $newsletterMailSender->setSender($sender->toArray());
+                                            $newsletterMailSender->setTemplate($template->toArray());
+                                            $sendMailResponse = $newsletterMailSender->sendMail();
+                                            if (isset($sendMailResponse['success'])) {
+                                                Notification::make()
+                                                    ->title('Test campaign sent successfully')
+                                                    ->success()
+                                                    ->send();
+                                            }
+                                        } catch (\Exception $e) {
+                                            Notification::make()
+                                                ->title('Error sending test campaign')
+                                                ->body($e->getMessage())
+                                                ->danger()
+                                                ->send();
+                                        }
+                                    }),
 
                             ])->alignCenter(),
 
