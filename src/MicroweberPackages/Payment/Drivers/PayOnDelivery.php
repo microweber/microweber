@@ -1,20 +1,16 @@
 <?php
 
-namespace MicroweberPackages\Payment\Providers;
+namespace MicroweberPackages\Payment\Drivers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
 
 
-class PayPal extends \MicroweberPackages\Payment\PaymentMethod
+class PayOnDelivery extends \MicroweberPackages\Payment\PaymentMethod
 {
 
     public function title(): string
     {
-        return 'PayPal';
+        return 'Pay on delivery';
     }
 
     public function process($data = [])
@@ -35,27 +31,21 @@ class PayPal extends \MicroweberPackages\Payment\PaymentMethod
                     $provider = $get('provider');
 
                     return [
-                        Forms\Components\TextInput::make('paypal_email')
-                            ->label('Paypal Email')
-                            ->type('email')
+                        Forms\Components\Textarea::make('payment_instructions')
+                            ->label('Payment Instructions')
                             ->columnSpan('full')
-                            ->placeholder('Enter your PayPal email address')
-                            ->default(''),
-                        Forms\Components\Toggle::make('paypal_test_mode')
-                            ->label('Test Mode')
-                            ->columnSpan('full')
-                            ->default(1)
-                            ->required(),
-
+                            ->default('')
                     ];
 
                 })
                 ->visible(function (Forms\Get $get) {
                     return (
-                        $get('provider') === 'paypal'
+                        $get('provider') === 'pay_on_delivery'
+
                     );
                 })
-
+                ->columns(2)
+            ,
 
         ];
     }
@@ -63,7 +53,7 @@ class PayPal extends \MicroweberPackages\Payment\PaymentMethod
 
     public function view(): string
     {
-        return 'payment::paypal';
+        return 'payment::pay_on_delivery';
     }
 
 }

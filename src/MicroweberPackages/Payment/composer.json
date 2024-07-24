@@ -1,20 +1,16 @@
 {
-    "name": "microweber-packages/order",
+    "name": "microweber-packages/payment",
     "description": "Microweber CMS.",
     "version": "0.0.1",
     "authors": [
         {
             "name": "Microweber",
             "email": "info@microweber.com"
-        },
-        {
-            "name": "Bozhidar Slaveykov",
-            "email": "bobi@microweber.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "MicroweberPackages\\Order\\": ""
+            "MicroweberPackages\\Payment\\": ""
         }
     },
     "config": {

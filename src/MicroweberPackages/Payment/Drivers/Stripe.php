@@ -1,16 +1,17 @@
 <?php
 
-namespace MicroweberPackages\Payment\Providers;
+namespace MicroweberPackages\Payment\Drivers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
 
 
 class Stripe extends \MicroweberPackages\Payment\PaymentMethod
 {
+
+    public function logo(): string
+    {
+        return asset('microweber-packages/payment/img/stripe.png');
+    }
 
     public function title(): string
     {

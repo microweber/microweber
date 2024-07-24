@@ -12,7 +12,7 @@ $config['type'] = "payment_gateway";
 $config['settings']['autoload_namespace'] = [
     [
         'path' => __DIR__ . '/src/',
-        'namespace' => 'MicroweberPackages\\Payment\\Providers\\Stripe\\'
+        'namespace' => 'MicroweberPackages\\Payment\\Drivers\\Stripe\\'
     ],
 ];
 $config['settings']['service_provider'] = [

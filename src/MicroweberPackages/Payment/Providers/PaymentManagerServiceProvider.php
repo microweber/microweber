@@ -9,21 +9,41 @@
  *
  */
 
-namespace MicroweberPackages\Payment;
+namespace MicroweberPackages\Payment\Providers;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource;
+use MicroweberPackages\Payment\PaymentManager;
+use MicroweberPackages\Payment\PaymentMethodManager;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Spatie\LaravelPackageTools\Package;
 
-class PaymentManagerServiceProvider extends ServiceProvider
+class PaymentManagerServiceProvider extends PackageServiceProvider
 {
+
+    public function configurePackage(Package $package): void
+    {
+        $package
+            ->hasViews('payment')
+            ->hasAssets()
+            ->name('microweber-packages/payment');
+    }
+
+
     public function register(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->publishes([
+            __DIR__ . '/../resources/assets' => public_path('vendor/microweber-packages/payment'),
+        ], 'public');
 
-        View::addNamespace('payment', __DIR__ . '/resources/views');
+        parent::register();
+
+
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+        View::addNamespace('payment', __DIR__ . '/../resources/views');
 
         $this->app->singleton('payment_method_manager', function ($app) {
 
@@ -32,14 +52,14 @@ class PaymentManagerServiceProvider extends ServiceProvider
 
         $this->app->resolving('payment_method_manager', function (PaymentMethodManager $paymentManager) {
             $paymentManager->extend('pay_on_delivery', function () {
-                return new \MicroweberPackages\Payment\Providers\PayOnDelivery();
+                return new \MicroweberPackages\Payment\Drivers\PayOnDelivery();
             });
 
             $paymentManager->extend('paypal', function () {
-                return new \MicroweberPackages\Payment\Providers\PayPal();
+                return new \MicroweberPackages\Payment\Drivers\PayPal();
             });
             $paymentManager->extend('stripe', function () {
-                return new \MicroweberPackages\Payment\Providers\Stripe();
+                return new \MicroweberPackages\Payment\Drivers\Stripe();
             });
         });
 
@@ -65,6 +85,6 @@ class PaymentManagerServiceProvider extends ServiceProvider
             return new PaymentManager($app->make(Container::class));
         });
 
-
+        parent::boot();
     }
 }

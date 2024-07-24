@@ -1,20 +1,23 @@
 <?php
 
-namespace MicroweberPackages\Payment\Providers;
+namespace MicroweberPackages\Payment\Drivers;
 
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
 
 
-class PayOnDelivery extends \MicroweberPackages\Payment\PaymentMethod
+class PayPal extends \MicroweberPackages\Payment\PaymentMethod
 {
+
+
+    public function logo(): string
+    {
+        return asset('microweber-packages/payment/img/paypal.png');
+    }
+
 
     public function title(): string
     {
-        return 'Pay on delivery';
+        return 'PayPal';
     }
 
     public function process($data = [])
@@ -35,21 +38,27 @@ class PayOnDelivery extends \MicroweberPackages\Payment\PaymentMethod
                     $provider = $get('provider');
 
                     return [
-                        Forms\Components\Textarea::make('payment_instructions')
-                            ->label('Payment Instructions')
+                        Forms\Components\TextInput::make('paypal_email')
+                            ->label('Paypal Email')
+                            ->type('email')
                             ->columnSpan('full')
-                            ->default('')
+                            ->placeholder('Enter your PayPal email address')
+                            ->default(''),
+                        Forms\Components\Toggle::make('paypal_test_mode')
+                            ->label('Test Mode')
+                            ->columnSpan('full')
+                            ->default(1)
+                            ->required(),
+
                     ];
 
                 })
                 ->visible(function (Forms\Get $get) {
                     return (
-                        $get('provider') === 'pay_on_delivery'
-
+                        $get('provider') === 'paypal'
                     );
                 })
-                ->columns(2)
-            ,
+
 
         ];
     }
@@ -57,7 +66,7 @@ class PayOnDelivery extends \MicroweberPackages\Payment\PaymentMethod
 
     public function view(): string
     {
-        return 'payment::pay_on_delivery';
+        return 'payment::paypal';
     }
 
 }

@@ -6,6 +6,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Payment\Models\PaymentProvider;
 
 use Filament\Forms;
@@ -67,7 +69,6 @@ class PaymentProviderResource extends Resource
         ];
 
 
-
         if ($paymentDrivers) {
             foreach ($paymentDrivers as $paymentDriver) {
                 $driver = app()->payment_method_manager->driver($paymentDriver);
@@ -89,6 +90,15 @@ class PaymentProviderResource extends Resource
     {
         return $table
             ->columns([
+
+                ImageUrlColumn::make('logo')
+                    ->height(83)
+                    ->imageUrl(function (Model $record) {
+
+                        return $record->logo();
+                    }),
+
+
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->searchable()
