@@ -11,6 +11,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\FormBuilder\Elements\Select;
 use MicroweberPackages\Order\Models\Order;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -274,9 +277,76 @@ class OrderResource extends Resource
                         'md' => 3,
                     ]),
 
-                Forms\Components\KeyValue::make('custom_fields_json')
-                    ->columnSpanFull()
-                    ->addActionLabel('Add custom field')
+                Repeater::make('custom_fields_json')
+                    ->label('Custom fields')
+                    ->schema(function (Forms\Get $get) {
+
+                        $relId = $get('rel_id');
+                        $findCustomFields = CustomField::where('rel_id', $relId)
+                            ->where('rel_type', morph_name(Content::class))
+                            ->get();
+                        $customFieldsOptions = [];
+                        $customFieldsOptionsValues = [];
+                        if ($findCustomFields) {
+                            foreach ($findCustomFields as $customField) {
+                                $customFieldsOptions[$customField->name] = $customField->name;
+                                $customFieldValues = $customField->fieldValue()->get();
+                                if (!$customFieldValues) {
+                                    continue;
+                                }
+                                foreach ($customFieldValues as $customFieldValue) {
+                                    $customFieldsOptionsValues[$customField->name][] = $customFieldValue->value;
+                                }
+                            }
+                        }
+
+                        return [
+                            Forms\Components\Select::make('field_name')
+                                ->label('Field')
+                                ->options($customFieldsOptions)
+                                ->live(),
+                            Forms\Components\Select::make('field_value')
+                                ->label('Field Value')
+                                ->hidden(function (Forms\Get $get) use($customFieldsOptions) {
+                                    if (in_array($get('field_name'), $customFieldsOptions)) {
+                                        return false;
+                                    }
+                                    return true;
+                                })
+                                ->options(function (Forms\Get $get) use($customFieldsOptionsValues) {
+                                    return $customFieldsOptionsValues[$get('field_name')];
+                                }),
+                        ];
+                    })
+                    ->columns(2)
+                ->columnSpanFull(),
+
+//                Forms\Components\Builder::make('custom_fields_json')
+//                    ->label('Custom fields')
+//                    ->blocks([
+//                        Forms\Components\Builder\Block::make('custom_field')
+//                            ->schema([
+//                                Forms\Components\Select::make('field_name')
+//                                    ->label('Field Name')
+//                                    ->options([
+//                                        'color' => 'Color',
+//                                        'size' => 'Size',
+//                                    ])
+//                                    ->required(),
+//                                Forms\Components\Select::make('field_value')
+//                                    ->label('Field Value')
+//                                    ->options([
+//                                        'color' => 'Color',
+//                                        'size' => 'Size',
+//                                    ])
+//                                    ->required(),
+//                            ])->columns(2),
+//                    ])->columnSpanFull(),
+
+//                Forms\Components\KeyValue::make('custom_fields_json')
+//                    ->columnSpanFull()
+//                    ->label('Custom fields')
+//                    ->addActionLabel('Add custom field')
             ])
             ->extraItemActions([
                 Action::make('openProduct')
