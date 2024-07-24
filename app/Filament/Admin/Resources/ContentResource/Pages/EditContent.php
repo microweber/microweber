@@ -29,8 +29,7 @@ class EditContent extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        //  dd($data);
-        $record->update($data);
+         $record->update($data);
 
         if (isset($data['is_home']) and $data['is_home']) {
             //unset is_home from other records as there can be only one home
