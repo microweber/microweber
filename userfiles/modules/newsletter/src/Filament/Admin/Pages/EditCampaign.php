@@ -413,6 +413,7 @@ class EditCampaign extends Page
                                     ->openUrlInNewTab()
                                     ->icon('heroicon-o-eye'),
                                 Action::make('Send test E-mail')
+                                    ->modalSubmitActionLabel('Send test E-mail')
                                     ->icon('heroicon-o-beaker')
                                     ->link()
                                     ->form([
