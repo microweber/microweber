@@ -137,8 +137,6 @@ class ContentResource extends Resource
             ->schema([
 
 
-
-
 //                Forms\Components\CheckboxList::make('belongsToMenus')
 //                ->relationship(titleAttribute: 'title'),
 
@@ -263,8 +261,6 @@ class ContentResource extends Resource
                                 ->columns(2),
 
 
-
-
                             Forms\Components\Section::make('Images')
                                 ->schema([
 
@@ -289,7 +285,6 @@ class ContentResource extends Resource
 
                                 ])
                                 ->collapsible(),
-
 
 
                             Forms\Components\Section::make('Pricing')
@@ -595,6 +590,7 @@ class ContentResource extends Resource
                             ->columnSpanFull(),
 
 
+
                         Forms\Components\Select::make('created_by')
                             ->label('Author')
                             ->placeholder('Select author')
@@ -624,12 +620,34 @@ class ContentResource extends Resource
                                 'dynamic' => 'Dynamic',
                             ]),
 
+                        Forms\Components\Toggle::make('is_shop')
+                            ->label('Is Shop')
+                            ->default(0)
+                            ->helperText('This page will accept products to be added to it.')
+                            ->visible(function (Forms\Get $get) {
+                                return $get('content_type') === 'page';
+                            })
+
+                            ->columnSpanFull(),
+                        Forms\Components\Toggle::make('is_home')
+                            ->label('Is Homepage')
+                            ->default(0)
+                            ->helperText('This will be the first page of your website.')
+                            ->visible(function (Forms\Get $get) {
+                                return $get('content_type') === 'page';
+                            })
+                            ->columnSpanFull(),
+
+
 
                         Forms\Components\DateTimePicker::make('created_at')
                             ->label('Created At')
                             ->format('Y-m-d H:i:s')
                             ->native(false)
                             ->displayFormat('Y-m-d H:i:s')
+                            ->visible(function (Forms\Get $get) {
+                                return $get('id');
+                            })
                             ->columnSpanFull(),
 
                         Forms\Components\DateTimePicker::make('updated_at')
@@ -637,6 +655,9 @@ class ContentResource extends Resource
                             ->format('Y-m-d H:i:s')
                             ->native(false)
                             ->displayFormat('Y-m-d H:i:s')
+                            ->visible(function (Forms\Get $get) {
+                                return $get('id');
+                            })
                             ->columnSpanFull(),
 
                         Forms\Components\Placeholder::make('id')
@@ -744,7 +765,7 @@ class ContentResource extends Resource
         $livewire = $table->getLivewire();
 
         return $table
-            ->paginated([10, 25, 50, 100, 250,'all'])
+            ->paginated([10, 25, 50, 100, 250, 'all'])
             ->defaultPaginationPageOption(250)
             ->deferLoading()
             ->reorderable('position')
