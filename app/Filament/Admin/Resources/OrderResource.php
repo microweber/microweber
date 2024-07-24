@@ -273,6 +273,10 @@ class OrderResource extends Resource
                     ->columnSpan([
                         'md' => 3,
                     ]),
+
+                Forms\Components\KeyValue::make('custom_fields_json')
+                    ->columnSpanFull()
+                    ->addActionLabel('Add custom field')
             ])
             ->extraItemActions([
                 Action::make('openProduct')

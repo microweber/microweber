@@ -40,6 +40,11 @@ class Cart extends Model
 
     ];
 
+
+    protected $casts = [
+        'custom_fields_json' => 'array',
+    ];
+
     use Filterable;
 
     public function modelFilter()
