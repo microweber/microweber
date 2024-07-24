@@ -47,6 +47,14 @@ class Cart extends Model
 
     use Filterable;
 
+//    protected static function boot() {
+//        parent::boot();
+//
+//        static::updating(function ($model) {
+//            dd($model);
+//        });
+//    }
+
     public function modelFilter()
     {
         return $this->provideFilter(CartFilter::class);
