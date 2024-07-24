@@ -204,6 +204,11 @@ class ContentResource extends Resource
                                 ->visible(function (Forms\Get $get) {
                                     return $get('content_type') === 'page';
                                 }),
+                            Forms\Components\TextInput::make('is_home')
+                                ->default(0)
+                                ->visible(function (Forms\Get $get) {
+                                    return $get('content_type') === 'page';
+                                }),
 
 
 //
@@ -461,11 +466,6 @@ class ContentResource extends Resource
                                 ]),
 
 
-                            Forms\Components\Section::make('Category')
-                                ->schema([
-
-                                ]),
-
                             Forms\Components\Section::make('Tags')
                                 ->schema([
                                     Forms\Components\TagsInput::make('tags')
@@ -586,12 +586,17 @@ class ContentResource extends Resource
 
                         Forms\Components\Toggle::make('require_login')
                             ->label('Require login')
+                            ->visible(function (Forms\Get $get) {
+                                return $get('id');
+                            })
                             ->helperText('Require user to be logged in to view this content')
                             ->columnSpanFull(),
 
 
-
                         Forms\Components\Select::make('created_by')
+                            ->visible(function (Forms\Get $get) {
+                                return $get('id');
+                            })
                             ->label('Author')
                             ->placeholder('Select author')
                             // ->options(User::all()->pluck('email', 'id'))
@@ -627,17 +632,16 @@ class ContentResource extends Resource
                             ->visible(function (Forms\Get $get) {
                                 return $get('content_type') === 'page';
                             })
-
                             ->columnSpanFull(),
                         Forms\Components\Toggle::make('is_home')
                             ->label('Is Homepage')
                             ->default(0)
+
                             ->helperText('This will be the first page of your website.')
                             ->visible(function (Forms\Get $get) {
                                 return $get('content_type') === 'page';
                             })
                             ->columnSpanFull(),
-
 
 
                         Forms\Components\DateTimePicker::make('created_at')
