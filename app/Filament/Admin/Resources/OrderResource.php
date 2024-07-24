@@ -279,6 +279,16 @@ class OrderResource extends Resource
 
                 Repeater::make('custom_fields_json')
                     ->label('Custom fields')
+                    ->hidden(function (Forms\Get $get) {
+                        $relId = $get('rel_id');
+                        $findCustomFields = CustomField::where('rel_id', $relId)
+                            ->where('rel_type', morph_name(Content::class))
+                            ->count();
+                        if ($findCustomFields > 0) {
+                            return false;
+                        }
+                        return true;
+                    })
                     ->schema(function (Forms\Get $get) {
 
                         $relId = $get('rel_id');
@@ -299,6 +309,14 @@ class OrderResource extends Resource
                                 }
                             }
                         }
+//                        $customFieldsJsonSaved = $get('custom_fields_json');
+//                        if (!empty($customFieldsJsonSaved)) {
+//                            foreach ($customFieldsJsonSaved as $customFieldJsonField) {
+//                                if (isset($customFieldJsonField['field_name'])) {
+//                                    unset($customFieldsOptions[$customFieldJsonField['field_name']]);
+//                                }
+//                            }
+//                        }
 
                         return [
                             Forms\Components\Select::make('field_name')
@@ -321,32 +339,6 @@ class OrderResource extends Resource
                     ->columns(2)
                 ->columnSpanFull(),
 
-//                Forms\Components\Builder::make('custom_fields_json')
-//                    ->label('Custom fields')
-//                    ->blocks([
-//                        Forms\Components\Builder\Block::make('custom_field')
-//                            ->schema([
-//                                Forms\Components\Select::make('field_name')
-//                                    ->label('Field Name')
-//                                    ->options([
-//                                        'color' => 'Color',
-//                                        'size' => 'Size',
-//                                    ])
-//                                    ->required(),
-//                                Forms\Components\Select::make('field_value')
-//                                    ->label('Field Value')
-//                                    ->options([
-//                                        'color' => 'Color',
-//                                        'size' => 'Size',
-//                                    ])
-//                                    ->required(),
-//                            ])->columns(2),
-//                    ])->columnSpanFull(),
-
-//                Forms\Components\KeyValue::make('custom_fields_json')
-//                    ->columnSpanFull()
-//                    ->label('Custom fields')
-//                    ->addActionLabel('Add custom field')
             ])
             ->extraItemActions([
                 Action::make('openProduct')
