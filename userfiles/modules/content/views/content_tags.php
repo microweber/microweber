@@ -49,6 +49,7 @@ if ($all_existing_tags == null) {
       $(tags)
          .on('change', function(e, item, data){
             mw.element('[name="tag_names"]').val(data.map(function (c) {  return c.title }).join(',')).trigger('change')
+            contentChanged(true)
         });
 
 
