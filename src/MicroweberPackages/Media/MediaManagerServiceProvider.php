@@ -43,8 +43,8 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
         ]]);
         config(['filesystems.disks.public' => [
             'driver' => 'local',
-            'root' => media_uploads_path(),
-            'url' => media_uploads_url(),
+            'root' => public_path(),
+            'url' => public_asset(),
             'visibility' => 'public',
         ]]);
 

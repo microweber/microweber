@@ -110,8 +110,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
 
 
-        $this->app->register( \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class);
-        $this->app->register( ConfigExtendedServiceProvider::class);
+
+
         $this->app->register(\MicroweberPackages\Database\DatabaseManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(LiveEditRouteServiceProvider::class);
@@ -122,7 +122,6 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(TemplateManagerServiceProvider::class);
 
         $this->app->register(LivewireServiceProvider::class);
-
 
         $this->app->register(FortifyServiceProvider::class);
         $this->app->register(UserServiceProvider::class);

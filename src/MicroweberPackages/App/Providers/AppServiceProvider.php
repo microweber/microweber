@@ -206,7 +206,11 @@ class AppServiceProvider extends ServiceProvider
             ]);
 
         }
+        app()->usePublicPath(base_path());
 
+
+        \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
+        $this->app->register( ConfigExtendedServiceProvider::class);
 
         $this->app->register(CoreServiceProvider::class);
 
@@ -444,10 +448,12 @@ class AppServiceProvider extends ServiceProvider
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
 
-        app()->usePublicPath(base_path());
 
 
-        \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
+        //set app.asset_url
+
+
+
 
 
 //        if (!config::get('app.asset_url')) {

@@ -10,7 +10,7 @@ class Stripe extends \MicroweberPackages\Payment\PaymentMethod
 
     public function logo(): string
     {
-        return asset('microweber-packages/payment/img/stripe.png');
+        return public_asset('vendor/microweber-packages/payment/img/stripe.png');
     }
 
     public function title(): string

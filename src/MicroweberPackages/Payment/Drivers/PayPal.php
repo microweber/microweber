@@ -11,7 +11,7 @@ class PayPal extends \MicroweberPackages\Payment\PaymentMethod
 
     public function logo(): string
     {
-        return asset('microweber-packages/payment/img/paypal.png');
+        return public_asset('vendor/microweber-packages/payment/img/paypal.png');
     }
 
 
