@@ -322,11 +322,11 @@ class OrderResource extends Resource
 //                        }
 
                         return [
-                            Forms\Components\Select::make('field_name')
+                            Forms\Components\Select::make('custom_field_id')
                                 ->label('Field')
                                 ->options($customFieldsOptions)
                                 ->live(),
-                            Forms\Components\Select::make('field_value')
+                            Forms\Components\Select::make('custom_field_value_id')
                                 ->label('Field Value')
                                 ->hidden(function (Forms\Get $get) use($customFieldsOptions) {
                                     if (in_array($get('field_name'), $customFieldsOptions)) {
