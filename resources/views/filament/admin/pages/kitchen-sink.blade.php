@@ -444,6 +444,11 @@ console.log(dialogPrompt);
     <button type="submit" form="schema-form" class="btn">Submit</button>
 
 
+            <hr>
+            <h2>Other elements</h2>
+            <img src="{{ asset('vendor/microweber-packages/payment/img/paypal.png') }}" style="height: 36px; width: 36px;" class="max-w-none object-cover object-center ring-white dark:ring-gray-900  !object-contain">
+
+
     </div>
     </div>
 

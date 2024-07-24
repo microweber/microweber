@@ -82,12 +82,23 @@ class LivewireServiceProvider extends ServiceProvider
 //    }
     public function boot()
     {
-         Livewire::setScriptRoute(function ($handle) {
 
-             $url = asset('public/vendor/livewire/livewire.min.js');
-             return Route::get($url, $handle);
-             //   return site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js';
+        $livewireUrl = public_asset('vendor/livewire/livewire.min.js');
+
+        Livewire::setScriptRoute(function ($handle) use ($livewireUrl) {
+
+            return Route::get($livewireUrl, $handle);
+            //   return site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js';
         });
+
+
+//         Livewire::setScriptRoute(function ($handle) {
+//
+//             $url = asset('vendor/livewire/livewire.min.js');
+//             dd($url);
+//             return Route::get($url, $handle);
+//             //   return site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js';
+//        });
 
          // dd(Route::post('livewire/update'));
 //        Livewire::setUpdateRoute(function ($handle) {
@@ -121,11 +132,17 @@ class LivewireServiceProvider extends ServiceProvider
 
     public function register()
     {
+
+
+
+
+//
+
         $this->ensureLivewiereFilesAreCopiedToPublicPath();
         app()->extend(\Livewire\Mechanisms\HandleRequests\HandleRequests::class, function () {
             return new MwLivewireHandleRequests();
         });
-//
+
 //
 //        $this->registerLivewireSingleton();
 //        $this->registerConfig();

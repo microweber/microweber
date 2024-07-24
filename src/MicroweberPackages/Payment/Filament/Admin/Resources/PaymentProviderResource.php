@@ -92,7 +92,10 @@ class PaymentProviderResource extends Resource
             ->columns([
 
                 ImageUrlColumn::make('logo')
-                    ->height(83)
+                    ->size(36)
+                    ->extraImgAttributes([
+                        'class' => '!object-contain',
+                    ])
                     ->imageUrl(function (Model $record) {
 
                         return $record->logo();
