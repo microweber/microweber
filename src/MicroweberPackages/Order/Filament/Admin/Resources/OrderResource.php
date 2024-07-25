@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Order\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource;
+use MicroweberPackages\CustomField\Fields\Text;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -107,10 +108,7 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('order_id')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('customer_id')
+                    ->label('Number')
                     ->searchable()
                     ->sortable(),
 
@@ -119,6 +117,7 @@ class OrderResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
+
 
 //                Tables\Columns\BooleanColumn::make('order_completed')
 //                    ->label('Order completed')
@@ -132,6 +131,11 @@ class OrderResource extends Resource
 
                 Tables\Columns\TextColumn::make('order_status')
                     ->badge(),
+
+                Tables\Columns\TextColumn::make('amount')
+                    ->sortable()
+                    ->money(fn ($record) => $record->currency),
+
             ])
             ->filters([
                 //

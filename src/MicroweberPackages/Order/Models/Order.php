@@ -69,6 +69,33 @@ class Order extends Model
     ];
 
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            $model->calculateNewAmount();
+        });
+        static::updated(function ($model) {
+            $model->calculateNewAmount();
+        });
+
+    }
+
+    public function calculateNewAmount()
+    {
+        $amount = 0;
+        $cart = $this->cart;
+        if ($cart) {
+            foreach ($cart as $cartItem) {
+                $amount += $cartItem->price * $cartItem->qty;
+            }
+        }
+
+        $this->amount = $amount;
+        $this->save();
+    }
+
     public function modelFilter()
     {
         return $this->provideFilter(OrderFilter::class);
