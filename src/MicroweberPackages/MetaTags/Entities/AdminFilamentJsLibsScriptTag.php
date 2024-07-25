@@ -13,12 +13,11 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
         $lib_tynymce = mw_includes_url() . 'api/libs/tinymce/tinymce.min.js';
 
-
         $append_html = '' . "\r\n";
         $append_html .= '<script src="' . $lib_tynymce . '" id="mw-tynymce-js-libs-scripts"></script>' . "\r\n";
 
         $append_html .= '' . "\r\n";
-        $append_html .= '<script src="' . $libs . '" type="module" async id="mw-filament-js-libs-scripts"></script>' . "\r\n";
+        $append_html .= '<script src="' . $libs . '" type="module"  id="mw-filament-js-libs-scripts"></script>' . "\r\n";
 
         return $append_html;
     }
