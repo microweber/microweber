@@ -19,6 +19,8 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
 
     case Cancelled = 'cancelled';
 
+    case Refunded = 'refunded';
+
     public function getLabel(): string
     {
         return match ($this) {
@@ -27,6 +29,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::Shipped => 'Shipped',
             self::Delivered => 'Delivered',
             self::Cancelled => 'Cancelled',
+            self::Refunded => 'refunded'
         };
     }
 
@@ -37,6 +40,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::Processing => 'warning',
             self::Shipped, self::Delivered => 'success',
             self::Cancelled => 'danger',
+            self::Refunded => 'danger'
         };
     }
 
@@ -48,6 +52,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::Shipped => 'heroicon-m-truck',
             self::Delivered => 'heroicon-m-check-badge',
             self::Cancelled => 'heroicon-m-x-circle',
+            self::Refunded => 'heroicon-m-arrow-uturn-left',
         };
     }
 }
