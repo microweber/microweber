@@ -20,9 +20,13 @@ import './css/app.sass';
 import './css/gui.css';
 import './css/index.css';
 import 'vue-final-modal/style.css';
+import { MWBroadcast } from '../api-core/services/services/broadcast.js';
 
 
 const vfm = createVfm();
+
+
+
 
 
 // const canvas = new LiveEditCanvas();
@@ -47,7 +51,12 @@ mw.app.canvas.on('liveEditBeforeLoaded', function () {
     mw.app.dispatch('init');
 });
 
+mw.app.register('broadcast', MWBroadcast);
+
+const a = mw.app;
+
 mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
+
 
       mw.top().app.broadcast.message('canvasURL', {url: data.frameWindow.location.href})
 
@@ -91,6 +100,8 @@ const emitter = mitt();
 
 const app = createApp(App);
 app.component('vue-drag-resize', VueDragResize);
+
+
 
 app.directive("tooltip", {
     mounted: (el, binding) => {

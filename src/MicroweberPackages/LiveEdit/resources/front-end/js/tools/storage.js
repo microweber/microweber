@@ -4,7 +4,7 @@ mw.storage = {
     init: function () {
 
         try {
-            if (window.location.href.indexOf('data:') === 0 || !('localStorage' in mww) || /* IE Security configurations */ typeof mww['localStorage'] === 'undefined') return false;
+            if (window.location.href.indexOf('data:') === 0 || !('localStorage' in window) || /* IE Security configurations */ typeof window['localStorage'] === 'undefined') return false;
             var lsmw = localStorage.getItem("mw");
             if (typeof lsmw === 'undefined' || lsmw === null) {
                 lsmw = localStorage.setItem("mw", "{}");
@@ -32,7 +32,7 @@ mw.storage = {
     },
     set: function (key, val) {
         try {
-            if (!('localStorage' in mww)) return false;
+            if (!('localStorage' in window)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             curr[key] = val;
             var a = localStorage.setItem("mw", JSON.stringify(curr));
@@ -45,7 +45,7 @@ mw.storage = {
     },
     get: function (key) {
         try {
-            if (!('localStorage' in mww)) return false;
+            if (!('localStorage' in window)) return false;
             var curr = JSON.parse(localStorage.getItem("mw"));
             return curr[key];
         } catch (error) {
@@ -54,7 +54,7 @@ mw.storage = {
     },
     _keys: {},
     change: function (key, callback, other) {
-        if (!('localStorage' in mww)) return false;
+        if (!('localStorage' in window)) return false;
         if (key === 'INIT' && 'addEventListener' in document) {
             addEventListener('storage', function (e) {
                 if (e.key === 'mw') {

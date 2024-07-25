@@ -232,11 +232,13 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
         this.dispatch('liveEditBeforeLoaded');
 
 
-        mw.spinner({
-            element: target,
-            size: 52,
-            decorate: true
-        });
+        if(mw.spinner){
+            mw.spinner({
+                element: target,
+                size: 52,
+                decorate: true
+            });
+        }
 
         const liveEditIframe = document.createElement('iframe');
         let url = mw.settings.site_url;
