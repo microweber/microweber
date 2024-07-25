@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'assets_path' => public_asset('vendor/filament'),
+    'assets_path' => site_url('public/vendor/filament'),
 
     /*
     |--------------------------------------------------------------------------

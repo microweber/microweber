@@ -206,11 +206,14 @@ class AppServiceProvider extends ServiceProvider
             ]);
 
         }
+
+
+        $this->app->register( ConfigExtendedServiceProvider::class);
+
         app()->usePublicPath(base_path());
 
 
         \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
-        $this->app->register( ConfigExtendedServiceProvider::class);
 
         $this->app->register(CoreServiceProvider::class);
 

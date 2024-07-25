@@ -101,6 +101,7 @@
         "spatie/laravel-package-tools": "*",
         "spatie/laravel-permission": "*",
         "spatie/schema-org": "dev-main",
+        "squirephp/countries": "*",
         "squirephp/countries-en": "^3.6",
         "squirephp/currencies-en": "^3.6",
         "squirephp/model": "^3.6",

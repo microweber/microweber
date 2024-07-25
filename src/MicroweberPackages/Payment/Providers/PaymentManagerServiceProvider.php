@@ -34,9 +34,9 @@ class PaymentManagerServiceProvider extends PackageServiceProvider
 
     public function register(): void
     {
-//        $this->publishes([
-//            __DIR__ . '/../resources/assets' => public_path('vendor/microweber-packages/payment'),
-//        ], 'public');
+        $this->publishes([
+            __DIR__ . '/../resources/assets' => public_path('vendor/microweber-packages/payment'),
+        ], 'public');
 
         parent::register();
 
