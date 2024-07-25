@@ -9,6 +9,9 @@ class CreatePaymentsTable extends Migration
 {
     public function up()
     {
+        if (Schema::hasTable('payments')) {
+            return;
+        }
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
 
