@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\FormBuilder\Elements\Select;
+use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Models\Order;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -56,8 +57,32 @@ class OrderResource extends Resource
                     ])
                     ->columnSpan(['lg' => fn(?Order $record) => $record === null ? 3 : 2]),
 
+
+                Forms\Components\Group::make([
+
                 Forms\Components\Section::make()
                     ->schema([
+                        Forms\Components\ToggleButtons::make('status')
+                            ->columnSpanFull()
+                            ->inline()
+                            ->options(OrderStatus::class)
+                            ->required(),
+                        Forms\Components\Toggle::make('order_completed')
+                            ->default(1)
+                            ->label('Order completed')
+                            ->columnSpan('full')
+                            ->required(),
+
+                        Forms\Components\Toggle::make('is_paid')
+                            ->default(1)
+                            ->label('Is paid')
+                            ->columnSpan('full')
+                            ->required(),
+                ]),
+
+                Forms\Components\Section::make()
+                    ->schema([
+
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
                             ->content(fn(Order $record): ?string => $record->created_at?->diffForHumans()),
@@ -69,6 +94,9 @@ class OrderResource extends Resource
                     ->columnSpan(['lg' => 1])
                     ->hidden(fn(?Order $record) => $record === null),
             ])
+
+            ])
+
             ->columns(3);
     }
 
@@ -176,10 +204,7 @@ class OrderResource extends Resource
                         ->modalWidth('lg');
                 }),
 
-//            Forms\Components\ToggleButtons::make('status')
-//                ->inline()
-//              //  ->options(OrderStatus::class)
-//                ->required(),
+
 
 //            Forms\Components\Select::make('currency')
 //                ->searchable()
@@ -193,19 +218,7 @@ class OrderResource extends Resource
             Forms\Components\MarkdownEditor::make('other_info')
                 ->columnSpan('full'),
 
-            //order_completed
 
-            Forms\Components\Toggle::make('order_completed')
-                ->default(1)
-                ->label('Order completed')
-                ->columnSpan('full')
-                ->required(),
-
-            Forms\Components\Toggle::make('is_paid')
-                ->default(1)
-                ->label('Is paid')
-                ->columnSpan('full')
-                ->required(),
 
 
         ];
@@ -244,6 +257,10 @@ class OrderResource extends Resource
                                 $html .= '<div class="flex gap-2 items-center">';
                                 $html .= '<img src="'.$product->thumbnail().'" width="16px" />';
                                 $html .=  $product->title;
+                                if (!$product->getInStockAttribute()) {
+                                    $html .= '<span class="bg-gray-200 text-black text-[0.6rem]]">oos</span>';
+                                }
+                                $html .=  ' ('.$product->getPriceDisplayAttribute().')';
                                 $html .= '</div>';
                                 $options[$product->id] = $html;
                             }
@@ -299,43 +316,61 @@ class OrderResource extends Resource
                             ->where('rel_type', morph_name(Content::class))
                             ->get();
                         $customFieldsOptions = [];
+                        $customFieldsOptionsDetailed = [];
                         $customFieldsOptionsValues = [];
+                        $customFieldsOptionsValuesDetailed = [];
                         if ($findCustomFields) {
                             foreach ($findCustomFields as $customField) {
-                                $customFieldsOptions[$customField->name] = $customField->name;
+                                $customFieldsOptions[$customField->id] = $customField->name;
+                                $customFieldsOptionsDetailed[$customField->id] = $customField->toArray();
                                 $customFieldValues = $customField->fieldValue()->get();
                                 if (!$customFieldValues) {
                                     continue;
                                 }
                                 foreach ($customFieldValues as $customFieldValue) {
-                                    $customFieldsOptionsValues[$customField->name][] = $customFieldValue->value;
+                                    $customFieldsOptionsValues[$customField->id][] = $customFieldValue->value;
+                                    $customFieldsOptionsValuesDetailed[$customField->id][] = $customFieldValue->toArray();
                                 }
                             }
                         }
-//                        $customFieldsJsonSaved = $get('custom_fields_json');
-//                        if (!empty($customFieldsJsonSaved)) {
-//                            foreach ($customFieldsJsonSaved as $customFieldJsonField) {
-//                                if (isset($customFieldJsonField['field_name'])) {
-//                                    unset($customFieldsOptions[$customFieldJsonField['field_name']]);
-//                                }
-//                            }
-//                        }
 
                         return [
-                            Forms\Components\Select::make('field_name')
+                            Forms\Components\TextInput::make('field_name')
+                                ->hidden(),
+                            Forms\Components\TextInput::make('field_name_key')
+                                ->hidden(),
+                            Forms\Components\TextInput::make('field_type')
+                                ->hidden(),
+                            Forms\Components\TextInput::make('field_value')
+                                ->hidden(),
+                            Forms\Components\Select::make('field_id')
                                 ->label('Field')
+                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) use($customFieldsOptionsDetailed) {
+                                    $set('field_name', $customFieldsOptionsDetailed[$state]['name']);
+                                    $set('field_name_key', $customFieldsOptionsDetailed[$state]['name_key']);
+                                    $set('field_type', $customFieldsOptionsDetailed[$state]['type']);
+                                })
                                 ->options($customFieldsOptions)
                                 ->live(),
-                            Forms\Components\Select::make('field_value')
+                            Forms\Components\Select::make('field_value_id')
                                 ->label('Field Value')
                                 ->hidden(function (Forms\Get $get) use($customFieldsOptions) {
-                                    if (in_array($get('field_name'), $customFieldsOptions)) {
+                                    if (array_key_exists($get('field_id'), $customFieldsOptions)) {
                                         return false;
                                     }
                                     return true;
                                 })
+                                ->live()
+                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) use($customFieldsOptionsValuesDetailed) {
+                                    $set('field_value', $customFieldsOptionsValuesDetailed[$get('field_id')][$state]['value']);
+                                })
                                 ->options(function (Forms\Get $get) use($customFieldsOptionsValues) {
-                                    return $customFieldsOptionsValues[$get('field_name')];
+                                    if (isset($customFieldsOptionsValues[$get('field_id')])) {
+                                        return $customFieldsOptionsValues[$get('field_id')];
+                                    }
+                                    return [
+                                        'no_results'=>'No results'
+                                    ];
                                 }),
                         ];
                     })
