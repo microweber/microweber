@@ -17,8 +17,10 @@ use Illuminate\Notifications\Notifiable;
 use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Cart\Concerns\HasCartItems;
 use MicroweberPackages\Cart\Models\Cart;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
+use MicroweberPackages\Payment\Models\Payment;
 use MicroweberPackages\User\Models\User;
 
 class Order extends Model
@@ -67,6 +69,11 @@ class Order extends Model
     }
 
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'id', 'rel_id')->where('rel_type', morph_name(Order::class));
+
+    }
     public function customer()
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');

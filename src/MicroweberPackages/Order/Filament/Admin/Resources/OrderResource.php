@@ -16,6 +16,7 @@ use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\FormBuilder\Elements\Select;
 use MicroweberPackages\Order\Enums\OrderStatus;
+use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\RelationManagers\PaymentsRelationManager;
 use MicroweberPackages\Order\Models\Order;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -146,7 +147,7 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            PaymentsRelationManager::class,
         ];
     }
 
