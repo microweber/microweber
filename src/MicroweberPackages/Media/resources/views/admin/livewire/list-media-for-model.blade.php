@@ -1,4 +1,11 @@
 <div>
+<style>
+
+.mw-post-media-img--header {
+    @apply absolute top-[5px] left-[5px] z-10
+}
+
+</style>
 
     @php
         $suffix = '';
@@ -140,6 +147,7 @@
 
 
                             </span>
+                            <div class="mw-post-media-img--header">
 
                                     <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
                                        class="image-settings settings-img tip"
@@ -162,6 +170,7 @@
                                         <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
                                                class="form-check-input">
                                     </label>
+                                    </div>
                                 </div>
 
                             @endforeach

@@ -1,5 +1,6 @@
 
 import BaseComponent from "../containers/base-class";
+import  "../../../../front-end/js/tools/storage.js";
 
 export class MWBroadcast extends BaseComponent {
     constructor() {
@@ -25,6 +26,7 @@ export class MWBroadcast extends BaseComponent {
 
     getIdentity() {
 
+
         return mw.top().MWBroadcastIdentity;
     }
 
@@ -45,6 +47,7 @@ export class MWBroadcast extends BaseComponent {
             mw.storage.set('mw-broadcast-data', {});
         }
         curr = mw.storage.get('mw-broadcast-data');
+
         curr[this.getIdentity()] = {};
         mw.storage.set('mw-broadcast-data', curr);
     }
