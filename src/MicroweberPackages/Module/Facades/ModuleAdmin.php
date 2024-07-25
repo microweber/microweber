@@ -23,12 +23,12 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|null getSkinSettingsComponent(string $moduleName, string $skinName)
  *
  *
- * For live Edit
+ * For live Edit modules
  * @method static string|null registerLiveEditSettingsUrl(string $moduleName, string $url)
  * @method static string|null getLiveEditSettingsUrl(string $moduleName)
  * @method static array|null getLiveEditSettingsUrls()
  *
- * For admin
+ * For admin modules
  * @method static void registerAdminUrl($module, $url)
  * @method static string|null getAdminUrl(string $moduleName)
  * @method static array getAdminUrls()
@@ -36,8 +36,10 @@ use Illuminate\Support\Facades\Facade;
  * For filament
  * @method static void registerPanelPage($page,$location=null)
  * @method static array getPanelPages($location=null)
+ *
  * @method static void registerLiveEditPanelPage($page)
  * @method static array getLiveEditPanelPages()
+ *
  * @method static void registerPanelResource($resource)
  * @method static array getPanelResources()
  *

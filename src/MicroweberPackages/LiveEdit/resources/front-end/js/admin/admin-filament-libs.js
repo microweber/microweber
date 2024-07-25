@@ -7,7 +7,7 @@ import "xss";
 import jQuery from 'jquery';
 //const jQuery  = (await import("jquery/dist/jquery.js")).default;
 
-
+import "../core/mw-require.js";
 
 
 

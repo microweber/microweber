@@ -132,7 +132,6 @@ class MicroweberServiceProvider extends ServiceProvider
 
 
 
-        $this->app->register(LiveEditServiceProvider::class);
 
 
         $this->app->register(RepositoryServiceProvider::class);
@@ -218,6 +217,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(BlogServiceProvider::class);
 
         $this->app->register(MultilanguageServiceProvider::class);
+        $this->app->register(LiveEditServiceProvider::class);
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 
