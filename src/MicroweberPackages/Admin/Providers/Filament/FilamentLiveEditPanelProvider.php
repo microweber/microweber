@@ -31,25 +31,26 @@ class FilamentLiveEditPanelProvider extends FilamentAdminPanelProvider
     {
         return [];
     }
-    public function getPanelPages(): array
-    {
-        // return ModuleAdmin::getPanelPages();
-        $page_default = [
-            AdminLiveEditPage::class,
-        ];
-        $pages = ModuleAdmin::getLiveEditPanelPages();
-
-        return array_merge($page_default, $pages);
-
-
-        // return ModuleAdmin::getLiveEditPanelPages();
-
-//        return [
-//            //  Pages\Dashboard::class,
-//            \MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings::class,
-//            \MicroweberPackages\Modules\Logo\Http\Livewire\ShopSettings::class,
-//         ];
-    }
+//    public function getPanelPages(): array
+//    {
+//        dd(33);
+//        // return ModuleAdmin::getPanelPages();
+//        $page_default = [
+//            AdminLiveEditPage::class,
+//        ];
+//        $pages = ModuleAdmin::getLiveEditPanelPages();
+//
+//        return array_merge($page_default, $pages);
+//
+//
+//        // return ModuleAdmin::getLiveEditPanelPages();
+//
+////        return [
+////            //  Pages\Dashboard::class,
+////            \MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings::class,
+////            \MicroweberPackages\Modules\Logo\Http\Livewire\ShopSettings::class,
+////         ];
+//    }
 
     public function getPanelMiddlewares(): array
     {

@@ -53,6 +53,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
     public function getPanelPages(): array
     {
+
         return ModuleAdmin::getPanelPages();
     }
 
