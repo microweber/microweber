@@ -21,6 +21,7 @@ use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
+use MicroweberPackages\Payment\Enums\PaymentStatus;
 use MicroweberPackages\Payment\Models\Payment;
 use MicroweberPackages\User\Models\User;
 
@@ -74,16 +75,17 @@ class Order extends Model
         parent::boot();
 
         static::created(function ($model) {
-            $model->calculateNewAmount();
+            $model->calculateNewAmounts();
         });
         static::updated(function ($model) {
-            $model->calculateNewAmount();
+            $model->calculateNewAmounts();
         });
 
     }
 
-    public function calculateNewAmount()
+    public function calculateNewAmounts()
     {
+        $paymentAmount = 0;
         $amount = 0;
         $cart = $this->cart;
         if ($cart) {
@@ -92,6 +94,14 @@ class Order extends Model
             }
         }
 
+        $payments = $this->payments()->where('status', PaymentStatus::Completed)->get();
+        if ($payments) {
+            foreach ($payments as $payment) {
+                $paymentAmount += $payment->amount;
+            }
+        }
+
+        $this->payment_amount = $paymentAmount;
         $this->amount = $amount;
         $this->save();
     }
