@@ -10,6 +10,8 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use MicroweberPackages\Order\Enums\OrderStatus;
+use MicroweberPackages\Payment\Enums\PaymentStatus;
 use MicroweberPackages\Payment\Models\PaymentProvider;
 
 class PaymentsRelationManager extends RelationManager
@@ -22,10 +24,6 @@ class PaymentsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('rel_id')
-                    ->label('Reference')
-                    ->columnSpan('full')
-                    ->required(),
 
                 Forms\Components\TextInput::make('amount')
                     ->numeric()
@@ -36,13 +34,21 @@ class PaymentsRelationManager extends RelationManager
                     ->options(collect(Currency::getCurrencies())->mapWithKeys(fn ($item, $key) => [$key => data_get($item, 'name')]))
                     ->searchable()
                     ->required(),
+                Forms\Components\ToggleButtons::make('status')
+                    ->columnSpanFull()
+                    ->inline()
+                    ->default(PaymentStatus::Pending)
+                    ->options(PaymentStatus::class)
+                    ->required(),
 
                 Forms\Components\ToggleButtons::make('payment_provider_id')
                     ->label('Payment Provider')
                     ->inline()
                     ->grouped()
+                    ->columnSpanFull()
                     ->options(PaymentProvider::all()->pluck('name', 'id')->toArray())
                     ->required(),
+
 
             ]);
     }
@@ -51,26 +57,18 @@ class PaymentsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\ColumnGroup::make('Details')
-                    ->columns([
-                        Tables\Columns\TextColumn::make('reference')
-                            ->searchable(),
+                Tables\Columns\TextColumn::make('id')
+                    ->searchable(),
 
-                        Tables\Columns\TextColumn::make('amount')
-                            ->sortable()
-                            ->money(fn ($record) => $record->currency),
-                    ]),
+                Tables\Columns\TextColumn::make('amount')
+                    ->sortable()
+                    ->money(fn ($record) => $record->currency),
 
-                Tables\Columns\ColumnGroup::make('Context')
-                    ->columns([
-                        Tables\Columns\TextColumn::make('provider')
-                            ->formatStateUsing(fn ($state) => Str::headline($state))
-                            ->sortable(),
-
-                        Tables\Columns\TextColumn::make('method')
-                            ->formatStateUsing(fn ($state) => Str::headline($state))
-                            ->sortable(),
-                    ]),
+                Tables\Columns\TextColumn::make('paymentProviderName')
+                    ->formatStateUsing(fn ($state) => Str::headline($state))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge(),
             ])
             ->filters([
                 //

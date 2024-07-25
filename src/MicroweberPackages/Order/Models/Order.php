@@ -19,6 +19,7 @@ use MicroweberPackages\Cart\Concerns\HasCartItems;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Customer\Models\Customer;
+use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
 use MicroweberPackages\Payment\Models\Payment;
 use MicroweberPackages\User\Models\User;
@@ -56,12 +57,17 @@ class Order extends Model
         'user_ip',
         'is_completed',
         'payment_gw',
-        'status'
+        'order_status'
     ];
 
     protected $searchable = [
         'is_completed',
     ];
+
+    protected $casts = [
+        'status' => OrderStatus::class,
+    ];
+
 
     public function modelFilter()
     {
@@ -71,9 +77,9 @@ class Order extends Model
 
     public function payments()
     {
-        return $this->hasMany(Payment::class, 'id', 'rel_id')->where('rel_type', morph_name(Order::class));
-
+        return $this->morphMany(Payment::class, 'rel');
     }
+
     public function customer()
     {
         return $this->hasOne(Customer::class, 'id', 'customer_id');

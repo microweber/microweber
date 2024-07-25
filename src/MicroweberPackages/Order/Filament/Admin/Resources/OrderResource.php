@@ -64,7 +64,7 @@ class OrderResource extends Resource
 
                 Forms\Components\Section::make()
                     ->schema([
-                        Forms\Components\ToggleButtons::make('status')
+                        Forms\Components\ToggleButtons::make('order_status')
                             ->columnSpanFull()
                             ->inline()
                             ->options(OrderStatus::class)
@@ -130,6 +130,9 @@ class OrderResource extends Resource
                     ->label('Is paid')
                     ->sortable()
                     ->toggleable(),
+
+                Tables\Columns\TextColumn::make('order_status')
+                    ->badge(),
             ])
             ->filters([
                 //
