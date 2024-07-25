@@ -18,6 +18,7 @@ use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\FormBuilder\Elements\Select;
 use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\RelationManagers\PaymentsRelationManager;
+use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Widgets\OrderStats;
 use MicroweberPackages\Order\Models\Order;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -153,6 +154,13 @@ class OrderResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            OrderStats::class,
+        ];
     }
 
     public static function getRelations(): array
