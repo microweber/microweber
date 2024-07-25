@@ -9,6 +9,9 @@ use MicroweberPackages\Template\Traits\HasMenus;
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
 
+/*
+   @deprecated
+*/
 class LiveEditManager
 {
     use HasMenus;
@@ -36,6 +39,9 @@ class LiveEditManager
         $this->menus['top_right_menu'] = new Menu();
     }
 
+    /*
+    @deprecated
+    */
     public function headTags()
     {
         $tags = [];

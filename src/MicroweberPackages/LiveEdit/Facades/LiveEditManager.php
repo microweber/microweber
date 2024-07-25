@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \MicroweberPackages\LiveEdit\Providers\LiveEditManager
  * @mixin \MicroweberPackages\LiveEdit\Providers\LiveEditManager
+ * @deprecated
+ *
  */
 class LiveEditManager extends Facade
 {

@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Modules\Btn\Providers;
 
 
+use Filament\Facades\Filament;
 use Livewire\Livewire;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonModuleSettings;
@@ -36,10 +37,21 @@ class BtnServiceProvider extends PackageServiceProvider
 //        ModuleAdmin::registerSkinSettings('btn', 'default', 'microweber-module-btn::template-settings-default');
 //        ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
 
-        ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
         ModuleAdmin::registerLiveEditPanelPage(ButtonModuleSettings::class);
+        ModuleAdmin::registerPanelPage(ButtonModuleSettings::class);
+
+
+        // ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
 
 
     }
 
+    public function boot(): void
+    {
+        Filament::serving(function () {
+
+            ModuleAdmin::registerLiveEditSettingsUrl('btn', ButtonModuleSettings::getUrl());
+        });
+
+    }
 }
