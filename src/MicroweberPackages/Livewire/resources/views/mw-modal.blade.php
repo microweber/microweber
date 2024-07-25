@@ -1,6 +1,10 @@
 <div>
     <script>
 
+        document.addEventListener('livewire:init', function () {
+
+
+
         Livewire.on('closeMwTopDialogIframe', () => {
             let dialog = mw.top().dialog.get('#mw-livewire-component-iframe');
             if (dialog) {
@@ -51,6 +55,9 @@
                 modal.querySelector('.js-modal-livewire-content').style.width = data.modalSettings.width;
             }
         });
+
+        });
+
     </script>
     <style>
 
