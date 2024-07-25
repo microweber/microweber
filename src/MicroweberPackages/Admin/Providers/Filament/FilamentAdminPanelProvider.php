@@ -77,7 +77,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         ];
     }
 
-    public function panel(Panel $panel): Panel
+    public function getBasePanel(Panel $panel): Panel
     {
         $panel
 
@@ -96,7 +96,20 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->brandLogo(function () {
                 return site_url('userfiles/modules/microweber/api/libs/mw-ui/assets/img/logo.svg');
             })
-            ->unsavedChangesAlerts()
+            ->sidebarWidth('15rem')
+            ->colors([
+                'primary' => Color::Blue,
+            ])
+            ->unsavedChangesAlerts();
+
+        return $panel;
+    }
+
+    public function panel(Panel $panel): Panel
+    {
+        $panel = $this->getBasePanel($panel);
+
+        $panel
             ->navigationGroups([
                 'Dashboard' => NavigationGroup::make()
                     ->label('')
@@ -117,10 +130,6 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->group('Other')
                     ->sort(2)
                     ->icon('heroicon-o-megaphone'),
-            ])
-            ->sidebarWidth('15rem')
-            ->colors([
-                'primary' => Color::Blue,
             ])
             ->discoverResources(
                 in: app_path('Filament/Admin/Resources'),
@@ -181,7 +190,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
 
-        if($registeredPlugins){
+        if ($registeredPlugins) {
             foreach ($registeredPlugins as $registeredPlugin) {
                 $plugin = new $registeredPlugin;
                 $panel->plugin($plugin);

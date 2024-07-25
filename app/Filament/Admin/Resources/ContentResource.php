@@ -258,6 +258,11 @@ class ContentResource extends Resource
 
                                     MwRichEditor::make('content_body')
                                         ->columnSpan('full')
+//                                        ->afterStateHydrated(function (Forms\Get $get) {
+//
+//                                            ($get('content_body'));
+//                                           // return $get('content_body');
+//                                        })
                                         ->visible(function (Forms\Get $get) {
                                             return $get('content_type') !== 'page';
                                         }),
