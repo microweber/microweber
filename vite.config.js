@@ -47,14 +47,16 @@ export default defineConfig({
               // 'resources/js/app.js',
               //  'userfiles/modules/microweber/api/live-edit-app/index.js',
                // 'userfiles/modules/microweber/api/live-edit-app/app.js',
+                'src/MicroweberPackages/LiveEdit/resources/front-end/js/core/mw-core.js',
+
                 'src/MicroweberPackages/LiveEdit/resources/js/api-core/core/css/scss/liveedit.scss',
+
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js',
 
+
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js',
-
-
-                'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
                 // 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-filament-app.js',
+                'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
                 'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js',
                 'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-app.js',
 
