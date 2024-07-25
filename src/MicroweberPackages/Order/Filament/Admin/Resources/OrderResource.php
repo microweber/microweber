@@ -120,16 +120,15 @@ class OrderResource extends Resource
                     ->sortable()
                     ->toggleable(),
 
-                //order_completed
-                Tables\Columns\BooleanColumn::make('order_completed')
-                    ->label('Order completed')
-                    ->sortable()
-                    ->toggleable(),
-
-                Tables\Columns\BooleanColumn::make('is_paid')
-                    ->label('Is paid')
-                    ->sortable()
-                    ->toggleable(),
+//                Tables\Columns\BooleanColumn::make('order_completed')
+//                    ->label('Order completed')
+//                    ->sortable()
+//                    ->toggleable(),
+//
+//                Tables\Columns\BooleanColumn::make('is_paid')
+//                    ->label('Is paid')
+//                    ->sortable()
+//                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('order_status')
                     ->badge(),
