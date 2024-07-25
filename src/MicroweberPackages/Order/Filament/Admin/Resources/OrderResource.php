@@ -136,6 +136,11 @@ class OrderResource extends Resource
                     ->sortable()
                     ->money(fn ($record) => $record->currency),
 
+                Tables\Columns\TextColumn::make('payment_amount')
+                    ->sortable()
+                    ->money(fn ($record) => $record->currency),
+
+
             ])
             ->filters([
                 //
