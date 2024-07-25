@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\FormBuilder\Elements\Select;
+use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Models\Order;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -56,8 +57,32 @@ class OrderResource extends Resource
                     ])
                     ->columnSpan(['lg' => fn(?Order $record) => $record === null ? 3 : 2]),
 
+
+                Forms\Components\Group::make([
+
                 Forms\Components\Section::make()
                     ->schema([
+                        Forms\Components\ToggleButtons::make('status')
+                            ->columnSpanFull()
+                            ->inline()
+                            ->options(OrderStatus::class)
+                            ->required(),
+                        Forms\Components\Toggle::make('order_completed')
+                            ->default(1)
+                            ->label('Order completed')
+                            ->columnSpan('full')
+                            ->required(),
+
+                        Forms\Components\Toggle::make('is_paid')
+                            ->default(1)
+                            ->label('Is paid')
+                            ->columnSpan('full')
+                            ->required(),
+                ]),
+
+                Forms\Components\Section::make()
+                    ->schema([
+
                         Forms\Components\Placeholder::make('created_at')
                             ->label('Created at')
                             ->content(fn(Order $record): ?string => $record->created_at?->diffForHumans()),
@@ -69,6 +94,9 @@ class OrderResource extends Resource
                     ->columnSpan(['lg' => 1])
                     ->hidden(fn(?Order $record) => $record === null),
             ])
+
+            ])
+
             ->columns(3);
     }
 
@@ -176,10 +204,7 @@ class OrderResource extends Resource
                         ->modalWidth('lg');
                 }),
 
-//            Forms\Components\ToggleButtons::make('status')
-//                ->inline()
-//              //  ->options(OrderStatus::class)
-//                ->required(),
+
 
 //            Forms\Components\Select::make('currency')
 //                ->searchable()
@@ -193,19 +218,7 @@ class OrderResource extends Resource
             Forms\Components\MarkdownEditor::make('other_info')
                 ->columnSpan('full'),
 
-            //order_completed
 
-            Forms\Components\Toggle::make('order_completed')
-                ->default(1)
-                ->label('Order completed')
-                ->columnSpan('full')
-                ->required(),
-
-            Forms\Components\Toggle::make('is_paid')
-                ->default(1)
-                ->label('Is paid')
-                ->columnSpan('full')
-                ->required(),
 
 
         ];

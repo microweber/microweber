@@ -53,7 +53,8 @@ class Order extends Model
         'phone',
         'user_ip',
         'is_completed',
-        'payment_gw'
+        'payment_gw',
+        'status'
     ];
 
     protected $searchable = [
