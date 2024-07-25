@@ -10,6 +10,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use MicroweberPackages\Payment\Models\PaymentProvider;
 
 class PaymentsRelationManager extends RelationManager
 {
@@ -37,12 +38,10 @@ class PaymentsRelationManager extends RelationManager
                     ->required(),
 
                 Forms\Components\ToggleButtons::make('payment_provider_id')
+                    ->label('Payment Provider')
                     ->inline()
                     ->grouped()
-                    ->options([
-                        'stripe' => 'Stripe',
-                        'paypal' => 'PayPal',
-                    ])
+                    ->options(PaymentProvider::all()->pluck('name', 'id')->toArray())
                     ->required(),
 
             ]);

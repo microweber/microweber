@@ -8,7 +8,6 @@ class PaymentProvider extends \Illuminate\Database\Eloquent\Model
         'id',
         'name',
         'provider',
-
         'is_active',
         'is_default',
         'settings',
