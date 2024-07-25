@@ -14,6 +14,8 @@ namespace MicroweberPackages\Order\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
+use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource;
 use MicroweberPackages\Order\Http\Controllers\OrdersController;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkDelete;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
@@ -74,5 +76,11 @@ class OrderServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(dirname(__DIR__) . '/routes/api.php');
 
 
+
+    }
+
+    public function register()
+    {
+        ModuleAdmin::registerPanelResource(OrderResource::class);
     }
 }

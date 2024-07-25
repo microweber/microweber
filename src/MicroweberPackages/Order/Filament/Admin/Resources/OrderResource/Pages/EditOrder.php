@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Admin\Resources\OrderResource\Pages;
+namespace MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 
-use App\Filament\Admin\Resources\OrderResource;
+use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

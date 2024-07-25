@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace MicroweberPackages\Order\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\OrderResource\Pages;
+use App\Filament\Admin\Resources\ProductResource;
+use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
