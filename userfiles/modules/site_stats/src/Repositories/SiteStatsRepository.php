@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\SiteStats\Repositories;
+namespace MicroweberPackages\Modules\SiteStats\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
@@ -45,7 +45,47 @@ class SiteStatsRepository
         return $periodRangesDatesIntervals;
     }
 
-    public function getVisitsForPeriod($startDate = null, $endDate = null, $period = 'daily')
+    public function applyDateRangeToQueryBuilder($query, $periodRangesDatesInterval, $startDate, $endDate, $period)
+    {
+        if ($period == 'weekly') {
+
+            $query->whereYear('updated_at', '>=', date('Y', strtotime($startDate)));
+            $query->whereYear('updated_at', '<=', date('Y', strtotime($endDate)));
+
+        } else {
+            $query->when($startDate, fn(Builder $query) => $query->whereDate('updated_at', '>=', $startDate));
+            $query->when($endDate, fn(Builder $query) => $query->whereDate('updated_at', '<=', $endDate));
+        }
+
+        if ($period == 'daily') {
+            $query->whereDate('updated_at', $periodRangesDatesInterval);
+        }
+
+        if ($period == 'weekly') {
+            $query->whereYear('updated_at', date('Y', strtotime($periodRangesDatesInterval . ' week')));
+            $query->whereBetween('updated_at', [
+                date('Y-m-d', strtotime($periodRangesDatesInterval . ' week')),
+                date('Y-m-d', strtotime($periodRangesDatesInterval . ' week +6 days')),
+            ]);
+
+        }
+
+        if ($period == 'monthly') {
+            $query->whereYear('updated_at', date('Y', strtotime($periodRangesDatesInterval)));
+            $query->whereMonth('updated_at', date('m', strtotime($periodRangesDatesInterval)));
+        }
+
+        if ($period == 'yearly') {
+            $query->whereYear('updated_at', $periodRangesDatesInterval);
+            $query->whereYear('updated_at', '<=', $periodRangesDatesInterval);
+            $query->whereYear('updated_at', '>=', $periodRangesDatesInterval);
+        }
+
+        return $query;
+
+    }
+
+    public function getSessionsForPeriod($startDate = null, $endDate = null, $period = 'daily', $returnType = 'sessions')
     {
 
         $periodRangesDatesIntervals = $this->getRangesPeriod($startDate, $endDate, $period);
@@ -56,41 +96,30 @@ class SiteStatsRepository
 
                 $query = Sessions::query();
 
-                if ($period == 'weekly') {
+                $query = $this->applyDateRangeToQueryBuilder($query, $periodRangesDatesInterval, $startDate, $endDate, $period);
 
-                    $query->whereYear('updated_at', '>=', date('Y', strtotime($startDate )));
-                    $query->whereYear('updated_at', '<=', date('Y', strtotime($endDate )));
-
-                } else {
-                    $query->when($startDate, fn(Builder $query) => $query->whereDate('updated_at', '>=', $startDate));
-                    $query->when($endDate, fn(Builder $query) => $query->whereDate('updated_at', '<=', $endDate));
+                if ($returnType == 'sessions') {
+                    $records[] = $query->count('id');
                 }
 
-                if ($period == 'daily') {
-                    $query->whereDate('updated_at', $periodRangesDatesInterval);
-                }
-
-                if ($period == 'weekly') {
-                    $query->whereYear('updated_at', date('Y', strtotime($periodRangesDatesInterval . ' week')));
-                    $query->whereBetween('updated_at', [
-                        date('Y-m-d', strtotime($periodRangesDatesInterval . ' week')),
-                        date('Y-m-d', strtotime($periodRangesDatesInterval . ' week +6 days')),
-                    ]);
+                if ($returnType == 'views') {
+                    $records[] = $query->join('stats_visits_log',
+                        'stats_visits_log.id', '=', 'session_id_key')
+                        ->count('stats_visits_log.session_id_key');
 
                 }
+                if ($returnType == 'bounced') {
+//
+//                    $query =  $query->whereIn('id', function($query) {
+//                        $query->select('session_id_key')->from('stats_visits_log')->where('view_count', '=', 1);
+//                    });
+//
+//                    $records[] = $query->count('id');
 
-                if ($period == 'monthly') {
-                    $query->whereYear('updated_at', date('Y', strtotime($periodRangesDatesInterval)));
-                    $query->whereMonth('updated_at', date('m', strtotime($periodRangesDatesInterval)));
+
                 }
 
-                if ($period == 'yearly') {
-                    $query->whereYear('updated_at', $periodRangesDatesInterval);
-                    $query->whereYear('updated_at', '<=', $periodRangesDatesInterval);
-                    $query->whereYear('updated_at', '>=', $periodRangesDatesInterval);
-                }
 
-                $records[] = $query->count('id');
             }
         }
 

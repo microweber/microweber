@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\SiteStats\Filament;
+namespace MicroweberPackages\Modules\SiteStats\Filament;
 
 
 use Filament\Pages\Dashboard\Concerns\HasFilters;
@@ -8,11 +8,13 @@ use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
 use Filament\Widgets\ChartWidget;
 use Carbon\CarbonImmutable;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
+use MicroweberPackages\Modules\SiteStats\Repositories\SiteStatsRepository;
 
 
 class SiteStatsDashboardChart extends ChartWidget
 {
     use InteractsWithPageFilters;
+    use SiteStatsDataTrait;
 
     protected int|string|array $columnSpan = 'full';
 
@@ -27,68 +29,52 @@ class SiteStatsDashboardChart extends ChartWidget
 
     public function getHeading(): string
     {
-        return 'Test';
+        $startDate = $this->filters['startDate'] ?? null;
+        $endDate = $this->filters['endDate'] ?? null;
+        $period = $this->filters['period'] ?? 'daily';
+
+
+        $title = 'Visitors';
+        if ($period == 'daily') {
+            $title = 'Daily Visitors';
+        }
+        if ($period == 'weekly') {
+            $title = 'Weekly Visitors';
+        }
+        if ($period == 'monthly') {
+            $title = 'Monthly Visitors';
+        }
+        if ($period == 'yearly') {
+            $title = 'Yearly Visitors';
+        }
+
+
+        return $title;
     }
 
     protected function getData(): array
     {
-        $startDate = $this->filters['startDate'] ?? null;
-        $endDate = $this->filters['endDate'] ?? null;
-        $period = $this->filters['period'] ?? 'daily';
-        $periodRangesDatesIntervals = [];
-        if ($period == 'daily') {
-            if ($startDate == null) {
-                //30 days ago
-                $startDate = CarbonImmutable::now()->subDays(30);
-            }
-            if ($endDate == null) {
-                $endDate = CarbonImmutable::now();
-            }
-        }
 
-        if ($period == 'weekly') {
-            if ($startDate == null) {
-                //12 weeks ago
-                $startDate = CarbonImmutable::now()->subWeeks(12);
-            }
-            if ($endDate == null) {
-                $endDate = CarbonImmutable::now();
-            }
-        }
 
-        if ($period == 'monthly') {
-            if ($startDate == null) {
-                //12 months ago
-                $startDate = CarbonImmutable::now()->subMonths(12);
-            }
-            if ($endDate == null) {
-                $endDate = CarbonImmutable::now();
-            }
+        $periodsDataFromFilter = $this->getPeriodsDataFromFilter();
 
-        }
+        $startDate = $periodsDataFromFilter['startDate'];
+        $endDate = $periodsDataFromFilter['endDate'];
+        $period = $periodsDataFromFilter['period'];
+        $title = $periodsDataFromFilter['title'];
 
-        if ($period == 'yearly') {
-            if ($startDate == null) {
-                //5 years ago
-                $startDate = CarbonImmutable::now()->subYears(5);
-            }
-            if ($endDate == null) {
-                $endDate = CarbonImmutable::now();
-            }
-        }
 
-        $statsRepository = new \MicroweberPackages\SiteStats\Repositories\SiteStatsRepository();
-        $records = [];
+        $statsRepository = new SiteStatsRepository();
 
         $periodRangesDatesIntervals = $statsRepository->getRangesPeriod($startDate, $endDate, $period);
 
-        $records = $statsRepository->getVisitsForPeriod($startDate, $endDate, $period);
+        $records = $statsRepository->getSessionsForPeriod($startDate, $endDate, $period);
 
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Unique Visitors',
+                    'label' => $title,
                     'data' => array_map('floatval', $records),
                 ],
             ],
