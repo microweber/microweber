@@ -483,4 +483,10 @@ class OrderResource extends Resource
             ->required();
     }
 
+//    /** @return Builder<Order> */
+//    public static function getEloquentQuery(): Builder
+//    {
+//        return parent::getEloquentQuery()->withoutGlobalScope(SoftDeletingScope::class);
+//    } 
+
 }

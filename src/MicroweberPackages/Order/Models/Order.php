@@ -24,13 +24,14 @@ use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
 use MicroweberPackages\Payment\Enums\PaymentStatus;
 use MicroweberPackages\Payment\Models\Payment;
 use MicroweberPackages\User\Models\User;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
     use Notifiable;
     use Filterable;
     use PowerJoins;
-
+    use SoftDeletes;
 
     use HasCartItems;
 
@@ -58,7 +59,8 @@ class Order extends Model
         'user_ip',
         'is_completed',
         'payment_gw',
-        'order_status'
+        'order_status',
+        'deleted_at'
     ];
 
     protected $searchable = [
