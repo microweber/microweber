@@ -103,7 +103,7 @@ class Order extends Model
 
         $this->payment_amount = $paymentAmount;
         $this->amount = $amount;
-        $this->save();
+        $this->saveQuietly();
     }
 
     public function modelFilter()

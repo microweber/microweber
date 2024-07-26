@@ -5,6 +5,7 @@ namespace MicroweberPackages\Payment\Models;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Payment\Enums\PaymentStatus;
 use MicroweberPackages\Payment\Events\PaymentWasCreated;
+use MicroweberPackages\Payment\Events\PaymentWasDeleted;
 use MicroweberPackages\Payment\Events\PaymentWasUpdated;
 
 class Payment extends Model
@@ -33,6 +34,10 @@ class Payment extends Model
 
         static::updated(function ($model) {
             event(new PaymentWasUpdated($model));
+        });
+
+        static::deleted(function ($model) {
+            event(new PaymentWasDeleted($model));
         });
 
     }
