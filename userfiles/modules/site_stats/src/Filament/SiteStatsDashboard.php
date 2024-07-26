@@ -35,6 +35,8 @@ class SiteStatsDashboard extends BaseWidget
 
         $records = $statsRepository->getSessionsForPeriod($startDate, $endDate, $period);
         $bounced_records = $statsRepository->getBouncedSessionsForPeriod($startDate, $endDate, $period);
+       // $time_on_site = $statsRepository->getAvgTimeOnSiteForSessionsForPeriod($startDate, $endDate, $period);
+      //  dd($time_on_site);
 
         $totalVisitors = 0;
         $totalBounced = 0;
@@ -63,8 +65,8 @@ class SiteStatsDashboard extends BaseWidget
         return [
             Stat::make('Total visitors', $totalVisitors),
             Stat::make('Bounce rate', intval($bouncePercent) . '%'),
-            Stat::make('Average time on page', '3:12'),
-            Stat::make('Conversion rate', '3.2%'),
+          //  Stat::make('Average time on page', '3:12'),
+          //  Stat::make('Conversion rate', '3.2%'),
 
         ];
     }

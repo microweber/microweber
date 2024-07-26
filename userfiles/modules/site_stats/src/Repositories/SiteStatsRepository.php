@@ -85,6 +85,63 @@ class SiteStatsRepository
 
     }
 
+    public function getAvgTimeOnSiteForSessionsForPeriod($startDate = null, $endDate = null, $period = 'daily')
+    {
+        $records = [];
+        $periodRangesDatesIntervals = $this->getRangesPeriod($startDate, $endDate, $period);
+
+        if ($periodRangesDatesIntervals) {
+            foreach ($periodRangesDatesIntervals as $periodRangesDatesInterval) {
+
+                $query = Log::query();
+
+                $query = $this->applyDateRangeToQueryBuilder($query, $periodRangesDatesInterval, $startDate, $endDate, $period);
+                $query->select('session_id_key');
+                $query->selectSub('count(session_id_key)', 'session_id_key_count');
+                $query->groupBy('session_id_key');
+                $query->having('session_id_key_count', '>', 1);
+                $sess = $query->get()->toArray();
+
+                if($sess) {
+                    $diffsInMins = [];
+                    foreach ($sess as $sessItem) {
+                        //get first updated_at and last updated_at
+
+                        $updated_atQuery = Log::query();
+                        $updated_atQuery->where('session_id_key', $sessItem['session_id_key']);
+                        $updated_atQuery = $this->applyDateRangeToQueryBuilder($updated_atQuery, $periodRangesDatesInterval, $startDate, $endDate, $period);
+                        $updated_atQuery->limit(1);
+                        $updated_atQuery->orderBy('updated_at', 'asc');
+                        $firstUpdated = $updated_atQuery->first();
+
+
+                        $updated_atQuery = Log::query();
+                        $updated_atQuery->where('session_id_key', $sessItem['session_id_key']);
+                        $updated_atQuery = $this->applyDateRangeToQueryBuilder($updated_atQuery, $periodRangesDatesInterval, $startDate, $endDate, $period);
+                        $updated_atQuery->orderBy('updated_at', 'desc');
+                        $updated_atQuery->limit(1);
+
+                        $lastUpdated = $updated_atQuery->first();
+
+                        //diff in minutes
+
+                        $firstUpdated = CarbonImmutable::parse($firstUpdated->updated_at);
+                        $lastUpdated = CarbonImmutable::parse($lastUpdated->updated_at);
+                        $diffInMinutes = $firstUpdated->diffInMinutes($lastUpdated);
+
+
+                        $diffsInMins[] = $diffInMinutes;
+
+                    }
+                    $diffsInMins_agv = array_sum($diffsInMins) / count($diffsInMins);
+                    $records[] =  $diffsInMins_agv;
+                }
+
+
+            }
+        }
+    }
+
     public function getBouncedSessionsForPeriod($startDate = null, $endDate = null, $period = 'daily')
     {
         $records = [];
