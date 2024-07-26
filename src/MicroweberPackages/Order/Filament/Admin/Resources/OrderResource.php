@@ -70,7 +70,7 @@ class OrderResource extends Resource
                                     ->schema([
                                 Forms\Components\TextInput::make('city'),
                                 Forms\Components\TextInput::make('state')->label('State / Province'),
-                                Forms\Components\TextInput::make('post_code')->label('Zip / Postal code'),
+                                Forms\Components\TextInput::make('zip')->label('Zip / Postal code'),
                                 ])->columns(3),
 
                                 Forms\Components\Textarea::make('address'),
