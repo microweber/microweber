@@ -197,6 +197,7 @@ class OrderResource extends Resource
                 50,
                 100,
                 200,
+                'all'
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
