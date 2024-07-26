@@ -146,6 +146,9 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+
+                Tables\Columns\TextColumn::make('created_at'),
+
                 ImageUrlColumn::make('firstProductThumbnail')
                     ->label('Product')
                     ->circular()
@@ -164,17 +167,6 @@ class OrderResource extends Resource
                     ->sortable()
                     ->toggleable(),
 
-
-//                Tables\Columns\BooleanColumn::make('order_completed')
-//                    ->label('Order completed')
-//                    ->sortable()
-//                    ->toggleable(),
-//
-//                Tables\Columns\BooleanColumn::make('is_paid')
-//                    ->label('Is paid')
-//                    ->sortable()
-//                    ->toggleable(),
-
                 Tables\Columns\TextColumn::make('order_status')
                     ->badge(),
 
@@ -186,7 +178,16 @@ class OrderResource extends Resource
                     ->sortable()
                     ->money(fn ($record) => $record->currency),
 
-                Tables\Columns\TextColumn::make('created_at')
+
+                Tables\Columns\BooleanColumn::make('order_completed')
+                    ->label('Completed')
+                    ->sortable()
+                    ->toggleable(),
+
+                Tables\Columns\BooleanColumn::make('is_paid')
+                    ->label('Paid')
+                    ->sortable()
+                    ->toggleable(),
 
             ])
             ->filters([
