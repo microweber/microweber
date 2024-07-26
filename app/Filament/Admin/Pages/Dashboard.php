@@ -40,6 +40,7 @@ class Dashboard extends \Filament\Pages\Dashboard
                         ->options([
                             'daily' => 'Daily',
 
+                            'weekly' => 'Weekly',
                             'monthly' => 'Monthly',
                             'yearly' => 'Yearly',
                         ]),

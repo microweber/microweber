@@ -5,18 +5,12 @@ namespace MicroweberPackages\SiteStats\Filament;
 
 use Filament\Pages\Dashboard\Concerns\HasFilters;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
-use Filament\Widgets\LineChartWidget;
-use Filament\Pages\Dashboard\Concerns\HasFiltersForm;
+use Filament\Widgets\ChartWidget;
 use Carbon\CarbonImmutable;
-use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
-use Illuminate\Database\Eloquent\Builder;
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Modules\SiteStats\Models\Log;
-use MicroweberPackages\Modules\SiteStats\Models\Sessions;
 
 
-class SiteStatsDashboardChart extends LineChartWidget
+class SiteStatsDashboardChart extends ChartWidget
 {
     use InteractsWithPageFilters;
 
@@ -26,6 +20,10 @@ class SiteStatsDashboardChart extends LineChartWidget
     protected static ?string $maxHeight = '200px';
     protected static ?int $sort = 2;
 
+    protected function getType(): string
+    {
+        return 'line';
+    }
 
     public function getHeading(): string
     {
@@ -42,6 +40,16 @@ class SiteStatsDashboardChart extends LineChartWidget
             if ($startDate == null) {
                 //30 days ago
                 $startDate = CarbonImmutable::now()->subDays(30);
+            }
+            if ($endDate == null) {
+                $endDate = CarbonImmutable::now();
+            }
+        }
+
+        if ($period == 'weekly') {
+            if ($startDate == null) {
+                //12 weeks ago
+                $startDate = CarbonImmutable::now()->subWeeks(12);
             }
             if ($endDate == null) {
                 $endDate = CarbonImmutable::now();
@@ -73,6 +81,7 @@ class SiteStatsDashboardChart extends LineChartWidget
         $records = [];
 
         $periodRangesDatesIntervals = $statsRepository->getRangesPeriod($startDate, $endDate, $period);
+
         $records = $statsRepository->getVisitsForPeriod($startDate, $endDate, $period);
 
 
