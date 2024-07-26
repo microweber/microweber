@@ -4,6 +4,7 @@ namespace MicroweberPackages\Order\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource;
 use MicroweberPackages\CustomField\Fields\Text;
+use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -107,6 +108,11 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                ImageUrlColumn::make('firstProductThumbnail')
+                    ->label('Product')
+                    ->defaultImageUrl(function (Order $record) {
+                        return $record->thumbnail();
+                    }),
 
                 Tables\Columns\TextColumn::make('order_id')
                     ->label('Number')
