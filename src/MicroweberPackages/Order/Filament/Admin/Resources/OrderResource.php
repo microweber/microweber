@@ -110,6 +110,7 @@ class OrderResource extends Resource
             ->columns([
                 ImageUrlColumn::make('firstProductThumbnail')
                     ->label('Product')
+                    ->circular()
                     ->defaultImageUrl(function (Order $record) {
                         return $record->thumbnail();
                     }),
@@ -147,6 +148,7 @@ class OrderResource extends Resource
                     ->sortable()
                     ->money(fn ($record) => $record->currency),
 
+                Tables\Columns\TextColumn::make('created_at')
 
             ])
             ->filters([

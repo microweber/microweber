@@ -182,7 +182,7 @@ class Order extends Model
     {
         $cart = $this->cart->first();
         if ($cart) {
-            return thumbnail($cart->rel_id);
+            return get_picture($cart->rel_id);
         }
 
         return pixum($width, $height);
