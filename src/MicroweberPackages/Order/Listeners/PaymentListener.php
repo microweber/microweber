@@ -11,7 +11,6 @@ class PaymentListener
 
     public function handle($event)
     {
-
         if ($event->model->rel_type !== Order::class) {
             return;
         }
