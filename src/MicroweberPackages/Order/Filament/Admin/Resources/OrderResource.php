@@ -24,6 +24,7 @@ use MicroweberPackages\Order\Models\Order;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Notifications\Notification;
+use MicroweberPackages\Payment\Models\PaymentProvider;
 use Squire\Models\Country;
 
 use Illuminate\Support\Carbon;
@@ -211,9 +212,13 @@ class OrderResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            PaymentsRelationManager::class,
-        ];
+        $relations = [];
+     //   $countPaymentProviders = PaymentProvider::count();
+        //if ($countPaymentProviders > 0) {
+            $relations[] = PaymentsRelationManager::class;
+       // }
+
+        return $relations;
     }
 
     public static function getPages(): array
