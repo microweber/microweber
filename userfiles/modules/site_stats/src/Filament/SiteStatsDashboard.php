@@ -34,7 +34,8 @@ class SiteStatsDashboard extends BaseWidget
         $periodRangesDatesIntervals = $statsRepository->getRangesPeriod($startDate, $endDate, $period);
 
         $records = $statsRepository->getSessionsForPeriod($startDate, $endDate, $period);
-        $bounced_records = $statsRepository->getSessionsForPeriod($startDate, $endDate, $period, 'bounced');
+        $bounced_records = $statsRepository->getBouncedSessionsForPeriod($startDate, $endDate, $period);
+
         $totalVisitors = 0;
         $totalBounced = 0;
 
