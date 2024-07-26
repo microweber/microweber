@@ -4,6 +4,8 @@ namespace MicroweberPackages\Payment\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Payment\Enums\PaymentStatus;
+use MicroweberPackages\Payment\Events\PaymentWasCreated;
+use MicroweberPackages\Payment\Events\PaymentWasUpdated;
 
 class Payment extends Model
 {
@@ -17,11 +19,23 @@ class Payment extends Model
         'status',
     ];
 
-
     protected $casts = [
         'status' => PaymentStatus::class,
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            event(new PaymentWasCreated($model));
+        });
+
+        static::updated(function ($model) {
+            event(new PaymentWasUpdated($model));
+        });
+
+    }
 
     public function getPaymentProviderNameAttribute()
     {
