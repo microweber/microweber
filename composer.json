@@ -44,6 +44,7 @@
         "filament/spatie-laravel-translatable-plugin": "^3.2",
         "finlet/flexmail": "dev-master",
         "florianv/swap": "^4.3",
+        "flowframe/laravel-trend": "^0.2.0",
         "geoip2/geoip2": "~2.0",
         "graham-campbell/markdown": "*",
         "graham-campbell/security-core": "*",
