@@ -85,6 +85,40 @@ class SiteStatsRepository
 
     }
 
+    public function getBouncedSessionsForPeriod($startDate = null, $endDate = null, $period = 'daily')
+    {
+        $records = [];
+        $periodRangesDatesIntervals = $this->getRangesPeriod($startDate, $endDate, $period);
+
+        if ($periodRangesDatesIntervals) {
+            foreach ($periodRangesDatesIntervals as $periodRangesDatesInterval) {
+
+                $query = Log::query();
+                $query->selectSub('count(session_id_key)', 'session_id_key_count');
+                $query->having('session_id_key_count', '=', 1);
+                $query->groupBy('session_id_key');
+                $query = $this->applyDateRangeToQueryBuilder($query, $periodRangesDatesInterval, $startDate, $endDate, $period);
+
+                $sess = $query->get()->toArray();
+
+
+                if ($sess) {
+                    $bounced = 0;
+                    foreach ($sess as $sessItem) {
+                        if (isset($sessItem['session_id_key_count'])
+                            && $sessItem['session_id_key_count'] == 1) {
+                            $bounced++;
+                        }
+                    }
+                    $records[] = $bounced;
+                }
+
+
+            }
+        }
+        return $records;
+    }
+
     public function getSessionsForPeriod($startDate = null, $endDate = null, $period = 'daily', $returnType = 'sessions')
     {
 
@@ -109,13 +143,6 @@ class SiteStatsRepository
 
                 }
                 if ($returnType == 'bounced') {
-//
-//                    $query =  $query->whereIn('id', function($query) {
-//                        $query->select('session_id_key')->from('stats_visits_log')->where('view_count', '=', 1);
-//                    });
-//
-//                    $records[] = $query->count('id');
-
 
                 }
 
