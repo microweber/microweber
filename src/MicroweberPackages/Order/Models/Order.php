@@ -178,6 +178,16 @@ class Order extends Model
         return 'Anonymous';
     }
 
+    public function thumbnail($width = 100, $height = 100)
+    {
+        $cart = $this->cart->first();
+        if ($cart) {
+            return thumbnail($cart->rel_id);
+        }
+
+        return pixum($width, $height);
+    }
+
     public function cartProducts()
     {
         $carts = [];
