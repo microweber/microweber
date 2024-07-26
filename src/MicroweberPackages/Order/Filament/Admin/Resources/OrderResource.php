@@ -24,7 +24,7 @@ use MicroweberPackages\Order\Models\Order;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Notifications\Notification;
-
+use Squire\Models\Country;
 
 use Illuminate\Support\Carbon;
 use MicroweberPackages\Product\Models\Product;
@@ -43,9 +43,42 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\Group::make()
                     ->schema([
+
+                        Forms\Components\Group::make()
+                            ->schema([
+
                         Forms\Components\Section::make()
+                            ->heading('Order Details')
                             ->schema(static::getDetailsFormSchema())
-                            ->columns(2),
+                            ->collapsible()
+                            ->columnSpanFull(),
+
+                        Forms\Components\Section::make()
+                            ->heading('Shipping details')
+                            ->collapsible()
+                            ->collapsed()
+                            ->schema([
+
+                                Forms\Components\TextInput::make('phone'),
+
+                                Forms\Components\Select::make('country')
+                                    ->searchable()
+                                    ->getSearchResultsUsing(fn (string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
+                                    ->getOptionLabelUsing(fn ($value): ?string => Country::firstWhere('id', $value)?->getAttribute('name')),
+
+                                Forms\Components\Group::make()
+                                    ->schema([
+                                Forms\Components\TextInput::make('city'),
+                                Forms\Components\TextInput::make('state')->label('State / Province'),
+                                Forms\Components\TextInput::make('post_code')->label('Zip / Postal code'),
+                                ])->columns(3),
+
+                                Forms\Components\Textarea::make('address'),
+                                Forms\Components\Textarea::make('address2'),
+
+                            ])->columnSpanFull(),
+
+                        ])->columns(2),
 
                         Forms\Components\Section::make('Order items')
                             ->headerActions([
@@ -110,6 +143,7 @@ class OrderResource extends Resource
             ->columns([
                 ImageUrlColumn::make('firstProductThumbnail')
                     ->label('Product')
+                    ->circular()
                     ->defaultImageUrl(function (Order $record) {
                         return $record->thumbnail();
                     }),
@@ -147,6 +181,7 @@ class OrderResource extends Resource
                     ->sortable()
                     ->money(fn ($record) => $record->currency),
 
+                Tables\Columns\TextColumn::make('created_at')
 
             ])
             ->filters([
