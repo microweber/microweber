@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 
+use MicroweberPackages\Filament\Actions\DeleteActionOnlyIcon;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -19,8 +20,12 @@ class EditOrder extends EditRecord
                 ->size('xl')
                 ->label('Save')
                 ->color('success'),
-            Actions\DeleteAction::make()
-            ->size('xl'),
+            DeleteActionOnlyIcon::make()
+                ->label('Delete')
+                ->icon('heroicon-o-trash')
+                ->size('xl')
+                ->onlyIconAndTooltip()
+                ->outlined(),
         ];
     }
 

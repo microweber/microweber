@@ -106,6 +106,7 @@ class OrderResource extends Resource
                         Forms\Components\ToggleButtons::make('order_status')
                             ->columnSpanFull()
                             ->inline()
+                            ->default(OrderStatus::New)
                             ->options(OrderStatus::class)
                             ->required(),
                         Forms\Components\Toggle::make('order_completed')
