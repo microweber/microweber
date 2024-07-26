@@ -29,7 +29,7 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::Shipped => 'Shipped',
             self::Delivered => 'Delivered',
             self::Cancelled => 'Cancelled',
-            self::Refunded => 'refunded'
+            self::Refunded => 'Refunded'
         };
     }
 
