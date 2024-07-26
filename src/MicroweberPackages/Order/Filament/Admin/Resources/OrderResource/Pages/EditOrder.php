@@ -14,18 +14,18 @@ class EditOrder extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make()
-                ->action('save')
-                ->icon('mw-save')
-                ->size('xl')
-                ->label('Save')
-                ->color('success'),
             DeleteActionOnlyIcon::make()
                 ->label('Delete')
                 ->icon('heroicon-o-trash')
                 ->size('xl')
                 ->onlyIconAndTooltip()
                 ->outlined(),
+            Actions\EditAction::make()
+                ->action('save')
+                ->icon('mw-save')
+                ->size('xl')
+                ->label('Save')
+                ->color('success'),
         ];
     }
 
