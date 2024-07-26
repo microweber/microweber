@@ -31,10 +31,13 @@ class Dashboard extends \Filament\Pages\Dashboard
 
     protected static string $view = 'filament.admin.pages.dashboard';
 
+
+
     protected function getHeaderActions(): array
     {
         return [
             FilterAction::make()
+
                 ->form([
                     Select::make('period')
                         ->options([

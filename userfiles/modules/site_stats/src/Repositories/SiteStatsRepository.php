@@ -57,8 +57,9 @@ class SiteStatsRepository
                 $query = Sessions::query();
 
                 if ($period == 'weekly') {
-                    $query->whereYear('updated_at', '>=', $startDate->format('Y'));
-                    $query->whereYear('updated_at', '<=', $endDate->format('Y'));
+
+                    $query->whereYear('updated_at', '>=', date('Y', strtotime($startDate )));
+                    $query->whereYear('updated_at', '<=', date('Y', strtotime($endDate )));
 
                 } else {
                     $query->when($startDate, fn(Builder $query) => $query->whereDate('updated_at', '>=', $startDate));
