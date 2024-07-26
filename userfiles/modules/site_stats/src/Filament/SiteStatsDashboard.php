@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\SiteStats\Filament;
+namespace MicroweberPackages\Modules\SiteStats\Filament;
 
 
 use Filament\Forms\Components\DatePicker;
@@ -17,15 +17,51 @@ use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
 class SiteStatsDashboard extends BaseWidget
 {
-     use InteractsWithPageFilters;
-
+    use InteractsWithPageFilters;
+    use SiteStatsDataTrait;
 
 
     protected function getStats(): array
     {
+
+        $periodsDataFromFilter = $this->getPeriodsDataFromFilter();
+
+        $startDate = $periodsDataFromFilter['startDate'];
+        $endDate = $periodsDataFromFilter['endDate'];
+        $period = $periodsDataFromFilter['period'];
+
+        $statsRepository = new \MicroweberPackages\Modules\SiteStats\Repositories\SiteStatsRepository();
+        $periodRangesDatesIntervals = $statsRepository->getRangesPeriod($startDate, $endDate, $period);
+
+        $records = $statsRepository->getSessionsForPeriod($startDate, $endDate, $period);
+        $bounced_records = $statsRepository->getSessionsForPeriod($startDate, $endDate, $period, 'bounced');
+        $totalVisitors = 0;
+        $totalBounced = 0;
+
+        if ($records) {
+            foreach ($records as $record) {
+                $totalVisitors += $record;
+            }
+        }
+
+        if ($bounced_records) {
+            foreach ($bounced_records as $record) {
+                $totalBounced += $record;
+            }
+        }
+
+        if (!$totalVisitors) {
+            return [];
+        }
+
+        $bouncePercent = 0;
+        if ($totalBounced) {
+            $bouncePercent = ($totalBounced / $totalVisitors) * 100;
+        }
+
         return [
-            Stat::make('Unique views', '192.1k'),
-            Stat::make('Bounce rate', '21%'),
+            Stat::make('Total visitors', $totalVisitors),
+            Stat::make('Bounce rate', intval($bouncePercent) . '%'),
             Stat::make('Average time on page', '3:12'),
             Stat::make('Conversion rate', '3.2%'),
 
