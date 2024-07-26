@@ -107,6 +107,7 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+
                 Tables\Columns\TextColumn::make('order_id')
                     ->label('Number')
                     ->searchable()
@@ -415,7 +416,6 @@ class OrderResource extends Resource
                     }, shouldOpenInNewTab: true)
                     ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['rel_id'])),
             ])
-            ->orderColumn('sort')
             ->defaultItems(1)
             ->hiddenLabel()
             ->columns([
