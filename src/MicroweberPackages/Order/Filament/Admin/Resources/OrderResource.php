@@ -193,6 +193,11 @@ class OrderResource extends Resource
             ->filters([
                 //
             ])
+            ->paginationPageOptions([
+                50,
+                100,
+                200,
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
