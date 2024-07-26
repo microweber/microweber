@@ -87,12 +87,12 @@ class Order extends Model
     {
         $paymentAmount = 0;
         $amount = 0;
-        $cart = $this->cart;
-        if ($cart) {
-            foreach ($cart as $cartItem) {
-                $amount += $cartItem->price * $cartItem->qty;
-            }
-        }
+//        $cart = $this->cart;
+//        if ($cart) {
+//            foreach ($cart as $cartItem) {
+//                $amount += $cartItem->price * $cartItem->qty;
+//            }
+//        }
 
         $payments = $this->payments()->where('status', PaymentStatus::Completed)->get();
         if ($payments) {

@@ -6,7 +6,9 @@ namespace MicroweberPackages\Modules\SiteStats\Controllers;
 use MicroweberPackages\Modules\SiteStats\Stats;
 use MicroweberPackages\View\View;
 
-
+/**
+ * @deprecated
+ */
 class Admin
 {
     public $app = null;

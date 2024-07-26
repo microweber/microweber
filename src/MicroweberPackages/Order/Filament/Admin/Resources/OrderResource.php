@@ -59,7 +59,7 @@ class OrderResource extends Resource
                                 static::getItemsRepeater(),
                             ]),
                     ])
-                    ->columnSpan(['lg' => fn(?Order $record) => $record === null ? 3 : 2]),
+                    ->columnSpan(['lg' => 2]),
 
 
                 Forms\Components\Group::make([
@@ -95,9 +95,8 @@ class OrderResource extends Resource
                             ->label('Last modified at')
                             ->content(fn(Order $record): ?string => $record->updated_at?->diffForHumans()),
                     ])
-                    ->columnSpan(['lg' => 1])
                     ->hidden(fn(?Order $record) => $record === null),
-            ])
+            ])->columnSpan(['lg' => 1])
 
             ])
 

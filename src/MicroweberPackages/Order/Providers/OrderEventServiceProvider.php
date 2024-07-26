@@ -16,6 +16,9 @@ use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Listeners\OrderCreatedListener;
 use MicroweberPackages\Order\Listeners\OrderWasPaidListener;
+use MicroweberPackages\Order\Listeners\PaymentListener;
+use MicroweberPackages\Payment\Events\PaymentWasCreated;
+use MicroweberPackages\Payment\Events\PaymentWasUpdated;
 
 class OrderEventServiceProvider extends EventServiceProvider
 {
@@ -27,6 +30,12 @@ class OrderEventServiceProvider extends EventServiceProvider
         OrderWasPaid::class => [
             OrderWasPaidListener::class
         ],
+        PaymentWasCreated::class=>[
+            PaymentListener::class
+        ],
+        PaymentWasUpdated::class=>[
+            PaymentListener::class
+        ]
     ];
 
 }

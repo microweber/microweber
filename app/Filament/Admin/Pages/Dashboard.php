@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Pages;
 
+use Filament\Forms\Components\Select;
 use Filament\Pages\Page;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
 use Filament\Forms\Components\DatePicker;
@@ -35,8 +36,18 @@ class Dashboard extends \Filament\Pages\Dashboard
         return [
             FilterAction::make()
                 ->form([
+                    Select::make('period')
+                        ->options([
+                            'daily' => 'Daily',
+
+                            'weekly' => 'Weekly',
+                            'monthly' => 'Monthly',
+                            'yearly' => 'Yearly',
+                        ]),
                     DatePicker::make('startDate'),
                     DatePicker::make('endDate'),
+
+
                 ]),
         ];
     }
