@@ -35,6 +35,7 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
         parent::packageRegistered();
         //register FilamentManager
         $this->mergeConfigFrom(__DIR__ . '/../config/filament.php', 'filament');
+        $this->mergeConfigFrom(__DIR__ . '/../config/money.php', 'money');
 
         $this->app->scoped('filament', function (): FilamentManager {
             return new FilamentManager();
