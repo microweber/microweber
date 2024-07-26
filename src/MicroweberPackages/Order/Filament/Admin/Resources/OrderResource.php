@@ -59,6 +59,7 @@ class OrderResource extends Resource
                             ->collapsed()
                             ->schema([
 
+                                Forms\Components\TextInput::make('phone'),
 
                                 Forms\Components\Select::make('country')
                                     ->searchable()
@@ -67,15 +68,14 @@ class OrderResource extends Resource
 
                                 Forms\Components\Group::make()
                                     ->schema([
-                                Forms\Components\Select::make('city'),
-                                Forms\Components\Select::make('state')->label('State / Province'),
+                                Forms\Components\TextInput::make('city'),
+                                Forms\Components\TextInput::make('state')->label('State / Province'),
                                 Forms\Components\TextInput::make('post_code')->label('Zip / Postal code'),
                                 ])->columns(3),
 
                                 Forms\Components\Textarea::make('address'),
                                 Forms\Components\Textarea::make('address2'),
-                                Forms\Components\TextInput::make('phone'),
-                                Forms\Components\Textarea::make('additional_information'),
+
                             ])->columnSpanFull(),
 
                         ])->columns(2),
