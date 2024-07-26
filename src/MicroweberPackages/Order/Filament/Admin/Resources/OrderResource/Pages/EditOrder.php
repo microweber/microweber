@@ -10,11 +10,23 @@ class EditOrder extends EditRecord
 {
     protected static string $resource = OrderResource::class;
 
-
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\EditAction::make()
+                ->action('save')
+                ->icon('mw-save')
+                ->size('xl')
+                ->label('Save')
+                ->color('success'),
+            Actions\DeleteAction::make()
+            ->size('xl'),
+        ];
+    }
+
+    protected function getFormActions(): array
+    {
+        return [
         ];
     }
 }

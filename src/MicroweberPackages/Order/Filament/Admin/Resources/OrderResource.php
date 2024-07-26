@@ -63,6 +63,8 @@ class OrderResource extends Resource
 
                                 Forms\Components\Select::make('country')
                                     ->searchable()
+                                    ->preload()
+                                    ->native(false)
                                     ->getSearchResultsUsing(fn (string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
                                     ->getOptionLabelUsing(fn ($value): ?string => Country::firstWhere('id', $value)?->getAttribute('name')),
 
@@ -237,6 +239,7 @@ class OrderResource extends Resource
             Forms\Components\Select::make('customer_id')
                 ->relationship('customer', 'email')
                 ->searchable()
+                ->preload()
                 ->native(false)
                 ->required()
                 ->createOptionForm([
