@@ -3,7 +3,7 @@
 
 if(!mw.admin) {
 
-    mw.admin = {};
+    mw.admin = new MWUniversalContainer();
 }
 
 

@@ -8,15 +8,6 @@ import * as AColorPicker from "a-color-picker";
 window.AColorPicker = AColorPicker;
 
 
-console.log(1, AColorPicker);
-console.log(2,window.AColorPicker);
-
-
-
-console.log(1, AColorPicker);
-console.log(2,window.AColorPicker);
-
-
 import $ from "jquery";
 window.$ = $;
 window.jQuery = $;

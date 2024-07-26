@@ -1,13 +1,12 @@
 (function () {
 
-    if (window.mw) {
-        console.log('%c !!! mw already defined !!! ', 'background: #009cff; color: #fff; font-size:16px;');
-        console.log(window.mw);
-        return;
+
+
+    console.log(89, window.mw);
+
+    if(!window.mw) {
+        window.mw = {}
     }
-
-    var mw = {};
-
 
 
 
@@ -550,9 +549,7 @@
     };
 
 
-    if (!window.mw) {
-        window.mw = mw;
-    }
+
 })();
 
 <?php

@@ -17,7 +17,7 @@
     @if (!isset($package['description']))
         <div class="alert alert-danger">{{'Please select a package'}}</div>
     @else
-        <script>mw.require('admin_package_manager.js');</script>
+
 
 
         <div class="marketplace-template-img-wrapper" style="max-height: 250px; overflow:hidden">
