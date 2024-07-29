@@ -132,8 +132,24 @@
 
         </script>
     </div>
+
+
+    {{ $this->selectMenuForm() }}
+
     {{ ($this->createAction) }}
     {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
+
+    <hr class="mt-6" />
+
+    <div class="mt-8">
+        <div class="text-sm uppercase font-bold">
+            {{ $menu->title }}  structure
+        </div>
+       <p class="text-sm">
+           Here you can edit your menu links. You can also drag and drop to reorder them.
+       </p>
+    </div>
+
     <div x-data="sortableMenu()" x-init="init()">
             <div class="admin-menu-items-holder bg-white shadow mt-4 mb-4">
 

@@ -26,6 +26,12 @@ class MenusList extends Component implements HasForms, HasActions
     use InteractsWithActions;
     use InteractsWithForms;
 
+    public function selectMenuForm(Form $form): Form
+    {
+        return $form->schema([
+            TextInput::make('menu_id'),
+        ]);
+    }
 
     public function deleteAction(): Action
     {
@@ -47,7 +53,7 @@ class MenusList extends Component implements HasForms, HasActions
             ->mountUsing(function (Form $form, array $arguments) {
                 $form->fill($arguments);
             })
-            ->label('Add new menu item')
+            ->label('Add menu item')
             ->form([
                 TextInput::make('title')
                     ->required()
@@ -65,7 +71,7 @@ class MenusList extends Component implements HasForms, HasActions
     public function createAction(): Action
     {
         return CreateAction::make('create')
-            ->label('Add new menu')
+            ->label('Add menu')
             ->form([
                 TextInput::make('title')
                      ->required()
