@@ -5,7 +5,7 @@ import { MWUniversalContainer } from "./container";
 if(window.mw) {
     console.log('"mw" already defined');
 } else {
-
+    window.mw ={};
 }
 
 
