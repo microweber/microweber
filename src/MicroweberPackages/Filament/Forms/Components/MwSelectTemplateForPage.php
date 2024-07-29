@@ -45,7 +45,7 @@ class MwSelectTemplateForPage
                     return [$template['dir_name'] => $template['name']];
                 });
             })
-            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire)  use ($layoutFileInputName, $activeSiteTemplateInputName) {
+            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName) {
 
 
             })
@@ -54,20 +54,21 @@ class MwSelectTemplateForPage
                 ->getComponent('dynamicSelectLayout')
                 ->getChildComponentContainer()
                 ->fill())
-            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire)  use ($layoutFileInputName, $activeSiteTemplateInputName) {
+            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName) {
 
                 $data = $livewire->data;
 
                 $layout_options = array();
                 $active_site_template = $get($activeSiteTemplateInputName);
-                if(!$active_site_template) {
-                    $active_site_template = isset($data[$layoutFileInputName]) ? $data[$layoutFileInputName] : template_name();
+                if (!$active_site_template) {
+                    $active_site_template = isset($data[$activeSiteTemplateInputName]) ? $data[$activeSiteTemplateInputName] : template_name();
                 }
-               //
-
-                $layout_file = isset($data[$activeSiteTemplateInputName]) ? $data[$activeSiteTemplateInputName] : 'clean.php';
-
-
+                //
+                $layout_file = $get($layoutFileInputName);
+                if (!$layout_file) {
+                    $layout_file = isset($data[$layoutFileInputName]) ? $data[$layoutFileInputName] : 'clean.php';
+                }
+                $layout_options = array();
                 $layout_options['layout_file'] = $layout_file;
                 $layout_options['no_cache'] = true;
                 $layout_options['no_folder_sort'] = true;
@@ -113,13 +114,15 @@ class MwSelectTemplateForPage
 
                 $layout_options = array();
                 $active_site_template = $get($activeSiteTemplateInputName);
-                if(!$active_site_template) {
+                if (!$active_site_template) {
                     $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
                 }
-               // $layout_options['active_site_template'] = $active_site_template;
+
+
+                // $layout_options['active_site_template'] = $active_site_template;
 
                 //$layout_file_from_data = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
-               // $layout_file = isset($state) ? $state : $layout_file_from_data;
+                // $layout_file = isset($state) ? $state : $layout_file_from_data;
                 $layout_file = $get($layoutFileInputName);
 
 
@@ -127,12 +130,11 @@ class MwSelectTemplateForPage
                 $layout_options['no_cache'] = true;
                 $layout_options['no_folder_sort'] = true;
 
-                    $layout_options['active_site_template'] = $active_site_template;
+                $layout_options['active_site_template'] = $active_site_template;
 
 
-
-               $layout = mw()->layouts_manager->get_layout_details($layout_options);
-                 $url = '';
+                $layout = mw()->layouts_manager->get_layout_details($layout_options);
+                $url = '';
 
                 if (isset($layout['layout_file_preview_url'])) {
                     $url = $layout['layout_file_preview_url'];
@@ -148,7 +150,7 @@ class MwSelectTemplateForPage
 
 
         $templatePreviewBlock = Forms\Components\View::make('filament-forms::components.mw-render-template-preview-iframe')
-            ->viewData(['url' => '','layoutFileInputName' => $layoutFileInputName, 'activeSiteTemplateInputName' => $activeSiteTemplateInputName])
+            ->viewData(['url' => '', 'layoutFileInputName' => $layoutFileInputName, 'activeSiteTemplateInputName' => $activeSiteTemplateInputName])
 //                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state) {
 //                                            dd($get);
 //                                        })
