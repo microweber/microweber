@@ -8,6 +8,7 @@ use Filament\Actions\Contracts\HasActions;
 use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -26,10 +27,13 @@ class MenusList extends Component implements HasForms, HasActions
     use InteractsWithActions;
     use InteractsWithForms;
 
-    public function selectMenuForm(Form $form): Form
+    public function form(Form $form): Form
     {
         return $form->schema([
-            TextInput::make('menu_id'),
+            Select::make('menu_id')
+                ->options(Menu::where('item_type', 'menu')->get()->pluck('title', 'id'))
+                ->preload()
+            ->label(' '),
         ]);
     }
 

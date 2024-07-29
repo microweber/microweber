@@ -134,10 +134,19 @@
     </div>
 
 
-    {{ $this->selectMenuForm() }}
+    <div class="flex gap-3 justify-between">
+        <h4 class="text-xl">
+            Select the Menu you want to edit
+        </h4>
+        {{ ($this->createAction) }}
+    </div>
 
-    {{ ($this->createAction) }}
-    {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
+    {{ $this->form }}
+
+    <div class="mt-4">
+        {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
+    </div>
+
 
     <hr class="mt-6" />
 
