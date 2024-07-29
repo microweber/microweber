@@ -82,14 +82,15 @@ class LivewireServiceProvider extends ServiceProvider
 //    }
     public function boot()
     {
-
-        $livewireUrl = public_asset('vendor/livewire/livewire.min.js');
+        $livewireUrl = site_url('public/vendor/livewire/livewire.min.js');
 
         Livewire::setScriptRoute(function ($handle) use ($livewireUrl) {
 
             return Route::get($livewireUrl, $handle);
             //   return site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js';
         });
+
+
 
 
 //         Livewire::setScriptRoute(function ($handle) {
@@ -132,8 +133,8 @@ class LivewireServiceProvider extends ServiceProvider
 
     public function register()
     {
-
-
+        $config = __DIR__.'/config/livewire.php';
+        $this->mergeConfigFrom($config, 'livewire');
 
 
 //
