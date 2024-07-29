@@ -4,7 +4,9 @@
 
 namespace MicroweberPackages\Shipping\Providers;
 
-
+/**
+ * @deprecated This class is deprecated.
+ */
 abstract class AbstractShippingDriver
 {
     public function isEnabled()

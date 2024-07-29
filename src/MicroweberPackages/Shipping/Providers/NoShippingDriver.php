@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\Shipping\Providers;
 
-
+/**
+ * @deprecated This class is deprecated.
+ */
 class NoShippingDriver extends AbstractShippingDriver implements ShippingDriverInterface
 {
 

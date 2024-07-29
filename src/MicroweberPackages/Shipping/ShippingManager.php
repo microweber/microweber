@@ -17,8 +17,8 @@ use MicroweberPackages\Shipping\Providers\AbstractShippingDriver;
 use MicroweberPackages\Shipping\Providers\NoShippingDriver;
 
 
-/*
- * @deprecated this class is deprecated
+/**
+ * @deprecated This class is deprecated.
  */
 class ShippingManager extends Manager
 {

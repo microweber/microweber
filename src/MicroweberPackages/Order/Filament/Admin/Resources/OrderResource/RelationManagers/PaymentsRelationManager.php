@@ -80,6 +80,7 @@ class PaymentsRelationManager extends RelationManager
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
+
             ->groupedBulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);

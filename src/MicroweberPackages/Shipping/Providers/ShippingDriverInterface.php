@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\Shipping\Providers;
 
-
+/**
+ * @deprecated This class is deprecated.
+ */
 interface ShippingDriverInterface
 {
     public function title();

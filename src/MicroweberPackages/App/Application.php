@@ -29,6 +29,7 @@ use MicroweberPackages\Payment\PaymentManager;
 use MicroweberPackages\Payment\PaymentMethodManager;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
+use MicroweberPackages\Shipping\ShippingMethodManager;
 use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
@@ -118,6 +119,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property TranslateManager       $translate_manager
  * @property Microweber       $microweber
  * @property PaymentMethodManager       $payment_method_manager
+ * @property ShippingMethodManager      $shipping_method_manager
 
 
 

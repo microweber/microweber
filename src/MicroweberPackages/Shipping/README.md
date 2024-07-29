@@ -8,12 +8,13 @@ To add new Shipping Method, you need to create a new class that extends `Microwe
 // In YourServiceProvider.php in register method add this
 public function register()
     {
-    $this->app->resolving(\MicroweberPackages\Shipping\ShippingManager::class, function (\MicroweberPackages\Shipping\ShippingManager $shippingManager) {
+    $this->app->resolving('payment_method_manager', function (\MicroweberPackages\Shipping\ShippingMethodManager $shippingManager) {
         $shippingManager->extend('pickup', function () {
             return new \MicroweberPackages\Shipping\Providers\PickupDriver();
         });
     });
 }
+ 
 ```
 
 

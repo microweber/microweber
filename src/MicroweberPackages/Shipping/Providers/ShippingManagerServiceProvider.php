@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Shipping;
+namespace MicroweberPackages\Shipping\Providers;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\View;
@@ -17,14 +17,15 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Application;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Shipping\Filament\Admin\Resources\ShippingProviderResource;
+use MicroweberPackages\Shipping\ShippingManager;
 
 class ShippingManagerServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        View::addNamespace('shipping', __DIR__ . '/resources/views');
+        View::addNamespace('shipping', __DIR__ . '/../resources/views');
         ModuleAdmin::registerPanelResource(ShippingProviderResource::class);
     }
 
@@ -46,9 +47,7 @@ class ShippingManagerServiceProvider extends ServiceProvider
             return new ShippingManager($app->make(Container::class));
         });
 
-
-
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
     }
 }

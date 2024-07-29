@@ -140,6 +140,7 @@ class SiteStatsRepository
 
             }
         }
+        return $records;
     }
 
     public function getBouncedSessionsForPeriod($startDate = null, $endDate = null, $period = 'daily')
