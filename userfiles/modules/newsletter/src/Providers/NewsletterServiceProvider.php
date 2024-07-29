@@ -39,18 +39,19 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
 //
 
-        ModuleAdmin::registerAdminUrl('newsletter', admin_url('newsletter'));
+       // ModuleAdmin::registerAdminUrl('newsletter', admin_url('newsletter'));
 
 
-        Event::listen(ServingFilament::class, function () {
+         Event::listen(ServingFilament::class, function () {
             Livewire::component('admin-newsletter-import-subscribers-action-button', NewsletterImportSubscribersActionButton::class);
-            //ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin-newsletter.pages.homepage'));
+             ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin-newsletter.pages.homepage'));
         });
 
     }
 
     public function register(): void
     {
+        $this->app->register(NewsletterFilamentAdminPanelProvider::class);
         parent::register();
 
         // Register Microweber Icons set
@@ -63,6 +64,10 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/web.php');
+
+
+
+
 //        ModuleAdmin::registerPanelPage(Homepage::class);
 //        ModuleAdmin::registerPanelPage(SenderAccounts::class);
 //        ModuleAdmin::registerPanelPage(Templates::class);

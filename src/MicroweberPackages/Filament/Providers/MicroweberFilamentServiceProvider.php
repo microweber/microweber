@@ -28,7 +28,7 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
             $this->app->register(FilamentLiveEditPanelProvider::class);
 
             // @TODO
-            $this->app->register(NewsletterFilamentAdminPanelProvider::class);
+          //  $this->app->register(NewsletterFilamentAdminPanelProvider::class);
         }
 
     }

@@ -33,6 +33,9 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+
+
+
         $panel
             // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
