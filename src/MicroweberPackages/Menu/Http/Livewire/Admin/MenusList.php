@@ -27,10 +27,13 @@ class MenusList extends Component implements HasForms, HasActions
     use InteractsWithActions;
     use InteractsWithForms;
 
+    public $menu_id = 0;
+
     public function form(Form $form): Form
     {
         return $form->schema([
             Select::make('menu_id')
+                ->live()
                 ->options(Menu::where('item_type', 'menu')->get()->pluck('title', 'id'))
                 ->preload()
             ->label(' '),
@@ -118,11 +121,23 @@ class MenusList extends Component implements HasForms, HasActions
             })->slideOver();
     }
 
+    public function mount()
+    {
+        if ($this->menu_id == 0) {
+            $findFirstMenu = Menu::where('item_type', 'menu')
+                ->first();
+
+            $this->menu_id = $findFirstMenu->id;
+        }
+
+    }
 
     public function render(): View
     {
         return view('menu::livewire.admin.menus-list', [
-            'menu' => Menu::where('item_type', 'menu')->first()
+            'menu' => Menu::where('item_type', 'menu')
+                ->where('id', $this->menu_id)
+                ->first()
         ]);
     }
 }

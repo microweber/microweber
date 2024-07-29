@@ -143,50 +143,55 @@
 
     {{ $this->form }}
 
-    <div class="mt-4">
-        {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
-    </div>
+    @if($menu)
 
-
-    <hr class="mt-6" />
-
-    <div class="mt-8">
-        <div class="text-sm uppercase font-bold">
-            {{ $menu->title }}  structure
+        <div class="mt-4">
+            {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
         </div>
-       <p class="text-sm">
-           Here you can edit your menu links. You can also drag and drop to reorder them.
-       </p>
-    </div>
 
-    <div x-data="sortableMenu()" x-init="init()">
-            <div class="admin-menu-items-holder bg-white shadow mt-4 mb-4">
 
-                <div data-menu-id="{{ $menu->id }}" class="px-4 pb-4 pt-4">
-                    @php
-                        $params = array(
-                          'menu_id' => $menu->id,
-                          'link' => function ($item) {
-                              return view('menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
-                          }
-                         );
-                         print  menu_tree($params);
-                    @endphp
 
+        <hr class="mt-6" />
+
+        <div class="mt-8">
+            <div class="text-sm uppercase font-bold">
+                {{ $menu->title }}  structure
+            </div>
+           <p class="text-sm">
+               Here you can edit your menu links. You can also drag and drop to reorder them.
+           </p>
+        </div>
+
+        <div x-data="sortableMenu()" x-init="init()">
+                <div class="admin-menu-items-holder bg-white shadow mt-4 mb-4">
+
+                    <div data-menu-id="{{ $menu->id }}" class="px-4 pb-4 pt-4">
+                        @php
+                            $params = array(
+                              'menu_id' => $menu->id,
+                              'link' => function ($item) {
+                                  return view('menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
+                              }
+                             );
+                             print  menu_tree($params);
+                        @endphp
+
+                    </div>
                 </div>
+            </div>
+
+        <div class="flex gap-2 items-center justify-between mt-4">
+            <div class="text-sm uppercase font-bold">
+                {{ $menu->title }}  selected
+            </div>
+
+            <div>
+                {{ ($this->editAction)(['id' => $menu->id]) }}
+                {{ ($this->deleteAction)(['id' => $menu->id]) }}
             </div>
         </div>
 
-    <div class="flex gap-2 items-center justify-between mt-4">
-        <div class="text-sm uppercase font-bold">
-            {{ $menu->title }}  selected
-        </div>
-
-        <div>
-            {{ ($this->editAction)(['id' => $menu->id]) }}
-            {{ ($this->deleteAction)(['id' => $menu->id]) }}
-        </div>
-    </div>
+    @endif
 
 
     <x-filament-actions::modals/>
