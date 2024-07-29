@@ -45,7 +45,7 @@ class MwSelectTemplateForPage
                     return [$template['dir_name'] => $template['name']];
                 });
             })
-            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
+            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire)  use ($layoutFileInputName, $activeSiteTemplateInputName) {
 
 
             })
@@ -54,22 +54,24 @@ class MwSelectTemplateForPage
                 ->getComponent('dynamicSelectLayout')
                 ->getChildComponentContainer()
                 ->fill())
-            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
+            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire)  use ($layoutFileInputName, $activeSiteTemplateInputName) {
 
                 $data = $livewire->data;
 
                 $layout_options = array();
+                $active_site_template = $get($activeSiteTemplateInputName);
+                if(!$active_site_template) {
+                    $active_site_template = isset($data[$layoutFileInputName]) ? $data[$layoutFileInputName] : template_name();
+                }
+               //
 
-                $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
-                $layout_options['active_site_template'] = $active_site_template;
-
-                $layout_file = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
+                $layout_file = isset($data[$activeSiteTemplateInputName]) ? $data[$activeSiteTemplateInputName] : 'clean.php';
 
 
                 $layout_options['layout_file'] = $layout_file;
                 $layout_options['no_cache'] = true;
                 $layout_options['no_folder_sort'] = true;
-
+                $layout_options['active_site_template'] = $active_site_template;
                 $layout = mw()->layouts_manager->get_layout_details($layout_options);
                 $url = '';
 
@@ -110,20 +112,27 @@ class MwSelectTemplateForPage
                 $data = $livewire->data;
 
                 $layout_options = array();
+                $active_site_template = $get($activeSiteTemplateInputName);
+                if(!$active_site_template) {
+                    $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
+                }
+               // $layout_options['active_site_template'] = $active_site_template;
 
-                $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
-                $layout_options['active_site_template'] = $active_site_template;
-
-                $layout_file = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
+                //$layout_file_from_data = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
+               // $layout_file = isset($state) ? $state : $layout_file_from_data;
+                $layout_file = $get($layoutFileInputName);
 
 
                 $layout_options['layout_file'] = $layout_file;
                 $layout_options['no_cache'] = true;
                 $layout_options['no_folder_sort'] = true;
 
-                $layout = mw()->layouts_manager->get_layout_details($layout_options);
-                $url = '';
- 
+                    $layout_options['active_site_template'] = $active_site_template;
+
+
+
+               $layout = mw()->layouts_manager->get_layout_details($layout_options);
+                 $url = '';
 
                 if (isset($layout['layout_file_preview_url'])) {
                     $url = $layout['layout_file_preview_url'];

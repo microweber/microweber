@@ -423,6 +423,7 @@ class LayoutsManager
                                 'layouts/sign-up.php',
                             ];
 
+
                             if (in_array($layout_file, $skipLayoutFiles)) {
                                 continue;
                             }
@@ -430,7 +431,6 @@ class LayoutsManager
                             if(!isset($the_active_site_template)){
                                 $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
                             }
-
                             $to_return_temp['layout_file'] = $layout_file;
                             $to_return_temp['layout_file_preview'] = $layout_file_preview;
                             $to_return_temp['layout_file_preview_url'] = site_url('new-content-preview-' . uniqid()) . '?content_id=0&no_editmode=true&preview_layout=' . $layout_file_preview.'&preview_template='.$the_active_site_template;
