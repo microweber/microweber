@@ -57,6 +57,7 @@ class MenusList extends Component implements HasForms, HasActions
     public function addMenuItemAction(): Action
     {
         return CreateAction::make('addMenuItemAction')
+            ->modalWidth('md')
             ->mountUsing(function (Form $form, array $arguments) {
                 $form->fill($arguments);
             })
@@ -68,11 +69,14 @@ class MenusList extends Component implements HasForms, HasActions
             ])
             ->action(function (array $data) {
 
+                $data['item_type'] = 'menu_item';
+                $data['parent_id'] = $this->menu_id;
+
                 $record = Menu::newModelInstance();
                 $record->fill($data);
                 $record->save();
 
-            })->slideOver();
+            });
     }
 
     public function createAction(): Action
@@ -86,11 +90,13 @@ class MenusList extends Component implements HasForms, HasActions
             ])
             ->action(function (array $data) {
 
+                $data['item_type'] = 'menu';
+
                 $record = Menu::newModelInstance();
                 $record->fill($data);
                 $record->save();
 
-            })->slideOver();
+            });
     }
 
     public function editAction(): Action
@@ -118,7 +124,7 @@ class MenusList extends Component implements HasForms, HasActions
             ->action(function (array $data) {
                 $record = Menu::find($data['id']);
                 $record->update($data);
-            })->slideOver();
+            });
     }
 
     public function mount()
