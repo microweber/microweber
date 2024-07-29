@@ -106,15 +106,9 @@ class MenusList extends Component implements HasForms, HasActions
             ->mountUsing(function (Form $form, array $arguments) {
                 $record = Menu::find($arguments['id']);
                 $form->fill($record->toArray());
-
             })
             ->form([
-                Hidden::make('id')
-                    ->required(),
                 TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('item_type')
                     ->required()
                     ->maxLength(255),
             ])->record(function (array $arguments) {
