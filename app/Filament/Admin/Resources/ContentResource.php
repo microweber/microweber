@@ -199,12 +199,12 @@ class ContentResource extends Resource
                                 ->hidden(),
 
 
-                            Forms\Components\TextInput::make('is_shop')
+                            Forms\Components\Hidden::make('is_shop')
                                 ->default(0)
                                 ->visible(function (Forms\Get $get) {
                                     return $get('content_type') === 'page';
                                 }),
-                            Forms\Components\TextInput::make('is_home')
+                            Forms\Components\Hidden::make('is_home')
                                 ->default(0)
                                 ->visible(function (Forms\Get $get) {
                                     return $get('content_type') === 'page';

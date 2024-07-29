@@ -110,7 +110,7 @@ class MwSelectTemplateForPage
             })
             ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) use ($layoutFileInputName, $activeSiteTemplateInputName) {
 
-                $data = $livewire->data;
+                $data = $livewire->data ?? [];
 
                 $layout_options = array();
                 $active_site_template = $get($activeSiteTemplateInputName);
@@ -138,6 +138,19 @@ class MwSelectTemplateForPage
 
                 if (isset($layout['layout_file_preview_url'])) {
                     $url = $layout['layout_file_preview_url'];
+                }
+
+                if (isset($layout['content_type']) and $layout['content_type']) {
+                    if (array_key_exists('subtype', $data)) {
+                        $set('subtype', $layout['content_type']);
+                    }
+                }
+                if (isset($layout['is_shop']) and ($layout['is_shop'] == 1 or $layout['is_shop'] == 'y') ) {
+                    if (array_key_exists('is_shop', $data)) {
+                        $set('is_shop', 1);
+                    }
+                } else  if (array_key_exists('is_shop', $data)) {
+                    $set('is_shop', 0);
                 }
 
 
