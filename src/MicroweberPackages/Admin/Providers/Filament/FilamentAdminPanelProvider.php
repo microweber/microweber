@@ -83,9 +83,10 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel
 
             // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
-            ->viteTheme('resources/css/filament/admin/theme.css')
             ->id($this->filamentId)
             ->path($this->filamentPath)
+            ->viteTheme('resources/css/filament/admin/theme.css')
+
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()

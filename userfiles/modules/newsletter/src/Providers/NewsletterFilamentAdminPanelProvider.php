@@ -32,17 +32,16 @@ use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 {
     public string $filamentId = 'admin-newsletter';
-     public string $filamentPath = 'admin/newsletter';
+    public string $filamentPath = 'admin/newsletter';
 
     public function panel(Panel $panel): Panel
     {
 
 
-
         $panel
             // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
-            ->id('admin-newsletter')
             ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
+            ->id('admin-newsletter')
             ->path('admin/newsletter')
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
@@ -53,8 +52,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->sidebarWidth('15rem')
             ->colors([
                 'primary' => Color::Blue,
-            ])
-            ->pages([
+            ]) ->pages([
                 Homepage::class,
                 CreateCampaign::class,
                 EditCampaign::class,

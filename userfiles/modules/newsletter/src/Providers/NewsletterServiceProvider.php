@@ -51,8 +51,8 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
     public function register(): void
     {
-        $this->app->register(NewsletterFilamentAdminPanelProvider::class);
         parent::register();
+
 
         // Register Microweber Icons set
         $this->callAfterResolving(Factory::class, function (Factory $factory) {
@@ -65,6 +65,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
         $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/web.php');
 
+        $this->app->register(NewsletterFilamentAdminPanelProvider::class);
 
 
 
