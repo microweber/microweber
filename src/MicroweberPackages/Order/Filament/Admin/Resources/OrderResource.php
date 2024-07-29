@@ -48,41 +48,41 @@ class OrderResource extends Resource
                         Forms\Components\Group::make()
                             ->schema([
 
-                        Forms\Components\Section::make()
-                            ->heading('Order Details')
-                            ->schema(static::getDetailsFormSchema())
-                            ->collapsible()
-                            ->columnSpanFull(),
+                                Forms\Components\Section::make()
+                                    ->heading('Order Details')
+                                    ->schema(static::getDetailsFormSchema())
+                                    ->collapsible()
+                                    ->columnSpanFull(),
 
-                        Forms\Components\Section::make()
-                            ->heading('Shipping details')
-                            ->collapsible()
-                            ->collapsed()
-                            ->schema([
-
-                                Forms\Components\Select::make('country')
-                                     ->searchable()
-                                  //  ->preload()
-                                 //   ->native(false)
-                                    ->getSearchResultsUsing(fn (string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
-                                    ->getOptionLabelUsing(fn ($value): ?string => Country::firstWhere('id', $value)?->getAttribute('name')),
-
-                                Forms\Components\Group::make()
+                                Forms\Components\Section::make()
+                                    ->heading('Shipping details')
+                                    ->collapsible()
+                                    ->collapsed()
                                     ->schema([
-                                Forms\Components\TextInput::make('city'),
-                                Forms\Components\TextInput::make('state')->label('State / Province'),
-                                Forms\Components\TextInput::make('zip')->label('Zip / Postal code'),
 
-                                ])->columns(3),
+                                        Forms\Components\Select::make('country')
+                                            ->searchable()
+                                            //  ->preload()
+                                            //   ->native(false)
+                                            ->getSearchResultsUsing(fn(string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
+                                            ->getOptionLabelUsing(fn($value): ?string => Country::firstWhere('id', $value)?->getAttribute('name')),
 
-                                Forms\Components\Textarea::make('address'),
-                                Forms\Components\Textarea::make('address2'),
-                                Forms\Components\TextInput::make('phone'),
+                                        Forms\Components\Group::make()
+                                            ->schema([
+                                                Forms\Components\TextInput::make('city'),
+                                                Forms\Components\TextInput::make('state')->label('State / Province'),
+                                                Forms\Components\TextInput::make('zip')->label('Zip / Postal code'),
+
+                                            ])->columns(3),
+
+                                        Forms\Components\Textarea::make('address'),
+                                        Forms\Components\Textarea::make('address2'),
+                                        Forms\Components\TextInput::make('phone'),
 
 
-                            ])->columnSpanFull(),
+                                    ])->columnSpanFull(),
 
-                        ])->columns(2),
+                            ])->columns(2),
 
                         Forms\Components\Section::make('Order items')
                             ->headerActions([
@@ -102,43 +102,42 @@ class OrderResource extends Resource
 
                 Forms\Components\Group::make([
 
-                Forms\Components\Section::make()
-                    ->schema([
-                        Forms\Components\ToggleButtons::make('order_status')
-                            ->columnSpanFull()
-                            ->inline()
-                            ->default(OrderStatus::New)
-                            ->options(OrderStatus::class)
-                            ->required(),
-                        Forms\Components\Toggle::make('order_completed')
-                            ->default(1)
-                            ->label('Order completed')
-                            ->columnSpan('full')
-                            ->required(),
+                    Forms\Components\Section::make()
+                        ->schema([
+                            Forms\Components\ToggleButtons::make('order_status')
+                                ->columnSpanFull()
+                                ->inline()
+                                ->default(OrderStatus::New)
+                                ->options(OrderStatus::class)
+                                ->required(),
+                            Forms\Components\Toggle::make('order_completed')
+                                ->default(1)
+                                ->label('Order completed')
+                                ->columnSpan('full')
+                                ->required(),
 
-                        Forms\Components\Toggle::make('is_paid')
-                            ->default(1)
-                            ->label('Is paid')
-                            ->columnSpan('full')
-                            ->required(),
-                ]),
+                            Forms\Components\Toggle::make('is_paid')
+                                ->default(1)
+                                ->label('Is paid')
+                                ->columnSpan('full')
+                                ->required(),
+                        ]),
 
-                Forms\Components\Section::make()
-                    ->schema([
+                    Forms\Components\Section::make()
+                        ->schema([
 
-                        Forms\Components\Placeholder::make('created_at')
-                            ->label('Created at')
-                            ->content(fn(Order $record): ?string => $record->created_at?->diffForHumans()),
+                            Forms\Components\Placeholder::make('created_at')
+                                ->label('Created at')
+                                ->content(fn(Order $record): ?string => $record->created_at?->diffForHumans()),
 
-                        Forms\Components\Placeholder::make('updated_at')
-                            ->label('Last modified at')
-                            ->content(fn(Order $record): ?string => $record->updated_at?->diffForHumans()),
-                    ])
-                    ->hidden(fn(?Order $record) => $record === null),
-            ])->columnSpan(['lg' => 1])
+                            Forms\Components\Placeholder::make('updated_at')
+                                ->label('Last modified at')
+                                ->content(fn(Order $record): ?string => $record->updated_at?->diffForHumans()),
+                        ])
+                        ->hidden(fn(?Order $record) => $record === null),
+                ])->columnSpan(['lg' => 1])
 
             ])
-
             ->columns(3);
     }
 
@@ -172,11 +171,11 @@ class OrderResource extends Resource
 
                 Tables\Columns\TextColumn::make('amount')
                     ->sortable()
-                    ->money(fn ($record) => $record->currency),
+                    ->money(fn($record) => $record->currency),
 
                 Tables\Columns\TextColumn::make('payment_amount')
                     ->sortable()
-                    ->money(fn ($record) => $record->currency),
+                    ->money(fn($record) => $record->currency),
 
 
                 Tables\Columns\BooleanColumn::make('order_completed')
@@ -220,10 +219,10 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         $relations = [];
-     //   $countPaymentProviders = PaymentProvider::count();
+        //   $countPaymentProviders = PaymentProvider::count();
         //if ($countPaymentProviders > 0) {
-            $relations[] = PaymentsRelationManager::class;
-       // }
+        $relations[] = PaymentsRelationManager::class;
+        // }
 
         return $relations;
     }
@@ -243,7 +242,7 @@ class OrderResource extends Resource
     {
         return [
             Forms\Components\TextInput::make('order_id')
-                ->default('ORDER-' . random_int(100000, 999999))
+                ->default('ORDER-' . now()->format('YmdHis'))
                 //   ->disabled()
                 ->dehydrated()
                 ->required()
@@ -254,8 +253,11 @@ class OrderResource extends Resource
             Forms\Components\Select::make('customer_id')
                 ->relationship('customer', 'email')
                 ->searchable()
-               // ->preload()
-               // ->native(false)
+                ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->getFullName()}  {$record->getEmail()}")
+                ->label('Customer')
+          //    ->preload()
+                ->lazy()
+                ->native(false)
                 ->required()
                 ->createOptionForm([
                     Forms\Components\TextInput::make('first_name')
@@ -285,7 +287,6 @@ class OrderResource extends Resource
                 }),
 
 
-
 //            Forms\Components\Select::make('currency')
 //                ->searchable()
 ////                ->getSearchResultsUsing(fn (string $query) => Currency::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
@@ -297,8 +298,6 @@ class OrderResource extends Resource
 
             Forms\Components\MarkdownEditor::make('other_info')
                 ->columnSpan('full'),
-
-
 
 
         ];
@@ -335,12 +334,12 @@ class OrderResource extends Resource
                             foreach ($products as $product) {
                                 $html = '';
                                 $html .= '<div class="flex gap-2 items-center">';
-                                $html .= '<img src="'.$product->thumbnail().'" width="16px" />';
-                                $html .=  $product->title;
+                                $html .= '<img src="' . $product->thumbnail() . '" width="16px" />';
+                                $html .= $product->title;
                                 if (!$product->getInStockAttribute()) {
                                     $html .= '<span class="bg-gray-200 text-black text-[0.6rem]]">oos</span>';
                                 }
-                                $html .=  ' ('.$product->getPriceDisplayAttribute().')';
+                                $html .= ' (' . $product->getPriceDisplayAttribute() . ')';
                                 $html .= '</div>';
                                 $options[$product->id] = $html;
                             }
@@ -348,7 +347,7 @@ class OrderResource extends Resource
 
                         return $options;
                     })
-                   // ->options(Product::query()->whereNotNull('title')->pluck('title', 'id'))
+                    // ->options(Product::query()->whereNotNull('title')->pluck('title', 'id'))
                     ->required()
                     ->afterStateUpdated(fn($state, Forms\Set $set) => $set('price', Product::find($state)?->price ?? 0))
                     ->distinct()
@@ -425,7 +424,7 @@ class OrderResource extends Resource
                                 ->hidden(),
                             Forms\Components\Select::make('field_id')
                                 ->label('Field')
-                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) use($customFieldsOptionsDetailed) {
+                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) use ($customFieldsOptionsDetailed) {
                                     $set('field_name', $customFieldsOptionsDetailed[$state]['name']);
                                     $set('field_name_key', $customFieldsOptionsDetailed[$state]['name_key']);
                                     $set('field_type', $customFieldsOptionsDetailed[$state]['type']);
@@ -434,28 +433,28 @@ class OrderResource extends Resource
                                 ->live(),
                             Forms\Components\Select::make('field_value_id')
                                 ->label('Field Value')
-                                ->hidden(function (Forms\Get $get) use($customFieldsOptions) {
+                                ->hidden(function (Forms\Get $get) use ($customFieldsOptions) {
                                     if (array_key_exists($get('field_id'), $customFieldsOptions)) {
                                         return false;
                                     }
                                     return true;
                                 })
                                 ->live()
-                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) use($customFieldsOptionsValuesDetailed) {
+                                ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) use ($customFieldsOptionsValuesDetailed) {
                                     $set('field_value', $customFieldsOptionsValuesDetailed[$get('field_id')][$state]['value']);
                                 })
-                                ->options(function (Forms\Get $get) use($customFieldsOptionsValues) {
+                                ->options(function (Forms\Get $get) use ($customFieldsOptionsValues) {
                                     if (isset($customFieldsOptionsValues[$get('field_id')])) {
                                         return $customFieldsOptionsValues[$get('field_id')];
                                     }
                                     return [
-                                        'no_results'=>'No results'
+                                        'no_results' => 'No results'
                                     ];
                                 }),
                         ];
                     })
                     ->columns(2)
-                ->columnSpanFull(),
+                    ->columnSpanFull(),
 
             ])
             ->extraItemActions([

@@ -152,7 +152,7 @@ class Order extends Model
         } else {
 
             $name = $this->payment_gw;
-            $name = str_replace('shop/payments/gateways/','', $name);
+            $name = str_replace('shop/payments/gateways/', '', $name);
             $name = str_replace('_', ' ', $name);
 
             $name = ucwords($name);
@@ -180,6 +180,8 @@ class Order extends Model
         return 'Anonymous';
     }
 
+
+
     public function thumbnail($width = 100, $height = 100)
     {
         $cart = $this->cart->first();
@@ -204,8 +206,8 @@ class Order extends Model
         }
 
         return [
-            'firstProduct'=>$cartProduct,
-            'products'=>$carts
+            'firstProduct' => $cartProduct,
+            'products' => $carts
         ];
     }
 
@@ -218,18 +220,18 @@ class Order extends Model
     public function getPaymentStatuses()
     {
         return [
-            'refunded'=>'Refunded',
-            'completed'=>'Completed',
-            'pending'=>'Pending',
+            'refunded' => 'Refunded',
+            'completed' => 'Completed',
+            'pending' => 'Pending',
         ];
     }
 
     public static function getOrderStatuses()
     {
         return [
-            'new'=>'New',
-            'completed'=>'Completed',
-            'pending'=>'Pending',
+            'new' => 'New',
+            'completed' => 'Completed',
+            'pending' => 'Pending',
         ];
     }
 }
