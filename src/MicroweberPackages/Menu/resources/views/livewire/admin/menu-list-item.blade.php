@@ -8,9 +8,9 @@
 {{--    @dump($item)--}}
 
     <div class="flex gap-3 items-center">
-        <x-filament::button color="primary" size="xs">
-                Edit
-        </x-filament::button>
-        <x-filament::icon-button icon="heroicon-m-trash" color="danger" size="xs"></x-filament::icon-button>
+
+        {{ ($this->editAction)(['id' => $item['id']]) }}
+        {{ ($this->deleteAction)(['id' => $item['id']]) }}
+       
     </div>
 </div>
