@@ -1,5 +1,5 @@
 <div class="">
-    <script>mw.require('admin_package_manager.js');</script>
+
 
     @if(isset($package['has_update']) && $package['has_update'] && $installVersion == $package['version'])
         <div class="modal-header">

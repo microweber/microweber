@@ -1,4 +1,7 @@
 //mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
+
+
+
 //mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
 mw.require('tree.js');
 
@@ -174,11 +177,14 @@ var _adm = {
     }
 };
 
-if(mw.admin) {
-    Object.assign(_adm, mw.admin);
-} else {
-    mw.admin = _adm;
+
+console.log(mw.app, mw.admin)
+if(!mw.admin) {
+    mw.admin = new MWUniversalContainer();
 }
+
+Object.assign(mw.admin, _adm);
+
 
 mw.admin.back = function () {
     history.go(-1);

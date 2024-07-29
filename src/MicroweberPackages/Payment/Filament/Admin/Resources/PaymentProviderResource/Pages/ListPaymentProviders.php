@@ -12,8 +12,15 @@ class ListPaymentProviders extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        $getAvailableToSetup = PaymentProviderResource::getAvailableToSetup();
+        $paymentProviders = $getAvailableToSetup['paymentProviders'];
+        if (!empty($paymentProviders)) {
+            return [
+                Actions\CreateAction::make()->label('Setup new Payment Provider'),
+            ];
+        }
+
+
+        return [];
     }
 }

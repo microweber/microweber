@@ -21,9 +21,11 @@ class PaymentProvider extends \Illuminate\Database\Eloquent\Model
 
     public function getLogoAttribute()
     {
-        $provider = app()->payment_method_manager->driver($this->provider);
-        if(method_exists($provider, 'logo')){
-            return $provider->logo();
+        if ($this->provider) {
+            $provider = app()->payment_method_manager->driver($this->provider);
+            if (method_exists($provider, 'logo')) {
+                return $provider->logo();
+            }
         }
 
     }

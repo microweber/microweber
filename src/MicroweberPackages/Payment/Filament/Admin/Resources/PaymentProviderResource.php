@@ -2,11 +2,15 @@
 
 namespace MicroweberPackages\Payment\Filament\Admin\Resources;
 
+use Filament\Actions\DeleteAction;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\IconSize;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Payment\Models\PaymentProvider;
 
@@ -21,55 +25,106 @@ class PaymentProviderResource extends Resource
     protected static ?string $navigationGroup = 'Shop';
 
 
+    public static function getAvailableToSetup()
+    {
+        $existingPaymentProvidersNames = [];
+        $existingPaymentProviders = PaymentProvider::all();
+        if ($existingPaymentProviders) {
+            foreach ($existingPaymentProviders as $existingPaymentProvider) {
+                $existingPaymentProvidersNames[] = $existingPaymentProvider->name;
+            }
+        }
+        $paymentProviders = [];
+        $paymentDrivers = app()->payment_method_manager->getProviders();
+        if ($paymentDrivers) {
+            foreach ($paymentDrivers as $paymentDriver) {
+                $driver = app()->payment_method_manager->driver($paymentDriver);
+                if (in_array($driver->title(), $existingPaymentProvidersNames)) {
+                    continue;
+                }
+
+                $paymentProviders[$paymentDriver] = $driver->title();
+            }
+        }
+
+        return [
+            'paymentProviders'=>$paymentProviders,
+            'paymentDrivers'=>$paymentDrivers
+        ];
+    }
+
     public static function form(Form $form): Form
     {
 
-        $paymentDrivers = app()->payment_method_manager->getProviders();
-
+        $getAvailableToSetup = self::getAvailableToSetup();
+        $paymentDrivers = $getAvailableToSetup['paymentDrivers'];
+        $paymentProviders = $getAvailableToSetup['paymentProviders'];
 
         $schema = [
 
-            Forms\Components\TextInput::make('name')
-                ->label('Name')
-                ->placeholder('Name')
-                ->required()
-                ->columnSpan('full'),
-
-            Forms\Components\Select::make('provider')
-                ->label('Provider')
+            RadioDeck::make('provider')
                 ->live()
-                ->reactive()
-                ->afterStateUpdated(function (Forms\Components\Select $component, Forms\Set $set, Forms\Get $get, ?string $state) {
-                    $set('provider', $state);
-                })
-                ->placeholder('Select Provider')
-                ->options(function () use ($paymentDrivers) {
-                    if ($paymentDrivers) {
-                        $options = [];
-                        foreach ($paymentDrivers as $paymentDriver) {
-                            $driver = app()->payment_method_manager->driver($paymentDriver);
-                            $options[$paymentDriver] = $driver->title();
-                        }
-                        return $options;
+                ->hidden(function (?PaymentProvider $record) {
+                    if ($record) {
+                        return true;
                     }
+                    return false;
                 })
-//                ->options([
-//                    'pay_on_delivery' => 'Pay on Delivery',
-//                    'paypal' => 'Paypal',
-//
-//                ])
                 ->required()
-                ->columnSpan('full'),
+                ->padding('py-4 px-8')
+                ->gap('gap-0')
+                ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, string $state) use($paymentProviders) {
+                    $set('name', $paymentProviders[$state]);
+                })
+                ->extraCardsAttributes([ // Extra Attributes to add to the card HTML element
+                    'class' => 'rounded-xl'
+                ])
+                ->extraOptionsAttributes([ // Extra Attributes to add to the option HTML element
+                    'class' => 'text-lg leading-none w-full flex flex-col p-4'
+                ])
+                ->extraDescriptionsAttributes([ // Extra Attributes to add to the description HTML element
+                    'class' => 'text-sm font-light'
+                ])
+                ->icons([
+                    'all_subscribers' => 'heroicon-o-users',
+                    'specific_list' => 'heroicon-o-list-bullet',
+                    'import_new_list' => 'heroicon-o-arrow-up-tray',
+                ])
+                ->iconSize(IconSize::Large)
+                ->color('primary')
+                ->live()
+                ->descriptions([
 
-            Forms\Components\Toggle::make('is_active')
-                ->default(1)
-                ->label('Is Active')
-                ->columnSpan('full')
-                ->required(),
+                ])
+                ->columnSpanFull()
+                ->columns(2)
+                ->options($paymentProviders),
         ];
 
+        $schema[] =  Forms\Components\Hidden::make('name')
+            ->required()
+            ->hidden(function (?PaymentProvider $record) {
+                if ($record) {
+                    return true;
+                }
+                return false;
+            })
+            ->columnSpan('full');
+
+        $schema[] =  Forms\Components\TextInput::make('name')
+            ->label('Name')
+            ->placeholder('Name')
+            ->required()
+            ->hidden(function (?PaymentProvider $record) {
+                if ($record) {
+                    return false;
+                }
+                return true;
+            })
+            ->columnSpan('full');
 
         if ($paymentDrivers) {
+
             foreach ($paymentDrivers as $paymentDriver) {
                 $driver = app()->payment_method_manager->driver($paymentDriver);
                 if (is_object($driver) and method_exists($driver, 'getSettingsForm')) {
@@ -80,6 +135,19 @@ class PaymentProviderResource extends Resource
                 }
             }
         }
+
+
+        $schema[] = Forms\Components\Toggle::make('is_active')
+            ->default(1)
+            ->label('Is Active')
+            ->columnSpan('full')
+            ->hidden(function (?PaymentProvider $record) {
+                if ($record) {
+                    return false;
+                }
+                return true;
+            })
+            ->required();
 
 
         return $form
@@ -119,11 +187,12 @@ class PaymentProviderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+//                Tables\Actions\BulkActionGroup::make([
+//                    Tables\Actions\DeleteBulkAction::make(),
+//                ]),
             ]);
     }
 
@@ -136,10 +205,11 @@ class PaymentProviderResource extends Resource
 
     public static function getPages(): array
     {
-        return [
-            'index' => \MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\ListPaymentProviders::route('/'),
-            'create' => \MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\CreatePaymentProvider::route('/create'),
-            'edit' => \MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\EditPaymentProvider::route('/{record}/edit'),
-        ];
+        $pages = [];
+        $pages['index'] = \MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\ListPaymentProviders::route('/');
+        $pages['create'] = \MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\CreatePaymentProvider::route('/create');
+        $pages['edit'] = \MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource\Pages\EditPaymentProvider::route('/{record}/edit');
+
+        return $pages;
     }
 }

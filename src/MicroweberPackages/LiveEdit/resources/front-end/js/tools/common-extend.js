@@ -26,24 +26,6 @@ mw.external_tool = function (url) {
 
 
 
-let _mwdochidden;
-if (typeof document.hidden !== "undefined") {
-    _mwdochidden = "hidden";
-} else if (typeof document.mozHidden !== "undefined") {
-    _mwdochidden = "mozHidden";
-} else if (typeof document.msHidden !== "undefined") {
-    _mwdochidden = "msHidden";
-} else if (typeof document.webkitHidden !== "undefined") {
-    _mwdochidden = "webkitHidden";
-}
-document.isHidden = function () {
-    if (typeof _mwdochidden !== 'undefined') {
-        return document[_mwdochidden];
-    }
-    else {
-        return !document.hasFocus();
-    }
-};
 
 
 mw.postMsg = function (w, obj) {

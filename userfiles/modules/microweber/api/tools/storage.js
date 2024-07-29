@@ -79,7 +79,7 @@ mw.storage = {
             }, false);
         }
         else if (key === 'CALL') {
-            if (!document.isHidden() && typeof mw.storage._keys[callback] !== 'undefined') {
+            if (!document.hidden && typeof mw.storage._keys[callback] !== 'undefined') {
                 var i = 0, l = mw.storage._keys[callback].length;
                 for (; i < l; i++) {
                     mw.storage._keys[callback][i].call(other);

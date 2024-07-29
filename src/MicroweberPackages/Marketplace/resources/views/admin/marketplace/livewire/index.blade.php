@@ -1,5 +1,4 @@
 <div class="row">
-    <script>mw.require('admin_package_manager.js');</script>
 
     <div class="px-5 col-xxl-10 mx-auto">
 

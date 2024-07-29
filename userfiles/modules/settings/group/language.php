@@ -71,7 +71,7 @@ $def_language = get_option('language', 'website');
     }
 </script>
 
-<script>mw.require('admin_package_manager.js');</script>
+
 <script>
     $(document).ready(function () {
         mw.on('install_composer_package_success', function (response) {

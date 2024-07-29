@@ -197,6 +197,7 @@ class OrderResource extends Resource
                 50,
                 100,
                 200,
+                'all'
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -481,5 +482,11 @@ class OrderResource extends Resource
             ])
             ->required();
     }
+
+//    /** @return Builder<Order> */
+//    public static function getEloquentQuery(): Builder
+//    {
+//        return parent::getEloquentQuery()->withoutGlobalScope(SoftDeletingScope::class);
+//    }
 
 }

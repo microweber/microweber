@@ -117,6 +117,7 @@ import "../components/schema-form.js";
 import "../widgets/tree.js";
 import {CategoriesAdminListComponent} from "./categories-admin-list.component.js";
 import { IconPicker } from "../widgets/icon-picker.js";
+import { AdminPackageManager } from "./admin-package-manager.js";
 
 
 
@@ -125,8 +126,14 @@ import { IconPicker } from "../widgets/icon-picker.js";
 
 
 mw.app.register('iconPicker', IconPicker);
+if(!mw.admin) {
+    mw.admin = mw.app
+}
 
 
+
+
+mw.admin.admin_package_manager = new AdminPackageManager();
 
 mw.admin.filament = new AdminFilament();
 mw.admin.categoriesTree = (target, opt) => new CategoriesAdminListComponent(target, opt);

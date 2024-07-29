@@ -1,4 +1,6 @@
-mw.admin = mw.admin || {};
+
+
+
 mw.admin.admin_package_manager = mw.admin.admin_package_manager || {}
 
 

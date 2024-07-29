@@ -30,7 +30,7 @@
         mw.require("url.js");
        // mw.require("options.js");
         mw.require("events.js");
-        mw.require("admin.js");
+        // mw.require("admin.js");
         mw.require("editor_externals.js");
         mw.require("keys.js");
         mw.require("css_parser.js");
