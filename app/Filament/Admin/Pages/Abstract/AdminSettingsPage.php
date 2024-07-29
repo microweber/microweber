@@ -27,6 +27,7 @@ abstract class AdminSettingsPage extends Page
     public array $optionGroups = [
         'website'
     ];
+    public string $moduleNameForOption = 'settings/group/website';
 
     public function getOptionGroups()
     {
@@ -94,22 +95,29 @@ abstract class AdminSettingsPage extends Page
     }
 
 
-
     public function updated($propertyName, $value)
     {
         $changedField = array_undot_str($propertyName);
         if (isset($changedField['options'])) {
             foreach ($changedField['options'] as $optionGroup => $optionKey) {
-
-                save_option([
+                $optionToSave = [
                     'option_key' => $optionKey,
                     'option_value' => $value,
                     'option_group' => $optionGroup,
-                    'module' => 'settings/group/website'
-                ]);
+                    //    'module' => 'settings/group/website'
+                ];
+
+                if ($this->moduleNameForOption) {
+                    $optionToSave['module'] = $this->moduleNameForOption;
+                }
+
+
+                save_option($optionToSave);
+
+                //$moduleNameForOption
 
                 //get the minute of the hour and add it to the notification id to make it unique
-                $notificationId = 'settings_updated' . crc32(date('i') . $optionKey.$optionGroup);
+                $notificationId = 'settings_updated' . crc32(date('i') . $optionKey . $optionGroup);
 
                 Notification::make($notificationId)
                     ->title('Settings Updated')
@@ -119,15 +127,28 @@ abstract class AdminSettingsPage extends Page
         }
         if (isset($changedField['translatableOptions'])) {
             foreach ($changedField['translatableOptions'] as $optionGroup => $optionValueLanguages) {
-                foreach ($optionValueLanguages as $optionKey=>$optionValueLang) {
-                    save_option([
+                foreach ($optionValueLanguages as $optionKey => $optionValueLang) {
+
+                    $optionToSave = [
                         'optionValueLanguages' => $optionValueLanguages,
                         'option_key' => $optionKey,
                         'option_value' => $value,
                         'option_group' => $optionGroup,
                         'lang' => $optionValueLang,
-                        'module' => 'settings/group/website'
-                    ]);
+                    ];
+                    if ($this->moduleNameForOption) {
+                        $optionToSave['module'] = $this->moduleNameForOption;
+                    }
+                    save_option($optionToSave);
+
+//                    save_option([
+//                        'optionValueLanguages' => $optionValueLanguages,
+//                        'option_key' => $optionKey,
+//                        'option_value' => $value,
+//                        'option_group' => $optionGroup,
+//                        'lang' => $optionValueLang,
+//                        'module' => 'settings/group/website'
+//                    ]);
 
                     Notification::make()
                         ->title('Settings Updated')
@@ -138,8 +159,6 @@ abstract class AdminSettingsPage extends Page
         }
 
     }
-
-
 
 
 }
