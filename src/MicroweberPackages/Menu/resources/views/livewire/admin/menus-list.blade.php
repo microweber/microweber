@@ -2,6 +2,7 @@
 
     @script
 
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
 
@@ -132,44 +133,34 @@
         </script>
     </div>
     {{ ($this->createAction) }}
+    {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
     <div x-data="sortableMenu()" x-init="init()">
+            <div class="admin-menu-items-holder bg-white shadow mt-4 mb-4">
 
-
-        <div class="admin-menu-items-holder">
-
-
-            @foreach ($menus as $menu)
-
-                <div>
-
-                    <div data-menu-id="{{ $menu->id }}">
-                        @php
-                            $params = array(
-                              'menu_id' => $menu->id,
-
-                          );
-                             print  menu_tree($params);
-                        @endphp
-
-                    </div>
-                    <h2> {{ $menu->id }}  {{ $menu->title }}   {{ $menu->item_type }}</h2>
-
-
-                    {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
-                    {{ ($this->editAction)(['id' => $menu->id]) }}
-
-
-                    {{ ($this->deleteAction)(['id' => $menu->id]) }}
+                <div data-menu-id="{{ $menu->id }}" class="px-4 pb-4 pt-4">
+                    @php
+                        $params = array(
+                          'menu_id' => $menu->id,
+                          'link' => function ($item) {
+                              return view('menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
+                          }
+                         );
+                         print  menu_tree($params);
+                    @endphp
 
                 </div>
-            @endforeach
-
+            </div>
         </div>
 
+    <div class="flex gap-2 items-center justify-between mt-4">
+        <div class="text-sm uppercase font-bold">
+            {{ $menu->title }}  selected
+        </div>
 
-        aaaaaa
-
-
+        <div>
+            {{ ($this->editAction)(['id' => $menu->id]) }}
+            {{ ($this->deleteAction)(['id' => $menu->id]) }}
+        </div>
     </div>
 
 

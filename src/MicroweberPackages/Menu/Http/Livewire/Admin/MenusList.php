@@ -30,6 +30,8 @@ class MenusList extends Component implements HasForms, HasActions
     public function deleteAction(): Action
     {
         return Action::make('delete')
+            ->icon('heroicon-m-trash')
+            ->color('danger')
             ->requiresConfirmation()
             ->action(function (array $arguments) {
 
@@ -43,18 +45,12 @@ class MenusList extends Component implements HasForms, HasActions
     {
         return CreateAction::make('addMenuItemAction')
             ->mountUsing(function (Form $form, array $arguments) {
-
                 $form->fill($arguments);
             })
             ->label('Add new menu item')
             ->form([
-
-                TextInput::make('parent_id'),
                 TextInput::make('title')
-                    // ->required()
-                    ->maxLength(255),
-                TextInput::make('item_type')
-                    // ->required()
+                    ->required()
                     ->maxLength(255),
             ])
             ->action(function (array $data) {
@@ -71,12 +67,8 @@ class MenusList extends Component implements HasForms, HasActions
         return CreateAction::make('create')
             ->label('Add new menu')
             ->form([
-                Hidden::make('id'),
                 TextInput::make('title')
-                    // ->required()
-                    ->maxLength(255),
-                TextInput::make('item_type')
-                    // ->required()
+                     ->required()
                     ->maxLength(255),
             ])
             ->action(function (array $data) {
@@ -91,6 +83,7 @@ class MenusList extends Component implements HasForms, HasActions
     public function editAction(): Action
     {
         return Action::make('edit')
+            ->icon('heroicon-m-pencil')
             ->mountUsing(function (Form $form, array $arguments) {
                 $record = Menu::find($arguments['id']);
                 $form->fill($record->toArray());
@@ -119,7 +112,7 @@ class MenusList extends Component implements HasForms, HasActions
     public function render(): View
     {
         return view('menu::livewire.admin.menus-list', [
-            'menus' => Menu::where('item_type', 'menu')->get()
+            'menu' => Menu::where('item_type', 'menu')->first()
         ]);
     }
 }
