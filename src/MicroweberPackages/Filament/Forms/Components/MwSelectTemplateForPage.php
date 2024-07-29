@@ -46,7 +46,7 @@ class MwSelectTemplateForPage
                 });
             })
             ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
-dd(333);
+
 
             })
             ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
@@ -123,7 +123,7 @@ dd(333);
 
                 $layout = mw()->layouts_manager->get_layout_details($layout_options);
                 $url = '';
-
+ 
 
                 if (isset($layout['layout_file_preview_url'])) {
                     $url = $layout['layout_file_preview_url'];
@@ -139,7 +139,7 @@ dd(333);
 
 
         $templatePreviewBlock = Forms\Components\View::make('filament-forms::components.mw-render-template-preview-iframe')
-            ->viewData(['url' => ''])
+            ->viewData(['url' => '','layoutFileInputName' => $layoutFileInputName, 'activeSiteTemplateInputName' => $activeSiteTemplateInputName])
 //                                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state) {
 //                                            dd($get);
 //                                        })

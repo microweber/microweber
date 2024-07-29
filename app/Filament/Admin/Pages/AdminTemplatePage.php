@@ -31,8 +31,14 @@ class AdminTemplatePage extends Page
     protected static string $description = 'Configure your template settings';
 
     public $selectedTemplate = '';
-    public $layout_file = '';
+    public $layout_file = 'index.php';
     public $data=[];
+
+    public function getDescription(): string
+    {
+        return static::$description;
+    }
+
 
     public function mount(): void
     {
@@ -65,37 +71,6 @@ class AdminTemplatePage extends Page
                     ->view('filament-forms::sections.section')
                     ->description('The website template is the design of your website. You can choose from a variety of templates.')
                     ->schema([
-
-                        // Select::make('options.template.current_template')
-                        Select::make('selectedTemplate')
-                            ->label('Website Template')
-                            ->helperText('Select your website template')
-                            ->live()
-                            ->afterStateUpdated(function (Get $get, Set $set, $state) {
-                                $set('selectedTemplate', $state);
-                            })
-                            ->options(function () {
-                                $allTemplates = site_templates();
-                                $options = [];
-
-                                foreach ($allTemplates as $template) {
-                                    $options[$template['dir_name']] = $template['name'];
-                                }
-                                return $options;
-                            }),
-
-                        MwSelectTemplateForPage::make(
-                            'selectedTemplate',
-                            'layout_file')
-                            ->columnSpanFull(),
-
-
-//                        TextInput::make('options.template.current_template')
-//                            ->label('Website Template')
-//                            ->helperText('Select your website template')
-//                            ->live()
-
-
                         Actions::make([
                             Action::make('applyTemplate')
                                 ->icon('mw-save')
@@ -129,7 +104,23 @@ class AdminTemplatePage extends Page
 
                                 }),
 
-                        ]),
+                        ])->fullWidth(),
+                        // Select::make('options.template.current_template')
+//                      s
+
+                        MwSelectTemplateForPage::make(
+                            'selectedTemplate',
+                            'layout_file')
+                            ->columnSpanFull(),
+
+
+//                        TextInput::make('options.template.current_template')
+//                            ->label('Website Template')
+//                            ->helperText('Select your website template')
+//                            ->live()
+
+
+
 
                     ]),
 

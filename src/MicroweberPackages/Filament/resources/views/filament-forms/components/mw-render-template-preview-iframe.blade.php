@@ -1,9 +1,7 @@
-@props([ 'lazyLoad' => false ])
+@props([ 'lazyLoad' => false,'activeSiteTemplateInputName'=> 'active_site_template','layoutFileInputName'=> 'layout_file'])
 
 <div>
     @php
-
-
 
 
 
@@ -13,12 +11,25 @@
 
         $transformScale = 0.553;
 
-            if(isset($this->data['active_site_template'])){
-                $active_site_template =   $this->data['active_site_template'];
+            if($activeSiteTemplateInputName and isset($this->data[$activeSiteTemplateInputName])){
+                $active_site_template =   $this->data[$activeSiteTemplateInputName];
+            } else if($activeSiteTemplateInputName and isset($this->$activeSiteTemplateInputName)){
+                $active_site_template =   $this->$activeSiteTemplateInputName;
             }
-            if(isset( $this->data['layout_file'])){
-                $layout_file =   $this->data['layout_file'];
+
+//
+//            if(isset( $this->data['layout_file'])){
+//                $layout_file =   $this->data['layout_file'];
+//            }
+            if($layoutFileInputName and isset($this->data[$layoutFileInputName])){
+            $layout_file =   $this->data[$layoutFileInputName];
+            } else if($layoutFileInputName and isset($this->$layoutFileInputName)){
+            $layout_file =   $this->$layoutFileInputName;
+
             }
+
+
+
 
 
             $layout_options = array();
@@ -85,6 +96,8 @@
             Livewire.on('dynamicPreviewLayoutChange', (data) => {
 
                 if (data && data.iframePreviewUrl) {
+
+
                     tplPreview.rend(data.iframePreviewUrl)
                 }
 

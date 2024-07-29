@@ -41,7 +41,7 @@ class BtnServiceProvider extends PackageServiceProvider
         ModuleAdmin::registerPanelPage(ButtonModuleSettings::class);
 
 
-        // ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
+        ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
 
 
     }
