@@ -4,18 +4,24 @@ namespace App\Filament\Admin\Pages;
 
 use App\Filament\Admin\Pages\Abstract\AdminSettingsPage;
 use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Split;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
+
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 
-class AdminTemplatePage extends AdminSettingsPage
+class AdminTemplatePage extends Page
 {
+
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static ?string $navigationIcon = 'mw-template';
 
     protected static string $view = 'filament.admin.pages.settings-template';
@@ -23,16 +29,25 @@ class AdminTemplatePage extends AdminSettingsPage
     protected static ?string $title = 'Template';
 
     protected static string $description = 'Configure your template settings';
-    public array $optionGroups = [
-        'template'
-    ];
-    public string $moduleNameForOption = '';
+
+    public $selectedTemplate = '';
+    public $layout_file = '';
+    public $data=[];
+
+    public function mount(): void
+    {
+        $defaultTemplate = app()->template->get_config();
+        if ($defaultTemplate and isset($defaultTemplate['dir_name'])) {
+            $this->selectedTemplate = $defaultTemplate['dir_name'];
+
+        }
+    }
 
     public function form(Form $form): Form
     {
 
 
-        $defaultTemplate = app()->template->get_config();
+        //    $defaultTemplate = app()->template->get_config();
         //  dd($defaultTemplate,$allTemplates);
 
 //        $layout_options = array();
@@ -51,10 +66,14 @@ class AdminTemplatePage extends AdminSettingsPage
                     ->description('The website template is the design of your website. You can choose from a variety of templates.')
                     ->schema([
 
-                        Select::make('options.template.current_template')
+                        // Select::make('options.template.current_template')
+                        Select::make('selectedTemplate')
                             ->label('Website Template')
                             ->helperText('Select your website template')
-                            //->live()
+                            ->live()
+                            ->afterStateUpdated(function (Get $get, Set $set, $state) {
+                                $set('selectedTemplate', $state);
+                            })
                             ->options(function () {
                                 $allTemplates = site_templates();
                                 $options = [];
@@ -65,11 +84,52 @@ class AdminTemplatePage extends AdminSettingsPage
                                 return $options;
                             }),
 
+                        MwSelectTemplateForPage::make(
+                            'selectedTemplate',
+                            'layout_file')
+                            ->columnSpanFull(),
+
+
 //                        TextInput::make('options.template.current_template')
 //                            ->label('Website Template')
 //                            ->helperText('Select your website template')
 //                            ->live()
 
+
+                        Actions::make([
+                            Action::make('applyTemplate')
+                                ->icon('mw-save')
+                                ->visible(function (Get $get) {
+                                    $defaultTemplate = template_name();
+                                    $selectedTemplate = $get('selectedTemplate');
+
+                                    if ($selectedTemplate == $defaultTemplate) {
+                                        return false;
+                                    }
+
+                                    return $selectedTemplate;
+                                })
+                                ->requiresConfirmation()
+                                ->action(function (Get $get) {
+                                    $selectedTemplate = $get('selectedTemplate');
+
+
+                                    $saveOption = [];
+                                    $saveOption['option_value'] = $selectedTemplate;
+                                    $saveOption['option_key'] = 'current_template';
+                                    $saveOption['option_group'] = 'template';
+                                    save_option($saveOption);
+
+                                    $notificationId = 'settings_updated' . crc32(date('i') . $selectedTemplate);
+
+                                    Notification::make($notificationId)
+                                        ->title('Template is changed')
+                                        ->success()
+                                        ->send();
+
+                                }),
+
+                        ]),
 
                     ]),
 

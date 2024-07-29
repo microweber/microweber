@@ -1,16 +1,18 @@
 import { MWUniversalContainer } from "./container";
 
-console.log(window.mw )
+
 
 if(window.mw) {
     console.log('"mw" already defined');
+} else {
+
 }
 
 
 
-window.mw = new MWUniversalContainer();
+//window.mw = new MWUniversalContainer();
 
-console.log(window.mw )
+//console.log(window.mw )
 
 mw.required = [] ;
 mw.require = function(url, inHead, key, defered) {

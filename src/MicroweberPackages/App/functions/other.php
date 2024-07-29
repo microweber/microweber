@@ -769,7 +769,7 @@ function template_url($param = false)
 
 function template_name()
 {
-    return mw()->template->name();
+    return mw()->template->folder_name();
 }
 
 function admin_head($script_src)

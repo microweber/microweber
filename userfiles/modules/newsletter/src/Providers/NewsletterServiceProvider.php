@@ -36,11 +36,15 @@ class NewsletterServiceProvider extends PackageServiceProvider
 //        Livewire::component('admin-newsletter-import-subscribers-modal', NewsletterImportSubscribersModal::class);
 //        Livewire::component('admin-newsletter-dashboard-stats', NewsletterDashboardStats::class);
 //
-        Livewire::component('admin-newsletter-import-subscribers-action-button', NewsletterImportSubscribersActionButton::class);
+
 //
 
+        ModuleAdmin::registerAdminUrl('newsletter', admin_url('newsletter'));
+
+
         Event::listen(ServingFilament::class, function () {
-            ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin-newsletter.pages.homepage'));
+            Livewire::component('admin-newsletter-import-subscribers-action-button', NewsletterImportSubscribersActionButton::class);
+            //ModuleAdmin::registerAdminUrl('newsletter', route('filament.admin-newsletter.pages.homepage'));
         });
 
     }

@@ -46,7 +46,7 @@ class MwSelectTemplateForPage
                 });
             })
             ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $old, ?string $state, Component $livewire) {
-
+dd(333);
 
             })
             ->afterStateUpdated(fn(Forms\Components\Select $component) => $component
