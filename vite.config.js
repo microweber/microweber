@@ -8,7 +8,7 @@ export default defineConfig({
         open: true,
         port: 3000,
         assetsInlineLimit: 0,
-        outDir: './public/build',
+       // outDir: './public/build',
         manifest: "manifest.json",
         rollupOptions: {
             output: {
@@ -69,7 +69,8 @@ export default defineConfig({
 
                 'resources/css/filament/admin/theme.css',
             ],
-            publicDirectory: "public",
+          // publicDirectory: "./public/build",
+         //   publicDirectory: "public",
             refresh: true,
         }),
 

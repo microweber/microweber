@@ -171,7 +171,10 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
       //  return;
+        //app()->usePublicPath(base_path());
 
+
+        \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
 
      $this->app->register(\Illuminate\Cache\CacheServiceProvider::class);
      $this->app->register(EventServiceProvider::class);
@@ -210,10 +213,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register( ConfigExtendedServiceProvider::class);
 
-        app()->usePublicPath(base_path());
 
-
-        \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
 
         $this->app->register(CoreServiceProvider::class);
 
@@ -451,6 +451,11 @@ class AppServiceProvider extends ServiceProvider
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
 
+        app()->usePublicPath(base_path());
+
+
+     //   \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
+        \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
 
 
         //set app.asset_url

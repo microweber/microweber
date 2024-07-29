@@ -41,7 +41,7 @@ class BtnServiceProvider extends PackageServiceProvider
         ModuleAdmin::registerPanelPage(ButtonModuleSettings::class);
 
 
-        ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
+   //     ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
 
 
     }
@@ -50,8 +50,10 @@ class BtnServiceProvider extends PackageServiceProvider
     {
         Filament::serving(function () {
             $panelId = Filament::getPanel()->getId();
+
             if ($panelId == 'admin') {
-              //  ModuleAdmin::registerLiveEditSettingsUrl('btn', ButtonModuleSettings::getUrl());
+
+                // ModuleAdmin::registerLiveEditSettingsUrl('btn', ButtonModuleSettings::getUrl());
             }
         });
 
