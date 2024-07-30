@@ -4,7 +4,7 @@ import "xss";
 
 // import "jquery";
 
-import jQuery from 'jquery';
+//import jQuery from 'jquery';
 //const jQuery  = (await import("jquery/dist/jquery.js")).default;
 
 import "../core/mw-require.js";
@@ -16,7 +16,7 @@ window.jQuery = jQuery;
 globalThis.$ = jQuery;
 globalThis.jQuery = jQuery;
 
-await import("jquery-ui/dist/jquery-ui.js");
+//await import("jquery-ui/dist/jquery-ui.js");
 
 
 import TomSelect  from "tom-select";

@@ -23,6 +23,7 @@ use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
+use MicroweberPackages\Filament\Providers\MicroweberFilamentRegistryServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Install\MicroweberMigrator;
@@ -219,6 +220,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->setEnvironmentDetection();
        $this->registerUtils();
+        $this->app->register(MicroweberFilamentRegistryServiceProvider::class);
+
         $this->app->register(MicroweberServiceProvider::class);
 
       $this->registerSingletonProviders();

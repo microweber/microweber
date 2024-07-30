@@ -38,6 +38,9 @@ class BtnServiceProvider extends PackageServiceProvider
 //        ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
 
         ModuleAdmin::registerLiveEditPanelPage(ButtonModuleSettings::class);
+
+
+
         ModuleAdmin::registerFilamentPage(ButtonModuleSettings::class);
 
 
