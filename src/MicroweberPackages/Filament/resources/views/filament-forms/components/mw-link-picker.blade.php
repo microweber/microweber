@@ -59,7 +59,7 @@
     <div
 
         x-data="{
-            statePreview: '{{$url}}',
+            url: '{{$url}}',
             categoryId: '{{$categoryId}}',
             contentId: '{{$contentId}}',
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
@@ -132,9 +132,22 @@
 
                 linkEditor.promise().then((data) => {
                     var modal = linkEditor.dialog;
+
                     if(data) {
                        state = data;
-                       statePreview = data.url;
+                       if (data.url) {
+                            url = data.url;
+                       }
+                       if (data.type === 'category') {
+                            categoryId = data.id;
+                            contentId = 0;
+                       } else if (data.type === 'content') {
+                            categoryId = 0;
+                            contentId = data.id;
+                       } else {
+                            categoryId = 0;
+                            contentId = 0;
+                       }
                     }
                     modal.remove();
 
@@ -165,7 +178,7 @@
                         'required' => $isRequired() && (! $isConcealed),
                         'step' => $getStep(),
                         'type' => $type,
-                        'x-model'=> 'statePreview',
+                        'x-model'=> 'url',
                         'x-bind:type' => $isPasswordRevealable ? 'isPasswordRevealed ? \'text\' : \'password\'' : null,
                         'x-mask' . ($mask instanceof \Filament\Support\RawJs ? ':dynamic' : '') => filled($mask) ? $mask : null,
                     ], escape: false)
