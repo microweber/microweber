@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import istanbul from 'vite-plugin-istanbul';
-
 import sass from 'sass';
 export default defineConfig({
     build: {
@@ -12,8 +11,6 @@ export default defineConfig({
        // outDir: './public/build',
         manifest: "manifest.json",
         rollupOptions: {
-            external: ['jquery','jquery-ui'],
-
             output: {
                 globals: {
                     jquery: 'window.jQuery',
@@ -23,7 +20,7 @@ export default defineConfig({
             }
         },
 
-   // ..    target: 'esnext'
+        target: 'esnext'
 
 
     },
@@ -34,13 +31,7 @@ export default defineConfig({
             }
         }
     },
-
     plugins: [
-
-
-
-
-
 
         vue({
             template: {
@@ -66,8 +57,6 @@ export default defineConfig({
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js',
                 // 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-filament-app.js',
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
-                'src/MicroweberPackages/LiveEdit/resources/front-end/js/libs/jquery.js',
-                'src/MicroweberPackages/LiveEdit/resources/front-end/js/libs/jquery-ui.js',
                 'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js',
                 'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-app.js',
 
