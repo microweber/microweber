@@ -73,7 +73,6 @@
                         options.skip = skip;
                     }
 
-                    console.log(options);
 
 
                     var opts = {

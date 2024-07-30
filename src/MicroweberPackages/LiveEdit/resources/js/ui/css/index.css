@@ -736,8 +736,10 @@ body.loaded #bubble-nav span {
     width: 500px;
     max-width: 95%;
     max-height: 400px;
-    background-color: var(--tblr-bg-surface);
+
     z-index: 5;
+
+    @apply bg-white p-4 text-gray-900 shadow-lg dark:bg-gray-700 dark:text-white
 
 }
 

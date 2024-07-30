@@ -2,11 +2,6 @@
 
 
 
-    console.log(89, window.mw);
-
-    if(!window.mw) {
-        window.mw = {}
-    }
 
 
 

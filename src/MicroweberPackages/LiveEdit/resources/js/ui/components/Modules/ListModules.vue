@@ -48,7 +48,9 @@
                         <div v-for="item in modulesListFiltered[category]"
                              class="col-sm-6 col-12 px-3 mb-1 mw-modules-list-block-item d-flex align-items-center p-2 modules-list-block-item-is-locked-false cursor-pointer"
                              v-on:click="insertModule(item)"
-                             v-tooltip data-bs-toggle="tooltip" :aria-label="item.name" data-bs-placement="top" :data-bs-original-title="item.name">
+                             title="item.name"
+                             :aria-label="item.name"
+                             data-bs-placement="top">
                             <div class="modules-list-block-item-picture"
                                  :style="{ backgroundImage: `url(${item.icon})` }"></div>
                             <div class="modules-list-block-item-title">{{ item.name }}</div>

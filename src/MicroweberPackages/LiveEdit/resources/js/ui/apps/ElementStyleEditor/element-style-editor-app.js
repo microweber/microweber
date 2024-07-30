@@ -14,14 +14,7 @@ app.config.globalProperties.emitter = emitter;
 
 
 
-app.directive("tooltip", {
-    mounted: (el, binding) => {
-        return new bootstrap.Tooltip(el, {
-            boundary: document.body,
-            container: el.parentNode,
-        });
-    }
-});
+
 
 // Vuetify
 import 'vuetify/styles';

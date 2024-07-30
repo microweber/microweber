@@ -1,5 +1,26 @@
 
 export const DomHelpers = {
+    loops: {},
+    foreachParents: function (el, callback) {
+        if (!el) return false;
+        var index = mw.random();
+        this.loops[index] = true;
+        var _curr = el.parentNode;
+        var count = -1;
+        if (_curr !== null && _curr !== undefined) {
+            var _tag = _curr.tagName;
+            while (_tag !== 'BODY') {
+                count++;
+                var caller = callback.call(_curr, index, count);
+                _curr = _curr.parentNode;
+                if (caller === false || _curr === null || _curr === undefined || !this.loops[index]) {
+                    delete this.loops[index];
+                    break;
+                }
+                _tag = _curr.tagName;
+            }
+        }
+    },
     classNamespaceDelete: function (el_obj, namespace, parent, namespacePosition, exception) {
         let el, exceptions;
         if (el_obj.element && el_obj.namespace) {

@@ -23,9 +23,7 @@ import { SingleFilePickerComponent } from './services/single-file-picker-compone
 import { MWBroadcast } from './services/broadcast.js';
 import { MWDocumentFocus } from './services/document.focus.service.js';
 import { MWPageAlreadyOpened } from './components/live-edit/page-already-opened.service.js';
-if(typeof mw === 'undefined') {
-    window.mw = {};
-}
+
 mw.app = new MWUniversalContainer();
 
 

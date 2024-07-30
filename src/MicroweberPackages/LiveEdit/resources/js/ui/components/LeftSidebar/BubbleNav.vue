@@ -1,16 +1,4 @@
-<!--<template>-->
 
-<!--    <div id="bubble-nav" class="active">-->
-<!--         <span v-tooltip data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Layouts" data-bs-original-title="Layouts" v-on:click="show('show-layouts')">-->
-<!--            <LayoutsIcon />-->
-<!--        </span>-->
-
-<!--        <span v-tooltip data-bs-toggle="tooltip" data-bs-placement="right" aria-label="Modules" data-bs-original-title="Modules" v-on:click="show('show-modules')">-->
-<!--            <ModulesIcon />-->
-<!--        </span>-->
-<!--    </div>-->
-
-<!--</template>-->
 <script>
 
 

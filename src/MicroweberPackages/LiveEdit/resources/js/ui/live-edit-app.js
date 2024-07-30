@@ -103,14 +103,7 @@ app.component('vue-drag-resize', VueDragResize);
 
 
 
-app.directive("tooltip", {
-    mounted: (el, binding) => {
-        return new bootstrap.Tooltip(el, {
-            boundary: document.body,
-            container: el.parentNode,
-        });
-    }
-});
+
 app.config.globalProperties.emitter = emitter;
 app.use(VueClickAway);
 app.use(vfm);
