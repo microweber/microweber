@@ -69,15 +69,15 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
 
 
-//        ModuleAdmin::registerPanelPage(Homepage::class);
-//        ModuleAdmin::registerPanelPage(SenderAccounts::class);
-//        ModuleAdmin::registerPanelPage(Templates::class);
-//        ModuleAdmin::registerPanelPage(Subscribers::class);
-//        ModuleAdmin::registerPanelPage(Lists::class);
-//        ModuleAdmin::registerPanelPage(Campaigns::class);
-        ModuleAdmin::registerPanelPage(TemplateEditor::class);
-//       // ModuleAdmin::registerPanelPage(CreateTemplate::class);
-//        ModuleAdmin::registerPanelPage(CreateCampaign::class);
+//        ModuleAdmin::registerFilamentPage(Homepage::class);
+//        ModuleAdmin::registerFilamentPage(SenderAccounts::class);
+//        ModuleAdmin::registerFilamentPage(Templates::class);
+//        ModuleAdmin::registerFilamentPage(Subscribers::class);
+//        ModuleAdmin::registerFilamentPage(Lists::class);
+//        ModuleAdmin::registerFilamentPage(Campaigns::class);
+        ModuleAdmin::registerFilamentPage(TemplateEditor::class);
+//       // ModuleAdmin::registerFilamentPage(CreateTemplate::class);
+//        ModuleAdmin::registerFilamentPage(CreateCampaign::class);
       //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);
 
         if (is_cli()) {

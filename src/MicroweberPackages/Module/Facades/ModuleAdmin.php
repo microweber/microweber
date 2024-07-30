@@ -33,7 +33,22 @@ use Illuminate\Support\Facades\Facade;
  * @method static string|null getAdminUrl(string $moduleName)
  * @method static array getAdminUrls()
  *
+ *
+ *
  * For filament
+ * @method static void registerFilamentResource($resource, $location = '', $panelId = 'admin')
+ * @method static array getFilamentResources($location = false, $panelId = 'admin')
+ * @method static void registerFilamentPage($page, $location = '', $panelId = 'admin')
+ * @method static array getFilamentPages($location = false, $panelId = 'admin')
+ * @method static void registerFilamentWidget($widget, $location = '', $panelId = 'admin')
+ * @method static array getFilamentWidgets($location = false, $panelId = 'admin')
+ * @method static void registerFilamentPlugin($plugin, $location = '', $panelId = 'admin')
+ * @method static array getFilamentPlugins($location = false, $panelId = 'admin')
+ *
+ *
+ * @mixin  \MicroweberPackages\Module\ModuleAdminManager
+ *
+ * For filament OLD and DEPRECATED
  * @method static void registerPanelPage($page,$location=null)
  * @method static array getPanelPages($location=null)
  *

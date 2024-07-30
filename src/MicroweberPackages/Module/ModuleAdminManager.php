@@ -15,15 +15,32 @@ class ModuleAdminManager
     public array $modulesAdminUrls = [];
 
     public array $liveEditModuleSettingsUrls = [];
+
+
+    /**
+     * @deprecated
+     */
     public array $adminPanelPages = [];
+    /**
+     * @deprecated
+     */
     public array $adminPanelPagesWithLocation = [];
 
+    /**
+     * @deprecated
+     */
     public array $adminPanelWidgets = [
         'default' => [],
     ];
 
+    /**
+     * @deprecated
+     */
     public $panelResources = [];
 
+    /**
+     * @deprecated
+     */
     public array $liveEditPanelPages = [];
 
     public array $skinSettings = [];
@@ -131,6 +148,10 @@ class ModuleAdminManager
         return $this->liveEditModuleSettingsUrls;
     }
 
+
+    /**
+     * @deprecated
+     */
     public function registerPanelPage($page, $location = null): void
     {
 
@@ -145,6 +166,9 @@ class ModuleAdminManager
         }
     }
 
+    /**
+     * @deprecated
+     */
     public function getPanelPages($location = null): array
     {
         if ($location) {
@@ -158,7 +182,9 @@ class ModuleAdminManager
     public array $adminPanelPlugins = [];
     public array $adminPanelPluginsWithLocation = [];
 
-
+    /**
+     * @deprecated
+     */
     public function registerPanelPlugin($plugin, $panelName = null): void
     {
 
@@ -173,6 +199,9 @@ class ModuleAdminManager
         }
     }
 
+    /**
+     * @deprecated
+     */
     public function getPanelPlugins($location = null): array
     {
         if ($location) {
@@ -182,17 +211,25 @@ class ModuleAdminManager
         return $this->adminPanelPlugins;
     }
 
+    /**
+     * @deprecated
+     */
     public function registerLiveEditPanelPage($page): void
     {
         $this->liveEditPanelPages[] = $page;
     }
 
+    /**
+     * @deprecated
+     */
     public function getLiveEditPanelPages(): array
     {
         return $this->liveEditPanelPages;
     }
 
-
+    /**
+     * @deprecated
+     */
     public function registerAdminPanelWidget($widget, $location = 'default'): void
     {
         if (!isset($this->adminPanelWidgets[$location])) {
@@ -202,35 +239,191 @@ class ModuleAdminManager
         $this->adminPanelWidgets[$location][] = $widget;
     }
 
+
+    /**
+     * @deprecated
+     */
     public function getAdminPanelWidgets($location = 'default'): array
     {
         return $this->adminPanelWidgets[$location] ?? [];
     }
 
-
+    /**
+     * @deprecated
+     */
     public function registerAdminUrl($module, $url): void
     {
         $this->modulesAdminUrls[$module] = $url;
     }
 
+    /**
+     * @deprecated
+     */
     public function getAdminUrl($module)
     {
         return $this->modulesAdminUrls[$module] ?? null;
     }
 
+    /**
+     * @deprecated
+     */
     public function getAdminUrls(): array
     {
         return $this->modulesAdminUrls;
     }
 
+    /**
+     * @deprecated
+     */
     public function registerPanelResource($resource): void
     {
         $this->panelResources[] = $resource;
     }
 
+    /**
+     * @deprecated
+     */
     public function getPanelResources(): array
     {
         return $this->panelResources;
+    }
+
+
+    public array $filamentResourceRegistry = [];
+
+
+    public function registerFilamentResource($resource, $location = '', $panelId = 'admin'): array
+    {
+
+        return $this->filamentResourceRegistry[$panelId][] = [
+            'resource' => $resource,
+            'location' => $location,
+        ];
+    }
+
+    public function getFilamentResources($location = false, $panelId = 'admin'): array
+    {
+        if ($this->filamentResourceRegistry[$panelId] and !empty($this->filamentResourceRegistry[$panelId])) {
+            $results = [];
+            if ($location) {
+                foreach ($this->filamentResourceRegistry[$panelId] as $resource) {
+                    if ($resource['location'] == $location) {
+                        $results[] = $resource;
+                    }
+                }
+                return $results;
+            } else {
+                foreach ($this->filamentResourceRegistry[$panelId] as $resource) {
+                    if ($resource['location'] === '') {
+                        $results[] = $resource;
+                    }
+                }
+                return $results;
+            }
+        }
+        return [];
+    }
+
+
+    public array $filamentPageRegistry = [];
+
+    public function registerFilamentPage($page, $location = '', $panelId = 'admin'): array
+    {
+        return $this->filamentPageRegistry[$panelId][] = [
+            'page' => $page,
+            'location' => $location,
+        ];
+    }
+
+    public function getFilamentPages($location = false, $panelId = 'admin'): array
+    {
+        if (isset($this->filamentPageRegistry[$panelId]) and !empty($this->filamentPageRegistry[$panelId])) {
+            $results = [];
+            if ($location) {
+                foreach ($this->filamentPageRegistry[$panelId] as $page) {
+                    if ($page['location'] == $location) {
+                        $results[] = $page['page'];
+                    }
+                }
+                return $results;
+            } else {
+                foreach ($this->filamentPageRegistry[$panelId] as $page) {
+                    if ($page['location'] === '') {
+                        $results[] = $page['page'];
+                    }
+                }
+                return $results;
+            }
+        }
+        return [];
+    }
+
+
+    public array $filamentWidgetRegistry = [];
+
+    public function registerFilamentWidget($widget, $location = '', $panelId = 'admin'): array
+    {
+        return $this->filamentWidgetRegistry[$panelId][] = [
+            'widget' => $widget,
+            'location' => $location,
+        ];
+    }
+
+    public function getFilamentWidgets($location = false, $panelId = 'admin'): array
+    {
+        if (isset($this->filamentWidgetRegistry[$panelId]) and !empty($this->filamentWidgetRegistry[$panelId])) {
+            $results = [];
+            if ($location) {
+                foreach ($this->filamentWidgetRegistry[$panelId] as $widget) {
+                    if ($widget['location'] == $location) {
+                        $results[] = $widget['widget'];
+                    }
+                }
+                return $results;
+            } else {
+                foreach ($this->filamentWidgetRegistry[$panelId] as $widget) {
+                    if ($widget['location'] === '') {
+                        $results[] = $widget['widget'];
+                    }
+                }
+                return $results;
+            }
+        }
+        return [];
+    }
+
+
+    public array $filamentPluginRegistry = [];
+
+    public function registerFilamentPlugin($plugin, $location = '', $panelId = 'admin'): array
+    {
+        return $this->filamentPluginRegistry[$panelId][] = [
+            'plugin' => $plugin,
+            'location' => $location,
+        ];
+    }
+
+    public function getFilamentPlugins($location = false, $panelId = 'admin'): array
+    {
+        if (isset($this->filamentPluginRegistry[$panelId]) and !empty($this->filamentPluginRegistry[$panelId])) {
+            $results = [];
+            if ($location) {
+                foreach ($this->filamentPluginRegistry[$panelId] as $plugin) {
+                    if ($plugin['location'] == $location) {
+                        $results[] = $plugin['plugin'];
+                    }
+                }
+                return $results;
+            } else {
+                foreach ($this->filamentPluginRegistry[$panelId] as $plugin) {
+                    if ($plugin['location'] === '') {
+                        $results[] = $plugin['plugin'];
+                    }
+                }
+                return $results;
+            }
+        }
+        return [];
     }
 
 }

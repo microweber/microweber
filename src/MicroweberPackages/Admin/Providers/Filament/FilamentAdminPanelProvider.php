@@ -53,8 +53,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
     public function getPanelPages(): array
     {
-
-        return ModuleAdmin::getPanelPages();
+         return ModuleAdmin::getFilamentPages(false, $this->filamentId);
     }
 
     public function getPanelResources(): array
@@ -86,7 +85,6 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->id($this->filamentId)
             ->path($this->filamentPath)
             ->viteTheme('resources/css/filament/admin/theme.css')
-
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
@@ -155,7 +153,9 @@ class FilamentAdminPanelProvider extends PanelProvider
                 //  Authenticate::class,
                 \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
                 //  Admin::class,
-            ]);
+            ])->bootUsing(function (Panel $panel) {
+                //  dd($panel);
+            });
 
         $panel->renderHook(
             name: PanelsRenderHook::TOPBAR_START,

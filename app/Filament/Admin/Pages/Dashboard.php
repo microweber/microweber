@@ -56,7 +56,7 @@ class Dashboard extends \Filament\Pages\Dashboard
 
     public function getWidgets(): array
     {
-        $location = 'filament.admin.pages.dashboard';
+        $location = 'dashboard';
         $widgets = ModuleAdmin::getAdminPanelWidgets($location);
         return $widgets;
     }
