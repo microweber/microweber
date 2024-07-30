@@ -229,6 +229,8 @@
         };
         this.build = function (){
             this.root = document.createElement('div');
+            this.root.setAttribute('x-data', '{}');
+            this.root.setAttribute('x-trap', 'true');
             this.root.onclick = function (e) {
                 var le2 = mw.tools.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-link-editor-nav-drop-box', 'mw-link-editor-more-button']);
                 if(!le2) {
