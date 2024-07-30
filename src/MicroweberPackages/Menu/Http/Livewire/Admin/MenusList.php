@@ -109,6 +109,7 @@ class MenusList extends Component implements HasForms, HasActions
                 $record = Menu::find($arguments['id']);
                 $form->fill($record->toArray());
             })
+            ->modalAutofocus(false)
             ->form([
                 TextInput::make('title')
                     ->required()
@@ -123,12 +124,19 @@ class MenusList extends Component implements HasForms, HasActions
                     ->live()
                     ->afterStateUpdated(function (Set $set, array $state) {
 
-                        if (isset($state['data']['id'])) {
+                        $url = '';
+                        $urlTarget = false;
+                        if (isset($state['type']) && $state['type'] =='category') {
+                            $set('categories_id', $state['id']);
+                        } else if (isset($state['data']['id'])) {
                             $set('content_id', $state['data']['id']);
                         } else {
-                            $set('url', $state['url']);
-                            $set('url_target', $state['target']);
+                            $url = $state['url'];
+                            $urlTarget = $state['target'];
                         }
+
+                        $set('url', $url);
+                        $set('url_target', $urlTarget);
                     }),
 
             ])->record(function (array $arguments) {
