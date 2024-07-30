@@ -46,6 +46,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static array getFilamentPlugins($location = false, $panelId = 'admin')
  *
  *
+ *
+ *
  * @mixin  \MicroweberPackages\Module\ModuleAdminManager
  *
  * For filament OLD and DEPRECATED

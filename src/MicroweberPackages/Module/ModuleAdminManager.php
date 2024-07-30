@@ -106,12 +106,18 @@ class ModuleAdminManager
     }
 
 
+    /**
+     * @deprecated
+     */
     public function registerSettings($moduleName, $componentAlias): void
     {
         $this->settings[$moduleName] = $componentAlias;
     }
 
 
+    /**
+     * @deprecated
+     */
     public function getSettings($moduleName)
     {
         return $this->settings[$moduleName] ?? null;
@@ -178,8 +184,13 @@ class ModuleAdminManager
         return $this->adminPanelPages;
     }
 
-
+    /**
+     * @deprecated
+     */
     public array $adminPanelPlugins = [];
+    /**
+     * @deprecated
+     */
     public array $adminPanelPluginsWithLocation = [];
 
     /**

@@ -39,7 +39,7 @@ class Menu extends Model
 
     public $translatable = ['title','url'];
 
-    public $cacheTagsToClear = ['menus','repositories','content'];
+    public $cacheTagsToClear = ['menus','repositories','content','categories','menus_item'];
 
 
     public function getDisplayTitleAttribute()

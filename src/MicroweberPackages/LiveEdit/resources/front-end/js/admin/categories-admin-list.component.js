@@ -55,10 +55,10 @@ export class CategoriesAdminListComponent extends MicroweberBaseClass {
 
                         icon: 'add-subcategory-icon-tree',
                         action: function (element, data, menuitem) {
-                            var loc = 'https://demo.microweber.org/v2/admin/category/create?parent_page_id=' + data.id;
+                            var loc = mw.settings.adminUrl  + 'category/create?parent_page_id=' + data.id;
                             if (data.type === 'page') {
                                 if(data.is_shop === 1){
-                                    loc = 'https://demo.microweber.org/v2/admin/shop/category/create?parent_page_id=' + data.id;
+                                    loc = mw.settings.adminUrl  +  'shop/category/create?parent_page_id=' + data.id;
                                 }
                             }
 

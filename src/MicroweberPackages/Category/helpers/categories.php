@@ -186,7 +186,7 @@ function get_category_edit_link($category_id)
         $admin_edit_url = admin_url('categories/create/');
 
     } else {
-        $admin_edit_url = admin_url('category/edit/' . $category_id);
+        $admin_edit_url = admin_url('categories/' . $category_id.'/edit');
 
     }
 //    $admin_edit_url = route('admin.category.edit', $category_id);
