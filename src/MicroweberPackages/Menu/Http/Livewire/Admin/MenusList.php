@@ -7,12 +7,15 @@ use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -23,6 +26,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\Menu\Models\Menu;
+use function Clue\StreamFilter\fun;
 
 class MenusList extends Component implements HasForms, HasActions
 {
@@ -107,13 +111,41 @@ class MenusList extends Component implements HasForms, HasActions
             ->icon('heroicon-m-pencil')
             ->mountUsing(function (Form $form, array $arguments) {
                 $record = Menu::find($arguments['id']);
-                $form->fill($record->toArray());
+                $recordArray = $record->toArray();
+                $recordArray['display_title'] = $record->displayTitle;
+
+                $recordArray['use_custom_title'] = false;
+                if (!empty($record->title)) {
+                    $recordArray['use_custom_title'] = true;
+                }
+
+                $form->fill($recordArray);
             })
             ->modalAutofocus(false)
             ->form([
+
+                TextInput::make('display_title')
+                    ->disabled()
+                    ->hidden(function (Get $get) {
+                    return $get('use_custom_title') === true;
+                }),
+
                 TextInput::make('title')
-                    ->required()
+                    ->hidden(function (Get $get) {
+                        return $get('use_custom_title') === false;
+                    })
+                    ->helperText('Title will be auto-filled from the selected content')
                     ->maxLength(255),
+
+                Checkbox::make('use_custom_title')
+                    ->label('Use custom title')
+                    ->live()
+                    ->afterStateUpdated(function (Menu $record, Set $set, $state) {
+                        if ($state) {
+                            $set('title', $record->displayTitle);
+                        }
+                    })
+                    ->default(false),
 
                 Hidden::make('content_id'),
                 Hidden::make('categories_id'),
@@ -148,8 +180,10 @@ class MenusList extends Component implements HasForms, HasActions
                 $record = Menu::find($arguments['id']);
                 return $record;
             })
-            ->action(function (array $data) {
-                $record = Menu::find($data['id']);
+            ->action(function (Menu $record, array $data) {
+                if (isset($data['use_custom_title']) && $data['use_custom_title'] == false) {
+                   $data['title'] = '';
+                }
                 $record->update($data);
             });
     }
