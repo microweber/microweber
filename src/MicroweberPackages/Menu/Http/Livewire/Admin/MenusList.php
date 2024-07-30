@@ -74,9 +74,10 @@ class MenusList extends Component implements HasForms, HasActions
                 $data['item_type'] = 'menu_item';
                 $data['parent_id'] = $this->menu_id;
 
-                $record = Menu::newModelInstance();
+                $record = new Menu();
                 $record->fill($data);
                 $record->save();
+
 
             });
     }
@@ -164,22 +165,29 @@ class MenusList extends Component implements HasForms, HasActions
 
                     return $data;
                 })
-                ->afterStateUpdated(function (Set $set, array $state) {
+                ->afterStateUpdated(function (Set $set, Get $get, array $state) {
 
                     $url = '';
                     $urlTarget = '';
                     $categoriesId = '';
                     $contentId = '';
+                    $displayTitle = $get('display_title');
 
-                    if (isset($state['data']['type']) && $state['data']['type'] =='category') {
-                        $categoriesId = $state['data']['id'];
-                    } else if (isset($state['data']['id'])) {
-                        $contentId = $state['data']['id'];
-                    } else {
+                    if (isset($state['data']['id']) && $state['data']['id'] > 0) {
+                        if ($state['data']['type'] == 'category') {
+                            $categoriesId = $state['data']['id'];
+                        } else {
+                            $contentId = $state['data']['id'];
+                        }
+                    } else if (isset($state['url'])) {
                         $url = $state['url'];
-                        $urlTarget = $state['target'];
+                        $urlTarget = $state['url_target'];
+                    }
+                    if (isset($state['text'])) {
+                        $displayTitle = $state['text'];
                     }
 
+                    $set('display_title', $displayTitle);
                     $set('url', $url);
                     $set('url_target', $urlTarget);
                     $set('categories_id', $categoriesId);
