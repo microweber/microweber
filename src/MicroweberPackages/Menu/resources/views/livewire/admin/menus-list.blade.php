@@ -7,7 +7,7 @@
     <script>
 
         mw.lib.require('jqueryui')
-        mw.lib.require('nestedSortable')
+      //  mw.lib.require('nestedSortable')
         document.addEventListener('livewire:initialized', async () => {
 
 
@@ -81,20 +81,20 @@
 
                         for (var i = 0; i < sortableLists.length; i++) {
 
-                            $(sortableLists[i]).nestedSortable({
-                                items: ".menu_element",
-                                listType: 'ul',
-                                //handle:'.menu_element',
-                                start: function () { // firefox triggers click when drag ends
-                                    // scope._disableClick = true;
-                                },
-                                stop: function () {
-                                    //  setTimeout(() => {scope._disableClick = false;}, 78)
-                                },
-                                update: function (e, ui) {
-                                    _orderChangeHandle(e, ui);
-                                }
-                            });
+                            // $(sortableLists[i]).nestedSortable({
+                            //     items: ".menu_element",
+                            //     listType: 'ul',
+                            //     //handle:'.menu_element',
+                            //     start: function () { // firefox triggers click when drag ends
+                            //         // scope._disableClick = true;
+                            //     },
+                            //     stop: function () {
+                            //         //  setTimeout(() => {scope._disableClick = false;}, 78)
+                            //     },
+                            //     update: function (e, ui) {
+                            //         _orderChangeHandle(e, ui);
+                            //     }
+                            // });
 
 
                         }

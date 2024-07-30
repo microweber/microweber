@@ -11,6 +11,6 @@
 
         {{ ($this->editAction)(['id' => $item['id']]) }}
         {{ ($this->deleteAction)(['id' => $item['id']]) }}
-       
+
     </div>
 </div>

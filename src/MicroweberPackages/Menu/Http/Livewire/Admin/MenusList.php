@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -20,6 +21,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\Menu\Models\Menu;
 
 class MenusList extends Component implements HasForms, HasActions
@@ -107,10 +109,41 @@ class MenusList extends Component implements HasForms, HasActions
                 $record = Menu::find($arguments['id']);
                 $form->fill($record->toArray());
             })
+            ->modalAutofocus(false)
             ->form([
                 TextInput::make('title')
                     ->required()
                     ->maxLength(255),
+
+                Hidden::make('content_id'),
+                Hidden::make('categories_id'),
+                Hidden::make('url'),
+                Hidden::make('url_target'),
+
+                MwLinkPicker::make('mw_link_picker')
+                    ->live()
+                    ->afterStateUpdated(function (Set $set, array $state) {
+
+                        $url = '';
+                        $urlTarget = '';
+                        $categoriesId = '';
+                        $contentId = '';
+
+                        if (isset($state['data']['type']) && $state['data']['type'] =='category') {
+                            $categoriesId = $state['data']['id'];
+                        } else if (isset($state['data']['id'])) {
+                            $contentId = $state['data']['id'];
+                        } else {
+                            $url = $state['url'];
+                            $urlTarget = $state['target'];
+                        }
+
+                        $set('url', $url);
+                        $set('url_target', $urlTarget);
+                        $set('categories_id', $categoriesId);
+                        $set('content_id', $contentId);
+                    }),
+
             ])->record(function (array $arguments) {
                 $record = Menu::find($arguments['id']);
                 return $record;

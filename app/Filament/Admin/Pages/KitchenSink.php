@@ -12,6 +12,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 
 class KitchenSink extends Page
 {
@@ -50,9 +51,13 @@ class KitchenSink extends Page
         return $form
             ->schema([
 
+                TextInput::make('mw_link_picker')
+                    ->live()
+                    ->afterStateUpdated(function ($state) {
+                        dump($state);
+                    }),
 
                 Actions::make([
-
 
                     Actions\Action::make('star')
                         ->icon('heroicon-m-star')
