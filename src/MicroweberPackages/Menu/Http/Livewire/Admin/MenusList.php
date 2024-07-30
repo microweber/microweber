@@ -13,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
@@ -113,10 +114,21 @@ class MenusList extends Component implements HasForms, HasActions
                     ->required()
                     ->maxLength(255),
 
+                TextInput::make('content_id'),
+                TextInput::make('categories_id'),
+                TextInput::make('url'),
+                TextInput::make('url_target'),
+
                 MwLinkPicker::make('mw_link_picker')
                     ->live()
-                    ->afterStateUpdated(function ($state) {
-                      //  dd($state);
+                    ->afterStateUpdated(function (Set $set, array $state) {
+
+                        if (isset($state['data']['id'])) {
+                            $set('content_id', $state['data']['id']);
+                        } else {
+                            $set('url', $state['url']);
+                            $set('url_target', $state['target']);
+                        }
                     }),
 
             ])->record(function (array $arguments) {
