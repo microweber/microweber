@@ -441,6 +441,8 @@ console.log(dialogPrompt);
 
     <form id="schema-form"></form>
 
+            <br>
+
     <button type="submit" form="schema-form" class="btn">Submit</button>
 
 
@@ -448,6 +450,33 @@ console.log(dialogPrompt);
             <h2>Other elements with Tailwind classes</h2>
             <img src="{{ public_asset('vendor/microweber-packages/payment/img/paypal.png') }}" style="height: 36px; width: 36px;" class="max-w-none object-cover object-center ring-white dark:ring-gray-900  !object-contain">
 
+<br>
+
+            <h4>Alpine x-trap</h4>
+            <button x-bind="SomeButtonDisabled" x-trap="false">Test</button>
+            <button x-bind="SomeButton" x-trap="true">Test</button>
+
+            <script>
+                document.addEventListener('alpine:init', () => {
+                    Alpine.bind('SomeButtonDisabled', () => ({
+                        type: 'button',
+
+                        '@click'() {
+                             alert('clicked')
+                        },
+
+                    }))
+
+                    Alpine.bind('SomeButton', () => ({
+                        type: 'button',
+
+                        '@click'() {
+                             alert('clicked')
+                        },
+
+                    }))
+                })
+            </script>
 
     </div>
     </div>
