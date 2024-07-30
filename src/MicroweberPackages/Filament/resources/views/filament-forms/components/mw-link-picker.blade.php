@@ -35,6 +35,10 @@
     } else {
         $type = $getType();
     }
+
+    $selectedData = $getSelectedData();
+    $contentId = $getContentId();
+    $categoryId = $getCategoryId();
 @endphp
 
 <x-dynamic-component
@@ -56,14 +60,15 @@
     <div
 
         x-data="{
-            statePreview: '',
+            statePreview: '{{$getUrl()}}',
+            categoryId: '{{$getCategoryId()}}',
+            contentId: '{{$getContentId()}}',
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
         }"
 
         x-cloak
         wire:ignore
     >
-
         <input
 
             {{
@@ -99,21 +104,30 @@
         "
     >
 
-
-
-
         <x-filament::input
 
 
             x-on:click="function() {
 
+                var selectedIndex = 0;
 
-                  var linkEditor = new mw.LinkEditor({
+                if (categoryId) {
+                    selectedIndex = 1;
+                }
+                if (contentId) {
+                    selectedIndex = 2;
+                }
+
+               var linkEditor = new mw.LinkEditor({
                     mode: 'dialog',
+                    selectedIndex: selectedIndex
                 });
-                var val = 'http://google.com'
-                if(val) {
-                    linkEditor.setValue(val);
+
+                if (categoryId) {
+                   linkEditor.setValue({id: categoryId, type: 'category'})
+                }
+                if (contentId) {
+                    linkEditor.setValue({id: contentId, type: 'content'})
                 }
 
                 linkEditor.promise().then((data) => {

@@ -154,6 +154,25 @@ class MenusList extends Component implements HasForms, HasActions
 
                 MwLinkPicker::make('mw_link_picker')
                     ->live()
+                    ->selectedData(function (Get $get) {
+                        $dataId = '';
+                        $dataType = '';
+                        if ($get('content_id')) {
+                            $dataId = $get('content_id');
+                            $dataType = 'content';
+                        } else if ($get('categories_id')) {
+                            $dataId = $get('categories_id');
+                            $dataType = 'category';
+                        }
+                        return [
+                            'url'=> $get('url'),
+                            'target'=> $get('url_target'),
+                            'data'=>[
+                                'id'=> $dataId,
+                                'type'=> $dataType
+                            ]
+                        ];
+                    })
                     ->afterStateUpdated(function (Set $set, array $state) {
 
                         $url = '';
@@ -184,7 +203,8 @@ class MenusList extends Component implements HasForms, HasActions
                 if (isset($data['use_custom_title']) && $data['use_custom_title'] == false) {
                    $data['title'] = '';
                 }
-                $record->update($data);
+                $record->fill($data);
+                $record->save();
             });
     }
 
