@@ -42,8 +42,8 @@ class SiteStatsServiceProvider extends PackageServiceProvider
 
         Event::listen(ServingFilament::class, function () {
 
-            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboardChart::class, 'filament.admin.pages.dashboard');
-            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboard::class, 'filament.admin.pages.dashboard');
+            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboardChart::class, 'dashboard');
+            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboard::class, 'dashboard');
         });
 
 
@@ -53,9 +53,9 @@ class SiteStatsServiceProvider extends PackageServiceProvider
 //                fn(): string => Blade::render('@livewire(\'microweber-module-sitestats::dashboard-chart\')'),
 //                scopes: Dashboard::class,
 //            );
-//            //   ModuleAdmin::registerPanelPage(SiteStatsDashboard::class,'filament.admin.pages.dashboard');
+//            //   ModuleAdmin::registerFilamentPage(SiteStatsDashboard::class,'filament.admin.pages.dashboard');
 //        });
-        //  ModuleAdmin::registerPanelPage(SiteStatsDashboard::class,'admin.dashboard');
+        //  ModuleAdmin::registerFilamentPage(SiteStatsDashboard::class,'admin.dashboard');
 
         // if google or fb pixel is enabled
         $this->app->register(\MicroweberPackages\Modules\SiteStats\Providers\UtmTrackingEventsServiceProvider::class);

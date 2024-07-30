@@ -38,7 +38,7 @@ class BtnServiceProvider extends PackageServiceProvider
 //        ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
 
         ModuleAdmin::registerLiveEditPanelPage(ButtonModuleSettings::class);
-        ModuleAdmin::registerPanelPage(ButtonModuleSettings::class);
+        ModuleAdmin::registerFilamentPage(ButtonModuleSettings::class);
 
 
         //     ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
@@ -52,7 +52,7 @@ class BtnServiceProvider extends PackageServiceProvider
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
                 //    dump($panelId);
-                // ModuleAdmin::registerLiveEditSettingsUrl('btn', ButtonModuleSettings::getUrl());
+                 ModuleAdmin::registerLiveEditSettingsUrl('btn', ButtonModuleSettings::getUrl());
             }
         });
 

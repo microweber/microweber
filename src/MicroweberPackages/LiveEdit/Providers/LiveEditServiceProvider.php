@@ -52,16 +52,15 @@ class LiveEditServiceProvider extends PackageServiceProvider
 
         Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
         Livewire::component('microweber-live-edit::module-items-editor', ModuleSettingsItemsEditorComponent::class);
-       Livewire::component('microweber-live-edit::module-items-editor-list', ModuleSettingsItemsEditorListComponent::class);
-       Livewire::component('microweber-live-edit::module-items-editor-edit-item', ModuleSettingsItemsEditorEditItemComponent::class);
+        Livewire::component('microweber-live-edit::module-items-editor-list', ModuleSettingsItemsEditorListComponent::class);
+        Livewire::component('microweber-live-edit::module-items-editor-edit-item', ModuleSettingsItemsEditorEditItemComponent::class);
         Livewire::component('microweber-live-edit::sidebar-admin', LiveEditSidebarAdminComponent::class);
         Livewire::component('microweber-live-edit::sidebar-admin-modules-list', LiveEditSidebarAdminModulesListComponent::class);
         Livewire::component('microweber-live-edit::module-presets-manager', ModulePresetsManager::class);
 
         Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
 
-        ModuleAdmin::registerPanelPage(AdminLiveEditPage::class);
-
+        ModuleAdmin::registerFilamentPage(AdminLiveEditPage::class);
 
 
     }

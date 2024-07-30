@@ -25,7 +25,7 @@ class LogoServiceProvider extends PackageServiceProvider
 
 //        Livewire::component('microweber-module-logo::settings', LogoSettingsComponent::class);
 //        ModuleAdmin::registerSettings('logo', 'microweber-module-logo::settings');
-        //    ModuleAdmin::registerPanelPage(\MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings::class);
+        //    ModuleAdmin::registerFilamentPage(\MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings::class);
 
          ModuleAdmin::registerLiveEditSettingsUrl('logo', site_url('admin-live-edit/logo-module-settings'));
          ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings::class);

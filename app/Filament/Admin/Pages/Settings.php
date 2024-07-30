@@ -41,8 +41,7 @@ class Settings extends Page
         $settingsPages[] = new AdminShopOtherPage();
         $settingsPages[] = new AdminShopOtherPage();
 
-//
-        $registeredSettingsPages = ModuleAdmin::getPanelPages('settings');
+        $registeredSettingsPages = ModuleAdmin::getFilamentPages('settings', 'admin');
         if (!empty($registeredSettingsPages)) {
             foreach ($registeredSettingsPages as $registeredSettingsPage) {
                 $settingsPages[] = new $registeredSettingsPage;

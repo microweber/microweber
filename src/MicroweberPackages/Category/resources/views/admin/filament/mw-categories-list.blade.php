@@ -75,7 +75,6 @@
                     options.skip = skip;
                 }
 
-                console.log(options);
 
 
                 var opts = {
@@ -85,9 +84,9 @@
                 // let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
 
                 let pagesTree = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}', opts);
-                let pagesTree2 = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}2', {...opts, skin: 'default'});
+         //       let pagesTree2 = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}2', {...opts, skin: 'default'});
 
-                console.log(pagesTree)
+
 
                 pagesTree.tree.on('selectionChange', e => {
                     let result = pagesTree.tree.getSelected();
@@ -99,17 +98,10 @@
         </script>
 
         @endscript
-        <?php
-
-        /*
-        @if($this->data)
-        {{json_encode($this->data['mw_parent_page_and_category_state'],JSON_PRETTY_PRINT)}}
-        @endif
-         */
-        ?>
 
 
-            <div wire:ignore id="mw-tree-edit-content-{{$suffix}}"></div>
+
+            <div wire:ignore class="mw-edit-categories-list" id="mw-tree-edit-content-{{$suffix}}"></div>
 
 
 

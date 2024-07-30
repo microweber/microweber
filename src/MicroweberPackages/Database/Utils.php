@@ -678,7 +678,7 @@ class Utils
     }
 
 // @deprecated
-    public function add_table_index($aIndexName=null, $aTable, $aOnColumns)
+    public function add_table_index($aIndexName=null, $aTable=null, $aOnColumns=null)
     {
 //        Schema::table($aTable, function (Blueprint $table) use ($aIndexName, $aOnColumns) {
 //             $table->index($aOnColumns,$aIndexName);

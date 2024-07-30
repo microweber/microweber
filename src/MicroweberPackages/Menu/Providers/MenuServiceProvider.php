@@ -65,7 +65,7 @@ class MenuServiceProvider extends ServiceProvider
         Event::listen(ServingFilament::class, function () {
 
 
-            ModuleAdmin::registerPanelPage(\MicroweberPackages\Menu\Filament\Admin\Pages\AdminMenusPage::class, 'settings');
+            ModuleAdmin::registerFilamentPage(\MicroweberPackages\Menu\Filament\Admin\Pages\AdminMenusPage::class, 'settings');
         });
 
 
