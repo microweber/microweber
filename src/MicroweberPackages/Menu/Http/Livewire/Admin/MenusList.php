@@ -115,21 +115,24 @@ class MenusList extends Component implements HasForms, HasActions
                     ->required()
                     ->maxLength(255),
 
-                TextInput::make('content_id'),
-                TextInput::make('categories_id'),
-                TextInput::make('url'),
-                TextInput::make('url_target'),
+                Hidden::make('content_id'),
+                Hidden::make('categories_id'),
+                Hidden::make('url'),
+                Hidden::make('url_target'),
 
                 MwLinkPicker::make('mw_link_picker')
                     ->live()
                     ->afterStateUpdated(function (Set $set, array $state) {
 
                         $url = '';
-                        $urlTarget = false;
-                        if (isset($state['type']) && $state['type'] =='category') {
-                            $set('categories_id', $state['id']);
+                        $urlTarget = '';
+                        $categoriesId = '';
+                        $contentId = '';
+
+                        if (isset($state['data']['type']) && $state['data']['type'] =='category') {
+                            $categoriesId = $state['data']['id'];
                         } else if (isset($state['data']['id'])) {
-                            $set('content_id', $state['data']['id']);
+                            $contentId = $state['data']['id'];
                         } else {
                             $url = $state['url'];
                             $urlTarget = $state['target'];
@@ -137,6 +140,8 @@ class MenusList extends Component implements HasForms, HasActions
 
                         $set('url', $url);
                         $set('url_target', $urlTarget);
+                        $set('categories_id', $categoriesId);
+                        $set('content_id', $contentId);
                     }),
 
             ])->record(function (array $arguments) {
