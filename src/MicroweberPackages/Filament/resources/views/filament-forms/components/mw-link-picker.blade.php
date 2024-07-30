@@ -126,8 +126,8 @@
                    linkEditor.setValue({id: categoryId, type: 'category'})
                 } else if (contentId > 0) {
                     linkEditor.setValue({id: contentId, type: 'content'})
-                } else (url) {
-                    linkEditor.setValue(url);
+                } else if (url) {
+                    linkEditor.setValue(url)
                 }
 
                 linkEditor.promise().then((data) => {
