@@ -68,11 +68,7 @@ class MenusList extends Component implements HasForms, HasActions
                 $form->fill($arguments);
             })
             ->label('Add menu item')
-            ->form([
-                TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-            ])
+            ->form(static::menuItemEditFormArray())
             ->action(function (array $data) {
 
                 $data['item_type'] = 'menu_item';
@@ -105,6 +101,94 @@ class MenusList extends Component implements HasForms, HasActions
             });
     }
 
+    public static function menuItemEditFormArray() : array
+    {
+        return [
+
+            TextInput::make('display_title')
+                ->disabled()
+                ->hidden(function (Get $get) {
+                    return $get('use_custom_title') === true;
+                }),
+
+            TextInput::make('title')
+                ->hidden(function (Get $get) {
+                    return $get('use_custom_title') === false;
+                })
+                ->helperText('Title will be auto-filled from the selected content')
+                ->maxLength(255),
+
+            Checkbox::make('use_custom_title')
+                ->label('Use custom title')
+                ->live()
+                ->afterStateUpdated(function (Menu | null $record, Set $set, $state) {
+                    if ($state) {
+                        if ($record) {
+                            $set('title', $record->displayTitle);
+                        }
+                    }
+                })
+                ->default(false),
+
+            Hidden::make('content_id'),
+            Hidden::make('categories_id'),
+            Hidden::make('url'),
+            Hidden::make('url_target'),
+
+            MwLinkPicker::make('mw_link_picker')
+                ->live()
+                ->selectedData(function (Menu | null $record, Get $get) {
+                    $dataId = '';
+                    $dataType = '';
+                    $dataUrl = '';
+                    $dataTarget = '';
+                    if ($record) {
+                        $dataUrl = $record->url;
+                        $dataTarget = $record->url_target;
+                        if ($record->content_id) {
+                            $dataId = $record->content_id;
+                            $dataType = 'content';
+                        } else if ($record->categories_id) {
+                            $dataId = $record->categories_id;
+                            $dataType = 'category';
+                        }
+                    }
+                    $data = [
+                        'url'=> $dataUrl,
+                        'target'=> $dataTarget,
+                        'data'=>[
+                            'id'=> $dataId,
+                            'type'=> $dataType
+                        ]
+                    ];
+
+                    return $data;
+                })
+                ->afterStateUpdated(function (Set $set, array $state) {
+
+                    $url = '';
+                    $urlTarget = '';
+                    $categoriesId = '';
+                    $contentId = '';
+
+                    if (isset($state['data']['type']) && $state['data']['type'] =='category') {
+                        $categoriesId = $state['data']['id'];
+                    } else if (isset($state['data']['id'])) {
+                        $contentId = $state['data']['id'];
+                    } else {
+                        $url = $state['url'];
+                        $urlTarget = $state['target'];
+                    }
+
+                    $set('url', $url);
+                    $set('url_target', $urlTarget);
+                    $set('categories_id', $categoriesId);
+                    $set('content_id', $contentId);
+                }),
+
+        ];
+    }
+
     public function editAction(): Action
     {
         return Action::make('edit')
@@ -122,82 +206,7 @@ class MenusList extends Component implements HasForms, HasActions
                 $form->fill($recordArray);
             })
             ->modalAutofocus(false)
-            ->form([
-
-                TextInput::make('display_title')
-                    ->disabled()
-                    ->hidden(function (Get $get) {
-                    return $get('use_custom_title') === true;
-                }),
-
-                TextInput::make('title')
-                    ->hidden(function (Get $get) {
-                        return $get('use_custom_title') === false;
-                    })
-                    ->helperText('Title will be auto-filled from the selected content')
-                    ->maxLength(255),
-
-                Checkbox::make('use_custom_title')
-                    ->label('Use custom title')
-                    ->live()
-                    ->afterStateUpdated(function (Menu $record, Set $set, $state) {
-                        if ($state) {
-                            $set('title', $record->displayTitle);
-                        }
-                    })
-                    ->default(false),
-
-                Hidden::make('content_id'),
-                Hidden::make('categories_id'),
-                Hidden::make('url'),
-                Hidden::make('url_target'),
-
-                MwLinkPicker::make('mw_link_picker')
-                    ->live()
-                    ->selectedData(function (Menu $record, Get $get) {
-                        $dataId = '';
-                        $dataType = '';
-                        if ($record->content_id) {
-                            $dataId = $record->content_id;
-                            $dataType = 'content';
-                        } else if ($record->categories_id) {
-                            $dataId = $record->categories_id;
-                            $dataType = 'category';
-                        }
-                        $data = [
-                            'url'=> $record->url,
-                            'target'=> $record->url_target,
-                            'data'=>[
-                                'id'=> $dataId,
-                                'type'=> $dataType
-                            ]
-                        ];
-
-                        return $data;
-                    })
-                    ->afterStateUpdated(function (Set $set, array $state) {
-
-                        $url = '';
-                        $urlTarget = '';
-                        $categoriesId = '';
-                        $contentId = '';
-
-                        if (isset($state['data']['type']) && $state['data']['type'] =='category') {
-                            $categoriesId = $state['data']['id'];
-                        } else if (isset($state['data']['id'])) {
-                            $contentId = $state['data']['id'];
-                        } else {
-                            $url = $state['url'];
-                            $urlTarget = $state['target'];
-                        }
-
-                        $set('url', $url);
-                        $set('url_target', $urlTarget);
-                        $set('categories_id', $categoriesId);
-                        $set('content_id', $contentId);
-                    }),
-
-            ])->record(function (array $arguments) {
+            ->form(static::menuItemEditFormArray())->record(function (array $arguments) {
                 $record = Menu::find($arguments['id']);
                 return $record;
             })
