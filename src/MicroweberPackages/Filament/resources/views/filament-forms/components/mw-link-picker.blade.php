@@ -39,6 +39,7 @@
     $selectedData = $getSelectedData();
     $contentId = $getContentId();
     $categoryId = $getCategoryId();
+    $url = $getUrl();
 @endphp
 
 <x-dynamic-component
@@ -55,14 +56,12 @@
         {{ $getLabel() }}
     </x-slot>
 
-
-
     <div
 
         x-data="{
-            statePreview: '{{$getUrl()}}',
-            categoryId: '{{$getCategoryId()}}',
-            contentId: '{{$getContentId()}}',
+            statePreview: '{{$url}}',
+            categoryId: '{{$categoryId}}',
+            contentId: '{{$contentId}}',
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
         }"
 
@@ -123,11 +122,12 @@
                     selectedIndex: selectedIndex
                 });
 
-                if (categoryId) {
+                if (categoryId > 0) {
                    linkEditor.setValue({id: categoryId, type: 'category'})
-                }
-                if (contentId) {
+                } else if (contentId > 0) {
                     linkEditor.setValue({id: contentId, type: 'content'})
+                } else (url) {
+                    linkEditor.setValue(url);
                 }
 
                 linkEditor.promise().then((data) => {
