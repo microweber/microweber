@@ -20,6 +20,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\Menu\Models\Menu;
 
 class MenusList extends Component implements HasForms, HasActions
@@ -111,6 +112,13 @@ class MenusList extends Component implements HasForms, HasActions
                 TextInput::make('title')
                     ->required()
                     ->maxLength(255),
+
+                MwLinkPicker::make('mw_link_picker')
+                    ->live()
+                    ->afterStateUpdated(function ($state) {
+                      //  dd($state);
+                    }),
+
             ])->record(function (array $arguments) {
                 $record = Menu::find($arguments['id']);
                 return $record;
