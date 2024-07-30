@@ -1,5 +1,5 @@
 <div>
-    
+
     @script
     <script>
         mw.lib.require('jqueryui')
@@ -169,7 +169,7 @@
                                   return view('menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
                               }
                              );
-                             print  menu_tree($params);
+                             echo menu_tree($params);
                         @endphp
 
                     </div>
