@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import istanbul from 'vite-plugin-istanbul';
-import inject from '@rollup/plugin-inject'
 
 import sass from 'sass';
 export default defineConfig({
