@@ -15,6 +15,7 @@ use Filament\Widgets\WidgetConfiguration;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\Route;
 use Filament\Pages\Dashboard\Actions\FilterAction;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 
 
@@ -56,8 +57,7 @@ class Dashboard extends \Filament\Pages\Dashboard
 
     public function getWidgets(): array
     {
-        $location = 'dashboard';
-        $widgets = ModuleAdmin::getAdminPanelWidgets($location);
+        $widgets = FilamentRegistry::getWidgets(self::class, Filament::getCurrentPanel()->getId());
         return $widgets;
     }
 }

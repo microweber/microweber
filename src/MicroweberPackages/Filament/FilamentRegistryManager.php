@@ -26,7 +26,7 @@ class FilamentRegistryManager
             if ($scope) {
                 foreach ($this->filamentResourceRegistry[$panelId] as $resource) {
                     if ($resource['scope'] == $scope) {
-                        $results[] = $resource[ 'resource'];
+                        $results[] = $resource['resource'];
                     }
                 }
 

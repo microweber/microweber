@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\View;
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegisteredListener;
 use MicroweberPackages\Modules\SiteStats\Filament\SiteStatsDashboard;
 use MicroweberPackages\Modules\SiteStats\Filament\SiteStatsDashboardChart;
@@ -40,12 +41,18 @@ class SiteStatsServiceProvider extends PackageServiceProvider
         ModuleAdmin::registerSettings('site_stats', 'microweber-module-sitestats::settings');
 
 
-        Event::listen(ServingFilament::class, function () {
+//        Event::listen(ServingFilament::class, function () {
+//
+//            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboardChart::class, 'dashboard');
+//            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboard::class, 'dashboard');
+//        });
+        FilamentRegistry::registerWidget(
+            SiteStatsDashboardChart::class,
+            \App\Filament\Admin\Pages\Dashboard::class);
 
-            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboardChart::class, 'dashboard');
-            ModuleAdmin::registerAdminPanelWidget(SiteStatsDashboard::class, 'dashboard');
-        });
-
+        FilamentRegistry::registerWidget(
+            SiteStatsDashboard::class,
+            \App\Filament\Admin\Pages\Dashboard::class);
 
 //        Event::listen(ServingFilament::class, function () {
 //            FilamentView::registerRenderHook(

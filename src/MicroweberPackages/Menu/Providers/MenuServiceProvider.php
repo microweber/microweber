@@ -62,14 +62,14 @@ class MenuServiceProvider extends ServiceProvider
 
         ModuleAdmin::registerPanelPlugin(MenuFilamentPlugin::class);
 
-
+        FilamentRegistry::registerPage(
+            \MicroweberPackages\Menu\Filament\Admin\Pages\AdminMenusPage::class,
+            \App\Filament\Admin\Pages\Settings::class
+        );
 
         Event::listen(ServingFilament::class, function () {
 
-            FilamentRegistry::registerPage(
-                \MicroweberPackages\Menu\Filament\Admin\Pages\AdminMenusPage::class,
-                \App\Filament\Admin\Pages\Settings::class
-            );
+
 
 
         });
