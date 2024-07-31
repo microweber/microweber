@@ -7,7 +7,7 @@
 <div>
 
     <div>
-        <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3" for="mountedTableActionsData.0.name">
+        <label class="fi-fo-field-wrp-label inline-flex items-center gap-x-3">
 
 
     <span class="text-sm font-medium leading-6 text-gray-950 dark:text-white">
@@ -72,6 +72,7 @@
                         <span x-html="fileUrlShort"></span>
                         </div>
                     </div>
+
                     <img :src="state" class="max-h-[15rem]" />
                 </div>
             </div>
