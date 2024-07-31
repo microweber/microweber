@@ -13,6 +13,7 @@ namespace MicroweberPackages\Payment\Providers;
 
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\View;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource;
 use MicroweberPackages\Payment\PaymentManager;
@@ -64,7 +65,7 @@ class PaymentManagerServiceProvider extends PackageServiceProvider
         });
 
 
-        ModuleAdmin::registerPanelResource(PaymentProviderResource::class);
+        FilamentRegistry::registerResource(PaymentProviderResource::class);
 
 
     }

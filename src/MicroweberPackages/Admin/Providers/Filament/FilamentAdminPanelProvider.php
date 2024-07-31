@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use MicroweberPackages\Admin\Http\Middleware\Admin;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
@@ -54,12 +55,13 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function getPanelPages(): array
     {
 
-         return ModuleAdmin::getFilamentPages(false, $this->filamentId);
+        return FilamentRegistry::getPages(self::class, $this->filamentId);
     }
 
     public function getPanelResources(): array
     {
-        return ModuleAdmin::getPanelResources();
+
+        return FilamentRegistry::getResources(self::class, $this->filamentId);
     }
 
     public function getPanelMiddlewares(): array

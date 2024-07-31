@@ -73,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Redis\RedisServiceProvider::class,
         \Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         \Illuminate\Session\SessionServiceProvider::class,
-         \Illuminate\Validation\ValidationServiceProvider::class,
+        \Illuminate\Validation\ValidationServiceProvider::class,
         \Illuminate\View\ViewServiceProvider::class,
 
 //        \Illuminate\Session\SessionServiceProvider::class,
@@ -119,7 +119,7 @@ class AppServiceProvider extends ServiceProvider
 //        'Blade' => \Illuminate\Support\Facades\Blade::class,
 //        'Broadcast' => \Illuminate\Support\Facades\Broadcast::class,
 //        'Bus' => \Illuminate\Support\Facades\Bus::class,
- //       'Cache' => \Illuminate\Support\Facades\Cache::class,
+        //       'Cache' => \Illuminate\Support\Facades\Cache::class,
 //        'Config' => \Illuminate\Support\Facades\Config::class,
 //        'Cookie' => \Illuminate\Support\Facades\Cookie::class,
 //        'Crypt' => \Illuminate\Support\Facades\Crypt::class,
@@ -171,35 +171,32 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
-      //  return;
+        //  return;
         //app()->usePublicPath(base_path());
 
 
         \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
 
-     $this->app->register(\Illuminate\Cache\CacheServiceProvider::class);
-     $this->app->register(EventServiceProvider::class);
-     $this->app->register(RouteServiceProvider::class);
-     $this->app->register(\MicroweberPackages\Repository\Providers\RepositoryServiceProvider::class);
-  //   $this->app->register( \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class);
-
+        $this->app->register(\Illuminate\Cache\CacheServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
+        $this->app->register(RouteServiceProvider::class);
+        $this->app->register(\MicroweberPackages\Repository\Providers\RepositoryServiceProvider::class);
+        //   $this->app->register( \MicroweberPackages\Cache\TaggableFileCacheServiceProvider::class);
 
 
 //        $this->register(new ViewServiceProvider($this));
 //        $this->register(new SessionServiceProvider($this));
 //        $this->register(new FilesystemServiceProvider($this));
-      //  $this->register(new TaggableFileCacheServiceProvider($this));
-       $this->registerLaravelProviders();
-       $this->registerLaravelAliases();
+        //  $this->register(new TaggableFileCacheServiceProvider($this));
+        $this->registerLaravelProviders();
+        $this->registerLaravelAliases();
 
         $this->app->singleton('mw_migrator', function ($app) {
             $repository = $app['migration.repository'];
             return new MicroweberMigrator($repository, $app['db'], $app['files'], $app['events']);
         });
 
-   //  $this->app->register(TranslationServiceProvider::class);
-
-
+        //  $this->app->register(TranslationServiceProvider::class);
 
 
         if ($this->app->runningInConsole()) {
@@ -212,36 +209,37 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-        $this->app->register( ConfigExtendedServiceProvider::class);
-
+        $this->app->register(ConfigExtendedServiceProvider::class);
+        $this->app->register(MicroweberFilamentRegistryServiceProvider::class);
 
 
         $this->app->register(CoreServiceProvider::class);
 
         $this->setEnvironmentDetection();
-       $this->registerUtils();
-        $this->app->register(MicroweberFilamentRegistryServiceProvider::class);
+        $this->registerUtils();
+
+        $this->registerSingletonProviders();
+
 
         $this->app->register(MicroweberServiceProvider::class);
 
-      $this->registerSingletonProviders();
 
-    //    $this->registerHtmlCollective();
-     //   $this->registerMarkdown();
+        //    $this->registerHtmlCollective();
+        //   $this->registerMarkdown();
 
 
 //        $this->app->instance('config', new ConfigSave($this->app));
-         $this->app->register(ConfigExtendedServiceProvider::class);
+        $this->app->register(ConfigExtendedServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
             define('ADMIN_PREFIX', mw_admin_prefix_url_legacy());
         }
 
         if (is_https() or (Config::get('microweber.force_https') && !is_cli())) {
-       //     URL::forceScheme("https");
+            //     URL::forceScheme("https");
         }
 
-      //  URL::forceRootUrl( site_url());
+        //  URL::forceRootUrl( site_url());
 //
 //        $is_installed = mw_is_installed();
 //        if($is_installed) {
@@ -252,8 +250,7 @@ class AppServiceProvider extends ServiceProvider
 //        }
 
         $is_installed = mw_is_installed();
-  //      $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
-
+        //      $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
 
         $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
@@ -264,7 +261,7 @@ class AppServiceProvider extends ServiceProvider
         }
         if ($this->app->environment('local', 'testing')) {
             if (is_cli()) {
-               // $this->app->register(CollisionServiceProvider::class);
+                // $this->app->register(CollisionServiceProvider::class);
                 $this->app->register(DuskServiceProvider::class);
             }
         }
@@ -273,7 +270,6 @@ class AppServiceProvider extends ServiceProvider
             load_all_service_providers_for_modules();
         }
         $this->app->register(MicroweberFilamentServiceProvider::class);
-
 
 
     }
@@ -286,7 +282,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register($provider);
         }
 
-      //  $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
+        //  $this->app->bind('Illuminate\Contracts\Auth\Registrar', 'Microweber\App\Services\Registrar');
 
         $this->app->singleton(
             'Illuminate\Cache\StoreInterface',
@@ -311,29 +307,29 @@ class AppServiceProvider extends ServiceProvider
             });
         }
 
-        if($this->app->runningUnitTests()) {
+        if ($this->app->runningUnitTests()) {
             $this->app->detectEnvironment(function () {
                 return 'testing';
             });
         }
 
 
-        if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'vendor/phpunit/phpunit/phpunit') {
+        if (isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'vendor/phpunit/phpunit/phpunit') {
             $this->app->detectEnvironment(function () {
                 return 'testing';
             });
         }
 
-        if(isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'artisan') {
-            if(isset($_SERVER['argv'][1]) and $_SERVER['argv'][1] == 'dusk') {
+        if (isset($_SERVER['PHP_SELF']) and $_SERVER['PHP_SELF'] == 'artisan') {
+            if (isset($_SERVER['argv'][1]) and $_SERVER['argv'][1] == 'dusk') {
                 $this->app->detectEnvironment(function () {
                     return 'testing';
                 });
             } else {
 
-            $this->app->detectEnvironment(function () {
-                return app()->environment();
-            });
+                $this->app->detectEnvironment(function () {
+                    return app()->environment();
+                });
             }
         }
 
@@ -349,7 +345,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-       if (!is_cli()) {
+        if (!is_cli()) {
             $domain = null;
             if (isset($_SERVER['HTTP_HOST'])) {
                 $domain = $_SERVER['HTTP_HOST'];
@@ -363,7 +359,7 @@ class AppServiceProvider extends ServiceProvider
 //                    return getenv('APP_ENV');
 //                }
 
-                if(!$domain){
+                if (!$domain) {
                     return app()->environment();
                 }
 
@@ -375,14 +371,14 @@ class AppServiceProvider extends ServiceProvider
                     $domain = str_ireplace(':' . $port[1], '', $domain);
                 }
 
-                if(is_dir(config_path($domain)) and is_file(config_path($domain) . '/microweber.php')) {
+                if (is_dir(config_path($domain)) and is_file(config_path($domain) . '/microweber.php')) {
                     return strtolower($domain);
                 }
                 return app()->environment();
 
 
             });
-         }
+        }
 
 
     }
@@ -413,11 +409,11 @@ class AppServiceProvider extends ServiceProvider
             'update' => 'UpdateManager',
             'cache_manager' => 'CacheManager',
             'config_manager' => 'ConfigurationManager',
-          'notifications_manager' => 'NotificationsManager',
-             'log_manager' => 'LogManager',
-           'permalink_manager' => 'PermalinkManager',
-         //    'layouts_manager' => 'LayoutsManager',
-           'lang_helper' => 'Helpers\\Lang'
+            'notifications_manager' => 'NotificationsManager',
+            'log_manager' => 'LogManager',
+            'permalink_manager' => 'PermalinkManager',
+            //    'layouts_manager' => 'LayoutsManager',
+            'lang_helper' => 'Helpers\\Lang'
         ];
 
         foreach ($providers as $alias => $class) {
@@ -457,14 +453,11 @@ class AppServiceProvider extends ServiceProvider
         app()->usePublicPath(base_path());
 
 
-     //   \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
+        //   \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
         \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
 
 
         //set app.asset_url
-
-
-
 
 
 //        if (!config::get('app.asset_url')) {
@@ -510,7 +503,7 @@ class AppServiceProvider extends ServiceProvider
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
             }
 
-        //    load_all_functions_files_for_modules();
+            //    load_all_functions_files_for_modules();
             load_all_service_providers_for_modules();
             load_all_functions_files_for_modules();
             load_service_providers_for_template();
@@ -539,30 +532,30 @@ class AppServiceProvider extends ServiceProvider
 //            app()->register(\App\Providers\AppServiceProvider::class);
 //        }
 
-         $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
+        $this->loadRoutesFrom(dirname(__DIR__) . '/routes/web.php');
 
         if (mw_is_installed()) {
-             $this->app->event_manager->trigger('mw.after.boot', $this);
+            $this->app->event_manager->trigger('mw.after.boot', $this);
         }
 
         // >>> MW Kernel add
-         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \MicroweberPackages\App\Http\Middleware\TrustProxies::class);
-    //    $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \Illuminate\Http\Middleware\TrustProxies::class);
+        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\TrustProxies::class);
+        //    $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware( \Illuminate\Http\Middleware\TrustProxies::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Fruitcake\Cors\HandleCors::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ValidatePostSize::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\TrimStrings::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Session\Middleware\StartSession::class);
-     //   $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\StartSessionExtended::class);
+        //   $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\StartSessionExtended::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
 
         $router->pushMiddlewareToGroup('web', \Illuminate\Session\Middleware\StartSession::class);
         $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\EncryptCookies::class);
         $router->pushMiddlewareToGroup('web', AuthenticateSessionForUser::class);
-        $router->pushMiddlewareToGroup('web',  \Illuminate\View\Middleware\ShareErrorsFromSession::class);
-        $router->pushMiddlewareToGroup('web',  \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
-        $router->pushMiddlewareToGroup('web',  \Illuminate\Routing\Middleware\SubstituteBindings::class);
+        $router->pushMiddlewareToGroup('web', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
+        $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+        $router->pushMiddlewareToGroup('web', \Illuminate\Routing\Middleware\SubstituteBindings::class);
 
         $router->aliasMiddleware('auth', \MicroweberPackages\App\Http\Middleware\Authenticate::class);
         $router->aliasMiddleware('auth.basic', \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class);
@@ -580,36 +573,34 @@ class AppServiceProvider extends ServiceProvider
         $router->aliasMiddleware('api_auth', \MicroweberPackages\App\Http\Middleware\ApiAuth::class);
         $router->aliasMiddleware('allowed_ips', \MicroweberPackages\App\Http\Middleware\AllowedIps::class);
 
-        $router->middlewareGroup('public.web',[
+        $router->middlewareGroup('public.web', [
             'xss',
             TrimStrings::class,
             MultilanguageMiddleware::class,
             AuthenticateSessionForUser::class,
         ]);
 
-        $router->middlewareGroup('api',[
+        $router->middlewareGroup('api', [
             'xss',
             TrimStrings::class,
-           // 'throttle:1000,1',
-           // 'api_auth'
+            // 'throttle:1000,1',
+            // 'api_auth'
         ]);
-        $router->middlewareGroup('api.user',[
+        $router->middlewareGroup('api.user', [
             'xss',
             TrimStrings::class,
-           // 'throttle:1000,1',
+            // 'throttle:1000,1',
             'api_auth'
         ]);
-        $router->middlewareGroup('api.public',[
+        $router->middlewareGroup('api.public', [
             'xss',
             TrimStrings::class,
-         //   'throttle:1000,1'
+            //   'throttle:1000,1'
         ]);
-        $router->middlewareGroup('api.static',[
+        $router->middlewareGroup('api.static', [
             \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
             \Illuminate\Http\Middleware\CheckResponseForModifications::class
         ]);
-
-
 
 
         // <<< MW Kernel add
@@ -618,7 +609,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->terminating(function () {
             // possible fix of mysql error https://github.com/laravel/framework/issues/18471
             // user already has more than 'max_user_connections' active connections
-             DB::disconnect();
+            DB::disconnect();
         });
     }
 
@@ -702,8 +693,8 @@ class AppServiceProvider extends ServiceProvider
             if (is_lang_correct($locale)) {
                 $localeIsChangedFromGetRequest = true;
                 $isLocaleChangedFromMultilanguageLogics = true;
-              // $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
-                 $localeSettings = app()->multilanguage_repository->getSupportedLocale($locale);
+                // $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($locale);
+                $localeSettings = app()->multilanguage_repository->getSupportedLocale($locale);
                 if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] == 'y') {
 
                     change_language_by_locale($locale, true);

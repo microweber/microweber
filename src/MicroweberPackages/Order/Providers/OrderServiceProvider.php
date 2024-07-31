@@ -14,6 +14,7 @@ namespace MicroweberPackages\Order\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource;
 use MicroweberPackages\Order\Http\Controllers\OrdersController;
@@ -33,11 +34,11 @@ use MicroweberPackages\Order\Repositories\OrderRepository;
 
 class OrderServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
+    public function register()
+    {
+        FilamentRegistry::registerResource(OrderResource::class);
+    }
+
     public function boot()
     {
         //Livewire::component('content-bulk-options', ContentBulkOptions::class);
@@ -79,8 +80,5 @@ class OrderServiceProvider extends ServiceProvider
 
     }
 
-    public function register()
-    {
-        ModuleAdmin::registerPanelResource(OrderResource::class);
-    }
+
 }

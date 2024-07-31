@@ -25,7 +25,9 @@ class MicroweberFilamentRegistryServiceProvider extends \Illuminate\Support\Serv
     public function register()
     {
         if (mw_is_installed()) {
-            $this->app->bind(FilamentRegistry::class, function () {
+
+
+            $this->app->singleton(FilamentRegistry::class, function () {
                 return new FilamentRegistryManager();
             });
         }

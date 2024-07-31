@@ -13,6 +13,7 @@ namespace MicroweberPackages\Tax;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource;
 
@@ -38,7 +39,7 @@ class TaxManagerServiceProvider extends ServiceProvider
 
 
 
-        ModuleAdmin::registerPanelResource(TaxResource::class);
+        FilamentRegistry::registerResource(TaxResource::class);
     }
 
     /**

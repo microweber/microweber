@@ -3,38 +3,33 @@
 namespace MicroweberPackages\Filament;
 
 
+use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
+
 class FilamentRegistryManager
 {
 
-
     public array $filamentResourceRegistry = [];
 
-    public function registerFilamentResource($resource, $location = '', $panelId = 'admin'): array
+    public function registerResource(string $resource, string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
 
         return $this->filamentResourceRegistry[$panelId][] = [
             'resource' => $resource,
-            'location' => $location,
+            'scope' => $scope,
         ];
     }
 
-    public function getFilamentResources($location = false, $panelId = 'admin'): array
+    public function getResources(string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
         if ($this->filamentResourceRegistry[$panelId] and !empty($this->filamentResourceRegistry[$panelId])) {
             $results = [];
-            if ($location) {
+            if ($scope) {
                 foreach ($this->filamentResourceRegistry[$panelId] as $resource) {
-                    if ($resource['location'] == $location) {
-                        $results[] = $resource;
+                    if ($resource['scope'] == $scope) {
+                        $results[] = $resource[ 'resource'];
                     }
                 }
-                return $results;
-            } else {
-                foreach ($this->filamentResourceRegistry[$panelId] as $resource) {
-                    if ($resource['location'] === '') {
-                        $results[] = $resource;
-                    }
-                }
+
                 return $results;
             }
         }
@@ -44,28 +39,21 @@ class FilamentRegistryManager
 
     public array $filamentPageRegistry = [];
 
-    public function registerFilamentPage($page, $location = '', $panelId = 'admin'): array
+    public function registerPage(string $page, string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
         return $this->filamentPageRegistry[$panelId][] = [
             'page' => $page,
-            'location' => $location,
+            'scope' => $scope,
         ];
     }
 
-    public function getFilamentPages($location = false, $panelId = 'admin'): array
+    public function getPages(string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
         if (isset($this->filamentPageRegistry[$panelId]) and !empty($this->filamentPageRegistry[$panelId])) {
             $results = [];
-            if ($location) {
+            if ($scope) {
                 foreach ($this->filamentPageRegistry[$panelId] as $page) {
-                    if ($page['location'] == $location) {
-                        $results[] = $page['page'];
-                    }
-                }
-                return $results;
-            } else {
-                foreach ($this->filamentPageRegistry[$panelId] as $page) {
-                    if ($page['location'] === '') {
+                    if ($page['scope'] == $scope) {
                         $results[] = $page['page'];
                     }
                 }
@@ -78,28 +66,21 @@ class FilamentRegistryManager
 
     public array $filamentWidgetRegistry = [];
 
-    public function registerFilamentWidget($widget, $location = '', $panelId = 'admin'): array
+    public function registerWidget(string $widget, string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
         return $this->filamentWidgetRegistry[$panelId][] = [
             'widget' => $widget,
-            'location' => $location,
+            'scope' => $scope,
         ];
     }
 
-    public function getFilamentWidgets($location = false, $panelId = 'admin'): array
+    public function getWidgets(string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
         if (isset($this->filamentWidgetRegistry[$panelId]) and !empty($this->filamentWidgetRegistry[$panelId])) {
             $results = [];
-            if ($location) {
+            if ($scope) {
                 foreach ($this->filamentWidgetRegistry[$panelId] as $widget) {
-                    if ($widget['location'] == $location) {
-                        $results[] = $widget['widget'];
-                    }
-                }
-                return $results;
-            } else {
-                foreach ($this->filamentWidgetRegistry[$panelId] as $widget) {
-                    if ($widget['location'] === '') {
+                    if ($widget['scope'] == $scope) {
                         $results[] = $widget['widget'];
                     }
                 }
@@ -112,28 +93,21 @@ class FilamentRegistryManager
 
     public array $filamentPluginRegistry = [];
 
-    public function registerFilamentPlugin($plugin, $location = '', $panelId = 'admin'): array
+    public function registerPlugin(string $plugin, string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
         return $this->filamentPluginRegistry[$panelId][] = [
             'plugin' => $plugin,
-            'location' => $location,
+            'scope' => $scope,
         ];
     }
 
-    public function getFilamentPlugins($location = false, $panelId = 'admin'): array
+    public function getPlugins(string $scope = FilamentAdminPanelProvider::class, $panelId = 'admin'): array
     {
         if (isset($this->filamentPluginRegistry[$panelId]) and !empty($this->filamentPluginRegistry[$panelId])) {
             $results = [];
-            if ($location) {
+            if ($scope) {
                 foreach ($this->filamentPluginRegistry[$panelId] as $plugin) {
-                    if ($plugin['location'] == $location) {
-                        $results[] = $plugin['plugin'];
-                    }
-                }
-                return $results;
-            } else {
-                foreach ($this->filamentPluginRegistry[$panelId] as $plugin) {
-                    if ($plugin['location'] === '') {
+                    if ($plugin['scope'] == $scope) {
                         $results[] = $plugin['plugin'];
                     }
                 }

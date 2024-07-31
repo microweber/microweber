@@ -6,6 +6,7 @@ use BladeUI\Icons\Factory;
 use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateTemplate;
@@ -67,15 +68,17 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
         $this->app->register(NewsletterFilamentAdminPanelProvider::class);
 
-
-
+    //    Event::listen(ServingFilament::class, function () {
+            FilamentRegistry::registerPage(TemplateEditor::class);
+      //  });
+     //   FilamentRegistry::registerPage(TemplateEditor::class,NewsletterFilamentAdminPanelProvider::class);
 //        ModuleAdmin::registerFilamentPage(Homepage::class);
 //        ModuleAdmin::registerFilamentPage(SenderAccounts::class);
 //        ModuleAdmin::registerFilamentPage(Templates::class);
 //        ModuleAdmin::registerFilamentPage(Subscribers::class);
 //        ModuleAdmin::registerFilamentPage(Lists::class);
 //        ModuleAdmin::registerFilamentPage(Campaigns::class);
-        ModuleAdmin::registerFilamentPage(TemplateEditor::class);
+  //      ModuleAdmin::registerFilamentPage(TemplateEditor::class);
 //       // ModuleAdmin::registerFilamentPage(CreateTemplate::class);
 //        ModuleAdmin::registerFilamentPage(CreateCampaign::class);
       //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);

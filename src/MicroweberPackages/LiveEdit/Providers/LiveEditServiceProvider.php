@@ -11,9 +11,11 @@
 
 namespace MicroweberPackages\LiveEdit\Providers;
 
+use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager as LiveEditManagerFacade;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
@@ -60,7 +62,10 @@ class LiveEditServiceProvider extends PackageServiceProvider
 
         Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
 
-        ModuleAdmin::registerFilamentPage(AdminLiveEditPage::class);
+
+       // Event::listen(ServingFilament::class, function () {
+            FilamentRegistry::registerPage(AdminLiveEditPage::class);
+      //  });
 
 
     }

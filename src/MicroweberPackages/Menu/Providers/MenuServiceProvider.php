@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentFormBuilder;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Menu\Filament\Admin\MenuFilamentPlugin;
 use MicroweberPackages\Menu\Http\Livewire\Admin\MenusList;
 use MicroweberPackages\Menu\MenuManager;
@@ -24,7 +25,6 @@ use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
-use src\Filament\Admin\Pages\AdminMenusPage;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -62,13 +62,16 @@ class MenuServiceProvider extends ServiceProvider
 
         ModuleAdmin::registerPanelPlugin(MenuFilamentPlugin::class);
 
+
+
         Event::listen(ServingFilament::class, function () {
 
-
-            ModuleAdmin::registerFilamentPage(
+            FilamentRegistry::registerPage(
                 \MicroweberPackages\Menu\Filament\Admin\Pages\AdminMenusPage::class,
-                'settings'
+                \App\Filament\Admin\Pages\Settings::class
             );
+
+
         });
 
 

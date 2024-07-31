@@ -15,6 +15,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\App\Application;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 use MicroweberPackages\Shipping\ShippingManager;
@@ -26,7 +27,7 @@ class ShippingManagerServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         View::addNamespace('shipping', __DIR__ . '/../resources/views');
-        ModuleAdmin::registerPanelResource(ShippingProviderResource::class);
+        FilamentRegistry::registerResource(ShippingProviderResource::class);
     }
 
     /**
