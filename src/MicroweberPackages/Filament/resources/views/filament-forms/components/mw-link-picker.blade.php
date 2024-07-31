@@ -38,6 +38,7 @@
 
     $selectedData = $getSelectedData();
     $contentId = $getContentId();
+    $contentType = $getContentType();
     $categoryId = $getCategoryId();
     $url = $getUrl();
 @endphp
@@ -56,12 +57,14 @@
         {{ $getLabel() }}
     </x-slot>
 
+
     <div
 
         x-data="{
             url: '{{$url}}',
             categoryId: '{{$categoryId}}',
             contentId: '{{$contentId}}',
+            contentType: '{{$contentType}}',
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
         }"
 
@@ -116,6 +119,9 @@
                 if (contentId) {
                     selectedIndex = 2;
                 }
+                if (contentType) {
+                    selectedIndex = 1;
+                }
 
                var linkEditor = new mw.LinkEditor({
                     mode: 'dialog',
@@ -123,9 +129,9 @@
                 });
 
                 if (categoryId > 0) {
-                   linkEditor.setValue({id: categoryId, type: 'category'})
+                   linkEditor.setValue({id: categoryId, type: contentType})
                 } else if (contentId > 0) {
-                    linkEditor.setValue({id: contentId, type: 'content'})
+                    linkEditor.setValue({id: contentId, type: contentType})
                 } else if (url) {
                     linkEditor.setValue(url)
                 }
@@ -137,6 +143,9 @@
                        state = data;
                        if (data.url) {
                             url = data.url;
+                       }
+                       if (data.type) {
+                        contentType = data.type;
                        }
                        if (data.type === 'category') {
                             categoryId = data.id;

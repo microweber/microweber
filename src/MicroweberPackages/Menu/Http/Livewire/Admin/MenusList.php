@@ -35,13 +35,21 @@ class MenusList extends Component implements HasForms, HasActions
     use InteractsWithActions;
     use InteractsWithForms;
 
-    public $menu_id = 0;
+    public int $menu_id = 0;
 
     public function form(Form $form): Form
     {
         return $form->schema([
             Select::make('menu_id')
                 ->live()
+                ->native(false)
+                ->selectablePlaceholder(false)
+
+                ->reactive()
+                ->default(function (Component $component, Get $get) {
+
+                    return $get('menu_id');
+                })
                 ->options(Menu::where('item_type', 'menu')->get()->pluck('title', 'id'))
                 ->preload()
             ->label(' '),
@@ -82,17 +90,20 @@ class MenusList extends Component implements HasForms, HasActions
 
             });
     }
-
+    protected $listeners = [
+        'newMenuAdded' => '$refresh'
+    ];
     public function createAction(): Action
     {
         return CreateAction::make('create')
             ->label('Add menu')
+            ->createAnother(false)
             ->form([
                 TextInput::make('title')
                      ->required()
                     ->maxLength(255),
             ])
-            ->action(function (array $data) {
+            ->action(function (array $data,Component $livewire) {
 
                 $data['item_type'] = 'menu';
 
@@ -100,7 +111,11 @@ class MenusList extends Component implements HasForms, HasActions
                 $record->fill($data);
                 $record->save();
 
-            });
+                $livewire->menu_id = $record->id;
+               // $this->menu_id = $record->id;
+               // $this->dispatch('newMenuAdded');
+
+            }) ;
     }
 
     public static function menuItemEditFormArray() : array
@@ -148,8 +163,10 @@ class MenusList extends Component implements HasForms, HasActions
                         $dataUrl = $record->url;
                         $dataTarget = $record->url_target;
                         if ($record->content_id) {
+                            $getContent = get_content_by_id($record->content_id);
                             $dataId = $record->content_id;
-                            $dataType = 'content';
+                            $dataType = $getContent['content_type'] ?? 'content';
+                            $dataUrl = content_link($record->content_id);
                         } else if ($record->categories_id) {
                             $dataId = $record->categories_id;
                             $dataType = 'category';
@@ -163,15 +180,16 @@ class MenusList extends Component implements HasForms, HasActions
                             'type'=> $dataType
                         ]
                     ];
-
                     return $data;
                 })
                 ->afterStateUpdated(function (Set $set, Get $get, array $state) {
+
 
                     $url = '';
                     $urlTarget = '';
                     $categoriesId = '';
                     $contentId = '';
+                    $title = $get('title');
                     $displayTitle = $get('display_title');
 
                     if (isset($state['data']['id']) && $state['data']['id'] > 0) {
@@ -180,15 +198,23 @@ class MenusList extends Component implements HasForms, HasActions
                         } else {
                             $contentId = $state['data']['id'];
                         }
+                        if (isset($state['text'])) {
+                            $displayTitle = $state['text'];
+                            $set('use_custom_title', false);
+                        }
                     } else if (isset($state['url'])) {
                         $url = $state['url'];
-                        $urlTarget = $state['url_target'];
-                    }
-                    if (isset($state['text'])) {
-                        $displayTitle = $state['text'];
+                        if (isset($state['target']) && $state['target']) {
+                            $urlTarget = $state['target'];
+                        }
+                        if (isset($state['text'])) {
+                            $title = $state['text'];
+                            $set('use_custom_title', true);
+                        }
                     }
 
                     $set('display_title', $displayTitle);
+                    $set('title', $title);
                     $set('url', $url);
                     $set('url_target', $urlTarget);
                     $set('categories_id', $categoriesId);
@@ -197,14 +223,7 @@ class MenusList extends Component implements HasForms, HasActions
 
             Checkbox::make('advanced')
                 ->label('Advanced')
-                ->live()
-                ->default(function (Menu | null $record) {
-                    if (!empty($record->default_image) || !empty($record->rollover_image)) {
-                        d(33);
-                        return true;
-                    }
-                    return false;
-                }),
+                ->live(),
 
             Select::make('url_target')
                 ->label('Target attribute')
@@ -248,11 +267,19 @@ class MenusList extends Component implements HasForms, HasActions
                 if (!empty($record->title)) {
                     $recordArray['use_custom_title'] = true;
                 }
+                if (!empty($record->default_image) || !empty($record->rollover_image)) {
+                    $recordArray['advanced'] = true;
+                }
 
                 $form->fill($recordArray);
             })
             ->modalAutofocus(false)
-            ->form(static::menuItemEditFormArray())->record(function (array $arguments) {
+            ->form([
+                TextInput::make('title')
+                    ->required()
+                    ->maxLength(255),
+            ])
+            ->record(function (array $arguments) {
                 $record = Menu::find($arguments['id']);
                 return $record;
             })
@@ -271,7 +298,9 @@ class MenusList extends Component implements HasForms, HasActions
             $findFirstMenu = Menu::where('item_type', 'menu')
                 ->first();
 
-            $this->menu_id = $findFirstMenu->id;
+            if ($findFirstMenu) {
+                $this->menu_id = $findFirstMenu->id;
+            }
         }
 
     }
