@@ -26,7 +26,7 @@
          x-effect="() => {
              if (state && state.length > 0) {
                   let getFileExtension = state.split('.').pop();
-              if (getFileExtension == 'jpg' || getFileExtension == 'jpeg' || getFileExtension == 'png' || getFileExtension == 'gif') {
+              if (getFileExtension == 'webp' || getFileExtension == 'jpg' || getFileExtension == 'jpeg' || getFileExtension == 'png' || getFileExtension == 'gif') {
                 typeFile = 'image';
             } else {
                 typeFile = 'file';
