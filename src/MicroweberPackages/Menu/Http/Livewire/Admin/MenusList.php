@@ -8,6 +8,7 @@ use Filament\Actions\Contracts\HasActions;
 use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -24,6 +25,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\Menu\Models\Menu;
 use function Clue\StreamFilter\fun;
@@ -194,6 +196,37 @@ class MenusList extends Component implements HasForms, HasActions
                     $set('content_id', $contentId);
                 }),
 
+            Checkbox::make('advanced')
+                ->label('Advanced')
+                ->live()
+                ->default(false),
+
+            Select::make('url_target')
+                ->label('Target attribute')
+                ->helperText('Open the link in New window, Current window, Parent window or Top window')
+                ->options([
+                    '_self' => 'Current window',
+                    '_blank' => 'New window',
+                    '_parent' => 'Parent window',
+                    '_top' => 'Top window',
+                ])
+                ->hidden(function (Get $get) {
+                    return $get('advanced') === false;
+                }),
+
+            Group::make([
+                MwFileUpload::make('default_image')
+                    ->label('Default image')
+                    ->hidden(function (Get $get) {
+                        return $get('advanced') === false;
+                    }),
+
+                MwFileUpload::make('rollover_image')
+                    ->label('Rollover image')
+                    ->hidden(function (Get $get) {
+                        return $get('advanced') === false;
+                    }),
+            ])->columns(2)
         ];
     }
 
