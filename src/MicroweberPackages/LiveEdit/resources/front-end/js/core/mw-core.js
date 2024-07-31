@@ -1,4 +1,4 @@
-import { MWUniversalContainer } from "./container";
+// import "./container.js";
 
 
 
@@ -8,7 +8,7 @@ if(window.mw) {
 
 
 
-window.mw = new MWUniversalContainer();
+window.mw = {};
 
 
 

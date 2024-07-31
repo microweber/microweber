@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import istanbul from 'vite-plugin-istanbul';
+
 import sass from 'sass';
 export default defineConfig({
     build: {
@@ -10,17 +11,19 @@ export default defineConfig({
         assetsInlineLimit: 0,
        // outDir: './public/build',
         manifest: "manifest.json",
-        rollupOptions: {
-            output: {
-                globals: {
-                    jquery: 'window.jQuery',
-                    $: 'window.$',
-                    mw: 'window.mw',
-                }
-            }
-        },
+        // rollupOptions: {
+        //     output: {
+        //         inlineDynamicImports: true,
+        //
+        //         globals: {
+        //             jquery: 'window.jQuery',
+        //             $: 'window.$',
+        //             mw: 'window.mw',
+        //         }
+        //     }
+        // },
 
-        target: 'esnext'
+        target: 'es6'
 
 
     },
