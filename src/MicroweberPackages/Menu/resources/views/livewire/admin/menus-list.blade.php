@@ -137,7 +137,9 @@
         {{ ($this->createAction) }}
     </div>
 
+    @if($menu)
     {{ $this->form }}
+    @endif
 
     @if($menu)
 
