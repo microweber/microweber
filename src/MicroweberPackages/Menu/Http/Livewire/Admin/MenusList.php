@@ -100,6 +100,9 @@ class MenusList extends Component implements HasForms, HasActions
                 $record->fill($data);
                 $record->save();
 
+                $this->menu_id = $record->id;
+                $this->dispatch('$refresh');
+
             });
     }
 
