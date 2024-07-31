@@ -55,17 +55,16 @@ class MenusList extends Component implements HasForms, HasActions
             ->color('danger')
             ->requiresConfirmation()
             ->action(function (array $arguments) {
-
                 $record = Menu::find($arguments['id']);
-
                 $record?->delete();
+                $this->dispatch('$refresh');
             });
     }
 
     public function addMenuItemAction(): Action
     {
         return CreateAction::make('addMenuItemAction')
-            ->modalWidth('md')
+//            ->modalWidth('md')
             ->mountUsing(function (Form $form, array $arguments) {
                 $form->fill($arguments);
             })
@@ -199,7 +198,13 @@ class MenusList extends Component implements HasForms, HasActions
             Checkbox::make('advanced')
                 ->label('Advanced')
                 ->live()
-                ->default(false),
+                ->default(function (Menu | null $record) {
+                    if (!empty($record->default_image) || !empty($record->rollover_image)) {
+                        d(33);
+                        return true;
+                    }
+                    return false;
+                }),
 
             Select::make('url_target')
                 ->label('Target attribute')
@@ -273,10 +278,20 @@ class MenusList extends Component implements HasForms, HasActions
 
     public function render(): View
     {
+        $firstMenu = Menu::where('item_type', 'menu')
+            ->where('id', $this->menu_id)
+            ->first();
+
+        if (!$firstMenu) {
+            $firstMenu = Menu::where('item_type', 'menu')
+                ->first();
+            if ($firstMenu) {
+                $this->menu_id = $firstMenu->id;
+            }
+        }
+
         return view('menu::livewire.admin.menus-list', [
-            'menu' => Menu::where('item_type', 'menu')
-                ->where('id', $this->menu_id)
-                ->first()
+            'menu' => $firstMenu
         ]);
     }
 }
