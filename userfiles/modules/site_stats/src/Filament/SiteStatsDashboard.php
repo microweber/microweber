@@ -15,6 +15,7 @@ use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
+use MicroweberPackages\Modules\SiteStats\Repositories\SiteStatsRepository;
 class SiteStatsDashboard extends BaseWidget
 {
     use InteractsWithPageFilters;

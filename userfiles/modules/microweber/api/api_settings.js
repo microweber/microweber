@@ -2,7 +2,9 @@
 
 
 
-
+   if(typeof mw === 'undefined'){
+       mw = {};
+   }
 
 
     mw.settings = {

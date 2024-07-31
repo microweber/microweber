@@ -2,10 +2,10 @@
     "name": "microweber-modules/site_stats",
     "description": "Stats for Microweber CMS",
     "type": "metapackage",
-    
+
     "autoload": {
         "psr-4": {
-            "MicroweberPackages\\SiteStats\\": "src/"
+            "MicroweberPackages\\Modules\\SiteStats\\": "src/"
         }
     }
 }
