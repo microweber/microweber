@@ -8,6 +8,7 @@ use Filament\Actions\Contracts\HasActions;
 use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -24,6 +25,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\Menu\Models\Menu;
 use function Clue\StreamFilter\fun;
@@ -53,17 +55,16 @@ class MenusList extends Component implements HasForms, HasActions
             ->color('danger')
             ->requiresConfirmation()
             ->action(function (array $arguments) {
-
                 $record = Menu::find($arguments['id']);
-
                 $record?->delete();
+                $this->dispatch('$refresh');
             });
     }
 
     public function addMenuItemAction(): Action
     {
         return CreateAction::make('addMenuItemAction')
-            ->modalWidth('md')
+//            ->modalWidth('md')
             ->mountUsing(function (Form $form, array $arguments) {
                 $form->fill($arguments);
             })
@@ -194,6 +195,43 @@ class MenusList extends Component implements HasForms, HasActions
                     $set('content_id', $contentId);
                 }),
 
+            Checkbox::make('advanced')
+                ->label('Advanced')
+                ->live()
+                ->default(function (Menu | null $record) {
+                    if (!empty($record->default_image) || !empty($record->rollover_image)) {
+                        d(33);
+                        return true;
+                    }
+                    return false;
+                }),
+
+            Select::make('url_target')
+                ->label('Target attribute')
+                ->helperText('Open the link in New window, Current window, Parent window or Top window')
+                ->options([
+                    '_self' => 'Current window',
+                    '_blank' => 'New window',
+                    '_parent' => 'Parent window',
+                    '_top' => 'Top window',
+                ])
+                ->hidden(function (Get $get) {
+                    return $get('advanced') === false;
+                }),
+
+            Group::make([
+                MwFileUpload::make('default_image')
+                    ->label('Default image')
+                    ->hidden(function (Get $get) {
+                        return $get('advanced') === false;
+                    }),
+
+                MwFileUpload::make('rollover_image')
+                    ->label('Rollover image')
+                    ->hidden(function (Get $get) {
+                        return $get('advanced') === false;
+                    }),
+            ])->columns(2)
         ];
     }
 
@@ -240,10 +278,20 @@ class MenusList extends Component implements HasForms, HasActions
 
     public function render(): View
     {
+        $firstMenu = Menu::where('item_type', 'menu')
+            ->where('id', $this->menu_id)
+            ->first();
+
+        if (!$firstMenu) {
+            $firstMenu = Menu::where('item_type', 'menu')
+                ->first();
+            if ($firstMenu) {
+                $this->menu_id = $firstMenu->id;
+            }
+        }
+
         return view('menu::livewire.admin.menus-list', [
-            'menu' => Menu::where('item_type', 'menu')
-                ->where('id', $this->menu_id)
-                ->first()
+            'menu' => $firstMenu
         ]);
     }
 }
