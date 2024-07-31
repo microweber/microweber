@@ -148,8 +148,10 @@ class MenusList extends Component implements HasForms, HasActions
                         $dataUrl = $record->url;
                         $dataTarget = $record->url_target;
                         if ($record->content_id) {
+                            $getContent = get_content_by_id($record->content_id);
                             $dataId = $record->content_id;
-                            $dataType = 'content';
+                            $dataType = $getContent['content_type'] ?? 'content';
+                            $dataUrl = content_link($record->content_id);
                         } else if ($record->categories_id) {
                             $dataId = $record->categories_id;
                             $dataType = 'category';
@@ -163,7 +165,6 @@ class MenusList extends Component implements HasForms, HasActions
                             'type'=> $dataType
                         ]
                     ];
-
                     return $data;
                 })
                 ->afterStateUpdated(function (Set $set, Get $get, array $state) {
@@ -182,7 +183,9 @@ class MenusList extends Component implements HasForms, HasActions
                         }
                     } else if (isset($state['url'])) {
                         $url = $state['url'];
-                        $urlTarget = $state['url_target'];
+                        if (isset($state['url_target'])) {
+                            $urlTarget = $state['url_target'];
+                        }
                     }
                     if (isset($state['text'])) {
                         $displayTitle = $state['text'];
@@ -197,14 +200,7 @@ class MenusList extends Component implements HasForms, HasActions
 
             Checkbox::make('advanced')
                 ->label('Advanced')
-                ->live()
-                ->default(function (Menu | null $record) {
-                    if (!empty($record->default_image) || !empty($record->rollover_image)) {
-                        d(33);
-                        return true;
-                    }
-                    return false;
-                }),
+                ->live(),
 
             Select::make('url_target')
                 ->label('Target attribute')
@@ -247,6 +243,9 @@ class MenusList extends Component implements HasForms, HasActions
                 $recordArray['use_custom_title'] = false;
                 if (!empty($record->title)) {
                     $recordArray['use_custom_title'] = true;
+                }
+                if (!empty($record->default_image) || !empty($record->rollover_image)) {
+                    $recordArray['advanced'] = true;
                 }
 
                 $form->fill($recordArray);

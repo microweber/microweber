@@ -26,9 +26,15 @@ class MwLinkPicker extends TextInput
     {
         $selectedData = $this->getSelectedData();
         if (isset($selectedData['data']['id'])) {
-            if ($selectedData['data']['type'] == 'content') {
-                return $selectedData['data']['id'];
-            }
+            return $selectedData['data']['id'];
+        }
+        return '';
+    }
+    public function getContentType()
+    {
+        $selectedData = $this->getSelectedData();
+        if (isset($selectedData['data']['id'])) {
+            return $selectedData['data']['type'];
         }
         return '';
     }
@@ -49,10 +55,10 @@ class MwLinkPicker extends TextInput
         $url = '';
         $selectedData = $this->getSelectedData();
         if (isset($selectedData['data']['id']) && $selectedData['data']['id'] > 0) {
-            if ($selectedData['data']['type'] == 'content') {
-                $url = content_link($selectedData['data']['id']);
-            } else if ($selectedData['data']['type'] == 'category') {
+            if ($selectedData['data']['type'] == 'category') {
                 $url = category_link($selectedData['data']['id']);
+            } else {
+                $url = content_link($selectedData['data']['id']);
             }
         } elseif (isset($selectedData['url'])) {
             $url = $selectedData['url'];
