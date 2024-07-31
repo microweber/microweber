@@ -175,7 +175,7 @@ class AppServiceProvider extends ServiceProvider
         //app()->usePublicPath(base_path());
 
 
-        \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
+      //  \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
 
         $this->app->register(\Illuminate\Cache\CacheServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
