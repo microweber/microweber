@@ -150,14 +150,14 @@
                             <div class="mw-post-media-img--header">
 
                                     <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
-                                       class="image-settings settings-img tip"
-                                       style="margin-right: 43px">
+                                       class="image-settings settings-img  "
+                                        >
                                         @svg('mw-image-edit')
                                     </a>
 
 
                                     <a @click="editMediaOptionsById('{{ $item->id }}')"
-                                       class="image-settings settings-img tip">
+                                       class="image-settings settings-img  ">
                                         @svg('mw-media-item-edit-small')
                                     </a>
 

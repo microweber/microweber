@@ -403,12 +403,19 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .admin-thumb-item {
-    @apply block relative float-left min-h-[110px] w-[110px] my-0 mx-[1%] border border-[#cfcfcf] cursor-grab;
+    --admin-thumb-item-size: 110px;
+    --admin-thumb-item-gap: 8px;
+    @apply block relative float-left  my-0 border border-[#cfcfcf] cursor-grab;
+    width: var(--admin-thumb-item-size);
+    height: var(--admin-thumb-item-size);
+    margin: calc(var(--admin-thumb-item-gap) / 2);
 }
 
+
 .admin-thumbs-holder .admin-thumb-item:first-child {
-    @apply w-[165px] h-[165px] mt-0 mb-0;
-}
+    width: calc((var(--admin-thumb-item-size) * 2) + var(--admin-thumb-item-gap));
+    height: calc((var(--admin-thumb-item-size) * 2) + var(--admin-thumb-item-gap));
+ }
 
 .admin-thumb-item:after {
     @apply absolute block content-[''] w-full h-full top-0 left-0;
@@ -422,8 +429,12 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply inline-block w-full h-full;
 }
 
+.mw-post-media-img--header{
+    @apply absolute top-[5px] right-[3px] left-[3px] flex justify-end items-center;
+}
+
 .image-settings {
-    @apply fill-white text-[20px] text-white w-[20px] h-[20px] !cursor-pointer absolute top-[5px] right-[3px] transition-all duration-300 opacity-70 border-0 z-20;
+    @apply fill-white text-[20px] text-white w-[20px] h-[20px] !cursor-pointer  transition-all duration-300 opacity-70 border-0 z-10;
 }
 
 .admin-thumb-item:hover .image-settings {
