@@ -35,13 +35,21 @@ class MenusList extends Component implements HasForms, HasActions
     use InteractsWithActions;
     use InteractsWithForms;
 
-    public $menu_id = 0;
+    public int $menu_id = 0;
 
     public function form(Form $form): Form
     {
         return $form->schema([
             Select::make('menu_id')
                 ->live()
+                ->native(false)
+                ->selectablePlaceholder(false)
+
+                ->reactive()
+                ->default(function (Component $component, Get $get) {
+
+                    return $get('menu_id');
+                })
                 ->options(Menu::where('item_type', 'menu')->get()->pluck('title', 'id'))
                 ->preload()
             ->label(' '),
@@ -82,17 +90,20 @@ class MenusList extends Component implements HasForms, HasActions
 
             });
     }
-
+    protected $listeners = [
+        'newMenuAdded' => '$refresh'
+    ];
     public function createAction(): Action
     {
         return CreateAction::make('create')
             ->label('Add menu')
+            ->createAnother(false)
             ->form([
                 TextInput::make('title')
                      ->required()
                     ->maxLength(255),
             ])
-            ->action(function (array $data) {
+            ->action(function (array $data,Component $livewire) {
 
                 $data['item_type'] = 'menu';
 
@@ -100,10 +111,11 @@ class MenusList extends Component implements HasForms, HasActions
                 $record->fill($data);
                 $record->save();
 
-                $this->menu_id = $record->id;
-                $this->dispatch('$refresh');
+                $livewire->menu_id = $record->id;
+               // $this->menu_id = $record->id;
+               // $this->dispatch('newMenuAdded');
 
-            });
+            }) ;
     }
 
     public static function menuItemEditFormArray() : array
