@@ -274,7 +274,12 @@ class MenusList extends Component implements HasForms, HasActions
                 $form->fill($recordArray);
             })
             ->modalAutofocus(false)
-            ->form(static::menuItemEditFormArray())->record(function (array $arguments) {
+            ->form([
+                TextInput::make('title')
+                    ->required()
+                    ->maxLength(255),
+            ])
+            ->record(function (array $arguments) {
                 $record = Menu::find($arguments['id']);
                 return $record;
             })
@@ -293,7 +298,9 @@ class MenusList extends Component implements HasForms, HasActions
             $findFirstMenu = Menu::where('item_type', 'menu')
                 ->first();
 
-            $this->menu_id = $findFirstMenu->id;
+            if ($findFirstMenu) {
+                $this->menu_id = $findFirstMenu->id;
+            }
         }
 
     }

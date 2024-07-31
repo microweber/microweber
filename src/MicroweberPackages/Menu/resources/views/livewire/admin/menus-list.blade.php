@@ -160,7 +160,6 @@
 
         <div x-data="sortableMenu()" x-init="init()">
                 <div class="admin-menu-items-holder bg-white shadow mt-4 mb-4">
-
                     <div data-menu-id="{{ $menu->id }}" class="px-4 pb-4 pt-4">
                         @php
                             $params = array(
@@ -169,8 +168,29 @@
                                   return view('menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
                               }
                              );
-                             echo menu_tree($params);
+                             $menuTree = menu_tree($params);
+
+                             echo $menuTree;
                         @endphp
+
+                        @if(!$menuTree)
+
+                            <div class="flex flex-col justify-center items-center py-8">
+                                <h3 class="text-center text-xl text-gray-500">
+                                    No menu items found
+                                </h3>
+
+                                <p class="mt-2">
+                                    Create your first menu item
+                                </p>
+
+                                <div class="mt-4">
+                                    {{ ($this->addMenuItemAction)(['parent_id' => $menu->id]) }}
+                                </div>
+
+                            </div>
+
+                        @endif
 
                     </div>
                 </div>
