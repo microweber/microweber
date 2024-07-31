@@ -169,10 +169,12 @@ class MenusList extends Component implements HasForms, HasActions
                 })
                 ->afterStateUpdated(function (Set $set, Get $get, array $state) {
 
+
                     $url = '';
                     $urlTarget = '';
                     $categoriesId = '';
                     $contentId = '';
+                    $title = $get('title');
                     $displayTitle = $get('display_title');
 
                     if (isset($state['data']['id']) && $state['data']['id'] > 0) {
@@ -181,17 +183,23 @@ class MenusList extends Component implements HasForms, HasActions
                         } else {
                             $contentId = $state['data']['id'];
                         }
+                        if (isset($state['text'])) {
+                            $displayTitle = $state['text'];
+                            $set('use_custom_title', false);
+                        }
                     } else if (isset($state['url'])) {
                         $url = $state['url'];
-                        if (isset($state['url_target'])) {
-                            $urlTarget = $state['url_target'];
+                        if (isset($state['target']) && $state['target']) {
+                            $urlTarget = $state['target'];
                         }
-                    }
-                    if (isset($state['text'])) {
-                        $displayTitle = $state['text'];
+                        if (isset($state['text'])) {
+                            $title = $state['text'];
+                            $set('use_custom_title', true);
+                        }
                     }
 
                     $set('display_title', $displayTitle);
+                    $set('title', $title);
                     $set('url', $url);
                     $set('url_target', $urlTarget);
                     $set('categories_id', $categoriesId);
