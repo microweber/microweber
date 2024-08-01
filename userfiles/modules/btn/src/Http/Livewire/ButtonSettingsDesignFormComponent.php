@@ -3,7 +3,11 @@
 namespace MicroweberPackages\Modules\Btn\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsFormComponent;
-
+/**
+ * @deprecated
+ *
+ *
+ */
 class ButtonSettingsDesignFormComponent extends ModuleSettingsFormComponent
 {
 

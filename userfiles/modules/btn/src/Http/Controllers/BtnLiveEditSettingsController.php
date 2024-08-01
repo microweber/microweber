@@ -3,7 +3,9 @@
 namespace MicroweberPackages\Modules\Btn\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+/**
+ * @deprecated
+ */
 class BtnLiveEditSettingsController
 {
     public function index(Request $request)

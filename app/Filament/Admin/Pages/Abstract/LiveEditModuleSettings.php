@@ -159,4 +159,62 @@ abstract class LiveEditModuleSettings extends Page
         return $formFields;
     }
 
+
+    public function getSkinsFormSchema()
+    {
+        $moduleTemplates = module_templates($this->module);
+        $optionGroup = $this->getOptionGroup();
+        $selectedSkin = get_module_option('template', $optionGroup);
+
+        $curretSkinSettingsFromJson = [];
+
+
+        $moduleTemplatesForForm = [];
+        $moduleTemplatesSkinSettingsSchema = [];
+        if ($moduleTemplates) {
+            foreach ($moduleTemplates as $moduleTemplate) {
+                $moduleTemplatesForForm[$moduleTemplate['layout_file']] = $moduleTemplate['name'];
+
+                if ($selectedSkin == $moduleTemplate['layout_file']) {
+                    if (isset($moduleTemplate['skin_settings_json_file'])
+                        and $moduleTemplate['skin_settings_json_file']
+                        and is_file($moduleTemplate['skin_settings_json_file'])
+                    ) {
+                        $jsonContent = file_get_contents($moduleTemplate['skin_settings_json_file']);
+                        if ($jsonContent) {
+                            $moduleTemplateSettingsJson = @json_decode($jsonContent, true);
+                            if (is_array($moduleTemplateSettingsJson)
+                                and isset($moduleTemplateSettingsJson['schema'])
+                                and !empty($moduleTemplateSettingsJson['schema'])) {
+                                $curretSkinSettingsFromJson = $moduleTemplateSettingsJson['schema'];
+                                $formFieldsFromSchema = $this->schemaToFormFields($curretSkinSettingsFromJson);
+
+                                if ($formFieldsFromSchema) {
+                                    $moduleTemplatesSkinSettingsSchema = array_merge($moduleTemplatesSkinSettingsSchema, $formFieldsFromSchema);
+                                }
+
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+        $schema = [
+            Select::make('options.template')
+                ->label('Module skin')
+                ->default($selectedSkin)
+                ->live()
+                ->options($moduleTemplatesForForm)
+        ];
+
+        if ($moduleTemplatesSkinSettingsSchema) {
+            $schema = array_merge($schema, $moduleTemplatesSkinSettingsSchema);
+        }
+
+        return $schema;
+    }
+
 }
