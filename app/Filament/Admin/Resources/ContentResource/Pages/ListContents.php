@@ -18,6 +18,7 @@ class ListContents extends ListRecords
     use HasToggleableTable;
     use ListRecords\Concerns\Translatable;
 
+
     public function getDefaultLayoutView(): string
     {
         return 'grid';
