@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Teamcard\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Teamcard\Http\Livewire\TeamcardSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
@@ -26,7 +27,7 @@ class TeamcardServiceProvider extends PackageServiceProvider
 //        ModuleAdmin::registerSettings('teamcard', 'microweber-module-teamcard::settings');
 
         ModuleAdmin::registerLiveEditSettingsUrl('teamcard', site_url('admin-live-edit/teamcard-module-settings'));
-        ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Teamcard\Http\Livewire\TeamcardModuleSettings::class);
+        FilamentRegistry::registerPage(\MicroweberPackages\Modules\Teamcard\Http\Livewire\TeamcardModuleSettings::class);
 
 
     }

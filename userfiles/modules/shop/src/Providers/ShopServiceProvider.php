@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Shop\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Modules\Shop\Http\Livewire\ShopComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -28,7 +29,7 @@ class ShopServiceProvider extends PackageServiceProvider
 
         ModuleAdmin::registerLiveEditSettingsUrl('shop', site_url('admin-live-edit/shop-settings'));
 
-        ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Shop\Http\Livewire\ShopModuleSettings::class);
+        FilamentRegistry::registerPage(\MicroweberPackages\Modules\Shop\Http\Livewire\ShopModuleSettings::class);
        // ModuleAdmin::registerFilamentPage(\MicroweberPackages\Modules\Shop\Http\Livewire\ShopSettings::class);
 
     }

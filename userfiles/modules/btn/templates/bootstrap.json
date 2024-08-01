@@ -1,0 +1,38 @@
+{
+    "name": "Bootstrap",
+    "formResolver": "MicroweberPackages\\LiveEdit\\Http\\Livewire\\ModuleSettingsFormComponent",
+    "fields": [
+        {
+            "type": "select",
+            "name": "btn_style",
+            "label": "Button style",
+            "value": "btn-default",
+            "options": {
+                "btn-default": "Default",
+                "btn-primary": "Primary",
+                "btn-success": "Success",
+                "btn-info": "Info",
+                "btn-warning": "Warning",
+                "btn-danger": "Danger",
+                "btn-link": "Link"
+            }
+        },
+        {
+            "type": "select",
+            "name": "btn_style",
+            "label": "Button size",
+            "value": "btn-default",
+            "options": {
+                "btn-lg": "Large",
+                "btn-sm": "Small",
+                "btn-xs": "Extra small"
+            }
+        },
+        {
+            "type": "icon",
+            "name": "btn_icon",
+            "label": "Button icon",
+            "value": ""
+        }
+    ]
+}

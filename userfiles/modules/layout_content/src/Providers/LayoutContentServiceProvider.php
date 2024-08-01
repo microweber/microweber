@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\LayoutContent\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\LayoutContent\Http\Livewire\LayoutContentDefaultSettingsTemplateComponent;
 use MicroweberPackages\Modules\LayoutContent\Http\Livewire\LayoutContentModuleSettings;
@@ -29,8 +30,8 @@ class LayoutContentServiceProvider extends PackageServiceProvider
 
 
 
+        FilamentRegistry::registerPage(LayoutContentModuleSettings::class);
         ModuleAdmin::registerLiveEditSettingsUrl('layout_content', site_url('admin-live-edit/layout-content-module-settings'));
-        ModuleAdmin::registerLiveEditPanelPage(LayoutContentModuleSettings::class);
 
     }
 

@@ -48,7 +48,7 @@ class MenusList extends Component implements HasForms, HasActions
                 ->reactive()
                 ->default(function (Component $component, Get $get) {
 
-                    return $get('menu_id');
+                    return $get('menu_id') ;
                 })
                 ->options(Menu::where('item_type', 'menu')->get()->pluck('title', 'id'))
                 ->preload()

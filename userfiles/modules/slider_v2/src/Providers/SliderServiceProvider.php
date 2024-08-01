@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\SliderV2\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\SliderV2\Http\Livewire\SliderSettingsComponent;
 use Spatie\LaravelPackageTools\Package;
@@ -23,7 +24,7 @@ class SliderServiceProvider extends PackageServiceProvider
 //        ModuleAdmin::registerSettings('slider_v2', 'microweber-module-slider-v2::settings');
 
         ModuleAdmin::registerLiveEditSettingsUrl('slider_v2', site_url('admin-live-edit/slider-settings-component'));
-        ModuleAdmin::registerLiveEditPanelPage(SliderSettingsComponent::class);
+        FilamentRegistry::registerPage(SliderSettingsComponent::class);
 
     }
 

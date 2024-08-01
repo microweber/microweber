@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Logo\Providers;
 
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
 use Spatie\LaravelPackageTools\Package;
@@ -27,8 +28,8 @@ class LogoServiceProvider extends PackageServiceProvider
 //        ModuleAdmin::registerSettings('logo', 'microweber-module-logo::settings');
         //    ModuleAdmin::registerFilamentPage(\MicroweberPackages\Modules\Logo\Http\Livewire\LogoSettings::class);
 
-         ModuleAdmin::registerLiveEditSettingsUrl('logo', site_url('admin-live-edit/logo-module-settings'));
-         ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings::class);
+        FilamentRegistry::registerPage(\MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings::class);
+        ModuleAdmin::registerLiveEditSettingsUrl('logo', site_url('admin-live-edit/logo-module-settings'));
 
 
     }

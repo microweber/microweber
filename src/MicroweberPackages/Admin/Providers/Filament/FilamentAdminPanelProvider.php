@@ -177,7 +177,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         );
 
 
-        $registeredPlugins = ModuleAdmin::getPanelPlugins();
+        $registeredPlugins = FilamentRegistry::getPlugins(self::class);
 
 
         $tableToggle = new TableLayoutTogglePlugin();

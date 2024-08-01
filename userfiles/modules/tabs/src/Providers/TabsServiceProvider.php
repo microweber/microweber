@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Tabs\Providers;
 
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -24,7 +25,7 @@ class TabsServiceProvider extends PackageServiceProvider
 //        ModuleAdmin::registerSettings('tabs', 'microweber-module-tabs::settings');
 
         ModuleAdmin::registerLiveEditSettingsUrl('tabs', site_url('admin-live-edit/tabs-module-settings'));
-        ModuleAdmin::registerLiveEditPanelPage(\MicroweberPackages\Modules\Tabs\Http\Livewire\TabsModuleSettings::class);
+        FilamentRegistry::registerPage(\MicroweberPackages\Modules\Tabs\Http\Livewire\TabsModuleSettings::class);
 
     }
 

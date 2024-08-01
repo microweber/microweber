@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonModuleSettings;
+use MicroweberPackages\Modules\Btn\Filament\ButtonModuleSettings;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsBootstrapTemplateComponent;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsComponent;
 use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsDefaultTemplateComponent;
@@ -37,10 +37,10 @@ class BtnServiceProvider extends PackageServiceProvider
 //        Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
 //
 //        ModuleAdmin::registerSettings('btn', 'microweber-module-btn::settings');
-//        ModuleAdmin::registerSkinSettings('btn', 'default', 'microweber-module-btn::template-settings-default');
-//        ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
+      // ModuleAdmin::registerSkinSettings('btn', 'default', 'microweber-module-btn::template-settings-default');
+      // ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
 
-        ModuleAdmin::registerLiveEditPanelPage(ButtonModuleSettings::class);
+       // ModuleAdmin::registerLiveEditPanelPage(ButtonModuleSettings::class);
 
       //  Event::listen(ServingFilament::class, function () {
             FilamentRegistry::registerPage(ButtonModuleSettings::class);

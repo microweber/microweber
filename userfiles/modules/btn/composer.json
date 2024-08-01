@@ -1,0 +1,10 @@
+{
+    "name": "microweber-modules/btn",
+    "description": "Button module for Microweber CMS",
+    "type": "metapackage",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Modules\\Btn\\": "src/"
+        }
+    }
+}

@@ -60,7 +60,7 @@ class MenuServiceProvider extends ServiceProvider
         Livewire::component('admin-menus-list', MenusList::class);
 
 
-        ModuleAdmin::registerPanelPlugin(MenuFilamentPlugin::class);
+        FilamentRegistry::registerPlugin(MenuFilamentPlugin::class);
 
         FilamentRegistry::registerPage(
             \MicroweberPackages\Menu\Filament\Admin\Pages\AdminMenusPage::class,

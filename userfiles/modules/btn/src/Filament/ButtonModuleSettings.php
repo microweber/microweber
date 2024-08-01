@@ -1,9 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Modules\Btn\Http\Livewire;
+namespace MicroweberPackages\Modules\Btn\Filament;
 
 use App\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -45,6 +46,17 @@ $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
 
 
         */
+
+        $moduleTemplates = module_templates($this->module);
+
+        $moduleTemplatesForForm = [];
+        if($moduleTemplates){
+            foreach ($moduleTemplates as $moduleTemplate) {
+                $moduleTemplatesForForm[$moduleTemplate['layout_file']] = $moduleTemplate['name'];
+            }
+        }
+     //   dd($moduleTemplates);
+
         return $form
             ->schema([
                 Tabs::make('Options')
@@ -55,6 +67,41 @@ $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
                                 TextInput::make('options.text')
                                     ->label('Button Text')
                                     ->live()
+                                    ->default('Button'),
+
+                                TextInput::make('options.icon')
+                                    ->label('Icon')
+                                    ->live()
+                                    ->default(''),
+                                TextInput::make('options.url')
+                                    ->label('url')
+                                    ->live()
+                                    ->default(''),
+
+                                Select::make('options.icon_position')
+                                    ->label('Icon Position')
+                                    ->live()
+                                    ->options([
+                                        'left' => 'Left',
+                                        'right' => 'Right',
+                                        'center' => 'Center',
+                                    ])
+                                    ->default('left'),
+
+                            ]),
+
+
+                        Tabs\Tab::make('Design')
+                            ->schema([
+
+
+
+                                Select::make('options.template')
+                                    ->label('Module skin')
+                                    ->live()
+                                    ->options($moduleTemplatesForForm)
+                                  ,
+
                             ]),
 
                     ]),
