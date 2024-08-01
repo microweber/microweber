@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-2 w-full">
+<div class="flex flex-col w-full">
 
     <div class="font-medium">
         {{$content->title}}
@@ -11,8 +11,7 @@
     @if(!empty($parentPages))
         <div class="text-muted">
             @foreach ($parentPages as $parentPageId)
-                <a onclick="Livewire.dispatch('selectPageFromTableList', {{$parentPageId}});return false;" href="#"
-                   class="my-1 d-block text-muted mw-products-breadcrumb">
+                <a class="">
                     {{content_title($parentPageId)}}
                 </a>
                 @if(!$loop->last)
@@ -33,7 +32,7 @@
                 @foreach($content->categories as $category)
                     @if($category->parent)
 
-                        <div>
+                        <div class="text-blue-500 text-[0.8rem]">
                         {{$category->parent->title}}
                      </div>
 
@@ -50,10 +49,8 @@
         @endif
 
         @if($content->updated_at)
-            <div>
-                <small>
-                    {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
-                </small>
+            <div class="text-[0.6rem]">
+                {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
             </div>
         @endif
 

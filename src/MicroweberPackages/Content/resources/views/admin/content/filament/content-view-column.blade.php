@@ -2,12 +2,10 @@
     $content = $getRecord();
 @endphp
 
-<script src="https://cdn.tailwindcss.com"></script>
-
-<div class="flex gap-8 items-center w-full">
+<div class="flex gap-8 py-4 items-center w-full">
 
     <div>
-        <img src="{{$content->thumbnail()}}" />
+        @include('content::admin.content.filament.picture', ['content'=>$content])
     </div>
 
    <div>

@@ -719,6 +719,11 @@ class ContentResource extends Resource
             Tables\Columns\Layout\Split::make([
                     Tables\Columns\ViewColumn::make('content')
                         ->view('content::admin.content.filament.content-view-column'),
+                Tables\Columns\SelectColumn::make('is_active')
+                    ->options([
+                        1 => 'Published',
+                        0 => 'Unpublished',
+                    ]),
                 ])
         ];
     }
@@ -761,12 +766,6 @@ class ContentResource extends Resource
                 Tables\Columns\TextColumn::make('price_display')
                     ->searchable()
                     ->columnSpanFull(),
-
-                Tables\Columns\SelectColumn::make('is_active')
-                    ->options([
-                        1 => 'Published',
-                        0 => 'Unpublished',
-                    ]),
 
 
                 Tables\Columns\TextColumn::make('created_at')
