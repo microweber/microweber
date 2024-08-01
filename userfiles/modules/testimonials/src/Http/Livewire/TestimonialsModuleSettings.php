@@ -2,8 +2,6 @@
 
 namespace MicroweberPackages\Modules\Testimonials\Http\Livewire;
 
-use App\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\CreateAction;
@@ -13,6 +11,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\Modules\Testimonials\Models\Testimonial;
 
 class TestimonialsModuleSettings extends LiveEditModuleSettings implements HasTable

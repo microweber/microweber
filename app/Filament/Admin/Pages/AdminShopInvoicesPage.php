@@ -2,16 +2,13 @@
 
 namespace App\Filament\Admin\Pages;
 
-use App\Filament\Admin\Pages\Abstract\AdminSettingsPage;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Pages\Page;
-use Illuminate\Support\HtmlString;
+use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 
 class AdminShopInvoicesPage extends AdminSettingsPage

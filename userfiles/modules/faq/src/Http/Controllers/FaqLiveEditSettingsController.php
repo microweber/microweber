@@ -3,7 +3,9 @@
 namespace MicroweberPackages\Modules\Faq\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+/**
+ * @deprecated
+ */
 class FaqLiveEditSettingsController
 {
     public function index(Request $request)

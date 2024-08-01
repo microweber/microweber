@@ -1,13 +1,7 @@
 <?php
 
-namespace MicroweberPackages\Modules\Faq\Http\Livewire;
+namespace MicroweberPackages\Modules\Faq\Filament;
 
-use App\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
-use Filament\Pages\Page;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\Modules\Faq\Models\FaqItem;
 
@@ -20,7 +14,7 @@ class FaqModuleSettings extends ModuleSettingsItemsEditorComponent
         return FaqItem::class;
     }
 
-    public function getEditorSettings() : array
+    public function getEditorSettings(): array
     {
         return [
             'config' => [
@@ -31,9 +25,14 @@ class FaqModuleSettings extends ModuleSettingsItemsEditorComponent
                 'sortItems' => true,
                 'settingsKey' => 'settings',
                 'listColumns' => [
-                    'question' => 'Question',
+                    'question' => [
+                        'type' => 'text',
+                        'label' => 'Question',
+                    ]
                 ],
             ],
+
+
             'schema' => [
                 [
                     'type' => 'text',

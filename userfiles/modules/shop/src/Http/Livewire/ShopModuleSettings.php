@@ -2,15 +2,11 @@
 
 namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
-use App\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -23,7 +19,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
-use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Tag\Model\Tag;

@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Menu\Filament\Admin\Pages;
 
-use App\Filament\Admin\Pages\Abstract\AdminSettingsPage;
+use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 
 class AdminMenusPage extends AdminSettingsPage

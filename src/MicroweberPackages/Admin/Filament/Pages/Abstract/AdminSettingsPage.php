@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Pages\Abstract;
+namespace MicroweberPackages\Admin\Filament\Pages\Abstract;
 
 use App\Filament\Admin\Pages\Concerns\HasModuleOption;
 use App\Filament\Admin\Pages\Concerns\HasOptions;

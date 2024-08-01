@@ -2,16 +2,14 @@
 
 namespace App\Filament\Admin\Pages;
 
-use App\Filament\Admin\Pages\Abstract\AdminSettingsPage;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
-use Filament\Pages\Page;
 use Illuminate\Support\HtmlString;
+use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminEmailPage extends AdminSettingsPage
 {

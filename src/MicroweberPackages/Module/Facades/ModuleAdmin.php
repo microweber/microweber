@@ -38,10 +38,7 @@ use Illuminate\Support\Facades\Facade;
  * For filament
  * @method static void registerFilamentResource($resource, $location = '', $panelId = 'admin')
  * @method static array getFilamentResources($location = false, $panelId = 'admin')
- *
- * @deprecated static void registerFilamentPage($page, $location = '', $panelId = 'admin')
- * @deprecated static array getFilamentPages($location = false, $panelId = 'admin')
- *
+
  * @method static void registerFilamentWidget($widget, $location = '', $panelId = 'admin')
  * @method static array getFilamentWidgets($location = false, $panelId = 'admin')
  * @method static void registerFilamentPlugin($plugin, $location = '', $panelId = 'admin')
@@ -52,10 +49,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @mixin  \MicroweberPackages\Module\ModuleAdminManager
  *
- * For filament OLD and DEPRECATED
- * @deprecated static void registerPanelPage($page,$location=null)
- * @deprecated static array getPanelPages($location=null)
- *
+
  * @method static void registerLiveEditPanelPage($page)
  * @method static array getLiveEditPanelPages()
  *

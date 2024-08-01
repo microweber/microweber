@@ -3,10 +3,12 @@
 namespace MicroweberPackages\Modules\Faq\Providers;
 
 use Filament\Events\ServingFilament;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
+use MicroweberPackages\Modules\Faq\Filament\FaqModuleSettings;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Faq\Http\Livewire\FaqSettingsComponent;
@@ -22,19 +24,21 @@ class FaqServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-//        Livewire::component('microweber-module-faq::settings', FaqSettingsComponent::class);
-//        ModuleAdmin::registerSettings('faq', 'microweber-module-faq::settings');
+
+        FilamentRegistry::registerPage(FaqModuleSettings::class);
 
 
-        FilamentRegistry::registerPage(\MicroweberPackages\Modules\Faq\Http\Livewire\FaqModuleSettings::class);
+    }
 
+    public function boot(): void
+    {
 
-        Event::listen(ServingFilament::class, function () {
-            ModuleAdmin::registerAdminUrl('faq', admin_url('faq-module-settings'));
+        Filament::serving(function () {
+            $panelId = Filament::getCurrentPanel()->getId();
+            if ($panelId == 'admin') {
+                ModuleAdmin::registerLiveEditSettingsUrl('faq', FaqModuleSettings::getUrl());
+            }
         });
-        ModuleAdmin::registerLiveEditSettingsUrl('faq', site_url('admin-live-edit/faq-module-settings'));
-
-
     }
 
 }

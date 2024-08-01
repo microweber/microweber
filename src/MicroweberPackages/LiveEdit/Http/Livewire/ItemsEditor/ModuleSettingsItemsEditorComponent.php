@@ -3,13 +3,6 @@
 namespace MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor;
 
 
-use App\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
-use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -17,8 +10,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
-use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\LiveEdit\Models\ModuleItemSushi;
 use MicroweberPackages\Modules\Tabs\Models\Tab;
 
@@ -58,6 +51,8 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
             if ($formFieldsFromSchema) {
                 $formFields = array_merge($formFields, $formFieldsFromSchema);
             }
+
+
 
 //            foreach ($editorSettings['schema'] as $schema) {
 //
@@ -99,9 +94,17 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
 //
 //            }
         }
+
         if (isset($editorSettings['config']['listColumns'])) {
             foreach ($editorSettings['config']['listColumns'] as $key => $columnSettings) {
                 if (isset($columnSettings['type'])) {
+
+                    // $name must  start with options.
+                    if (strpos($key, 'options.') !== 0) {
+                        $key = 'options.' . $key;
+                    }
+
+
                     if ($columnSettings['type'] == 'text') {
                         $tableColumns[] = TextColumn::make($key)
                             ->label($columnSettings['label'])

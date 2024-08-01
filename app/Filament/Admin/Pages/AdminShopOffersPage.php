@@ -2,8 +2,7 @@
 
 namespace App\Filament\Admin\Pages;
 
-use App\Filament\Admin\Pages\Abstract\AdminSettingsPage;
-use Filament\Pages\Page;
+use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
 class AdminShopOffersPage extends AdminSettingsPage
 {
