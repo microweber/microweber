@@ -1,11 +1,9 @@
 {
-    "name": "Bootstrap",
-    "formResolver": "MicroweberPackages\\LiveEdit\\Http\\Livewire\\ModuleSettingsFormComponent",
     "schema": [
         {
             "type": "select",
             "label": "Button style",
-            "name": "options.button_style",
+            "name": "button_style",
             "placeholder": "Select button style",
             "help": "The style of the button",
             "options": {
@@ -19,7 +17,7 @@
         {
             "type": "select",
             "label": "Button size",
-            "name": "options.button_size",
+            "name": "button_size",
             "placeholder": "Select button size",
             "help": "The size of the button",
             "options": {

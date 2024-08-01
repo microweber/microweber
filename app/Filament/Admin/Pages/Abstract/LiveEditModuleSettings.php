@@ -109,35 +109,49 @@ abstract class LiveEditModuleSettings extends Page
     {
         $formFields = [];
         foreach ($schemaItemsArray as $schema) {
+            $name = $schema['name'];
+
+            // $name must  start with options.
+            if (strpos($name, 'options.') !== 0) {
+                $name = 'options.' . $name;
+            }
+
+
             if ($schema['type'] == 'text') {
-                $formFields[] = TextInput::make($schema['name'])
+                $formFields[] = TextInput::make($name)
                     ->label($schema['label'])
+                    ->live()
                     ->placeholder($schema['placeholder']);
 
             }
             if ($schema['type'] == 'textarea') {
-                $formFields[] = Textarea::make($schema['name'])
+                $formFields[] = Textarea::make($name)
                     ->label($schema['label'])
+                    ->live()
                     ->placeholder($schema['placeholder']);
             }
             if ($schema['type'] == 'image') {
-                $formFields[] = MwFileUpload::make($schema['name'])
+                $formFields[] = MwFileUpload::make($name)
                     ->label($schema['label'])
+                    ->live()
                     ->placeholder($schema['placeholder']);
             }
             if ($schema['type'] == 'color') {
-                $formFields[] = ColorPicker::make($schema['name'])
+                $formFields[] = ColorPicker::make($name)
                     ->label($schema['label'])
+                    ->live()
                     ->placeholder($schema['placeholder']);
             }
             if ($schema['type'] == 'select') {
-                $formFields[] = Select::make($schema['name'])
+                $formFields[] = Select::make($name)
                     ->label($schema['label'])
                     ->options($schema['options'])
+                    ->live()
                     ->placeholder($schema['placeholder']);
             }
             if ($schema['type'] == 'toggle') {
-                $formFields[] = Toggle::make($schema['name'])
+                $formFields[] = Toggle::make($name)
+                    ->live()
                     ->label($schema['label']);
             }
 
