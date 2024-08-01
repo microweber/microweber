@@ -3,7 +3,11 @@
 namespace MicroweberPackages\Modules\Btn\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
-
+/**
+ * @deprecated
+ *
+ *
+ */
 class ButtonSettingsComponent extends ModuleSettingsComponent
 {
     public $url = '';

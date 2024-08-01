@@ -3,7 +3,11 @@
 namespace MicroweberPackages\Modules\Btn\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
-
+/**
+ * @deprecated
+ *
+ *
+ */
 class ButtonSettingsBootstrapTemplateComponent extends ModuleSettingsComponent
 {
 

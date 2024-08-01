@@ -4,18 +4,10 @@
 namespace MicroweberPackages\Modules\Btn\Providers;
 
 
-use Filament\Events\ServingFilament;
 use Filament\Facades\Filament;
-use Illuminate\Support\Facades\Event;
-use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Btn\Filament\ButtonModuleSettings;
-use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsBootstrapTemplateComponent;
-use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsComponent;
-use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsDefaultTemplateComponent;
-use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsDesignFormComponent;
-use MicroweberPackages\Modules\Btn\Http\Livewire\ButtonSettingsFormComponent;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -32,24 +24,7 @@ class BtnServiceProvider extends PackageServiceProvider
     {
         parent::register();
 
-//        Livewire::component('microweber-module-btn::settings', ButtonSettingsComponent::class);
-//        Livewire::component('microweber-module-btn::template-settings-bootstrap', ButtonSettingsBootstrapTemplateComponent::class);
-//        Livewire::component('microweber-module-btn::template-settings-default', ButtonSettingsDefaultTemplateComponent::class);
-//
-//        ModuleAdmin::registerSettings('btn', 'microweber-module-btn::settings');
-      // ModuleAdmin::registerSkinSettings('btn', 'default', 'microweber-module-btn::template-settings-default');
-      // ModuleAdmin::registerSkinSettings('btn', 'bootstrap', 'microweber-module-btn::template-settings-bootstrap');
-
-       // ModuleAdmin::registerLiveEditPanelPage(ButtonModuleSettings::class);
-
-      //  Event::listen(ServingFilament::class, function () {
-            FilamentRegistry::registerPage(ButtonModuleSettings::class);
-      //  });
-        // ModuleAdmin::registerFilamentPage(ButtonModuleSettings::class);
-
-
-        //     ModuleAdmin::registerLiveEditSettingsUrl('btn', site_url('admin-live-edit/btn-module-settings'));
-
+        FilamentRegistry::registerPage(ButtonModuleSettings::class);
 
     }
 
@@ -58,7 +33,6 @@ class BtnServiceProvider extends PackageServiceProvider
         Filament::serving(function () {
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
-                //    dump($panelId);
                 ModuleAdmin::registerLiveEditSettingsUrl('btn', ButtonModuleSettings::getUrl());
             }
         });
