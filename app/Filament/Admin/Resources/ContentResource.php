@@ -717,6 +717,16 @@ class ContentResource extends Resource
     {
         return [
             Tables\Columns\Layout\Split::make([
+                    Tables\Columns\ViewColumn::make('content')
+                        ->view('content::admin.content.filament.content-view-column'),
+                ])
+        ];
+    }
+
+    public static function ___getGridTableColumns(): array
+    {
+        return [
+            Tables\Columns\Layout\Split::make([
 
                 ImageUrlColumn::make('media_url')
                     ->height(83)
@@ -774,6 +784,8 @@ class ContentResource extends Resource
         $livewire = $table->getLivewire();
 
         return $table
+            ->recordAction(null)
+            ->recordUrl(null)
             ->paginated([10, 25, 50, 100, 250, 'all'])
             ->defaultPaginationPageOption(250)
             ->deferLoading()
