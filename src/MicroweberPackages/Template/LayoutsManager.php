@@ -438,6 +438,13 @@ class LayoutsManager
                             $to_return_temp['filename'] = $filename;
                             $screen = str_ireplace('.php', '.png', $filename);
                             $screen_jpg = str_ireplace('.php', '.jpg', $filename);
+                            $skin_settings_json = str_ireplace('.php', '.json', $filename);
+
+                            if (is_file($skin_settings_json)) {
+                                $to_return_temp['skin_settings_json_file'] = $skin_settings_json;
+                            }
+
+
                             if (is_file($screen_jpg)) {
                                 $to_return_temp['screenshot_file'] = $screen_jpg;
                             } elseif (is_file($screen)) {

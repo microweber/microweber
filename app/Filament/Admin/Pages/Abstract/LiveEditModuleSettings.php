@@ -2,9 +2,15 @@
 
 namespace App\Filament\Admin\Pages\Abstract;
 
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Illuminate\Support\Arr;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Option\Models\Option;
 
 abstract class LiveEditModuleSettings extends Page
@@ -38,6 +44,7 @@ abstract class LiveEditModuleSettings extends Page
             foreach ($formFields as $field) {
                 $fieldStatePath = $field->getStatePath();
                 $fieldStatePath = array_undot_str($fieldStatePath);
+
                 $this->options[$fieldStatePath['options']] = '';
             }
         }
@@ -63,6 +70,7 @@ abstract class LiveEditModuleSettings extends Page
 
         return [];
     }
+
     public function updated($propertyName, $value)
     {
         $option = array_undot_str($propertyName);
@@ -97,5 +105,44 @@ abstract class LiveEditModuleSettings extends Page
         return 'global';
     }
 
+    public function schemaToFormFields($schemaItemsArray)
+    {
+        $formFields = [];
+        foreach ($schemaItemsArray as $schema) {
+            if ($schema['type'] == 'text') {
+                $formFields[] = TextInput::make($schema['name'])
+                    ->label($schema['label'])
+                    ->placeholder($schema['placeholder']);
+
+            }
+            if ($schema['type'] == 'textarea') {
+                $formFields[] = Textarea::make($schema['name'])
+                    ->label($schema['label'])
+                    ->placeholder($schema['placeholder']);
+            }
+            if ($schema['type'] == 'image') {
+                $formFields[] = MwFileUpload::make($schema['name'])
+                    ->label($schema['label'])
+                    ->placeholder($schema['placeholder']);
+            }
+            if ($schema['type'] == 'color') {
+                $formFields[] = ColorPicker::make($schema['name'])
+                    ->label($schema['label'])
+                    ->placeholder($schema['placeholder']);
+            }
+            if ($schema['type'] == 'select') {
+                $formFields[] = Select::make($schema['name'])
+                    ->label($schema['label'])
+                    ->options($schema['options'])
+                    ->placeholder($schema['placeholder']);
+            }
+            if ($schema['type'] == 'toggle') {
+                $formFields[] = Toggle::make($schema['name'])
+                    ->label($schema['label']);
+            }
+
+        }
+        return $formFields;
+    }
 
 }
