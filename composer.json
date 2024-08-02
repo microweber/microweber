@@ -237,10 +237,6 @@
         {
             "type": "composer",
             "url": "https://packages.microweberapi.com/packages.json"
-        },
-        {
-            "type": "path",
-            "url": "standalone-packages/bobimicroweber/filament-dropdown-column"
         }
     ]
 
