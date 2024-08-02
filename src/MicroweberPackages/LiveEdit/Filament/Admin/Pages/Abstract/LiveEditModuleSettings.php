@@ -72,6 +72,7 @@ abstract class LiveEditModuleSettings extends Page
 
     public function updated($propertyName, $value)
     {
+
         $option = array_undot_str($propertyName);
         $optionGroup = $this->getOptionGroup();
 
@@ -104,15 +105,17 @@ abstract class LiveEditModuleSettings extends Page
         return 'global';
     }
 
-    public function schemaToFormFields($schemaItemsArray)
+    public function schemaToFormFields($schemaItemsArray,$settingsKey='options',$appendSettingsKey = false)
     {
         $formFields = [];
         foreach ($schemaItemsArray as $schema) {
             $name = $schema['name'];
 
             // $name must  start with options.
-            if (strpos($name, 'options.') !== 0) {
-                $name = 'options.' . $name;
+
+            if ($appendSettingsKey and strpos($name, $settingsKey.'.') !== 0) {
+               // $name = $settingsKey.'.' . $name;
+               $name = $settingsKey.'.' . $name;
             }
 
 
@@ -186,7 +189,15 @@ abstract class LiveEditModuleSettings extends Page
                                 and isset($moduleTemplateSettingsJson['schema'])
                                 and !empty($moduleTemplateSettingsJson['schema'])) {
                                 $curretSkinSettingsFromJson = $moduleTemplateSettingsJson['schema'];
-                                $formFieldsFromSchema = $this->schemaToFormFields($curretSkinSettingsFromJson);
+
+                                $settingsKey = 'options';
+
+                                if (isset($moduleTemplateSettingsJson['config'])
+                                    and isset($moduleTemplateSettingsJson['config']['settingsKey'])) {
+                                    $settingsKey = $moduleTemplateSettingsJson['config']['settingsKey'];
+                                }
+
+                                $formFieldsFromSchema = $this->schemaToFormFields($curretSkinSettingsFromJson,$settingsKey,true);
 
                                 if ($formFieldsFromSchema) {
                                     $moduleTemplatesSkinSettingsSchema = array_merge($moduleTemplatesSkinSettingsSchema, $formFieldsFromSchema);

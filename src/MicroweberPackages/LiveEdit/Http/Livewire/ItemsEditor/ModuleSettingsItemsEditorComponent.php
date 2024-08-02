@@ -47,11 +47,18 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
         $tableColumns = [];
         if (isset($editorSettings['schema'])) {
 
-            $formFieldsFromSchema = $this->schemaToFormFields($editorSettings['schema']);
+            $settingsKey = 'options';
+            if (isset($editorSettings['config'])
+                and isset($editorSettings['config']['settingsKey'])
+                and ($editorSettings['config']['settingsKey'])
+            ) {
+                $settingsKey = $editorSettings['config']['settingsKey'];
+            }
+
+            $formFieldsFromSchema = $this->schemaToFormFields($editorSettings['schema'], $settingsKey);
             if ($formFieldsFromSchema) {
                 $formFields = array_merge($formFields, $formFieldsFromSchema);
             }
-
 
 
 //            foreach ($editorSettings['schema'] as $schema) {
@@ -98,10 +105,15 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
         if (isset($editorSettings['config']['listColumns'])) {
             foreach ($editorSettings['config']['listColumns'] as $key => $columnSettings) {
                 if (isset($columnSettings['type'])) {
+                    $settingsKey = 'options';
+                    if (isset($editorSettings['config'])
+                        and isset($editorSettings['config']['settingsKey'])) {
+                        $settingsKey = $editorSettings['config']['settingsKey'];
+                    }
 
                     // $name must  start with options.
-                    if (strpos($key, 'options.') !== 0) {
-                        $key = 'options.' . $key;
+                    if (strpos($key, $settingsKey . '.') !== 0) {
+                        // $key = $settingsKey.'.' . $key;
                     }
 
 
@@ -143,7 +155,13 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                 ->slideOver()
                 ->hiddenLabel(true)
                 ->modalHeading($editorSettings['config']['editButtonText'])
-                ->form($formFields)->after(function () {
+                ->form($formFields)
+                ->before(function ($record, $data) {
+
+                    //   $record->fill($data);
+
+                })
+                ->after(function () {
                     $this->dispatch('mw-option-saved',
                         optionGroup: $this->optionGroup
                     );

@@ -80,6 +80,7 @@ class ModuleItemSushi extends Model
                     }
                     return $tab;
                 }, $settings);
+
                 save_option('settings', json_encode($settings), $optionGroup);
             }
         });
