@@ -17,6 +17,9 @@ use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Facades\Filament;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Support\Assets\Js;
+use Filament\Support\Assets\Theme;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Support\Facades\DB;
@@ -83,14 +86,14 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
 
         Filament::serving(function () {
             \Livewire\Livewire::forceAssetInjection();
-            Filament::registerViteTheme(
-                'resources/css/microweber-admin-filament.scss',
-                'public/build'
-            );
-            Filament::registerViteTheme(
-                'resources/css/filament/admin/theme.css',
-                'public/build'
-            );
+//            Filament::registerViteTheme(
+//                'resources/css/microweber-admin-filament.scss',
+//                'public/build'
+//            );
+//            Filament::registerViteTheme(
+//                'resources/css/filament/admin/theme.css',
+//                'public/build'
+//            );
         });
 
         // TODO
