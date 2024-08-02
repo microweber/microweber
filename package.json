@@ -1,190 +1,96 @@
 {
-
-  "private": true,
-
-  "type": "module",
-
-  "scripts": {
-
-    "build-admin": "vite build -c vite-admin.config.js",
-
-    "build-admin-libs": "vite build -c vite-admin-libs.config.js",
-
-    "dev-admin": "vite build -c vite-admin.config.js --watch --sourcemap false  --mode development",
-
-    "vitedev": "vite build --watch --sourcemap false --mode development",
-
-    "dev": "concurrently \"npm run vitedev\" \"gulp spwatch\"",
-
-    "build": "concurrently \"vite build\" \"gulp sp\" ",
-
-    "admincss": "gulp admin-css",
-
-    "admincssdev": "gulp admin-css-dev",
-
-    "docs:dev": "vitepress dev docs",
-
-    "docs:build": "vitepress build docs",
-
-    "docs:preview": "vitepress preview docs",
-
-    "gulp-spwatch": "gulp spwatch"
-
-  },
-
-  "dependencies": {
-
-    "@alpinejs/focus": "3.13.7",
-
-    "@heroicons/vue": "^1.0.6",
-
-    "@popperjs/core": "^2.6.0",
-
-    "@rollup/plugin-node-resolve": "^15.2.3",
-
-    "@tailwindcss/container-queries": "^0.1.1",
-
-    "@vitejs/plugin-vue": "^4.1.0",
-
-    "@vueform/slider": "^2.1.7",
-
-    "@yeger/vue-masonry-wall": "^3.4.4",
-
-    "a-color-picker": "^1.2.1",
-
-    "alpinejs": "^3.13.7",
-
-    "aos": "^2.3.4",
-
-    "axios": ">=1.6.5",
-
-    "bootstrap": "^4.6.2",
-
-    "bootstrap-select": "^1.13.18",
-
-    "filerobot-image-editor": "^4.4.0",
-
-    "follow-redirects": ">=1.15.6",
-
-    "ion-rangeslider": "^2.3.1",
-
-    "jquery": "^3.6.0",
-
-    "jquery-ui": "^1.13.3",
-
-    "jquery-ui-dist": "^1.13.3",
-
-    "lodash": "^4.17.21",
-
-    "mitt": "^3.0.0",
-
-    "nestedSortable": "^1.3.4",
-
-    "popper.js": "^1.16.1",
-
-    "react-filerobot-image-editor": "^4.8.1",
-
-    "tinymce": "^7.2.0",
-
-    "tom-select": "^2.3.1",
-
-    "vue": "^3.2.36",
-
-    "vue-color-kit": "^1.0.5",
-
-    "vue-drag-resize": "^1.5.4",
-
-    "vue-final-modal": "^4.5.4",
-
-    "vue-loader": "^17.0.1",
-
-    "vue3-click-away": "^1.2.4",
-
-    "vue3-tags-input": "^1.0.12",
-
-    "vuetify": "^3.3.19",
-
-    "xss": "^1.0.15",
-
-    "y18n": "^5.0.8"
-
-  },
-
-  "devDependencies": {
-
-    "@nextapps-be/livewire-sortablejs": "^0.2.0",
-
-    "@originjs/vite-plugin-commonjs": "^1.0.3",
-
-    "@tailwindcss/aspect-ratio": "^0.4.2",
-
-    "@tailwindcss/forms": "^0.5.7",
-
-    "@tailwindcss/typography": "^0.5.13",
-
-    "@vituum/vite-plugin-concat": "^1.1.0",
-
-    "autoprefixer": "^10.4.19",
-
-    "axios": "^1.6.4",
-
-    "concurrently": "^8.0.1",
-
-    "follow-redirects": "^1.15.5",
-
-    "gulp": "^5.0.0",
-
-    "gulp-clean-css": "*",
-
-    "gulp-cli": "^3.0.0",
-
-    "gulp-concat": "*",
-
-    "gulp-css-url-fix": "*",
-
-    "gulp-cssmin": "*",
-
-    "gulp-dart-sass": "*",
-
-    "gulp-include": "^2.4.1",
-
-    "gulp-inline-source": "*",
-
-    "gulp-less": "*",
-
-    "gulp-rename": "*",
-
-    "gulp-sourcemaps": "*",
-
-    "gulp-uglify": "*",
-
-    "gulp-watch": "*",
-
-    "laravel-vite-plugin": "^1.0",
-
-    "postcss": "^8.4.38",
-
-    "postcss-nesting": "^12.1.4",
-
-    "tailwindcss": "^3.4.3",
-
-    "tippy.js": "^6.3.7",
-
-    "vite": "^5.0",
-
-    "vite-plugin-istanbul": "^5.0.0",
-
-    "vite-plugin-node-polyfills": "^0.22.0",
-
-    "vite-plugin-singlefile": "^2.0.2",
-
-    "vitepress": "^1.2.3",
-
-    "webpack": "^5.93.0",
-
-    "y18n": "^5.0.8"
-
-  }
-
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build-admin": "vite build -c vite-admin.config.js",
+        "build-admin-libs": "vite build -c vite-admin-libs.config.js",
+        "dev-admin": "vite build -c vite-admin.config.js --watch --sourcemap false  --mode development",
+        "vitedev": "vite build --watch --sourcemap false --mode development",
+        "dev": "concurrently \"npm run vitedev\" \"gulp spwatch\"",
+        "build": "concurrently \"vite build\" \"gulp sp\" ",
+        "admincss": "gulp admin-css",
+        "admincssdev": "gulp admin-css-dev",
+        "docs:dev": "vitepress dev docs",
+        "docs:build": "vitepress build docs",
+        "docs:preview": "vitepress preview docs",
+        "gulp-packages-watch": "gulp packages-watch"
+    },
+    "dependencies": {
+        "@alpinejs/focus": "3.13.7",
+        "@heroicons/vue": "^1.0.6",
+        "@popperjs/core": "^2.6.0",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@tailwindcss/container-queries": "^0.1.1",
+        "@vitejs/plugin-vue": "^4.1.0",
+        "@vueform/slider": "^2.1.7",
+        "@yeger/vue-masonry-wall": "^3.4.4",
+        "a-color-picker": "^1.2.1",
+        "alpinejs": "^3.13.7",
+        "aos": "^2.3.4",
+        "axios": ">=1.6.5",
+        "bootstrap": "^4.6.2",
+        "bootstrap-select": "^1.13.18",
+        "filerobot-image-editor": "^4.4.0",
+        "follow-redirects": ">=1.15.6",
+        "ion-rangeslider": "^2.3.1",
+        "jquery": "^3.6.0",
+        "jquery-ui": "^1.13.3",
+        "jquery-ui-dist": "^1.13.3",
+        "lodash": "^4.17.21",
+        "mitt": "^3.0.0",
+        "nestedSortable": "^1.3.4",
+        "popper.js": "^1.16.1",
+        "react-filerobot-image-editor": "^4.8.1",
+        "tinymce": "^7.2.0",
+        "tom-select": "^2.3.1",
+        "vue": "^3.2.36",
+        "vue-color-kit": "^1.0.5",
+        "vue-drag-resize": "^1.5.4",
+        "vue-final-modal": "^4.5.4",
+        "vue-loader": "^17.0.1",
+        "vue3-click-away": "^1.2.4",
+        "vue3-tags-input": "^1.0.12",
+        "vuetify": "^3.3.19",
+        "xss": "^1.0.15",
+        "y18n": "^5.0.8"
+    },
+    "devDependencies": {
+        "@nextapps-be/livewire-sortablejs": "^0.2.0",
+        "@originjs/vite-plugin-commonjs": "^1.0.3",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
+        "@tailwindcss/forms": "^0.5.7",
+        "@tailwindcss/typography": "^0.5.13",
+        "@vituum/vite-plugin-concat": "^1.1.0",
+        "autoprefixer": "^10.4.19",
+        "axios": "^1.6.4",
+        "concurrently": "^8.0.1",
+        "follow-redirects": "^1.15.5",
+        "gulp": "^5.0.0",
+        "gulp-clean-css": "*",
+        "gulp-cli": "^3.0.0",
+        "gulp-concat": "*",
+        "gulp-css-url-fix": "*",
+        "gulp-cssmin": "*",
+        "gulp-dart-sass": "*",
+        "gulp-include": "^2.4.1",
+        "gulp-inline-source": "*",
+        "gulp-less": "*",
+        "gulp-rename": "*",
+        "gulp-sourcemaps": "*",
+        "gulp-uglify": "*",
+        "gulp-watch": "*",
+        "laravel-vite-plugin": "^1.0",
+        "postcss": "^8.4.38",
+        "postcss-nesting": "^12.1.4",
+        "tailwindcss": "^3.4.3",
+        "tippy.js": "^6.3.7",
+        "vite": "^5.0",
+        "vite-plugin-istanbul": "^5.0.0",
+        "vite-plugin-node-polyfills": "^0.22.0",
+        "vite-plugin-singlefile": "^2.0.2",
+        "vitepress": "^1.2.3",
+        "webpack": "^5.93.0",
+        "y18n": "^5.0.8"
+    }
 }
 

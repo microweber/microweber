@@ -2,7 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "npx tailwindcss -i resources/css/index.css -o resources/dist/microweber-filament-theme.css --postcss --watch",
+        "dev": "npx tailwindcss -i resources/css/index.css -o ../../public/vendor/filament/css/app/microweber-filament-theme.css --postcss --watch",
         "build": "npx tailwindcss -i resources/css/index.css -o resources/dist/microweber-filament-theme.css --postcss --minify"
     },
     "devDependencies": {

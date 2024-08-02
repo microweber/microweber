@@ -25,7 +25,7 @@
     @apply !shadow-md;
 }
 .fi-ta-content .grid {
-    @apply !px-2;
+    @apply !px-2 !gap-y-4 !py-4 !bg-transparent;
 }
 
 /*STYLE MODULES PAGE*/
