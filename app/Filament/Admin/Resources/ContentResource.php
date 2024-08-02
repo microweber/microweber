@@ -3,6 +3,8 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ContentResource\Pages;
+use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownActionsColumn;
+use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownColumn;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
@@ -14,6 +16,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use MicroweberPackages\Filament\Forms\Components\MwRichEditor;
@@ -24,6 +27,7 @@ use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\User\Models\User;
 use Livewire\Attributes\On;
+use Filament\Support\Colors\Color;
 
 class ContentResource extends Resource
 {
@@ -715,16 +719,38 @@ class ContentResource extends Resource
 
     public static function getGridTableColumns(): array
     {
+
         return [
+
             Tables\Columns\Layout\Split::make([
                     Tables\Columns\ViewColumn::make('content')
                         ->view('content::admin.content.filament.content-view-column'),
-                Tables\Columns\SelectColumn::make('is_active')
+
+//                Tables\Columns\SelectColumn::make('is_active')
+//                    ->options([
+//                        1 => 'Published',
+//                        0 => 'Unpublished',
+//                    ]),
+
+                DropdownColumn::make('is_active')
+                    ->size('sm')
                     ->options([
                         1 => 'Published',
                         0 => 'Unpublished',
-                    ]),
-                ])
+                    ])
+                    ->icon(fn (string $state): string => match ($state) {
+                        '0' => 'heroicon-o-clock',
+                        '1' => 'heroicon-o-check',
+                        default => 'heroicon-o-clock',
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        '0' => 'warning',
+                        '1' => 'success',
+                        default => 'gray',
+                    }),
+
+            ]),
+
         ];
     }
 
@@ -794,15 +820,15 @@ class ContentResource extends Resource
                     ? static::getGridTableColumns()
                     : static::getListTableColumns()
             )
-            ->contentGrid(
-                fn() => $livewire->isListLayout()
-                    ? null
-                    : [
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 1,
-                    ]
-            )
+//            ->contentGrid(
+//                fn() => $livewire->isListLayout()
+//                    ? null
+//                    : [
+//                        'md' => 1,
+//                        'lg' => 1,
+//                        'xl' => 1,
+//                    ]
+//            )
             ->filters([
                 Tables\Filters\QueryBuilder::make()
                     ->constraints([
@@ -819,7 +845,16 @@ class ContentResource extends Resource
             ])
             ->filtersFormWidth(MaxWidth::Medium)
             ->actions([
-                //Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('edit')
+                        ->icon('heroicon-o-pencil'),
+                    Tables\Actions\Action::make('live_edit')
+                        ->icon('heroicon-o-eye'),
+                    Tables\Actions\Action::make('delete')
+                        ->icon('heroicon-o-trash'),
+                ])->icon('mw-dots-menu')
+                    ->color(Color::Gray)
+                    ->iconSize('lg')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
