@@ -7,7 +7,7 @@
 
     "repository": {
         "type": "git",
-        "url": "https://github.com/microweber/microweber.git"
+        "url": "https://github.com/microweber-packages/frontend-assets.git"
     },
     "private": true,
 

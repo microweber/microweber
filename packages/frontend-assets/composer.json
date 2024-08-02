@@ -4,7 +4,7 @@
     "keywords": [
         "microweber-packages",
         "laravel",
-        "frontend-assets"
+        "microweber-frontend-assets"
     ],
     "license": "MIT",
     "require": {
@@ -51,7 +51,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "\\MicroweberPackages\\FrontendAssets\\Providers\\MicroweberFrontendAssetsServiceProvider"
+                "MicroweberPackages\\FrontendAssets\\Providers\\MicroweberFrontendAssetsServiceProvider"
             ]
         }
     },
