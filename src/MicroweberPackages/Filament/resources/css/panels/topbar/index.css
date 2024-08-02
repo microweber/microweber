@@ -1,9 +1,0 @@
-@import 'item';
-
-.fi-topbar {
-    @apply !border-0 !px-0;
-}
-
-.fi-topbar > nav {
-    @apply !shadow-none ring-0 bg-[#fff] !mb-4;
-}

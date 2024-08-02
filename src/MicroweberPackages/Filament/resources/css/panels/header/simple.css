@@ -1,8 +1,0 @@
-.fi-simple-header {
-    @apply items-start;
-}
-
-.fi-simple-header-heading,
-.fi-simple-header-subheading {
-    @apply text-start;
-}

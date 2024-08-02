@@ -1,5 +1,0 @@
-.fi-avatar {
-    &:not(.fi-circular) {
-        @apply rounded;
-    }
-}

@@ -1,5 +1,0 @@
-@import 'list';
-
-.fi-dropdown-panel {
-    @apply rounded-md;
-}
