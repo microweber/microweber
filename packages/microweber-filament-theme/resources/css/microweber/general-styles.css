@@ -1,4 +1,3 @@
-
 .x-close-modal-link {
     @apply absolute top-3 right-3 text-black dark:text-white cursor-pointer text-2xl;
 }
