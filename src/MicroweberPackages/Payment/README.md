@@ -2,7 +2,7 @@
 
 This package is responsible for managing  payment methods.
 
-To add new payment method you need to create a new class that extends `MicroweberPackages\Payment\PaymentMethod` and implement the abstract methods.
+To add new payment method you need to create a new class that extends `MicroweberPackages\Payment\Drivers\AbstractPaymentMethod` and implement the abstract methods.
 
 ## Add new provider
 

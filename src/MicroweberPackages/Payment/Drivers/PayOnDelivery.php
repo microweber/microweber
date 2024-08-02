@@ -5,7 +5,7 @@ namespace MicroweberPackages\Payment\Drivers;
 use Filament\Forms;
 
 
-class PayOnDelivery extends \MicroweberPackages\Payment\PaymentMethod
+class PayOnDelivery extends AbstractPaymentMethod
 {
 
     public function title(): string

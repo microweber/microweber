@@ -5,7 +5,7 @@ namespace MicroweberPackages\Payment\Drivers;
 use Filament\Forms;
 
 
-class Stripe extends \MicroweberPackages\Payment\PaymentMethod
+class Stripe extends AbstractPaymentMethod
 {
 
     public function logo(): string

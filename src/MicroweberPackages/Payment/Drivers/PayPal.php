@@ -5,7 +5,7 @@ namespace MicroweberPackages\Payment\Drivers;
 use Filament\Forms;
 
 
-class PayPal extends \MicroweberPackages\Payment\PaymentMethod
+class PayPal extends AbstractPaymentMethod
 {
 
 

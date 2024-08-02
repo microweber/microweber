@@ -48,8 +48,8 @@ class PaymentProviderResource extends Resource
         }
 
         return [
-            'paymentProviders'=>$paymentProviders,
-            'paymentDrivers'=>$paymentDrivers
+            'paymentProviders' => $paymentProviders,
+            'paymentDrivers' => $paymentDrivers
         ];
     }
 
@@ -73,7 +73,7 @@ class PaymentProviderResource extends Resource
                 ->required()
                 ->padding('py-4 px-8')
                 ->gap('gap-0')
-                ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, string $state) use($paymentProviders) {
+                ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, string $state) use ($paymentProviders) {
                     $set('name', $paymentProviders[$state]);
                 })
                 ->extraCardsAttributes([ // Extra Attributes to add to the card HTML element
@@ -101,7 +101,7 @@ class PaymentProviderResource extends Resource
                 ->options($paymentProviders),
         ];
 
-        $schema[] =  Forms\Components\Hidden::make('name')
+        $schema[] = Forms\Components\Hidden::make('name')
             ->required()
             ->hidden(function (?PaymentProvider $record) {
                 if ($record) {
@@ -111,7 +111,16 @@ class PaymentProviderResource extends Resource
             })
             ->columnSpan('full');
 
-        $schema[] =  Forms\Components\TextInput::make('name')
+        $schema[] = Forms\Components\Hidden::make('is_active')
+            ->required()
+            ->hidden(function (?PaymentProvider $record) {
+                if ($record) {
+                    return true;
+                }
+                return false;
+            })->default(1);
+
+        $schema[] = Forms\Components\TextInput::make('name')
             ->label('Name')
             ->placeholder('Name')
             ->required()
@@ -190,9 +199,9 @@ class PaymentProviderResource extends Resource
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
-//                Tables\Actions\BulkActionGroup::make([
-//                    Tables\Actions\DeleteBulkAction::make(),
-//                ]),
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

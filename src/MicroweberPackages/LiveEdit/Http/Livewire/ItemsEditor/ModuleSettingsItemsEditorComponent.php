@@ -201,6 +201,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
         })
             ->defaultSort('position')
             ->reorderable('position')
+            ->paginated(false)
             ->headerActions($headerActions)
             ->actions($actions);
 
