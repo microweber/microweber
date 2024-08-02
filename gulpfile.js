@@ -1,17 +1,6 @@
 
 
-/*const gulp = require('gulp');
-const sass = require('gulp-dart-sass');
-const concat = require('gulp-concat');
-const cleanCSS = require('gulp-clean-css');
-const uglify = require('gulp-uglify');
-const sourcemaps = require('gulp-sourcemaps');
-const include = require('gulp-include');
 
-
-const rollup = require('gulp-better-rollup');
-const babel = require('rollup-plugin-babel');
-const resolve = require('rollup-plugin-node-resolve');*/
 
 import gulp from 'gulp';
 import { watch } from 'gulp';
@@ -42,42 +31,30 @@ const frontEndPath = `./src/MicroweberPackages/LiveEdit/resources/front-end`;
 const adminFilamentApp = `${frontEndPath}/js/admin/admin-filament-app.js`;
 
 const packagesWatch = () => {
-
-
-
-    const watcher = watch(['packages/*/resources/dist/*']);
-
-    watcher.on('change', (path, stats) => {
-        console.log('New changes...');
-        packages();
-    });
-
-
-
+    const folders = [
+        'packages/*/resources/dist/**',
+    ];
+    const watcher = watch(folders, packages);
 
 }
-const packages = async () => {
-
-        await exec('php artisan filament:assets', (err, stdout, stderr) => {
-
-            console .log('Publishing assets...');
-            console.log(stdout);
-
+const packages = () => {
+    exec('php artisan filament:assets', (err, stdout, stderr) => {
+        console.log('Publishing assets...');
+        console.log(stdout);
+        if (err) {
+            console.log('Error: ');
+            console.log(err);
+            return;
+        }
+        exec('php artisan vendor:publish --tag=public --force --ansi', (err, stdout, stderr) => {
             if (err) {
-              console.log('Error: ');
-              console.log(err);
-              return;
+                console.log('Error: ');
+                console.log(err);
+                return;
             }
-            exec('php artisan vendor:publish --tag=public --force --ansi', (err, stdout, stderr) => {
-
-                if (err) {
-                    console.log('Error: ');
-                    console.log(err);
-                    return;
-                  }
-                  console.log('Done')
-            });
-          });
+            console.log('Done')
+        });
+    });
 
 }
 
