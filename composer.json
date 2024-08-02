@@ -74,7 +74,7 @@
         "microweber-dev/omnipay-przelewy24": "0.2",
         "microweber-modules/standalone-updater": "5.3.8",
         "microweber-packages/composer-client": "2.0",
-        "microweber-packages/frontend-assets": "*",
+        "microweber-packages/frontend-assets": "dev-filament",
         "microweber-packages/laravel-config-extended": "1.1",
         "microweber-packages/laravel-helper-functions": "*",
         "microweber-packages/microweber-class-alias": "dev-master",

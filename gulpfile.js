@@ -42,12 +42,18 @@ const frontEndPath = `./src/MicroweberPackages/LiveEdit/resources/front-end`;
 const adminFilamentApp = `${frontEndPath}/js/admin/admin-filament-app.js`;
 
 const packagesWatch = () => {
+
+
+
     const watcher = watch(['packages/*/resources/dist/*']);
 
     watcher.on('change', (path, stats) => {
         console.log('New changes...');
         packages();
     });
+
+
+
 
 }
 const packages = async () => {
@@ -62,15 +68,15 @@ const packages = async () => {
               console.log(err);
               return;
             }
-                // exec('php artisan vendor:publish --tag=public --force --ansi', (err, stdout, stderr) => {
-                //
-                //     if (err) {
-                //         console.log('Error: ');
-                //         console.log(err);
-                //         return;
-                //       }
-                //       console.log('Done')
-                // });
+            exec('php artisan vendor:publish --tag=public --force --ansi', (err, stdout, stderr) => {
+
+                if (err) {
+                    console.log('Error: ');
+                    console.log(err);
+                    return;
+                  }
+                  console.log('Done')
+            });
           });
 
 }

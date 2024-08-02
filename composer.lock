@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eb83d2f021aef7e09a220a9335d7f4ef",
+    "content-hash": "1d90f32daf7f5adaf1b4b57ac9d3bbfa",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -8528,7 +8528,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "43f6283be477441f9ac277ce9dd3f8afe1d56007"
+                "reference": "124b30323a98b4dd52fd85d2b20ab06b7ba3bc53"
             },
             "require": {
                 "filament/filament": "^3.0",
@@ -8551,7 +8551,7 @@
             "extra": {
                 "laravel": {
                     "providers": [
-                        "MicroweberPackages\\FrontendAssets\\Providers\\MicroweberFrontendAssetsServiceProvider"
+                        "MicroweberPackages\\FrontendAssets\\MicroweberFrontendAssetsServiceProvider"
                     ]
                 }
             },
@@ -8752,7 +8752,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "54bd4e188a06b6bb92d4ea339b0d94bbb906b351"
+                "reference": "14e18c5a7fc8fcb83004768b7dacc36f9414e01f"
             },
             "require": {
                 "filament/filament": "^3.0",
@@ -21527,7 +21527,9 @@
         "league/csv": 20,
         "microweber-deps/image-comparator": 20,
         "microweber-deps/seo-helper": 20,
+        "microweber-packages/frontend-assets": 20,
         "microweber-packages/microweber-class-alias": 20,
+        "microweber-packages/microweber-filament-theme": 20,
         "opis/closure": 20,
         "phpdocumentor/reflection-docblock": 20,
         "solution-forest/filament-translate-field": 20,
