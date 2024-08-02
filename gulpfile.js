@@ -41,12 +41,16 @@ const frontEndPath = `./src/MicroweberPackages/LiveEdit/resources/front-end`;
 
 const adminFilamentApp = `${frontEndPath}/js/admin/admin-filament-app.js`;
 
-const standalonePackagesWatch = () => {
-    watch(['standalone-packages/*/*/resources/dist'], function(cb) {
-        standalonePackages()
+const packagesWatch = () => {
+    const watcher = watch(['packages/*/resources/dist/*']);
+
+    watcher.on('change', (path, stats)=> {
+        console.log('New changes...');
+        packages();
     });
+
 }
-const standalonePackages = async () => {
+const packages = async () => {
 
         exec('php artisan filament:assets', (err, stdout, stderr) => {
 
@@ -139,8 +143,8 @@ const _adminCssRtl = () => {
     console.log('admin-css compiled')
 }
 
-gulp.task('sp', standalonePackages);
-gulp.task('spwatch', standalonePackagesWatch);
+gulp.task('sp', packages);
+gulp.task('spwatch', packagesWatch);
 gulp.task('admin-css', _adminCss);
 gulp.task('admin-js', adminJs);
 gulp.task('admin-css-rtl', _adminCssRtl);

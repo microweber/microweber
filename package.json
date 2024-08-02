@@ -28,7 +28,7 @@
 
     "docs:preview": "vitepress preview docs",
 
-    "gulp-sp": "gulp sp"
+    "gulp-spwatch": "gulp spwatch"
 
   },
 
