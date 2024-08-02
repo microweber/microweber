@@ -79,6 +79,7 @@
         "microweber-packages/laravel-config-extended": "1.1",
         "microweber-packages/laravel-helper-functions": "*",
         "microweber-packages/microweber-class-alias": "dev-master",
+        "microweber-packages/microweber-filament-theme": "dev-main",
         "microweber-templates/big-free": "v16.8",
         "mtrajano/laravel-swagger": "0.6.4",
         "nunomaduro/collision": "^8.0",
@@ -237,6 +238,10 @@
         {
             "type": "composer",
             "url": "https://packages.microweberapi.com/packages.json"
+        },
+        {
+            "type": "path",
+            "url": "standalone-packages/microweber-packages/microweber-filament-theme"
         }
     ]
 
