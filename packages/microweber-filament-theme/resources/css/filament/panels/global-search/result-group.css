@@ -1,0 +1,9 @@
+.fi-global-search-result-group {
+    & > div > h3 {
+        @apply font-medium text-gray-500 dark:text-gray-400;
+    }
+
+    & > ul {
+        @apply divide-y divide-gray-950/5 dark:divide-white/5;
+    }
+}

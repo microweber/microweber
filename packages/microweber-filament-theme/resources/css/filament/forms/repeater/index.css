@@ -1,0 +1,15 @@
+.fi-fo-repeater .fi-fo-repeater-item {
+    @apply rounded-lg bg-transparent ring-gray-950/10 dark:bg-transparent dark:ring-white/10;
+}
+
+.fi-fo-repeater-item-header {
+    @apply rounded-t-lg;
+}
+
+.fi-fo-repeater-item-content {
+    @apply border-none pt-1;
+}
+
+.fi-fo-repeater-add-between-action-ctn {
+    @apply rounded-md;
+}

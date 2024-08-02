@@ -1,0 +1,25 @@
+@import '../../vendor/filament/filament/resources/css/theme.css';
+
+@import 'filament/actions';
+@import 'filament/forms';
+@import 'filament/infolists';
+@import 'filament/notifications';
+@import 'filament/panels';
+@import 'filament/support';
+@import 'filament/tables';
+@import 'filament/widgets';
+
+@import 'microweber/filepicker.css';
+@import 'microweber/live-edit-action-links.css';
+@import 'microweber/live-edit-input.css';
+@import 'microweber/linkpicker.css';
+@import 'microweber/general-styles.css';
+@import 'microweber/tomselect.css';
+/*@import '../../../LiveEdit/resources/front-end/css/tree.scss';
+@import '../../../LiveEdit/resources/front-end/css/spinner.scss';*/
+@import 'microweber/grid-only.css';
+@import 'microweber/pagination.css';
+@import 'microweber/icon-picker.css';
+@import 'microweber/buttons.css';
+
+@import "global.css";

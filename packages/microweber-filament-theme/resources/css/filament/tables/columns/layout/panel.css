@@ -1,0 +1,3 @@
+.fi-ta-panel {
+    @apply rounded-md bg-white shadow-sm;
+}

@@ -1,0 +1,143 @@
+.fi-body {
+    @apply !bg-[#f6f6f4];
+}
+
+/*GLOBAL RESOURCE STYLES*/
+.fi-resource-list-records-page {
+    @apply !px-0 !py-0 !mt-0;
+}
+.fi-resource-list-records-page section.flex {
+    @apply !gap-y-0 !py-0;
+}
+.fi-resource-list-records-page .fi-ta-header-toolbar {
+    @apply !mt-4;
+}
+.fi-resource-list-records-page .gap-y-6:first-child  {
+    @apply gap-y-0 pb-8;
+}
+.fi-ta-content {
+    @apply !divide-transparent;
+}
+.fi-ta-content .flex:first-child {
+    @apply !bg-transparent;
+}
+.fi-ta-content .grid .fi-ta-record {
+    @apply !shadow-md;
+}
+.fi-ta-content .grid {
+    @apply !px-2;
+}
+
+/*STYLE MODULES PAGE*/
+.fi-resource-modules .fi-ta-filter-indicators  {
+    @apply !border-none !bg-transparent !shadow-none !ring-0 !pb-4 !px-0 !justify-start;
+}
+.fi-resource-modules .fi-ta-record .py-4  {
+    @apply !p-0;
+}
+.fi-resource-modules .fi-ta-record .ps-4  {
+    @apply !p-0;
+}
+.fi-resource-modules .fi-ta-record  {
+
+}
+.fi-resource-modules .clickable-column {
+    @apply hover:bg-gray-500/5;
+}
+.fi-resource-modules .fi-ta-content-grid {
+    @apply !border-none !gap-8 !bg-blue-500/10 dark:!bg-white/5 !rounded !p-8;
+}
+
+.fi-resource-modules section.flex {
+    @apply !gap-y-0 !py-0;
+}
+.fi-resource-modules .fi-ta-ctn {
+    @apply !divide-none;
+}
+.fi-resource-modules .fi-ta-header-ctn {
+    @apply !divide-none;
+}
+.fi-resource-modules {
+    @apply dark:bg-transparent p-8 mt-4;
+}
+.fi-resource-modules .fi-breadcrumbs {
+    @apply !hidden;
+}
+
+/*STYLE MARKETPLACE PAGE*/
+.fi-resource-marketplace .fi-ta-filter-indicators  {
+    @apply !border-none !bg-transparent !shadow-none !ring-0 !pb-4 !px-0 !justify-start;
+}
+.fi-resource-marketplace .fi-ta-record  {
+    @apply p-0 hover:shadow-md rounded-md;
+}
+.fi-resource-marketplace .fi-ta-record .flex .flex  {
+    @apply p-0;
+}
+.fi-resource-marketplace .fi-ta-record .block  {
+    @apply p-0;
+}
+.fi-resource-marketplace .fi-ta-record .image-column-cropped  {
+    @apply rounded-t-md;
+}
+.fi-resource-marketplace .fi-ta-record .fi-ta-actions  {
+    @apply transition opacity-0 hover:opacity-100 hover:backdrop-blur-sm hover:bg-black/10 rounded-t-md top-0 right-0 absolute w-full h-[11rem] !flex !justify-center !items-center;
+}
+.fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link  {
+    @apply w-full h-full;
+}
+.fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link-icon {
+    @apply !w-8 !h-8 !text-white/30;
+}
+.fi-resource-marketplace .fi-ta-record .fi-ta-actions .fi-link span {
+    @apply !hidden;
+}
+.fi-resource-marketplace .fi-ta-badges-column  {
+    @apply mx-4 mb-3;
+}
+.fi-resource-marketplace .fi-ta-record .fi-ta-text  {
+    @apply px-4;
+}
+.fi-resource-marketplace .fi-ta-content-grid {
+    @apply !border-none !gap-8 !bg-transparent !py-8;
+}
+
+.fi-resource-marketplace .fi-ta-ctn {
+    @apply !divide-none;
+}
+.fi-resource-marketplace .fi-ta-header-ctn {
+    @apply !divide-none;
+}
+.fi-resource-marketplace .fi-ta-content-grid {
+    @apply !px-0 !pt-2;
+}
+.fi-resource-marketplace .fi-breadcrumbs {
+    @apply !hidden;
+}
+
+/*SIDEBAR STYLES*/
+.fi-sidebar-group-label {
+    @apply uppercase text-[0.7rem];
+}
+.fi-sidebar-group-icon {
+
+}
+.fi-sidebar-nav-groups {
+    @apply !gap-y-2 !-mx-0 !divide-y-0;
+}
+.fi-sidebar-nav-groups .fi-sidebar-item-button {
+    @apply !text-sm;
+}
+.fi-sidebar-group {
+    @apply !py-0;
+}
+.fi-sidebar-group .fi-sidebar-item-button {
+    @apply !py-1;
+}
+.fi-sidebar-group .fi-sidebar-item-button .fi-sidebar-item-label {
+    @apply !text-sm;
+}
+.fi-sidebar-item-button {
+    @apply !py-[0.6rem];
+}
+

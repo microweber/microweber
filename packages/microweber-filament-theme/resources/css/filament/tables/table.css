@@ -1,0 +1,6 @@
+.fi-ta-table {
+    > thead > tr,
+    > tfoot {
+        @apply bg-transparent dark:bg-transparent;
+    }
+}

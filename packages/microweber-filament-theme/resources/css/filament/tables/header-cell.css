@@ -1,0 +1,13 @@
+.fi-ta-header-cell {
+    &:first-of-type {
+        @apply sm:!ps-3;
+    }
+
+    &:last-of-type {
+        @apply sm:!pe-3;
+    }
+}
+
+.fi-ta-header-cell-label {
+    @apply font-medium text-gray-500 dark:!text-gray-400;
+}

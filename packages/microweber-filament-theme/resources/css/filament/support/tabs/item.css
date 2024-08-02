@@ -1,0 +1,43 @@
+/**
+ * Tab item
+ */
+
+.fi-tabs-item {
+    @apply rounded-md px-2 py-3;
+}
+
+.fi-tabs-item:focus-visible {
+    @apply outline-2 -outline-offset-2 outline-primary-600 dark:outline-primary-400;
+}
+
+.fi-tabs-item:not(.fi-active) {
+    @apply border-transparent hover:border-gray-300 hover:bg-transparent focus-visible:bg-transparent dark:hover:border-gray-600 dark:hover:bg-transparent dark:focus-visible:bg-transparent;
+}
+
+.fi-tabs-item.fi-active {
+    @apply relative bg-transparent after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-primary-600 dark:bg-transparent dark:after:bg-primary-400;
+}
+
+/**
+ * Tab item icon
+ */
+
+.fi-tabs-item:not(.fi-active) .fi-tabs-item-icon {
+    @apply text-gray-500 dark:text-gray-400;
+}
+
+.fi-tabs-item:not(.fi-active):hover .fi-tabs-item-icon {
+    @apply text-gray-700 dark:text-gray-200;
+}
+
+/**
+ * Tab item label
+ */
+
+.fi-tabs-item .fi-tabs-item-label {
+    @apply leading-6;
+}
+
+.fi-tabs-item:not(.fi-active):not(:hover):focus-visible .fi-tabs-item-label {
+    @apply text-gray-500 dark:text-gray-400;
+}

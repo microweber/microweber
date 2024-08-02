@@ -1,0 +1,5 @@
+.fi-ta-summary-header-cell {
+    &:first-of-type {
+        @apply sm:!ps-3;
+    }
+}

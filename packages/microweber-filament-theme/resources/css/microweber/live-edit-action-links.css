@@ -1,0 +1,46 @@
+.mw-admin-action-links {
+    position: relative;
+    text-decoration: none !important;
+    @apply text-black dark:text-white;
+
+    @apply hover:cursor-pointer;
+     }
+.mw-admin-action-links:disabled {
+    opacity: .3;
+    pointer-events: none; }
+.mw-admin-action-links.mw-adm-liveedit-tabs {
+    font-weight: 600;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+.mw-admin-action-links.mw-adm-liveedit-tabs:active, .mw-admin-action-links.mw-adm-liveedit-tabs:focus, .mw-admin-action-links.mw-adm-liveedit-tabs.active {
+    font-weight: 700; }
+.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger {
+    color: red !important; }
+.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger:after {
+    background-color: red; }
+.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger:hover {
+    color: red !important; }
+.mw-admin-action-links.mw-liveedit-button-animation-component {
+    background: transparent;
+    border: none; }
+.mw-admin-action-links:after {
+    position: absolute;
+    content: '';
+    bottom: 5px;
+    left: 0;
+    height: 2px;
+    width: 0;
+    @apply bg-black dark:bg-white;
+
+    opacity: 0;
+    transition: .5s; }
+.mw-admin-action-links:hover, .mw-admin-action-links:active, .mw-admin-action-links:focus, .mw-admin-action-links.active, .mw-admin-action-links.mw-action-links-with-accordion:not(.collapsed) {
+    @apply !text-black dark:!text-white;
+
+    font-weight: 500; }
+.mw-admin-action-links:hover:after, .mw-admin-action-links:active:after, .mw-admin-action-links:focus:after, .mw-admin-action-links.active:after, .mw-admin-action-links.mw-action-links-with-accordion:not(.collapsed):after {
+    width: 100%;
+    opacity: 1; }
+.mw-admin-action-links:not(.mw-admin-action-links.btn) {
+    padding-bottom: 12px !important; }

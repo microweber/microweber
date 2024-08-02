@@ -1,0 +1,19 @@
+.fi-fo-rich-editor-toolbar {
+    @apply border-none pb-0;
+}
+
+.fi-fo-rich-editor .fi-fo-rich-editor-toolbar-btn {
+    @apply rounded-md font-medium hover:bg-transparent focus-visible:bg-transparent dark:hover:bg-transparent dark:focus-visible:bg-transparent;
+}
+
+.fi-fo-rich-editor .fi-fo-rich-editor-toolbar-btn:not(.trix-active) {
+    @apply text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200;
+}
+
+.fi-fo-rich-editor .fi-fo-rich-editor-toolbar-btn.trix-active {
+    @apply bg-transparent dark:bg-transparent;
+}
+
+.fi-fo-rich-editor trix-toolbar .trix-dialog {
+    @apply rounded-md;
+}

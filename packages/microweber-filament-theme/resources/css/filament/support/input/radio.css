@@ -1,0 +1,12 @@
+.fi-radio-input {
+    @apply ring-gray-950/[15%];
+
+    &:focus,
+    &:focus:checked {
+        @apply outline outline-4 outline-offset-0 outline-primary-500/30 ring-0 dark:outline-primary-400/40;
+    }
+
+    &:focus:not(:checked) {
+        @apply ring-1 ring-gray-950/[15%] dark:ring-white/20;
+    }
+}

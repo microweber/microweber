@@ -1,0 +1,49 @@
+.fi-pagination-item {
+    @apply border-x-0;
+
+    &:first-child > .fi-pagination-item-button {
+        @apply !rounded-s-md;
+    }
+
+    &:last-child > .fi-pagination-item-button {
+        @apply !rounded-e-md;
+    }
+
+    &:not(.fi-disabled) > .fi-pagination-item-button {
+        @apply bg-transparent dark:bg-transparent;
+    }
+
+    &:not(.fi-active) {
+        .fi-pagination-item-button {
+            &:hover {
+                .fi-pagination-item-icon,
+                .fi-pagination-item-label {
+                    @apply text-gray-700 dark:!text-gray-200;
+                }
+            }
+        }
+    }
+
+    &.fi-active {
+        .fi-pagination-item-icon,
+        .fi-pagination-item-label {
+            @apply text-primary-600 dark:!text-primary-400;
+        }
+    }
+}
+
+.fi-pagination-item-button {
+    @apply rounded-md;
+
+    &:focus-visible {
+        @apply outline outline-4 outline-offset-0 outline-primary-500/30 !ring-0 dark:outline-primary-400/40;
+    }
+}
+
+.fi-pagination-item-icon {
+    @apply text-gray-500 transition duration-75 dark:!text-gray-400;
+}
+
+.fi-pagination-item-label {
+    @apply font-medium text-gray-500 transition duration-75 dark:!text-gray-400;
+}

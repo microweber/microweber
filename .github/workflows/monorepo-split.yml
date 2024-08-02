@@ -1,0 +1,30 @@
+name: monorepo-split
+
+on:
+  push:
+    tags: '*'
+
+jobs:
+  split-monorepo:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - microweber-filament-theme
+    steps:
+      - uses: actions/checkout@v3
+      - id: previous-tag
+        uses: 'WyriHaximus/github-action-get-previous-tag@master'
+      - name: Monorepo Split of ${{ matrix.package }}
+        uses: danharrin/monorepo-split-github-action@v2.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        with:
+          package_directory: 'packages/${{ matrix.package }}'
+          repository_organization: 'microweber-packages'
+          repository_name: '${{ matrix.package }}'
+          branch: filament
+          tag: ${{ steps.previous-tag.outputs.tag }}
+          user_name: 'mw-bot'
+          user_email: 'bot@microweber.com'

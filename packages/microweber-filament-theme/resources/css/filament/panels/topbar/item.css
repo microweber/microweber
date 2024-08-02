@@ -1,0 +1,43 @@
+.fi-topbar-item {
+    &:not(.fi-active) {
+        & > .fi-topbar-item-button {
+            .fi-topbar-item-icon,
+            .fi-topbar-item-label,
+            .fi-topbar-group-toggle-icon {
+                @apply text-gray-500 dark:text-gray-400;
+            }
+
+            &:hover {
+                .fi-topbar-item-icon,
+                .fi-topbar-item-label,
+                .fi-topbar-group-toggle-icon {
+                    @apply text-gray-700 dark:text-gray-200;
+                }
+            }
+        }
+    }
+
+    &.fi-active {
+        & > .fi-topbar-item-button {
+            @apply bg-transparent;
+        }
+    }
+
+    .fi-topbar-item-icon,
+    .fi-topbar-item-label,
+    .fi-topbar-group-toggle-icon {
+        @apply transition duration-75;
+    }
+}
+
+.fi-topbar-item-button {
+    @apply rounded-md;
+
+    &:hover {
+        @apply !bg-transparent;
+    }
+
+    &:focus-visible {
+        @apply !bg-transparent outline outline-4 outline-offset-0 outline-primary-500/30 dark:outline-primary-400/40;
+    }
+}

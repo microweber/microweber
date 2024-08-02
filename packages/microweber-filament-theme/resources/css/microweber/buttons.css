@@ -1,0 +1,171 @@
+.btn:not(.btn-sm, .live-edit-toolbar-buttons) {
+    padding: 0.65rem 1.25rem;
+    min-height: 45px;
+}
+
+/* Basic Button Styles */
+.btn {
+    @apply flex items-center justify-center font-normal text-center whitespace-nowrap align-middle select-none border px-3 py-1.5 text-base leading-6 rounded transition-colors duration-150 ease-in-out;
+}
+
+.btn-sm {
+    font-size: .7rem !important;
+    padding: 3px 5px !important;
+    border-radius: 0 !important;
+
+    svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    i {
+        font-size: 14px;
+
+    }
+
+}
+
+
+/* Button Variants */
+.btn-primary {
+    @apply text-white bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600;
+}
+
+.btn-secondary {
+    @apply text-white bg-gray-600 border-gray-600 hover:bg-gray-700 hover:border-gray-700;
+}
+
+.btn-success {
+    @apply text-white bg-green-500 border-green-500 hover:bg-green-600 hover:border-green-600;
+}
+
+.btn-danger {
+    @apply text-white bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600;
+}
+
+.btn-warning {
+    @apply text-gray-900 bg-yellow-400 border-yellow-400 hover:bg-yellow-500 hover:border-yellow-500;
+}
+
+.btn-info {
+    @apply text-white bg-teal-500 border-teal-500 hover:bg-teal-600 hover:border-teal-600;
+}
+
+.btn-light {
+    @apply text-gray-900 bg-gray-200 border-gray-200 hover:bg-gray-300 hover:border-gray-300;
+}
+
+.btn-dark {
+    @apply text-white bg-gray-800 border-gray-800 hover:bg-gray-900 hover:border-gray-900;
+}
+
+.btn-link {
+    @apply font-normal text-blue-500 bg-transparent border-transparent hover:text-blue-600;
+}
+
+/* Outline Button Styles */
+.btn-outline-primary {
+    @apply text-blue-500 bg-transparent border-blue-500 hover:bg-blue-500 hover:text-white;
+}
+
+.btn-outline-secondary {
+    @apply text-gray-600 bg-transparent border-gray-600 hover:bg-gray-600 hover:text-white;
+}
+
+.btn-outline-success {
+    @apply text-green-500 bg-transparent border-green-500 hover:bg-green-500 hover:text-white;
+}
+
+.btn-outline-danger {
+    @apply text-red-500 bg-transparent border-red-500 hover:bg-red-500 hover:text-white;
+}
+
+.btn-outline-warning {
+    @apply text-yellow-400 bg-transparent border-yellow-400 hover:bg-yellow-400 hover:text-gray-900;
+}
+
+.btn-outline-info {
+    @apply text-teal-500 bg-transparent border-teal-500 hover:bg-teal-500 hover:text-white;
+}
+
+.btn-outline-light {
+    @apply text-gray-200 bg-transparent border-gray-200 hover:bg-gray-200 hover:text-gray-900;
+}
+
+.btn-outline-dark {
+    @apply text-gray-800 bg-transparent border-gray-800 hover:bg-gray-800 hover:text-white;
+}
+
+/* Button Sizes */
+.btn-lg {
+    @apply px-4 py-2 text-xl leading-6 rounded-md;
+}
+
+.btn-sm {
+    @apply px-2 py-1 text-sm leading-5 rounded-sm;
+}
+
+.btn-block {
+    @apply block w-full;
+}
+
+/* Button States */
+.btn:disabled,
+.btn.disabled {
+    @apply opacity-65;
+}
+
+.btn.active,
+.btn:active {
+    @apply bg-none shadow;
+}
+
+.btn-primary.active,
+.btn-primary:active {
+    @apply text-white bg-blue-700 border-blue-700;
+}
+
+.btn-secondary.active,
+.btn-secondary:active {
+    @apply text-white bg-gray-700 border-gray-700;
+}
+
+/* Button Groups */
+.btn-group {
+    @apply relative inline-flex align-middle;
+}
+
+.btn-group > .btn {
+    @apply relative flex-1;
+}
+
+.btn-group > .btn + .btn {
+    @apply ml-[-1px];
+}
+
+.btn-group > .btn:first-child {
+    @apply rounded-l;
+}
+
+.btn-group > .btn:last-child {
+    @apply rounded-r;
+}
+
+/* Dropdown Toggle */
+.dropdown-toggle::after {
+    @apply inline-block w-0 h-0 ml-1 align-middle content-[""] border-t-4 border-r-4 border-transparent border-l-4;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    @apply absolute top-full left-0 z-10 hidden min-w-[10rem] py-2 mt-0.5 text-base text-gray-900 bg-white border border-gray-300 rounded shadow-lg;
+}
+
+.dropdown-item {
+    @apply block w-full px-4 py-1.5 text-base text-gray-900 bg-transparent clear-both;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    @apply text-gray-800 bg-gray-100 no-underline;
+}
