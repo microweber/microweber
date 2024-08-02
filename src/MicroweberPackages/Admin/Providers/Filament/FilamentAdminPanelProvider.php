@@ -32,6 +32,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
+use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
 use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
@@ -86,11 +87,8 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function getBasePanel(Panel $panel): Panel
     {
         $panel
-
-            // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->id($this->filamentId)
             ->path($this->filamentPath)
-//            ->viteTheme('resources/css/filament/admin/theme.css')
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
@@ -193,7 +191,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $tableToggle->gridLayoutButtonIcon('heroicon-o-squares-2x2');
         $panel->plugin($tableToggle);
 
-//        $panel->plugin(new MicroweberTheme());
+        $panel->plugin(new MicroweberFilamentTheme());
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
