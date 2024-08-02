@@ -44,7 +44,7 @@ const adminFilamentApp = `${frontEndPath}/js/admin/admin-filament-app.js`;
 const packagesWatch = () => {
     const watcher = watch(['packages/*/resources/dist/*']);
 
-    watcher.on('change', (path, stats)=> {
+    watcher.on('change', (path, stats) => {
         console.log('New changes...');
         packages();
     });
@@ -52,7 +52,10 @@ const packagesWatch = () => {
 }
 const packages = async () => {
 
-        exec('php artisan filament:assets', (err, stdout, stderr) => {
+        await exec('php artisan filament:assets', (err, stdout, stderr) => {
+
+            console .log('Publishing assets...');
+            console.log(stdout);
 
             if (err) {
               console.log('Error: ');
