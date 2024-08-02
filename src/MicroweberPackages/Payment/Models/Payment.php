@@ -18,10 +18,13 @@ class Payment extends Model
         'amount',
         'currency',
         'status',
+        'payment_data',
     ];
+
 
     protected $casts = [
         'status' => PaymentStatus::class,
+        'payment_data' => 'array',
     ];
 
     protected static function boot()

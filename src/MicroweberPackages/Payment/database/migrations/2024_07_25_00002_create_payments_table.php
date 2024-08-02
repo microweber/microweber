@@ -16,18 +16,15 @@ class CreatePaymentsTable extends Migration
             $table->id();
 
             $table->string('rel_id')->nullable();
-
             $table->string('rel_type')->nullable();
+            $table->decimal('amount')->nullable();
+            $table->string('currency')->nullable();
+            $table->string('status')->nullable();
 
             $table->string('payment_provider_id')->nullable();
-
             $table->string('payment_provider_reference_id')->nullable();
+            $table->string('payment_data')->nullable();
 
-            $table->decimal('amount')->nullable();
-
-            $table->string('currency')->nullable();
-
-            $table->string('status')->nullable();
 
             $table->timestamps();
         });
@@ -37,4 +34,6 @@ class CreatePaymentsTable extends Migration
     {
         Schema::dropIfExists('payments');
     }
-};
+}
+
+;
