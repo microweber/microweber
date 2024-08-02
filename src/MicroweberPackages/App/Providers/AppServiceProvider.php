@@ -177,6 +177,29 @@ class AppServiceProvider extends ServiceProvider
 
       //  \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
 
+
+        if (DB::Connection() instanceof \Illuminate\Database\SQLiteConnection) {
+
+            DB::connection('sqlite')->getPdo()->sqliteCreateFunction('regexp',
+                function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
+                    if (isset($pattern, $data) === true) {
+                        return preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0;
+                    }
+                    return;
+                }
+            );
+
+            DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
+            DB::connection('sqlite')
+                ->statement('
+                PRAGMA journal_mode = WAL;
+                COMMIT;
+                ');
+
+        }
+
+
+
         $this->app->register(\Illuminate\Cache\CacheServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
@@ -208,8 +231,11 @@ class AppServiceProvider extends ServiceProvider
 
         }
 
-
         $this->app->register(ConfigExtendedServiceProvider::class);
+        $is_installed = mw_is_installed();
+
+
+
         $this->app->register(MicroweberFilamentRegistryServiceProvider::class);
 
 
@@ -229,7 +255,6 @@ class AppServiceProvider extends ServiceProvider
 
 
 //        $this->app->instance('config', new ConfigSave($this->app));
-        $this->app->register(ConfigExtendedServiceProvider::class);
 
         if (!defined('ADMIN_PREFIX')) {
             define('ADMIN_PREFIX', mw_admin_prefix_url_legacy());
@@ -249,7 +274,7 @@ class AppServiceProvider extends ServiceProvider
 //            }
 //        }
 
-        $is_installed = mw_is_installed();
+
         //      $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
 
@@ -490,18 +515,7 @@ class AppServiceProvider extends ServiceProvider
         // If installed load module functions and set locale
         if (mw_is_installed()) {
 
-            if (DB::Connection() instanceof \Illuminate\Database\SQLiteConnection) {
-                DB::connection('sqlite')->getPdo()->sqliteCreateFunction('regexp',
-                    function ($pattern, $data, $delimiter = '~', $modifiers = 'isuS') {
-                        if (isset($pattern, $data) === true) {
-                            return preg_match(sprintf('%1$s%2$s%1$s%3$s', $delimiter, $pattern, $modifiers), $data) > 0;
-                        }
-                        return;
-                    }
-                );
 
-                DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
-            }
 
             //    load_all_functions_files_for_modules();
             load_all_service_providers_for_modules();

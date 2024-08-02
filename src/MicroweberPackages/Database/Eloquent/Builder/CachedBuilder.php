@@ -37,7 +37,7 @@ class CachedBuilder extends \Illuminate\Database\Eloquent\Builder
      *
      * @var boolean
      */
-    protected $cacheIsDisabled = false;
+    protected $cacheIsDisabled = true;
 
 
     /**
