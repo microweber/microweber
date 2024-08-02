@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7bd238f69bc03513db33d9b5a06c55c1",
+    "content-hash": "3e69db5e91ed2ba6272169f78773e0dd",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -846,6 +846,91 @@
                 }
             ],
             "time": "2024-04-05T08:11:10+00:00"
+        },
+        {
+            "name": "bobimicroweber/filament-dropdown-column",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "standalone-packages/bobimicroweber/filament-dropdown-column",
+                "reference": "5c0dc189074f9e28c2be5f921af7079bb4d9c938"
+            },
+            "require": {
+                "filament/tables": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BobiMicroweber\\FilamentDropdownColumn\\FilamentDropdownColumnServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BobiMicroweber\\FilamentDropdownColumn\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "BobiMicroweber\\FilamentDropdownColumn\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "test": [
+                    "vendor/bin/pest"
+                ],
+                "test-coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "format": [
+                    "vendor/bin/pint"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bozhidar Slaveykov",
+                    "email": "bobi@microweber.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Use custom dropdowns on filament tables as column",
+            "homepage": "https://github.com/bobimicroweber/filament-dropdown-column",
+            "keywords": [
+                "bobimicroweber",
+                "filament-dropdown-column",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/bobimicroweber/filament-dropdown-column/issues",
+                "source": "https://github.com/bobimicroweber/filament-dropdown-column"
+            },
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "brick/math",

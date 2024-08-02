@@ -17,8 +17,8 @@
     @apply sm:!px-3;
 }
 
-.fi-ta-content-grid .fi-ta-record {
-    @apply rounded-lg;
+.fi-ta-record {
+    @apply rounded-lg mt-4;
 }
 
 .fi-ta-pagination {

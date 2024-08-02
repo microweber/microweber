@@ -15,7 +15,6 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
-use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
@@ -39,6 +38,10 @@ use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
+
+use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentColor;
+
 
 class FilamentAdminPanelProvider extends PanelProvider
 {
@@ -202,6 +205,9 @@ class FilamentAdminPanelProvider extends PanelProvider
             }
         }
 
+        FilamentColor::register([
+            'green-light' => Color::rgb('rgb(231, 244, 233)'),
+        ]);
 
         return $panel;
     }

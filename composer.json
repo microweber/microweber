@@ -28,6 +28,7 @@
         "blade-ui-kit/blade-heroicons": "*",
         "blade-ui-kit/blade-icons": "*",
         "blade-ui-kit/blade-ui-kit": "*",
+        "bobimicroweber/filament-dropdown-column": "dev-main",
         "butschster/meta-tags": "*",
         "calebporzio/sushi": "^2.4",
         "composer/composer": "v2.7.7",
@@ -236,6 +237,10 @@
         {
             "type": "composer",
             "url": "https://packages.microweberapi.com/packages.json"
+        },
+        {
+            "type": "path",
+            "url": "standalone-packages/bobimicroweber/filament-dropdown-column"
         }
     ]
 
