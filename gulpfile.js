@@ -62,15 +62,15 @@ const packages = async () => {
               console.log(err);
               return;
             }
-                exec('php artisan vendor:publish --tag=public --force --ansi', (err, stdout, stderr) => {
-
-                    if (err) {
-                        console.log('Error: ');
-                        console.log(err);
-                        return;
-                      }
-                      console.log('Done')
-                });
+                // exec('php artisan vendor:publish --tag=public --force --ansi', (err, stdout, stderr) => {
+                //
+                //     if (err) {
+                //         console.log('Error: ');
+                //         console.log(err);
+                //         return;
+                //       }
+                //       console.log('Done')
+                // });
           });
 
 }
@@ -146,8 +146,8 @@ const _adminCssRtl = () => {
     console.log('admin-css compiled')
 }
 
-gulp.task('sp', packages);
-gulp.task('spwatch', packagesWatch);
+gulp.task('packages', packages);
+gulp.task('packages-watch', packagesWatch);
 gulp.task('admin-css', _adminCss);
 gulp.task('admin-js', adminJs);
 gulp.task('admin-css-rtl', _adminCssRtl);
