@@ -18,7 +18,7 @@
 }
 
 .fi-ta-record {
-    @apply rounded-lg mt-4;
+    @apply rounded-lg;
 }
 
 .fi-ta-pagination {
