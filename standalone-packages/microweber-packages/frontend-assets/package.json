@@ -2,13 +2,32 @@
     "name": "microweber-frontend-assets",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
+    "type": "module",
+
+
     "repository": {
         "type": "git",
         "url": "https://github.com/microweber/microweber.git"
     },
-    "private": true
+    "private": true,
+
+    "scripts": {
+        "dev:scripts": "node bin/build.js --dev",
+        "build:scripts": "node bin/build.js",
+        "dev": "npm-run-all --parallel dev:*",
+        "build": "npm-run-all build:*"
+    },
+    "devDependencies": {
+        "@awcodes/filament-plugin-purge": "^1.1.1",
+        "@tailwindcss/forms": "^0.5.4",
+        "@tailwindcss/typography": "^0.5.9",
+        "autoprefixer": "^10.4.14",
+        "esbuild": "^0.19.2",
+        "npm-run-all": "^4.1.5",
+        "postcss": "^8.4.26",
+        "postcss-import": "^15.1.0",
+        "prettier": "^2.7.1",
+        "prettier-plugin-tailwindcss": "^0.1.13",
+        "tailwindcss": "^3.3.3"
+    }
 }

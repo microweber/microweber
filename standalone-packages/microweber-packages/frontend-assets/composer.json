@@ -51,7 +51,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MicroweberPackages\\FrontendAssets\\FrontendAssetsServiceProvider"
+                "\\MicroweberPackages\\FrontendAssets\\Providers\\MicroweberFrontendAssetsServiceProvider"
             ]
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\FrontendAssets;
+namespace MicroweberPackages\FrontendAssets\Providers;
 
 
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -19,8 +19,9 @@ class MicroweberFrontendAssetsServiceProvider extends PackageServiceProvider
 
     public function register(): void
     {
+
         $this->publishes([
-            __DIR__ . '/../resources/assets' => public_path('vendor/microweber-packages/frontend-assets'),
+            __DIR__ . '/../../resources/assets' => public_path('vendor/microweber-packages/frontend-assets'),
         ], 'public');
 
         parent::register();
