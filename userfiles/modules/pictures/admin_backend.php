@@ -19,9 +19,7 @@
     }
 
 
-    .image-settings.settings-img {
-        margin-right: 23px
-    }
+
 
     .admin-thumb-item:hover .image-settings {
         opacity: 1;
