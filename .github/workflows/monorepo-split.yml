@@ -2,7 +2,7 @@ name: monorepo-split
 
 on:
   push:
-    tags: '*'
+#    tags: '*'
 
 jobs:
   split-monorepo:
