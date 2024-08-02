@@ -90,7 +90,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
             ->id($this->filamentId)
             ->path($this->filamentPath)
-            ->viteTheme('resources/css/filament/admin/theme.css')
+//            ->viteTheme('resources/css/filament/admin/theme.css')
             ->globalSearch(true)
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
@@ -193,7 +193,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $tableToggle->gridLayoutButtonIcon('heroicon-o-squares-2x2');
         $panel->plugin($tableToggle);
 
-        $panel->plugin(new MicroweberTheme());
+//        $panel->plugin(new MicroweberTheme());
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
