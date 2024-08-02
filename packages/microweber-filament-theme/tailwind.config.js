@@ -44,14 +44,14 @@ module.exports = {
     ],
 
     content: [
-        './app/Filament/Admin/**/*.php',
-        './resources/views/filament/admin/**/*.blade.php',
-        './resources/**/*.blade.php',
-        './vendor/filament/**/*.blade.php',
-        './src/MicroweberPackages/**/*.blade.php',
-        './src/MicroweberPackages/**/resources/views/**/*.blade.php',
-        './vendor/jaocero/radio-deck/resources/views/**/*.blade.php',
-        './userfiles/modules/**/*.blade.php',
-        './userfiles/modules/**/src/resources/views/**/*.blade.php',
+        './../../app/Filament/Admin/**/*.php',
+        './../../resources/views/filament/admin/**/*.blade.php',
+        './../../resources/**/*.blade.php',
+        './../../vendor/filament/**/*.blade.php',
+        './../../src/MicroweberPackages/**/*.blade.php',
+        './../../src/MicroweberPackages/**/resources/views/**/*.blade.php',
+        './../../vendor/jaocero/radio-deck/resources/views/**/*.blade.php',
+        './../../userfiles/modules/**/*.blade.php',
+        './../../userfiles/modules/**/src/resources/views/**/*.blade.php',
     ]
 }
