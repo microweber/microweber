@@ -1,0 +1,40 @@
+{
+  "name": "microweber-packages/frontend-assets-libs",
+  "description": "Library for frontend assets",
+  "keywords": [
+    "microweber-packages",
+    "laravel",
+    "microweber-frontend-assets"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": "^8.1"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\FrontendAssetsLibs\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MicroweberPackages\\FrontendAssetsLibs\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\FrontendAssetsLibs\\MicroweberFrontendAssetsLibsServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

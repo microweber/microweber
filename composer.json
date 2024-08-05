@@ -75,6 +75,7 @@
         "microweber-modules/standalone-updater": "5.3.8",
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/frontend-assets": "dev-filament",
+        "microweber-packages/frontend-assets-libs": "dev-filament",
         "microweber-packages/laravel-config-extended": "1.1",
         "microweber-packages/laravel-helper-functions": "*",
         "microweber-packages/microweber-class-alias": "dev-master",
@@ -235,11 +236,24 @@
         },
         {
             "type": "path",
-            "url": "packages/microweber-filament-theme"
+            "url": "packages/microweber-filament-theme",
+            "options": {
+                "symlink": true
+            }
         },
         {
             "type": "path",
-            "url": "packages/frontend-assets"
+            "url": "packages/frontend-assets-libs",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/frontend-assets",
+            "options": {
+                "symlink": true
+            }
         }
     ]
 }

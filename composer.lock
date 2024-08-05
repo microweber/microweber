@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d90f32daf7f5adaf1b4b57ac9d3bbfa",
+    "content-hash": "7c95ccaddb18cb73fc75304585864caa",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -8528,7 +8528,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "124b30323a98b4dd52fd85d2b20ab06b7ba3bc53"
+                "reference": "223b25d47fd800f24583c57bedcb8624c3405812"
             },
             "require": {
                 "filament/filament": "^3.0",
@@ -8592,6 +8592,55 @@
                 "microweber-packages"
             ],
             "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "microweber-packages/frontend-assets-libs",
+            "version": "dev-filament",
+            "dist": {
+                "type": "path",
+                "url": "packages/frontend-assets-libs",
+                "reference": "2aa6810c19bb3d28bbf7a7cd1ef384548003f56f"
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MicroweberPackages\\FrontendAssetsLibs\\MicroweberFrontendAssetsLibsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MicroweberPackages\\FrontendAssetsLibs\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\FrontendAssetsLibs\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@php ./vendor/bin/testbench package:discover --ansi"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for frontend assets",
+            "keywords": [
+                "laravel",
+                "microweber-frontend-assets",
+                "microweber-packages"
+            ],
+            "transport-options": {
+                "symlink": true,
                 "relative": true
             }
         },
@@ -8752,7 +8801,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "14e18c5a7fc8fcb83004768b7dacc36f9414e01f"
+                "reference": "93fe855917dd7486269c88ae1f0c4e7f6457a993"
             },
             "require": {
                 "filament/filament": "^3.0",
@@ -8824,6 +8873,7 @@
                 "source": "https://github.com/microweber-packages/microweber-filament-theme"
             },
             "transport-options": {
+                "symlink": true,
                 "relative": true
             }
         },

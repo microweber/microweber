@@ -1,0 +1,21 @@
+{
+    "name": "microweber-frontend-assets-libs",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microweber-packages/frontend-assets-libs.git"
+    },
+    "private": true,
+    "scripts": {
+        "dev:scripts": "node bin/build.js --dev",
+        "build:scripts": "node bin/build.js",
+        "dev": "npm-run-all --parallel dev:*",
+        "build": "npm-run-all build:*"
+    },
+    "dependencies": {
+        "jquery": "^3.7.1",
+        "jquery-ui": "^1.13.3"
+    }
+}
