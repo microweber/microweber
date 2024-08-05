@@ -1,6 +1,6 @@
 <div class="flex flex-col w-full">
 
-    <div class="font-medium">
+    <div class="font-medium w-full">
         {{$content->title}}
     </div>
 
@@ -9,7 +9,7 @@
     @endphp
 
     @if(!empty($parentPages))
-        <div class="text-muted">
+        <div class="text-[0.8rem]">
             @foreach ($parentPages as $parentPageId)
                 <a class="">
                     {{content_title($parentPageId)}}

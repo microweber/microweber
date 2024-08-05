@@ -4,11 +4,11 @@
 
 <div class="group flex gap-8 py-4 items-center justify-between w-full">
 
-    <div class="w-full flex items-center">
+    <div class="w-full flex gap-2 items-center">
         <div>
             @include('content::admin.content.filament.picture', ['content'=>$content])
         </div>
-       <div>
+       <div class="w-full">
            @include('content::admin.content.filament.title-and-categories', ['content'=>$content])
        </div>
     </div>
