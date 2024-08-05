@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
@@ -723,16 +724,13 @@ class ContentResource extends Resource
         return [
 
             Tables\Columns\Layout\Split::make([
-                    Tables\Columns\ViewColumn::make('content')
-                        ->view('content::admin.content.filament.content-view-column'),
 
-//                Tables\Columns\SelectColumn::make('is_active')
-//                    ->options([
-//                        1 => 'Published',
-//                        0 => 'Unpublished',
-//                    ]),
+                Tables\Columns\ViewColumn::make('content')
+                    ->columnSpanFull()
+                    ->view('content::admin.content.filament.content-view-column'),
 
                 DropdownColumn::make('is_active')
+                    ->grow(false)
                     ->size('sm')
                     ->options([
                         1 => 'Published',
@@ -749,7 +747,8 @@ class ContentResource extends Resource
                         default => 'gray',
                     }),
 
-            ]),
+
+            ])->columnSpanFull(),
 
         ];
     }
