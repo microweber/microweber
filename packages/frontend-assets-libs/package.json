@@ -9,13 +9,13 @@
     },
     "private": true,
     "scripts": {
-        "dev:scripts": "node bin/build.js --dev",
-        "build:scripts": "node bin/build.js",
-        "dev": "npm-run-all --parallel dev:*",
-        "build": "npm-run-all build:*"
+        "build": "gulp build"
     },
     "dependencies": {
         "jquery": "^3.7.1",
         "jquery-ui": "^1.13.3"
+    },
+    "devDependencies": {
+        "gulp": "^5.0.0"
     }
 }
