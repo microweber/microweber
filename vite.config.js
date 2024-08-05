@@ -70,7 +70,7 @@ export default defineConfig({
                 'src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js',
                 'src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js',
 
-                'resources/css/filament/admin/theme.css',
+              //  'resources/css/filament/admin/theme.css',
             ],
           // publicDirectory: "./public/build",
          //   publicDirectory: "public",
