@@ -1,29 +1,20 @@
 import gulp from 'gulp';
+import {BuildService} from './build.service.js';
+import {config} from './config.js';
 
-const scripts = [
-    {target: 'jquery', path: 'node_modules/jquery/dist/jquery.js'},
-    {target: 'jquery-ui', path: 'node_modules/jquery-ui/dist/jquery-ui.js'},
+const  { scripts, css, output, assets} = config;
 
-];
 
-const css = [];
-
-const output = `./resources/dist`;
+const service = new BuildService({
+    output
+});
 
 const build = () => {
-    return Promise.all(scripts.map(obj => buildSingle(obj)));
-};
-
-const buildSingle = (obj) => {
-    return new Promise(async (resolve, reject) => {
-        gulp.src([
-            `${obj.path}`,
-        ])
-        .pipe(gulp.dest(`${output}/${obj.target}`))
-            .on('finish', resolve)
-            .on('error', reject)
-        console.log(`${obj.path.split('/').pop()} compiled`);
-    })
+    return Promise.all([
+        ...scripts.map(obj => service.buildSingleJS(obj)),
+        ...css.map(obj => service.buildSingleCss(obj)),
+        ...assets.map(obj => service.buildSingleAsset(obj))
+    ]);
 };
 
 gulp.task('build', build);
