@@ -1,9 +1,5 @@
-
-
-
-
 import gulp from 'gulp';
-import { watch } from 'gulp';
+import {watch} from 'gulp';
 
 
 import sass from 'gulp-dart-sass';
@@ -14,9 +10,7 @@ import sourcemaps from 'gulp-sourcemaps';
 import include from 'gulp-include';
 
 
-import { exec }  from 'child_process';
-
-
+import {exec} from 'child_process';
 
 
 const adminCSS = 'userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/css';
@@ -40,6 +34,7 @@ const packagesWatch = () => {
 const packages = () => {
     return exec('php artisan filament:assets', (err, stdout, stderr) => {
         console.log('Publishing assets...');
+
         if (err) {
             console.log('Error: ');
             console.log(err);
@@ -51,7 +46,19 @@ const packages = () => {
                 console.log(err);
                 return;
             }
-            console.log('✅ Done');
+
+            return exec('php artisan livewire:publish --assets --ansi', (err, stdout, stderr) => {
+                if (err) {
+                    console.log('Error: ');
+                    console.log(err);
+                    return;
+                }
+                console.log(stdout);
+                console.log('✅ Done');
+
+            });
+
+
         });
     });
 
@@ -79,15 +86,15 @@ const adminJs = (prod = false) => {
 
     p = p.pipe(include());
 
-    if(!prod) {
-        p = p.pipe( sourcemaps.init()  )
+    if (!prod) {
+        p = p.pipe(sourcemaps.init())
     }
 
 
-    p = p.pipe(concat( 'admin-filament-app-dist.js'))
-    .pipe(uglify());
-    if(!prod) {
-        p = p.pipe( sourcemaps.write('.') )
+    p = p.pipe(concat('admin-filament-app-dist.js'))
+        .pipe(uglify());
+    if (!prod) {
+        p = p.pipe(sourcemaps.write('.'))
     }
 
     p = p.pipe(gulp.dest(apiJSOutputPath));
@@ -145,8 +152,8 @@ const _buildAll = () => {
 
 
 gulp.task('admin-css-dev', (done) => {
-     _buildAll(done);
-    gulp.watch('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/**/*.scss', gulp.series(['admin-css','admin-css-rtl']));
+    _buildAll(done);
+    gulp.watch('userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/**/*.scss', gulp.series(['admin-css', 'admin-css-rtl']));
     gulp.watch('userfiles/modules/microweber/api/apijs_combined.js', gulp.series(['api-js']));
     gulp.watch([
         'userfiles/modules/microweber/api/editor/core/*.js',
