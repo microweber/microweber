@@ -58,6 +58,7 @@ if(typeof  processContactForm !== 'object'){
               mw.tools.refresh_image(form.find(".mw-captcha-img")[0]);
           }
 		  mw.$('input[type="submit"]',form).removeAttr('disabled');
+		  mw.$('button[type="submit"]',form).removeAttr('disabled');
           form[0].reset();
           form.find(".alert-error").remove();
           setTimeout(function(){
