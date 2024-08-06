@@ -40,8 +40,10 @@ class ShippingManagerServiceProvider extends ServiceProvider
             $shippingMethodManager->extend('flat_rate', function () {
                 return new \MicroweberPackages\Shipping\Drivers\FlatRate();
             });
-
-
+      
+            $shippingMethodManager->extend('pickup_from_address', function () {
+                return new \MicroweberPackages\Shipping\Drivers\PickupFromAddress();
+            });
         });
 
         FilamentRegistry::registerResource(ShippingProviderResource::class);
