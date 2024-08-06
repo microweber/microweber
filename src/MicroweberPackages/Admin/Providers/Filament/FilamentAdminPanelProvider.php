@@ -203,9 +203,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             }
         }
 
-        FilamentColor::register([
-            'green-light' => Color::rgb('rgb(231, 244, 233)'),
-        ]);
+        MicroweberFilamentTheme::configure();
 
         return $panel;
     }

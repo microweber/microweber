@@ -4,7 +4,9 @@
         data-mw-category-selector="true"
         icon="heroicon-m-list-bullet"
         icon-position="before"
-        tooltip="Show Categories">
+        tooltip="Show Categories"
+        color="mw-secondary"
+    >
         Categories
     </x-filament::button>
 

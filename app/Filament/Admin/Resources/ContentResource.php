@@ -727,9 +727,11 @@ class ContentResource extends Resource
 
                 Tables\Columns\ViewColumn::make('content')
                     ->columnSpanFull()
+                    ->searchable()
                     ->view('content::admin.content.filament.content-view-column'),
 
                 DropdownColumn::make('is_active')
+                    ->searchable()
                     ->grow(false)
                     ->size('sm')
                     ->options([

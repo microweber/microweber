@@ -77,7 +77,6 @@ class MicroweberFilamentTheme implements Plugin
 
     public static function configure(): void
     {
-
         static::configureColors();
         static::configureColorShades();
         static::configureComponents();
@@ -111,12 +110,10 @@ class MicroweberFilamentTheme implements Plugin
     public static function getColors(): array
     {
         return [
-            'danger' => \Filament\Support\Colors\Color::Rose,
-            'gray' => Color::Zinc,
-            'info' => Color::Blue,
-            'primary' => Color::Blue,
-            'success' => Color::Emerald,
-            'warning' => Color::Yellow,
+            'mw-secondary' => Color::rgb('rgb(24,36,51)'),
+            'mw-primary' => Color::rgb('rgb(69, 146, 255)'),
+            'mw-sky-blue' => Color::rgb('rgb(255, 191, 0)'),
+            'mw-light-green' => Color::rgb('rgb(255, 191, 0)'),
         ];
     }
 

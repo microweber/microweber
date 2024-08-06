@@ -1,7 +1,7 @@
 @import 'group';
 
 .fi-btn {
-    @apply rounded-md;
+    @apply !rounded-[0.3rem];
 
     &:focus-visible {
         @apply outline outline-4 outline-offset-0 outline-primary-500/30 !ring-0 dark:outline-primary-400/40;
