@@ -3,21 +3,16 @@
     "version": "1.0.0",
     "description": "",
     "type": "module",
-
-
     "repository": {
         "type": "git",
         "url": "https://github.com/microweber-packages/frontend-assets.git"
     },
     "private": true,
-
     "scripts": {
-        "dev:scripts": "node bin/build.js --dev",
-        "build:scripts": "node bin/build.js",
-        "dev": "npm-run-all --parallel dev:*",
-        "build": "npm-run-all build:*"
+        "build": "npx webpack build --mode=production"
     },
     "devDependencies": {
-
+        "webpack": "^5.93.0",
+        "webpack-cli": "^5.1.4"
     }
 }
