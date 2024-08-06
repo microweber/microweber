@@ -132,6 +132,12 @@ class ListComponent extends AdminComponent
             $params['id'] = $filter['formListId'];
         }
 
+        if (!empty($this->filter['formListId'])) {
+            $formListId = (int) $this->filter['formListId'];
+            $params['id'] = $formListId;
+        }
+
+
         $data = mw()->forms_manager->export_to_excel($params);
         if (isset($data['download'])) {
             return $this->redirect($data['download']);
