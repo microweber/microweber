@@ -43,7 +43,7 @@
 }
 
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
-    @apply !bg-white !border-white w-full !border-b-gray-400;
+    @apply !bg-white !border-white w-full !border-b-gray-100;
 }
 
 @media screen and (max-width: 1200px) {
@@ -107,4 +107,107 @@
 
 #toolbar {
     @apply !bg-white;
+}
+
+body {
+    scrollbar-gutter: auto !important;
+}
+
+.live-edit-toolbar-buttons-undo-redo,
+.live-edit-toolbar-buttons-view {
+    @apply !bg-gray-100 !border-gray-100;
+}
+
+.mw-live-edit-resolutions-wrapper,
+.mw-live-edit-right-sidebar-wrapper {
+    @apply !bg-gray-100 !rounded-[5px] !p-[5px] !max-h-[35px] !flex !items-center !justify-center !gap-[2px];
+}
+
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
+    @apply !rounded-[5px] !p-[3px_7px] !border-gray-100 !bg-gray-100 shadow-none;
+}
+
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-resolution-active,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.live-edit-right-sidebar-active,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.live-edit-resolution-active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.live-edit-right-sidebar-active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
+    @apply !bg-white !border-white;
+}
+
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons svg,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
+    @apply !fill-black;
+}
+
+.mw-live-edit-search-dropdown {
+    @apply !bg-gray-100 !border-gray-100 !max-h-[35px] !flex !items-center !relative !min-w-[235px] w-full;
+}
+
+.mw-live-edit-search-dropdown input {
+    @apply !max-w-[180px] !overflow-hidden;
+}
+
+
+.mw-ui-invisible-field  {
+    @apply bg-transparent border border-solid border-transparent box-border py-2 relative outline-none;
+}
+
+.mw-autocomplete .mw-autocomplete-list {
+    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto p-[20px] bg-gray-100;
+}
+
+.mw-autocomplete .mw-autocomplete-list a {
+    @apply whitespace-nowrap overflow-hidden text-ellipsis max-w-[400px];
+}
+
+#mw-dialog-holder-mw-add-content-editor-front {
+    @apply w-[800px] !important;
+}
+
+.mw-btn-icon-delete {
+    @apply text-danger-100 relative;
+}
+.mw-btn-icon-delete::after {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>');
+    @apply absolute right-0 top-0 z-10;
+}
+
+/* Base styling for links and items in navigation */
+.mw-ui-navigation a,
+.mw-ui-navigation-item {
+    @apply block relative py-2.5 px-3 h-[36px] border border-transparent whitespace-nowrap;
+}
+
+
+/* Specific margin for dropdown icon */
+.mw-ui-navigation a > .mw-icon-dropdown:last-child {
+    @apply my-[3px] mr-1 ml-2;
+}
+
+/* Icon styling for dropdown */
+.mw-ui-navigation .mw-icon-dropdown {
+    @apply text-[12px] leading-[12px];
+}
+
+/* Hover and focus states */
+.mw-ui-navigation a:hover,
+.mw-ui-navigation a:focus,
+.mw-ui-navigation li:hover > a {
+    @apply border-black bg-gray-100;
+}
+
+/* Active and selected states */
+.mw-ui-navigation a:active,
+.mw-ui-navigation a.active,
+.mw-ui-navigation li.active > a {
+    @apply shadow-inner border-black bg-gray-100;
 }
