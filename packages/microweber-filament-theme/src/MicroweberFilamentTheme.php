@@ -48,30 +48,30 @@ class MicroweberFilamentTheme implements Plugin
 
     public static function configureAssets(): void
     {
-        //        $head = new AdminFilamentMetaTagsRenderer();
-        //
-        //        $headTags = $head->getHeadMetaTags();
-        //        $footerTags = $head->getFooterMetaTags();
+                $head = new AdminFilamentMetaTagsRenderer();
 
-        //        Filament::serving(function () use ($headTags, $footerTags) {
-        //            FilamentView::registerRenderHook(
-        //                PanelsRenderHook::HEAD_START,
-        //                fn(): string => $headTags
-        //            );
-        //            FilamentView::registerRenderHook(
-        //                PanelsRenderHook::BODY_END,
-        //                fn(): string => $footerTags
-        //            );
-        //            FilamentAsset::register([
-        //                //Js::make('example-external-script', 'external.js'),
-        //                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
-        //            ]);
-        //
-        /// //            FilamentAsset::register([
-        //                //Js::make('example-external-script', 'external.js'),
-        //                //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
-        //            ]);
-        //        });
+                $headTags = $head->getHeadMetaTags();
+                $footerTags = $head->getFooterMetaTags();
+
+                Filament::serving(function () use ($headTags, $footerTags) {
+                    FilamentView::registerRenderHook(
+                        PanelsRenderHook::HEAD_START,
+                        fn(): string => $headTags
+                    );
+                    FilamentView::registerRenderHook(
+                        PanelsRenderHook::BODY_END,
+                        fn(): string => $footerTags
+                    );
+//                    FilamentAsset::register([
+//                        //Js::make('example-external-script', 'external.js'),
+//                        //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
+//                    ]);
+//
+//          //            FilamentAsset::register([
+//                        //Js::make('example-external-script', 'external.js'),
+//                        //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
+//                    ]);
+                });
 
     }
 
