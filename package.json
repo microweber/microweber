@@ -2,9 +2,6 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build-admin": "vite build -c vite-admin.config.js",
-        "build-admin-libs": "vite build -c vite-admin-libs.config.js",
-        "dev-admin": "vite build -c vite-admin.config.js --watch --sourcemap false  --mode development",
         "vitedev": "vite build --watch --sourcemap false --mode development",
         "dev": "concurrently \"npm run vitedev\" \"gulp packages-watch\"",
         "build": "concurrently \"vite build\" \"gulp packages\" ",
