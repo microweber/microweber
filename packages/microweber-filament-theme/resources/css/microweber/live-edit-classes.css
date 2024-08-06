@@ -45,3 +45,66 @@
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
     @apply !bg-white !border-white w-full !border-b-gray-400;
 }
+
+@media screen and (max-width: 1200px) {
+    .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed span {
+        display: none;
+    }
+}
+
+.mw-live-edit-toolbar-link--arrowed {
+    @apply inline-block h-8 leading-8; /* 2rem = 8 * 0.5rem */
+}
+
+.mw-live-edit-toolbar-link--arrowed .mw-live-edit-toolbar-arrow-icon {
+    @apply relative align-middle; /* Vertical align and position */
+    top: -1px;
+    @apply transition-transform ease-out duration-300; /* Transitions */
+    transform: rotate(180deg); /* Rotate */
+}
+
+.mw-live-edit-toolbar-link--arrowed g {
+    @apply stroke-black;
+}
+
+.mw-live-edit-toolbar-link--arrowed .arrow-icon--circle {
+    transition: stroke-dashoffset 0.3s ease;
+    stroke-dasharray: 95;
+    stroke-dashoffset: 95;
+    stroke: currentColor; /* No direct Tailwind equivalent for stroke color */
+    stroke-width: 2.2px; /* No direct Tailwind equivalent for stroke width */
+}
+
+.mw-live-edit-toolbar-link--arrowed .arrow-icon--arrow {
+    stroke: currentColor; /* No direct Tailwind equivalent for stroke color */
+    stroke-width: 2.2px; /* No direct Tailwind equivalent for stroke width */
+}
+
+.mw-live-edit-toolbar-link--arrowed:hover .arrow-icon {
+    transform: translate3d(5px, 0, 0); /* Custom transform */
+}
+
+.mw-live-edit-toolbar-link--arrowed:hover .arrow-icon--circle {
+    stroke-dashoffset: 0; /* Custom stroke offset */
+}
+
+
+.mw-live-edit-toolbar-link {
+    @apply text-black cursor-pointer font-normal no-underline flex flex-wrap items-center justify-center;
+}
+
+.mw-live-edit-toolbar-link:hover {
+    @apply text-black;
+}
+
+.live-edit-undo-redo-buttons-wrapper {
+    @apply flex items-center;
+}
+
+.mw-le-hamburger span {
+    @apply !bg-black;
+}
+
+#toolbar {
+    @apply !bg-white;
+}
