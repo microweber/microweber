@@ -9,13 +9,17 @@
     },
     "private": true,
     "scripts": {
-        "build": "gulp build"
+        "build": "gulp build",
+        "dev": "gulp build"
     },
     "dependencies": {
+        "flag-icons": "^7.2.3",
         "jquery": "^3.7.1",
         "jquery-ui": "^1.13.3"
     },
     "devDependencies": {
-        "gulp": "^5.0.0"
+        "gulp": "^5.0.0",
+        "gulp-copy": "^4.0.1",
+        "gulp-util": "^3.0.8"
     }
 }
