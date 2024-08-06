@@ -1,0 +1,137 @@
+.w-100 {
+    @apply !w-full;
+}
+
+.modules-list-block-item-picture {
+    @apply !bg-contain;
+}
+
+.justify-content-center {
+    @apply !justify-center;
+}
+
+.justify-content-between {
+    @apply !justify-between;
+}
+
+.justify-content-end {
+    @apply !justify-end;
+}
+
+.justify-content-start {
+    @apply !justify-start;
+}
+
+.align-items-center {
+    @apply !items-center;
+}
+
+.align-items-end {
+    @apply !items-end;
+}
+
+.align-items-start {
+    @apply !items-start;
+}
+
+.align-items-baseline {
+    @apply !items-baseline;
+}
+
+.align-items-stretch {
+    @apply !items-stretch;
+}
+
+.align-self-center {
+    @apply !self-center;
+}
+
+
+
+.d-flex {
+    @apply !flex;
+}
+
+.d-inline-flex {
+    @apply !inline-flex;
+}
+
+.d-block {
+    @apply !block;
+}
+
+.btn-sm svg {
+    @apply !w-auto !h-auto;
+}
+
+.me-5 {
+    @apply !mr-5;
+}
+
+.ms-5 {
+    @apply !ml-5;
+}
+
+.ms-1 {
+    @apply !ml-1;
+}
+
+.me-1 {
+    @apply !mr-1;
+}
+
+.me-2 {
+    @apply !mr-2;
+}
+
+.ms-2 {
+    @apply !ml-2;
+}
+
+.me-3 {
+    @apply !mr-3;
+}
+
+.ms-3 {
+    @apply !ml-3;
+}
+
+.me-4 {
+    @apply !mr-4;
+}
+
+.ms-4 {
+    @apply !ml-4;
+}
+
+.me-6 {
+    @apply !mr-6;
+}
+
+.ms-6 {
+    @apply !ml-6;
+}
+
+.me-7 {
+    @apply !mr-7;
+}
+
+.ms-7 {
+    @apply !ml-7;
+}
+
+.me-8 {
+    @apply !mr-8;
+}
+
+.ms-8 {
+    @apply !ml-8;
+}
+
+.me-9 {
+    @apply !mr-9;
+}
+
+.ms-9 {
+    @apply !ml-9;
+}
