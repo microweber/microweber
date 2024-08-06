@@ -14,6 +14,7 @@ use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Filament\MicroweberTheme;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
+use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\EditCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\Homepage;
@@ -80,6 +81,10 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             name: PanelsRenderHook::SIDEBAR_NAV_START,
             hook: fn () => view('microweber-module-newsletter::livewire.filament.admin.sidebar.create-new-campaign-btn')
         );
+
+        $panel->plugin(new MicroweberFilamentTheme());
+
+        MicroweberFilamentTheme::configure();
 
 
         return $panel;
