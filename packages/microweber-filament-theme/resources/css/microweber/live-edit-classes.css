@@ -1,6 +1,5 @@
 .modules-list-block-style-list {
-    @apply h-[160px];
-    @apply w-full;
+    @apply h-[160px] w-full;
 }
 
 @media screen and (min-width: 890px) {
@@ -25,10 +24,7 @@
     @apply w-full h-[500px];
 }
 
-.w-100 {
-    @apply !w-full;
-}
+.layout-list-buttons {
+    @apply mr-[40px] mt-[7px];
 
-.modules-list-block-item-picture {
-    @apply !bg-contain;
 }
