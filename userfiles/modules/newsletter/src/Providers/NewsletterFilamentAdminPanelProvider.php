@@ -39,8 +39,6 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 
 
         $panel
-            // ->viteTheme('resources/css/microweber-admin-filament.scss', 'public/build')
-            ->viteTheme('resources/css/filament/admin/theme.css', 'public/build')
             ->id('admin-newsletter')
             ->path('admin/newsletter')
             ->globalSearch(true)
