@@ -28,3 +28,20 @@
     @apply mr-[40px] mt-[7px];
 
 }
+
+.mw-le-layouts-dialog-col:first-child, .modules-list-search-field {
+    @apply bg-white;
+}
+
+
+.mw-le-layouts-dialog .modules-list-search-block {
+    @apply relative;
+}
+
+.input-icon-addon {
+    @apply absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none min-w-[2.5rem] justify-center text-[1.2em];
+}
+
+.mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
+    @apply !bg-white !border-white w-full !border-b-gray-400;
+}
