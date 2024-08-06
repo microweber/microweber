@@ -1011,3 +1011,42 @@ if(!function_exists('get_class_protected_property_value')){
         return $reflBar->getValue($obj);
     }
 }
+
+function mw_save_framework_config_file($params)
+{
+    $saveOnlyKeys = [
+        'developer_mode',
+        'force_https',
+        'update_channel',
+        'compile_assets',
+    ];
+
+    if (empty($params) or !is_admin()) {
+        return;
+    }
+
+    $save_configs = array();
+    foreach ($params as $k => $item) {
+        if ($k != 'microweber') {
+            continue;
+        }
+        if (is_array($item) and !empty($item)) {
+            foreach ($item as $config_k => $config) {
+                if (is_string($config_k)) {
+                    if (is_numeric($config)) {
+                        $config = intval($config);
+                    }
+
+                    if (in_array($config_k, $saveOnlyKeys)) {
+                        \Config::set($k . '.' . $config_k, $config);
+                        $save_configs[] = $k;
+                    }
+                }
+            }
+        }
+    }
+    if (!empty($save_configs)) {
+        \Config::save($save_configs);
+        return array('success' => 'Config is changed!');
+    }
+}

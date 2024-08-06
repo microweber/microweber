@@ -2,8 +2,14 @@
 
 namespace App\Filament\Admin\Pages;
 
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
@@ -63,6 +69,59 @@ class AdminAdvancedPage extends AdminSettingsPage
                             ->cols(5),
 
                     ]),
+
+
+                Section::make('Development settings')
+                ->description('If you are developer you will find great tools to make your website.')
+                    ->view('filament-forms::sections.section')
+                ->schema([]),
+
+                  Section::make('Other settings')
+                ->description('Other settings for your website.')
+                      ->view('filament-forms::sections.section')
+                ->schema([
+
+                    Section::make('Internal Settings')
+                        ->description('Internal settings for developers')
+                        ->schema([
+                            Actions::make([
+                                Action::make('Internal Settings')
+                                    ->fillForm(function () {
+                                        return [
+                                            'microweber'=>config('microweber')
+                                        ];
+                                    })
+                                    ->form([
+                                        Toggle::make('microweber.compile_assets')
+                                            ->label('Compile api.js')
+                                            ->inline(),
+                                        Toggle::make('microweber.force_https')
+                                            ->label('Force HTTPS')->inline(),
+                                        Select::make('microweber.update_channel')
+                                            ->label('Update Channel')
+                                            ->options([
+                                                'stable' => 'Stable',
+                                                'beta' => 'Beta',
+                                                'dev' => 'Dev',
+                                                'disabled' => 'Disabled',
+                                            ]),
+                                        Toggle::make('microweber.developer_mode')->inline()
+                                    ])->action(function ($data) {
+                                        // Handle the action...
+                                        mw_save_framework_config_file($data);
+                                    }),
+                            ])
+
+                        ]),
+                    Section::make('Live Edit settings')
+                        ->description('Configure Live Edit settings')
+                        ->schema([
+                            // ...
+                        ])
+
+                ]),
+
+
             ]);
     }
 
