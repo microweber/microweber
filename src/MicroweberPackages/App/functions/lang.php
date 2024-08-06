@@ -238,7 +238,8 @@ api_expose_admin('save_language_file_content', function ($data) {
 
 function get_flag_icon_url($locale)
 {
-    return modules_url() . 'microweber/api/libs/flag-icon-css/flags/1x1/'.get_flag_icon($locale).'.svg';
+    //return modules_url() . 'microweber/api/libs/flag-icon-css/flags/1x1/'.get_flag_icon($locale).'.svg';
+    return public_asset() . 'vendor/microweber-packages/frontend-assets-libs/flag-icons/flags/1x1/'.get_flag_icon($locale).'.svg';
 }
 function get_flag_icon($locale) {
     return \MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);

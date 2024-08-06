@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Multilanguage;
 
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\SpatieLaravelTranslatablePlugin;
@@ -25,7 +26,7 @@ class MultilanguageFilamentPlugin implements Plugin
 
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
 
-       //    return;
+            return;
         }
 
 
@@ -49,14 +50,14 @@ class MultilanguageFilamentPlugin implements Plugin
         $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
 
         $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
-
+        self::configureLanguageSwitch();
 
     }
 
     public function boot(Panel $panel): void
     {
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
-           // return;
+            // return;
         }
         FilamentAsset::register([
             Js::make('mw-filament-translatable', Vite::asset('src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js')),
@@ -71,6 +72,31 @@ class MultilanguageFilamentPlugin implements Plugin
         FilamentAsset::registerScriptData([
             'multilanguage' => $multilanguageSharedData,
         ]);
+    }
+
+
+    public static function configureLanguageSwitch(): void
+    {
+
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $langs = get_supported_languages();
+
+            if ($langs) {
+                $locales = [];
+                $flags = [];
+                foreach ($langs as $lang) {
+                    $locales[] = $lang['locale'];
+                    if (isset($lang['iconUrl']) and $lang['iconUrl']) {
+                        $flags[$lang['locale']] = $lang['iconUrl'];
+                    }
+                }
+                $switch->locales($locales);
+
+                $switch->flags($flags);
+            }
+
+
+        });
     }
 
 }
