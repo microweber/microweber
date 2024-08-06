@@ -18,7 +18,7 @@
 
     @endif
 
-    <main class="px-8">
+    <main class="mw-live-edit-page-wrapper">
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::CONTENT_START, scopes: $livewire->getRenderHookScopes()) }}
 
         {{ $slot }}

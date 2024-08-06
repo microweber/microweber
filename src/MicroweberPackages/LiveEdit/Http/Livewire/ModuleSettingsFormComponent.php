@@ -2,6 +2,13 @@
 
 namespace MicroweberPackages\LiveEdit\Http\Livewire;
 
+
+
+/**
+ * @deprecated
+ *
+ *
+ */
 class ModuleSettingsFormComponent extends ModuleSettingsComponent
 {
     public string $view = 'microweber-live-edit::module-settings-form';

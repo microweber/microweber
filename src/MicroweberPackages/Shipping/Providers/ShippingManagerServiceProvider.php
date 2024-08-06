@@ -35,12 +35,11 @@ class ShippingManagerServiceProvider extends ServiceProvider
             return new ShippingMethodManager($app->make(Container::class));
         });
 
-
         $this->app->resolving('shipping_method_manager', function (ShippingMethodManager $shippingMethodManager) {
             $shippingMethodManager->extend('flat_rate', function () {
                 return new \MicroweberPackages\Shipping\Drivers\FlatRate();
             });
-      
+
             $shippingMethodManager->extend('pickup_from_address', function () {
                 return new \MicroweberPackages\Shipping\Drivers\PickupFromAddress();
             });
