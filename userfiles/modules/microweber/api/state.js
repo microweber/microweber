@@ -4,7 +4,8 @@
 
         var scope = this;
         var defaults = {
-            maxItems: 1000
+            maxItems: 1000,
+            hooks: {}
         };
         this.options = $.extend({}, defaults, (options || {}));
         this._state = this.options.state || [];
@@ -79,8 +80,14 @@
         };
 
         this.record = function(item){
+
             if(this.paused()) {
                 return this;
+            }
+            if(this.options.interceptors && typeof this.options.interceptors.beforeRecord === 'function'){
+                if(!this.options.interceptors.beforeRecord.call(this, item, this.state())){
+                    return this;
+                }
             }
             if(this._activeIndex>-1) {
                 var i = 0;
@@ -193,11 +200,26 @@
 
 (function(){
     if(mw.liveEditState) return;
-    mw.liveEditState = new mw.State();
+    mw.liveEditState = new mw.State({
+        interceptors: {
+            beforeRecord: function(item, state){
+                if(item.target && item.target.nodeName === 'BODY') {
+                    return false;
+                }
+                const exists = state.find(function (obj) {
+                    return  obj.target === item.target && obj.value === item.value;
+                });
+
+                return !exists;
+            }
+        }
+
+    });
     mw.liveEditState.record({
          value: null,
          $initial: true
     });
+
     mw.$liveEditState = mw.$(mw.liveEditState);
 
 

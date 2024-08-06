@@ -123,6 +123,13 @@ export default class ColorPaletteManager extends MicroweberBaseClass {
 
     getColorsFromCanvasDocument() {
         var colorsDocgetWindow = mw.top().app.canvas.getWindow();
+        if(!colorsDocgetWindow){
+            return [];
+        }
+        if (typeof colorsDocgetWindow.$ === 'undefined') {
+            return [];
+        }
+
         var colorpicker_els = colorsDocgetWindow.$(".btn,h1,h2,h3,h4,h5,p,font");
         var colors = [];
 

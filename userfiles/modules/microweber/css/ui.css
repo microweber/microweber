@@ -8058,7 +8058,7 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   top: 5px !important;
   left: 50% !important;
   z-index: 1103 !important;
-  transform: translateX(-50%) !important;
+  transform: translateX(-50%);
   margin-top: 0 !important;
 }
 .mw-small-editor.pinned .mw-editor-button-pin svg {
@@ -9093,6 +9093,16 @@ html[dir="rtl"] .mw-block-edit-edit-slide {
   position: relative;
   z-index: 1;
 }
+
+
+.mw-layout-container.mw-free-layout-container .mw-le-resizer-b{
+    opacity: 0;
+    transition: opacity .2s;
+}
+.mw-layout-container.mw-free-layout-container:hover .mw-le-resizer-b{
+    opacity: 1;
+}
+
 .mw-layout-background-node {
   background-repeat: no-repeat;
   background-position: center center;

@@ -3,7 +3,7 @@
     pointer-events: none;
 }
 html.le-dragging{
- 
+
     .mw-handle-item{
         opacity:0 !important;
     }
@@ -25,14 +25,14 @@ html.le-dragging{
 }
 
 .mw-handle-item[data-draggable="false"] {
-    .mw-handle-item-draggable-self, 
+    .mw-handle-item-draggable-self,
     .mw-handle-drag-button{
         display: none;
         &.active{
             display: none;
         }
     }
-    
+
 }
 
 .mw-handle-item.mw-le-resizable {
@@ -60,7 +60,7 @@ html.le-dragging{
             top: calc(50% - 6px);
         }
     }
- 
+
     .mw-le-resizer-r {
         &:before,
         &:after{
@@ -77,7 +77,7 @@ html.le-dragging{
     .mw-le-resizer-b {
         &:before,
         &:after{
- 
+
             top: 2px;
         }
         &:before{
@@ -91,7 +91,7 @@ html.le-dragging{
     .mw-le-resizer-t {
         &:before,
         &:after{
- 
+
             top: -6px;
         }
         &:before{
@@ -101,5 +101,11 @@ html.le-dragging{
         &:after{
             right: calc(50% - 5px);
         }
+    }
+}
+
+body.mw-live--layout-resizing{
+    .mw-handle-item, .mw-handle-item-layout-plus{
+        opacity: 0;
     }
 }

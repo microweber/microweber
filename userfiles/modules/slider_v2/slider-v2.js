@@ -41,7 +41,9 @@ class SliderV2 {
 
     slideTo(index) {
         if (this.driver == 'swiper') {
-            this.driverInstance.slideTo(index);
+            if(this.driverInstance && this.driverInstance.slideTo) {
+                this.driverInstance.slideTo(index);
+            }
         }
     }
 
@@ -55,6 +57,14 @@ class SliderV2 {
         }
         if (this.config.autoplay) {
             swiperConfig.autoplay = true;
+        }
+
+        if (this.config.delay) {
+        //    swiperConfig.delay = this.config.delay;
+            swiperConfig.autoplay = {
+                delay: this.config.delay,
+            };
+
         }
         if (this.config.pagination.element) {
             swiperConfig.pagination = {

@@ -1,4 +1,4 @@
-@props(['value' => ''])
+@props(['value' => '','addUnsavedClass' => ''])
 
 @php
     $randId = time() . rand(111,999);
@@ -41,6 +41,9 @@
         <div class="d-flex justify-content-start gap-2 col-6">
             <button class="btn" x-on:click="()=> {
                         mw.app.iconPicker.selectIcon('#btn-icon-pick-{{$randId}}');
+                        @if(isset($addUnsavedClass) && $addUnsavedClass)
+                        document.body.classList.add('mw-unsaved-changes');
+                        @endif
                     }"
                 type="button">
                 <?php _e("Select Icon"); ?>
@@ -48,6 +51,9 @@
 
             <button type="button" style="display:none" id="btn-icon-preview-{{$randId}}" class="btn text-center col-1" x-on:click="()=> {
                         mw.app.iconPicker.selectIcon('#btn-icon-pick-{{$randId}}');
+                        @if(isset($addUnsavedClass) && $addUnsavedClass)
+                        document.body.classList.add('mw-unsaved-changes');
+                        @endif
                     }" style="font-size:24px; background-color: #f5f5f5;">
                 Loading...
             </button>

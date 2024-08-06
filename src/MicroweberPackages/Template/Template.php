@@ -12,6 +12,7 @@ use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateOptimizeLoadingHe
 use MicroweberPackages\Template\Adapters\TemplateCssParser;
 use MicroweberPackages\Template\Adapters\TemplateCustomCss;
 use MicroweberPackages\Template\Adapters\TemplateFonts;
+use MicroweberPackages\Template\Adapters\TemplateLiveEditCss;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
 
 /**
@@ -56,6 +57,11 @@ class Template
      * @var  $customCssAdapter TemplateCustomCss
      */
     public $customCssAdapter = null;
+    /**
+     *
+     * @var  $liveEditCssAdapter TemplateLiveEditCss
+     */
+    public $liveEditCssAdapter = null;
 
 
     public $adapter_default = null;
@@ -80,11 +86,11 @@ class Template
         $this->stack_compiler_adapter = new TemplateStackRenderer($app);
 
         $this->admin = new AdminTemplateStyle($app);
-        $this->admin = new AdminTemplateStyle($app);
 
         $this->setTemplateAdapter(new MicroweberTemplate());
         $this->setFontsAdapter(new TemplateFonts());
         $this->setCustomCssAdapter(new TemplateCustomCss());
+        $this->setLiveEditCssAdapter(new TemplateLiveEditCss());
     }
 
     public function setTemplateAdapter($adapter)
@@ -100,6 +106,10 @@ class Template
     public function setCustomCssAdapter($adapter)
     {
         $this->customCssAdapter = $adapter;
+    }
+    public function setLiveEditCssAdapter($adapter)
+    {
+        $this->liveEditCssAdapter = $adapter;
     }
 
     public function compile_css($params)
@@ -178,6 +188,16 @@ class Template
         $meta = mw_header_scripts();
 
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
+
+
+
+
+        $liveEditTags =  new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadTags();
+        $liveEditTagsHtml = $liveEditTags->toHtml();
+
+        if($liveEditTagsHtml){
+            $layout = Str::replaceFirst('</head>', $liveEditTagsHtml . '</head>', $layout);
+        }
 
         $meta = mw_footer_scripts();
         $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);

@@ -11,9 +11,15 @@
            <textarea {!! $attributes->merge([]) !!} id="editor-{{$editorId}}"></textarea>
        </div>
        <script>
-           mw.require('editor.js');
 
 
+               mw.top().lib.require('colorpicker');
+
+
+
+               mw.require('editor.js', true);
+
+           document.addEventListener('livewire:load', function () {
                let mwEditorId{{$editorId}} = mw.Editor({
                    selector: '#editor-{{$editorId}}',
                    mode: 'div',
@@ -22,7 +28,7 @@
                    maxHeight: '50vh',
                    interactionControls: [],
                    controls: [
-                       ['italic', 'underline', 'strikeThrough', 'removeFormat','textBackgroundColor','textColor']
+                       ['italic', 'underline', 'fontSize', 'strikeThrough', 'removeFormat','textBackgroundColor','textColor']
                    ]
 
                });
@@ -35,6 +41,8 @@
                    target{{$editorId}}.dispatchEvent(event{{$editorId}});
 
                });
+           })
+
 
 
 

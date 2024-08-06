@@ -1,8 +1,8 @@
 <?php
 /*
 type: layout
-name: Default
-description: MW Default
+name: Only flag
+description: MW Only flag
 */
 ?>
     <style>
@@ -62,10 +62,12 @@ description: MW Default
 
     <style>
         .multilanguage-display-icon-custom {
-            max-width: 18px;
-            max-height: 18px;
-            margin-right: 5px;
-            margin-top:3px;
+
+            width: 26px;
+            height: 28px;
+            object-fit: contain;
+            max-width: unset;
+            max-height: unset;
         }
     </style>
 
@@ -76,7 +78,7 @@ description: MW Default
     <span class="mw-dropdown-value btn btn-primary btn-sm mw-dropdown-val">
         <?php if (!empty($current_language)): ?>
         <?php if (!empty($current_language['display_icon'])): ?>
-            <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom" />
+            <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom"/>
         <?php else: ?>
             <span class="flag-icon flag-icon-<?php echo get_flag_icon($current_language['locale']); ?>"></span>
         <?php endif; ?>

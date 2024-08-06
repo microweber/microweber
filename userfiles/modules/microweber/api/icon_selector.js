@@ -432,6 +432,7 @@
                 tabs = tabAccordionBuilder([
                     {title: 'Icons'},
                     {title: 'Options'},
+
                 ]);
                 iconsBlockHolder = tabs.items[0].content;
                 optionsHolder = tabs.items[1].content;
@@ -522,6 +523,28 @@
                     }, 100)
                     cel.append(cpHolder);
                     holder.append(cel);
+                }
+                if(scope.settings.iconOptions.imageReplace) {
+                    var rel = mw.element(`
+                    <div class="my-3">
+                        <label class="mw-icon-selector-control-label live-edit-label px-0 mb-2 ps-2">${mw.lang('Replace with image')}</label>
+                    </div>`);
+                    var rinput = mw.element(`
+                        <button type="button" style="min-width: 150px" class="btn btn-light border-0 go-live-edit-href-set admin-toolbar-buttons ">
+                        ${mw.lang('Choose')}
+                        </button>
+                    `);
+                    rinput.on('click', function () {
+                        mw.filePickerDialog( (url) => {
+                            scope.dispatch('iconReplaced', {
+                                type: 'image',
+                                url: url,
+                            });
+                        });
+
+                    });
+                    rel.append(rinput);
+                    holder.append(rel);
                 }
                 if(scope.settings.iconOptions.reset) {
                     var rel = mw.element(`
@@ -707,9 +730,13 @@
 
         var renderSearchResults = function (conf) {
             var res = search(conf);
+
             if(!res) return;
             var pg = createPaging(res.all.length, res.page);
             var root = mw.element();
+            if(!res.data.length) {
+                root.append( mw.element(`<div class="alert" role="alert"><h5 class="text-secondary fw-normal">No results for <strong>${conf.term}</strong></h5></div>`));
+            }
             res.data.forEach(function (iconItem){
                 var icon = mw.element({
                     tag: 'span',

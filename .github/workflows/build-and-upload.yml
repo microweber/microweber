@@ -15,6 +15,13 @@ jobs:
       - uses: actions/checkout@v3
         with:
           repository: ${{ github.repository }}
+
+
+      - name: Install Dependencies
+        run: composer install
+
+      - name: Dump autoload dependecies
+        run: composer dump-autoload
       - name: Npm install
         uses: actions/setup-node@v3
         with:
@@ -23,13 +30,6 @@ jobs:
           cache-dependency-path: ./package-lock.json
       - run: npm install
       - run: npm run build
-
-      - name: Install Dependencies
-        run: composer install
-
-      - name: Dump autoload dependecies
-        run: composer dump-autoload
-
       - name: Test before build
         run: composer test:phpunit
 
@@ -142,16 +142,12 @@ jobs:
           rm -rf userfiles/cache/*
           rm -rf userfiles/css/*
           rm -rf userfiles/media/*
+          rm -rf userfiles/templates/*
           rm -rf favicon.ico
           rm -f *.php
           rm -f *.yml
           find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
-          cp -r userfiles/ update/
-          cp -r vendor/ update/
-          cp -r src/ update/
-          cd update/
           zip -r microweber-update-${{ env.GITHUB_REF_SLUG }}.zip `ls -A`
-          cp microweber-update-${{ env.GITHUB_REF_SLUG }}.zip ../microweber-update-${{ env.GITHUB_REF_SLUG }}.zip
       - name: Upload zip
         run: |
           echo insecure >> ~/.curlrc

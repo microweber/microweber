@@ -711,8 +711,7 @@ td, tr, th, .theme-dark .input-group-text {
 }
 
 small.text-muted {
-    color: var(--tblr-body-color) !important;
-    font-size: 14px !important;
+    color: var(--tblr-muted-rgb);
 }
 
 .form-label {
@@ -838,7 +837,7 @@ small.text-muted {
 
     &:hover {
         transform: scale(1.1);
-        background-color: #f8fcff !important;
+        //background-color: #f8fcff !important;
     }
 }
 
@@ -2251,8 +2250,14 @@ svg.text-danger {
     max-height: 35px;
     display: flex;
     align-items: center;
-    min-width: 235px;
+    min-width: 235px !important;
+    width: 100%;
     position: relative;
+
+    input {
+        max-width: 180px;
+        overflow: hidden;
+    }
 }
 
 .modules-list-block-style-list {
@@ -2600,7 +2605,7 @@ svg.text-danger {
 
     .mw-link-editor-root {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         width: 100%;
 
 
@@ -2949,9 +2954,6 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     position: relative !important;
 }
 
-.mw-live-edit-search-dropdown {
-    min-width: unset !important;
-}
 
 .mw-list-group-accordion-buttons {
     border: none;
@@ -3281,5 +3283,16 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     &:hover {
         cursor: pointer;
         transform: scale(1.02);
+    }
+}
+
+.mw-editor-area {
+    p,h1,h2,h3,h4,h5,h6,ul,li,ol{
+        margin-block: 0;
+        padding-block: 0;
+
+    }
+    .element{ // chrome 125 new line bug
+        min-height: 1px;
     }
 }

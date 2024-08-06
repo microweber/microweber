@@ -1,18 +1,174 @@
 import  MicroweberBaseClass  from "../../containers/base-class.js";
 
 
-export class LiveEditCanvas extends MicroweberBaseClass {
-
+class LiveEditCanvasBase extends MicroweberBaseClass {
     constructor() {
+        super();
+    }
+
+    getIdentity() {
+        return mw.storage.rootIdentity()
+    }
+
+    findByKey(key, excludeSameIdentity = false) {
+        let curr = mw.storage.get('mw-broadcast-data');
+        const res = []
+        for(let identity in curr) {
+            if(curr[identity][key] && curr[identity][key] && (!excludeSameIdentity || identity !== this.getIdentity())) {
+                res.push({...curr[identity], identity});
+            }
+        }
+        return res;
+    }
+    findByKeyValue(key, value, excludeSameIdentity = false) {
+        let curr = mw.storage.get('mw-broadcast-data');
+        const res = [];
+
+        value = this.urlAsValue(value);
+
+        for(let identity in curr) {
+
+            if(curr[identity][key] && this.urlAsValue(curr[identity][key]) === value && (!excludeSameIdentity || identity !== this.getIdentity())) {
+                res.push({...curr[identity], identity});
+            }
+        }
+
+        return res;
+    }
+
+    urlAsValue(url) {
+        if(!url) {
+            return ''
+        }
+        const urlObj = new URL(url);
+        urlObj.search = '';
+        urlObj.hash = '';
+        let result = urlObj.toString().trim();
+
+        // unify the way urls are stored
+        if(result.lastIndexOf('/') === result.length - 1) {
+            result = result.substring(0, result.length - 1);
+        }
+
+
+        return result;
+    };
+
+    record(action, data) {
+
+        let curr = mw.storage.get('mw-broadcast-data');
+        let identity = this.getIdentity();
+
+        if (typeof curr[identity] === 'undefined') {
+            curr[identity] = {};
+        }
+        if (!data) {
+            return curr[identity][action];
+        }
+        curr[identity][action] = data;
+        mw.storage.set('mw-broadcast-data', curr);
+    }
+}
+
+export class LiveEditCanvas extends LiveEditCanvasBase {
+
+    constructor(options = {}) {
         super();
     }
 
     #canvas = null;
 
+    sameUrlDialog = false;
+
+
+
+
+
+
+    async #cleanEmpty(curr){
+        if(!curr) {
+            curr = mw.storage.get('mw-broadcast-data');
+        }
+
+        for(let identity in curr) {
+
+            if(Object.keys(curr[identity]).length === 0) {
+                delete curr[identity];
+            }
+        }
+
+        mw.storage.set('mw-broadcast-data', curr);
+    }
+    #unregisterCurrentURL(){
+        const curr = mw.storage.get('mw-broadcast-data');
+        if(!curr[mw.storage.rootIdentity()]) {
+            curr[mw.storage.rootIdentity()] = {}
+        }
+        delete curr[mw.storage.rootIdentity()].canvasURL;
+
+
+        this.#cleanEmpty(curr)
+
+
+
+    }
+    async #registerURL(url){
+        const open = async () => {
+
+            const curr = mw.storage.get('mw-broadcast-data');
+            if(!curr[mw.storage.rootIdentity()]) {
+                curr[mw .storage.rootIdentity()] = {}
+            }
+
+            curr[mw.storage.rootIdentity()].canvasURL = url;
+
+            mw.storage.set('mw-broadcast-data', curr);
+
+
+            this.dispatch('setUrl', url);
+            if (this.options && this.options.onSetUrl) {
+                await this.options.onSetUrl(url);
+            }
+            // this.#cleanEmpty()
+        }
+
+
+        if(this.isUrlOpened(url) && this.sameUrlDialog) {
+
+            const action = await mw.app.pageAlreadyOpened.handle(url);
+
+            if(action) {
+
+                open()
+            } else {
+
+                mw.top().win.location.href = mw.top().settings.adminUrl;
+            }
+
+        } else{
+
+            await open();
+        }
+    };
+
+    isUrlSame(url) {
+
+        return this.urlAsValue(url) === this.urlAsValue(this.#canvas.src);
+    }
+
+    isUrlOpened(url) {
+
+
+
+       return  this.findByKeyValue('canvasURL', this.urlAsValue(url), false).length > 1;
+    }
+
+
 
     go(url) {
         if(this.#canvas && this.#canvas.ownerDocument && this.#canvas.contentWindow) {
-            this.#canvas.src = url;
+            this.setUrl(url);
+            // this.#canvas.src = url;
         }
     }
 
@@ -52,6 +208,25 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         return false;
     }
 
+      getUrl() {
+        if(this.#canvas && this.#canvas.ownerDocument && this.#canvas.src) {
+            return this.#canvas.src;
+        }
+      }
+
+    async setUrl(url) {
+
+
+
+
+        this.#canvas.src = url;
+
+
+        url = url.toString();
+
+        await this.#registerURL( url);
+    }
+
     mount(target) {
 
         this.dispatch('liveEditBeforeLoaded');
@@ -71,22 +246,24 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             url = decodeURIComponent(qurl)
         }
 
+        //  var valid =  mw.url.validate(url);
+        // if(!valid){
+        //     url = mw.settings.site_url;
+        // }
+
         url = new URL(url);
 
-      //  url.searchParams.set('editmode', 'iframe');
+
 
         if(url.host !== top.location.host) {
             url = `${mw.settings.site_url}`;
         }
 
-        // if(url.host !== top.location.host) {
-        //     url = `${mw.settings.site_url}?editmode=iframe`;
-        // }
 
-        // if(url.host !== top.location.host) {
-        //     url = `${mw.settings.site_url}?editmode=iframe`;
-        // }
-        liveEditIframe.src = url.toString();
+        this.#canvas = liveEditIframe;
+
+
+
 
         liveEditIframe.frameBorder = 0;
         liveEditIframe.id="live-editor-frame";
@@ -94,19 +271,19 @@ export class LiveEditCanvas extends MicroweberBaseClass {
         liveEditIframe.referrerPolicy = "no-referrer";
         liveEditIframe.loading = "lazy";
 
-        this.#canvas = liveEditIframe;
+        this.setUrl(url);
+
         target.innerHTML = '';
         target.appendChild(liveEditIframe);
 
 
-        window.onbeforeunload = function () {
-            if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw
-           && liveEditIframe.contentWindow.mw.askusertostay){
-               // prevent user from leaving the page
-
-
-               return true;
-           }
+        window.addEventListener('unload', () =>  this.#unregisterCurrentURL());
+        window.addEventListener('pagehide', () =>  this.#unregisterCurrentURL());
+        window.onbeforeunload = () => {
+            if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw && liveEditIframe.contentWindow.mw.askusertostay){
+                return true;
+            }
+            this.#unregisterCurrentURL();
          };
 
 
@@ -119,6 +296,7 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
 
         liveEditIframe.addEventListener('load', e => {
+
             mw.spinner({element: target, decorate: true}).remove();
 
             if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw) {
@@ -128,18 +306,21 @@ export class LiveEditCanvas extends MicroweberBaseClass {
 
             target.classList.add('live-edit-frame-loaded');
 
-            // liveEditIframe.contentWindow.addEventListener('beforeunload', event => {
-            //     mw.spinner({element: target, decorate: true, size: 52}).show()
-            //
-            // });
+           ['mousedown', 'touchstart'].forEach(e => {
+            liveEditIframe.contentWindow.document.body.addEventListener(e, event => this.dispatch('canvasDocumentClickStart', event));
+           })
 
-            liveEditIframe.contentWindow.document.body.addEventListener('click', (event) => {
+           liveEditIframe.contentWindow.document.body.addEventListener('click', (event) => {
 
-                if (mw.app.liveEdit.handles.targetIsOrInsideHandle(event.target ) ) {
-                    return;
-                }
-                this.dispatch('canvasDocumentClick', event)
+            if (mw.app.liveEdit.handles.targetIsOrInsideHandle(event.target ) ) {
+                return;
+            }
+            this.dispatch('canvasDocumentClick', event)
 
+        });
+
+            liveEditIframe.contentWindow.addEventListener('resize', (event) => {
+                this.dispatch('resize', event)
             });
             liveEditIframe.contentWindow.document.body.addEventListener('input', (event) => {
 
@@ -178,6 +359,8 @@ export class LiveEditCanvas extends MicroweberBaseClass {
             if(liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw) {
                 liveEditIframe.contentWindow.mw.isNavigating = false;
             }
+
+
             this.dispatch('liveEditCanvasLoaded', {frame: liveEditIframe, frameWindow: liveEditIframe.contentWindow, frameDocument: liveEditIframe.contentWindow.document});
 
 

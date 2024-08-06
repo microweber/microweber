@@ -52,18 +52,13 @@ class ListComponent extends AdminComponent
         $this->gotoPage(1);
     }
 
-    public function refresxxxh()
-    {
-        dd(222);
-    }
-
     public function render()
     {
         $formsLists = FormList::all();
         $getFormDataQuery = FormData::query();
 
         // Search
-        if (!empty($this->filter['keyword'])) {
+        if (isset($this->filter['keyword']) and !empty($this->filter['keyword'])) {
             $keyword = $this->filter['keyword'];
             $keyword = trim($keyword);
             $getFormDataQuery->whereHas('formDataValues', function ($query) use ($keyword) {
@@ -71,13 +66,13 @@ class ListComponent extends AdminComponent
             });
         }
 
-        if (!empty($this->filter['formListId'])) {
+        if (isset($this->filter['formListId']) and !empty($this->filter['formListId'])) {
             $formListId = (int) $this->filter['formListId'];
             $getFormDataQuery->where('list_id', $formListId);
         }
 
         // Ordering
-        if (!empty($this->filter["orderField"])) {
+        if (isset($this->filter['orderField']) and !empty($this->filter["orderField"])) {
             $order_type = (!empty($this->filter["orderType"])) ? $this->filter["orderType"] : 'ASC';
             $getFormDataQuery->orderBy($this->filter["orderField"], $order_type);
         }

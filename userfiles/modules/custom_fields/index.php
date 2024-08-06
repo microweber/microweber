@@ -3,6 +3,7 @@
 
 $skip_types = array();
 $for = 'module';
+$for_id = 0;
 if (isset($params['for'])) {
     $for = $params['for'];
 }
@@ -37,7 +38,6 @@ if (isset($params['content-id'])) {
         $for_id = $params['rel_id'];
     }
 }
-
 if (isset($params['default-fields']) and isset($params['parent-module-id'])) {
 //    $is_cf_created  = get_option('data-default-custom-fields-are-created', $params['id']);
 //    if (!$is_cf_created) {

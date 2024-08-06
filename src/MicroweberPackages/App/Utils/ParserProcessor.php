@@ -21,10 +21,8 @@ class ParserProcessor
     public $params = array();
 
 
-
     private $mw_replaced_modules_tags = array();
     private $mw_replaced_modules_values = array();
-
 
 
     public $current_module_params = false;
@@ -40,7 +38,7 @@ class ParserProcessor
     /**
      * @var ParserModuleItemCollection
      */
-   public $parser_modules_collection;
+    public $parser_modules_collection;
 
 
     public function __construct()
@@ -56,7 +54,7 @@ class ParserProcessor
 
     public static $process_layouts_loop = [];
 
-    public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false,$prevous_mod_obj=false,$prevous_layout_obj=false)
+    public function process($layout, $options = false, $coming_from_parent = false, $coming_from_parent_id = false, $previous_attrs = false, $prevous_mod_obj = false, $prevous_layout_obj = false)
     {
         if ($layout == '') {
             return;
@@ -118,10 +116,10 @@ class ParserProcessor
         }
         $is_first_loop = false;
         //$this->layout = $layout;
-       // static $process_started;
+        // static $process_started;
         $local_mw_replaced_modules = array();
         $local_mw_replaced_modules_ids_grouped = array();
-        if(!isset(self::$process_layouts_loop[$parser_modules_crc])){
+        if (!isset(self::$process_layouts_loop[$parser_modules_crc])) {
             $is_first_loop = true;
             self::$process_layouts_loop[$parser_modules_crc] = true;
             app()->event_manager->trigger('parser.process', $layout);
@@ -148,14 +146,12 @@ class ParserProcessor
                     $v1 = '<tag-textarea>mw_replace_back_this_textarea_' . $v1 . '</tag-textarea>';
                     $layout = str_replace($value, $v1, $layout);
 
-                        $mw_replaced_textarea_tag[$v1] = $value;
+                    $mw_replaced_textarea_tag[$v1] = $value;
 
 
                 }
             }
         }
-
-
 
 
         global $mw_parser_replace_inc;
@@ -165,10 +161,7 @@ class ParserProcessor
         $layout = $this->_replace_tags_with_placeholders($layout);
 
 
-
-
-
-        global  $global_mw_replaced_modules;
+        global $global_mw_replaced_modules;
 
 
         $should_parse_only_vars = false;
@@ -207,31 +200,26 @@ class ParserProcessor
             }
 
 
-
-
             if ($is_first_loop) {
-          //      $layout = $this->_edit_field_add_modules_for_processing_first_pass($layout);
+                //      $layout = $this->_edit_field_add_modules_for_processing_first_pass($layout);
 
             }
-
 
 
 //
             // if ($coming_from_parent) {
             $more = $this->_do_we_have_more_edit_fields_for_parse($layout);
-            if ($more  ) {
+            if ($more) {
                 // bug ?
-                $layout = $this->_replace_editable_fields($layout,false,$layout,$coming_from_parent_id);
-            //    $layout = $this->_replace_tags_with_placeholders_back($layout);
+
+                $layout = $this->_replace_editable_fields($layout, false, $layout, $coming_from_parent_id);
+                //    $layout = $this->_replace_tags_with_placeholders_back($layout);
 
             }
 
 
-
-
-
-           // if($is_first_loop) {
-                $layout = $this->_edit_field_add_modules_for_processing($layout, 'mwnoedit', 'mwnoedit',false,$prevous_mod_obj);
+            // if($is_first_loop) {
+            $layout = $this->_edit_field_add_modules_for_processing($layout, 'mwnoedit', 'mwnoedit', false, $prevous_mod_obj);
             //}
             $this->have_more = !empty($mw_script_matches);
 
@@ -248,12 +236,12 @@ class ParserProcessor
             $local_mw_replaced_modules = array();
 
 
-           $local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItems();
+            $local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItems();
 
             //$local_mw_replaced_modules[$static_parser_mem_crc] = $this->parser_modules_collection->getItemsForProcessing();
 
 
-            if (is_array( $local_mw_replaced_modules) and !empty( $local_mw_replaced_modules)) {
+            if (is_array($local_mw_replaced_modules) and !empty($local_mw_replaced_modules)) {
 
 
                 $attribute_pattern = '@
@@ -283,26 +271,26 @@ class ParserProcessor
                          * @var $mod_obj ParserModuleItem
                          */
 
-                        $value =   $mod_obj->getReplaceValue();
-                      //  $value = $parse_item_obj->get
+                        $value = $mod_obj->getReplaceValue();
+                        //  $value = $parse_item_obj->get
                         $replace_key = $key;
                         $replace_key2 = $key;
-                     //   $replace_key2 = $parse_key . $key . $parser_mem_crc;
+                        //   $replace_key2 = $parse_key . $key . $parser_mem_crc;
                         if (isset($this->mw_replaced_modules_values[$replace_key2])) {
 
 
                             continue;
                         }
 
-                        if($mod_obj->isProcessing()){
+                        if ($mod_obj->isProcessing()) {
                             continue;
 
                         }
 
-                        if($mod_obj->isProcessed()){
+                        if ($mod_obj->isProcessed()) {
 
                             $module_html = $mod_obj->getOutput();
-                           // $layout = $this->_str_replace_first($value, $module_html, $layout);
+                            // $layout = $this->_str_replace_first($value, $module_html, $layout);
                             $layout = $this->_str_replace_first($replace_key, $module_html, $layout);
 
 
@@ -310,7 +298,7 @@ class ParserProcessor
                         }
 
 
-                     //   $mod_obj->setIsProcessed(true);
+                        //   $mod_obj->setIsProcessed(true);
 
                         $mod_obj->setIsProcessing(true);
 
@@ -341,11 +329,8 @@ class ParserProcessor
                                     $coming_from_parent = $attrs['parent-module'];
                                 }
                                 if (isset($attrs['parent-module-id'])) {
-                                   $coming_from_parent_id = $attrs['parent-module-id'];
+                                    $coming_from_parent_id = $attrs['parent-module-id'];
                                 }
-
-
-
 
 
                                 if (!isset($attrs['parent-module-id'])) {
@@ -364,14 +349,13 @@ class ParserProcessor
                                     }
                                 }
 
-                                if(!$coming_from_parent_id){
+                                if (!$coming_from_parent_id) {
                                     $par_id_mod_count = 'global';
 
                                 } else {
                                     $par_id_mod_count = $coming_from_parent_id;
 
                                 }
-
 
 
 //                                if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
@@ -395,7 +379,7 @@ class ParserProcessor
                                 $mod_no_wrapper = false;
                                 $module_name = false;
 
-                                if(isset($options['no_wrap']) and $options['no_wrap']){
+                                if (isset($options['no_wrap']) and $options['no_wrap']) {
                                     $mod_no_wrapper = true;
                                 }
 
@@ -504,8 +488,6 @@ class ParserProcessor
                                         }
 
 
-                                        $mod_id = $this->_str_clean_mod_id($mod_id);
-
 //                                        if(!$coming_from_parent){
 //                                            continue;
 //                                        }
@@ -519,13 +501,17 @@ class ParserProcessor
                                         $curent_mod_rel = $mod_obj->getEditFieldRel();
                                         $curent_mod_field = $mod_obj->getEditField();
 
+// check this again if repeating modules ids appear again, uncomment this
+//                                        if($curent_mod_rel == 'module' and $curent_mod_field){
+//                                            $mod_id =  $curent_mod_field . '-' . $mod_id;
+//                                        }
+
+
+                                        $mod_id = $this->_str_clean_mod_id($mod_id);
 
 
 
-
-
-
-                                        if($curent_mod_rel) {
+                                        if ($curent_mod_rel) {
 
 
                                             switch ($curent_mod_rel) {
@@ -547,8 +533,6 @@ class ParserProcessor
                                             if ($mod_id_was_not_found and isset($options['populate_module_ids_in_elements']) and $options['populate_module_ids_in_elements']) {
                                                 $append_to_id = date('YmdHis') . '-' . $mw_mod_counter;
                                             }
-
-
 
 
 //                                            if ($curent_mod_rel == 'global') {
@@ -576,25 +560,24 @@ class ParserProcessor
 //
 //
 //
- if(defined('MW_FRONTEND')){
-                                        if($append_to_content_id){
-                                            if (content_id() == 0) {
-                                                if ($last_content_id == null) {
-                                                    $last_content_id = app()->database_manager->last_id('content');
+                                        if (defined('MW_FRONTEND')) {
+                                            if ($append_to_content_id) {
+                                                if (content_id() == 0) {
+                                                    if ($last_content_id == null) {
+                                                        $last_content_id = app()->database_manager->last_id('content');
+                                                    }
+                                                    $last_content_id = intval($last_content_id) + 1;
+                                                    $append_to_id = $last_content_id;
+                                                } elseif (content_id()) {
+                                                    $append_to_id = content_id();
                                                 }
-                                                $last_content_id = intval($last_content_id) + 1;
-                                                $append_to_id =  $last_content_id;
-                                            } elseif (content_id()) {
-                                                $append_to_id =  content_id();
                                             }
                                         }
- }
 
 
                                         if ($append_to_id) {
                                             $mod_id = $mod_id . '-' . $append_to_id;
                                         }
-
 
 
                                         $it++;
@@ -623,9 +606,7 @@ class ParserProcessor
 //
 //                                        }
                                         //   $par_id_mod_count = $parser_mem_crc;
-                                  //      $par_id_mod_count = $parse_key;
-
-
+                                        //      $par_id_mod_count = $parse_key;
 
 
 //                                        if ($this->_current_parser_rel  ) {
@@ -659,17 +640,17 @@ class ParserProcessor
                                             $inc_mod_num = $local_mw_replaced_modules_ids_grouped[$par_id_mod_count][$module_name];
 
 
-
                                             $mod_id = $mod_id . '--' . $inc_mod_num;
 
 
+                                        } else if
 
+                                        (
+                                            $this->registry->isModuleIdFromDatabase($mod_id) ||
 
+                                            isset($this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id])
+                                        ) {
 
-
-
-
-                                        } else if (isset($this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id])) {
                                             //    if ( !$skip) {
                                             ++$it_loop;
                                             $inc_mod_num = 0;
@@ -684,7 +665,9 @@ class ParserProcessor
                                             } else {
                                                 // $inc_mod_num = 1;
                                                 //    $inc_mod_num = $it_loop;
-
+                                                if ($this->registry->isModuleIdFromDatabase($mod_id)) {
+                                                    $inc_mod_num = 1;
+                                                }
                                             }
 
                                             if ($coming_from_parent_id) {
@@ -753,11 +736,10 @@ class ParserProcessor
                                         } else {
 
 
+                                            // bug 3
 
-                                        // bug 3
 
-
-                                          //  $mod_id = $mod_id . '--' . $inc_mod_num;
+                                            //  $mod_id = $mod_id . '--' . $inc_mod_num;
 
 
                                             if (!$it_loop and $coming_from_parent_id) {
@@ -773,8 +755,7 @@ class ParserProcessor
                                         }
 
 
-
-                                        if( $this->registry->isParsedModule($module_name,$mod_id)){
+                                        if ($this->registry->isParsedModule($module_name, $mod_id)) {
 
                                             continue;
 //                                            if($mod_obj and $mod_obj->isProcessing() and !$mod_obj->isProcessed()){
@@ -786,10 +767,9 @@ class ParserProcessor
                                         }
 
 
-
                                         $this->_existing_module_ids[$mod_id] = $mod_id;
 
-                                        $this->registry->registerParsedModule($module_name,$mod_id);
+                                        $this->registry->registerParsedModule($module_name, $mod_id);
 
                                         $this->_existing_module_ids_grouped[$par_id_mod_count][$mod_id] = $mod_id;
 
@@ -801,7 +781,7 @@ class ParserProcessor
                                         //  $this->_current_parser_module_of_type[$par_id_mod_count][$module_name] = $mod_id;
 
                                         $attrs['id'] = $mod_id;
-                                        if(!strpos($module_html,' id=')) {
+                                        if (!strpos($module_html, ' id=')) {
                                             $module_html = str_replace('__MODULE_ID__', "id='{$attrs['id']}'", $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_ID__', '', $module_html);
@@ -815,7 +795,7 @@ class ParserProcessor
                                     $attrs2 = array();
                                     if (is_array($module_title) and isset($module_title['name'])) {
                                         $module_title['name'] = addslashes($module_title['name']);
-                                        if(!strpos($module_html,' data-mw-title=')){
+                                        if (!strpos($module_html, ' data-mw-title=')) {
                                             $module_html = str_replace('__MODULE_NAME__', ' data-mw-title="' . $module_title['name'] . '"', $module_html);
                                         } else {
                                             $module_html = str_replace('__MODULE_NAME__', '', $module_html);
@@ -833,12 +813,11 @@ class ParserProcessor
                                     $module_name_url = app()->url_manager->slug($module_name);
 
 
-
                                     if ($mod_as_element == false) {
                                         if (!$coming_from_parent_id and (isset($options['module_as_element']) and !isset($options['populate_module_ids_in_elements'])) or ($module_name == 'text' or $module_name == 'title' or $module_name == 'text/empty_element' or $module_name == 'text/multiple_columns')) {
                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
 
-                                        } else  if ((isset($options['module_as_element']) and isset($options['populate_module_ids_in_elements']))) {
+                                        } else if ((isset($options['module_as_element']) and isset($options['populate_module_ids_in_elements']))) {
                                             $module_html = str_replace('__MODULE_CLASS__', 'layout-element ' . $module_name_url, $module_html);
 
                                         } else {
@@ -846,11 +825,11 @@ class ParserProcessor
                                         }
 
 
-                                        if(isset($options['module_as_element'])){
+                                        if (isset($options['module_as_element'])) {
                                             unset($options['module_as_element']);
                                         }
 
-                                        if(isset($options['populate_module_ids_in_elements'])){
+                                        if (isset($options['populate_module_ids_in_elements'])) {
                                             unset($options['populate_module_ids_in_elements']);
                                         }
 
@@ -875,9 +854,6 @@ class ParserProcessor
                                     $module_html = str_replace('__USER_DEFINED_CLASS__', $userclass, $module_html);
 
 
-
-
-
 //                                    if ($coming_from_parent == false) {
 //
 //                                        $coming_from_parentz = $module_name;
@@ -898,9 +874,6 @@ class ParserProcessor
 //                                    }
 
 
-
-
-
 //                                    if (!isset($attrs['id'])) {
 //                                        $getId = $mod_obj->getId();
 //                                        if ($getId) {
@@ -911,58 +884,48 @@ class ParserProcessor
 //                                    }
 
 
-
-
-
-
                                     $mod_obj->setId($attrs['id']);
                                     $mod_obj->setModuleName($module_name);
                                     $mod_obj->setAttributes($attrs);
 
-                                 if(!isset($attrs['parent-module-id'])) {
+                                    if (!isset($attrs['parent-module-id'])) {
                                         $check_mod_obj_parent = ($mod_obj->getParent());
 
                                         if ($check_mod_obj_parent) {
 
 
-                                       //
+                                            //
                                             $attrs['parent-module-id'] = $check_mod_obj_parent->getId();
                                             $attrs['parent-module'] = $check_mod_obj_parent->getModuleName();
 
                                             $this->prev_module_data = $check_mod_obj_parent->getAttributes();
 
 
-
-                                              //  $coming_from_parent = $attrs['parent-module'];
-
-
-                                              //  $coming_from_parent_id = $attrs['parent-module-id'];
+                                            //  $coming_from_parent = $attrs['parent-module'];
 
 
+                                            //  $coming_from_parent_id = $attrs['parent-module-id'];
 
 
-
-
-                                        } else if($prevous_mod_obj){
+                                        } else if ($prevous_mod_obj) {
                                             $attrs['parent-module'] = $module_name;
-                                            $attrs['parent-module-id'] =  $attrs['id'];
+                                            $attrs['parent-module-id'] = $attrs['id'];
                                             $this->prev_module_data = $attrs;
-                                      //      $attrs['parent-module-id'] = $prevous_mod_obj->getId();
-                                       //     $attrs['parent-module'] = $prevous_mod_obj->getModuleName();
+                                            //      $attrs['parent-module-id'] = $prevous_mod_obj->getId();
+                                            //     $attrs['parent-module'] = $prevous_mod_obj->getModuleName();
 
-                                        //    $this->prev_module_data = $prevous_mod_obj->getAttributes();
+                                            //    $this->prev_module_data = $prevous_mod_obj->getAttributes();
                                         } else {
 
-                                                  $attrs['parent-module'] = $module_name;
-                                                 $attrs['parent-module-id'] =  $attrs['id'];
+                                            $attrs['parent-module'] = $module_name;
+                                            $attrs['parent-module-id'] = $attrs['id'];
                                             $this->prev_module_data = $attrs;
                                         }
-                                  }
+                                    }
 
 
-                           //         $attrs['parent-module'] = $module_name;
-                              //      $attrs['parent-module-id'] =  $attrs['id'];
-
+                                    //         $attrs['parent-module'] = $module_name;
+                                    //      $attrs['parent-module-id'] =  $attrs['id'];
 
 
 //                                if (isset($attrs['parent-module-id']) and ($attrs['parent-module-id'] == $attrs['id'])) {
@@ -1006,14 +969,12 @@ class ParserProcessor
                                     $this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 
 
+                                    $mod_content = $this->load($module_name, $attrs);
 
-                                    $mod_content =$this->load($module_name, $attrs);
 
-
-                                    if($this->current_module and isset($this->current_module['settings'] ) and isset($this->current_module['settings']['html_tag']) and $this->current_module['settings']['html_tag']){
+                                    if ($this->current_module and isset($this->current_module['settings']) and isset($this->current_module['settings']['html_tag']) and $this->current_module['settings']['html_tag']) {
                                         $module_html_tag = $this->current_module['settings']['html_tag'];
                                     }
-
 
 
                                     $plain_modules = mw_var('plain_modules');
@@ -1035,7 +996,7 @@ class ParserProcessor
                                             }
 
                                             if ($pass /*and $nv*/) {
-                                                if(!strpos($module_html,' '.$nn.'=')) {
+                                                if (!strpos($module_html, ' ' . $nn . '=')) {
 
                                                     // $module_html .= " {$nn}='{$nv}'  ";
                                                     $module_html .= " {$nn}=\"{$nv}\"  ";
@@ -1050,7 +1011,7 @@ class ParserProcessor
 
 
                                     if ($this->current_module /*and isset($this->current_module['module_type']) and $this->current_module['module_type']*/) {
-                                        $mod_content = $this->_process_additional_module_parsers($mod_content, $this->current_module,$this->current_module_params);
+                                        $mod_content = $this->_process_additional_module_parsers($mod_content, $this->current_module, $this->current_module_params);
                                     }
 
 
@@ -1071,12 +1032,10 @@ class ParserProcessor
                                         if (!empty($layoutmatches) and isset($layoutmatches[0][0])) {
 
 
-
-                                                $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
-                                                if ($proceed_with_parse == true) {
-                                                    $mod_content = $this->_replace_editable_fields($mod_content, false, $mod_content,$coming_from_parent_id,$mod_obj);
-                                                }
-
+                                            $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
+                                            if ($proceed_with_parse == true) {
+                                                $mod_content = $this->_replace_editable_fields($mod_content, false, $mod_content, $coming_from_parent_id, $mod_obj);
+                                            }
 
 
                                         }
@@ -1084,14 +1043,7 @@ class ParserProcessor
                                         $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
 
 
-
-
-
                                         if ($proceed_with_parse == true) {
-
-
-
-
 
 
 //                                            if (!empty($global_mw_replaced_modules)) {
@@ -1104,8 +1056,7 @@ class ParserProcessor
 //                                            }
 
 
-
-                                            $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2,$mod_obj);
+                                            $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2, $mod_obj);
                                         }
 
                                         $mod_content = $this->_replace_tags_with_placeholders($mod_content);
@@ -1114,10 +1065,10 @@ class ParserProcessor
                                         if (strpos($mod_content, '<inner-edit-tag>mw_saved_inner_edit_from_parent_edit_field</inner-edit-tag>') !== false) {
 
                                             if (!isset($this->_mw_parser_passed_replaces_inner[$parse_key])) {
-                                                $mod_content = $this->_replace_editable_fields($mod_content, false, $mod_content,$coming_from_parent_id,$mod_obj);
+                                                $mod_content = $this->_replace_editable_fields($mod_content, false, $mod_content, $coming_from_parent_id, $mod_obj);
                                                 $proceed_with_parse = $this->_do_we_have_more_for_parse($mod_content);
                                                 if ($proceed_with_parse == true) {
-                                                    $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2,$mod_obj);
+                                                    $mod_content = $this->process($mod_content, $options, $coming_from_parentz, $coming_from_parent_strz1, $previous_attrs2, $mod_obj);
                                                 }
                                                 $this->_mw_parser_passed_replaces_inner[$parse_key] = $mod_content;
                                             } else {
@@ -1170,7 +1121,7 @@ class ParserProcessor
 //                                $this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 //                                //$this->_current_parser_module_of_type[$par_id_mod_count][$module_name]++;
 
-                              //  $module_html = $this->_replace_tags_with_placeholders_back($module_html);
+                                //  $module_html = $this->_replace_tags_with_placeholders_back($module_html);
                                 $mod_obj->setOutput($module_html);
                                 $mod_obj->setIsProcessed(true);
 
@@ -1191,10 +1142,6 @@ class ParserProcessor
             }
 
 
-
-
-
-
         } else {
             $this->have_more = false;
             $this->prev_module_data = array();
@@ -1213,7 +1160,7 @@ class ParserProcessor
             $layout = $this->_replace_tags_with_placeholders_back($layout);
             $layout = $this->replace_url_placeholders($layout);
         }
-        if (!$coming_from_parent or   !$this->have_more or $it_loop == 0 ) {
+        if (!$coming_from_parent or !$this->have_more or $it_loop == 0) {
 
             if (!empty($mw_replaced_textarea_tag)) {
                 foreach ($mw_replaced_textarea_tag as $key => $value) {
@@ -1225,11 +1172,11 @@ class ParserProcessor
             }
 
             if ($is_first_loop) {
-                 $layout = $this->_replace_tags_with_placeholders_back($layout);
+                $layout = $this->_replace_tags_with_placeholders_back($layout);
             }
-        //  $layout = $this->_replace_tags_with_placeholders_back($layout);
+            //  $layout = $this->_replace_tags_with_placeholders_back($layout);
 
-           // $layout = $this->replace_url_placeholders($layout);
+            // $layout = $this->replace_url_placeholders($layout);
         } else {
             if ($layout and is_string($layout) and str_contains($layout, 'mw_replace_back_this_module_')) {
                 if (!empty($global_mw_replaced_modules[$static_parser_mem_crc])) {
@@ -1243,7 +1190,6 @@ class ParserProcessor
         }
 
 
-
 //
 //        if (!empty($mw_replaced_textarea_tag)) {
 //            foreach ($mw_replaced_textarea_tag as $key => $value) {
@@ -1253,9 +1199,7 @@ class ParserProcessor
 //                //unset($mw_replaced_textarea_tag[$key]);
 //            }
 //        }
-     //   $layout = $this->_replace_tags_with_placeholders_back($layout);
-
-
+        //   $layout = $this->_replace_tags_with_placeholders_back($layout);
 
 
         $layout = str_replace('{rand}', uniqid() . rand(), $layout);

@@ -22,7 +22,8 @@ description: Opens video in a popup
                 skin: 'video',
                 closeButtonAppendTo: '.mw-dialog-holder',
                 width: <?php print $params['width']  ?>,
-                height: 800,
+                height: 100%,
+                top: 50%;
             });
             var dialog = mw.dialog.get()
 
@@ -36,20 +37,30 @@ description: Opens video in a popup
 </script>
 <style>
 
+
+
+
     #video-dialog-button-<?php echo $params['id']; ?>{
         font-size: 0;
-        font-fa
+
     }
     #video-dialog-button-<?php echo $params['id']; ?>:after{
-        content: "\F040C";
-        font-family: "Material Design Icons";
-        font-size: 60px;
-        color: #2b2b2b;
+        content: "\eb86";
+        font-family: 'icomoon-solid';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        font-size: 100px;
+        color: var(--mw-primary-color);
     }
 </style>
 
 
 
 <template id="video-dialog-template-<?php echo $params['id']; ?>" style="display: none"><?php echo $code; ?></template>
-<span id="video-dialog-button-<?php echo $params['id']; ?>">Play</span>
+<span id="video-dialog-button-<?php echo $params['id']; ?>"></span>
 

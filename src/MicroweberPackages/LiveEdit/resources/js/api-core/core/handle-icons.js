@@ -88,6 +88,18 @@ export const HandleIcons = function () {
             name: 'fine-tune',
             icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-120v-240h80v80h320v80H520v80h-80Zm-320-80v-80h240v80H120Zm160-160v-80H120v-80h160v-80h80v240h-80Zm160-80v-80h400v80H440Zm160-160v-240h80v80h160v80H680v80h-80Zm-480-80v-80h400v80H120Z"/></svg>`,
         },
+
+        {
+            name: 'layer-up',
+            icon: `<svg width="800px" height="800px" viewBox="0 0 76.01 76.01" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" enable-background="new 0 0 76.01 76.01" xml:space="preserve">
+                <path fill="currentColor" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 38.0024,9.50133L 58.5858,17.418L 58.5858,22.168L 38.0024,30.0846L 17.4191,22.168L 17.4191,17.418L 38.0024,9.50133 Z M 36.4217,56.6121L 36.4217,39.5889L 28.504,45.9231L 28.504,41.1724L 38.0053,32.4629L 47.5066,41.1724L 47.5066,45.9231L 39.5889,39.5889L 39.5889,56.6121L 36.4217,56.6121 Z M 58.5858,53.8397L 58.5858,58.5897L 38.0024,66.5064L 17.4191,58.5897L 17.4191,53.8397L 34.8382,47.1401L 34.8382,51.7294L 23.7533,55.4244L 38.0053,61.3627L 52.2573,55.4244L 41.1724,51.7295L 41.1724,47.1423L 58.5858,53.8397 Z "/>
+            </svg>`,
+        },
+
+        {
+            name: 'layer-down',
+            icon: `<svg viewBox="0 0 76.01 76.01" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" enable-background="new 0 0 76.01 76.01" xml:space="preserve" fill="currentColor" transform="matrix(1, 0, 0, -1, 0, 0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 38.0024,9.50133L 58.5858,17.418L 58.5858,22.168L 38.0024,30.0846L 17.4191,22.168L 17.4191,17.418L 38.0024,9.50133 Z M 36.4217,56.6121L 36.4217,39.5889L 28.504,45.9231L 28.504,41.1724L 38.0053,32.4629L 47.5066,41.1724L 47.5066,45.9231L 39.5889,39.5889L 39.5889,56.6121L 36.4217,56.6121 Z M 58.5858,53.8397L 58.5858,58.5897L 38.0024,66.5064L 17.4191,58.5897L 17.4191,53.8397L 34.8382,47.1401L 34.8382,51.7294L 23.7533,55.4244L 38.0053,61.3627L 52.2573,55.4244L 41.1724,51.7295L 41.1724,47.1423L 58.5858,53.8397 Z "></path> </g></svg>`,
+        },
     ];
 
     this.icon = function (iconName) {

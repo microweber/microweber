@@ -4,7 +4,7 @@ function media_uploads_url()
     $environment = App::environment();
     $folder = media_base_url() . ('default/');
 
-    if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+    if(mw_is_multisite()) {
         $folder = media_base_url() . ($environment . '/');
     }
 
@@ -17,7 +17,7 @@ function media_uploads_path()
     $environment = App::environment();
     $folder = media_base_path() . ('default' . DIRECTORY_SEPARATOR);
 
-    if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {
+    if(mw_is_multisite()) {
         $folder = media_base_path() . ($environment . DIRECTORY_SEPARATOR);
     }
 

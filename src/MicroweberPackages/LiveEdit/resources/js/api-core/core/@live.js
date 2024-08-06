@@ -45,6 +45,32 @@ export class LiveEdit {
         this.liveEditHelpers = liveEditHelpers;
 
 
+        this.pointerCoordinates = {
+            pageX: 0,
+            pageY: 0,
+            clientX: 0,
+            clientY: 0,
+        }
+
+
+
+
+mw.top().app.canvas.on('canvasDocumentClickStart', e => {
+     const {
+        pageX,
+        pageY,
+        clientX,
+        clientY,
+    } = e;
+    this.pointerCoordinates = {
+        pageX,
+        pageY,
+        clientX,
+        clientY,
+    }
+})
+
+
 
         var defaults = {
             elementClass: 'element',
@@ -507,7 +533,7 @@ export class LiveEdit {
         }
 
 
-        if (first.nodeName !== 'IMG' && !isIcon) {
+        if (first && first.nodeName !== 'IMG' && !isIcon) {
             first = DomService.firstBlockLevel(elements[0]);
         }
 
@@ -578,21 +604,23 @@ export class LiveEdit {
 
             }
 
+
             if (type/* && type !== 'edit'*/) {
 
                 if (type === 'element') {
                     this.handles.hide('module');
-                    this.handles.set(type, first)
+                    this.handles.set(type, first, undefined, event);
+
                 } else if (type === 'module') {
                     this.handles.hide('element');
-                    this.handles.set(type, first)
+                    this.handles.set(type, first, undefined, event)
                 } else if (type === 'layout') {
 
-                    this.handles.set('layout', first);
+                    this.handles.set('layout', first, undefined, event);
                 } else if (type === 'edit') {
-                    this.handles.set('element', first);
+                    this.handles.set('element', first, undefined, event);
                 }  else if (type === 'icon') {
-                    this.handles.set('element', first);
+                    this.handles.set('element', first, undefined, event);
                 } else {
                     this.handles.hide();
                 }
@@ -601,7 +629,7 @@ export class LiveEdit {
         } else {
             const layout = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['module-layouts']);
             if (layout) {
-                this.handles.set('layout', layout)
+                this.handles.set('layout', layout, undefined, event)
                 this.activeNode = layout;
             }
         }

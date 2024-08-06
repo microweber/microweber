@@ -195,7 +195,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                         DB::table('content_data')->where('rel_id', '=', $c_id)->where('rel_type', '=', 'content')->delete();
 
 
-
                         DB::table('menus')->where('content_id', '=', $c_id)->delete();
 
                     } else {
@@ -256,6 +255,16 @@ class ContentManagerHelpers extends ContentManagerCrud
             foreach ($data as $item) {
                 if (isset($item['rel']) and ($item['rel'])) {
                     if (isset($item['field']) and ($item['field'])) {
+                        if (isset($item['rel_id']) and ($item['rel_id'])) {
+                            if ($item['rel'] == 'content') {
+                                if ($item['field'] == 'content' || $item['field'] == 'content_body') {
+                                    $del = \DB::table('content')
+                                        ->where('id', '=', $item['rel_id'])
+                                        ->update([$item['field'] => '']);
+                                }
+                            }
+                        }
+
 
                         $del = \DB::table('content_fields')
                             ->where('rel_type', '=', $item['rel'])
@@ -265,7 +274,30 @@ class ContentManagerHelpers extends ContentManagerCrud
                             $del->where('rel_id', '=', $item['rel_id']);
                         }
 
-                        $del->delete();
+                        $fields = $del->get();
+
+                        if ($fields) {
+
+                            foreach ($fields as $field) {
+                                $delTranslations = \DB::table('multilanguage_translations')
+                                    ->where('rel_type', '=', 'content_fields')
+                                    ->where('rel_id', '=', $field->id);
+                                $delTranslations->delete();
+                                \DB::table('content_fields')->where('id', '=', $field->id)->delete();
+                            }
+                        }
+
+
+//                        $del = \DB::table('multilanguage_translations')
+//                            ->where('rel_type', '=', $item['rel'])
+//                            ->where('field_name', '=', $item['field']);
+//
+//                        if (isset($item['rel_id']) and ($item['rel_id'])) {
+//                            $del->where('rel_id', '=', $item['rel_id']);
+//                        }
+//
+//                        $del->delete();
+
 
                     }
                 }
@@ -278,6 +310,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         $this->app->cache_manager->delete('content_fields');
         $this->app->cache_manager->delete('repositories');
         $this->app->cache_manager->delete('options');
+        clearcache();
 
         return true;
 
@@ -680,17 +713,27 @@ class ContentManagerHelpers extends ContentManagerCrud
             $ref_page_url = xss_clean($ref_page_url);
 
         }
-        //dd($ref_page_url,$post_data);
-        $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+
+
+
+         $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
 
         if ($multilanguageIsActive) {
             $lang_from_url = detect_lang_from_url($ref_page_url);
-            if (isset($lang_from_url['target_locale'])
+            if (isset($post_data['lang'])
+                and ($post_data['lang'])
+            ) {
+
+                change_language_by_locale($post_data['lang'] ,true);
+                unset($post_data['lang']);
+            } else if (isset($lang_from_url['target_locale'])
                 and isset($lang_from_url['target_locale'])
             ) {
 
-                change_language_by_locale($lang_from_url['target_locale']);
+                change_language_by_locale($lang_from_url['target_locale'],true);
             }
+
+
         }
 
 
@@ -832,14 +875,21 @@ class ContentManagerHelpers extends ContentManagerCrud
                     $is_module = 1;
                     $save_page = false;
                 }
+
+
 //                $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
 //
-////                if($multilanguageIsActive){
-////                      $lang_from_url = detect_lang_from_url($ref_page_url);
-////                        if(isset($lang_from_url['target_url'])){
-////                            $ref_page_url = $lang_from_url['target_url'];
-////                        }
-////                }
+//               if($multilanguageIsActive){
+//                     $lang_from_url = detect_lang_from_url($ref_page_url);
+//                       if(isset($lang_from_url['target_url'])){
+//                           $ref_page_url = $lang_from_url['target_url'];
+//                       }
+//               }
+
+                if($from_url == site_url()){
+                    $pd = $this->app->content_manager->homepage();
+
+                }
 
 
                 if ($is_admin == true and is_array($pd) and $is_module == false) {

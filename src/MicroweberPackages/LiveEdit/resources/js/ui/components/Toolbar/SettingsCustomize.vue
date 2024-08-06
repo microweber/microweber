@@ -80,8 +80,11 @@ export default {
 
             } else if(name === 'style-editor') {
               if(this.buttonIsActiveStyleEditor){
-                  this.buttonIsActiveStyleEditor = false;
-                  CSSGUIService.hide()
+
+                  this.emitter.emit("live-edit-ui-show", 'close-element-style-editor')
+              //    this.buttonIsActive = false;
+               //   this.buttonIsActiveStyleEditor = false;
+                //  CSSGUIService.hide()
               } else {
                   this.buttonIsActiveStyleEditor = true;
                   this.buttonIsActive = false;
@@ -167,6 +170,9 @@ export default {
             } else if (show == 'style-editor') {
                 instance.buttonIsActive = false;
                 instance.buttonIsActiveStyleEditor = true;
+            }else if (show == 'template-settings-close') {
+                instance.buttonIsActive = false;
+                instance.buttonIsActiveStyleEditor = false;
             } else {
                 instance.buttonIsActive = false;
                 instance.buttonIsActiveStyleEditor = false;

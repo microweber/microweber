@@ -186,6 +186,28 @@ export default {
                 if (liveEditHelpers.targetIsIcon(element)) {
                     const iconPicker = mw.app.get('iconPicker').pickIcon(element);
 
+                     iconPicker.picker.on('iconReplaced', rdata => {
+
+
+                        if(rdata.type === 'image') {
+                            var img = mw.element(`<img src="${rdata.url}" class="element">`);
+
+                            var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                            if(edit) {
+                                mw.top().app.registerChangedState(edit, true);
+                            }
+                            mw.element(element).after(img);
+
+                            mw.element(element).remove();
+
+                            if(edit) {
+                                mw.top().app.registerChangedState(edit, true);
+                            }
+
+                            iconPicker.picker.dialog().remove()
+                        }
+
+                     })
                      iconPicker.picker.on('sizeChange', val => {
                          var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
                         if(edit) {
@@ -391,7 +413,7 @@ export default {
                             node.contentEditable = 'inherit';
                         })
 
-                        // mw.top().app.richTextEditor.api.getSelection().getRangeAt(0).collapse();
+
 
 
 
@@ -418,6 +440,13 @@ export default {
                 mw.app.liveEdit.handles.reposition();
             });
 
+            mw.top().app.freeDraggableElementManager.initLayouts();
+            mw.app.canvas.on('liveEditCanvasLoaded',function(frame){
+                 mw.top().app.freeDraggableElementManager.initLayouts();
+            });
+
+
+
             mw.top().app.on('mw.elementStyleEditor.applyCssPropertyToNode', function (data) {
 
                 //free draggable element
@@ -431,8 +460,8 @@ export default {
                         || data.val === 'unset'
                         || data.val === 'revert'
                     ) {
-
-                        mw.top().app.liveEdit.elementHandleContent.elementActions.destroyFreeDraggableElement(data.node)
+//@todo
+                      //  mw.top().app.liveEdit.elementHandleContent.elementActions.destroyFreeDraggableElement(data.node)
                     //    mw.app.dispatch('liveEditRefreshHandlesPosition');
 
                     }
@@ -442,7 +471,8 @@ export default {
                         || data.val === 'fixed'
                         || data.val === 'sticky'
                     ) {
-                        mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(data.node)
+                        //@todo
+                      //  mw.top().app.liveEdit.elementHandleContent.elementActions.makeFreeDraggableElement(data.node)
                         //mw.app.dispatch('liveEditRefreshHandlesPosition');
                     }
                 }

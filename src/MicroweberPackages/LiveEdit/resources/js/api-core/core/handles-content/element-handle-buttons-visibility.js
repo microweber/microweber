@@ -161,7 +161,8 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         var selfVisible = true;
         const isCloneable = target.classList.contains('cloneable') || target.classList.contains('mw-col');
         const isEdit = target.classList.contains('edit');
-        if (isCloneable || isEdit) {
+        const notDraggable = ['TD', 'TR', 'LI', 'TBODY', 'A', 'DT', 'DD'];
+        if (isCloneable || isEdit || notDraggable.indexOf(target.nodeName) !== -1) {
             selfVisible = false;
         }
 

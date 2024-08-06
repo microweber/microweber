@@ -1087,9 +1087,10 @@ mw.drag = {
         mw.$('.mw-module-drag-clone', doc).removeClass('mw-module-drag-clone');
         mw.$('-module', doc).removeClass('-module');
         mw.$('.empty-element', doc).remove();
-        mw.$('.empty-element', doc).remove();
         mw.$('.edit .ui-resizable-handle', doc).remove();
         mw.$('script', doc).remove();
+        mw.$('.mw-le-resizer', doc).remove();
+        mw.$('.mw-le-resizable', doc).removeClass('mw-le-resizable');
 
         //var doc = mw.$(doc).find('script').remove();
 

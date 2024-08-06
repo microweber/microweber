@@ -62,6 +62,16 @@ if (isset($params['for-content-id'])) {
             mw.$('#mw_add_cat_live_edit').attr('page-id', val);
             mw.reload_module('#mw_add_cat_live_edit')
         });
+
+
+
+        mw.options.form('#<?php print $params['id']; ?>', function () {
+            if (mw.notification) {
+                mw.notification.success('<?php _ejs('Settings are saved') ?>');
+            }
+            mw.reload_module_everywhere('categories');
+        });
+
     });
 
     function editCategoriesShowManageWindow(module_id) {

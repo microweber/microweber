@@ -4,6 +4,7 @@ namespace MicroweberPackages\Import\Formats;
 use MicroweberPackages\Import\Loggers\ImportLogger;
 use MicroweberPackages\Utils\Zip\ZipArchiveExtractor;
 use MicroweberPackages\Utils\Zip\Unzip;
+use Illuminate\Support\Facades\File;
 
 class ZipReader extends DefaultReader
 {
@@ -53,6 +54,7 @@ class ZipReader extends DefaultReader
             }
             $zipExtract->setLogger(ImportLogger::class);
             $extracted = $zipExtract->extractTo($backupLocation);
+
             if (!$extracted) {
                 return;
             }
@@ -61,6 +63,14 @@ class ZipReader extends DefaultReader
         }
 
         $files = array();
+
+        $backupLocation = normalize_path($backupLocation, false);
+        if(!is_dir($backupLocation)) {
+            ImportLogger::setLogInfo('The zip file has no files to import.');
+            return;
+        }
+
+
 
         $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($backupLocation));
         if ($rii) {
@@ -84,6 +94,7 @@ class ZipReader extends DefaultReader
             }
 
 			$copy = $this->_cloneDirectory($backupLocation, userfiles_path());
+
 		}
 
 		$mwContentJsonFile = $backupLocation. 'mw_content.json';
@@ -98,10 +109,14 @@ class ZipReader extends DefaultReader
 		$backupFiles = scandir($backupLocation);
 
 		foreach ($backupFiles as $filename) {
-			$file = $backupLocation . $filename;
+			$file = $backupLocation .DS. $filename;
+            $file = normalize_path($file, false);
+
+
 			if (!is_file($file)) {
 				continue;
 			}
+
 
 			$fileExtension = get_file_extension($file);
 			$importToTable = str_replace('.'.$fileExtension, false, $filename);
@@ -284,44 +299,13 @@ class ZipReader extends DefaultReader
 	 * Clone directory by path and destination
 	 * @param stringh $source
 	 * @param stringh $destination
-	 * @return stringh|boolean
 	 */
 	private function _cloneDirectory($source, $destination)
 	{
-		if (is_file($source) and ! is_dir($destination)) {
-			$destination = normalize_path($destination, false);
-			$source = normalize_path($source, false);
-			$destinationDir = dirname($destination);
-			if (! is_dir($destinationDir)) {
-				mkdir_recursive($destinationDir);
-			}
-			if (! is_writable($destination)) {
-				// return;
-			}
 
-			return @copy($source, $destination);
-		}
+     return   File::copyDirectory($source, $destination);
 
-		if (! is_dir($destination)) {
-			mkdir_recursive($destination);
-		}
 
-		if (is_dir($source)) {
-			$dir = dir($source);
-			if ($dir != false) {
-				while (false !== $entry = $dir->read()) {
-					if ($entry == '.' || $entry == '..') {
-						continue;
-					}
-					if ($destination !== "$source/$entry" and $destination !== "$source" . DS . "$entry") {
-						$this->_cloneDirectory("$source/$entry", "$destination/$entry");
-					}
-				}
-			}
 
-			$dir->close();
-		}
-
-		return true;
 	}
 }

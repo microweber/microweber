@@ -1,4 +1,24 @@
+<style>
+    .change-layout-background-wrapper span {
+        font-size: 12px;
 
+    }
+
+    .change-layout-background-wrapper {
+        max-width: 70%;
+    }
+</style>
+
+<script>
+    $(document).ready(function() {
+        $('.change-layout-background-wrapper span').on('click', function() {
+            // Remove 'active' class from all spans
+            $('.change-layout-background-wrapper span').removeClass('active');
+            // Add 'active' class to the clicked span
+            $(this).addClass('active');
+        });
+    });
+</script>
 
 <div>
 
@@ -16,6 +36,29 @@
 
         </div>
 
+
+        <br>
+<div class="change-layout-background-wrapper">
+  <label class="live-edit-label">Image size</label>
+  <div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0">
+    <label class="form-selectgroup-item w-100">
+      <input type="radio" name="backgroundSize" value="auto" class="form-selectgroup-input" checked />
+      <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Auto</span>
+    </label>
+    <label class="form-selectgroup-item w-100">
+      <input type="radio" name="backgroundSize" value="cover" class="form-selectgroup-input" />
+      <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Cover</span>
+    </label>
+    <label class="form-selectgroup-item w-100">
+      <input type="radio" name="backgroundSize" value="contain" class="form-selectgroup-input" />
+      <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Fit</span>
+    </label>
+    <label class="form-selectgroup-item w-100">
+      <input type="radio" name="backgroundSize" value="100% 100%" class="form-selectgroup-input" />
+      <span class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Scale</span>
+    </label>
+  </div>
+</div>
 
 
 
@@ -113,6 +156,22 @@
             let bgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
             let bgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode);
             let bgCursor = mw.top().app.layoutBackground.getBackgroundCursor(bgNode);
+            let bgSize = mw.top().app.layoutBackground.getBackgroundImageSize(bgNode);
+            if(!bgSize) {
+                bgSize = 'auto' ;
+            }
+
+            document.querySelectorAll('[name="backgroundSize"]').forEach(function (el) {
+                el.checked = el.value === bgSize;
+                el.addEventListener('change', function () {
+                    const {bg, bgOverlay, bgNode, target} = getTargets();
+                    mw.top().app.layoutBackground.setBackgroundImageSize(bgNode, this.value);
+                    // mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
+                })
+            });
+
+
+
 
             if(!picker) {
                 picker = mw.app.singleFilePickerComponent({

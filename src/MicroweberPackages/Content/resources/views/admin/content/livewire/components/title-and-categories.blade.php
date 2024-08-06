@@ -22,6 +22,8 @@
     @endif
 
     <div>
+
+
         @if($content->categories->count() > 0)
             <span class="manage-post-item-cats-inline-list">
             @php
@@ -47,11 +49,14 @@
          </span>
         @endif
 
+        @if($content->updated_at)
         <div>
             <small class="text-muted" style="font-size: 12px !important;">
                 {{ _e("Updated") }}: {{$content->updated_at->format('M d, Y, h:i A')}}
             </small>
         </div>
+         @endif
+
     </div>
 
 </div>

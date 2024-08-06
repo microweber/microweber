@@ -38,7 +38,7 @@
                 <div class="modules-list-block" style="width:100%;padding:20px;">
 
                     <div v-if="filterKeyword && filterKeyword.trim().length > 0" class="pl-4 mb-3 mt-3">
-                        Looking for {{filterKeyword}}
+                        Looking for <strong>{{filterKeyword}}</strong>
                     </div>
 
                     <div v-if="modulesCategoriesList.length > 0" v-for="category in modulesCategoriesList" class="modules-list-block-category-section">
@@ -55,6 +55,13 @@
                             <div class="modules-list-block-item-description">{{ item.description }}</div>
                         </div>
                     </div>
+                    <h1 v-else>
+
+                        <div class="alert " role="alert">
+
+                            <h5 class="text-secondary fw-normal">No results for <strong>{{filterKeyword}}</strong></h5>
+                        </div>
+                    </h1>
 
                     <div class="modules-list-block-no-results" style="display: none;">Nothing found...</div>
 
@@ -70,8 +77,14 @@
 <script>
 import { ElementManager } from '../../../api-core/core/classes/element';
 
+
+
 export default {
     methods: {
+        modal() {
+            this.showModal = true;
+            this.filterModules();
+        },
         getModulesList() {
             return mw.app.modules.list();
         },
@@ -89,6 +102,13 @@ export default {
 
 
 
+            if(this.target.classList.contains('mw-free-layout-container')) {
+                this.target = this.target.querySelector('.edit')
+            }
+
+            const edit = mw.top().tools.firstParentOrCurrentWithClass(this.target, 'edit')
+            mw.app.registerChangedState(edit, true);
+            this.showModal = false;
             let itm = await mw.app.editor.insertModule(module, options, 'bottom', this.target, 'append');
 
 
@@ -96,24 +116,34 @@ export default {
             const nodesToWrap = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P'];
 
 
+            const id = mw.id('free-element-');
 
             if(nodesToWrap.indexOf(itm.nodeName) !== -1) {
-                const wrapper = ElementManager(`<div id="${mw.id('free-element-')}"></div>`);
+                const wrapper = ElementManager(`<div></div>`);
                 ElementManager(itm).after(wrapper);
                 wrapper.append(itm)
                 itm = wrapper.get(0)
 
             }
-            mw.top().app.freeDraggableElementManager.freeLayoutNodes(this.target)
-            mw.top().app.freeDraggableElementManager.makeFreeDraggableElement(itm)
 
-            this.showModal = false;
+            // mw.top().app.freeDraggableElementManager.freeLayoutNodes(this.target)
+
+            if(!itm.id) {
+                itm.id = id
+            }
+
+            mw.top().app.freeDraggableElementManager.initLayouts();
+            mw.top().app.freeDraggableElementManager.freeElement(itm,  mw.top().tools.firstParentOrCurrentWithClass(this.target, 'mw-free-layout-container'));
+
+            mw.app.registerChangedState(edit, true)
+
+
         },
         filterClearKeyword() {
             this.filterKeyword = '';
             this.filterModules();
         },
-        insertModuleDefault(moduleItem) {
+        async insertModuleDefault(moduleItem) {
             var module = moduleItem.module;
             var options = {};
 
@@ -122,7 +152,12 @@ export default {
             }
             var insertLocation = this.insertModulePosition;
 
-            mw.app.editor.insertModule(module, options, insertLocation, this.target);
+            const edit = mw.top().tools.firstParentWithClass(this.target, 'edit')
+            mw.app.registerChangedState(edit, true)
+
+            await mw.app.editor.insertModule(module, options, insertLocation, this.target);
+
+            mw.app.registerChangedState(edit, true)
             this.showModal = false;
         },
         filterModules() {
@@ -130,9 +165,22 @@ export default {
             let filterKeyword = this.filterKeyword.trim();
             let modulesFiltered = this.modulesList;
 
+            let notAllowedModules = [];
+
+
+
+            if(this.insertModuleMode === 'insertFreeModule') {
+                notAllowedModules = [
+                    'Empty Element', 'Spacer', 'Multiple Columns'
+                ]
+            }
+
 
             if (filterKeyword != '' && filterKeyword) {
                 modulesFiltered = modulesFiltered.filter((item) => {
+                    if(notAllowedModules.includes(item.name)){
+                        return false;
+                    }
                     return item.keywords.toUpperCase().includes(filterKeyword.toUpperCase())
                 });
             }
@@ -141,6 +189,12 @@ export default {
             instance.modulesListFiltered = [];
             instance.modulesCategoriesList = [];
             modulesFiltered.forEach(function(moduleElement) {
+
+
+
+                if(notAllowedModules.includes(moduleElement.name)){
+                    return;
+                }
 
                 if (!instance.modulesCategoriesList.includes(moduleElement.categories)) {
                     instance.modulesCategoriesList.push(moduleElement.categories);
@@ -173,8 +227,10 @@ export default {
             mw.app.editor.on('insertFreeModuleRequest',   (el) => {
                 this.target = el || null;
                 this.insertModuleMode = 'insertFreeModule';
-                instance.showModal = true;
-                mw.app.registerChangedState(el);
+                instance.modal();
+
+
+
                 setTimeout(() => {
                     $('.mw-modules-list-search-block').focus()
                 }, 78)
@@ -182,9 +238,21 @@ export default {
 
             mw.app.editor.on('insertModuleRequest',   (el) => {
                 this.target = el || null;
-                 this.insertModuleMode = 'insertModuleDefault';
-                instance.showModal = true;
-                mw.app.registerChangedState(el);
+
+
+
+                const isFree = mw.tools.firstParentOrCurrentWithClass(el, 'mw-free-layout-container');
+
+
+                if(isFree) {
+                    this.insertModuleMode = 'insertFreeModule';
+                      this.target = isFree;
+                } else {
+                    this.insertModuleMode = 'insertModuleDefault';
+                }
+
+                instance.modal();
+
                 setTimeout(() => {
                     $('.mw-modules-list-search-block').focus()
                 }, 78)
@@ -196,7 +264,7 @@ export default {
         this.emitter.on("live-edit-ui-show", show => {
             if (show == 'show-modules') {
                 if (instance.showModal == false) {
-                    instance.showModal = true;
+                    instance.modal();
                 } else {
                     instance.showModal = false;
                 }

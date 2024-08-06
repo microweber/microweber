@@ -25,7 +25,9 @@ if (isset($btn_options['link'])) {
     if (isset($btnOptionsLink['url'])) {
         $btn_options['url'] = $btnOptionsLink['url'];
     }
-    if (isset($btnOptionsLink['data']['id'])) {
+    if (isset($btnOptionsLink['data']['id']) and isset($btnOptionsLink['data']['type']) and $btnOptionsLink['data']['type'] == 'category') {
+        $btn_options['url'] = category_link($btnOptionsLink['data']['id']);
+    } else if (isset($btnOptionsLink['data']['id'])) {
         $btn_options['url'] = content_link($btnOptionsLink['data']['id']);
     }
 }

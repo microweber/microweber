@@ -11,13 +11,14 @@ class MWEditorEventHandles {
     }
 
     insertBR(e, edit) {
+        if (edit && edit.ownerDocument) {
 
-        this.scope.state.record({
+            this.scope.state.record({
 
-            target: edit,
-            value: edit.innerHTML
-        });
-
+                target: edit,
+                value: edit.innerHTML
+            });
+        }
         var sel = this.scope.api.getSelection() ;
         var range = sel.getRangeAt(0);
         var br = range.commonAncestorContainer.ownerDocument.createElement('br');
@@ -25,7 +26,10 @@ class MWEditorEventHandles {
         range.insertNode(br);
         range = range.cloneRange();
 
+        console.log(1)
+
         if(!br.nextSibling || !br.nextSibling.nodeValue) {
+            console.log(2)
             br.after(document.createTextNode('\u200B'))
         }
         range.selectNode ( br );
@@ -37,10 +41,14 @@ class MWEditorEventHandles {
 
 
         e.preventDefault();
-       this.scope.state.record({
-            target: edit,
-            value: edit.innerHTML
-        });
+
+        if(edit && edit.ownerDocument) {
+            this.scope.state.record({
+                target: edit,
+                value: edit.innerHTML
+            });
+            edit.classList.add('changed')
+        }
     }
 
 
@@ -160,10 +168,19 @@ class MWEditorEventHandles {
 
      enter(e) {
 
+        if(!mw.top().app || !mw.top().app.canvas ||  !mw.top().app.canvas.getDocument()        ) {
+            return;
+        }
+        if(e && e.shiftKey) {
+            return;
+        }
+
         let focusNode = this.scope.api.elementNode(this.scope.getSelection().focusNode);
         let focusActualTarget = this.scope.getActualTarget(focusNode);
 
         const isNoclone = mw.tools.hasAnyOfClasses(focusActualTarget, ['col', 'row', 'mw-col', 'mw-row']);
+
+
 
         if(isNoclone) {
             const canHasBR = mw.tools.hasAnyOfClasses(focusActualTarget, ['col',  'mw-col', ]);

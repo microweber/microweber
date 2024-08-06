@@ -31,15 +31,28 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
 
         handles.forEach(hndl => {
 
+            let tempStart;
+            let tempEnd;
+
             mw.app.liveEdit.handles.get(hndl)
             .draggable
             .on('dragStart', data => {
                 this.startTarget = DomService.firstParentOrCurrentWithClass(data.element, 'edit');
                 this.startTarget.__html = this.startTarget.innerHTML;
+
+                tempStart = {
+                    target:  this.startTarget,
+                    value:  this.startTarget.__html,
+                }
             })
             .on('beforeDrop', data => {
                 this.endTarget =  DomService.firstParentOrCurrentWithClass(data.event.target, 'edit');
                 this.endTarget.__html = this.endTarget.innerHTML;
+
+                tempEnd = {
+                    target:  this.endTarget,
+                    value:  this.endTarget.__html,
+                }
             })
             .on('drop', data => {
 
@@ -66,8 +79,31 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                     originalEditFieldInnerHTML: endTargethtml,
                 }
 
-                mw.app.state.record(rec1);
-                mw.app.state.record(rec2);
+                /*mw.app.state.record(rec1);
+                mw.app.state.record(rec2);*/
+                mw.app.state.record({
+                    target: "$multistate",
+                    value: [
+                        {...tempStart},
+                        {...tempEnd},
+
+                    ]
+                });
+
+                mw.app.state.record({
+                    target: "$multistate",
+                    value: [
+
+                        {
+                            target:  this.startTarget,
+                            value: this.startTarget.innerHTML,
+                        },
+                        {
+                            target:  this.endTarget,
+                            value: this.endTarget.innerHTML,
+                        }
+                    ]
+                });
 
                 this.startTarget = null;
                 this.endTarget = null;
@@ -85,73 +121,127 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
         }
     }
 
+
+    #stateTypeDataHandles = {
+        $liveEditStyle: active => {
+            this.#stateTypeHandles.$liveEditStyle( active.selector,  active.value, false );
+        },
+        $liveEditCSS: active => {
+
+            this.#stateTypeHandles.$liveEditCSS( active.value.selector, active.value.property, active.value.value, false);
+        },
+        customAction: active => {
+            this.#stateTypeHandles.customAction(active.action, active);
+        },
+
+        html: active => {
+            // actual target may not be present in the document must be get by selector
+            const getTarget = function(target) {
+                var doc = mw.app.canvas.getDocument();
+
+                var selector;
+                if(target.id) {
+                    selector = '#' + target.id;
+                } else if(target.classList.contains('edit')) {
+                    var field = target.getAttribute('field');
+                    var rel = target.getAttribute('rel');
+                    if(field && rel){
+                        selector = '.edit[field="'+field+'"][rel="'+rel+'"]';
+                    }
+                }
+                if (selector) {
+                    target = doc.querySelector(selector);
+                }
+
+                return target;
+            }
+
+            var originalEditField;
+
+            if(active.originalEditField && active.originalEditField !== target) {
+                originalEditField = getTarget(active.originalEditField);
+            }
+
+            var target = getTarget(active.target);
+
+            if(target) {
+
+                this.#stateTypeHandles.html(target, active.value)
+            }
+            if(originalEditField) {
+
+                this.#stateTypeHandles.html(originalEditField, active.originalEditFieldInnerHTML)
+            }
+        }
+    }
+    #stateTypeHandles = {
+        $liveEditStyle: (selector, value) => {
+            mw.top().app.cssEditor.style( selector,  value, false )
+        },
+        $liveEditCSS: (selector, property, value) => {
+
+            mw.top().app.cssEditor.setPropertyForSelector( selector, property, value, false);
+        },
+        customAction:(action, data) => {
+            action.call(undefined, data);
+        },
+        html: (target, html) => {
+            target.innerHTML = html;
+        },
+        $multistate: (data) => {
+            for (let i = 0; i < data.value.length; i++) {
+
+                const type = data.value[i].type || 'html';
+                if(this.#stateTypeHandles[type]) {
+                    this.#stateTypeDataHandles[type](data.value[i]);
+                }
+            }
+        }
+    }
+
+    #stateTypeHandle(data) {
+        var doc = mw.app.canvas.getDocument();
+
+        var target = data.active.target;
+
+        if(target === '$multistate' ) {
+            this.#stateTypeHandles.$multistate(data.active);
+            return;
+        }
+        if(target === '$liveEditStyle' && mw.top().app.cssEditor) {
+            this.#stateTypeDataHandles.$liveEditStyle(data.active );
+            return;
+        }
+        if(target === '$liveEditCSS' && mw.top().app.cssEditor) {
+
+            this.#stateTypeDataHandles.$liveEditCSS(data.active);
+            return;
+        }
+        if (typeof target === 'string') {
+            target = doc.querySelector(data.active.target);
+        }
+
+        if (!data.active || (!target && !data.active.action)) {
+            return;
+        }
+
+        if (data.active.action) {
+
+            this.#stateTypeDataHandles.customAction(data.active)
+        } else  {
+            this.#stateTypeDataHandles.html(data.active)
+
+        }
+        if (data.active.prev) {
+
+            this.#stateTypeHandles.html(data.active.prev, data.active.prevValue)
+        }
+    }
+
     handleUndoRedo = (data) => {
 
         if (data.active) {
-            var doc = mw.app.canvas.getDocument();
-
-            var target = data.active.target;
-
-
-            if(target === '$liveEditCSS' && mw.top().app.cssEditor) {
-                mw.top().app.cssEditor.setPropertyForSelector(data.active.value.selector, data.active.value.property, data.active.value.value, false);
-                return;
-            }
-            if (typeof target === 'string') {
-                target = doc.querySelector(data.active.target);
-            }
-
-            if (!data.active || (!target && !data.active.action)) {
-
-                return;
-            }
-
-            if (data.active.action) {
-                data.active.action(data);
-            } else if (doc.body.contains(target)) {
-                const getTarget = function(target) {
-                    if(!target.parentNode || !target.ownerDocument) {
-                        var selector;
-                        if(target.id) {
-                            selector = '#' + target.id;
-                        } else if(target.classList.contains('edit')) {
-                            var field = node.getAttribute('field');
-                            var rel = node.getAttribute('rel');
-                            if(field && rel){
-                                selector = '.edit[field="'+field+'"][rel="'+rel+'"]';
-                            }
-                        }
-                        if (selector) {
-                            target = doc.querySelector(selector)
-                        }
-
-                    }
-                    return target;
-                }
-
-                var originalEditField;
-
-                if(data.active.originalEditField && data.active.originalEditField !== target) {
-                    originalEditField = getTarget(data.active.originalEditField);
-                }
-
-                target = getTarget(target);
-
-                if(target) {
-                    mw.element(target).html(data.active.value);
-                }
-                if(originalEditField) {
-                    mw.element(originalEditField).html(data.active.originalEditFieldInnerHTML);
-                }
-
-            } else {
-                if (target.id) {
-                    mw.element(doc.getElementById(target.id)).html(data.active.value);
-                }
-            }
-            if (data.active.prev) {
-                mw.$(data.active.prev).html(data.active.prevValue);
-            }
+            this.#stateTypeHandle(data)
         }
         this.afterUndoRedo()
     }

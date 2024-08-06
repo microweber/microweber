@@ -15,8 +15,12 @@ class AddIndexToUserTable extends Migration
     {
         try {
             Schema::table('users', function (Blueprint $table) {
-                $table->index('is_admin');
-                $table->string('username')->unique()->change();
+
+                if(!$table->hasIndex('is_admin')) {
+                    $table->index('is_admin');
+                }
+
+
             });
         } catch (Exception $e) {
 

@@ -10,6 +10,21 @@ class ParserRegistry
     public $modulesRegistry = [];
 
     public $editFieldRegistry = [];
+    public $moduleIdsFromDatabase = [];
+
+
+    public function registerModuleIdFromDatabase($module_id)
+    {
+        $this->moduleIdsFromDatabase[$module_id] = true;
+    }
+
+    public function isModuleIdFromDatabase($module_id)
+    {
+        if (isset($this->moduleIdsFromDatabase[$module_id])) {
+            return true;
+        }
+        return false;
+    }
 
 
     public function registerParsedModule($module_name, $module_id)

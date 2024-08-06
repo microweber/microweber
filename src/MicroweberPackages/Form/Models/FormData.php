@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Form\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,16 +8,22 @@ class FormData extends Model
 {
     protected $table = 'forms_data';
 
-    public static function boot() {
+    public static function boot()
+    {
         parent::boot();
-        static::deleting(function($formData) {
+        static::deleting(function ($formData) {
             $formData->formDataValues()->delete();
         });
     }
 
     public function formDataValues()
     {
-        return $this->hasMany(FormDataValue::class)->where('field_value', '!=', '');
+        return $this->hasMany(FormDataValue::class)
+            ->where(function($join){
+                $join->where('field_value', '!=', '')
+                    ->orWhere('field_value_json', '!=', '');
+
+            });
     }
 
     public function formList()
@@ -24,17 +31,29 @@ class FormData extends Model
         return $this->belongsTo(FormList::class);
     }
 
-    public function getFormDataValues()
+    public function getFormDataValues() : array
     {
         $formDataValues = [];
-        foreach($this->formDataValues()->get() as $formDataValue) {
+        $allValues = $this->formDataValues()->get();
+
+        foreach ($allValues as $formDataValue) {
             if (strpos(strtolower($formDataValue->field_key), 'captcha') !== false) {
                 continue;
             }
+            $val = $formDataValue->field_value;
+            if ($formDataValue->field_value_json and !empty($formDataValue->field_value_json)) {
+                //$json_values = @json_decode($formDataValue->field_value_json, true);
+                $json_values = $formDataValue->field_value_json;
+                if ($json_values) {
+                    $val = implode(', ', $json_values);
+                }
+            }
+
             $formDataValues[] = [
                 'field_name' => ucwords($formDataValue->field_name),
-                'field_value' => nl2br($formDataValue->field_value),
+                'field_value' => nl2br($val),
             ];
+          //  dd($formDataValues);
         }
 
         return $formDataValues;

@@ -527,6 +527,7 @@ class VideoEmbed
 
         if ($this->isAutoplay()) {
             $attributes[] = 'autoplay="1"';
+            $attributes[] = 'muted="1"';
         }
 
 

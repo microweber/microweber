@@ -3,15 +3,18 @@
     @php
 
     $showSkinsDropdown = true;
+    $hasLegacySkinSettingsComponent = false;
 
 
         $currentSkin = 'default';
         if(isset($settings['template'])){
             $currentSkin = $settings['template'];
         }
-
+        $moduleTypeForComponent = str_replace('/admin', '', $moduleType);
+        $moduleTypeForComponent = str_replace('/', '.', $moduleTypeForComponent);
+        $moduleTypeForComponent = str_replace('_', '-', $moduleTypeForComponent);
         $currentSkinName = str_replace('.php', '', $currentSkin);
-        $componentNameForModuleSkin = 'microweber-module-'.$moduleType.'::template-settings-'.$currentSkinName;
+        $componentNameForModuleSkin = 'microweber-module-'.$moduleTypeForComponent.'::template-settings-'.$currentSkinName;
 
         $moduleSkinSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSkinSettings($moduleType, $currentSkinName);
         if($moduleSkinSettingsRegisteredAlias){
@@ -20,8 +23,7 @@
 
         $hasSkinSettingsComponent= livewire_component_exists($componentNameForModuleSkin) === true;
 
-        $moduleTypeForComponent = str_replace('/', '.', $moduleType);
-        $moduleTypeForComponent = str_replace('_', '-', $moduleType);
+
 
 
         if(count($moduleTemplates) == 1 && !$hasSkinSettingsComponent){
@@ -31,6 +33,12 @@
         if($currentSkin and $hasSkinSettingsComponent){
             $showSkinsDropdown = true;
         }
+        $legacySkinSettingsFileSkin = module_templates($moduleType, $currentSkinName, true);
+        if($legacySkinSettingsFileSkin and !$hasSkinSettingsComponent and is_file($legacySkinSettingsFileSkin)){
+            $showSkinsDropdown = true;
+            $hasLegacySkinSettingsComponent = true;
+        }
+
 
     @endphp
 
@@ -75,12 +83,12 @@
                         <div>
 
                                 <?php
-                                $moduleTypeForComponent = str_replace('/', '-', $moduleType);
+                             //   $moduleTypeForComponent = str_replace('/', '-', $moduleType);
                                 $hasError = false;
                                 $output = false;
 
                                 try {
-                                    $output = \Livewire\Livewire::mount($componentNameForModuleSkin, [
+                                    $output =   \Livewire\Livewire::mount($componentNameForModuleSkin, [
                                         'moduleId' => $moduleId,
                                         'moduleType' => $moduleType,
                                     ])->html();
@@ -98,6 +106,7 @@
                                     print $output;
                                     print '</div>';
                                 } else {
+
                                     print $output;
                                 }
 
@@ -113,6 +122,36 @@
                 </div>
 
             @endif
+
+
+            @if($currentSkin && $hasLegacySkinSettingsComponent)
+
+                <script>
+
+                    $(document).ready(function () {
+
+                        mw.options.form('#legacy-module-skin-settings', function () {
+                            mw.notification.success("<?php _ejs("Changes are saved"); ?>.");
+                        });
+                    });
+
+
+                </script>
+
+                <div class="mw-module-skin-setting-inner" id="legacy-module-skin-settings">
+                    <div>
+                        <div>
+                            <?php
+
+                                $params = [];
+                                $params['id'] = $moduleId;
+                                $params['type'] = $moduleType;
+                                include_once($legacySkinSettingsFileSkin) ?>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
         </div>
 
     </div>

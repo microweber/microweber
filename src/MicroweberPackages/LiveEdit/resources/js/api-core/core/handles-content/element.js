@@ -5,6 +5,7 @@ import {ElementActions} from "./element-actions";
 import {DomService} from "../classes/dom";
 import {ElementSettingsTarget} from "./element-settings-target";
 import {ElementHandleButtonsVisibility} from "./element-handle-buttons-visibility";
+import { FreeElementActions } from "./free-element-actions.js";
 
 
 export class ElementHandleContent {
@@ -197,6 +198,40 @@ export class ElementHandleContent {
                 },
 
             },
+            {
+                title: 'Bring to front',
+                text: '',
+                icon: this.handleIcons.icon('layer-up'),
+                className: 'mw-handle-settings-button',
+
+                action: (el) => {
+                   FreeElementActions.zIndexIncrement(  el);
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                }
+            },
+            {
+                title: 'Bring to back',
+                text: '',
+                icon: this.handleIcons.icon('layer-down'),
+                className: 'mw-handle-settings-button',
+
+                action: (el) => {
+                    FreeElementActions.zIndexDecrement( el);
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = mw.top().app.freeDraggableElementTools.isFreeElement(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                }
+            },
 
         ];
 
@@ -244,7 +279,7 @@ export class ElementHandleContent {
 
             },
             ...elementResetImageSizeMenu,
-            ...elementEditImageUploadMenu,
+           // ...elementEditImageUploadMenu,
 
 
         ];
@@ -331,6 +366,81 @@ export class ElementHandleContent {
                 action: (el) => {
 
                     this.elementActions.editImageWithEditor(el);
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+            },
+            {
+                title: ' Image options',
+                text: '',
+                icon: this.handleIcons.icon('settings'),
+
+                className: 'mw-handle-element-open-image-editor-fine-tune-button',
+
+
+
+                action: (el) => {
+                    const defaultLoading = ['auto', 'eager'];
+                    const dialogContent = `
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            <input type="text" class="form-control" name="title" placeholder="Image title" value="${el.title || ''}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Alt</label>
+                            <input type="text" class="form-control" name="alt" placeholder="Image alt text" value="${el.alt || ''}">
+                            <small class="text-muted">This text will appear if image fails to load</small>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-label">Loading</div>
+                            <div>
+                                <label class="form-check ">
+                                    <input class="form-check-input" type="radio" name="loading" value="eager" ${defaultLoading.includes(el.loading)  ? ' checked ' : ''}>
+                                    <span class="form-check-label">Default</span>
+                                    <small class="text-muted">Loads an image immediately</small>
+                                </label>
+                                <label class="form-check ">
+                                    <input class="form-check-input" type="radio" name="loading" value="lazy"  ${el.loading === 'lazy' ? ' checked ' : ''}>
+                                    <span class="form-check-label">Lazy</span>
+                                    <span class="text-muted">Defer loading of until image is present in the viewport</span>
+                                </label>
+                            </div>
+                        </div>
+                    `;
+
+                    const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
+                    const cancel = mw.element(`<button class="btn">Cancel</button>`);
+
+                    const dlg = mw.dialog({
+                        content: dialogContent,'title': 'Image options',
+                        footer: [cancel.get(0), ok.get(0)],
+                    });
+
+
+
+
+                    ok.on('click', function(){
+
+                        el.title = dlg.dialogContainer.querySelector('[name="title"]').value;
+                        el.alt = dlg.dialogContainer.querySelector('[name="alt"]').value;
+                        el.loading = dlg.dialogContainer.querySelector('[name="loading"]:checked').value;
+
+
+                        mw.app.registerChange(el)
+                        mw.app.registerAskUserToStay(true)
+
+
+                        dlg.remove();
+                    });
+                    cancel.on('click', function(){
+                        dlg.remove();
+
+                    });
 
 
                 },
@@ -502,7 +612,7 @@ export class ElementHandleContent {
                 onTarget: (target, selfBtn) => {
                     var selfVisible = this.elementHandleButtonsVisibility.shouldShowFreeDraggableButton(target);
 
-                    this.setMenuVisible(selfVisible, selfBtn);
+                    this.setMenuVisible(false, selfBtn);
                 },
             }
         ];
@@ -568,6 +678,8 @@ export class ElementHandleContent {
 
             ...elementBackgroundImageMenu,
 
+
+
             {
                 title: 'Settings',
                 text: '',
@@ -607,7 +719,8 @@ export class ElementHandleContent {
 
             //    ...cloneAbleMenuInMoreMenu,
 
-            ...elementEditImageInEditorMenu,
+            ...elementEditImageUploadMenu,
+           // ...elementEditImageInEditorMenu,
             //   ...elementEditImageAlignMenu,
             // ...elementEditImageAlignMenuAlignLeft,
             // ...elementEditImageAlignMenuAlignRight,

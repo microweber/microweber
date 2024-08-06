@@ -104,8 +104,9 @@ if (isset($params['rel_id']) == true) {
         $data = get_pictures("rel_id=0&rel_type={$for}&session_id={$sid}");
     }
 
-    if (empty($data)) {
-        $isDefaultSettingsApplied = get_option('default_settings_is_applied', $params['id']);
+    if (empty($data) and in_live_edit()) {
+        $isDefaultSettingsApplied = get_option('default_settings_is_applied', $params['rel_id']);
+
         if (!$isDefaultSettingsApplied) {
             $path = modules_path() . 'pictures' . DS . 'default-images' . DS;
             $default_images = scandir($path);
@@ -117,15 +118,16 @@ if (isset($params['rel_id']) == true) {
                 $fileInfo = pathinfo($filename);
                 $extension = strtolower($fileInfo['extension']);
 
+
                 if (in_array($extension, $allowedExtensions)) {
                     $default_image_url = $path . DS . $filename;
                     save_media([
-                        'for' => 'modules',
-                        'for_id' => $params['id'],
+                        'for' => $for,
+                        'for_id' => $params['rel_id'],
                         'media_type' => 'picture',
                         'src' => $default_image_url,
                     ]);
-                    save_option('default_settings_is_applied', true, $params['id']);
+                    save_option('default_settings_is_applied', true, $params['rel_id']);
                 }
             }
             $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
@@ -136,19 +138,10 @@ if (isset($params['rel_id']) == true) {
 
     }
 
-    if (!is_array($data)) {
-        if (is_array($default_images) and !empty($default_images)) {
-            $data = array();
-            foreach ($default_images as $default_image) {
-                $data[] = array('filename' => $default_image);
-            }
-        } else {
-            $no_img = true;
-        }
-    } else {
-        $data = mw()->format->add_slashes_recursive($data);
-
+    if(empty($data) ){
+        $no_img = true;
     }
+
 
     $module_template = get_option('data-template', $params['id']);
     if ($module_template == false and isset($params['template'])) {

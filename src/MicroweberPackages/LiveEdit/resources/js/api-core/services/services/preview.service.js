@@ -1,12 +1,7 @@
 import  CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
 
 
-let isEditMode = mw.cookie.get('isEditMode');
-if(isEditMode === undefined) {
-    mw.cookie.set('isEditMode', true);
-}
 
-isEditMode = mw.cookie.get('isEditMode') === 'true';
 
 
 
@@ -23,16 +18,26 @@ const _prepareCss = () => {
                 html.mw-le--page-preview .mw-le-spacer,
                 html.mw-le--page-preview .mw-le-spacer *,
                 html.mw-le--page-preview .mw-le-spacer * *,
-                html.mw-le--page-preview .mw-le-resizable{
+                html.mw-le--page-preview .mw-le-resizer,
+                html.mw-le--page-preview .mw-layout-container > .mw-le-resizable,
+                html.mw-le--page-preview .mw-handle-item {
+
+                    opacity:0 !important;
+                    pointer-events: none !important;
+                }
+
+                html.mw-le--page-preview .mw-handle-item * {
 
                     opacity:0 !important;
                     pointer-events: none !important;
                 }
 
 
+                html.mw-le--page-preview .moveable-control-box,
                 html.mw-le--page-preview .mw_image_resizer,
                 html.mw-le--page-preview #live_edit_toolbar_holder,
-                html.mw-le--page-preview .mw-handle-item,
+                html.mw-le--page-preview .mw-handle-item.mw-le-resizable,
+                html.mw-le--page-preview .mw-layout-container > .mw-le-resizable,
                 html.mw-le--page-preview .mw-selector,
                 html.mw-le--page-preview .mw_dropable,
                 html.mw-le--page-preview .mw-padding-ctrl,
@@ -55,10 +60,23 @@ const _prepareCss = () => {
 }
 
 
+
+
+const isEditMode = function (value) {
+
+    if(value === undefined){
+        return mw.top().app.isEditMode === undefined ? true : mw.top().app.isEditMode;
+    }
+    mw.top().app.isEditMode = value;
+
+}
+
+
 export const previewMode = function () {
     document.documentElement.classList.add('preview');
 
     document.documentElement.style.setProperty('--toolbar-height', '0px');
+
     mw.app.canvas.getDocument().documentElement.classList.add('mw-le--page-preview');
     mw.app.canvas.getDocument().body.querySelectorAll('[contenteditable]').forEach(node => node.contentEditable = 'inherit');
 
@@ -66,11 +84,18 @@ export const previewMode = function () {
 
     document.querySelector('#user-menu-wrapper').classList.remove('active');
 
-    mw.cookie.set('isEditMode', false);
+
+
+    isEditMode(false)
 
     mw.app.dispatch('mw.previewMode');
 
-    _prepareCss()
+    _prepareCss();
+
+    mw.app.canvas.getDocument().body.querySelectorAll('.mw-free-layout-container').forEach(node => {
+        const movable = node.__mvb;
+        movable.draggable = false;
+    });
 
 }
 
@@ -79,15 +104,19 @@ export const liveEditMode = function () {
     document.documentElement.style.setProperty('--toolbar-height', document.documentElement.style.getPropertyValue('--toolbar-static-height'));
     mw.app.canvas.getDocument().documentElement.classList.remove('mw-le--page-preview');
     mw.app.canvas.getDocument().body.classList.add('mw-live-edit');
-    mw.cookie.set('isEditMode', true);
+    isEditMode(true)
     mw.app.dispatch('mw.editMode');
 
-    _prepareCss()
+    _prepareCss();
+    mw.app.canvas.getDocument().body.querySelectorAll('.mw-free-layout-container').forEach(node => {
+        const movable = node.__mvb;
+        movable.draggable = true;
+    });
 
 }
 
 mw.app.isPreview = () => {
-    return mw.cookie.get('isEditMode') === 'false';
+    return isEditMode() === false;
 }
 
 
@@ -95,8 +124,8 @@ mw.app.isPreview = () => {
 
 
 export const pagePreviewToggle = function () {
-    isEditMode = !isEditMode;
-    if (!isEditMode) {
+
+    if (!mw.app.isPreview()) {
         previewMode();
     } else {
         liveEditMode()

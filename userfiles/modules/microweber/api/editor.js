@@ -2,8 +2,6 @@
 
 
 
-
-
 var EditorPredefinedControls = {
     'default': [
         [ 'bold', 'italic', 'underline' ],
@@ -357,15 +355,20 @@ var MWEditor = function (options) {
                 }
                 wTarget = wTarget.parentNode;
             }
-            if(!shouldCloseSelects) {
+            if(!shouldCloseSelects && e.target) {
                 var smallEditor = !!scope.smallEditor && scope.smallEditor.get(0);
                 if(smallEditor) {
                     shouldCloseSelects = !smallEditor.contains(e.target);
+
                 }
                 if(!shouldCloseSelects) {
 
                 }
 
+            }
+
+            if(!e.target) {
+                shouldCloseSelects = false;
             }
 
             if(shouldCloseSelects) {
@@ -387,7 +390,9 @@ var MWEditor = function (options) {
             }
             scope._interactionTime = time;
             scope.selection = scope.getSelection();
+
             if (scope.selection.rangeCount === 0) {
+
                 return;
             }
             var range = scope.selection.getRangeAt(0);
@@ -538,6 +543,20 @@ var MWEditor = function (options) {
         scope.state.on('record', () => {
             _observe();
         });
+        $(scope.actionWindow).on('load', function(e){
+            _observe();
+        });
+
+        let _moveTimeout = null;
+
+        $(scope.actionWindow.document).on('mousemove touchmove', function(e){
+            if(!_moveTimeout) {
+                _moveTimeout = setTimeout(function(){
+                    _observe();
+                    _moveTimeout = null
+                }, 300);
+            }
+        })
         $(scope.actionWindow.document).on('click', function(e){
 
             if(e.detail >= 3) {
@@ -571,6 +590,10 @@ var MWEditor = function (options) {
         });
         scope.$editArea.on('touchstart touchend click keydown execCommand mousemove touchmove scroll mouseup', _observe);
         this.createInteractionControls();
+        setTimeout(function (){
+            _observe();
+
+        }, 200);
     };
 
     this._preventEvents = [];
@@ -709,6 +732,7 @@ var MWEditor = function (options) {
             content = content || scope.$editArea.html();
             scope._syncTextArea(content);
             $(scope).trigger('change', [content]);
+            scope.dispatch('change', content);
         }, 78);
     };
 
@@ -1035,6 +1059,7 @@ var MWEditor = function (options) {
 
         scope.$editArea.on('click', function (e) {
                var target = e.target !== scope.actionWindow.document.body ? scope.getActualTarget(e.target) : scope.actionWindow.document.body;
+
                scope.smallEditorInteract(target);
         });
         this.actionWindow.document.body.appendChild(this.smallEditor.node);
@@ -1045,7 +1070,7 @@ var MWEditor = function (options) {
     };
 
     scope.getActualTarget = function (target) {
-        return mw.tools.firstParentOrCurrentWithTag(scope.api.elementNode(target), ['div', 'ul', 'ol', 'p', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']);
+        return mw.tools.firstParentOrCurrentWithTag(scope.api.elementNode(target), ['div', 'ul', 'ol', 'p', 'table', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'td']);
     };
 
     var _smallEditorExceptionClasses = [
@@ -1099,6 +1124,7 @@ var MWEditor = function (options) {
 
     var _smallEditorInteractTimeout = null;
     this.smallEditorInteract = function (target) {
+        const otarget = target;
         clearTimeout(_smallEditorInteractTimeout);
         _smallEditorInteractTimeout = setTimeout(() => {
             this._smallEditorInteract = false;
@@ -1111,7 +1137,7 @@ var MWEditor = function (options) {
             }
 
 
-            if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
+           if (scope.selection && (target && target.isContentEditable || mw.tools.hasAnyOfClassesOnNodeOrParent(target, ['mw-small-editor', 'mw-editor', 'mw-tooltip'])) && scope.api.isSelectionEditable() /* && !scope.selection.isCollapsed*/) {
 
                 if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
                     this._smallEditorInteract = target;
@@ -1253,66 +1279,31 @@ var MWEditor = function (options) {
             }
 
 
-            function nodePath(baseNode, targetNode, currentPath = []) {
-                if (baseNode == targetNode) return currentPath;
-                currentPath.unshift(targetNode);
-                return nodePath(baseNode, targetNode.parentNode, currentPath);
-              }
-
-              function pasteSplitManager(e) {
-                const {target: editor} = e;
-                const cursorNode = scope.getSelection().anchorNode;
-                const [child]    = nodePath(editor, cursorNode);
-                const wrappers   = Array.from({length: 2}, () => editor.cloneNode(false));
-
-
-
-                wrappers.forEach(wrapper => {
-                    wrapper.removeAttribute("id");
-                    wrapper.querySelectorAll('[style]').forEach(el => {
-                        el.removeAttribute("style");
-                    })
-                });
-
-
-                let seenChild = false;
-                for (const node of editor.childNodes) {
-                  if (!seenChild && node == child) {
-                    seenChild = true;
-                  } else if (!seenChild) {
-                    wrappers[0].append(node.cloneNode(true));
-                  } else {
-                    wrappers[1].append(node.cloneNode(true));
-                  }
-                }
-
-                wrappers.forEach(wrapper => {
-                    wrapper.removeAttribute("id");
-                    wrapper.querySelectorAll('[style]').forEach(el => {
-                        el.removeAttribute("style");
-                    })
-                });
-              }
-
 
 
 
 
             scope.$editArea.on('keydown', async event => {
 
-                if (event.keyCode == 90 && event.ctrlKey)  {
-                    if(event.shiftKey) {
-                        scope.state.redo()
-                    } else {
+                const ignoreTargets = ['TEXTAREA', 'INPUT', 'SELECT', 'BUTTON'];
 
-                        scope.state.undo()
+
+                if(!ignoreTargets.includes(event.target.nodeName)) {
+
+                    if (event.keyCode == 90 && event.ctrlKey)  {
+                        if(event.shiftKey) {
+                            scope.state.redo()
+                        } else {
+
+                            scope.state.undo()
+                        }
+                        event.preventDefault()
+                    } else if (event.keyCode == 89 && event.ctrlKey)  {
+                        if(!event.shiftKey) {
+                            scope.state.redo()
+                        }
+                        event.preventDefault()
                     }
-                    event.preventDefault()
-                } else if (event.keyCode == 89 && event.ctrlKey)  {
-                    if(!event.shiftKey) {
-                        scope.state.redo()
-                    }
-                    event.preventDefault()
                 }
             });
 
@@ -1360,6 +1351,14 @@ var MWEditor = function (options) {
                         scope.api.saveSelection();
                         ta.focus({preventScroll: true, focusVisible: false});
                         setTimeout(() => {
+
+
+                            var toRemove = 'div,main';
+                            while (ta.querySelectorAll(toRemove).length) {
+                                var first = ta.querySelector(toRemove);
+                                 first.replaceWith(...first.childNodes);
+                            }
+
                             scope.api.restoreSelection();
                             var content;
 
@@ -1393,8 +1392,12 @@ var MWEditor = function (options) {
                                     ta.innerHTML = ta.firstChild.innerHTML;
                                 }
 
+                                // by default we'll remove all classes and styles
 
-                                ta.querySelectorAll('.' + classesToremove.join(',.')).forEach(el => el.classList.remove(...classesToremove));
+                                ta.querySelectorAll('[class]').forEach(el => el.removeAttribute('class'));
+                                ta.querySelectorAll('[style]').forEach(el => el.removeAttribute('style'));
+                                ta.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+                                //ta.querySelectorAll('.' + classesToremove.join(',.')).forEach(el => el.classList.remove(...classesToremove));
 
                                 if(plainTextNodes.includes(e.target.nodeName) || mw.tools.firstParentWithTag(e.target, titles)){
                                     content = ta.textContent;
@@ -1415,13 +1418,13 @@ var MWEditor = function (options) {
                                     let all = ta.querySelectorAll(`*:not(${allowedTags})`);
 
 
-                                    while (ta.querySelectorAll(noBlocksInThese).length) {
+                                    /*while (ta.querySelectorAll(noBlocksInThese).length) {
                                         var first = ta.querySelector(noBlocksInThese);
                                         if(first.id) {
                                             first.id = mw.id('element')
                                         }
                                         mw.tools.setTag(first, 'span')
-                                    }
+                                    }*/
 
                                     var cssKeys = ['fontWeight', 'fontStyle', 'textDecoration', 'fontSize'];
 
@@ -1445,7 +1448,13 @@ var MWEditor = function (options) {
 
                             if(!!content) {
                                 content = content.trim();
-                               // scope.api.insertHTML(content);
+
+                                scope.api.insertHTML(content);
+                                mw.element(ta).remove();
+                                return;
+                               var edit = mw.tools.firstParentOrCurrentWithClass(e.target, 'edit') ;
+                               edit.contentEditable = true;
+                               edit.querySelectorAll('[contenteditable]').forEach(node => node.removeAttribute('contenteditable'));
                                var range = scope.api.getSelection().getRangeAt(0);
                                var doc = this.actionWindow.document.createRange().createContextualFragment(content);
                                range.deleteContents();
@@ -1585,6 +1594,15 @@ if (window.mw) {
        }
        return new MWEditor(options);
    };
+
+   mw.editor.get = selector => {
+        const node = typeof selector === 'string' ? document.querySelector(selector) : selector;
+        if(node) {
+            if(node.__MWEditor) {
+                return node.__MWEditor;
+            }
+        }
+   }
 }
 
 

@@ -373,7 +373,10 @@ code:			'123456'
                            var itemCookiePolicy = item.querySelector('input[name=cookies_policy]');
                            var showLiveChatMessage = item.querySelector('input[name=showLiveChatMessage]');
                            var unsetDefault = item.querySelector('input[name=unsetDefault]');
-                           var panelTogglePosition = item.querySelector('input[name=panelTogglePosition]');
+                           var panelTogglePosition1 = item.querySelector('#panelTogglePosition1');
+                           var panelTogglePosition2 = item.querySelector('#panelTogglePosition2');
+                           var panelTogglePosition3 = item.querySelector('#panelTogglePosition3');
+                           var panelTogglePosition = panelTogglePosition1.checked?'left':panelTogglePosition2.checked?'center':panelTogglePosition3.checked?'right':'left';
                            var googleAnalytics = item.querySelector('input[name=Google_Analytics_enabled]')
                            var facebookPixel = item.querySelector('input[name=Facebook_Pixel_enabled]')
                            var mauticTracking = item.querySelector('input[name=Mautic_Tracking_enabled]');
@@ -392,7 +395,7 @@ code:			'123456'
                            data['textColor'] = item.querySelector('.textColor').value;
                            data['cookiePolicyURL'] = item.querySelector('.cookiePolicyURL').value;
                            data['showLiveChatMessage'] = showLiveChatMessage.checked?'y':'n';
-                           data['panelTogglePosition'] = panelTogglePosition.checked?'y':'n';
+                           data['panelTogglePosition'] = panelTogglePosition;
                            data['cookies_policy'] = itemCookiePolicy.checked?'y':'n';
                            data['unsetDefault'] = unsetDefault.checked?'allowed':'blocked';
 

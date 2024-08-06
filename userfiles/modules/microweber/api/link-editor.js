@@ -53,7 +53,14 @@ mw.lib.require('xss');
 
         this.settings =  mw.object.extend({}, defaults, options || {});
 
-
+        if(this.settings.hideTextFied) {
+            for (var i = 0; i < this.settings.controllers.length; i++) {
+                if(!this.settings.controllers[i].config) {
+                    this.settings.controllers[i].config = {};
+                }
+                this.settings.controllers[i].config.text = false;
+            }
+        }
 
         var _filterXSS = function (html){
             var options = {

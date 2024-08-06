@@ -1,9 +1,23 @@
 <div x-data="{
 showMainEditTab: 'mainSettings'
-}">
+}"
+
+     @mw-option-saved.window="function() {
+
+                if ($event.detail.optionGroup === '{{$moduleId}}' && $event.detail.optionKey === 'use_content_from_live_edit') {
+                     mw.reload_module_everywhere('{{$moduleType}}', function () {
+                        window.location.reload();
+                     });
+                }
+                }"
+>
 
     <?php
     $moduleTemplates = module_templates($moduleType);
+
+
+
+
 
     $editorSettings = [
         'config' => [
@@ -72,6 +86,10 @@ showMainEditTab: 'mainSettings'
     @if($moduleTemplates && count($moduleTemplates) >  1)
 
         <div x-show="showMainEditTab=='design'" x-transition:enter="tab-pane-slide-right-active">
+
+
+
+
 
             <div>
                 <livewire:microweber-live-edit::module-select-template :moduleId="$moduleId" :moduleType="$moduleType"/>

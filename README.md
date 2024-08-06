@@ -81,6 +81,13 @@ To run Microweber, you need the following components:
     - `pdo_sqlite` PHP extension
     - `pdo_mysql` PHP extension
 
+### PHP installation command
+
+```bash
+sudo apt install php8.2-{bcmath,bz2,curl,curl,dom,fileinfo,gd,intl,mbstring,mysql,opcache,sqlite3,xmlrpc,zip}
+```
+
+
 ### HTTP Server
 
 #### Apache
@@ -96,7 +103,7 @@ server {
   location / {
     try_files $uri $uri/ /index.php$is_args$args;
   }
-  location ~ /(vendor|src|config|storage|.git|.env) {
+  location ~ /(vendor|src|config|database|bootstrap|storage|app|routes|.git|.env) {
     deny all;
     return 404;
   }
@@ -195,6 +202,12 @@ This project thrives thanks to all the contributors. [Learn how to contribute](C
 ### Financial Contributors
 
 Become a financial contributor and help sustain our community. [Contribute here](https://opencollective.com/microweber/contribute).
+
+### Translations
+
+Translate Microweber into your language! Fork the repository, edit language files in the [lang](https://github.com/microweber/microweber/tree/master/src/MicroweberPackages/Translation/resources/lang) directory, commit changes, and submit a pull request. Your help is greatly appreciated!
+
+
 
 #### Individuals
 

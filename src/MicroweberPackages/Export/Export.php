@@ -435,6 +435,7 @@ class Export
         $this->skipTables[] = 'media_thumbnails';
         $this->skipTables[] = 'personal_access_tokens';
         $this->skipTables[] = 'password_resets';
+        $this->skipTables[] = 'stats_events';
 
         return $this->skipTables;
     }

@@ -19,12 +19,35 @@ import focus from '@alpinejs/focus';
 import { DynamicTargetMenus } from './services/dynamic-target-menus.js';
 import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas";
 import { SingleFilePickerComponent } from './services/single-file-picker-component.js';
+import { MWBroadcast } from './services/broadcast.js';
+import { MWDocumentFocus } from './services/document.focus.service.js';
+import { da } from 'vuetify/locale';
+import { MWPageAlreadyOpened } from './components/live-edit/page-already-opened.service.js';
 
 mw.app = new MWUniversalContainer();
 
-//setTimeout(function() {
-const canvas = new LiveEditCanvas();
-mw.app.register('canvas', canvas);
+
+    const canvasSetUrlInterceptor = async (url) => {
+        return new Promise((resolve) => {
+            if(mw.top().app.documentFocus.isActive()) {
+
+            } else {
+
+            }
+        });
+    };
+
+
+    const canvas = new LiveEditCanvas({
+        onSetUrl: canvasSetUrlInterceptor
+    });
+
+
+
+
+    mw.app.register('documentFocus', MWDocumentFocus);
+    mw.app.register('broadcast', MWBroadcast);
+    mw.app.register('canvas', canvas);
     mw.app.register('commands', Commands);
     mw.app.register('modules', Modules);
 
@@ -35,6 +58,7 @@ mw.app.register('canvas', canvas);
     mw.app.register('linkPicker', LinkPicker);
     mw.app.register('colorPicker', ColorPicker);
     mw.app.register('dynamicTargetMenus', DynamicTargetMenus);
+    mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
 
 
     mw.app.normalizeBase64Image = normalizeBase64Image;
@@ -43,6 +67,48 @@ mw.app.register('canvas', canvas);
     mw.app.singleFilePickerComponent = options => {
         return new SingleFilePickerComponent(options)
     };
+
+
+    let sameUrlDialog = false;
+
+
+    const handleSameUrl = async () => {
+        let url = mw.top().app.canvas.getUrl();
+
+        const isLiveEdit = !!mw.top().app.canvas && mw.top().app.canvas.getWindow() && (self === top || self.frameElement.id === 'live-editor-frame');
+
+
+        if(isLiveEdit && sameUrlDialog) {
+            if(mw.top().app.canvas.getWindow() && mw.top().app.canvas.isUrlOpened(url) && mw.top().app.canvas.isUrlSame(url)  ) {
+
+
+                const action = await mw.app.pageAlreadyOpened.handle(url);
+
+                if(action) {
+
+                } else {
+                    mw.top().win.location.href = mw.top().settings.adminUrl;
+                }
+
+            }
+        }
+    }
+
+
+
+    mw.top().app.canvas.on('liveEditCanvasLoaded', async function() {
+        await handleSameUrl();
+    });
+
+    mw.top().storage.change('mw-broadcast-data', async function() {
+
+        await handleSameUrl();
+
+
+    });
+
+
+
 
 
 

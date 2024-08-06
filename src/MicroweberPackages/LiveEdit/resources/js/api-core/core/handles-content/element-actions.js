@@ -18,6 +18,7 @@ export class ElementActions extends MicroweberBaseClass {
 
     }
 
+
     editElement(el) {
         if (el.firstElementChild) {
             var firstChild = el.firstElementChild;
@@ -136,13 +137,17 @@ export class ElementActions extends MicroweberBaseClass {
             }
         }
 
-        var parentEditField = mw.tools.firstParentWithClass(el, 'edit');
+
 
         Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
-            mw.app.registerChangedState(el);
+            var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['regular-mode','edit', 'safe-mode']);
+
+            if(edit) {
+                mw.app.registerSyncAction(edit, true);
+            }
             el.remove()
-            if (parentEditField) {
-                mw.app.registerUndoState(parentEditField);
+            if (edit) {
+
                 mw.app.liveEdit.handles.get('element').set(null);
             }
         })
@@ -164,7 +169,7 @@ export class ElementActions extends MicroweberBaseClass {
         if (el.nodeName === 'IMG' && el.parentNode && el.parentNode.nodeName === 'A') {
             el = el.parentNode;
         }
-        mw.app.registerUndoState(el)
+       mw.top().app.registerSyncAction(el);
 
         ElementManager(el).after(el.outerHTML);
         var next = el.nextElementSibling;
@@ -172,12 +177,22 @@ export class ElementActions extends MicroweberBaseClass {
             el.style.width = ''
             next.style.width = ''
         }
-        var newNode = ElementManager(el).next().get(0)
+        mw.top().app.cssEditor.cloneNodeStyles(el, next);
+        var newNode = ElementManager(el).next().get(0);
         newNode.id = mw.id();
-        newNode.querySelectorAll('[id]').forEach(node => node.id = mw.id())
+
+
+
+        mw.top().app.cssEditor.syncEach('[id]', el, newNode, function(from, to){
+            to.id = mw.id();
+            mw.top().app.cssEditor.cloneNodeStyles(from, to);
+        });
+
+
+
 
         this.proto.elementHandle.set(el);
-        mw.app.registerChangedState(el);
+
         mw.app.liveEdit.handles.get('element').set(null);
         mw.app.liveEdit.handles.get('element').set(el);
     }
@@ -274,9 +289,10 @@ export class ElementActions extends MicroweberBaseClass {
     moveBackward(el) {
         const prev = el.previousElementSibling;
         if (prev) {
+            mw.app.registerSyncAction(el);
             prev.before(el);
             this.proto.elementHandle.set(el);
-            mw.app.registerChangedState(el);
+
             mw.app.liveEdit.handles.get('element').set(null);
             mw.app.liveEdit.handles.get('element').set(el);
         }
@@ -293,6 +309,7 @@ export class ElementActions extends MicroweberBaseClass {
         const next = el.nextElementSibling;
 
         if (next) {
+            mw.app.registerSyncAction(el);
             next.after(el);
             this.proto.elementHandle.set(el);
             mw.app.registerChangedState(el);
@@ -347,7 +364,7 @@ export class ElementActions extends MicroweberBaseClass {
 
 
         var _pauseSetValue = false;
-
+        mw.app.registerSyncAction(el);
 
         var picker = mw.colorPicker({
             // element: tip.get(0),
@@ -374,7 +391,12 @@ export class ElementActions extends MicroweberBaseClass {
     editImage(element) {
         var dialog = this.imagePicker(function (res) {
 
-            mw.top().app.registerUndoState(element);
+
+            var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+
+            if(edit) {
+                mw.app.registerSyncAction(edit, true);
+            }
             var url = res.src ? res.src : res;
             if (!url) return;
             url = url.toString();
@@ -385,24 +407,26 @@ export class ElementActions extends MicroweberBaseClass {
 
             mw.app.liveEdit.play();
             dialog.remove();
-
-            mw.top().app.registerChangedState(element);
         });
     }
 
     editImageWithEditor(element) {
         mw.app.editImageDialog.editImage(element.src, (imgData) => {
             if (typeof imgData !== 'undefined' && imgData.src) {
+                var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+
+                if(edit) {
+                    mw.app.registerSyncAction(edit, true);
+                }
 
                 element.src = imgData.src
 
                 if (imgData.sizeChanged) {
-                    // reset width and height
-                    //   element.style.width = '';
+
                     element.style.height = 'auto';
                 }
             }
-            mw.top().app.registerChange(element);
+
             mw.app.liveEdit.play();
         });
 
@@ -415,7 +439,10 @@ export class ElementActions extends MicroweberBaseClass {
             element = hasBgOnParent;
 
             var dialog = this.imagePicker(function (res) {
-                mw.top().app.registerChange(element);
+                var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                if(edit) {
+                    mw.top().app.registerChangedState(edit);
+                }
                 var url = res.src ? res.src : res;
                 if (!url) return;
                 url = url.toString();
@@ -424,7 +451,9 @@ export class ElementActions extends MicroweberBaseClass {
                 mw.app.liveEdit.play();
                 dialog.remove();
 
-                mw.top().app.registerChangedState(element);
+                if(edit) {
+                    mw.top().app.registerChangedState(edit);
+                }
             });
         }
     }
@@ -435,8 +464,10 @@ export class ElementActions extends MicroweberBaseClass {
         if (hasBgOnParent) {
             element = hasBgOnParent;
         }
-
-        mw.top().app.registerUndoState(element);
+        var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                if(edit) {
+                    mw.top().app.registerChangedState(edit);
+                }
 
         /*
                 if(element.style.backgroundImage) {
@@ -452,16 +483,24 @@ export class ElementActions extends MicroweberBaseClass {
                 }*/
 
         var dialog = this.imagePicker(function (res) {
-            mw.top().app.registerChange(element);
+            var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['regular-mode','edit', 'safe-mode']);
+                if(edit) {
+                    mw.top().app.registerChangedState(edit);
+                }
             var url = res.src ? res.src : res;
             if (!url) return;
             url = url.toString();
-            element.style.backgroundImage = `url(${url})`
+            element.style.backgroundImage = null;
+            //element.style.backgroundImage = `url('${url}')`
+
+            mw.top().app.cssEditor.temp(element, 'background-image', `url('${url}')`);
 
             mw.app.liveEdit.play();
             dialog.remove();
 
-            mw.top().app.registerChangedState(element);
+            if(edit) {
+                mw.top().app.registerChangedState(edit);
+            }
         });
     }
 

@@ -2,7 +2,9 @@ class MWSiteMobileMenuService {
 
 
     constructor(options = {}) {
-      var defaults = {};
+      var defaults = {
+        popupTemplate: 'mw-vhmbgr-active-popup'
+      };
       this.settings = Object.assign({}, defaults, options);
       this.init()
     }
@@ -26,7 +28,7 @@ class MWSiteMobileMenuService {
           const block =  document.createElement('div');
           const ovl =  document.createElement('div');
           ovl.className = 'mw-vhmbgr-active-overlay';
-          block.className = 'mw-vhmbgr-active-popup';
+          block.className = this.settings.popupTemplate;
           this.currentMenu = block;
 
           ovl.addEventListener('click', e => {

@@ -1,15 +1,16 @@
 name: PHP Templates Tests
-on:
-  workflow_run:
-    workflows: ["Dusk"]
-    types:
-      - completed
-  workflow_dispatch:
-    inputs:
-      templates:
-        description: 'Templates to test'
-        required: true
-        default: 'microweber-templates/big'
+on: [ push ]
+#on:
+#  workflow_run:
+#    workflows: ["Dusk"]
+#    types:
+#      - completed
+#  workflow_dispatch:
+#    inputs:
+#      templates:
+#        description: 'Templates to test'
+#        required: true
+#        default: 'microweber-templates/big'
 
 
 concurrency:
@@ -26,64 +27,40 @@ jobs:
         templates: [
           'microweber-templates/big',
           'microweber-templates/big-free',
-#          'microweber-templates/bootstrap5',
-#          'microweber-templates/dream',
-#          'microweber-templates/green',
-#          'microweber-templates/mobile-app',
-         'microweber-templates/new-world',
-      #    'microweber-templates/notary-services',
-#          'microweber-templates/proteinstore',
-         'microweber-templates/shopmag',
-#          'microweber-templates/accessories',
-#          'microweber-templates/apartment',
-   #       'microweber-templates/art',
-#          'microweber-templates/bamboo',
-#          'microweber-templates/banking',
-           'microweber-templates/beauty',
-#          'microweber-templates/blank',
-#          'microweber-templates/bookstore',
-#          'microweber-templates/burger',
-#          'microweber-templates/business',
-#          'microweber-templates/car-services',
-#          'microweber-templates/clothes',
-#          'microweber-templates/coffeeshop',
-#          'microweber-templates/comingsoon',
-#          'microweber-templates/conference',
-#          'microweber-templates/cryptocurrency',
-#          'microweber-templates/crypto2',
-#          'microweber-templates/digital',
-#          'microweber-templates/fitpower',
-#          'microweber-templates/floristry',
-#          'microweber-templates/gadgets',
-#          'microweber-templates/gallery',
-   #      'microweber-templates/guesthouse',
-#          'microweber-templates/home-restoration',
-           'microweber-templates/hospital',
-#           'microweber-templates/hostel',
-#          'microweber-templates/human-recourses',
-#          'microweber-templates/landing-shop',
-#          'microweber-templates/landingshop2',
-#          'microweber-templates/networking-space',
-#          'microweber-templates/office',
-#          'microweber-templates/offline-cash',
-#          'microweber-templates/photography',
-#          'microweber-templates/portfolio',
- #         'microweber-templates/private-school',
-#          'microweber-templates/services',
-#          'microweber-templates/simple-shop',
-#          'microweber-templates/skydive',
-#          'microweber-templates/tattoo',
- #         'microweber-templates/theplace',
-#          'microweber-templates/tony',
-     #     'microweber-templates/tourism',
- #         'microweber-templates/urban',
-          'microweber-templates/big',
-#          'microweber-templates/veterinary',
-#          'microweber-templates/wedding',
-#          'microweber-templates/yoga-studio',
-#          'microweber-templates/ziza',
-#          'microweber-templates/wine',
-#          'microweber-templates/yachting'
+          'microweber-templates/art',
+          'microweber-templates/bootstrap5',
+          'microweber-templates/business',
+          'microweber-templates/burger',
+          'microweber-templates/beauty',
+          'microweber-templates/dream',
+          'microweber-templates/events',
+          'microweber-templates/freelancer',
+          'microweber-templates/fitpower',
+          'microweber-templates/guesthouse',
+          'microweber-templates/hospital',
+          'microweber-templates/human-resources',
+          'microweber-templates/hostel',
+          'microweber-templates/machine',
+          'microweber-templates/mobile-app',
+          'microweber-templates/networking-space',
+          'microweber-templates/new-world',
+          'microweber-templates/nomad',
+          'microweber-templates/nova',
+          'microweber-templates/online-learning',
+          'microweber-templates/photon',
+          'microweber-templates/photographer',
+          'microweber-templates/portfolio',
+          'microweber-templates/private-school',
+          'microweber-templates/protein-store',
+          'microweber-templates/services',
+          'microweber-templates/shopmag',
+          'microweber-templates/simple',
+          'microweber-templates/theplace',
+          'microweber-templates/tourism',
+          'microweber-templates/travel',
+          'microweber-templates/urban',
+          'microweber-templates/web-designer',
+          'microweber-templates/yoga-studio'
         ]
         php-versions: ['8.2']
     steps:
@@ -128,7 +105,7 @@ jobs:
       run: |
         php -r "if (function_exists('opcache_reset')) { var_dump(opcache_reset()); } else { echo 'opcache_reset function does not exist.'; }"
     - name: Install template
-      run: composer require ${{ matrix.templates }} --no-cache
+      run: composer require ${{ matrix.templates }} --no-cache -vvv
     - name: Remove screenshot layout test
       run: |
         rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php

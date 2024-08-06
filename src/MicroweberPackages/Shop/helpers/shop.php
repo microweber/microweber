@@ -172,6 +172,13 @@ function currency_format($amount, $curr = false)
 {
     return app()->shop_manager->currency_format($amount, $curr);
 }
+
+function currency_symbol($curr = false)
+{
+    return get_currency_symbol($curr);
+}
+
+
 function get_currency_symbol($curr = false)
 {
     return app()->shop_manager->currency_symbol($curr);
@@ -186,6 +193,19 @@ function get_currency_code() {
 
     return $curr;
 }
+
+
+
+/**
+ * @see get_currency_code()
+ * @alias get_currency_code()
+ */
+if (!function_exists('currency_code')) {
+    function currency_code() {
+        return get_currency_code();
+    }
+}
+
 
 function mw_shop_recover_shopping_cart($sid = false)
 {

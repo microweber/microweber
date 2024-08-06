@@ -12,9 +12,16 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
-        if (!route_exists('admin.web-app-manifest')) {
+         if (!route_exists('admin.web-app-manifest')) {
             return '';
         }
+        $secFetchDest = request()->header('Sec-Fetch-Dest');
+        if ($secFetchDest == 'iframe') {
+            //do not append on iframes
+            return '';
+        }
+
+
         $manifestRoute = route('admin.web-app-manifest');
         $template_headers_src_items = [];
         $template_headers_src_items[] = '<link crossorigin="use-credentials" rel="manifest" href="' . $manifestRoute . '" />';

@@ -265,7 +265,8 @@
                     </div>
 
                     <div class="col-12 d-flex justify-content-end">
-                        <a href="" class="btn btn-outline-primary btn-sm "> <?php _e("Edit") ?></a>
+                        <a  href="<?php echo route('admin.order.edit', $order['id']) ?>"
+                            class="btn btn-outline-primary btn-sm "> <?php _e("Edit") ?></a>
                     </div>
                     <?php endif; ?>
                 </div>

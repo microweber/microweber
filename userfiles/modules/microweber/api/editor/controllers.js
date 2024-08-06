@@ -692,7 +692,7 @@ MWEditor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.get(0), false);
             }
-            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText );
+            rootScope.disabled(opt.controller.element.get(0), !opt.rangeInEditor || opt.isPlainText );
         };
         this.element = this.render();
     },
@@ -771,7 +771,7 @@ MWEditor.controllers = {
             } else {
                 rootScope.controllerActive(opt.controller.element.get(0), false);
             }
-            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText );
+            rootScope.disabled(opt.controller.element.get(0), !opt.rangeInEditor ||opt.isPlainText );
         };
         this.element = this.render();
     },
@@ -876,8 +876,10 @@ MWEditor.controllers = {
                         target: target.target === '_blank'
                     };
                 }
+
                 var linkEditor = new mw.LinkEditor({
                     mode: 'dialog',
+                    hideTextFied: true
                 });
 
                 if(val) {
@@ -1656,6 +1658,7 @@ MWEditor.controllers = {
             var font = css.font();
             var color = font.color;
 
+
             var colorIndicator = opt.controller.element.get(0).querySelector('.mw-editor-color-picker-color-indicator');
 
             if(!colorIndicator) {
@@ -1669,7 +1672,7 @@ MWEditor.controllers = {
 
 
 
-            rootScope.disabled(opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
+            rootScope.disabled(opt.controller.element.get(0), !opt.rangeInEditor || opt.controller.element.get(0), opt.isPlainText || !opt.api.isSelectionEditable(opt.selection)|| !opt.api.targetSupportsFormatting(opt.api.elementNode(opt.api.getSelection().focusNode)));
         };
         this.element = this.render();
     },

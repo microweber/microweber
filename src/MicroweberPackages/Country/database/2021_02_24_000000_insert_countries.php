@@ -17,7 +17,7 @@ class InsertCountries extends Migration
             $data = countries_list(true);
 
             foreach ($data as $country) {
-                $findCountry = \MicroweberPackages\Country\Models\Country::where('code', $country[0])->where('name', $country[1])->first();
+                $findCountry = \MicroweberPackages\Country\Models\Country::where('code', $country[0])->first();
                 if (!$findCountry) {
                     $newCountry = new \MicroweberPackages\Country\Models\Country();
                     $newCountry->code = $country[0];

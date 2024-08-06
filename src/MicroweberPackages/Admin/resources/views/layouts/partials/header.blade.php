@@ -5,6 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex">
+    <meta name="google" content="notranslate" />
+    <meta http-equiv="Content-Language" content="<?php print current_lang(); ?>">
+
     <script>
         mwAdmin = true;
         admin_url = '<?php print admin_url(); ?>';

@@ -160,6 +160,8 @@ function render_video_module($params)
     $video->setId($params['id']);
     $video->setAutoplay($autoplay);
 
+
+
     $getLoop = get_option('loop', $params['id']);
     if ($getLoop == 1) {
         $video->setLoop(true);
@@ -175,6 +177,7 @@ function render_video_module($params)
 
     $thumbnailApplied = false;
     if (!empty($thumb)) {
+
         $filesUtils = new \MicroweberPackages\Utils\System\Files();
         if ($filesUtils->is_allowed_file($thumb)) {
             $video->setThumbnail($thumb);

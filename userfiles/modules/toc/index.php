@@ -22,6 +22,41 @@ if ($module_template != false) {
 
 <div>
     <script>
+
+        if(!mw._toc_hook_ready) {
+            mw._toc_hook_ready = true;
+
+            $(window).on('load scroll resize', function(){
+
+                const stop = $(document).scrollTop();
+                const results = {};
+                 mw.$('a[href*="#mw-"]').each(function(){
+                     var ref = $(this.getAttribute('href'));
+                        if(ref.length){
+                            var off = ref.offset();
+                            // if(off.top + ref.outerHeight() > stop && off.top + ref.outerHeight() < stop + innerHeight){
+                            if(mw.tools.inview(ref)){
+                                 const center = off.top + ref.outerHeight() - (stop + innerHeight / 2);
+                                 results[Math.abs(center)] = this;
+                            }
+                            this.classList.remove('active');
+                        }
+
+                });
+                const keys = Object.keys(results);
+                if(keys.length) {
+                    const el = results[Math.min.apply(null, keys)];
+                    if(el) {
+                        el.classList.add('active');
+
+                    }
+                }
+
+            });
+
+        }
+
+
         $(document).ready(function () {
             var headers = '<?php print $headers; ?>';
             var speed = '<?php print $speed; ?>';
@@ -39,7 +74,7 @@ if ($module_template != false) {
                 if (currentHeaderElement.id == '') {
                     currentHeaderElement.id = mw.id();
                 }
-                
+
                 var link = document.createElement('a');
                 link.href = '#' + currentHeaderElement.id;
                 link.innerHTML = headerElements[i].textContent;
@@ -52,6 +87,9 @@ if ($module_template != false) {
             document.getElementById('toc-<?php echo $params['id'];?>').appendChild(nav);
 
         });
+
+
+
     </script>
     <div>
         <?php

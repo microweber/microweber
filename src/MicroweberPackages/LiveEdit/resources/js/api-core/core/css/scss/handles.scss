@@ -478,6 +478,16 @@ body.mw--resizing{
 
         height: #{calc($height + ($height/2))}px;
     }
+
+
+}
+
+.edit:has(.module) {
+    .mw-le-ghost-layout{
+
+        display: none;
+
+    }
 }
 
 .mw-handle-item-element-image-control {

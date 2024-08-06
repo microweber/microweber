@@ -1,7 +1,7 @@
 import { EditorHandles } from '../../../../ui/adapters/module-handle.js';
 import {LiveEdit} from '../../../core/@live.js';
 import {DomService} from '../../../core/classes/dom.js';
-import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
+//import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
 import {ModuleSettings} from "../../services/module-settings";
 import {TemplateSettings} from "../../services/template-settings";
 import {WyswygEditor} from "../../services/wyswyg-editor";
@@ -14,13 +14,9 @@ import { FreeDraggableElementManager } from '../../../core/handles-content/free-
 
 
 export const liveEditComponent = () => {
-    const frame = mw.app.canvas.getFrame();
-    const frameHolder = frame.parentElement;
-    const doc = mw.app.canvas.getDocument();
-    const link = doc.createElement('style');
-    link.textContent = liveeditCssDist;
 
-    doc.head.prepend(link);
+    const doc = mw.app.canvas.getDocument();
+
 
     const liveEdit = new LiveEdit({
         root: doc.body,
@@ -76,8 +72,12 @@ export const liveEditComponent = () => {
 
 
 
-    mw.app.registerUndoState = function(element){
-        return mw.app.undoHandler.registerUndoState(element);
+    mw.app.registerUndoState = function(element, isNow = false){
+        let method = 'registerUndoState';
+        if(isNow) {
+            method = 'registerUndoStateNow';
+        }
+        return mw.app.undoHandler[method](element);
     };
     mw.app.registerChange = function(element){
         var edit = mw.tools.firstParentOrCurrentWithClass(element, 'edit');
@@ -110,13 +110,18 @@ export const liveEditComponent = () => {
             liveEditIframe.mw.askusertostay = toStay;
         }
     };
-    mw.app.registerChangedState = function(element){
+    mw.app.registerSyncAction = function(element, isNow){
+        mw.app.registerChangedState(element, isNow);
+        setTimeout(function(){
+            mw.app.registerChangedState(element, isNow);
+        }, 110);
+    };
+
+    mw.app.registerChangedState = function(element, isNow){
         mw.app.registerChange(element);
-        mw.app.registerUndoState(element);
+        mw.app.registerUndoState(element, isNow);
         mw.app.registerAskUserToStay(true);
-        if(mw.app.liveEdit) {
-      //      mw.app.liveEdit.handles.reposition();
-        }
+
 
     };
 

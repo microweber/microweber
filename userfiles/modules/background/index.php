@@ -7,14 +7,22 @@ if (isset($params['data-background-color'])) {
     $background_color = $params['data-background-color'];
 }
 $background_image = '';
+$background_size = '';
 
 $background_image_option = get_option('data-background-image', $params['id']);
+$background_size_option = get_option('data-background-size', $params['id']);
+
+
 
 if (isset($params['data-background-image'])) {
     $background_image = $params['data-background-image'];
 }
 if ($background_image_option) {
     $background_image = $background_image_option;
+}
+
+if ($background_size_option) {
+    $background_size = $background_size_option;
 }
 
 if($background_image == 'none'){
@@ -24,6 +32,11 @@ if($background_image == 'none'){
 $background_image_attr_style = '';
 if ($background_image) {
     $style_attributes[] = 'background-image: url(' . $background_image . ')';
+}
+
+
+if ($background_size) {
+    $style_attributes[] = 'background-size: ' . $background_size;
 }
 
 $style_attr = '';

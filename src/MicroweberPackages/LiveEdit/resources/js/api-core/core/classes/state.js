@@ -76,9 +76,21 @@ export const State = function(options){
     };
 
     this.record = function(item){
+
         if(this.paused()) {
             return this;
         }
+
+        if(typeof this.options.hooks.beforeRecord === 'function'){
+            if(!this.options.hooks.beforeRecord.call(this, item)){
+                return this;
+            }
+        }
+
+
+        this._state = this._state.filter( (obj, index) => arr.findIndex((item) => item.value === obj.value) === index );
+
+
         if(this._activeIndex>-1) {
             var i = 0;
             while ( i <  this._activeIndex) {

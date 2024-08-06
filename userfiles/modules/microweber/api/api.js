@@ -218,6 +218,12 @@ mw.askusertostay = false;
 
 
         var parent = mw.$(target).parent().get(0);
+        if(!parent){
+            parent = mw.tools.firstParentOrCurrentWithAnyOfClasses(target, ['edit', 'module']);
+        }
+        if(!parent){
+            parent = target;
+        }
 
         if(stateManager) {
             stateManager.record({
@@ -236,6 +242,16 @@ mw.askusertostay = false;
 
         if(target.classList.contains('mw-free-layout-container')) {
             action = 'append'
+        }
+
+
+
+        if(target.nodeName === 'TD' && !explicitAction) {
+            if(action === 'before') {
+                action = 'prepend'
+            } else if(action === 'after') {
+                action = 'append'
+            }
         }
 
 

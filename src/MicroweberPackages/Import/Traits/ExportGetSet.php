@@ -98,7 +98,7 @@ trait ExportGetSet
      * @return void
      */
     public function setSkipTables(array $tables) {
-        $this->skipTables($tables);
+        $this->skipTables = $tables;
     }
 
     /**

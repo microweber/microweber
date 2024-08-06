@@ -42,7 +42,7 @@ export class ElementSettingsTarget extends MicroweberBaseClass {
         }
 
         if (target.classList && target.classList.contains('edit')) {
-            const noBlocksInThese = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'];
+            const noBlocksInThese = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'li'];
             if (noBlocksInThese.indexOf(target.nodeName.toLowerCase()) !== -1) {
                 return false;
             }
