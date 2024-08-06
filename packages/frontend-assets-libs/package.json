@@ -20,6 +20,5 @@
     "devDependencies": {
         "gulp": "^5.0.0",
         "gulp-copy": "^4.0.1",
-        "gulp-util": "^3.0.8"
     }
 }

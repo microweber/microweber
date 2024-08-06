@@ -59,6 +59,7 @@
         "@tailwindcss/forms": "^0.5.7",
         "@tailwindcss/typography": "^0.5.13",
         "@vituum/vite-plugin-concat": "^1.1.0",
+        "async": "^3.2.5",
         "autoprefixer": "^10.4.19",
         "axios": "^1.6.4",
         "concurrently": "^8.0.1",
@@ -81,7 +82,7 @@
         "postcss": "^8.4.38",
         "postcss-nesting": "^12.1.4",
         "tailwindcss": "^3.4.3",
-        "tippy.js": "^6.3.7",
+
         "vite": "^5.0",
         "vite-plugin-istanbul": "^5.0.0",
         "vite-plugin-node-polyfills": "^0.22.0",
@@ -91,4 +92,3 @@
         "y18n": "^5.0.8"
     }
 }
-
