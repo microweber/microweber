@@ -17,6 +17,7 @@ if(typeof  processContactForm !== 'object'){
            spinner.setState('loading')
            }
 			mw.$('input[type="submit"]',selector).attr('disabled', 'disabled');
+			mw.$('button[type="submit"]',selector).attr('disabled', 'disabled');
 
             mw.form.post(selector, undefined, function(form){
                 if(spinner && spinner.setState){
@@ -38,6 +39,7 @@ if(typeof  processContactForm !== 'object'){
 
                 spinner.remove()
                 mw.$('input[type="submit"]',selector).attr('disabled', false);
+                mw.$('button[type="submit"]',selector).attr('disabled', false);
 
                 if(typeof data2.error === 'string'){
                     mw.response(mw.$(selector), data2);
