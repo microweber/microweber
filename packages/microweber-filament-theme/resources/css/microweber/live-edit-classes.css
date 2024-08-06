@@ -1,28 +1,34 @@
 .modules-list-block-style-list {
-    height: 160px;
-    width: 100%;
+    @apply h-[160px];
+    @apply w-full;
 }
 
 @media screen and (min-width: 890px) {
     .modules-list-block-style-list {
-        height: 240px !important;
+        @apply !h-[240px];
     }
-
 }
 
 @media screen and (min-width: 768px) {
     .modules-list-block-style-list {
-        width: 45%;
+        @apply !w-[45%];
     }
 }
 
 @media screen and (min-width: 1366px) {
     .modules-list-block-style-list {
-        width: 30%;
+        @apply !w-[30%];
     }
 }
 
 .modules-list-block-style-full {
-    height: 500px;
-    width: 100%;
+    @apply w-full h-[500px];
+}
+
+.w-100 {
+    @apply !w-full;
+}
+
+.modules-list-block-item-picture {
+    @apply !bg-contain;
 }
