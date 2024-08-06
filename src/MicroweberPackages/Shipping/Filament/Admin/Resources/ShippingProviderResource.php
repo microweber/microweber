@@ -21,6 +21,25 @@ class ShippingProviderResource extends Resource
 
     public static function form(Form $form): Form
     {
+
+        $shippingDriversOption = [];
+        $shippingDrivers = app()->shipping_method_manager->getProviders();
+
+        if($shippingDrivers){
+            foreach ($shippingDrivers as $shippingDriver) {
+                $driver = app()->shipping_method_manager->driver($shippingDriver);
+                if (!($driver->title())) {
+                    continue;
+                }
+
+
+
+                $shippingDriversOption[$shippingDriver] = $driver->title();
+            }
+        }
+
+
+
         $schema = [
 
             Forms\Components\TextInput::make('name')
@@ -38,12 +57,7 @@ class ShippingProviderResource extends Resource
                     $set('provider', $state);
                 })
                 ->placeholder('Select Provider')
-                ->options([
-                    'flat_rate' => 'Flat Rate',
-                    'per_item' => 'Per Item',
-                    'free_shipping' => 'Free Shipping',
-                    'local_delivery' => 'Local Delivery'
-                ])
+                ->options($shippingDriversOption)
                 ->required()
                 ->columnSpan('full'),
 
@@ -54,90 +68,28 @@ class ShippingProviderResource extends Resource
                 ->required(),
         ];
 
-        $provderForm = static::getProviderSettingsForm($form);
-        $schema = array_merge($schema, $provderForm);
+
+        if ($shippingDrivers) {
+
+            foreach ($shippingDrivers as $provider) {
+                $driver = app()->shipping_method_manager->driver($provider);
+                if (is_object($driver) and method_exists($driver, 'getSettingsForm')) {
+                    $provderForm = $driver->getSettingsForm($form);
+                    if ($provderForm) {
+                        $schema = array_merge($schema, $provderForm);
+                    }
+                }
+            }
+        }
+
+
+
 
         return $form
             ->schema($schema);
     }
 
-    public static function getProviderSettingsForm($form)
-    {
 
-        $record = ($form->getRecord());
-
-        return [
-            Forms\Components\Section::make()
-                ->statePath('settings')
-                ->reactive()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
-                    $provider = $get('provider');
-
-                    $helpText = 'Enter the shipping cost';
-
-                    if ($provider == 'free_shipping') {
-                        $helpText = 'Enter the minimum order amount for free shipping';
-                    }
-                    if ($provider == 'per_item') {
-                        $helpText = 'Enter the shipping cost per item';
-                    }
-
-                    if ($provider == 'local_delivery') {
-                        $helpText = 'Enter the shipping cost for local delivery';
-                    }
-
-                    if ($provider == 'flat_rate') {
-                        $helpText = 'Enter the flat rate shipping cost';
-                    }
-
-                    return [
-                        Forms\Components\TextInput::make('shipping_cost')
-                            ->maxLength(255)
-                            ->numeric()
-                            ->required()
-                            ->default(0)
-                            ->helperText($helpText)
-                            ->label('Shipping Cost'),
-
-                        Forms\Components\Textarea::make('shipping_instructions')
-                            ->label('Shipping Instructions')
-                            ->default('')
-                    ];
-
-                })
-                ->visible(function (Forms\Get $get) {
-                    return (
-                        $get('provider') === 'flat_rate'
-                        or $get('provider') === 'per_item'
-                        or $get('provider') === 'local_delivery'
-                    );
-                })
-                ->columns(2)
-            ,
-
-        ];
-
-
-//        return Builder::make('settings')
-//            ->label(function (Forms\Get $get) {
-//                return $get('provider');
-//            })
-//            ->live()
-//            ->blocks([
-//
-//                Builder\Block::make('heading')
-//                    ->schema([
-//                        TextInput::make('content')
-//                            ->label('Provider')
-//                            ->default($provider)
-//                            ->required(),
-//                    ])
-//                    ->columns(2),
-//
-//
-//            ]);
-
-    }
 
 
     public static function table(Table $table): Table

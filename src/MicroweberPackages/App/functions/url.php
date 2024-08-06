@@ -4,6 +4,10 @@
 function public_asset($path = '', $secure = null)
 {
 
+    if(!$path){
+         return asset('/public/', $secure).'/';
+    }
+
     return asset('/public/' . trim($path, '/'), $secure);
 }
 
