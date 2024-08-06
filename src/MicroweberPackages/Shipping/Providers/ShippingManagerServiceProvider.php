@@ -19,6 +19,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Shipping\Filament\Admin\Resources\ShippingProviderResource;
 use MicroweberPackages\Shipping\ShippingManager;
+use MicroweberPackages\Shipping\ShippingMethodManager;
 
 class ShippingManagerServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,26 @@ class ShippingManagerServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         View::addNamespace('shipping', __DIR__ . '/../resources/views');
+
+
+        $this->app->singleton('shipping_method_manager', function ($app) {
+
+            return new ShippingMethodManager($app->make(Container::class));
+        });
+
+
+        $this->app->resolving('shipping_method_manager', function (ShippingMethodManager $shippingMethodManager) {
+            $shippingMethodManager->extend('flat_rate', function () {
+                return new \MicroweberPackages\Shipping\Drivers\FlatRate();
+            });
+      
+            $shippingMethodManager->extend('pickup_from_address', function () {
+                return new \MicroweberPackages\Shipping\Drivers\PickupFromAddress();
+            });
+        });
+
         FilamentRegistry::registerResource(ShippingProviderResource::class);
+
     }
 
     /**
@@ -47,6 +67,7 @@ class ShippingManagerServiceProvider extends ServiceProvider
              */
             return new ShippingManager($app->make(Container::class));
         });
+
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 

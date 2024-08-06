@@ -19,4 +19,5 @@ class ShippingMethodManager extends Manager
         return array_keys($this->customCreators);
     }
 
+
 }

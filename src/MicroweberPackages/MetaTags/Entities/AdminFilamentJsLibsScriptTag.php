@@ -11,8 +11,11 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
     public function toHtml(): string
     {
         $libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
-        $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
-        $jqueryUi = mw_includes_url() . 'api/libs/jqueryui/jquery-ui.js';
+       // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
+        $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.min.js';
+        //$jqueryUi = mw_includes_url() . 'api/libs/jqueryui/jquery-ui.js';
+        $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.min.js';
+        $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
         $jqueryUiNestedSortable = mw_includes_url() . 'api/libs/nestedsortable/jquery.mjs.nestedSortable.js';
         $lib_tynymce = mw_includes_url() . 'api/libs/tinymce/tinymce.min.js';
 
@@ -21,6 +24,9 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
 
         $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $jqueryUi . '" id="mw-jquery-ui-js-libs-scripts"></script>' . "\r\n";
+
+        $append_html .= '' . "\r\n";
+        $append_html .= '<link rel="stylesheet" href="' . $jqueryUiCss . '" id="mw-jquery-ui-js-libs-styles">' . "\r\n";
 
         $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $jqueryUiNestedSortable . '" id="mw-jquery-ui-js-libs-nested-sortable-scripts"></script>' . "\r\n";
