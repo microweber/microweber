@@ -1,6 +1,7 @@
 .mw-admin-action-links {
     position: relative;
     text-decoration: none !important;
+    font-weight: 700;
     @apply text-black dark:text-white;
 
     @apply hover:cursor-pointer;

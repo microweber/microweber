@@ -370,9 +370,12 @@
     @apply !ml-9;
 }
 
+.dropdown {
+    @apply relative;
+}
 
 .dropdown-menu {
-    @apply absolute top-full left-0 z-[1000] hidden min-w-[10rem] p-2.5 mt-0.5 text-base text-gray-800 text-left list-none bg-white border border-gray-300 rounded-md shadow-lg;
+    @apply absolute top-full text-[12px] left-0 z-[1000] hidden min-w-[10rem] p-2.5 mt-0.5 text-base text-gray-800 text-left list-none bg-white border border-gray-300 rounded-md shadow-lg;
 }
 
 .dropdown-item {
@@ -392,3 +395,4 @@
 .dropdown-menu.show {
     @apply block;
 }
+
