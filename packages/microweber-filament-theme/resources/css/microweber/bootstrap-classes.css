@@ -369,3 +369,26 @@
 .ms-9 {
     @apply !ml-9;
 }
+
+
+.dropdown-menu {
+    @apply absolute top-full left-0 z-[1000] hidden min-w-[10rem] p-2.5 mt-0.5 text-base text-gray-800 text-left list-none bg-white border border-gray-300 rounded-md shadow-lg;
+}
+
+.dropdown-item {
+    @apply block w-full px-6 py-1.5 clear-both font-normal text-gray-800 text-left whitespace-nowrap bg-transparent border-0;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    @apply text-gray-900 no-underline bg-gray-100;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    @apply text-white no-underline bg-blue-600;
+}
+
+.dropdown-menu.show {
+    @apply block;
+}
