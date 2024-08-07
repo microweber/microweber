@@ -158,8 +158,15 @@ body {
 
 
 .mw-ui-invisible-field  {
-    @apply bg-transparent border border-solid border-transparent box-border py-2 relative outline-none;
+    @apply bg-transparent border border-solid border-transparent box-border py-2 relative !outline-none;
 }
+
+.mw-ui-invisible-field:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
 
 .mw-autocomplete .mw-autocomplete-list {
     @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto p-[20px] bg-gray-100;
@@ -211,3 +218,4 @@ body {
 .mw-ui-navigation li.active > a {
     @apply shadow-inner border-black bg-gray-100;
 }
+
