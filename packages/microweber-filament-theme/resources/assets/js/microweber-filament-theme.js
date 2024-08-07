@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const dropdownMenu = document.getElementById('dropdownMenu');
 
     dropdownButton.addEventListener('click', function () {
-        dropdownMenu.classList.toggle('show')M;
+        dropdownMenu.classList.toggle('show');
     });
 
     // Close the dropdown if the user clicks outside of it

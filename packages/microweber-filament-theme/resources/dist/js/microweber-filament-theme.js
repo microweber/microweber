@@ -1,1 +1,1 @@
-(()=>{"use strict";console.log("microweber-filament-theme.js")})();
+(()=>{"use strict";console.log("microweber-filament-theme.js"),document.addEventListener("DOMContentLoaded",(function(){const t=document.getElementById("dropdownButton"),e=document.getElementById("dropdownMenu");t.addEventListener("click",(function(){e.classList.toggle("show")})),document.addEventListener("click",(function(n){t.contains(n.target)||e.contains(n.target)||e.classList.remove("show")}))}))})();
