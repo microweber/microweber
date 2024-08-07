@@ -1,0 +1,22 @@
+.mw-filepicker-component-navigation-header {
+    @apply w-full;
+}
+
+.mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
+    @apply w-full flex items-center justify-center rounded bg-gray-100 p-2 py-2 gap-4;
+}
+
+.form-control-live-edit-label-wrapper a {
+    @apply hover:bg-white/80 rounded py-2 px-4 text-center text-gray-600 dark:text-white w-full text-sm;
+}
+
+.form-control-live-edit-label-wrapper a.active {
+    @apply bg-white dark:bg-gray-900;
+}
+.mw-ui-field-holder {
+    @apply w-full flex flex-col items-center gap-4 border-2 border-dashed border-blue-600/50 rounded p-12;
+}
+
+.mw-file-manager-bar-view-type-selector .btn-group, .mw-file-manager-bar-view-type-selector {
+    @apply !flex gap-3 items-center;
+}

@@ -1,0 +1,52 @@
+.pagination {
+    @apply flex pl-0 list-none rounded-md;
+}
+
+.page-link {
+    @apply relative block text-xs px-1.5 py-0.5 ml-[-1px] leading-5 text-blue-600 bg-white dark:bg-gray-900 border border-gray-300;
+}
+
+.page-link:hover {
+    @apply z-10 text-blue-800 no-underline bg-gray-100 border-gray-300;
+}
+
+.page-link:focus {
+    @apply z-10 outline-none ring-2 ring-blue-300;
+}
+
+.page-item:first-child .page-link {
+    @apply ml-0 rounded-l-md;
+}
+
+.page-item:last-child .page-link {
+    @apply rounded-r-md;
+}
+
+.page-item.active .page-link {
+    @apply z-10 text-white bg-blue-600 border-blue-600 dark:bg-white dark:border-white dark:text-black;
+}
+
+.page-item.disabled .page-link {
+    @apply text-gray-400 dark:text-white pointer-events-none bg-white dark:bg-gray-900 border-gray-300;
+}
+
+
+.mw-live-edit-pagination-tabler li {
+    @apply hidden;
+}
+
+.mw-live-edit-pagination-tabler li.mw-paging-visible-range {
+    @apply block;
+}
+
+.mw-live-edit-pagination-tabler .page-item .page-link:hover, .mw-live-edit-pagination-tabler .page-item .page-link.active {
+    @apply bg-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-white;
+
+}
+
+.mw-live-edit-pagination-tabler svg {
+    width: 15px;
+
+}
+
+

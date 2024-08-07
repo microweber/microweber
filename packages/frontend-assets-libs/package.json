@@ -16,7 +16,8 @@
         "filerobot-image-editor": "^4.8.1",
         "flag-icons": "^7.2.3",
         "jquery": "^3.7.1",
-        "jquery-ui": "^1.13.3"
+        "jquery-ui": "^1.13.3",
+        "react-filerobot-image-editor": "^4.8.1"
     },
     "devDependencies": {
         "gulp": "^5.0.0",
