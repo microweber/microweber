@@ -82,66 +82,8 @@ class ProcessCampaigns extends Command
 
         foreach ($subscribers as $subscriber) {
 
-            $checkCampaignStatus = NewsletterCampaign::select(['id','status'])->where('id', $campaign->id)
-                ->first();
-            if ($checkCampaignStatus->status == NewsletterCampaign::STATUS_FINISHED) {
-                $this->error('Campaign is finished');
-                return 0;
-            }
-            if ($checkCampaignStatus->status == NewsletterCampaign::STATUS_PAUSED) {
-                $this->error('Campaign is paused');
-                return 0;
-            }
-            if ($checkCampaignStatus->status == NewsletterCampaign::STATUS_CANCELED) {
-                $this->error('Campaign is canceled');
-                return 0;
-            }
-
-            $findCampaignSendLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)
-                ->where('subscriber_id', $subscriber->id)
-                ->first();
-            if (!empty($findCampaignSendLog)) {
-                $this->error('Campaign already sent to this subscriber');
-                continue;
-            }
-
-            try {
-                $newsletterMailSender = new NewsletterMailSender();
-                $newsletterMailSender->setCampaign($campaign->toArray());
-                $newsletterMailSender->setSubscriber($subscriber->toArray());
-                $newsletterMailSender->setSender($sender->toArray());
-                $newsletterMailSender->setTemplate($template->toArray());
-                $sendMailResponse = $newsletterMailSender->sendMail();
-
-                if ($sendMailResponse['success']) {
-                    $campaignSendLog = new NewsletterCampaignsSendLog();
-                    $campaignSendLog->campaign_id = $campaign->id;
-                    $campaignSendLog->subscriber_id = $subscriber->id;
-                    $campaignSendLog->is_sent = 1;
-                    $campaignSendLog->save();
-                } else {
-                    $campaignSendLog = new NewsletterCampaignsSendLog();
-                    $campaignSendLog->campaign_id = $campaign->id;
-                    $campaignSendLog->subscriber_id = $subscriber->id;
-                    $campaignSendLog->is_sent = 0;
-                    $campaignSendLog->save();
-                }
-
-            } catch (\Exception $e) {
-
-                $campaignSendLog = new NewsletterCampaignsSendLog();
-                $campaignSendLog->campaign_id = $campaign->id;
-                $campaignSendLog->subscriber_id = $subscriber->id;
-                $campaignSendLog->is_sent = 0;
-                $campaignSendLog->save();
-
-                $this->error($e->getMessage());
-            }
-
         }
 
-        $campaign->status = NewsletterCampaign::STATUS_FINISHED;
-        $campaign->save();
 
         return 0;
     }
