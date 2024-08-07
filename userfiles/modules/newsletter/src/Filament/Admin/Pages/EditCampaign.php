@@ -401,8 +401,12 @@ class EditCampaign extends Page
                                     ->icon('heroicon-o-rocket-launch')
                                     ->requiresConfirmation(true)
                                     ->after(function () {
-                                        // Send campaign
-                                        return $this->redirect(route('filament.admin-newsletter.pages.process-campaign.{id}', $this->state['id']));
+                                        $findCampaign = NewsletterCampaign::where('id', $this->state['id'])->first();
+                                        if ($findCampaign) {
+                                            $findCampaign->status = NewsletterCampaign::STATUS_PENDING;
+                                            $findCampaign->save();
+                                        }
+                                        return $this->redirect(route('filament.admin-newsletter.resources.campaigns.index'));
                                     }),
                                 Action::make('Preview E-mail')
                                     ->label('Preview E-mail')
