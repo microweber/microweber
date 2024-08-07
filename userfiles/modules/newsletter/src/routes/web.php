@@ -29,20 +29,7 @@ Route::name('web.newsletter.')
 
 
         Route::get('/unsubscribe', function() {
-
-            $email = request()->get('email');
-            if (empty($email)) {
-                return redirect('/');
-            }
-            $findSubscriber = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber::where('email', $email)->first();
-            if (!$findSubscriber) {
-                return redirect('/');
-            }
-
-            $findSubscriber->is_subscribed = 0;
-            $findSubscriber->save();
-
-            return redirect('/');
+            return view('microweber-module-newsletter::unsubscribe');
 
         })->name('unsubscribe');
 
