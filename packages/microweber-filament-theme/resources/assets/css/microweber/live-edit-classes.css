@@ -219,3 +219,10 @@ body {
     @apply shadow-inner border-black bg-gray-100;
 }
 
+#user-menu-wrapper.active #user-menu {
+    @apply bg-gray-100;
+}
+
+.active>.mw-le-hamburger>span:nth-child(2) {
+    @apply !bg-[#ffffff30];
+}

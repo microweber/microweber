@@ -1,5 +1,6 @@
 
 const scripts = [
+    {target: 'filerobot-image-editor', path: 'node_modules/filerobot-image-editor/lib/index.js'},
     {target: 'jquery', path: 'node_modules/jquery/dist/jquery.js'},
     {target: 'jquery', path: 'node_modules/jquery/dist/jquery.slim.js'},
     {target: 'jquery', path: 'node_modules/jquery/dist/jquery.min.js'},
