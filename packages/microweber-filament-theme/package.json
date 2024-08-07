@@ -3,7 +3,9 @@
     "type": "module",
     "scripts": {
         "dev": "gulp watch",
-        "build": "gulp build"
+        "build": "gulp build",
+        "dev-clean": "npx tailwindcss -i resources/assets/css/index.css -o ../../public/vendor/filament/css/app/microweber-filament-theme.css --postcss --watch",
+        "build-clean": "npx tailwindcss -i resources/assets/css/index.css -o resources/dist/microweber-filament-theme.css --postcss --minify"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.4",

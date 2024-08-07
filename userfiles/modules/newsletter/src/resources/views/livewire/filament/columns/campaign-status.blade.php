@@ -42,5 +42,4 @@ $record = $getRecord();
         </span>
     @endif
 
-
 </div>
