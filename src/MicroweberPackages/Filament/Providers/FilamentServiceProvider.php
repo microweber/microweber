@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\View;
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use Filament\FilamentServiceProvider as BaseFilamentPackageServiceProvider;
+use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentThemeServiceProvider;
 
 
 class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
@@ -44,10 +45,12 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             return new FilamentManager();
         });
 
+
         $this->app->register(TablesServiceProvider::class);
         $this->app->register(NotificationsServiceProvider::class);
         $this->app->register(FormsServiceProvider::class);
         $this->app->register(WidgetsServiceProvider::class);
+
     }
 
     public function packageBooted(): void

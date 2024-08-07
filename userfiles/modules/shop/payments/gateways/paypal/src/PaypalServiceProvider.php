@@ -15,6 +15,4 @@ class PaypalServiceProvider extends ServiceProvider
         });
     }
 }
-{
 
-}

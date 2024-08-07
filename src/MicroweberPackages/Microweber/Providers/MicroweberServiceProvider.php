@@ -11,11 +11,9 @@
 
 namespace MicroweberPackages\Microweber\Providers;
 
-use Filament\MinimalThemeServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
-use MicroweberPackages\BladeUI\Providers\BladeUIServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Cart\CartManagerServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;

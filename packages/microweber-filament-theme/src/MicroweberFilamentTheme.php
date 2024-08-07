@@ -14,6 +14,7 @@ use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\MetaTags\AdminFilamentMetaTagsRenderer;
+use Filament\Support\Assets\Js;
 
 class MicroweberFilamentTheme implements Plugin
 {
@@ -25,7 +26,10 @@ class MicroweberFilamentTheme implements Plugin
     public function register(Panel $panel): void
     {
         FilamentAsset::register([
-            Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/microweber-filament-theme.css'),
+          //  Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/css/microweber-filament-theme.css'),
+            Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/css/microweber-filament-theme.css')),
+            Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/js/microweber-filament-theme.js')),
+
         ]);
 
         $panel

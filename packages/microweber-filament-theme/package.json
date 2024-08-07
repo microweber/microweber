@@ -2,16 +2,21 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "npx tailwindcss -i resources/css/index.css -o ../../public/vendor/filament/css/app/microweber-filament-theme.css --postcss --watch",
-        "build": "npx tailwindcss -i resources/css/index.css -o resources/dist/microweber-filament-theme.css --postcss --minify"
+        "dev": "gulp watch",
+        "build": "gulp build"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.4",
         "@tailwindcss/typography": "^0.5.9",
         "autoprefixer": "^10.4.14",
+        "copy-webpack-plugin": "^12.0.2",
+        "gulp": "^5.0.0",
+        "gulp-watch": "^5.0.1",
         "postcss": "^8.4.26",
         "postcss-import": "^15.1.0",
-        "tailwindcss": "^3.3.3"
+        "tailwindcss": "^3.3.3",
+        "webpack": "^5.93.0",
+        "webpack-cli": "^5.1.4"
     },
     "dependencies": {
         "purge": "^1.0.0"

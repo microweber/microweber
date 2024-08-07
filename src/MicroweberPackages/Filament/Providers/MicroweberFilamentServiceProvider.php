@@ -14,6 +14,7 @@ namespace MicroweberPackages\Filament\Providers;
 
 use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Admin\Providers\Filament\FilamentLiveEditPanelProvider;
+use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentThemeServiceProvider;
 use MicroweberPackages\Modules\Newsletter\Providers\NewsletterFilamentAdminPanelProvider;
 
 class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -26,6 +27,8 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
             $this->app->register(FilamentServiceProvider::class);
             $this->app->register(FilamentAdminPanelProvider::class);
             $this->app->register(FilamentLiveEditPanelProvider::class);
+            $this->app->register(MicroweberFilamentThemeServiceProvider::class);
+
 
             // @TODO
           //  $this->app->register(NewsletterFilamentAdminPanelProvider::class);
