@@ -40,9 +40,7 @@ class ProcessCampaigns extends Command
     public function handle()
     {
 
-        $processCampaigns = new \MicroweberPackages\Modules\Newsletter\ProcessCampaigns();
-        $processCampaigns->setLogger($this);
-        $processCampaigns->run();
+        echo 1;
 
         return 0;
     }

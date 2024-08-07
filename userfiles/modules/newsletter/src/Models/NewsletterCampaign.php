@@ -15,6 +15,7 @@ class NewsletterCampaign extends Model
     public const STATUS_PAUSED = 'paused';
     public const STATUS_CANCELED = 'canceled';
 
+    public const STATUS_PENDING = 'pending';
 
     public $fillable = [
         'sender_account_id',
