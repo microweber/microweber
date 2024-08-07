@@ -13,6 +13,7 @@ use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateTemplate;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\TemplateEditor;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\Filament\NewsletterImportSubscribersActionButton;
 
+use MicroweberPackages\Modules\Newsletter\Http\Livewire\UnsubscribePage;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -29,6 +30,8 @@ class NewsletterServiceProvider extends PackageServiceProvider
         parent::boot();
 
         $this->loadViewsFrom((dirname(__DIR__)) . '/resources/views', 'microweber-module-newsletter');
+
+        Livewire::component('newsletter-unsubscribe-page', UnsubscribePage::class);
 
 //        Livewire::component('admin-newsletter-subscribers-list', NewsletterSubscribersList::class);
 //        Livewire::component('admin-newsletter-choose-template-modal', NewsletterChooseTemplateModal::class);
