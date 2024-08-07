@@ -226,3 +226,25 @@ body {
 .active>.mw-le-hamburger>span:nth-child(2) {
     @apply !bg-[#ffffff30];
 }
+
+.mw-live-edit-tools-dropdown-menu {
+    @apply min-w-[175px];
+}
+
+.mw-live-edit-tools-dropdown-menu ul li a {
+    @apply flex items-center;
+}
+
+.mw_modal_live_edit_settings {
+    @apply h-[20px];
+}
+
+.mw_modal_live_edit_settings .modal-title {
+    @apply absolute top-[-22px] left-0 z-10 text-xs px-1.5 py-0.5 h-5 select-none cursor-grab bg-blue-600 text-white;
+}
+
+.mw-dialog-skin-mw_modal_simple.mw_modal_live_edit_settings .mw-dialog-close {
+    @apply absolute top-[-22px] right-0 w-[26px] z-10 h-5 cursor-pointer bg-blue-600 text-white bg-no-repeat bg-center;
+    margin-inline-start: auto;
+    background-image: url("data:image/svg+xml,%3Csvg fill='%23fff' xmlns='http://www.w3.org/2000/svg' height='16' viewBox='0 -960 960 960' width='16'%3E%3Cpath d='m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z'/%3E%3C/svg%3E");
+}
