@@ -96,13 +96,41 @@ class CampaignResource extends Resource
                     ->icon('heroicon-o-pencil')
                     ->hidden(fn (NewsletterCampaign $campaign) => $campaign->status == NewsletterCampaign::STATUS_FINISHED)
                     ->url(fn (NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
-//                Tables\Actions\EditAction::make(),
+
+                Tables\Actions\Action::make('cancel')
+                    ->label('Cancel')
+                    ->hidden(function (NewsletterCampaign $campaign) {
+                        if ($campaign->status == NewsletterCampaign::STATUS_CANCELED) {
+                            return true;
+                        }
+                        return false;
+                    })
+                    ->requiresConfirmation()
+                    ->icon('heroicon-o-x-circle')->action(function (NewsletterCampaign $campaign) {
+                        $campaign->status = NewsletterCampaign::STATUS_CANCELED;
+                        $campaign->save();
+                    }),
+
+                Tables\Actions\Action::make('pause')
+                    ->label('Pause')
+                    ->requiresConfirmation()
+                    ->hidden(function (NewsletterCampaign $campaign) {
+                        if ($campaign->status == NewsletterCampaign::STATUS_PROCESSING) {
+                            return false;
+                        }
+                        return true;
+                    })
+                    ->icon('heroicon-o-x-circle')->action(function (NewsletterCampaign $campaign) {
+                        $campaign->status = NewsletterCampaign::STATUS_PAUSED;
+                        $campaign->save();
+                    }),
+
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+//                Tables\Actions\BulkActionGroup::make([
+//                    Tables\Actions\DeleteBulkAction::make(),
+//                ]),
             ]);
     }
 
