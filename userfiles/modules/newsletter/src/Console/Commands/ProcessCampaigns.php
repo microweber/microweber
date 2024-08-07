@@ -97,17 +97,11 @@ class ProcessCampaigns extends Command
                 return 0;
             }
 
-            sleep(4);
-            $this->info('Processing campaign ' . $campaign->id . ' for subscriber ' . $subscriber->id);
-            continue;
-
             $findCampaignSendLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)
                 ->where('subscriber_id', $subscriber->id)
-                ->where('is_sent', 1)
                 ->first();
             if (!empty($findCampaignSendLog)) {
-                $subscriber['error'] = true;
-                $subscriber['error_message'] = 'Already sent';
+                $this->error('Campaign already sent to this subscriber');
                 continue;
             }
 
@@ -125,13 +119,29 @@ class ProcessCampaigns extends Command
                     $campaignSendLog->subscriber_id = $subscriber->id;
                     $campaignSendLog->is_sent = 1;
                     $campaignSendLog->save();
+                } else {
+                    $campaignSendLog = new NewsletterCampaignsSendLog();
+                    $campaignSendLog->campaign_id = $campaign->id;
+                    $campaignSendLog->subscriber_id = $subscriber->id;
+                    $campaignSendLog->is_sent = 0;
+                    $campaignSendLog->save();
                 }
 
             } catch (\Exception $e) {
+
+                $campaignSendLog = new NewsletterCampaignsSendLog();
+                $campaignSendLog->campaign_id = $campaign->id;
+                $campaignSendLog->subscriber_id = $subscriber->id;
+                $campaignSendLog->is_sent = 0;
+                $campaignSendLog->save();
+
                 $this->error($e->getMessage());
             }
 
         }
+
+        $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+        $campaign->save();
 
         return 0;
     }
