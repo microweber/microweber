@@ -1,6 +1,8 @@
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import { fileURLToPath } from 'url';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +13,14 @@ const plugins =  [
         filename: "[name].css",
         chunkFilename: "[id].css",
     }),
+
+
+    new CopyWebpackPlugin({
+        patterns: [
+            { from: path.resolve(__dirname, './resources/dist/'), to: path.resolve(__dirname, '../../public/vendor/microweber-packages/frontend-assets') }
+        ]
+    })
+
 ];
 
 const module =  {
