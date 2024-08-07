@@ -65,24 +65,27 @@ class CampaignResource extends Resource
                     ->color(function() {
                         return 'success';
                     }),
-                TextColumn::make('status')
-                    ->badge()
-                    ->formatStateUsing(function ($state) {
-                        return mb_strtoupper($state);
-                    })
-                    ->color(function($state) {
-                        if ($state == NewsletterCampaign::STATUS_DRAFT) {
-                            return 'gray';
-                        } elseif ($state == NewsletterCampaign::STATUS_PROCESSING) {
-                            return 'warning';
-                        } elseif ($state == NewsletterCampaign::STATUS_FINISHED) {
-                            return 'success';
-                        } elseif ($state == NewsletterCampaign::STATUS_CANCELED) {
-                            return 'danger';
-                        } else {
-                            return 'gray';
-                        }
-                    }),
+                Tables\Columns\ViewColumn::make('status')
+                        ->view('microweber-module-newsletter::livewire.filament.columns.campaign-status'),
+
+//                TextColumn::make('status')
+//                    ->badge()
+//                    ->formatStateUsing(function ($state) {
+//                        return mb_strtoupper($state);
+//                    })
+//                    ->color(function($state) {
+//                        if ($state == NewsletterCampaign::STATUS_DRAFT) {
+//                            return 'gray';
+//                        } elseif ($state == NewsletterCampaign::STATUS_PROCESSING) {
+//                            return 'warning';
+//                        } elseif ($state == NewsletterCampaign::STATUS_FINISHED) {
+//                            return 'success';
+//                        } elseif ($state == NewsletterCampaign::STATUS_CANCELED) {
+//                            return 'danger';
+//                        } else {
+//                            return 'gray';
+//                        }
+//                    }),
             ])
             ->filters([
                 //
