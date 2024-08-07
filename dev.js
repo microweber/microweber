@@ -15,7 +15,7 @@ const runNpmDev = () => {
             });
         },
         (callback) => {
-            exec('npm run dev', { cwd: 'packages/frontend-assets-libs' }, (err, stdout, stderr) => {
+            exec('npm run build', { cwd: 'packages/frontend-assets-libs' }, (err, stdout, stderr) => {
                 if (err) {
                     console.error(`Error in packages/frontend-assets-libs: ${err}`);
                     return callback(err);

@@ -13,13 +13,13 @@
         "dev": "gulp build"
     },
     "dependencies": {
+        "filerobot-image-editor": "^4.8.1",
         "flag-icons": "^7.2.3",
         "jquery": "^3.7.1",
         "jquery-ui": "^1.13.3"
     },
     "devDependencies": {
         "gulp": "^5.0.0",
-        "gulp-copy": "^4.0.1",
-        "gulp-util": "^3.0.8"
+        "gulp-copy": "^4.0.1"
     }
 }
