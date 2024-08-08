@@ -20,6 +20,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager as LiveEditManagerFacade;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarElementStyleEditorPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarTemplateSettingsPage;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
@@ -69,6 +70,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
        // Event::listen(ServingFilament::class, function () {
             FilamentRegistry::registerPage(AdminLiveEditPage::class);
             FilamentRegistry::registerPage(AdminLiveEditSidebarTemplateSettingsPage::class);
+            FilamentRegistry::registerPage(AdminLiveEditSidebarElementStyleEditorPage::class);
 
         //  });
 
@@ -102,6 +104,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
             if ($panelId == 'admin') {
 
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/sidebar_template_settings', AdminLiveEditSidebarTemplateSettingsPage::getUrl());
+                ModuleAdmin::registerLiveEditSettingsUrl('microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue', AdminLiveEditSidebarElementStyleEditorPage::getUrl());
             }
         });
 
