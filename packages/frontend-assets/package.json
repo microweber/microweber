@@ -9,7 +9,8 @@
     },
     "private": true,
     "scripts": {
-        "build": "npx webpack build --mode=production"
+        "build": "npx webpack build --mode=production",
+        "dev": "npx webpack build --mode=development"
     },
     "devDependencies": {
         "copy-webpack-plugin": "^12.0.2",

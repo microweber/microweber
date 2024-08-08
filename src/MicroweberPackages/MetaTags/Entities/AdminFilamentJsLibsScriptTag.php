@@ -12,6 +12,7 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
     {
         $libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
        // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
+        $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin.js';
         $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.min.js';
         //$jqueryUi = mw_includes_url() . 'api/libs/jqueryui/jquery-ui.js';
         $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.min.js';
@@ -19,7 +20,7 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $jqueryUiNestedSortable = mw_includes_url() . 'api/libs/nestedsortable/jquery.mjs.nestedSortable.js';
         $lib_tynymce = mw_includes_url() . 'api/libs/tinymce/tinymce.min.js';
 
-
+$fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
         $nouislider = mw_includes_url() . 'api/libs/nouislider/nouislider.js';
 
         //nouislider
@@ -44,6 +45,13 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
 
         $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $libs . '" type="module"  id="mw-filament-js-libs-scripts"></script>' . "\r\n";
+
+
+        $append_html .= '' . "\r\n";
+        $append_html .= '<script src="' . $fileRobotUrl . '" id="mw-admin-file-robot-js-libs-scripts"></script>' . "\r\n";
+
+        $append_html .= '' . "\r\n";
+        $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
 
         return $append_html;
     }

@@ -5,7 +5,7 @@
 </script>
 
 
-    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
+
 
 
 
@@ -121,5 +121,5 @@
 
     </script>
 
-
+    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
 </div>
