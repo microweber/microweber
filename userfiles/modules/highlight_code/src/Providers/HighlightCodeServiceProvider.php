@@ -2,11 +2,12 @@
 
 namespace MicroweberPackages\Modules\HighlightCode\Providers;
 
-use Livewire\Livewire;
+use Filament\Facades\Filament;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
+use MicroweberPackages\Modules\HighlightCode\Filament\HighlightCodeModuleSettings;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use MicroweberPackages\Modules\HighlightCode\Http\Livewire\HighlightCodeSettingsComponent;
 
 class HighlightCodeServiceProvider extends PackageServiceProvider
 {
@@ -19,10 +20,18 @@ class HighlightCodeServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        Livewire::component('microweber-module-highlight-code::settings', HighlightCodeSettingsComponent::class);
-
-        ModuleAdmin::registerSettings('highlight_code', 'microweber-module-highlight-code::settings');
+        FilamentRegistry::registerPage(HighlightCodeModuleSettings::class);
 
     }
 
+    public function boot(): void
+    {
+        Filament::serving(function () {
+            $panelId = Filament::getCurrentPanel()->getId();
+            if ($panelId == 'admin') {
+                ModuleAdmin::registerLiveEditSettingsUrl('highlight_code', HighlightCodeModuleSettings::getUrl());
+            }
+        });
+
+    }
 }

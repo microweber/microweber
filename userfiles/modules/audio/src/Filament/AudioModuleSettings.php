@@ -31,8 +31,9 @@ class AudioModuleSettings extends LiveEditModuleSettings
 
                     TextInput::make('options.data-audio-url')
                         ->label('Audio file URL')
+                        ->url()
                         ->live()
-                        ->default('https://'),
+                        ->placeholder('https://www.example.com/audio.mp3'),
                 ])
             ]);
     }
