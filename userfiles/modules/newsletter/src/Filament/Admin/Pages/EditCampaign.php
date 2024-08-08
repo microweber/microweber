@@ -14,6 +14,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
@@ -375,14 +376,58 @@ class EditCampaign extends Page
                             }
                         })
                         ->schema([
+
                             TextInput::make('state.subject')
                                 ->label('E-mail Subject')
                                 ->helperText('Enter the subject of your email.')
                                 ->required()
                                 ->live(),
+
+                            RadioDeck::make('state.email_content_type')
+                                ->columns(2)
+                                ->required()
+                                ->icons([
+                                    'plain' => 'heroicon-o-pencil',
+                                    'design' => 'heroicon-o-paint-brush',
+                                ])
+                                ->color('primary')
+                                ->live()
+                                ->descriptions([
+                                    'plain' => 'Send plain text email.',
+                                    'design' => 'Send designed email.',
+                                ])
+                                ->default('design')
+                                ->options([
+                                    'design' => 'Design',
+                                    'plain' => 'Plain',
+                                ]),
+
+                            Textarea::make('state.email_plain_text')
+                                ->label('E-mail Plain Text')
+                                ->placeholder('Enter the plain text of your email.')
+                                ->helperText('You can use the following variables: {name}, {email}, {unsubscribe_url}')
+                                ->hidden(function (Get $get) {
+                                    if ($get('state.email_content_type') == 'plain') {
+                                        return false;
+                                    }
+                                    return true;
+                                })
+                                ->required(),
+
                             SelectTemplate::make('state.email_template_id')
                                 ->label('Select design')
-                                ->required()
+                                ->hidden(function (Get $get) {
+                                    if ($get('state.email_content_type') == 'design') {
+                                        return false;
+                                    }
+                                    return true;
+                                })
+                                ->required(function (Get $get) {
+                                    if ($get('state.email_content_type') == 'design') {
+                                        return true;
+                                    }
+                                    return false;
+                                })
                                 ->setCampaignId($this->state['id']),
                         ]),
 
