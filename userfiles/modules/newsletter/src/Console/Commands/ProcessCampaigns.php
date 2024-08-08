@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Newsletter\Console\Commands;
 
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 use Illuminate\Console\Command;
 use MicroweberPackages\Modules\Newsletter\Jobs\ProcessCampaignSubscriber;

@@ -93,20 +93,6 @@ class CampaignResource extends Resource
                         $campaign->save();
                     }),
 
-                Tables\Actions\Action::make('pause')
-                    ->label('Pause')
-                    ->requiresConfirmation()
-                    ->hidden(function (NewsletterCampaign $campaign) {
-                        if ($campaign->status == NewsletterCampaign::STATUS_PROCESSING) {
-                            return false;
-                        }
-                        return true;
-                    })
-                    ->icon('heroicon-o-x-circle')->action(function (NewsletterCampaign $campaign) {
-                        $campaign->status = NewsletterCampaign::STATUS_PAUSED;
-                        $campaign->save();
-                    }),
-
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
