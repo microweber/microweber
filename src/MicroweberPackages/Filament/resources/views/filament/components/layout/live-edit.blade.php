@@ -18,7 +18,17 @@
 
     @endif
 
-    <main class="mw-live-edit-page-wrapper">
+    @php
+        $iframeClass = '';
+
+        if (request()->header('Sec-Fetch-Dest') === 'iframe') {
+            $iframeClass = 'mw-live-edit-module-settings-iframe';
+           }
+
+
+    @endphp
+
+    <main class="mw-live-edit-page-wrapper {{ $iframeClass }}" id="mw-live-edit-page-wrapper">
         {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::CONTENT_START, scopes: $livewire->getRenderHookScopes()) }}
 
         {{ $slot }}
