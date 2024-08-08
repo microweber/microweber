@@ -67,15 +67,22 @@ class ProcessCampaigns extends Command
         $sender = NewsletterSenderAccount::where('id', $campaign->sender_account_id)->first();
         if (!$sender) {
             $this->error('Sender account not found');
-            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
             $campaign->save();
             return 0;
         }
 
-        $template = NewsletterTemplate::where('id', $campaign->email_template_id)->first();
-        if (!$template) {
-            $this->error('Email template not found');
-            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+        if ($campaign->email_content_type == 'design') {
+            $template = NewsletterTemplate::where('id', $campaign->email_template_id)->first();
+            if (!$template) {
+                $this->error('Email template not found');
+                $campaign->status = NewsletterCampaign::STATUS_FAILED;
+                $campaign->save();
+                return 0;
+            }
+        } else if (empty($campaign->email_content_html)) {
+            $this->error('Email content not found');
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
             $campaign->save();
             return 0;
         }
@@ -86,7 +93,7 @@ class ProcessCampaigns extends Command
 
         if (!$subscribers) {
             $this->error('No subscribers found');
-            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
             $campaign->save();
             return 0;
         }
@@ -101,7 +108,11 @@ class ProcessCampaigns extends Command
 
         $batch = Bus::batch($batches)
             ->finally(function (Batch $batch) use($campaign) {
-                $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+                if ($batch->finished()) {
+                    $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+                } else {
+                    $campaign->status = NewsletterCampaign::STATUS_FAILED;
+                }
                 $campaign->save();
             })
             ->allowFailures()

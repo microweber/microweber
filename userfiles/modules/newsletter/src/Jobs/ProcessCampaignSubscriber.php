@@ -54,15 +54,22 @@ class ProcessCampaignSubscriber implements ShouldQueue
         $sender = NewsletterSenderAccount::where('id', $campaign->sender_account_id)->first();
         if (!$sender) {
            // $this->error('Sender account not found');
-            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
             $campaign->save();
             return;
         }
 
-        $template = NewsletterTemplate::where('id', $campaign->email_template_id)->first();
-        if (!$template) {
+        if ($campaign->email_content_type == 'design') {
+            $template = NewsletterTemplate::where('id', $campaign->email_template_id)->first();
+            if (!$template) {
 //            $this->error('Email template not found');
-            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+                $campaign->status = NewsletterCampaign::STATUS_FAILED;
+                $campaign->save();
+                return;
+            }
+        } else if (empty($campaign->email_content_html)) {
+//            $this->error('Email content not found');
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
             $campaign->save();
             return;
         }
@@ -77,6 +84,9 @@ class ProcessCampaignSubscriber implements ShouldQueue
 //            $this->error('Campaign is canceled');
             return;
         }
+        if ($checkCampaignStatus->status == NewsletterCampaign::STATUS_FAILED) {
+            return;
+        }
 
         $findCampaignSendLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)
             ->where('subscriber_id', $subscriber->id)
@@ -86,12 +96,26 @@ class ProcessCampaignSubscriber implements ShouldQueue
             return;
         }
 
+        $templateArray = [];
+        if ($campaign->email_content_type == 'design') {
+            $templateArray = $template->toArray();
+        } else if (!empty($campaign->email_content_html)) {
+            $templateArray['text'] = $campaign->email_content_html;
+        }
+
+        if (empty($templateArray)) {
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
+            $campaign->save();
+            return;
+        }
+
         try {
             $newsletterMailSender = new NewsletterMailSender();
             $newsletterMailSender->setCampaign($campaign->toArray());
             $newsletterMailSender->setSubscriber($subscriber->toArray());
             $newsletterMailSender->setSender($sender->toArray());
-            $newsletterMailSender->setTemplate($template->toArray());
+            $newsletterMailSender->setTemplate($templateArray);
+
             $sendMailResponse = $newsletterMailSender->sendMail();
 
             if ($sendMailResponse['success']) {
