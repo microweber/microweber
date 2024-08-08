@@ -20,10 +20,6 @@ class AudioModuleSettings extends LiveEditModuleSettings
     public function form(Form $form): Form
     {
 
-
-        //data-audio-upload
-        //data-audio-url
-
         return $form
             ->schema([
                 Section::make('Audio settings')->schema([
