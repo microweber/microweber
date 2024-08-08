@@ -73,10 +73,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
 //            $this->error('Campaign is finished');
             return;
         }
-        if ($checkCampaignStatus->status == NewsletterCampaign::STATUS_PAUSED) {
-//            $this->error('Campaign is paused');
-            return;
-        }
         if ($checkCampaignStatus->status == NewsletterCampaign::STATUS_CANCELED) {
 //            $this->error('Campaign is canceled');
             return;
@@ -89,9 +85,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
 //            $this->error('Campaign already sent to this subscriber');
             return;
         }
-
-        echo 9999;
-        return ;
 
         try {
             $newsletterMailSender = new NewsletterMailSender();

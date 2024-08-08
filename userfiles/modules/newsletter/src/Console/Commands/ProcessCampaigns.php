@@ -4,6 +4,7 @@ namespace MicroweberPackages\Modules\Newsletter\Console\Commands;
 
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 use Illuminate\Console\Command;
 use MicroweberPackages\Modules\Newsletter\Jobs\ProcessCampaignSubscriber;
@@ -98,7 +99,15 @@ class ProcessCampaigns extends Command
             $batches[] = new ProcessCampaignSubscriber($subscriber->id, $campaign->id);
         }
 
-        $batch = Bus::batch($batches)->allowFailures()->dispatch();
+        $batch = Bus::batch($batches)
+            ->finally(function (Batch $batch) use($campaign) {
+                $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+                $campaign->save();
+            })
+            ->allowFailures()
+            ->dispatch();
+
+
         if (empty($batch->id)) {
             $campaign->status = NewsletterCampaign::STATUS_FAILED;
             $campaign->save();

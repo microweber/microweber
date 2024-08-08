@@ -24,11 +24,6 @@ $record = $getRecord();
         </span>
     @endif
 
-    @if($record->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_PAUSED)
-        <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-blue-200 rounded-full">
-            {{ __('Paused') }}
-        </span>
-    @endif
 
     @if($record->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_CANCELED)
         <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-red-200 rounded-full">
@@ -40,6 +35,12 @@ $record = $getRecord();
         <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
            <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Pending') }}
         </span>
+    @endif
+
+    @if($record->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_QUEUED)
+        <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
+       <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Queued') }}
+    </span>
     @endif
 
 </div>
