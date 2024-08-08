@@ -37,7 +37,10 @@ $config['tables'] = array (
         'is_scheduled' => 'integer',
         'scheduled_at' => 'dateTime',
         'is_done' => 'integer',
-        'status' => 'text'
+        'status' => 'text',
+        'jobs_batch_id' => 'text',
+        'total_jobs'=> 'integer',
+        'completed_jobs'=> 'integer',
 	),
 
 	'newsletter_campaigns_send_log' => array (
