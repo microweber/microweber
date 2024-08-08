@@ -4275,6 +4275,10 @@ select {
   height: 4rem;
 }
 
+.h-2\.5 {
+  height: 0.625rem;
+}
+
 .h-20 {
   height: 5rem;
 }
@@ -5468,6 +5472,11 @@ select {
 
 .bg-blue-500\/5 {
   background-color: rgb(73 145 252 / 0.05);
+}
+
+.bg-blue-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(69 146 255 / var(--tw-bg-opacity));
 }
 
 .bg-custom-100 {

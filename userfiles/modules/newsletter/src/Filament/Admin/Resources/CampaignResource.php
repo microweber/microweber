@@ -54,6 +54,7 @@ class CampaignResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->poll('10s')
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('list.name'),
@@ -69,6 +70,7 @@ class CampaignResource extends Resource
                         ->view('microweber-module-newsletter::livewire.filament.columns.campaign-status'),
 
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

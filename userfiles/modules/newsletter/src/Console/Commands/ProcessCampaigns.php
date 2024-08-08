@@ -107,6 +107,11 @@ class ProcessCampaigns extends Command
         }
 
         $batch = Bus::batch($batches)
+            ->progress(function (Batch $batch) use($campaign) {
+                sleep(2);
+                $campaign->jobs_progress = $batch->progress();
+                $campaign->save();
+            })
             ->finally(function (Batch $batch) use($campaign) {
                 if ($batch->finished()) {
                     $campaign->status = NewsletterCampaign::STATUS_FINISHED;
@@ -126,6 +131,7 @@ class ProcessCampaigns extends Command
             return 0;
         }
 
+        $campaign->total_jobs = count($batches);
         $campaign->jobs_batch_id = $batch->id;
         $campaign->status = NewsletterCampaign::STATUS_PROCESSING;
         $campaign->save();

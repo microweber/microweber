@@ -41,6 +41,7 @@ $config['tables'] = array (
         'email_content_type' => 'text',
         'email_content_html' => 'text',
         'jobs_batch_id' => 'text',
+        'jobs_progress' => 'integer',
         'total_jobs'=> 'integer',
         'completed_jobs'=> 'integer',
 	),

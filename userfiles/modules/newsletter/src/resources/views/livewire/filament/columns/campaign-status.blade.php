@@ -11,9 +11,12 @@ $record = $getRecord();
 
     @if($record->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_PROCESSING)
         <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-yellow-200 rounded-full">
-            <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Processing') }}
+            <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Processing') }} ({{$record->jobs_progress}}%)
         </span>
-    @endif
+            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{$record->jobs_progress}}%"></div>
+            </div>
+        @endif
 
     @if($record->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_FINISHED)
         <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-green-200 rounded-full">
