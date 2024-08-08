@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract;
 
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -223,6 +224,8 @@ abstract class LiveEditModuleSettings extends Page
         if ($moduleTemplatesSkinSettingsSchema) {
             $schema = array_merge($schema, $moduleTemplatesSkinSettingsSchema);
         }
+
+
 
         return $schema;
     }

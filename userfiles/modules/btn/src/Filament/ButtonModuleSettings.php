@@ -2,10 +2,14 @@
 
 namespace MicroweberPackages\Modules\Btn\Filament;
 
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class ButtonModuleSettings extends LiveEditModuleSettings
@@ -54,36 +58,124 @@ $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
                     ->tabs([
                         Tabs\Tab::make('Text')
                             ->schema([
+                                Section::make('Button settings')->schema([
+                                    TextInput::make('options.text')
+                                        ->label('Button Text')
+                                        ->live()
+                                        ->default('Button'),
 
-                                TextInput::make('options.text')
-                                    ->label('Button Text')
-                                    ->live()
-                                    ->default('Button'),
+                                    TextInput::make('options.url')
+                                        ->label('Link')
+                                        ->live()
+                                        ->default(''),
 
-                                TextInput::make('options.icon')
-                                    ->label('Icon')
-                                    ->live()
-                                    ->default(''),
-                                TextInput::make('options.url')
-                                    ->label('url')
-                                    ->live()
-                                    ->default(''),
 
-                                Select::make('options.icon_position')
-                                    ->label('Icon Position')
-                                    ->live()
-                                    ->options([
-                                        'left' => 'Left',
-                                        'right' => 'Right',
-                                        'center' => 'Center',
-                                    ])
-                                    ->default('left'),
+                                    TextInput::make('options.icon')
+                                        ->label('Icon')
+                                        ->live()
+                                        ->default(''),
 
+                                    Select::make('options.icon_position')
+                                        ->label('Icon Position')
+                                        ->live()
+                                        ->options([
+                                            'left' => 'Left',
+                                            'right' => 'Right',
+                                            'center' => 'Center',
+                                        ])
+                                        ->default('left'),
+
+                                ]),
+
+                                Section::make('Advanced settings')->schema([
+                                    //button_action
+                                    Select::make('options.button_action')
+                                        ->label('Button Action')
+                                        ->live()
+                                        ->options([
+                                            'default' => 'Go to link',
+                                            'popup' => 'Popup',
+//                                            'submit' => 'Submit',
+//                                            'reset' => 'Reset',
+                                        ])
+                                        ->default('none'),
+                                    //popupcontent if action is popoup
+                                    Textarea::make('options.popupcontent')
+                                        ->label('Popup Content')
+                                        ->live()
+                                        ->visible(function (Get $get) {
+
+                                            return $get('options.button_action') === 'popup';
+
+                                        })
+                                        ->default(''),
+
+
+                                    //backgroundColor
+                                    ColorPicker::make('options.color')
+                                        ->label('Color')
+                                        ->live()
+                                        ->default(''),
+
+                                    ColorPicker::make('options.backgroundColor')
+                                        ->label('Background Color')
+                                        ->live()
+                                        ->default(''),
+
+
+                                    ColorPicker::make('options.borderColor')
+                                        ->label('Border color')
+                                        ->live()
+                                        ->default(''),
+
+                                    TextInput::make('options.borderWidth')
+                                        ->label('Border width')
+                                        ->live()
+                                        ->numeric()
+                                        ->default(''),
+
+                                    TextInput::make('options.borderRadius')
+                                        ->label('Border radius')
+                                        ->live()
+                                        ->numeric()
+                                        ->default(''),
+
+
+                                    //hoverbackgroundColor
+                                    ColorPicker::make('options.hovercolor')
+                                        ->label('Hover hover color')
+                                        ->live()
+                                        ->default(''),
+
+                                    ColorPicker::make('options.hoverbackgroundColor')
+                                        ->label('Hover background color')
+                                        ->live()
+                                        ->default(''),
+
+
+                                    ColorPicker::make('options.hoverborderColor')
+                                        ->label('Hover border color')
+                                        ->live()
+                                        ->default(''),
+
+
+                                    TextInput::make('options.customSize')
+                                        ->label('Custom size')
+                                        ->live()
+                                        ->numeric()
+                                        ->default(''),
+
+
+                                ])->collapsed(),
                             ]),
 
 
                         Tabs\Tab::make('Design')
-                            ->schema($this->getSkinsFormSchema()),
+                            ->schema([
+                                    Section::make('Design settings')->schema(
+                                        $this->getSkinsFormSchema())
+                                ]
+                            ),
 
                     ]),
             ]);
