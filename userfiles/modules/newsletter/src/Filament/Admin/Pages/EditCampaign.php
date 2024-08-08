@@ -12,6 +12,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -403,7 +404,7 @@ class EditCampaign extends Page
                                     'html' => 'Text',
                                 ]),
 
-                            MwRichEditor::make('state.email_content_html')
+                            RichEditor::make('state.email_content_html')
                                 ->label('E-mail Content')
                                 ->placeholder('Enter the plain text of your email.')
                                 ->helperText('You can use the following variables: {name}, {email}, {unsubscribe_url}')
