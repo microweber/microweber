@@ -98,7 +98,15 @@ class ProcessCampaigns extends Command
             $batches[] = new ProcessCampaignSubscriber($subscriber->id, $campaign->id);
         }
 
-        $batch = Bus::batch($batches)->allowFailures()->dispatch();
+        $batch = Bus::batch($batches)
+            ->finally(function (Batch $batch) use($campaign) {
+                $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+                $campaign->save();
+            })
+            ->allowFailures()
+            ->dispatch();
+
+
         if (empty($batch->id)) {
             $campaign->status = NewsletterCampaign::STATUS_FAILED;
             $campaign->save();
