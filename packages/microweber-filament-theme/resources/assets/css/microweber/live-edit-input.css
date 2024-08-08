@@ -1,36 +1,20 @@
 .form-control-live-edit-label-wrapper {
-    cursor: inherit;
-    display: block;
-    line-height: 22px;
-    min-height: 45px;
-    border-width: 0px;
-    border-width: 0px;
-    outline:0; /* I have also tried outline:none */
-    -webkit-appearance:none;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    -webkit-appearance:none;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    margin: 3 7px;
-    position: relative;
-
+    @apply cursor-pointer block leading-[22px] min-h-[45px] border-0 outline-0 appearance-none shadow-none relative;
+    margin: 3px 7px; /* Margin with custom values */
 }
 
 .form-control-live-edit-label-wrapper textarea.form-control-live-edit-input {
-    padding-top: 10px
+    @apply pt-[10px];
 }
 
 @-moz-document url-prefix() {
     .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-        padding-top: 10px
+        @apply pt-[10px];
     }
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-    text-transform: capitalize;
+    @apply capitalize;
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option {
@@ -38,102 +22,76 @@
 }
 
 .form-control-live-edit-label-wrapper .v-slider-thumb__surface.elevation-2 {
-    color: #f0f0f0;
+    color: #f0f0f0; /* No equivalent Tailwind class, custom color */
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-label-wrapper .text-align .active {
+.form-control-live-edit-label-wrapper .text-align .active {
     background-color: #f0f0f0 !important;
-    border-color: #f0f0f0 !important
+    border-color: #f0f0f0 !important;
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-    border: none;
-    flex: 1 1 0%;
-    font-size: 14px;
-    line-height: 22px;
-    text-align: left;
-    caret-color: #000;
-    min-height: 45px;
-    width: 100%;
-    border-width: 0px;
-    outline:0; /* I have also tried outline:none */
-    -webkit-appearance:none;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    background-color: #f0f0f0;
-    padding-inline-start: 10px
+.form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
+    @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 outline-0 appearance-none shadow-none bg-[#f0f0f0] pl-[10px];
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled, .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled {
-    background-color: #f0f0f0;
-    opacity: .7
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled {
+    @apply bg-[#f0f0f0] opacity-70;
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible, .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus, .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible {
-    border-width: 0px;
-    outline:0; /* I have also tried outline:none */
-    -webkit-appearance:none;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    background-color: transparent
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible {
+    @apply border-0 outline-0 appearance-none shadow-none bg-transparent;
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after, .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after, .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after {
-    width: 100%;
-    transition-duration: .3s
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after {
+    @apply w-full;
+    transition-duration: 0.3s; /* No direct Tailwind utility, using custom CSS */
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider {
-    background-color: transparent;
-    max-width: 45px;
-    height: 35px;
-    min-height: unset
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider {
+    @apply bg-transparent max-w-[45px] h-[35px];
+    min-height: unset; /* Requires custom CSS, no direct Tailwind utility */
 }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus, .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible {
-    background-color: #4A4A4AFF;
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible {
+    @apply bg-gray-50;
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect {
-    bottom: 0;
-    height: 1px;
-    left: 6px;
-    position: absolute;
-    width: calc(100% - 12px);
-    background-color: #e7e7e7;
-    box-sizing: border-box
+    @apply bottom-0 h-[1px] left-[6px] absolute bg-[#e7e7e7] box-border;
+    width: calc(100% - 12px); /* Custom CSS, no direct Tailwind utility */
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:focus-visible {
-    border: none
+    border: none; /* No direct Tailwind utility, using custom CSS */
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:after {
-    background-color: #0e0e0e;
-    bottom: 0;
+    @apply bg-[#0e0e0e] bottom-0 block h-[1px] absolute;
     content: "";
-    display: block;
-    height: 1px;
-    position: absolute;
-    transition: width .25s cubic-bezier(.4, 0, .68, .06);
-    width: 0
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.68, 0.06); /* Custom CSS, no direct Tailwind utility */
+    width: 0; /* Default to 0, will be animated */
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect.bottom-effect-textarea {
-    bottom: 5px
+    @apply bottom-[5px];
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-settings-btn {
-    position: absolute;
-    top: 10px;
-    right: 16px;
-    cursor: pointer
+    @apply absolute top-[10px] right-[16px] cursor-pointer;
 }
 
 .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
-    width: 100%
+    @apply w-full;
 }
-
-

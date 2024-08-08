@@ -57,7 +57,7 @@ class CreateCampaign extends Page
         $campaign = new NewsletterCampaign();
         $campaign->name = $this->name;
         $campaign->status = NewsletterCampaign::STATUS_DRAFT;
-        $campaign->email_content_html = "Hello, {{name}}! <br /> How are you today?";
+        $campaign->email_content_html = "Hello, {{name}}! <br />How are you today?";
         $campaign->email_content_type = 'design';
         $campaign->save();
 

@@ -398,27 +398,27 @@
 
 /* custom-tailwind.css */
 .fs-1 {
-    @apply text-2xl;
+    @apply text-3xl;
 }
 
 .fs-2 {
-    @apply text-xl;
+    @apply text-2xl;
 }
 
 .fs-3 {
-    @apply text-lg;
+    @apply text-xl;
 }
 
 .fs-4 {
-    @apply text-base;
+    @apply text-lg;
 }
 
 .fs-5 {
-    @apply text-sm;
+    @apply text-base;
 }
 
 .fs-6 {
-    @apply text-xs;
+    @apply text-sm;
 }
 
 
