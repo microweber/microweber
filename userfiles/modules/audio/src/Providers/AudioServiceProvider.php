@@ -2,8 +2,11 @@
 
 namespace MicroweberPackages\Modules\Audio\Providers;
 
+use Filament\Facades\Filament;
 use Livewire\Livewire;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
+use MicroweberPackages\Modules\Audio\Filament\AudioModuleSettings;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Audio\Http\Livewire\AudioSettingsComponent;
@@ -19,11 +22,17 @@ class AudioServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
+        FilamentRegistry::registerPage(AudioModuleSettings::class);
+    }
 
-        Livewire::component('microweber-module-audio::settings', AudioSettingsComponent::class);
-
-        ModuleAdmin::registerSettings('audio', 'microweber-module-audio::settings');
-
+    public function boot(): void
+    {
+        Filament::serving(function () {
+            $panelId = Filament::getCurrentPanel()->getId();
+            if ($panelId == 'admin') {
+                ModuleAdmin::registerLiveEditSettingsUrl('audio', AudioModuleSettings::getUrl());
+            }
+        });
 
     }
 

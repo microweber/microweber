@@ -48,7 +48,11 @@
                 class="w-full py-6 full flex flex-col items-center justify-center"
                 type="button" x-on:click="()=> {
 
-                mw.filePickerDialog((url) => {
+                mw.filePickerDialog({
+                    pickerOptions :{
+                        type: typeFile
+                    }
+                }, (url) => {
                     state = url;
                 });
 
@@ -77,6 +81,24 @@
                     </div>
 
                     <img :src="state" class="max-h-[15rem]" />
+                </div>
+            </div>
+
+            <div class="w-full" x-show="state && typeFile !== 'image'">
+                <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
+                    <div class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5"
+                         >
+                        <div class="flex gap-2 items-center">
+                        <button class="text-white bg-white/5 rounded-md" x-on:click="state = ''">
+                            <svg fill="currentColor" class="w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"></path>
+                            </svg>
+                        </button>
+                        <span x-html="fileUrlShort"></span>
+                        </div>
+                    </div>
+
+                    <input type="text" :value="state" class="max-h-[15rem]" />
                 </div>
             </div>
         </div>

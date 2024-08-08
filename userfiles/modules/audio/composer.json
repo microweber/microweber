@@ -1,0 +1,10 @@
+{
+    "name": "microweber-modules/audio",
+    "description": "Audio module for Microweber CMS",
+    "type": "metapackage",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Modules\\Audio\\": "src/"
+        }
+    }
+}

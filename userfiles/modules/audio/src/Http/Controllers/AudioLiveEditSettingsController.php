@@ -3,7 +3,9 @@
 namespace MicroweberPackages\Modules\Audio\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+/**
+ * @deprecated
+ */
 class AudioLiveEditSettingsController
 {
     public function index(Request $request)
@@ -12,4 +14,5 @@ class AudioLiveEditSettingsController
 
         return view('microweber-module-audio::live-edit.settings',['moduleId' => $params['id']]);
     }
+
 }
