@@ -470,9 +470,16 @@ class EditCampaign extends Page
                                         $testEmail = $data['testEmail'];
 
                                         try {
-                                            $template = NewsletterTemplate::where('id', $this->state['email_template_id'])->first();
                                             $campaign = NewsletterCampaign::where('id', $this->state['id'])->first();
                                             $sender = NewsletterSenderAccount::where('id', $this->state['sender_account_id'])->first();
+
+                                            $tempalteArray = [];
+                                            if ($this->state['email_content_type'] == 'design') {
+                                                $template = NewsletterTemplate::where('id', $this->state['email_template_id'])->first();
+                                                $tempalteArray = $template->toArray();
+                                            } else {
+                                                $tempalteArray['text'] = $this->state['email_content_html'];
+                                            }
 
                                             $newsletterMailSender = new NewsletterMailSender();
                                             $newsletterMailSender->setCampaign($campaign->toArray());
@@ -482,7 +489,7 @@ class EditCampaign extends Page
                                                 'email' => $testEmail,
                                             ]);
                                             $newsletterMailSender->setSender($sender->toArray());
-                                            $newsletterMailSender->setTemplate($template->toArray());
+                                            $newsletterMailSender->setTemplate($tempalteArray);
                                             $sendMailResponse = $newsletterMailSender->sendMail();
                                             if (isset($sendMailResponse['success'])) {
                                                 Notification::make()
