@@ -10,7 +10,8 @@ const build = (cb) => {
 };
 
 const watchFiles = () => {
-    gulp.watch('resources/assets/**/*', build);
+
+    gulp.watch('resources/assets/**/*', {interval: 1000, usePolling: true}, build);
 };
 
 gulp.task('build', build);
