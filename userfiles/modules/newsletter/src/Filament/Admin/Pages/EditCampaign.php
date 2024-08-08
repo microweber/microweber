@@ -12,8 +12,10 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
@@ -28,6 +30,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwRichEditor;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
@@ -375,14 +378,58 @@ class EditCampaign extends Page
                             }
                         })
                         ->schema([
+
                             TextInput::make('state.subject')
                                 ->label('E-mail Subject')
                                 ->helperText('Enter the subject of your email.')
                                 ->required()
                                 ->live(),
+
+                            RadioDeck::make('state.email_content_type')
+                                ->columns(2)
+                                ->required()
+                                ->icons([
+                                    'html' => 'heroicon-o-pencil',
+                                    'design' => 'heroicon-o-paint-brush',
+                                ])
+                                ->color('primary')
+                                ->live()
+                                ->descriptions([
+                                    'html' => 'Send simple text email.',
+                                    'design' => 'Send designed email.',
+                                ])
+                                ->default('design')
+                                ->options([
+                                    'design' => 'Design',
+                                    'html' => 'Text',
+                                ]),
+
+                            RichEditor::make('state.email_content_html')
+                                ->label('E-mail Content')
+                                ->placeholder('Enter the plain text of your email.')
+                                ->helperText('You can use the following variables: {name}, {email}, {unsubscribe_url}')
+                                ->hidden(function (Get $get) {
+                                    if ($get('state.email_content_type') == 'html') {
+                                        return false;
+                                    }
+                                    return true;
+                                })
+                                ->required(),
+
                             SelectTemplate::make('state.email_template_id')
                                 ->label('Select design')
-                                ->required()
+                                ->hidden(function (Get $get) {
+                                    if ($get('state.email_content_type') == 'design') {
+                                        return false;
+                                    }
+                                    return true;
+                                })
+                                ->required(function (Get $get) {
+                                    if ($get('state.email_content_type') == 'design') {
+                                        return true;
+                                    }
+                                    return false;
+                                })
                                 ->setCampaignId($this->state['id']),
                         ]),
 

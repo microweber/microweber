@@ -1,6 +1,8 @@
 import gulp from 'gulp';
 import gulpCopy from 'gulp-copy';
 import fs from 'fs';
+import babel from 'gulp-babel';
+import browserify  from 'browserify';
 
 export class BuildService {
 
@@ -10,9 +12,26 @@ export class BuildService {
 
     buildSingleJS(obj) {
         return new Promise(async (resolve, reject) => {
-            gulp.src([
+            var b = browserify({
+                entries: `${obj.path}`,
+                debug: true,
+                presets: ["es2015"],
+
+
+                presets: ["@babel/preset-env"],
+                sourceMaps: true,
+                global: true,
+                ignore: [/\/node_modules\/(?!your module folder\/)/]
+                // defining transforms here will avoid crashing your stream
+                // transform: [reactify]
+              });
+              b.bundle()
+            /*gulp.src([
                 `${obj.path}`,
-            ])
+            ])*/
+            .pipe(babel({
+                presets: ['@babel/env']
+            }))
             .pipe(gulp.dest(`${this.output}/${obj.target}`))
                 .on('finish', resolve)
                 .on('error', reject)

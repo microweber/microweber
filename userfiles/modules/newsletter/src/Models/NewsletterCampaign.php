@@ -33,6 +33,8 @@ class NewsletterCampaign extends Model
         'recipients_from',
         'delivery_type',
         'status',
+        'email_content_html',
+        'email_content_type'
     ];
 
     public function senderAccount()

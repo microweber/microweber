@@ -121,6 +121,7 @@
 </template>
 
 <script>
+mw.require('css_parser.js');
 import Input from '../../components/Form/Input.vue';
 import Dropdown from '../../components/Form/Dropdown.vue';
 import FontPicker from "./components/FontPicker.vue";

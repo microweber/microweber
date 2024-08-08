@@ -20,8 +20,10 @@
         "react-filerobot-image-editor": "^4.8.1"
     },
     "devDependencies": {
+        "browserify": "^17.0.0",
         "copy-webpack-plugin": "^12.0.2",
         "gulp": "^5.0.0",
+        "gulp-babel": "^8.0.0",
         "gulp-copy": "^4.0.1"
     }
 }

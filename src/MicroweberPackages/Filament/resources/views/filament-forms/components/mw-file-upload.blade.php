@@ -3,6 +3,9 @@
 
     $id = $getId();
     $statePath = $getStatePath();
+
+
+    $fileTypes = ($getFileTypes())
 @endphp
 <div>
 
@@ -19,7 +22,7 @@
     </div>
 
     <div x-data="{
-            typeFile: 'file',
+            typeFile: '{{ $fileTypes }}',
             fileUrlShort: '',
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
         }"

@@ -16,6 +16,11 @@
 
 
 <script>
+if(!mw.top) {
+    mw.top = () => window.top.mw;
+}
+
+
 import { ModalsContainer } from 'vue-final-modal';
 import Toolbar from "./components/Toolbar/Toolbar.vue";
 import LeftSidebar from "./components/LeftSidebar/LeftSidebar.vue";
