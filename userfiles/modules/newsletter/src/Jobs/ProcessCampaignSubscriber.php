@@ -86,9 +86,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
             return;
         }
 
-        echo 9999;
-        return ;
-
         try {
             $newsletterMailSender = new NewsletterMailSender();
             $newsletterMailSender->setCampaign($campaign->toArray());
