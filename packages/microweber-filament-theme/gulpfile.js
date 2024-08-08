@@ -2,7 +2,7 @@ import gulp from 'gulp';
 import { exec } from 'child_process';
 
 const build = (cb) => {
-    exec('npx tailwindcss -i resources/assets/css/index.css -o resources/dist/css/microweber-filament-theme.css --postcss --minify', (err, stdout, stderr) => {
+    exec('npx tailwindcss -i resources/assets/css/index.css -o resources/dist/css/microweber-filament-theme.css --postcss', (err, stdout, stderr) => {
         console.log(stdout);
         console.error(stderr);
         cb(err);
