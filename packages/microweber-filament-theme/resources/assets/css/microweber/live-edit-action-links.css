@@ -1,5 +1,5 @@
 .mw-admin-action-links {
-    @apply relative no-underline !font-bold text-black dark:text-white hover:cursor-pointer text-[1rem];
+    @apply relative no-underline !font-bold text-black dark:text-white hover:cursor-pointer !text-[1rem];
 }
 
 .mw-admin-action-links:disabled {

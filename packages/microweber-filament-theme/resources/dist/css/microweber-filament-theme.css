@@ -8032,7 +8032,7 @@ select {
 
 .mw-admin-action-links {
   position: relative;
-  font-size: 1rem;
+  font-size: 1rem !important;
   font-weight: 700 !important;
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
@@ -8319,6 +8319,13 @@ select {
 
 .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
   width: 100%;
+}
+
+.form-control-live-edit-input.form-a control-input-range-slider {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
 }
 
 .mw-filepicker-component-navigation-header {

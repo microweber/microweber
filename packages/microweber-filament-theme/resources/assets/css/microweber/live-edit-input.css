@@ -95,3 +95,7 @@
 .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
     @apply w-full;
 }
+
+.form-control-live-edit-input.form-a control-input-range-slider {
+    @apply !py-0 !px-[5px];
+}
