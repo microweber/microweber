@@ -12,6 +12,7 @@
 namespace MicroweberPackages\LiveEdit\Providers;
 
 use Filament\Events\ServingFilament;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
@@ -19,6 +20,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager as LiveEditManagerFacade;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarTemplateSettingsPage;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorListComponent;
@@ -29,6 +31,7 @@ use MicroweberPackages\LiveEdit\Http\Livewire\Presets\ModulePresetsManager;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
+use MicroweberPackages\Modules\Btn\Filament\ButtonModuleSettings;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\TemplateEditor;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -65,7 +68,12 @@ class LiveEditServiceProvider extends PackageServiceProvider
 
        // Event::listen(ServingFilament::class, function () {
             FilamentRegistry::registerPage(AdminLiveEditPage::class);
-      //  });
+            FilamentRegistry::registerPage(AdminLiveEditSidebarTemplateSettingsPage::class);
+
+        //  });
+
+
+        //
 
 
     }
@@ -87,6 +95,15 @@ class LiveEditServiceProvider extends PackageServiceProvider
         $router->middlewareGroup('module_settings', [
             DispatchServingModuleSettings::class,
         ]);
+
+
+        Filament::serving(function () {
+            $panelId = Filament::getCurrentPanel()->getId();
+            if ($panelId == 'admin') {
+
+                ModuleAdmin::registerLiveEditSettingsUrl('editor/sidebar_template_settings', AdminLiveEditSidebarTemplateSettingsPage::getUrl());
+            }
+        });
 
 
     }

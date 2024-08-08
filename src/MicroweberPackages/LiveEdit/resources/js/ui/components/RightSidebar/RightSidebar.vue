@@ -123,6 +123,12 @@ export default {
 
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
+            if(typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+                if (typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+                    src = mw.settings.liveEditModuleSettingsUrls[moduleType];
+                }
+            }
+
             return src;
 
         }
