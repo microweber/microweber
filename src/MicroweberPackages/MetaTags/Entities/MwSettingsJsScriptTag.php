@@ -12,8 +12,8 @@ class MwSettingsJsScriptTag implements TagInterface, \Stringable
     {
         $append_html = '' . "\r\n";
 
-        $libMwCore = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/core/mw-core.js');
-        $append_html .= '<script src="' . $libMwCore . '" id="mw-core-js-scripts" type="module" async></script>' . "\r\n";
+        // $libMwCore = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/core/mw-core.js');
+        // $append_html .= '<script src="' . $libMwCore . '" id="mw-core-js-scripts" type="module" async></script>' . "\r\n";
         $append_html .= '' . "\r\n";
 
         $get_apijs_settings_url = mw()->template->get_apijs_settings_url();

@@ -249,5 +249,15 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg fill='%23fff' xmlns='http://www.w3.org/2000/svg' height='16' viewBox='0 -960 960 960' width='16'%3E%3Cpath d='m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z'/%3E%3C/svg%3E");
 }
 
+.position-relative {
+    @apply relative;
 
+}
 
+.settings-main-group {
+    @apply font-bold;
+}
+
+.mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed {
+    @apply !px-0;
+}
