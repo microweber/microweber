@@ -112,7 +112,6 @@ $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
 
 
                                     //backgroundColor
-
                                     ColorPicker::make('options.color')
                                         ->label('Color')
                                         ->live()

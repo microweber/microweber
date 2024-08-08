@@ -11,4 +11,18 @@ class MwFileUpload extends Field
 
     protected string $view = 'filament-forms::components.mw-file-upload';
 
+    protected string $fileTypes = 'file';
+
+    public function fileTypes(string $fileTypes): static
+    {
+        $this->fileTypes = $fileTypes;
+
+        return $this;
+    }
+
+    public function getFileTypes(): string
+    {
+        return $this->fileTypes;
+    }
+
 }

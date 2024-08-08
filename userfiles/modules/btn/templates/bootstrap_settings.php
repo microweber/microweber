@@ -1,4 +1,6 @@
 <?php
+
+// deprecated file
 $style = get_option('button_style', $params['id']);
 $size = get_option('button_size', $params['id']);
 $action = get_option('button_action', $params['id']);
