@@ -393,7 +393,7 @@ class EditCampaign extends Page
                             RichEditor::make('state.email_content_html')
                                 ->label('E-mail Content')
                                 ->placeholder('Enter the plain text of your email.')
-                                ->helperText('You can use the following variables: {name}, {email}, {unsubscribe_url}')
+                                ->helperText('You can use the following variables: {{name}}, {{email}}, {{unsubscribe_url}}')
                                 ->live()
                                 ->hidden(function (Get $get) {
                                     if ($get('state.email_content_type') == 'html') {
