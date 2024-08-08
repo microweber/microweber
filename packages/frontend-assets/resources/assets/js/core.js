@@ -1,10 +1,11 @@
 
 
 
-import {MWUniversalContainer} from '../../../input/front-end/js/containers/container.js';
+//import {MWUniversalContainer} from '../../../input/front-end/js/containers/container.js';
 // input/front-endjs/containers/container.js
 
-window.mw = new MWUniversalContainer();
+window.mw  = {};
+// window.mw.container = new MWUniversalContainer();
 
 
 mw.required = [] ;

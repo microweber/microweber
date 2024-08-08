@@ -2,20 +2,13 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
-
-use Filament\Actions\CreateAction;
-use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
@@ -23,21 +16,12 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Filament\Support\Colors\Color;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Exceptions\Halt;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
-use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
-use MicroweberPackages\Filament\Forms\Components\MwRichEditor;
-use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
 use MicroweberPackages\Modules\Newsletter\Filament\Components\SelectTemplate;
-use MicroweberPackages\Modules\Newsletter\Filament\Imports\NewsletterSubscriberImporter;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
-use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
@@ -373,8 +357,10 @@ class EditCampaign extends Page
                     Wizard\Step::make('Content')
                         ->icon('heroicon-o-paint-brush')
                         ->beforeValidation(function () {
-                            if (!isset($this->state['email_template_id'])) {
-                                throw new Halt('Please select a design.');
+                            if ($this->state['email_content_type'] == 'design') {
+                                if (!isset($this->state['email_template_id'])) {
+                                    throw new Halt('Please select a design.');
+                                }
                             }
                         })
                         ->schema([
@@ -408,6 +394,7 @@ class EditCampaign extends Page
                                 ->label('E-mail Content')
                                 ->placeholder('Enter the plain text of your email.')
                                 ->helperText('You can use the following variables: {name}, {email}, {unsubscribe_url}')
+                                ->live()
                                 ->hidden(function (Get $get) {
                                     if ($get('state.email_content_type') == 'html') {
                                         return false;
