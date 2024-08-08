@@ -255,5 +255,9 @@ body {
 }
 
 .settings-main-group {
-    @apply font-bold text-xl;
+    @apply font-bold;
+}
+
+.mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed {
+    @apply !px-0;
 }
