@@ -357,8 +357,10 @@ class EditCampaign extends Page
                     Wizard\Step::make('Content')
                         ->icon('heroicon-o-paint-brush')
                         ->beforeValidation(function () {
-                            if (!isset($this->state['email_template_id'])) {
-                                throw new Halt('Please select a design.');
+                            if ($this->state['email_content_type'] == 'design') {
+                                if (!isset($this->state['email_template_id'])) {
+                                    throw new Halt('Please select a design.');
+                                }
                             }
                         })
                         ->schema([

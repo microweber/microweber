@@ -1,7 +1,3 @@
-.fi-body {
-    @apply !bg-[#f6f8fb];
-}
-
 .fi-main {
     @apply !px-[5rem];
 }
