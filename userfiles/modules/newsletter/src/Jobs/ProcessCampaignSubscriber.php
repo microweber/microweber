@@ -2,11 +2,9 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Jobs;
 
+use Illuminate\Bus\Batchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
@@ -16,10 +14,11 @@ use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
 
 class ProcessCampaignSubscriber implements ShouldQueue
 {
-    use Queueable;
+    use Batchable, Queueable;
 
     public $subscriberId;
     public $campaignId;
+    public $jobId;
 
     /**
      * Create a new job instance.
@@ -35,6 +34,12 @@ class ProcessCampaignSubscriber implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->jobId = $this->job->getJobId();
+        if ($this->jobId < 0) {
+            // $this->error('Job ID not found');
+            return;
+        }
+
         $subscriber = NewsletterSubscriber::where('id', $this->subscriberId)->first();
         if (!$subscriber) {
             //$this->error('Subscriber not found');
@@ -68,10 +73,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
 //            $this->error('Campaign is finished');
             return;
         }
-        if ($checkCampaignStatus->status == NewsletterCampaign::STATUS_PAUSED) {
-//            $this->error('Campaign is paused');
-            return;
-        }
         if ($checkCampaignStatus->status == NewsletterCampaign::STATUS_CANCELED) {
 //            $this->error('Campaign is canceled');
             return;
@@ -99,6 +100,10 @@ class ProcessCampaignSubscriber implements ShouldQueue
                 $campaignSendLog->subscriber_id = $subscriber->id;
                 $campaignSendLog->is_sent = 1;
                 $campaignSendLog->save();
+
+                $campaign->completed_jobs = $campaign->completed_jobs + 1;
+                $campaign->save();
+
             } else {
                 $campaignSendLog = new NewsletterCampaignsSendLog();
                 $campaignSendLog->campaign_id = $campaign->id;
@@ -117,5 +122,12 @@ class ProcessCampaignSubscriber implements ShouldQueue
 
 //            $this->error($e->getMessage());
         }
+
+        // Check if all jobs are completed
+        if ($campaign->completed_jobs >= $campaign->total_jobs) {
+            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+            $campaign->save();
+        }
+
     }
 }

@@ -76,34 +76,27 @@ class CampaignResource extends Resource
                 Tables\Actions\Action::make('edit')
                     ->label('Edit')
                     ->icon('heroicon-o-pencil')
-                    ->hidden(fn (NewsletterCampaign $campaign) => $campaign->status == NewsletterCampaign::STATUS_FINISHED)
+                    ->hidden(function (NewsletterCampaign $campaign) {
+                        if ($campaign->status == NewsletterCampaign::STATUS_DRAFT) {
+                            return false;
+                        }
+                        return true;
+                    })
                     ->url(fn (NewsletterCampaign $campaign) => route('filament.admin-newsletter.pages.edit-campaign.{id}', $campaign->id)),
 
                 Tables\Actions\Action::make('cancel')
                     ->label('Cancel')
                     ->hidden(function (NewsletterCampaign $campaign) {
-                        if ($campaign->status == NewsletterCampaign::STATUS_CANCELED) {
-                            return true;
-                        }
-                        return false;
-                    })
-                    ->requiresConfirmation()
-                    ->icon('heroicon-o-x-circle')->action(function (NewsletterCampaign $campaign) {
-                        $campaign->status = NewsletterCampaign::STATUS_CANCELED;
-                        $campaign->save();
-                    }),
-
-                Tables\Actions\Action::make('pause')
-                    ->label('Pause')
-                    ->requiresConfirmation()
-                    ->hidden(function (NewsletterCampaign $campaign) {
-                        if ($campaign->status == NewsletterCampaign::STATUS_PROCESSING) {
+                        if (($campaign->status == NewsletterCampaign::STATUS_QUEUED)
+                            || ($campaign->status == NewsletterCampaign::STATUS_PENDING)
+                            || ($campaign->status == NewsletterCampaign::STATUS_PROCESSING)) {
                             return false;
                         }
                         return true;
                     })
+                    ->requiresConfirmation()
                     ->icon('heroicon-o-x-circle')->action(function (NewsletterCampaign $campaign) {
-                        $campaign->status = NewsletterCampaign::STATUS_PAUSED;
+                        $campaign->status = NewsletterCampaign::STATUS_CANCELED;
                         $campaign->save();
                     }),
 

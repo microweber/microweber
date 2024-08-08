@@ -8,14 +8,15 @@ use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\NewsletterSubscrib
 class NewsletterCampaign extends Model
 {
     public $table = 'newsletter_campaigns';
-
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_FINISHED = 'finished';
-    public const STATUS_PAUSED = 'paused';
     public const STATUS_CANCELED = 'canceled';
 
     public const STATUS_PENDING = 'pending';
+    public const STATUS_QUEUED = 'queued';
+
+    public const STATUS_FAILED = 'failed';
 
     public $fillable = [
         'sender_account_id',

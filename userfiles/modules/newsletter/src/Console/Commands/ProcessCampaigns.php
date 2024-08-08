@@ -2,7 +2,12 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Console\Commands;
 
+use Illuminate\Bus\Batch;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 use Illuminate\Console\Command;
+use MicroweberPackages\Modules\Newsletter\Jobs\ProcessCampaignSubscriber;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
@@ -43,6 +48,12 @@ class ProcessCampaigns extends Command
      */
     public function handle()
     {
+        // Check queue configuration
+        $checkDefaultQueue = config('queue.default');
+        if ($checkDefaultQueue !== 'database') {
+            $this->error('Please set the default queue to database. Other queue drivers are not supported.');
+            return 0;
+        }
 
         // We limit the number of campaigns that can be processed at once
         // You can call this command multiple times with cron job
@@ -80,10 +91,33 @@ class ProcessCampaigns extends Command
             return 0;
         }
 
-        foreach ($subscribers as $subscriber) {
+        $campaign->status = NewsletterCampaign::STATUS_QUEUED;
+        $campaign->save();
 
+        $batches = [];
+        foreach ($subscribers as $subscriber) {
+            $batches[] = new ProcessCampaignSubscriber($subscriber->id, $campaign->id);
         }
 
+        $batch = Bus::batch($batches)
+            ->finally(function (Batch $batch) use($campaign) {
+                $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+                $campaign->save();
+            })
+            ->allowFailures()
+            ->dispatch();
+
+
+        if (empty($batch->id)) {
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
+            $campaign->save();
+            $this->error('Batch not created');
+            return 0;
+        }
+
+        $campaign->jobs_batch_id = $batch->id;
+        $campaign->status = NewsletterCampaign::STATUS_PROCESSING;
+        $campaign->save();
 
         return 0;
     }
