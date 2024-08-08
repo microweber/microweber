@@ -9,7 +9,8 @@
     },
     "private": true,
     "scripts": {
-        "build": "npx webpack build --mode=production"
+        "build": "npx webpack build --mode=production",
+        "dev": "npx webpack build --mode=development"
     },
     "devDependencies": {
         "copy-webpack-plugin": "^12.0.2",
@@ -19,8 +20,11 @@
         "postcss-loader": "^8.1.1",
         "postcss-preset-env": "^10.0.0",
         "postcss-scss": "^4.0.9",
+        "sass": "^1.77.8",
+        "sass-loader": "^16.0.0",
         "style-loader": "^4.0.0",
         "webpack": "^5.93.0",
-        "webpack-cli": "^5.1.4"
+        "webpack-cli": "^5.1.4",
+        "webpack-remove-empty-scripts": "^1.0.4"
     }
 }

@@ -5,7 +5,7 @@
 </script>
 
 
-    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
+
 
 
 
@@ -19,7 +19,7 @@
 
 
 
-            mw.lib.require('nouislider');
+           // mw.lib.require('nouislider');
             mw.require('components.css')
             mw.require('liveedit_widgets.js')
 
@@ -121,5 +121,5 @@
 
     </script>
 
-
+    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
 </div>

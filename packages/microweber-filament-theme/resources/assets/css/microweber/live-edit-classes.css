@@ -228,7 +228,7 @@ body {
 }
 
 .mw-live-edit-tools-dropdown-menu {
-    @apply min-w-[175px];
+    @apply !min-w-[175px];
 }
 
 .mw-live-edit-tools-dropdown-menu ul li a {
@@ -248,3 +248,6 @@ body {
     margin-inline-start: auto;
     background-image: url("data:image/svg+xml,%3Csvg fill='%23fff' xmlns='http://www.w3.org/2000/svg' height='16' viewBox='0 -960 960 960' width='16'%3E%3Cpath d='m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z'/%3E%3C/svg%3E");
 }
+
+
+

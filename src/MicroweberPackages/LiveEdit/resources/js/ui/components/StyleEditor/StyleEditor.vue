@@ -68,8 +68,16 @@ export default {
             attrsForSettings.iframe = true;
             attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
+            var srcBase = route('live_edit.module_settings');
 
-            var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+            if(typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+                if (typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+                    srcBase = mw.settings.liveEditModuleSettingsUrls[moduleType];
+                }
+            }
+            var src = srcBase + "?" + json2url(attrsForSettings);
+
+
 
             return src;
 

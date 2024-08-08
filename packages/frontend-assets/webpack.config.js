@@ -1,17 +1,24 @@
+import RemoveEmptyScriptsPlugin from "webpack-remove-empty-scripts";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import { fileURLToPath } from 'url';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import {config} from './config.js';
+
+const {entry, output} = config;
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const plugins =  [
+    new RemoveEmptyScriptsPlugin(),
     new MiniCssExtractPlugin({
-
-        filename: "[name].css",
-        chunkFilename: "[id].css",
+        ignoreOrder: true,
+        filename: (pathData) => {
+            return '[name].css'
+        },
+        // chunkFilename: "[id].css",
     }),
 
 
@@ -25,61 +32,26 @@ const plugins =  [
 
 const module =  {
     rules: [
+
+
+
         {
-            test: /\.css$/i,
+            test:  /\.(scss|css)$/,
+
             use: [
-                "style-loader",
-                "css-loader",
-                {
-                    loader: "postcss-loader",
-                    options: {
-                    postcssOptions: {
-                        plugins: [
-                            [
-                                "postcss-preset-env",
-                            ],
-                        ],
-                    },
-                    },
-                },
+                MiniCssExtractPlugin.loader,
+              "css-loader",
+              "sass-loader",
             ],
         },
-        {
-            test: /\.scss$/i,
-            use: [
-                "style-loader",
-                "scss-loader",
-                {
-                    loader: "postcss-loader",
-                    options: {
-                    postcssOptions: {
-                        plugins: [
-                            [
-                                "postcss-preset-env",
-                            ],
-                        ],
-                    },
-                    },
-                },
-            ],
-        },
-        {
-            test: /\.m?js/,
-            resolve: {
-                fullySpecified: false,
-            },
-        },
+
     ],
 };
 
 export default {
-    entry: {
-        core: './resources/assets/js/core.js',
-        admin: './resources/assets/js/admin.js',
-        admincss: './resources/assets/css/admin.css',
-    },
+    entry,
     output: {
-        path: path.resolve(__dirname, './resources/dist/js'),
+        path: path.resolve(__dirname, output),
         filename: '[name].js',
     },
     module,

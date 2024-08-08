@@ -1,5 +1,6 @@
 
 
+import "./core.js";
 import "../core/@core.js";
 import "../core/ajax.js";
 import "./admin-filament-app.globals.js";
@@ -19,7 +20,10 @@ import LiveEditImageDialog from "../live-edit/live-edit-image-dialog.js";
 
 
 
-window.mw.tools = new AdminTools(mw.app);
+
+
+mw.tools = new AdminTools(mw.app);
+
 
 
 
