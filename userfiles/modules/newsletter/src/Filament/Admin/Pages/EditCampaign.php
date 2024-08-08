@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwRichEditor;
 use MicroweberPackages\FormBuilder\Elements\RadioButton;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
@@ -387,27 +388,27 @@ class EditCampaign extends Page
                                 ->columns(2)
                                 ->required()
                                 ->icons([
-                                    'plain' => 'heroicon-o-pencil',
+                                    'html' => 'heroicon-o-pencil',
                                     'design' => 'heroicon-o-paint-brush',
                                 ])
                                 ->color('primary')
                                 ->live()
                                 ->descriptions([
-                                    'plain' => 'Send plain text email.',
+                                    'html' => 'Send simple text email.',
                                     'design' => 'Send designed email.',
                                 ])
                                 ->default('design')
                                 ->options([
                                     'design' => 'Design',
-                                    'plain' => 'Plain',
+                                    'html' => 'Text',
                                 ]),
 
-                            Textarea::make('state.email_plain_text')
-                                ->label('E-mail Plain Text')
+                            MwRichEditor::make('state.email_content_html')
+                                ->label('E-mail Content')
                                 ->placeholder('Enter the plain text of your email.')
                                 ->helperText('You can use the following variables: {name}, {email}, {unsubscribe_url}')
                                 ->hidden(function (Get $get) {
-                                    if ($get('state.email_content_type') == 'plain') {
+                                    if ($get('state.email_content_type') == 'html') {
                                         return false;
                                     }
                                     return true;
