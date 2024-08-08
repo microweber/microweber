@@ -6799,8 +6799,8 @@ select {
 }
 
 .fi-body {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity)) !important;
 }
 
 .fi-body:is(.dark *) {
@@ -13585,6 +13585,11 @@ body {
   padding-right: 0px !important;
 }
 
+h1,h2,h3,h4,h5,h6 {
+  margin-bottom: 1rem;
+  font-weight: 700 !important;
+}
+
 .w-100 {
   width: 100% !important;
 }
@@ -14094,11 +14099,6 @@ body {
 .fs-6 {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.fi-body {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(246 248 251 / var(--tw-bg-opacity)) !important;
 }
 
 .fi-main {
