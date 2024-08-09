@@ -12,6 +12,7 @@ Route::name('web.newsletter.')
             $requestIp = request()->ip();
             $userAgent = request()->userAgent();
             $redirectTo = request()->get('redirect_to');
+            $redirectTo = urldecode($redirectTo);
 
             if ($campaignId) {
                 $findCampaign = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
@@ -27,7 +28,7 @@ Route::name('web.newsletter.')
             }
 
             return redirect($redirectTo);
-        });
+        })->name('click-link');
 
         Route::get('/pixel', function() {
 

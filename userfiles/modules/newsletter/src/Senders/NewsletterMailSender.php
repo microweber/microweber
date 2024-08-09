@@ -205,9 +205,26 @@ class NewsletterMailSender {
             $twigSettings
         );
 
-        // Find </body> and append the tracking pixel
         $trackingPixel = '<img src="' . $siteUrl . '/web/modules/newsletter/pixel?email=' . $email . '&campaign_id=' . $this->campaign['id'] . '" />';
-        $parsedEmail = str_replace('</body>', $trackingPixel . '</body>', $parsedEmail);
+
+        // Find </body> and append the tracking pixel
+        if (str_contains($parsedEmail, '</body>')) {
+            $parsedEmail = str_replace('</body>', $trackingPixel . '</body>', $parsedEmail);
+        } else {
+            $parsedEmail .= $trackingPixel;
+        }
+
+        $dom = new \DOMDocument();
+        $dom->loadHTML($parsedEmail);
+        foreach($dom->getElementsByTagName('a') as $link) {
+
+            $redirectLink = $siteUrl . '/web/modules/newsletter/click-link?email=' . $email . '&campaign_id=' . $this->campaign['id'] . '&redirect_to='.urlencode($link->getAttribute('href'));
+
+            // Prefix the link with the new URL
+            $link->setAttribute('href', $redirectLink);
+
+        }
+        $parsedEmail = $dom->saveHtml();
 
         return $parsedEmail;
 
