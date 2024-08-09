@@ -16,10 +16,14 @@ const plugins =  [
     new MiniCssExtractPlugin({
         ignoreOrder: true,
         filename: (pathData) => {
-            if(pathData.chunk.name === 'admincss'){// todo
-                pathData.runtime = 'admin'
-                pathData.chunk.name = 'admin'
-            }
+            console.log(pathData.chunk.name, pathData.runtime);
+/*
+            if(pathData.chunk.name.endsWith('css')){ // todo
+                const i = pathData.chunk.name.lastIndexOf('css');
+                const name = pathData.chunk.name.substring(0, i);
+                pathData.chunk.name = name;
+                pathData.runtime = name;
+            }*/
             return `${outputCSS}/[name].css`;
         },
         // chunkFilename: "[id].css",

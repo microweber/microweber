@@ -25,6 +25,7 @@ use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccount
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\CampaignsChart;
+use MicroweberPackages\Modules\Newsletter\Filament\Widgets\MailsOverviewWidget;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\StatsOverviewWidget;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\SubscribersChart;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
@@ -66,6 +67,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ])
             ->widgets([
                 StatsOverviewWidget::class,
+                MailsOverviewWidget::class,
                 CampaignsChart::class,
                 SubscribersChart::class,
             ])

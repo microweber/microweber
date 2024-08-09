@@ -214,8 +214,10 @@ class NewsletterMailSender {
             $parsedEmail .= $trackingPixel;
         }
 
+        $parsedEmail = mb_convert_encoding($parsedEmail, 'HTML-ENTITIES', 'UTF-8');
+
         $dom = new \DOMDocument();
-        $dom->loadHTML($parsedEmail);
+        $dom->loadHTML($parsedEmail, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOENT);
         foreach($dom->getElementsByTagName('a') as $link) {
 
             $redirectLink = $siteUrl . '/web/modules/newsletter/click-link?email=' . $email . '&campaign_id=' . $this->campaign['id'] . '&redirect_to='.urlencode($link->getAttribute('href'));

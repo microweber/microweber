@@ -13,7 +13,7 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
        // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
         $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin.js';
-        $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/admin.css';
+        $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/admincss.css';
         $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.min.js';
         //$jqueryUi = mw_includes_url() . 'api/libs/jqueryui/jquery-ui.js';
         $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.min.js';
@@ -21,9 +21,8 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $jqueryUiNestedSortable = mw_includes_url() . 'api/libs/nestedsortable/jquery.mjs.nestedSortable.js';
         $lib_tynymce = mw_includes_url() . 'api/libs/tinymce/tinymce.min.js';
 
-        $fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
+$fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
         $nouislider = mw_includes_url() . 'api/libs/nouislider/nouislider.js';
-        $nouisliderCss = mw_includes_url() . 'api/libs/nouislider/nouislider.css';
 
         //nouislider
 
@@ -41,8 +40,6 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
 
         $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $nouislider . '" id="mw-nouislider-js-libs-scripts"></script>' . "\r\n";
-        $append_html .= '' . "\r\n";
-        $append_html .= '<link rel="stylesheet" href="' . $nouisliderCss . '" id="mw-nouislider-js-libs-styles">' . "\r\n";
 
         $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $lib_tynymce . '" id="mw-tynymce-js-libs-scripts"></script>' . "\r\n";
@@ -55,10 +52,8 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $append_html .= '<script src="' . $fileRobotUrl . '" id="mw-admin-file-robot-js-libs-scripts"></script>' . "\r\n";
 
         $append_html .= '' . "\r\n";
-        $append_html .= '<link rel="stylesheet" href="' . $adminCss . '" id="mw-admin-css-styles">' . "\r\n";
-
-        $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
+        $append_html .= '<link rel="stylesheet" href="' . $adminCss . '" id="mw-admin-css">' . "\r\n";
 
         return $append_html;
     }

@@ -8,6 +8,8 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Number;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignClickedLink;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignPixel;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
@@ -18,29 +20,11 @@ class StatsOverviewWidget extends BaseWidget
 
     protected static ?int $sort = 0;
 
-    private function getEmailsSentChart($datesArray)
+    protected function getColumns(): int
     {
-        $emailsSentCount = NewsletterCampaignsSendLog::count();
-
-        $emailsSentCountByDates = [];
-        foreach ($datesArray as $date) {
-            $emailsSentCountByDates[$date] = NewsletterCampaignsSendLog::whereDate('created_at', $date)->count();
-        }
-
-        $emailsSentChart = Stat::make('Emails Sent', $emailsSentCount)
-            ->description('E-mails sent')
-            ->chart($emailsSentCountByDates);
-        if ($emailsSentCount === 0) {
-            $emailsSentChart->color('gray');
-            $emailsSentChart->descriptionIcon('heroicon-m-arrow-trending-down');
-        } elseif (end($emailsSentCountByDates) > 0) {
-            $emailsSentChart->descriptionIcon('heroicon-m-arrow-trending-up');
-            $emailsSentChart->color('success');
-        }
-
-        return $emailsSentChart;
-
+        return 2;
     }
+
     private function getSubscribersChart($datesArray)
     {
         $subscribersCount = NewsletterSubscriber::count();
@@ -101,9 +85,6 @@ class StatsOverviewWidget extends BaseWidget
 
         // Subscribers
         $charts[] = $this->getSubscribersChart($datesArray);
-
-        // Emails Sent
-        $charts[] = $this->getEmailsSentChart($datesArray);
 
         return $charts;
 
