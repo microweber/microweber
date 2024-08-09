@@ -65,6 +65,17 @@ $config['tables'] = array (
         'updated_at' => 'dateTime',
     ),
 
+    'newsletter_campaigns_clicked_link' => array (
+        'id' => 'integer',
+        'campaign_id' => 'integer',
+        'email' => 'text',
+        'ip' => 'text',
+        'user_agent' => 'text',
+        'link' => 'text',
+        'created_at' => 'dateTime',
+        'updated_at' => 'dateTime',
+    ),
+
 	'newsletter_sender_accounts' => array(
 		'id' => 'integer',
 		'name' => 'text',
