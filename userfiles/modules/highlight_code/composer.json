@@ -1,0 +1,10 @@
+{
+    "name": "microweber-modules/highlight_code",
+    "description": "Highlight code module for Microweber CMS",
+    "type": "metapackage",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Modules\\HighlightCode\\": "src/"
+        }
+    }
+}
