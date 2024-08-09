@@ -13,6 +13,7 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
        // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
         $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin.js';
+        $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/admincss.css';
         $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.min.js';
         //$jqueryUi = mw_includes_url() . 'api/libs/jqueryui/jquery-ui.js';
         $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.min.js';
@@ -52,6 +53,7 @@ $fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor
 
         $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
+        $append_html .= '<link rel="stylesheet" href="' . $adminCss . '" id="mw-admin-css">' . "\r\n";
 
         return $append_html;
     }
