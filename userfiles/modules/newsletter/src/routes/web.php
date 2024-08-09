@@ -5,6 +5,30 @@ Route::name('web.newsletter.')
     ->middleware(['web'])
     ->group(function () {
 
+        Route::get('/click-link', function() {
+
+            $campaignId = request()->get('campaign_id');
+            $requestEmail = request()->get('email');
+            $requestIp = request()->ip();
+            $userAgent = request()->userAgent();
+            $redirectTo = request()->get('redirect_to');
+
+            if ($campaignId) {
+                $findCampaign = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
+                if ($findCampaign) {
+                    $newsletterCampaignClickedLink = new \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignClickedLink();
+                    $newsletterCampaignClickedLink->campaign_id = $campaignId;
+                    $newsletterCampaignClickedLink->email = $requestEmail;
+                    $newsletterCampaignClickedLink->ip = $requestIp;
+                    $newsletterCampaignClickedLink->user_agent = $userAgent;
+                    $newsletterCampaignClickedLink->link = $redirectTo;
+                    $newsletterCampaignClickedLink->save();
+                }
+            }
+
+            return redirect($redirectTo);
+        });
+
         Route::get('/pixel', function() {
 
             $campaignId = request()->get('campaign_id');
