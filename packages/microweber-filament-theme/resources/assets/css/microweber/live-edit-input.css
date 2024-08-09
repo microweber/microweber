@@ -26,8 +26,7 @@
 }
 
 .form-control-live-edit-label-wrapper .text-align .active {
-    background-color: #f0f0f0 !important;
-    border-color: #f0f0f0 !important;
+    @apply bg-black border-black;
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input,
@@ -96,6 +95,6 @@
     @apply w-full;
 }
 
-.form-control-live-edit-input.form-a control-input-range-slider {
+.form-control-live-edit-input.form-a .control-input-range-slider {
     @apply !py-0 !px-[5px];
 }
