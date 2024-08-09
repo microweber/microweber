@@ -58,10 +58,15 @@ class CampaignResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('list.name'),
-                TextColumn::make('subscribers'),
+                TextColumn::make('subscribers')->badge(),
 //                TextColumn::make('scheduled'),
 //                TextColumn::make('scheduled_at'),
                 TextColumn::make('opened')
+                    ->badge()
+                    ->color(function() {
+                        return 'success';
+                    }),
+                TextColumn::make('clicked')
                     ->badge()
                     ->color(function() {
                         return 'success';

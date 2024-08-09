@@ -72,6 +72,11 @@ class NewsletterCampaign extends Model
         return NewsletterCampaignPixel::where('campaign_id', $this->id)->count();
     }
 
+    public function getClickedAttribute()
+    {
+        return NewsletterCampaignClickedLink::where('campaign_id', $this->id)->count();
+    }
+
     public function getScheduledAttribute()
     {
         return 0;
