@@ -142,5 +142,5 @@
 }
 
 .mw-ui-btn {
-    @apply font-normal text-center select-none leading-6 inline-flex items-center justify-center box-border px-6 cursor-pointer relative no-underline text-sm h-10 rounded-md text-gray-600 bg-gray-200 border border-gray-300 outline-none transition duration-300 whitespace-nowrap align-middle;
+    @apply font-normal text-center select-none leading-6 inline-flex items-center justify-center box-border px-6 cursor-pointer relative no-underline text-sm h-10 rounded-md text-gray-600 bg-gray-50 border border-gray-300 outline-none transition duration-300 whitespace-nowrap align-middle;
 }
