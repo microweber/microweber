@@ -35,49 +35,9 @@ class ModuleAdminManager
         Livewire::component($livewireComponentName, $componentName);
     }
 
-    /**
-     * Register a skin settings component for a module and skin.
-     *
-     * @param string $moduleName
-     * @param string $skinName
-     * @param string $componentName
-     */
-    public function registerSkinSettingsComponent(string $moduleName, string $skinName, string $componentName): void
-    {
-        if (!isset($this->skinSettingsComponent[$moduleName])) {
-            $this->skinSettingsComponent[$moduleName] = [];
-        }
-        $this->skinSettingsComponent[$moduleName][$skinName] = $componentName;
-        $livewireComponentName = 'microweber-module-' . $moduleName . '::template-settings-' . $skinName;
-        Livewire::component($livewireComponentName, $componentName);
 
 
-    }
 
-    /**
-     * Get the settings component for a module.
-     *
-     * @param string $moduleName
-     *
-     * @return string|null
-     */
-    public function getSettingsComponent(string $moduleName): ?string
-    {
-        return $this->settingsComponent[$moduleName] ?? null;
-    }
-
-    /**
-     * Get the skin settings component for a module and skin.
-     *
-     * @param string $moduleName
-     * @param string $skinName
-     *
-     * @return string|null
-     */
-    public function getSkinSettingsComponent(string $moduleName, string $skinName): ?string
-    {
-        return $this->skinSettingsComponent[$moduleName][$skinName] ?? null;
-    }
 
 
     /**
@@ -98,13 +58,7 @@ class ModuleAdminManager
     }
 
 
-    public function registerSkinSettings($moduleName, $skinName, $componentAlias): void
-    {
-        if (!isset($this->skinSettings[$moduleName])) {
-            $this->skinSettings[$moduleName] = [];
-        }
-        $this->skinSettings[$moduleName][$skinName] = $componentAlias;
-    }
+
 
 
     public function getSkinSettings($moduleName, $skinName)

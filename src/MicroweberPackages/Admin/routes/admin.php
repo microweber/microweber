@@ -17,8 +17,10 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 
     Route::any($admin_url_legacy . '/{all}', array('as' => 'admin', 'uses' => 'AdminController@index'))->where('all', '.*')->name('admin.all');
 
-    $admin_url = mw_admin_prefix_url();
-    Route::get($admin_url.'/manifest.json','AdminController@webAppManifest' )->name('admin.web-app-manifest');
+//
+//  moved to src/MicroweberPackages/MetaTags/Entities/AdminWebAppManifestTags.php
+//    $admin_url = mw_admin_prefix_url();
+//    Route::get($admin_url.'/manifest.json','AdminController@webAppManifest' )->name('admin.web-app-manifest');
 
 });
 

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use MicroweberPackages\Blog\FrontendFilter\FilterHelper;
 use MicroweberPackages\Blog\Http\Controllers\Traits\CustomFieldsRenderTrait;
 use MicroweberPackages\Content\Models\Content;
-
+/**
+ * @deprecated
+ */
 class LiveEditAdminController
 {
     use CustomFieldsRenderTrait;
