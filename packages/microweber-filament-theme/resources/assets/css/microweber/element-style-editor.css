@@ -1,0 +1,283 @@
+.mw-multiple-fields {
+    @apply relative;
+}
+
+.mw-field {
+    @apply w-full;
+}
+
+.mw-field.unit input + input {
+    @apply w-10 px-0 text-center;
+}
+
+.mw-field.unit .mw-field .mw-ui-btn i {
+    @apply text-[14px];
+}
+
+.mw-field.unit + .mw-field .mw-ui-btn {
+    @apply p-0 w-6;
+}
+
+.mw-ese-holder {
+    @apply bg-gray-100 border border-gray-300 transition duration-200;
+}
+
+.mw-ese-holder.active {
+    @apply bg-white border-blue-500 shadow-[0_0_3px_rgba(0,134,219,0.4)];
+}
+
+.mw-ese-margin {
+    @apply p-[35px_50px] relative inline-block;
+}
+
+.mw-ese-padding {
+    @apply w-[100px] h-[65px] p-[50px_35px] relative;
+}
+
+.mw-element-spacing-editor {
+    @apply p-[10px_20px];
+}
+
+.mw-element-spacing-editor .input input {
+    @apply w-10 h-[22px] rounded-sm leading-[20px] border border-gray-300 p-[0_3px] text-center text-[12px];
+}
+
+.mw-element-spacing-editor .input {
+    @apply absolute z-[1];
+}
+
+.mw-ese-top {
+    @apply top-[-10px] left-1/2 translate-x-[-50%];
+}
+
+.mw-ese-right {
+    @apply top-1/2 right-[-20px] translate-y-[-50%];
+}
+
+.mw-ese-bottom {
+    @apply bottom-[-10px] left-1/2 translate-x-[-50%];
+}
+
+.mw-ese-left {
+    @apply top-1/2 left-[-20px] translate-y-[-50%];
+}
+
+.mw-ese-label {
+    @apply block text-[10px] uppercase;
+}
+
+.mw-ese-padding .mw-ese-label {
+    @apply text-center absolute top-1/2 left-0 w-full translate-y-[-50%];
+}
+
+.mw-esr {
+    @apply flex justify-between;
+}
+
+.mw-esr + .mw-esr {
+    @apply pt-[12px];
+}
+
+.mw-esr-col {
+    @apply pb-[12px];
+}
+
+.mw-esr > div {
+    @apply w-[48%];
+}
+
+.mw-esc .mw-multiple-fields .mw-field select {
+    @apply bg-no-repeat bg-right bg-[length:8px_auto];
+}
+
+.mw-esc .mw-multiple-fields .mw-field:last-child select {
+    @apply bg-gray-100 text-[12px] text-gray-800;
+}
+
+.mw-esc label {
+    @apply block text-[10px] uppercase pb-[2px];
+}
+
+.mw-esc .mw-multiple-fields .mw-field:first-child {
+    @apply w-full;
+}
+
+.mw-accordion + .mw-accordion {
+    @apply mt-2.5;
+}
+
+.mw-ui-box-header.mw-accordion-title:after {
+    @apply hidden !important;
+}
+
+#classtags {
+    @apply h-auto;
+}
+
+#classtags .disabled {
+    @apply pointer-events-none;
+}
+
+#classtags .mw-ui-btn {
+    @apply m-[3px_6px_3px_0];
+}
+
+.s-field {
+    @apply flex;
+}
+
+.s-field label {
+    @apply w-[100px] self-center uppercase text-[10px] text-gray-500;
+}
+
+.s-field-content {
+    @apply flex-1;
+}
+
+.s-field + .s-field {
+    @apply mt-2.5;
+}
+
+.text-align {
+    @apply block border border-gray-300 h-[30px] text-[0px];
+}
+
+.text-align .active {
+    @apply bg-blue-600 text-white;
+}
+
+.text-align > .active:before {
+    @apply hidden;
+}
+
+.text-align .active i {
+    @apply bg-white;
+}
+
+.text-align > * {
+    @apply inline-block w-1/4 h-7 position-relative cursor-pointer p-[1px_0] text-center text-[17px];
+}
+
+#shadow > .mw-ui-field-holder.prop-ui-field-holder {
+    @apply float-none clear-both w-full pt-[5px];
+}
+
+#shadow .mw-ui-field-holder.prop-ui-field-holder .mw-ui-field-holder.prop-ui-field-holder {
+    @apply float-left w-[32%] clear-none;
+}
+
+#shadow .mw-ui-field-holder.prop-ui-field-holder .mw-ui-field-holder.prop-ui-field-holder + .mw-ui-field-holder.prop-ui-field-holder {
+    @apply ml-[2%];
+}
+
+.mw-multiple-fields .mw-field-prepend + input {
+    @apply border-l-0 ml-[-2px];
+}
+
+.mw-multiple-fields .mw-field-prepend {
+    @apply bg-white relative z-[2];
+}
+
+.rouded-corners {
+    @apply pb-5;
+}
+
+.rouded-corners .mw-field .mw-field {
+    @apply w-[70px] m-[10px_0_5px];
+}
+
+.rouded-corners .mw-field .mw-field + .mw-field {
+    @apply ml-[10px];
+}
+
+.background-preview {
+    @apply inline-block h-[2.308rem] w-[2.308rem] rounded-sm bg-center bg-cover bg-no-repeat align-top;
+}
+
+#css-editor-root:after {
+    @apply hidden opacity-60 bg-gray-100 absolute top-0 left-0 w-full h-full content-none z-[10];
+}
+
+#css-editor-root.disabled:after {
+    @apply block;
+}
+
+#css-editor-root.disabled {
+    @apply pointer-events-none;
+}
+
+.mw-field.unit [type='text'] {
+    @apply w-full text-left ml-0;
+}
+
+.mw-range, .mw-range.ui-widget {
+    @apply h-[1px];
+}
+
+.mw-field.unit .mw-range .ui-slider-handle {
+    @apply top-[-7px];
+}
+
+.mw-field.unit .mw-range {
+    @apply absolute top-full w-full mt-[-1px];
+}
+
+.mw-field.unit + .mw-field {
+    @apply absolute right-[25px] w-auto z-[2];
+}
+
+.mw-field.unit .mw-range + input {
+    @apply text-center ml-[10px];
+}
+
+.angle {
+    @apply inline-block w-[15px] h-[15px] border border-dotted border-gray-300 absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%];
+}
+
+.angle-top-left {
+    @apply rounded-tl-[7px] border-l-black border-t-black;
+}
+
+.angle-top-right {
+    @apply rounded-tr-[7px] border-r-black border-t-black;
+}
+
+.angle-bottom-left {
+    @apply rounded-bl-[7px] border-l-black border-b-black;
+}
+
+.angle-bottom-right {
+    @apply rounded-br-[7px] border-r-black border-b-black;
+}
+
+#size-box .mw-field.unit .mw-range {
+    @apply w-[100px];
+}
+
+.reset-field {
+    @apply top-[5px] right-0 w-auto block absolute z-[1];
+}
+
+html[dir="rtl"] .reset-field {
+    @apply left-0 right-auto;
+}
+
+.background-image-nav {
+    @apply w-full;
+}
+
+.background-image-nav > * {
+    @apply w-1/3 text-center;
+}
+
+.background-preview {
+    @apply absolute top-0 left-0 w-full h-full;
+}
+
+.background-remove {
+    @apply cursor-pointer inline-block;
+}
+
+.style-editor-disabled {
+    @apply pointer-events-none opacity-50;
+}
