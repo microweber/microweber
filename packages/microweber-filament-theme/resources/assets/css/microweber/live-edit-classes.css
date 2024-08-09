@@ -270,14 +270,172 @@ h1,h2,h3,h4,h5,h6 {
     @apply !pe-0;
 }
 
-.mdi:before, .mdi-set {
+/* Custom classes for Tailwind using @apply */
+
+/* mdi and mdi-set styles */
+.mdi:before,
+.mdi-set {
+    @apply inline-block text-[24px] font-normal text-[inherit] leading-[inherit];
     content: '';
-    display: inline-block;
-    font: normal normal normal 24px/1 "Material Design Icons";
-    font-size: inherit;
     text-rendering: auto;
-    line-height: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* mw-field styles */
+.mw-field {
+    @apply inline-flex relative align-top;
+}
+
+.mw-field.unit input + input {
+    @apply w-[40px] px-0 text-center;
+}
+
+/* rouded-corners styles */
+.rouded-corners {
+    @apply pb-5;
+}
+
+.rouded-corners .mw-field {
+    @apply w-[70px] my-[10px] mb-[5px];
+}
+
+.rouded-corners .mw-field + .mw-field {
+    @apply ml-[10px];
+}
+
+/* angle styles */
+.angle {
+    @apply inline-block w-[15px] h-[15px] border-dotted border-[1px] border-gray-300 absolute top-1/2 left-1/2;
+    transform: translate(-50%, -50%);
+}
+
+.angle-top-left {
+    @apply rounded-tl-[7px] border-l-[1px] border-t-[1px] border-black;
+}
+
+.angle-top-right {
+    @apply rounded-tr-[7px] border-r-[1px] border-t-[1px] border-black;
+}
+
+.angle-bottom-left {
+    @apply rounded-bl-[7px] border-l-[1px] border-b-[1px] border-black;
+}
+
+.angle-bottom-right {
+    @apply rounded-br-[7px] border-r-[1px] border-b-[1px] border-black;
+}
+
+.rounded-corners .angle {
+    @apply w-[24px] h-[24px] border-2 border-black;
+}
+
+/* s-field-content styles */
+.s-field-content {
+    @apply flex flex-col;
+}
+
+/* mw-multiple-fields styles */
+.mw-multiple-fields {
+    @apply flex;
+}
+
+.mw-multiple-fields > .mw-field select,
+.mw-multiple-fields > .mw-field input {
+    @apply rounded-none;
+}
+
+.mw-multiple-fields > .mw-field:first-child select,
+.mw-multiple-fields > .mw-field:first-child input {
+    @apply rounded-l-[2px];
+}
+
+.mw-multiple-fields > .mw-field:last-child select,
+.mw-multiple-fields > .mw-field:last-child input {
+    @apply rounded-r-[2px];
+}
+
+.mw-multiple-fields > .mw-field + .mw-field {
+    @apply -ml-[1px];
+}
+
+/* mw-field-flat styles */
+.mw-field.mw-field-flat input,
+.mw-field.mw-field-flat select,
+.mw-field.mw-field-flat textarea {
+    @apply rounded-none border-t-0 border-l-0 border-r-0 shadow-none !important;
+}
+
+/* mw-field input, select, textarea */
+.mw-field input,
+.mw-field select,
+.mw-field textarea {
+    @apply border border-gray-400 p-2 w-full max-w-full rounded-[5px] bg-white outline-none cursor-text box-border shadow-inner transition duration-300 order-2;
+}
+
+.mw-field .mw-field-append,
+.mw-field .mw-field-prepend,
+.mw-field[data-after]:after,
+.mw-field[data-before]:before {
+    @apply h-[40px] leading-[40px];
+}
+
+
+
+/* Custom classes for Tailwind using @apply */
+
+/* Slider track background and fill */
+.v-slider-track {
+    @apply h-[2px];
+}
+
+.v-slider-track-fill {
+    @apply h-[3px];
+}
+
+/* Hide input details */
+.v-input-details {
+    @apply hidden;
+}
+
+/* Element spacing editor input background */
+.mw-element-spacing-editor-input {
+    @apply bg-white;
+}
+
+/* Holder background color */
+.mw-ese-holder {
+    @apply bg-white;
+}
+
+/* Padding label color */
+.mw-ese-padding-label {
+    @apply text-black;
+}
+
+/* v3ti component styles */
+.v3ti {
+    @apply mt-4 ml-1 mr-1 border-white;
+}
+
+.v3ti-tag {
+    @apply bg-black text-white;
+}
+
+.v3ti-tag-content {
+    @apply text-black;
+}
+
+.v3ti-content {
+    @apply bg-white border-none;
+}
+
+/* Rounded corners */
+.rounded-corners-angle {
+    @apply border-2 border-black w-6 h-6;
+}
+
+.angle-top-right, .angle-top-left, .angle-bottom-right, .angle-bottom-left {
+    @apply border-black;
 }
 

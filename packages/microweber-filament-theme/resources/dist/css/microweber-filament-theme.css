@@ -13669,15 +13669,315 @@ h1,h2,h3,h4,h5,h6 {
   padding-inline-end: 0px !important;
 }
 
-.mdi:before, .mdi-set {
-  content: '';
+/* Custom classes for Tailwind using @apply */
+
+/* mdi and mdi-set styles */
+
+.mdi:before,
+.mdi-set {
   display: inline-block;
-  font: normal normal normal 24px/1 "Material Design Icons";
-  font-size: inherit;
-  text-rendering: auto;
+  font-size: 24px;
+  font-weight: 400;
   line-height: inherit;
+  color: inherit;
+  content: '';
+  text-rendering: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* mw-field styles */
+
+.mw-field {
+  position: relative;
+  display: inline-flex;
+  vertical-align: top;
+}
+
+.mw-field.unit input + input {
+  width: 40px;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-align: center;
+}
+
+/* rouded-corners styles */
+
+.rouded-corners {
+  padding-bottom: 1.25rem;
+}
+
+.rouded-corners .mw-field {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  width: 70px;
+}
+
+.rouded-corners .mw-field + .mw-field {
+  margin-left: 10px;
+}
+
+/* angle styles */
+
+.angle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-block;
+  height: 15px;
+  width: 15px;
+  border-width: 1px;
+  border-style: dotted;
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  transform: translate(-50%, -50%);
+}
+
+.angle-top-left {
+  border-top-left-radius: 7px;
+  border-left-width: 1px;
+  border-top-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.angle-top-right {
+  border-top-right-radius: 7px;
+  border-right-width: 1px;
+  border-top-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.angle-bottom-left {
+  border-bottom-left-radius: 7px;
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.angle-bottom-right {
+  border-bottom-right-radius: 7px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.rounded-corners .angle {
+  height: 24px;
+  width: 24px;
+  border-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+/* s-field-content styles */
+
+.s-field-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.fi-resource-list-records-page section.s-field-content {
+  row-gap: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.fi-ta-content .s-field-content:first-child {
+  background-color: transparent !important;
+}
+
+.fi-resource-modules section.s-field-content {
+  row-gap: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.fi-resource-marketplace .fi-ta-record .s-field-content .flex {
+  padding: 0px;
+}
+
+/* mw-multiple-fields styles */
+
+.mw-multiple-fields {
+  display: flex;
+}
+
+.fi-resource-list-records-page section.mw-multiple-fields {
+  row-gap: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.fi-ta-content .mw-multiple-fields:first-child {
+  background-color: transparent !important;
+}
+
+.fi-resource-modules section.mw-multiple-fields {
+  row-gap: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.fi-resource-marketplace .fi-ta-record .mw-multiple-fields .flex {
+  padding: 0px;
+}
+
+.mw-multiple-fields > .mw-field select,
+.mw-multiple-fields > .mw-field input {
+  border-radius: 0px;
+}
+
+.mw-multiple-fields > .mw-field:first-child select,
+.mw-multiple-fields > .mw-field:first-child input {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.mw-multiple-fields > .mw-field:last-child select,
+.mw-multiple-fields > .mw-field:last-child input {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.mw-multiple-fields > .mw-field + .mw-field {
+  margin-left: -1px;
+}
+
+/* mw-field-flat styles */
+
+.mw-field.mw-field-flat input,
+.mw-field.mw-field-flat select,
+.mw-field.mw-field-flat textarea {
+  border-radius: 0px !important;
+  border-top-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  --tw-shadow: 0 0 #0000 !important;
+  --tw-shadow-colored: 0 0 #0000 !important;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+}
+
+/* mw-field input, select, textarea */
+
+.mw-field input,
+.mw-field select,
+.mw-field textarea {
+  order: 2;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  cursor: text;
+  border-radius: 5px;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  padding: 0.5rem;
+  --tw-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: inset 0 2px 4px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.mw-field .mw-field-append,
+.mw-field .mw-field-prepend,
+.mw-field[data-after]:after,
+.mw-field[data-before]:before {
+  height: 40px;
+  line-height: 40px;
+}
+
+/* Custom classes for Tailwind using @apply */
+
+/* Slider track background and fill */
+
+.v-slider-track {
+  height: 2px;
+}
+
+.v-slider-track-fill {
+  height: 3px;
+}
+
+/* Hide input details */
+
+.v-input-details {
+  display: none;
+}
+
+/* Element spacing editor input background */
+
+.mw-element-spacing-editor-input {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+/* Holder background color */
+
+.mw-ese-holder {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+/* Padding label color */
+
+.mw-ese-padding-label {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+/* v3ti component styles */
+
+.v3ti {
+  margin-top: 1rem;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+}
+
+.v3ti-tag {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.v3ti-tag-content {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.v3ti-content {
+  border-style: none;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+/* Rounded corners */
+
+.rounded-corners-angle {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-width: 2px;
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
+.angle-top-right, .angle-top-left, .angle-bottom-right, .angle-bottom-left {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .w-100 {
