@@ -65,6 +65,10 @@ class NewsletterSubscriberImporter extends Importer
     public function resolveRecord(): ?NewsletterSubscriber
     {
 
+        if (!isset($this->data['email']) || empty($this->data['email'])) {
+            return null;
+        }
+
         $listIds = [];
         if (isset($this->options['select_list'])) {
             if (isset($this->options['new_list_name']) && $this->options['select_list'] == 'import_to_new_list') {
