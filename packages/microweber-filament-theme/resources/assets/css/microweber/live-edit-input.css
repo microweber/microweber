@@ -26,8 +26,7 @@
 }
 
 .form-control-live-edit-label-wrapper .text-align .active {
-    background-color: #f0f0f0 !important;
-    border-color: #f0f0f0 !important;
+    @apply bg-black border-black;
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input,
