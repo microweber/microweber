@@ -45,6 +45,17 @@ class EditCampaign extends Page
 
         $this->state['recipients_from'] = 'specific_list';
         $this->state['list_id'] = $listId;
+        
+        $campaign = NewsletterCampaign::where('id', $this->state['id'])->first();
+        if ($campaign) {
+            $campaign->fill([
+                'recipients_from'=>'specific_list',
+                'list_id'=>$listId
+            ]);
+            $campaign->save();
+            $this->model = $campaign;
+        }
+
     }
 
     public function updated($key, $value)
