@@ -96,6 +96,6 @@
     @apply w-full;
 }
 
-.form-control-live-edit-input.form-a control-input-range-slider {
+.form-control-live-edit-input.form-a .control-input-range-slider {
     @apply !py-0 !px-[5px];
 }

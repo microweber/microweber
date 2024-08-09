@@ -90,7 +90,7 @@
 
 
 .mw-live-edit-toolbar-link {
-    @apply text-black cursor-pointer font-normal no-underline flex flex-wrap items-center justify-center;
+    @apply text-black cursor-pointer font-normal no-underline flex items-center justify-center;
 }
 
 .mw-live-edit-toolbar-link:hover {
@@ -259,9 +259,25 @@ body {
 }
 
 .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed {
-    @apply !px-0;
+    @apply !px-0 text-[0.8rem];
 }
 
 h1,h2,h3,h4,h5,h6 {
     @apply !font-bold mb-[1rem];
 }
+
+#general-theme-settings {
+    @apply !pe-0;
+}
+
+.mdi:before, .mdi-set {
+    content: '';
+    display: inline-block;
+    font: normal normal normal 24px/1 "Material Design Icons";
+    font-size: inherit;
+    text-rendering: auto;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+

@@ -8330,7 +8330,7 @@ select {
   width: 100%;
 }
 
-.form-control-live-edit-input.form-a control-input-range-slider {
+.form-control-live-edit-input.form-a .control-input-range-slider {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
   padding-left: 5px !important;
@@ -13296,7 +13296,6 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after{
 .mw-live-edit-toolbar-link {
   display: flex;
   cursor: pointer;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   font-weight: 400;
@@ -13656,11 +13655,27 @@ body {
 .mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed {
   padding-left: 0px !important;
   padding-right: 0px !important;
+  font-size: 0.8rem;
 }
 
 h1,h2,h3,h4,h5,h6 {
   margin-bottom: 1rem;
   font-weight: 700 !important;
+}
+
+#general-theme-settings {
+  padding-inline-end: 0px !important;
+}
+
+.mdi:before, .mdi-set {
+  content: '';
+  display: inline-block;
+  font: normal normal normal 24px/1 "Material Design Icons";
+  font-size: inherit;
+  text-rendering: auto;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .w-100 {
@@ -14145,33 +14160,33 @@ h1,h2,h3,h4,h5,h6 {
 /* custom-tailwind.css */
 
 .fs-1 {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-}
-
-.fs-2 {
   font-size: 1.5rem;
   line-height: 2rem;
 }
 
-.fs-3 {
+.fs-2 {
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
 
-.fs-4 {
+.fs-3 {
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
 
-.fs-5 {
+.fs-4 {
   font-size: 1rem;
   line-height: 1.5rem;
 }
 
-.fs-6 {
+.fs-5 {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.fs-6 {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .fi-main {
