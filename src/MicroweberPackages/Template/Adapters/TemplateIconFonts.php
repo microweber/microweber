@@ -26,6 +26,12 @@ class TemplateIconFonts
                 'url' => modules_url() . 'microweber/api/libs/material_icons/iconfont/material-icons.css',
                 'icon_class' => 'material-icons',
             ],
+         [
+                'name' => 'Material Design Icons',
+                'font_family' => 'materialDesignIcons',
+                'url' => modules_url() . 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.css',
+                'icon_class' => 'material-design-icons',
+            ],
 
 
             [
