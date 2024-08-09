@@ -8,6 +8,8 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Number;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignClickedLink;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignPixel;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignsSendLog;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
@@ -41,6 +43,55 @@ class StatsOverviewWidget extends BaseWidget
         return $emailsSentChart;
 
     }
+
+    private function getEmailsOpenedChart($datesArray)
+    {
+        $emailsOpenedCount = NewsletterCampaignPixel::count();
+
+        $emailsOpenedCountByDates = [];
+        foreach ($datesArray as $date) {
+            $emailsOpenedCountByDates[$date] = NewsletterCampaignPixel::whereDate('created_at', $date)->count();
+        }
+
+        $emailsOpenedChart = Stat::make('Emails opened', $emailsOpenedCount)
+            ->description('E-mails opened')
+            ->chart($emailsOpenedCountByDates);
+        if ($emailsOpenedCount === 0) {
+            $emailsOpenedChart->color('gray');
+            $emailsOpenedChart->descriptionIcon('heroicon-m-arrow-trending-down');
+        } elseif (end($emailsOpenedCountByDates) > 0) {
+            $emailsOpenedChart->descriptionIcon('heroicon-m-arrow-trending-up');
+            $emailsOpenedChart->color('success');
+        }
+
+        return $emailsOpenedChart;
+
+    }
+
+    private function getEmailsClickedChart($datesArray)
+    {
+        $emailsclickedCount = NewsletterCampaignClickedLink::count();
+
+        $emailsClickedCountByDates = [];
+        foreach ($datesArray as $date) {
+            $emailsClickedCountByDates[$date] = NewsletterCampaignClickedLink::whereDate('created_at', $date)->count();
+        }
+
+        $emailsClickedChart = Stat::make('Emails clicked', $emailsclickedCount)
+            ->description('E-mails clicked')
+            ->chart($emailsClickedCountByDates);
+        if ($emailsclickedCount === 0) {
+            $emailsClickedChart->color('gray');
+            $emailsClickedChart->descriptionIcon('heroicon-m-arrow-trending-down');
+        } elseif (end($emailsClickedCountByDates) > 0) {
+            $emailsClickedChart->descriptionIcon('heroicon-m-arrow-trending-up');
+            $emailsClickedChart->color('success');
+        }
+
+        return $emailsClickedChart;
+
+    }
+
     private function getSubscribersChart($datesArray)
     {
         $subscribersCount = NewsletterSubscriber::count();
@@ -104,6 +155,9 @@ class StatsOverviewWidget extends BaseWidget
 
         // Emails Sent
         $charts[] = $this->getEmailsSentChart($datesArray);
+
+        $charts[] = $this->getEmailsOpenedChart($datesArray);
+        $charts[] = $this->getEmailsClickedChart($datesArray);
 
         return $charts;
 
