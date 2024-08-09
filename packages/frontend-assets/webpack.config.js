@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import {config} from './config.js';
 
-const {entry, output} = config;
+const {entry, outputJS, outputCSS} = config;
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,7 +16,11 @@ const plugins =  [
     new MiniCssExtractPlugin({
         ignoreOrder: true,
         filename: (pathData) => {
-            return '[name].css'
+            if(pathData.chunk.name === 'admincss'){// todo
+                pathData.runtime = 'admin'
+                pathData.chunk.name = 'admin'
+            }
+            return `${outputCSS}/[name].css`;
         },
         // chunkFilename: "[id].css",
     }),
@@ -51,7 +55,7 @@ const module =  {
 export default {
     entry,
     output: {
-        path: path.resolve(__dirname, output),
+        path: path.resolve(__dirname, outputJS),
         filename: '[name].js',
     },
     module,
