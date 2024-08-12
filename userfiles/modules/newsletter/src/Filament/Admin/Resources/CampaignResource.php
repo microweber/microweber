@@ -14,10 +14,12 @@ use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Exceptions\Halt;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -32,9 +34,11 @@ use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccount
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\TemplatesResource\Pages\ManageTemplates;
 use MicroweberPackages\Modules\Newsletter\Filament\Components\SelectTemplate;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignClickedLink;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 
 class CampaignResource extends Resource
@@ -111,11 +115,67 @@ class CampaignResource extends Resource
                     }),
 
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('new-campaign-from-clicked')
-                        ->label('Create new campaign from clicked')
+                    Tables\Actions\Action::make('expand-campaign-from-clicked')
+                        ->label('Expand campaign from clicked')
+                        ->action(function (NewsletterCampaign $campaign) {
+
+                            $subscriberIds = [];
+                            $getClicked = NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->get();
+                            if ($getClicked) {
+                                foreach ($getClicked as $clicked) {
+                                    $findSubscriber = NewsletterSubscriber::select(['id','email'])->where('email', $clicked->email)->first();
+                                    if ($findSubscriber) {
+                                        $subscriberIds[] = $findSubscriber->id;
+                                    }
+                                }
+                            }
+
+                            if (empty($subscriberIds)) {
+                                Notification::make()
+                                    ->title('No clicked subscribers found for this campaign')
+                                    ->danger()
+                                    ->send();
+                                return;
+                            }
+
+                            $newCampaignName = $campaign->name . ' - Campaign from clicked';
+
+                            $checkCampaignName = NewsletterCampaign::where('name', $newCampaignName)->first();
+                            if ($checkCampaignName) {
+                                Notification::make()
+                                    ->title('This campaign already expanded. Please continue the campaign.')
+                                    ->danger()
+                                    ->send();
+                                return;
+                            }
+
+                            $newCampaignList = new NewsletterList();
+                            $newCampaignList->name = $newCampaignName;
+                            $newCampaignList->save();
+
+                            foreach ($subscriberIds as $subscriberId) {
+                                $newSubscriberInList = new NewsletterSubscriberList();
+                                $newSubscriberInList->subscriber_id = $subscriberId;
+                                $newSubscriberInList->list_id = $newCampaignList->id;
+                                $newSubscriberInList->save();
+                            }
+
+                            $newCampaign = new NewsletterCampaign();
+                            $newCampaign->name = $newCampaignName;
+                            $newCampaign->status = NewsletterCampaign::STATUS_DRAFT;
+                            $newCampaign->email_content_html = "Hello, {{name}}! <br />How are you today?";
+                            $newCampaign->email_content_type = 'design';
+                            $newCampaign->list_id = $newCampaignList->id;
+                            $newCampaign->recipients_from = 'specific_list';
+                            $newCampaign->sender_account_id = $campaign->sender_account_id;
+                            $newCampaign->save();
+
+                            return redirect()->route('filament.admin-newsletter.pages.edit-campaign.{id}', $newCampaign->id);
+
+                        })
                         ->icon('heroicon-o-cursor-arrow-rays'),
-                    Tables\Actions\Action::make('new-campaign-from-opened')
-                        ->label('Create new campaign from opened')
+                    Tables\Actions\Action::make('expand-campaign-from-opened')
+                        ->label('Expand campaign from opened')
                         ->icon('heroicon-o-envelope-open'),
 
                     Tables\Actions\DeleteAction::make(),
