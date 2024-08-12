@@ -24,7 +24,7 @@ jQuery.ajax = function(url, options){
                 if (data && (data.form_data_required || data.form_data_module)) {
                     mw.extradataForm(settings, data);
                 } else {
-                    if (typeof this._success === 'function' && max < 200) {
+                    if (typeof this._success === 'function'  ) {
                         var scope = this;
 
                         settings._success.call(scope, data, status, xhr);
