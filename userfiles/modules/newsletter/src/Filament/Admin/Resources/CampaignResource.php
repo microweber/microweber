@@ -116,8 +116,8 @@ class CampaignResource extends Resource
                     }),
 
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('expand-campaign-from-clicked')
-                        ->label('Expand campaign from clicked')
+                    Tables\Actions\Action::make('expand-from-clicked')
+                        ->label('Expand from clicked')
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
@@ -176,8 +176,8 @@ class CampaignResource extends Resource
 
                         })
                         ->icon('heroicon-o-cursor-arrow-rays'),
-                    Tables\Actions\Action::make('expand-campaign-from-opened')
-                        ->label('Expand campaign from opened')
+                    Tables\Actions\Action::make('expand-from-opened')
+                        ->label('Expand from opened')
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
@@ -239,7 +239,7 @@ class CampaignResource extends Resource
 
                     Tables\Actions\DeleteAction::make(),
                 ])
-                    ->dropdownWidth(MaxWidth::ExtraSmall)
+                  //  ->dropdownWidth(MaxWidth::ExtraSmall)
                     ->icon('mw-dots-menu')
                     ->color(Color::Gray)
                     ->iconSize('lg'),
