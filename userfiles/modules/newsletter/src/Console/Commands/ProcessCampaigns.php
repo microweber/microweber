@@ -5,6 +5,8 @@ namespace MicroweberPackages\Modules\Newsletter\Console\Commands;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignClickedLink;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignPixel;
 use Throwable;
 use Illuminate\Console\Command;
 use MicroweberPackages\Modules\Newsletter\Jobs\ProcessCampaignSubscriber;
@@ -48,6 +50,27 @@ class ProcessCampaigns extends Command
      */
     public function handle()
     {
+
+        $campaign = NewsletterCampaign::where('id', 23)->first();
+
+        for ($i = 0; $i < 100; $i++) {
+            $link = new NewsletterCampaignClickedLink();
+            $link->campaign_id = $campaign->id;
+            $link->email = 'selfworksbg'.rand(1111,9999).'@gmail.com';
+            $link->save();
+        }
+
+        for ($i = 0; $i < 100; $i++) {
+            $link = new NewsletterCampaignPixel();
+            $link->campaign_id = $campaign->id;
+            $link->email = 'selfworksbg'.rand(1111,9999).'@gmail.com';
+            $link->save();
+        }
+
+
+
+
+        die();
         // Check queue configuration
         $checkDefaultQueue = config('queue.default');
         if ($checkDefaultQueue !== 'database') {

@@ -419,7 +419,7 @@ class EditCampaign extends Page
 
                             MwFileUpload::make('state.email_attached_files')
                                 ->label('E-mail Attachments')
-                               // ->multiple() 
+                               // ->multiple()
                              //   ->directory('email-marketing-attachments')
 //                                ->acceptedFileTypes([
 //                                    // documents

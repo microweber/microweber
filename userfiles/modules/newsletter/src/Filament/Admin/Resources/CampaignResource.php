@@ -15,7 +15,9 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Support\Enums\IconSize;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -80,6 +82,7 @@ class CampaignResource extends Resource
                 //
             ])
             ->actions([
+
                 Tables\Actions\Action::make('edit')
                     ->label('Edit')
                     ->icon('heroicon-o-pencil')
@@ -107,7 +110,20 @@ class CampaignResource extends Resource
                         $campaign->save();
                     }),
 
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('new-campaign-from-clicked')
+                        ->label('Create new campaign from clicked')
+                        ->icon('heroicon-o-cursor-arrow-rays'),
+                    Tables\Actions\Action::make('new-campaign-from-opened')
+                        ->label('Create new campaign from opened')
+                        ->icon('heroicon-o-envelope-open'),
+
+                    Tables\Actions\DeleteAction::make(),
+                ])
+                    ->dropdownWidth(MaxWidth::ExtraSmall)
+                    ->icon('mw-dots-menu')
+                    ->color(Color::Gray)
+                    ->iconSize('lg'),
             ])
             ->bulkActions([
 //                Tables\Actions\BulkActionGroup::make([
