@@ -98,3 +98,7 @@
 .form-control-live-edit-input.form-a .control-input-range-slider {
     @apply !py-0 !px-[5px];
 }
+
+.form-control-live-edit-label-wrapper .text-align .mdi:before {
+   @apply pt-[2px];
+}

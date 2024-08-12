@@ -439,3 +439,314 @@ h1,h2,h3,h4,h5,h6 {
     @apply border-black;
 }
 
+.noUi-target,
+.noUi-target * {
+    @apply box-border;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-select: none; /* No direct Tailwind utility */
+    -ms-user-select: none; /* No direct Tailwind utility */
+    -moz-user-select: none; /* No direct Tailwind utility */
+    touch-action: none; /* No direct Tailwind utility */
+    -webkit-touch-callout: none;
+}
+
+.noUi-target {
+    @apply relative;
+}
+
+.noUi-base,
+.noUi-connects {
+    @apply w-full h-full relative z-10;
+}
+
+.noUi-connects {
+    @apply overflow-hidden z-0;
+}
+
+.noUi-connect,
+.noUi-origin {
+    @apply will-change-transform absolute z-10 top-0 right-0 h-full w-full transform-none;
+    -ms-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    -webkit-transform-style: preserve-3d;
+    transform-origin: 0 0;
+}
+
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-origin {
+    @apply left-0 right-auto;
+}
+
+.noUi-vertical .noUi-origin {
+    @apply top-[-100%] w-0;
+}
+
+.noUi-horizontal .noUi-origin {
+    @apply h-0;
+}
+
+.noUi-handle {
+    @apply absolute;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.noUi-touch-area {
+    @apply h-full w-full;
+}
+
+.noUi-state-tap .noUi-connect,
+.noUi-state-tap .noUi-origin {
+    @apply transition-transform duration-300;
+}
+
+.noUi-state-drag * {
+    cursor: inherit !important; /* No direct Tailwind utility */
+}
+
+.noUi-horizontal {
+    @apply h-[18px];
+}
+
+.noUi-horizontal .noUi-handle {
+    @apply w-[34px] h-[28px] right-[-17px] top-[-6px];
+}
+
+.noUi-vertical {
+    @apply w-[18px];
+}
+
+.noUi-vertical .noUi-handle {
+    @apply w-[28px] h-[34px] right-[-6px] bottom-[-17px];
+}
+
+.noUi-txt-dir-rtl.noUi-horizontal .noUi-handle {
+    @apply left-[-17px] right-auto;
+}
+
+.noUi-target {
+    @apply bg-[#FAFAFA] rounded-[4px] border border-solid border-[#D3D3D3] shadow-[inset_0_1px_1px_#F0F0F0,_0_3px_6px_-5px_#BBB];
+}
+
+.noUi-connects {
+    @apply rounded-[3px];
+}
+
+.noUi-connect {
+    @apply bg-[#3FB8AF];
+}
+
+.noUi-draggable {
+    @apply cursor-ew-resize;
+}
+
+.noUi-vertical .noUi-draggable {
+    @apply cursor-ns-resize;
+}
+
+.noUi-handle {
+    @apply border border-solid border-[#D9D9D9] rounded-[3px] bg-white cursor-default shadow-[inset_0_0_1px_#FFF,_inset_0_1px_7px_#EBEBEB,_0_3px_6px_-3px_#BBB];
+}
+
+.noUi-active {
+    @apply shadow-[inset_0_0_1px_#FFF,_inset_0_1px_7px_#DDD,_0_3px_6px_-3px_#BBB];
+}
+
+.noUi-handle:before,
+.noUi-handle:after {
+    content: ""; /* No direct Tailwind utility */
+    display: block;
+    @apply absolute h-[14px] w-[1px] bg-[#E8E7E6] left-[14px] top-[6px];
+}
+
+.noUi-handle:after {
+    @apply left-[17px];
+}
+
+.noUi-vertical .noUi-handle:before,
+.noUi-vertical .noUi-handle:after {
+    @apply w-[14px] h-[1px] left-[6px] top-[14px];
+}
+
+.noUi-vertical .noUi-handle:after {
+    @apply top-[17px];
+}
+
+[disabled] .noUi-connect {
+    @apply bg-[#B8B8B8];
+}
+
+[disabled].noUi-target,
+[disabled].noUi-handle,
+[disabled] .noUi-handle {
+    @apply cursor-not-allowed;
+}
+
+.noUi-pips,
+.noUi-pips * {
+    @apply box-border;
+}
+
+.noUi-pips {
+    @apply absolute text-[#999];
+}
+
+.noUi-value {
+    @apply absolute whitespace-nowrap text-center;
+}
+
+.noUi-value-sub {
+    @apply text-[#ccc] text-[10px];
+}
+
+.noUi-marker {
+    @apply absolute bg-[#CCC];
+}
+
+.noUi-marker-sub {
+    @apply bg-[#AAA];
+}
+
+.noUi-marker-large {
+    @apply bg-[#AAA];
+}
+
+.noUi-pips-horizontal {
+    @apply py-[10px] h-[80px] top-full left-0 w-full;
+}
+
+.noUi-value-horizontal {
+    transform: translate(-50%, 50%);
+}
+
+.noUi-rtl .noUi-value-horizontal {
+    transform: translate(50%, 50%);
+}
+
+.noUi-marker-horizontal.noUi-marker {
+    @apply ml-[-1px] w-[2px] h-[5px];
+}
+
+.noUi-marker-horizontal.noUi-marker-sub {
+    @apply h-[10px];
+}
+
+.noUi-marker-horizontal.noUi-marker-large {
+    @apply h-[15px];
+}
+
+.noUi-pips-vertical {
+    @apply px-[10px] h-full top-0 left-full;
+}
+
+.noUi-value-vertical {
+    transform: translate(0, -50%);
+    padding-left: 25px;
+}
+
+.noUi-rtl .noUi-value-vertical {
+    transform: translate(0, 50%);
+}
+
+.noUi-marker-vertical.noUi-marker {
+    @apply w-[5px] h-[2px] mt-[-1px];
+}
+
+.noUi-marker-vertical.noUi-marker-sub {
+    @apply w-[10px];
+}
+
+.noUi-marker-vertical.noUi-marker-large {
+    @apply w-[15px];
+}
+
+.noUi-tooltip {
+    @apply block absolute border border-solid border-[#D9D9D9] rounded-[3px] bg-white text-black p-[5px] text-center whitespace-nowrap;
+}
+
+.noUi-horizontal .noUi-tooltip {
+    transform: translate(-50%, 0);
+    left: 50%;
+    bottom: 120%;
+}
+
+.noUi-vertical .noUi-tooltip {
+    transform: translate(0, -50%);
+    top: 50%;
+    right: 120%;
+}
+
+.noUi-horizontal .noUi-origin > .noUi-tooltip {
+    transform: translate(50%, 0);
+    left: auto;
+    bottom: 10px;
+}
+
+.noUi-vertical .noUi-origin > .noUi-tooltip {
+    transform: translate(0, -18px);
+    top: auto;
+    right: 28px;
+}
+
+.noUi-target {
+    @apply border-none shadow-none bg-none rounded-none text-black;
+}
+
+.noUi-horizontal {
+    @apply h-[1.25rem] py-[0.5rem];
+}
+
+.noUi-base {
+    @apply bg-[#a2a2a2] rounded-[1rem];
+}
+
+.noUi-handle {
+    @apply w-[1rem] h-[1rem] border-[2px] border-solid border-white shadow-[0_0.1rem_0.25rem_rgba(0,_0,_0,_0.1)] rounded-full bg-current outline-none;
+}
+
+.noUi-handle:before,
+.noUi-handle:after {
+    content: none;
+}
+
+.noUi-horizontal .noUi-handle {
+    @apply w-[1rem] h-[1rem] top-[-0.5rem] right-[-0.5rem] m-[1px];
+}
+
+.noUi-handle.noUi-active,
+.noUi-handle:focus {
+    @apply shadow-[0_0_0_1px_#f6f8fb,_0_0_0_0.25rem_rgba(32,_107,_196,_0.25)];
+}
+
+.noUi-connect {
+    @apply bg-current;
+}
+
+
+.noUi-touch-area {
+    @apply bg-black rounded-full;
+}
+
+.noUi-handle.noUi-active,
+.noUi-handle:focus {
+    box-shadow: 0 0 0 1px #000; /* No direct Tailwind utility for this */
+}
+
+.noUi-horizontal {
+    @apply w-full ml-auto;
+}
+
+.noUi-connect {
+    @apply bg-[#444746];
+}
+
+.mw-live-edit-pagination-tabler li {
+    @apply hidden;
+}
+
+.mw-live-edit-pagination-tabler li.mw-paging-visible-range {
+    @apply block;
+}
+
+.mw-live-edit-pagination-tabler .page-item:not(.active) .page-link:hover {
+    @apply bg-black border-black text-white;
+}
