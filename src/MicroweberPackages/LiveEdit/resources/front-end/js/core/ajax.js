@@ -3,6 +3,8 @@ mw.jqxhr = _jqxhr;
 
 
 
+
+
 jQuery.ajax = function(url, options){
     options = options || {};
     var settings = {};
@@ -12,19 +14,20 @@ jQuery.ajax = function(url, options){
     else{
         settings.url = url;
     }
+
     if(typeof settings.success === 'function'){
         settings._success = settings.success;
         delete settings.success;
         settings.success = function (data, status, xhr) {
+
             if(xhr.status === 200) {
                 if (data && (data.form_data_required || data.form_data_module)) {
                     mw.extradataForm(settings, data);
-                }
-                else {
-                    if (typeof this._success === 'function') {
+                } else {
+                    if (typeof this._success === 'function' && max < 200) {
                         var scope = this;
-                        scope._success.call(scope, data, status, xhr);
 
+                        settings._success.call(scope, data, status, xhr);
                     }
                 }
             }

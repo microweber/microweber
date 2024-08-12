@@ -45,7 +45,6 @@ module.exports = {
 
     content: [
         './../../app/Filament/Admin/**/*.php',
-        './../../resources/views/filament/admin/**/*.blade.php',
         './../../resources/**/*.blade.php',
         './resources/**/*.css',
         './resources/**/*.scss',
