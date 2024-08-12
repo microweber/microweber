@@ -6,6 +6,7 @@ use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
@@ -19,6 +20,8 @@ use Filament\Pages\Page;
 use Filament\Support\Enums\IconSize;
 use Filament\Support\Exceptions\Halt;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource;
 use MicroweberPackages\Modules\Newsletter\Filament\Components\SelectTemplate;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
@@ -45,7 +48,7 @@ class EditCampaign extends Page
 
         $this->state['recipients_from'] = 'specific_list';
         $this->state['list_id'] = $listId;
-        
+
         $campaign = NewsletterCampaign::where('id', $this->state['id'])->first();
         if ($campaign) {
             $campaign->fill([
@@ -413,6 +416,55 @@ class EditCampaign extends Page
                                     return true;
                                 })
                                 ->required(),
+
+                            MwFileUpload::make('state.email_attached_files')
+                                ->label('E-mail Attachments')
+                               // ->multiple() 
+                             //   ->directory('email-marketing-attachments')
+//                                ->acceptedFileTypes([
+//                                    // documents
+//                                    'application/pdf',
+//                                    'application/msword',
+//                                    'application/vnd.ms-excel',
+//                                    'application/vnd.ms-powerpoint',
+//                                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+//                                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+//                                    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+//                                    'application/vnd.oasis.opendocument.text',
+//                                    'application/vnd.oasis.opendocument.spreadsheet',
+//                                    'application/vnd.oasis.opendocument.presentation',
+//                                    'application/rtf',
+//                                    'application/txt',
+//                                    // images
+//                                    'image/jpeg',
+//                                    'image/png',
+//                                    'image/gif',
+//                                    'image/svg+xml',
+//                                    'image/webp',
+//                                    'image/tiff',
+//                                    'image/bmp',
+//                                    // video
+//                                    'video/mp4',
+//                                    'video/mpeg',
+//                                    'video/quicktime',
+//                                    'video/x-msvideo',
+//                                    'video/x-ms-wmv',
+//                                    'video/x-flv',
+//                                    'video/webm',
+//                                    'video/3gpp',
+//                                    'video/3gpp2',
+//                                    'video/avi',
+//                                    'video/mkv',
+//                                    'video/ogg',
+//                                    'video/mov',
+//                                    'video/wmv',
+//                                    'video/3gp',
+//                                    'video/flv',
+//                                    'video/mpg',
+//                                    'video/m4v',
+//                                    'video/asf',
+//                                ])
+                                ->live(),
 
                             SelectTemplate::make('state.email_template_id')
                                 ->label('Select design')

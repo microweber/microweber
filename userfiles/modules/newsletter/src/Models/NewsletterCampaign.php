@@ -34,7 +34,12 @@ class NewsletterCampaign extends Model
         'delivery_type',
         'status',
         'email_content_html',
-        'email_content_type'
+        'email_content_type',
+        'email_attached_files'
+    ];
+
+    public $casts = [
+        'email_attached_files' => 'array'
     ];
 
     public function senderAccount()
