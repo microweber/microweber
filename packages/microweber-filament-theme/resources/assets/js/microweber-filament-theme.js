@@ -26,6 +26,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+
+
+    // Function to add bottom effect spans
+    function addBottomEffect() {
+        // Select all inputs within .form-control-live-edit-label-wrapper and .fi-input-wrp
+        const inputs = document.querySelectorAll('.form-control-live-edit-label-wrapper .form-control-live-edit-input, .fi-input-wrp .fi-input');
+
+        // Loop through each input element
+        inputs.forEach(input => {
+            // Check if a span with the class already exists
+            if (!input.nextElementSibling || !input.nextElementSibling.classList.contains('form-control-live-edit-bottom-effect')) {
+                // Create the span element
+                const span = document.createElement('span');
+                span.className = 'form-control-live-edit-bottom-effect';
+
+                // Insert the span element after the input element
+                input.insertAdjacentElement('afterend', span);
+            }
+        });
+    }
+
+    // Run the function to add the bottom effect
+    addBottomEffect();
+
+});
 
 
 
