@@ -47,6 +47,8 @@ module.exports = {
         './../../app/Filament/Admin/**/*.php',
         './../../resources/views/filament/admin/**/*.blade.php',
         './../../resources/**/*.blade.php',
+        './resources/**/*.css',
+        './resources/**/*.scss',
         './../../vendor/filament/**/*.blade.php',
         './../../src/MicroweberPackages/**/*.blade.php',
         './../../src/MicroweberPackages/**/resources/views/**/*.blade.php',
