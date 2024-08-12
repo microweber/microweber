@@ -1,104 +1,147 @@
-.form-control-live-edit-label-wrapper {
-    @apply cursor-pointer block leading-[22px] min-h-[45px] border-0 outline-0 appearance-none shadow-none relative;
-    margin: 3px 7px; /* Margin with custom values */
-}
+.mw-live-edit-page-wrapper {
 
-.form-control-live-edit-label-wrapper textarea.form-control-live-edit-input {
-    @apply pt-[10px];
-}
-
-@-moz-document url-prefix() {
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-        @apply pt-[10px];
+    .form-control-live-edit-label-wrapper,
+    .fi-input-wrp,
+    .fi-input-wrp:not(.fi-invalid) {
+        @apply cursor-pointer block leading-[22px] min-h-[45px] !border-0 !outline-0 !appearance-none !shadow-none relative;
+        box-shadow: none !important;
+        border: none !important;
+        outline: none !important;
+        appearance: none !important;
+        border-radius: 0 !important;
+        margin: 3px 7px; /* Margin with custom values */
     }
-}
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-    @apply capitalize;
-}
+    .form-control-live-edit-label-wrapper textarea.form-control-live-edit-input,
+    .fi-input-wrp textarea.fi-input {
+        @apply pt-[10px] !rounded-none;
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option {
-    @apply text-black dark:text-white;
-}
+    @-moz-document url-prefix() {
+        .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
+        .fi-input-wrp .fi-input.form-select {
+            @apply pt-[10px];
+        } 
+    }
 
-.form-control-live-edit-label-wrapper .v-slider-thumb__surface.elevation-2 {
-    color: #f0f0f0; /* No equivalent Tailwind class, custom color */
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
+    .fi-input-wrp .fi-input.form-select {
+        @apply capitalize;
+    }
 
-.form-control-live-edit-label-wrapper .text-align .active {
-    @apply bg-black border-black;
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option,
+    .fi-input-wrp .fi-input.form-select option {
+        @apply text-black dark:text-white;
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
-    @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 outline-0 appearance-none shadow-none bg-[#f0f0f0] pl-[10px];
-}
+    .form-control-live-edit-label-wrapper .v-slider-thumb__surface.elevation-2,
+    .fi-input-wrp .v-slider-thumb__surface.elevation-2 {
+        color: #f0f0f0; /* No equivalent Tailwind class, custom color */
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled {
-    @apply bg-[#f0f0f0] opacity-70;
-}
+    .form-control-live-edit-label-wrapper .text-align .active,
+    .fi-input-wrp .text-align .active {
+        @apply bg-black border-black;
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible {
-    @apply border-0 outline-0 appearance-none shadow-none bg-transparent;
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
+    .fi-input-wrp .fi-input,
+    .fi-input-wrp .fi-input.form-select {
+        @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 !outline-0 appearance-none shadow-none bg-[#f0f0f0] pl-[10px];
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after {
-    @apply w-full;
-    transition-duration: 0.3s; /* No direct Tailwind utility, using custom CSS */
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,
+    .fi-input-wrp .fi-input.form-select:disabled,
+    .fi-input-wrp .fi-input:disabled {
+        @apply bg-[#f0f0f0] opacity-70;
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider {
-    @apply bg-transparent max-w-[55px] h-[35px];
-    min-height: unset; /* Requires custom CSS, no direct Tailwind utility */
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible,
+    .fi-input-wrp .fi-input.form-select:focus,
+    .fi-input-wrp .fi-input.form-select:focus-visible,
+    .fi-input-wrp .fi-input:focus,
+    .fi-input-wrp .fi-input:focus-visible {
+        @apply border-0 !outline-0 appearance-none shadow-none bg-transparent;
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus,
-.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible {
-    @apply bg-gray-50;
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .fi-input-wrp .fi-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
+    .fi-input-wrp .fi-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .fi-input-wrp .fi-input:focus + .form-control-live-edit-bottom-effect:after,
+    .fi-input-wrp .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after {
+        @apply w-full;
+        transition-duration: 0.3s; /* No direct Tailwind utility, using custom CSS */
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect {
-    @apply bottom-0 h-[1px] left-[6px] absolute bg-[#e7e7e7] box-border;
-    width: calc(100% - 12px); /* Custom CSS, no direct Tailwind utility */
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider,
+    .fi-input-wrp .fi-input.form-control-input-range-slider,
+    .fi-input-wrp .fi-input.form-select.form-control-input-range-slider {
+        @apply bg-transparent max-w-[55px] h-[35px];
+        min-height: unset; /* Requires custom CSS, no direct Tailwind utility */
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:focus-visible {
-    border: none; /* No direct Tailwind utility, using custom CSS */
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible,
+    .fi-input-wrp .fi-input.form-control-input-range-slider:focus,
+    .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
+    .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus,
+    .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus-visible {
+        @apply bg-gray-50;
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:after {
-    @apply bg-[#0e0e0e] bottom-0 block h-[1px] absolute;
-    content: "";
-    transition: width 0.25s cubic-bezier(0.4, 0, 0.68, 0.06); /* Custom CSS, no direct Tailwind utility */
-    width: 0; /* Default to 0, will be animated */
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect,
+    .fi-input-wrp .form-control-live-edit-bottom-effect {
+        @apply bottom-0 h-[1px] left-[6px] absolute bg-[#e7e7e7] box-border;
+        width: calc(100% - 12px); /* Custom CSS, no direct Tailwind utility */
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect.bottom-effect-textarea {
-    @apply bottom-[5px];
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:focus-visible,
+    .fi-input-wrp .form-control-live-edit-bottom-effect:focus-visible {
+        border: none; /* No direct Tailwind utility, using custom CSS */
+    }
 
-.form-control-live-edit-label-wrapper .form-control-live-edit-settings-btn {
-    @apply absolute top-[10px] right-[16px] cursor-pointer;
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:after,
+    .fi-input-wrp .form-control-live-edit-bottom-effect:after {
+        @apply bg-[#0e0e0e] bottom-0 block h-[1px] absolute;
+        content: "";
+        transition: width 0.25s cubic-bezier(0.4, 0, 0.68, 0.06); /* Custom CSS, no direct Tailwind utility */
+        width: 0; /* Default to 0, will be animated */
+    }
 
-.mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
-    @apply w-full;
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect.bottom-effect-textarea,
+    .fi-input-wrp .form-control-live-edit-bottom-effect.bottom-effect-textarea {
+        @apply bottom-[5px];
+    }
 
-.form-control-live-edit-input.form-a .control-input-range-slider {
-    @apply !py-0 !px-[5px];
-}
+    .form-control-live-edit-label-wrapper .form-control-live-edit-settings-btn,
+    .fi-input-wrp .form-control-live-edit-settings-btn {
+        @apply absolute top-[10px] right-[16px] cursor-pointer;
+    }
 
-.form-control-live-edit-label-wrapper .text-align .mdi:before {
-   @apply pt-[2px];
+    .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper,
+    .mw-filepicker-component-navigation-header .fi-input-wrp {
+        @apply w-full;
+    }
+
+    .form-control-live-edit-input.form-a .control-input-range-slider,
+    .fi-input.form-a .control-input-range-slider {
+        @apply !py-0 !px-[5px];
+    }
+
+    .form-control-live-edit-label-wrapper .text-align .mdi:before,
+    .fi-input-wrp .text-align .mdi:before {
+        @apply pt-[2px];
+    }
+
 }
