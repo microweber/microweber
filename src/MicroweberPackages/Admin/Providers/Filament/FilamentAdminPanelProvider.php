@@ -76,7 +76,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 //            StartSession::class,
 //            AuthenticateSession::class,
 //            ShareErrorsFromSession::class,
-            VerifyCsrfToken::class,
+  //          VerifyCsrfToken::class, aways givev error to refresh
             SubstituteBindings::class,
             DisableBladeIconComponents::class,
             DispatchServingFilamentEvent::class,

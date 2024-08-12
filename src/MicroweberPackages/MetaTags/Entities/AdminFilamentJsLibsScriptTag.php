@@ -11,7 +11,7 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
     public function toHtml(): string
     {
         $libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
-       // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
+        // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
         $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin.js';
         $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/admincss.css';
         $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.min.js';
@@ -21,7 +21,7 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $jqueryUiNestedSortable = mw_includes_url() . 'api/libs/nestedsortable/jquery.mjs.nestedSortable.js';
         $lib_tynymce = mw_includes_url() . 'api/libs/tinymce/tinymce.min.js';
 
-$fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
+        $fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
         $nouislider = mw_includes_url() . 'api/libs/nouislider/nouislider.js';
 
         //nouislider
@@ -54,6 +54,16 @@ $fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor
         $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
         $append_html .= '<link rel="stylesheet" href="' . $adminCss . '" id="mw-admin-css">' . "\r\n";
+        $append_html .= '' . "\r\n";
+        $append_html .= '<meta name="csrf-token" id="mw-csrf-token" content="' . csrf_token() . '">' . "\r\n";
+$append_html .= '<script id="mw-csrf-token-jquery">
+$.ajaxSetup({
+    headers: {
+    "X-CSRF-TOKEN": $(\'meta[name="csrf-token"]\').attr("content")
+    }
+});
+</script>' . "\r\n";
+
 
         return $append_html;
     }
