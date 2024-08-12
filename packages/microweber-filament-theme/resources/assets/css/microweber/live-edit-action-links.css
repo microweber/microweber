@@ -55,5 +55,5 @@
 }
 
 .mw-admin-action-links:not(.mw-admin-action-links.btn) {
-    @apply pb-[12px];
+    @apply pb-[12px] leading-6;
 }
