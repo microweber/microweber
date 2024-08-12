@@ -8265,7 +8265,7 @@ select {
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider {
   height: 35px;
-  max-width: 45px;
+  max-width: 55px;
   background-color: transparent;
   min-height: unset;
   /* Requires custom CSS, no direct Tailwind utility */
