@@ -50,29 +50,6 @@ class ProcessCampaigns extends Command
      */
     public function handle()
     {
-
-        $campaign = NewsletterCampaign::where('id', 23)->first();
-
-        for ($i = 0; $i < 100; $i++) {
-            $link = new NewsletterCampaignClickedLink();
-            $link->campaign_id = $campaign->id;
-            $link->email = 'selfworksbg'.rand(1111,9999).'@gmail.com';
-            $link->save();
-
-            $createSubscribers = new NewsletterSubscriber();
-            $createSubscribers->email = $link->email;
-            $createSubscribers->save();
-        }
-
-        for ($i = 0; $i < 100; $i++) {
-            $link = new NewsletterCampaignPixel();
-            $link->campaign_id = $campaign->id;
-            $link->email = 'selfworksbg'.rand(1111,9999).'@gmail.com';
-            $link->save();
-        }
-
-
-        die();
         // Check queue configuration
         $checkDefaultQueue = config('queue.default');
         if ($checkDefaultQueue !== 'database') {
