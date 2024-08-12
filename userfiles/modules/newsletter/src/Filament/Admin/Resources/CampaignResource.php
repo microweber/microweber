@@ -139,7 +139,8 @@ class CampaignResource extends Resource
                                 return;
                             }
 
-                            $newCampaignName = $campaign->name . ' - Campaign from clicked';
+                            $newCampaignName = $campaign->name . ' - Clicked';
+                            $newCampaignListName = $campaign->name . ' - List of clicked';
 
                             $checkCampaignName = NewsletterCampaign::where('name', $newCampaignName)->first();
                             if ($checkCampaignName) {
@@ -151,7 +152,7 @@ class CampaignResource extends Resource
                             }
 
                             $newCampaignList = new NewsletterList();
-                            $newCampaignList->name = $newCampaignName;
+                            $newCampaignList->name = $newCampaignListName;
                             $newCampaignList->save();
 
                             foreach ($subscriberIds as $subscriberId) {
@@ -198,7 +199,8 @@ class CampaignResource extends Resource
                                 return;
                             }
 
-                            $newCampaignName = $campaign->name . ' - Campaign from opened';
+                            $newCampaignName = $campaign->name . ' - Opened';
+                            $newCampaignListName = $campaign->name . ' - List of opened';
 
                             $checkCampaignName = NewsletterCampaign::where('name', $newCampaignName)->first();
                             if ($checkCampaignName) {
@@ -210,7 +212,7 @@ class CampaignResource extends Resource
                             }
 
                             $newCampaignList = new NewsletterList();
-                            $newCampaignList->name = $newCampaignName;
+                            $newCampaignList->name = $newCampaignListName;
                             $newCampaignList->save();
 
                             foreach ($subscriberIds as $subscriberId) {
