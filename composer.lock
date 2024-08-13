@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c95ccaddb18cb73fc75304585864caa",
+    "content-hash": "bf24fa43eb206f43db7f4700289868fa",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -8677,28 +8677,21 @@
         },
         {
             "name": "microweber-packages/laravel-helper-functions",
-            "version": "v1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microweber-packages/laravel-helper-functions.git",
-                "reference": "eb2f6315b81eeab268e110f5c04938b0d48bec93"
-            },
+            "version": "dev-filament",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/laravel-helper-functions/zipball/eb2f6315b81eeab268e110f5c04938b0d48bec93",
-                "reference": "eb2f6315b81eeab268e110f5c04938b0d48bec93",
-                "shasum": ""
+                "type": "path",
+                "url": "packages/laravel-helper-functions",
+                "reference": "de6619b6fd346a97d2b8b95cc2ef717cd3fb474c"
             },
             "type": "library",
             "autoload": {
-                "files": [
-                    "src/helpers.php"
-                ],
                 "psr-4": {
                     "MicroweberPackages\\LaravelHelperFunctions\\": "src/"
-                }
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -8709,11 +8702,10 @@
                 }
             ],
             "description": "Helper functions for Microweber",
-            "support": {
-                "issues": "https://github.com/microweber-packages/laravel-helper-functions/issues",
-                "source": "https://github.com/microweber-packages/laravel-helper-functions/tree/v1.0"
-            },
-            "time": "2024-05-28T11:41:08+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "microweber-packages/microweber-class-alias",
@@ -21545,6 +21537,8 @@
         "microweber-deps/image-comparator": 20,
         "microweber-deps/seo-helper": 20,
         "microweber-packages/frontend-assets": 20,
+        "microweber-packages/frontend-assets-libs": 20,
+        "microweber-packages/laravel-helper-functions": 20,
         "microweber-packages/microweber-class-alias": 20,
         "microweber-packages/microweber-filament-theme": 20,
         "opis/closure": 20,

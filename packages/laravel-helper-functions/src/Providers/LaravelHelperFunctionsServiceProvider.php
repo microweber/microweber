@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\LaravelHelperFunctions\Providers;
+namespace packages\laravel-helper-functions\src\Providers;
 
 class LaravelHelperFunctionsServiceProvider
 {

@@ -3,7 +3,7 @@
         Layout settings
     </x-slot>
 
-    <div  id="change-background">
+    <div  id="change-background" wire:ignore>
 
         <module type="background/change_layout_background" id="mw-module-skin-settings-module-background"  />
     </div>

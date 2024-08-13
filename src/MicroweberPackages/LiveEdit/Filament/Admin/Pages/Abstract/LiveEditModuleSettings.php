@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Option\Models\Option;
 
@@ -169,7 +170,38 @@ abstract class LiveEditModuleSettings extends Page
         $optionGroup = $this->getOptionGroup();
         $selectedSkin = get_module_option('template', $optionGroup);
 
+
+        $filter = request()->get('template-filter') ?? null;
+
+        if(!$selectedSkin){
+            $selectedSkin = request()->get('template') ?? null;
+            // append .php if extension not set
+
+
+
+            if($selectedSkin and Str::endsWith($selectedSkin, '.php') == false){
+                $selectedSkin = $selectedSkin . '.php';
+
+            }
+
+
+        }
+
+
+
         $curretSkinSettingsFromJson = [];
+
+        if ($filter) {
+            if ($moduleTemplates) {
+                foreach ($moduleTemplates as $key => $temp) {
+                    if (!str_contains($temp['layout_file'], $filter)) {
+                        unset($moduleTemplates[$key]);
+                    }
+                }
+            }
+        }
+
+
 
 
         $moduleTemplatesForForm = [];
