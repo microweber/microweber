@@ -141,6 +141,10 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                 ->label($editorSettings['config']['addButtonText'])
                 ->modalHeading($editorSettings['config']['addButtonText'])
                 ->slideOver()
+                ->stickyModalHeader()
+                ->stickyModalFooter()
+                ->extraModalWindowAttributes(['class' => 'max-h-full'])
+
                 ->form($formFields)
                 ->createAnother(false)
                 ->after(function () {
@@ -153,6 +157,10 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
         if (isset($editorSettings['config']['editButtonText'])) {
             $actions[] = EditAction::make($editorSettings['config']['editButtonText'])
                 ->slideOver()
+                ->extraModalWindowAttributes(['class' => 'max-h-full'])
+
+                ->stickyModalHeader()
+                ->stickyModalFooter()
                 ->hiddenLabel(true)
                 ->modalHeading($editorSettings['config']['editButtonText'])
                 ->form($formFields)
