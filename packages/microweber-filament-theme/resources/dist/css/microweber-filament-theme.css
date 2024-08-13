@@ -4850,6 +4850,10 @@ select {
   max-height: 60vh;
 }
 
+.\!min-h-\[500px\] {
+  min-height: 500px !important;
+}
+
 .min-h-\[45px\] {
   min-height: 45px;
 }
@@ -16288,6 +16292,14 @@ h1,h2,h3,h4,h5,h6 {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+  overflow: hidden !important;
+}
+
+.mw-live-edit-page-wrapper {
+  min-height: 500px !important;
 }
 
 .w-100 {

@@ -41,7 +41,21 @@
                         multiple:true,
                     }
                 }, (url) => {
-                    state[] = url;
+                    if (state.length == 0) {
+                        state = [];
+                    }
+                    let getFileExtension = url.split('.').pop();
+                    if (getFileExtension == 'svg' || getFileExtension == 'webp' || getFileExtension == 'jpg' || getFileExtension == 'jpeg' || getFileExtension == 'png' || getFileExtension == 'gif') {
+                        typeFile = 'image';
+                    } else {
+                        typeFile = 'file';
+                    }
+                    state.push({
+                        'fileUrl': url,
+                        'fileType': typeFile,
+                        'fileUrlShort': url.split('/').pop()
+                    });
+                    console.log(state);
                 });
 
             }">
@@ -55,50 +69,36 @@
                 </span>
             </button>
 
+            <div class="grid grid-cols-4 gap-4 w-full p-4">
+                <template x-for="fileItem in state">
 
+                    <div class="w-full" x-show="fileItem">
+                        <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
+                            <div class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5"
+                            >
+                                <div class="flex gap-2 items-center">
+                                    <button class="text-white bg-white/5 rounded-md" x-on:click="() => {
+                                        state = state.filter(item => item !== fileItem);
+                                    }">
+                                        <svg fill="currentColor" class="w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"></path>
+                                        </svg>
+                                    </button>
+                                    <span x-html="fileItem.fileUrlShort"></span>
+                                </div>
+                            </div>
 
-<!--
-            <div class="w-full" x-show="state && typeFile == 'image'">
-                <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
-                    <div class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5"
-                    >
-                        <div class="flex gap-2 items-center">
-                            <button class="text-white bg-white/5 rounded-md" x-on:click="state = ''">
-                                <svg fill="currentColor" class="w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"></path>
-                                </svg>
-                            </button>
-                            <span x-html="fileUrlShort"></span>
+                            <div
+                                :style="`width:100%;height:200px;background: url(${fileItem.fileUrl});background-position: center;background-repeat: no-repeat;background-size: contain;`"
+                                x-show="fileItem.fileType == 'image'">
+
+                            </div>
+
                         </div>
                     </div>
 
-                    <img :src="state" class="max-h-[15rem]" />
-                </div>
+                </template>
             </div>
-
-            <div class="w-full" x-show="state && typeFile !== 'image'">
-                <div class="w-full relative flex flex-col items-center justify-center bg-black/80 rounded-md">
-                    <div class="absolute w-full h-full top-0 text-white p-2 rounded-t-md bg-gradient-to-b from-black/40 to-black/5"
-                    >
-                        <div class="flex gap-2 items-center">
-                            <button class="text-white bg-white/5 rounded-md" x-on:click="state = ''">
-                                <svg fill="currentColor" class="w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"></path>
-                                </svg>
-                            </button>
-                            <span x-html="fileUrlShort"></span>
-                        </div>
-                    </div>
-
-                    <input type="text" :value="state" class="max-h-[15rem]" />
-                </div>
-            </div>
-            -->
-
-
-
-
-
 
         </div>
 

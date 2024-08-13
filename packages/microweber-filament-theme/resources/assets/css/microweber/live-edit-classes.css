@@ -750,3 +750,12 @@ h1,h2,h3,h4,h5,h6 {
 .mw-live-edit-pagination-tabler .page-item:not(.active) .page-link:hover {
     @apply bg-black border-black text-white;
 }
+
+
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-container {
+    @apply !overflow-hidden;
+}
+
+.mw-live-edit-page-wrapper {
+    @apply !min-h-[500px];
+}
