@@ -4850,6 +4850,10 @@ select {
   max-height: 60vh;
 }
 
+.max-h-full {
+  max-height: 100%;
+}
+
 .\!min-h-\[500px\] {
   min-height: 500px !important;
 }
