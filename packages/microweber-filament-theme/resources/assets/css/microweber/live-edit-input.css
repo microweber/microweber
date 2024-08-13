@@ -21,7 +21,7 @@
         .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
         .fi-input-wrp .fi-input.form-select {
             @apply pt-[10px];
-        } 
+        }
     }
 
     .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
@@ -142,6 +142,10 @@
     .form-control-live-edit-label-wrapper .text-align .mdi:before,
     .fi-input-wrp .text-align .mdi:before {
         @apply pt-[2px];
+    }
+
+    .mw-filepicker-component-section .form-control-live-edit-label-wrapper {
+        @apply relative;
     }
 
 }

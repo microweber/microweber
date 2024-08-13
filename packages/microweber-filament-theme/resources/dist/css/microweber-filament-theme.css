@@ -10203,6 +10203,10 @@ select {
   padding-top: 2px;
 }
 
+.mw-live-edit-page-wrapper .mw-filepicker-component-section .form-control-live-edit-label-wrapper {
+  position: relative;
+}
+
 .mw-filepicker-component-navigation-header {
   width: 100%;
 }
@@ -16304,6 +16308,26 @@ h1,h2,h3,h4,h5,h6 {
 
 .mw-live-edit-page-wrapper {
   min-height: 500px !important;
+}
+
+.mw-dropzone{
+  text-align: center;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropzone {
+  border: 1px dashed #000;
+  color: #999FA4FF;
+  padding: 1rem;
+}
+
+.fi-section-content, .fi-section-header {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 .w-100 {
