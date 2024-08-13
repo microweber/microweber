@@ -144,6 +144,14 @@ class NewsletterMailSender {
 			$mailProvider->setToEmail($this->subscriber['email']);
 			$mailProvider->setToName($this->subscriber['name']);
 
+            if (isset($this->campaign['email_attached_files'])
+                && !empty($this->campaign['email_attached_files'])) {
+                foreach ($this->campaign['email_attached_files'] as $attachedFile) {
+                    $attachedFileRealPath = url2dir($attachedFile['fileUrl']);
+                    $mailProvider->addAttachment($attachedFileRealPath);
+                }
+            }
+
 			$result = $mailProvider->send();
 
 			$success = true;

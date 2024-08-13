@@ -11,6 +11,7 @@ namespace MicroweberPackages\Modules\Newsletter\EmailProviders;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Part\DataPart;
 
 class SMTPProvider extends DefaultProvider {
 
@@ -76,6 +77,11 @@ class SMTPProvider extends DefaultProvider {
 		$this->smtpPassword = $smtpPassword;
 	}
 
+    public function addAttachment($path)
+    {
+        $this->attachments[] = $path;
+    }
+
 	public function send() {
 
 
@@ -94,6 +100,13 @@ class SMTPProvider extends DefaultProvider {
             ->replyTo($this->getFromReplyEmail())
             ->subject($this->getSubject())
             ->html($this->getBody());
+
+        if (!empty($this->attachments)) {
+            foreach ($this->attachments as $attachment) {
+                $filename = basename($attachment);
+                $email->attach(fopen($attachment, 'r'), $filename, mime_content_type($attachment));
+            }
+        }
 
         return $mailer->send($email);
 
