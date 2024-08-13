@@ -86,9 +86,9 @@ if (!function_exists('get_file_extension')) {
      */
     function get_file_extension($pathToFile)
     {
-        if (!str_contains($pathToFile, '.')) {
-            return false;
-        }
+//        if (!str_contains($pathToFile, '.')) {
+//            return false;
+//        }
 
         $pathToFile = rtrim($pathToFile, '.');
         return substr($pathToFile, strrpos($pathToFile, '.') + 1);
