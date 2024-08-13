@@ -793,3 +793,9 @@ h1,h2,h3,h4,h5,h6 {
     box-shadow: rgba(0, 0, 0, .24) 0 3px 8px;
     padding: 0 15px;
 }
+
+
+.form-control-live-edit-label-wrapper {
+    position: relative !important;
+}
+
