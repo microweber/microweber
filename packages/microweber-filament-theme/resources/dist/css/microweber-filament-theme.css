@@ -10203,7 +10203,7 @@ select {
   padding-top: 2px;
 }
 
-.mw-live-edit-page-wrapper .mw-filepicker-component-section .form-control-live-edit-label-wrapper {
+.form-control-live-edit-label-wrapper {
   position: relative !important;
 }
 
