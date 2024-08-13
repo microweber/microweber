@@ -10203,10 +10203,6 @@ select {
   padding-top: 2px;
 }
 
-.form-control-live-edit-label-wrapper {
-  position: relative !important;
-}
-
 .mw-filepicker-component-navigation-header {
   width: 100%;
 }
@@ -16343,6 +16339,10 @@ h1,h2,h3,h4,h5,h6 {
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, .24) 0 3px 8px;
   padding: 0 15px;
+}
+
+.form-control-live-edit-label-wrapper {
+  position: relative !important;
 }
 
 .w-100 {
