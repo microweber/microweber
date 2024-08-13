@@ -84,7 +84,9 @@
                                         </svg>
                                     </button>
                                     <span x-html="()=> {
-                                        return fileItem.fileUrlShort.length > 25 ? fileItem.fileUrlShort.substring(0, 25) + '...' : fileItem.fileUrlShort;
+                                        if (fileItem) {
+                                            return fileItem.fileUrlShort.length > 25 ? fileItem.fileUrlShort.substring(0, 25) + '...' : fileItem.fileUrlShort;
+                                        }
                                     }"></span>
 
                                 </div>
