@@ -22,7 +22,8 @@
     </div>
 
     <div x-data="{
-            typeFile: '{{ $fileTypes }}',
+            typeFile: 'file',
+            acceptedFileTypes: '{{ implode(',', $fileTypes) }}',
             fileUrlShort: '',
             state: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
         }"
