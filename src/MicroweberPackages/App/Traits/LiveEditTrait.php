@@ -117,6 +117,9 @@ trait LiveEditTrait
         $viteScript = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js');
         $viteScriptCss = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/api-core/core/css/scss/liveedit.scss');
 
+        //$viteScript = public_asset() . 'vendor/microweber-packages/frontend-assets/js/live-edit.js';
+        //$viteScriptCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/live-edit-css.css';
+
         if ($viteScript) {
 
 
