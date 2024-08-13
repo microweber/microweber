@@ -10204,7 +10204,7 @@ select {
 }
 
 .mw-live-edit-page-wrapper .mw-filepicker-component-section .form-control-live-edit-label-wrapper {
-  position: relative;
+  position: relative !important;
 }
 
 .mw-filepicker-component-navigation-header {
