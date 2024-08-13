@@ -1,4 +1,5 @@
 const entry = {
+   'live-edit-page-scripts': './resources/assets/live-edit/live-edit-page-scripts.js',
    core: './resources/assets/js/core.js',
    admin: './resources/assets/js/admin.js',
    admincss: './resources/assets/css/admin.scss',

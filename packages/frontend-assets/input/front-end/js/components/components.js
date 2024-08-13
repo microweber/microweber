@@ -87,24 +87,7 @@
             }, 10);
         });
     },
-    'file-uploader':function(el){
-        var options = this._options(el);
-        var defaults = {
-            element: el
-        };
-        var settings = $.extend({}, defaults, options);
-        var ch = mw.$(el).attr("onchange");
 
-        mw.fileWindow({
-            types:'media',
-            change:function(url){
-                try{
-                    eval(ch);
-                }
-                catch(err){}
-            }
-        });
-    },
     'modules-tabs':function(el){
         var options = this._options(el);
         options.breakPoint = 100; //makes accordion if less then 100px
