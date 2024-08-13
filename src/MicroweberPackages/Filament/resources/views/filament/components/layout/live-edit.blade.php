@@ -41,7 +41,9 @@
 
         @if ($isIframe)
 
-            <script>
+           <?php
+
+                /* <script>
                 if (self !== top) {
 
                     document.addEventListener("DOMContentLoaded", () => {
@@ -74,7 +76,8 @@
                     }
 
                 }
-            </script>
+            </script> */
+                ?>
 
         @endif
 
