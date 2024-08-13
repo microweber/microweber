@@ -77,7 +77,7 @@
                             >
                                 <div class="flex gap-2 items-center">
                                     <button class="text-white bg-white/5 rounded-md" x-on:click="() => {
-                                        if (typeof state == 'object') {
+                                        if (state && state !== null && typeof state == 'object') {
                                             state = state.filter(item => item !== fileItem);
                                         } else {
                                             state = [];
