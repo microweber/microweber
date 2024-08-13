@@ -174,12 +174,12 @@
 
 
             if(!picker) {
-                picker = mw.top().app.singleFilePickerComponent({
+                picker = mw.app.singleFilePickerComponent({
                     element: '#bg--image-picker',
                     accept: 'images',
                     file:  bgImage ? bgImage : null
                 });
-                videoPicker = mw.top().app.singleFilePickerComponent({
+                videoPicker = mw.app.singleFilePickerComponent({
                     element: '#bg--video-picker',
                     accept: 'videos',
                     file:  bgVideo ? bgVideo : null,
@@ -187,7 +187,7 @@
                 });
 
 
-                cursorPicker = mw.top().app.singleFilePickerComponent({
+                cursorPicker = mw.app.singleFilePickerComponent({
                     element: '#bg--cursor-picker',
                     accept: 'images',
                     file:  bgCursor ? bgCursor : null,

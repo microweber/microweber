@@ -8,7 +8,6 @@ import "../core/events.js";
 
 
 
-
 import {AdminTools} from "./admin-tools.service.js";
 import {AdminFilament} from "./admin-filament.js";
 
@@ -16,20 +15,27 @@ import LiveEditImageDialog from "../../../js/api-core/services/components/live-e
 
 
 
-window.mw.tools = new AdminTools(mw.app);
+import "../components/autocomplete.js";
+import "../components/select.js";
+import "../components/form-controls.js";
+import "../components/uploader.js";
+import "../components/filemanager.js";
+
+import "../components/filepicker.js";
+import "../components/link-editor.js";
+import "../components/color.js";
+import "../components/colorpicker.js";
+import "../components/components.js";
+import "../components/notification.js";
+import "../components/schema-form.js";
 
 
-
-
-mw.pause = time => new Promise(resolve => setTimeout(resolve, time || 0));
-
-
-
-
-
-
-
-
+//widgets
+import "../widgets/tree.js";
+import {CategoriesAdminListComponent} from "./categories-admin-list.component.js";
+import { IconPicker } from "../widgets/icon-picker.js";
+import { AdminPackageManager } from "./admin-package-manager.js";
+import {SingleFilePickerComponent} from "../../../js/api-core/services/services/single-file-picker-component.js";
 
 
 //core
@@ -44,6 +50,28 @@ import {normalizeBase64Images, normalizeBase64Image} from "../../../front-end/js
 
 import {Progress, Loading} from "../tools/loading.js";
 import {Helpers} from "../core/helpers.js";
+
+
+
+window.mw.tools = new AdminTools(mw.app);
+
+
+
+
+mw.pause = time => new Promise(resolve => setTimeout(resolve, time || 0));
+
+
+
+mw.app.singleFilePickerComponent = options => {
+    return new SingleFilePickerComponent(options)
+};
+
+
+
+
+
+
+
 
 mw.tools.progress = Progress;
 mw.progress = Progress;
@@ -97,29 +125,6 @@ for (let i in SystemDialogsService) {
     mw.tools[i] = SystemDialogsService[i];
 }
 mw.systemDialogsService = SystemDialogsService;
-
-
-import "../components/autocomplete.js";
-import "../components/select.js";
-import "../components/form-controls.js";
-import "../components/uploader.js";
-import "../components/filemanager.js";
-
-import "../components/filepicker.js";
-import "../components/link-editor.js";
-import "../components/color.js";
-import "../components/colorpicker.js";
-import "../components/components.js";
-import "../components/notification.js";
-import "../components/schema-form.js";
-
-
-//widgets
-import "../widgets/tree.js";
-import {CategoriesAdminListComponent} from "./categories-admin-list.component.js";
-import { IconPicker } from "../widgets/icon-picker.js";
-import { AdminPackageManager } from "./admin-package-manager.js";
-
 
 
 
