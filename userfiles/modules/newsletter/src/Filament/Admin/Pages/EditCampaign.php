@@ -8,6 +8,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
@@ -419,7 +420,7 @@ class EditCampaign extends Page
 
                             MwFileUpload::make('state.email_attached_files')
                                 ->label('E-mail Attachments')
-                               // ->multiple()
+                                ->multiple()
                              //   ->directory('email-marketing-attachments')
 //                                ->acceptedFileTypes([
 //                                    // documents
