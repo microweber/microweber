@@ -10,7 +10,7 @@ import {License} from "./services/license.js";
 import {KeyboardEvents} from "./services/keyboard-events.js";
 import {IconPicker} from "./services/icon-picker";
 import {LinkPicker} from "./services/link-picker";
-import {ColorPicker} from "./services/color-picker";
+//import {ColorPicker} from "./services/color-picker";
 import {normalizeBase64Images, normalizeBase64Image} from "../../../front-end/js/tools/base64-images.js";
 //import '@nextapps-be/livewire-sortablejs';
 
@@ -57,7 +57,7 @@ mw.app.register('license', License);
 mw.app.register('keyboard', KeyboardEvents);
 mw.app.register('iconPicker', IconPicker);
 mw.app.register('linkPicker', LinkPicker);
-mw.app.register('colorPicker', ColorPicker);
+//mw.app.register('colorPicker', ColorPicker);
 mw.app.register('dynamicTargetMenus', DynamicTargetMenus);
 mw.app.register('pageAlreadyOpened', MWPageAlreadyOpened);
 

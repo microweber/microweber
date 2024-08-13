@@ -51,6 +51,7 @@ import {normalizeBase64Images, normalizeBase64Image} from "../../../front-end/js
 import {Progress, Loading} from "../tools/loading.js";
 import {Helpers} from "../core/helpers.js";
 
+import {ColorPicker} from "../../../js/api-core/services/services/color-picker.js";
 
 
 window.mw.tools = new AdminTools(mw.app);
@@ -132,6 +133,7 @@ mw.systemDialogsService = SystemDialogsService;
 
 
 mw.app.register('iconPicker', IconPicker);
+mw.app.register('colorPicker', ColorPicker);
 if(!mw.admin) {
     mw.admin = mw.app
 }

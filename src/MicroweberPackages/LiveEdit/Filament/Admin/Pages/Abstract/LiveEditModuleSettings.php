@@ -110,6 +110,7 @@ abstract class LiveEditModuleSettings extends Page
     public function schemaToFormFields($schemaItemsArray,$settingsKey='options',$appendSettingsKey = false)
     {
         $formFields = [];
+
         foreach ($schemaItemsArray as $schema) {
             $name = $schema['name'];
 
@@ -166,6 +167,8 @@ abstract class LiveEditModuleSettings extends Page
 
     public function getSkinsFormSchema()
     {
+
+         
         $moduleTemplates = module_templates($this->module);
         $optionGroup = $this->getOptionGroup();
         $selectedSkin = get_module_option('template', $optionGroup);
