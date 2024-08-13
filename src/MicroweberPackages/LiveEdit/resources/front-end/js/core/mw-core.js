@@ -8,7 +8,9 @@ if(window.mw) {
 
 
 
-window.mw = {};
+if(!window.mw) {
+    window.mw = {};
+}
 
 
 

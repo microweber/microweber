@@ -7,8 +7,11 @@ if(window.mw) {
 }
 
 
+if(!window.mw) {
+    window.mw = {};
+}
 
-window.mw = {};
+
 
 
 

@@ -177,10 +177,9 @@
 
 
     <script>
-        console.log('settingsChanged111')
+
         Livewire.on('settingsChanged', $data => {
-console.log('settingsChanged')
-console.log($data)
+
 
             if (typeof mw !== 'undefined' && mw.top().app && mw.top().app.editor) {
                 mw.top().app.editor.dispatch('onModuleSettingsChanged', ($data || {}))
