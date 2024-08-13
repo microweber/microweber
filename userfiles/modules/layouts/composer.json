@@ -1,0 +1,10 @@
+{
+    "name": "microweber-modules/layouts",
+    "description": "Layouts module for Microweber CMS",
+    "type": "metapackage",
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\Modules\\Layouts\\": "src/"
+        }
+    }
+}

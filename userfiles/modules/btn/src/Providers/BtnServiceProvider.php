@@ -30,6 +30,7 @@ class BtnServiceProvider extends PackageServiceProvider
 
     public function boot(): void
     {
+        parent::boot();
         Filament::serving(function () {
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {

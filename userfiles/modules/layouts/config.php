@@ -8,9 +8,7 @@ $config['categories'] = "content";
 $config['position'] = 99;
 $config['version'] = 0.1;
 
-$config['tables'] = array(
-
-);
+$config['tables'] = array();
 
 //$config['settings'][]  = array(
 //    'type'=>'tooltip',
@@ -24,4 +22,16 @@ $config['settings']['translatable_options'] = [
     'type',
     'icon',
     'view'
+];
+
+
+$config['settings']['autoload_namespace'] = [
+    [
+        'path' => __DIR__ . '/src/',
+        'namespace' => 'MicroweberPackages\Modules\Layouts'
+    ],
+];
+
+$config['settings']['service_provider'] = [
+    \MicroweberPackages\Modules\Layouts\Providers\LayoutsModuleServiceProvider::class
 ];

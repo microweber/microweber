@@ -1,4 +1,3 @@
-<script>mw.moduleCSS("<?php print modules_url(); ?>layouts/styles.css"); </script>
 <?php
 
 $classes = mw_get_layout_css_classes($params);
