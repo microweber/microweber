@@ -125,7 +125,7 @@ body {
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
-    @apply !rounded-[5px] !p-[3px_7px] !border-gray-100 !bg-gray-100 shadow-none;
+    @apply !rounded-[5px] !p-[3px_7px] !border-gray-100 !bg-gray-100 shadow-none text-[14px];
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
@@ -778,4 +778,18 @@ h1,h2,h3,h4,h5,h6 {
 
 .fi-section-content, .fi-section-header {
     @apply !px-0;
+}
+
+.form-selectgroup-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0;
+}
+
+.mw_modal_live_edit_settings .mw-dialog-holder {
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, .24) 0 3px 8px;
+    padding: 0 15px;
 }

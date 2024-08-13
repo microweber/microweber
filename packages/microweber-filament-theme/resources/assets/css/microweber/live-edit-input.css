@@ -145,7 +145,7 @@
     }
 
     .mw-filepicker-component-section .form-control-live-edit-label-wrapper {
-        @apply relative;
+        @apply !relative;
     }
 
 }
