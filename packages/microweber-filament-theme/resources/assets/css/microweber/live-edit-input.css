@@ -144,8 +144,8 @@
         @apply pt-[2px];
     }
 
-    .mw-filepicker-component-section .form-control-live-edit-label-wrapper {
-        @apply !relative;
-    }
 
+}
+.form-control-live-edit-label-wrapper {
+    @apply !relative;
 }
