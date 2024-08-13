@@ -147,5 +147,6 @@
 
 }
 .form-control-live-edit-label-wrapper {
-    @apply !relative;
+   position: relative !important;
 }
+ 
