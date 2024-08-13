@@ -759,4 +759,23 @@ h1,h2,h3,h4,h5,h6 {
 .mw-live-edit-page-wrapper {
     @apply !min-h-[500px];
 }
- 
+
+.mw-dropzone{
+    text-align: center;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.dropzone {
+    border: 1px dashed #000;
+    color: #999FA4FF;
+    padding: 1rem;
+}
+
+.fi-section-content, .fi-section-header {
+    @apply !px-0;
+}
