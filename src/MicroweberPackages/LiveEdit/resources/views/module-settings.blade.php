@@ -6,6 +6,15 @@
 
     <div id="settings-container">
 
+<div class="alert alert-danger">
+
+
+    <h1>This file is deprecated </h1>
+    <h3>module-settings.blade.php</h3>
+    <h4>please migrate this module to filament</h4>
+
+</div>
+
 
         <?php
         $moduleTypeOriginal = $moduleType;
@@ -184,7 +193,6 @@ console.log($data)
 
 
     <script>
-
         // this is for the loading indicator and prevent the modal to close
         // if the class mw-livewire-loading is present, it will not close the modal on click
         document.addEventListener("DOMContentLoaded", () => {

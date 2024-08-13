@@ -25,12 +25,7 @@ class MicroweberFilamentTheme implements Plugin
 
     public function register(Panel $panel): void
     {
-        FilamentAsset::register([
-          //  Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/css/microweber-filament-theme.css'),
-            Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/css/microweber-filament-theme.css')),
-            Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/js/microweber-filament-theme.js')),
 
-        ]);
 
         $panel
             ->font('DM Sans')
@@ -52,20 +47,30 @@ class MicroweberFilamentTheme implements Plugin
 
     public static function configureAssets(): void
     {
-                $head = new AdminFilamentMetaTagsRenderer();
 
-                $headTags = $head->getHeadMetaTags();
-                $footerTags = $head->getFooterMetaTags();
 
-                Filament::serving(function () use ($headTags, $footerTags) {
-                    FilamentView::registerRenderHook(
-                        PanelsRenderHook::HEAD_START,
-                        fn(): string => $headTags
-                    );
-                    FilamentView::registerRenderHook(
-                        PanelsRenderHook::BODY_END,
-                        fn(): string => $footerTags
-                    );
+        FilamentAsset::register([
+            //  Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/css/microweber-filament-theme.css'),
+            Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/css/microweber-filament-theme.css')),
+            Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/js/microweber-filament-theme.js')),
+
+        ]);
+
+
+        $head = new AdminFilamentMetaTagsRenderer();
+
+        $headTags = $head->getHeadMetaTags();
+        $footerTags = $head->getFooterMetaTags();
+
+        Filament::serving(function () use ($headTags, $footerTags) {
+            FilamentView::registerRenderHook(
+                PanelsRenderHook::HEAD_START,
+                fn(): string => $headTags
+            );
+            FilamentView::registerRenderHook(
+                PanelsRenderHook::BODY_END,
+                fn(): string => $footerTags
+            );
 //                    FilamentAsset::register([
 //                        //Js::make('example-external-script', 'external.js'),
 //                        //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
@@ -75,7 +80,7 @@ class MicroweberFilamentTheme implements Plugin
 //                        //Js::make('example-external-script', 'external.js'),
 //                        //Css::make('custom-stylesheet', __DIR__ . '/../../resources/css/custom.css')->loadedOnRequest(),
 //                    ]);
-                });
+        });
 
     }
 
