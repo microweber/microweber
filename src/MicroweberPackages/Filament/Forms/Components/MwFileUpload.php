@@ -12,7 +12,7 @@ class MwFileUpload extends Field
 
     protected string $view = 'filament-forms::components.mw-file-upload';
 
-    protected string $fileTypes = 'file';
+    protected array $fileTypes = [];
 
     protected bool | Closure $isMultiple = false;
 
@@ -28,16 +28,16 @@ class MwFileUpload extends Field
         });
     }
 
-    public function fileTypes(string $fileTypes): static
+    public function fileTypes(array | Closure $fileTypes): static
     {
         $this->fileTypes = $fileTypes;
 
         return $this;
     }
 
-    public function getFileTypes(): string
+    public function getFileTypes(): array
     {
-        return $this->fileTypes;
+        return (array) $this->evaluate($this->fileTypes);
     }
 
     public function multiple(bool | Closure $condition = true): static
