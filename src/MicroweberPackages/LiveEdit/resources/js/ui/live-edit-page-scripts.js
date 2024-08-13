@@ -1,6 +1,7 @@
 
+/*
 
-
+this file is moved to packages/frontend-assets/resources/assets/live-edit/live-edit-page-scripts.js
 
 if(window.self !== window.top) {
 
@@ -40,7 +41,7 @@ if(window.self !== window.top) {
             });
             mw.liveEditSaveService.saving = true;
 
-            /************  START base64  ************/
+            /!************  START base64  ************!/
             data.from_url = window.location.href;
 
 
@@ -63,7 +64,7 @@ if(window.self !== window.top) {
                     return String.fromCharCode('0x' + p1);
                 }));
             data = {data_base64: data};
-            /************  END base64  ************/
+            /!************  END base64  ************!/
 
             var xhr = mw.ajax({
                 type: 'POST',
@@ -615,3 +616,4 @@ if (self === top) {
 
 
 
+*/
