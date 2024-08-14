@@ -519,7 +519,7 @@ class EditCampaign extends Page
                                     ->label('Preview E-mail')
                                     ->link()
                                     ->url(function() {
-                                        return admin_url('modules/newsletter/preview-email-template-saved').'?id='.$this->state['email_template_id'];
+                                        return admin_url('modules/newsletter/preview-campaign-email').'?id='.$this->state['id'];
                                     })
                                     ->openUrlInNewTab()
                                     ->icon('heroicon-o-eye'),
@@ -546,12 +546,12 @@ class EditCampaign extends Page
                                             $campaign = NewsletterCampaign::where('id', $this->state['id'])->first();
                                             $sender = NewsletterSenderAccount::where('id', $this->state['sender_account_id'])->first();
 
-                                            $tempalteArray = [];
+                                            $templateArray = [];
                                             if ($this->state['email_content_type'] == 'design') {
                                                 $template = NewsletterTemplate::where('id', $this->state['email_template_id'])->first();
-                                                $tempalteArray = $template->toArray();
+                                                $templateArray = $template->toArray();
                                             } else {
-                                                $tempalteArray['text'] = $this->state['email_content_html'];
+                                                $templateArray['text'] = $this->state['email_content_html'];
                                             }
 
                                             $newsletterMailSender = new NewsletterMailSender();
@@ -562,7 +562,7 @@ class EditCampaign extends Page
                                                 'email' => $testEmail,
                                             ]);
                                             $newsletterMailSender->setSender($sender->toArray());
-                                            $newsletterMailSender->setTemplate($tempalteArray);
+                                            $newsletterMailSender->setTemplate($templateArray);
                                             $sendMailResponse = $newsletterMailSender->sendMail();
                                             if (isset($sendMailResponse['success'])) {
                                                 Notification::make()
