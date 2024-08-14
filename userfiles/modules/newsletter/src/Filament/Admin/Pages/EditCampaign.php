@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages;
 
+use BladeUIKit\Components\Forms\Inputs\FlatPickr;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Checkbox;
@@ -334,7 +335,8 @@ class EditCampaign extends Page
 
                             Group::make([
 
-                                DateTimePicker::make('state.scheduled_at')
+                                FlatPickr::make('state.scheduled_at')
+                                    ->enableTime()
                                     ->live(),
 
                                 TimezoneSelect::make('state.scheduled_timezone')
