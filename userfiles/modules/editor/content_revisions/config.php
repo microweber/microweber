@@ -6,11 +6,11 @@ $config['ui'] = false;
 $config['ui_admin'] = false;
 $config['categories'] = "other";
 $config['position'] = "28";
-$config['version'] = 0.05;
+$config['version'] = "0.05";
 
 
 $config['tables'] = array();
- 
+
 $config['tables']['content_revisions_history'] = array(
                 'rel_type' => 'string',
                 'rel_id' => 'string',
@@ -23,5 +23,5 @@ $config['tables']['content_revisions_history'] = array(
 				'user_ip' => 'string',
 				'checksum' => 'string',
                 'session_id' => 'string',
-                'url' => 'longText' 
+                'url' => 'longText'
 );

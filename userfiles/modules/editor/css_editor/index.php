@@ -173,6 +173,17 @@
 </script>
 
 
+<script>
+
+    $(document).ready(function () {
+        mw.tabs({
+            nav: '#codeEditorTabStyleEditorCssEditorNav .mw-admin-action-links',
+            tabs: '#codeEditorTabStyleEditorCssEditorNavTabs .tab-pane'
+        });
+    });
+
+</script>
+
 <?php
 
 $template = template_name();
@@ -182,10 +193,9 @@ if ($file and is_file($file)) {
     $live_edit_css_content = file_get_contents($file);
 }
 
-
 ?>
 
-<div class="d-flex">
+<div class="d-flex" id="codeEditorTabStyleEditorCssEditorNavTabs">
     <div class="navbar navbar-expand-md navbar-transparent ">
         <ul class="navbar-nav flex-column" id="codeEditorTabStyleEditorCssEditorNav" role="tablist">
             <li class="nav-item" role="presentation">
