@@ -6,14 +6,16 @@ import "../core/ajax.js";
 import "./admin-filament-app.globals.js";
 import "../core/url.js";
 import "../core/events.js";
-
-
-
+import LiveEditImageDialog from "../live-edit/live-edit-image-dialog.js";
 
 import {AdminTools} from "./admin-tools.service.js";
 import {AdminFilament} from "./admin-filament.js";
+import {AdminModules}  from "./admin-modules.js";
 
-import LiveEditImageDialog from "../live-edit/live-edit-image-dialog.js";
+
+
+
+
 
 
 
@@ -60,7 +62,7 @@ for ( let i in Helpers ) {
     mw.tools[i] = Helpers[i];
 }
 
-mw.app.editImageDialog =  new LiveEditImageDialog();
+
 
 
 import "../tools/storage.js";
@@ -87,6 +89,11 @@ import {SchemaForm} from "../components/schema-form.js";
 import {ControlBox} from "../components/control_box.js";
 import {SystemDialogsService} from "../components/modules-dialogs.js";
 import {TemplatePreview} from "../js/template-preview.service.js";
+
+
+
+mw.app.editImageDialog =  new LiveEditImageDialog();
+mw.app.adminModules =  new AdminModules();
 
 mw.alert = Alert;
 mw.controlBox = ControlBox;

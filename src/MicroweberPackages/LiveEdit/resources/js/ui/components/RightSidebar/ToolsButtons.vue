@@ -180,6 +180,8 @@ export default {
 
             var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
 
+
+
             var dlg = mw.top().dialogIframe({
                 url: src,
                 title: mw.lang('Content Revisions'),
