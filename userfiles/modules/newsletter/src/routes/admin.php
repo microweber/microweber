@@ -1,5 +1,10 @@
 <?php
 
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
+use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
+
 Route::name('admin.newsletter.')
     ->prefix(mw_admin_prefix_url() . '/modules/newsletter')
     ->middleware(['admin'])
@@ -27,6 +32,36 @@ Route::name('admin.newsletter.')
             echo $template->text;
 
         })->name('templates.preview');
+
+        Route::get('/preview-campaign-email', function() {
+
+            $newsletterCampaignId = request()->get('id');
+            $campaign = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $newsletterCampaignId)->first();
+            if (!$campaign) {
+                return;
+            }
+
+            $templateArray = [];
+            if ($campaign->email_content_type == 'design') {
+                $template = NewsletterTemplate::where('id', $campaign->email_template_id)->first();
+                $templateArray = $template->toArray();
+            } else {
+                $templateArray['text'] = $campaign->email_content_html;
+            }
+
+            $newsletterMailSender = new NewsletterMailSender();
+            $newsletterMailSender->setCampaign($campaign->toArray());
+            $newsletterMailSender->setSubscriber([
+                'name' => 'Jhon Doe',
+                'first_name' => 'Jhon',
+                'last_name' => 'Doe',
+                'email' => 'jhon.doe@microweber.com',
+            ]);
+            $newsletterMailSender->setTemplate($templateArray);
+
+            echo $newsletterMailSender->getParsedTemplate();
+
+        });
 
         Route::get('/preview-email-template-saved', function() {
 

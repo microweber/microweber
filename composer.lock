@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf24fa43eb206f43db7f4700289868fa",
+    "content-hash": "8877f646d9c20489716bd3a730393b65",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2031,6 +2031,80 @@
                 }
             ],
             "time": "2024-05-06T16:37:16+00:00"
+        },
+        {
+            "name": "coolsam/flatpickr",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/savannabits/filament-flatpickr.git",
+                "reference": "67f88f078fe39df24ecf2883a781f69fdb6fc4b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/savannabits/filament-flatpickr/zipball/67f88f078fe39df24ecf2883a781f69fdb6fc4b3",
+                "reference": "67f88f078fe39df24ecf2883a781f69fdb6fc4b3",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.0|^11.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.14.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Coolsam\\FilamentFlatpickr\\FilamentFlatpickrServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentFlatpickr": "Coolsam\\FilamentFlatpickr\\Facades\\FilamentFlatpickr"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Coolsam\\FilamentFlatpickr\\": "src/",
+                    "Coolsam\\FilamentFlatpickr\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Maosa",
+                    "email": "smaosa@savannabits.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Integrate Flatpickr with FilamentPHP",
+            "homepage": "https://github.com/savannabits/filament-flatpickr",
+            "keywords": [
+                "coolsam",
+                "filament-flatpickr",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/savannabits/filament-flatpickr/issues",
+                "source": "https://github.com/savannabits/filament-flatpickr/tree/v3.1.0"
+            },
+            "time": "2024-03-21T12:14:34+00:00"
         },
         {
             "name": "danharrin/date-format-converter",
@@ -8681,7 +8755,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
-                "reference": "de6619b6fd346a97d2b8b95cc2ef717cd3fb474c"
+                "reference": "dc68e0bbf08a164769513b1d95faf5249b690f8a"
             },
             "type": "library",
             "autoload": {
@@ -8760,7 +8834,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "93fe855917dd7486269c88ae1f0c4e7f6457a993"
+                "reference": "778441b2f5034c5ee89e1e65dc38f8b089769e44"
             },
             "require": {
                 "filament/filament": "^3.0",
@@ -18399,6 +18473,60 @@
                 }
             ],
             "time": "2024-05-31T14:57:53+00:00"
+        },
+        {
+            "name": "tapp/filament-timezone-field",
+            "version": "v3.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TappNetwork/filament-timezone-field.git",
+                "reference": "74917c81e4ea309c6962e4b925d1dbbd6207c599"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TappNetwork/filament-timezone-field/zipball/74917c81e4ea309c6962e4b925d1dbbd6207c599",
+                "reference": "74917c81e4ea309c6962e4b925d1dbbd6207c599",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0-stable",
+                "php": "^8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tapp\\FilamentTimezoneField\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tapp Network",
+                    "email": "steve@tappnetwork.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tapp Network",
+                    "email": "andreia.bohner@tappnetwork.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Filament timezone field.",
+            "homepage": "https://github.com/TappNetwork/filament-timezone-field",
+            "keywords": [
+                "filament",
+                "laravel",
+                "tapp network",
+                "timezone"
+            ],
+            "support": {
+                "issues": "https://github.com/TappNetwork/filament-timezone-field/issues",
+                "source": "https://github.com/TappNetwork/filament-timezone-field"
+            },
+            "time": "2024-05-29T20:43:51+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

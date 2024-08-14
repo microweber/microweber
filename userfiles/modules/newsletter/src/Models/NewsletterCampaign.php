@@ -29,6 +29,7 @@ class NewsletterCampaign extends Model
         'sending_limit_per_day',
         'is_scheduled',
         'scheduled_at',
+        'scheduled_timezone',
         'is_done',
         'recipients_from',
         'delivery_type',
@@ -36,7 +37,8 @@ class NewsletterCampaign extends Model
         'email_content_html',
         'email_content_type',
         'email_attached_files',
-        'enable_email_attachments'
+        'enable_email_attachments',
+        'delay_between_sending_emails'
     ];
 
     public $casts = [

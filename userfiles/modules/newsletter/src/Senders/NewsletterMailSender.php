@@ -132,7 +132,7 @@ class NewsletterMailSender {
 					break;
 			}
 
-            $template = $this->_getParsedTemplate();
+            $template = $this->getParsedTemplate();
 
 			$mailProvider->setSubject($this->campaign['subject']);
 			$mailProvider->setBody($template);
@@ -166,7 +166,7 @@ class NewsletterMailSender {
 
 	}
 
-	private function _getParsedTemplate() {
+	public function getParsedTemplate() {
 
         $templateText = $this->getTemplate()['text'];
 
