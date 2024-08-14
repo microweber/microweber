@@ -14,7 +14,7 @@ export class AdminModules extends BaseComponent {
         var src = srcBase;
         var attrsForSettings = {};
         if(options && typeof options === 'object' && Object.keys(options).length > 0) {
-            src = srcBase + "?" + json2url(attrsForSettings);
+            src = srcBase + "?" + json2url(options);
         }
 
         return src;
