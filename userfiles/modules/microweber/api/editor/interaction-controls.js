@@ -373,8 +373,13 @@ MWEditor.interactionControls = {
         var lscope = this;
         lscope.__tableManagerTimeout = null;
         this.interact = function (data) {
+            console.log(data)
             if (!data.eventIsActionLike) { return; }
-            var td = mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td');
+            let localTarget = data.localTarget;
+            if(localTarget && localTarget.nodeType !== 1) {
+                localTarget = localTarget.parentElement;
+            }
+            var td = mw.tools.firstParentOrCurrentWithTag(localTarget, 'td');
 
             rootScope.document.querySelectorAll('.mw-editor-td-focus').forEach(td => td.classList.remove('mw-editor-td-focus'));
             if (td) {
