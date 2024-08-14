@@ -16,8 +16,25 @@ mw.tools.createAutoHeight = function() {
 };
 
 mw.tools.moduleFrame = function(type, template, options){
+
+    var srcBase = route('live_edit.module_settings');
+    var moduleType = type;
+    if(typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+        if (typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+            srcBase = mw.settings.liveEditModuleSettingsUrls[moduleType];
+        }
+    }
+    var attrsForSettings = {};
+    attrsForSettings.type = type;
+    if(template) {
+        attrsForSettings.template = template;
+    }
+
+    var src = srcBase + "?" + json2url(attrsForSettings);
+
+
     var defaults = {
-        url: route('live_edit.module_settings') + '?type=' + type + (template ? ('&template=' + template) : ''),
+        url: src,
         width: 532,
         height: 'auto',
         autoHeight:true,
@@ -39,7 +56,7 @@ mw.tools.iframeAutoHeight = function(frame, opt){
     frame = mw.$(frame)[0];
     if(!frame) return;
 
- 
+
     if(frame.dataset.autoHeight === 'false') return;
 
     var _detector = document.createElement('div');
