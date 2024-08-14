@@ -275,6 +275,7 @@ class JsCompileController extends Controller
     public function get_apijs_url()
     {
 
+     // return public_asset('public/vendor/microweber-packages/frontend-assets/js/core.js');
 
         $url = $this->app->url_manager->site('apijs') . '?mwv=' . MW_VERSION;
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');

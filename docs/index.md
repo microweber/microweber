@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "Microweber"
   text: "Microweber Docs"
-  tagline: My great project tagline
+  tagline: No code website builder
   actions:
     - theme: brand
       text: Markdown Examples
