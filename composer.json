@@ -123,6 +123,7 @@
         "symfony/string": "*",
         "symfony/translation": "*",
         "symfony/var-dumper": "*",
+        "tapp/filament-timezone-field": "^3.0",
         "torann/laravel-repository": "*",
         "tucker-eric/eloquentfilter": "*",
         "twig/twig": "3.*",

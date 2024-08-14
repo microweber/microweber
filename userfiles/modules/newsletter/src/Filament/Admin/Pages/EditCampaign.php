@@ -33,6 +33,7 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use Livewire\Attributes\On;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
+use Tapp\FilamentTimezoneField\Forms\Components\TimezoneSelect;
 
 class EditCampaign extends Page
 {
@@ -331,14 +332,25 @@ class EditCampaign extends Page
                                     'schedule' => 'Schedule',
                                 ]),
 
-                            DateTimePicker::make('state.scheduled_at')
-                                ->live()
+                            Group::make([
+
+                                DateTimePicker::make('state.scheduled_at')
+                                    ->live(),
+
+                                TimezoneSelect::make('state.scheduled_timezone')
+                                    ->searchable()
+                                    ->timezoneType('GMT')
+                                    ->default(date_default_timezone_get())
+                                    ->required(),
+
+                            ])
+                                ->columns(2)
                                 ->hidden(function (Get $get) {
-                                    if ($get('state.delivery_type') == 'schedule') {
-                                        return false;
-                                    }
-                                    return true;
-                                }),
+                                if ($get('state.delivery_type') == 'schedule') {
+                                    return false;
+                                }
+                                return true;
+                            }),
 
                             Checkbox::make('state.advanced_options')
                                 ->label('Advanced options')
@@ -352,13 +364,21 @@ class EditCampaign extends Page
 
                             Group::make([
 
-                                TextInput::make('state.sending_limit_per_day')
-                                    ->label('Sending limit (Per day)')
-                                    ->helperText('Set the maximum number of emails to be sent per day ')
+                                TextInput::make('state.delay_between_sending_emails')
+                                    ->label('Delay between sending emails')
+                                    ->helperText('Set the delay between sending emails in seconds.')
+                                    ->suffix('Seconds')
                                     ->numeric()
-                                    ->default(300)
-                                    ->live()
-                                    ->label('Sending limit'),
+                                    ->default(2)
+                                    ->live(),
+
+//                                TextInput::make('state.sending_limit_per_day')
+//                                    ->label('Sending limit (Per day)')
+//                                    ->helperText('Set the maximum number of emails to be sent per day ')
+//                                    ->numeric()
+//                                    ->default(300)
+//                                    ->live()
+//                                    ->label('Sending limit'),
 
                             ])->hidden(function (Get $get) {
                                 if ($get('state.advanced_options')

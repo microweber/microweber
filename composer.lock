@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf24fa43eb206f43db7f4700289868fa",
+    "content-hash": "3c77652ae9a5a7691a2bb34cc646b049",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -8681,7 +8681,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
-                "reference": "de6619b6fd346a97d2b8b95cc2ef717cd3fb474c"
+                "reference": "dc68e0bbf08a164769513b1d95faf5249b690f8a"
             },
             "type": "library",
             "autoload": {
@@ -8760,7 +8760,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "93fe855917dd7486269c88ae1f0c4e7f6457a993"
+                "reference": "778441b2f5034c5ee89e1e65dc38f8b089769e44"
             },
             "require": {
                 "filament/filament": "^3.0",
@@ -18399,6 +18399,60 @@
                 }
             ],
             "time": "2024-05-31T14:57:53+00:00"
+        },
+        {
+            "name": "tapp/filament-timezone-field",
+            "version": "v3.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TappNetwork/filament-timezone-field.git",
+                "reference": "74917c81e4ea309c6962e4b925d1dbbd6207c599"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TappNetwork/filament-timezone-field/zipball/74917c81e4ea309c6962e4b925d1dbbd6207c599",
+                "reference": "74917c81e4ea309c6962e4b925d1dbbd6207c599",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0-stable",
+                "php": "^8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tapp\\FilamentTimezoneField\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tapp Network",
+                    "email": "steve@tappnetwork.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tapp Network",
+                    "email": "andreia.bohner@tappnetwork.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Filament timezone field.",
+            "homepage": "https://github.com/TappNetwork/filament-timezone-field",
+            "keywords": [
+                "filament",
+                "laravel",
+                "tapp network",
+                "timezone"
+            ],
+            "support": {
+                "issues": "https://github.com/TappNetwork/filament-timezone-field/issues",
+                "source": "https://github.com/TappNetwork/filament-timezone-field"
+            },
+            "time": "2024-05-29T20:43:51+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
