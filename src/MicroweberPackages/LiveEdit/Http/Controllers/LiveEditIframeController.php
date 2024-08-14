@@ -5,6 +5,9 @@ namespace MicroweberPackages\LiveEdit\Http\Controllers;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 
 
+/**
+ * @deprecated
+ */
 class LiveEditIframeController
 {
     use LiveEditTrait;

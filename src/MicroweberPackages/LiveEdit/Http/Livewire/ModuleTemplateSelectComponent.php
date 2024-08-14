@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\LiveEdit\Http\Livewire;
 
+/**
+ * @deprecated
+ */
 class ModuleTemplateSelectComponent extends ModuleSettingsComponent
 {
     public $disableScreenshots = false;

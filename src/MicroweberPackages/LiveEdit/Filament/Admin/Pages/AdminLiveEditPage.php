@@ -11,7 +11,7 @@ class AdminLiveEditPage extends Page
     protected static bool $shouldRegisterNavigation = false;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $description = '';
-    protected static ?string $slug = 'live-edit-page';
+    protected static ?string $slug = 'live-edit';
 
 
     protected static string $view = 'microweber-live-edit::iframe-page';

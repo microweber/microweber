@@ -3,7 +3,9 @@
 namespace MicroweberPackages\LiveEdit\Http\Livewire\LiveEditSidebarAdmin;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-
+/**
+ * @deprecated
+ */
 class LiveEditSidebarAdminModulesListComponent extends AdminComponent
 {
     public string $view = 'microweber-live-edit::sidebar-admin.sidebar-admin-modules-list';

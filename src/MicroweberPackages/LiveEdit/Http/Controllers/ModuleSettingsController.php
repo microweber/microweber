@@ -5,7 +5,9 @@ namespace MicroweberPackages\LiveEdit\Http\Controllers;
 use Illuminate\Http\Request;
 
 
-
+/**
+ * @deprecated
+ */
 class ModuleSettingsController
 {
     public function index(Request $request)

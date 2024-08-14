@@ -4,7 +4,9 @@ namespace MicroweberPackages\LiveEdit\Http\Livewire\Presets;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-
+/**
+ * @deprecated
+ */
 class ModulePresetsManager extends AdminComponent
 {
     public $view = "microweber-live-edit::presets.module-presets-manager";

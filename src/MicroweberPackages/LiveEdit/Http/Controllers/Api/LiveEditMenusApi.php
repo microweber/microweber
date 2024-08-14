@@ -4,7 +4,9 @@ namespace MicroweberPackages\LiveEdit\Http\Controllers\Api;
 
 use MicroweberPackages\App\Http\Controllers\Controller;
 use MicroweberPackages\LiveEdit\Facades\LiveEditManager;
-
+/**
+ * @deprecated
+ */
 class LiveEditMenusApi extends Controller
 {
     public function getTopRightMenuCardBody()
