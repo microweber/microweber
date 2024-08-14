@@ -34,7 +34,7 @@ mw.tools.moduleFrame = function(type, template, options){
 
 
     var defaults = {
-        url: attrsForSettings,
+        url: src,
         width: 532,
         height: 'auto',
         autoHeight:true,
