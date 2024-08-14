@@ -373,7 +373,7 @@ MWEditor.interactionControls = {
         var lscope = this;
         lscope.__tableManagerTimeout = null;
         this.interact = function (data) {
-            console.log(data)
+
             if (!data.eventIsActionLike) { return; }
             let localTarget = data.localTarget;
             if(localTarget && localTarget.nodeType !== 1) {
