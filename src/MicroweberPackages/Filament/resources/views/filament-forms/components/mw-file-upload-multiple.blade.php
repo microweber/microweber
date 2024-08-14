@@ -39,7 +39,7 @@
                         type: acceptedFileTypes,
                     }
                 }, (url) => {
-                    if (state.length == 0) {
+                    if (!state) {
                         state = [];
                     }
                     let urlFileType = '';
@@ -68,7 +68,7 @@
                 </span>
             </button>
 
-            <div class="grid grid-cols-3 gap-4 w-full p-4">
+            <div x-show="state && state.length > 0" class="grid grid-cols-3 gap-4 w-full p-4">
                 <template x-for="fileItem in state">
 
                     <div class="w-full" x-show="fileItem">
