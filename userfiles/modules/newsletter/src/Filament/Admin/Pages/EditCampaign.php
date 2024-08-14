@@ -12,6 +12,7 @@ use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
@@ -418,9 +419,18 @@ class EditCampaign extends Page
                                 })
                                 ->required(),
 
+                            Toggle::make('state.enable_email_attachments')
+                                     ->live(),
+
                             MwFileUpload::make('state.email_attached_files')
                                 ->label('E-mail Attachments')
                                 ->multiple()
+                                ->hidden(function(Get $get) {
+                                    if ($get('state.enable_email_attachments')) {
+                                        return false;
+                                    }
+                                    return true;
+                                })
                                 ->fileTypes([
                                     // documents
                                     'application/pdf',

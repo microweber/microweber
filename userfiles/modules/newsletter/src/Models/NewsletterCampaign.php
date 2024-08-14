@@ -35,7 +35,8 @@ class NewsletterCampaign extends Model
         'status',
         'email_content_html',
         'email_content_type',
-        'email_attached_files'
+        'email_attached_files',
+        'enable_email_attachments'
     ];
 
     public $casts = [
