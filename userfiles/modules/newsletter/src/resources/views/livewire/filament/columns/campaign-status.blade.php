@@ -46,7 +46,7 @@ $currentRecord = $getRecord();
 
     @elseif($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_CANCELED)
 
-        <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-red-200 rounded-full">
+        <span class="px-2 py-1 text-xs font-semibold leading-5 text-red-500 bg-red-200 rounded-full">
             {{ __('Canceled') }}
         </span>
 
