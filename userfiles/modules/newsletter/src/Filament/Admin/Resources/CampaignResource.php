@@ -65,7 +65,11 @@ class CampaignResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('list.name'),
-                TextColumn::make('subscribers')->alignCenter(),
+                TextColumn::make('subscribers')
+                    ->color(function() {
+                        return 'success';
+                    })
+                    ->alignCenter(),
 //                TextColumn::make('scheduled'),
 //                TextColumn::make('scheduled_at'),
                 TextColumn::make('opened')
