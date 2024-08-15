@@ -46,7 +46,7 @@
             }, 5);
             element.addEventListener('click', function () {
 
-                let colorPicker = mw.app.colorPicker;
+                let colorPicker = mw.top().app.colorPicker;
                 colorPicker.setPositionToElement(element);
                 colorPicker.selectColor('#{{$md5name}}', function(color) {
                     element.style.backgroundColor = color;

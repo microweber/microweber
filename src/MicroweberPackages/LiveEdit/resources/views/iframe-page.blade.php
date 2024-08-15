@@ -121,7 +121,7 @@
 
     </script>
 
-    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
+    @vite('packages/frontend-assets/resources/assets/ui/live-edit-app.js')
 
 
 

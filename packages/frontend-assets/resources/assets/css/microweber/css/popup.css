@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a, input, textarea, select {
+    outline: none;
+}
+
+html, body {
+    height: 100%;
+ 
+}
+
+body {
+    overflow-y: scroll;
+}
+
+
+.mw-popup-footer {
+
+    height: 60px;
+}
+
+.mw-popup-footer-content {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    padding: 12px;
+    box-shadow: 0 -2px 2px rgba(0, 0, 0, 0.17);
+    z-index: 9;
+    background: white;
+    height: 60px;
+}
+
+select.mw-ui-field:hover {
+    /*border-color: #82c4ed;*/
+    /*border-color: #cdcdcd;*/
+    -webkit-box-shadow: 0 0 4px #82c4ed;
+    box-shadow: 0 0 4px #82c4ed;
+}
+
+.prop-ui-field-holder .mw-ui-field-icon + input {
+    max-width: -webkit-calc(100% - 2.923rem);
+    max-width: calc(100% - 2.923rem);
+}
+
+.prop-ui-field-holder .mw-ui-field {
+    width: 100%;
+}
+
+.mw-module-live-edit-settings {
+    padding: 0px;
+}
+
+.mw-module-live-edit-settings .mw-accordion-item.active {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.manage-item-main-top .tag.label {
+    background: transparent;
+}
+
+.mw-presets-list.mw-flex-row .module-presets-add-new-holder:last-child {
+    text-align: right;
+}
+
+.mw-presets-list.mw-flex-row {
+    border-top: 1px solid #eee;
+    padding: 5px 0;
+}
+
+.module-presets-bottom-holder {
+    padding-top: 10px;
+    text-align: right;
+}
+
+.module-modal-settings-menu-holder-open-presets {
+    padding-top: 10px;
+}
+
+.bootstrap-select .dropdown-menu.show {
+    left: 5px !important;
+}
+

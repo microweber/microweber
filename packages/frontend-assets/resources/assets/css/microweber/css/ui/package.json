@@ -1,0 +1,10 @@
+{
+  "name": "Tools",
+  "version": "1.0.0",
+  "devDependencies": {
+    "less": "^3.12.2"
+  },
+  "scripts": {
+    "compile": "node app.js"
+  }
+}
