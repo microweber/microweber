@@ -533,7 +533,11 @@ class EditCampaign extends Page
                                     ->after(function () {
                                         $findCampaign = NewsletterCampaign::where('id', $this->state['id'])->first();
                                         if ($findCampaign) {
-                                            $findCampaign->status = NewsletterCampaign::STATUS_PENDING;
+                                            if ($findCampaign->delivery_type == NewsletterCampaign::DELIVERY_TYPE_SCHEDULE) {
+                                                $findCampaign->status = NewsletterCampaign::STATUS_SCHEDULED;
+                                            } else {
+                                                $findCampaign->status = NewsletterCampaign::STATUS_PENDING;
+                                            }
                                             $findCampaign->save();
                                         }
                                         return $this->redirect(route('filament.admin-newsletter.resources.campaigns.index'));

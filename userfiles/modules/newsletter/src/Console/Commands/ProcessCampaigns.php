@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Console\Commands;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
@@ -56,6 +57,22 @@ class ProcessCampaigns extends Command
             $this->error('Please set the default queue to database. Other queue drivers are not supported.');
             return 0;
         }
+
+        // Check the scheduled campaigns
+        $getScheduledCampaigns = NewsletterCampaign::where('status', NewsletterCampaign::STATUS_SCHEDULED)->get();
+        if ($getScheduledCampaigns->count() > 0) {
+            foreach ($getScheduledCampaigns as $scheduledCampaign) {
+                $timeNowByTimezone = Carbon::now($scheduledCampaign->scheduled_timezone);
+                $scheduledAt = Carbon::parse($scheduledCampaign->scheduled_at, $scheduledCampaign->scheduled_timezone);
+                if ($timeNowByTimezone->gte($scheduledAt)) {
+                    $this->info('Processing scheduled campaign: ' . $scheduledCampaign->name);
+                    $this->info('Marking campaign as pending');
+                    $scheduledCampaign->status = NewsletterCampaign::STATUS_PENDING;
+                    $scheduledCampaign->save();
+                }
+            }
+        }
+
 
         // We limit the number of campaigns that can be processed at once
         // You can call this command multiple times with cron job

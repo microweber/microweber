@@ -13,10 +13,14 @@ class NewsletterCampaign extends Model
     public const STATUS_FINISHED = 'finished';
     public const STATUS_CANCELED = 'canceled';
 
+    public const STATUS_SCHEDULED = 'scheduled';
     public const STATUS_PENDING = 'pending';
     public const STATUS_QUEUED = 'queued';
 
     public const STATUS_FAILED = 'failed';
+
+    public const DELIVERY_TYPE_SEND_NOW = 'send_now';
+    public const DELIVERY_TYPE_SCHEDULE = 'schedule';
 
     public $fillable = [
         'sender_account_id',
@@ -42,7 +46,7 @@ class NewsletterCampaign extends Model
     ];
 
     public $casts = [
-        'email_attached_files' => 'array'
+        'email_attached_files' => 'array',
     ];
 
     public function senderAccount()
@@ -83,16 +87,6 @@ class NewsletterCampaign extends Model
     public function getClickedAttribute()
     {
         return NewsletterCampaignClickedLink::where('campaign_id', $this->id)->count();
-    }
-
-    public function getScheduledAttribute()
-    {
-        return 0;
-    }
-
-    public function getScheduledAtAttribute()
-    {
-        return 0;
     }
 
     public function getStatusAttribute()
