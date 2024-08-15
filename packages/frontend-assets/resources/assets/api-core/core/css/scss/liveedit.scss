@@ -1,0 +1,84 @@
+@import "drop-indicator";
+@import "handles";
+@import "draggable";
+@import "dialog";
+@import "resizer";
+
+.mw-le--hide-selection ::selection {
+    color: revert-layer !important;
+    background: transparent !important;
+}
+
+mw-le-element{
+    display: block;
+}
+mw-le-element{
+    line-height: normal;
+    font-weight: normal;
+    font-style: normal;
+    list-style: none;
+    letter-spacing: normal;
+    word-spacing: normal;
+}
+mw-le-element, mw-le-element * ,mw-le-element *:before, mw-le-element *:after{
+    margin: 0;
+    padding: 0;
+    //font-family: Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+.edit,
+.element,
+.module {
+
+    &.mw-le-target-to-animate{
+        transition: transform .3s !important;
+    }
+}
+
+
+.le-selectable-items-list-image{
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 120px;
+}
+
+
+.le-selectable-items-list-type-layouts{
+
+    .le-selectable-items-list-image{
+        background-size: cover;
+    }
+}
+
+
+body:not(.is_admin) [contenteditable="true"]{
+    outline: 1px dotted #ccc;
+    outline-offset: 7px;
+}
+
+.FIE_topbar-save-wrapper, .FIE_topbar-close-button{
+    display: none !important;
+}
+
+#sidebar-menu{
+    overflow: auto;
+    max-height: calc(100vh - 80px);
+    padding: 0 !important;
+}
+
+
+body:has(.element[contenteditable="true"]){
+    .moveable-control-box{
+        display: none !important;
+    }
+}
+html:not(.mw-le--page-preview) .mw-prevent-interaction{
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+    * {
+        pointer-events: none !important;
+    }
+}

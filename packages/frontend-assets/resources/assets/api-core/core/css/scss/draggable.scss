@@ -1,0 +1,111 @@
+.mw-element-is-dragged{
+    opacity: 0;
+    pointer-events: none;
+}
+html.le-dragging{
+
+    .mw-handle-item{
+        opacity:0 !important;
+    }
+    iframe{
+        pointer-events: none !important;
+    }
+}
+
+.mw-handle-item-draggable-self{
+    position: absolute;
+    pointer-events: all;
+    inset: 0;
+    z-index: 10;
+    display: none;
+    cursor: default;
+    &.active{
+        display: block;
+    }
+}
+
+.mw-handle-item[data-draggable="false"] {
+    .mw-handle-item-draggable-self,
+    .mw-handle-drag-button{
+        display: none;
+        &.active{
+            display: none;
+        }
+    }
+
+}
+
+.mw-handle-item.mw-le-resizable {
+
+    .mw-le-resizer:before,
+    .mw-le-resizer:after{
+        border-radius: 3px;
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        background-color: white;
+        border: 2px solid #2a84fb;
+        content: '';
+    }
+    .mw-le-resizer-l {
+        &:before,
+        &:after{
+            left: -6px;
+        }
+        &:before{
+            top: -6px;
+            cursor: nw-resize;
+        }
+        &:after{
+            top: calc(50% - 6px);
+        }
+    }
+
+    .mw-le-resizer-r {
+        &:before,
+        &:after{
+            left: 2px;
+        }
+        &:before{
+            bottom: -6px;
+            cursor: nw-resize;
+        }
+        &:after{
+            bottom: calc(50% - 6px);
+        }
+    }
+    .mw-le-resizer-b {
+        &:before,
+        &:after{
+
+            top: 2px;
+        }
+        &:before{
+            left: -6px;
+            cursor: ne-resize;
+        }
+        &:after{
+            left: calc(50% - 4px);
+        }
+    }
+    .mw-le-resizer-t {
+        &:before,
+        &:after{
+
+            top: -6px;
+        }
+        &:before{
+            right: -6px;
+            cursor: ne-resize;
+        }
+        &:after{
+            right: calc(50% - 5px);
+        }
+    }
+}
+
+body.mw-live--layout-resizing{
+    .mw-handle-item, .mw-handle-item-layout-plus{
+        opacity: 0;
+    }
+}

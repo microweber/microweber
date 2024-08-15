@@ -80,7 +80,7 @@
 
 
     <?php } ?>
-    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js')
+
 
 
 

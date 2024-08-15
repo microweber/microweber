@@ -1,0 +1,105 @@
+.mw-le-resizable {
+    position: relative;
+    &.mw-le-resizable-disabled{
+        .mw-le-resizer{
+            display: none;
+        }
+    }
+}
+.mw-le-resizer {
+    position: absolute;
+    pointer-events: all;
+}
+
+.mw-le-resizer-r {
+    cursor: e-resize;
+    height: 100%;
+    right: 0;
+    top: 0;
+    width: 5px;
+}
+
+.mw-le-resizer-l {
+    cursor: e-resize;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 5px;
+}
+
+.mw-le-resizer-b {
+    bottom: 0;
+    cursor: n-resize;
+    height: 5px;
+    left: 0;
+    width: 100%;
+}
+
+.mw-le-resizer-t {
+    top: 0;
+    cursor: n-resize;
+    height: 5px;
+    left: 0;
+    width: 100%;
+}
+
+[data-hide-resizer="true"],
+[data-mw-free-element="true"] {
+    .mw-le-resizer{
+        display: none !important;
+    }
+}
+[data-hide-outline="true"],
+[data-mw-free-element="true"] {
+    border-color: transparent !important
+}
+
+.moveable-control-box{
+    .moveable-control{
+        border: 1px solid #056aff !important;
+        border-radius: 2px !important;
+        background: #ffffff !important;
+        width: 10px !important;
+        height: 10px !important;
+        margin-left: -5px !important;
+        margin-top: -5px !important;
+    }
+}
+
+.mw-le-resizable--info{
+    position: absolute;
+    z-index: 11;
+    font-size: 12px;
+    letter-spacing: .5px;
+    pointer-events: none !important;
+
+    &.mw-le-resizable--info-position--top{
+        left: 50%;
+        bottom: 100%;
+        transform: translate(-50%, -10px);
+    }
+    &.mw-le-resizable--info-position--bottom{
+        left: 50%;
+        top: 100%;
+        transform: translate(-50%, 10px);
+    }
+
+    .mw-le-resizable--info-content{
+        display: inline-block;
+        text-align: center;
+        background-color: #056aff;
+        color: white;
+        border-radius: 5px;
+        padding: 5px 10px;
+
+        pointer-events: none !important;
+    }
+}
+
+
+.mw-layout-container.mw-free-layout-container > .edit{
+    pointer-events: none;
+    &>.element, &>.module {
+        pointer-events: all;
+    }
+}

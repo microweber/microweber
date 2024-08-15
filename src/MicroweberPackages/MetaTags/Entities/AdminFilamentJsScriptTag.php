@@ -11,8 +11,8 @@ class AdminFilamentJsScriptTag implements TagInterface, \Stringable
     public function toHtml(): string
     {
         //$libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
-        $srcipts = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-app.js');
-        $styles = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/css/admin-filament.scss');
+        // $srcipts = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-app.js');
+       // $styles = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/css/admin-filament.scss');
 
         $append_html = '' . "\r\n";
 
@@ -22,8 +22,8 @@ class AdminFilamentJsScriptTag implements TagInterface, \Stringable
             </script>' . "\r\n";
 
         //$append_html .= '<script src="' . $libs . '" type="module" id="mw-filament-js-libs-scripts"></script>' . "\r\n";
-        $append_html .= '<script src="' . $srcipts . '" type="module" id="mw-filament-js-core-scripts"></script>' . "\r\n";
-        $append_html .= '<link rel="stylesheet" href="' . $styles . '" id="mw-filament-js-core-styles" />' . "\r\n";
+        /*$append_html .= '<script src="' . $srcipts . '" type="module" id="mw-filament-js-core-scripts"></script>' . "\r\n";
+        $append_html .= '<link rel="stylesheet" href="' . $styles . '" id="mw-filament-js-core-styles" />' . "\r\n";*/
 
         return $append_html;
     }

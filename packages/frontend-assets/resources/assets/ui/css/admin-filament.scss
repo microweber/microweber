@@ -1,0 +1,26 @@
+
+
+@import '../../css/scss/filemanager.css';
+
+@import '../../css/microweber/css/widgets.css';
+@import '../../css/microweber/css/widgets.css';
+
+@import '../../css/scss/select.scss';
+@import '../../css/scss/dropzone.scss';
+@import '../../css/scss/notification.scss';
+@import '../../css/scss/dialog.scss';
+
+
+
+ @import '../../libs/tinymce/skin.min.css';
+
+
+
+
+@view-transition {
+    navigation: auto;
+}
+
+html, body{
+    scrollbar-gutter: stable;
+}

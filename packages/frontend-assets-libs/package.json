@@ -1,7 +1,7 @@
 {
     "name": "microweber-frontend-assets-libs",
     "version": "1.0.0",
-    "description": "",
+    "description": "Microweber front-end libs",
     "type": "module",
     "repository": {
         "type": "git",
@@ -16,7 +16,7 @@
 
         "flag-icons": "^7.2.3",
         "jquery": "^3.7.1",
-        "jquery-ui": "^1.13.3",
+        "jquery-ui": "^1.13.3"
 
     },
     "devDependencies": {
