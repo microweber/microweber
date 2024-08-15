@@ -65,20 +65,20 @@ class CampaignResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('list.name'),
-                TextColumn::make('subscribers')->badge(),
+                TextColumn::make('subscribers')->alignCenter(),
 //                TextColumn::make('scheduled'),
 //                TextColumn::make('scheduled_at'),
                 TextColumn::make('opened')
-                    ->badge()
+                    ->alignCenter()
                     ->color(function() {
                         return 'success';
                     }),
                 TextColumn::make('clicked')
-                    ->badge()
+                    ->alignCenter()
                     ->color(function() {
                         return 'success';
                     }),
-                Tables\Columns\ViewColumn::make('status')
+                Tables\Columns\ViewColumn::make('status')->alignCenter()
                         ->view('microweber-module-newsletter::livewire.filament.columns.campaign-status'),
 
             ])
