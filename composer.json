@@ -27,6 +27,7 @@
         "blade-ui-kit/blade-icons": "*",
         "blade-ui-kit/blade-ui-kit": "*",
         "bobimicroweber/filament-dropdown-column": "dev-main",
+        "bobimicroweber/filament-flatpickr": "*",
         "butschster/meta-tags": "*",
         "calebporzio/sushi": "^2.4",
         "composer/composer": "v2.7.7",
