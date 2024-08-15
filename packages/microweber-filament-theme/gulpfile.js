@@ -31,6 +31,8 @@ const build = gulp.parallel(buildJs, buildCss);
 const watchFiles = () => {
 
     gulp.watch('resources/assets/**/*', { interval: 1000, usePolling: true }, gulp.series(build, copyFiles));
+    gulp.watch('./../../userfiles/modules/**/*.blade.php', { interval: 1000, usePolling: true }, gulp.series(build, copyFiles));
+    gulp.watch('./../../src/**/*.blade.php', { interval: 1000, usePolling: true }, gulp.series(build, copyFiles));
 };
 
 gulp.task('build', build);
