@@ -127,9 +127,18 @@ class ProcessCampaigns extends Command
 
         $batch = Bus::batch($batches)
             ->progress(function (Batch $batch) use($campaign) {
-                sleep(2);
+
+                $delaySeconds = 2;
+                if ($campaign->delay_between_sending_emails > 0) {
+                    if ($campaign->delay_between_sending_emails < 15) {
+                        $delaySeconds = $campaign->delay_between_sending_emails;
+                    }
+                }
+
+                sleep($delaySeconds);
                 $campaign->jobs_progress = $batch->progress();
                 $campaign->save();
+
             })
             ->finally(function (Batch $batch) use($campaign) {
                 if ($batch->finished()) {
