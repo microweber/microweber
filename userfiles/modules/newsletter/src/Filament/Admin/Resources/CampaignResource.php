@@ -119,7 +119,7 @@ class CampaignResource extends Resource
 
                     Tables\Actions\Action::make('expand-from-opened')
                         ->label(function (NewsletterCampaign $campaign) {
-                            $html = 'Expand from opened' . ' <span class="text-green-500">(' . NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count() . ')</span>';
+                            $html = 'Expand opened' . ' <span class="text-green-500">(' . NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count() . ')</span>';
 
                             return new HtmlString($html);
                         })
@@ -184,7 +184,7 @@ class CampaignResource extends Resource
 
                     Tables\Actions\Action::make('expand-from-clicked')
                         ->label(function (NewsletterCampaign $campaign) {
-                            $html = 'Expand from clicked' . ' <span class="text-green-500">(' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')</span>';
+                            $html = 'Expand clicked' . ' <span class="text-green-500">(' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')</span>';
 
                             return new HtmlString($html);
                         })
