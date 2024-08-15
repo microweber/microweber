@@ -1,13 +1,13 @@
-<div class="p-4 w-full mb-4">
-    <a href="{{admin_url('newsletter/create-campaign')}}"
+<div class="flex p-4 w-full mb-4">
 
-       class="mw-admin-create-campaign-button btn-sm btn-primary flex items-center gap-2"
+    <x-filament::button
+        href="{{admin_url('newsletter/create-campaign')}}"
+        tag="a"
     >
-        @svg("mw-add-plus", "h-4 w-4 text-blue-500") Create campaign
-    </a>
+        <div class="flex gap-2 items-center w-full">
+            @svg("mw-add-plus", "h-4 w-4 text-white fill-white") Create campaign
+        </div>
+
+    </x-filament::button>
+
 </div>
-
-
-
-
-
