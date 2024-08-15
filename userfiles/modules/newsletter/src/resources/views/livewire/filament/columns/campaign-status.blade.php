@@ -54,7 +54,7 @@ $currentRecord = $getRecord();
     </span>
     @else
         <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
-            {{ $currentRecord->status }}
+            {{ ucfirst($currentRecord->status) }}
         </span>
     @endif
 
