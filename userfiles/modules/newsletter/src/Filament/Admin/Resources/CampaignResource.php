@@ -117,7 +117,7 @@ class CampaignResource extends Resource
 
                 Tables\Actions\ActionGroup::make([
 
-                    Tables\Actions\Action::make('expand-from-opened')
+                    Tables\Actions\Action::make('expand-opened')
                         ->label(function (NewsletterCampaign $campaign) {
                             $html = 'Expand opened' . ' <span class="text-green-500">(' . NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count() . ')</span>';
 
@@ -182,7 +182,7 @@ class CampaignResource extends Resource
                         })
                         ->icon('heroicon-o-envelope-open'),
 
-                    Tables\Actions\Action::make('expand-from-clicked')
+                    Tables\Actions\Action::make('expand-clicked')
                         ->label(function (NewsletterCampaign $campaign) {
                             $html = 'Expand clicked' . ' <span class="text-green-500">(' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')</span>';
 
