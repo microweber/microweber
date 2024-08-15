@@ -119,9 +119,10 @@ class CampaignResource extends Resource
 
                     Tables\Actions\Action::make('expand-from-opened')
                         ->label(function (NewsletterCampaign $campaign) {
-                            return 'Expand from opened' . ' (' . NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count() . ')';
+                            $html = 'Expand from opened' . ' <span class="text-green-500">(' . NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count() . ')</span>';
+
+                            return new HtmlString($html);
                         })
-                        ->color(Color::Green)
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
@@ -183,9 +184,10 @@ class CampaignResource extends Resource
 
                     Tables\Actions\Action::make('expand-from-clicked')
                         ->label(function (NewsletterCampaign $campaign) {
-                            return 'Expand from clicked' . ' (' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')';
+                            $html = 'Expand from clicked' . ' <span class="text-green-500">(' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')</span>';
+
+                            return new HtmlString($html);
                         })
-                        ->color(Color::Green)
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
@@ -247,7 +249,6 @@ class CampaignResource extends Resource
 
                     Tables\Actions\DeleteAction::make(),
                 ])
-                    ->dropdownWidth(MaxWidth::ExtraSmall)
                     ->icon('mw-dots-menu')
                     ->color(Color::Gray)
                     ->iconSize('lg'),
