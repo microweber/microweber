@@ -11,7 +11,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 
 class KitchenSink extends Page
@@ -27,6 +29,11 @@ class KitchenSink extends Page
     public int $resetStars = 0;
 
     public $image = '';
+
+    public $mw_color_picker = '#133be8';
+    public $mw_link_picker = '';
+    public $mw_icon_picker = 'mw-micon-Address-Book';
+
 
 
     public function getIcons()
@@ -51,8 +58,26 @@ class KitchenSink extends Page
         return $form
             ->schema([
 
-                TextInput::make('mw_link_picker')
+
+                MwIconPicker::make('mw_icon_picker')
                     ->live()
+                    ->addIconSet('iconsMindLine')
+                    ->addIconSet('iconsMindSolid')
+                    ->addIconSet('fontAwesome')
+                    ->addIconSet('materialDesignIcons')
+                    ->afterStateUpdated(function ($state) {
+                        dump($state);
+                    }),
+
+                MwLinkPicker::make('mw_link_picker')
+                    ->live()
+                    ->afterStateUpdated(function ($state) {
+                        dump($state);
+                    }),
+
+                ColorPicker::make('mw_color_picker')
+                    ->live()
+                    ->default('#133be8')
                     ->afterStateUpdated(function ($state) {
                         dump($state);
                     }),
