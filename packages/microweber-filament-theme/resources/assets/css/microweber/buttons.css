@@ -8,22 +8,22 @@
     @apply flex items-center justify-center font-normal text-center whitespace-nowrap align-middle select-none border px-3 py-1.5 text-base leading-6 rounded transition-colors duration-150 ease-in-out;
 }
 
-.btn-sm {
-    font-size: .7rem !important;
-    padding: 3px 5px !important;
-    border-radius: 0 !important;
+/*.btn-sm {*/
+/*    font-size: .7rem !important;*/
+/*    padding: 3px 5px !important;*/
+/*    border-radius: 0 !important;*/
 
-    svg {
-        width: 14px;
-        height: 14px;
-    }
+/*    svg {*/
+/*        width: 14px;*/
+/*        height: 14px;*/
+/*    }*/
 
-    i {
-        font-size: 14px;
+/*    i {*/
+/*        font-size: 14px;*/
 
-    }
+/*    }*/
 
-}
+/*}*/
 
 
 /* Button Variants */

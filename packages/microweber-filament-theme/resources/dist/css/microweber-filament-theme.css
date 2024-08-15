@@ -4618,6 +4618,10 @@ select {
   height: 240px !important;
 }
 
+.\!h-\[30px\] {
+  height: 30px !important;
+}
+
 .\!h-full {
   height: 100% !important;
 }
@@ -4880,6 +4884,10 @@ select {
 
 .\!w-\[30\%\] {
   width: 30% !important;
+}
+
+.\!w-\[30px\] {
+  width: 30px !important;
 }
 
 .\!w-\[45\%\] {
@@ -6877,8 +6885,16 @@ select {
   background-repeat: no-repeat;
 }
 
+.\!fill-white {
+  fill: #fff !important;
+}
+
 .fill-\[\#ff4f52\] {
   fill: #ff4f52;
+}
+
+.fill-black {
+  fill: #000;
 }
 
 .fill-gray-500 {
@@ -7054,6 +7070,11 @@ select {
 .\!py-0 {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
+}
+
+.\!py-2 {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
 }
 
 .\!py-4 {
@@ -7623,6 +7644,11 @@ select {
 .\!text-black {
   --tw-text-opacity: 1 !important;
   color: rgb(0 0 0 / var(--tw-text-opacity)) !important;
+}
+
+.\!text-white {
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
 
 .text-\[\#999\] {
@@ -9422,7 +9448,8 @@ select {
 }
 
 .fi-section-content-ctn {
-  border-style: none;
+  border-radius: 0.75rem;
+  border-width: 1px;
 }
 
 /*.fi-section-content {*/
@@ -9439,7 +9466,6 @@ select {
 }
 
 .fi-section-footer {
-  border-style: none;
   padding-left: 0px;
   padding-right: 0px;
   padding-bottom: 0px;
@@ -11260,6 +11286,22 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .mw-control-box {
   padding: 0.75rem !important;
+}
+
+.mw-admin-create-campaign-button svg {
+  height: 30px !important;
+  width: 30px !important;
+  fill: #fff !important;
+}
+
+.mw-admin-create-campaign-button {
+  border-radius: 0.75rem !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  --tw-text-opacity: 1 !important;
+  color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
 
 .ts-control {
@@ -14571,20 +14613,29 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after{
   padding: 0px;
 }
 
-.btn-sm {
-  font-size: .7rem !important;
-  padding: 3px 5px !important;
-  border-radius: 0 !important;
-}
+/*.btn-sm {*/
 
-.btn-sm svg {
-  width: 14px;
-  height: 14px;
-}
+/*    font-size: .7rem !important;*/
 
-.btn-sm i {
-  font-size: 14px;
-}
+/*    padding: 3px 5px !important;*/
+
+/*    border-radius: 0 !important;*/
+
+/*    svg {*/
+
+/*        width: 14px;*/
+
+/*        height: 14px;*/
+
+/*    }*/
+
+/*    i {*/
+
+/*        font-size: 14px;*/
+
+/*    }*/
+
+/*}*/
 
 /* Button Variants */
 
