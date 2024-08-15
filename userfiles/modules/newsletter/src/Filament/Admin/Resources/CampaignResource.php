@@ -117,7 +117,10 @@ class CampaignResource extends Resource
 
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('expand-from-clicked')
-                        ->label('Expand from clicked')
+                        ->label(function (NewsletterCampaign $campaign) {
+                            return 'Expand from clicked' . ' (' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')';
+                        })
+                        ->size('sm')
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
@@ -177,7 +180,9 @@ class CampaignResource extends Resource
                         })
                         ->icon('heroicon-o-cursor-arrow-rays'),
                     Tables\Actions\Action::make('expand-from-opened')
-                        ->label('Expand from opened')
+                        ->label(function (NewsletterCampaign $campaign) {
+                            return 'Expand from opened' . ' (' . NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count() . ')';
+                        })
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
