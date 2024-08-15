@@ -120,7 +120,7 @@ class CampaignResource extends Resource
                         ->label(function (NewsletterCampaign $campaign) {
                             return 'Expand from clicked' . ' (' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')';
                         })
-                        ->size('sm')
+                        ->size('md')
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
