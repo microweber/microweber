@@ -1,171 +1,113 @@
-.btn:not(.btn-sm, .live-edit-toolbar-buttons) {
-    padding: 0.65rem 1.25rem;
-    min-height: 45px;
-}
-
 /* Basic Button Styles */
 .btn {
     @apply flex items-center justify-center font-normal text-center whitespace-nowrap align-middle select-none border px-3 py-1.5 text-base leading-6 rounded transition-colors duration-150 ease-in-out;
 }
 
-/*.btn-sm {*/
-/*    font-size: .7rem !important;*/
-/*    padding: 3px 5px !important;*/
-/*    border-radius: 0 !important;*/
-
-/*    svg {*/
-/*        width: 14px;*/
-/*        height: 14px;*/
-/*    }*/
-
-/*    i {*/
-/*        font-size: 14px;*/
-
-/*    }*/
-
-/*}*/
-
-
 /* Button Variants */
 .btn-primary {
     @apply text-white bg-blue-500 border-blue-500 hover:bg-blue-600 hover:border-blue-600;
+    @apply dark:bg-blue-700 dark:border-blue-700 dark:hover:bg-blue-800 dark:hover:border-blue-800 dark:text-white;
+    @apply disabled:bg-blue-300 disabled:border-blue-300 disabled:cursor-not-allowed dark:disabled:bg-blue-500 dark:disabled:border-blue-500 dark:disabled:text-gray-300;
 }
 
 .btn-secondary {
     @apply text-white bg-gray-600 border-gray-600 hover:bg-gray-700 hover:border-gray-700;
+    @apply dark:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-800 dark:hover:border-black dark:text-white;
+    @apply disabled:bg-gray-400 disabled:border-gray-400 disabled:cursor-not-allowed dark:disabled:bg-gray-600 dark:disabled:border-gray-600 dark:disabled:text-gray-300;
 }
 
 .btn-success {
     @apply text-white bg-green-500 border-green-500 hover:bg-green-600 hover:border-green-600;
+    @apply dark:bg-green-700 dark:border-green-700 dark:hover:bg-green-800 dark:hover:border-green-800 dark:text-white;
+    @apply disabled:bg-green-300 disabled:border-green-300 disabled:cursor-not-allowed dark:disabled:bg-green-500 dark:disabled:border-green-500 dark:disabled:text-gray-300;
 }
 
 .btn-danger {
     @apply text-white bg-red-500 border-red-500 hover:bg-red-600 hover:border-red-600;
+    @apply dark:bg-red-700 dark:border-red-700 dark:hover:bg-red-800 dark:hover:border-red-800 dark:text-white;
+    @apply disabled:bg-red-300 disabled:border-red-300 disabled:cursor-not-allowed dark:disabled:bg-red-500 dark:disabled:border-red-500 dark:disabled:text-gray-300;
 }
 
 .btn-warning {
     @apply text-gray-900 bg-yellow-400 border-yellow-400 hover:bg-yellow-500 hover:border-yellow-500;
+    @apply dark:bg-yellow-500 dark:border-yellow-500 dark:hover:bg-yellow-600 dark:hover:border-yellow-600 dark:text-gray-900;
+    @apply disabled:bg-yellow-300 disabled:border-yellow-300 disabled:cursor-not-allowed dark:disabled:bg-yellow-400 dark:disabled:border-yellow-400 dark:disabled:text-gray-300;
 }
 
 .btn-info {
     @apply text-white bg-teal-500 border-teal-500 hover:bg-teal-600 hover:border-teal-600;
+    @apply dark:bg-teal-700 dark:border-teal-700 dark:hover:bg-teal-800 dark:hover:border-teal-800 dark:text-white;
+    @apply disabled:bg-teal-300 disabled:border-teal-300 disabled:cursor-not-allowed dark:disabled:bg-teal-500 dark:disabled:border-teal-500 dark:disabled:text-gray-300;
 }
 
 .btn-light {
     @apply text-gray-900 bg-gray-200 border-gray-200 hover:bg-gray-300 hover:border-gray-300;
+    @apply dark:bg-gray-400 dark:border-gray-400 dark:hover:bg-gray-500 dark:hover:border-gray-500 dark:text-gray-900;
+    @apply disabled:bg-gray-100 disabled:border-gray-100 disabled:cursor-not-allowed dark:disabled:bg-gray-300 dark:disabled:border-gray-300 dark:disabled:text-gray-500;
 }
 
 .btn-dark {
-    @apply text-white bg-gray-800 border-gray-800 hover:bg-gray-900 hover:border-gray-900;
+    @apply text-white bg-gray-800 border-black hover:bg-gray-900 hover:border-black;
+    @apply dark:bg-black dark:border-black dark:hover:bg-black dark:hover:border-black dark:text-white;
+    @apply disabled:bg-gray-600 disabled:border-gray-600 disabled:cursor-not-allowed dark:disabled:bg-gray-800 dark:disabled:border-gray-800 dark:disabled:text-gray-500;
 }
 
 .btn-link {
     @apply font-normal text-blue-500 bg-transparent border-transparent hover:text-blue-600;
+    @apply dark:text-blue-600 dark:hover:text-blue-700;
+    @apply disabled:text-blue-300 disabled:cursor-not-allowed dark:disabled:text-blue-400;
 }
 
 /* Outline Button Styles */
 .btn-outline-primary {
     @apply text-blue-500 bg-transparent border-blue-500 hover:bg-blue-500 hover:text-white;
+    @apply dark:text-blue-700 dark:border-blue-700 dark:hover:bg-blue-700 dark:hover:text-white;
+    @apply disabled:text-blue-300 disabled:border-blue-300 disabled:hover:bg-transparent disabled:cursor-not-allowed dark:disabled:text-blue-500 dark:disabled:border-blue-500 dark:disabled:hover:bg-transparent;
 }
 
 .btn-outline-secondary {
     @apply text-gray-600 bg-transparent border-gray-600 hover:bg-gray-600 hover:text-white;
+    @apply dark:text-gray-700 dark:border-gray-700 dark:hover:bg-gray-700 dark:hover:text-white;
+    @apply disabled:text-gray-400 disabled:border-gray-400 disabled:hover:bg-transparent disabled:cursor-not-allowed dark:disabled:text-gray-600 dark:disabled:border-gray-600 dark:disabled:hover:bg-transparent;
 }
 
 .btn-outline-success {
     @apply text-green-500 bg-transparent border-green-500 hover:bg-green-500 hover:text-white;
+    @apply dark:text-green-700 dark:border-green-700 dark:hover:bg-green-700 dark:hover:text-white;
+    @apply disabled:text-green-300 disabled:border-green-300 disabled:hover:bg-transparent disabled:cursor-not-allowed dark:disabled:text-green-500 dark:disabled:border-green-500 dark:disabled:hover:bg-transparent;
 }
 
 .btn-outline-danger {
     @apply text-red-500 bg-transparent border-red-500 hover:bg-red-500 hover:text-white;
+    @apply dark:text-red-700 dark:border-red-700 dark:hover:bg-red-700 dark:hover:text-white;
+    @apply disabled:text-red-300 disabled:border-red-300 disabled:hover:bg-transparent disabled:cursor-not-allowed dark:disabled:text-red-500 dark:disabled:border-red-500 dark:disabled:hover:bg-transparent;
 }
 
 .btn-outline-warning {
     @apply text-yellow-400 bg-transparent border-yellow-400 hover:bg-yellow-400 hover:text-gray-900;
+    @apply dark:text-yellow-500 dark:border-yellow-500 dark:hover:bg-yellow-500 dark:hover:text-gray-900;
+    @apply disabled:text-yellow-300 disabled:border-yellow-300 disabled:hover:bg-transparent disabled:cursor-not-allowed dark:disabled:text-yellow-400 dark:disabled:border-yellow-400 dark:disabled:hover:bg-transparent;
 }
 
 .btn-outline-info {
     @apply text-teal-500 bg-transparent border-teal-500 hover:bg-teal-500 hover:text-white;
+    @apply dark:text-teal-700 dark:border-teal-700 dark:hover:bg-teal-700 dark:hover:text-white;
+    @apply disabled:text-teal-300 disabled:border-teal-300 disabled:hover:bg-transparent disabled:cursor-not-allowed dark:disabled:text-teal-500 dark:disabled:border-teal-500 dark:disabled:hover:bg-transparent;
 }
 
 .btn-outline-light {
     @apply text-gray-200 bg-transparent border-gray-200 hover:bg-gray-200 hover:text-gray-900;
+    @apply dark:text-gray-400 dark:border-gray-400 dark:hover:bg-gray-400 dark:hover:text-gray-900;
+    @apply disabled:text-gray-300 disabled:border-gray-300 disabled:hover:bg-transparent disabled:cursor-not-allowed dark:disabled:text-gray-500 dark:disabled:border-gray-500 dark:disabled:hover:bg-transparent;
 }
 
 .btn-outline-dark {
-    @apply text-gray-800 bg-transparent border-gray-800 hover:bg-gray-800 hover:text-white;
+    @apply text-gray-800 bg-transparent border-black hover:bg-gray-800 hover:text-white;
+    @apply dark:text-white dark:border-black dark:hover:bg-black dark:hover:text-white;
+    @apply disabled:text-gray-600 disabled:border-gray-600 disabled:hover:bg-transparent disabled:cursor-not-allowed dark:disabled:text-gray-700 dark:disabled:border-gray-700 dark:disabled:hover:bg-transparent;
 }
 
-/* Button Sizes */
-.btn-lg {
-    @apply px-4 py-2 text-xl leading-6 rounded-md;
-}
+.live-edit-toolbar-buttons.live-edit-toolbar-buttons-undo-redo {
+    @apply disabled:bg-gray-600 disabled:border-gray-600 dark:disabled:bg-gray-800 dark:disabled:border-gray-800 dark:disabled:text-gray-500;
 
-.btn-sm {
-    @apply px-2 py-1 text-sm leading-5 rounded-sm;
-}
-
-.btn-block {
-    @apply block w-full;
-}
-
-/* Button States */
-.btn:disabled,
-.btn.disabled {
-    @apply opacity-65;
-}
-
-.btn.active,
-.btn:active {
-    @apply bg-none shadow;
-}
-
-.btn-primary.active,
-.btn-primary:active {
-    @apply text-white bg-blue-700 border-blue-700;
-}
-
-.btn-secondary.active,
-.btn-secondary:active {
-    @apply text-white bg-gray-700 border-gray-700;
-}
-
-/* Button Groups */
-.btn-group {
-    @apply relative inline-flex align-middle;
-}
-
-.btn-group > .btn {
-    @apply relative flex-1;
-}
-
-.btn-group > .btn + .btn {
-    @apply ml-[-1px];
-}
-
-.btn-group > .btn:first-child {
-    @apply rounded-l;
-}
-
-.btn-group > .btn:last-child {
-    @apply rounded-r;
-}
-
-/* Dropdown Toggle */
-.dropdown-toggle::after {
-    @apply inline-block w-0 h-0 ml-1 align-middle content-[""] border-t-4 border-r-4 border-transparent border-l-4;
-}
-
-/* Dropdown Menu */
-.dropdown-menu {
-    @apply absolute top-full left-0 z-10 hidden min-w-[10rem] py-2 mt-0.5 text-base text-gray-900 bg-white border border-gray-300 rounded shadow-lg;
-}
-
-.dropdown-item {
-    @apply block w-full px-4 py-1.5 text-base text-gray-900 bg-transparent clear-both;
-}
-
-.dropdown-item:hover,
-.dropdown-item:focus {
-    @apply text-gray-800 bg-gray-100 no-underline;
 }

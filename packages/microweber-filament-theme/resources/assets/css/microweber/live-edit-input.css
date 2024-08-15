@@ -97,7 +97,7 @@
     .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
     .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus,
     .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus-visible {
-        @apply bg-gray-50;
+        @apply bg-gray-50 dark:bg-gray-800;
     }
 
     .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect,

@@ -6,6 +6,10 @@
     @apply dark:bg-black;
 }
 
+.tblr-body-color {
+    @apply text-black dark:text-white;
+}
+
 .modal-header, .modal-body, .modal-footer {
     @apply text-black dark:text-white border-0;
 }
