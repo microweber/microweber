@@ -310,89 +310,6 @@ class EditCampaign extends Page
                                 ->options($senderOptions),
                             ]),
 
-                    Wizard\Step::make('Schedule')
-                        // ->description('Select when you would you like this email to launch.')
-                        ->icon('heroicon-o-calendar-days')
-                        ->schema([
-
-                            RadioDeck::make('state.delivery_type')
-                                ->columns(2)
-                                ->required()
-                                ->icons([
-                                    'send_now' => 'heroicon-o-rocket-launch',
-                                    'schedule' => 'heroicon-o-clock',
-                                ])
-                                ->color('primary')
-                                ->live()
-                                ->descriptions([
-                                    'send_now' => 'Send campaign now.',
-                                    'schedule' => 'Schedule campaign for later.',
-                                ])
-                                ->default('send_now')
-                                ->options([
-                                    'send_now' => 'Send now',
-                                    'schedule' => 'Schedule',
-                                ]),
-
-                            Group::make([
-
-                                Flatpickr::make('state.scheduled_at')
-                                    ->enableTime()
-                                    ->live(),
-
-                                TimezoneSelect::make('state.scheduled_timezone')
-                                    ->searchable()
-                                    ->timezoneType('GMT')
-                                    ->default(date_default_timezone_get())
-                                    ->required(),
-
-                            ])
-                                ->columns(2)
-                                ->hidden(function (Get $get) {
-                                if ($get('state.delivery_type') == 'schedule') {
-                                    return false;
-                                }
-                                return true;
-                            }),
-
-                            Checkbox::make('state.advanced_options')
-                                ->label('Advanced options')
-                                ->hidden(function (Get $get) {
-                                    if ($get('state.delivery_type') == 'schedule') {
-                                        return false;
-                                    }
-                                    return true;
-                                })
-                                ->live(),
-
-                            Group::make([
-
-                                TextInput::make('state.delay_between_sending_emails')
-                                    ->label('Delay between sending emails')
-                                    ->helperText('Set the delay between sending emails in seconds.')
-                                    ->suffix('Seconds')
-                                    ->numeric()
-                                    ->default(2)
-                                    ->live(),
-
-//                                TextInput::make('state.sending_limit_per_day')
-//                                    ->label('Sending limit (Per day)')
-//                                    ->helperText('Set the maximum number of emails to be sent per day ')
-//                                    ->numeric()
-//                                    ->default(300)
-//                                    ->live()
-//                                    ->label('Sending limit'),
-
-                            ])->hidden(function (Get $get) {
-                                if ($get('state.advanced_options')
-                                    && $get('state.delivery_type') == 'schedule') {
-                                    return false;
-                                }
-                                return true;
-                            }),
-
-                        ]),
-
                     Wizard\Step::make('Content')
                         ->icon('heroicon-o-paint-brush')
                         ->beforeValidation(function () {
@@ -514,6 +431,93 @@ class EditCampaign extends Page
                                     return false;
                                 })
                                 ->setCampaignId($this->state['id']),
+                        ]),
+
+                    Wizard\Step::make('Schedule')
+                        // ->description('Select when you would you like this email to launch.')
+                        ->icon('heroicon-o-calendar-days')
+                        ->schema([
+
+                            RadioDeck::make('state.delivery_type')
+                                ->columns(2)
+                                ->required()
+                                ->icons([
+                                    'send_now' => 'heroicon-o-rocket-launch',
+                                    'schedule' => 'heroicon-o-clock',
+                                ])
+                                ->color('primary')
+                                ->live()
+                                ->descriptions([
+                                    'send_now' => 'Send campaign now.',
+                                    'schedule' => 'Schedule campaign for later.',
+                                ])
+                                ->default('send_now')
+                                ->options([
+                                    'send_now' => 'Send now',
+                                    'schedule' => 'Schedule',
+                                ]),
+
+                            Group::make([
+
+                                Flatpickr::make('state.scheduled_at')
+                                    ->enableTime()
+                                    ->live(),
+
+                                TimezoneSelect::make('state.scheduled_timezone')
+                                    ->searchable()
+                                    ->timezoneType('GMT')
+                                    ->default(date_default_timezone_get())
+                                    ->required(),
+
+                            ])
+                                ->columns(2)
+                                ->hidden(function (Get $get) {
+                                    if ($get('state.delivery_type') == 'schedule') {
+                                        return false;
+                                    }
+                                    return true;
+                                }),
+
+                            Checkbox::make('state.advanced_options')
+                                ->label('Advanced options')
+                                ->hidden(function (Get $get) {
+                                    if ($get('state.delivery_type') == 'schedule') {
+                                        return false;
+                                    }
+                                    return true;
+                                })
+                                ->live(),
+
+                            Group::make([
+
+                                TextInput::make('state.delay_between_sending_emails')
+                                    ->label('Delay between sending emails')
+                                    ->helperText('Set the delay between sending emails in seconds. Default is 2 seconds')
+                                    ->suffix('Seconds')
+                                    ->numeric()
+                                    ->maxValue(15)
+                                    ->minValue(0.1)
+                                    ->default(2)
+                                    ->live(),
+
+//                                TextInput::make('state.sending_limit_per_day')
+//                                    ->label('Sending limit (Per day)')
+//                                    ->helperText('Set the maximum number of emails to be sent per day ')
+//                                    ->numeric()
+//                                    ->default(300)
+//                                    ->live()
+//                                    ->label('Sending limit'),
+
+                            ])
+                                ->columns(2)
+                                ->hidden(function (Get $get) {
+                                    if ($get('state.advanced_options')
+                                        && $get('state.delivery_type') == 'schedule') {
+                                        return false;
+                                    }
+                                    return true;
+                                }),
+
                         ]),
 
                     Wizard\Step::make('Send')
