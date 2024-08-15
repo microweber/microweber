@@ -116,72 +116,12 @@ class CampaignResource extends Resource
                     }),
 
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('expand-from-clicked')
-                        ->label(function (NewsletterCampaign $campaign) {
-                            return 'Expand from clicked' . ' (' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')';
-                        })
-                        ->action(function (NewsletterCampaign $campaign) {
 
-                            $subscriberIds = [];
-                            $getClicked = NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->get();
-                            if ($getClicked) {
-                                foreach ($getClicked as $clicked) {
-                                    $findSubscriber = NewsletterSubscriber::select(['id','email'])->where('email', $clicked->email)->first();
-                                    if ($findSubscriber) {
-                                        $subscriberIds[] = $findSubscriber->id;
-                                    }
-                                }
-                            }
-
-                            if (empty($subscriberIds)) {
-                                Notification::make()
-                                    ->title('No clicked subscribers found for this campaign')
-                                    ->danger()
-                                    ->send();
-                                return;
-                            }
-
-                            $newCampaignName = $campaign->name . ' - Clicked';
-                            $newCampaignListName = $campaign->name . ' - List of clicked';
-
-                            $checkCampaignName = NewsletterCampaign::where('name', $newCampaignName)->first();
-                            if ($checkCampaignName) {
-                                Notification::make()
-                                    ->title('This campaign already expanded. Please continue the campaign.')
-                                    ->danger()
-                                    ->send();
-                                return;
-                            }
-
-                            $newCampaignList = new NewsletterList();
-                            $newCampaignList->name = $newCampaignListName;
-                            $newCampaignList->save();
-
-                            foreach ($subscriberIds as $subscriberId) {
-                                $newSubscriberInList = new NewsletterSubscriberList();
-                                $newSubscriberInList->subscriber_id = $subscriberId;
-                                $newSubscriberInList->list_id = $newCampaignList->id;
-                                $newSubscriberInList->save();
-                            }
-
-                            $newCampaign = new NewsletterCampaign();
-                            $newCampaign->name = $newCampaignName;
-                            $newCampaign->status = NewsletterCampaign::STATUS_DRAFT;
-                            $newCampaign->email_content_html = "Hello, {{name}}! <br />How are you today?";
-                            $newCampaign->email_content_type = 'design';
-                            $newCampaign->list_id = $newCampaignList->id;
-                            $newCampaign->recipients_from = 'specific_list';
-                            $newCampaign->sender_account_id = $campaign->sender_account_id;
-                            $newCampaign->save();
-
-                            return redirect()->route('filament.admin-newsletter.pages.edit-campaign.{id}', $newCampaign->id);
-
-                        })
-                        ->icon('heroicon-o-cursor-arrow-rays'),
                     Tables\Actions\Action::make('expand-from-opened')
                         ->label(function (NewsletterCampaign $campaign) {
                             return 'Expand from opened' . ' (' . NewsletterCampaignPixel::where('campaign_id', $campaign->id)->count() . ')';
                         })
+                        ->color(Color::Green)
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
@@ -241,10 +181,74 @@ class CampaignResource extends Resource
                         })
                         ->icon('heroicon-o-envelope-open'),
 
+                    Tables\Actions\Action::make('expand-from-clicked')
+                        ->label(function (NewsletterCampaign $campaign) {
+                            return 'Expand from clicked' . ' (' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')';
+                        })
+                        ->color(Color::Green)
+                        ->action(function (NewsletterCampaign $campaign) {
+
+                            $subscriberIds = [];
+                            $getClicked = NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->get();
+                            if ($getClicked) {
+                                foreach ($getClicked as $clicked) {
+                                    $findSubscriber = NewsletterSubscriber::select(['id','email'])->where('email', $clicked->email)->first();
+                                    if ($findSubscriber) {
+                                        $subscriberIds[] = $findSubscriber->id;
+                                    }
+                                }
+                            }
+
+                            if (empty($subscriberIds)) {
+                                Notification::make()
+                                    ->title('No clicked subscribers found for this campaign')
+                                    ->danger()
+                                    ->send();
+                                return;
+                            }
+
+                            $newCampaignName = $campaign->name . ' - Clicked';
+                            $newCampaignListName = $campaign->name . ' - List of clicked';
+
+                            $checkCampaignName = NewsletterCampaign::where('name', $newCampaignName)->first();
+                            if ($checkCampaignName) {
+                                Notification::make()
+                                    ->title('This campaign already expanded. Please continue the campaign.')
+                                    ->danger()
+                                    ->send();
+                                return;
+                            }
+
+                            $newCampaignList = new NewsletterList();
+                            $newCampaignList->name = $newCampaignListName;
+                            $newCampaignList->save();
+
+                            foreach ($subscriberIds as $subscriberId) {
+                                $newSubscriberInList = new NewsletterSubscriberList();
+                                $newSubscriberInList->subscriber_id = $subscriberId;
+                                $newSubscriberInList->list_id = $newCampaignList->id;
+                                $newSubscriberInList->save();
+                            }
+
+                            $newCampaign = new NewsletterCampaign();
+                            $newCampaign->name = $newCampaignName;
+                            $newCampaign->status = NewsletterCampaign::STATUS_DRAFT;
+                            $newCampaign->email_content_html = "Hello, {{name}}! <br />How are you today?";
+                            $newCampaign->email_content_type = 'design';
+                            $newCampaign->list_id = $newCampaignList->id;
+                            $newCampaign->recipients_from = 'specific_list';
+                            $newCampaign->sender_account_id = $campaign->sender_account_id;
+                            $newCampaign->save();
+
+                            return redirect()->route('filament.admin-newsletter.pages.edit-campaign.{id}', $newCampaign->id);
+
+                        })
+                        ->icon('heroicon-o-cursor-arrow-rays'),
+
                     Tables\Actions\DeleteAction::make(),
                 ])
                     ->dropdownWidth(MaxWidth::ExtraSmall)
-                    ->icon('mw-dots-menu') 
+                    ->icon('mw-dots-menu')
                     ->color(Color::Gray)
                     ->iconSize('lg'),
             ])
