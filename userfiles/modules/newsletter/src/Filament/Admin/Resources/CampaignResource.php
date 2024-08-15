@@ -67,7 +67,7 @@ class CampaignResource extends Resource
                 TextColumn::make('list.name'),
                 TextColumn::make('subscribers')
                     ->color(function() {
-                        return 'success';
+                        return 'gray';
                     })
                     ->alignCenter(),
 //                TextColumn::make('scheduled'),
@@ -75,7 +75,7 @@ class CampaignResource extends Resource
                 TextColumn::make('opened')
                     ->alignCenter()
                     ->color(function() {
-                        return 'success';
+                        return 'info';
                     }),
                 TextColumn::make('clicked')
                     ->alignCenter()
