@@ -4,11 +4,13 @@ $currentRecord = $getRecord();
 <div>
 
     @if($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_DRAFT)
+
         <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
             {{ __('Draft') }}
         </span>
 
     @elseif($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_PROCESSING)
+
         <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-yellow-200 rounded-full">
             <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Processing') }} ({{$currentRecord->jobs_progress}}%)
         </span>
@@ -17,6 +19,7 @@ $currentRecord = $getRecord();
             </div>
 
     @elseif($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_FINISHED)
+
         <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-green-200 rounded-full">
            <x-filament::icon
                icon="heroicon-m-check"
@@ -25,6 +28,7 @@ $currentRecord = $getRecord();
         </span>
 
         @elseif($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_SCHEDULED)
+
             <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-green-200 rounded-full">
            <x-filament::icon
                icon="heroicon-m-clock"
@@ -41,21 +45,29 @@ $currentRecord = $getRecord();
 
 
     @elseif($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_CANCELED)
+
         <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-red-200 rounded-full">
             {{ __('Canceled') }}
         </span>
+
     @elseif($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_PENDING)
+
         <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
            <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Pending') }}
         </span>
+
     @elseif($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_QUEUED)
+
         <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
        <x-filament::loading-indicator class="h-5 w-5" /> {{ __('Queued') }}
     </span>
+
     @else
+
         <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
             {{ ucfirst($currentRecord->status) }}
         </span>
+
     @endif
 
 </div>
