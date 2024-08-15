@@ -3,6 +3,7 @@ $currentRecord = $getRecord();
 @endphp
 <div>
 
+
     @if($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_DRAFT)
 
         <span class="px-2 py-1 text-xs font-semibold leading-5 text-gray-800 bg-gray-200 rounded-full">
@@ -31,7 +32,7 @@ $currentRecord = $getRecord();
 
         <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-green-500 bg-green-200 rounded-full">
            <x-filament::icon
-               icon="heroicon-x-mark"
+               icon="heroicon-m-x-mark"
                class="h-5 w-5 text-green-500"
            /> {{ __('Failed') }}
         </span>

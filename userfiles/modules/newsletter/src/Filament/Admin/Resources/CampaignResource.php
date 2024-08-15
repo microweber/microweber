@@ -75,12 +75,12 @@ class CampaignResource extends Resource
                 TextColumn::make('opened')
                     ->alignCenter()
                     ->color(function() {
-                        return 'info';
+                        return 'success';
                     }),
                 TextColumn::make('clicked')
                     ->alignCenter()
                     ->color(function() {
-                        return 'success';
+                        return 'info';
                     }),
                 Tables\Columns\ViewColumn::make('status')->alignCenter()
                         ->view('microweber-module-newsletter::livewire.filament.columns.campaign-status'),
