@@ -120,7 +120,6 @@ class CampaignResource extends Resource
                         ->label(function (NewsletterCampaign $campaign) {
                             return 'Expand from clicked' . ' (' . NewsletterCampaignClickedLink::where('campaign_id', $campaign->id)->count() . ')';
                         })
-                        ->size('md')
                         ->action(function (NewsletterCampaign $campaign) {
 
                             $subscriberIds = [];
@@ -244,8 +243,8 @@ class CampaignResource extends Resource
 
                     Tables\Actions\DeleteAction::make(),
                 ])
-                  //  ->dropdownWidth(MaxWidth::ExtraSmall)
-                    ->icon('mw-dots-menu')
+                    ->dropdownWidth(MaxWidth::ExtraSmall)
+                    ->icon('mw-dots-menu') 
                     ->color(Color::Gray)
                     ->iconSize('lg'),
             ])
