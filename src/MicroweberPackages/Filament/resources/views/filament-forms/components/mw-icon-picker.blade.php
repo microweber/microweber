@@ -9,7 +9,6 @@
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
-    :has-inline-label="$hasInlineLabel"
 >
 <div
 
@@ -34,25 +33,27 @@
         })
     </script>
 
-    <x-filament::button
+    <div class="">
+        <x-filament::button
 
-        x-on:click="async ()=> {
+            x-on:click="async ()=> {
             const picker = mw.app.iconPicker.pickIcon(document.querySelector('.icon-example'));
             await picker.promise().then((icon) => {
                 state = icon.icon;
             });
         }"
 
-        color="gray"
+            color="gray"
 
-    >
+        >
         <span class="icon-example"
 
-          :class="state"
+              :class="state"
 
         ></span>
-        Pick icon
-    </x-filament::button>
+            Pick icon
+        </x-filament::button>
+    </div>
 
 </div>
 </x-dynamic-component>

@@ -67,20 +67,20 @@ class KitchenSink extends Page
                     ->addIconSet('materialDesignIcons')
                     ->afterStateUpdated(function ($state) {
                         dump($state);
-                    }),
+                    })->columnSpanFull(),
 
                 MwLinkPicker::make('mw_link_picker')
                     ->live()
                     ->afterStateUpdated(function ($state) {
                         dump($state);
-                    }),
+                    })->columnSpanFull(),
 
                 ColorPicker::make('mw_color_picker')
                     ->live()
                     ->default('#133be8')
                     ->afterStateUpdated(function ($state) {
                         dump($state);
-                    }),
+                    })->columnSpanFull(),
 
                 Actions::make([
 
