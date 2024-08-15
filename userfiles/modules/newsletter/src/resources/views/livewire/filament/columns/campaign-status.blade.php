@@ -30,10 +30,10 @@ $currentRecord = $getRecord();
 
     @elseif($currentRecord->status === \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::STATUS_FAILED)
 
-        <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-danger-500 bg-danger-200 rounded-full">
+        <span class="flex gap-2 px-2 py-1 text-xs font-semibold leading-5 text-red-500 bg-red-200 rounded-full">
            <x-filament::icon
                icon="heroicon-m-x-mark"
-               class="h-5 w-5 text-danger-500"
+               class="h-5 w-5 text-red-500"
            /> {{ __('Failed') }}
         </span>
 
