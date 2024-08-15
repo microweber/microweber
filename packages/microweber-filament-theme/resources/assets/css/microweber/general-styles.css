@@ -2,6 +2,10 @@
     @apply absolute top-3 right-3 text-black dark:text-white cursor-pointer text-2xl;
 }
 
+.bg-white {
+    @apply dark:bg-black;
+}
+
 .modal-header, .modal-body, .modal-footer {
     @apply text-black dark:text-white border-0;
 }
