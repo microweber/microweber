@@ -321,7 +321,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 
 .mw-dialog-container {
-    @apply bg-white dark:bg-gray-900 dark:text-white !p-6;
+    @apply bg-white dark:bg-gray-900 dark:text-white;
 }
 
 .mw-dialog-header {
