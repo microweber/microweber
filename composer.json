@@ -85,6 +85,7 @@
         "microweber-templates/big-free": "v16.8",
         "mtrajano/laravel-swagger": "0.6.4",
         "nunomaduro/collision": "^8.0",
+        "nwidart/laravel-modules": "^11.0",
         "omnipay/authorizenet": "*",
         "omnipay/mollie": "*",
         "omnipay/paypal": "*",
@@ -146,6 +147,7 @@
             "App\\": "app/",
             "Microweber\\": "src/Microweber/",
             "MicroweberPackages\\": "src/MicroweberPackages/",
+            "Modules\\": "Modules/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
@@ -198,6 +200,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+                "nwidart/laravel-modules",
                 "microweber-packages/microweber-app",
                 "microweber-packages/laravel-config-extended",
                 "laravel/passport",

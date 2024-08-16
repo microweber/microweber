@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc80f52c634671c092e6b3c64fdb0485",
+    "content-hash": "1d786ac8b88fb9204223ef478f34a5f1",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -6336,6 +6336,72 @@
             "time": "2024-07-10T19:25:36+00:00"
         },
         {
+            "name": "laravel/pint",
+            "version": "v1.17.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/pint.git",
+                "reference": "b5b6f716db298671c1dfea5b1082ec2c0ae7064f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/b5b6f716db298671c1dfea5b1082ec2c0ae7064f",
+                "reference": "b5b6f716db298671c1dfea5b1082ec2c0ae7064f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-tokenizer": "*",
+                "ext-xml": "*",
+                "php": "^8.1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.59.3",
+                "illuminate/view": "^10.48.12",
+                "larastan/larastan": "^2.9.7",
+                "laravel-zero/framework": "^10.4.0",
+                "mockery/mockery": "^1.6.12",
+                "nunomaduro/termwind": "^1.15.1",
+                "pestphp/pest": "^2.34.8"
+            },
+            "bin": [
+                "builds/pint"
+            ],
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "app/",
+                    "Database\\Seeders\\": "database/seeders/",
+                    "Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nuno Maduro",
+                    "email": "enunomaduro@gmail.com"
+                }
+            ],
+            "description": "An opinionated code formatter for PHP.",
+            "homepage": "https://laravel.com",
+            "keywords": [
+                "format",
+                "formatter",
+                "lint",
+                "linter",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/pint/issues",
+                "source": "https://github.com/laravel/pint"
+            },
+            "time": "2024-08-01T09:06:33+00:00"
+        },
+        {
             "name": "laravel/prompts",
             "version": "v0.1.24",
             "source": {
@@ -8833,7 +8899,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
-                "reference": "dc68e0bbf08a164769513b1d95faf5249b690f8a"
+                "reference": "de6619b6fd346a97d2b8b95cc2ef717cd3fb474c"
             },
             "type": "library",
             "autoload": {
@@ -8912,7 +8978,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "778441b2f5034c5ee89e1e65dc38f8b089769e44"
+                "reference": "93fe855917dd7486269c88ae1f0c4e7f6457a993"
             },
             "require": {
                 "filament/filament": "^3.0",
@@ -10175,6 +10241,93 @@
                 }
             ],
             "time": "2024-03-06T16:17:14+00:00"
+        },
+        {
+            "name": "nwidart/laravel-modules",
+            "version": "v11.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nWidart/laravel-modules.git",
+                "reference": "9d50adcbf8d11c9ec01e48a5b7adbf320653185c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/9d50adcbf8d11c9ec01e48a5b7adbf320653185c",
+                "reference": "9d50adcbf8d11c9ec01e48a5b7adbf320653185c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/pint": "^1.16",
+                "php": ">=8.2",
+                "wikimedia/composer-merge-plugin": "^2.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^v3.52",
+                "laravel/framework": "^v11.0",
+                "mockery/mockery": "^1.6",
+                "orchestra/testbench": "^v9.0",
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "^11.0",
+                "spatie/phpunit-snapshot-assertions": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Nwidart\\Modules\\LaravelModulesServiceProvider"
+                    ],
+                    "aliases": {
+                        "Module": "Nwidart\\Modules\\Facades\\Module"
+                    }
+                },
+                "branch-alias": {
+                    "dev-master": "11.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Nwidart\\Modules\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Widart",
+                    "email": "n.widart@gmail.com",
+                    "homepage": "https://nicolaswidart.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Module management",
+            "keywords": [
+                "laravel",
+                "module",
+                "modules",
+                "nwidart",
+                "rad"
+            ],
+            "support": {
+                "issues": "https://github.com/nWidart/laravel-modules/issues",
+                "source": "https://github.com/nWidart/laravel-modules/tree/v11.0.11"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/dcblogdev",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nwidart",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-06-16T16:26:29+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -19714,72 +19867,6 @@
                 "source": "https://github.com/hamcrest/hamcrest-php/tree/v2.0.1"
             },
             "time": "2020-07-09T08:09:16+00:00"
-        },
-        {
-            "name": "laravel/pint",
-            "version": "v1.17.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/pint.git",
-                "reference": "b5b6f716db298671c1dfea5b1082ec2c0ae7064f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/b5b6f716db298671c1dfea5b1082ec2c0ae7064f",
-                "reference": "b5b6f716db298671c1dfea5b1082ec2c0ae7064f",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-tokenizer": "*",
-                "ext-xml": "*",
-                "php": "^8.1.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.59.3",
-                "illuminate/view": "^10.48.12",
-                "larastan/larastan": "^2.9.7",
-                "laravel-zero/framework": "^10.4.0",
-                "mockery/mockery": "^1.6.12",
-                "nunomaduro/termwind": "^1.15.1",
-                "pestphp/pest": "^2.34.8"
-            },
-            "bin": [
-                "builds/pint"
-            ],
-            "type": "project",
-            "autoload": {
-                "psr-4": {
-                    "App\\": "app/",
-                    "Database\\Seeders\\": "database/seeders/",
-                    "Database\\Factories\\": "database/factories/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nuno Maduro",
-                    "email": "enunomaduro@gmail.com"
-                }
-            ],
-            "description": "An opinionated code formatter for PHP.",
-            "homepage": "https://laravel.com",
-            "keywords": [
-                "format",
-                "formatter",
-                "lint",
-                "linter",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel/pint/issues",
-                "source": "https://github.com/laravel/pint"
-            },
-            "time": "2024-08-01T09:06:33+00:00"
         },
         {
             "name": "mockery/mockery",

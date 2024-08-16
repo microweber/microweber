@@ -50,6 +50,7 @@ use MicroweberPackages\Menu\Providers\MenuServiceProvider;
 use MicroweberPackages\MetaTags\Providers\MetaTagsServiceProvider;
 use MicroweberPackages\Microweber\Microweber;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
+use MicroweberPackages\Module\LaravelModulesServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\MailTemplatesServiceProvider;
@@ -215,6 +216,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(LiveEditServiceProvider::class);
+      //  $this->app->register(LaravelModulesServiceProvider::class);
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 
