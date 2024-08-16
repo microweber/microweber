@@ -233,9 +233,6 @@ body {
     @apply flex items-center;
 }
 
-.mw_modal_live_edit_settings {
-    @apply h-[20px];
-}
 
 .mw_modal_live_edit_settings .modal-title {
     @apply absolute top-[-22px] left-0 z-10 text-xs px-1.5 py-0.5 h-5 select-none cursor-grab bg-blue-600 text-white;
@@ -785,7 +782,6 @@ h1,h2,h3,h4,h5,h6 {
 .mw_modal_live_edit_settings .mw-dialog-holder {
     background-color: #fff;
     box-shadow: rgba(0, 0, 0, .24) 0 3px 8px;
-    padding: 0 15px;
 }
 
 

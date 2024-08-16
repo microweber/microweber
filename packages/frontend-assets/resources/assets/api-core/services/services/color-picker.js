@@ -99,8 +99,10 @@ export class ColorPicker extends MicroweberBaseClass {
 
         this.colorPickerInstances.push(colorPickerDialog);
 
+
+
         mw.colorPicker({
-            element: '#color-picker-' + randId,
+            element: colorPickerDialog.dialogContainer.querySelector('#color-picker-' + randId),
             value: target.value,
             onchange: function (color) {
 

@@ -1,5 +1,5 @@
 
-import MicroweberBaseClass from "../containers/base-class";
+import MicroweberBaseClass from "../containers/base-class.js";
 
 export class SingleFilePickerComponent extends MicroweberBaseClass {
 

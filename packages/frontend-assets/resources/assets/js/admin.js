@@ -106,6 +106,8 @@ mw.prompt = Prompt;
 mw.app.normalizeBase64Image = normalizeBase64Image;
 mw.app.normalizeBase64Images = normalizeBase64Images;
 
+mw.app.register('colorPicker', ColorPicker);
+
 mw.schemaForm = options => new SchemaForm(options);
 
 mw.templatePreview = TemplatePreview;
@@ -136,9 +138,7 @@ import "../widgets/tree.js";
 import {CategoriesAdminListComponent} from "./categories-admin-list.component.js";
 import { IconPicker } from "../widgets/icon-picker.js";
 import { AdminPackageManager } from "./admin-package-manager.js";
-import { SingleFilePickerComponent } from "../api-core/services/services/single-file-picker-component.js";
-
-
+import { ColorPicker } from "../api-core/services/services/color-picker.js";
 
 
 
