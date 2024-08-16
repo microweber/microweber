@@ -264,10 +264,6 @@ h1,h2,h3,h4,h5,h6 {
     @apply !font-bold mb-[1rem];
 }
 
-#general-theme-settings {
-    @apply !pe-0;
-}
-
 /* Custom classes for Tailwind using @apply */
 
 /* mdi and mdi-set styles */
