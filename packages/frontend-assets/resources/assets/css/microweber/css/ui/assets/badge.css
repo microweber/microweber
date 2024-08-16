@@ -1,0 +1,35 @@
+/****************************
+    Variables
+*****************************/
+.mw-badge {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background: #ff0000;
+  color: #FFFFFF;
+  min-height: 13px;
+  padding: 0 2px;
+  font-size: 11px;
+  line-height: 20px;
+  border-radius: 20px;
+  height: 20px;
+  min-width: 20px;
+  text-align: center;
+}
+.mw-badge.mw-badge-invert {
+  background-color: #2b2b2b;
+}
+.mw-badge.mw-badge-info {
+  background-color: #4592ff;
+}
+.mw-badge.mw-badge-warn {
+  background-color: #ffc107;
+}
+.mw-badge.mw-badge-important {
+  background-color: #f12b1c;
+}
+.mw-badge.mw-badge-notification {
+  background-color: #469a36;
+}

@@ -1,0 +1,131 @@
+/****************************
+    Variables
+*****************************/
+/****************************
+Paging
+*****************************/
+.mw-paging {
+  position: relative;
+  overflow: hidden;
+  height: 36px;
+}
+.mw-paging > * {
+  list-style: none;
+  display: inline-block;
+  float: left;
+}
+.mw-paging a {
+  display: inline-block;
+  padding: 0px 15px;
+  height: 36px;
+  line-height: 34px;
+  background: #eeefef;
+  border-color: #cfcfcf;
+  border-width: 1px 0 1px 1px;
+  border-style: solid;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.mw-paging-big {
+  height: 46px;
+}
+.mw-paging-big a {
+  height: 46px;
+  padding: 0 20px;
+  font-size: 140%;
+  line-height: 44px;
+}
+.mw-paging-small {
+  height: 20px;
+}
+.mw-paging-small a {
+  height: 20px;
+  padding: 0px 8px;
+  font-size: 11px;
+  line-height: 18px;
+}
+.mw-paging-medium {
+  height: 31px;
+}
+.mw-paging-medium a {
+  height: 31px;
+  padding: 0 9px;
+  line-height: 31px;
+}
+.mw-paging a:focus,
+.mw-paging a:hover {
+  background-color: #fafafa;
+}
+.mw-paging > :first-child a,
+.mw-paging > a:first-child {
+  border-radius: 3px 0 0 3px;
+}
+.mw-paging > :last-child a,
+.mw-paging > a:last-child {
+  border-radius: 0 3px 3px 0;
+  border-right-width: 1px;
+}
+.mw-paging a.active,
+.mw-paging a.active:focus,
+.mw-paging a.active:hover,
+.mw-paging a:active {
+  background-color: #fafafa;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+.mw-paging-invert a {
+  background-color: #2b2b2b;
+  border-color: #2b2b2b;
+  color: #ffffff;
+}
+.mw-paging-invert a.active,
+.mw-paging-invert a:active,
+.mw-paging-invert a:focus,
+.mw-paging-invert a:hover {
+  color: #262626;
+}
+.mw-paging-info a {
+  background-color: #4592ff;
+  border-color: #4592ff;
+  color: #ffffff;
+}
+.mw-paging-info a.active,
+.mw-paging-info a:active,
+.mw-paging-info a:focus,
+.mw-paging-info a:hover {
+  color: #262626;
+}
+.mw-paging-warn a {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #ffffff;
+}
+.mw-paging-warn a.active,
+.mw-paging-warn a:active,
+.mw-paging-warn a:focus,
+.mw-paging-warn a:hover {
+  color: #262626;
+}
+.mw-paging-important a {
+  background-color: #f12b1c;
+  border-color: #f12b1c;
+  color: #ffffff;
+}
+.mw-paging-important a.active,
+.mw-paging-important a:active,
+.mw-paging-important a:focus,
+.mw-paging-important a:hover {
+  color: #262626;
+}
+.mw-paging-notification a {
+  background-color: #469a36;
+  border-color: #469a36;
+  color: #ffffff;
+}
+.mw-paging-notification a.active,
+.mw-paging-notification a:active,
+.mw-paging-notification a:focus,
+.mw-paging-notification a:hover {
+  color: #262626;
+}

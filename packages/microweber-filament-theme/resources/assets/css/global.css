@@ -3,7 +3,7 @@
 }
 
 /*GLOBAL RESOURCE STYLES*/
-.fi-resource-list-records-page {
+/*.fi-resource-list-records-page {
     @apply !px-0 !py-0 !mt-0;
 }
 .fi-resource-list-records-page section.flex {
@@ -26,7 +26,7 @@
 }
 .fi-ta-content .grid {
     @apply !px-2 !gap-y-4 !py-4 !bg-transparent;
-}
+}*/
 
 /*STYLE MODULES PAGE*/
 .fi-resource-modules .fi-ta-filter-indicators  {

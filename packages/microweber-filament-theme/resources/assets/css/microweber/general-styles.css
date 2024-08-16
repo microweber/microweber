@@ -2,6 +2,14 @@
     @apply absolute top-3 right-3 text-black dark:text-white cursor-pointer text-2xl;
 }
 
+.bg-white {
+    @apply dark:bg-black;
+}
+
+.tblr-body-color {
+    @apply text-black dark:text-white;
+}
+
 .modal-header, .modal-body, .modal-footer {
     @apply text-black dark:text-white border-0;
 }
@@ -457,4 +465,12 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .mw-control-box {
     @apply !p-3;
+}
+
+.mw-admin-create-campaign-button svg {
+    @apply !fill-white !w-[30px] !h-[30px];
+}
+
+.mw-admin-create-campaign-button {
+    @apply !text-white !px-4 !py-2 !rounded-xl;
 }

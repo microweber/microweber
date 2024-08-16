@@ -1,0 +1,122 @@
+.mw-drop-indicator{
+    position: absolute;
+    pointer-events: none !important;
+    z-index: 1001;
+    margin: 0!important;
+    padding: 0!important;
+    border-color: #111;
+    border-style: solid;
+    border-width: 0;
+    $size: 2px;
+    &.mw-drop-indicator-position-top{ border-top-width: $size; }
+    &.mw-drop-indicator-position-bottom{ border-bottom-width: $size; }
+}
+
+@keyframes mwLiveEditDropIndicatorAnimationUp {
+    0%, 100% {
+        top: 30px;
+        opacity: 1;
+    }
+    50% {
+        top: 40px;
+        opacity: .6;
+    }
+}
+
+@keyframes mwLiveEditDropIndicatorAnimationDown {
+    0%, 100% {
+        top: -30px;
+        opacity: 1;
+    }
+    50% {
+        top: -40px;
+        opacity: .6;
+    }
+}
+
+.mw-drop-indicator-template-default{
+    .mw-drop-indicator-pin{
+        position: absolute;
+        left: 50%;
+        width: 24px;
+        height: 24px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z' /%3E%3C/svg%3E");
+        bottom: 0;
+        transition: transform .2s;
+        transform: rotate(180deg);
+        top: 30px;
+        display: none;
+    }
+    &.mw-drop-indicator-position-before-top {
+        .mw-drop-indicator-pin{
+            margin-top: -70px;
+            transform: rotate(0);
+        }
+    }
+    &.mw-drop-indicator-position-after-bottom {
+        .mw-drop-indicator-pin{
+            margin-top: 50px;
+        }
+    }
+    &.mw-drop-indicator-hidden,
+    &.mw-drop-indicator-position-prepend-top,
+    &.mw-drop-indicator-position-append-bottom{
+        .mw-drop-indicator-pin{
+            display: none;
+            animation: none;
+        }
+    }
+    .mw-drop-indicator-block{
+        // transition: .3s;
+        transform: scale(1);
+        pointer-events: none !important;
+        background-color: #111;
+        position: absolute;
+    }
+    &.mw-drop-indicator-hidden{
+        opacity: 0;
+        transform: scale(.8);
+        visibility: hidden !important;
+    }
+    &.mw-drop-indicator-position-after-bottom,
+    &.mw-drop-indicator-position-before-top {
+        .mw-drop-indicator-block{
+            height: 5px;
+            width: 100%;
+            left: 0;
+        }
+    }
+    &.mw-drop-indicator-position-append-bottom,
+    &.mw-drop-indicator-position-prepend-top {
+        .mw-drop-indicator-block{
+            height: 45px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.33);
+            left: 0;
+        }
+    }
+    &.mw-drop-indicator-position-prepend-top,
+    &.mw-drop-indicator-position-before-top{
+        .mw-drop-indicator-block{
+            top: 0;
+        }
+    }
+    &.mw-drop-indicator-position-append-bottom,
+    &.mw-drop-indicator-position-after-bottom{
+        .mw-drop-indicator-block{
+            bottom: 0;
+        }
+    }
+    &.mw-drop-indicator-position-after-bottom{
+        .mw-drop-indicator-pin{
+            animation: mwLiveEditDropIndicatorAnimationDown 2s linear infinite;
+        }
+    }
+    &.mw-drop-indicator-position-before-top{
+        .mw-drop-indicator-pin{
+            animation: mwLiveEditDropIndicatorAnimationUp 2s linear infinite;
+        }
+    }
+}

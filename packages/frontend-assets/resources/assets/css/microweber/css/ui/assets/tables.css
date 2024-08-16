@@ -1,0 +1,129 @@
+/****************************
+    Variables
+*****************************/
+.mw-ui-table {
+  clear: both;
+  border-radius: 5px;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.mw-ui-table-fixed {
+  table-layout: fixed;
+}
+.mw-ui-table > tbody:first-child > tr:first-child > td:first-child,
+.mw-ui-table > thead > tr:first-child > th:first-child {
+  border-radius: 5px 0 0 0;
+}
+.mw-ui-table > tbody:first-child > tr:first-child > td:last-child,
+.mw-ui-table > thead > tr:first-child > th:last-child {
+  border-radius: 0 5px 0 0;
+}
+.mw-ui-table > tbody > tr:last-child > td:first-child,
+.mw-ui-table > tfoot > tr:last-child > td:first-child {
+  border-radius: 0 0 0 5px;
+}
+.mw-ui-table > tbody > tr:last-child > td:last-child,
+.mw-ui-table > tfoot > tr:last-child > td:last-child {
+  border-radius: 0 0 5px 0;
+}
+.mw-ui-table > tfoot + tbody > tr:last-child > td:last-child {
+  border-radius: 0;
+}
+.mw-ui-table td,
+.mw-ui-table thead th,
+.mw-ui-table tfoot td {
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.mw-ui-table thead th,
+.mw-ui-table tfoot td {
+  font-weight: normal;
+  font-size: inherit;
+  text-align: inherit;
+  background-color: #fafafa;
+}
+.mw-ui-table tbody tr:last-child td,
+.mw-ui-table thead tr:last-child td,
+.mw-ui-table tfoot tr:last-child td {
+  border-bottom: none;
+}
+.show-on-hover {
+  visibility: hidden;
+}
+.show-on-hover-root .show-on-hover,
+.mw-ui-table tr:hover > td > .show-on-hover,
+div:hover > .show-on-hover,
+li:hover > .show-on-hover {
+  visibility: visible;
+}
+.mw-ui-table tr.active > td > .show-on-hover {
+  visibility: visible;
+}
+.mw-ui-table td > [class*='mw-icon-'] {
+  font-size: 17px;
+}
+.mw-ui-table-basic {
+  border: none;
+}
+.mw-ui-table-basic td,
+.mw-ui-table-basic thead th,
+.mw-ui-table-basic tfoot td {
+  border-right: none;
+  border-left: none;
+}
+.mw-ui-table-basic tbody:first-child > tr:first-child td {
+  border-top: none;
+}
+.mw-ui-table-basic tbody:first-child > tr:last-child td {
+  border-bottom: none;
+}
+.mw-ui-table-basic td,
+.mw-ui-table-basic thead th,
+.mw-ui-table-basic tfoot td {
+  border-right: none;
+  border-left: none;
+}
+.mw-ui-table-basic > thead > tr > th,
+.mw-ui-table-basic > tfoot > tr > td {
+  background-color: transparent;
+  color: #ababab;
+}
+.mw-ui-table-basic > thead > tr > th {
+  border-top: none;
+}
+.mw-ui-table-spacious {
+  background-color: white;
+}
+.mw-ui-table-spacious tr td {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: white;
+  color: #1b1b1b;
+  font-size: 14px;
+  font-weight: bold;
+  border: 0px;
+  border-bottom: 3px solid #f1f1f1;
+}
+.mw-ui-table-spacious thead th,
+.mw-ui-table-spacious tfoot td {
+  font-size: 14px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background: white;
+  border: 0px;
+  color: #878787;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.mw-ui-table tr.ui-sortable-helper {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  position: relative;
+}
+.mw-tooltip-dark .mw-ui-table td {
+  border-color: rgba(255, 255, 255, 0.2);
+}

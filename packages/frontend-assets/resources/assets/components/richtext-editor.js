@@ -1,4 +1,5 @@
-import BaseComponent from "../../js/containers/base-class";
+
+import BaseComponent from "../containers/base-class.js";
 
 //
 //  moved to meta tags in src/MicroweberPackages/MetaTags/Entities/AdminFilamentJsLibsScriptTag.php

@@ -4,6 +4,9 @@ import vue from '@vitejs/plugin-vue';
 import istanbul from 'vite-plugin-istanbul';
 
 import sass from 'sass';
+
+
+
 export default defineConfig({
     build: {
         open: true,
@@ -50,25 +53,34 @@ export default defineConfig({
               // 'resources/js/app.js',
               //  'userfiles/modules/microweber/api/live-edit-app/index.js',
                // 'userfiles/modules/microweber/api/live-edit-app/app.js',
-                'src/MicroweberPackages/LiveEdit/resources/front-end/js/core/mw-core.js',
+               // 'src/MicroweberPackages/LiveEdit/resources/front-end/js/core/mw-core.js',
+                //'./packages/frontend-assets/resources/assets/core/mw-core.js',
 
-                'src/MicroweberPackages/LiveEdit/resources/js/api-core/core/css/scss/liveedit.scss',
+                 './packages/frontend-assets/resources/assets/css/scss/liveedit.scss',
+                // './packages/frontend-assets/resources/assets/css/scss/liveedit.scss',
+               //  'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js',
+                './packages/frontend-assets/resources/assets/ui/live-edit-app.js',
 
-                'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js',
-
-
-                'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-page-scripts.js',
-                // 'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-filament-app.js',
-                'src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js',
-                'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js',
-                'src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-app.js',
-
-                'src/MicroweberPackages/LiveEdit/resources/js/ui/css/admin-filament.scss',
-                'src/MicroweberPackages/Filament/resources/js/tiny-editor.js',
+                /// './packages/frontend-assets/resources/assets/ui/live-edit-app.js',
 
 
-                'src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js',
+                //'./packages/frontend-assets/resources/assets/ui/live-edit-page-scripts.js',
+
+                // './packages/frontend-assets/resources/assets/js/admin-filament-libs.js',
+                // './packages/frontend-assets/resources/assets/js/admin-filament-app.js',
+                // './packages/frontend-assets/resources/assets/js/admin.js',
+
+
+               // './packages/frontend-assets/resources/assets/ui/css/admin-filament.scss',
+
+
+
+                //'./packages/frontend-assets/resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js',
+
+
+
                 'src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js',
+                'src/MicroweberPackages/Filament/resources/js/tiny-editor.js',
 
               //  'resources/css/filament/admin/theme.css',
             ],

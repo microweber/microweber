@@ -88,7 +88,7 @@
                 Sending campaign right now (Send now)
                 @endif
                 @if($model->delivery_type == 'schedule')
-                Scheduled for {{$model->delivery_date}}
+                Scheduled for <b>{{$model->scheduled_at}} ({{$model->scheduled_timezone}})</b>
                 @endif
             </div>
         </div>
