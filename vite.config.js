@@ -75,7 +75,7 @@ export default defineConfig({
 
 
 
-                //'./packages/frontend-assets/resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js',
+                'packages/frontend-assets/resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js',
 
 
 
