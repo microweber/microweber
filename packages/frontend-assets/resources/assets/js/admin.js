@@ -136,9 +136,6 @@ import "../widgets/tree.js";
 import {CategoriesAdminListComponent} from "./categories-admin-list.component.js";
 import { IconPicker } from "../widgets/icon-picker.js";
 import { AdminPackageManager } from "./admin-package-manager.js";
-import { SingleFilePickerComponent } from "../api-core/services/services/single-file-picker-component.js";
-
-
 
 
 
