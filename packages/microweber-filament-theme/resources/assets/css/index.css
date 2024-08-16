@@ -17,8 +17,10 @@
 @import 'microweber/general-styles.css';
 @import 'microweber/tomselect.css';
 
-/*@import '../../../../../src/MicroweberPackages/LiveEdit/resources/front-end/css/tree.scss';*/
-/*@import '../../../../../src/MicroweberPackages/LiveEdit/resources/front-end/css/spinner.scss';*/
+
+@import '../../../../frontend-assets/resources/assets/css/scss/tree.scss';
+@import '../../../../frontend-assets/resources/assets/css/scss/spinner.scss';
+
 
 @import 'microweber/grid-only.css';
 @import 'microweber/pagination.css';

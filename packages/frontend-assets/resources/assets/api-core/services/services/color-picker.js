@@ -64,7 +64,7 @@ export class ColorPicker extends MicroweberBaseClass {
         }
 
 
-        mw.top().colorPicker(options);
+        mw.colorPicker(options);
 
         return colorPickerDialog;
 
@@ -99,7 +99,7 @@ export class ColorPicker extends MicroweberBaseClass {
 
         this.colorPickerInstances.push(colorPickerDialog);
 
-        mw.top().colorPicker({
+        mw.colorPicker({
             element: '#color-picker-' + randId,
             value: target.value,
             onchange: function (color) {

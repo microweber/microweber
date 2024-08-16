@@ -12,6 +12,8 @@ import {AdminTools} from "./admin-tools.service.js";
 import {AdminFilament} from "./admin-filament.js";
 import {AdminModules}  from "./admin-modules.js";
 
+import {SingleFilePickerComponent}  from "../api-core/services/services/single-file-picker-component.js";
+
 
 
 
@@ -35,8 +37,9 @@ mw.pause = time => new Promise(resolve => setTimeout(resolve, time || 0));
 
 
 
-
-
+mw.app.singleFilePickerComponent = options => {
+    return new SingleFilePickerComponent(options)
+};
 
 
 
@@ -133,6 +136,7 @@ import "../widgets/tree.js";
 import {CategoriesAdminListComponent} from "./categories-admin-list.component.js";
 import { IconPicker } from "../widgets/icon-picker.js";
 import { AdminPackageManager } from "./admin-package-manager.js";
+import { SingleFilePickerComponent } from "../api-core/services/services/single-file-picker-component.js";
 
 
 
