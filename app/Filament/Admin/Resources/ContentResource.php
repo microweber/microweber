@@ -816,6 +816,7 @@ class ContentResource extends Resource
             ->defaultPaginationPageOption(250)
             ->deferLoading()
             ->reorderable('position')
+            ->defaultSort('position', 'asc')
             ->columns(
                 $livewire->isGridLayout()
                     ? static::getGridTableColumns()
@@ -847,12 +848,19 @@ class ContentResource extends Resource
             ->filtersFormWidth(MaxWidth::Medium)
             ->actions([
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('edit')
+
+                    Tables\Actions\EditAction::make('edit')
                         ->icon('heroicon-o-pencil'),
+
                     Tables\Actions\Action::make('live_edit')
+                        ->url(function(Content $record) {
+                            return $record->link() . '?editmode=y';
+                        })
                         ->icon('heroicon-o-eye'),
-                    Tables\Actions\Action::make('delete')
+
+                    Tables\Actions\DeleteAction::make('delete')
                         ->icon('heroicon-o-trash'),
+
                 ])->icon('mw-dots-menu')
                     ->color(Color::Gray)
                     ->iconSize('lg')
