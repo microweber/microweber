@@ -15300,8 +15300,9 @@ h1,h2,h3,h4,h5,h6 {
 .mw-field input:is(.dark *),
 .mw-field select:is(.dark *),
 .mw-field textarea:is(.dark *) {
-  --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(24 36 51 / var(--tw-bg-opacity)) !important;
 }
 
 .mw-field .mw-field-append,
@@ -18190,6 +18191,11 @@ html[dir="rtl"] .reset-field {
 }
 
 .dark\:\!bg-gray-800:is(.dark *) {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(24 36 51 / var(--tw-bg-opacity)) !important;
+}
+
+.dark\:\!bg-gray-900:is(.dark *) {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(24 36 51 / var(--tw-bg-opacity)) !important;
 }

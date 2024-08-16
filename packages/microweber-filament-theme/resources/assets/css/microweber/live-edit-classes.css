@@ -364,7 +364,7 @@ h1,h2,h3,h4,h5,h6 {
 .mw-field input,
 .mw-field select,
 .mw-field textarea {
-    @apply border border-gray-400 p-2 w-full max-w-full rounded-[5px] bg-white outline-none cursor-text box-border shadow-inner transition duration-300 order-2;
+    @apply border border-gray-400 p-2 w-full max-w-full rounded-[5px] bg-white dark:!bg-gray-900 outline-none cursor-text box-border shadow-inner transition duration-300 order-2;
 }
 
 .mw-field .mw-field-append,
