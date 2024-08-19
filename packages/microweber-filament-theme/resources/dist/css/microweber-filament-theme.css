@@ -10955,6 +10955,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
   padding: 20px !important;
 }
 
+.mw-live-edit-page-wrapper.mw-live-edit-module-settings-iframe .mw-dialog-footer {
+  display: none;
+}
+
 .mw-dialog-container {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -14181,7 +14185,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after{
   font-size: 0.75rem;
   line-height: 1.25rem;
   --tw-text-opacity: 1;
-  color: rgb(69 146 255 / var(--tw-text-opacity));
+  color: rgb(24 36 51 / var(--tw-text-opacity));
 }
 
 .page-link:is(.dark *) {
@@ -14205,7 +14209,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after{
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
-  color: rgb(0 29 111 / var(--tw-text-opacity));
+  color: rgb(24 36 51 / var(--tw-text-opacity));
   text-decoration-line: none;
 }
 
@@ -14217,7 +14221,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after{
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
   --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(120 169 255 / var(--tw-ring-opacity));
+  --tw-ring-color: rgb(209 213 219 / var(--tw-ring-opacity));
 }
 
 .page-item:first-child .page-link {
@@ -14234,9 +14238,9 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after{
 .page-item.active .page-link {
   z-index: 10;
   --tw-border-opacity: 1;
-  border-color: rgb(69 146 255 / var(--tw-border-opacity));
+  border-color: rgb(24 36 51 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
-  background-color: rgb(69 146 255 / var(--tw-bg-opacity));
+  background-color: rgb(24 36 51 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -17091,6 +17095,10 @@ h1,h2,h3,h4,h5,h6 {
 
 .d-flex {
   display: flex !important;
+}
+
+.flex-column {
+  flex-direction: column !important;
 }
 
 .d-inline-flex {
