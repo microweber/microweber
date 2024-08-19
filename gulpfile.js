@@ -20,9 +20,8 @@ const apiJSPath = 'userfiles/modules/microweber/api'
 const apiJSOutputPath = 'userfiles/modules/microweber/api';
 
 
-const frontEndPath = `./src/MicroweberPackages/LiveEdit/resources/front-end`;
-
-const adminFilamentApp = `${frontEndPath}/js/admin/admin-filament-app.js`;
+const frontEndPath = `packages/frontend-assets/resources/dist`;
+const adminFilamentApp = `${frontEndPath}/js/admin.js`;
 
 const packagesWatch = () => {
     const folders = [
