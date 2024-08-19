@@ -47,6 +47,22 @@ class EditContent extends EditRecord
 
     protected function getHeaderActions(): array
     {
+
+
+        $editAction =  Actions\EditAction::make()->action('saveContentAndGoLiveEdit');
+        if (request()->header('Sec-Fetch-Dest') === 'iframe') {
+            $editAction =  Actions\EditAction::make()->action('saveContentAndGoLiveEditIframe');
+        }
+
+        $editAction->icon('heroicon-m-eye')
+            ->label('Live edit')
+            ->size('xl')
+            ->color('info');
+
+
+
+
+
         return [
             //   Actions\LocaleSwitcher::make(),
             //   Actions\DeleteAction::make()
@@ -57,12 +73,7 @@ class EditContent extends EditRecord
                 ->onlyIconAndTooltip()
                 ->outlined(),
 
-            Actions\EditAction::make()->action('saveContentAndGoLiveEdit')
-                // ->icon('heroicon-o-pencil')
-                ->icon('heroicon-m-eye')
-                ->label('Live edit')
-                ->size('xl')
-                ->color('info'),
+            $editAction,
 
             Actions\EditAction::make()
                 ->action('saveContent')

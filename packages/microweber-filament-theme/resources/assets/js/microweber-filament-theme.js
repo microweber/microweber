@@ -53,5 +53,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
+window.addEventListener('livewire:init', function () {
+
+    Livewire.on('mw-redirect-to-url', function (data) {
+
+        if (typeof data['data']['url'] === 'undefined') {
+            return;
+        }
+
+        if (mw.top().app && mw.top().app.canvas) {
+            mw.top().app.canvas.setUrl(data['data']['url']);
+
+        }
 
 
+    });
+
+
+});
