@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6fe48fd2743c2b111f1cd57e66d76c1b",
+    "content-hash": "c8ee30938353dfaaadf0ced7cc16edc0",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -849,7 +849,7 @@
         },
         {
             "name": "bobimicroweber/accordion",
-            "version": "1.x-dev",
+            "version": "1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobimicroweber/filament-accordion.git",
@@ -874,7 +874,6 @@
                 "orchestra/testbench": "^8.0",
                 "phpstan/extension-installer": "^1.1"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
