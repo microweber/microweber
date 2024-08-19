@@ -424,7 +424,7 @@ if (mw.top().app.canvas) {
 
             var childs_arr = {};
 
-            $(el).find('.edit').andSelf().each(function (i) {
+            $(el).find('.edit').addBack().each(function (i) {
                 var some_child = {};
                 some_child.rel = $(this).attr('rel');
                 some_child.field = $(this).attr('field');

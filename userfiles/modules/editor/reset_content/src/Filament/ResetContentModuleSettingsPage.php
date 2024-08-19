@@ -17,23 +17,7 @@ class ResetContentModuleSettingsPage extends LiveEditModuleSettings
     {
         return $form
             ->schema([
-                Tabs::make('Code editor')
-                    ->extraAttributes(['class' => 'mw-live-edit-settings-tabs-code-editor'])
-                    ->tabs([
-                        Tabs\Tab::make('HTML Editor')
-                            ->extraAttributes(['class' => 'mw-live-edit-settings-tab-html-editor'])
-                            ->schema([
-                                View::make('microweber-module-code-editor::admin.render-code-editor')
-                            ]),
-                        Tabs\Tab::make('CSS Editor')
-                            ->extraAttributes(['class' => 'mw-live-edit-settings-tab-css-editor'])
-                            ->schema([
-                                View::make('microweber-module-code-editor::admin.render-css-editor')
-                            ]),
-
-
-                    ]),
-
+                View::make('microweber-module-reset-content::admin.reset-content')
 
             ]);
     }
