@@ -71,3 +71,12 @@ window.addEventListener('livewire:init', function () {
 
 
 });
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    var footer = document.querySelector('.mw-dialog-footer');
+
+    if (footer && footer.innerHTML.trim() === '') {
+        footer.style.display = 'none';
+    }
+});
