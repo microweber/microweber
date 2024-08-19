@@ -36,7 +36,8 @@ export default {
             }
 
 
-            var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+           // var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+            var src = mw.app.adminModules.getModuleSettingsUrl(moduleType, attrsForSettings);
 
 
 

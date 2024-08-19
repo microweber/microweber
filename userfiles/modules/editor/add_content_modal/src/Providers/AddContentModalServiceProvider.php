@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Editor\Fonts\FontsSettings\Providers;
+namespace MicroweberPackages\Modules\Editor\AddContentModal\Providers;
 
 
 use Filament\Facades\Filament;
@@ -8,23 +8,23 @@ use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\Editor\Fonts\FontsSettings\Filament\FontsManagerModuleSettingsPage;
+use MicroweberPackages\Modules\Editor\AddContentModal\Filament\AddContentModalPage;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FontsSettingsSettingsServiceProvider extends PackageServiceProvider
+class AddContentModalServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('microweber-module-editor-fonts');
-        $package->hasViews('microweber-module-editor-fonts');
+        $package->name('microweber-module-editor-add-content-modal');
+        $package->hasViews('microweber-module-editor-add-content-modal');
     }
 
     public function register(): void
     {
 
         parent::register();
-        FilamentRegistry::registerPage(FontsManagerModuleSettingsPage::class);
+        FilamentRegistry::registerPage(AddContentModalPage::class);
 
 
     }
@@ -36,7 +36,7 @@ class FontsSettingsSettingsServiceProvider extends PackageServiceProvider
         Filament::serving(function () {
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
-                ModuleAdmin::registerLiveEditSettingsUrl('editor/fonts/font-manager-modal', FontsManagerModuleSettingsPage::getUrl());
+                ModuleAdmin::registerLiveEditSettingsUrl('editor/add_content_modal', AddContentModalPage::getUrl());
             }
         });
 
