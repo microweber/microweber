@@ -24,19 +24,20 @@
 >
 
     <script>
-        function colorPickerFormComponent({
-                isAutofocused,
-                isDisabled,
-                isLive,
-                isLiveDebounced,
-                isLiveOnBlur,
-                liveDebounce,
-                state,
-            }) {
-            return {
-                state,
+        document.addEventListener('alpine:init', () => {
 
-                init: function () {
+            Alpine.data('mwColorPickerFormComponent', ({
+                        isAutofocused,
+                        isDisabled,
+                        isLive,
+                        isLiveDebounced,
+                        isLiveOnBlur,
+                        liveDebounce,
+                        state,
+                    }) => ({
+                state,
+                init () {
+
                     if (!(this.state === null || this.state === '')) {
                         this.setState(this.state)
                     }
@@ -79,6 +80,7 @@
                 },
 
                 togglePanelVisibility: function () {
+                    
                     if (isDisabled) {
                         return
                     }
@@ -102,13 +104,13 @@
                         JSON.stringify(this.$wire.__instance.canonical) ===
                         JSON.stringify(this.$wire.__instance.ephemeral)
                     ) {
-                        return 
+                        return
                     }
 
                     this.$wire.$commit()
                 },
-            }
-        }
+            }));
+        });
     </script>
 
     <x-filament::input.wrapper
@@ -130,8 +132,7 @@
         "
     >
         <div
-            x-ignore
-            x-data="colorPickerFormComponent({
+            x-data="mwColorPickerFormComponent({
                         isAutofocused: @js($isAutofocused()),
                         isDisabled: @js($isDisabled),
                         isLive: @js($isLive),
