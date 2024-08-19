@@ -26,7 +26,7 @@
         "blade-ui-kit/blade-heroicons": "*",
         "blade-ui-kit/blade-icons": "*",
         "blade-ui-kit/blade-ui-kit": "*",
-        "bobimicroweber/accordion": "1.x-dev",
+        "bobimicroweber/accordion": "*",
         "bobimicroweber/filament-dropdown-column": "dev-main",
         "bobimicroweber/filament-flatpickr": "*",
         "butschster/meta-tags": "*",
