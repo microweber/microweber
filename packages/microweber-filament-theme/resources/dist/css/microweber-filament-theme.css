@@ -6962,6 +6962,10 @@ select {
   padding: 1.75rem !important;
 }
 
+.\!p-\[20px\] {
+  padding: 20px !important;
+}
+
 .\!p-\[3px_7px\] {
   padding: 3px 7px !important;
 }
@@ -10089,6 +10093,14 @@ select {
   outline-width: 0px !important;
 }
 
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:is(.dark *),
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(24 36 51 / var(--tw-bg-opacity));
+}
+
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:disabled,
@@ -10937,6 +10949,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .mw-file-manager-list-item-thumb {
   background-size: contain !important;
+}
+
+.mw-live-edit-page-wrapper.mw-live-edit-module-settings-iframe {
+  padding: 20px !important;
 }
 
 .mw-dialog-container {

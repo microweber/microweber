@@ -793,3 +793,4 @@ h1,h2,h3,h4,h5,h6 {
 .card, .form-select, .dropdown-menu, .noUi-target {
     @apply !bg-white dark:!bg-gray-800 !text-black dark:!text-white;
 }
+
