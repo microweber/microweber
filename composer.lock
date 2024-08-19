@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d786ac8b88fb9204223ef478f34a5f1",
+    "content-hash": "c8ee30938353dfaaadf0ced7cc16edc0",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -846,6 +846,91 @@
                 }
             ],
             "time": "2024-04-05T08:11:10+00:00"
+        },
+        {
+            "name": "bobimicroweber/accordion",
+            "version": "1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobimicroweber/filament-accordion.git",
+                "reference": "db7ed4d3492e0afd31edaea7ee3bcab2678edbb6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bobimicroweber/filament-accordion/zipball/db7ed4d3492e0afd31edaea7ee3bcab2678edbb6",
+                "reference": "db7ed4d3492e0afd31edaea7ee3bcab2678edbb6",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.16"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.0",
+                "nunomaduro/larastan": "^2.0.1",
+                "nunomaduro/phpinsights": "^2.8",
+                "orchestra/testbench": "^8.0",
+                "phpstan/extension-installer": "^1.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaraZeus\\Accordion\\AccordionServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaraZeus\\Accordion\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "php coder",
+                    "email": "info@larazeus.com",
+                    "role": "Owner"
+                }
+            ],
+            "description": "Zeus Accordion is filamentphp layout component to group components",
+            "homepage": "https://larazeus.com/accordion",
+            "keywords": [
+                "accordion",
+                "code",
+                "coulmn",
+                "design",
+                "field",
+                "filamentphp",
+                "generator",
+                "input",
+                "lara-zeus",
+                "laravel",
+                "tippy",
+                "tooltip",
+                "ui"
+            ],
+            "support": {
+                "issues": "https://github.com/lara-zeus/accordion/issues",
+                "source": "https://github.com/lara-zeus/accordion"
+            },
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/larazeus",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/atmonshi",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-08-19T08:22:43+00:00"
         },
         {
             "name": "bobimicroweber/filament-dropdown-column",
@@ -8899,7 +8984,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
-                "reference": "de6619b6fd346a97d2b8b95cc2ef717cd3fb474c"
+                "reference": "dc68e0bbf08a164769513b1d95faf5249b690f8a"
             },
             "type": "library",
             "autoload": {
@@ -8978,7 +9063,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "93fe855917dd7486269c88ae1f0c4e7f6457a993"
+                "reference": "778441b2f5034c5ee89e1e65dc38f8b089769e44"
             },
             "require": {
                 "filament/filament": "^3.0",
