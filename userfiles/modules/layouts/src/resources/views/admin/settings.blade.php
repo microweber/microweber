@@ -12,7 +12,7 @@
             }
 
             .change-layout-background-wrapper {
-                max-width: 70%;
+                max-width: 90%;
             }
         </style>
 
