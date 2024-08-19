@@ -16773,6 +16773,10 @@ h1,h2,h3,h4,h5,h6 {
   color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
 }
 
+.mw-liveedit-button-actions-component {
+  background-color: transparent;
+}
+
 .w-100 {
   width: 100% !important;
 }
