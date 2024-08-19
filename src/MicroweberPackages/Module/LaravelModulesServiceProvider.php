@@ -13,6 +13,7 @@ use Nwidart\Modules\Contracts;
 use Nwidart\Modules\Laravel;
 use Nwidart\Modules\Support\Stub;
 
+//from https://github.com/allenwakeup/laravel-modules/
 class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServiceProvider
 {
     use MergesConfig;
@@ -27,7 +28,7 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
         $this->registerServices();
         $this->setupStubPath();
         $this->registerProviders();
-        $this->mergeConfigFrom(__DIR__ . '/config/laravel-modules.php', 'modules');
+        $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
         $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
 
     }

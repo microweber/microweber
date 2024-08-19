@@ -79,7 +79,7 @@ class LaravelModulesDatabaseRepository extends FileRepository
      */
     public function update($module)
     {
-        with(new Updater ($this))->update($module);
+        dd('update', $module);
     }
 
     /**
@@ -109,9 +109,15 @@ class LaravelModulesDatabaseRepository extends FileRepository
         if (!Schema::hasTable('modules')) {
             return [];
         }
-//dd(debug_backtrace(1));
-        $modules = parent::scan();
-        dd($modules, 23123123213);
+        // todo
+        return [];
+
+        $scannedModules = parent::scan();
+        $allModules = app()->module_repository->getAllModules();
+
+
+        // todo - check if module is enabled
+       // dd($scannedModules, 23123123213);
 //        if ($this->config ('activator') === 'database')
 //        {
 //            if (Schema::hasTable ($this->config ('activators.database.table', 'gc_modules')))
@@ -157,16 +163,30 @@ class LaravelModulesDatabaseRepository extends FileRepository
         $paths = $this->getScanPaths();
 
         $modules = [];
+        $modulesPathFromConfig = config('modules.paths.modules');
 
-        foreach ($paths as $key => $path) {
+         foreach ($paths as $key => $path) {
             $manifests = $this->getFiles()->glob("{$path}/module.json");
 
             is_array($manifests) || $manifests = [];
 
             foreach ($manifests as $manifest) {
                 try {
+
+                    $composerJsonFile = dirname($manifest) . '/composer.json';
                     $module = Json::make($manifest)->getAttributes();
-                    $module ['path'] = dirname($manifest);
+                    $module ['abspath'] = normalize_path(dirname($manifest));
+                    $module ['path'] = str_replace(normalize_path($modulesPathFromConfig), '', $module ['abspath']);
+                    $module ['path'] = trim($module ['path'], DS);
+                    $module ['path'] = trim($module ['path'], '/');
+                    $module ['path'] = str_replace(DS, '/', $module ['path']);
+
+                    if (is_file($composerJsonFile)) {
+                        $composerJson = Json::make($composerJsonFile)->getAttributes();
+                        $module['composer'] = $composerJson;
+                    }
+
+
                     $modules [] = $module;
                 } catch (\Exception $e) {
 

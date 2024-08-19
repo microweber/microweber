@@ -1,3 +1,7 @@
+/*
+
+moved to packages/frontend-assets/resources/assets/js/admin.js
+
 
 
 import "../core/@core.js";
@@ -233,3 +237,4 @@ mw.admin.dispatch('ready');
 //
 //     }
 //   };
+*/

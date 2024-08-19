@@ -19,7 +19,12 @@ class ModuleRepository extends AbstractRepository
 
     public static $_getAllModules = [];
 
-    public function getAllModules()
+    /**
+     * Get all modules
+     *
+     * @return array
+     */
+    public function getAllModules(): array
     {
         if (!empty(self::$_getAllModules)) {
             return self::$_getAllModules;
@@ -38,8 +43,8 @@ class ModuleRepository extends AbstractRepository
 
             })->toArray();
 
-            if(!empty($allModules)){
-            $allModules = app()->url_manager->replace_site_url_back($allModules);
+            if (!empty($allModules)) {
+                $allModules = app()->url_manager->replace_site_url_back($allModules);
             }
 
             return $allModules;
@@ -50,6 +55,9 @@ class ModuleRepository extends AbstractRepository
         return $modules;
     }
 
+    /**
+     * @deprecated
+     */
     public function getModulesByType($type)
     {
         $return = [];
@@ -97,8 +105,7 @@ class ModuleRepository extends AbstractRepository
             return $data;
         });
 
-     }
-
+    }
 
 
     public function clearCache()

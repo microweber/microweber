@@ -92,7 +92,9 @@ class PaymentManager extends Manager
 
          return false;
      }
-
+    /**
+     * @deprecated
+     */
     public function getPaymentModules($only_enabled = true)
     {
 

@@ -13,6 +13,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Module;
 
+// from https://github.com/allenwakeup/laravel-modules/blob/master/src/Activators/DatabaseActivator.php
 class DatabaseActivator implements ActivatorInterface
 {
 
@@ -260,8 +261,8 @@ class DatabaseActivator implements ActivatorInterface
         $statues = [];
 
         $allModules = app()->module_repository->getAllModules();
-        $all_enabled_modules = $this->app ['modules']->scanJson ();
-      //  dd(343444444444443,$all_enabled_modules);
+        $all_enabled_modules = $this->app ['modules']->scanJson();
+       dd(343444444444443,$all_enabled_modules);
 
 //        if (! empty ($this->getTableName ()))
 //        {
@@ -289,30 +290,6 @@ class DatabaseActivator implements ActivatorInterface
     }
 
 
-    private function scanJson ()
-    {
-        $paths = $this->getScanPaths ();
-
-        $modules = [];
-
-        foreach ($paths as $key => $path) {
-            $manifests = $this->getFiles()->glob ("{$path}/module.json");
-
-            is_array($manifests) || $manifests = [];
-
-            foreach ($manifests as $manifest) {
-                try {
-                    $module = Json::make ($manifest)->getAttributes ();
-                    $module ['path'] = dirname ($manifest);
-                    $modules [] = $module;
-                } catch (\Exception $e) {
-
-                }
-            }
-        }
-
-        return $modules;
-    }
 
     /**
      * Get modules statuses, either from the cache or from
