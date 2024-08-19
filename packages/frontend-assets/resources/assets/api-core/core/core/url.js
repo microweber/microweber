@@ -19,7 +19,7 @@ mw.url = {
     },
     getUrlParams:function(url){
         url = mw.url.removeHash(url);
-        if(url.contains('?')){
+        if(url.includes('?')){
           var arr = url.slice(url.indexOf('?') + 1).split('&');
           var obj = {}, i=0, len = arr.length;
           for( ; i<len; i++){
@@ -135,13 +135,13 @@ mw.url = {
       }
       var extension = url.split('.').pop();
       var images = 'jpg,png,gif,jpeg,bmp';
-      if(images.contains(extension)){
+      if(images.includes(extension)){
         return 'image';
       }
       else if(extension=='swf'){return 'flash'}
       else if(extension=='pdf'){return 'pdf'}
-      else if(url.contains('youtube.com') || url.contains('youtu.be')){return 'youtube'}
-      else if(url.contains('vimeo.com')){return 'vimeo'}
+      else if(url.includes('youtube.com') || url.includes('youtu.be')){return 'youtube'}
+      else if(url.includes('vimeo.com')){return 'vimeo'}
 
       else{ return 'link'; }
     }

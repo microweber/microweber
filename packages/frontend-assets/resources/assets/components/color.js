@@ -57,7 +57,7 @@ mw.color = {
     colorParse:function(CSScolor){
         CSScolor = CSScolor || 'rgb(0,0,0,0)';
         var final = {r:0,g:0,b:0,alpha:0};
-        if(CSScolor.contains('rgb')){
+        if(CSScolor.includes('rgb')){
           var parse = CSScolor.replace(/rgba/g, '').replace(/rgb/g, '').replace(/\(|\)/g, "").replace(/\s/g, "").split(',');
           final.r = parseInt(parse[0], 10);
           final.g = parseInt(parse[1], 10);
@@ -102,7 +102,7 @@ mw.color = {
         return parseInt(hex,16);
     },
     oppositeColor: function(color) {
-        color = !color.contains("#") ? color : color.replace("#", '');
+        color = !color.includes("#") ? color : color.replace("#", '');
         return mw.color.decimalToHex(255 - mw.color.hexToDecimal(color.substr(0,2)))
           + mw.color.decimalToHex(255 - mw.color.hexToDecimal(color.substr(2,2)))
           + mw.color.decimalToHex(255 - mw.color.hexToDecimal(color.substr(4,2)));

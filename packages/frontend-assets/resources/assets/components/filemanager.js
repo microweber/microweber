@@ -1009,7 +1009,7 @@
             });
 
             addButton.get(0).ownerDocument.body.addEventListener('click', function (e){
-                if (!addButton.get(0).contains(e.target)) {
+                if (!addButton.get(0).includes(e.target)) {
                     addButton.get(0).parentElement.classList.remove('active');
                 }
             });

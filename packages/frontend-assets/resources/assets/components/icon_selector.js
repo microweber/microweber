@@ -9,7 +9,7 @@
             'fontAwesome': {
                 cssSelector: '.fa',
                 detect: function (target) {
-                    return target.classList.contains('fa');
+                    return target.classList.includes('fa');
                 },
                 render: function (icon, target) {
                     target.classList.add('fa');
@@ -179,7 +179,7 @@
             'materialDesignIcons': {
                 cssSelector: '.mdi',
                 detect: function (target) {
-                    return target.classList.contains('mdi');
+                    return target.classList.includes('mdi');
                 },
                 render: function (icon, target) {
                     target.classList.add('mdi');

@@ -24,12 +24,12 @@ mw.require = function(url, inHead, key, defered) {
         urlModified = true
     }
     var t = url.split('.').pop();
-    url = url.contains('//') ? url : (t !== "css" ? "<?php print( mw_includes_url() ); ?>api/" + url  :  "<?php print( mw_includes_url() ); ?>css/" + url);
+    url = url.includes('//') ? url : (t !== "css" ? "<?php print( mw_includes_url() ); ?>api/" + url  :  "<?php print( mw_includes_url() ); ?>css/" + url);
     if(!urlModified) toPush = url;
     if (!~mw.required.indexOf(toPush)) {
 
       mw.required.push(toPush);
-      url = url.contains("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
+      url = url.includes("?") ?  url + '&mwv=' + mw.version : url + "?mwv=" + mw.version;
       if(document.querySelector('link[href="'+url+'"],script[src="'+url+'"]') !== null){
           return
       }
