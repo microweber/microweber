@@ -19,14 +19,15 @@ export default {
             const leFrameParent = leFrame.parentElement;
 
 
-            var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+            //var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+             var src = mw.app.adminModules.getModuleSettingsUrl(moduleType, attrsForSettings);
 
 
             var id = mw.id('iframe-editor');
 
 
             var dlg = new mw.controlBox({
-                content: '<div id="' + id + '"></div>',
+               // content: '<div id="' + id + '"></div>',
                 content: '',
                 position:  'bottom',
                 id: 'live_edit_side_holder',
