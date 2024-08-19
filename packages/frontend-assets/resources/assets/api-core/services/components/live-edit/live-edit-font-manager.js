@@ -132,8 +132,7 @@ export class LiveEditFontManager extends BaseComponent {
 
     manageFonts(params) {
 
-        console.log('params');
-        console.log(params);
+
 
         if (params && params.applySelectionToElement) {
             this.applyToSelectedElement = params.applySelectionToElement;
@@ -148,7 +147,12 @@ export class LiveEditFontManager extends BaseComponent {
         attrsForSettings.iframe = true;
         attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
-        var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+
+        var moduleType = 'editor/fonts/font-manager-modal';
+        //    var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+        var src = mw.app.adminModules.getModuleSettingsUrl(moduleType, attrsForSettings);
+
+
 
         var dialog = mw.top().dialogIframe({
             url: src,
