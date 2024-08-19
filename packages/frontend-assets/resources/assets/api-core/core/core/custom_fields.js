@@ -154,9 +154,9 @@ mw.custom_fields = {
             var notArrayDefault = this.name !== 'options[file_types]';
             var notArray = notArraySelect || notArrayDefault;
 
-            if (name.contains("[")) {
+            if (name.includes("[")) {
 
-                if (name.contains('[]')) {
+                if (name.includes('[]')) {
                     var _name = name.replace(/[\[\]']+/g, '');
 
                     if (name.indexOf('option') === 0) {

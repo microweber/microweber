@@ -65,4 +65,9 @@ export default {
     module,
     plugins,
 
+    watchOptions: {
+        aggregateTimeout: 200,
+        poll: 1000,
+    },
+
 }
