@@ -228,6 +228,10 @@ function content_edit_link($id = false)
 {
     return app()->content_manager->edit_link($id);
 }
+function content_create_link($contentType='page')
+{
+    return app()->content_manager->create_link($contentType);
+}
 
 function content_title($id = false)
 {

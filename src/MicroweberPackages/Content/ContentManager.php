@@ -9,7 +9,6 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
 
-
 /**
  * Content class is used to get and save content in the database.
  *
@@ -38,7 +37,6 @@ class ContentManager
     public $main_page_id = false;
     public $post_id = false;
     public $category_id = false;
-
 
 
     /**
@@ -150,7 +148,7 @@ class ContentManager
     public function get_by_id($id)
     {
 
-    return  \MicroweberPackages\Content\Facades\ContentManager::getById($id);
+        return \MicroweberPackages\Content\Facades\ContentManager::getById($id);
 
     }
 
@@ -161,7 +159,7 @@ class ContentManager
 
     public function get_by_title($title = '')
     {
-        return $this->get(['single'=>true, 'title' => $title]);
+        return $this->get(['single' => true, 'title' => $title]);
     }
 
     public function get_content_id_from_url($url = '')
@@ -1775,7 +1773,7 @@ class ContentManager
         }
 
         if ($id == false or $id == 0) {
-            $id =  content_id();
+            $id = content_id();
         }
 
         if ($id == 0) {
@@ -1815,30 +1813,45 @@ class ContentManager
 
     }
 
-    public function edit_link($id = 0)
+    public function create_link($contentType = 'page')
     {
 
+        if ($contentType == 'product') {
+            return admin_url('products/create');
+        }
 
+        if ($contentType == 'post') {
+            return admin_url('posts/create');
+        }
 
+        if ($contentType == 'page') {
+            return admin_url('pages/create');
+        }
+
+        return admin_url('content/create');
+    }
+
+    public function edit_link($id = 0)
+    {
         $content = $this->get_by_id($id);
 
         if (isset($content['content_type']) && $content['content_type'] == 'product') {
-           // return route('admin.product.edit', $id);
-            return admin_url('products/'.$id.'/edit');
+            // return route('admin.product.edit', $id);
+            return admin_url('products/' . $id . '/edit');
         }
 
         if (isset($content['content_type']) && $content['content_type'] == 'post') {
-           // return route('admin.post.edit', $id);
-            return admin_url('posts/'.$id.'/edit');
+            // return route('admin.post.edit', $id);
+            return admin_url('posts/' . $id . '/edit');
         }
 
         if (isset($content['content_type']) && $content['content_type'] == 'page') {
-            return admin_url('pages/'.$id.'/edit');
-          //  return route('admin.page.edit', $id);
+            return admin_url('pages/' . $id . '/edit');
+            //  return route('admin.page.edit', $id);
         }
 
-       // return route('admin.content.edit', $id);
-        return admin_url('content/'.$id.'/edit');
+        // return route('admin.content.edit', $id);
+        return admin_url('content/' . $id . '/edit');
 
     }
 
@@ -2015,7 +2028,7 @@ class ContentManager
 
     public function save_content_field($data, $delete_the_cache = true)
     {
-        return $this->helpers->save_content_field($data,$delete_the_cache);
+        return $this->helpers->save_content_field($data, $delete_the_cache);
     }
 
     public function edit_field($data)

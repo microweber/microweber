@@ -86,7 +86,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 
         $panel->plugin(new MicroweberFilamentTheme());
 
-        MicroweberFilamentTheme::configure();
+      //  MicroweberFilamentTheme::configure();
 
 
         return $panel;

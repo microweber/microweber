@@ -10,13 +10,29 @@ trait HasEditContentForms
 
     public function saveContentAndGoLiveEdit()
     {
+
         $this->saveContent();
         return $this->goLiveEdit();
     }
 
-    public function goLiveEdit()
+    public function saveContentAndGoLiveEditIframe()
     {
-        return redirect($this->record->liveEditLink());
+
+        $this->saveContent();
+        return $this->goLiveEdit(true);
+    }
+
+    public function goLiveEdit($dispatchRedirectEvent = false)
+    {
+        $url = $this->record->link();
+
+        if ($dispatchRedirectEvent) {
+            $this->dispatch('mw-redirect-to-url', data: ['url'=>$url]);
+        } else {
+            return redirect($this->record->liveEditLink());
+
+        }
+
 
     }
 

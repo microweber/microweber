@@ -9,7 +9,13 @@
 <?php
 
 
+$iframeClass = '';
+$isIframe = false;
 
+if (request()->header('Sec-Fetch-Dest') === 'iframe') {
+    $iframeClass = 'mw-live-edit-module-settings-iframe';
+    $isIframe = true;
+}
 
 $appendIframeModeSuffix = '';
 if (isset($isIframe) and $isIframe) {
@@ -50,11 +56,7 @@ if($showEditContentButtonForContentId){
     $editContentBtnData = get_content_by_id($showEditContentButtonForContentId);
 
 if($editContentBtnData){
-    $editContentUrl = route('admin.content.edit', $showEditContentButtonForContentId);
-
-    if (\Route::has('admin.' . $editContentBtnData['content_type'] . '.edit', $showEditContentButtonForContentId)) {
-        $editContentUrl = route('admin.' . $editContentBtnData['content_type'] . '.edit', $showEditContentButtonForContentId);
-    }
+    $editContentUrl = content_edit_link($editContentBtnData['id']);
 
 
     if ($appendIframeModeSuffix) {
@@ -124,10 +126,8 @@ if($editContentBtnData){
 
     $additionalButtons = [];
 
-    $base_url = route('admin.content.create');
-    if (\Route::has('admin.' . $item['content_type'] . '.create')) {
-        $base_url = route('admin.' . $item['content_type'] . '.create');
-    }
+    $base_url = content_create_link($item['content_type']);
+
     if ($appendIframeModeSuffix) {
         $base_url = $base_url . $appendIframeModeSuffix;
     }

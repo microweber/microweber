@@ -113,6 +113,16 @@ class FilamentAdminPanelProvider extends PanelProvider
     {
         $panel = $this->getBasePanel($panel);
 
+        $isIframe = false;
+
+        if (request()->header('Sec-Fetch-Dest') === 'iframe') {
+            $isIframe = true;
+        }
+        if($isIframe){
+            $panel->navigation(false);
+            $panel->topbar(false);
+        }
+
         $panel
             ->navigationGroups([
                 'Dashboard' => NavigationGroup::make()
@@ -203,7 +213,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             }
         }
 
-        MicroweberFilamentTheme::configure();
+      //  MicroweberFilamentTheme::configure();
 
         return $panel;
     }
