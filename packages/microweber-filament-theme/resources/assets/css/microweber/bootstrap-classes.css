@@ -286,6 +286,10 @@
     @apply !flex;
 }
 
+.flex-column {
+    @apply !flex-col;
+}
+
 .d-inline-flex {
     @apply !inline-flex;
 }
