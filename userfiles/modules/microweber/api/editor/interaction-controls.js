@@ -184,7 +184,7 @@ MWEditor.interactionControls = {
             });
             deleteButton.on('click', function () {
 
-                mw.tools.confirm(mw.msg.del, function() {
+                mw.confirm(mw.msg.del, function() {
                     rootScope.state.unpause();
 
                     const edit = mw.tools.firstParentOrCurrentWithClass(scope.$target.get(0), 'edit') || rootScope.$editArea[0];

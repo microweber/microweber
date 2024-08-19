@@ -1,7 +1,7 @@
 mw.content = mw.content || {
 
     deleteContent: function (id, callback) {
-        mw.tools.confirm(mw.msg.del, function () {
+        mw.confirm(mw.msg.del, function () {
             $.post(mw.settings.api_url + "content/delete", {id: id}, function (data) {
                 if (callback) {
                     callback.call(data, data);
@@ -14,7 +14,7 @@ mw.content = mw.content || {
         if(typeof reload === 'undefined') {
             reload = true;
         }
-        mw.tools.confirm('Are you sure you want to delete this?', function () {
+        mw.confirm('Are you sure you want to delete this?', function () {
          $.ajax({
                 url: mw.settings.api_url + 'category/delete/' + id,
                 method: 'DELETE',

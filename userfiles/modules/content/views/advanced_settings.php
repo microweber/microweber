@@ -58,7 +58,7 @@ if (isset($data['created_by']) and $data['created_by']) {
 
     <script type="text/javascript">
         mw.reset_current_page = function (a, callback) {
-            mw.tools.confirm("<?php _ejs("Are you sure you want to Reset the content of this page?  All your text will be lost forever!!"); ?>", function () {
+            mw.confirm("<?php _ejs("Are you sure you want to Reset the content of this page?  All your text will be lost forever!!"); ?>", function () {
                 var obj = {id: a}
                 $.post(mw.settings.site_url + "api/content/reset_edit", obj, function (data) {
                     mw.notification.success("<?php _ejs('Content was resetted!'); ?>");
@@ -72,7 +72,7 @@ if (isset($data['created_by']) and $data['created_by']) {
             });
         }
         mw.copy_current_page = function (a, callback) {
-            mw.tools.confirm("<?php _ejs("Are you sure you want to copy this page?"); ?>", function () {
+            mw.confirm("<?php _ejs("Are you sure you want to copy this page?"); ?>", function () {
                 var obj = {id: a}
                 $.post(mw.settings.site_url + "api/content/copy", obj, function (data) {
                     mw.notification.success("<?php _ejs('Content was copied'); ?>");
@@ -104,7 +104,7 @@ if (isset($data['created_by']) and $data['created_by']) {
         // }
 
         mw.adm_cont_type_change_holder_event = function (el) {
-            mw.tools.confirm("<?php _ejs("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
+            mw.confirm("<?php _ejs("Are you sure you want to change the content type"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
                 var root = document.querySelector('#<?php print $params['id']; ?>');
                 var form = document.querySelector('.mw_admin_edit_content_form');;
                 var ctype = $(el).val()
@@ -117,7 +117,7 @@ if (isset($data['created_by']) and $data['created_by']) {
             });
         }
         mw.adm_cont_subtype_change_holder_event = function (el) {
-            mw.tools.confirm("<?php _ejs("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
+            mw.confirm("<?php _ejs("Are you sure you want to change the content subtype"); ?>? <?php _e("Please consider the documentation for more info"); ?>", function () {
                 var root = document.querySelector('#<?php print $params['id']; ?>');
                 var form = document.querySelector('.mw_admin_edit_content_form');;
                 var ctype = $(el).val();

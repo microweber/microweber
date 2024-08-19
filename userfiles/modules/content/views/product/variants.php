@@ -126,7 +126,7 @@
 
         $('body').on('click', '.js-product-variant-option-remove', function () {
             var customFieldId = $(this).data('id');
-            mw.tools.confirm(function () {
+            mw.confirm(function () {
                 mw.custom_fields.remove(customFieldId, function (data) {
                     refreshProductVariantsOptions();
                     generateProductVariants();

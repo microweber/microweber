@@ -11,7 +11,7 @@ $params_module = $params;
 
 <script type="text/javascript">
     publish_selected_posts = function () {
-        mw.tools.confirm('<?php _ejs('Are you sure you want to publish this content?'); ?>', function () {
+        mw.confirm('<?php _ejs('Are you sure you want to publish this content?'); ?>', function () {
             var master = document.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
 
@@ -26,7 +26,7 @@ $params_module = $params;
     }
 
     unpublish_selected_posts = function () {
-        mw.tools.confirm('<?php _ejs('Are you sure you want to unpublish this content?'); ?>', function () {
+        mw.confirm('<?php _ejs('Are you sure you want to unpublish this content?'); ?>', function () {
             var master = document.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
 
@@ -40,7 +40,7 @@ $params_module = $params;
     }
 
     delete_selected_posts = function () {
-        mw.tools.confirm("<?php _ejs("Are you sure you want to delete the selected posts"); ?>?", function () {
+        mw.confirm("<?php _ejs("Are you sure you want to delete the selected posts"); ?>?", function () {
             var master = document.getElementById('<?php print $params['id']; ?>');
             var arr = mw.check.collectChecked(master);
             mw.post.del(arr, function () {
@@ -59,7 +59,7 @@ $params_module = $params;
     }
 
     assign_selected_posts_to_category_exec = function () {
-        mw.tools.confirm("Are you sure you want to move the selected posts?", function () {
+        mw.confirm("Are you sure you want to move the selected posts?", function () {
             var dialog = mw.dialog.get('#pick-categories');
             var tree = mw.tree.get('#pick-categories');
             var selected = tree.getSelected();
@@ -120,7 +120,7 @@ $params_module = $params;
     };
 
     mw.delete_single_post = function (id) {
-        mw.tools.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {
+        mw.confirm("<?php _e("Do you want to delete this post"); ?>?", function () {
             mw.post.del(id, function () {
                 mw.$(".manage-post-item-" + id).fadeOut(function () {
                     $(this).remove()

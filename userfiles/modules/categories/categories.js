@@ -24,7 +24,7 @@
         this.service = service || this.CategoryManageService;
         var scope = this;
         this.delete = function (id, callback, onError) {
-            mw.tools.confirm(i18n.deleteConfirm, function () {
+            mw.confirm(i18n.deleteConfirm, function () {
                 scope.service.delete(id, function (data) {
                     mw.notification.success(i18n.categoryDeleted);
                     mw.reload_module_everywhere('content/manager');

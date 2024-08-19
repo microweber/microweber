@@ -208,7 +208,7 @@ if (isset($params['is_shop']) and $params['is_shop'] == '1') {
     }
 
     mw.delete_content_live_edit = function (a, callback) {
-        mw.tools.confirm("<?php _ejs("Do you want to delete this post"); ?>?", function () {
+        mw.confirm("<?php _ejs("Do you want to delete this post"); ?>?", function () {
             var arr = $.isArray(a) ? a : [a];
             var obj = {ids: arr}
             $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {

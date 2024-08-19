@@ -31,7 +31,7 @@ mw.template_exporter = {
 
 
     remove: function ($id, $selector_to_hide) {
-        mw.tools.confirm(mw.msg.del, function () {
+        mw.confirm(mw.msg.del, function () {
             data = {}
             data.id = $id;
             $.post(mw.settings.api_url + 'admin/developer_tools/template_exporter/Worker/delete', data,

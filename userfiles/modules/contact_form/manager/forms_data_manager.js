@@ -6,7 +6,7 @@ mw.forms_data_manager = {
   delete : function(id, selector){
       data = {}
       data.id = id;
-      mw.tools.confirm(mw.msg.del, function(){
+      mw.confirm(mw.msg.del, function(){
       $.post(mw.settings.api_url+'delete_form_entry', data ,
          function(data) {
             if(selector != undefined){
@@ -34,7 +34,7 @@ mw.forms_data_manager = {
 
 
    delete_list:function(id){
-   mw.tools.confirm(mw.msg.del, function(){
+   mw.confirm(mw.msg.del, function(){
 
 
 	    data = {}

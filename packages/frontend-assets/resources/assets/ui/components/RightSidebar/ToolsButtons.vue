@@ -92,7 +92,7 @@ export default {
             }
         },
         clearCache: function () {
-            mw.tools.confirm("Do you want to clear cache?", function () {
+            mw.confirm("Do you want to clear cache?", function () {
                 mw.notification.warning("Clearing cache...");
                 $.get(mw.settings.api_url + "clearcache", {}, function () {
                     mw.notification.warning("Cache is cleared! reloading the page...");

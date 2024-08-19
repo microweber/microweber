@@ -197,7 +197,7 @@ mw.admin.custom_fields.make_fields_sortable = function () {
     return sortable_holder;
 };
 mw.admin.custom_fields.del = function (id, toremove) {
-     mw.tools.confirm(  function () {
+     mw.confirm(  function () {
 
         mw.custom_fields.remove(id, function (data) {
             mw.$('#mw-custom-list-element-' + id).addClass('scale-out');

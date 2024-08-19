@@ -57,7 +57,7 @@ deleteItem = function (url, name, frommodal,removeSelectorOndelete) {
     }
 
     $('#mw_alert').remove();
-    mw.tools.confirm(msg, function () {
+    mw.confirm(msg, function () {
         $(document.body).addClass("loading");
         if (frommodal === true) {
             mw.$("#prfile").remove()

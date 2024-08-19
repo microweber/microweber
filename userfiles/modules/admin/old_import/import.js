@@ -76,7 +76,7 @@ mw.admin_import = {
 
 	remove : function($id, $selector_to_hide){
 
-        mw.tools.confirm(mw.msg.del, function(){
+        mw.confirm(mw.msg.del, function(){
       		data = {}
       		data.id=$id;
 

@@ -978,7 +978,7 @@ mw.drag = {
      * @param Element id or selector
      */
     delete_element: function(idobj, c) {
-        mw.tools.confirm(mw.settings.sorthandle_delete_confirmation_text, function() {
+        mw.confirm(mw.settings.sorthandle_delete_confirmation_text, function() {
             var el = mw.$(idobj);
 
             mw.wysiwyg.change(idobj);

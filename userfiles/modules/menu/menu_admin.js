@@ -59,7 +59,7 @@ mw.menu_admin.after_save_item = function(){
 };
 mw.menu_admin.delete_item = function($item_id){
 
-    mw.tools.confirm(mw.msg.del, function(){
+    mw.confirm(mw.msg.del, function(){
         $.post(mw.settings.api_url +"menu/item/delete/"+$item_id, function(){
             var master = $('#settings-main');
 

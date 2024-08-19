@@ -237,7 +237,7 @@ $(window).load(function(){
 
 
 delete_module = function(inner_node){
-    mw.tools.confirm(mw.msg.del, function(){
+    mw.confirm(mw.msg.del, function(){
       $(mw.tools.firstParentWithClass(inner_node, 'module')).remove();
     });
 }

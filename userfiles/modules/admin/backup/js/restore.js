@@ -14,7 +14,7 @@ mw.restore = {
 	},
 
 	remove: function($id, $selector_to_hide) {
-		mw.tools.confirm(mw.msg.del, function() {
+		mw.confirm(mw.msg.del, function() {
 			data = {}
 			data.id = $id;
 			$.post(route('admin.backup.delete'), data, function(resp) {

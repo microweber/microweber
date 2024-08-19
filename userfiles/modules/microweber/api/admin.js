@@ -313,7 +313,7 @@ if(typeof mw.admin.content === 'undefined'){
     mw.admin.content = {};
 }
 mw.admin.content.delete = function (a, callback) {
-    mw.tools.confirm("Are you sure you want to delete this? ", function () {
+    mw.confirm("Are you sure you want to delete this? ", function () {
 
 
         var arr = (a.constructor === [].constructor) ? a : [a];
@@ -332,7 +332,7 @@ mw.admin.content.delete = function (a, callback) {
     });
 }
 mw.admin.content.deleteForever = function (a, callback) {
-    mw.tools.confirm("Are you sure you want to delete this? ", function () {
+    mw.confirm("Are you sure you want to delete this? ", function () {
         var arr = (a.constructor === [].constructor) ? a : [a];
         var obj = {ids: arr, forever: true}
         $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
@@ -344,7 +344,7 @@ mw.admin.content.deleteForever = function (a, callback) {
     });
 }
 mw.admin.content.restoreFromTrash = function (a, callback) {
-    mw.tools.confirm("Are you sure you want to restore this content from trash? ", function () {
+    mw.confirm("Are you sure you want to restore this content from trash? ", function () {
         var arr = (a.constructor === [].constructor) ? a : [a];
         var obj = {ids: arr, undelete: true}
         $.post(mw.settings.site_url + "api/content/delete", obj, function (data) {
@@ -356,7 +356,7 @@ mw.admin.content.restoreFromTrash = function (a, callback) {
     });
 }
 mw.admin.content.publishContent = function (a, callback) {
-    mw.tools.confirm("Are you sure you want to publish this content? ", function () {
+    mw.confirm("Are you sure you want to publish this content? ", function () {
         mw.content.publish(a);
         mw.admin.content.refreshContentListAfterAction();
     });

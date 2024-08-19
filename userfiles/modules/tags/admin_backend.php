@@ -38,7 +38,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             }
 
             function deleteTaggingTag(tagging_tag_id) {
-                mw.tools.confirm(mw.msg.del, function () {
+                mw.confirm(mw.msg.del, function () {
                     $.ajax({
                         url: mw.settings.api_url + 'tagging_tag/delete',
                         type: 'post',
@@ -80,7 +80,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
             }
 
             function deleteTaggingTagged(tagging_tagged_id) {
-                mw.tools.confirm(mw.msg.del, function () {
+                mw.confirm(mw.msg.del, function () {
                     $.ajax({
                         url: mw.settings.api_url + 'tagging_tagged/delete',
                         type: 'post',

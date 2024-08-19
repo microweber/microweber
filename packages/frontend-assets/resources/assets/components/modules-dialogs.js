@@ -34,7 +34,7 @@ export const  SystemDialogsService = {
                   html = customHtml;
               }
 
-              mw.tools.confirm(html, function () {
+              mw.confirm(html, function () {
 
                       var is_a_preset = mw.$('#'+module_id).attr('data-module-original-id');
                       var is_a_preset_attrs = mw.$('#'+module_id).attr('data-module-original-attrs');

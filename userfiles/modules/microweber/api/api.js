@@ -143,7 +143,7 @@ mw.askusertostay = false;
   }
 
   warnOnLeave = function(){
-     mw.tools.confirm("<?php _ejs("You have unsaved changes! Are you sure"); ?>?");
+     mw.confirm("<?php _ejs("You have unsaved changes! Are you sure"); ?>?");
   };
 
   mw.module = {

@@ -28,7 +28,7 @@ $data = mw()->log_manager->get($log_params);
 
         if (log_del_conf < 3) {
 
-            mw.tools.confirm(mw.msg.del, function () {
+            mw.confirm(mw.msg.del, function () {
                 log_del_conf++;
                 $.get("<?php print api_link('delete_log_entry'); ?>/" + $item_id, function () {
                     mw.$('.mw-ui-admin-log-item-' + $item_id).fadeOut();
@@ -45,7 +45,7 @@ $data = mw()->log_manager->get($log_params);
     }
 
     mw.syslog_log_reset_all = function () {
-        mw.tools.confirm("All the log entries will be deleted!! Are you sure?", function () {
+        mw.confirm("All the log entries will be deleted!! Are you sure?", function () {
             $.get("<?php print api_link('system_log_reset'); ?>", function () {
                 mw.reload_module('<?php print $config['module'] ?>');
             });

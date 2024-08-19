@@ -3,7 +3,7 @@
     <div wire:ignore>
         <script>
             function assign_selected_posts_to_category_exec(selectedIds) {
-                mw.tools.confirm("Are you sure you want to move the selected data?", function () {
+                mw.confirm("Are you sure you want to move the selected data?", function () {
                     var dialog = mw.dialog.get('#pick-categories');
                     var tree = mw.tree.get('#pick-categories');
                     var selected = tree.getSelected();
@@ -91,7 +91,7 @@
 
     @if($multiplePublishShowModal)
         <script>
-            mw.tools.confirm("Are you sure you want to publish the selected data?", function () {
+            mw.confirm("Are you sure you want to publish the selected data?", function () {
                 window.Livewire.dispatch('multiplePublishExecute');
             });
         </script>
@@ -100,7 +100,7 @@
 
     @if($multipleUnpublishShowModal)
         <script>
-            mw.tools.confirm("Are you sure you want to unpublish the selected data?", function () {
+            mw.confirm("Are you sure you want to unpublish the selected data?", function () {
                 window.Livewire.dispatch('multipleUnpublishExecute');
             });
         </script>
@@ -108,7 +108,7 @@
 
     @if($multipleDeleteShowModal)
         <script>
-        mw.tools.confirm("Are you sure you want to delete the selected data?", function () {
+        mw.confirm("Are you sure you want to delete the selected data?", function () {
             window.Livewire.dispatch('multipleDeleteExecute');
         });
         </script>
@@ -117,7 +117,7 @@
 
     @if($multipleUndeleteShowModal)
         <script>
-        mw.tools.confirm("Are you sure you want to restore the selected data?", function () {
+        mw.confirm("Are you sure you want to restore the selected data?", function () {
             window.Livewire.dispatch('multipleUndeleteExecute');
         });
         </script>
@@ -126,7 +126,7 @@
 
     @if($multipleDeleteForeverShowModal)
         <script>
-        mw.tools.confirm("Are you sure you want to delete the selected data forever?", function () {
+        mw.confirm("Are you sure you want to delete the selected data forever?", function () {
             window.Livewire.dispatch('multipleDeleteForeverExecute');
         });
         </script>

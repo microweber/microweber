@@ -22,7 +22,7 @@
             .removeAttr('subtype_filter');
     }
     mw.content.deleteCategory = function (id, callback) {
-        mw.tools.confirm('Are you sure you want to delete this?', function () {
+        mw.confirm('Are you sure you want to delete this?', function () {
             $.ajax({
                 url: mw.settings.api_url + 'category/delete/' + id,
                 method: 'DELETE',
@@ -108,7 +108,7 @@
     $(document).ready(function () {
         mw.quick_cat_edit = mw_select_category_for_editing_from_modal;
         mw.quick_cat_delete =   function (id, callback) {
-            mw.tools.confirm('Are you sure you want to delete this?', function () {
+            mw.confirm('Are you sure you want to delete this?', function () {
                 $.ajax({
                     url: mw.settings.api_url + "category/delete/" + id,
                     method: 'DELETE',

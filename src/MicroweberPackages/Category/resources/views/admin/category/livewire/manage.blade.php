@@ -126,7 +126,7 @@ if (isset($isShop) and $isShop){
                     });
 
                     $('.js-multiple-visible').click(function() {
-                        mw.tools.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {
+                        mw.confirm('<?php echo _ejs('Are you sure you want to make visible the selected categories?'); ?>', function() {
                             $.ajax({
                                 url: route('api.category.visible-bulk'),
                                 type: 'POST',
@@ -141,7 +141,7 @@ if (isset($isShop) and $isShop){
                     });
 
                     $('.js-multiple-hidden').click(function() {
-                        mw.tools.confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>', function() {
+                        mw.confirm('<?php echo _ejs('Are you sure you want to make hidden the selected categories?'); ?>', function() {
                             $.ajax({
                                 url: route('api.category.hidden-bulk'),
                                 type: 'POST',
@@ -157,7 +157,7 @@ if (isset($isShop) and $isShop){
                     });
 
                     $('.js-multiple-delete').click(function() {
-                        mw.tools.confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>', function() {
+                        mw.confirm('<?php echo _ejs('Are you sure you want to delete the selected categories?'); ?>', function() {
                             $.ajax({
                                 url: route('api.category.delete-bulk'),
                                 type: 'DELETE',
