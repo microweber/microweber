@@ -117,6 +117,12 @@ class KitchenSink extends Page
                             ]),
                     ]),
 
+                MwColorPicker::make('mw_color_picker')
+                    ->live()
+                    ->afterStateUpdated(function ($state) {
+                        dump($state);
+                    })->columnSpanFull(),
+
                 MwIconPicker::make('mw_icon_picker')
                     ->live()
                     ->addIconSet('iconsMindLine')
