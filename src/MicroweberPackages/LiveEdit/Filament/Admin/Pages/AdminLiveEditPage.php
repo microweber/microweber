@@ -137,6 +137,7 @@ class AdminLiveEditPage extends Page
                     ->send();
 
             })
+            ->modalSubmitActionLabel('Create ' . $contentType)
             ->slideOver();
     }
 }
