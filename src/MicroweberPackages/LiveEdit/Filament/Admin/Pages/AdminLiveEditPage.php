@@ -121,11 +121,13 @@ class AdminLiveEditPage extends Page
                 $model->fill($data);
                 $model->save();
 
+                $contentTypeFriendly = ucfirst($contentType);
+
                 Notification::make()
                     ->success()
-                    ->title($model->content_type . ' is  created')
-                    ->body($model->content_type . ' has been created successfully.');
-
+                    ->title($contentTypeFriendly. ' is  created')
+                    ->body($contentTypeFriendly . ' has been created successfully.')
+                    ->send();
 
             })
             ->slideOver();
