@@ -6,6 +6,8 @@ use App\Filament\Admin\Resources\ContentResource\Pages;
 use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownActionsColumn;
 use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownColumn;
 use Filament\Forms;
+use Filament\Forms\Components\Livewire;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
@@ -40,35 +42,24 @@ class ContentResource extends Resource
     protected static bool $shouldRegisterNavigation = false;
 
 
-    public static function formArray($params)
+    public static function formArray($params = [])
     {
-        $id = $params['id'];
-        $contentSubtype = $params['contentSubtype'];
-        $contentType = $params['contentType'];
-        $categoryIds = $params['categoryIds'];
-        $menuIds = $params['menuIds'];
-        $sessionId = session()->getId();
-        $parent = $params['parent'];
+        $id = null;
+        if (isset($params['id'])) {
+            $id = $params['id'];
+        }
+        $contentType = 'page';
+        $contentSubtype = 'static';
+        if (isset($params['contentType'])) {
+            $contentType = $params['contentType'];
+        }
+
         $site_url = site_url();
-        $modelName = $params['modelName'];
-        $mediaFiles = $params['mediaFiles'];
-        $mediaUrls = $params['mediaUrls'];
-        $componentName = $params['componentName'];
-        $menusCheckboxes = $params['menusCheckboxes'];
-
-        return [
+        $sessionId = session()->getId();
 
 
-//                Forms\Components\CheckboxList::make('belongsToMenus')
-//                ->relationship(titleAttribute: 'title'),
+        $mainForm = [
 
-
-//                Forms\Components\Tabs::make('Tabs')
-//                    ->tabs([
-//
-//                        Forms\Components\Tabs\Tab::make('Details')
-//                            ->schema([
-//
 Forms\Components\Group::make([
 
     Forms\Components\Group::make()
@@ -88,10 +79,16 @@ Forms\Components\Group::make([
                 ->default($contentType)
                 ->hidden(),
             Forms\Components\Hidden::make('categoryIds')
-                ->default($categoryIds)
-                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($categoryIds) {
+                ->default(function(?Model $record) {
+                    if ($record) {
+                        return $record->getCategoryIdsAttribute();
+                    }
+                    return [];
+                })
+                ->afterStateHydrated(function (?Model $record, Forms\Get $get, Forms\Set $set, ?array $state) {
 
-                    if ($categoryIds) {
+                    if ($record) {
+                        $categoryIds = $record->getCategoryIdsAttribute();
                         if (!is_array($categoryIds)) {
                             $categoryIds = explode(',', $categoryIds);
                         }
@@ -103,18 +100,22 @@ Forms\Components\Group::make([
             ,
 
             Forms\Components\Hidden::make('menuIds')
-                ->default($menuIds)
-                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($menuIds) {
+                ->default(function(?Model $record) {
+                    if ($record) {
+                        return $record->menuIds;
+                    }
+                    return [];
+                })
+                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state, ?Model $record) {
 
-                    if ($menuIds) {
-                        $set('menuIds', $menuIds);
+                    if ($record) {
+                        $set('menuIds', $record->menuIds);
                     } else {
                         $set('menuIds', []);
                     }
                 })
             ,
-            Forms\Components\Hidden::make('parent')
-                ->default($parent),
+            Forms\Components\Hidden::make('parent'),
 
             Forms\Components\Hidden::make('subtype')
                 ->default($contentSubtype)
@@ -133,11 +134,6 @@ Forms\Components\Group::make([
                 }),
 
 
-            //
-            //
-            //                            Forms\Components\FileUpload::make('image')
-            //                                ->image()
-            //                                ->imageEditor(),
 
             Forms\Components\Section::make('General Information')
                 ->heading(false)
@@ -154,37 +150,11 @@ Forms\Components\Group::make([
                         ->columnSpanFull(),
 
 
-                    //                                    Forms\Components\TextInput::make('title')
-                    //                                        ->required()
-                    //                                        ->maxLength(255)
-                    //                                        ->columnSpanFull()
-                    //                                        ->live(onBlur: true)
-                    //                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                    //                                            if ($operation !== 'create') {
-                    //                                                return;
-                    //                                            }
-                    //
-                    //                                            $set('url', Str::slug($state));
-                    //                                        }),
-                    //
-                    //                                    Forms\Components\TextInput::make('url')
-                    //                                        //     ->disabled()
-                    //                                        ->dehydrated()
-                    //                                        ->required()
-                    //                                        ->maxLength(255)
-                    //                                        ->columnSpanFull()
-                    //                                        ->unique(Content::class, 'url', ignoreRecord: true),
-
                     Forms\Components\TextInput::make('description')
                         ->columnSpan('full'),
 
                     MwRichEditor::make('content_body')
                         ->columnSpan('full')
-//                                        ->afterStateHydrated(function (Forms\Get $get) {
-//
-//                                            ($get('content_body'));
-//                                           // return $get('content_body');
-//                                        })
                         ->visible(function (Forms\Get $get) {
                             return $get('content_type') !== 'page';
                         }),
@@ -194,29 +164,24 @@ Forms\Components\Group::make([
 
 
             Forms\Components\Section::make('Images')
-                ->schema([
-
-
-//                        MwImagesForModel::make('mediaIds'),
-
-Forms\Components\Livewire::make('admin-list-media-for-model', [
-    'relType' => $modelName,
-    'relId' => $id,
-    'mediaFiles' => $mediaFiles,
-    'mediaUrls' => $mediaUrls,
-
-    'parentComponentName' => $componentName,
-    'createdBy' => user_id(),
-
-    // 'sessionId' => $sessionId
-
-])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
-
-}),
-
-
-
-                ])
+                ->schema(function(Component $livewire, ?Model $record) {
+                    $relType = morph_name(Content::class);
+                    $relId = 0;
+                    if ($record) {
+                        $relType = morph_name($record->getMorphClass());
+                        $relId = $record->id;
+                    }
+                    return [
+                        Forms\Components\Livewire::make('admin-list-media-for-model',
+                            [
+                                'relType'    => $relType,
+                                'relId'      => $relId,
+                                'parentComponentName' => $livewire->getName(),
+                                'createdBy'           => user_id(),
+                                // 'sessionId' => $sessionId
+                            ])
+                    ];
+                })
                 ->collapsible(),
 
 
@@ -303,12 +268,6 @@ Forms\Components\Livewire::make('admin-list-media-for-model', [
                             ->columnSpanFull()
                             ->default(0),
 
-                        //                                                    Forms\Components\TextInput::make('content_data.weight')
-                        //                                                        ->numeric()
-                        //                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                        //                                                        ->helperText('Used to calculate shipping rates at checkout and label prices during fulfillment.')
-                        //                                                        ->label('Weight')
-                        //                                                        ->default(0),
 
                         Forms\Components\Toggle::make('content_data.free_shipping')
                             ->columnSpanFull(),
@@ -386,12 +345,21 @@ Forms\Components\Livewire::make('admin-list-media-for-model', [
 
 
             Forms\Components\Section::make('Parent page')
-                ->schema([
-                    Forms\Components\View::make('filament-forms::admin.mw-tree')->viewData([
-                        'selectedPage' => $parent,
-                        'selectedCategories' => $categoryIds
-                    ]),
-                ]),
+                ->schema(function(?Model $record) {
+                    $parent = null;
+                    $categoryIds = [];
+                    if ($record) {
+                        $parent = $record->parent;
+                        $categoryIds = $record->getCategoryIdsAttribute();
+                    }
+                    return [
+                        Forms\Components\View::make('filament-forms::admin.mw-tree')
+                            ->viewData([
+                                'selectedPage' => $parent,
+                                'selectedCategories' => $categoryIds
+                            ])
+                    ];
+                }),
 
 
             Forms\Components\Section::make('Tags')
@@ -406,149 +374,53 @@ Forms\Components\Livewire::make('admin-list-media-for-model', [
                 ->schema([
 
                     Forms\Components\CheckboxList::make('menuIds')
-                        //   ->hiddenLabel(true)
-//                                        ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
-//
-//                                            if ($selectedMenus) {
-//                                                $set('menuIds', $selectedMenus);
-//                                            } else {
-//                                                $set('menuIds', []);
-//                                            }
-//                                        })
-//                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, ?Model $record) {
-//                                            $items = $state;
-//
-//                                            if (is_array($items) and !empty($items)) {
-//                                                $items = array_filter($items);
-//                                                $items = array_values($items);
-//                                                $set('menuIds', $items);
-//                                            } else {
-//                                                $set('menuIds', []);
-//                                            }
-//
-//                                            if ($items) {
-//                                                //$record->setMenuIds($items);
-//                                            } else {
-//                                                //$record->setMenuIds([]);
-//
-//                                            }
-//                                        })
-                        ->options($menusCheckboxes),
+
+                        ->options(function(?Model $record) {
+                            $menus = get_menus();
+                            $menusCheckboxes = [];
+                            if ($menus) {
+                                foreach ($menus as $menu) {
+                                    $menusCheckboxes[$menu['id']] = $menu['title'];
+                                }
+                            }
+                            return $menusCheckboxes;
+                        }),
                 ])
         ])->columnSpan(['lg' => 1]),
 
 
 ])->columns(3)->columnSpanFull(),
 
-//                            ])->columns(3),
+
+        ];
 
 
-//                Forms\Components\Tabs\Tab::make('Custom Fields')
-//                    ->schema([
-//                        Forms\Components\Section::make('Custom Fields')
-//                            ->heading(false)
-//                        ->schema([
-//                            Forms\Components\View::make('custom_field::livewire.filament.admin.show-list-custom-fields')
-//                                ->columnSpanFull(),
-//                        ]),
-//                    ]),
-//                Forms\Components\Tabs\Tab::make('SEO')
-//                    ->schema([
-//
-//
-//
-//                        ]),
-//
-//                    ]),
-//                Forms\Components\Tabs\Tab::make('Advanced')
-//                    ->schema([
-//
-//                    ]),
-//                    ])->columnSpanFull(),
+        return [
+            Tabs::make('ContentTabs')
+                ->tabs([
+                    Tabs\Tab::make('Details')
+                        ->schema(
+                            $mainForm
+                        ),
+                    Tabs\Tab::make('Custom Fields')
+                        ->schema([
+                            Livewire::make('admin-list-custom-fields')
+                        ]),
+                    Tabs\Tab::make('SEO')
+                        ->schema(
+                            self::seoFormArray()
+                        ),
+                    Tabs\Tab::make('Advanced')
+                        ->schema(self::advancedSettingsFormArray()),
+                ])->columnSpanFull()
+
 
         ];
     }
 
     public static function form(Form $form): Form
     {
-
-        $livewire = $form->getLivewire();
-
-        $contentType = 'page';
-        $contentSubtype = 'static';
-
-        $categoryIds = '';
-
-        if (
-            $livewire instanceof \App\Filament\Admin\Resources\PageResource\Pages\CreatePage ||
-            $livewire instanceof \App\Filament\Admin\Resources\PageResource\Pages\EditPage
-        ) {
-            $contentType = 'page';
-            $contentSubtype = 'static';
-        }
-
-        if (
-            $livewire instanceof \App\Filament\Admin\Resources\PostResource\Pages\CreatePost ||
-            $livewire instanceof \App\Filament\Admin\Resources\PostResource\Pages\EditPost
-        ) {
-            $contentType = 'post';
-            $contentSubtype = 'post';
-
-        }
-
-        if ($livewire instanceof \App\Filament\Admin\Resources\ProductResource\Pages\CreateProduct ||
-            $livewire instanceof \App\Filament\Admin\Resources\ProductResource\Pages\EditProduct) {
-            $contentType = 'product';
-            $contentSubtype = 'product';
-        }
-
-        $record = $form->getRecord();
-        $modelName = (morph_name($livewire->getModel()));
-        $id = 0;
-        if ($record) {
-            $id = $record->id;
-        }
-
-        $menuIds = [];
-        if ($record) {
-            $menuIds = $record->menuIds;
-        }
-
-        $menus = get_menus();
-        $menusCheckboxes = [];
-        $mediaUrls = [];
-        if ($menus) {
-            foreach ($menus as $menu) {
-                $menusCheckboxes[$menu['id']] = $menu['title'];
-            }
-        }
-
-        $mediaFiles = [];
-        $parent = 0;
-        if ($record) {
-            $parent = $record->parent;
-            $category_ids_array = $record->getCategoryIdsAttribute();
-            if (!empty($category_ids_array)) {
-                $categoryIds = implode(',', $category_ids_array);
-            }
-        }
-
-        $componentName = $livewire->getName();
-
-        return $form
-            ->schema(static::formArray([
-                'id'=>0,
-                'contentType'=>$contentType,
-                'categoryIds'=>$categoryIds,
-                'menuIds'=>$menuIds,
-                'parent'=>$parent,
-                'contentSubtype'=>$contentSubtype,
-                'modelName'=>$modelName,
-                'mediaFiles'=>$mediaFiles,
-                'mediaUrls'=>$mediaUrls,
-                'componentName'=>$componentName,
-                'menusCheckboxes'=>$menusCheckboxes
-            ]));
+        return $form->schema(static::formArray());
     }
 
     public static function seoFormArray()
