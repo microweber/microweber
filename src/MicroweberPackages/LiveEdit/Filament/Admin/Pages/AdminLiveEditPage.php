@@ -127,6 +127,13 @@ class AdminLiveEditPage extends Page
                     ->success()
                     ->title($contentTypeFriendly. ' is  created')
                     ->body($contentTypeFriendly . ' has been created successfully.')
+
+                    ->actions([
+                        \Filament\Notifications\Actions\Action::make('viewContent')
+                            ->label('View ' . $contentTypeFriendly)
+                            ->url(content_link($model->id))
+                            ->button(),
+                    ])
                     ->send();
 
             })
