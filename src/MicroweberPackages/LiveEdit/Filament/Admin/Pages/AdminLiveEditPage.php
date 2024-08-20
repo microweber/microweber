@@ -100,50 +100,13 @@ class AdminLiveEditPage extends Page
 
     public function generateAction($actionName, $contentType)
     {
-        $categoryIds = [];
-        $menuIds = [];
-        $parent = null;
-        $contentSubtype = null;
-        $modelName = null;
-        $mediaFiles = [];
-        $mediaUrls = [];
-        $componentName = null;
-        $menusCheckboxes = [];
-
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
             ->form([
-
-                Tabs::make('Tabs')
-                    ->tabs([
-                        Tabs\Tab::make('Details')
-                            ->schema(
-                                ContentResource::formArray([
-                                    'id'=>0,
-                                    'contentType'=>$contentType,
-                                    'categoryIds'=>$categoryIds,
-                                    'menuIds'=>$menuIds,
-                                    'parent'=>$parent,
-                                    'contentSubtype'=>$contentSubtype,
-                                    'modelName'=>$modelName,
-                                    'mediaFiles'=>$mediaFiles,
-                                    'mediaUrls'=>$mediaUrls,
-                                    'componentName'=>$componentName,
-                                    'menusCheckboxes'=>$menusCheckboxes
-                                ])
-                            ),
-                        Tabs\Tab::make('Custom Fields')
-                            ->schema([
-                                Livewire::make('admin-list-custom-fields')
-                            ]),
-                        Tabs\Tab::make('SEO')
-                            ->schema(
-                                ContentResource::seoFormArray()
-                            ),
-                        Tabs\Tab::make('Advanced')
-                            ->schema(ContentResource::advancedSettingsFormArray()),
-                    ])
+                ContentResource::formArray([
+                    'contentType'=>$contentType
+                ])
             ])
             ->slideOver();
     }
