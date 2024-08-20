@@ -48,7 +48,7 @@
     .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
     .fi-input-wrp .fi-input,
     .fi-input-wrp .fi-input.form-select {
-        @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 !outline-0 appearance-none shadow-none bg-[#f0f0f0] pl-[10px];
+        @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 !outline-0 appearance-none shadow-none bg-[#f0f0f0] dark:bg-gray-900 pl-[10px];
     }
 
     .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
@@ -97,7 +97,7 @@
     .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
     .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus,
     .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus-visible {
-        @apply bg-gray-50 dark:bg-gray-800;
+        @apply bg-gray-50 dark:bg-gray-900;
     }
 
     .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect,
