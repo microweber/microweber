@@ -14,47 +14,8 @@ export default {
             this.emitter.emit('live-edit-ui-show', name);
         },
         openContentAddModal: function () {
-            var moduleType = 'editor/add_content_modal';
-            var attrsForSettings = {};
-
-            attrsForSettings.live_edit = true;
-            attrsForSettings.module_settings = true;
-            attrsForSettings.id = 'mw_global_add_content_modal';
-            attrsForSettings.type = moduleType;
-            attrsForSettings.iframe = true;
-            attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
-
-            var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
-
-            if (liveEditIframeData
-                && liveEditIframeData.content
-
-            ) {
-                var content_id = liveEditIframeData.content.id;
-                attrsForSettings.content_id = content_id;
-                attrsForSettings.show_edit_content_button = true;
-            }
-
-
-           // var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
-            var src = mw.app.adminModules.getModuleSettingsUrl(moduleType, attrsForSettings);
-
-
-
-            var modal = mw.dialogIframe({
-                url: src,
-                width: '700px',
-                name: 'mw-add-content-editor-front',
-                title: 'Add content',
-                template: 'default',
-                center: false,
-                resize: true,
-                autosize: true,
-                autoHeight: true,
-                draggable: true
-            });
-
-            this.contentAddModalInstance = modal;
+            var event = new Event('openAddContentAction');
+            window.dispatchEvent(event);
         },
     },
     data() {

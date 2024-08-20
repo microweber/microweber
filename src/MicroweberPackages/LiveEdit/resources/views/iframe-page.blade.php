@@ -1,29 +1,27 @@
-<div class="  mw-admin-live-edit-page">
+<div class="mw-admin-live-edit-page">
 
-    <button wire:click="mountAction('addContentAction')">
-        ADD NEW
-    </button>
+
+
+    <div
+        x-data="{}"
+        x-init="() => {
+            window.addEventListener('openAddContentAction', () => {
+                 $wire.mountAction('addContentAction', {})
+                alert(3);
+            });
+        }"
+    >
+
+    </div>
 
 
 
     <div wire:ignore>
 
 
-
-
-
-
-
-
-
         <div>
 
-
             <script>
-
-
-
-
 
                 mw.lib.require('nouislider');
                 mw.require('components.css')
