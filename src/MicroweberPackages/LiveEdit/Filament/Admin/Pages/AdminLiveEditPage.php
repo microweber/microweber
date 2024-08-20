@@ -55,7 +55,7 @@ class AdminLiveEditPage extends Page
         $actions[] = [
             'title' => 'New Post',
             'description' => 'Add new post to your blog page, linked to category of main page on your website ',
-            'action' => 'addPageAction',
+            'action' => 'addPostAction',
             'icon' => 'mw-add-post',
         ];
         $actions[] = [
@@ -66,7 +66,7 @@ class AdminLiveEditPage extends Page
         $actions[] = [
             'title' => 'New Product',
             'description' => 'Add new product to your online store, choose from pre-pared product designs ',
-            'action' => 'addPageAction',
+            'action' => 'addProductAction',
             'icon' => 'mw-add-product',
         ];
 
@@ -84,7 +84,20 @@ class AdminLiveEditPage extends Page
 
     public function addPageAction(): Action
     {
-        $contentType = 'page';
+        return $this->generateAction('addPageAction', 'page');
+    }
+    public function addPostAction(): Action
+    {
+        return $this->generateAction('addPostAction', 'post');
+    }
+
+    public function addProductAction(): Action
+    {
+        return $this->generateAction('addPostAction', 'post');
+    }
+
+    public function generateAction($actionName, $contentType)
+    {
         $categoryIds = [];
         $menuIds = [];
         $parent = null;
@@ -95,9 +108,9 @@ class AdminLiveEditPage extends Page
         $componentName = null;
         $menusCheckboxes = [];
 
-        return Action::make('addPageAction')
-            ->label('Create Post')
-            ->modalHeading('Create Post')
+        return Action::make($actionName)
+            ->label('Create ' . $contentType)
+            ->modalHeading('Create ' . $contentType)
             ->form(ContentResource::formArray([
                 'id'=>0,
                 'contentType'=>$contentType,
