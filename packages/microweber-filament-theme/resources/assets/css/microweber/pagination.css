@@ -1,5 +1,5 @@
 .pagination {
-    @apply flex pl-0 list-none rounded-md;
+    @apply flex justify-center pl-0 list-none rounded-md;
 }
 
 .page-link {

@@ -4858,10 +4858,6 @@ select {
   max-height: 100%;
 }
 
-.\!min-h-\[500px\] {
-  min-height: 500px !important;
-}
-
 .min-h-\[45px\] {
   min-height: 45px;
 }
@@ -10955,6 +10951,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
   padding: 20px !important;
 }
 
+.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-footer {
+  display: none;
+}
+
 .mw-dialog-container {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -14151,6 +14151,7 @@ html[dir="rtl"] .mw-tree-nav-skin-default .mw-tree-toggler:after{
 .pagination {
   display: flex;
   list-style-type: none;
+  justify-content: center;
   border-radius: 0.375rem;
   padding-left: 0px;
 }
@@ -16719,7 +16720,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .mw-live-edit-page-wrapper {
-  min-height: 500px !important;
+  min-height: 100% !important;
 }
 
 .mw-dropzone{

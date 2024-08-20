@@ -748,7 +748,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .mw-live-edit-page-wrapper {
-    @apply !min-h-[500px];
+    @apply !min-h-full;
 }
 
 .mw-dropzone{

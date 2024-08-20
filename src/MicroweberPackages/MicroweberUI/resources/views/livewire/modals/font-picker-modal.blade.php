@@ -78,7 +78,7 @@
 <!--                    Don't change the high of handle. Cause you will break the draggable modal.-->
                     <div id="js-modal-livewire-ui-draggable-handle" class="w-full h-6" style="cursor:move"></div>
                 </div>
-                <div id="js-modal-livewire-ui-close" class="cursor-pointer" style="padding-top:5px;padding-right:5px;font-size:28px">
+                <div id="js-modal-livewire-ui-close" class="cursor-pointer" style="font-size:28px">
                     <i class="mdi mdi-close"></i>
                 </div>
             </div>
