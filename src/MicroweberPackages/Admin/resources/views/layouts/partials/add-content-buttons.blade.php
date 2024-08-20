@@ -114,6 +114,11 @@ if($editContentBtnData){
 
 
 
+
+
+
+
+
 <?php if (!empty($create_content_menu)): ?>
     <?php foreach ($create_content_menu as $type => $item): ?>
     <?php $title = (isset($item['title'])) ? ($item['title']) : false; ?>

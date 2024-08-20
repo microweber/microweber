@@ -115,7 +115,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $isIframe = false;
 
-        if (request()->header('Sec-Fetch-Dest') === 'iframe') {
+        if (request()->get('iframe') or request()->header('Sec-Fetch-Dest') === 'iframe') {
             $isIframe = true;
         }
         if($isIframe){
