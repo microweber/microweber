@@ -4022,6 +4022,10 @@ select {
   clear: both;
 }
 
+.\!m-\[10px\] {
+  margin: 10px !important;
+}
+
 .-m-0 {
   margin: -0px;
 }
@@ -4064,6 +4068,10 @@ select {
 
 .m-2 {
   margin: 0.5rem;
+}
+
+.m-3 {
+  margin: 0.75rem;
 }
 
 .m-4 {
@@ -10949,6 +10957,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .fi-fo-tabs.fi-contained {
   padding: 20px !important;
+}
+
+.mw-font-picker-modal-wrapper {
+  margin: 10px !important;
 }
 
 .mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-footer {

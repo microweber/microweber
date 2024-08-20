@@ -47,7 +47,7 @@
         }
     </script>
 
-    <div class="row">
+    <div class="row mw-font-picker-modal-wrapper">
         <div class="col-md-4 h-auto" style="background:#ececec;">
 
             <div class="mt-3 ms-2">
