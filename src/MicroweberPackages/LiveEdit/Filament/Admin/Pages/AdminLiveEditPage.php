@@ -126,7 +126,6 @@ class AdminLiveEditPage extends Page
                     ->title($model->content_type . ' is  created')
                     ->body($model->content_type . ' has been created successfully.');
 
-                return redirect(content_link($model->id));
 
             })
             ->slideOver();
