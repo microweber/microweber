@@ -1,6 +1,7 @@
 <div class="  mw-admin-live-edit-page">
-    <button wire:click="mountAction('addPageAction', { id: 12345 })">
-        Button addPageAction
+
+    <button wire:click="mountAction('addContentAction')">
+        ADD NEW
     </button>
 
 

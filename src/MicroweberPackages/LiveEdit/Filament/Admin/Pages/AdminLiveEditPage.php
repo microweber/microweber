@@ -5,6 +5,7 @@ namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages;
 
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -26,6 +27,7 @@ class AdminLiveEditPage extends Page
 
     use InteractsWithActions;
     use InteractsWithForms;
+
     public function render(): View
     {
         $params = request()->all();
@@ -40,31 +42,56 @@ class AdminLiveEditPage extends Page
 
 
 
+    public function addContentAction(): Action
+    {
+        $actions = [];
+        $actions[] = [
+            'title' => 'New Page',
+            'description' => 'Create a new page to your website or online store, choose from pre-pared page designs ',
+            'action' => 'addPageAction',
+            'icon' => 'mw-add-page',
+        ];
+        $actions[] = [
+            'title' => 'New Post',
+            'description' => 'Add new post to your blog page, linked to category of main page on your website ',
+            'action' => 'addPageAction',
+            'icon' => 'mw-add-post',
+        ];
+        $actions[] = [
+            'title' => 'New Category',
+            'description' => 'Add new category and organize your blog posts or items from the shop in the right way ',
+            'action' => 'addPageAction',
+            'icon' => 'mw-add-category',];
+        $actions[] = [
+            'title' => 'New Product',
+            'description' => 'Add new product to your online store, choose from pre-pared product designs ',
+            'action' => 'addPageAction',
+            'icon' => 'mw-add-product',
+        ];
+
+        return Action::make('addContentAction')
+            ->form([
+                \Filament\Forms\Components\View::make('microweber-live-edit::add-content-modal')
+                ->viewData([
+                    'actions' => $actions
+                ])
+            ])
+            ->modalSubmitAction(null)
+            ->modalCancelAction(null)
+            ->slideOver();
+    }
+
     public function addPageAction(): Action
     {
         return Action::make('addPageAction')
-            ->mountUsing(function (Form $form, array $arguments) {
-
-
-            })
             ->form([
-                Hidden::make('id')
-                    ->required(),
+
                 TextInput::make('title')
+                    ->label('Title')
+                    ->placeholder('Enter title')
+                    ->required(),
 
-                    ->maxLength(255),
-
-                TextInput::make('description')
-
-                    ->maxLength(2550),
-
-            ])->record(function (array $arguments) {
-                $record = Media::find($arguments['id']);
-                return $record;
-            })
-            ->action(function (array $data) {
-
-            })->slideOver();
+            ])
+            ->slideOver();
     }
-
 }
