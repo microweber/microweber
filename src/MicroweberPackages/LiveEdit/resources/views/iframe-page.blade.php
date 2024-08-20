@@ -7,7 +7,6 @@
         x-init="() => {
             window.addEventListener('openAddContentAction', () => {
                  $wire.mountAction('addContentAction', {})
-                alert(3);
             });
         }"
     >
