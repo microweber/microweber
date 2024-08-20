@@ -551,141 +551,151 @@ Forms\Components\Livewire::make('admin-list-media-for-model', [
             ]));
     }
 
+    public static function seoFormArray()
+    {
+        return [
+            Forms\Components\Section::make('Search engine optimisation (SEO)')
+                ->description('Add a title and description to see how this product might appear in a search engine listing')
+                ->schema([
+
+                    Forms\Components\TextInput::make('content_meta_title')
+                        ->label('Meta Title')
+                        ->helperText('Describe for what is this page about in short title')
+                        ->columnSpanFull(),
+
+
+                    Forms\Components\Textarea::make('description')
+                        ->label('Meta Description')
+                        ->helperText('Please provide a brief summary of this web page')
+                        ->columnSpanFull(),
+
+                    Forms\Components\TextInput::make('content_meta_keywords')
+                        ->label('Meta Keywords')
+                        ->helperText('Separate keywords with a comma and space. Type keywords that describe your content - Example: Blog, Online News, Phones for sale')
+                        ->columnSpanFull(),
+
+                ])
+        ];
+    }
+
     public static function seoForm(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Section::make('Search engine optimisation (SEO)')
-                    ->description('Add a title and description to see how this product might appear in a search engine listing')
-                    ->schema([
-
-                        Forms\Components\TextInput::make('content_meta_title')
-                            ->label('Meta Title')
-                            ->helperText('Describe for what is this page about in short title')
-                            ->columnSpanFull(),
-
-
-                        Forms\Components\Textarea::make('description')
-                            ->label('Meta Description')
-                            ->helperText('Please provide a brief summary of this web page')
-                            ->columnSpanFull(),
-
-                        Forms\Components\TextInput::make('content_meta_keywords')
-                            ->label('Meta Keywords')
-                            ->helperText('Separate keywords with a comma and space. Type keywords that describe your content - Example: Blog, Online News, Phones for sale')
-                            ->columnSpanFull(),
-
-                    ])
-            ]);
+            ->schema(static::seoFormArray());
     }
 
+
+    public static function advancedSettingsFormArray()
+    {
+        return [
+            Forms\Components\Section::make('Advanced Settings')
+                ->description('You can configure advanced settings for this content')
+                ->schema([
+
+                    Forms\Components\TextInput::make('original_link')
+                        ->label('Redirect URL')
+                        ->helperText('Redirect to another URL when this content is accessed')
+                        ->columnSpanFull(),
+
+
+                    Forms\Components\Toggle::make('require_login')
+                        ->label('Require login')
+                        ->visible(function (Forms\Get $get) {
+                            return $get('id');
+                        })
+                        ->helperText('Require user to be logged in to view this content')
+                        ->columnSpanFull(),
+
+
+                    Forms\Components\Select::make('created_by')
+                        ->visible(function (Forms\Get $get) {
+                            return $get('id');
+                        })
+                        ->label('Author')
+                        ->placeholder('Select author')
+                        // ->options(User::all()->pluck('email', 'id'))
+                        ->getSearchResultsUsing(fn(string $search) => User::where('email', 'like', "%{$search}%")->limit(50)->pluck('email', 'id'))
+                        ->getOptionLabelUsing(fn($value): ?string => User::find($value)?->email)
+                        ->getSelectedRecordUsing(fn($value) => User::find($value))
+                        ->searchable(),
+
+
+                    //change conten type select
+                    Forms\Components\Select::make('content_type')
+                        ->label('Content Type')
+                        ->options([
+                            'page' => 'Page',
+                            'post' => 'Post',
+                            'product' => 'Product',
+                        ]),
+
+
+                    Forms\Components\Select::make('subtype')
+                        ->label('Content Subtype')
+                        ->options([
+                            'static' => 'Static',
+                            'post' => 'Post',
+                            'product' => 'Product',
+                            'dynamic' => 'Dynamic',
+                        ]),
+
+                    Forms\Components\Toggle::make('is_shop')
+                        ->label('Is Shop')
+                        ->default(0)
+                        ->helperText('This page will accept products to be added to it.')
+                        ->visible(function (Forms\Get $get) {
+                            return $get('content_type') === 'page';
+                        })
+                        ->columnSpanFull(),
+                    Forms\Components\Toggle::make('is_home')
+                        ->label('Is Homepage')
+                        ->default(0)
+
+                        ->helperText('This will be the first page of your website.')
+                        ->visible(function (Forms\Get $get) {
+                            return $get('content_type') === 'page';
+                        })
+                        ->columnSpanFull(),
+
+
+                    Forms\Components\DateTimePicker::make('created_at')
+                        ->label('Created At')
+                        ->format('Y-m-d H:i:s')
+                        ->native(false)
+                        ->displayFormat('Y-m-d H:i:s')
+                        ->visible(function (Forms\Get $get) {
+                            return $get('id');
+                        })
+                        ->columnSpanFull(),
+
+                    Forms\Components\DateTimePicker::make('updated_at')
+                        ->label('Updated At')
+                        ->format('Y-m-d H:i:s')
+                        ->native(false)
+                        ->displayFormat('Y-m-d H:i:s')
+                        ->visible(function (Forms\Get $get) {
+                            return $get('id');
+                        })
+                        ->columnSpanFull(),
+
+                    Forms\Components\Placeholder::make('id')
+                        ->label('ID')
+                        ->inlineLabel(true)
+                        ->content(function ($record) {
+                            return $record->id;
+                        })->visible(function (Forms\Get $get) {
+                            return $get('id');
+                        }),
+
+
+                ])
+        ];
+    }
 
     public static function advancedSettingsForm(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Section::make('Advanced Settings')
-                    ->description('You can configure advanced settings for this content')
-                    ->schema([
-
-                        Forms\Components\TextInput::make('original_link')
-                            ->label('Redirect URL')
-                            ->helperText('Redirect to another URL when this content is accessed')
-                            ->columnSpanFull(),
-
-
-                        Forms\Components\Toggle::make('require_login')
-                            ->label('Require login')
-                            ->visible(function (Forms\Get $get) {
-                                return $get('id');
-                            })
-                            ->helperText('Require user to be logged in to view this content')
-                            ->columnSpanFull(),
-
-
-                        Forms\Components\Select::make('created_by')
-                            ->visible(function (Forms\Get $get) {
-                                return $get('id');
-                            })
-                            ->label('Author')
-                            ->placeholder('Select author')
-                            // ->options(User::all()->pluck('email', 'id'))
-                            ->getSearchResultsUsing(fn(string $search) => User::where('email', 'like', "%{$search}%")->limit(50)->pluck('email', 'id'))
-                            ->getOptionLabelUsing(fn($value): ?string => User::find($value)?->email)
-                            ->getSelectedRecordUsing(fn($value) => User::find($value))
-                            ->searchable(),
-
-
-                        //change conten type select
-                        Forms\Components\Select::make('content_type')
-                            ->label('Content Type')
-                            ->options([
-                                'page' => 'Page',
-                                'post' => 'Post',
-                                'product' => 'Product',
-                            ]),
-
-
-                        Forms\Components\Select::make('subtype')
-                            ->label('Content Subtype')
-                            ->options([
-                                'static' => 'Static',
-                                'post' => 'Post',
-                                'product' => 'Product',
-                                'dynamic' => 'Dynamic',
-                            ]),
-
-                        Forms\Components\Toggle::make('is_shop')
-                            ->label('Is Shop')
-                            ->default(0)
-                            ->helperText('This page will accept products to be added to it.')
-                            ->visible(function (Forms\Get $get) {
-                                return $get('content_type') === 'page';
-                            })
-                            ->columnSpanFull(),
-                        Forms\Components\Toggle::make('is_home')
-                            ->label('Is Homepage')
-                            ->default(0)
-
-                            ->helperText('This will be the first page of your website.')
-                            ->visible(function (Forms\Get $get) {
-                                return $get('content_type') === 'page';
-                            })
-                            ->columnSpanFull(),
-
-
-                        Forms\Components\DateTimePicker::make('created_at')
-                            ->label('Created At')
-                            ->format('Y-m-d H:i:s')
-                            ->native(false)
-                            ->displayFormat('Y-m-d H:i:s')
-                            ->visible(function (Forms\Get $get) {
-                                return $get('id');
-                            })
-                            ->columnSpanFull(),
-
-                        Forms\Components\DateTimePicker::make('updated_at')
-                            ->label('Updated At')
-                            ->format('Y-m-d H:i:s')
-                            ->native(false)
-                            ->displayFormat('Y-m-d H:i:s')
-                            ->visible(function (Forms\Get $get) {
-                                return $get('id');
-                            })
-                            ->columnSpanFull(),
-
-                        Forms\Components\Placeholder::make('id')
-                            ->label('ID')
-                            ->inlineLabel(true)
-                            ->content(function ($record) {
-                                return $record->id;
-                            })->visible(function (Forms\Get $get) {
-                                return $get('id');
-                            }),
-
-
-                    ])
-            ]);
+            ->schema(static::advancedSettingsFormArray());
     }
 
 

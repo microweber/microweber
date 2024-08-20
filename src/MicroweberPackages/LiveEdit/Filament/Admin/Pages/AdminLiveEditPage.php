@@ -8,6 +8,8 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Livewire;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
@@ -111,19 +113,38 @@ class AdminLiveEditPage extends Page
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
-            ->form(ContentResource::formArray([
-                'id'=>0,
-                'contentType'=>$contentType,
-                'categoryIds'=>$categoryIds,
-                'menuIds'=>$menuIds,
-                'parent'=>$parent,
-                'contentSubtype'=>$contentSubtype,
-                'modelName'=>$modelName,
-                'mediaFiles'=>$mediaFiles,
-                'mediaUrls'=>$mediaUrls,
-                'componentName'=>$componentName,
-                'menusCheckboxes'=>$menusCheckboxes
-            ]))
+            ->form([
+
+                Tabs::make('Tabs')
+                    ->tabs([
+                        Tabs\Tab::make('Details')
+                            ->schema(
+                                ContentResource::formArray([
+                                    'id'=>0,
+                                    'contentType'=>$contentType,
+                                    'categoryIds'=>$categoryIds,
+                                    'menuIds'=>$menuIds,
+                                    'parent'=>$parent,
+                                    'contentSubtype'=>$contentSubtype,
+                                    'modelName'=>$modelName,
+                                    'mediaFiles'=>$mediaFiles,
+                                    'mediaUrls'=>$mediaUrls,
+                                    'componentName'=>$componentName,
+                                    'menusCheckboxes'=>$menusCheckboxes
+                                ])
+                            ),
+                        Tabs\Tab::make('Custom Fields')
+                            ->schema([
+                                Livewire::make('admin-list-custom-fields')
+                            ]),
+                        Tabs\Tab::make('SEO')
+                            ->schema(
+                                ContentResource::seoFormArray()
+                            ),
+                        Tabs\Tab::make('Advanced')
+                            ->schema(ContentResource::advancedSettingsFormArray()),
+                    ])
+            ])
             ->slideOver();
     }
 }
