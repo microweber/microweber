@@ -44,28 +44,28 @@ class AdminLiveEditPage extends Page
 
     public function addContentAction(): Action
     {
-        $links = [];
-        $links[] = [
+        $actions = [];
+        $actions[] = [
             'title' => 'New Page',
             'description' => 'Create a new page to your website or online store, choose from pre-pared page designs ',
-            'url' => admin_url('pages/create'),
+            'action' => 'addPageAction',
             'icon' => 'mw-add-page',
         ];
-        $links[] = [
+        $actions[] = [
             'title' => 'New Post',
             'description' => 'Add new post to your blog page, linked to category of main page on your website ',
-            'url' => admin_url('posts/create'),
+            'action' => 'addPageAction',
             'icon' => 'mw-add-post',
         ];
-        $links[] = [
+        $actions[] = [
             'title' => 'New Category',
             'description' => 'Add new category and organize your blog posts or items from the shop in the right way ',
-            'url' => admin_url('categories/create'),
+            'action' => 'addPageAction',
             'icon' => 'mw-add-category',];
-        $links[] = [
+        $actions[] = [
             'title' => 'New Product',
             'description' => 'Add new product to your online store, choose from pre-pared product designs ',
-            'url' =>admin_url('products/create'),
+            'action' => 'addPageAction',
             'icon' => 'mw-add-product',
         ];
 
@@ -73,10 +73,25 @@ class AdminLiveEditPage extends Page
             ->form([
                 \Filament\Forms\Components\View::make('microweber-live-edit::add-content-modal')
                 ->viewData([
-                    'links' => $links
+                    'actions' => $actions
                 ])
             ])
+            ->modalSubmitAction(null)
+            ->modalCancelAction(null)
             ->slideOver();
     }
 
+    public function addPageAction(): Action
+    {
+        return Action::make('addPageAction')
+            ->form([
+
+                TextInput::make('title')
+                    ->label('Title')
+                    ->placeholder('Enter title')
+                    ->required(),
+
+            ])
+            ->slideOver();
+    }
 }
