@@ -86,10 +86,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'live_wire_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\LivewireHeadTags()
             );
-            $package->addTag(
-                'live_wire_footer_tags',
-                new \MicroweberPackages\MetaTags\Entities\LivewireFooterTags()
-            );
+//            $package->addTag(
+//                'live_wire_footer_tags',
+//                new \MicroweberPackages\MetaTags\Entities\LivewireFooterTags()
+//            );
 
         });
 
