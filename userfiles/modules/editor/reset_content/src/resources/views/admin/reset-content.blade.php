@@ -24,37 +24,36 @@
     mw.require('{{ modules_url() }}editor/selector.css');
 </script>
 
-<style>
-    .mw-ui-box {
-        margin: 20px 0;
-    }
-</style>
 
-<div class="d-flex align-items-center gap-4 mb-4">
-    <div>
-        <span class="mdi mdi-alert mw-color-important" style="font-size:45px"></span>
+<div class="mw-reest-content-wrapper">
+
+    <div class="d-flex align-items-center gap-4 mb-4">
+        <div>
+            <span class="mdi mdi-alert mw-color-important" style="font-size:45px"></span>
+        </div>
+
+        <div>
+            <h3 class="mb-1">@lang('Warning')</h3>
+            <p class="mb-0">@lang('This will reset the content of the selected element!')</p>
+        </div>
     </div>
 
-    <div>
-        <h3 class="mb-1">@lang('Warning')</h3>
-        <p class="mb-0">@lang('This will reset the content of the selected element!')</p>
-    </div>
-</div>
+    <div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
+        <div class="mw-ui-box-header">
+            <label class="mw-ui-check">
+                <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1" checked>
+                <span></span>
+                <span>@lang('Also reset modules inside the selected edit field')</span>
+            </label>
+        </div>
 
-<div data-mwcomponent="accordion" class="mw-ui-box mw-accordion">
-    <div class="mw-ui-box-header">
-        <label class="mw-ui-check">
-            <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1" checked>
-            <span></span>
-            <span>@lang('Also reset modules inside the selected edit field')</span>
-        </label>
+        <div id="select_edit_field_container">
+            <div id="select_edit_field_wrap"></div>
+        </div>
     </div>
 
-    <div id="select_edit_field_container">
-        <div id="select_edit_field_wrap"></div>
+    <div id="save-toolbar" class="d-flex justify-center mt-4 mb-3">
+        <button onclick="reset();" class="btn btn-danger">@lang('Reset content')</button>
     </div>
-</div>
 
-<div id="save-toolbar" class="text-center">
-    <button onclick="reset();" class="btn btn-danger">@lang('Reset content')</button>
 </div>
