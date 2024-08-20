@@ -163,26 +163,26 @@ Forms\Components\Group::make([
                 ->columns(2),
 
 
-            Forms\Components\Section::make('Images')
-                ->schema(function(Component $livewire, ?Model $record) {
-                    $relType = morph_name(Content::class);
-                    $relId = 0;
-                    if ($record) {
-                        $relType = morph_name($record->getMorphClass());
-                        $relId = $record->id;
-                    }
-                    return [
-                        Forms\Components\Livewire::make('admin-list-media-for-model',
-                            [
-                                'relType'    => $relType,
-                                'relId'      => $relId,
-                                'parentComponentName' => $livewire->getName(),
-                                'createdBy'           => user_id(),
-                                // 'sessionId' => $sessionId
-                            ])
-                    ];
-                })
-                ->collapsible(),
+//            Forms\Components\Section::make('Images')
+//                ->schema(function(Component $livewire, ?Model $record) {
+//                    $relType = morph_name(Content::class);
+//                    $relId = 0;
+//                    if ($record) {
+//                        $relType = morph_name($record->getMorphClass());
+//                        $relId = $record->id;
+//                    }
+//                    return [
+//                        Forms\Components\Livewire::make('admin-list-media-for-model',
+//                            [
+//                                'relType'    => $relType,
+//                                'relId'      => $relId,
+//                                'parentComponentName' => $livewire->getName(),
+//                                'createdBy'           => user_id(),
+//                                // 'sessionId' => $sessionId
+//                            ])
+//                    ];
+//                })
+//                ->collapsible(),
 
 
             Forms\Components\Section::make('Pricing')
@@ -344,22 +344,22 @@ Forms\Components\Group::make([
                 ]),
 
 
-            Forms\Components\Section::make('Parent page')
-                ->schema(function(?Model $record) {
-                    $parent = null;
-                    $categoryIds = [];
-                    if ($record) {
-                        $parent = $record->parent;
-                        $categoryIds = $record->getCategoryIdsAttribute();
-                    }
-                    return [
-                        Forms\Components\View::make('filament-forms::admin.mw-tree')
-                            ->viewData([
-                                'selectedPage' => $parent,
-                                'selectedCategories' => $categoryIds
-                            ])
-                    ];
-                }),
+//            Forms\Components\Section::make('Parent page')
+//                ->schema(function(?Model $record) {
+//                    $parent = null;
+//                    $categoryIds = [];
+//                    if ($record) {
+//                        $parent = $record->parent;
+//                        $categoryIds = $record->getCategoryIdsAttribute();
+//                    }
+//                    return [
+//                        Forms\Components\View::make('filament-forms::admin.mw-tree')
+//                            ->viewData([
+//                                'selectedPage' => $parent,
+//                                'selectedCategories' => $categoryIds
+//                            ])
+//                    ];
+//                }),
 
 
             Forms\Components\Section::make('Tags')

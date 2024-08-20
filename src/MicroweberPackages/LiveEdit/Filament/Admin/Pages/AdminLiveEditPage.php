@@ -6,6 +6,7 @@ namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages;
 use App\Filament\Admin\Resources\ContentResource;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\CreateAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Livewire;
@@ -13,9 +14,12 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Media\Models\Media;
+use function Clue\StreamFilter\fun;
 
 class AdminLiveEditPage extends Page
 {
@@ -103,11 +107,28 @@ class AdminLiveEditPage extends Page
         return Action::make($actionName)
             ->label('Create ' . $contentType)
             ->modalHeading('Create ' . $contentType)
-            ->form([
+            ->form(
                 ContentResource::formArray([
                     'contentType'=>$contentType
                 ])
-            ])
+            )
+            ->action(function ($data) use ($contentType) {
+
+                $data['content_type'] = $contentType;
+                $data['layout_file'] = 'clean.php';
+
+                $model = new Content();
+                $model->fill($data);
+                $model->save();
+
+                Notification::make()
+                    ->success()
+                    ->title($model->content_type . ' is  created')
+                    ->body($model->content_type . ' has been created successfully.');
+
+                return redirect(content_link($model->id));
+
+            })
             ->slideOver();
     }
 }
