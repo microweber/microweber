@@ -40,6 +40,435 @@ class ContentResource extends Resource
     protected static bool $shouldRegisterNavigation = false;
 
 
+    public static function formArray($params)
+    {
+        $id = $params['id'];
+        $contentSubtype = $params['contentSubtype'];
+        $contentType = $params['contentType'];
+        $categoryIds = $params['categoryIds'];
+        $menuIds = $params['menuIds'];
+        $sessionId = session()->getId();
+        $parent = $params['parent'];
+        $site_url = site_url();
+        $modelName = $params['modelName'];
+        $mediaFiles = $params['mediaFiles'];
+        $mediaUrls = $params['mediaUrls'];
+        $componentName = $params['componentName'];
+        $menusCheckboxes = $params['menusCheckboxes'];
+
+        return [
+
+
+//                Forms\Components\CheckboxList::make('belongsToMenus')
+//                ->relationship(titleAttribute: 'title'),
+
+
+//                Forms\Components\Tabs::make('Tabs')
+//                    ->tabs([
+//
+//                        Forms\Components\Tabs\Tab::make('Details')
+//                            ->schema([
+//
+Forms\Components\Group::make([
+
+    Forms\Components\Group::make()
+        ->schema([
+
+            Forms\Components\Hidden::make('id')
+                ->default($id)
+                ->hidden(),
+            Forms\Components\Hidden::make('session_id')
+                ->default($sessionId)
+            ,
+            Forms\Components\Hidden::make('mediaIds')
+
+            ,
+
+            Forms\Components\Hidden::make('content_type')
+                ->default($contentType)
+                ->hidden(),
+            Forms\Components\Hidden::make('categoryIds')
+                ->default($categoryIds)
+                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($categoryIds) {
+
+                    if ($categoryIds) {
+                        if (!is_array($categoryIds)) {
+                            $categoryIds = explode(',', $categoryIds);
+                        }
+                        $set('categoryIds', $categoryIds);
+                    } else {
+                        $set('categoryIds', []);
+                    }
+                })
+            ,
+
+            Forms\Components\Hidden::make('menuIds')
+                ->default($menuIds)
+                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($menuIds) {
+
+                    if ($menuIds) {
+                        $set('menuIds', $menuIds);
+                    } else {
+                        $set('menuIds', []);
+                    }
+                })
+            ,
+            Forms\Components\Hidden::make('parent')
+                ->default($parent),
+
+            Forms\Components\Hidden::make('subtype')
+                ->default($contentSubtype)
+                ->hidden(),
+
+
+            Forms\Components\Hidden::make('is_shop')
+                ->default(0)
+                ->visible(function (Forms\Get $get) {
+                    return $get('content_type') === 'page';
+                }),
+            Forms\Components\Hidden::make('is_home')
+                ->default(0)
+                ->visible(function (Forms\Get $get) {
+                    return $get('content_type') === 'page';
+                }),
+
+
+            //
+            //
+            //                            Forms\Components\FileUpload::make('image')
+            //                                ->image()
+            //                                ->imageEditor(),
+
+            Forms\Components\Section::make('General Information')
+                ->heading(false)
+                ->schema([
+
+                    MwTitleWithSlugInput::make(
+                        fieldTitle: 'title',
+                        fieldSlug: 'url',
+                        urlHost: $site_url,
+                        titleLabel: 'Title',
+                        slugLabel: 'Link:',
+
+                    )
+                        ->columnSpanFull(),
+
+
+                    //                                    Forms\Components\TextInput::make('title')
+                    //                                        ->required()
+                    //                                        ->maxLength(255)
+                    //                                        ->columnSpanFull()
+                    //                                        ->live(onBlur: true)
+                    //                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
+                    //                                            if ($operation !== 'create') {
+                    //                                                return;
+                    //                                            }
+                    //
+                    //                                            $set('url', Str::slug($state));
+                    //                                        }),
+                    //
+                    //                                    Forms\Components\TextInput::make('url')
+                    //                                        //     ->disabled()
+                    //                                        ->dehydrated()
+                    //                                        ->required()
+                    //                                        ->maxLength(255)
+                    //                                        ->columnSpanFull()
+                    //                                        ->unique(Content::class, 'url', ignoreRecord: true),
+
+                    Forms\Components\TextInput::make('description')
+                        ->columnSpan('full'),
+
+                    MwRichEditor::make('content_body')
+                        ->columnSpan('full')
+//                                        ->afterStateHydrated(function (Forms\Get $get) {
+//
+//                                            ($get('content_body'));
+//                                           // return $get('content_body');
+//                                        })
+                        ->visible(function (Forms\Get $get) {
+                            return $get('content_type') !== 'page';
+                        }),
+                ])
+                ->columnSpanFull()
+                ->columns(2),
+
+
+            Forms\Components\Section::make('Images')
+                ->schema([
+
+
+//                        MwImagesForModel::make('mediaIds'),
+
+Forms\Components\Livewire::make('admin-list-media-for-model', [
+    'relType' => $modelName,
+    'relId' => $id,
+    'mediaFiles' => $mediaFiles,
+    'mediaUrls' => $mediaUrls,
+
+    'parentComponentName' => $componentName,
+    'createdBy' => user_id(),
+
+    // 'sessionId' => $sessionId
+
+])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
+
+}),
+
+
+
+                ])
+                ->collapsible(),
+
+
+            Forms\Components\Section::make('Pricing')
+                ->schema([
+
+                    Forms\Components\TextInput::make('price')
+                        ->numeric()
+                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                        ->required(),
+
+                ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                    return $get('content_type') == 'product';
+                }),
+
+
+            Forms\Components\Section::make('Inventory')
+                ->schema([
+
+
+                    Forms\Components\TextInput::make('content_data.sku')
+                        ->helperText('Stock Keeping Unit'),
+
+                    Forms\Components\TextInput::make('content_data.barcode')
+                        ->helperText('ISBN, UPC, GTIN, etc.'),
+
+                    Forms\Components\Toggle::make('content_data.track_quantity')
+                        ->label('Track Quantity')
+                        ->live()
+                        ->default(false),
+
+
+                    Forms\Components\Group::make([
+                        Forms\Components\TextInput::make('content_data.quantity')
+                            ->numeric()
+                            ->rules(['regex:/^\d{1,6}$/'])
+                            ->default(0),
+
+                        Forms\Components\Checkbox::make('content_data.sell_oos')
+                            ->label('Continue selling when out of stock')
+                            ->default(false),
+
+                        Forms\Components\TextInput::make('content_data.max_qty_per_order')
+                            ->numeric()
+                            ->rules(['regex:/^\d{1,6}$/'])
+                            ->label('Max quantity per order')
+                            ->default(0),
+                    ])->hidden(function (Forms\Get $get) {
+                        return !$get('content_data.track_quantity');
+                    }),
+
+
+                ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                    return $get('content_type') == 'product';
+                }),
+            Forms\Components\Section::make('Select Template')
+                ->schema(
+                    [
+                        MwSelectTemplateForPage::make(
+                            'active_site_template',
+                            'layout_file')
+                            ->columnSpanFull(),
+                    ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                    return $get('content_type') == 'page';
+                }),
+
+
+            Forms\Components\Section::make('Shipping')
+                ->schema([
+
+                    // This is a physical product
+                    Forms\Components\Toggle::make('content_data.physical_product')
+                        ->label('This is a physical product')
+                        ->default(true)
+                        ->live(),
+
+                    Forms\Components\Group::make([
+                        Forms\Components\TextInput::make('content_data.shipping_fixed_cost')
+                            ->numeric()
+                            ->helperText('Used to set your shipping price at checkout and label prices during fulfillment.')
+                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                            ->suffix(currency_symbol())
+                            ->label('Fixed cost')
+                            ->columnSpanFull()
+                            ->default(0),
+
+                        //                                                    Forms\Components\TextInput::make('content_data.weight')
+                        //                                                        ->numeric()
+                        //                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                        //                                                        ->helperText('Used to calculate shipping rates at checkout and label prices during fulfillment.')
+                        //                                                        ->label('Weight')
+                        //                                                        ->default(0),
+
+                        Forms\Components\Toggle::make('content_data.free_shipping')
+                            ->columnSpanFull(),
+
+                        Forms\Components\Toggle::make('content_data.shipping_advanced_settings')
+                            ->label('Show advanced weight settings')
+                            ->live()
+                            ->columnSpanFull(),
+
+                    ])->columns(2)->hidden(function (Forms\Get $get) {
+                        return !$get('content_data.physical_product');
+                    }),
+
+
+                    Forms\Components\Section::make('Shipping Advanced')
+                        ->heading('Advanced')
+                        ->description('Advanced product shipping settings.')
+                        ->schema([
+                            Forms\Components\TextInput::make('content_data.weight')
+                                ->numeric()
+                                ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                ->label('Weight (kg)')
+                                ->default(0),
+
+
+                            Forms\Components\TextInput::make('content_data.width')
+                                ->numeric()
+                                ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                ->label('Width (cm)')
+                                ->default(0),
+
+                            Forms\Components\TextInput::make('content_data.length')
+                                ->numeric()
+                                ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                ->label('Length (cm)')
+                                ->default(0),
+
+                            Forms\Components\TextInput::make('content_data.depth')
+                                ->numeric()
+                                ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
+                                ->label('Depth (cm)')
+                                ->default(0),
+
+                            Forms\Components\Checkbox::make('content_data.params_in_checkout')
+                                ->label('Show parameters in checkout page')
+                                ->columnSpanFull()
+                                ->default(false),
+
+                        ])
+                        ->columns(4)
+                        ->visible(function (Forms\Get $get) {
+                            return $get('content_data.shipping_advanced_settings');
+                        }),
+
+                ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                    return $get('content_type') == 'product';
+                }),
+
+        ])->columnSpan(['lg' => 2]),
+
+
+    Forms\Components\Group::make()
+        ->schema([
+            Forms\Components\Section::make('Visible')
+                ->schema([
+                    Forms\Components\ToggleButtons::make('is_active')
+                        ->label(false)
+                        ->options([
+                            1 => 'Published',
+                            0 => 'Unpublished',
+                        ])
+                        ->default(true),
+
+                ]),
+
+
+            Forms\Components\Section::make('Parent page')
+                ->schema([
+                    Forms\Components\View::make('filament-forms::admin.mw-tree')->viewData([
+                        'selectedPage' => $parent,
+                        'selectedCategories' => $categoryIds
+                    ]),
+                ]),
+
+
+            Forms\Components\Section::make('Tags')
+                ->schema([
+                    Forms\Components\TagsInput::make('tags')
+                        ->label(false)
+                        ->helperText('Separate using commas or Enter key.')
+                        ->placeholder('Add a tag'),
+                ]),
+
+            Forms\Components\Section::make('Menus')
+                ->schema([
+
+                    Forms\Components\CheckboxList::make('menuIds')
+                        //   ->hiddenLabel(true)
+//                                        ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
+//
+//                                            if ($selectedMenus) {
+//                                                $set('menuIds', $selectedMenus);
+//                                            } else {
+//                                                $set('menuIds', []);
+//                                            }
+//                                        })
+//                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, ?Model $record) {
+//                                            $items = $state;
+//
+//                                            if (is_array($items) and !empty($items)) {
+//                                                $items = array_filter($items);
+//                                                $items = array_values($items);
+//                                                $set('menuIds', $items);
+//                                            } else {
+//                                                $set('menuIds', []);
+//                                            }
+//
+//                                            if ($items) {
+//                                                //$record->setMenuIds($items);
+//                                            } else {
+//                                                //$record->setMenuIds([]);
+//
+//                                            }
+//                                        })
+                        ->options($menusCheckboxes),
+                ])
+        ])->columnSpan(['lg' => 1]),
+
+
+])->columns(3)->columnSpanFull(),
+
+//                            ])->columns(3),
+
+
+//                Forms\Components\Tabs\Tab::make('Custom Fields')
+//                    ->schema([
+//                        Forms\Components\Section::make('Custom Fields')
+//                            ->heading(false)
+//                        ->schema([
+//                            Forms\Components\View::make('custom_field::livewire.filament.admin.show-list-custom-fields')
+//                                ->columnSpanFull(),
+//                        ]),
+//                    ]),
+//                Forms\Components\Tabs\Tab::make('SEO')
+//                    ->schema([
+//
+//
+//
+//                        ]),
+//
+//                    ]),
+//                Forms\Components\Tabs\Tab::make('Advanced')
+//                    ->schema([
+//
+//                    ]),
+//                    ])->columnSpanFull(),
+
+        ];
+    }
+
     public static function form(Form $form): Form
     {
 
@@ -48,10 +477,7 @@ class ContentResource extends Resource
         $contentType = 'page';
         $contentSubtype = 'static';
 
-        $isShop = false;
-
         $categoryIds = '';
-        $id = 0;
 
         if (
             $livewire instanceof \App\Filament\Admin\Resources\PageResource\Pages\CreatePage ||
@@ -86,34 +512,16 @@ class ContentResource extends Resource
         $menuIds = [];
         if ($record) {
             $menuIds = $record->menuIds;
-
         }
-
 
         $menus = get_menus();
         $menusCheckboxes = [];
         $mediaUrls = [];
-        // $selectedMenus = [];
-
         if ($menus) {
             foreach ($menus as $menu) {
                 $menusCheckboxes[$menu['id']] = $menu['title'];
-
-                if (is_in_menu($menu['id'], $id)) {
-                    //      $selectedMenus[$menu['id']] = $menu['title'];
-                }
             }
         }
-
-        if (!empty($menuIds)) {
-            //    $record->add_content_to_menu = $selectedMenus;
-
-        }
-
-
-        $templates = site_templates();
-        $active_site_template = template_name();
-
 
         $mediaFiles = [];
         $parent = 0;
@@ -123,432 +531,24 @@ class ContentResource extends Resource
             if (!empty($category_ids_array)) {
                 $categoryIds = implode(',', $category_ids_array);
             }
-            //  $mediaFiles = $record->getMediaFilesAttribute();
-
         }
-        //dd($mediaFiles);
 
         $componentName = $livewire->getName();
-        $sessionId = session()->getId();
-        //dd($category_ids);
-//        $livewire->selectedMenus = $selectedMenus;
-//        $livewire->menus = $menus;
-//        $livewire->existingMenus = $menusCheckboxes;
-        // $livewire->menuIds = $menuIds;
 
-        //  $menuIds = $record->menuIds;
-        $site_url = site_url();
         return $form
-            ->schema([
-
-
-//                Forms\Components\CheckboxList::make('belongsToMenus')
-//                ->relationship(titleAttribute: 'title'),
-
-
-//                Forms\Components\Tabs::make('Tabs')
-//                    ->tabs([
-//
-//                        Forms\Components\Tabs\Tab::make('Details')
-//                            ->schema([
-//
-                Forms\Components\Group::make([
-
-                    Forms\Components\Group::make()
-                        ->schema([
-
-                            Forms\Components\Hidden::make('id')
-                                ->default($id)
-                                ->hidden(),
-                            Forms\Components\Hidden::make('session_id')
-                                ->default($sessionId)
-                            ,
-                            Forms\Components\Hidden::make('mediaIds')
-
-                            ,
-
-                            Forms\Components\Hidden::make('content_type')
-                                ->default($contentType)
-                                ->hidden(),
-                            Forms\Components\Hidden::make('categoryIds')
-                                ->default($categoryIds)
-                                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($categoryIds) {
-
-                                    if ($categoryIds) {
-                                        if (!is_array($categoryIds)) {
-                                            $categoryIds = explode(',', $categoryIds);
-                                        }
-                                        $set('categoryIds', $categoryIds);
-                                    } else {
-                                        $set('categoryIds', []);
-                                    }
-                                })
-                            ,
-
-                            Forms\Components\Hidden::make('menuIds')
-                                ->default($menuIds)
-                                ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($menuIds) {
-
-                                    if ($menuIds) {
-                                        $set('menuIds', $menuIds);
-                                    } else {
-                                        $set('menuIds', []);
-                                    }
-                                })
-                            ,
-                            Forms\Components\Hidden::make('parent')
-                                ->default($parent),
-
-                            Forms\Components\Hidden::make('subtype')
-                                ->default($contentSubtype)
-                                ->hidden(),
-
-
-                            Forms\Components\Hidden::make('is_shop')
-                                ->default(0)
-                                ->visible(function (Forms\Get $get) {
-                                    return $get('content_type') === 'page';
-                                }),
-                            Forms\Components\Hidden::make('is_home')
-                                ->default(0)
-                                ->visible(function (Forms\Get $get) {
-                                    return $get('content_type') === 'page';
-                                }),
-
-
-//
-//
-//                            Forms\Components\FileUpload::make('image')
-//                                ->image()
-//                                ->imageEditor(),
-
-                            Forms\Components\Section::make('General Information')
-                                ->heading(false)
-                                ->schema([
-
-                                    MwTitleWithSlugInput::make(
-                                        fieldTitle: 'title',
-                                        fieldSlug: 'url',
-                                        urlHost: $site_url,
-                                        titleLabel: 'Title',
-                                        slugLabel: 'Link:',
-
-                                    )
-                                        ->columnSpanFull(),
-
-
-//                                    Forms\Components\TextInput::make('title')
-//                                        ->required()
-//                                        ->maxLength(255)
-//                                        ->columnSpanFull()
-//                                        ->live(onBlur: true)
-//                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-//                                            if ($operation !== 'create') {
-//                                                return;
-//                                            }
-//
-//                                            $set('url', Str::slug($state));
-//                                        }),
-//
-//                                    Forms\Components\TextInput::make('url')
-//                                        //     ->disabled()
-//                                        ->dehydrated()
-//                                        ->required()
-//                                        ->maxLength(255)
-//                                        ->columnSpanFull()
-//                                        ->unique(Content::class, 'url', ignoreRecord: true),
-
-                                    Forms\Components\TextInput::make('description')
-                                        ->columnSpan('full'),
-
-                                    MwRichEditor::make('content_body')
-                                        ->columnSpan('full')
-//                                        ->afterStateHydrated(function (Forms\Get $get) {
-//
-//                                            ($get('content_body'));
-//                                           // return $get('content_body');
-//                                        })
-                                        ->visible(function (Forms\Get $get) {
-                                            return $get('content_type') !== 'page';
-                                        }),
-                                ])
-                                ->columnSpanFull()
-                                ->columns(2),
-
-
-                            Forms\Components\Section::make('Images')
-                                ->schema([
-
-
-//                        MwImagesForModel::make('mediaIds'),
-
-                                    Forms\Components\Livewire::make('admin-list-media-for-model', [
-                                        'relType' => $modelName,
-                                        'relId' => $id,
-                                        'mediaFiles' => $mediaFiles,
-                                        'mediaUrls' => $mediaUrls,
-
-                                        'parentComponentName' => $componentName,
-                                        'createdBy' => user_id(),
-
-                                        // 'sessionId' => $sessionId
-
-                                    ])->afterStateUpdated(function (string $operation, $state, Forms\Set $set, Forms\Get $get, ?Model $record) {
-
-                                    }),
-
-
-                                ])
-                                ->collapsible(),
-
-
-                            Forms\Components\Section::make('Pricing')
-                                ->schema([
-
-                                    Forms\Components\TextInput::make('price')
-                                        ->numeric()
-                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                        ->required(),
-
-                                ])->columnSpanFull()->visible(function (Forms\Get $get) {
-                                    return $get('content_type') == 'product';
-                                }),
-
-
-                            Forms\Components\Section::make('Inventory')
-                                ->schema([
-
-
-                                    Forms\Components\TextInput::make('content_data.sku')
-                                        ->helperText('Stock Keeping Unit'),
-
-                                    Forms\Components\TextInput::make('content_data.barcode')
-                                        ->helperText('ISBN, UPC, GTIN, etc.'),
-
-                                    Forms\Components\Toggle::make('content_data.track_quantity')
-                                        ->label('Track Quantity')
-                                        ->live()
-                                        ->default(false),
-
-
-                                    Forms\Components\Group::make([
-                                        Forms\Components\TextInput::make('content_data.quantity')
-                                            ->numeric()
-                                            ->rules(['regex:/^\d{1,6}$/'])
-                                            ->default(0),
-
-                                        Forms\Components\Checkbox::make('content_data.sell_oos')
-                                            ->label('Continue selling when out of stock')
-                                            ->default(false),
-
-                                        Forms\Components\TextInput::make('content_data.max_qty_per_order')
-                                            ->numeric()
-                                            ->rules(['regex:/^\d{1,6}$/'])
-                                            ->label('Max quantity per order')
-                                            ->default(0),
-                                    ])->hidden(function (Forms\Get $get) {
-                                        return !$get('content_data.track_quantity');
-                                    }),
-
-
-                                ])->columnSpanFull()->visible(function (Forms\Get $get) {
-                                    return $get('content_type') == 'product';
-                                }),
-                            Forms\Components\Section::make('Select Template')
-                                ->schema(
-                                    [
-                                        MwSelectTemplateForPage::make(
-                                            'active_site_template',
-                                            'layout_file')
-                                            ->columnSpanFull(),
-                                    ])->columnSpanFull()->visible(function (Forms\Get $get) {
-                                    return $get('content_type') == 'page';
-                                }),
-
-
-                            Forms\Components\Section::make('Shipping')
-                                ->schema([
-
-                                    // This is a physical product
-                                    Forms\Components\Toggle::make('content_data.physical_product')
-                                        ->label('This is a physical product')
-                                        ->default(true)
-                                        ->live(),
-
-                                    Forms\Components\Group::make([
-                                        Forms\Components\TextInput::make('content_data.shipping_fixed_cost')
-                                            ->numeric()
-                                            ->helperText('Used to set your shipping price at checkout and label prices during fulfillment.')
-                                            ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                            ->suffix(currency_symbol())
-                                            ->label('Fixed cost')
-                                            ->columnSpanFull()
-                                            ->default(0),
-
-//                                                    Forms\Components\TextInput::make('content_data.weight')
-//                                                        ->numeric()
-//                                                        ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-//                                                        ->helperText('Used to calculate shipping rates at checkout and label prices during fulfillment.')
-//                                                        ->label('Weight')
-//                                                        ->default(0),
-
-                                        Forms\Components\Toggle::make('content_data.free_shipping')
-                                            ->columnSpanFull(),
-
-                                        Forms\Components\Toggle::make('content_data.shipping_advanced_settings')
-                                            ->label('Show advanced weight settings')
-                                            ->live()
-                                            ->columnSpanFull(),
-
-                                    ])->columns(2)->hidden(function (Forms\Get $get) {
-                                        return !$get('content_data.physical_product');
-                                    }),
-
-
-                                    Forms\Components\Section::make('Shipping Advanced')
-                                        ->heading('Advanced')
-                                        ->description('Advanced product shipping settings.')
-                                        ->schema([
-                                            Forms\Components\TextInput::make('content_data.weight')
-                                                ->numeric()
-                                                ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                                ->label('Weight (kg)')
-                                                ->default(0),
-
-
-                                            Forms\Components\TextInput::make('content_data.width')
-                                                ->numeric()
-                                                ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                                ->label('Width (cm)')
-                                                ->default(0),
-
-                                            Forms\Components\TextInput::make('content_data.length')
-                                                ->numeric()
-                                                ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                                ->label('Length (cm)')
-                                                ->default(0),
-
-                                            Forms\Components\TextInput::make('content_data.depth')
-                                                ->numeric()
-                                                ->rules(['regex:/^\d{1,6}(\.\d{0,2})?$/'])
-                                                ->label('Depth (cm)')
-                                                ->default(0),
-
-                                            Forms\Components\Checkbox::make('content_data.params_in_checkout')
-                                                ->label('Show parameters in checkout page')
-                                                ->columnSpanFull()
-                                                ->default(false),
-
-                                        ])
-                                        ->columns(4)
-                                        ->visible(function (Forms\Get $get) {
-                                            return $get('content_data.shipping_advanced_settings');
-                                        }),
-
-                                ])->columnSpanFull()->visible(function (Forms\Get $get) {
-                                    return $get('content_type') == 'product';
-                                }),
-
-                        ])->columnSpan(['lg' => 2]),
-
-
-                    Forms\Components\Group::make()
-                        ->schema([
-                            Forms\Components\Section::make('Visible')
-                                ->schema([
-                                    Forms\Components\ToggleButtons::make('is_active')
-                                        ->label(false)
-                                        ->options([
-                                            1 => 'Published',
-                                            0 => 'Unpublished',
-                                        ])
-                                        ->default(true),
-
-                                ]),
-
-
-                            Forms\Components\Section::make('Parent page')
-                                ->schema([
-                                    Forms\Components\View::make('filament-forms::admin.mw-tree')->viewData([
-                                        'selectedPage' => $parent,
-                                        'selectedCategories' => $categoryIds
-                                    ]),
-                                ]),
-
-
-                            Forms\Components\Section::make('Tags')
-                                ->schema([
-                                    Forms\Components\TagsInput::make('tags')
-                                        ->label(false)
-                                        ->helperText('Separate using commas or Enter key.')
-                                        ->placeholder('Add a tag'),
-                                ]),
-
-                            Forms\Components\Section::make('Menus')
-                                ->schema([
-
-                                    Forms\Components\CheckboxList::make('menuIds')
-                                        //   ->hiddenLabel(true)
-//                                        ->afterStateHydrated(function (Forms\Get $get, Forms\Set $set, ?array $state) use ($selectedMenus) {
-//
-//                                            if ($selectedMenus) {
-//                                                $set('menuIds', $selectedMenus);
-//                                            } else {
-//                                                $set('menuIds', []);
-//                                            }
-//                                        })
-//                                        ->afterStateUpdated(function (string $operation, $state, Forms\Set $set, ?Model $record) {
-//                                            $items = $state;
-//
-//                                            if (is_array($items) and !empty($items)) {
-//                                                $items = array_filter($items);
-//                                                $items = array_values($items);
-//                                                $set('menuIds', $items);
-//                                            } else {
-//                                                $set('menuIds', []);
-//                                            }
-//
-//                                            if ($items) {
-//                                                //$record->setMenuIds($items);
-//                                            } else {
-//                                                //$record->setMenuIds([]);
-//
-//                                            }
-//                                        })
-                                        ->options($menusCheckboxes),
-                                ])
-                        ])->columnSpan(['lg' => 1]),
-
-
-                ])->columns(3)->columnSpanFull(),
-
-//                            ])->columns(3),
-
-
-//                Forms\Components\Tabs\Tab::make('Custom Fields')
-//                    ->schema([
-//                        Forms\Components\Section::make('Custom Fields')
-//                            ->heading(false)
-//                        ->schema([
-//                            Forms\Components\View::make('custom_field::livewire.filament.admin.show-list-custom-fields')
-//                                ->columnSpanFull(),
-//                        ]),
-//                    ]),
-//                Forms\Components\Tabs\Tab::make('SEO')
-//                    ->schema([
-//
-//
-//
-//                        ]),
-//
-//                    ]),
-//                Forms\Components\Tabs\Tab::make('Advanced')
-//                    ->schema([
-//
-//                    ]),
-//                    ])->columnSpanFull(),
-
-            ]);
+            ->schema(static::formArray([
+                'id'=>0,
+                'contentType'=>$contentType,
+                'categoryIds'=>$categoryIds,
+                'menuIds'=>$menuIds,
+                'parent'=>$parent,
+                'contentSubtype'=>$contentSubtype,
+                'modelName'=>$modelName,
+                'mediaFiles'=>$mediaFiles,
+                'mediaUrls'=>$mediaUrls,
+                'componentName'=>$componentName,
+                'menusCheckboxes'=>$menusCheckboxes
+            ]));
     }
 
     public static function seoForm(Form $form): Form

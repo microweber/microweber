@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages;
 
 
+use App\Filament\Admin\Resources\ContentResource;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\ViewAction;
@@ -83,15 +84,33 @@ class AdminLiveEditPage extends Page
 
     public function addPageAction(): Action
     {
+        $contentType = 'page';
+        $categoryIds = [];
+        $menuIds = [];
+        $parent = null;
+        $contentSubtype = null;
+        $modelName = null;
+        $mediaFiles = [];
+        $mediaUrls = [];
+        $componentName = null;
+        $menusCheckboxes = [];
+
         return Action::make('addPageAction')
-            ->form([
-
-                TextInput::make('title')
-                    ->label('Title')
-                    ->placeholder('Enter title')
-                    ->required(),
-
-            ])
+            ->label('Create Post')
+            ->modalHeading('Create Post')
+            ->form(ContentResource::formArray([
+                'id'=>0,
+                'contentType'=>$contentType,
+                'categoryIds'=>$categoryIds,
+                'menuIds'=>$menuIds,
+                'parent'=>$parent,
+                'contentSubtype'=>$contentSubtype,
+                'modelName'=>$modelName,
+                'mediaFiles'=>$mediaFiles,
+                'mediaUrls'=>$mediaUrls,
+                'componentName'=>$componentName,
+                'menusCheckboxes'=>$menusCheckboxes
+            ]))
             ->slideOver();
     }
 }
