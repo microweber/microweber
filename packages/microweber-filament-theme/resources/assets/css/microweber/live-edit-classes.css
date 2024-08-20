@@ -797,3 +797,34 @@ h1,h2,h3,h4,h5,h6 {
 .mw-liveedit-button-actions-component {
     @apply bg-transparent;
 }
+
+
+
+
+#select_edit_field{
+    @apply p-[20px];
+}
+
+.mw-ui-box, .mw-ui-box-header{
+   @apply bg-white;
+}
+
+#select_edit_field > li {
+    @apply text-sm;
+}
+
+#select_edit_field > li li:hover, #select_edit_field  > li li.selected {
+    @apply !border-none text-blue-700;
+}
+
+.mw-color-important {
+    @apply text-red-500;
+}
+
+.mw-ui-box-header {
+    @apply p-4 bg-white overflow-hidden border-b border-gray-300 rounded-t-lg relative;
+}
+
+.mw-ui-box {
+    @apply border border-transparent rounded-lg clear-both bg-white shadow-lg m-2 p-4;
+}
