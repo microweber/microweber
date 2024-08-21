@@ -36,6 +36,15 @@ abstract class LiveEditModuleSettings extends Page
     protected static string $view = 'filament-panels::components.layout.simple-form';
 
 
+    protected function getForms(): array
+    {
+        return [
+            'form',
+            'skinsForm',
+        ];
+    }
+
+
     public function mount()
     {
 
@@ -107,7 +116,7 @@ abstract class LiveEditModuleSettings extends Page
         return 'global';
     }
 
-    public function schemaToFormFields($schemaItemsArray,$settingsKey='options',$appendSettingsKey = false)
+    public function schemaToFormFields($schemaItemsArray, $settingsKey = 'options', $appendSettingsKey = false)
     {
         $formFields = [];
 
@@ -116,9 +125,9 @@ abstract class LiveEditModuleSettings extends Page
 
             // $name must  start with options.
 
-            if ($appendSettingsKey and strpos($name, $settingsKey.'.') !== 0) {
-               // $name = $settingsKey.'.' . $name;
-               $name = $settingsKey.'.' . $name;
+            if ($appendSettingsKey and strpos($name, $settingsKey . '.') !== 0) {
+                // $name = $settingsKey.'.' . $name;
+                $name = $settingsKey . '.' . $name;
             }
 
 
@@ -165,10 +174,15 @@ abstract class LiveEditModuleSettings extends Page
     }
 
 
+    public function skinsForm(Form $form)
+    {
+        return $form->schema($this->getSkinsFormSchema());
+    }
+
     public function getSkinsFormSchema()
     {
 
-         
+
         $moduleTemplates = module_templates($this->module);
         $optionGroup = $this->getOptionGroup();
         $selectedSkin = get_module_option('template', $optionGroup);
@@ -176,20 +190,18 @@ abstract class LiveEditModuleSettings extends Page
 
         $filter = request()->get('template-filter') ?? null;
 
-        if(!$selectedSkin){
+        if (!$selectedSkin) {
             $selectedSkin = request()->get('template') ?? null;
             // append .php if extension not set
 
 
-
-            if($selectedSkin and Str::endsWith($selectedSkin, '.php') == false){
+            if ($selectedSkin and Str::endsWith($selectedSkin, '.php') == false) {
                 $selectedSkin = $selectedSkin . '.php';
 
             }
 
 
         }
-
 
 
         $curretSkinSettingsFromJson = [];
@@ -203,8 +215,6 @@ abstract class LiveEditModuleSettings extends Page
                 }
             }
         }
-
-
 
 
         $moduleTemplatesForForm = [];
@@ -233,7 +243,7 @@ abstract class LiveEditModuleSettings extends Page
                                     $settingsKey = $moduleTemplateSettingsJson['config']['settingsKey'];
                                 }
 
-                                $formFieldsFromSchema = $this->schemaToFormFields($curretSkinSettingsFromJson,$settingsKey,true);
+                                $formFieldsFromSchema = $this->schemaToFormFields($curretSkinSettingsFromJson, $settingsKey, true);
 
                                 if ($formFieldsFromSchema) {
                                     $moduleTemplatesSkinSettingsSchema = array_merge($moduleTemplatesSkinSettingsSchema, $formFieldsFromSchema);
@@ -259,7 +269,6 @@ abstract class LiveEditModuleSettings extends Page
         if ($moduleTemplatesSkinSettingsSchema) {
             $schema = array_merge($schema, $moduleTemplatesSkinSettingsSchema);
         }
-
 
 
         return $schema;

@@ -2,12 +2,14 @@
 
 namespace MicroweberPackages\Modules\Tabs\Providers;
 
+use Filament\Facades\Filament;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use MicroweberPackages\Modules\Tabs\Http\Livewire\TabsSettingsComponent;
+use \MicroweberPackages\Modules\Tabs\Http\Livewire\TabsModuleSettings;
 
 class TabsServiceProvider extends PackageServiceProvider
 {
@@ -20,13 +22,18 @@ class TabsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
+        FilamentRegistry::registerPage(TabsModuleSettings::class);
+    }
 
-//        Livewire::component('microweber-module-tabs::settings', TabsSettingsComponent::class);
-//        ModuleAdmin::registerSettings('tabs', 'microweber-module-tabs::settings');
-
-        ModuleAdmin::registerLiveEditSettingsUrl('tabs', site_url('admin-live-edit/tabs-module-settings'));
-        FilamentRegistry::registerPage(\MicroweberPackages\Modules\Tabs\Http\Livewire\TabsModuleSettings::class);
-
+    public function boot(): void
+    {
+        parent::boot();
+        Filament::serving(function () {
+            $panelId = Filament::getCurrentPanel()->getId();
+            if ($panelId == 'admin') {
+                ModuleAdmin::registerLiveEditSettingsUrl('tabs', TabsModuleSettings::getUrl());
+            }
+        });
     }
 
 }

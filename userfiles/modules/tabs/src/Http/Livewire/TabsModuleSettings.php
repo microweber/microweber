@@ -20,7 +20,7 @@ class TabsModuleSettings extends ModuleSettingsItemsEditorComponent
     }
 
 
-    public function getEditorSettings() : array
+    public function getEditorSettings(): array
     {
         return [
             'config' => [
@@ -31,9 +31,9 @@ class TabsModuleSettings extends ModuleSettingsItemsEditorComponent
                 'sortItems' => true,
                 'settingsKey' => 'settings',
                 'listColumns' => [
-                    'title'=>[
-                        'label'=>'Title',
-                        'type'=>'text'
+                    'title' => [
+                        'label' => 'Title',
+                        'type' => 'text'
                     ]
                 ],
             ],
@@ -46,7 +46,7 @@ class TabsModuleSettings extends ModuleSettingsItemsEditorComponent
                     'help' => 'Title',
                 ],
                 [
-                    'type' => 'icon',
+                    'type' => 'text',
                     'label' => 'Tab icon',
                     'name' => 'icon',
                     'placeholder' => 'Tab icon',
