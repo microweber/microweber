@@ -1,5 +1,6 @@
 @php
-$mediaItems = $getMediaItemsArray()
+    $mediaItems = $getMediaItemsArray();
+    $statePath = $getStatePath();
 @endphp
 
 <x-dynamic-component
@@ -32,7 +33,8 @@ $mediaItems = $getMediaItemsArray()
                     mw.dropZone('#mw-image-dropzone').on('fileUploaded', res => {
                         var data = {}
                         data.url = res.src
-                        Livewire.dispatch('addMediaItem', {data: data})
+
+                        $wire.dispatchFormEvent('mwMediaBrowser::addMediaItem','{{ $statePath }}', {data: data})
 
                     })
                 });
@@ -52,7 +54,6 @@ $mediaItems = $getMediaItemsArray()
 
                         editMediaOptionsById(id) {
 
-
                             this.$wire.mountAction('editAction', {id: id})
 
                         },
@@ -60,7 +61,9 @@ $mediaItems = $getMediaItemsArray()
                         async bulkDeleteSelectedMedia() {
                             const dialogConfirm = await mw.confirm('Are you sure you want to delete selected images?').promise()
                             if (dialogConfirm) {
-                                this.$wire.dispatch('deleteMediaItemsByIds', {ids: this.selectedImages})
+                                $wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemsByIds','{{ $statePath }}',
+                                    { ids: this.selectedImages }
+                                )
                             }
                         },
 
@@ -68,14 +71,18 @@ $mediaItems = $getMediaItemsArray()
 
                             const dialogConfirm = await mw.confirm('Are you sure you want to delete this image?').promise()
                             if (dialogConfirm) {
-                                this.$wire.dispatch('deleteMediaItemById', {id: id})
+                                $wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemById','{{ $statePath }}',
+                                    { id: id }
+                                )
                             }
                         },
                         async editImageFilename(id, url) {
 
                             const editedImage = await mw.top().app.editImageDialog.editImageUrl(url);
 
-                            this.$wire.dispatch('updateImageFilename', {id: id, data: editedImage})
+                            $wire.dispatchFormEvent('mwMediaBrowser::updateImageFilename','{{ $statePath }}', {
+                                data: { id: id, filename: editedImage }
+                            })
 
                         }
                     }
@@ -92,12 +99,9 @@ $mediaItems = $getMediaItemsArray()
                     type="button" x-on:click="()=> {
 
                 mw.filePickerDialog((url) => {
-
-                      $wire.dispatchFormEvent(
-                        'mwMediaBrowser::addMediaItem',
-                        { data: { url: url } },
-                    )
-
+                      $wire.dispatchFormEvent('mwMediaBrowser::addMediaItem','{{ $statePath }}', {
+                            data: { url: url }
+                      })
                 });
 
                 }">
