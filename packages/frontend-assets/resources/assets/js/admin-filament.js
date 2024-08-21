@@ -115,7 +115,7 @@ export class AdminFilament extends BaseComponent {
 
         Livewire.on('mw-option-saved', function ($event) {
             if ($event.optionGroup !== undefined) {
-                if (self !== top) {
+
                     if (typeof top.mw !== 'undefined'
                         && typeof top.mw.top !== 'undefined'
                         && typeof top.mw.top().app !== 'undefined'
@@ -123,7 +123,7 @@ export class AdminFilament extends BaseComponent {
                     ) {
                         top.mw.top().reload_module_everywhere('#' + $event.optionGroup);
                     }
-                }
+
             }
         });
     }
