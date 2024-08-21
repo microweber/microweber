@@ -19,6 +19,7 @@ use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
 use function Clue\StreamFilter\fun;
 
 class AdminLiveEditPage extends Page
@@ -38,7 +39,7 @@ class AdminLiveEditPage extends Page
     public function render(): View
     {
         $params = request()->all();
-         return view($this->getView(), $this->getViewData())
+        return view($this->getView(), $this->getViewData())
             ->layout($this->getLayout(), [
                 'livewire' => $this,
                 'params' => $params,
@@ -46,7 +47,6 @@ class AdminLiveEditPage extends Page
                 ...$this->getLayoutData(),
             ]);
     }
-
 
 
     public function addContentAction(): Action
@@ -79,9 +79,9 @@ class AdminLiveEditPage extends Page
         return Action::make('addContentAction')
             ->form([
                 \Filament\Forms\Components\View::make('microweber-live-edit::add-content-modal')
-                ->viewData([
-                    'actions' => $actions
-                ])
+                    ->viewData([
+                        'actions' => $actions
+                    ])
             ])
             ->modalSubmitAction(null)
             ->modalCancelAction(null)
@@ -92,6 +92,7 @@ class AdminLiveEditPage extends Page
     {
         return $this->generateAction('addPageAction', 'page');
     }
+
     public function addPostAction(): Action
     {
         return $this->generateAction('addPostAction', 'post');
@@ -102,6 +103,39 @@ class AdminLiveEditPage extends Page
         return $this->generateAction('addPostAction', 'post');
     }
 
+    public function openModuleSettingsAction(): Action
+    {
+        return Action::make('openModuleAction')
+            ->label('Module Settings')
+            ->form(
+                function (array $arguments) {
+                    $data = $arguments['data'];
+                    $params = $data['params'];
+                    if (isset($data['moduleSettingsComponent'])) {
+                        if(!livewire_component_exists($data['moduleSettingsComponent'])){
+                            return [
+                                TextInput::make('error')
+                                    ->label('Error')
+                                    ->readOnly()
+                                    ->default('Component not found: ' . $data['moduleSettingsComponent'])
+                            ];
+                        }
+
+                        return [
+                            Livewire::make($data['moduleSettingsComponent'], ['params' => $params])
+                        ];
+                    }
+                }
+            )
+            ->modalSubmitAction(false)
+            ->modalCancelAction(false)
+            ->stickyModalHeader(true)
+            ->slideOver();
+
+
+
+    }
+
     public function generateAction($actionName, $contentType)
     {
         return Action::make($actionName)
@@ -109,7 +143,7 @@ class AdminLiveEditPage extends Page
             ->modalHeading('Create ' . $contentType)
             ->form(
                 ContentResource::formArray([
-                    'contentType'=>$contentType
+                    'contentType' => $contentType
                 ])
             )
             ->action(function ($data) use ($contentType) {
@@ -125,9 +159,8 @@ class AdminLiveEditPage extends Page
 
                 Notification::make()
                     ->success()
-                    ->title($contentTypeFriendly. ' is  created')
+                    ->title($contentTypeFriendly . ' is  created')
                     ->body($contentTypeFriendly . ' has been created successfully.')
-
                     ->actions([
                         \Filament\Notifications\Actions\Action::make('viewContent')
                             ->label('View ' . $contentTypeFriendly)

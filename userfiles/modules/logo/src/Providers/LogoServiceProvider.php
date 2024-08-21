@@ -42,7 +42,8 @@ class LogoServiceProvider extends PackageServiceProvider
         Filament::serving(function () {
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
-                ModuleAdmin::registerLiveEditSettingsUrl('logo', LogoModuleSettings::getUrl());
+              // ModuleAdmin::registerLiveEditSettingsUrl('logo', LogoModuleSettings::getUrl());
+              ModuleAdmin::registerSettingsComponent('logo', LogoModuleSettings::class);
             }
         });
 

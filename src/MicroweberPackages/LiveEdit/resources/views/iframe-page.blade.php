@@ -8,10 +8,18 @@
             window.addEventListener('openAddContentAction', () => {
                  $wire.mountAction('addContentAction', {})
             });
+
+            window.addEventListener('openModuleSettingsAction', (e) => {
+
+                 $wire.mountAction('openModuleSettingsAction', {data:e.detail})
+            });
         }"
     >
 
     </div>
+
+
+
 
 
 
@@ -121,6 +129,7 @@
 
             mw.settings.adminUrl = '<?php print admin_url(); ?>';
             mw.settings.liveEditModuleSettingsUrls =  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::getLiveEditSettingsUrls()); ?>;
+            mw.settings.liveEditModuleSettingsComponents=  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::getSettingsComponents()); ?>;
 
         </script>
 

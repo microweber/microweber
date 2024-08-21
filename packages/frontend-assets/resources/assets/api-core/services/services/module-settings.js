@@ -114,10 +114,27 @@ export class ModuleSettings extends MicroweberBaseClass {
 
         var moduleTypeOrig = moduleType;
         var moduleSettingsUrl = null;
+        var moduleSettingsComponent = null;
         if(typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
             if (typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
                 moduleSettingsUrl = mw.settings.liveEditModuleSettingsUrls[moduleType];
             }
+        }
+
+
+        if(typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsComponents === 'object' && mw.settings.liveEditModuleSettingsComponents[moduleType]) {
+                moduleSettingsComponent = mw.settings.liveEditModuleSettingsComponents[moduleType];
+                     var eventDetail = {
+                        moduleType: moduleType,
+                        moduleId: moduleId,
+                        moduleSettingsComponent: moduleSettingsComponent,
+                        params: attrsForSettings
+                    };
+                    var event = new CustomEvent('openModuleSettingsAction', { detail: eventDetail });
+                    window.dispatchEvent(event);
+                    return;
+
+
         }
         moduleType = moduleType + '/admin';
 

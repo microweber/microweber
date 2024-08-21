@@ -35,9 +35,15 @@ class ModuleAdminManager
         Livewire::component($livewireComponentName, $componentName);
     }
 
+    public function getSettingsComponent(string $moduleName)
+    {
+        return $this->settingsComponent[$moduleName] ?? null;
+    }
 
-
-
+    public function getSettingsComponents()
+    {
+        return $this->settingsComponent;
+    }
 
 
     /**
@@ -56,9 +62,6 @@ class ModuleAdminManager
     {
         return $this->settings[$moduleName] ?? null;
     }
-
-
-
 
 
     public function getSkinSettings($moduleName, $skinName)

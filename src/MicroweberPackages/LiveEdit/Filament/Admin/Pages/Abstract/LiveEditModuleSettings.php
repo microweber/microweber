@@ -19,6 +19,7 @@ abstract class LiveEditModuleSettings extends Page
     public string $module;
     public string $optionGroup;
     public array $options = [];
+    public array $params = [];
     public array $translatableOptions = [];
     protected static bool $showTopBar = false;
     protected static bool $shouldRegisterNavigation = false;
@@ -105,6 +106,11 @@ abstract class LiveEditModuleSettings extends Page
 
     public function getOptionGroup()
     {
+        if (!empty($this->params) and isset($this->params['id'])) {
+            return $this->params['id'];
+        }
+
+
         $getOptionGroup = request()->get('id', null);
         if ($getOptionGroup) {
             $this->optionGroup = $getOptionGroup;
