@@ -10,6 +10,8 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
+use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class ButtonModuleSettings extends LiveEditModuleSettings
@@ -50,8 +52,6 @@ $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
         */
 
 
-        //   dd($moduleTemplates);
-
         return $form
             ->schema([
                 Tabs::make('Options')
@@ -64,10 +64,18 @@ $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
                                         ->live()
                                         ->default('Button'),
 
-                                    TextInput::make('options.url')
-                                        ->label('Link')
+//                                    TextInput::make('options.url')
+//                                        ->label('Link')
+//                                        ->live()
+//                                        ->default(''),
+
+
+                                    MwLinkPicker::make('options.url')
                                         ->live()
-                                        ->default(''),
+                                        ->setSimpleMode(true)
+                                        ->afterStateUpdated(function ($state) {
+
+                                        })->columnSpanFull(),
 
 
                                     TextInput::make('options.icon')

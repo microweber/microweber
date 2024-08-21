@@ -154,6 +154,7 @@ class MenusList extends Component implements HasForms, HasActions
 
             MwLinkPicker::make('mw_link_picker')
                 ->live()
+
                 ->selectedData(function (Menu | null $record, Get $get) {
                     $dataId = '';
                     $dataType = '';
