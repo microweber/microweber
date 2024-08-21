@@ -41,6 +41,8 @@
     $contentType = $getContentType();
     $categoryId = $getCategoryId();
     $url = $getUrl();
+    $getSimpleMode = $getSimpleMode();
+    $getSimpleMode = intval($getSimpleMode);
 @endphp
 
 <x-dynamic-component
@@ -62,6 +64,7 @@
 
         x-data="{
             url: '{{$url}}',
+            simpleMode: {{$getSimpleMode}},
             categoryId: '{{$categoryId}}',
             contentId: '{{$contentId}}',
             contentType: '{{$contentType}}',
@@ -128,35 +131,56 @@
                     selectedIndex: selectedIndex
                 });
 
-                if (categoryId > 0) {
-                   linkEditor.setValue({id: categoryId, type: contentType})
-                } else if (contentId > 0) {
-                    linkEditor.setValue({id: contentId, type: contentType})
-                } else if (url) {
-                    linkEditor.setValue(url)
+                if(simpleMode){
+                     linkEditor.setValue(url)
+
+                } else {
+                    if (categoryId > 0) {
+                       linkEditor.setValue({id: categoryId, type: contentType})
+                    } else if (contentId > 0) {
+                        linkEditor.setValue({id: contentId, type: contentType})
+                    } else if (url) {
+                        linkEditor.setValue(url)
+                    }
                 }
+
+
 
                 linkEditor.promise().then((data) => {
                     var modal = linkEditor.dialog;
 
                     if(data) {
-                       state = data;
-                       if (data.url) {
-                            url = data.url;
-                       }
-                       if (data.type) {
-                        contentType = data.type;
-                       }
-                       if (data.type === 'category') {
-                            categoryId = data.id;
-                            contentId = 0;
-                       } else if (data.type === 'content') {
-                            categoryId = 0;
-                            contentId = data.id;
+
+                       if(simpleMode){
+                        if (data.url) {
+                           state = data.url;
+                           url = data.url;
+                        }
+
+
+
                        } else {
-                            categoryId = 0;
-                            contentId = 0;
+                           state = data;
+                           if (data.url) {
+                                url = data.url;
+                           }
+                           if (data.type) {
+                            contentType = data.type;
+                           }
+                           if (data.type === 'category') {
+                                categoryId = data.id;
+                                contentId = 0;
+                           } else if (data.type === 'content') {
+                                categoryId = 0;
+                                contentId = data.id;
+                           } else {
+                                categoryId = 0;
+                                contentId = 0;
+                           }
+
                        }
+
+
                     }
                     modal.remove();
 

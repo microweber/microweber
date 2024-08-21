@@ -12,15 +12,28 @@ class MwLinkPicker extends TextInput
     protected string $view = 'filament-forms::components.mw-link-picker';
 
 
-    protected string | Closure | null $selectedData = null;
+    protected string|Closure|null $selectedData = null;
 
-    public function selectedData(string | Closure | null $selectedData): static
+    protected bool $simpleMode = false;
+
+    public function selectedData(string|Closure|null $selectedData): static
     {
         $this->selectedData = $selectedData;
 
         return $this;
     }
 
+    public function getSimpleMode():bool
+    {
+        return $this->simpleMode;
+    }
+
+    public function setSimpleMode( bool $isSimpleMode = true): static
+    {
+        $this->simpleMode = $isSimpleMode;
+
+        return $this;
+    }
 
     public function getContentId()
     {
@@ -30,6 +43,7 @@ class MwLinkPicker extends TextInput
         }
         return '';
     }
+
     public function getContentType()
     {
         $selectedData = $this->getSelectedData();
@@ -52,6 +66,11 @@ class MwLinkPicker extends TextInput
 
     public function getUrl()
     {
+
+       if($this->getSimpleMode()) {
+
+       }
+
         $url = '';
         $selectedData = $this->getSelectedData();
         if (isset($selectedData['data']['id']) && $selectedData['data']['id'] > 0) {
@@ -66,7 +85,7 @@ class MwLinkPicker extends TextInput
         return $url;
     }
 
-    public function getSelectedData(): ? array
+    public function getSelectedData(): ?array
     {
         return $this->evaluate($this->selectedData);
     }
