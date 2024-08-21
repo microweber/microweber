@@ -32,8 +32,6 @@ class MediaManagerServiceProvider extends ServiceProvider implements DeferrableP
 
         View::addNamespace('media', __DIR__ . '/resources/views');
 
-        Livewire::component('admin-list-media-for-model', ListMediaForModel::class);
-
         // add disk to config
         config(['filesystems.disks.media' => [
             'driver' => 'local',

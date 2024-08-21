@@ -1,30 +1,19 @@
 <?php
 
-namespace MicroweberPackages\Media\Http\Livewire\Admin;
+namespace MicroweberPackages\Filament\Forms\Components;
+
 
 use Filament\Actions\Action;
-use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Actions\Contracts\HasActions;
-use Filament\Forms\Components\Component;
+use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
-use Illuminate\Contracts\View\View;
-use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-use MicroweberPackages\Media\Models\Media;
 use Livewire\Attributes\On;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
+use MicroweberPackages\Media\Models\Media;
 
-
-class ListMediaForModel extends AdminComponent implements HasForms, HasActions
+class MwMediaBrowser extends Field
 {
-    use InteractsWithActions;
-    use InteractsWithForms;
-
-
     public $relType = '';
     public $relId = '';
     public $sessionId = '';
@@ -34,6 +23,19 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
 
     public $parentComponentName = '';
 
+    protected string $view = 'filament-forms::components.mw-media-browser';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->registerListeners([
+            'mwMediaBrowser::addMediaItem' => [
+                function (): void {
+                   dd(333);
+                },
+            ]
+        ]);
+    }
 
     public function editAction(): Action
     {
@@ -64,30 +66,6 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
             })->slideOver();
     }
 
-
-    public function getQueryBuilder()
-    {
-        $itemsQuery = Media::where('rel_type', $this->relType);
-
-        if ($this->relId) {
-            $itemsQuery->where('rel_id', $this->relId);
-        } else if ($this->sessionId) {
-            $itemsQuery->where('session_id', $this->sessionId);
-            $itemsQuery->where('rel_id', 0);
-        } else if ($this->createdBy) {
-            $itemsQuery->where('created_by', $this->createdBy);
-            $itemsQuery->where('rel_id', 0);
-
-
-        }
-
-        if ($this->relType) {
-            $itemsQuery->where('rel_type', $this->relType);
-        }
-        $itemsQuery->orderBy('position', 'asc');
-
-        return $itemsQuery;
-    }
 
     #[On('mediaItemsSort')]
     public function mediaItemsSort($itemsSortedIds)
@@ -166,35 +144,6 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
         //   $this->dispatch('$refresh');
     }
 
-    public function refreshMediaData()
-    {
-        $itemsQuery = $this->getQueryBuilder();
-
-        $this->mediaItems = $itemsQuery->get();
-        if ($this->mediaItems) {
-            $this->mediaIds = $this->mediaItems->pluck('id')->toArray();
-        } else {
-            $this->mediaIds = [];
-        }
-
-    }
-
-//    #[On('rotateMediaById')]
-//    public function rotateMediaById($id = false)
-//    {
-//        $mediaId = $id;
-//        if (!$mediaId) {
-//            return;
-//        }
-//        $media = Media::where('id', $mediaId)->first();
-//        if (!$media) {
-//            return;
-//        }
-//
-//        app()->media_manager->rotate_media_file_by_id($mediaId);
-//
-//        $this->dispatch('imageIsRotated', $mediaId);
-//    }
     #[On('updateImageFilename')]
     public function updateImageFilename($id = false,$data=[])
     {
@@ -215,8 +164,6 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
         }
 
     }
-
-
 
     #[On('deleteMediaItemById')]
     public function deleteMediaItemById($id = false)
@@ -243,12 +190,48 @@ class ListMediaForModel extends AdminComponent implements HasForms, HasActions
     }
 
 
-    public function render(): View
+    public function getQueryBuilder()
     {
+        $itemsQuery = Media::where('rel_type', $this->relType);
 
+        if ($this->relId) {
+            $itemsQuery->where('rel_id', $this->relId);
+        } else if ($this->sessionId) {
+            $itemsQuery->where('session_id', $this->sessionId);
+            $itemsQuery->where('rel_id', 0);
+        } else if ($this->createdBy) {
+            $itemsQuery->where('created_by', $this->createdBy);
+            $itemsQuery->where('rel_id', 0);
+
+
+        }
+
+        if ($this->relType) {
+            $itemsQuery->where('rel_type', $this->relType);
+        }
+        $itemsQuery->orderBy('position', 'asc');
+
+        return $itemsQuery;
+    }
+
+    public function refreshMediaData()
+    {
+        $itemsQuery = $this->getQueryBuilder();
+
+        $this->mediaItems = $itemsQuery->get();
+        if ($this->mediaItems) {
+            $this->mediaIds = $this->mediaItems->pluck('id')->toArray();
+        } else {
+            $this->mediaIds = [];
+        }
+
+    }
+
+    public function getMediaItemsArray()
+    {
         $this->refreshMediaData();
 
-        //   $this->parentComponent->data['mediaIds'] = $this->mediaIds;
-        return view('media::admin.livewire.list-media-for-model');
+        return $this->mediaItems;
     }
+
 }
