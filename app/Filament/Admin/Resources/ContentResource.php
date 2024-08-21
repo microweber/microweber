@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwRichEditor;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
@@ -69,11 +70,7 @@ Forms\Components\Group::make([
                 ->default($id)
                 ->hidden(),
             Forms\Components\Hidden::make('session_id')
-                ->default($sessionId)
-            ,
-            Forms\Components\Hidden::make('mediaIds')
-
-            ,
+                ->default($sessionId),
 
             Forms\Components\Hidden::make('content_type')
                 ->default($contentType)
@@ -161,6 +158,9 @@ Forms\Components\Group::make([
                 ])
                 ->columnSpanFull()
                 ->columns(2),
+
+
+            MwMediaBrowser::make('media_browser'),
 
 
 //            Forms\Components\Section::make('Images')
