@@ -8,8 +8,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use MicroweberPackages\Modules\Tabs\Http\Livewire\TabsSettingsComponent;
-use \MicroweberPackages\Modules\Tabs\Http\Livewire\TabsModuleSettings;
+use \MicroweberPackages\Modules\Tabs\Filament\Admin\TabsModuleSettings;
 
 class TabsServiceProvider extends PackageServiceProvider
 {

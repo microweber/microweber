@@ -1,9 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Modules\Tabs\Http\Livewire;
+namespace MicroweberPackages\Modules\Tabs\Filament\Admin;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
-use MicroweberPackages\Modules\Tabs\Models\Tab;
 use MicroweberPackages\Modules\Tabs\Models\TabItem;
 
 class TabsModuleSettings extends ModuleSettingsItemsEditorComponent
