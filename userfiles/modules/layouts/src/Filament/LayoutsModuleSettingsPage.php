@@ -29,7 +29,8 @@ class LayoutsModuleSettingsPage extends LiveEditModuleSettings
                     ->tabs([
                         Tabs\Tab::make('Layout settings')
                             ->schema([
-                                View::make('microweber-module-layouts::admin.settings')
+                                View::make('microweber-module-layouts::admin.settings'),
+                                View::make('microweber-module-layouts::admin.inner-modules-list')
                             ]),
 
                         Tabs\Tab::make('Design')
