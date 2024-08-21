@@ -1,5 +1,6 @@
 @php
-$mediaItems = $getMediaItemsArray()
+    $mediaItems = $getMediaItemsArray();
+    $statePath = $getStatePath();
 @endphp
 
 <x-dynamic-component
@@ -92,12 +93,10 @@ $mediaItems = $getMediaItemsArray()
                     type="button" x-on:click="()=> {
 
                 mw.filePickerDialog((url) => {
-
-                      $wire.dispatchFormEvent(
-                        'mwMediaBrowser::addMediaItem',
-                        { data: { url: url } },
+                      $wire.dispatchFormEvent('mwMediaBrowser::addMediaItem','{{ $statePath }}', {
+                            data: { url: url }
+                       },
                     )
-
                 });
 
                 }">

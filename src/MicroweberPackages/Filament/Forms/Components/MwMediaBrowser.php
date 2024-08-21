@@ -30,8 +30,10 @@ class MwMediaBrowser extends Field
         parent::setUp();
         $this->registerListeners([
             'mwMediaBrowser::addMediaItem' => [
-                function (): void {
-                   dd(333);
+                function ($component, $statePath, $params) {
+                    if (isset($params['data'])) {
+                        return $this->addMediaItem($params['data']);
+                    }
                 },
             ]
         ]);
@@ -95,7 +97,6 @@ class MwMediaBrowser extends Field
 
     }
 
-    #[On('addMediaItem')]
     public function addMediaItem($data = [])
     {
         $url = false;
@@ -103,6 +104,7 @@ class MwMediaBrowser extends Field
         if(isset($data['url'])){
             $url = $data['url'];
         }
+
         if (!$url) {
             return;
         }
