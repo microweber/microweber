@@ -1,10 +1,10 @@
 
 
- 
+
 
 mw.files = {
     settings: {
-            filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg,webp",
+            filetypes:"png,gif,jpg,jpeg,tiff,bmp,svg,webp,avif,apng",
             url: mw.settings.upload_url,
             type: 'explorer',
             multiple: true

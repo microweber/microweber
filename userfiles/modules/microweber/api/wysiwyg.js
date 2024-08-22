@@ -3007,7 +3007,7 @@ $(window).on('load', function () {
         }
 
     }
-    mw.require('wysiwygmdab.js');
+
 });
 
 mw.linkTip = {
