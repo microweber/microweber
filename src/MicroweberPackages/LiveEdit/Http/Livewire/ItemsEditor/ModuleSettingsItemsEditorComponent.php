@@ -148,8 +148,9 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                 ->form($formFields)
                 ->createAnother(false)
                 ->after(function () {
+
                     $this->dispatch('mw-option-saved',
-                        optionGroup: $this->optionGroup
+                        optionGroup: $this->getOptionGroup()
                     );
                 });
         }
@@ -171,7 +172,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                 })
                 ->after(function () {
                     $this->dispatch('mw-option-saved',
-                        optionGroup: $this->optionGroup
+                        optionGroup: $this->getOptionGroup()
                     );
                 });
         }
@@ -182,7 +183,7 @@ class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implemen
                 ->hiddenLabel(true)
                 ->after(function () {
                     $this->dispatch('mw-option-saved',
-                        optionGroup: $this->optionGroup
+                        optionGroup: $this->getOptionGroup()
                     );
                 });
         }

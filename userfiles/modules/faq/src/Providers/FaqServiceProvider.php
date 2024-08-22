@@ -36,7 +36,8 @@ class FaqServiceProvider extends PackageServiceProvider
         Filament::serving(function () {
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
-                ModuleAdmin::registerLiveEditSettingsUrl('faq', FaqModuleSettings::getUrl());
+             //   ModuleAdmin::registerLiveEditSettingsUrl('faq', FaqModuleSettings::getUrl());
+                ModuleAdmin::registerSettingsComponent('faq', FaqModuleSettings::class);
             }
         });
     }

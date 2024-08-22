@@ -52,4 +52,10 @@ class ModulePackage
         return $this;
     }
 
+    public function hasFrontendController(string $componentName): static
+    {
+        return $this;
+    }
+
+
 }

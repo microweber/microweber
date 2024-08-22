@@ -4,14 +4,11 @@
 namespace MicroweberPackages\Modules\Btn\Providers;
 
 
-use Filament\Facades\Filament;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Module\Facades\ModuleAdmin;
+
 use MicroweberPackages\Modules\Btn\Filament\ButtonModuleSettings;
 use MicroweberPackages\Package\MicroweberPackageServiceProvider;
 use MicroweberPackages\Package\ModulePackage;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 
 class BtnServiceProvider extends MicroweberPackageServiceProvider
@@ -28,6 +25,7 @@ class BtnServiceProvider extends MicroweberPackageServiceProvider
 
 
         $module->hasLiveEditSettings(ButtonModuleSettings::class);
+      //  $module->hasFrontendController();
 
 
 //        $module->hasFilamentPage(ButtonModuleSettings::class);
