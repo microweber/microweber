@@ -118,12 +118,7 @@ class ModuleAdminManager
     {
 
         if (!$alias) {
-            $livewireComponentName = $componentName;
-            $livewireComponentName = str_replace(' ', '-', $livewireComponentName);
-            $livewireComponentName = str_replace(':', '-', $livewireComponentName);
-            $livewireComponentName = str_replace('/', '-', $livewireComponentName);
-            $livewireComponentName = str_replace('\\', '-', $livewireComponentName);
-            $livewireComponentName = str_slug($livewireComponentName);
+            $livewireComponentName = $this->generateAlias($componentName);
         } else {
             $livewireComponentName = $alias;
         }
@@ -131,6 +126,17 @@ class ModuleAdminManager
         Livewire::component($livewireComponentName, $componentName);
 
         $this->viewComponents[$module] = $livewireComponentName;
+    }
+
+    public function generateAlias($componentName): string
+    {
+        $livewireComponentName = $componentName;
+        $livewireComponentName = str_replace(' ', '-', $livewireComponentName);
+        $livewireComponentName = str_replace(':', '-', $livewireComponentName);
+        $livewireComponentName = str_replace('/', '-', $livewireComponentName);
+        $livewireComponentName = str_replace('\\', '-', $livewireComponentName);
+        $livewireComponentName = str_slug($livewireComponentName);
+        return $livewireComponentName;
     }
 
 }

@@ -175,7 +175,7 @@ trait ParserLoadModuleTrait
         $customViewComponent = ModuleAdmin::getViewComponent($module_name);
         if ($customViewComponent) {
             $id = $attrs['id'] ?? null;
-           
+
            return Livewire::mount($customViewComponent, ['params' => $attrs, 'id' => $id], $id);
         }
 
