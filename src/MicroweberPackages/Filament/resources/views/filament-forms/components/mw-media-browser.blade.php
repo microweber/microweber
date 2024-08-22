@@ -167,7 +167,7 @@
 
 
                             </span>
-                                        <div class="flex gap-2 items-center mw-post-media-img--header bg-black p-1">
+                                        <div class="flex gap-2 items-center mw-post-media-img--header bg-black p-1 cursor-pointer z-10 items-center">
 
 
                                             <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
@@ -195,7 +195,7 @@
                                                 <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
                                                        class="form-check-input">
                                             </label>
-                                            
+
                                         </div>
                                     </div>
 

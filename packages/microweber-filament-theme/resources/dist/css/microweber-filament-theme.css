@@ -16928,6 +16928,26 @@ h1,h2,h3,h4,h5,h6 {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
+.admin-thumb-item .form-check {
+  top: 5px;
+  left: 5px;
+}
+
+.image-settings {
+  display: flex;
+  align-items: center;
+}
+
+.fi-resource-modules section.image-settings {
+  row-gap: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.fi-resource-marketplace .fi-ta-record .image-settings .flex {
+  padding: 0px;
+}
+
 .w-100 {
   width: 100% !important;
 }

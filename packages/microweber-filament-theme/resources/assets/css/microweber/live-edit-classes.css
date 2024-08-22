@@ -828,3 +828,11 @@ h1,h2,h3,h4,h5,h6 {
 .mw-ui-box {
     @apply border border-transparent rounded-lg clear-both bg-white shadow-lg m-2 p-4;
 }
+
+.admin-thumb-item .form-check {
+    @apply top-[5px] left-[5px];
+}
+
+.image-settings {
+    @apply flex items-center;
+}
