@@ -154,6 +154,15 @@ trait ParserLoadModuleTrait
             //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
         }
 
+        if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
+            $attrs['id'] = $attrs['module-id'];
+        }
+
+        if (isset($attrs['data-module-id-from-preset']) and $attrs['data-module-id-from-preset'] != false) {
+            $attrs['id'] = $attrs['data-module-id-from-preset'];
+        }
+
+
 
         if (isset($this->module_registry[$module_name]) and $this->module_registry[$module_name]) {
             return \App::call($this->module_registry[$module_name], ["params" => $attrs]);
@@ -165,7 +174,9 @@ trait ParserLoadModuleTrait
         //check for custom view component
         $customViewComponent = ModuleAdmin::getViewComponent($module_name);
         if ($customViewComponent) {
-           return Livewire::mount($customViewComponent, ['params' => $attrs]);
+            $id = $attrs['id'] ?? null;
+           
+           return Livewire::mount($customViewComponent, ['params' => $attrs, 'id' => $id], $id);
         }
 
 
@@ -340,13 +351,6 @@ trait ParserLoadModuleTrait
                 $config['license'] = $lic;
             }
 
-            if (isset($attrs['module-id']) and $attrs['module-id'] != false) {
-                $attrs['id'] = $attrs['module-id'];
-            }
-
-            if (isset($attrs['data-module-id-from-preset']) and $attrs['data-module-id-from-preset'] != false) {
-                $attrs['id'] = $attrs['data-module-id-from-preset'];
-            }
 
             if (!isset($attrs['id'])) {
                 global $mw_mod_counter;
