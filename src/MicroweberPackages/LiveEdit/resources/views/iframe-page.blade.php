@@ -32,7 +32,7 @@
 
                 mw.lib.require('nouislider');
                 mw.require('components.css')
-                mw.require('liveedit_widgets.js')
+
 
                 mw.require('icon_selector.js');
                 mw.lib.require('flag_icons');

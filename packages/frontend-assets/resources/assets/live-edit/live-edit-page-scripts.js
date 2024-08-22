@@ -501,7 +501,7 @@ if(window.self !== window.top) {
             var el = mw.$(this);
             el.children(more_selectors2).each(function () {
                 var empty_child = mw.$(this).children('*');
-                if (empty_child.size() == 0) {
+                if (empty_child.length == 0) {
                     mw.$(this).append('<div class="element" id="mw-element-' + mw.random() + '">' + '</div>');
                     var empty_child = mw.$(this).children("div.element");
                 }

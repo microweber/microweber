@@ -1,8 +1,9 @@
 
 
-    mw.$(window).load(function(){
-      mw.$(document.body).removeClass('mw-external-loading');
-    });
+
+    addEventListener('load', () => {
+        document.body.classList.remove('mw-external-loading');
+    })
 
 
 
