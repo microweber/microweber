@@ -9990,8 +9990,7 @@ select {
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper,
     .mw-live-edit-page-wrapper .fi-input-wrp,
-    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid),
-    .mw-live-edit-page-wrapper .fi-select-input {
+    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid) {
   position: relative;
   display: block;
   min-height: 45px;
@@ -10009,15 +10008,14 @@ select {
 
 .fi-resource-marketplace .fi-ta-record .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper,.fi-resource-marketplace .fi-ta-record 
     .mw-live-edit-page-wrapper .fi-input-wrp,.fi-resource-marketplace .fi-ta-record 
-    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid),.fi-resource-marketplace .fi-ta-record 
-    .mw-live-edit-page-wrapper .fi-select-input {
+    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid) {
   padding: 0px;
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper,
     .mw-live-edit-page-wrapper .fi-input-wrp,
-    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid),
-    .mw-live-edit-page-wrapper .fi-select-input {
+    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid)
+    {
   box-shadow: none !important;
   border: none !important;
   outline: none !important;
@@ -10038,30 +10036,30 @@ select {
 
 .mw-live-edit-page-wrapper {
   @-moz-document url-prefix() {
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
-        .fi-input-wrp .fi-input.form-select,
-        .fi-select-input .fi-input.form-select {
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+        .fi-input-wrp .fi-input,
+        .fi-select-input .fi-input {
       padding-top: 10px;
     }
   }
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select {
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input {
   text-transform: capitalize;
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select option,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select option {
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input option,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input option,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input option {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select option:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select option:is(.dark *) {
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input option:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input option:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input option:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -10083,11 +10081,11 @@ select {
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input {
   min-height: 45px;
   width: 100%;
   flex: 1 1 0%;
@@ -10110,36 +10108,36 @@ select {
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:is(.dark *),
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:is(.dark *),
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:is(.dark *),
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:is(.dark *),
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:is(.dark *) {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(24 36 51 / var(--tw-bg-opacity));
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:disabled,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:disabled,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:disabled,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:disabled,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input:disabled,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:disabled {
   --tw-bg-opacity: 1;
   background-color: rgb(240 240 240 / var(--tw-bg-opacity));
   opacity: 0.7;
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible,
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:focus,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:focus-visible,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:focus,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:focus-visible,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible {
   -webkit-appearance: none;
@@ -10153,16 +10151,16 @@ select {
   outline-width: 0px !important;
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after {
   width: 100%;
@@ -10171,11 +10169,11 @@ select {
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider {
   height: 35px;
   max-width: 55px;
   background-color: transparent;
@@ -10185,32 +10183,32 @@ select {
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus-visible,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus-visible,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus-visible {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus-visible {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus:is(.dark *),
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible:is(.dark *),
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus:is(.dark *),
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible:is(.dark *),
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus:is(.dark *),
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible:is(.dark *),
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus:is(.dark *),
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus-visible:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible:is(.dark *),
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus:is(.dark *),
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus-visible:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus-visible:is(.dark *) {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus-visible:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(24 36 51 / var(--tw-bg-opacity));
 }

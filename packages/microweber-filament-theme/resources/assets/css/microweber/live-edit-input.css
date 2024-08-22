@@ -2,8 +2,8 @@
 
     .form-control-live-edit-label-wrapper,
     .fi-input-wrp,
-    .fi-input-wrp:not(.fi-invalid),
-    .fi-select-input {
+    .fi-input-wrp:not(.fi-invalid)
+    {
         @apply cursor-pointer block leading-[22px] min-h-[45px] !border-0 !outline-0 !appearance-none !shadow-none relative;
         box-shadow: none !important;
         border: none !important;
@@ -13,6 +13,7 @@
         margin: 3px 7px; /* Margin with custom values */
     }
 
+
     .form-control-live-edit-label-wrapper textarea.form-control-live-edit-input,
     .fi-input-wrp textarea.fi-input,
     .fi-select-input textarea.fi-input {
@@ -20,22 +21,22 @@
     }
 
     @-moz-document url-prefix() {
-        .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
-        .fi-input-wrp .fi-input.form-select,
-        .fi-select-input .fi-input.form-select {
+        .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+        .fi-input-wrp .fi-input,
+        .fi-select-input .fi-input {
             @apply pt-[10px];
         }
     }
 
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
-    .fi-input-wrp .fi-input.form-select,
-    .fi-select-input .fi-input.form-select {
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+    .fi-input-wrp .fi-input,
+    .fi-select-input .fi-input {
         @apply capitalize;
     }
 
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option,
-    .fi-input-wrp .fi-input.form-select option,
-    .fi-select-input .fi-input.form-select option {
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input option,
+    .fi-input-wrp .fi-input option,
+    .fi-select-input .fi-input option {
         @apply text-black dark:text-white;
     }
 
@@ -52,48 +53,48 @@
     }
 
     .form-control-live-edit-label-wrapper .form-control-live-edit-input,
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input,
     .fi-input-wrp .fi-input,
-    .fi-input-wrp .fi-input.form-select,
+    .fi-input-wrp .fi-input,
     .fi-select-input .fi-input,
-    .fi-select-input .fi-input.form-select {
+    .fi-select-input .fi-input {
         @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 !outline-0 appearance-none shadow-none bg-[#f0f0f0] dark:bg-gray-900 pl-[10px];
     }
 
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
     .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,
-    .fi-input-wrp .fi-input.form-select:disabled,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,
     .fi-input-wrp .fi-input:disabled,
-    .fi-select-input .fi-input.form-select:disabled,
+    .fi-input-wrp .fi-input:disabled,
+    .fi-select-input .fi-input:disabled,
     .fi-select-input .fi-input:disabled {
         @apply bg-[#f0f0f0] opacity-70;
     }
 
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus,
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible,
     .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
     .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible,
-    .fi-input-wrp .fi-input.form-select:focus,
-    .fi-input-wrp .fi-input.form-select:focus-visible,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible,
     .fi-input-wrp .fi-input:focus,
     .fi-input-wrp .fi-input:focus-visible,
-    .fi-select-input .fi-input.form-select:focus,
-    .fi-select-input .fi-input.form-select:focus-visible,
+    .fi-input-wrp .fi-input:focus,
+    .fi-input-wrp .fi-input:focus-visible,
+    .fi-select-input .fi-input:focus,
+    .fi-select-input .fi-input:focus-visible,
     .fi-select-input .fi-input:focus,
     .fi-select-input .fi-input:focus-visible {
         @apply border-0 !outline-0 appearance-none shadow-none bg-transparent;
     }
 
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
     .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
     .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after,
-    .fi-input-wrp .fi-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
-    .fi-input-wrp .fi-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after,
     .fi-input-wrp .fi-input:focus + .form-control-live-edit-bottom-effect:after,
     .fi-input-wrp .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
-    .fi-select-input .fi-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
-    .fi-select-input .fi-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .fi-input-wrp .fi-input:focus + .form-control-live-edit-bottom-effect:after,
+    .fi-input-wrp .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .fi-select-input .fi-input:focus + .form-control-live-edit-bottom-effect:after,
+    .fi-select-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
     .fi-select-input .fi-input:focus + .form-control-live-edit-bottom-effect:after,
     .fi-select-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after {
         @apply w-full;
@@ -101,27 +102,27 @@
     }
 
     .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
     .fi-input-wrp .fi-input.form-control-input-range-slider,
-    .fi-input-wrp .fi-input.form-select.form-control-input-range-slider,
+    .fi-input-wrp .fi-input.form-control-input-range-slider,
     .fi-select-input .fi-input.form-control-input-range-slider,
-    .fi-select-input .fi-input.form-select.form-control-input-range-slider {
+    .fi-select-input .fi-input.form-control-input-range-slider {
         @apply bg-transparent max-w-[55px] h-[35px];
         min-height: unset; /* Requires custom CSS, no direct Tailwind utility */
     }
 
     .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
     .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus,
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
     .fi-input-wrp .fi-input.form-control-input-range-slider:focus,
     .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
-    .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus,
-    .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus-visible,
+    .fi-input-wrp .fi-input.form-control-input-range-slider:focus,
+    .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
     .fi-select-input .fi-input.form-control-input-range-slider:focus,
     .fi-select-input .fi-input.form-control-input-range-slider:focus-visible,
-    .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus,
-    .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus-visible {
+    .fi-select-input .fi-input.form-control-input-range-slider:focus,
+    .fi-select-input .fi-input.form-control-input-range-slider:focus-visible {
         @apply bg-gray-50 dark:bg-gray-900;
     }
 
