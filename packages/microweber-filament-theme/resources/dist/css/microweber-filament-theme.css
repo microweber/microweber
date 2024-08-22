@@ -3730,6 +3730,10 @@ select {
   bottom: -17px;
 }
 
+.bottom-\[-2px\] {
+  bottom: -2px;
+}
+
 .bottom-\[5px\] {
   bottom: 5px;
 }
@@ -3814,10 +3818,6 @@ select {
   right: -6px;
 }
 
-.right-\[16px\] {
-  right: 16px;
-}
-
 .right-\[25px\] {
   right: 25px;
 }
@@ -3884,10 +3884,6 @@ select {
 
 .top-\[0px\] {
   top: 0px;
-}
-
-.top-\[10px\] {
-  top: 10px;
 }
 
 .top-\[14px\] {
@@ -6575,11 +6571,6 @@ select {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity)) !important;
 }
 
-.bg-\[\#0e0e0e\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(14 14 14 / var(--tw-bg-opacity));
-}
-
 .bg-\[\#3FB8AF\] {
   --tw-bg-opacity: 1;
   background-color: rgb(63 184 175 / var(--tw-bg-opacity));
@@ -6618,11 +6609,6 @@ select {
 .bg-\[\#a2a2a2\] {
   --tw-bg-opacity: 1;
   background-color: rgb(162 162 162 / var(--tw-bg-opacity));
-}
-
-.bg-\[\#e7e7e7\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(231 231 231 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#f0f0f0\] {
@@ -7082,11 +7068,6 @@ select {
   padding-right: 1rem !important;
 }
 
-.\!px-\[5px\] {
-  padding-left: 5px !important;
-  padding-right: 5px !important;
-}
-
 .\!px-\[5rem\] {
   padding-left: 5rem !important;
   padding-right: 5rem !important;
@@ -7420,10 +7401,6 @@ select {
 
 .pt-\[12px\] {
   padding-top: 12px;
-}
-
-.pt-\[2px\] {
-  padding-top: 2px;
 }
 
 .pt-\[5px\] {
@@ -8253,6 +8230,12 @@ select {
   transition-duration: 150ms;
 }
 
+.transition-\[width\] {
+  transition-property: width;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -8307,6 +8290,10 @@ select {
 
 .duration-75 {
   transition-duration: 75ms;
+}
+
+.duration-\[0\.3s\] {
+  transition-duration: 0.3s;
 }
 
 .ease-in {
@@ -9990,7 +9977,9 @@ select {
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper,
     .mw-live-edit-page-wrapper .fi-input-wrp,
-    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid) {
+    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid),
+    .mw-live-edit-page-wrapper .fi-select-input,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input {
   position: relative;
   display: block;
   min-height: 45px;
@@ -10008,14 +9997,17 @@ select {
 
 .fi-resource-marketplace .fi-ta-record .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper,.fi-resource-marketplace .fi-ta-record 
     .mw-live-edit-page-wrapper .fi-input-wrp,.fi-resource-marketplace .fi-ta-record 
-    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid) {
+    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid),.fi-resource-marketplace .fi-ta-record 
+    .mw-live-edit-page-wrapper .fi-select-input,.fi-resource-marketplace .fi-ta-record 
+    .mw-live-edit-page-wrapper .js-modules-list-search-input {
   padding: 0px;
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper,
     .mw-live-edit-page-wrapper .fi-input-wrp,
-    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid)
-    {
+    .mw-live-edit-page-wrapper .fi-input-wrp:not(.fi-invalid),
+    .mw-live-edit-page-wrapper .fi-select-input,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input {
   box-shadow: none !important;
   border: none !important;
   outline: none !important;
@@ -10029,51 +10021,58 @@ select {
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper textarea.form-control-live-edit-input,
     .mw-live-edit-page-wrapper .fi-input-wrp textarea.fi-input,
-    .mw-live-edit-page-wrapper .fi-select-input textarea.fi-input {
+    .mw-live-edit-page-wrapper .fi-select-input textarea.fi-input,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input textarea.fi-input {
   border-radius: 0px !important;
   padding-top: 10px;
 }
 
 .mw-live-edit-page-wrapper {
   @-moz-document url-prefix() {
-    .form-control-live-edit-label-wrapper .form-control-live-edit-input,
-        .fi-input-wrp .fi-input,
-        .fi-select-input .fi-input {
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
+        .fi-input-wrp .fi-input.form-select,
+        .fi-select-input .fi-input.form-select,
+        .js-modules-list-search-input .fi-input.form-select {
       padding-top: 10px;
     }
   }
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input {
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select {
   text-transform: capitalize;
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input option,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input option,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input option {
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select option,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select option,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select option {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input option:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input option:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input option:is(.dark *) {
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select option:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select option:is(.dark *),
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select option:is(.dark *) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .v-slider-thumb__surface.elevation-2,
     .mw-live-edit-page-wrapper .fi-input-wrp .v-slider-thumb__surface.elevation-2,
-    .mw-live-edit-page-wrapper .fi-select-input .v-slider-thumb__surface.elevation-2 {
+    .mw-live-edit-page-wrapper .fi-select-input .v-slider-thumb__surface.elevation-2,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .v-slider-thumb__surface.elevation-2 {
   color: #f0f0f0;
   /* No equivalent Tailwind class, custom color */
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .text-align .active,
     .mw-live-edit-page-wrapper .fi-input-wrp .text-align .active,
-    .mw-live-edit-page-wrapper .fi-select-input .text-align .active {
+    .mw-live-edit-page-wrapper .fi-select-input .text-align .active,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .text-align .active {
   --tw-border-opacity: 1;
   border-color: rgb(0 0 0 / var(--tw-border-opacity));
   --tw-bg-opacity: 1;
@@ -10081,11 +10080,13 @@ select {
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select {
   min-height: 45px;
   width: 100%;
   flex: 1 1 0%;
@@ -10108,38 +10109,46 @@ select {
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:is(.dark *),
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:is(.dark *),
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:is(.dark *),
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:is(.dark *),
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input:is(.dark *) {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:is(.dark *),
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input:is(.dark *),
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(24 36 51 / var(--tw-bg-opacity));
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:disabled,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:disabled,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:disabled,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:disabled,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:disabled,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input:disabled {
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select:disabled,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input:disabled {
   --tw-bg-opacity: 1;
   background-color: rgb(240 240 240 / var(--tw-bg-opacity));
   opacity: 0.7;
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible,
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:focus,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:focus-visible,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:focus,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:focus-visible,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible {
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select:focus,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select:focus-visible,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input:focus,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input:focus-visible {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -10151,29 +10160,35 @@ select {
   outline-width: 0px !important;
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after,
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus + .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus + .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after {
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select:focus + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input:focus + .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect:after {
   width: 100%;
   transition-duration: 0.3s;
   /* No direct Tailwind utility, using custom CSS */
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-control-input-range-slider,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select.form-control-input-range-slider {
   height: 35px;
   max-width: 55px;
   background-color: transparent;
@@ -10183,118 +10198,132 @@ select {
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus,
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus,
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus-visible,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus,
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus-visible,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus,
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus-visible {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus-visible,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-control-input-range-slider:focus,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-control-input-range-slider:focus-visible,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select.form-control-input-range-slider:focus,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select.form-control-input-range-slider:focus-visible {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus:is(.dark *),
     .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible:is(.dark *),
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus:is(.dark *),
-    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible:is(.dark *),
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus:is(.dark *),
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible:is(.dark *),
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus:is(.dark *),
     .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-control-input-range-slider:focus-visible:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input.form-select.form-control-input-range-slider:focus-visible:is(.dark *),
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus:is(.dark *),
     .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus-visible:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus:is(.dark *),
-    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-control-input-range-slider:focus-visible:is(.dark *) {
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus:is(.dark *),
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input.form-select.form-control-input-range-slider:focus-visible:is(.dark *),
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-control-input-range-slider:focus:is(.dark *),
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-control-input-range-slider:focus-visible:is(.dark *),
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select.form-control-input-range-slider:focus:is(.dark *),
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input.form-select.form-control-input-range-slider:focus-visible:is(.dark *) {
   --tw-bg-opacity: 1;
   background-color: rgb(24 36 51 / var(--tw-bg-opacity));
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect,
     .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect,
-    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect {
+    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .form-control-live-edit-bottom-effect {
+  pointer-events: none;
   position: absolute;
-  bottom: 0px;
-  left: 6px;
-  box-sizing: border-box;
-  height: 1px;
-  --tw-bg-opacity: 1;
-  background-color: rgb(231 231 231 / var(--tw-bg-opacity));
-  width: calc(100% - 12px);
-  /* Custom CSS, no direct Tailwind utility */
+  bottom: -2px;
+  left: 0px;
+  right: 0px;
+  display: block;
+  height: 2px;
+  width: 0px;
+  transition-property: width;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:focus-visible,
-    .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect:focus-visible,
-    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect:focus-visible {
-  border: none;
-  /* No direct Tailwind utility, using custom CSS */
+.fi-resource-marketplace .fi-ta-record .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect,.fi-resource-marketplace .fi-ta-record 
+    .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect,.fi-resource-marketplace .fi-ta-record 
+    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect,.fi-resource-marketplace .fi-ta-record 
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .form-control-live-edit-bottom-effect {
+  padding: 0px;
+}
+
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .form-control-live-edit-bottom-effect {
+  background-color: #000;
+  /* Custom color */
+  content: '';
+  /* Custom content */
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect:after {
+    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .form-control-live-edit-bottom-effect:after {
+  pointer-events: none;
   position: absolute;
   bottom: 0px;
+  left: 0px;
+  right: 0px;
   display: block;
-  height: 1px;
-  --tw-bg-opacity: 1;
-  background-color: rgb(14 14 14 / var(--tw-bg-opacity));
+  height: 2px;
+  width: 100%;
+  transition-property: width;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
 .fi-resource-marketplace .fi-ta-record .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:after,.fi-resource-marketplace .fi-ta-record 
     .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect:after,.fi-resource-marketplace .fi-ta-record 
-    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect:after {
+    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect:after,.fi-resource-marketplace .fi-ta-record 
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .form-control-live-edit-bottom-effect:after {
   padding: 0px;
 }
 
 .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:after,
     .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect:after,
-    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect:after {
-  content: "";
-  transition: width 0.25s cubic-bezier(0.4, 0, 0.68, 0.06);
-  /* Custom CSS, no direct Tailwind utility */
-  width: 0;
-  /* Default to 0, will be animated */
+    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect:after,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .form-control-live-edit-bottom-effect:after {
+  background-color: #000;
+  /* Custom color */
+  content: '';
+  /* Custom content */
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect.bottom-effect-textarea,
-    .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect.bottom-effect-textarea,
-    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect.bottom-effect-textarea {
-  bottom: 5px;
-}
-
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-settings-btn,
-    .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-settings-btn,
-    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-settings-btn {
-  position: absolute;
-  top: 10px;
-  right: 16px;
-  cursor: pointer;
-}
-
-.mw-live-edit-page-wrapper .mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper,
-    .mw-live-edit-page-wrapper .mw-filepicker-component-navigation-header .fi-input-wrp,
-    .mw-live-edit-page-wrapper .mw-filepicker-component-navigation-header .fi-select-input {
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus + .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .fi-input-wrp .fi-input:focus-visible + .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus + .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .fi-select-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input:focus + .form-control-live-edit-bottom-effect,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .fi-input:focus-visible + .form-control-live-edit-bottom-effect {
   width: 100%;
 }
 
-.mw-live-edit-page-wrapper .form-control-live-edit-input.form-a .control-input-range-slider,
-    .mw-live-edit-page-wrapper .fi-input.form-a .control-input-range-slider,
-    .mw-live-edit-page-wrapper .fi-select-input.form-a .control-input-range-slider {
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-  padding-left: 5px !important;
-  padding-right: 5px !important;
-}
-
-.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .text-align .mdi:before,
-    .mw-live-edit-page-wrapper .fi-input-wrp .text-align .mdi:before,
-    .mw-live-edit-page-wrapper .fi-select-input .text-align .mdi:before {
-  padding-top: 2px;
+.mw-live-edit-page-wrapper .form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect-active,
+    .mw-live-edit-page-wrapper .fi-input-wrp .form-control-live-edit-bottom-effect-active,
+    .mw-live-edit-page-wrapper .fi-select-input .form-control-live-edit-bottom-effect-active,
+    .mw-live-edit-page-wrapper .js-modules-list-search-input .form-control-live-edit-bottom-effect-active {
+  width: 100%;
 }
 
 .mw-filepicker-component-navigation-header {
