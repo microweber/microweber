@@ -144,3 +144,46 @@ function remove_exif_data($in, $out)
     fclose($fd_out);
     fclose($fd_in);
 }
+
+
+
+
+
+if (!function_exists('mergeScreenshotParts')) {
+    function mergeScreenshotParts($files, $outputFilename = 'full-screenshot.png')
+    {
+
+        $targetHeight = 0;
+
+        $allImageSizes = [];
+        foreach ($files as $file) {
+            $imageSize = getimagesize($file);
+            $allImageSizes[] = [
+                'file' => $file,
+                'width' => $imageSize[0],
+                'height' => $imageSize[1],
+            ];
+            $targetHeight += $imageSize[1];
+        }
+
+        $targetWidth = $allImageSizes[0]['width'];
+        $targetImage = imagecreatetruecolor($targetWidth, $targetHeight);
+
+        $i = 0;
+        foreach ($allImageSizes as $imageSize) {
+
+            $mergeFile = imagecreatefrompng($imageSize['file']);
+
+            $destinationY = 0;
+            if ($i > 0) {
+                $destinationY = $imageSize['height'] * $i;
+            }
+
+            imagecopymerge($targetImage, $mergeFile, 0, $destinationY, 0, 0, $imageSize['width'], $imageSize['height'], 100);
+            imagedestroy($mergeFile);
+            $i++;
+        }
+
+        imagepng($targetImage, $outputFilename, 8);
+    }
+}
