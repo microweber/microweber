@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to add bottom effect spans
     function addBottomEffect() {
         // Select all inputs within .form-control-live-edit-label-wrapper and .fi-input-wrp
-        const inputs = document.querySelectorAll('.form-control-live-edit-label-wrapper .form-control-live-edit-input, .fi-input-wrp .fi-input');
+        const inputs = document.querySelectorAll('.form-control-live-edit-label-wrapper .form-control-live-edit-input, .fi-input-wrp .fi-input, .fi-input-wpr .fi-select-input');
 
         // Loop through each input element
         inputs.forEach(input => {
@@ -48,8 +48,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Run the function to add the bottom effect
+// Run the function to add the bottom effect
     addBottomEffect();
+
+// Create a MutationObserver instance
+    const observer = new MutationObserver(addBottomEffect);
+
+// Start observing the document with the configured parameters
+    observer.observe(document.body, { childList: true, subtree: true });
 
 });
 
