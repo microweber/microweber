@@ -54,6 +54,7 @@ class ModulePackage
 
     public function hasViewComponent(string $componentName): static
     {
+        ModuleAdmin::registerViewComponent($this->type, $componentName);
         return $this;
     }
 

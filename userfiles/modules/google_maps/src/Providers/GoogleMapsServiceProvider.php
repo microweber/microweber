@@ -3,15 +3,15 @@
 
 namespace MicroweberPackages\Modules\GoogleMaps\Providers;
 
-use Filament\Facades\Filament;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Module\Facades\ModuleAdmin;
+
 use MicroweberPackages\Modules\GoogleMaps\Filament\GoogleMapsModuleSettings;
+use MicroweberPackages\Modules\GoogleMaps\Http\Livewire\GoogleMapsViewComponent;
+use MicroweberPackages\Package\MicroweberPackageServiceProvider;
+use MicroweberPackages\Package\ModulePackage;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 
-class GoogleMapsServiceProvider extends PackageServiceProvider
+class GoogleMapsServiceProvider extends MicroweberPackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -19,26 +19,11 @@ class GoogleMapsServiceProvider extends PackageServiceProvider
         $package->hasViews('microweber-module-google-maps');
     }
 
-    public function register(): void
+    public function configureModule(ModulePackage $module): void
     {
-
-        parent::register();
-
-        FilamentRegistry::registerPage(GoogleMapsModuleSettings::class);
-
-
-    }
-
-    public function boot(): void
-    {
-        parent::boot();
-        Filament::serving(function () {
-            $panelId = Filament::getCurrentPanel()->getId();
-            if ($panelId == 'admin') {
-                ModuleAdmin::registerLiveEditSettingsUrl('google_maps', GoogleMapsModuleSettings::getUrl());
-            }
-        });
-
+        $module->type('google_maps');
+        $module->hasLiveEditSettings(GoogleMapsModuleSettings::class);
+        $module->hasViewComponent(GoogleMapsViewComponent::class);
     }
 
 }

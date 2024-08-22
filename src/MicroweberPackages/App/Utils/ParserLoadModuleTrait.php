@@ -3,6 +3,8 @@
 
 namespace MicroweberPackages\App\Utils;
 
+use Livewire\Livewire;
+use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\View\View;
 
 
@@ -158,6 +160,14 @@ trait ParserLoadModuleTrait
         } else if (isset($this->module_registry[$module_name . '/index']) and $this->module_registry[$module_name . '/index']) {
             return \App::call($this->module_registry[$module_name . '/index'], ["params" => $attrs]);
         }
+
+
+        //check for custom view component
+        $customViewComponent = ModuleAdmin::getViewComponent($module_name);
+        if ($customViewComponent) {
+           return Livewire::mount($customViewComponent, ['params' => $attrs]);
+        }
+
 
         $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
         $module_in_template_dir = normalize_path($module_in_template_dir, 1);
@@ -578,7 +588,6 @@ trait ParserLoadModuleTrait
         }
         return $layout;
     }
-
 
 
 }
