@@ -167,7 +167,12 @@
 
 
                             </span>
-                                        <div class="mw-post-media-img--header">
+                                        <div class="flex gap-2 items-center mw-post-media-img--header bg-black p-1">
+
+                                            <label class="form-check form-check-inline">
+                                                <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
+                                                       class="form-check-input">
+                                            </label>
 
                                             <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
                                                class="image-settings settings-img  "
@@ -176,20 +181,21 @@
                                             </a>
 
 
-                                            <a @click="editMediaOptionsById('{{ $item->id }}')"
+                                            <a
+                                                x-on:click="{{ '$wire.mountFormComponentAction(\'' . $statePath . '\', \'edit\', { id: \'' . $item->id . '\' })' }}"
                                                class="image-settings settings-img  ">
                                                 @svg('mw-media-item-edit-small')
                                             </a>
 
-                                            <a @click="deleteMediaById('{{ $item->id }}')">
+                                            <a
+                                                x-on:click="{{ '$wire.mountFormComponentAction(\'' . $statePath . '\', \'delete\', { id: \'' . $item->id . '\' })' }}"
+
+                                               class="image-settings settings-img  "
+                                            >
                                                 @svg('mw-media-item-delete-small')
                                             </a>
 
 
-                                            <label class="form-check form-check-inline">
-                                                <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
-                                                       class="form-check-input">
-                                            </label>
                                         </div>
                                     </div>
 

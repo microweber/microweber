@@ -3,11 +3,10 @@
 namespace MicroweberPackages\Filament\Forms\Components;
 
 
-use Filament\Actions\Action;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Livewire\Attributes\On;
 use MicroweberPackages\Media\Models\Media;
@@ -35,37 +34,71 @@ class MwMediaBrowser extends Field
                         return $this->addMediaItem($params['data']);
                     }
                 },
-            ]
+            ],
+            'mwMediaBrowser::deleteMediaItemById' => [
+                function ($component, $statePath, $params) {
+                    if (isset($params['id'])) {
+                        return $this->deleteMediaItemById($params['id']);
+                    }
+                },
+            ],
+            'mwMediaBrowser::deleteMediaItemsByIds' => [
+                function ($component, $statePath, $params) {
+                    if (isset($params['ids'])) {
+                        return $this->deleteMediaItemsByIds($params['ids']);
+                    }
+                },
+            ],
+            'mwMediaBrowser::updateImageFilename' => [
+                function ($component, $statePath, $params) {
+                    if (isset($params['id']) && isset($params['data'])) {
+                        return $this->updateImageFilename($params['id'],$params['data']);
+                    }
+                },
+            ],
+            'mwMediaBrowser::mediaItemsSort' => [
+                function ($component, $statePath, $params) {
+
+                      dd($params);
+                    if (isset($params['itemsSortedIds'])) {
+                        return $this->mediaItemsSort($params['itemsSortedIds']);
+                    }
+                },
+            ],
+            'mwMediaBrowser::getMediaItemsArray' => [
+                function ($component, $statePath, $params) {
+                    return $this->getMediaItemsArray();
+                },
+            ],
+        ]);
+
+        $this->registerActions([
+            fn (MwMediaBrowser $component): Action => $component->editAction(),
+            fn (MwMediaBrowser $component): Action => $component->deleteAction(),
         ]);
     }
 
     public function editAction(): Action
     {
         return Action::make('edit')
+            ->icon('mw-media-item-edit-small')
             ->mountUsing(function (Form $form, array $arguments) {
                 $record = Media::find($arguments['id']);
                 $form->fill($record->toArray());
-
             })
             ->form([
                 Hidden::make('id')
                     ->required(),
                 TextInput::make('title')
-
                     ->maxLength(255),
-
                 TextInput::make('description')
-
                     ->maxLength(2550),
-
-            ])->record(function (array $arguments) {
-                $record = Media::find($arguments['id']);
-                return $record;
-            })
+            ])
+            ->modalSubmitActionLabel('Save')
             ->action(function (array $data) {
                 $record = Media::find($data['id']);
                 $record->update($data);
-            })->slideOver();
+            })->size('xs');
     }
 
 
@@ -167,16 +200,14 @@ class MwMediaBrowser extends Field
 
     }
 
-    #[On('deleteMediaItemById')]
-    public function deleteMediaItemById($id = false)
+    public function deleteAction(): Action
     {
-        $mediaId = $id;
-        if (!$mediaId) {
-            return;
-        }
-        Media::where('id', $mediaId)->delete();
-
-        $this->refreshMediaData();
+        return Action::make('delete')
+            ->icon('mw-media-item-delete-small')
+            ->requiresConfirmation()
+            ->action(function (array $arguments) {
+                Media::where('id', $arguments['id'])->delete();
+            });
     }
 
     #[On('deleteMediaItemsByIds')]
