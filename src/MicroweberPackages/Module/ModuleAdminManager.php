@@ -114,16 +114,19 @@ class ModuleAdminManager
         return $this->viewComponents[$module] ?? null;
     }
 
-    public function registerViewComponent($module, $componentName): void
+    public function registerViewComponent($module, $componentName, $alias = null): void
     {
 
-
-        $livewireComponentName = $componentName;
-        $livewireComponentName = str_replace(' ', '-', $livewireComponentName);
-        $livewireComponentName = str_replace(':', '-', $livewireComponentName);
-        $livewireComponentName = str_replace('/', '-', $livewireComponentName);
-        $livewireComponentName = str_replace('\\', '-', $livewireComponentName);
-        $livewireComponentName = str_slug($livewireComponentName);
+        if (!$alias) {
+            $livewireComponentName = $componentName;
+            $livewireComponentName = str_replace(' ', '-', $livewireComponentName);
+            $livewireComponentName = str_replace(':', '-', $livewireComponentName);
+            $livewireComponentName = str_replace('/', '-', $livewireComponentName);
+            $livewireComponentName = str_replace('\\', '-', $livewireComponentName);
+            $livewireComponentName = str_slug($livewireComponentName);
+        } else {
+            $livewireComponentName = $alias;
+        }
 
         Livewire::component($livewireComponentName, $componentName);
 

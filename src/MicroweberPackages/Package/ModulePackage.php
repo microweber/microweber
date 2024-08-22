@@ -52,9 +52,9 @@ class ModulePackage
         return $this;
     }
 
-    public function hasViewComponent(string $componentName): static
+    public function hasViewComponent(string $componentName, $alias=null): static
     {
-        ModuleAdmin::registerViewComponent($this->type, $componentName);
+        ModuleAdmin::registerViewComponent($this->type, $componentName,$alias);
         return $this;
     }
 

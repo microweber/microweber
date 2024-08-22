@@ -10,12 +10,12 @@ use Livewire\Component;
 class GoogleMapsViewComponent extends Component
 {
 
-    public function getListeners()
-    {
-        return array_merge($this->listeners, [
-            "refreshComponent" => '$refresh'
-        ]);
-    }
+//    public function getListeners()
+//    {
+//        return array_merge($this->listeners, [
+//            "refreshComponent" => '$refresh'
+//        ]);
+//    }
 
 
     public $params = [];
