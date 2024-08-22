@@ -121,7 +121,29 @@ export class AdminFilament extends BaseComponent {
                         && typeof top.mw.top().app !== 'undefined'
                         && typeof top.mw.top().app.liveEdit !== 'undefined'
                     ) {
-                        top.mw.top().reload_module_everywhere('#' + $event.optionGroup);
+                        var canvasDocument = mw.top().app.canvas.getDocument();
+                        var canvasWindow = mw.top().app.canvas.getWindow();
+
+
+
+
+                        setTimeout(function () {
+                            var reloadedWithLiveweire = false;
+                            if(canvasWindow.Livewire){
+                                //check if is liveweire module and reload it
+                                var moduleWireId = canvasDocument.querySelector('#' + $event.optionGroup+ '> [wire\\:id]');
+                                if(moduleWireId){
+                                    moduleWireId = moduleWireId.getAttribute('wire:id');
+                                    var component = canvasWindow.Livewire.find(moduleWireId);
+                                    component.$refresh();
+                                    reloadedWithLiveweire = true;
+                                }
+                            }
+                            if(!reloadedWithLiveweire){
+                                top.mw.top().reload_module_everywhere('#' + $event.optionGroup);
+                            }
+                        }, 300);
+
                     }
 
             }
