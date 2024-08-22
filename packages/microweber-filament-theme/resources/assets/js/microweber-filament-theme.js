@@ -48,8 +48,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Run the function to add the bottom effect
+// Run the function to add the bottom effect
     addBottomEffect();
+
+// Create a MutationObserver instance
+    const observer = new MutationObserver(addBottomEffect);
+
+// Start observing the document with the configured parameters
+    observer.observe(document.body, { childList: true, subtree: true });
 
 });
 
