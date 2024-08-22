@@ -87,7 +87,7 @@ mw.moduleCSS = mw.module_css = function(url){
         el.rel='stylesheet';
         el.type='text/css';
         el.href = url;
-        mw.head.insertBefore(el, mw.head.firstChild);
+        document.head.insertBefore(el, document.head.firstChild);
     }
 };
 mw.moduleJS = mw.module_js = function(url){

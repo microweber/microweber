@@ -43,7 +43,7 @@
             }
         }
 
-        $(window).load(function () {
+        $(window).on('load', function () {
 
 
             scaleHeight();
@@ -109,7 +109,7 @@
         });
 
 
-        $(window).load(function () {
+        $(window).on('load', function () {
             var master = document.getElementById('the_admin_editor');
             master.addEventListener("DOMAttrModified", function (e) {
                 var attr = e.attrName;

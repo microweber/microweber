@@ -282,11 +282,11 @@ mw.askusertostay = false;
 
   mww = window;
 
-  mwhead = document.head || document.getElementsByTagName('head')[0];
+
 
   mw.doc = mwd;
   mw.win = window;
-  mw.head = mwhead;
+
 
   mw.loaded = false;
 
@@ -364,7 +364,7 @@ mw.askusertostay = false;
       var string = t !== "css" ? "<script  "+defer+"  src='" + url + "'></script>" : "<link "+cssRel+" href='" + url + "' />";
 
           if(typeof $.fn === 'object'){
-              $(mwhead).append(string);
+              $(document.head).append(string);
           }
           else{
               var el;
@@ -373,7 +373,7 @@ mw.askusertostay = false;
                   el.src = url;
                   el.defer = !!defer;
                   el.setAttribute('type', 'text/javascript');
-                  mwhead.appendChild(el);
+                  document.head.appendChild(el);
               }
               else{
 
@@ -388,7 +388,7 @@ mw.askusertostay = false;
 
 
                  el.href = url;
-                 mwhead.appendChild(el);
+                 document.head.appendChild(el);
               }
           }
 
@@ -437,7 +437,7 @@ mw.requireAsync = (url, key) => {
       el.rel='preload';
       el.addEventListener('load', e => el.rel='stylesheet');
       el.href = url;
-      mwhead.insertBefore(el, mwhead.firstChild);
+      document.head.insertBefore(el, document.head.firstChild);
     }
   };
   mw.moduleJS = mw.module_js = function(url){
@@ -1251,7 +1251,6 @@ mw.required.push("<?php print mw_includes_url(); ?>api/background_videos.js");
 
 
 // used in templates
-include __DIR__.DS."hamburger.js"; ?>
 
 
 <?php  //include __DIR__.DS."content.js"; ?>

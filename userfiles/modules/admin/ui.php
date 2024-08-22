@@ -106,7 +106,7 @@
         document.execCommand("copy");
         document.body.removeChild(tempInput);
     }
-    $(window).load(function () {
+    $(window).on('load', function () {
         var uicss = document.querySelector('link[href*="/ui.css"]').sheet.cssRules, l = uicss.length, i = 0, html = '';
         var admincss = document.querySelector('link[href*="/admin.css"]').sheet.cssRules, al = admincss.length, ai = 0;
         html += '<hr><h3>Admin Icons</h3>'
@@ -1439,7 +1439,7 @@
 
             <script>
 
-                $(window).load(function () {
+                $(window).on('load', function () {
                     pick1 = mw.colorPicker({
                         element: '#ttest',
                         position: 'bottom-left',

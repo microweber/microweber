@@ -21,7 +21,7 @@ window.mww  = window;
 
 mw.doc = document;
 mw.win = window;
-mw.head = document.head || document.getElementsByTagName('head')[0];
+
 
 mw.loaded = false;
 

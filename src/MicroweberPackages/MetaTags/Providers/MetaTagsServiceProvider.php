@@ -74,10 +74,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'generator_head_tag',
                 new \MicroweberPackages\MetaTags\Entities\GeneratorHeadTag()
             );
-//            $package->addTag(
-//                'apijs_settings',
-//                new \MicroweberPackages\MetaTags\Entities\MwSettingsJsScriptTag()
-//            );
+             $package->addTag(
+                 'apijs_settings',
+                 new \MicroweberPackages\MetaTags\Entities\MwSettingsJsScriptTag()
+             );
             $package->addTag(
                 'apijs',
                 new \MicroweberPackages\MetaTags\Entities\ApijsScriptTag()

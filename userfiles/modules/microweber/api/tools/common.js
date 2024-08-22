@@ -1,4 +1,4 @@
-$(window).load(function () {
+$(window).on('load', function () {
     mw.loaded = true;
     mw.tools.addClass(document.body, 'loaded');
     mw.tools.removeClass(document.body, 'loading');

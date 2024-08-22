@@ -157,7 +157,7 @@
                 }
             }
         }
-        $(window).load(function () {
+        $(window).on('load', function () {
             mw.liveedit.toolbar.editor.buttons();
             $(window).bind("resize", function () {
                 mw.liveedit.toolbar.editor.buttons();

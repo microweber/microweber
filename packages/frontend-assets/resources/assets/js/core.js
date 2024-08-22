@@ -58,7 +58,7 @@ mw.require = function(url, inHead, key, defered) {
       var string = t !== "css" ? "<script "+defer+"  src='" + url + "'></script>" : "<link "+cssRel+" href='" + url + "' />";
 
           if(typeof $.fn === 'object'){
-              $(mw.head).append(string);
+              $(document.head).append(string);
           }
           else{
               var el;
@@ -67,7 +67,7 @@ mw.require = function(url, inHead, key, defered) {
                   el.src = url;
                   el.defer = !!defer;
                   el.setAttribute('type', 'text/javascript');
-                  mw.head.appendChild(el);
+                  document.head.appendChild(el);
               }
               else{
 
@@ -82,7 +82,7 @@ mw.require = function(url, inHead, key, defered) {
 
 
                  el.href = url;
-                 mw.head.appendChild(el);
+                 document.head.appendChild(el);
               }
           }
 

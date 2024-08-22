@@ -154,10 +154,10 @@ mw.id = function(prefix) {
 //
 // mww = window;
 //
-// mwhead = document.head || document.getElementsByTagName('head')[0];
+// document.head = document.head || document.getElementsByTagName('head')[0];
 //
 // mw.doc = mwd;
 // mw.win = window;
-// mw.head = mwhead;
+
 //
 // import "./mw-require.js";

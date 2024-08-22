@@ -369,7 +369,7 @@ if(mw.cookie.get("helpinfoliveedit") != 'false'){
                 }
             }
         }
-        $(window).load(function () {
+        $(window).on('load', function () {
             mw.liveedit.toolbar.editor.buttons();
             $(window).on("resize", function () {
                 mw.liveedit.toolbar.editor.buttons();
