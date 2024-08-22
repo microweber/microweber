@@ -16,21 +16,25 @@ class ApijsScriptTag implements TagInterface, \Stringable
 
 
         $apijs_combined_loaded = app()->template->get_apijs_combined_url();
-        $apijs_combined_loaded_new =  public_asset('vendor/microweber-packages/frontend-assets/js/core.js');;
+        $apijs_combined_loaded_new =  public_asset('vendor/microweber-packages/frontend-assets/js/frontend.js');
 
         $append_html = '';
-//
-//        $append_html = '' . "\r\n";
-//        $append_html .= '<script src="' . $jquery . '" id="mw-jquery-js-libs-scripts"></script>' . "\r\n";
-//
-//        $append_html .= '' . "\r\n";
-//        $append_html .= '<script src="' . $jqueryUi . '" id="mw-jquery-ui-js-libs-scripts"></script>' . "\r\n";
-//
-//        $append_html .= '' . "\r\n";
-//        $append_html .= '<link rel="stylesheet" href="' . $jqueryUiCss . '" id="mw-jquery-ui-js-libs-styles">' . "\r\n";
+
+        $append_html = '' . "\r\n";
+        $append_html .= '<script src="' . $jquery . '" id="mw-jquery-js-libs-scripts"></script>' . "\r\n";
 
         $append_html .= '' . "\r\n";
-        $append_html .= '<script  src="' . $apijs_combined_loaded . '"  id="mw-js-core-scripts-legacy"></script>' . "\r\n";
+        $append_html .= '<script src="' . $jqueryUi . '" id="mw-jquery-ui-js-libs-scripts"></script>' . "\r\n";
+
+        $append_html .= '' . "\r\n";
+        $append_html .= '<link rel="stylesheet" href="' . $jqueryUiCss . '" id="mw-jquery-ui-js-libs-styles">' . "\r\n";
+
+        $append_html .= '' . "\r\n";
+        $append_html .= '<script  src="' . $apijs_combined_loaded_new . '"  id="mw-js-frontend-scripts"></script>' . "\r\n";
+
+
+     //   $append_html .= '' . "\r\n";
+      //  $append_html .= '<script  src="' . $apijs_combined_loaded . '"  id="mw-js-core-scripts-legacy"></script>' . "\r\n";
 
 //        $append_html .= '' . "\r\n";
 //        $append_html .= '<script  src="' . $apijs_combined_loaded_new . '"  id="mw-js-core-scripts"></script>' . "\r\n";

@@ -8,6 +8,8 @@ use Livewire\Component;
 
 class GoogleMapsViewComponent extends Component
 {
+    protected $listeners = ['refreshComponent' => '$refresh'];
+
     public $params = [];
     public $address;
     public $map_type;

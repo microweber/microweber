@@ -2,6 +2,7 @@ const entry = {
    'admin-filament-libs': './resources/assets/js/admin-filament-libs.js',
 
    'admin': './resources/assets/js/admin.js',
+   'frontend': './resources/assets/js/frontend.js',
    'live-edit-page-scripts': './resources/assets/live-edit/live-edit-page-scripts.js',
    core: './resources/assets/js/core.js',
    admin: './resources/assets/js/admin.js',

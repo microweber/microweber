@@ -114,9 +114,20 @@ class ModuleAdminManager
         return $this->viewComponents[$module] ?? null;
     }
 
-    public function registerViewComponent($module, $component): void
+    public function registerViewComponent($module, $componentName): void
     {
-        $this->viewComponents[$module] = $component;
+
+
+        $livewireComponentName = $componentName;
+        $livewireComponentName = str_replace(' ', '-', $livewireComponentName);
+        $livewireComponentName = str_replace(':', '-', $livewireComponentName);
+        $livewireComponentName = str_replace('/', '-', $livewireComponentName);
+        $livewireComponentName = str_replace('\\', '-', $livewireComponentName);
+        $livewireComponentName = str_slug($livewireComponentName);
+
+        Livewire::component($livewireComponentName, $componentName);
+
+        $this->viewComponents[$module] = $livewireComponentName;
     }
 
 }

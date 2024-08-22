@@ -75,6 +75,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 new \MicroweberPackages\MetaTags\Entities\GeneratorHeadTag()
             );
             $package->addTag(
+                'apijs_settings',
+                new \MicroweberPackages\MetaTags\Entities\MwSettingsJsScriptTag()
+            );
+            $package->addTag(
                 'apijs',
                 new \MicroweberPackages\MetaTags\Entities\ApijsScriptTag()
             );
@@ -189,7 +193,6 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
 
         PackageManager::create('admin_filament_js', function (Package $package) {
-
 
 
             $package->addTag(
