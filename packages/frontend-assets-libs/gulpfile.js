@@ -3,7 +3,7 @@ import gulp from 'gulp';
 import {BuildService} from './build.service.js';
 import {config} from './config.js';
 
-const  { scripts, css, output, assets,copy} = config;
+const  { scripts, css, output, assets, copy} = config;
 
 
 const service = new BuildService({
@@ -19,4 +19,11 @@ const build = () => {
     ]);
 };
 
-gulp.task('build', build);
+gulp.task('build', async done => {
+
+    build().catch(err => {
+        console.error( err);
+    });
+
+    done();
+});

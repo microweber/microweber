@@ -272,10 +272,6 @@ mw.options = {
 
                 var reload_in_parent_trieggered = false;
 
-
-
-
-
                 if (mw.admin) {
                     if (mw.top().win.mweditor && mw.top().win.mweditor.contentWindow) {
                         setTimeout(function () {

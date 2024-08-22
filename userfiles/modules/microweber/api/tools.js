@@ -25,6 +25,8 @@ echo "\n";
 
 ?>
 
+
+
 mw.require('components.js');
 
 mw.confirm = mw.tools.confirm;

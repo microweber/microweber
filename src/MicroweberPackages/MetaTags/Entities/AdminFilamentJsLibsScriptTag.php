@@ -18,11 +18,13 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.min.js';
         $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.min.js';
         $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
-        $jqueryUiNestedSortable = mw_includes_url() . 'api/libs/nestedsortable/jquery.mjs.nestedSortable.js';
-        $lib_tynymce = mw_includes_url() . 'api/libs/tinymce/tinymce.min.js';
+        $jqueryUiNestedSortable = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-nested-sortable/jquery.mjs.nestedSortable.js';
+        $lib_tynymce = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/tinymce/tinymce.js';
+        $nouislider = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/nouislider/nouislider.js';
+
 
         $fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
-        $nouislider = mw_includes_url() . 'api/libs/nouislider/nouislider.js';
+
 
         //nouislider
 

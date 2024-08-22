@@ -41,6 +41,7 @@ export class ColorPicker extends MicroweberBaseClass {
             colorPickerDialog.overlay.style.backdropFilter = 'none';
         }
 
+
         this.colorPickerInstances.push(colorPickerDialog);
 
         var options = {
@@ -96,6 +97,7 @@ export class ColorPicker extends MicroweberBaseClass {
         }
         if (colorPickerDialog.overlay) {
             colorPickerDialog.overlay.style.backgroundColor = 'transparent';
+            colorPickerDialog.overlay.style.backdropFilter = 'none';
         }
 
         this.colorPickerInstances.push(colorPickerDialog);
