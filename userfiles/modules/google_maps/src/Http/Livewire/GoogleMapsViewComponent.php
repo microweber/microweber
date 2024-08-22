@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Modules\GoogleMaps\Http\Livewire;
 
 
@@ -8,7 +9,14 @@ use Livewire\Component;
 
 class GoogleMapsViewComponent extends Component
 {
-    protected $listeners = ['refreshComponent' => '$refresh'];
+
+    public function getListeners()
+    {
+        return array_merge($this->listeners, [
+            "refreshComponent" => '$refresh'
+        ]);
+    }
+
 
     public $params = [];
     public $address;
@@ -26,8 +34,11 @@ class GoogleMapsViewComponent extends Component
     public $pinEncoded;
     public $map_style_param;
     public $maptype;
+    public $mapId;
 
-    public function mount()
+
+
+    public function render()
     {
         $params = $this->params;
         $this->address = $params['data-address'] ?? get_option('data-address', $params['id']) ?? '';
@@ -61,11 +72,9 @@ class GoogleMapsViewComponent extends Component
         $this->pin = get_option('data-pin', $params['id']) ?: ($params['data-pin'] ?? '');
 
         $this->pinEncoded = urlencode($this->pin);
-    }
 
-    public function render()
-    {
-        return view('microweber-module-google-maps::render-google-maps', [
+
+        $data = [
             'address' => $this->address,
             'map_type' => $this->map_type,
             'country' => $this->country,
@@ -81,6 +90,9 @@ class GoogleMapsViewComponent extends Component
             'pinEncoded' => $this->pinEncoded,
             'map_style_param' => $this->map_style_param,
             'maptype' => $this->maptype,
-        ]);
+        ];
+        $this->mapId = 'google-map-' . md5(json_encode($data));
+        $data['mapId'] = $this->mapId;
+        return view('microweber-module-google-maps::render-google-maps', $data);
     }
 }
