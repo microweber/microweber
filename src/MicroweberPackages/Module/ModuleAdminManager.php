@@ -9,6 +9,7 @@ class ModuleAdminManager
 {
     public array $settings = [];
 
+    public array $viewComponents = [];
     public array $settingsComponent = [];
 
     public array $skinSettingsComponent = [];
@@ -103,5 +104,19 @@ class ModuleAdminManager
         return $this->modulesAdminUrls;
     }
 
+    public function getViewComponents(): array
+    {
+        return $this->viewComponents;
+    }
+
+    public function getViewComponent($module)
+    {
+        return $this->viewComponents[$module] ?? null;
+    }
+
+    public function registerViewComponent($module, $component): void
+    {
+        $this->viewComponents[$module] = $component;
+    }
 
 }

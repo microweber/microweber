@@ -47,7 +47,7 @@ class TestimonialsModuleSettings extends LiveEditModuleSettings implements HasTa
                     ->createAnother(false)
                     ->after(function () {
                         $this->dispatch('mw-option-saved',
-                            optionGroup: $this->optionGroup
+                            optionGroup: $this->getOptionGroup()
                         );
                     })
         ])->actions([
@@ -57,7 +57,7 @@ class TestimonialsModuleSettings extends LiveEditModuleSettings implements HasTa
                 ->form($editForm)
                 ->after(function () {
                     $this->dispatch('mw-option-saved',
-                        optionGroup: $this->optionGroup
+                        optionGroup: $this->getOptionGroup()
                     );
                 }),
 
@@ -65,7 +65,7 @@ class TestimonialsModuleSettings extends LiveEditModuleSettings implements HasTa
                     ->hiddenLabel(true)
                     ->after(function () {
                         $this->dispatch('mw-option-saved',
-                            optionGroup: $this->optionGroup
+                            optionGroup: $this->getOptionGroup()
                         );
                     }),
             ]);
