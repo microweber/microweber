@@ -11077,10 +11077,6 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
   margin: 10px !important;
 }
 
-.mw-dialog.mw-dialog-scroll-mode-inside .mw-dialog-footer {
-  display: none;
-}
-
 .mw-dialog-container {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));

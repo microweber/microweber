@@ -139,7 +139,7 @@ export class ElementActions extends MicroweberBaseClass {
 
 
 
-        Confirm(ElementManager('<span>Are you sure you want to delete this element?</span>'), () => {
+        mw.confirm('<span>Are you sure you want to delete this element?</span>', () => {
             var edit = mw.tools.firstParentOrCurrentWithAnyOfClasses(el, ['regular-mode','edit', 'safe-mode']);
 
             if(edit) {

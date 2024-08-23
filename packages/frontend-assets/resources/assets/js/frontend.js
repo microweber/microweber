@@ -1,5 +1,6 @@
 import "./core.js";
 import "../core/@core.js";
+import "../core/modules.js";
 import "../core/ajax.js";
 import "../core/url.js";
 import "../core/objects.js";
@@ -14,6 +15,8 @@ import "../components/colorpicker.js";
 import "../tools/tabs.js";
 import "../components/dialog.js";
 import "../tools/common-extend.js";
+
+
 
 
 

@@ -566,7 +566,7 @@ export default {
                         editTarget.contentEditable = true;
 
 
-                        await richtext(editTarget)
+                       // await richtext(editTarget)
 
 
 
@@ -607,7 +607,7 @@ export default {
                         }, 110)
 
 
-             //       mw.app.wyswygEditor.initEditor(element);
+                    mw.app.wyswygEditor.initEditor(element);
 
 
 
