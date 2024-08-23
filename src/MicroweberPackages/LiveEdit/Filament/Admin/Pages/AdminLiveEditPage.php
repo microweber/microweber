@@ -16,6 +16,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Media\Models\Media;
@@ -130,6 +131,11 @@ class AdminLiveEditPage extends Page
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
             ->stickyModalHeader(true)
+            ->modalWidth(MaxWidth::ExtraLarge)
+            ->extraModalWindowAttributes(['class' => 'mw-module-settings-live-edit-modal'])
+
+
+
             ->slideOver();
 
 

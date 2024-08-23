@@ -127,22 +127,22 @@ export class AdminFilament extends BaseComponent {
 
 
 
-                        setTimeout(function () {
-                            var reloadedWithLiveweire = false;
-                            if(canvasWindow.Livewire){
-                                //check if is liveweire module and reload it
-                                var moduleWireId = canvasDocument.querySelector('#' + $event.optionGroup+ '> [wire\\:id]');
-                                if(moduleWireId){
-                                    moduleWireId = moduleWireId.getAttribute('wire:id');
-                                    var component = canvasWindow.Livewire.find(moduleWireId);
-                                    component.$refresh();
-                                    reloadedWithLiveweire = true;
-                                }
+
+                        var reloadedWithLiveweire = false;
+                        if(canvasWindow.Livewire){
+                            //check if is liveweire module and reload it
+                            var moduleWireId = canvasDocument.querySelector('#' + $event.optionGroup+ '> [wire\\:id]');
+                            if(moduleWireId){
+                                moduleWireId = moduleWireId.getAttribute('wire:id');
+                                var component = canvasWindow.Livewire.find(moduleWireId);
+                                component.$refresh();
+                                reloadedWithLiveweire = true;
                             }
-                            if(!reloadedWithLiveweire){
-                                top.mw.top().reload_module_everywhere('#' + $event.optionGroup);
-                            }
-                        }, 300);
+                        }
+                        if(!reloadedWithLiveweire){
+                            top.mw.top().reload_module_everywhere('#' + $event.optionGroup);
+                        }
+
 
                     }
 
