@@ -57,11 +57,13 @@ class LaravelModulesDatabaseRepository extends FileRepository
         }
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function createModule(...$args)
     {
+
 
         $key = md5(implode('-', \collect($args)->filter(function ($arg) {
             return 'string' === gettype($arg);
@@ -106,52 +108,143 @@ class LaravelModulesDatabaseRepository extends FileRepository
      */
     public function scan()
     {
+
+        static $alreadyScanned = false;
         if (!Schema::hasTable('modules')) {
             return [];
         }
-        // todo
-        return [];
+        if (!$alreadyScanned and $this->config('scan.enabled')) {
+            $scannedModules = $this->scanJson();
+            $alreadyScanned = true;
+            if ($scannedModules) {
+                foreach ($scannedModules as $scannedModule) {
+                    //if (!app()->module_repository->getModule($scannedModule['alias'])) {
+                    app()->module_repository->installLaravelModule($scannedModule);
+                    // }
+                }
+            }
+        }
 
-        $scannedModules = parent::scan();
+        $modules = $this->createAllModules();
+
+
+        return $modules;
+
+
+    }
+
+    public function forceScan()
+    {
+        static $alreadyScanned = false;
+
+        if($alreadyScanned){
+            return;
+        }
+        $scannedModules = $this->scanJson();
+        $alreadyScanned = true;
+        if ($scannedModules) {
+            foreach ($scannedModules as $scannedModule) {
+                //if (!app()->module_repository->getModule($scannedModule['alias'])) {
+                app()->module_repository->installLaravelModule($scannedModule);
+                // }
+            }
+        }
+    }
+
+    public function createAllModules()
+    {
+        if(!mw_is_installed()){
+            return [];
+        }
+
         $allModules = app()->module_repository->getAllModules();
 
+        $modules = [];
 
-        // todo - check if module is enabled
-       // dd($scannedModules, 23123123213);
-//        if ($this->config ('activator') === 'database')
-//        {
-//            if (Schema::hasTable ($this->config ('activators.database.table', 'gc_modules')))
-//            {
-//                $repo_modules = \Goodcatch\Modules\Laravel\Model\Module::get ();
-//
-//                $repo_modules = $repo_modules
-//                    ->reduce(function ($arr, $module) {
-//                        if(!file_exists($module->path)){
-//                            $module->delete();
-//                        }
-//                        $arr->push($module);
-//                        return $arr;
-//                    },  \collect([]));
-//
-//                foreach (Arr::except($modules, $repo_modules->pluck('name')->values()->all()) as $name => $module) {
-//                    $module->enable();
-//                }
-//
-//                foreach (Arr::except($repo_modules
-//                    ->reduce(
-//                        function($arr, $item) {
-//                            $arr [$item->name] = $item;
-//                            return $arr;
-//                        }, []), \collect($modules)->keys()->all()) as $name => $module) {
-//                    if (! empty($module->path) && file_exists ($module->path)){
-//                        $modules [$module->name] = $this->createModule($this->app, $module->name, $module->path);
-//                    }
-//
-//                }
-//            }
-//        }
+        if(!$allModules){
+            return $modules;
+        }
+
+        foreach ($allModules as $allModulesItem) {
+
+            if (isset($allModulesItem['is_installed']) and $allModulesItem['is_installed'] == 0) {
+                continue;
+            }
+            if (!isset($allModulesItem['settings']) or empty($allModulesItem['settings'])) {
+                continue;
+            }
+            if (!isset($allModulesItem['name']) or empty($allModulesItem['name'])) {
+                continue;
+            }
+
+
+            $settings = $allModulesItem['settings'];
+
+            if (!isset($settings['path']) or empty($settings['path'])) {
+                continue;
+            }
+            if (!isset($settings['composer']) or empty($settings['composer'])) {
+                continue;
+            }
+
+
+
+            $path = $settings['path'] ?? '';
+            $pathRelativeToBasepath = $settings['pathRelativeToBasepath'] ?? '';
+
+            if ($pathRelativeToBasepath) {
+                $pathRelativeToBasepathExist = normalize_path(base_path($pathRelativeToBasepath));
+
+                if (is_dir($pathRelativeToBasepathExist)) {
+                    $path = $pathRelativeToBasepathExist;
+                }
+            }
+
+
+
+            if (!$path) {
+                continue;
+            }
+            if (!is_dir($path)) {
+                continue;
+            }
+            $manifest = $path . DS . 'module.json';
+            $autoloadNamespaces = $settings['composer']['autoload']['psr-4'] ?? [];
+            $autoloadFiles = $settings['composer']['autoload']['files'] ?? [];
+            if($autoloadNamespaces){
+                foreach ($autoloadNamespaces as  $autoloadNamespace=>$autoloadNamespacePath) {
+                    $autoloadNamespacePathFull = normalize_path($path . DS . $autoloadNamespacePath);
+                     autoload_add_namespace($autoloadNamespacePathFull,$autoloadNamespace);
+                }
+            }
+            if($autoloadFiles){
+                foreach ($autoloadFiles as $autoloadFile) {
+                    if(is_file($path . DS . $autoloadFile)) {
+                        include_once $path . DS . $autoloadFile;
+                    }
+                }
+            }
+
+
+            $moduleManifest = Json::make($manifest)->getAttributes();
+
+
+
+
+            $module = new \Nwidart\Modules\Laravel\Module ($this->app, $moduleManifest['name'], $path);
+         //   ..$module = new \Nwidart\Modules\Laravel\Module ($this->app, $allModulesItem['name'], $path);
+          //  $module->registerProviders();
+          //  $module->registerAliases();
+
+            $modules [$moduleManifest['name']] = $module;
+            //$modules [$allModulesItem['name']] = $module;
+            //$modules [$allModulesItem['name']] = $this->createModule($this->app, $allModulesItem['name'], $path);
+        }
+
         return $modules;
     }
+
+
 
     /**
      * Get & scan all modules.
@@ -163,9 +256,10 @@ class LaravelModulesDatabaseRepository extends FileRepository
         $paths = $this->getScanPaths();
 
         $modules = [];
-        $modulesPathFromConfig = config('modules.paths.modules');
-
-         foreach ($paths as $key => $path) {
+        //  $modulesPathFromConfig = config('modules.paths.modules');
+        $basePath = base_path();
+        $basePath = normalize_path($basePath);
+        foreach ($paths as $key => $path) {
             $manifests = $this->getFiles()->glob("{$path}/module.json");
 
             is_array($manifests) || $manifests = [];
@@ -176,7 +270,9 @@ class LaravelModulesDatabaseRepository extends FileRepository
                     $composerJsonFile = dirname($manifest) . '/composer.json';
                     $module = Json::make($manifest)->getAttributes();
                     $module ['abspath'] = normalize_path(dirname($manifest));
-                    $module ['path'] = str_replace(normalize_path($modulesPathFromConfig), '', $module ['abspath']);
+                    $module ['pathRelativeToBasepath'] = str_replace(normalize_path($basePath), '', $module ['abspath']);
+
+                    $module ['path'] = str_replace(normalize_path($path), '', $module ['abspath']);
                     $module ['path'] = trim($module ['path'], DS);
                     $module ['path'] = trim($module ['path'], '/');
                     $module ['path'] = str_replace(DS, '/', $module ['path']);
@@ -195,5 +291,41 @@ class LaravelModulesDatabaseRepository extends FileRepository
         }
 
         return $modules;
+    }
+
+    public function all(): array
+    {
+
+        if (!$this->config('cache.enabled')) {
+            return $this->scan();
+        }
+
+        return $this->formatCached($this->getCached());
+    }
+
+    public function getByStatus($status): array
+    {
+        $modules = [];
+
+        $all = $this->all();
+//        /** @var Module $module */
+
+        if ($all) {
+
+            foreach ($all as $name => $module) {
+                //  if ($module->isStatus($status)) {
+                $modules[$name] = $module;
+                //  }
+            }
+        }
+        return $modules;
+    }
+
+    public function find(string $name)
+    {
+        $all = $this->all();
+
+        return $all[$name] ?? null;
+
     }
 }

@@ -17,6 +17,8 @@ class GoogleMapsServiceProvider extends MicroweberPackageServiceProvider
     {
         $package->name('microweber-module-google-maps');
         $package->hasViews('microweber-module-google-maps');
+     //   $package->hasConfigFile('microweber-module-google-maps');
+
     }
 
     public function configureModule(ModulePackage $module): void
@@ -24,6 +26,8 @@ class GoogleMapsServiceProvider extends MicroweberPackageServiceProvider
         $module->type('google_maps');
         $module->hasLiveEditSettings(GoogleMapsModuleSettings::class);
         $module->hasViewComponent(GoogleMapsViewComponent::class);
+
+
     }
 
 }

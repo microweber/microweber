@@ -194,7 +194,10 @@ return [
     'scan' => [
         'enabled' => false,
         'paths' => [
-            base_path('vendor/*/*'),
+          //  base_path('vendor/*/*'),
+            base_path('userfiles/modules/*/*'),
+            base_path('userfiles/modules/*'),
+
         ],
     ],
 

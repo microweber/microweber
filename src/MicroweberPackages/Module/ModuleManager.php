@@ -15,6 +15,8 @@ namespace MicroweberPackages\Module;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
+use MicroweberPackages\Module\Repositories\LaravelModulesDatabaseRepository;
+use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class ModuleManager
 {
@@ -233,6 +235,13 @@ class ModuleManager
            // if (is_cli()) {
                 $this->_install_mode = true;
           //  }
+            AbstractRepository::disableCache();
+
+            /** @var LaravelModulesDatabaseRepository $laravelModules */
+            $laravelModules = app('modules');
+            $laravelModules->forceScan();
+
+
         }
 
         if ($modules_remove_old or isset($options['cleanup_db']) == true) {
@@ -1287,6 +1296,8 @@ class ModuleManager
     public function set_installed($params)
     {
 
+
+
         if (isset($params['for_module'])) {
             $this_module = $this->get('ui=any&one=1&module=' . $params['for_module']);
             if (isset($this_module['id'])) {
@@ -1313,17 +1324,7 @@ class ModuleManager
                         $cfg = $config;
                     }
                     if (is_array($cfg) and !empty($cfg)) {
-                        if (isset($cfg['on_install'])) {
-                            $func = $cfg['on_install'];
-                            if (!function_exists($func)) {
-                                if (is_file($loc_of_functions)) {
-                                    include_once $loc_of_functions;
-                                }
-                            }
-                            if (function_exists($func)) {
-                                $res = $func();
-                            }
-                        }
+                        app()->module_repository->setInstalled($module_name);
                     }
                 }
                 $to_save = array();

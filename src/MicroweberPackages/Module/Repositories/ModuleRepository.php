@@ -5,6 +5,7 @@ namespace MicroweberPackages\Module\Repositories;
 
 
 use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Module\Models\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 
@@ -107,11 +108,106 @@ class ModuleRepository extends AbstractRepository
 
     }
 
+    public function setUninstalled($module)
+    {
+        $module = $this->getModule($module);
+        if ($module) {
+            $module['installed'] = 0;
+            $module['settings'] = '';
+            $this->getModel()->where('module', $module['module'])->update($module);
+            $this->clearCache();
+
+        }
+        return true;
+    }
+
+    public function installLaravelModule($scannedModule)
+    {
+        $module = $scannedModule['alias'];
+        $moduleData =$this->modelInstance->newInstance()->where('module', $module)->first();
+        if ($moduleData) {
+            $moduleData = $moduleData->toArray();
+        }
+
+
+        if ($moduleData and isset($moduleData['installed']) and $moduleData['installed'] == 0) {
+            // module is uninstalled
+            return;
+        }
+
+
+        $data = [
+            'module' => $scannedModule['alias'],
+            'installed' => 1,
+            'settings' => $scannedModule
+        ];
+
+        if (isset($scannedModule['name'])) {
+            $data['name'] = $scannedModule['name'];
+        }
+        if (isset($scannedModule['description'])) {
+            $data['description'] = $scannedModule['description'];
+        }
+        if (isset($scannedModule['priority'])) {
+            $data['position'] = $scannedModule['priority'];
+        }
+//
+//        if (isset($scannedModule['composer']['autoload'])) {
+//            $data['position'] = $scannedModule['priority'];
+//        }
+
+
+        if (!$moduleData) {
+
+            $module = new Module();
+            $module->fill($data);
+            $module->save();
+
+
+        } else {
+            $this->modelInstance->newInstance()->where('module', $module)->update($data);
+        }
+
+        $this->clearCache();
+    }
+
+    public function setInstalled($module, $config = [])
+    {
+
+        $checkIfExist = $this->getModel()->where('module', $module)->first();
+        if ($checkIfExist == null) {
+            $moduleData = [
+                'module' => $module,
+                'installed' => 1,
+                'settings' => json_encode($config)
+            ];
+            $this->getModel()->create($moduleData);
+
+        } else {
+            $checkIfExist->installed = 1;
+            $checkIfExist->settings = json_encode($config);
+            $checkIfExist->save();
+        }
+        $this->clearCache();
+
+
+        return true;
+    }
+
 
     public function clearCache()
     {
         self::$_getAllModules = [];
         parent::clearCache();
+    }
+
+
+    public function generateCacheTags()
+    {
+        $tag = parent::generateCacheTags();
+        $tag[] = 'modules';
+
+        return $tag;
     }
 
 

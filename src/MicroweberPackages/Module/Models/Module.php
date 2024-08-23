@@ -24,7 +24,26 @@ class Module extends Model
         'icon',
         'description',
     ];
-
+    protected $fillable = [
+        'id',
+        'name',
+        'module',
+        'type',
+        'as_element',
+        'installed',
+        'ui',
+        'ui_admin',
+        'ui_admin_iframe',
+        'is_system',
+        'categories',
+        'settings',
+        'parent_id',
+        'icon',
+        'description',
+    ];
+    protected $casts = [
+        'settings' => 'array',
+    ];
     public static function boot()
     {
         // there is some logic in this method, so don't forget this!

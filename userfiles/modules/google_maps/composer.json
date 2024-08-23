@@ -1,6 +1,6 @@
 {
     "name": "microweber-modules/google_maps",
-    "description": "Button module for Microweber CMS",
+    "description": "Google maps module for Microweber",
     "type": "metapackage",
     "autoload": {
         "psr-4": {

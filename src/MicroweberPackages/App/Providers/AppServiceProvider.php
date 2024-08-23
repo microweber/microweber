@@ -503,13 +503,13 @@ class AppServiceProvider extends ServiceProvider
 
                 DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
 
-                // https://nik.software/sqlite-optimisations-in-laravel/
-                // https://gist.github.com/eusonlito/d8fc0462cf51fb8e89bde22c264a0c30
-                DB::connection('sqlite')
-                    ->statement('
-                PRAGMA journal_mode = WAL;
-                COMMIT;
-                ');
+//                // https://nik.software/sqlite-optimisations-in-laravel/
+//                // https://gist.github.com/eusonlito/d8fc0462cf51fb8e89bde22c264a0c30
+//                DB::connection('sqlite')
+//                    ->statement('
+//                PRAGMA journal_mode = WAL;
+//                COMMIT;
+//                ');
 
             }
 
