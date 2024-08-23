@@ -232,7 +232,7 @@ class LaravelModulesDatabaseRepository extends FileRepository
 
 
             $module = new \Nwidart\Modules\Laravel\Module ($this->app, $moduleManifest['name'], $path);
-         //   ..$module = new \Nwidart\Modules\Laravel\Module ($this->app, $allModulesItem['name'], $path);
+          //   ..$module = new \Nwidart\Modules\Laravel\Module ($this->app, $allModulesItem['name'], $path);
           //  $module->registerProviders();
           //  $module->registerAliases();
 
