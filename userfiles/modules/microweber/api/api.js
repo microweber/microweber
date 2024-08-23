@@ -808,7 +808,7 @@ mw.requireAsync = (url, key) => {
       mw.on.DOMChangePause = false;
       return false;
     }
-    console.log(3, $node);
+
     var storedValues = $node.get(0).dataset['storeValues'] === 'true' ? {} : false;
     if(storedValues) {
         $node.find('[name]').each(function () {

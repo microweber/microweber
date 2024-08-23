@@ -316,7 +316,7 @@ $(window).on("hashchange load", function(event){
            mw.tools.scrollTo(el);
        }
    }
-   if(hash.contains("showpostscat")){
+   if(hash.includes("showpostscat")){
       mw.$("html").addClass("showpostscat");
    }
    else{
