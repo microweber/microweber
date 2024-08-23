@@ -243,7 +243,8 @@
         if (self !== top) {
             $(window).on('load', function () {
 
-                var moduleContainerElement = document.getElementById("settings-container")
+                var moduleContainerElement = document.getElementById("settings-container");
+
                 var docEl = document.documentElement;
 
 

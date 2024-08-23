@@ -67,7 +67,7 @@ mw["_"] = function(obj, sendSpecific, DONOTREPLACE) {
         mw.on.DOMChangePause = false;
         return false;
     }
-    console.log(2, $node);
+
     var storedValues = $node.get(0).dataset['storeValues'] === 'true' ? {} : false;
     if(storedValues) {
         $node.find('[name]').each(function () {
