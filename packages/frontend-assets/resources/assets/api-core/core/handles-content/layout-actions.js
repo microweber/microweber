@@ -148,7 +148,7 @@ export class LayoutActions extends MicroweberBaseClass {
             mw.app.registerUndoState(edit)
         }
 
-        Confirm('Are you sure you want to delete this layout?', function () {
+        mw.confirm('Are you sure you want to delete this layout?', function () {
 
             target.remove();
             mw.app.registerChange(edit);

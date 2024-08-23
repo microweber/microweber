@@ -2,6 +2,7 @@ var _jqxhr = jQuery.ajax;
 mw.jqxhr = _jqxhr;
 
 
+console.log( mw._, window)
 
 jQuery.ajax = function(url, options){
     options = options || {};
@@ -237,7 +238,7 @@ mw.reload_module_everywhere = function(module, eachCallback) {
     })
 };
 
-mw.rXeload_module = function(module, callback) {
+mw.reload_module = function(module, callback) {
 
     if(module.constructor === [].constructor){
         var l = module.length, i=0, w = 1;

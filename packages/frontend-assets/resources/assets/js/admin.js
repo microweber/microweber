@@ -2,6 +2,7 @@
 
 import "./core.js";
 import "../core/@core.js";
+import "../core/_.js";
 import "../core/ajax.js";
 import "./admin-filament-app.globals.js";
 import "../core/url.js";

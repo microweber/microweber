@@ -106,7 +106,7 @@ export class ModuleHandleContent {
             action: () => {
 
 
-                Confirm(ElementManager('<span>Are you sure you want to delete this module?</span>'), () => {
+                mw.confirm('<span>Are you sure you want to delete this module?</span>', () => {
 
                     const target = mw.app.liveEdit.handles.get('module').getTarget();
                     var type = target.dataset.type || target.getAttribute('type');
