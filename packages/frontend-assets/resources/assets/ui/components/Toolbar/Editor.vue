@@ -222,7 +222,7 @@ export default {
                     return mw.app.liveEdit.elementHandleContent.elementActions.imagePicker(onResult);
                 }
 
-                console.log(element)
+
 
 
                 async function richtext (isRichtext) {
@@ -248,6 +248,11 @@ export default {
                         isRichtext.querySelectorAll('.module').forEach(node => {
                             node.contentEditable = false;
                         })
+
+
+
+                        mw.app.richTextEditor.smallEditor.hide()
+
 
 
 
@@ -349,9 +354,11 @@ export default {
 
 
 
+
                 if (isRichtext) {
 
-                    await richtext(isRichtext)
+                    await richtext(isRichtext);
+
 
             } else if (liveEditHelpers.targetIsIcon(element)) {
                     const iconPicker = mw.app.get('iconPicker').pickIcon(element);
@@ -571,6 +578,7 @@ export default {
 
 
 
+
                         mw.app.liveEdit.pause();
 
 
@@ -578,6 +586,9 @@ export default {
 
                             editTarget.__mw_movable.selfElement.style.display = 'none';
                         }
+
+
+
 
                        mw.app.richTextEditor?.smallEditorInteract(element);
                        mw.app.richTextEditor?.positionSmallEditor(element);
@@ -607,7 +618,7 @@ export default {
                         }, 110)
 
 
-                    mw.app.wyswygEditor.initEditor(element);
+                   //  mw.app.wyswygEditor.initEditor(element);
 
 
 

@@ -2,7 +2,7 @@ var _jqxhr = jQuery.ajax;
 mw.jqxhr = _jqxhr;
 
 
-console.log( mw._, window)
+
 
 jQuery.ajax = function(url, options){
     options = options || {};

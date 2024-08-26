@@ -296,7 +296,7 @@ var MWEditor = function (options) {
 
 
 
-            if (e.type === 'keydown' && e.key === "Enter") {
+            if (e.type === 'keydown' && e.key === "Enter" && !mw.tools.hasAnyOfClassesOnNodeOrParent(localTarget, _smallEditorExceptionClasses)) {
                 return scope.eventHandles.enter(e)
             }
 
@@ -304,7 +304,7 @@ var MWEditor = function (options) {
 
 
 
-                if(e.key === "Backspace") {
+                if(e.key === "Backspace" &&  !mw.tools.hasAnyOfClassesOnNodeOrParent(localTarget, _smallEditorExceptionClasses)) {
                     return scope.eventHandles.backSpace(e);
 
                 }
@@ -1073,6 +1073,7 @@ var MWEditor = function (options) {
     };
 
     var _smallEditorExceptionClasses = [
+        'mw-richtext',
         'mw-tooltip',
         'a-color-picker',
     ];
@@ -1080,6 +1081,9 @@ var MWEditor = function (options) {
     this._smallEditorInteract = false;
 
     this.positionSmallEditor = function(target){
+
+
+
 
         var off = mw.element(target).offset();
         var ctop =   (off.offsetTop) - scope.smallEditor.$node.height();
@@ -1140,6 +1144,9 @@ var MWEditor = function (options) {
 
                 if(!mw.tools.hasParentsWithClass(target, 'mw-bar')){
                     this._smallEditorInteract = target;
+
+
+
 
                     scope.positionSmallEditor(target)
 

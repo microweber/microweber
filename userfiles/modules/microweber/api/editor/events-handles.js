@@ -11,6 +11,7 @@ class MWEditorEventHandles {
     }
 
     insertBR(e, edit) {
+
         if (edit && edit.ownerDocument) {
 
             this.scope.state.record({
@@ -26,10 +27,10 @@ class MWEditorEventHandles {
         range.insertNode(br);
         range = range.cloneRange();
 
-        console.log(1)
+
 
         if(!br.nextSibling || !br.nextSibling.nodeValue) {
-            console.log(2)
+
             br.after(document.createTextNode('\u200B'))
         }
         range.selectNode ( br );

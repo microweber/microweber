@@ -18,17 +18,7 @@ import {SingleFilePickerComponent}  from "../api-core/services/services/single-f
 
 
 
-
-
-
-
-
-
-
-
-
 mw.tools = new AdminTools(mw.app);
-
 
 
 
