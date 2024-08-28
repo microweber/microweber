@@ -68,7 +68,7 @@ class UserRegisterController extends Controller
 
 
         if (!isset($userData['username'])) {
-            $userData['username'] = explode('@', $userData['email'])[0];
+            $userData['username'] ='user_'.md5($inputs['email']).uniqid();
         }
 
         // $registration_approval_required = get_option('registration_approval_required', 'users');
@@ -95,6 +95,7 @@ class UserRegisterController extends Controller
         if (isset($inputs['login']) and !$inputs['login']) {
             $should_login = false;
         }
+
 
         $created = User::create($userData);
         if ($created) {
