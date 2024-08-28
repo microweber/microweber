@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'name' => '$STUDLY_NAME$',
+    // 'icon' => '$LOWER_NAME$.png',
+    'version' => '1.0',
+    'ui' => true,
+    'ui_admin' => true,
+    'position' => 999,
+    'categories' => 'other',
+];

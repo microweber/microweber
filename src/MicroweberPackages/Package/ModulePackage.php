@@ -10,12 +10,17 @@ class ModulePackage
 
     public string $type = '';
 
+    public function __construct($moduleType = null)
+    {
+        if ($moduleType) {
+            $this->type($moduleType);
+        }
+    }
+
     public function type(string $moduleType): static
     {
         $this->type = $moduleType;
         return $this;
-
-
     }
 
     public function hasLiveEditSettings(string $componentName, $params = []): static
@@ -52,9 +57,9 @@ class ModulePackage
         return $this;
     }
 
-    public function hasViewComponent(string $componentName, $alias=null): static
+    public function hasViewComponent(string $componentName, $alias = null): static
     {
-        ModuleAdmin::registerViewComponent($this->type, $componentName,$alias);
+        ModuleAdmin::registerViewComponent($this->type, $componentName, $alias);
         return $this;
     }
 

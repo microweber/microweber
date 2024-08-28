@@ -1,0 +1,22 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class $NAME$Factory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     */
+    protected $model = \$MODEL_NAMESPACE$\$NAME$::class;
+
+    /**
+     * Define the model's default state.
+     */
+    public function definition(): array
+    {
+        return [];
+    }
+}
+

@@ -1,4 +1,3 @@
-
 <?php
 
 $template_dir = template_dir();

@@ -15,7 +15,6 @@ namespace MicroweberPackages\Module;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
-use MicroweberPackages\Module\Repositories\LaravelModulesDatabaseRepository;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class ModuleManager
@@ -238,8 +237,8 @@ class ModuleManager
             AbstractRepository::disableCache();
 
             /** @var LaravelModulesDatabaseRepository $laravelModules */
-            $laravelModules = app('modules');
-            $laravelModules->forceScan();
+           //$laravelModules = app('modules');
+         // $laravelModules->forceScan();
 
 
         }

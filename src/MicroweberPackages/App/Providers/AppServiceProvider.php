@@ -564,7 +564,7 @@ class AppServiceProvider extends ServiceProvider
         $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\EncryptCookies::class);
         $router->pushMiddlewareToGroup('web', AuthenticateSessionForUser::class);
         $router->pushMiddlewareToGroup('web', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
-        $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+       // $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
         $router->pushMiddlewareToGroup('web', \Illuminate\Routing\Middleware\SubstituteBindings::class);
 
         $router->aliasMiddleware('auth', \MicroweberPackages\App\Http\Middleware\Authenticate::class);

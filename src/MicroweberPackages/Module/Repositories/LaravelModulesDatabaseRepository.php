@@ -6,11 +6,14 @@ use Illuminate\Support\Arr;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Support\Facades\Schema;
+use Nwidart\Modules\Exceptions\ModuleNotFoundException;
 use Nwidart\Modules\FileRepository;
 use Nwidart\Modules\Json;
-use Nwidart\Modules\Process\Updater;
 use Symfony\Component\Process\Process;
 
+
+
+/** @deprecated */
 class LaravelModulesDatabaseRepository extends FileRepository
 {
 
@@ -201,14 +204,17 @@ class LaravelModulesDatabaseRepository extends FileRepository
             }
 
 
-
+            $manifest = $path . DS . 'module.json';
             if (!$path) {
                 continue;
             }
             if (!is_dir($path)) {
                 continue;
             }
-            $manifest = $path . DS . 'module.json';
+            if (!is_file($manifest)) {
+                continue;
+            }
+
             $autoloadNamespaces = $settings['composer']['autoload']['psr-4'] ?? [];
             $autoloadFiles = $settings['composer']['autoload']['files'] ?? [];
             if($autoloadNamespaces){
@@ -323,9 +329,25 @@ class LaravelModulesDatabaseRepository extends FileRepository
 
     public function find(string $name)
     {
+
         $all = $this->all();
 
         return $all[$name] ?? null;
 
+    }
+
+    public function findOrFail(string $name)
+    {
+        $module = $this->find($name);
+
+        if ($module !== null) {
+            $this->forceScan();
+            $module = $this->find($name);
+            if ($module !== null) {
+                return $module;
+            }
+         }
+
+        throw new ModuleNotFoundException("Module [{$name}] does not exist!");
     }
 }

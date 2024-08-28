@@ -14,6 +14,7 @@ use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Module;
 
 // from https://github.com/allenwakeup/laravel-modules/blob/master/src/Activators/DatabaseActivator.php
+/** @deprecated */
 class DatabaseActivator implements ActivatorInterface
 {
 
