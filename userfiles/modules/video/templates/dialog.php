@@ -45,7 +45,7 @@ description: Opens video in a popup
 
     }
     #video-dialog-button-<?php echo $params['id']; ?>:after{
-        content: "\e977";
+        content: "\eb86";
         font-family: 'icomoon-solid';
         speak: none;
         font-style: normal;
