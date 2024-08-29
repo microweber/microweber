@@ -22,7 +22,6 @@ if (empty($settings)) {
 $social_links_options = [];
 $social_links_options['facebook_enabled'] = '';
 $social_links_options['twitter_enabled'] = '';
-$social_links_options['telegram_enabled'] = '';
 $social_links_options['googleplus_enabled'] = '';
 $social_links_options['pinterest_enabled'] = '';
 $social_links_options['youtube_enabled'] = '';
@@ -36,7 +35,6 @@ $social_links_options['medium_enabled'] = '';
 $social_links_options['instagram_url'] = '';
 $social_links_options['facebook_url'] = '';
 $social_links_options['twitter_url'] = '';
-$social_links_options['telegram_url'] = '';
 $social_links_options['googleplus_url'] = '';
 $social_links_options['pinterest_url'] = '';
 $social_links_options['youtube_url'] = '';
@@ -50,6 +48,11 @@ $social_links_options['discord_enabled'] = '';
 
 $social_links_options['skype_url'] = '';
 $social_links_options['skype_enabled'] = '';
+
+$social_links_options['telegram_url'] = '';
+$social_links_options['telegram_enabled'] = '';
+
+
 
 $website_social_links_options = $social_links_options;
 
@@ -69,7 +72,6 @@ if (!empty($get_website_social_links_options)) {
 
 $facebook_enabled_option = $social_links_options['facebook_enabled'];
 $twitter_enabled_option = $social_links_options['twitter_enabled'];
-$telegram_enabled_option = $social_links_options['telegram_enabled'];
 $googleplus_enabled_option = $social_links_options['googleplus_enabled'];
 $pinterest_enabled_option = $social_links_options['pinterest_enabled'];
 $youtube_enabled_option = $social_links_options['youtube_enabled'];
@@ -83,6 +85,7 @@ $mixcloud_enabled_option = $social_links_options['mixcloud_enabled'];
 $medium_enabled_option = $social_links_options['medium_enabled'];
 $discord_enabled_option = $social_links_options['discord_enabled'];
 $skype_enabled_option = $social_links_options['skype_enabled'];
+$telegram_enabled_option = $social_links_options['telegram_enabled'];
 
 $facebook_enabled = $facebook_enabled_option == '1';
 $twitter_enabled = $twitter_enabled_option == '1';
@@ -258,17 +261,23 @@ $skype_url = $social_links_options['skype_url'];
 
 if ($skype_url == false) {
     $skype_url = $website_social_links_options['skype_url'];
+    if (!str_contains($skype_url, 'skype:')) {
+        $skype_url = 'skype:' . $skype_url . '?chat';
+    }
 }
 
 $telegram_url = $social_links_options['telegram_url'];
 
 if ($telegram_url == false) {
     $telegram_url = $website_social_links_options['telegram_url'];
+    if (!str_contains($telegram_url, 'https://')) {
+        $telegram_url = 'https://t.me/' . $telegram_url;
+    }
 }
 
 $social_links_has_enabled = false;
 
-if ($facebook_enabled or $twitter_enabled or $googleplus_enabled or $pinterest_enabled or $youtube_enabled or $linkedin_enabled or $soundcloud_enabled or $mixcloud_enabled) {
+if ($facebook_enabled or $twitter_enabled or $googleplus_enabled or $pinterest_enabled or $youtube_enabled or $linkedin_enabled or $soundcloud_enabled or $mixcloud_enabled or $discord_enabled or $skype_enabled or $telegram_enabled) {
     $social_links_has_enabled = true;
 }
 
@@ -284,7 +293,6 @@ if (view()->exists($moduleBladeView)) {
         'settings'=> [
             'facebook_enabled'=>$facebook_enabled,
             'twitter_enabled'=>$twitter_enabled,
-            'telegram_enabled'=>$telegram_enabled,
             'googleplus_enabled'=>$googleplus_enabled,
             'pinterest_enabled'=>$pinterest_enabled,
             'youtube_enabled'=>$youtube_enabled,
@@ -294,6 +302,7 @@ if (view()->exists($moduleBladeView)) {
             'medium_enabled'=>$medium_enabled,
             'discord_enabled'=>$discord_enabled,
             'skype_enabled'=>$skype_enabled,
+            'telegram_enabled'=>$telegram_enabled,
             'social_links_has_enabled'=>$social_links_has_enabled,
         ],
         'links'=>[

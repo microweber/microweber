@@ -91,7 +91,7 @@ description: Default
 
     <?php if ($skype_enabled) { ?>
         <li>
-            <a href="skype:<?php print $skype_url; ?>?chat" target="_blank" data-toggle="tooltip" data-placement="top" title="Skype">
+            <a href="<?php print $skype_url; ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Skype">
                 <i class="fa fa-skype"></i>
             </a>
         </li>
@@ -100,7 +100,7 @@ description: Default
     <?php if ($telegram_enabled) { ?>
         <li>
             <a href="t.me/<?php print $telegram_url; ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Telegram">
-                <i class="mdi fa-telegram"></i>
+                <i class="mdi mdi-telegram"></i>
             </a>
         </li>
     <?php } ?>
