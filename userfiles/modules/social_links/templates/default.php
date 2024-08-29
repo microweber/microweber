@@ -97,5 +97,13 @@ description: Default
         </li>
     <?php } ?>
 
+    <?php if ($telegram_enabled) { ?>
+        <li>
+            <a href="t.me/<?php print $telegram_url; ?>" target="_blank" data-toggle="tooltip" data-placement="top" title="Telegram">
+                <i class="mdi fa-telegram"></i>
+            </a>
+        </li>
+    <?php } ?>
+
 
 </div>
