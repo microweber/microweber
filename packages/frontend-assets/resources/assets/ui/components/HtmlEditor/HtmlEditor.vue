@@ -23,12 +23,13 @@ export default {
              var src = mw.app.adminModules.getModuleSettingsUrl(moduleType, attrsForSettings);
 
 
+
             var id = mw.id('iframe-editor');
 
 
             var dlg = new mw.controlBox({
-               // content: '<div id="' + id + '"></div>',
-                content: '',
+                content: '<div id="' + id + '"></div>',
+                // content: '',
                 position:  'bottom',
                 id: 'live_edit_side_holder',
                 closeButton: true

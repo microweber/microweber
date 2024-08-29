@@ -1602,14 +1602,7 @@ if (window.mw) {
        return new MWEditor(options);
    };
 
-   mw.editor.get = selector => {
-        const node = typeof selector === 'string' ? document.querySelector(selector) : selector;
-        if(node) {
-            if(node.__MWEditor) {
-                return node.__MWEditor;
-            }
-        }
-   }
+
 }
 
 

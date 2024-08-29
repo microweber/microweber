@@ -235,3 +235,68 @@ html[dir=rtl] .mw-dialog-close {
 .mw-dialog-module-settings .mw-dialog-overlay {
   pointer-events: none;
 }
+
+.mw-control-box {
+  position: fixed;
+  padding: 20px;
+  z-index: 99;
+}
+.mw-control-box.active {
+  z-index: 100;
+}
+.mw-control-box-top {
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.mw-control-box-bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.mw-control-box-right {
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+.mw-control-box-left {
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+.mw-control-box-default {
+  padding: 0;
+  transition: all 0.5s;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.mw-control-box-default.mw-control-box-right {
+  transform: translateX(100%);
+}
+.mw-control-box-default.mw-control-box-right.active {
+  transform: translateX(0);
+}
+.mw-control-box-default.mw-control-box-left {
+  transform: translateX(-100%);
+}
+.mw-control-box-default.mw-control-box-left.active {
+  transform: translateX(0);
+}
+.mw-control-box-default .mw-control-boxclose {
+  position: absolute;
+  cursor: pointer;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+}
+.mw-control-box-default .mw-control-boxclose:after {
+  content: "";
+}
+
+html[dir=rtl] .mw-control-boxclose {
+  left: 10px;
+  right: auto;
+}

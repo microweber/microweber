@@ -572,39 +572,7 @@ mw.requireAsync = (url, key) => {
 
 	}
   }
-  mw.reload_modules = function(array, callback, simultaneously) {
-      if(array.array && !array.slice){
-          callback = array.callback || array.done || array.ready;
-          simultaneously = array.simultaneously;
-          array = array.array;
-      }
-      simultaneously = simultaneously || false;
-      if(simultaneously){
-        var l = array.length, ready = 0, i = 0;
-        for( ; i<l; i++){
-            mw.reload_module(array[i], function(){
-                ready++;
-                if(ready === l && callback){
-                    callback.call();
-                }
-            });
-        }
-      }
-      else{
-        if(array.length === 0){
-            if(callback){
-                callback.call()
-            }
-        }
-        else{
-            var m = array[0];
-            array.shift();
-            mw.reload_module(m, function(){
-                mw.reload_modules(array, callback, false);
-            });
-        }
-      }
-  };
+
   mw.reload_module_everywhere = function(module, eachCallback) {
 
     mw.tools.eachWindow(function () {
