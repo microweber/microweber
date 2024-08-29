@@ -13,8 +13,10 @@
 
 namespace MicroweberPackages\Module;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
+use MicroweberPackages\Module\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class ModuleManager
@@ -43,7 +45,7 @@ class ModuleManager
                 $this->app = mw();
             }
         }
-         if (mw_is_installed()) {
+        if (mw_is_installed()) {
             $this->activeLicenses = app()->module_repository->getSystemLicenses();
 //            $getSystemLicense = SystemLicenses::get();
 //            if ($getSystemLicense != null) {
@@ -188,6 +190,42 @@ class ModuleManager
         return $this->scan_for_modules($options);
     }
 
+    public function reload_laravel_modules()
+    {
+        /** @var LaravelModulesFileRepository $laravelModules */
+        $laravelModules = app('modules');
+        $modules = $laravelModules->scan();
+
+        if ($modules) {
+            if (!defined('STDIN')) {
+                define('STDIN', fopen("php://stdin", "r"));
+            }
+            
+            foreach ($modules as $module) {
+                /** @var \Nwidart\Modules\Laravel\Module $module */
+                $module->registerProviders();
+                Artisan::call('module:migrate', ['module' => $module->getLowerName(), '--force']);
+                Artisan::call('module:publish', ['module' => $module->getLowerName(), '--force']);
+
+//                $providers = $module->get('providers');
+//                if ($providers and !empty($providers)) {
+//                    foreach ($providers as $provider) {
+//                        dump($provider);
+//                        Artisan::call('vendor:publish', ['--provider' => $provider, '--force']);
+//                    }
+//                }
+
+
+//                dump($module->getLowerName());
+//                dump($module->get('providers'));
+//                dump($module->isStatus(true));
+//                dump($module->registerProviders());
+                //  $this->installLaravelModule($module);
+            }
+        }
+        //   dd($modules);
+    }
+
     public function scan_for_modules($options = false)
     {
         $params = $options;
@@ -231,14 +269,14 @@ class ModuleManager
 
         if (isset($options['reload_modules']) == true) {
             $modules_remove_old = true;
-           // if (is_cli()) {
-                $this->_install_mode = true;
-          //  }
-            AbstractRepository::disableCache();
+            // if (is_cli()) {
+            $this->_install_mode = true;
+            //  }
+            if (!$list_as_element) {
 
-            /** @var LaravelModulesDatabaseRepository $laravelModules */
-           //$laravelModules = app('modules');
-         // $laravelModules->forceScan();
+                AbstractRepository::disableCache();
+                $this->reload_laravel_modules();
+            }
 
 
         }
@@ -1046,7 +1084,7 @@ class ModuleManager
             $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
         }
 
-        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id.site_url());
+        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id . site_url());
 
         $cache_group = 'modules/global';
 
@@ -1294,7 +1332,6 @@ class ModuleManager
 
     public function set_installed($params)
     {
-
 
 
         if (isset($params['for_module'])) {
