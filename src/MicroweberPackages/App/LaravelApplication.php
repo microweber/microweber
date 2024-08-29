@@ -3,10 +3,16 @@
 namespace MicroweberPackages\App;
 
 
+use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Mix;
+use Illuminate\Foundation\PackageManifest;
 use Illuminate\Session\SessionServiceProvider;
+use Illuminate\Support\Collection;
 use Illuminate\View\ViewServiceProvider;
+use MicroweberPackages\App\Repositories\ProviderRepository;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
 use MicroweberPackages\Install\UpdateMissingConfigFiles;
 
@@ -26,6 +32,9 @@ class LaravelApplication extends Application
         parent::__construct($basePath);
     }
 
+
+
+
     public function boot()
     {
         $this->_check_new_config_files();
@@ -40,7 +49,7 @@ class LaravelApplication extends Application
     public function getCachedServicesPath()
     {
 
-        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/services.' . self::VERSION . '_' . self::APP_VERSION . '.php');
+        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/cache_' . $this->getVersionPrefix(). '_services.php');
     }
 
     /**
@@ -50,13 +59,13 @@ class LaravelApplication extends Application
      */
     public function getCachedPackagesPath()
     {
-        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/packages.' . self::VERSION . '_' . self::APP_VERSION . '.php');
+        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/cache_' . $this->getVersionPrefix() . '_packages.php');
     }
 
     public function getCachedMicroweberServiceProvidersPath()
     {
 
-        return $this->normalizeCachePath('APP_MW_SERVICE_PROVIDERS_CACHE', 'cache/mw_loaded_providers.' . self::VERSION . '_' . self::APP_VERSION . '.php');
+        return $this->normalizeCachePath('APP_MW_SERVICE_PROVIDERS_CACHE', 'cache/cache_' . $this->getVersionPrefix(). '_mw_loaded_providers.php');
     }
 
     /**
@@ -75,11 +84,23 @@ class LaravelApplication extends Application
         $this->register(new TaggableFileCacheServiceProvider($this));
 
     }
+    protected function registerBaseBindings()
+    {
+        static::setInstance($this);
 
+        $this->instance('app', $this);
+
+        $this->instance(Container::class, $this);
+        $this->singleton(Mix::class);
+
+        $this->singleton(PackageManifest::class, fn () => new PackageManifest(
+            new Filesystem, $this->basePath(), $this->getCachedPackagesPath()
+        ));
+    }
     private function _check_new_config_files()
     {
         // we check if there is cached file for the current version and copy the missing config files if there is no cached file
-        $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/app_version.' . self::VERSION . '_' . self::APP_VERSION . '.txt');
+        $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/cache_' .$this->getVersionPrefix() . '_app_version.txt');
         $checkDir = dirname($mwVersionFile);
         if (!is_dir($checkDir)) {
             mkdir($checkDir);
@@ -89,7 +110,7 @@ class LaravelApplication extends Application
         if (!is_file($mwVersionFile)) {
             $copyConfigs = new UpdateMissingConfigFiles();
             $copyConfigs->copyMissingConfigStubs();
-            file_put_contents($mwVersionFile, self::VERSION . '_' . self::APP_VERSION);
+            file_put_contents($mwVersionFile, $this->getVersionPrefix());
         }
     }
 
@@ -133,6 +154,7 @@ class LaravelApplication extends Application
 
     }
 
+
     private function __ensure_dot_env_file_exists()
     {
         /*
@@ -149,6 +171,12 @@ class LaravelApplication extends Application
 
     }
 
+
+    private function getVersionPrefix()
+    {
+        return str_slug(self::VERSION . '_' . self::APP_VERSION, '_');
+    }
+
     private function _mkdir_recursive($pathname)
     {
         if ($pathname == '') {
@@ -160,25 +188,25 @@ class LaravelApplication extends Application
     }
 
 
-    /**
-     * Write the service manifest file to disk.
-     *
-     * @param array $manifest
-     * @return array
-     *
-     * @throws \Exception
-     */
-    public function writeManifest($manifest)
-    {
-        try {
-            parent::writeManifest($manifest);
-        } catch (\ErrorException $e) {
-
-        } catch (\Exception $e) {
-
-        }
-
-    }
+//    /**
+//     * Write the service manifest file to disk.
+//     *
+//     * @param array $manifest
+//     * @return array
+//     *
+//     * @throws \Exception
+//     */
+//    public function writeManifest($manifest)
+//    {
+//        try {
+//            parent::writeManifest($manifest);
+//        } catch (\ErrorException $e) {
+//
+//        } catch (\Exception $e) {
+//
+//        }
+//
+//    }
 
     public function rebootApplication()
     {
