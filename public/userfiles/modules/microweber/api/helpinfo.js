@@ -206,8 +206,8 @@ mw.helpinfo = {
          });
          mw.helpinfo_helper.className = 'helpinfo_helper rightcenter';
        }
-       if($(mw.helpinfo.active).dataset("css") != ''){
-          mw.$(mw.helpinfo_helper).attr("style", mw.$(mw.helpinfo_helper).attr("style") + mw.$(mw.helpinfo.active).dataset("css"));
+       if($(mw.helpinfo.active).attr("data-css") != ''){
+          mw.$(mw.helpinfo_helper).attr("style", mw.$(mw.helpinfo_helper).attr("style") + mw.$(mw.helpinfo.active).attr("data-css"));
         }
     },
     autoscroll:function(el){
@@ -245,22 +245,22 @@ mw.helpinfo = {
        mw.$(".mwcurrhelp").removeClass("mwcurrhelp");
        mw.$(mw.helpinfo_overlay).show();
        mw.$(mw.helpinfo.active).addClass("active");
-       var who = mw.$($(mw.helpinfo.active).dataset("for"));
+       var who = mw.$($(mw.helpinfo.active).attr("data-for"));
 
        mw.$(who).addClass("mwcurrhelp");
 
        mw.$(mw.helpinfo_helper).removeClass('semi_hidden');
        mw.$(mw.helpinfo_container).html($(mw.helpinfo.active).html());
-       if($(mw.helpinfo.active).dataset("onbeforeshow") != ''){
-          var func = mw.helpinfo.parseCallback($(mw.helpinfo.active).dataset("onbeforeshow"));
+       if($(mw.helpinfo.active).attr("data-onbeforeshow") != ''){
+          var func = mw.helpinfo.parseCallback($(mw.helpinfo.active).attr("data-onbeforeshow"));
           if(typeof mw.helpinfo.functions[func.name] === 'function'){
                mw.helpinfo.functions[func.name](func.params);
           }
         }
-       mw.helpinfo.position(who, mw.$(mw.helpinfo.active).dataset("pos"));
+       mw.helpinfo.position(who, mw.$(mw.helpinfo.active).attr("data-pos"));
        mw.helpinfo.autoscroll(who);
-       if(mw.helpinfo.active.dataset("onshow") != ''){
-          var func = mw.helpinfo.parseCallback($(mw.helpinfo.active).dataset("onshow"));
+       if(mw.helpinfo.active.attr("data-onshow") != ''){
+          var func = mw.helpinfo.parseCallback($(mw.helpinfo.active).attr("data-onshow"));
           if(typeof mw.helpinfo.functions[func.name] === 'function'){
                mw.helpinfo.functions[func.name](func.params);
           }
@@ -273,8 +273,8 @@ mw.helpinfo = {
           mw.helpinfo.int = setTimeout(function(){ mw.helpinfo.next() }, 400);
           return false;
         }
-        if($(mw.helpinfo.active).dataset("onnext") != ''){
-          var func = mw.helpinfo.parseCallback($(mw.helpinfo.active).dataset("onnext"));
+        if($(mw.helpinfo.active).attr("data-onnext") != ''){
+          var func = mw.helpinfo.parseCallback($(mw.helpinfo.active).attr("data-onnext"));
           if(typeof mw.helpinfo.functions[func.name] === 'function'){
                mw.helpinfo.functions[func.name](func.params);
            }
@@ -282,7 +282,7 @@ mw.helpinfo = {
         }
         mw.$(mw.helpinfo.active).removeClass("active");
         mw.helpinfo.active = mw.$(mw.helpinfo.active).next().length > 0 ? mw.$(mw.helpinfo.active).next() : mw.$(".mw-help-item").eq(0);
-        var who = mw.$($(mw.helpinfo.active).dataset("for"));
+        var who = mw.$($(mw.helpinfo.active).attr("data-for"));
         if($(who).length == 0) {
          mw.helpinfo.next();
          return false;
@@ -297,7 +297,7 @@ mw.helpinfo = {
         }
         mw.$(mw.helpinfo.active).removeClass("active");
         mw.helpinfo.active = mw.$(mw.helpinfo.active).prev().length > 0 ? mw.$(mw.helpinfo.active).prev() : mw.$(".mw-help-item:last");
-        var who = mw.$($(mw.helpinfo.active).dataset("for"));
+        var who = mw.$($(mw.helpinfo.active).attr("data-for"));
         if($(who).length == 0) {
          mw.helpinfo.previous();
          return false;

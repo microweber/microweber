@@ -626,11 +626,11 @@
             if (!_el.hasClass("disabled")) {
                 _el.addClass('disabled');
                 if (_el[0].tagName !== 'INPUT') {
-                    _el.dataset("text", _el.html());
+                    _el.attr("data-text", _el.html());
                     _el.html(text);
                 }
                 else {
-                    _el.dataset("text", _el.val());
+                    _el.attr("data-text", _el.val());
                     _el.val(text);
                 }
                 if (global) mw.$(document.body).addClass("loading");
@@ -642,7 +642,7 @@
             if (!_el.length) {
                 return false;
             }
-            var text = _el.dataset("text");
+            var text = _el.attr("data-text");
             _el.removeClass("disabled");
             if (_el[0].tagName !== 'INPUT') {
                 _el.html(text);

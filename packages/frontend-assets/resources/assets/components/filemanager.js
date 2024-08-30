@@ -1226,9 +1226,9 @@
             });
             tableHeader.addClass('sticky-' + (scope.settings.stickyHeader !== false && scope.settings.stickyHeader !== undefined));
             tableHeader.css('backgroundColor', scope.settings.backgroundColor);
-            thName.dataset('sortable', 'basename').on('click', function (){ scope.sort(this.dataset.sortable) });
-            thSize.dataset('sortable', 'filesize').on('click', function (){ scope.sort(this.dataset.sortable) });
-            thModified.dataset('sortable', 'filemtime').on('click', function (){ scope.sort(this.dataset.sortable) });
+            thName.attr('data-sortable', 'basename').on('click', function (){ scope.sort(this.dataset.sortable) });
+            thSize.attr('data-sortable', 'filesize').on('click', function (){ scope.sort(this.dataset.sortable) });
+            thModified.attr('data-sortable', 'filemtime').on('click', function (){ scope.sort(this.dataset.sortable) });
 
             return tableHeader;
         };
@@ -1272,7 +1272,7 @@
             }
             if(viewType !== this.settings.viewType || _forced) {
                 this.settings.viewType = viewType;
-                this.root.dataset('view', this.settings.viewType);
+                this.root.attr('data-view', this.settings.viewType);
 
                 Array.from(this.root.get(0).querySelectorAll('[data-view-type]')).forEach(function(node){
                     node.classList[node.dataset.viewType === viewType ? 'add' : 'remove']('active');

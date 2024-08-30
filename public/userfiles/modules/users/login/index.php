@@ -54,9 +54,9 @@
                             }
 
                             if (typeof this.success === 'string') {
-                                var c = mw.$('#user_login_<?php print $params['id'] ?>').dataset("callback");
+                                var c = mw.$('#user_login_<?php print $params['id'] ?>').attr("data-callback");
                                 if (c == undefined || c == '') {
-                                    var c = mw.$('#<?php print $params['id'] ?>').dataset("callback");
+                                    var c = mw.$('#<?php print $params['id'] ?>').attr("data-callback");
                                 }
                                 <?php if(!isset($params['return']) and isset($_REQUEST['return'])): ?>
                                 <?php $params['return'] = $_REQUEST['return']; ?>

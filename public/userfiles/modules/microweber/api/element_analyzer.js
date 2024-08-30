@@ -287,7 +287,7 @@ mw.ElementAnalyzer = function(options){
             return mw.tools.isInlineLevel(node);
         },
         canAccept:function(target, what){
-            var accept = target.dataset('accept');
+            var accept = target.attr('data-accept');
             if(!accept) return true;
             accept = accept.trim().split(',').map(Function.prototype.call, String.prototype.trim);
             var wtype = 'all';

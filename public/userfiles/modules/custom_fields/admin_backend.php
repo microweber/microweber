@@ -44,7 +44,7 @@ $module_id = $for_id;
             var el = this;
             mw.custom_fields.create({
               selector:'.mw-admin-custom-field-edit-<?php print $params['id']; ?>',
-              type:$(el).dataset('type'),
+              type:$(el).attr('data-type'),
               copy:false,
               table:'<?php print $for  ?>',
               id:'<?php print $module_id  ?>',

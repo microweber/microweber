@@ -123,7 +123,7 @@
 
 
             mw.$("#mw-iframe-editor-area .module").each(function () {
-                if ($(this).dataset("type") == 'pictures') {
+                if ($(this).attr("data-type") == 'pictures') {
                     $(this).css("cursor", "pointer").click(function (e) {
                         if (!mw.tools.hasClass(e.target, 'mw-close')) {
                             parent['QTABS'].set(0);

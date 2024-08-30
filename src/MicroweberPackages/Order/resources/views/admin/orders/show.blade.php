@@ -8,11 +8,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $(".mw-order-item-image").bind("mouseenter mouseleave", function (e) {
-            var index = $(this).dataset('index');
+            var index = $(this).attr('data-index');
             mw.tools.multihover(e, this, ".mw-order-item-index-" + index);
         });
         $("tr.mw-order-item").bind("mouseenter mouseleave", function (e) {
-            var index = $(this).dataset('index');
+            var index = $(this).attr('data-index');
             mw.tools.multihover(e, this, ".mw-order-item-image-" + index);
         });
 

@@ -6,12 +6,12 @@ if(!!mw.custom_fields.address_settings){
 }
 
 mw.$("#mw-custom-fields-address-fields-selector input").commuter(function(){
-  var f = $(this).dataset('for');
+  var f = $(this).attr('data-for');
   mw.$('#mw-custom-fields-address-fields-'+f).slideDown('fast');
   mw.$('#mw-custom-fields-address-fields-'+f + " input").removeAttr('disabled');
 
 }, function(){
-  var f = $(this).dataset('for');
+  var f = $(this).attr('data-for');
   mw.$('#mw-custom-fields-address-fields-'+f).slideUp('fast');
   mw.$('#mw-custom-fields-address-fields-'+f + " input").attr('disabled', 'disabled');
 

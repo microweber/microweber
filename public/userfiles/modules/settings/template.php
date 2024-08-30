@@ -105,9 +105,9 @@ if ($json != false) {
                 obj.show_upload_template_button = true;
                 obj.active_site_template = "<?php print $active_template_dir; ?>";
                 obj[name] = {
-                    selector: $(this).dataset("selector"),
+                    selector: $(this).attr("data-selector"),
                     value: this.value,
-                    property: $(this).dataset("property")
+                    property: $(this).attr("data-property")
                 }
             });
 

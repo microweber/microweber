@@ -74,7 +74,7 @@ mw.menu_admin.delete_item = function($item_id){
 mw.menu_admin.set_edit_item = function($item_id, node, $id){
     if(typeof node === 'object'){
         var li = mw.tools.firstParentWithTag(node, 'li');
-        var id = $(li).dataset('item-id');
+        var id = $(li).attr('data-item-id');
 
         var master = mw.tools.firstParentWithClass(node, 'mw-modules-admin');
 

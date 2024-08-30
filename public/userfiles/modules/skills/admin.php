@@ -150,7 +150,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         })
 
                         mw.$('select[data-value]', root).each(function () {
-                            $(this).val($(this).dataset('value')).on('change', function () {
+                            $(this).val($(this).attr('data-value')).on('change', function () {
                                 save();
                             })
                         })

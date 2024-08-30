@@ -119,7 +119,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                         mw.dropdown();
                         mw.$('.js-cf-options').on('change', function () {
                             var val = $(this).val();
-                            var copyof = mw.$('.js-cf-options li[value="' + val + '"][data-copyof]').dataset('copyof');
+                            var copyof = mw.$('.js-cf-options li[value="' + val + '"][data-copyof]').attr('data-copyof');
                             copyof = false;
                             if (copyof == false) {
                                 var make_field = {}

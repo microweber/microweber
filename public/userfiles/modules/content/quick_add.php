@@ -101,20 +101,20 @@
         var el = $(arr[i]);
         el.addClass("activated");
         if(i == 0){
-            el[0].src = el.dataset("src");
+            el[0].src = el.attr("data-src");
         }
         else{
             arr[curr].el = el;
             arr[curr].onload = function(){
-               if(this.el.dataset("src") != ''){
-                  this.el[0].src = this.el.dataset("src");
-                  this.el.dataset("src", "");
+               if(this.el.attr("data-src") != ''){
+                  this.el[0].src = this.el.attr("data-src");
+                  this.el.attr("data-src", "");
                }
             }
             arr[curr].onerror = function(){
-              if(this.el.dataset("src") != ''){
-                this.el[0].src = this.el.dataset("src");
-                this.el.dataset("src", "");
+              if(this.el.attr("data-src") != ''){
+                this.el[0].src = this.el.attr("data-src");
+                this.el.attr("data-src", "");
               }
             }
             curr++;
@@ -137,9 +137,9 @@
          h.parent().addClass("active");
          continuousFrameLoading(h[0].parentNode.querySelectorAll('iframe'));
          /*
-         if($(h[0].parentNode.querySelector('iframe')).dataset("src") != ''){
+         if($(h[0].parentNode.querySelector('iframe')).attr("data-src") != ''){
             $(h[0].parentNode.querySelectorAll('iframe')).each(function(){
-              $(this).attr("src", $(this).dataset("src"))
+              $(this).attr("src", $(this).attr("data-src"))
             })
          }  */
 

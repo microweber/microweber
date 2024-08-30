@@ -46,7 +46,7 @@ if (array_key_exists('types', $_GET)) {
         mw.$(".mw-upload-filetypes li").each(function () {
             var li = $(this);
             var _li = this;
-            var filetypes = li.dataset('type');
+            var filetypes = li.attr('data-type');
 
             var frame = mw.files.uploader({
                 filetypes: filetypes,

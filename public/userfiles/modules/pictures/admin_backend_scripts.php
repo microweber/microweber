@@ -54,8 +54,8 @@
     downloadSelected = function () {
         mw.$(".admin-thumb-item .mw-ui-check input:checked").each(function () {
             var a = $("<a>")
-                .attr("href", $(this).dataset('url'))
-                .attr("download", $(this).dataset('url'))
+                .attr("href", $(this).attr('data-url'))
+                .attr("download", $(this).attr('data-url'))
                 .appendTo("body");
 
             a[0].click();

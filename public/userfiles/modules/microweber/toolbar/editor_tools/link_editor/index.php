@@ -312,7 +312,7 @@
                             mw.$('#available_elements').append('<a data-href="#' + this.id + '"><strong>' + this.nodeName + '</strong> - ' + this.textContent + '</a>')
                         });
                         mw.$('#available_elements a').on('click', function () {
-                            setACValue(top.location.href.split('#')[0] + $(this).dataset('href'));
+                            setACValue(top.location.href.split('#')[0] + $(this).attr('data-href'));
                         });
                         if (!available_elements_tab_show_hide_ctrl_counter) {
                             mw.$('.available_elements_tab_show_hide_ctrl').hide();

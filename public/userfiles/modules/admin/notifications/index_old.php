@@ -209,8 +209,8 @@ if (isset($notif_params['quick'])) {
         var el = $(el);
         el.prev().toggleClass('semi_hidden');
         var html = el.html();
-        el.html(el.dataset("later"));
-        el.dataset("later", html);
+        el.html(el.attr("data-later"));
+        el.attr("data-later", html);
     }
 
     $(document).ready(function () {

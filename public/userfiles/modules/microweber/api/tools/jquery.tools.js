@@ -28,7 +28,7 @@ $.fn.reload_module = function (c) {
 
 
     $.fn.getDropdownValue = function () {
-        return this.dataset("value") || mw.$('.active', this).attr('value');
+        return this.attr("data-value") || mw.$('.active', this).attr('value');
     };
     $.fn.setDropdownValue = function (val, triggerChange, isCustom, customValueToDisplay) {
 
@@ -39,7 +39,7 @@ $.fn.reload_module = function (c) {
         var el = this;
         if (isCustom) {
             var isValidOption = true;
-            el.dataset("value", val);
+            el.attr("data-value", val);
             triggerChange ? el.trigger("change") : '';
             var valel = mw.$(".mw-dropdown-val", el);
             var method = valel[0].type ? 'val' : 'html';
@@ -53,7 +53,7 @@ $.fn.reload_module = function (c) {
         else {
             mw.$("[value]", el).each(function () {
                 if (this.getAttribute('value') == val) {
-                    el.dataset("value", val);
+                    el.attr("data-value", val);
                     var isValidOption = true;
                     var html = !!this.getElementsByTagName('a')[0] ? this.getElementsByTagName('a')[0].textContent : this.innerText;
                     mw.$(".mw-dropdown-val", el[0]).html(html);
@@ -64,7 +64,7 @@ $.fn.reload_module = function (c) {
                 }
             });
         }
-        this.dataset("value", val);
+        this.attr("data-value", val);
         //    }, 100);
     };
     $.fn.commuter = function (a, b) {

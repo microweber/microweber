@@ -89,7 +89,7 @@ var _adm = {
 
                 rotator.go = function (where, callback, method) {
                     method = method || 'animate';
-                    mw.$(rotator).dataset('state', where);
+                    mw.$(rotator).attr('data-state', where);
                     mw.$(rotator.children).hide().eq(where).show()
                     if (typeof callback === 'function') {
                         callback.call(rotator);

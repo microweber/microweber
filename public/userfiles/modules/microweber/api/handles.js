@@ -1101,12 +1101,12 @@ mw._initHandles = {
             if ( !el ) {
                 return;
             }
-            var title = el.dataset("mw-title");
+            var title = el.attr("data-mw-title");
             var id = el.attr("id");
 
 
 
-            var module_type = (el.dataset("type") || el.attr("type"));
+            var module_type = (el.attr("data-type") || el.attr("type"));
             if(typeof(module_type) == 'undefined'){
                 return;
             }

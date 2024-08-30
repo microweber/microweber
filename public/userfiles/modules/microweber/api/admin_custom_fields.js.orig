@@ -34,7 +34,7 @@ mw.admin.custom_fields.initTextAreaValue = function (node) {
         });
         node.onchange = function (e) {
             var data = {
-                id: mw.$(this).dataset('id'),
+                id: mw.$(this).attr('data-id'),
                 value: mw.$(this).val()
             };
             $.post(mw.settings.api_url + 'fields/save', data, function () {
@@ -62,7 +62,7 @@ mw.admin.custom_fields.addValueButtons = function (root) {
         all[i].onclick = function () {
             var span = document.createElement('span');
             span.className = 'mw-admin-custom-field-value-edit-inline-holder mw-admin-custom-field-checkbox bg-secondary-opacity-8 d-inline-flex mr-2 my-1 p-0';
-            span.innerHTML = '<small class="mw-admin-custom-field-value-edit-inline p-1 text-dark" data-id="' + mw.$(this).dataset('id') + '"></small><small onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields bg-danger text-white p-1"><i class="mdi mdi-close"></i></small>   ';
+            span.innerHTML = '<small class="mw-admin-custom-field-value-edit-inline p-1 text-dark" data-id="' + mw.$(this).attr('data-id') + '"></small><small onclick="mw.admin.custom_fields.deleteFieldValue(this);" class="delete-custom-fields bg-danger text-white p-1"><i class="mdi mdi-close"></i></small>   ';
             mw.admin.custom_fields.initValue(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
             mw.$(this).prev().append(span);
             mw.admin.custom_fields.valueLiveEdit(span.querySelector('.mw-admin-custom-field-value-edit-inline'));
@@ -85,7 +85,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
             }
 
             data = {
-                id: mw.$(el).dataset('id'),
+                id: mw.$(el).attr('data-id'),
                 value: vals
             };
         }
@@ -93,7 +93,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
         else if (mw.tools.hasClass(el, 'mw-admin-custom-field-placeholder-edit-inline')) {
 
             data = {
-                id: mw.$(el).dataset('id'),
+                id: mw.$(el).attr('data-id'),
                 placeholder: mw.$(el).text()
             };
 
@@ -101,7 +101,7 @@ mw.admin.custom_fields.valueLiveEdit = function (span) {
 
         else {
             data = {
-                id: mw.$(el).dataset('id'),
+                id: mw.$(el).attr('data-id'),
                 name: mw.$(el).text()
             };
         }
@@ -175,7 +175,7 @@ mw.admin.custom_fields.make_fields_sortable = function () {
             update: function (event, ui) {
                 var obj = {ids: []};
                 mw.$(this).find(".mw-admin-custom-field-name-edit-inline, .mw-admin-custom-field-placeholder-edit-inline").each(function () {
-                    var id = mw.$(this).dataset("id");
+                    var id = mw.$(this).attr("data-id");
                     obj.ids.push(id);
                 });
 

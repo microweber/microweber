@@ -230,7 +230,7 @@ ___post = function(url){
   data.title = $("#title").val();
   data.thumbnail = $("#thumbnail").val();
   data.content = $("#content").val();
-  data.content_type = $("button.active").dataset("name");
+  data.content_type = $("button.active").attr("data-name");
 
 
   $.ajax({

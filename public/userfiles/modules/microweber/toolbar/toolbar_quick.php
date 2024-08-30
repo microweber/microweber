@@ -247,7 +247,7 @@
             mw.$(".modules-layouts-menu .create-content-dropdown-list").hide();
 
             if (a == 'layouts') {
-                mw.$(modules_switcher).dataset("for", "layouts");
+                mw.$(modules_switcher).attr("data-for", "layouts");
                 mw.$(modules_switcher).attr("placeholder", "Layouts");
                 // $(modules_switch).html("Modules");
                 $(modules_switcher).focus();
@@ -256,7 +256,7 @@
                 mw.tools.removeClass(tab_modules, 'active');
             }
             else if (a == 'modules') {
-                mw.$(modules_switcher).dataset("for", "modules");
+                mw.$(modules_switcher).attr("data-for", "modules");
                 mw.$(modules_switcher).attr("placeholder", "Modules");
                 //   $(modules_switch).html("Layouts");
                 $(modules_switcher).focus();

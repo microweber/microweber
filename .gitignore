@@ -82,6 +82,9 @@ userfiles/modules/fullpage_cache/admin.php
 /config/database.php
 /config/microweber.php
 /public/build/
+/public/userfiles/templates/
+/public/userfiles/cache/
+/public/userfiles/install_item_log.txt
 .vitepress/dist
 .vitepress/cache
 docs/.vitepress/dist

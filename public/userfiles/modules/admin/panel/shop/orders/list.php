@@ -134,11 +134,11 @@
 
         $(document).ready(function () {
             $("#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image").on("mouseenter mouseleave", function (e) {
-                var index = $(this).dataset('index');
+                var index = $(this).attr('data-index');
                 mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-index-" + index);
             });
             $("#abandoned-cart-table<?php print $item['id'] ?> tr.mw-order-item").on("mouseenter mouseleave", function (e) {
-                var index = $(this).dataset('index');
+                var index = $(this).attr('data-index');
                 mw.tools.multihover(e, this, "#abandoned-cart-table<?php print $item['id'] ?> .mw-order-item-image-" + index);
             });
             });

@@ -209,9 +209,9 @@ mw.cart = {
         $(document).trigger("checkoutBeforeProcess", form);
 
 
-        var state = form.dataset("loading");
+        var state = form.attr("data-loading");
         if (state == 'true') return false;
-        form.dataset("loading", 'true');
+        form.attr("data-loading", 'true');
         form.find('.mw-checkout-btn').attr('disabled', 'disabled');
         form.find('.mw-checkout-btn').hide();
 
@@ -227,7 +227,7 @@ mw.cart = {
                 data: obj,
                 error: function (xhr, ajaxOptions, thrownError) {
                      mw.errorsHandle(JSON.parse(xhr.responseText))
-                    form.dataset("loading", 'false');
+                    form.attr("data-loading", 'false');
                     form.find('.mw-checkout-btn').removeAttr('disabled');
                     form.find('.mw-checkout-btn').show();
 
@@ -309,7 +309,7 @@ mw.cart = {
                         }
 
                     }
-                    form.dataset("loading", 'false');
+                    form.attr("data-loading", 'false');
                     form.find('.mw-checkout-btn').removeAttr('disabled');
                     form.find('.mw-checkout-btn').show();
                     mw.trigger('checkoutResponse', data);

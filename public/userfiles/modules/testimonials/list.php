@@ -80,7 +80,7 @@ if (!isset($params['project_name'])) {
                     ids: []
                 }
                 mw.$("#testimonials-list tbody tr").each(function () {
-                    data.ids.push($(this).dataset('id'));
+                    data.ids.push($(this).attr('data-id'));
                 });
 
                 $.post("<?php print api_url(); ?>reorder_testimonials", data, function () {

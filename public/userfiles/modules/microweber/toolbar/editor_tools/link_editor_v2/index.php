@@ -388,7 +388,7 @@
                         });
                         mw.$('#available_elements a').on('click', function () {
                             Output({
-                                url: mw.top().win.location.href.split('#')[0] + $(this).dataset('href')
+                                url: mw.top().win.location.href.split('#')[0] + $(this).attr('data-href')
                             })
                             mw.$('#available_elements a').removeClass('active')
                             mw.$(this).addClass('active')

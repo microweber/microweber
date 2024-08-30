@@ -1075,7 +1075,7 @@ mw.wysiwyg = {
                         }
                     }
 
-                    var command = mw.$(this).dataset('command');
+                    var command = mw.$(this).attr('data-command');
                     if (!command.contains('custom-')) {
                         mw.wysiwyg._do(command);
                     }
@@ -1549,12 +1549,12 @@ mw.wysiwyg = {
             var y = parseFloat(arr[len - 3]);
             var blur = parseFloat(arr[len - 2]);
             mw.$(".element-current").css("box-shadow", x + "px " + y + "px " + blur + "px #" + color);
-            mw.$(".ed_shadow_color").dataset("color", color);
+            mw.$(".ed_shadow_color").attr("data-color", color);
 
         }
         else {
             mw.$(".element-current").css("box-shadow", "0px 0px 6px #" + color);
-            mw.$(".ed_shadow_color").dataset("color", color);
+            mw.$(".ed_shadow_color").attr("data-color", color);
         }
         mw.wysiwyg.change('.element-current');
     },
