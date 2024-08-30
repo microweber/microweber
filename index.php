@@ -1,5 +1,17 @@
 <?php
 
+print 'Microweber is moved to pubic folder. Please use the new index.php file in the public folder.';
+print '<br>';
+print '<br>';
+print '<a href="public">Click here to go to the new location</a>';
+
+
+exit;
+?>
+
+
+<?php
+
 if (defined('LARAVEL_START')) {
     return;
 }
