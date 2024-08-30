@@ -35,8 +35,14 @@ if (!function_exists('url2dir')) {
 if (!function_exists('dir2url')) {
     function dir2url($path)
     {
+        $path1 = normalize_path($path, false);
+        $path2= normalize_path(public_path(), false);
+
+        $path = str_ireplace($path2, '', $path1);
+
         //$path = str_ireplace(MW_ROOTPATH, '', $path);
         $path = str_ireplace(site_url(), public_path(), $path);
+        $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
 
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
