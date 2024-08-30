@@ -1,0 +1,78 @@
+.mw-control-box {
+    position: fixed;
+    padding: 20px;
+    z-index: 99;
+
+    &.active {
+        z-index: 100;
+    }
+
+    &-top {
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    &-bottom {
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    &-right {
+        top: 0;
+        right: 0;
+        height: 100%;
+    }
+
+    &-left {
+        top: 0;
+        left: 0;
+        height: 100%;
+    }
+
+    &-default {
+        padding: 0;
+        transition: all .5s;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+
+        &.mw-control-box-right {
+            transform: translateX(100%);
+
+            &.active {
+                transform: translateX(0);
+            }
+         }
+
+        &.mw-control-box-left {
+            transform: translateX(-100%);
+
+            &.active {
+                transform: translateX(0);
+            }
+        }
+
+        .mw-control-boxclose {
+            position: absolute;
+            cursor: pointer;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            width: 20px;
+            height: 20px;
+            text-align: center;
+
+            &:after {
+                content: '';
+            }
+        }
+    }
+}
+
+html[dir="rtl"] {
+    .mw-control-boxclose {
+        left: 10px;
+        right: auto;
+    }
+}

@@ -261,7 +261,7 @@ export default {
                         target: isRichtext,
 
                         forced_root_block : 'mw-element',
-                        newline_behavior: 'linebreak',
+                        newline_behavior: 'block',
                         inline: true,
                         promotion: false,
                         statusbar: false,

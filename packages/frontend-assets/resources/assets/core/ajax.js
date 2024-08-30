@@ -193,6 +193,17 @@ mw.reload_module_parent = function(module, callback) {
     }
 }
 mw.reload_modules = function(array, callback, simultaneously) {
+
+
+
+
+
+
+
+
+
+
+
     if(array.array && !array.slice){
         callback = array.callback || array.done || array.ready;
         simultaneously = array.simultaneously;
@@ -238,7 +249,7 @@ mw.reload_module_everywhere = function(module, eachCallback) {
     })
 };
 
-mw.reload_module = function(module, callback) {
+mw.reload_module = async function(module, callback) {
 
     if(module.constructor === [].constructor){
         var l = module.length, i=0, w = 1;
@@ -254,18 +265,33 @@ mw.reload_module = function(module, callback) {
         return false;
     }
     var done = callback || function(){};
+
+    const refreshLiveWireModule = async module => {
+        const component = Livewire.find(module.getAttribute('wire:id'));
+        await component.$refresh();
+    }
+
+
     if (typeof module !== 'undefined') {
         if (typeof module === 'object') {
 
-            mw._({
-                selector: module,
-                done:done
-            });
+            if(module.getAttribute('wire:id')) {
+                await refreshLiveWireModule(module);
+                done.call();
+            } else{
+                mw._({
+                    selector: module,
+                    done: done
+                });
+            }
+
+
         } else {
             var module_name = module.toString();
             var refresh_modules_explode = module_name.split(",");
             for (var i = 0; i < refresh_modules_explode.length; i++) {
                 var module = refresh_modules_explode[i];
+
                 if (typeof module != 'undefined') {
                     module = module.replace(/##/g, '#');
                     var m = mw.$(".module[data-type='" + module + "']");
