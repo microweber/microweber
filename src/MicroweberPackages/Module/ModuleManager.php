@@ -200,7 +200,7 @@ class ModuleManager
             if (!defined('STDIN')) {
                 define('STDIN', fopen("php://stdin", "r"));
             }
-            
+
             foreach ($modules as $module) {
                 /** @var \Nwidart\Modules\Laravel\Module $module */
                 $module->registerProviders();
@@ -354,7 +354,7 @@ class ModuleManager
                         $moduleDir = str_replace(modules_path(), '', $moduleDir);
                     }
 
-                    $replace_root = MW_ROOTPATH . DS . 'userfiles' . DS . 'modules' . DS;
+                    $replace_root = modules_path();
 
                     $moduleDir = str_replace($replace_root, '', $moduleDir);
 

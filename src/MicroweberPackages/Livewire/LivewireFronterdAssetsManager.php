@@ -8,7 +8,7 @@ class LivewireFronterdAssetsManager extends BaseLivewireManager
 {
     public function copyAssets()
     {
-        $livewireCacheFolder = base_path() . '/userfiles/cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
+        $livewireCacheFolder = userfiles_path() . 'cache/livewire/' . \MicroweberPackages\App\LaravelApplication::APP_VERSION . '/livewire/';
         $livewireCacheFolder = normalize_path($livewireCacheFolder,true);
 
         if (!is_dir($livewireCacheFolder)) {

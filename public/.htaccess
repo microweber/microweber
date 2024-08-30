@@ -7,6 +7,8 @@
 
 
 
+    RewriteRule ^modules/.*\.php$ - [F,L]
+    RewriteRule ^vendor/.*\.php$ - [F,L]
     RewriteRule ^userfiles/modules/.*\.php$ - [F,L]
     RewriteRule ^userfiles/templates/.*\.php$ - [F,L]
 
