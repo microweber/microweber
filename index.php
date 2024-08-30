@@ -1,14 +1,18 @@
 <?php
 
-if(defined('LARAVEL_START')){
+if (defined('LARAVEL_START')) {
     return;
+}
+
+if (!defined('MW_SERVED_FROM_BASE_PATH')) {
+    define('MW_SERVED_FROM_BASE_PATH', __DIR__);
 }
 
 ini_set('memory_limit', '1024M');
 
 
-if (version_compare(phpversion(), "7.3.0", "<=")) {
-    exit("Error: You must have PHP version 7.3 or greater to run Microweber");
+if (version_compare(phpversion(), "8.2.0", "<=")) {
+    exit("Error: You must have PHP version 8.2 or greater to run Microweber");
 }
 
 
@@ -24,15 +28,15 @@ if (!function_exists('gd_info')) {
     exit('Error: GD PHP extension is required to run Microweber');
 }
 
-if (!class_exists('PDO') ) {
+if (!class_exists('PDO')) {
     exit('Error: PDO PHP extension is required to run Microweber');
 }
 
-if (!class_exists('Locale') ) {
+if (!class_exists('Locale')) {
     exit('Error: Intl PHP extension is required to run Microweber');
 }
 
-if (!class_exists('XMLReader') ) {
+if (!class_exists('XMLReader')) {
     exit('Error: XML PHP extension is required to run Microweber');
 }
 
