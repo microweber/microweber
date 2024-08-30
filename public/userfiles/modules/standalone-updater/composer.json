@@ -1,0 +1,17 @@
+{
+  "name": "microweber-modules/standalone-updater",
+  "description": "Standalone Updater",
+  "license": "MIT",
+  "homepage": "https://microweber.org/modules/microweber-modules/standalone-updater",
+  "authors": [
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "keywords": [
+    "standalone-updater"
+  ],
+  "type": "microweber-module",
+  "target-dir": "standalone-updater"
+}

@@ -9,7 +9,7 @@ function userfiles_path()
     if (!$folder) {
        // $folder = normalize_path(base_path() . DIRECTORY_SEPARATOR);
         //if(MW_USERFILES_FOLDER_NAME){
-        $folder = normalize_path(base_path() . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+        $folder = normalize_path(public_path() . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
         //  }
     }
 
@@ -25,11 +25,12 @@ function userfiles_url()
     static $folder;
     if (!$folder) {
 
-        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
-            $folder = site_url();
-        } else {
-            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/');
-        }
+//        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
+//            $folder = site_url();
+//        } else {
+//            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/');
+//        }
+        $folder = site_url(MW_USERFILES_FOLDER_NAME . '/');
 
     }
 
@@ -73,11 +74,14 @@ function modules_url()
 {
     static $folder;
     if (!$folder) {
-        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
-            $folder = site_url(MW_MODULES_FOLDER_NAME . '/');
-        } else {
-            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_MODULES_FOLDER_NAME . '/');
-        }
+//        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
+//            $folder = site_url(MW_MODULES_FOLDER_NAME . '/');
+//        } else {
+//            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_MODULES_FOLDER_NAME . '/');
+//        }
+//
+        $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_MODULES_FOLDER_NAME . '/');
+
     }
 
     return $folder;
@@ -104,11 +108,14 @@ function templates_url()
 {
     static $folder;
     if (!$folder) {
-        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
-            $folder = site_url( MW_TEMPLATES_FOLDER_NAME . '/');
-        } else {
-            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
-        }
+//        if (defined('MW_BOOT_FROM_PUBLIC_FOLDER')) {
+//            $folder = site_url( MW_TEMPLATES_FOLDER_NAME . '/');
+//        } else {
+//            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
+//        }
+
+        $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
+
     }
 
     return $folder;

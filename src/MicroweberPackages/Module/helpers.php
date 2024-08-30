@@ -88,6 +88,7 @@ function module_icon_inline($module_name)
     if ($findModule) {
         $icon = $findModule->getIconInline();
         if ($icon) {
+
             return $icon;
         }
     }

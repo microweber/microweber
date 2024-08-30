@@ -156,7 +156,7 @@ class AppServiceProvider extends ServiceProvider
         //$this->loadPackagesComposerJson();
 
         ClassLoader::addDirectories([
-            base_path() . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules',
+            modules_path(),
             __DIR__,
         ]);
 

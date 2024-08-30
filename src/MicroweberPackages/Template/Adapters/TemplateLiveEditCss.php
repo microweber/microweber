@@ -72,6 +72,7 @@ class TemplateLiveEditCss
         if (is_file($custom_live_edit_css_path)) {
             $custom_live_editmtime = filemtime($custom_live_edit_css_path);
             $custom_live_edit_link = app()->url_manager->link_to_file($custom_live_edit_css_path);
+
             $live_edit_css_url = $custom_live_edit_link . '?version=' . $custom_live_editmtime;
 
             return $live_edit_css_url;

@@ -486,6 +486,7 @@ class FrontendController extends Controller
         if ($page == false or $this->create_new_page == true) {
             if (trim($page_url) == '' and $preview_module == false) {
                 $page = $this->app->content_manager->homepage();
+
             } else {
 
                 $page_exact = false;
@@ -1450,6 +1451,8 @@ class FrontendController extends Controller
 
 
         } else {
+
+
             echo 'Error! Page is not found? Please login in the admin and make a page.';
 
             // $this->app->cache_manager->clear();

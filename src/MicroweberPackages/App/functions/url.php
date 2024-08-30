@@ -22,7 +22,9 @@ if (!function_exists('url2dir')) {
             return false;
         }
 
-        $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
+    //    $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
+        $path = str_ireplace(site_url(), public_path(), $path);
+
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
 
@@ -33,7 +35,9 @@ if (!function_exists('url2dir')) {
 if (!function_exists('dir2url')) {
     function dir2url($path)
     {
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        //$path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_ireplace(site_url(), public_path(), $path);
+
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
 

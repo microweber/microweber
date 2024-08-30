@@ -40,19 +40,20 @@ class UrlManager
 
     public function link_to_file($path)
     {
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $public_path = public_path();
+        $path = str_ireplace($public_path, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_ireplace($public_path, '', $path);
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
-        $path = str_ireplace(MW_ROOTPATH, '', $path);
+        $path = str_ireplace($public_path, '', $path);
         $path = str_ireplace($this->site_url(), '', $path);
 
         if (function_exists('base_path')) {
             $replace_file = base_path();
         } else {
-            $replace_file = @dirname(dirname(dirname(__FILE__)));
+            $replace_file = @dirname(dirname(dirname(dirname(__FILE__))));
         }
 
         $path = str_ireplace($replace_file, '', $path);
