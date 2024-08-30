@@ -55,7 +55,8 @@ return [
     | Examples: "/assets", "myurl.com/app".
     |
     */
-   'asset_url' => site_url('public/vendor/livewire/livewire.js'),
+//   'asset_url' => site_url('public/vendor/livewire/livewire.js'),
+   'asset_url' => defined('MW_SERVED_FROM_BASE_PATH') ? site_url('public/vendor/livewire/livewire.min.js') : site_url('vendor/livewire/livewire.min.js'),
   // 'asset_url' => 'resources/js/livewire',
  // 'asset_url' => site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js',
 

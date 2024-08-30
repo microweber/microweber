@@ -82,7 +82,12 @@ class LivewireServiceProvider extends ServiceProvider
 //    }
     public function boot()
     {
-        $livewireUrl = site_url('public/vendor/livewire/livewire.min.js');
+
+        if(defined('MW_SERVED_FROM_BASE_PATH')) {
+            $livewireUrl = site_url('public/vendor/livewire/livewire.min.js');
+        } else {
+            $livewireUrl = site_url('vendor/livewire/livewire.min.js');
+        }
 
         Livewire::setScriptRoute(function ($handle) use ($livewireUrl) {
 

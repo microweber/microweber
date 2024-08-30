@@ -450,12 +450,15 @@ class AppServiceProvider extends ServiceProvider
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
 
-        app()->usePublicPath(base_path());
+
 
 
         //   \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
-        \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
 
+        if(defined('MW_SERVED_FROM_BASE_PATH')) {
+            app()->usePublicPath(base_path());
+            \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
+        }
 
         //set app.asset_url
 

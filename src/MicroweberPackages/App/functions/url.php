@@ -3,9 +3,13 @@
 
 function public_asset($path = '', $secure = null)
 {
+    if (!defined('MW_SERVED_FROM_BASE_PATH')) {
+        return asset($path, $secure);
+    }
 
-    if(!$path){
-         return asset('/public/', $secure).'/';
+
+    if (!$path) {
+        return asset('/public/', $secure) . '/';
     }
 
     return asset('/public/' . trim($path, '/'), $secure);
