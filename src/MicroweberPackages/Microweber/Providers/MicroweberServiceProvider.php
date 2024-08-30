@@ -38,6 +38,7 @@ use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\Form\Providers\FormServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
+use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
@@ -107,9 +108,6 @@ class MicroweberServiceProvider extends ServiceProvider
     {
 
 
-
-
-
         $this->app->register(\MicroweberPackages\Database\DatabaseManagerServiceProvider::class);
         $this->app->register(HelpersServiceProvider::class);
         $this->app->register(LiveEditRouteServiceProvider::class);
@@ -129,16 +127,12 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(AdminServiceProvider::class);
 
 
-
-
-
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
         $this->app->register(MediaManagerServiceProvider::class);
         //$this->app->register(DebugbarServiceProvider::class);
 
         $this->app->register(PaginationServiceProvider::class);
-
 
 
         //   $this->app->register(TaggableFileCacheServiceProvider::class);
@@ -216,12 +210,17 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(LiveEditServiceProvider::class);
-   //      $this->app->register(LaravelModulesServiceProvider::class);
+        $this->app->register(LaravelModulesServiceProvider::class);
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 
 
+    }
 
 
+    public function boot()
+    {
+        // FrontendServiceProvider must be loaded after all other providers on boot as it has catch all routes
+        $this->app->register(FrontendServiceProvider::class);
     }
 }

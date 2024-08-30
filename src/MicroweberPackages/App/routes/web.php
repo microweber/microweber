@@ -235,7 +235,7 @@ Route::group(['middleware' => ['public.web', \MicroweberPackages\App\Http\Middle
 // 'middleware' => 'web',
 Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
 
-    Route::any('/', 'FrontendController@index')->name('home');
+    // Route::any('/', 'FrontendController@index')->name('home');
 
 //    $custom_admin_url = \Config::get('microweber.admin_url');
 //    $admin_url = 'admin';
@@ -262,7 +262,7 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
     Route::any('rss-products', 'RssController@products')->name('rss.products');
     Route::any('rss-posts', 'RssController@posts')->name('rss.posts');
 
-    Route::any('{all}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
+    //  Route::any('{all}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
 
 });
 
