@@ -46,6 +46,8 @@ if (!function_exists('dir2url')) {
 
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
+        $path = ltrim($path, '/');
+        $path = ltrim($path, '\\');
 
         //var_dump($path);
         return site_url($path);
