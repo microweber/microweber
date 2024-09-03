@@ -35,7 +35,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
         $this->mergeConfigFrom(__DIR__ . '/config/templates.php', 'templates');
         $this->app->singleton(TemplatesRepositoryInterface::class, function ($app) {
             $path = $app['config']->get('templates.paths.modules');
-           
+
             return new LaravelTemplatesFileRepository($app, $path);
         });
         $this->app->singleton(TemplateActivatorInterface::class, function ($app) {

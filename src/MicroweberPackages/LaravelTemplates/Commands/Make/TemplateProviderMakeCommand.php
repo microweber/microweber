@@ -91,7 +91,7 @@ class TemplateProviderMakeCommand extends GeneratorCommand
             'MODULE' => $this->getModuleName(),
             'NAME' => $this->getFileName(),
             'STUDLY_NAME' => $module->getStudlyName(),
-            'MODULE_NAMESPACE' => $this->laravel['modules']->config('namespace'),
+            'MODULE_NAMESPACE' => $this->laravel['templates']->config('namespace'),
             'PATH_VIEWS' => TemplateGenerateConfigReader::read('views')->getPath(),
             'PATH_LANG' => TemplateGenerateConfigReader::read('lang')->getPath(),
             'PATH_CONFIG' => TemplateGenerateConfigReader::read('config')->getPath(),
