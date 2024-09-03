@@ -2,11 +2,63 @@
 
 namespace MicroweberPackages\LaravelModules\Repositories;
 
+use Illuminate\Cache\CacheManager;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Traits\Macroable;
 use Nwidart\Modules\FileRepository;
 use Nwidart\Modules\Json;
 
 class LaravelModulesFileRepository extends FileRepository
 {
+    use Macroable;
+
+    /**
+     * Application instance.
+     *
+     * @var \Illuminate\Contracts\Foundation\Application|\Laravel\Lumen\Application
+     */
+    protected $app;
+
+    /**
+     * The module path.
+     *
+     * @var string|null
+     */
+    protected $path;
+
+    /**
+     * The scanned paths.
+     *
+     * @var array
+     */
+    protected $paths = [];
+
+    /**
+     * @var string
+     */
+    protected $stubPath;
+
+    /**
+     * @var UrlGenerator
+     */
+    private $url;
+
+    /**
+     * @var ConfigRepository
+     */
+    private $config;
+
+    /**
+     * @var Filesystem
+     */
+    private $files;
+
+    /**
+     * @var CacheManager
+     */
+    private $cache;
 
     protected function createModule(...$args)
     {
@@ -55,5 +107,15 @@ class LaravelModulesFileRepository extends FileRepository
         $module = new \Nwidart\Modules\Laravel\Module ($app, $moduleManifest['name'], $path);
 
         return $module;
+    }
+
+    public function find(string $name)
+    {
+        foreach ($this->all() as $module) {
+            if ($module->getLowerName() === strtolower($name)) {
+                return $module;
+            }
+        }
+
     }
 }
