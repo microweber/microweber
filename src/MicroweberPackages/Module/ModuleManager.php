@@ -203,6 +203,7 @@ class ModuleManager
 
             foreach ($modules as $module) {
                 /** @var \Nwidart\Modules\Laravel\Module $module */
+                $module->enable();
                 $module->registerProviders();
                 Artisan::call('module:migrate', ['module' => $module->getLowerName(), '--force']);
                 Artisan::call('module:publish', ['module' => $module->getLowerName(), '--force']);
