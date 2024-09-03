@@ -59,14 +59,19 @@ ForceType 'text/css; charset=UTF-8'
     RewriteEngine On
 
 
+    # redirect to public folder
     RewriteCond %{REQUEST_URI} ^/public/.*\.php$ [NC]
     RewriteRule ^ - [F]
 
-    RewriteCond %{REQUEST_URI} ^/userfiles/standalone-update/.*\.php$ [NC]
-    RewriteRule ^ - [L]
+
 
     RewriteCond %{REQUEST_URI} !^/\.well-known
     RewriteRule "(^|/)\." - [F]
+
+
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} !^public
+    RewriteRule ^(.*)$ public/$1 [L]
 
     RewriteRule ^app/(.*)?$ / [F,L]
     RewriteRule ^vendor/(.*)?$ / [F,L]
@@ -80,7 +85,8 @@ ForceType 'text/css; charset=UTF-8'
     RewriteRule ^composer\.(lock|json)$ / [F,L]
 
 
-
+    RewriteCond %{REQUEST_URI} ^/userfiles/standalone-update/.*\.php$ [NC]
+    RewriteRule ^ - [L]
 
     RewriteRule ^userfiles/modules/.*\.php$ - [F,L]
     RewriteRule ^userfiles/templates/.*\.php$ - [F,L]
