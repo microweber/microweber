@@ -1,21 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Module;
+namespace MicroweberPackages\LaravelModules;
 
-use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
-use MicroweberPackages\Module\Activators\DatabaseActivator;
-use MicroweberPackages\Module\Repositories\LaravelModulesDatabaseRepository;
-use MicroweberPackages\Module\Repositories\LaravelModulesFileRepository;
-use Nwidart\Modules\Exceptions\InvalidActivatorClass;
-use Composer\InstalledVersions;
-use Illuminate\Foundation\Console\AboutCommand;
+use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Contracts;
-use Nwidart\Modules\Laravel;
-use Nwidart\Modules\Support\Stub;
 
 //from https://github.com/allenwakeup/laravel-modules/
-/** @deprecated */
+
 class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServiceProvider
 {
    // use MergesConfig;

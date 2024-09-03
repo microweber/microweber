@@ -16,7 +16,7 @@ namespace MicroweberPackages\Module;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
-use MicroweberPackages\Module\Repositories\LaravelModulesFileRepository;
+use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 class ModuleManager

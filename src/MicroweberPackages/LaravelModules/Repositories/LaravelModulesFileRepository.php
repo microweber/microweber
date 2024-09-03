@@ -1,22 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Module\Repositories;
+namespace MicroweberPackages\LaravelModules\Repositories;
 
-use Countable;
-use Illuminate\Cache\CacheManager;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
-use Illuminate\Contracts\Routing\UrlGenerator;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
-use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Exceptions\InvalidAssetPath;
-use Nwidart\Modules\Exceptions\ModuleNotFoundException;
 use Nwidart\Modules\FileRepository;
 use Nwidart\Modules\Json;
-use Nwidart\Modules\Process\Installer;
-use Nwidart\Modules\Process\Updater;
 
 class LaravelModulesFileRepository extends FileRepository
 {

@@ -1,0 +1,36 @@
+import {defineConfig} from 'vite';
+import laravel from 'laravel-vite-plugin';
+import copyFolder from '@cxy168/copyfolder';
+import path from 'path';
+
+
+export default defineConfig({
+    build: {
+        outDir: __dirname + '/resources/assets/dist',
+        emptyOutDir: true,
+        manifest: "manifest.json",
+    },
+    plugins: [
+        laravel({
+            input: [
+                __dirname + '/resources/assets/sass/app.scss',
+                __dirname + '/resources/assets/js/app.js'
+            ],
+            refresh: true,
+        }),
+        {
+            name: 'copy-assets',
+            buildEnd: async () => {
+                const src = path.resolve(__dirname, 'resources/assets/');
+                const dest = path.resolve(__dirname, '../../public/modules/$LOWER_NAME$/');
+                await copyFolder(src, dest);
+            }
+        }
+
+    ],
+});
+
+//export const paths = [
+//    'Modules/$STUDLY_NAME$/resources/assets/sass/app.scss',
+//    'Modules/$STUDLY_NAME$/resources/assets/js/app.js',
+//];

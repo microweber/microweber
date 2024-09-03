@@ -1,0 +1,18 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "axios": "*",
+        "laravel-vite-plugin": "^1.0.5",
+        "postcss": "^8.3.7",
+        "sass": "^1.69.5",
+        "vite": "^5.4.2"
+    },
+    "dependencies": {
+        "@cxy168/copyfolder": "^1.1.1"
+    }
+}
