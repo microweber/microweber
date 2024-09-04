@@ -120,7 +120,8 @@
                         <div
 
                             x-data="mwMediaManagerComponent({
-                            mediaIds: $wire.$entangle('mediaIds')
+                            mediaIds: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+                           
                         })"
                             x-on:end="
 
