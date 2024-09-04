@@ -211,8 +211,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(LiveEditServiceProvider::class);
-        $this->app->register(LaravelModulesServiceProvider::class);
-        $this->app->register(LaravelTemplatesServiceProvider::class);
+     //   $this->app->register(LaravelModulesServiceProvider::class);
+     //   $this->app->register(LaravelTemplatesServiceProvider::class);
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 
