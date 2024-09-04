@@ -1,39 +1,35 @@
 version: '3'
 services:
-#  composer_installation:
-#    container_name: composer_installation
-#    image: composer
-#    volumes:
-#      - ./:/app
-#    command: composer install
-  php-apache:
-    image: thecodingmachine/php:8.2-v4-apache-node16
-    ports:
-      - 80:80
-    volumes:
-     - ./:/var/www/html
-    links:
-      - 'mariadb'
-    environment:
-      APACHE_DOCUMENT_ROOT: /var/www/html/public
-      COMPOSER_ALLOW_SUPERUSER: 1
-      APACHE_EXTENSION_DAV: 0
-      PHP_INI_MEMORY_LIMIT: 1g
-      PHP_INI_ERROR_REPORTING: E_ALL
-      PHP_EXTENSIONS: pgsql gettext imap sockets zip curl dom gd exif intl mbstring bcmath curl dom opcache mbstring soap xml xmlrpc fileinfo intl xml pdo_sqlite pdo_mysql pdo_pgsql
-      PECL_EXTENSION: sodium
-      #STARTUP_COMMAND_1: composer install
-  mariadb:
-    image: mariadb:10.3
-    volumes:
-    - mariadb:/var/lib/mysql
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_USER: 'laravel'
-      MYSQL_PASSWORD: 'laravel'
-      MYSQL_DATABASE: 'laravel'
-    ports:
-      - 3306:3306
+    php-apache:
+        image: thecodingmachine/php:8.2-v4-apache-node16
+        ports:
+            - 80:80
+        volumes:
+            - html:/var/www/html
+        links:
+            - 'mariadb'
+        environment:
+            APACHE_DOCUMENT_ROOT: /var/www/html/public
+            COMPOSER_ALLOW_SUPERUSER: 1
+            APACHE_EXTENSION_DAV: 0
+            PHP_INI_MEMORY_LIMIT: 1g
+            PHP_INI_ERROR_REPORTING: E_ALL
+            PHP_EXTENSIONS: pgsql gettext imap sockets zip curl dom gd exif intl mbstring bcmath curl dom opcache mbstring soap xml xmlrpc fileinfo intl xml pdo_sqlite pdo_mysql pdo_pgsql
+            PECL_EXTENSION: sodium
+    mariadb:
+        image: mariadb:10.3
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "root"
+            MYSQL_USER: 'laravel'
+            MYSQL_PASSWORD: 'laravel'
+            MYSQL_DATABASE: 'laravel'
+        ports:
+            - 3306:3306
 volumes:
-  mariadb:
+    html:
+        driver: local
+        driver_opts:
+            o: bind
+            type: none
+            device: ./
