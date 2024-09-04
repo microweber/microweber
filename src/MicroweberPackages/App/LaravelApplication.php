@@ -27,9 +27,11 @@ class LaravelApplication extends Application
 
     public function __construct($basePath = null)
     {
+
         $this->base_path_local = $basePath;
         $this->_check_system();
         parent::__construct($basePath);
+
     }
 
 
@@ -37,8 +39,10 @@ class LaravelApplication extends Application
 
     public function boot()
     {
+
         $this->_check_new_config_files();
         parent::boot();
+
     }
 
     /**
@@ -84,19 +88,19 @@ class LaravelApplication extends Application
         $this->register(new TaggableFileCacheServiceProvider($this));
 
     }
-    protected function registerBaseBindings()
-    {
-        static::setInstance($this);
-
-        $this->instance('app', $this);
-
-        $this->instance(Container::class, $this);
-        $this->singleton(Mix::class);
-
-        $this->singleton(PackageManifest::class, fn () => new PackageManifest(
-            new Filesystem, $this->basePath(), $this->getCachedPackagesPath()
-        ));
-    }
+//    protected function registerBaseBindings()
+//    {
+//        static::setInstance($this);
+//
+//        $this->instance('app', $this);
+//
+//        $this->instance(Container::class, $this);
+//        $this->singleton(Mix::class);
+//
+//        $this->singleton(PackageManifest::class, fn () => new PackageManifest(
+//            new Filesystem, $this->basePath(), $this->getCachedPackagesPath()
+//        ));
+//    }
     private function _check_new_config_files()
     {
         // we check if there is cached file for the current version and copy the missing config files if there is no cached file
@@ -157,6 +161,7 @@ class LaravelApplication extends Application
 
     private function __ensure_dot_env_file_exists()
     {
+
         /*
         *
         * fix of error:  ErrorException: file_get_contents(my_site/.env): failed to open stream: No such file or directory
@@ -210,6 +215,7 @@ class LaravelApplication extends Application
 
     public function rebootApplication()
     {
+
         $this->booted = false;
         $this->boot();
     }

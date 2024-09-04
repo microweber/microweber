@@ -192,6 +192,7 @@ class ModuleManager
 
     public function reload_laravel_modules()
     {
+        return;
         /** @var LaravelModulesFileRepository $laravelModules */
         $laravelModules = app('modules');
         $modules = $laravelModules->scan();

@@ -8983,7 +8983,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
-                "reference": "dc68e0bbf08a164769513b1d95faf5249b690f8a"
+                "reference": "de6619b6fd346a97d2b8b95cc2ef717cd3fb474c"
             },
             "type": "library",
             "autoload": {
@@ -9062,7 +9062,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "778441b2f5034c5ee89e1e65dc38f8b089769e44"
+                "reference": "93fe855917dd7486269c88ae1f0c4e7f6457a993"
             },
             "require": {
                 "filament/filament": "^3.0",
