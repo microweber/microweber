@@ -4,7 +4,6 @@ namespace MicroweberPackages\LaravelTemplates;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
-use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplatesRepositoryInterface;
 use MicroweberPackages\LaravelTemplates\Providers\TemplatesBootstrapServiceProvider;
@@ -13,6 +12,7 @@ use MicroweberPackages\LaravelTemplates\Providers\TemplatesContractsServiceProvi
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Exceptions\InvalidActivatorClass;
+use Nwidart\Modules\Support\Stub;
 
 //from https://github.com/allenwakeup/laravel-modules/
 
@@ -21,13 +21,14 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
     // use MergesConfig;
     public function boot()
     {
-      //  $this->registerNamespaces();
+        //  $this->registerNamespaces();
         $this->registerModules();
 
         AboutCommand::add('Laravel-Templates', [
-            'Version' => fn () => InstalledVersions::getPrettyVersion('nwidart/laravel-modules'),
+            'Version' => fn() => InstalledVersions::getPrettyVersion('nwidart/laravel-modules'),
         ]);
     }
+
     public function register()
     {
 
@@ -50,15 +51,29 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
             return new $class($app);
         });
         $this->registerServices();
-        //  $this->setupStubPath();
+        $this->setupStubPath();
         $this->registerProviders();
         $this->app->bind(TemplatesRepositoryInterface::class, LaravelTemplatesFileRepository::class);
 
     }
 
+    public function setupStubPath()
+    {
+        $path = $this->app['config']->get('templates.stubs.path') ?? __DIR__ . '/Commands/stubs';
+        Stub::setBasePath($path);
+
+        $this->app->booted(function ($app) {
+            /** @var TemplatesRepositoryInterface $moduleRepository */
+            $moduleRepository = $app[TemplatesRepositoryInterface::class];
+            if ($moduleRepository->config('stubs.enabled') === true) {
+                Stub::setBasePath($moduleRepository->config('stubs.path'));
+            }
+        });
+    }
+
+
     protected function registerServices()
     {
-
 
 
         $this->app->alias(TemplatesRepositoryInterface::class, 'templates');
@@ -69,6 +84,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
         $this->app->register(TemplatesConsoleServiceProvider::class);
         $this->app->register(TemplatesContractsServiceProvider::class);
     }
+
     protected function registerModules()
     {
         $this->app->register(TemplatesBootstrapServiceProvider::class);

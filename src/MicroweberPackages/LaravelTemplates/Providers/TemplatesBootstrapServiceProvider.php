@@ -4,7 +4,6 @@ namespace MicroweberPackages\LaravelTemplates\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplatesRepositoryInterface;
-use Nwidart\Modules\Providers\BootstrapServiceProvider;
 
 class TemplatesBootstrapServiceProvider extends ServiceProvider
 {

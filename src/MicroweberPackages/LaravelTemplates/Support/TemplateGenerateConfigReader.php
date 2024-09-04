@@ -2,9 +2,10 @@
 
 namespace MicroweberPackages\LaravelTemplates\Support;
 
+use Nwidart\Modules\Support\Config\GenerateConfigReader;
 use Nwidart\Modules\Support\Config\GeneratorPath;
 
-class TemplateGenerateConfigReader
+class TemplateGenerateConfigReader extends GenerateConfigReader
 {
     public static function read(string $value): GeneratorPath
     {

@@ -65,10 +65,10 @@ class LaravelTemplate extends Module
         // This checks if we are running on a Laravel Vapor managed instance
         // and sets the path to a writable one (services path is not on a writable storage in Vapor).
         if (!is_null(env('VAPOR_MAINTENANCE_MODE', null))) {
-            return Str::replaceLast('config.php', $this->getSnakeName() . '_template.php', $this->app->getCachedConfigPath());
+            return Str::replaceLast('config.php', $this->getSnakeName() . '_templates.php', $this->app->getCachedConfigPath());
         }
 
-        return Str::replaceLast('services.php', $this->getSnakeName() . '_template.php', $this->app->getCachedServicesPath());
+        return Str::replaceLast('services.php', $this->getSnakeName() . '_templates.php', $this->app->getCachedServicesPath());
     }
 
     public function __construct(Container $app, string $name, $path)
