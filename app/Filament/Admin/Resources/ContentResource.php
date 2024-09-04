@@ -160,7 +160,7 @@ Forms\Components\Group::make([
                 ->columns(2),
 
 
-            MwMediaBrowser::make('media_browser'),
+            MwMediaBrowser::make('mediaIds'),
 
 
 //            Forms\Components\Section::make('Images')

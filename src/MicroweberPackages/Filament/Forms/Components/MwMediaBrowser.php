@@ -58,8 +58,6 @@ class MwMediaBrowser extends Field
             ],
             'mwMediaBrowser::mediaItemsSort' => [
                 function ($component, $statePath, $params) {
-
-                      dd($params);
                     if (isset($params['itemsSortedIds'])) {
                         return $this->mediaItemsSort($params['itemsSortedIds']);
                     }
@@ -101,8 +99,6 @@ class MwMediaBrowser extends Field
             })->size('xs');
     }
 
-
-    #[On('mediaItemsSort')]
     public function mediaItemsSort($itemsSortedIds)
     {
         if (!$itemsSortedIds) {
@@ -179,7 +175,6 @@ class MwMediaBrowser extends Field
         //   $this->dispatch('$refresh');
     }
 
-    #[On('updateImageFilename')]
     public function updateImageFilename($id = false,$data=[])
     {
         $mediaId = $id;
@@ -210,7 +205,6 @@ class MwMediaBrowser extends Field
             });
     }
 
-    #[On('deleteMediaItemsByIds')]
     public function deleteMediaItemsByIds($ids = false)
     {
         $mediaId = $ids;

@@ -120,7 +120,8 @@
                         <div
 
                             x-data="mwMediaManagerComponent({
-                            mediaIds: $wire.$entangle('mediaIds')
+                            mediaIds: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+                           
                         })"
                             x-on:end="
 
@@ -132,7 +133,9 @@
                     for (var i = 0; i < itemsSortedIds.length; i++) {
                         itemsSortedIdsArray.push(itemsSortedIds[i].getAttribute('x-sortable-item'));
                     }
-                    $dispatch('mediaItemsSort', { itemsSortedIds: itemsSortedIdsArray })
+                    $wire.dispatchFormEvent('mwMediaBrowser::mediaItemsSort','{{ $statePath }}', {
+                        itemsSortedIds: itemsSortedIdsArray
+                    })
                     "
                             class="admin-thumbs-holder-wrapper"
                         >
