@@ -20,8 +20,6 @@ class MwMediaBrowser extends Field
     public $mediaItems = [];
     public $mediaIds = [];
 
-    public $parentComponentName = '';
-
     protected string $view = 'filament-forms::components.mw-media-browser';
 
     protected function setUp(): void
@@ -155,16 +153,9 @@ class MwMediaBrowser extends Field
             $mediaItem->save();
         }
 
-
         $this->refreshMediaData();
 
-        $data = [
-            'mediaIds' => $this->mediaIds
-        ];
-        if ($this->parentComponentName) {
-            $this->dispatch('modifyComponentData', $data)->to($this->parentComponentName);
-        }
-        //   $this->dispatch('$refresh');
+        $this->state($this->mediaIds);
     }
 
     public function updateImageFilename($id = false,$data=[])
@@ -211,6 +202,15 @@ class MwMediaBrowser extends Field
 
     public function getQueryBuilder()
     {
+
+        $record = $this->getRecord();
+        if ($record) {
+            $this->relType = morph_name($record->getMorphClass());
+            $this->relId = $record->id;
+        } else {
+            $this->createdBy = user_id();
+        }
+
         $itemsQuery = Media::where('rel_type', $this->relType);
 
         if ($this->relId) {

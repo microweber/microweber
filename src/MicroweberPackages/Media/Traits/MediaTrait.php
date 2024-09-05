@@ -211,6 +211,7 @@ trait MediaTrait
                 // $model->setMedias($model->_newMediaToAssociateIds);
             }
 
+
             if (!empty($model->_newMediaToAssociateIds)) {
 
                 $model->setMedias($model->_newMediaToAssociateIds);
@@ -224,6 +225,8 @@ trait MediaTrait
 
         if (is_string($mediaIds)) {
             $mediaIds = str_replace(' ', '', $mediaIds);
+            $mediaIds = str_replace('"', '', $mediaIds);
+            $mediaIds = str_replace("'", '', $mediaIds);
             $mediaIds = str_replace('[', '', $mediaIds);
             $mediaIds = str_replace(']', '', $mediaIds);
             $mediaIds = explode(',', $mediaIds);
