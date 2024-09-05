@@ -121,7 +121,7 @@
 
                             x-data="mwMediaManagerComponent({
                             mediaIds: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
-                           
+
                         })"
                             x-on:end="
 
@@ -136,6 +136,7 @@
                     $wire.dispatchFormEvent('mwMediaBrowser::mediaItemsSort','{{ $statePath }}', {
                         itemsSortedIds: itemsSortedIdsArray
                     })
+                    mediaIds = itemsSortedIdsArray
                     "
                             class="admin-thumbs-holder-wrapper"
                         >

@@ -116,14 +116,6 @@ class MwMediaBrowser extends Field
 
         $this->refreshMediaData();
 
-        $data = [
-            'mediaIds' => $this->mediaIds
-        ];
-        if ($this->parentComponentName) {
-            $this->dispatch('modifyComponentData', $data)->to($this->parentComponentName);
-        }
-        //  $this->dispatch('$refresh');
-
     }
 
     public function addMediaItem($data = [])
