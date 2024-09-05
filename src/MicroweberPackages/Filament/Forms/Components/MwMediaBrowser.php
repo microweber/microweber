@@ -213,22 +213,19 @@ class MwMediaBrowser extends Field
 
         $itemsQuery = Media::where('rel_type', $this->relType);
 
-        if ($this->relId) {
+        if (!empty(trim($this->relId))) {
             $itemsQuery->where('rel_id', $this->relId);
-        } else if ($this->sessionId) {
+        } else if (!empty(trim($this->sessionId))) {
             $itemsQuery->where('session_id', $this->sessionId);
-            $itemsQuery->where('rel_id', 0);
         } else if ($this->createdBy) {
             $itemsQuery->where('created_by', $this->createdBy);
-            $itemsQuery->where('rel_id', 0);
-
-
         }
 
-        if ($this->relType) {
+        if (!empty(trim($this->relType))) {
             $itemsQuery->where('rel_type', $this->relType);
         }
         $itemsQuery->orderBy('position', 'asc');
+
 
         return $itemsQuery;
     }
