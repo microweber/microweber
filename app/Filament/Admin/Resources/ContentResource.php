@@ -27,6 +27,7 @@ use MicroweberPackages\Filament\Forms\Components\MwRichEditor;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
+use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\User\Models\User;
@@ -165,7 +166,15 @@ Forms\Components\Group::make([
                 ->columnSpanFull()
                 ->columns(2),
 
-            MwMediaBrowser::make('mediaIds'),
+            MwMediaBrowser::make('mediaIds')
+                ->default(function () {
+                    $mediaIds = Media::where('created_by', auth()->id())
+                        ->where('rel_id', '')
+                        ->orderBy('position', 'asc')
+                        ->pluck('id')->toArray();
+
+                    return $mediaIds;
+                }),
 
 
             Forms\Components\Section::make('Pricing')
