@@ -137,8 +137,12 @@ class MwMediaBrowser extends Field
 
         if (!$mediaItem) {
             $mediaItem = new Media();
-            $mediaItem->rel_type = $this->relType;
-            $mediaItem->rel_id = $this->relId;
+            if ($this->relType) {
+                $mediaItem->rel_type = $this->relType;
+            }
+            if ($this->relId) {
+                $mediaItem->rel_id = $this->relId;
+            }
             $mediaItem->filename = $url;
             if ($this->createdBy) {
                 $mediaItem->created_by = $this->createdBy;
@@ -211,21 +215,23 @@ class MwMediaBrowser extends Field
             $this->createdBy = user_id();
         }
 
-        $itemsQuery = Media::where('rel_type', $this->relType);
+        $itemsQuery = Media::query();
 
-        if (!empty(trim($this->relId))) {
-            $itemsQuery->where('rel_id', $this->relId);
-        } else if (!empty(trim($this->sessionId))) {
+       if (!empty(trim($this->sessionId))) {
             $itemsQuery->where('session_id', $this->sessionId);
         } else if ($this->createdBy) {
             $itemsQuery->where('created_by', $this->createdBy);
         }
 
+        if (!empty(trim($this->relId))) {
+            $itemsQuery->where('rel_id', $this->relId);
+        }
+
         if (!empty(trim($this->relType))) {
             $itemsQuery->where('rel_type', $this->relType);
         }
-        $itemsQuery->orderBy('position', 'asc');
 
+        $itemsQuery->orderBy('position', 'asc');
 
         return $itemsQuery;
     }

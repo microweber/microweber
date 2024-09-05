@@ -169,7 +169,7 @@ Forms\Components\Group::make([
             MwMediaBrowser::make('mediaIds')
                 ->default(function () {
                     $mediaIds = Media::where('created_by', auth()->id())
-                        ->where('rel_id', '')
+                        ->whereNull('rel_id')
                         ->orderBy('position', 'asc')
                         ->pluck('id')->toArray();
 
