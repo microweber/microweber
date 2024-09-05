@@ -157,11 +157,11 @@ Forms\Components\Group::make([
                     Forms\Components\TextInput::make('description')
                         ->columnSpan('full'),
 
-                    MwRichEditor::make('content_body')
-                        ->columnSpan('full')
-                        ->visible(function (Forms\Get $get) {
-                            return $get('content_type') !== 'page';
-                        }),
+//                    MwRichEditor::make('content_body')
+//                        ->columnSpan('full')
+//                        ->visible(function (Forms\Get $get) {
+//                            return $get('content_type') !== 'page';
+//                        }),
                 ])
                 ->columnSpanFull()
                 ->columns(2),
