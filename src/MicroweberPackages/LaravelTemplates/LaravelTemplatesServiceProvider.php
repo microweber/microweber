@@ -24,9 +24,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
         //  $this->registerNamespaces();
         $this->registerModules();
 
-        AboutCommand::add('Laravel-Templates', [
-            'Version' => fn() => InstalledVersions::getPrettyVersion('nwidart/laravel-modules'),
-        ]);
+
     }
 
     public function register()
@@ -50,10 +48,11 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
 
             return new $class($app);
         });
+
         $this->registerServices();
-        $this->setupStubPath();
+     //   $this->setupStubPath();
         $this->registerProviders();
-        $this->app->bind(TemplatesRepositoryInterface::class, LaravelTemplatesFileRepository::class);
+      $this->app->bind(TemplatesRepositoryInterface::class, LaravelTemplatesFileRepository::class);
 
     }
 
@@ -74,9 +73,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
 
     protected function registerServices()
     {
-
-
-        $this->app->alias(TemplatesRepositoryInterface::class, 'templates');
+       $this->app->alias(TemplatesRepositoryInterface::class, 'templates');
     }
 
     protected function registerProviders()
@@ -87,7 +84,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
 
     protected function registerModules()
     {
-        $this->app->register(TemplatesBootstrapServiceProvider::class);
+         $this->app->register(TemplatesBootstrapServiceProvider::class);
     }
 
 }

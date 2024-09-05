@@ -10,6 +10,7 @@ class TemplatesBootstrapServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
+
         $this->app[TemplatesRepositoryInterface::class]->boot();
     }
 

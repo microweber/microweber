@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LaravelModules\Repositories;
 
 use Illuminate\Cache\CacheManager;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
@@ -59,6 +60,20 @@ class LaravelModulesFileRepository extends FileRepository
      * @var CacheManager
      */
     private $cache;
+
+
+    public function __construct(Container $app, $path = null)
+    {
+        $this->app = $app;
+        $this->path = $path;
+        $this->url = $app['url'];
+        $this->config = $app['config'];
+        $this->files = $app['files'];
+        $this->cache = $app['cache'];
+
+
+    }
+
 
     protected function createModule(...$args)
     {
@@ -117,5 +132,59 @@ class LaravelModulesFileRepository extends FileRepository
             }
         }
 
+    }
+    public function config(string $key, $default = null)
+    {
+
+        return $this->config->get('modules.'.$key, $default);
+    }
+    public function all(): array
+    {
+
+        if (! $this->config('cache.enabled')) {
+
+            return $this->scan();
+        }
+      // return $this->scan();
+        return $this->formatCached($this->getCached());
+    }
+    public function getFiles(): Filesystem
+    {
+
+        return $this->files;
+    }
+    public function getCached()
+    {
+        return $this->cache->store($this->config->get('modules.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+            return $this->toCollection()->toArray();
+        });
+    }
+
+
+    public function scan()
+    {
+        $paths = $this->getScanPaths();
+
+        $modules = [];
+
+        if(!$this->getFiles()){
+            return [];
+        }
+
+
+        foreach ($paths as $key => $path) {
+
+            $manifests = $this->getFiles()->glob("{$path}/module.json");
+
+            is_array($manifests) || $manifests = [];
+
+            foreach ($manifests as $manifest) {
+                $name = Json::make($manifest)->get('name');
+
+                $modules[$name] = $this->createModule($this->app, $name, dirname($manifest));
+            }
+        }
+
+        return $modules;
     }
 }

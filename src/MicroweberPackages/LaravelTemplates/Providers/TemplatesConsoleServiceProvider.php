@@ -10,7 +10,7 @@ use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Providers\BootstrapServiceProvider;
 use Nwidart\Modules\Commands;
 
-class TemplatesConsoleServiceProvider extends BootstrapServiceProvider
+class TemplatesConsoleServiceProvider extends ServiceProvider
 {
 
 

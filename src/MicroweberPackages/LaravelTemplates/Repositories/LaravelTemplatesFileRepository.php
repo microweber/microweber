@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LaravelTemplates\Repositories;
 
 use Illuminate\Cache\CacheManager;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
@@ -63,8 +64,23 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
      * @var CacheManager
      */
     private $cache;
+
+    public function __construct(Container $app, $path = null)
+    {
+        $this->app = $app;
+        $this->path = $path;
+        $this->url = $app['url'];
+        $this->config = $app['config'];
+        $this->files = $app['files'];
+        $this->cache = $app['cache'];
+
+    }
+
+
+
     public function all(): array
     {
+
         if (! $this->config('cache.enabled')) {
 
             return $this->scan();
@@ -85,12 +101,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         return $modules;
     }
 
-    public function getCached()
-    {
-        return $this->cache->store($this->config->get('templates.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
-            return $this->toCollection()->toArray();
-        });
-    }
+
     public function getUsedStoragePath(): string
     {
         $directory = storage_path('app/modules');
@@ -115,28 +126,31 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         return config()->get('templates.'.$key, $default);
     }
 
-
-
-    public function scan()
+    public function getPath(): string
     {
-        $paths = $this->getScanPaths();
-
-        $modules = [];
-
-        foreach ($paths as $key => $path) {
-            $manifests = $this->getFiles()->glob("{$path}/module.json");
-
-            is_array($manifests) || $manifests = [];
-
-            foreach ($manifests as $manifest) {
-                $name = Json::make($manifest)->get('name');
-
-                $modules[$name] = $this->createModule($this->app, $name, dirname($manifest));
-            }
-        }
-
-        return $modules;
+        return $this->path ?: $this->config('paths.modules', base_path('Templates'));
     }
+
+//    public function scan()
+//    {
+//        $paths = $this->getScanPaths();
+//
+//        $modules = [];
+//
+//        foreach ($paths as $key => $path) {
+//            $manifests = $this->getFiles()->glob("{$path}/module.json");
+//
+//            is_array($manifests) || $manifests = [];
+//
+//            foreach ($manifests as $manifest) {
+//                $name = Json::make($manifest)->get('name');
+//
+//                $modules[$name] = $this->createModule($this->app, $name, dirname($manifest));
+//            }
+//        }
+//
+//        return $modules;
+//    }
 //    public function getScanPaths(): array
 //    {
 //        $paths = $this->paths;
@@ -210,7 +224,18 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 
         return $module;
     }
+    public function getCached()
+    {
+        return $this->cache->store($this->config->get('templates.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+            return $this->toCollection()->toArray();
+        });
+    }
 
+    public function getFiles(): Filesystem
+    {
+
+        return $this->files;
+    }
     public function findOrFail(string $name)
     {
         $module = $this->find($name);
@@ -219,6 +244,6 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
             return $module;
         }
 
-        throw new ModuleNotFoundException("Module [{$name}] does not exist!");
+        throw new ModuleNotFoundException("Template [{$name}] does not exist!");
     }
 }
