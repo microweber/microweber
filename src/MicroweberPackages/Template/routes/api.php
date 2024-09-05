@@ -27,7 +27,7 @@ Route::name('api.template.')
         });
 
         \Route::get('compile_admin_css', function () {
-           $compile = app()->template->admin->compileAdminCss();
+           $compile = app()->template_manager->admin->compileAdminCss();
 
             $response = \Response::make($compile);
             $response->header('Content-Type', 'text/css');
@@ -37,7 +37,7 @@ Route::name('api.template.')
 
 
         \Route::get('compile_admin_live_edit_css', function () {
-           $compile = app()->template->admin->compileLiveEditCss();
+           $compile = app()->template_manager->admin->compileLiveEditCss();
 
             $response = \Response::make($compile);
             $response->header('Content-Type', 'text/css');
@@ -48,23 +48,23 @@ Route::name('api.template.')
 
 
         \Route::get('get_admin_css_url', function () {
-            mw()->template->admin->cleanCompiledStylesheets();
-            $main_css_url = app()->template->get_admin_system_ui_css_url();
+            app()->template_manager->admin->cleanCompiledStylesheets();
+            $main_css_url = app()->template_manager->get_admin_system_ui_css_url();
             return $main_css_url;
 
         })->name('get_admin_css_url');
 
 
         \Route::get('reset_admin_stylesheet', function () {
-            mw()->template->admin->cleanCompiledStylesheets();
+            app()->template_manager->admin->cleanCompiledStylesheets();
 
-            return mw()->template->admin->resetSelectedStyle();
+            return app()->template_manager->admin->resetSelectedStyle();
 
         })->name('reset_admin_stylesheet');
 
       \Route::get('reset_admin_stylesheet_colors', function () {
-            mw()->template->admin->cleanCompiledStylesheets();
-             return mw()->template->admin->resetSelectedStyleVariables();
+            app()->template_manager->admin->cleanCompiledStylesheets();
+             return app()->template_manager->admin->resetSelectedStyleVariables();
 
         })->name('reset_admin_stylesheet_colors');
 
@@ -72,7 +72,7 @@ Route::name('api.template.')
 
 \Route::post('api/current_template_save_custom_css', function (Request $request) {
     $data = $request->all();
-    app()->template->defineConstants($data);
+    app()->template_manager->defineConstants($data);
 
     return mw()->layouts_manager->template_save_css($data);
 })->name('current_template_save_custom_css')
@@ -80,7 +80,7 @@ Route::name('api.template.')
 
 \Route::post('api/layouts/template_remove_custom_css', function (Request $request) {
     $data = $request->all();
-    app()->template->defineConstants($data);
+    app()->template_manager->defineConstants($data);
 
     return mw()->layouts_manager->template_remove_custom_css($data);
 })->name('template_remove_custom_css')
@@ -89,19 +89,19 @@ Route::name('api.template.')
 
 //\Route::post('api/template/delete_compiled_css', function (Request  $request) {
 //    $data = $request->all();
-//    app()->template->defineConstants($data);
+//    app()->template_manager->defineConstants($data);
 //
-//    return mw()->template->delete_compiled_css($data);
+//    return app()->template_manager->delete_compiled_css($data);
 //})->name('current_template_save_custom_css')
 //->middleware(['admin']);
 
 \Route::get('api/template/delete_compiled_css', function (Request $request) {
     $data = $request->all();
-    app()->template->defineConstants($data);
+    app()->template_manager->defineConstants($data);
 
-    $compiled =  mw()->template->delete_compiled_css($data);
+    $compiled =  app()->template_manager->delete_compiled_css($data);
 
-   // $compiled =  mw()->template->compile_css($data);
+   // $compiled =  app()->template_manager->compile_css($data);
 
     $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
 
@@ -114,9 +114,9 @@ Route::name('api.template.')
 
 \Route::get('api/template/compile_css', function (Request $request) {
     $data = $request->all();
-    app()->template->defineConstants($data);
+    app()->template_manager->defineConstants($data);
 
-    $compiled =  mw()->template->compile_css($data);
+    $compiled =  app()->template_manager->compile_css($data);
 
     $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
 

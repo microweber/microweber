@@ -5,15 +5,15 @@ use MicroweberPackages\MetaTags\Facades\FrontendMetaTags;
 
 function template_option_group()
 {
-    return 'mw-template-' . mw()->template->folder_name();
+    return 'mw-template-' . app()->template_manager->folder_name();
 }
 
 //
 //api_expose('template_stylesheet_reset_and_get_link' , function (){
 //
-//    $template_settings = mw()->template->get_config();
+//    $template_settings = app()->template_manager->get_config();
 //
-//    $stylesheet = mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], $template_settings['stylesheet_compiler']['css_file'], false);
+//    $stylesheet = app()->template_manager->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], $template_settings['stylesheet_compiler']['css_file'], false);
 //
 //
 //    return $stylesheet;
@@ -21,7 +21,7 @@ function template_option_group()
 //});
 function template_stylesheet_url()
 {
-    $template_settings = mw()->template->get_config();
+    $template_settings = app()->template_manager->get_config();
 
     $stylesheet_settings = false;
     if (isset($template_settings['stylesheet_compiler']) and isset($template_settings['stylesheet_compiler']['settings'])) {
@@ -40,7 +40,7 @@ function template_stylesheet_url()
         return;
     }
 
-    $stylesheet = mw()->template->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], $template_settings['stylesheet_compiler']['css_file'], true);
+    $stylesheet = app()->template_manager->get_stylesheet($template_settings['stylesheet_compiler']['source_file'], $template_settings['stylesheet_compiler']['css_file'], true);
     return $stylesheet;
 }
 
@@ -54,7 +54,7 @@ function template_stylesheet()
 
 function template_default_css()
 {
-    $template_settings = mw()->template->get_config();
+    $template_settings = app()->template_manager->get_config();
 
     if (isset($template_settings['stylesheet_compiler']) and isset($template_settings['stylesheet_compiler']['css_file'])) {
         return '<link href="' . template_url() . $template_settings['stylesheet_compiler']['css_file'] . '" id="theme-style" rel="stylesheet" type="text/css" media="all"/>';
@@ -68,8 +68,8 @@ function template_framework()
 
     $css_framework = 'mw-ui';
 
-    if (isset(mw()->template->get_config()['framework'])) {
-        $css_framework = mw()->template->get_config()['framework'];
+    if (isset(app()->template_manager->get_config()['framework'])) {
+        $css_framework = app()->template_manager->get_config()['framework'];
     }
 
     return $css_framework;
@@ -249,7 +249,7 @@ function get_template_option_group()
 
 function get_template_colors_settings()
 {
-    $getTemplateConfig = mw()->template->get_config();
+    $getTemplateConfig = app()->template_manager->get_config();
 
     if (!isset($getTemplateConfig)) {
         throw new \MicroweberPackages\Template\Exceptions\MissingTemplateException('Template is not selected. Please do to admin panel and select a template.');

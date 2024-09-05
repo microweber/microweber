@@ -1494,7 +1494,7 @@ class UserManager
 
     public function register_url()
     {
-        $template_dir = $this->app->template->dir();
+        $template_dir = $this->app->template_manager->dir();
         $file = $template_dir . 'register.php';
         $default_url = false;
         if (is_file($file)) {
@@ -1520,7 +1520,7 @@ class UserManager
     public function logout_url()
     {
 
-        $template_dir = $this->app->template->dir();
+        $template_dir = $this->app->template_manager->dir();
         $file = $template_dir . 'logout.php';
         $logout_url_settings = $this->app->option_manager->get('logout_url', 'users');
         $logout_url_sess = $this->session_get('logout_url');
@@ -1540,7 +1540,7 @@ class UserManager
 
     public function login_url()
     {
-        $template_dir = $this->app->template->dir();
+        $template_dir = $this->app->template_manager->dir();
         $file = $template_dir . 'login.php';
         $default_url = false;
         if (is_file($file)) {
@@ -1565,7 +1565,7 @@ class UserManager
 
     public function profile_url()
     {
-        $template_dir = $this->app->template->dir();
+        $template_dir = $this->app->template_manager->dir();
         $file = $template_dir . 'profile.php';
         $default_url = false;
         if (is_file($file)) {
@@ -1590,7 +1590,7 @@ class UserManager
 
     public function forgot_password_url()
     {
-        $template_dir = $this->app->template->dir();
+        $template_dir = $this->app->template_manager->dir();
         $file = $template_dir . 'forgot_password.php';
         $default_url = false;
         if (is_file($file)) {

@@ -24,7 +24,7 @@ class MicroweberTemplate
     public bool $isBooted = false;
 
     /**
-     * Boot the service providers defined in the config
+     * @deprecated Templates and modules are booted from the Laravel modules and Templates service providers
      */
     public function boot()
     {

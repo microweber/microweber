@@ -926,7 +926,7 @@ class ModuleManager
 
         $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
 
-        $template_config = mw()->template->get_config();
+        $template_config = app()->template_manager->get_config();
 
         if (!is_dir($module_name_l) /*and !is_dir($module_name_l_theme)*/) {
             return false;
@@ -1617,7 +1617,9 @@ class ModuleManager
 
     }
 
-
+    /**
+     * @deprecated Templates and modules are booted from the Laravel modules and Templates service providers
+     */
     public function boot_module($config)
     {
 

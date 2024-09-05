@@ -628,7 +628,7 @@ class ContentList extends AdminComponent
     public function getDropdownFiltersTemplateSettings()
     {
         $dropdownFilters = [];
-        $templateFields = mw()->template->get_data_fields($this->contentType);
+        $templateFields = app()->template_manager->get_data_fields($this->contentType);
         if (!empty($templateFields)) {
             $filters = [];
             foreach ($templateFields as $templateFieldKey => $templateFieldName) {
@@ -650,7 +650,7 @@ class ContentList extends AdminComponent
     public function getDropdownFiltersTemplateFields()
     {
         $dropdownFilters = [];
-        $templateFields = mw()->template->get_edit_fields($this->contentType);
+        $templateFields = app()->template_manager->get_edit_fields($this->contentType);
         if (!empty($templateFields)) {
             $filters = [];
             foreach ($templateFields as $templateFieldKey => $templateFieldName) {

@@ -1148,7 +1148,7 @@ class ApiController  extends FrontendController
             $res = $this->app->parser->process($res, $options = false);
         }
 
-        $res = mw()->template->process_stacks($res);
+        $res = app()->template_manager->process_stacks($res);
 
         $res = execute_document_ready($res);
         if (!defined('MW_NO_OUTPUT')) {

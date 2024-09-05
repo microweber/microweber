@@ -25,7 +25,7 @@ class TemplateCssParser
             $cache = false;
         }
         $returnUrl = false;
-        $themeFolderName = $this->app->template->folder_name();
+        $themeFolderName = $this->app->template_manager->folder_name();
         $optionGroupName = 'mw-template-' . $themeFolderName;
 
         $outputFileLocations = $this->_getOutputFileLocations($lessFilePath, $optionGroupName);
@@ -124,7 +124,7 @@ class TemplateCssParser
 
         @unlink($compileFile);
 
-        $newFile = mw()->template->get_stylesheet($options['path'], false, false);
+        $newFile = app()->template_manager->get_stylesheet($options['path'], false, false);
 
         return [
             'success' => true,
@@ -309,7 +309,7 @@ class TemplateCssParser
 
         $lessFilePath = str_replace('\\', '/', $lessFilePath);
 
-        $templateConfig = mw()->template->get_config();
+        $templateConfig = app()->template_manager->get_config();
 
         if (isset($templateConfig['version'])) {
             $lessFilePathWithVersion = $lessFilePath . '.' . MW_VERSION . '-' . $templateConfig['version'];

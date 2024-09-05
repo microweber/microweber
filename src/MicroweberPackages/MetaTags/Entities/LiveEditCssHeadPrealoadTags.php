@@ -11,7 +11,7 @@ class LiveEditCssHeadPrealoadTags implements TagInterface, \Stringable
     {
 
 
-        $live_edit_url = app()->template->liveEditCssAdapter->getLiveEditCssUrl();
+        $live_edit_url = app()->template_manager->liveEditCssAdapter->getLiveEditCssUrl();
 
         if (($live_edit_url)) {
             $liv_ed_css = '<link  rel="preload" as="style"  href="' . $live_edit_url . '"  crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';

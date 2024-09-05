@@ -559,7 +559,7 @@ class ShopManager
 
     public function checkout_url()
     {
-        $template_dir = $this->app->template->dir();
+        $template_dir = $this->app->template_manager->dir();
         $file = $template_dir . 'checkout.php';
         if (is_file($file)) {
             $default_url = $this->app->url_manager->site('checkout');

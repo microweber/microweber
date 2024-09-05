@@ -162,16 +162,16 @@ class AdminManager
 
     public function addDefaultScripts(): void
     {
-     //   $apijs_combined_loaded = app()->template->get_apijs_combined_url();
+     //   $apijs_combined_loaded = app()->template_manager->get_apijs_combined_url();
      //   $this->addScript('mw-api-js', $apijs_combined_loaded);
     }
 
     public function addDefaultStyles(): void
     {
-//        $default_css_url = app()->template->get_default_system_ui_css_url();
+//        $default_css_url = app()->template_manager->get_default_system_ui_css_url();
 //        $this->addStyle('mw-default-css', $default_css_url);
 
-//        $main_css_url = app()->template->get_admin_system_ui_css_url();
+//        $main_css_url = app()->template_manager->get_admin_system_ui_css_url();
 //        $this->addStyle('mw-ui-css', $main_css_url);
 
 
@@ -197,7 +197,7 @@ class AdminManager
 
     public function addDefaultCustomTags(): void
     {
-        $template_headers_src = mw()->template->admin_head(true);
+        $template_headers_src = app()->template_manager->admin_head(true);
         if ($template_headers_src != false and $template_headers_src != '') {
             $this->addCustomHeadTag($template_headers_src);
         }

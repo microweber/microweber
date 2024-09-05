@@ -132,7 +132,7 @@ class FrontendController extends Controller
 //            }
 //        }
 //        if ($favicon_image) {
-//            mw()->template->head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
+//            app()->template_manager->head('<link rel="shortcut icon" href="' . $favicon_image . '" />');
 //        }
 //
 
@@ -142,7 +142,7 @@ class FrontendController extends Controller
 //        //dd($animations);
 //        if ($animations) {
 //            // adds the animations definitions to the head
-//            mw()->template->head('<script id="template-animations-data">mw.__pageAnimations = ' . $animations . '</script>');
+//            app()->template_manager->head('<script id="template-animations-data">mw.__pageAnimations = ' . $animations . '</script>');
 //        }
 
 
@@ -906,7 +906,7 @@ class FrontendController extends Controller
         if (!defined('IS_HOME')) {
             if (isset($content['is_home']) and $content['is_home'] == 1) {
                 define('IS_HOME', true);
-                // $this->app->template->head('<link rel="canonical" href="' . site_url() . '">');
+                // $this->app->template_manager->head('<link rel="canonical" href="' . site_url() . '">');
             }
         }
         if ($is_preview_template and is_admin()) {
@@ -917,7 +917,7 @@ class FrontendController extends Controller
 
         $this->app->content_manager->define_constants($content);
 
-        $the_active_site_template = app()->template->templateAdapter->getTemplateFolderName();
+        $the_active_site_template = app()->template_manager->templateAdapter->getTemplateFolderName();
 
 
         event_trigger('mw.front', $content);
@@ -933,7 +933,7 @@ class FrontendController extends Controller
 //        }
         event_trigger('mw_frontend', $content);
 
-        $render_file = $this->app->template->get_layout($content);
+        $render_file = $this->app->template_manager->get_layout($content);
 
 
         $content['render_file'] = $render_file;
@@ -1018,7 +1018,7 @@ class FrontendController extends Controller
             $render_params['page'] = $page;
             $render_params['meta_tags'] = true;
 
-            $l = $this->app->template->render($render_params);
+            $l = $this->app->template_manager->render($render_params);
             if (is_object($l)) {
                 return $l;
             }
@@ -1112,15 +1112,15 @@ class FrontendController extends Controller
                 event_trigger('mw.pageview');
             }
 
-            //$apijs_loaded = $this->app->template->get_apijs_url();
+            //$apijs_loaded = $this->app->template_manager->get_apijs_url();
 
-            //$apijs_loaded = $this->app->template->get_apijs_url() . '?id=' . CONTENT_ID;
+            //$apijs_loaded = $this->app->template_manager->get_apijs_url() . '?id=' . CONTENT_ID;
 
             $is_admin = app()->user_manager->is_admin();
             // $default_css = '<link rel="stylesheet" href="' . mw_includes_url() . 'default.css?v=' . MW_VERSION . '" type="text/css" />';
 
 // moved to src/MicroweberPackages/MetaTags/Entities/SystemDefaultCssHeadTags.php
-//            $default_css_url = $this->app->template->get_default_system_ui_css_url();
+//            $default_css_url = $this->app->template_manager->get_default_system_ui_css_url();
 //            $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
 
@@ -1142,12 +1142,12 @@ class FrontendController extends Controller
 //                }
 //            }
 
-            // $template_footer_src = $this->app->template->foot(true);
+            // $template_footer_src = $this->app->template_manager->foot(true);
 
 // moved to src/MicroweberPackages/MetaTags/Entities/CustomHeadTagsFromCallback.php
-//            $template_headers_src = $this->app->template->head(true);
+//            $template_headers_src = $this->app->template_manager->head(true);
 //
-//            $template_headers_src_callback = $this->app->template->head_callback($page);
+//            $template_headers_src_callback = $this->app->template_manager->head_callback($page);
 //            if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
 //                foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
 //                    if (is_string($template_headers_src_callback_str)) {
@@ -1169,9 +1169,9 @@ class FrontendController extends Controller
 //                $l = Str::replaceFirst('</head>', $template_headers_src . '</head>', $l);
 //            }
             $template_footer_src = '';
-//            $template_footer_src = $this->app->template->foot(true);
+//            $template_footer_src = $this->app->template_manager->foot(true);
 //
-//            $template_footer_src_callback = $this->app->template->foot_callback($page);
+//            $template_footer_src_callback = $this->app->template_manager->foot_callback($page);
 //            if (is_array($template_footer_src_callback) and !empty($template_footer_src_callback)) {
 //                foreach ($template_footer_src_callback as $template_footer_src_callback_str) {
 //                    if (is_string($template_footer_src_callback_str)) {
@@ -1191,13 +1191,13 @@ class FrontendController extends Controller
 //                }
 
 
-                $l = $this->app->template->frontend_append_meta_tags($l);
+                $l = $this->app->template_manager->frontend_append_meta_tags($l);
 
                 // @todo remove this and fix src/MicroweberPackages/MetaTags/Entities/LivewireHeadTags.php
-                //   $l = $this->app->template->append_livewire_to_layout($l);
+                //   $l = $this->app->template_manager->append_livewire_to_layout($l);
 
 
-                //   $l = $this->app->template->append_api_js_to_layout($l);
+                //   $l = $this->app->template_manager->append_api_js_to_layout($l);
             }
 
 
@@ -1252,13 +1252,13 @@ class FrontendController extends Controller
 //            }
 
 // moved to src/MicroweberPackages/MetaTags/Entities/CustomFontsCssHeadTags.php
-//            $liv_ed_css_get_custom_css_content_fonts = $this->app->template->get_custom_fonts_css_content();
+//            $liv_ed_css_get_custom_css_content_fonts = $this->app->template_manager->get_custom_fonts_css_content();
 //            if ($liv_ed_css_get_custom_css_content_fonts == false) {
 //                if ($is_editmode) {
 //                    $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-fonts" type="text/css" />';
 //                }
 //            } else {
-//                $liv_ed_css = $this->app->template->get_custom_fonts_css_url();
+//                $liv_ed_css = $this->app->template_manager->get_custom_fonts_css_url();
 //
 //                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-fonts" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
 //            }
@@ -1269,13 +1269,13 @@ class FrontendController extends Controller
 
             //src/MicroweberPackages/MetaTags/Entities/CustomCssHeadTags.php
 
-//            $liv_ed_css_get_custom_css_content = $this->app->template->get_custom_css_content();
+//            $liv_ed_css_get_custom_css_content = $this->app->template_manager->get_custom_css_content();
 //            if ($liv_ed_css_get_custom_css_content == false) {
 //                if ($is_editmode) {
 //                    $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-css" type="text/css" />';
 //                }
 //            } else {
-//                $liv_ed_css = $this->app->template->get_custom_css_url();
+//                $liv_ed_css = $this->app->template_manager->get_custom_css_url();
 //
 //                $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
 //            }
@@ -1304,7 +1304,7 @@ class FrontendController extends Controller
 //            }
 
 
-            $template_config = $this->app->template->get_config();
+            $template_config = $this->app->template_manager->get_config();
 //            $enable_default_css = true;
 //            if ($template_config and isset($template_config["standalone_ui"]) and $template_config["standalone_ui"]) {
 //                if (!$is_editmode and !$back_to_editmode) {
@@ -1365,7 +1365,7 @@ class FrontendController extends Controller
                 }
             } else {
 
-                $l = $this->app->template->optimize_page_loading($l);
+                $l = $this->app->template_manager->optimize_page_loading($l);
 
             }
 
@@ -1386,7 +1386,7 @@ class FrontendController extends Controller
                 $l = app(StringBlade::class)->render($l, ['data' => $page]);
             }
 
-            // $l = mw()->template->add_csrf_token_meta_tags($l);
+            // $l = app()->template_manager->add_csrf_token_meta_tags($l);
 
             $is_embed = app()->url_manager->param('embed');
 

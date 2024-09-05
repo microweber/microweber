@@ -13,7 +13,7 @@
         mw.require("files.js");
         mw.require("content.js", true);
         mw.require("session.js");
-        mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
+        mw.require("<?php print app()->template_manager->get_liveeditjs_url()  ?>");
 
     </script>
 <script type="text/javascript">

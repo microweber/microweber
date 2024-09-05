@@ -16,7 +16,7 @@ class MwSettingsJsScriptTag implements TagInterface, \Stringable
         // $append_html .= '<script src="' . $libMwCore . '" id="mw-core-js-scripts" type="module" async></script>' . "\r\n";
         $append_html .= '' . "\r\n";
 
-        $get_apijs_settings_url = mw()->template->get_apijs_settings_url();
+        $get_apijs_settings_url = app()->template_manager->get_apijs_settings_url();
         $append_html .= '<script src="' . $get_apijs_settings_url . '" id="mw-api-settings"></script>' . "\r\n";
 
         return $append_html;

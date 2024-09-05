@@ -29,7 +29,7 @@ $vars = [
     'textGray' => '#7e7e7e',
     'textLight' => '#d1d1d1'
 ];
-$vars_theme = app()->template->get_admin_supported_theme_scss_vars($selected);
+$vars_theme = app()->template_manager->get_admin_supported_theme_scss_vars($selected);
 if ($vars_theme) {
 
 

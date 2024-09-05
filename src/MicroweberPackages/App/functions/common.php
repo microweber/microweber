@@ -181,7 +181,7 @@ function cache_save($data_to_cache, $cache_id, $cache_group = 'global', $expirat
 function clearcache()
 {
     mw()->cache_manager->clear();
-    mw()->template->clear_cache();
+    app()->template_manager->clear_cache();
     $empty_folder = userfiles_path() . 'cache' . DS;
 
     if (is_dir($empty_folder)) {

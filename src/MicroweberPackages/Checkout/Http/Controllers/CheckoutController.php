@@ -78,7 +78,7 @@ class CheckoutController extends Controller {
         $html = view($view, $data);
 
         // Append api js
-        $html = app()->template->append_api_js_to_layout($html);
+        $html = app()->template_manager->append_api_js_to_layout($html);
 
         $html = $this->appendLiveEdit($html);
 

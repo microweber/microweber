@@ -1,7 +1,7 @@
 <?php
 function mw_get_layout_css_classes($params)
 {
-    $template_config = mw()->template->get_config();
+    $template_config = app()->template_manager->get_config();
     if (isset($template_config['layouts_css_classes'])) {
         $css_classes = $template_config['layouts_css_classes'];
     } else {

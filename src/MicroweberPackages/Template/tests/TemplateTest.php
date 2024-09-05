@@ -31,7 +31,7 @@ class TemplateTest extends TestCase
     }
     public function testGetTemplates()
     {
-        $get = app()->template->site_templates();
+        $get = app()->template_manager->site_templates();
         $this->assertTrue(!empty($get));
 
         $is_dir_name = true;
@@ -56,7 +56,7 @@ class TemplateTest extends TestCase
 
 
 
-        $config = app()->template->get_config();
+        $config = app()->template_manager->get_config();
 
         $this->assertTrue(isset($config['name']));
      //   $this->assertTrue('New World' == $config['name']);
@@ -71,11 +71,11 @@ class TemplateTest extends TestCase
     {
 
         app()->ui->admin_colors_sass = false;
-        $admin_template = app()->template->admin->getAdminCssUrl();
+        $admin_template = app()->template_manager->admin->getAdminCssUrl();
 
 
         $this->assertTrue(str_contains($admin_template, 'admin_v2.css'));
-        $admin_template = app()->template->admin->getLiveEditAdminCssUrl();
+        $admin_template = app()->template_manager->admin->getLiveEditAdminCssUrl();
         $this->assertFalse($admin_template);
 
     }
@@ -103,29 +103,29 @@ class TemplateTest extends TestCase
 //        ));
 //
 //        app()->ui->admin_colors_sass = false;
-//        $compile = app()->template->admin->compileAdminCss();
+//        $compile = app()->template_manager->admin->compileAdminCss();
 //        $this->assertTrue(str_contains($compile, '#efecec'));
 //
-//        $admin_template = app()->template->admin->getLiveEditAdminCssUrl();
+//        $admin_template = app()->template_manager->admin->getLiveEditAdminCssUrl();
 //        $this->assertTrue(str_contains($admin_template, 'compile_admin_live_edit_css'));
 //
-//        $compile = app()->template->admin->compileLiveEditCss();
-//        $admin_template = app()->template->admin->getLiveEditAdminCssUrl();
+//        $compile = app()->template_manager->admin->compileLiveEditCss();
+//        $admin_template = app()->template_manager->admin->getLiveEditAdminCssUrl();
 //        $this->assertTrue(str_contains($admin_template, 'css/admin-css/__compiled_liveedit'));
 //
 //
-//        $admin_template = app()->template->admin->getAdminCssUrl();
+//        $admin_template = app()->template_manager->admin->getAdminCssUrl();
 //        $this->assertTrue(str_contains($admin_template, 'css/admin-css/__compiled_admin'));
 //
 //        // reset
-//        app()->template->admin->resetSelectedStyleVariables();
-//        app()->template->admin->resetSelectedStyle();
+//        app()->template_manager->admin->resetSelectedStyleVariables();
+//        app()->template_manager->admin->resetSelectedStyle();
 //
 //        // get after reset
-//        $admin_template = app()->template->admin->getAdminCssUrl();
+//        $admin_template = app()->template_manager->admin->getAdminCssUrl();
 //        $this->assertTrue(str_contains($admin_template, 'main_with_mw.css'));
 //
-//        $admin_template = app()->template->admin->getLiveEditAdminCssUrl();
+//        $admin_template = app()->template_manager->admin->getLiveEditAdminCssUrl();
 //        $this->assertFalse($admin_template);
 //
 //    }
@@ -311,7 +311,7 @@ class TemplateTest extends TestCase
         app()->content_manager->define_constants(['id' => $newCleanPageId]);
 
         $content = get_content_by_id($newCleanPageId);
-        $renderFile = app()->template->get_layout($content);
+        $renderFile = app()->template_manager->get_layout($content);
 
         $expectedRenderFile = templates_dir() . $templateName . DS . 'clean.php';
         $this->assertEquals($expectedRenderFile, $renderFile);
@@ -326,7 +326,7 @@ class TemplateTest extends TestCase
         app()->content_manager->define_constants(['id' => $newCleanPostId]);
 
         $content = get_content_by_id($newCleanPostId);
-        $renderFile = app()->template->get_layout($content);
+        $renderFile = app()->template_manager->get_layout($content);
         $expectedRenderFile = templates_dir() . $templateName . DS . 'post.php';
         $this->assertEquals($expectedRenderFile, $renderFile);
 
@@ -351,7 +351,7 @@ class TemplateTest extends TestCase
         app()->content_manager->define_constants(['id' => $newCleanPostSubId]);
 
         $content = get_content_by_id($newCleanPostSubId);
-        $renderFile = app()->template->get_layout($content);
+        $renderFile = app()->template_manager->get_layout($content);
 
         $expectedRenderFile = templates_dir() . $templateName . DS . 'layouts' . DS . 'blog_inner.php';
         $this->assertEquals($expectedRenderFile, $renderFile);

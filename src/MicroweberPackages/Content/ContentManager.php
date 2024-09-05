@@ -68,35 +68,35 @@ class ContentManager
 
     function post_id()
     {
-        return $this->app->template->getPostId();
+        return $this->app->template_manager->getPostId();
     }
 
 
     function product_id()
     {
-        return $this->app->template->getProductId();
+        return $this->app->template_manager->getProductId();
     }
 
     function content_id()
     {
-        return $this->app->template->getContentId();
+        return $this->app->template_manager->getContentId();
 
     }
 
     function category_id()
     {
-        return $this->app->template->getCategoryId();
+        return $this->app->template_manager->getCategoryId();
 
     }
 
     function page_id()
     {
-        return $this->app->template->getPageId();
+        return $this->app->template_manager->getPageId();
     }
 
     function main_page_id()
     {
-        return $this->app->template->getMainPageId();
+        return $this->app->template_manager->getMainPageId();
     }
 
 
@@ -1455,7 +1455,7 @@ class ContentManager
      */
     public function define_constants($content = false)
     {
-        return $this->app->template->defineConstants($content);
+        return $this->app->template_manager->defineConstants($content);
     }
 
 

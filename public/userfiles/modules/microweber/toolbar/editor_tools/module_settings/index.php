@@ -21,7 +21,7 @@
         <?php $module_info = mw()->module_manager->info($params['module']); ?>
     <?php endif; ?>
 
-    <script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
+    <script src="<?php print(app()->template_manager->get_apijs_combined_url()); ?>"></script>
 
 
     <script src="<?php print mw_includes_url(); ?>api/jquery-ui.js"></script>
@@ -48,7 +48,7 @@
 //    template_stack_add(mw_includes_url() . 'css/wysiwyg.css');
 //    template_stack_add(mw_includes_url() . 'api/options.js');
     ?>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print(mw()->template->get_admin_system_ui_css_url()); ?>"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print(app()->template_manager->get_admin_system_ui_css_url()); ?>"/>
 
     <?php if (isset($params['live_edit_sidebar'])): ?>
 

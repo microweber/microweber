@@ -12,7 +12,7 @@ $selected = get_option('admin_theme_name', 'admin');
 //if ($selected_vars) {
 //    $selected_vars = json_decode($selected_vars, true);
 //}
-$templates = app()->template->get_admin_supported_themes();
+$templates = app()->template_manager->get_admin_supported_themes();
 
 //var_dump($vars_theme);
 ?>

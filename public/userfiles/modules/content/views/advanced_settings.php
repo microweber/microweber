@@ -23,7 +23,7 @@ if (isset($params['content-type']) and $params['content-type'] == 'page') {
     $show_page_settings = 1;
 }
 
-$template_config = mw()->template->get_config();
+$template_config = app()->template_manager->get_config();
 $data_fields_conf = false;
 $data_fields_values = false;
 

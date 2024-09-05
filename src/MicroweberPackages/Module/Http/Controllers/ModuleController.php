@@ -593,7 +593,7 @@ class ModuleController extends Controller
         }
 
         $this->app->content_manager->define_constants($page);
-        $page['render_file'] = $this->app->template->get_layout($page);
+        $page['render_file'] = $this->app->template_manager->get_layout($page);
 
 //        if (!isset($page['render_file'])) {
 //
@@ -649,14 +649,14 @@ class ModuleController extends Controller
         $layout = $l->__toString();
 
         if ($layout != false) {
-            //$apijs_loaded = mw()->template->get_apijs_url() . '?id=' . CONTENT_ID;
-           // $apijs_loaded = mw()->template->get_apijs_url();
-            $apijs_settings_loaded = mw()->template->get_apijs_settings_url();
+            //$apijs_loaded = app()->template_manager->get_apijs_url() . '?id=' . CONTENT_ID;
+           // $apijs_loaded = app()->template_manager->get_apijs_url();
+            $apijs_settings_loaded = app()->template_manager->get_apijs_settings_url();
 
             // $is_admin = $this->app->user_manager->is_admin();
           //  $default_css = '<link rel="stylesheet" href="'.mw_includes_url().'default.css?v='.MW_VERSION.'" type="text/css" />';
 
-            $default_css_url = $this->app->template->get_default_system_ui_css_url();
+            $default_css_url = $this->app->template_manager->get_default_system_ui_css_url();
             $default_css = '<link rel="stylesheet" href="' . $default_css_url . '" type="text/css" />';
 
 
@@ -783,7 +783,7 @@ class ModuleController extends Controller
 
         $layout = str_ireplace('<head>', '<head>'.$default_css, $layout, $rep);
 
-        $layout = $this->app->template->append_api_js_to_layout($layout);
+        $layout = $this->app->template_manager->append_api_js_to_layout($layout);
 
 
 
@@ -798,7 +798,7 @@ class ModuleController extends Controller
         }
 
         $layout = $this->app->parser->process($layout, $options = false);
-        $layout = mw()->template->process_stacks($layout);
+        $layout = app()->template_manager->process_stacks($layout);
 
 
         $layout = execute_document_ready($layout);

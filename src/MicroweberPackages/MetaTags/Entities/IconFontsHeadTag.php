@@ -10,8 +10,8 @@ class IconFontsHeadTag implements TagInterface, \Stringable
     public function toHtml(): string
     {
         $html = '';
-        $get_icon_fonts_stylesheet_url = app()->template->get_icon_fonts_stylesheet_url();
-        $sets = app()->template->iconFontsAdapter->getIconSets();
+        $get_icon_fonts_stylesheet_url = app()->template_manager->get_icon_fonts_stylesheet_url();
+        $sets = app()->template_manager->iconFontsAdapter->getIconSets();
 
 
         $families = [];

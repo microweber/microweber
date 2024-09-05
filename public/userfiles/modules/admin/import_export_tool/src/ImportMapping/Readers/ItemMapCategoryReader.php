@@ -46,7 +46,7 @@ class ItemMapCategoryReader extends ItemMapReader
 
     private static function getTemplateEditFields()
     {
-        $templateConfig = mw()->template->get_config();
+        $templateConfig = app()->template_manager->get_config();
 
         $editFieldsCategory = [];
         if (isset($templateConfig['edit-fields-category']) && !empty($templateConfig['edit-fields-category'])) {

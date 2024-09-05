@@ -11,13 +11,13 @@ class CustomCssHeadTags implements TagInterface, \Stringable
     {
         $liv_ed_css = '';
         $is_editmode = in_live_edit();
-        $liv_ed_css_get_custom_css_content = app()->template->get_custom_css_content();
+        $liv_ed_css_get_custom_css_content = app()->template_manager->get_custom_css_content();
         if ($liv_ed_css_get_custom_css_content == false) {
             if ($is_editmode) {
                 $liv_ed_css = '<link rel="stylesheet"  crossorigin="anonymous" referrerpolicy="no-referrer"  id="mw-custom-user-css" type="text/css" />';
             }
         } else {
-            $liv_ed_css = app()->template->get_custom_css_url();
+            $liv_ed_css = app()->template_manager->get_custom_css_url();
 
             $liv_ed_css = '<link rel="stylesheet" href="' . $liv_ed_css . '" id="mw-custom-user-css" type="text/css"  crossorigin="anonymous" referrerpolicy="no-referrer" />';
         }

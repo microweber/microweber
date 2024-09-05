@@ -1,12 +1,12 @@
 <?php
-$template_settings_config = mw()->template->get_config();
+$template_settings_config = app()->template_manager->get_config();
 $template_settings = false;
 if (isset($template_settings_config['template_settings'])) {
     $template_settings = $template_settings_config['template_settings'];
 }
 
 if ($template_settings) {
-    $option_group = 'mw-template-' . mw()->template->folder_name() . '-settings';
+    $option_group = 'mw-template-' . app()->template_manager->folder_name() . '-settings';
     if ($template_settings) {
         foreach ($template_settings as $key => $setting) {
             $$key = get_option($key, $option_group);
@@ -30,14 +30,14 @@ if ($template_settings) {
 }
 
 //LESS SETTINGS
-$template_less_settings_config = mw()->template->get_config();
+$template_less_settings_config = app()->template_manager->get_config();
 $template_less_settings = false;
 if (isset($template_less_settings_config['stylesheet_compiler']['settings'])) {
     $template_less_settings = $template_less_settings_config['stylesheet_compiler']['settings'];
 }
 
 if ($template_less_settings) {
-    $less_option_group = 'mw-template-' . mw()->template->folder_name();
+    $less_option_group = 'mw-template-' . app()->template_manager->folder_name();
     if ($template_less_settings) {
         foreach ($template_less_settings as $key => $setting) {
             $less_key = 'less_' . $key;

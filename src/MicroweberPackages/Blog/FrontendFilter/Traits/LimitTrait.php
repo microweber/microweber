@@ -43,7 +43,7 @@ trait LimitTrait {
 
         $options = [];
 
-        $templateConfig = app()->template->get_config();
+        $templateConfig = app()->template_manager->get_config();
         if (isset($templateConfig['template_settings']['items_limit_options']['default'])) {
             $pageLimits = $templateConfig['template_settings']['items_limit_options']['default'];
         } else {

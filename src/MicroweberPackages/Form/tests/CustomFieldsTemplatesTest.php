@@ -31,7 +31,7 @@ class CustomFieldsTemplatesTest extends TestCase
         save_option('current_template', $this->template_name,'template');
 
         // Make new custom template
-        $templateCustomFields = mw()->template->dir()
+        $templateCustomFields = app()->template_manager->dir()
                     . 'modules' . DS
                     . 'custom_fields' .DS
                     . 'templates' . DS

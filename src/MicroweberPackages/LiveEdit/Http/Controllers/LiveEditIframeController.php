@@ -21,7 +21,7 @@ class LiveEditIframeController
     {
         $params = request()->all();
         $l = view('microweber-live-edit::iframe', ['params' => $params]);
-        $l = app()->template->append_api_js_to_layout($l);
+        $l = app()->template_manager->append_api_js_to_layout($l);
 
         return $l;
     }

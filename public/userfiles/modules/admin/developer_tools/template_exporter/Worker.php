@@ -806,7 +806,7 @@ class Worker
             }
         }
 
-//        $cust_css_dir = mw()->template->dir();
+//        $cust_css_dir = app()->template_manager->dir();
 //        if (is_dir($cust_css_dir)) {
 //            $more_folders = \rglob($cust_css_dir . '*', GLOB_NOSORT);
 //            if (!empty($more_folders)) {

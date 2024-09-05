@@ -315,13 +315,13 @@ img{
 
 <?php $mainclass = 'admin-live-edit-editor'; ?>
 
-    <?php print  app()->template->admin->getLiveEditTemplateHeadHtml(); ?>
+    <?php print  app()->template_manager->admin->getLiveEditTemplateHeadHtml(); ?>
 
 
 
     <script>
         mw.lib.require('material_icons')
-        mw.require("<?php print mw()->template->get_liveeditjs_url()  ?>");
+        mw.require("<?php print app()->template_manager->get_liveeditjs_url()  ?>");
         mw.require('columns.js');
         mw.require('plus.js');
         mw.require('columns.js');

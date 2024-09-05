@@ -107,7 +107,7 @@ event_bind('mw.front', function () {
         if (isset($json['cookies_policy']) and $json['cookies_policy'] == 'y') {
             $init = init_scwCookie($mod_id);
             if (is_object($init) and method_exists($init, 'getOutput')) {
-                mw()->template->foot($init->getOutput());
+                app()->template_manager->foot($init->getOutput());
             }
         }
     }

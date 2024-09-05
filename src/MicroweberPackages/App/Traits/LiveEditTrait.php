@@ -54,8 +54,8 @@ trait LiveEditTrait
         }
         $contentType = addslashes($contentType);
 
-        $templateName = app()->template->name();
-        $templateConfig = app()->template->get_config();
+        $templateName = app()->template_manager->name();
+        $templateConfig = app()->template_manager->get_config();
         $templateName = addslashes($templateName);
 
         $pageId = '';

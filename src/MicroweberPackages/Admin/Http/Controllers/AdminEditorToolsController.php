@@ -98,7 +98,7 @@ class AdminEditorToolsController
 
         app()->content_manager->define_constants($page);
 
-        $page['render_file'] = app()->template->get_layout($page);
+        $page['render_file'] = app()->template_manager->get_layout($page);
 
         if (defined('TEMPLATE_DIR')) {
             app()->template_manager->boot_template();

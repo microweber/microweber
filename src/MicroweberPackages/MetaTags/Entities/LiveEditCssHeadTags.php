@@ -9,7 +9,7 @@ class LiveEditCssHeadTags implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
-        $live_edit_url = app()->template->liveEditCssAdapter->getLiveEditCssUrl();
+        $live_edit_url = app()->template_manager->liveEditCssAdapter->getLiveEditCssUrl();
         $liv_ed_css = '';
         if ($live_edit_url) {
             $liv_ed_css = '<link rel="stylesheet" href="' . $live_edit_url . '" id="mw-template-settings" crossorigin="anonymous" referrerpolicy="no-referrer" type="text/css" />';

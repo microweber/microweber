@@ -5,7 +5,7 @@ $randId = time() . rand(111,999);
 
 <div x-data="{
     selectedFont: '', openOptions:false,
-    availableFonts: {{json_encode(app()->template->getFonts())}},
+    availableFonts: {{json_encode(app()->template_manager->getFonts())}},
 }"
      x-init="
       () => {

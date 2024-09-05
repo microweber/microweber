@@ -69,7 +69,7 @@ api_expose_admin('notifications_manager/mark_all_as_read', function ($data) {
 api_expose('template/print_custom_css', function ($data) {
 
 
-    $contents = mw()->template->get_custom_css($data);
+    $contents = app()->template_manager->get_custom_css($data);
 
     $response = Response::make($contents);
     $response->header('Content-Type', 'text/css');
@@ -80,7 +80,7 @@ api_expose('template/print_custom_css', function ($data) {
 api_expose('template/print_custom_css_fonts', function ($data) {
 
 
-    $contents = mw()->template->get_custom_fonts_css_content();
+    $contents = app()->template_manager->get_custom_fonts_css_content();
 
     $response = Response::make($contents);
     $response->header('Content-Type', 'text/css');

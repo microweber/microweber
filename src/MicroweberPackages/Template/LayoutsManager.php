@@ -886,8 +886,8 @@ class LayoutsManager
 
                 }
 
-                app()->template->liveEditCssAdapter->saveLiveEditCssContent($css_cont_new, $template);
-                $saveCustomCssPath = app()->template->liveEditCssAdapter->getLiveEditCssPath($template);
+                app()->template_manager->liveEditCssAdapter->saveLiveEditCssContent($css_cont_new, $template);
+                $saveCustomCssPath = app()->template_manager->liveEditCssAdapter->getLiveEditCssPath($template);
 
                 $resp = array();
                 $resp['url'] = $this->app->url_manager->link_to_file($saveCustomCssPath);

@@ -1,6 +1,6 @@
 <?php must_have_access() ?>
 <?php
-$template_config = mw()->template->get_config();
+$template_config = app()->template_manager->get_config();
 
 $cur_template = get_option('template', $params['parent-module-id']);
 if ($cur_template == false) {

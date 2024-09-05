@@ -33,7 +33,7 @@ class TemplateServiceProviderBootTest extends TestCase
 
         $this->setPreserveGlobalState(false);
 
-        app()->template->setTemplateAdapter(new MicroweberTemplate());
+        app()->template_manager->setTemplateAdapter(new MicroweberTemplate());
 
 
         $current_template = app()->option_manager->get('current_template', 'template');
@@ -52,7 +52,7 @@ class TemplateServiceProviderBootTest extends TestCase
 
         app()->content_manager->define_constants(['id' => $newCleanPageId]);
         app()->template_manager->boot_template();
-        $this->assertEquals($templateName, app()->template->folder_name());
+        $this->assertEquals($templateName, app()->template_manager->folder_name());
         $expected = 'MicroweberPackages\Template\Big\TemplateServiceProvider';
         $this->assertNotEmpty(app()->getProviders($expected));
         $found = false;

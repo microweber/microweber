@@ -64,7 +64,7 @@ class TemplateLiveEditCss
     {
 
         if (!$the_active_site_template) {
-            $the_active_site_template = app()->template->templateAdapter->getTemplateFolderName();
+            $the_active_site_template = app()->template_manager->templateAdapter->getTemplateFolderName();
         }
 
         $custom_live_edit_css_path = $this->getLiveEditCssPath($the_active_site_template);
@@ -83,7 +83,7 @@ class TemplateLiveEditCss
     public function saveLiveEditCssContent($css_cont, $template = null)
     {
         if (!$template) {
-            $template = app()->template->templateAdapter->getTemplateFolderName();
+            $template = app()->template_manager->templateAdapter->getTemplateFolderName();
         }
         $css_cont_new = $css_cont;
         $custom_live_edit_css_path = $this->getLiveEditCssPath($template,false);

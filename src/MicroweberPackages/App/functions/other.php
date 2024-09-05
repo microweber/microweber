@@ -69,7 +69,7 @@ api_expose_admin('get_modules_and_elements_json', function ($params) {
     $elements_ready = array();
     $modules_by_categories = array();
     $mod_obj_str = 'modules';
-    $template_config = mw()->template->get_config();
+    $template_config = app()->template_manager->get_config();
     $show_grouped_by_cats = false;
     $show_layouts_grouped_by_cats = false;
     $show_group_elements_by_category = false;
@@ -272,7 +272,7 @@ function module_templates($module_name, $template_name = false, $is_settings = f
  */
 function site_templates($options = false)
 {
-    return mw()->template->site_templates($options);
+    return app()->template_manager->site_templates($options);
 }
 
 function layouts_list($options = false)
@@ -759,37 +759,37 @@ function countries_list($param = false)
 
 function template_dir($param = false)
 {
-    return mw()->template->dir($param);
+    return app()->template_manager->dir($param);
 }
 
 function template_url($param = false)
 {
-    return mw()->template->url($param);
+    return app()->template_manager->url($param);
 }
 
 function template_name()
 {
-    return mw()->template->folder_name();
+    return app()->template_manager->folder_name();
 }
 
 function admin_head($script_src)
 {
-    return mw()->template->admin_head($script_src);
+    return app()->template_manager->admin_head($script_src);
 }
 
 function template_head($script_src)
 {
-    return mw()->template->head($script_src);
+    return app()->template_manager->head($script_src);
 }
 
 function template_foot($script_src)
 {
-    return mw()->template->foot($script_src);
+    return app()->template_manager->foot($script_src);
 }
 
 function template_headers_src()
 {
-    return mw()->template->head(true);
+    return app()->template_manager->head(true);
 }
 
 /**
@@ -797,7 +797,7 @@ function template_headers_src()
  */
 function template_stack_add($src, $group = 'default')
 {
-    return mw()->template->stack_add($src, $group);
+    return app()->template_manager->stack_add($src, $group);
 }
 
 /**
@@ -805,7 +805,7 @@ function template_stack_add($src, $group = 'default')
  */
 function template_stack_display($group = 'default')
 {
-    return mw()->template->stack_display($group);
+    return app()->template_manager->stack_display($group);
 }
 
 //

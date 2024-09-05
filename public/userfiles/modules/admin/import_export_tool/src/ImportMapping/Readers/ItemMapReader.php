@@ -101,7 +101,7 @@ class ItemMapReader
 
     private static function getTemplateEditFields()
     {
-        $templateConfig = mw()->template->get_config();
+        $templateConfig = app()->template_manager->get_config();
 
         $editFieldsProduct = [];
         if (isset($templateConfig['edit-fields-product']) && !empty($templateConfig['edit-fields-product'])) {

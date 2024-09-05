@@ -1,4 +1,4 @@
-<script src="<?php print(mw()->template->get_apijs_combined_url()); ?>"></script>
+<script src="<?php print(app()->template_manager->get_apijs_combined_url()); ?>"></script>
 
 
 <script src="<?php print(mw_includes_url()); ?>js/sortable.js"></script>

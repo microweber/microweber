@@ -224,7 +224,7 @@ class UpdateManager
                 }
                 if ($the_active_site_template) {
 
-                    app()->template->defineTemplateConstants();
+                    app()->template_manager->defineTemplateConstants();
                 }
 
             }
@@ -276,8 +276,8 @@ class UpdateManager
             scan_for_elements(['no_cache' => true, 'reload_modules' => true, 'cleanup_db' => true]);
 
             mw()->layouts_manager->scan();
-            mw()->template->clear_cached_custom_css();
-            mw()->template->clear_cached_apijs_assets();
+            app()->template_manager->clear_cached_custom_css();
+            app()->template_manager->clear_cached_apijs_assets();
             event_trigger('mw_db_init_default');
             event_trigger('mw_db_init_modules');
             event_trigger('mw_db_init');

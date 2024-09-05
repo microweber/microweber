@@ -21,7 +21,7 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
 
 
-        $getTemplateConfig = mw()->template->get_config();
+        $getTemplateConfig = app()->template_manager->get_config();
 
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
         $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];
@@ -105,7 +105,7 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
         $templateDir = template_dir();
 
-        $getStyleSettings = app()->template->getStyleSettings($templateDir);
+        $getStyleSettings = app()->template_manager->getStyleSettings($templateDir);
         if (isset($getStyleSettings['settings'])) {
             if (!empty($getStyleSettings['settings']) && is_array($getStyleSettings['settings'])) {
 

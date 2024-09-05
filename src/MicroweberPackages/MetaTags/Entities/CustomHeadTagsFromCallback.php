@@ -10,9 +10,9 @@ class CustomHeadTagsFromCallback implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
-        $template_headers_src = app()->template->head(true);
+        $template_headers_src = app()->template_manager->head(true);
 
-        $template_headers_src_callback = app()->template->head_callback();
+        $template_headers_src_callback = app()->template_manager->head_callback();
         if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
             foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
                 if (is_string($template_headers_src_callback_str)) {

@@ -10,7 +10,7 @@ class CustomHeadTagsFromSiteHeaderEvent implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
-        $the_active_site_template = app()->template->templateAdapter->getTemplateFolderName();
+        $the_active_site_template = app()->template_manager->templateAdapter->getTemplateFolderName();
 
         $headers = event_trigger('site_header', $the_active_site_template);
         $template_headers_append = '';

@@ -87,7 +87,7 @@
 
              @php
                      $templateColors = [];
-                     $getTemplateConfig = mw()->template->get_config();
+                     $getTemplateConfig = app()->template_manager->get_config();
                      if($getTemplateConfig){
                      $templateColors = get_template_colors_settings();
                      }

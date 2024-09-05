@@ -15,7 +15,7 @@ class ApijsScriptTag implements TagInterface, \Stringable
         $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
 
 
-        $apijs_combined_loaded = app()->template->get_apijs_combined_url();
+        $apijs_combined_loaded = app()->template_manager->get_apijs_combined_url();
 
         $apijs_combined_loaded_new =  public_asset('vendor/microweber-packages/frontend-assets/js/frontend.js');;
 

@@ -186,7 +186,7 @@ class TemplateStylesSettingsReader
 
     private function getActiveTemplateDir()
     {
-        return app()->template->dir();
+        return app()->template_manager->dir();
     }
 
     private function normalizePath($path, $isDirectory = true)

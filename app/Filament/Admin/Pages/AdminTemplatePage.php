@@ -36,7 +36,7 @@ class AdminTemplatePage extends Page
 
     public function mount(): void
     {
-        $defaultTemplate = app()->template->get_config();
+        $defaultTemplate = app()->template_manager->get_config();
         if ($defaultTemplate and isset($defaultTemplate['dir_name'])) {
             $this->selectedTemplate = $defaultTemplate['dir_name'];
 
@@ -47,7 +47,7 @@ class AdminTemplatePage extends Page
     {
 
 
-        //    $defaultTemplate = app()->template->get_config();
+        //    $defaultTemplate = app()->template_manager->get_config();
         //  dd($defaultTemplate,$allTemplates);
 
 //        $layout_options = array();

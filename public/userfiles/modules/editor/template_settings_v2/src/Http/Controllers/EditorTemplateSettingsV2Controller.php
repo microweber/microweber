@@ -9,7 +9,7 @@ class EditorTemplateSettingsV2Controller extends Controller
 {
     public function getSettings()
     {
-        $getTemplateConfig = mw()->template->get_config();
+        $getTemplateConfig = app()->template_manager->get_config();
 
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
         $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];

@@ -27,11 +27,11 @@ function load_all_service_providers_for_modules()
 function load_service_providers_for_template()
 {
 
-   return  app()->template->boot();
+   return  app()->template_manager->boot();
 }
 function load_functions_files_for_template()
 {
-    $template = app()->template->get_config();
+    $template = app()->template_manager->get_config();
 
 
  //   $load_template_functions = template_dir() . 'functions.php';

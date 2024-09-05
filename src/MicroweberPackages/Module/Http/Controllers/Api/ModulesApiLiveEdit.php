@@ -20,7 +20,7 @@ class ModulesApiLiveEdit extends Controller
         $is_elements = false;
         $hide_dynamic_layouts = false;
         $disable_elements = false;
-        $template_config = mw()->template->get_config();
+        $template_config = app()->template_manager->get_config();
         $params = $request->all();
         if (isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled') {
             $disable_elements = true;

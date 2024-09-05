@@ -15,7 +15,7 @@ class TemplateClearCachedCssListener
         if ($event && $event->model && $event->model->option_group) {
             if ($deleteWhenOptionGroups) {
                 if (in_array($event->model->option_group, $deleteWhenOptionGroups)) {
-                    app()->template->clear_cache();
+                    app()->template_manager->clear_cache();
                 }
             }
         }
