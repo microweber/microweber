@@ -54,6 +54,15 @@ class ContentResource extends Resource
         if (isset($params['contentType'])) {
             $contentType = $params['contentType'];
         }
+        if (isset($params['contentSubtype'])) {
+            $contentSubtype = $params['contentSubtype'];
+        }
+        if (isset(static::$contentType)) {
+            $contentType = static::$contentType;
+        }
+        if (isset(static::$subType)) {
+            $contentSubtype = static::$subType;
+        }
 
         $site_url = site_url();
         $sessionId = session()->getId();
@@ -67,14 +76,16 @@ Forms\Components\Group::make([
         ->schema([
 
             Forms\Components\Hidden::make('id')
-                ->default($id)
-                ->hidden(),
+                ->default($id),
             Forms\Components\Hidden::make('session_id')
                 ->default($sessionId),
 
             Forms\Components\Hidden::make('content_type')
-                ->default($contentType)
-                ->hidden(),
+                ->default($contentType), 
+
+            Forms\Components\Hidden::make('subtype')
+                ->default($contentSubtype),
+
             Forms\Components\Hidden::make('categoryIds')
                 ->default(function(?Model $record) {
                     if ($record) {
@@ -113,11 +124,6 @@ Forms\Components\Group::make([
                 })
             ,
             Forms\Components\Hidden::make('parent'),
-
-            Forms\Components\Hidden::make('subtype')
-                ->default($contentSubtype)
-                ->hidden(),
-
 
             Forms\Components\Hidden::make('is_shop')
                 ->default(0)

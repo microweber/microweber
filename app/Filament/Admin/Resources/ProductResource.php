@@ -30,11 +30,12 @@ class ProductResource extends ContentResource
 
     protected static ?string $model = Product::class;
 
-
     protected static ?string $navigationGroup = 'Shop';
 
     protected static bool $shouldRegisterNavigation = true;
 
+    protected static string $contentType = 'product';
+    protected static string $subType = 'product';
 
     public static function getPages(): array
     {
