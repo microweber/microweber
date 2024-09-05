@@ -26,6 +26,10 @@ class PostResource extends ContentResource
 
     protected static bool $shouldRegisterNavigation = true;
 
+    protected static string $contentType = 'post';
+    protected static string $subType = 'post';
+
+
     public static function getPages(): array
     {
         return [

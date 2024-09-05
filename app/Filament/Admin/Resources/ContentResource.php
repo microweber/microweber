@@ -81,7 +81,7 @@ Forms\Components\Group::make([
                 ->default($sessionId),
 
             Forms\Components\Hidden::make('content_type')
-                ->default($contentType), 
+                ->default($contentType),
 
             Forms\Components\Hidden::make('subtype')
                 ->default($contentSubtype),
