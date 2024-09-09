@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Media;
 
 use Conner\Tagging\Model\Tagged;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Media\Models\Media;
@@ -10,6 +11,7 @@ use MicroweberPackages\Media\Models\MediaThumbnail;
 use MicroweberPackages\Utils\Media\ImageRotator;
 use MicroweberPackages\Utils\Media\Thumbnailer;
 use MicroweberPackages\Utils\System\Files;
+use MicroweberPackages\Utils\ThirdPartyLibs\PHPImageMagician\ImageLib;
 
 
 class MediaManager
@@ -860,7 +862,7 @@ class MediaManager
 
 
         if ($this->_is_webp_supported()) {
-            $ext = 'webp';
+         //   $ext = 'webp';
         }
         $is_remote = false;
         if (!stristr($src, $surl)) {
@@ -899,11 +901,12 @@ class MediaManager
         $cache_path = normalize_path($cache_path, false);
         $cache_path_relative = normalize_path($cache_path_relative, false);
 
-
         if ($is_remote) {
             return $src;
         } elseif (@is_file($cache_path)) {
+
             $cache_path = $this->app->url_manager->link_to_file($cache_path);
+
             return $cache_path;
         } else {
 
@@ -934,6 +937,7 @@ class MediaManager
             $check = app()->media_repository->getThumbnailCachedItem($cache_id_without_ext);
 
 
+
             if (!$check) {
                 $media_tn_temp = new MediaThumbnail();
                 $media_tn_temp->filename = $cache_id_without_ext;
@@ -945,6 +949,7 @@ class MediaManager
                 return $this->app->url_manager->site('api/image-generate-tn-request/') . $media_tn_temp->uuid . '?saved';
             } elseif (isset($check['image_options']) and isset($check['image_options']['cache_path_relative'])) {
                 $file_check = normalize_path(userfiles_path() . '' . $check['image_options']['cache_path_relative'], false);
+
                 if (is_file($file_check)) {
                     return userfiles_url() . $check['image_options']['cache_path_relative'];
                 }
@@ -1159,9 +1164,10 @@ class MediaManager
         }
 
         if (is_file($cache_path)) {
-            $this->outputImageFile($cache_path);
-            exit;
-        } else {
+
+            return $this->outputImageFile($cache_path);
+         } else {
+
             return $this->pixum_img();
         }
     }
@@ -1174,15 +1180,18 @@ class MediaManager
             $ext = 'jpeg';
         }
 
+        $mimeType = ($ext == 'svg') ? 'image/svg+xml' : 'image/' . $ext;
+        $fileSize = filesize($cache_path);
 
-        if ($ext == 'svg') {
-            header('Content-Type: image/svg+xml');
-        } else {
-            header('Content-Type: image/' . $ext);
+        $imageLib = new ImageLib($cache_path);
+        if(!$imageLib->testIsImage()){
+            return $this->pixum_img();
         }
 
-        header('Content-Length: ' . filesize($cache_path));
-        return readfile($cache_path);
+        $imageLib->displayImage($ext);
+
+        exit;
+
 
     }
 

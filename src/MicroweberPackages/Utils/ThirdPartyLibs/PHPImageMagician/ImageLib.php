@@ -183,6 +183,7 @@ class ImageLib
         $this->image = $this->openImage($fileName);
         // *** Assign here so we don't modify the original
         $this->imageResized = $this->image;
+
         // *** If file is an image
         $this->isImage = $this->testIsImage();
         if ($this->isImage) {
@@ -2244,7 +2245,10 @@ class ImageLib
         # Notes:
         #
     {
-        if (!is_resource($this->imageResized)) {
+
+        if(is_object($this->imageResized) and $this->imageResized instanceof \GdImage){
+
+        } else if (!is_resource($this->imageResized)) {
             if ($this->debug) {
                 die('saveImage: This is not a resource.');
             } else {
@@ -2255,7 +2259,7 @@ class ImageLib
             case 'jpg':
             case 'jpeg':
                 header('Content-type: image/jpeg');
-                imagejpeg($this->imageResized, '', $imageQuality);
+                imagejpeg($this->imageResized, null, $imageQuality);
                 break;
             case 'gif':
                 header('Content-type: image/gif');
@@ -2273,7 +2277,7 @@ class ImageLib
                 $scaleQuality = round(($imageQuality / 100) * 9);
                 // *** Invert qualit setting as 0 is best, not 9
                 $invertScaleQuality = 9 - $scaleQuality;
-                imagepng($this->imageResized, '', $invertScaleQuality);
+                imagepng($this->imageResized, null, $invertScaleQuality);
                 break;
             case 'bmp':
                 echo 'bmp file format is not supported.';
