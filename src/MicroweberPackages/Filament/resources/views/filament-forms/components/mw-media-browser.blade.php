@@ -100,7 +100,7 @@
                             <div x-show="mediaIds && mediaIds.length > 0 && selectedImages && selectedImages.length > 0"
                                  class="admin-thumbs-holder-bulk-actions">
 
-                                <x-filament::button size="xs" @click="bulkDeleteSelectedMedia()">
+                                <x-filament::button size="xs" icon="heroicon-m-trash" color="danger" @click="bulkDeleteSelectedMedia()">
                                     Delete selected
                                 </x-filament::button>
 
