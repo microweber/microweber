@@ -28,16 +28,30 @@ if (isset($params['rel'])){
 }
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'post' and defined('POST_ID')) {
     $params['rel_id'] = POST_ID;
-    $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+    $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 }
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'page' and defined('PAGE_ID')) {
     $params['rel_id'] = PAGE_ID;
-    $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+    $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 }
 if (isset($params['rel_type']) and trim(strtolower(($params['rel_type']))) == 'content' and defined('CONTENT_ID')) {
+
+
     $params['rel_id'] = CONTENT_ID;
-    $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+    $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+ }
+
+if (isset($params['content-id']) and $params['content-id'] != '') {
+    $params['rel_id'] = intval($params['content-id']);
+    $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
 }
+if (isset($params['for-id'])) {
+    $params['rel_id'] = trim($params['for-id']);
+}
+if (!isset($params['rel_id']) or $params['rel_id'] == false) {
+    $params['rel_id'] = 0;
+}
+
 
 
 $default_images = false;
@@ -45,8 +59,8 @@ if (isset($params['images']) and trim(strtolower(($params['images']))) != '') {
     $default_images = explode(',', $params['images']);
     $default_images = array_trim($default_images);
 }
-if (isset($params['for'])) {
-    $for = $params['for'];
+if (isset($params['rel_type'])) {
+    $for = $params['rel_type'];
 } else {
     $for = 'modules';
 }
@@ -59,28 +73,20 @@ if ($use_from_post == 'y') {
         $params['content-id'] = page_id();
 
     }
-} elseif (!isset($params['for']) and get_option('data-use-from-post', $params['id']) == '') {
+} elseif (!isset($params['rel_type']) and get_option('data-use-from-post', $params['id']) == '') {
     $for = 'modules';
     $params['rel_id'] = $params['id'];
 } else {
-    if (!isset($params['for'])) {
+    if (!isset($params['rel_type'])) {
         $for = 'modules';
         $params['rel_id'] = $params['id'];
     } else {
-        $for = $params['for'];
+        $for = $params['rel_type'];
     }
 }
 
-if (isset($params['content-id']) and $params['content-id'] != '') {
-    $params['rel_id'] = intval($params['content-id']);
-    $for = 'content';
-}
-if (isset($params['for-id'])) {
-    $params['rel_id'] = trim($params['for-id']);
-}
-if (!isset($params['rel_id']) or $params['rel_id'] == false) {
-    $params['rel_id'] = 0;
-}
+
+
 
 
 $handle_empty = false;
@@ -97,7 +103,7 @@ if (isset($params['rel_id']) == true) {
         $get_for_session = true;
     }
     if ($get_for_session == false) {
-        $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
+        $data = get_pictures('rel_id=' . $params['rel_id'] . '&rel_type=' . $for);
 
     } else {
         $sid = mw()->user_manager->session_id();
@@ -122,15 +128,15 @@ if (isset($params['rel_id']) == true) {
                 if (in_array($extension, $allowedExtensions)) {
                     $default_image_url = $path . DS . $filename;
                     save_media([
-                        'for' => $for,
-                        'for_id' => $params['rel_id'],
+                        'rel_type' => $for,
+                        'rel_id' => $params['rel_id'],
                         'media_type' => 'picture',
                         'src' => $default_image_url,
                     ]);
                     save_option('default_settings_is_applied', true, $params['rel_id']);
                 }
             }
-            $data = get_pictures('rel_id=' . $params['rel_id'] . '&for=' . $for);
+            $data = get_pictures('rel_id=' . $params['rel_id'] . '&rel_type=' . $for);
 
 
         }

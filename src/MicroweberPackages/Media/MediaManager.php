@@ -824,6 +824,7 @@ class MediaManager
         $src = htmlspecialchars_decode($src);
 
         $surl = $this->app->url_manager->site();
+      //  $surl = $this->app->url_manager->site();
         $src = str_replace('{SITE_URL}', $surl, $src);
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
         $base_src = str_replace($surl, '', $src);
@@ -843,6 +844,7 @@ class MediaManager
 
         $cd = $this->_thumbnails_path() . $width . DS;
         $cd_relative = $this->thumbnails_path_in_userfiles . DS . $width . DS;
+
 
         $ext = strtolower(get_file_extension($base_src));
         if ($ext == 'svg') {
@@ -896,18 +898,23 @@ class MediaManager
         $cache_path_relative = $cd_relative . $cache_id;
         $cache_path = normalize_path($cache_path, false);
         $cache_path_relative = normalize_path($cache_path_relative, false);
-        //dump($cache_path);
+
+
         if ($is_remote) {
             return $src;
         } elseif (@is_file($cache_path)) {
             $cache_path = $this->app->url_manager->link_to_file($cache_path);
             return $cache_path;
         } else {
+
             if (stristr($base_src, 'pixum_img')) {
+                MediaThumbnail::where('filename', $cache_id_without_ext)->delete();
                 return $this->pixum($width, $height);
             }
             $file_exists_local = url2dir($src);
+
             if (!@is_file($file_exists_local)) {
+                MediaThumbnail::where('filename', $cache_id_without_ext)->delete();
                 return $this->pixum($width, $height);
             }
 
@@ -1002,16 +1009,19 @@ class MediaManager
             $src = ltrim($src, '/');
             $src = rtrim($src, DS);
             $src = rtrim($src, '/');
-            //$src = media_base_path() . $src;
-            $src = MW_ROOTPATH . $src;
+            $src = public_path('/') . $src;
+            //$src = MW_ROOTPATH . $src;
+            //$src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
+
         } else {
             $src = $this->app->url_manager->clean_url_wrappers($src);
 
             $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
 
-            $src2 = MW_ROOTPATH . $src;
+           // $src2 = MW_ROOTPATH . $src;
+            $src2 = public_path('/') . $src;
             $src2 = normalize_path($src2, false);
             $src3 = strtolower($src2);
 
@@ -1144,6 +1154,7 @@ class MediaManager
 
 
         if (isset($return_cache_path) and $return_cache_path) {
+
             return $cache_path;
         }
 

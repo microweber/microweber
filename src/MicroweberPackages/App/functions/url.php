@@ -23,7 +23,9 @@ if (!function_exists('url2dir')) {
         }
 
     //    $path = str_ireplace(site_url(), MW_ROOTPATH, $path);
-        $path = str_ireplace(site_url(), public_path(), $path);
+        $public = public_path().'/' ;
+        $public = rtrim('//', $public);
+        $path = str_ireplace(site_url(),$public , $path);
 
         $path = str_replace('\\', '/', $path);
         $path = str_replace('//', '/', $path);
