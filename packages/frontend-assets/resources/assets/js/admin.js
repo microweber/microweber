@@ -64,6 +64,7 @@ import "../tools/element.js";
 import "../tools/cookie.js";
 import "../tools/common-extend.js";
 import "../tools/tabs.js";
+import "../tools/images.js";
 import "../tools/spinner.js";
 
 
