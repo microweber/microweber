@@ -139,6 +139,11 @@ if (!function_exists('site_url')) {
             //$site_url = 'http://localhost/';
             $site_url = config('app.url');
         }
+         if(str_ends_with($site_url,'/./')){
+            return $add_string;
+        }
+
+
 
         if($site_url=='http:/./' || $site_url=='http:/../' || $site_url=='http:/'){
             $site_url = '';
