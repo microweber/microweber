@@ -22,8 +22,10 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $lib_tynymce = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/tinymce/tinymce.js';
         $nouislider = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/nouislider/nouislider.js';
 
+       //  $fileRobotUrl = public_asset() . 'vendor/microweber-packages/frontend-assets/resources/dist/js/imageeditor.js';
 
-        $fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
+
+         $fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
 
 
         //nouislider

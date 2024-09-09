@@ -1,7 +1,7 @@
 import MicroweberBaseClass from "../containers/base-class.js";
 import CSSJSON from "../../core/libs/cssjson/cssjson.js";
 import getComputedStyle from "@popperjs/core/lib/dom-utils/getComputedStyle";
-import { type } from "jquery";
+
 
 mw.lib.require('jseldom');
 
