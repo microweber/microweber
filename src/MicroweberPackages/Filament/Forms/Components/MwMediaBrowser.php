@@ -225,6 +225,8 @@ class MwMediaBrowser extends Field
 
         if (!empty(trim($this->relId))) {
             $itemsQuery->where('rel_id', $this->relId);
+        } else {
+            $itemsQuery->whereNull('rel_id');
         }
 
         if (!empty(trim($this->relType))) {
