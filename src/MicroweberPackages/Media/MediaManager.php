@@ -862,7 +862,7 @@ class MediaManager
 
 
         if ($this->_is_webp_supported()) {
-         //   $ext = 'webp';
+            $ext = 'webp';
         }
         $is_remote = false;
         if (!stristr($src, $surl)) {
