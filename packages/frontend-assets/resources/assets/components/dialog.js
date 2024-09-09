@@ -293,6 +293,9 @@
             this.dialogContainer.className = 'mw-dialog-container';
             this.dialogHolder.className = 'mw-dialog-holder';
 
+            this.dialogContainer.setAttribute('x-data', '{}');
+            this.dialogContainer.setAttribute('x-trap', 'true');
+
             var cont = this.options.content;
             if(this.options.shadow) {
                 this.shadow = this.dialogContainer.attachShadow({
