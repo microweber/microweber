@@ -4662,10 +4662,6 @@ select {
   height: 0.5rem;
 }
 
-.h-2\.5 {
-  height: 0.625rem;
-}
-
 .h-20 {
   height: 5rem;
 }
@@ -5058,10 +5054,6 @@ select {
   width: 24px;
 }
 
-.w-\[25rem\] {
-  width: 25rem;
-}
-
 .w-\[26px\] {
   width: 26px;
 }
@@ -5082,20 +5074,12 @@ select {
   width: 34px;
 }
 
-.w-\[36rem\] {
-  width: 36rem;
-}
-
 .w-\[40px\] {
   width: 40px;
 }
 
 .w-\[48\%\] {
   width: 48%;
-}
-
-.w-\[50rem\] {
-  width: 50rem;
 }
 
 .w-\[5px\] {
@@ -6420,14 +6404,6 @@ select {
   border-color: rgb(107 114 128 / var(--tw-border-opacity));
 }
 
-.border-gray-500\/10 {
-  border-color: rgb(107 114 128 / 0.1);
-}
-
-.border-gray-500\/20 {
-  border-color: rgb(107 114 128 / 0.2);
-}
-
 .border-gray-600 {
   --tw-border-opacity: 1;
   border-color: rgb(24 36 51 / var(--tw-border-opacity));
@@ -6493,10 +6469,6 @@ select {
 .border-b-gray-500 {
   --tw-border-opacity: 1;
   border-bottom-color: rgb(107 114 128 / var(--tw-border-opacity));
-}
-
-.border-b-gray-500\/30 {
-  border-bottom-color: rgb(107 114 128 / 0.3);
 }
 
 .border-l-black {
@@ -6724,10 +6696,6 @@ select {
 .bg-gray-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity));
-}
-
-.bg-gray-500\/10 {
-  background-color: rgb(107 114 128 / 0.1);
 }
 
 .bg-gray-600 {
@@ -7670,10 +7638,6 @@ select {
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
-}
-
-.text-black\/50 {
-  color: rgb(0 0 0 / 0.5);
 }
 
 .text-black\/60 {
@@ -18412,22 +18376,12 @@ html[dir="rtl"] .reset-field {
   background-color: rgba(var(--primary-600), var(--tw-bg-opacity));
 }
 
-.first\:rounded-l-lg:first-child {
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-}
-
 .first\:border-s-0:first-child {
   border-inline-start-width: 0px;
 }
 
 .first\:border-t-0:first-child {
   border-top-width: 0px;
-}
-
-.last\:rounded-r-lg:last-child {
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
 }
 
 .last\:border-e-0:last-child {
@@ -18543,10 +18497,6 @@ html[dir="rtl"] .reset-field {
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-gray-500\/5:hover {
-  background-color: rgb(107 114 128 / 0.05);
-}
-
 .hover\:bg-gray-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(24 36 51 / var(--tw-bg-opacity));
@@ -18653,11 +18603,6 @@ html[dir="rtl"] .reset-field {
   color: rgba(var(--primary-500), var(--tw-text-opacity));
 }
 
-.hover\:text-white:hover {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -18666,21 +18611,9 @@ html[dir="rtl"] .reset-field {
   opacity: 1;
 }
 
-.hover\:shadow:hover {
-  --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
 .hover\:shadow-md:hover {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.hover\:shadow-xl:hover {
-  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -18734,11 +18667,6 @@ html[dir="rtl"] .reset-field {
 .focus\:ring-danger-600:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgba(var(--danger-600), var(--tw-ring-opacity));
-}
-
-.focus\:ring-gray-800:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(24 36 51 / var(--tw-ring-opacity));
 }
 
 .focus\:ring-indigo-500:focus {
@@ -19148,11 +19076,6 @@ html[dir="rtl"] .reset-field {
   display: none;
 }
 
-.dark\:divide-gray-700:is(.dark *) > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-opacity: 1;
-  border-color: rgb(24 36 51 / var(--tw-divide-opacity));
-}
-
 .dark\:divide-white\/10:is(.dark *) > :not([hidden]) ~ :not([hidden]) {
   border-color: rgb(255 255 255 / 0.1);
 }
@@ -19507,10 +19430,6 @@ html[dir="rtl"] .reset-field {
 
 .dark\:text-white\/5:is(.dark *) {
   color: rgb(255 255 255 / 0.05);
-}
-
-.dark\:text-white\/80:is(.dark *) {
-  color: rgb(255 255 255 / 0.8);
 }
 
 .dark\:text-yellow-500:is(.dark *) {
@@ -20268,10 +20187,6 @@ html[dir="rtl"] .reset-field {
     padding: 2.5rem;
   }
 
-  .sm\:p-6 {
-    padding: 1.5rem;
-  }
-
   .sm\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -20560,10 +20475,6 @@ html[dir="rtl"] .reset-field {
   .lg\:columns-\[--cols-lg\] {
     -moz-columns: var(--cols-lg);
          columns: var(--cols-lg);
-  }
-
-  .lg\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .lg\:grid-cols-\[--cols-lg\] {
