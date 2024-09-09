@@ -17,6 +17,8 @@ use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Facades\Filament;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Support\Assets\AlpineComponent;
+use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Assets\Theme;
 use Filament\Support\Facades\FilamentAsset;
@@ -118,6 +120,11 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
             $switch->flags($defaultLocaleFlags);
             $switch->locales($defaultLocales); // also accepts a closure
         });
+
+        // Register filament assets
+        FilamentAsset::register([
+            AlpineComponent::make('mw-media-browser', __DIR__ . '/../resources/js/components/dist/mw-media-browser.js'),
+        ], 'mw-filament/forms');
 
     }
 

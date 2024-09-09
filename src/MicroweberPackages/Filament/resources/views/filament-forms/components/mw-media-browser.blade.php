@@ -39,55 +39,6 @@
                     })
                 });
             </script>
-            <script>
-                function mwMediaManagerComponent({mediaIds}) {
-                    return {
-                        mediaIds,
-                        modalImageSettingsOpen: false,
-                        selectedImages: [],
-
-                        init() {
-
-
-                        },
-
-
-                        editMediaOptionsById(id) {
-
-                            this.$wire.mountAction('editAction', {id: id})
-
-                        },
-
-                        async bulkDeleteSelectedMedia() {
-                            const dialogConfirm = await mw.confirm('Are you sure you want to delete selected images?').promise()
-                            if (dialogConfirm) {
-                                $wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemsByIds','{{ $statePath }}',
-                                    { ids: this.selectedImages }
-                                )
-                            }
-                        },
-
-                        async deleteMediaById(id) {
-
-                            const dialogConfirm = await mw.confirm('Are you sure you want to delete this image?').promise()
-                            if (dialogConfirm) {
-                                $wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemById','{{ $statePath }}',
-                                    { id: id }
-                                )
-                            }
-                        },
-                        async editImageFilename(id, url) {
-
-                            const editedImage = await mw.top().app.editImageDialog.editImageUrl(url);
-
-                            $wire.dispatchFormEvent('mwMediaBrowser::updateImageFilename','{{ $statePath }}', {
-                                data: { id: id, filename: editedImage }
-                            })
-
-                        }
-                    }
-                }
-            </script>
 
             <div
                 id="mw-image-dropzone"
@@ -119,24 +70,28 @@
 
                         <div
 
-                            x-data="mwMediaManagerComponent({
-                            mediaIds: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+                            ax-load="visible"
 
-                        })"
+                            ax-load-src="{{ \Filament\Support\Facades\FilamentAsset::getAlpineComponentSrc('mw-media-browser', 'mw-filament/forms') }}"
+
+                            x-data="mwMediaManagerComponent({
+                                mediaIds: $wire.{{ $applyStateBindingModifiers("\$entangle('{$statePath}')") }},
+                            })"
+
+                            x-ignore
+
                             x-on:end="
 
+                                itemsSortedIds = $event.target.querySelectorAll('[x-sortable-item]');
 
-
-                    itemsSortedIds = $event.target.querySelectorAll('[x-sortable-item]');
-
-                    itemsSortedIdsArray = [];
-                    for (var i = 0; i < itemsSortedIds.length; i++) {
-                        itemsSortedIdsArray.push(itemsSortedIds[i].getAttribute('x-sortable-item'));
-                    }
-                    $wire.dispatchFormEvent('mwMediaBrowser::mediaItemsSort','{{ $statePath }}', {
-                        itemsSortedIds: itemsSortedIdsArray
-                    })
-                    mediaIds = itemsSortedIdsArray
+                                itemsSortedIdsArray = [];
+                                for (var i = 0; i < itemsSortedIds.length; i++) {
+                                    itemsSortedIdsArray.push(itemsSortedIds[i].getAttribute('x-sortable-item'));
+                                }
+                                $wire.dispatchFormEvent('mwMediaBrowser::mediaItemsSort','{{ $statePath }}', {
+                                    itemsSortedIds: itemsSortedIdsArray
+                                })
+                                mediaIds = itemsSortedIdsArray
                     "
                             class="admin-thumbs-holder-wrapper"
                         >
@@ -145,12 +100,11 @@
                             <div x-show="mediaIds && mediaIds.length > 0 && selectedImages && selectedImages.length > 0"
                                  class="admin-thumbs-holder-bulk-actions">
 
-
-                                <button type="button" @click="bulkDeleteSelectedMedia()">Delete selected</button>
-
+                                <x-filament::button size="xs" @click="bulkDeleteSelectedMedia()">
+                                    Delete selected
+                                </x-filament::button>
 
                             </div>
-
 
                             <div class="admin-thumbs-holder" x-sortable>
                                 @foreach($mediaItems as $item)
