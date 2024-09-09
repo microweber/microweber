@@ -23,7 +23,7 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
 
     public function register()
     {
-        if (mw_is_installed()) {
+        //if (mw_is_installed()) {
             $this->app->register(FilamentServiceProvider::class);
             $this->app->register(FilamentAdminPanelProvider::class);
             $this->app->register(FilamentLiveEditPanelProvider::class);
@@ -32,7 +32,7 @@ class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvi
 
             // @TODO
           //  $this->app->register(NewsletterFilamentAdminPanelProvider::class);
-        }
+     //   }
 
     }
 }
