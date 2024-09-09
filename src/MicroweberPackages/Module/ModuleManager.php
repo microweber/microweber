@@ -192,8 +192,13 @@ class ModuleManager
 
     public function reload_laravel_modules()
     {
-        return;
+
         /** @var LaravelModulesFileRepository $laravelModules */
+        if (!app()->bound('modules')) {
+            return;
+        }
+
+
         $laravelModules = app('modules');
         $modules = $laravelModules->scan();
 
@@ -209,23 +214,22 @@ class ModuleManager
                 Artisan::call('module:migrate', ['module' => $module->getLowerName(), '--force']);
                 Artisan::call('module:publish', ['module' => $module->getLowerName(), '--force']);
 
-//                $providers = $module->get('providers');
-//                if ($providers and !empty($providers)) {
-//                    foreach ($providers as $provider) {
-//                        dump($provider);
-//                        Artisan::call('vendor:publish', ['--provider' => $provider, '--force']);
-//                    }
-//                }
+                $moduleToSave = [];
+                $moduleToSave['module'] = $module->getLowerName();
+                $moduleToSave['name'] = $module->get('name');
+                $moduleToSave['description'] = $module->get('description');
+                $moduleToSave['author'] = $module->get('author');
+                $moduleToSave['website'] = $module->get('website');
+                $moduleToSave['keywords'] = $module->get('keywords');
+                $moduleToSave['position'] = $module->getPriority();
+                $moduleToSave['type'] = 'laravel-module';
+                $moduleToSave['installed'] = 1;
 
 
-//                dump($module->getLowerName());
-//                dump($module->get('providers'));
-//                dump($module->isStatus(true));
-//                dump($module->registerProviders());
-                //  $this->installLaravelModule($module);
+                app()->module_repository->installLaravelModule($moduleToSave);
+
             }
         }
-        //   dd($modules);
     }
 
     public function scan_for_modules($options = false)
@@ -695,6 +699,14 @@ class ModuleManager
             return true;
 
         }
+
+        if(app()->bound('modules')){
+            $module = app()->modules;
+            if($module->find($module_name)){
+                return true;
+            }
+        }
+
 
 
         global $mw_loaded_mod_memory;

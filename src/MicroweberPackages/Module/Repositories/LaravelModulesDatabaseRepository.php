@@ -112,48 +112,49 @@ class LaravelModulesDatabaseRepository extends FileRepository
     public function scan()
     {
 
-        static $alreadyScanned = false;
-        if (!Schema::hasTable('modules')) {
-            return [];
-        }
-        if (!$alreadyScanned and $this->config('scan.enabled')) {
-            $scannedModules = $this->scanJson();
-            $alreadyScanned = true;
-            if ($scannedModules) {
-                foreach ($scannedModules as $scannedModule) {
-                    //if (!app()->module_repository->getModule($scannedModule['alias'])) {
-                    app()->module_repository->installLaravelModule($scannedModule);
-                    // }
-                }
-            }
-        }
-
-        $modules = $this->createAllModules();
-
-
-        return $modules;
+//        static $alreadyScanned = false;
+//        if (!Schema::hasTable('modules')) {
+//            return [];
+//        }
+//        if (!$alreadyScanned and $this->config('scan.enabled')) {
+//            $scannedModules = $this->scanJson();
+//            $alreadyScanned = true;
+//            if ($scannedModules) {
+//                foreach ($scannedModules as $scannedModule) {
+//                    //if (!app()->module_repository->getModule($scannedModule['alias'])) {
+//                    app()->module_repository->installLaravelModule($scannedModule);
+//                    // }
+//                }
+//            }
+//        }
+//
+//        $modules = $this->createAllModules();
+//
+//
+//        return $modules;
 
 
     }
 
     public function forceScan()
     {
-        static $alreadyScanned = false;
-
-        if($alreadyScanned){
-            return;
-        }
-        $scannedModules = $this->scanJson();
-        $alreadyScanned = true;
-        if ($scannedModules) {
-            foreach ($scannedModules as $scannedModule) {
-                //if (!app()->module_repository->getModule($scannedModule['alias'])) {
-                app()->module_repository->installLaravelModule($scannedModule);
-                // }
-            }
-        }
+//        static $alreadyScanned = false;
+//
+//        if($alreadyScanned){
+//            return;
+//        }
+//        $scannedModules = $this->scanJson();
+//        $alreadyScanned = true;
+//        if ($scannedModules) {
+//            foreach ($scannedModules as $scannedModule) {
+//                //if (!app()->module_repository->getModule($scannedModule['alias'])) {
+//                app()->module_repository->installLaravelModule($scannedModule);
+//                // }
+//            }
+//        }
     }
 
+    /** @deprecated */
     public function createAllModules()
     {
         if(!mw_is_installed()){

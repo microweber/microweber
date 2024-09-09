@@ -36,7 +36,7 @@ class ModuleRepository extends AbstractRepository
             $getModules = DB::table('modules')->get();
             $allModules = collect($getModules)->map(function ($item) {
 
-                if (!empty($item->settings)) {
+                if (!empty($item->settings) and is_string($item->settings)) {
                     $item->settings = json_decode($item->settings, true);
                 }
 
@@ -123,8 +123,8 @@ class ModuleRepository extends AbstractRepository
 
     public function installLaravelModule($scannedModule)
     {
-        $module = $scannedModule['alias'];
-        $moduleData =$this->modelInstance->newInstance()->where('module', $module)->first();
+        $module = $scannedModule['module'];
+        $moduleData = Module::where('module', $module)->first();
         if ($moduleData) {
             $moduleData = $moduleData->toArray();
         }
@@ -136,38 +136,16 @@ class ModuleRepository extends AbstractRepository
         }
 
 
-        $data = [
-            'module' => $scannedModule['alias'],
-            'installed' => 1,
-            'settings' => $scannedModule
-        ];
-
-        if (isset($scannedModule['name'])) {
-            $data['name'] = $scannedModule['name'];
-        }
-        if (isset($scannedModule['description'])) {
-            $data['description'] = $scannedModule['description'];
-        }
-        if (isset($scannedModule['priority'])) {
-            $data['position'] = $scannedModule['priority'];
-        }
-//
-//        if (isset($scannedModule['composer']['autoload'])) {
-//            $data['position'] = $scannedModule['priority'];
-//        }
+        $data = $scannedModule;
 
 
         if (!$moduleData) {
-
             $module = new Module();
             $module->fill($data);
             $module->save();
-
-
         } else {
-            $this->modelInstance->newInstance()->where('module', $module)->update($data);
+            Module::where('module', $module)->update($data);
         }
-
         $this->clearCache();
     }
 
