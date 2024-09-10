@@ -22,8 +22,8 @@ description: Opens video in a popup
                 skin: 'video',
                 closeButtonAppendTo: '.mw-dialog-holder',
                 width: <?php print $params['width']  ?>,
-                height: 100%,
-                top: 50%;
+                height: '100%',
+                top: '50%'
             });
             var dialog = mw.dialog.get()
 
