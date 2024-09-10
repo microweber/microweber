@@ -237,8 +237,13 @@ if (!function_exists('autoload_add_namespace')) {
             $base_dir = $dirname;
             $len = strlen($prefix);
             if (strncmp($prefix, $class, $len) !== 0) {
+
                 return;
             }
+
+            $namespace = str_replace('/', '\\', $namespace);
+
+
             $relative_class = substr($class, $len);
             $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
             if (file_exists($file)) {

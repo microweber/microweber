@@ -42,6 +42,7 @@ use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\LaravelModules\LaravelModulesServiceProvider;
+use MicroweberPackages\LaravelModulesFilament\LaravelModulesFilamentServiceProvider;
 use MicroweberPackages\LaravelModulesLivewire\LaravelModulesLivewireServiceProvider;
 use MicroweberPackages\LaravelTemplates\LaravelTemplatesServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
@@ -214,6 +215,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(LiveEditServiceProvider::class);
         $this->app->register(LaravelModulesServiceProvider::class);
         $this->app->register(LaravelModulesLivewireServiceProvider::class);
+        $this->app->register(LaravelModulesFilamentServiceProvider::class);
         $this->app->register(LaravelTemplatesServiceProvider::class);
 
         $this->app->register(UpdateMigratorServiceProvider::class);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e83ef8ca13f91253b6690b6c026d65f9",
+    "content-hash": "4dc33cce7221ec9ea90e8ef083b0bab6",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2189,6 +2189,87 @@
                 "source": "https://github.com/savannabits/filament-flatpickr/tree/v3.1.0"
             },
             "time": "2024-03-21T12:14:34+00:00"
+        },
+        {
+            "name": "coolsam/modules",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/savannabits/filament-modules.git",
+                "reference": "60824d87282c61de423da50397531b5961048dae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/savannabits/filament-modules/zipball/60824d87282c61de423da50397531b5961048dae",
+                "reference": "60824d87282c61de423da50397531b5961048dae",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "nwidart/laravel-modules": "^11.0",
+                "php": "^8.1|^8.2|^8.3",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^8.1",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^9.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Coolsam\\Modules\\ModulesServiceProvider"
+                    ],
+                    "aliases": {
+                        "FilamentModules": "FilamentModules"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Coolsam\\Modules\\": "src/",
+                    "Coolsam\\Modules\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sam Maosa",
+                    "email": "maosa.sam@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Organize your Filament Code into modules using nwidart/laravel-modules",
+            "homepage": "https://github.com/savannabits/filament-modules",
+            "keywords": [
+                "FilamentModules",
+                "coolsam",
+                "filament",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/savannabits/filament-modules/issues",
+                "source": "https://github.com/savannabits/filament-modules"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/coolsam",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-15T08:53:26+00:00"
         },
         {
             "name": "danharrin/date-format-converter",

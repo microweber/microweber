@@ -41,6 +41,8 @@ class FilamentRegistryManager
 
     public function registerPage(string $page, string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
+
+
         return $this->filamentPageRegistry[$panelId][] = [
             'page' => $page,
             'scope' => $scope,

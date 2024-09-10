@@ -97,32 +97,50 @@ class LaravelModulesFileRepository extends FileRepository
         $moduleManifest = Json::make($manifest)->getAttributes();
 
 
-        if(is_file($composer)) {
-            $moduleComposer = Json::make($composer)->getAttributes();
-
-
-            $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
-            $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
-
-            if ($autoloadNamespaces) {
-                foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
-                    $autoloadNamespacePathFull = normalize_path($path . DS . $autoloadNamespacePath);
-                    autoload_add_namespace($autoloadNamespacePathFull, $autoloadNamespace);
-                }
-            }
-            if ($autoloadFiles) {
-                foreach ($autoloadFiles as $autoloadFile) {
-                    if (is_file($path . DS . $autoloadFile)) {
-                        include_once $path . DS . $autoloadFile;
-                    }
-                }
-            }
+        if (is_file($composer)) {
+            self::registerNamespacesFromComposer($composer);
         }
 
         $module = new \Nwidart\Modules\Laravel\Module ($app, $moduleManifest['name'], $path);
 
         return $module;
     }
+
+    public static $registeredComposerFiles = [];
+
+    public static function registerNamespacesFromComposer($composer)
+    {
+        if (in_array($composer, self::$registeredComposerFiles)) {
+            return;
+        }
+        self::$registeredComposerFiles[] = $composer;
+
+
+        $path = dirname($composer);
+        $moduleComposer = Json::make($composer)->getAttributes();
+
+
+        $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
+        $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
+
+        if ($autoloadNamespaces) {
+
+            foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
+                $autoloadNamespace = trim($autoloadNamespace, '\\');
+                $autoloadNamespacePathFull = ($path . DS . $autoloadNamespacePath);
+                $autoloadNamespacePathFull = str_replace(['\\', '/'], [DS, DS], $autoloadNamespacePathFull);
+                autoload_add_namespace($autoloadNamespacePathFull, $autoloadNamespace);
+            }
+        }
+        if ($autoloadFiles) {
+            foreach ($autoloadFiles as $autoloadFile) {
+                if (is_file($path . DS . $autoloadFile)) {
+                    include_once $path . DS . $autoloadFile;
+                }
+            }
+        }
+    }
+
 
     public function find(string $name)
     {
@@ -134,26 +152,30 @@ class LaravelModulesFileRepository extends FileRepository
         }
 
     }
+
     public function config(string $key, $default = null)
     {
 
-        return $this->config->get('modules.'.$key, $default);
+        return $this->config->get('modules.' . $key, $default);
     }
+
     public function all(): array
     {
 
-        if (! $this->config('cache.enabled')) {
+        if (!$this->config('cache.enabled')) {
 
             return $this->scan();
         }
-      // return $this->scan();
+        // return $this->scan();
         return $this->formatCached($this->getCached());
     }
+
     public function getFiles(): Filesystem
     {
 
         return $this->files;
     }
+
     public function getCached()
     {
         return $this->cache->store($this->config->get('modules.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
@@ -168,7 +190,7 @@ class LaravelModulesFileRepository extends FileRepository
 
         $modules = [];
 
-        if(!$this->getFiles()){
+        if (!$this->getFiles()) {
             return [];
         }
 

@@ -31,6 +31,7 @@
         "composer/composer": "v2.7.7",
         "composer/installers": "v2.2.0",
         "coolsam/flatpickr": "*",
+        "coolsam/modules": "4",
         "darkaonline/l5-swagger": "8.6.0",
         "doctrine/dbal": "3.6.5",
         "dompdf/dompdf": "*",
@@ -209,7 +210,8 @@
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
                 "barryvdh/laravel-debugbar",
-                "mhmiton/laravel-modules-livewire",
+                "mhmiton/laravel-modules-livewire", 
+                "coolsam/modules",
                 "butschster/meta-tags"
             ]
         },
