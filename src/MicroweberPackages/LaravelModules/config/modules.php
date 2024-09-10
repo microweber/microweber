@@ -164,7 +164,7 @@ return [
 
             // resource/
             'assets' => ['path' => 'resources/assets', 'generate' => true],
-            'component-view' => ['path' => 'resources/views/components', 'generate' => false],
+            'component-view' => ['path' => 'resources/views/components', 'generate' => true],
             'views' => ['path' => 'resources/views', 'generate' => true],
 
             // routes/

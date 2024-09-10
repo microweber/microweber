@@ -2,5 +2,5 @@
 
 return [
     'name' => '$STUDLY_NAME$',
-    'icon' => 'icon.svg'
+    'icon' => asset('modules/$LOWER_NAME$/img/icon.svg'),
 ];
