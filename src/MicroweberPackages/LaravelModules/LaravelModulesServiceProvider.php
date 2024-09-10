@@ -4,6 +4,7 @@ namespace MicroweberPackages\LaravelModules;
 
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use Nwidart\Modules\Contracts\RepositoryInterface;
+use Nwidart\Modules\Support\Stub;
 
 //from https://github.com/allenwakeup/laravel-modules/
 
@@ -25,6 +26,19 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
     //     $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
          $this->app->bind (RepositoryInterface::class, LaravelModulesFileRepository::class);
 
+    }
+    public function setupStubPath()
+    {
+        $path = $this->app['config']->get('modules.stubs.path') ?? __DIR__.'/Commands/stubs';
+        Stub::setBasePath($path);
+
+        $this->app->booted(function ($app) {
+            /** @var RepositoryInterface $moduleRepository */
+            $moduleRepository = $app[RepositoryInterface::class];
+            if ($moduleRepository->config('stubs.enabled') === true) {
+                Stub::setBasePath($moduleRepository->config('stubs.path'));
+            }
+        });
     }
 //    protected function registerNamespaces()
 //    {

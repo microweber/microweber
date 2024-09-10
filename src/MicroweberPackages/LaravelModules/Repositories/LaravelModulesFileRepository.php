@@ -127,6 +127,7 @@ class LaravelModulesFileRepository extends FileRepository
     public function find(string $name)
     {
         foreach ($this->all() as $module) {
+            /** @var \Nwidart\Modules\Laravel\Module $module */
             if ($module->getLowerName() === strtolower($name)) {
                 return $module;
             }
