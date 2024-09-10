@@ -15,12 +15,12 @@
 
 
     {{-- Vite CSS --}}
-    {{-- {{ module_vite('build-$LOWER_NAME$', 'resources/assets/sass/app.scss') }} --}}
+    {{-- {{ module_vite('modules/$LOWER_NAME$/dist', 'resources/assets/sass/app.scss') }} --}}
 </head>
 
 <body>
     @yield('content')
 
     {{-- Vite JS --}}
-    {{-- {{ module_vite('build-$LOWER_NAME$', 'resources/assets/js/app.js') }} --}}
+    {{-- {{ module_vite('modules/$LOWER_NAME$/dist', 'resources/assets/js/app.js') }} --}}
 </body>
