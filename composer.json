@@ -67,6 +67,7 @@
         "league/omnipay": "*",
         "livewire/livewire": "v3.4.12",
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
+        "mhmiton/laravel-modules-livewire": "^3.0",
         "microweber-deps/image-comparator": "dev-master",
         "microweber-deps/laravel-cors": "^3.1",
         "microweber-deps/seo-helper": "dev-master",
@@ -208,6 +209,7 @@
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
                 "barryvdh/laravel-debugbar",
+                "mhmiton/laravel-modules-livewire",
                 "butschster/meta-tags"
             ]
         },

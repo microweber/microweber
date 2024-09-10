@@ -1,0 +1,26 @@
+{
+    "name": "microweber-packages/laravel-modules-livewire",
+    "description": "Microweber CMS integration with Laravel Modules Livewire",
+    "version": "0.0.1",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\LaravelModulesLivewire\\": ""
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "homepage": "http://microweber.com",
+    "license": "MIT",
+    "support": {
+        "email": "support@microweber.com"
+    }
+}

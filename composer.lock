@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8ee30938353dfaaadf0ced7cc16edc0",
+    "content-hash": "e83ef8ca13f91253b6690b6c026d65f9",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -768,84 +768,6 @@
                 }
             ],
             "time": "2024-07-29T21:49:30+00:00"
-        },
-        {
-            "name": "blade-ui-kit/blade-ui-kit",
-            "version": "0.6.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/blade-ui-kit/blade-ui-kit.git",
-                "reference": "0369d4ce2433dff605b80c70726c9d231902e122"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/blade-ui-kit/blade-ui-kit/zipball/0369d4ce2433dff605b80c70726c9d231902e122",
-                "reference": "0369d4ce2433dff605b80c70726c9d231902e122",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "illuminate/filesystem": "^10.0|^11.0",
-                "illuminate/support": "^10.0|^11.0",
-                "illuminate/view": "^10.0|^11.0",
-                "nesbot/carbon": "^2.38|^3.0",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "^7.4",
-                "league/commonmark": "^1.4|^2.0",
-                "livewire/livewire": "^3.0",
-                "lorisleiva/cron-translator": "^0.1.1|^0.4",
-                "orchestra/testbench": "^8.0|^9.0",
-                "orchestra/testbench-dusk": "^8.0|^9.0",
-                "pestphp/pest": "^2.34",
-                "phpunit/phpunit": "^10.5|^11.0"
-            },
-            "suggest": {
-                "league/commonmark": "Required to use the markdown component (^1.4).",
-                "lorisleiva/cron-translator": "Required to use the cron component (^0.1.1)."
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "BladeUIKit\\BladeUIKitServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "BladeUIKit\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dries Vints",
-                    "homepage": "https://driesvints.com"
-                }
-            ],
-            "description": "A set of renderless components to utilise in your Laravel Blade views.",
-            "homepage": "https://github.com/blade-ui-kit/blade-ui-kit",
-            "keywords": [
-                "blade",
-                "laravel",
-                "ui"
-            ],
-            "support": {
-                "issues": "https://github.com/blade-ui-kit/blade-ui-kit/issues",
-                "source": "https://github.com/blade-ui-kit/blade-ui-kit"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/driesvints",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-04-05T08:11:10+00:00"
         },
         {
             "name": "bobimicroweber/accordion",
@@ -8424,6 +8346,70 @@
                 "source": "https://github.com/maxmind/web-service-common-php/tree/v0.9.0"
             },
             "time": "2022-03-28T17:43:20+00:00"
+        },
+        {
+            "name": "mhmiton/laravel-modules-livewire",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mhmiton/laravel-modules-livewire.git",
+                "reference": "8e33fda90fec07207f28ca48d4bc453146ae5e93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mhmiton/laravel-modules-livewire/zipball/8e33fda90fec07207f28ca48d4bc453146ae5e93",
+                "reference": "8e33fda90fec07207f28ca48d4bc453146ae5e93",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^10.0|^11.0",
+                "livewire/livewire": "^3.0",
+                "nwidart/laravel-modules": ">=11.0",
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mhmiton\\LaravelModulesLivewire\\LaravelModulesLivewireServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mhmiton\\LaravelModulesLivewire\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mehediul Hassan Miton",
+                    "email": "mhmiton.dev@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Using Laravel Livewire in Laravel Modules package with automatically registered livewire components for every modules.",
+            "keywords": [
+                "custom-module",
+                "custom-modules",
+                "laravel",
+                "laravel-livewire",
+                "laravel-module",
+                "laravel-modules",
+                "livewire",
+                "mhmiton",
+                "module",
+                "modules",
+                "nwidart"
+            ],
+            "support": {
+                "issues": "https://github.com/mhmiton/laravel-modules-livewire/issues",
+                "source": "https://github.com/mhmiton/laravel-modules-livewire/tree/v3.0.0"
+            },
+            "time": "2024-03-24T00:11:35+00:00"
         },
         {
             "name": "microweber-deps/image-comparator",
