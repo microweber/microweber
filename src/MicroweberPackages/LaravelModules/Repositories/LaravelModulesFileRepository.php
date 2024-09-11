@@ -77,9 +77,15 @@ class LaravelModulesFileRepository extends FileRepository
 
     protected function createModule(...$args)
     {
+
+
         $app = $args[0];
         $name = $args[1];
         $path = $args[2];
+
+        if ($name and isset($this->memory[$name])) {
+           return $this->memory[$name];
+        }
 
         $manifest = $path . DS . 'module.json';
         $composer = $path . DS . 'composer.json';
@@ -93,16 +99,12 @@ class LaravelModulesFileRepository extends FileRepository
             return null;
         }
 
-
-        $moduleManifest = Json::make($manifest)->getAttributes();
-
-
         if (is_file($composer)) {
             self::registerNamespacesFromComposer($composer);
         }
 
-        $module = new \Nwidart\Modules\Laravel\Module ($app, $moduleManifest['name'], $path);
-
+        $module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
+        $this->memory[$name] = $module;
         return $module;
     }
 
@@ -144,6 +146,8 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function find(string $name)
     {
+
+
         foreach ($this->all() as $module) {
             /** @var \Nwidart\Modules\Laravel\Module $module */
             if ($module->getLowerName() === strtolower($name)) {
@@ -159,15 +163,47 @@ class LaravelModulesFileRepository extends FileRepository
         return $this->config->get('modules.' . $key, $default);
     }
 
+    public $memory = [];
+
     public function all(): array
     {
+        $enabledCache = $this->config['modules']['cache']['enabled'] ?? false;
 
-        if (!$this->config('cache.enabled')) {
+        if (!$enabledCache) {
 
             return $this->scan();
         }
-        // return $this->scan();
+
+
         return $this->formatCached($this->getCached());
+    }
+
+
+    protected function formatCached($cached)
+    {
+
+        $modules = [];
+
+        foreach ($cached as $name => $module) {
+
+
+            $path = $module['path'];
+
+            $modules[$name] = $this->createModule($this->app, $name, $path);
+         //   $this->memory[$name] = $modules[$name];
+
+//            if (isset($this->memory[$name])) {
+//                $modules[$name] = $this->memory[$name];
+//
+//            } else {
+//
+//                $path = $module['path'];
+//
+//                $modules[$name] = $this->createModule($this->app, $name, $path);
+//                $this->memory[$name] = $modules[$name];
+//            }
+        }
+        return $modules;
     }
 
     public function getFiles(): Filesystem

@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\LaravelModules;
 
+use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Support\Stub;
@@ -10,15 +11,15 @@ use Nwidart\Modules\Support\Stub;
 
 class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServiceProvider
 {
-   // use MergesConfig;
+    use MergesConfig;
 
     public function register()
     {
 
        // autoload_add_namespace(base_path() . '/Modules/', 'Modules\\');
       //  autoload_add_namespace(base_path() . '/Modules/Test3/app', 'Modules\\Test3');
-        $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
 
+        $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
 
         $this->registerServices();
         $this->setupStubPath();

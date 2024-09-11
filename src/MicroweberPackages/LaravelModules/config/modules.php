@@ -203,9 +203,10 @@ return [
         'enabled' => false,
         'paths' => [
           //  base_path('vendor/*/*'),
-            base_path('Modules/*/*'),
-            base_path('userfiles/modules/*/*'),
-            base_path('userfiles/modules/*'),
+            base_path('Modules/'),
+           // base_path('Modules/*/*'),
+           // base_path('userfiles/modules/*/*'),
+           // base_path('userfiles/modules/*'),
 
         ],
     ],
@@ -236,7 +237,7 @@ return [
     |
     */
     'cache' => [
-        'enabled' => env('MODULES_CACHE_ENABLED', false),
+        'enabled' => env('MODULES_CACHE_ENABLED', true),
         'driver' => env('MODULES_CACHE_DRIVER', 'file'),
         'key' => env('MODULES_CACHE_KEY', 'laravel-modules'),
         'lifetime' => env('MODULES_CACHE_LIFETIME', 60),

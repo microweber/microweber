@@ -80,7 +80,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 
     public function all(): array
     {
-
+        $modules = [];
         if (! $this->config('cache.enabled')) {
 
             return $this->scan();
@@ -88,8 +88,11 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         //return $this->scan();
         return $this->formatCached($this->getCached());
     }
+    public $memory = [];
     protected function formatCached($cached)
     {
+
+
         $modules = [];
 
         foreach ($cached as $name => $module) {
@@ -182,6 +185,11 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         $name = $args[1];
         $path = $args[2];
 
+        if ($name and isset($this->memory[$name])) {
+            return $this->memory[$name];
+        }
+
+
         $manifest = $path . DS . 'module.json';
         $composer = $path . DS . 'composer.json';
         if (!$path) {
@@ -221,7 +229,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         }
 
         $module = new LaravelTemplate($app, $moduleManifest['name'], $path);
-
+        $this->memory[$name] = $module;
         return $module;
     }
     public function getCached()
