@@ -10,6 +10,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
+use MicroweberPackages\LaravelTemplates\Helpers\StaticTemplateCreator;
 use MicroweberPackages\LaravelTemplates\LaravelTemplate;
 use Nwidart\Modules\Exceptions\ModuleNotFoundException;
 use Nwidart\Modules\FileRepository;
@@ -77,18 +78,18 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     }
 
 
-
     public function all(): array
     {
         $modules = [];
-        if (! $this->config('cache.enabled')) {
+        if (!$this->config('cache.enabled')) {
 
             return $this->scan();
         }
         //return $this->scan();
         return $this->formatCached($this->getCached());
     }
-    public $memory = [];
+
+
     protected function formatCached($cached)
     {
 
@@ -107,26 +108,29 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 
     public function getUsedStoragePath(): string
     {
+
         $directory = storage_path('app/modules');
         if ($this->getFiles()->exists($directory) === false) {
             $this->getFiles()->makeDirectory($directory, 0777, true);
         }
 
         $path = storage_path('app/modules/templates.used');
-        if (! $this->getFiles()->exists($path)) {
+        if (!$this->getFiles()->exists($path)) {
             $this->getFiles()->put($path, '');
         }
 
         return $path;
     }
+
     public function getAssetsPath(): string
     {
         return $this->config('paths.assets');
     }
+
     public function config(string $key, $default = null)
     {
 
-        return config()->get('templates.'.$key, $default);
+        return config()->get('templates.' . $key, $default);
     }
 
     public function getPath(): string
@@ -180,58 +184,10 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     protected function createModule(...$args)
     {
 
+        return StaticTemplateCreator::createModule(...$args);
 
-        $app = $args[0];
-        $name = $args[1];
-        $path = $args[2];
-
-        if ($name and isset($this->memory[$name])) {
-            return $this->memory[$name];
-        }
-
-
-        $manifest = $path . DS . 'module.json';
-        $composer = $path . DS . 'composer.json';
-        if (!$path) {
-            return null;
-        }
-        if (!is_dir($path)) {
-            return null;
-        }
-        if (!is_file($manifest)) {
-            return null;
-        }
-
-
-        $moduleManifest = Json::make($manifest)->getAttributes();
-
-
-        if(is_file($composer)) {
-            $moduleComposer = Json::make($composer)->getAttributes();
-
-
-            $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
-            $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
-
-            if ($autoloadNamespaces) {
-                foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
-                    $autoloadNamespacePathFull = normalize_path($path . DS . $autoloadNamespacePath);
-                    autoload_add_namespace($autoloadNamespacePathFull, $autoloadNamespace);
-                }
-            }
-            if ($autoloadFiles) {
-                foreach ($autoloadFiles as $autoloadFile) {
-                    if (is_file($path . DS . $autoloadFile)) {
-                        include_once $path . DS . $autoloadFile;
-                    }
-                }
-            }
-        }
-
-        $module = new LaravelTemplate($app, $moduleManifest['name'], $path);
-        $this->memory[$name] = $module;
-        return $module;
     }
+
     public function getCached()
     {
         return $this->cache->store($this->config->get('templates.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
@@ -246,6 +202,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 
         return $this->files;
     }
+
     public function findOrFail(string $name)
     {
         $module = $this->find($name);

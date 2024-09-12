@@ -19,11 +19,11 @@ class StaticModuleCreator
 
         $cacheKey = 'module_' . $name.'_'.$path;
         if (isset(self::$modulesCache[$cacheKey])) {
-            return self::$modulesCache[$cacheKey];
+          return self::$modulesCache[$cacheKey];
         }
 
 
-        start_measure('module_create_' . $name, 'Create module ' . $name);
+       // start_measure('module_create_' . $name, 'Create module ' . $name);
 
 
         $manifest = $path . DS . 'module.json';
@@ -44,6 +44,9 @@ class StaticModuleCreator
 
         $module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
         self::$modulesCache[$cacheKey] = $module;
+
+      //  stop_measure('module_create_' . $name);
+
         return $module;
     }
 
