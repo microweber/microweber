@@ -582,9 +582,13 @@ class TaggableFileStore implements Store
         }
 
         try {
-            if ($this->files->exists($findTagPath)) {
-                $this->files->delete($findTagPath);
+            if(is_file($findTagPath)){
+            @unlink($findTagPath);
             }
+
+//            if ($this->files->exists($findTagPath)) {
+//                $this->files->delete($findTagPath);
+//            }
         } catch (\Exception $e) {
             //
         }
