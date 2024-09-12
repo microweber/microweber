@@ -235,6 +235,8 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     public function getCached()
     {
         return $this->cache->store($this->config->get('templates.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+
+
             return $this->toCollection()->toArray();
         });
     }

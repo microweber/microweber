@@ -8,6 +8,7 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Traits\Macroable;
+use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use Nwidart\Modules\FileRepository;
 use Nwidart\Modules\Json;
 
@@ -78,34 +79,37 @@ class LaravelModulesFileRepository extends FileRepository
     protected function createModule(...$args)
     {
 
-
-        $app = $args[0];
-        $name = $args[1];
-        $path = $args[2];
-
-        if ($name and isset($this->memory[$name])) {
-           return $this->memory[$name];
-        }
-
-        $manifest = $path . DS . 'module.json';
-        $composer = $path . DS . 'composer.json';
-        if (!$path) {
-            return null;
-        }
-        if (!is_dir($path)) {
-            return null;
-        }
-        if (!is_file($manifest)) {
-            return null;
-        }
-
-        if (is_file($composer)) {
-            self::registerNamespacesFromComposer($composer);
-        }
-
-        $module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
-        $this->memory[$name] = $module;
-        return $module;
+        return StaticModuleCreator::createModule(...$args);
+//        $app = $args[0];
+//        $name = $args[1];
+//        $path = $args[2];
+//
+//
+//         start_measure('module_create_' . $name, 'Create module ' . $name);
+//
+//
+//
+//
+//        $manifest = $path . DS . 'module.json';
+//        $composer = $path . DS . 'composer.json';
+//        if (!$path) {
+//            return null;
+//        }
+//        if (!is_dir($path)) {
+//            return null;
+//        }
+//        if (!is_file($manifest)) {
+//            return null;
+//        }
+//
+//        if (is_file($composer)) {
+//            self::registerNamespacesFromComposer($composer);
+//        }
+//
+//        $module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
+//     //   $this->memory[$name] = $module;
+//        stop_measure('module_create_' . $name);
+//        return $module;
     }
 
     public static $registeredComposerFiles = [];
@@ -190,7 +194,7 @@ class LaravelModulesFileRepository extends FileRepository
             $path = $module['path'];
 
             $modules[$name] = $this->createModule($this->app, $name, $path);
-         //   $this->memory[$name] = $modules[$name];
+            //   $this->memory[$name] = $modules[$name];
 
 //            if (isset($this->memory[$name])) {
 //                $modules[$name] = $this->memory[$name];
@@ -219,9 +223,14 @@ class LaravelModulesFileRepository extends FileRepository
         });
     }
 
+    public $scanMemory = [];
 
     public function scan()
     {
+        if ($this->scanMemory) {
+            return $this->scanMemory;
+        }
+
         $paths = $this->getScanPaths();
 
         $modules = [];
@@ -238,12 +247,14 @@ class LaravelModulesFileRepository extends FileRepository
             is_array($manifests) || $manifests = [];
 
             foreach ($manifests as $manifest) {
+
+
                 $name = Json::make($manifest)->get('name');
 
                 $modules[$name] = $this->createModule($this->app, $name, dirname($manifest));
             }
         }
-
+        $this->scanMemory = $modules;
         return $modules;
     }
 }
