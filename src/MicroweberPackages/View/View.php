@@ -12,6 +12,8 @@ class View
     public $app;
     public $config;
     public $params;
+    public $data;
+    public $settings;
 
 
     //deprecated params

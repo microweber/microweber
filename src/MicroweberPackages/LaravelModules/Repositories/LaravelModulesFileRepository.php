@@ -105,6 +105,15 @@ class LaravelModulesFileRepository extends FileRepository
     protected function createModule(...$args)
     {
 
+        $app = $args[0];
+        $name = $args[1];
+        $path = $args[2];
+        if (isset(self::$cachedModules[$name])) {
+
+            return self::$cachedModules[$name];
+        }
+
+
         return StaticModuleCreator::createModule(...$args);
 
     }
@@ -199,9 +208,9 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function getCached()
     {
-        if(!empty(self::$cachedModules)){
-            return self::$cachedModules;
-        }
+//        if(!empty(self::$cachedModules)){
+//            return self::$cachedModules;
+//        }
 
 
 
