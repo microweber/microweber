@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\LaravelModules\Repositories;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
@@ -75,6 +76,31 @@ class LaravelModulesFileRepository extends FileRepository
 
     }
 
+    public function register(): void
+    {
+        Debugbar::startMeasure('module_register', 'Registering modules');
+        $modules = $this->getOrdered();
+
+        foreach ($modules as $module) {
+            $module->register();
+        }
+        Debugbar::stopMeasure('module_register');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(): void
+    {
+        Debugbar::startMeasure('module_boot', 'Booting modules');
+        $modules = $this->getOrdered();
+
+        foreach ($modules as $module) {
+            $module->boot();
+        }
+        Debugbar::stopMeasure('module_boot');
+    }
+
 
     protected function createModule(...$args)
     {
@@ -89,6 +115,7 @@ class LaravelModulesFileRepository extends FileRepository
     {
         StaticModuleCreator::registerNamespacesFromComposer($composer);
     }
+
     public function getByStatus($status): array
     {
         $modules = [];
@@ -106,6 +133,11 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function find(string $name)
     {
+        if (isset(self::$cachedModules[$name])) {
+
+            return self::$cachedModules[$name];
+        }
+
 
         $all = $this->all();
         foreach ($all as $module) {
@@ -119,11 +151,9 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function config(string $key, $default = null)
     {
-
         return $this->config->get('modules.' . $key, $default);
     }
 
-    public $memory = [];
 
     public function all(): array
     {
@@ -139,6 +169,8 @@ class LaravelModulesFileRepository extends FileRepository
     }
 
 
+    public static $cachedModules = [];
+
     protected function formatCached($cached)
     {
 
@@ -146,10 +178,14 @@ class LaravelModulesFileRepository extends FileRepository
 
         foreach ($cached as $name => $module) {
 
-
-            $path = $module['path'];
-
-            $modules[$name] = $this->createModule($this->app, $name, $path);
+            if (isset(self::$cachedModules[$name])) {
+                $module = self::$cachedModules[$name];
+                $modules[$name] = $module;
+            } else {
+                $path = $module['path'];
+                $modules[$name] = $this->createModule($this->app, $name, $path);
+                self::$cachedModules[$name] = $modules[$name];
+            }
 
         }
         return $modules;
@@ -163,6 +199,12 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function getCached()
     {
+        if(!empty(self::$cachedModules)){
+            return self::$cachedModules;
+        }
+
+
+
         return $this->cache->store($this->config->get('modules.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
             return $this->toCollection()->toArray();
         });

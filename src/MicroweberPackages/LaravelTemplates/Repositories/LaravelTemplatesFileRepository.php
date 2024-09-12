@@ -78,34 +78,6 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     }
 
 
-    public function all(): array
-    {
-        $modules = [];
-        if (!$this->config('cache.enabled')) {
-
-            return $this->scan();
-        }
-        //return $this->scan();
-        return $this->formatCached($this->getCached());
-    }
-
-
-    protected function formatCached($cached)
-    {
-
-
-        $modules = [];
-
-        foreach ($cached as $name => $module) {
-            $path = $module['path'];
-
-            $modules[$name] = $this->createModule($this->app, $name, $path);
-        }
-
-        return $modules;
-    }
-
-
     public function getUsedStoragePath(): string
     {
 
@@ -138,49 +110,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         return $this->path ?: $this->config('paths.modules', base_path('Templates'));
     }
 
-//    public function scan()
-//    {
-//        $paths = $this->getScanPaths();
-//
-//        $modules = [];
-//
-//        foreach ($paths as $key => $path) {
-//            $manifests = $this->getFiles()->glob("{$path}/module.json");
-//
-//            is_array($manifests) || $manifests = [];
-//
-//            foreach ($manifests as $manifest) {
-//                $name = Json::make($manifest)->get('name');
-//
-//                $modules[$name] = $this->createModule($this->app, $name, dirname($manifest));
-//            }
-//        }
-//
-//        return $modules;
-//    }
-//    public function getScanPaths(): array
-//    {
-//        $paths = $this->paths;
-//
-//        $paths[] = $this->getPath();
-//
-//        if ($this->config('scan.enabled')) {
-//            $paths = array_merge($paths, $this->config('scan.paths'));
-//        }
-//
-//        $paths = array_map(function ($path) {
-//            return Str::endsWith($path, '/*') ? $path : Str::finish($path, '/*');
-//        }, $paths);
-//
-//        return $paths;
-//    }
 
-
-//    public function config(string $key, $default = null)
-//    {
-//        dd($this->getConfig());
-//        return $this->app->config->get('templates.'.$key, $default);
-//    }
     protected function createModule(...$args)
     {
 
@@ -190,6 +120,11 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 
     public function getCached()
     {
+
+        if(!empty(self::$cachedModules)){
+            return self::$cachedModules;
+        }
+
         return $this->cache->store($this->config->get('templates.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
 
 

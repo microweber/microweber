@@ -210,6 +210,16 @@ class AppServiceProvider extends ServiceProvider
 
 
         $this->app->register(ConfigExtendedServiceProvider::class);
+
+
+        $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        if (config('debugbar.enabled')) {
+            \Barryvdh\Debugbar\Facades\Debugbar::enable();
+        } else {
+            \Barryvdh\Debugbar\Facades\Debugbar::disable();
+        }
+
+
         $this->app->register(MicroweberFilamentRegistryServiceProvider::class);
 
 
@@ -253,12 +263,6 @@ class AppServiceProvider extends ServiceProvider
         //      $this->aliasInstance->alias('Carbon', 'Carbon\Carbon');
 
 
-        $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-        if (config('debugbar.enabled')) {
-            \Barryvdh\Debugbar\Facades\Debugbar::enable();
-        } else {
-            \Barryvdh\Debugbar\Facades\Debugbar::disable();
-        }
         if ($this->app->environment('local', 'testing')) {
             if (is_cli()) {
                 // $this->app->register(CollisionServiceProvider::class);
