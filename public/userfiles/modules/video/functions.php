@@ -89,8 +89,9 @@ function render_video_module($params)
 {
     $upload = false;
     $getUpload = get_option('upload', $params['id']);
-    $getUpload = trim($getUpload);
+
     if (!empty($getUpload)) {
+        $getUpload = trim($getUpload);
         $upload = $getUpload;
     }
 
@@ -98,8 +99,11 @@ function render_video_module($params)
 
     $code = false;
     $getCode = get_option('embed_url', $params['id']);
-    $getCode = trim($getCode);
+    if($getCode == false){
+        $getCode = get_option('url', $params['id']);
+    }
     if (!empty($getCode)) {
+        $getCode = trim($getCode);
         $code = $getCode;
     }
 
@@ -121,7 +125,12 @@ function render_video_module($params)
 
     $thumb = get_option('upload_thumb', $params['id']);
 
-    $use_thumbnail = (!empty(trim($thumb))? true : false);
+    if($thumb) {
+        $use_thumbnail = (!empty(trim($thumb)) ? true : false);
+    } else {
+        $use_thumbnail = false;
+    }
+
 
     $show_video_settings_btn = false;
 
