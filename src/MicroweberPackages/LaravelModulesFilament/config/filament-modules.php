@@ -2,7 +2,7 @@
 
 // config for Coolsam/Modules
 return [
-    'auto-register-plugins' => true, // whether to auto-register plugins from various modules in the Panel
+    'auto-register-plugins' => false, // whether to auto-register plugins from various modules in the Panel
     'auto-register-pages' => false, // whether to auto-register pages from various modules in the Panel
     'clusters' => [
         'enabled' => true, // whether to enable the clusters feature which allows you to group each module's filament resources and pages into a cluster

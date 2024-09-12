@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Microweber\Providers;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
@@ -203,7 +204,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(SwaggerServiceProvider::class);
         //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
         $this->app->register(CountryServiceProvider::class);
-       // $this->app->register(\EloquentFilter\ServiceProvider::class);
+        // $this->app->register(\EloquentFilter\ServiceProvider::class);
         $this->app->register(MailTemplatesServiceProvider::class);
         $this->app->register(NotificationServiceProvider::class);
         $this->app->register(QueueServiceProvider::class);
@@ -213,10 +214,15 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(LiveEditServiceProvider::class);
+        Debugbar::startMeasure('modules_load', 'Loading modules');
+
         $this->app->register(LaravelModulesServiceProvider::class);
-       $this->app->register(LaravelModulesLivewireServiceProvider::class);
+        $this->app->register(LaravelModulesLivewireServiceProvider::class);
+
         $this->app->register(LaravelModulesFilamentServiceProvider::class);
         $this->app->register(LaravelTemplatesServiceProvider::class);
+
+        Debugbar::stopMeasure('modules_load');
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 

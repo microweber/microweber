@@ -29,6 +29,8 @@ class TaggableFileStore implements Store
      */
     protected $files;
 
+    public $config;
+
     /**
      * The file cache directory.
      *

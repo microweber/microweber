@@ -89,13 +89,26 @@ class LaravelModulesFileRepository extends FileRepository
     {
         StaticModuleCreator::registerNamespacesFromComposer($composer);
     }
+    public function getByStatus($status): array
+    {
+        $modules = [];
+        $all = $this->all();
+        /** @var \Nwidart\Modules\Laravel\Module $module */
+        foreach ($all as $name => $module) {
+            if ($module->isStatus($status)) {
+                $modules[$name] = $module;
+            }
+        }
+
+        return $modules;
+    }
 
 
     public function find(string $name)
     {
 
-
-        foreach ($this->all() as $module) {
+        $all = $this->all();
+        foreach ($all as $module) {
             /** @var \Nwidart\Modules\Laravel\Module $module */
             if ($module->getLowerName() === strtolower($name)) {
                 return $module;
@@ -137,18 +150,7 @@ class LaravelModulesFileRepository extends FileRepository
             $path = $module['path'];
 
             $modules[$name] = $this->createModule($this->app, $name, $path);
-            //   $this->memory[$name] = $modules[$name];
 
-//            if (isset($this->memory[$name])) {
-//                $modules[$name] = $this->memory[$name];
-//
-//            } else {
-//
-//                $path = $module['path'];
-//
-//                $modules[$name] = $this->createModule($this->app, $name, $path);
-//                $this->memory[$name] = $modules[$name];
-//            }
         }
         return $modules;
     }

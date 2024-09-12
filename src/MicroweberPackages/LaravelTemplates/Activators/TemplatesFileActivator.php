@@ -2,11 +2,52 @@
 
 namespace MicroweberPackages\LaravelTemplates\Activators;
 
+use Illuminate\Config\Repository as Config;
 use Illuminate\Container\Container;
+use Illuminate\Filesystem\Filesystem;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 
 class TemplatesFileActivator extends \Nwidart\Modules\Activators\FileActivator implements TemplateActivatorInterface
 {
+    private $cache;
+
+    /**
+     * Laravel Filesystem instance
+     *
+     * @var Filesystem
+     */
+    private $files;
+
+    /**
+     * Laravel config instance
+     *
+     * @var Config
+     */
+    private $config;
+
+    /**
+     * @var string
+     */
+    private $cacheKey;
+
+    /**
+     * @var string
+     */
+    private $cacheLifetime;
+
+    /**
+     * Array of modules activation statuses
+     *
+     * @var array
+     */
+    private $modulesStatuses;
+
+    /**
+     * File used to store activation statuses
+     *
+     * @var string
+     */
+    private $statusesFile;
 
     public function __construct(Container $app)
     {

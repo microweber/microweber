@@ -64,9 +64,9 @@ class ModulesPluginFilament extends ServiceProvider
             $mainComposerPathPathFile = normalize_path($mainComposerPathPath . '/composer.json', false);
             $namespace = FilamentModules::convertPathToNamespace($path);
             $namespace = str_replace('/', '\\', $namespace);
-            if (file_exists($mainComposerPathPathFile)) {
-                LaravelModulesFileRepository::registerNamespacesFromComposer($mainComposerPathPathFile);
-            }
+//            if (file_exists($mainComposerPathPathFile)) {
+//                LaravelModulesFileRepository::registerNamespacesFromComposer($mainComposerPathPathFile);
+//            }
 
             return $namespace;
         })->toArray();
