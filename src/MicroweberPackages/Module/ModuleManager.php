@@ -203,6 +203,8 @@ class ModuleManager
         $laravelModules = app('modules');
         $modules = $laravelModules->scan();
 
+        config()->set('modules.cache.enabled', false);
+
         if ($modules) {
             if (!defined('STDIN')) {
                 define('STDIN', fopen("php://stdin", "r"));
@@ -215,7 +217,7 @@ class ModuleManager
                     continue;
                 }
                 $composerPath = $module->getPath() . DS . 'composer.json';
-                if(!is_file($composerPath)){
+                if (!is_file($composerPath)) {
                     continue;
                 }
                 $moduleJsonPath = $module->getPath() . DS . 'module.json';
@@ -224,12 +226,18 @@ class ModuleManager
                 }
 
 
+                $modulePath = $module->getPath();
+
+                $json = @file_get_contents($moduleJsonPath);
+                $json = @json_decode($json, true);
+                if (!$json) {
+                    continue;
+                }
                 StaticModuleCreator::registerNamespacesFromComposer($composerPath);
                 $module->enable();
                 //$module->registerProviders();
 
-                $json = file_get_contents($moduleJsonPath);
-                $json = @json_decode($json, true);
+
                 $autoload = $module->getComposerAttr('autoload', $json);
 
                 Artisan::call('module:migrate', ['module' => $module->getLowerName(), '--force']);
@@ -248,8 +256,8 @@ class ModuleManager
                 $moduleToSave['settings'] = [];
                 $moduleToSave['settings']['composer_autoload'] = $autoload;
                 $moduleToSave['settings']['module_json'] = $json;
-
-
+                $moduleToSave['settings']['module_path'] = $modulePath;
+                $moduleToSave['settings']['module_path_relative'] = str_replace(base_path(), '', $modulePath);
 
                 app()->module_repository->installLaravelModule($moduleToSave);
 

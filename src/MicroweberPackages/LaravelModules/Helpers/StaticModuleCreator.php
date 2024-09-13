@@ -17,6 +17,12 @@ class StaticModuleCreator
         $app = $args[0];
         $name = $args[1];
         $path = $args[2];
+        $moduleJson = $args[3] ?? null;
+        $composerAutoloadContent = $args[4] ?? [];
+
+        if ($moduleJson) {
+            //   dd('$moduleJson',1111111,$moduleJson);
+        }
 
         $cacheKey = $name;
         //$cacheKey = 'module_' . $name.'_'.$path;
@@ -40,13 +46,20 @@ class StaticModuleCreator
             return null;
         }
 
-        if (is_file($composer)) {
-            self::registerNamespacesFromComposer($composer);
-        }
 
+
+
+        if (is_file($composer)) {
+            self::registerNamespacesFromComposer($composer,$composerAutoloadContent);
+        }
         //$module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
         $module = new LaravelModule($app, $name, $path);
         self::$modulesCache[$cacheKey] = $module;
+
+        if ($moduleJson and !empty($moduleJson)) {
+            $module->setJson($manifest,$moduleJson);
+
+        }
 
         stop_measure('module_create_' . $name);
 
@@ -55,23 +68,35 @@ class StaticModuleCreator
 
     public static $registeredComposerFiles = [];
 
-    public static function registerNamespacesFromComposer($composer)
+    public static function registerNamespacesFromComposer($composer, $composerAutoloadContent = [])
     {
         if (in_array($composer, self::$registeredComposerFiles)) {
             return;
         }
         self::$registeredComposerFiles[] = $composer;
 
+        $autoloadNamespaces = [];
+        $autoloadFiles = [];
+        if (isset($composerAutoloadContent['psr-4'])) {
+            $autoloadNamespaces = $composerAutoloadContent['psr-4'];
+        }
+        if (isset($composerAutoloadContent['files'])) {
+            $autoloadFiles = $composerAutoloadContent['files'];
+        }
+
 
         $path = dirname($composer);
-        $moduleComposer = Json::make($composer)->getAttributes();
 
 
-        $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
-        $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
+        if(empty($autoloadNamespaces)) {
+            $moduleComposer = Json::make($composer)->getAttributes();
+            $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
+            if(empty($autoloadFiles)) {
+                $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
+            }
+        }
 
         if ($autoloadNamespaces) {
-
             foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
                 $autoloadNamespace = trim($autoloadNamespace, '\\');
                 $autoloadNamespacePathFull = ($path . DS . $autoloadNamespacePath);

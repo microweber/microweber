@@ -13,7 +13,7 @@ use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use Nwidart\Modules\FileRepository;
 use Nwidart\Modules\Json;
 
-class LaravelModulesFileRepository extends FileRepository
+abstract class AbstractLaravelModulesRepository extends FileRepository
 {
     use Macroable;
 
@@ -155,7 +155,7 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function config(string $key, $default = null)
     {
-        return $this->config->get('modules.' . $key, $default);
+         return $this->config->get('modules.' . $key, $default);
     }
 
 

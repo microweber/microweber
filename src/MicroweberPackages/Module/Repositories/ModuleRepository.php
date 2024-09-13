@@ -56,9 +56,7 @@ class ModuleRepository extends AbstractRepository
         return $modules;
     }
 
-    /**
-     * @deprecated
-     */
+
     public function getModulesByType($type)
     {
         $return = [];

@@ -110,7 +110,10 @@ class LaravelModule extends Module
      */
     public static $jsonMemoryCache = [];
 
-
+    public function setJson($file = null, $data = null): void
+    {
+        self::$jsonMemoryCache[$file] = $data;
+    }
     public function json($file = null): Json
     {
         if ($file === null) {

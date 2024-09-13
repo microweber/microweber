@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LaravelModules;
 
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\LaravelModules\Repositories\LaravelModulesDatabaseCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Support\Stub;
@@ -25,7 +26,8 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
         $this->setupStubPath();
         $this->registerProviders();
     //     $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
-         $this->app->bind (RepositoryInterface::class, LaravelModulesFileRepository::class);
+      //   $this->app->bind (RepositoryInterface::class, LaravelModulesFileRepository::class);
+         $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseCacheRepository::class);
 
     }
     public function setupStubPath()
