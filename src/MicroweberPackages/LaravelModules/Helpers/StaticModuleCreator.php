@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\LaravelModules\Helpers;
 
+use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelTemplates\LaravelTemplate;
 use Nwidart\Modules\Json;
 
@@ -17,13 +18,14 @@ class StaticModuleCreator
         $name = $args[1];
         $path = $args[2];
 
-        $cacheKey = 'module_' . $name.'_'.$path;
+        $cacheKey = $name;
+        //$cacheKey = 'module_' . $name.'_'.$path;
         if (isset(self::$modulesCache[$cacheKey])) {
-          return self::$modulesCache[$cacheKey];
+            return self::$modulesCache[$cacheKey];
         }
 
 
-       // start_measure('module_create_' . $name, 'Create module ' . $name);
+        start_measure('module_create_' . $name, 'Create module ' . $name);
 
 
         $manifest = $path . DS . 'module.json';
@@ -42,10 +44,11 @@ class StaticModuleCreator
             self::registerNamespacesFromComposer($composer);
         }
 
-        $module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
+        //$module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
+        $module = new LaravelModule($app, $name, $path);
         self::$modulesCache[$cacheKey] = $module;
 
-      //  stop_measure('module_create_' . $name);
+        stop_measure('module_create_' . $name);
 
         return $module;
     }

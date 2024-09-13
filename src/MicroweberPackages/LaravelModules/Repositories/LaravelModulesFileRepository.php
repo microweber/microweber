@@ -78,13 +78,13 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function register(): void
     {
-        Debugbar::startMeasure('module_register', 'Registering modules');
+      //  Debugbar::startMeasure('module_register', 'Registering modules');
         $modules = $this->getOrdered();
 
         foreach ($modules as $module) {
             $module->register();
         }
-        Debugbar::stopMeasure('module_register');
+     //   Debugbar::stopMeasure('module_register');
     }
 
     /**
@@ -92,13 +92,13 @@ class LaravelModulesFileRepository extends FileRepository
      */
     public function boot(): void
     {
-        Debugbar::startMeasure('module_boot', 'Booting modules');
+       // Debugbar::startMeasure('module_boot', 'Booting modules');
         $modules = $this->getOrdered();
 
         foreach ($modules as $module) {
             $module->boot();
         }
-        Debugbar::stopMeasure('module_boot');
+       // Debugbar::stopMeasure('module_boot');
     }
 
 
@@ -118,12 +118,7 @@ class LaravelModulesFileRepository extends FileRepository
 
     }
 
-    public static $registeredComposerFiles = [];
 
-    public static function registerNamespacesFromComposer($composer)
-    {
-        StaticModuleCreator::registerNamespacesFromComposer($composer);
-    }
 
     public function getByStatus($status): array
     {
@@ -169,10 +164,8 @@ class LaravelModulesFileRepository extends FileRepository
         $enabledCache = $this->config['modules']['cache']['enabled'] ?? false;
 
         if (!$enabledCache) {
-
             return $this->scan();
         }
-
 
         return $this->formatCached($this->getCached());
     }
@@ -208,9 +201,6 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function getCached()
     {
-//        if(!empty(self::$cachedModules)){
-//            return self::$cachedModules;
-//        }
 
 
 
