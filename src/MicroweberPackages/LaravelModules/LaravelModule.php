@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
+use MicroweberPackages\LaravelModules\Helpers\ModuleJsonFromArray;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use Nwidart\Modules\Contracts\ActivatorInterface;
@@ -109,11 +110,15 @@ class LaravelModule extends Module
      * @param string $file
      */
     public static $jsonMemoryCache = [];
+    public static $jsonMemoryCacheData = [];
 
     public function setJson($file = null, $data = null): void
     {
-        self::$jsonMemoryCache[$file] = $data;
+
+        self::$jsonMemoryCacheData[$file] = $data;
+
     }
+
     public function json($file = null): Json
     {
         if ($file === null) {
@@ -123,10 +128,27 @@ class LaravelModule extends Module
         if (isset(self::$jsonMemoryCache[$file])) {
             return self::$jsonMemoryCache[$file];
         }
+//        $jsonPath = $this->getPath() . '/' . $file;
+//        if (isset(self::$jsonMemoryCacheData[$jsonPath])) {
+//            $jsonData = self::$jsonMemoryCacheData[$jsonPath];
+//
+//            $json = Arr::get($this->moduleJson, $file, function () use ($file,$jsonPath, $jsonData) {
+//                return $this->moduleJson[$file] = new ModuleJsonFromArray($jsonPath, $this->files, $jsonData);
+//            });
+//        } else {
+//            $json = Arr::get($this->moduleJson, $file, function () use ($file) {
+//                return $this->moduleJson[$file] = new Json($this->getPath() . '/' . $file, $this->files);
+//            });
+//        }
+
+        //new ModuleJsonFromArray($this->getPath() . '/' . $file, $this->files,$data);
 
         $json = Arr::get($this->moduleJson, $file, function () use ($file) {
             return $this->moduleJson[$file] = new Json($this->getPath() . '/' . $file, $this->files);
         });
+
+
+
         self::$jsonMemoryCache[$file] = $json;
         return $json;
     }

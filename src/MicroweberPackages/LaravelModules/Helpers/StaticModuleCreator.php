@@ -20,9 +20,6 @@ class StaticModuleCreator
         $moduleJson = $args[3] ?? null;
         $composerAutoloadContent = $args[4] ?? [];
 
-        if ($moduleJson) {
-            //   dd('$moduleJson',1111111,$moduleJson);
-        }
 
         $cacheKey = $name;
         //$cacheKey = 'module_' . $name.'_'.$path;
@@ -47,19 +44,17 @@ class StaticModuleCreator
         }
 
 
-
-
         if (is_file($composer)) {
-            self::registerNamespacesFromComposer($composer,$composerAutoloadContent);
+            self::registerNamespacesFromComposer($composer, $composerAutoloadContent);
         }
         //$module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
         $module = new LaravelModule($app, $name, $path);
         self::$modulesCache[$cacheKey] = $module;
 
-        if ($moduleJson and !empty($moduleJson)) {
-            $module->setJson($manifest,$moduleJson);
-
-        }
+//        if ($moduleJson and !empty($moduleJson) and method_exists($module, 'setJson')) {
+//            $module->setJson($path . '/' . 'module.json', $moduleJson);
+//
+//        }
 
         stop_measure('module_create_' . $name);
 
@@ -88,10 +83,10 @@ class StaticModuleCreator
         $path = dirname($composer);
 
 
-        if(empty($autoloadNamespaces)) {
+        if (empty($autoloadNamespaces)) {
             $moduleComposer = Json::make($composer)->getAttributes();
             $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
-            if(empty($autoloadFiles)) {
+            if (empty($autoloadFiles)) {
                 $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
             }
         }
