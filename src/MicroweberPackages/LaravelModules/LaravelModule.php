@@ -9,6 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
+use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Json;
@@ -92,6 +93,16 @@ class LaravelModule extends Module
         return $this->activator->hasStatus($this, $status);
     }
 
+    public function enable(): void
+    {
+        $this->fireEvent('enabling');
+
+        $this->activator->enable($this);
+        $this->flushCache();
+
+        $this->fireEvent('enabled');
+    }
+
     /**
      * Get json contents from the cache, setting as needed.
      *
@@ -115,5 +126,13 @@ class LaravelModule extends Module
         });
         self::$jsonMemoryCache[$file] = $json;
         return $json;
+    }
+
+    private function flushCache(): void
+    {
+        self::$jsonMemoryCache = [];
+        StaticModuleCreator::$modulesCache = [];
+        $this->cache->store(config('modules.cache.driver'))->flush();
+
     }
 }

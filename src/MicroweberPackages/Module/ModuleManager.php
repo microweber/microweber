@@ -16,6 +16,7 @@ namespace MicroweberPackages\Module;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Utils as DbUtils;
+use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -209,8 +210,28 @@ class ModuleManager
 
             foreach ($modules as $module) {
                 /** @var \Nwidart\Modules\Laravel\Module $module */
+
+                if (!$module) {
+                    continue;
+                }
+                $composerPath = $module->getPath() . DS . 'composer.json';
+                if(!is_file($composerPath)){
+                    continue;
+                }
+                $moduleJsonPath = $module->getPath() . DS . 'module.json';
+                if (!is_file($moduleJsonPath)) {
+                    continue;
+                }
+
+
+                StaticModuleCreator::registerNamespacesFromComposer($composerPath);
                 $module->enable();
-                $module->registerProviders();
+                //$module->registerProviders();
+
+                $json = file_get_contents($moduleJsonPath);
+                $json = @json_decode($json, true);
+                $autoload = $module->getComposerAttr('autoload', $json);
+
                 Artisan::call('module:migrate', ['module' => $module->getLowerName(), '--force']);
                 Artisan::call('module:publish', ['module' => $module->getLowerName(), '--force']);
 
@@ -224,6 +245,10 @@ class ModuleManager
                 $moduleToSave['position'] = $module->getPriority();
                 $moduleToSave['type'] = 'laravel-module';
                 $moduleToSave['installed'] = 1;
+                $moduleToSave['settings'] = [];
+                $moduleToSave['settings']['composer_autoload'] = $autoload;
+                $moduleToSave['settings']['module_json'] = $json;
+
 
 
                 app()->module_repository->installLaravelModule($moduleToSave);
@@ -700,13 +725,12 @@ class ModuleManager
 
         }
 
-        if(app()->bound('modules')){
+        if (app()->bound('modules')) {
             $module = app()->modules;
-            if($module->find($module_name)){
+            if ($module->find($module_name)) {
                 return true;
             }
         }
-
 
 
         global $mw_loaded_mod_memory;
