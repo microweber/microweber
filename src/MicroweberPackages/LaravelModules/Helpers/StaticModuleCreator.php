@@ -4,6 +4,7 @@ namespace MicroweberPackages\LaravelModules\Helpers;
 
 use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelTemplates\LaravelTemplate;
+use MicroweberPackages\Utils\System\ClassLoader;
 use Nwidart\Modules\Json;
 
 class StaticModuleCreator
@@ -22,7 +23,7 @@ class StaticModuleCreator
 
 
         $cacheKey = $name;
-        //$cacheKey = 'module_' . $name.'_'.$path;
+         $cacheKey = 'module_' . $name.'_'.$path;
         if (isset(self::$modulesCache[$cacheKey])) {
             return self::$modulesCache[$cacheKey];
         }
@@ -44,17 +45,41 @@ class StaticModuleCreator
         }
 
 
+
+
+        $providersNotFound = false;
+//        if (isset($moduleJson['providers']) and is_array($moduleJson['providers'])) {
+//            foreach ($moduleJson['providers'] as $provider) {
+//                $providerFilename = basename($provider . '.php');
+//
+//                $provider = $path . DS . 'app/Providers' . DS . $providerFilename;
+//
+//                if (!is_file($provider)) {
+//
+//                    $providersNotFound = true;
+//                }
+//
+//
+//            }
+//        }
+//        if ($providersNotFound) {
+//            self::$modulesCache[$cacheKey] = false;
+//            return null;
+//        }
+
         if (is_file($composer)) {
+
             self::registerNamespacesFromComposer($composer, $composerAutoloadContent);
         }
+
         //$module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
         $module = new LaravelModule($app, $name, $path);
         self::$modulesCache[$cacheKey] = $module;
 
-//        if ($moduleJson and !empty($moduleJson) and method_exists($module, 'setJson')) {
-//            $module->setJson($path . '/' . 'module.json', $moduleJson);
-//
-//        }
+        if ($moduleJson and !empty($moduleJson) and method_exists($module, 'setJsonCacheData')) {
+                $module->setJsonCacheData( $moduleJson);
+
+        }
 
         stop_measure('module_create_' . $name);
 
@@ -66,6 +91,7 @@ class StaticModuleCreator
     public static function registerNamespacesFromComposer($composer, $composerAutoloadContent = [])
     {
         if (in_array($composer, self::$registeredComposerFiles)) {
+
             return;
         }
         self::$registeredComposerFiles[] = $composer;
@@ -91,8 +117,12 @@ class StaticModuleCreator
             }
         }
 
+
         if ($autoloadNamespaces) {
             foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
+
+
+
                 $autoloadNamespace = trim($autoloadNamespace, '\\');
                 $autoloadNamespacePathFull = ($path . DS . $autoloadNamespacePath);
                 $autoloadNamespacePathFull = str_replace(['\\', '/'], [DS, DS], $autoloadNamespacePathFull);

@@ -26,8 +26,8 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
         $this->setupStubPath();
         $this->registerProviders();
     //     $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
-      //   $this->app->bind (RepositoryInterface::class, LaravelModulesFileRepository::class);
-         $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseCacheRepository::class);
+      $this->app->bind (RepositoryInterface::class, LaravelModulesFileRepository::class);
+      //  $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseCacheRepository::class);
 
     }
     public function setupStubPath()

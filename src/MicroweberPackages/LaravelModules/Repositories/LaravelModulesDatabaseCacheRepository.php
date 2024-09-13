@@ -115,6 +115,22 @@ class LaravelModulesDatabaseCacheRepository extends AbstractLaravelModulesReposi
                 $modules[$name] = $module;
             } else {
                 $path = $module['path'];
+                $providers = $module['providers'];
+
+                if(empty($providers)){
+                    continue;
+                }
+
+                $moduleJson['providers'] = $providers;
+                $modulePath = $path;
+
+                $providersFound = $this->providersFromModuleJsonExists($modulePath,$moduleJson);
+               if(!$providersFound){
+                     continue;
+               }
+
+
+
                 $modules[$name] = $this->createModule($this->app, $name, $path);
                 self::$cachedModules[$name] = $modules[$name];
             }
@@ -123,8 +139,15 @@ class LaravelModulesDatabaseCacheRepository extends AbstractLaravelModulesReposi
         return $modules;
     }
 
+    public static $modulesCollectionCache = [];
     public function toCollection(): Collection
     {
+
+        if(!empty(self::$modulesCollectionCache)){
+
+            return self::$modulesCollectionCache;
+        }
+
 
         $modules = [];
         $modulesFromDatabase = app()->module_repository->getModulesByType('laravel-module');
@@ -163,34 +186,60 @@ class LaravelModulesDatabaseCacheRepository extends AbstractLaravelModulesReposi
                         continue;
                     }
 
-                    $modules[$name] = $this->createModule($this->app, $name, $modulePath,$moduleJson,$composerAutoload);
+                    $providersNotFound = $this->providersFromModuleJsonExists($modulePath,$moduleJson);
+
+                    if (!$providersNotFound) {
+                        continue;
+                    }
+
+
+                    $module = $this->createModule($this->app, $name, $modulePath, $moduleJson, $composerAutoload);
+                    if ($module) {
+                        $modules[$name] = $module;
+                    }
 
                 }
-                 // $modules[$module->name] = $module->toArray();
+                // $modules[$module->name] = $module->toArray();
             }
         }
 
-
-
-
-
-        return new Collection($modules);
+        self::$modulesCollectionCache = new Collection($modules);
+        return self::$modulesCollectionCache;
     }
 
 
     public function getCached()
     {
 
-        return $this->toCollection()->toArray();
-
-        return [];
 
 
-        dd($modules);
 
-//        return $this->cache->store($this->config->get('modules.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
-//            return $this->toCollection()->toArray();
-//        });
+
+        return $this->cache->store($this->config->get('modules.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+            return $this->toCollection()->toArray();
+        });
+    }
+
+
+    public function providersFromModuleJsonExists($modulePath, $moduleJson)
+    {
+        $providersNotFound = false;
+        if (isset($moduleJson['providers']) and is_array($moduleJson['providers'])) {
+            foreach ($moduleJson['providers'] as $provider) {
+                $providerFilename = basename($provider . '.php');
+
+                $provider = $modulePath . DS . 'app/Providers' . DS . $providerFilename;
+
+                if (!is_file($provider)) {
+
+                    $providersNotFound = true;
+                }
+
+
+            }
+        }
+
+        return !$providersNotFound;
     }
 
 }

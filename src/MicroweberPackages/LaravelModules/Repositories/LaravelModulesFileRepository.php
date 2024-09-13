@@ -92,13 +92,13 @@ class LaravelModulesFileRepository extends FileRepository
      */
     public function boot(): void
     {
-       // Debugbar::startMeasure('module_boot', 'Booting modules');
+         Debugbar::startMeasure('module_boot', 'Booting modules');
         $modules = $this->getOrdered();
 
         foreach ($modules as $module) {
             $module->boot();
         }
-       // Debugbar::stopMeasure('module_boot');
+        Debugbar::stopMeasure('module_boot');
     }
 
 
@@ -161,6 +161,7 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function all(): array
     {
+
         $enabledCache = $this->config['modules']['cache']['enabled'] ?? false;
 
         if (!$enabledCache) {
@@ -204,6 +205,7 @@ class LaravelModulesFileRepository extends FileRepository
 
 
         return $this->cache->store($this->config->get('modules.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+
             return $this->toCollection()->toArray();
         });
     }
@@ -213,6 +215,7 @@ class LaravelModulesFileRepository extends FileRepository
     public function scan()
     {
         if ($this->scanMemory) {
+
             return $this->scanMemory;
         }
 

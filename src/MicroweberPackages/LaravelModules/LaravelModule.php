@@ -110,46 +110,45 @@ class LaravelModule extends Module
      * @param string $file
      */
     public static $jsonMemoryCache = [];
-    public static $jsonMemoryCacheData = [];
+    public $jsonMemoryCacheData = [];
 
-    public function setJson($file = null, $data = null): void
+    public function setJsonCacheData($data = null): void
     {
 
-        self::$jsonMemoryCacheData[$file] = $data;
+        $this->jsonMemoryCacheData = $data;
 
     }
-
+//    public function get(string $key, $default = null)
+//    {
+//        if(isset($this->jsonMemoryCacheData[$key])){
+//
+//            return $this->jsonMemoryCacheData[$key];
+//        }
+//
+//
+//        return $this->json()->get($key, $default);
+//    }
     public function json($file = null): Json
     {
         if ($file === null) {
             $file = 'module.json';
         }
 
-        if (isset(self::$jsonMemoryCache[$file])) {
-            return self::$jsonMemoryCache[$file];
+        $path = $this->getPath() . '/' . $file;
+        if (isset(self::$jsonMemoryCache[$path])) {
+
+            return self::$jsonMemoryCache[$path];
         }
-//        $jsonPath = $this->getPath() . '/' . $file;
-//        if (isset(self::$jsonMemoryCacheData[$jsonPath])) {
-//            $jsonData = self::$jsonMemoryCacheData[$jsonPath];
-//
-//            $json = Arr::get($this->moduleJson, $file, function () use ($file,$jsonPath, $jsonData) {
-//                return $this->moduleJson[$file] = new ModuleJsonFromArray($jsonPath, $this->files, $jsonData);
-//            });
-//        } else {
-//            $json = Arr::get($this->moduleJson, $file, function () use ($file) {
-//                return $this->moduleJson[$file] = new Json($this->getPath() . '/' . $file, $this->files);
-//            });
-//        }
+
 
         //new ModuleJsonFromArray($this->getPath() . '/' . $file, $this->files,$data);
 
-        $json = Arr::get($this->moduleJson, $file, function () use ($file) {
-            return $this->moduleJson[$file] = new Json($this->getPath() . '/' . $file, $this->files);
+        $json = Arr::get($this->moduleJson, $file, function () use ($file, $path) {
+            return $this->moduleJson[$file] = new Json($path, $this->files);
         });
 
 
-
-        self::$jsonMemoryCache[$file] = $json;
+        self::$jsonMemoryCache[$path] = $json;
         return $json;
     }
 
@@ -160,4 +159,6 @@ class LaravelModule extends Module
         $this->cache->store(config('modules.cache.driver'))->flush();
 
     }
+
+
 }

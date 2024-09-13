@@ -210,7 +210,7 @@
                 "wire-elements/modal",
                 "rappasoft/laravel-livewire-tables",
                 "barryvdh/laravel-debugbar",
-                "mhmiton/laravel-modules-livewire", 
+                "mhmiton/laravel-modules-livewire",
                 "coolsam/modules",
                 "butschster/meta-tags"
             ]

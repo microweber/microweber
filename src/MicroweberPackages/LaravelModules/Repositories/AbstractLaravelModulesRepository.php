@@ -78,13 +78,14 @@ abstract class AbstractLaravelModulesRepository extends FileRepository
 
     public function register(): void
     {
-      //  Debugbar::startMeasure('module_register', 'Registering modules');
+      Debugbar::startMeasure('module_register', 'Registering modules');
         $modules = $this->getOrdered();
 
         foreach ($modules as $module) {
+            Debugbar::startMeasure('module_register_' . $module->getName(), 'Registering module ' . $module->getName());
             $module->register();
         }
-     //   Debugbar::stopMeasure('module_register');
+     Debugbar::stopMeasure('module_register');
     }
 
     /**
@@ -108,9 +109,10 @@ abstract class AbstractLaravelModulesRepository extends FileRepository
         $app = $args[0];
         $name = $args[1];
         $path = $args[2];
+
         if (isset(self::$cachedModules[$name])) {
 
-            return self::$cachedModules[$name];
+       //     return self::$cachedModules[$name];
         }
 
 
