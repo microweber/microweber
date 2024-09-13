@@ -2984,7 +2984,7 @@ $(window).on('load', function () {
         }
     });
     mw.$(".mw_editor").each(function () {
-        mw.tools.dropdown(this);
+        mw.dropdown(this);
     });
     var nodes = document.querySelectorAll(".edit"), l = nodes.length, i = 0;
     for (; i < l; i++) {

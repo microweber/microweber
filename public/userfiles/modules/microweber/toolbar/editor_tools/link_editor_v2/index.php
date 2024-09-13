@@ -152,7 +152,7 @@
 
     $(document).ready(function () {
 
-        mw.tools.dropdown();
+        mw.dropdown();
 
         dd_autocomplete('#dd_pages_search');
 

@@ -25,7 +25,7 @@ export class BuildService {
 
             this
             .#createReadWriteStream(obj)
-            .pipe(gulp.dest(`${this.output}/${obj.target}`))
+            .pipe(gulp.dest(`${obj.output || this.output}/${obj.target}`))
                 .on('finish', resolve)
                 .on('error', reject)
             console.log(`${obj.target} compiled`);
@@ -34,12 +34,12 @@ export class BuildService {
 
     buildSingleAsset (obj, prefix) {
         if(Array.isArray(obj.path)) {
+
             return Promise.all(obj.path.map(path => this.buildSingleAsset(Object.assign({}, obj, {path}), prefix)));
         }
         return new Promise(async (resolve, reject) => {
-            this
-            .#createReadWriteStream(obj)
-            .pipe(gulpCopy(`${this.output}/${obj.target}`, {prefix: prefix ?? obj.path.split('/').length - 1}))
+            gulp.src([`${obj.path}/**`, `${obj.path}/*`])
+            .pipe(gulpCopy(`${obj.output || this.output}/${obj.target}`, {prefix: prefix ?? obj.path.split('/').length - 1}))
                 .on('finish', resolve)
                 .on('error', err => {
                     console.log(err);
@@ -53,7 +53,7 @@ export class BuildService {
         return new Promise(async (resolve, reject) => {
             this
             .#createReadWriteStream(obj)
-            .pipe(gulp.dest(`${this.output}/${obj.target}`))
+            .pipe(gulp.dest(`${obj.output || this.output}/${obj.target}`))
                 .on('finish', resolve)
                 .on('error', reject)
             console.log(`${obj.target} compiled`);
@@ -72,13 +72,13 @@ export class BuildService {
                 if (stats.isFile()) {
                     this
                     .#createReadWriteStream(obj)
-                        .pipe(gulp.dest(`${this.output}/${obj.target.split('/').slice(0, -1).join('/')}`))
+                        .pipe(gulp.dest(`${obj.output || this.output}/${obj.target.split('/').slice(0, -1).join('/')}`))
                         .on('finish', resolve)
                         .on('error', reject);
                     console.log(`${obj.target} compiled`);
                 } else {
                     gulp.src([`${obj.path}/**/*`])
-                        .pipe(gulp.dest(`${this.output}/${obj.target}`))
+                        .pipe(gulp.dest(`${obj.output || this.output}/${obj.target}`))
                         .on('finish', resolve)
                         .on('error', reject);
                     console.log(`${obj.target} compiled`);

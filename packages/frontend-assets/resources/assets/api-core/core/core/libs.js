@@ -1,4 +1,7 @@
 (function (){
+
+
+
     var libs = {
         jqueryui: [
             function () {
@@ -7,7 +10,7 @@
             }
         ],
 
-        rangy: ['rangy-core.js', 'rangy-cssclassapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
+        rangy: ['rangy-core.js', 'rangy-classapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
         highlight: [
 
             'highlight.min.js',
@@ -18,6 +21,13 @@
         flag_icons: [
             function () {
                 mw.require(mw.settings.libs_url + '/flag-icon-css' + '/css/flag-icon.min.css');
+
+            }
+        ],
+        swiper: [
+            function () {
+                mw.require(mw.settings.libs_url + '/swiper/swiper.js');
+                mw.require(mw.settings.libs_url + '/swiper/swiper.css');
 
             }
         ],
@@ -42,16 +52,16 @@
         ],
         collapse_nav: [
             function () {
-                mw.require(mw.settings.libs_url + '/collapse-nav/dist/collapseNav.js', true);
-                mw.require(mw.settings.libs_url + '/collapse-nav/dist/collapseNav.css', true);
+                mw.require(mw.settings.libs_url + '/collapse-nav/collapse-nav.js', true);
+                mw.require(mw.settings.libs_url + '/collapse-nav/collapse-nav.css', true);
 
             }
         ],
         slick: [
             function () {
-                mw.require(mw.settings.libs_url + '/slick' + '/slick.css', true, undefined, true);
-                mw.require(mw.settings.libs_url + '/slick' + '/slick-theme.css', undefined, undefined, true);
-                mw.require(mw.settings.libs_url + '/slick' + '/slick.min.js', true);
+                mw.require(mw.settings.libs_url + '/slick/slick.css', true, undefined, true);
+                mw.require(mw.settings.libs_url + '/slick/slick-theme.css', undefined, undefined, true);
+                mw.require(mw.settings.libs_url + '/slick/slick.min.js', true);
             }
         ],
 

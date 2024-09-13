@@ -127,6 +127,7 @@ import "../components/schema-form.js";
 
 //widgets
 import "../widgets/tree.js";
+import "../widgets/dropdown.js";
 import {CategoriesAdminListComponent} from "./categories-admin-list.component.js";
 import { IconPicker } from "../widgets/icon-picker.js";
 import { AdminPackageManager } from "./admin-package-manager.js";

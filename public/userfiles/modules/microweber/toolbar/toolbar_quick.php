@@ -32,7 +32,7 @@
 <link href="<?php print(mw_includes_url()); ?>css/wysiwyg.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript">
         $(document).ready(function () {
-            mw.tools.dropdown();
+            mw.dropdown();
             mw_save_draft_int = self.setInterval(function () {
                 mw.drag.save(document.getElementById('main-save-btn'), false, true);
                 if (mw.askusertostay) {

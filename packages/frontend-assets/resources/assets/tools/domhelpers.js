@@ -732,6 +732,12 @@ export const DomHelpers = {
     }
 };
 
+if(window.mw && window.mw.tools) {
+    for (var i in DomHelpers) {
+        mw.tools[i] = DomHelpers[i];
+    }
+}
+
 
 
 
