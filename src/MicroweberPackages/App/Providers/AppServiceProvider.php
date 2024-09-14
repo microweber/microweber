@@ -175,7 +175,7 @@ class AppServiceProvider extends ServiceProvider
         //app()->usePublicPath(base_path());
 
 
-      //  \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
+        //  \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
 
         $this->app->register(\Illuminate\Cache\CacheServiceProvider::class);
         $this->app->register(EventServiceProvider::class);
@@ -211,14 +211,16 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->register(ConfigExtendedServiceProvider::class);
 
+        //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        if (app()->bound('debugbar')) {
 
-        $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-        if (config('debugbar.enabled')) {
-            \Barryvdh\Debugbar\Facades\Debugbar::enable();
-        } else {
-            \Barryvdh\Debugbar\Facades\Debugbar::disable();
+            if (config('debugbar.enabled')) {
+                $this->loadRoutesFrom(dirname(__DIR__) . '/routes/debugbar-routes.php');
+                \Barryvdh\Debugbar\Facades\Debugbar::enable();
+            } else {
+                \Barryvdh\Debugbar\Facades\Debugbar::disable();
+            }
         }
-
 
         $this->app->register(MicroweberFilamentRegistryServiceProvider::class);
 
@@ -454,12 +456,9 @@ class AppServiceProvider extends ServiceProvider
         View::addNamespace('app', __DIR__ . '/../resources/views');
 
 
-
-
-
         //   \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
 
-        if(defined('MW_SERVED_FROM_BASE_PATH')) {
+        if (defined('MW_SERVED_FROM_BASE_PATH')) {
             app()->usePublicPath(base_path());
             \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
         }
@@ -567,11 +566,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
 
-    //    $router->pushMiddlewareToGroup('web', \Illuminate\Session\Middleware\StartSession::class);
+        //    $router->pushMiddlewareToGroup('web', \Illuminate\Session\Middleware\StartSession::class);
         $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\EncryptCookies::class);
         $router->pushMiddlewareToGroup('web', AuthenticateSessionForUser::class);
         $router->pushMiddlewareToGroup('web', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
-       // $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
+        // $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
         $router->pushMiddlewareToGroup('web', \Illuminate\Routing\Middleware\SubstituteBindings::class);
 
         $router->aliasMiddleware('auth', \MicroweberPackages\App\Http\Middleware\Authenticate::class);

@@ -193,7 +193,7 @@ class ModuleManager
 
     public function reload_laravel_modules()
     {
-
+        return;
         /** @var LaravelModulesFileRepository $laravelModules */
         if (!app()->bound('modules')) {
             return;
@@ -233,7 +233,7 @@ class ModuleManager
                 if (!$json) {
                     continue;
                 }
-                StaticModuleCreator::registerNamespacesFromComposer($composerPath);
+              //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
                 $module->enable();
                 //$module->registerProviders();
 
@@ -733,12 +733,12 @@ class ModuleManager
 
         }
 
-        if (app()->bound('modules')) {
-            $module = app()->modules;
-            if ($module->find($module_name)) {
-                return true;
-            }
-        }
+//        if (app()->bound('modules')) {
+//            $module = app()->modules;
+//            if ($module->find($module_name)) {
+//                return true;
+//            }
+//        }
 
 
         global $mw_loaded_mod_memory;

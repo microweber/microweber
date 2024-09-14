@@ -155,7 +155,7 @@ class TaggableFileStore implements Store
         if (isset($this->files->cachedDataMemory[$cacheKey])) {
             $data = $this->files->cachedDataMemory[$cacheKey];
             if ($this->emitEvents) {
-                event(new CacheHit($key, $data));
+                  event(new CacheHit('file', $key, $data, $this->tags));
             }
             return $data;
         }
@@ -203,9 +203,10 @@ class TaggableFileStore implements Store
         // so we will execute the value function which will resolve it if needed.
         if ($this->emitEvents) {
             if (is_null($data)) {
-                event(new CacheMissed($key));
+
+                event(new CacheMissed('file', $key, $this->tags));
             } else {
-                event(new CacheHit($key, $data));
+                event(new CacheHit('file', $key, $data, $this->tags));
             }
         }
 
@@ -596,7 +597,7 @@ class TaggableFileStore implements Store
         }
 
         if ($this->emitEvents) {
-            event(new KeyForgotten($key));
+             event(new KeyForgotten('file', $key, $this->tags));
         }
 
     }

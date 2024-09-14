@@ -23,7 +23,7 @@ class StaticModuleCreator
 
 
         $cacheKey = $name;
-         $cacheKey = 'module_' . $name.'_'.$path;
+        $cacheKey = 'module_' . $name . '_' . $path;
         if (isset(self::$modulesCache[$cacheKey])) {
             return self::$modulesCache[$cacheKey];
         }
@@ -43,8 +43,6 @@ class StaticModuleCreator
         if (!is_file($manifest)) {
             return null;
         }
-
-
 
 
         $providersNotFound = false;
@@ -77,7 +75,7 @@ class StaticModuleCreator
         self::$modulesCache[$cacheKey] = $module;
 
         if ($moduleJson and !empty($moduleJson) and method_exists($module, 'setJsonCacheData')) {
-                $module->setJsonCacheData( $moduleJson);
+            $module->setJsonCacheData($moduleJson);
 
         }
 
@@ -91,51 +89,74 @@ class StaticModuleCreator
     public static function registerNamespacesFromComposer($composer, $composerAutoloadContent = [])
     {
         if (in_array($composer, self::$registeredComposerFiles)) {
-
             return;
         }
         self::$registeredComposerFiles[] = $composer;
 
-        $autoloadNamespaces = [];
-        $autoloadFiles = [];
-        if (isset($composerAutoloadContent['psr-4'])) {
-            $autoloadNamespaces = $composerAutoloadContent['psr-4'];
-        }
-        if (isset($composerAutoloadContent['files'])) {
-            $autoloadFiles = $composerAutoloadContent['files'];
-        }
-
+        $autoloadNamespaces = $composerAutoloadContent['psr-4'] ?? [];
+        $autoloadFiles = $composerAutoloadContent['files'] ?? [];
 
         $path = dirname($composer);
-
 
         if (empty($autoloadNamespaces)) {
             $moduleComposer = Json::make($composer)->getAttributes();
             $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
-            if (empty($autoloadFiles)) {
-                $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
-            }
+            $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
         }
 
-
-        if ($autoloadNamespaces) {
-            foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
-
+        self::loadModuleNamespaces($path, $autoloadNamespaces, $autoloadFiles);
+    }
 
 
-                $autoloadNamespace = trim($autoloadNamespace, '\\');
-                $autoloadNamespacePathFull = ($path . DS . $autoloadNamespacePath);
-                $autoloadNamespacePathFull = str_replace(['\\', '/'], [DS, DS], $autoloadNamespacePathFull);
-                autoload_add_namespace($autoloadNamespacePathFull, $autoloadNamespace);
-            }
+    public static $loadModuleNamespacesPathLoadedCache = [];
+
+    public static function loadModuleNamespaces($path, $autoloadNamespaces = [], $autoloadFiles = [])
+    {
+        if (isset(self::$loadModuleNamespacesPathLoadedCache[$path])) {
+
+           return;
         }
-        if ($autoloadFiles) {
-            foreach ($autoloadFiles as $autoloadFile) {
-                if (is_file($path . DS . $autoloadFile)) {
+
+        foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
+            $autoloadNamespace = trim($autoloadNamespace, '\\');
+            $autoloadNamespacePathFull = str_replace(['\\', '/'], [DS, DS], $path . DS . $autoloadNamespacePath);
+          //  autoload_add_namespace($autoloadNamespacePathFull, $autoloadNamespace);
+
+            $dirname = $autoloadNamespacePathFull;
+            $namespace = $autoloadNamespace;
+
+            SplClassLoader::addNamespace($namespace, $dirname);
+
+//            spl_autoload_register(function ($class) use ($dirname, $namespace, $autoloadNamespace, $autoloadNamespacePathFull) {
+//
+//                $prefix = $autoloadNamespace;
+//                $base_dir = $autoloadNamespacePathFull;
+//                $len = strlen($prefix);
+//                if(!str_starts_with($class, $prefix)){
+//
+//                    return;
+//                }
+//                $namespace = str_replace('/', '\\', $namespace);
+//                $relative_class = substr($class, $len);
+//                $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+//                if (is_file($file)) {
+//                    require $file;
+//                }
+//            });
+
+
+        }
+
+        foreach ($autoloadFiles as $autoloadFile) {
+            if (is_file($path . DS . $autoloadFile)) {
+                if(str_ends_with($autoloadFile, '.php')) {
                     include_once $path . DS . $autoloadFile;
+                } else {
+                    continue;
                 }
             }
         }
+        self::$loadModuleNamespacesPathLoadedCache[$path] = true;
     }
 
 

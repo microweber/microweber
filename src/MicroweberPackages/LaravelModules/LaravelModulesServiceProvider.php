@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LaravelModules;
 
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesDatabaseCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use Nwidart\Modules\Contracts\RepositoryInterface;
@@ -19,7 +20,11 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 
        // autoload_add_namespace(base_path() . '/Modules/', 'Modules\\');
       //  autoload_add_namespace(base_path() . '/Modules/Test3/app', 'Modules\\Test3');
-
+        spl_autoload_register(function ($class) {
+            if(SplClassLoader::autoloadClass($class)){
+                return true;
+            }
+        });
         $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
 
         $this->registerServices();
