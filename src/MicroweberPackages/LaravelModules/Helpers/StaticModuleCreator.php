@@ -45,26 +45,6 @@ class StaticModuleCreator
         }
 
 
-        $providersNotFound = false;
-//        if (isset($moduleJson['providers']) and is_array($moduleJson['providers'])) {
-//            foreach ($moduleJson['providers'] as $provider) {
-//                $providerFilename = basename($provider . '.php');
-//
-//                $provider = $path . DS . 'app/Providers' . DS . $providerFilename;
-//
-//                if (!is_file($provider)) {
-//
-//                    $providersNotFound = true;
-//                }
-//
-//
-//            }
-//        }
-//        if ($providersNotFound) {
-//            self::$modulesCache[$cacheKey] = false;
-//            return null;
-//        }
-
         if (is_file($composer)) {
 
             self::registerNamespacesFromComposer($composer, $composerAutoloadContent);
@@ -93,30 +73,19 @@ class StaticModuleCreator
         }
         self::$registeredComposerFiles[] = $composer;
 
-//        $allComposer = cache_get('all_composer_autoload', 'composer');
-//        $allComposerChanged = false;
 
         $autoloadNamespaces = $composerAutoloadContent['psr-4'] ?? [];
         $autoloadFiles = $composerAutoloadContent['files'] ?? [];
-
-//        if(isset($allComposer[$composer])){
-//            $autoloadNamespaces = $allComposer[$composer]['autoload']['psr-4'] ?? [];
-//            $autoloadFiles = $allComposer[$composer]['autoload']['files'] ?? [];
-//        }
 
 
         $path = dirname($composer);
 
         if (empty($autoloadNamespaces)) {
             $moduleComposer = Json::make($composer)->getAttributes();
-         //   $allComposer[$composer] = $moduleComposer;
             $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
             $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
-         //   $allComposerChanged = true;
         }
-//        if ($allComposerChanged) {
-//            cache_save( $allComposer, 'all_composer_autoload','composer');
-//        }
+
         self::loadModuleNamespaces($path, $autoloadNamespaces, $autoloadFiles);
     }
 
@@ -140,22 +109,7 @@ class StaticModuleCreator
 
             SplClassLoader::addNamespace($namespace, $dirname);
 
-//            spl_autoload_register(function ($class) use ($dirname, $namespace, $autoloadNamespace, $autoloadNamespacePathFull) {
-//
-//                $prefix = $autoloadNamespace;
-//                $base_dir = $autoloadNamespacePathFull;
-//                $len = strlen($prefix);
-//                if(!str_starts_with($class, $prefix)){
-//
-//                    return;
-//                }
-//                $namespace = str_replace('/', '\\', $namespace);
-//                $relative_class = substr($class, $len);
-//                $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
-//                if (is_file($file)) {
-//                    require $file;
-//                }
-//            });
+
 
 
         }

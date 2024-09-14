@@ -240,7 +240,7 @@ return [
         'enabled' => env('MODULES_CACHE_ENABLED', true),
         'driver' => env('MODULES_CACHE_DRIVER', 'file'),
         'key' => env('MODULES_CACHE_KEY', 'laravel-modules'),
-        'lifetime' => env('MODULES_CACHE_LIFETIME', 60),
+        'lifetime' => env('MODULES_CACHE_LIFETIME', 6000),
     ],
 
     /*

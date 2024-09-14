@@ -121,16 +121,27 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     public function getCached()
     {
 
-        if(!empty(self::$cachedModules)){
-            return self::$cachedModules;
-        }
 
-        return $this->cache->store($this->config->get('templates.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+        return $this->cache->store($this->config->get('templates.cache.driver'))
+            ->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+                $arr = [];
+                $modules = $this->toCollection();
 
+                foreach ($modules as $key => $module) {
+                    $moduleArr = $module->json('module.json')->getAttributes();
 
-            return $this->toCollection()->toArray();
-        });
+                    $composerJson = $module->json('composer.json')->getAttributes();
+
+                    $moduleArr['composer'] = $composerJson;
+                    $moduleArr['path'] = $module->getPath();
+                    $arr[$key] = $moduleArr;
+                }
+
+                return $arr;
+            });
+
     }
+
 
     public function getFiles(): Filesystem
     {

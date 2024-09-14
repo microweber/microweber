@@ -8,12 +8,13 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
+use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Laravel\Module;
 
 
-class LaravelTemplate extends Module
+class LaravelTemplate extends LaravelModule
 {
     use Macroable;
 
