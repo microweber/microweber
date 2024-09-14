@@ -57,7 +57,7 @@ $microweber_login = get_option('enable_user_microweber_registration', 'users') =
     <script>
         mw.session.checkPauseExplicitly = true;
         $(document).ready(function () {
-            mw.tools.dropdown();
+            mw.dropdown();
             mw.session.checkPause = true;
             mw.$("#lang_selector").on("change", function () {
 

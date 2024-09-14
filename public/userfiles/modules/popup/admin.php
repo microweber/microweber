@@ -108,7 +108,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
                     showHideFields('source');
                 });
 
-                mw.tools.dropdown();
+                mw.dropdown();
 
                 <?php if(!empty($page_id)): ?>
                 var selected_page_id = <?php print $page_id;?>

@@ -1,7 +1,5 @@
 (function () {
 
-
-
     if(typeof mw === 'undefined'){
         mw = {};
     }
@@ -19,6 +17,7 @@
          upload_url: '<?php print site_url(); ?>api/upload/',
          api_url: '<?php print site_url(); ?>api/',
          libs_url: '<?php   print( mw_includes_url());  ?>api/libs/',
+         libs_url: '<?php   print( site_url());  ?>vendor/microweber-packages/frontend-assets-libs/',
          api_html: '<?php print site_url(); ?>api_html/',
          editables_created: false,
          element_id: false,
@@ -38,395 +37,136 @@
          sorthandle_delete_confirmation_text: "<?php _ejs("Are you sure you want to delete this element"); ?>?"
      };
 
-     const assetsURL = mw.settings.site_url + "public/vendor/microweber-packages/frontend-assets";
-     const assetsLibsURL = mw.settings.site_url + "public/vendor/microweber-packages/frontend-assets-libs";
+     const assetsURL = mw.settings.site_url + "vendor/microweber-packages/frontend-assets";
+     const assetsLibsURL = mw.settings.site_url + "vendor/microweber-packages/frontend-assets-libs";
 
      mw.settings.libs = {
-         jqueryui: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.js');
-                 mw.require(mw.settings.libs_url + 'jqueryui' + '/jquery-ui.min.css');
-             }
-         ],
-         morris: ['morris.css', 'raphael.js', 'morris.js'],
-         rangy: ['rangy-core.js', 'rangy-cssclassapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
-         highlight: [
 
-             'highlight.min.js',
-             'highlight.min.css'
+        jqueryui: [
+            function () {
+                mw.require(mw.settings.libs_url + '/jqueryui' + '/jquery-ui.min.js');
+                mw.require(mw.settings.libs_url + '/jqueryui' + '/jquery-ui.min.css');
+            }
+        ],
 
-         ],
-         bootstrap2: [
-             function () {
-                 var v = document.querySelector('meta[name="viewport"]');
-                 if (v === null) {
-                     v = document.createElement('meta');
-                     v.name = "viewport";
-                 }
-                 v.content = "width=device-width, initial-scale=1.0";
-                 document.head.appendChild(v);
-             },
-             'css/bootstrap.min.css',
-             'css/bootstrap-responsive.min.css',
-             'js/bootstrap.min.js'
-         ],
-         bootstrap3: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
-                 var v = document.querySelector('meta[name="viewport"]');
-                 if (v === null) {
-                     v = document.createElement('meta');
-                     v.name = "viewport";
-                 }
-                 v.content = "width=device-width, initial-scale=1.0";
-                 document.head.appendChild(v);
-             },
-             'css/bootstrap.min.css',
-             'js/bootstrap.min.js'
-         ],
-         bootstrap4: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/css/bootstrap.min.css');
-                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/popper.min.js');
-                 mw.require(mw.settings.libs_url + 'bootstrap-4.3.1' + '/js/bootstrap.min.js');
-                 mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
-             }
-         ],
+        rangy: ['rangy-core.js', 'rangy-classapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
+        highlight: [
 
-         bootstrap5js: [
-             function () {
-                  mw.require(mw.settings.libs_url + 'bootstrap5' + '/js/bootstrap.bundle.min.js');
-             }
-         ],
-         bootstrap5: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'bootstrap5' + '/css/bootstrap.' + (document.documentElement.dir==='rtl' ? 'rtl.' : '') + 'min.css');
-                 mw.lib.require('bootstrap5js')
-              }
-         ],
-         microweber_ui: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/main.css');
-                 mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/css/plugins.min.css');
-                 mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/js/plugins.js');
-             }
+            'highlight.min.js',
+            'highlight.min.css'
 
+        ],
 
-         ],
-         mwui: [
-             function () {
-                 // mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/main.css');
-                 // mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/css/plugins.min.css');
-                 // mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/css/mw.css');
-                 //The files above are added in default.css
-                 mw.require(mw.settings.libs_url + 'mw-ui' + '/assets/ui/plugins/js/plugins.js');
-             }
+        flag_icons: [
+            function () {
+                mw.require(mw.settings.libs_url + '/flag-icon-css' + '/css/flag-icon.min.css');
+
+            }
+        ],
+        swiper: [
+            function () {
+                mw.require(mw.settings.libs_url + '/swiper/swiper.js');
+                mw.require(mw.settings.libs_url + '/swiper/swiper.css');
+
+            }
+        ],
+        font_awesome: [
+            function () {
+                mw.require(mw.settings.libs_url + '/fontawesome-4.7.0' + '/css/font-awesome.min.css');
+
+            }
+        ],
+        font_awesome5: [
+            function () {
+                mw.require(mw.settings.libs_url + '/fontawesome-free-5.12.0' + '/css/all.min.css');
+
+            }
+        ],
+        bxslider: [
+            function () {
+                mw.require(mw.settings.libs_url + '/bxSlider/jquery.bxslider.min.js', true);
+                mw.require(mw.settings.libs_url + '/bxSlider/jquery.bxslider.css', true, undefined, true);
+
+            }
+        ],
+        collapse_nav: [
+            function () {
+                mw.require(mw.settings.libs_url + '/collapse-nav/dist/collapse-nav.js', true);
+                mw.require(mw.settings.libs_url + '/collapse-nav/dist/collapse-nav.css', true);
+
+            }
+        ],
+        slick: [
+            function () {
+                mw.require(mw.settings.libs_url + '/slick/slick.css', true, undefined, true);
+                mw.require(mw.settings.libs_url + '/slick/slick-theme.css', undefined, undefined, true);
+                mw.require(mw.settings.libs_url + '/slick/slick.min.js', true);
+            }
+        ],
+
+        bootstrap_datetimepicker: [
+            function () {
+                mw.require(mw.settings.libs_url + '/bootstrap-datetimepicker' + '/css/bootstrap-datetimepicker.min.css', true);
+                mw.require(mw.settings.libs_url + '/bootstrap-datetimepicker' + '/js/bootstrap-datetimepicker.min.js', true);
+            }
+        ],
+        bootstrap3ns: [
+            function () {
 
 
-         ],
-         mwui_init: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'mw-ui' + '/grunt/plugins/ui/js/ui.js');
-             }
-         ],
-         flag_icons: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'flag-icon-css' + '/css/flag-icon.min.css');
+                var bootstrap_enabled = (typeof $ != 'undefined' && typeof $.fn != 'undefined' && typeof $.fn.emulateTransitionEnd != 'undefined');
 
-             }
-         ],
-         font_awesome: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
+                if (!bootstrap_enabled) {
+                    mw.require(mw.settings.libs_url + '/bootstrap3' + '/js/bootstrap.min.js');
 
-             }
-         ],
-         font_awesome5: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'fontawesome-free-5.12.0' + '/css/all.min.css');
+                    mw.require(mw.settings.libs_url + '/bootstrap3ns' + '/bootstrap.min.css');
+                    mw.require(mw.settings.libs_url + '/fontawesome-4.7.0' + '/css/font-awesome.min.css');
+                }
 
-             }
-         ],
-         bxslider: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'bxSlider/jquery.bxslider.min.js', true);
-                 mw.require(mw.settings.libs_url + 'bxSlider/jquery.bxslider.css', true);
+            }
+        ],
+        bootstrap_select: [
+            function () {
 
-             }
-         ],
-         collapse_nav: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'collapse-nav/dist/collapseNav.js', true);
-                 mw.require(mw.settings.libs_url + 'collapse-nav/dist/collapseNav.css', true);
+                mw.require(mw.settings.libs_url + '/bootstrap-select-1.13.12' + '/js/bootstrap-select.min.js');
+                mw.require(mw.settings.libs_url + '/bootstrap-select-1.13.12' + '/css/bootstrap-select.min.css');
 
-             }
-         ],
-         slick: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'slick/slick.css', true);
-                 mw.moduleCSS(mw.settings.libs_url + 'slick/slick-theme.css');
-                 mw.require(mw.settings.libs_url + 'slick/slick.min.js', true);
-             }
-         ],
-         ion_range_slider: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'ion-range-slider' + '/css/ion.rangeSlider.min.css', true);
-                 mw.require(mw.settings.libs_url + 'ion-range-slider' + '/js/ion.rangeSlider.min.js', true);
-             }
-         ],
-         air_datepicker: [
-             function () {
+            }
+        ],
 
-                 mw.require(mw.settings.libs_url + 'air-datepicker' + '/css/datepicker.min.css', true);
-                 mw.require(mw.settings.libs_url + 'air-datepicker' + '/js/datepicker.min.js', true);
+        chosen: [
+            function () {
+                mw.require(mw.settings.libs_url + '/chosen' + '/chosen.jquery.min.js');
+                mw.require(mw.settings.libs_url + '/chosen' + '/chosen.min.css', true);
+            }
+        ],
+        datetimepicker: [
+            'jquery.datetimepicker.full.min.js',
+            'jquery.datetimepicker.min.css'
+        ],
 
-                 $.fn.datepicker.language['en'] = {
-                     days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-                     daysMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                     daysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                     monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                     today: 'Today',
-                     clear: 'Clear',
-                     dateFormat: 'yyyy-mm-dd',
-                     firstDay: 0
-                 };
-
-             }
-         ],
-         bootstrap_datepicker: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'bootstrap-datepicker' + '/css/bootstrap-datepicker3.css', true);
-                 mw.require(mw.settings.libs_url + 'bootstrap-datepicker' + '/js/bootstrap-datepicker.js', true);
-             }
-         ],
-         bootstrap_datetimepicker: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'bootstrap-datetimepicker' + '/css/bootstrap-datetimepicker.min.css', true);
-                 mw.require(mw.settings.libs_url + 'bootstrap-datetimepicker' + '/js/bootstrap-datetimepicker.min.js', true);
-             }
-         ],
-         bootstrap3ns: [
-             function () {
-
-                 //var bootstrap_enabled = (typeof $().modal == 'function');
-                 var bootstrap_enabled = (typeof $ != 'undefined' && typeof $.fn != 'undefined' && typeof $.fn.emulateTransitionEnd != 'undefined');
-
-                 if (!bootstrap_enabled) {
-                     mw.require(mw.settings.libs_url + 'bootstrap3' + '/js/bootstrap.min.js');
-                     //var bootstrap_enabled = (typeof $().modal == 'function');
-                     //if (bootstrap_enabled == false) {
-                     mw.require(mw.settings.libs_url + 'bootstrap3ns' + '/bootstrap.min.css');
-                     mw.require(mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css');
-                 }
-                 // }
-             }
-         ],
-         bootstrap_select: [
-             function () {
-                 //var bootstrap_enabled = (typeof $().modal == 'function');
-                 //if (!bootstrap_enabled == false) {
-                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.13.12' + '/js/bootstrap-select.min.js');
-                 mw.require(mw.settings.libs_url + 'bootstrap-select-1.13.12' + '/css/bootstrap-select.min.css');
-                 //}
-             }
-         ],
-         bootstrap_tags: [
-             function () {
-
-                 // var bootstrap_enabled = (typeof $().modal == 'function');
-                 //if (!bootstrap_enabled == false) {
-                 mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.jquery.js');
-                 mw.require(mw.settings.libs_url + 'typeahead' + '/typeahead.bundle.min.js');
-                 mw.require(mw.settings.libs_url + 'typeahead' + '/bloodhound.js');
-                 mw.require(mw.settings.libs_url + 'mw-ui/grunt/plugins/tags' + '/bootstrap-tagsinput.css');
-                 mw.require(mw.settings.libs_url + 'mw-ui/grunt/plugins/tags' + '/bootstrap-tagsinput.js');
-                 //} else {
-                 //mw.log("You must load bootstrap to use bootstrap_tags");
-                 //}
-
-             }
-         ],
-         chosen: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'chosen' + '/chosen.jquery.min.js');
-                 mw.require(mw.settings.libs_url + 'chosen' + '/chosen.min.css', true);
-             }
-         ],
-         validation: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/jquery.validationEngine.js');
-                 mw.require(mw.settings.libs_url + 'jquery_validation' + '/js/languages/jquery.validationEngine-en.js');
-                 mw.require(mw.settings.libs_url + 'jquery_validation' + '/css/validationEngine.jquery.css');
-             }
-         ],
-
-         fitty: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'fitty' + '/dist/fitty.min.js');
-                 /*$(document).ready(function () {
-                  fitty('.fitty-element');
-                  });*/
-             }
-         ],
+        nestedSortable: [
+            function () {
+                mw.require(mw.settings.libs_url + '/nestedsortable' + '/jquery.mjs.nestedSortable.js');
+            }
+        ],
+        colorpicker: [
+            function () {
+                 mw.require(mw.settings.libs_url + '/acolorpicker' + '/acolorpicker.js');
+            }
+        ],
+        material_icons: [
+            function () {
+                mw.require(mw.settings.libs_url + '/material_icons' + '/material_icons.css');
+            }
+        ],
 
 
-         typed: [
-             function () {
-                 mw.require(mw.settings.libs_url + "typed/typed.umd.js")
-             }
-         ],
-
-         swiper: [
-             function () {
-                 mw.require(mw.settings.libs_url + "swiper/swiper-bundle.min.css");
-                 mw.require(mw.settings.libs_url + "swiper/swiper-bundle.min.js");
-             }
-         ],
-
-         jseldom: [
-             function () {
-                 mw.require(mw.settings.libs_url + "jseldom/jseldom.js");
-              }
-         ],
 
 
-         flatstrap3: [
-             function () {
-                 var v = document.querySelector('meta[name="viewport"]');
-                 if (v === null) {
-                     v = document.createElement('meta');
-                     v.name = "viewport";
-                 }
-                 v.content = "width=device-width, initial-scale=1.0";
-                 document.head.appendChild(v);
-             },
-             'css/bootstrap.min.css',
-             'js/bootstrap.min.js'
-         ],
-         datepicker: [
-             'datepicker.min.js',
-             'datepicker.min.css'
-         ],
-         datetimepicker: [
-             'jquery.datetimepicker.full.min.js',
-             'jquery.datetimepicker.min.css'
-         ],
 
-         nestedSortable: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'nestedsortable' + '/jquery.mjs.nestedSortable.js');
-             }
-         ],
-         colorpicker: [
-             function () {
-                 mw.require(mw.settings.includes_url + 'api' + '/color.js');
-                 mw.require(mw.settings.libs_url + 'acolorpicker' + '/acolorpicker.js');
-             }
-         ],
-         material_icons: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'material_icons' + '/material_icons.css');
-             }
-         ],
-         materialDesignIcons: [
-             function () {
-                 mw.require(mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css');
-             }
-         ],
-         mw_icons_mind: [
-             function () {
-                 mw.require(mw.settings.modules_url + 'microweber/css/fonts/mw-icons-mind/line/style.css');
-                 mw.require(mw.settings.modules_url + 'microweber/css/fonts/mw-icons-mind/solid/style.css');
-             }
-         ],
-         uppy: [
-             'uppy.min.js',
-             'uppy.min.css'
-         ],
-         apexcharts: [
-             'apexcharts.min.js',
-             'apexcharts.css'
-         ] ,
-         easymde: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'easymde' + '/easymde.min.js', true);
-                 mw.require(mw.settings.libs_url + 'easymde' + '/easymde.min.css', true);
-             }
-         ],
-         anchorific: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'anchorific' + '/anchorific.min.js', true);
-             }
-         ],
-         multilanguage: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'multilanguage' + '/mlInput.js');
-                 mw.require(mw.settings.libs_url + 'multilanguage' + '/mlTextArea.js');
-             }
-         ],
-
-         nouislider: [
-             function () {
-
-                 mw.require(assetsLibsURL + '/nouislider/nouislider.js');
-             }
-         ],
-
-         noUIiSliderStyled: [
-             function () {
-
-                 mw.require(assetsLibsURL + '/nouislider/nouislider.css');
-                 mw.require(assetsLibsURL + '/nouislider/nouislider.js');
-             }
-         ],
-         tinymce: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'tinymce' + '/tinymce.min.js');
-             }
-         ],
-
-         gsap: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'gsap' + '/gsap-umd.js');
-             }
-         ],
-
-         xss: [
-             function () {
-                 mw.require(mw.settings.libs_url + "xss/xss.min.js");
-             }
-         ],
-
-
-         codemirror: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/codemirror.min.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/css.min.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/xml.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/javascript.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/css.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/csslint.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/css-lint-plugin.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/htmlmixed.min.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/php.min.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/autorefresh.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/selection-pointer.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/xml-fold.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/matchtags.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/beautify.min.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/beautify-css.min.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/beautify-html.min.js');
-                 mw.require(mw.settings.libs_url + 'codemirror' + '/style.css');
-             }
-
-         ],
-         masonry: [
-             function () {
-                 mw.require(mw.settings.libs_url + 'masonry' + '/masonry.js');
-             }
-         ]
      };
+     mw.settings.xlibs = {};
 
      mw.lib = {
          _required: [],

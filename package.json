@@ -5,6 +5,7 @@
         "vitedev": "vite build --watch --sourcemap false --mode development",
         "dev": "concurrently \"npm run vitedev\" \"gulp packages-watch\"",
         "build": "concurrently \"vite build\" \"gulp packages\" ",
+        "buildall": "concurrently \"npm run build --prefix ./packages/frontend-assets-libs\" \"npm run build --prefix ./packages/frontend-assets\" \"npm run build\"",
         "admincss": "gulp admin-css",
         "admincssdev": "gulp admin-css-dev",
         "docs:dev": "vitepress dev docs",

@@ -68,6 +68,7 @@ $moduleHash = md5($params['id']);
 
 
        window.sliderV2<?php echo $moduleHash; ?> = null;
+
        window.sliderV2<?php echo $moduleHash; ?> = new SliderV2('#js-slider-<?php echo $params['id']; ?>', {
             loop: true,
 

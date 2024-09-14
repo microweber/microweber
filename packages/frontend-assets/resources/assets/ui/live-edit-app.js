@@ -2,6 +2,7 @@
 
 // mw live-edit core
 import '../api-core/services/bootstrap.js';
+import '../libs/jseldom/jseldom-jquery.js';
 
 import {StylesheetEditor} from "../api-core/services/services/stylesheet-editor.service.js";
 import {ThemeCssVarsEditor} from "../api-core/services/services/theme-css-vars-editor.service.js";

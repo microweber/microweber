@@ -1,6 +1,6 @@
 const localScripts = [
 
-    {target: `jseldom`, path: `./resources/local-libs/jseldom-jquery.js`},
+    {target: `jseldom`, path: `./resources/local-libs/jseldom-jquery.js`, output: `../frontend-assets/resources/assets/libs`},
     {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.js`},
 
 ];
@@ -15,7 +15,8 @@ const nodeModulesScripts = [
     {target: `tinymce`, path: `node_modules/tinymce/tinymce.js`},
     {target: `bxslider`, path: `node_modules/bxslider/dist/jquery.bxslider.min.js`},
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick.js`},
-    {target: `tinymce`, path: `node_modules/tinymce/tinymce.js`},
+    {target: `swiper`, path: `node_modules/swiper/swiper.js`},
+
     {
         target: `rangy`,
         path: [
@@ -46,6 +47,10 @@ const css = [
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick.css`},
     {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.css`},
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/css/font-awesome.css`},
+
+
+    {target: `swiper`, path: `node_modules/swiper/swiper.css`},
+
 ];
 
 const assets = [

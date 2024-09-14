@@ -15,10 +15,11 @@ import "../components/colorpicker.js";
 import "../tools/tabs.js";
 import "../components/dialog.js";
 import "../tools/common-extend.js";
+import "../components/notification.js";
 
 import "../core/_.js";
 
-import "../core/ajax.js";
+
 
 
 
@@ -28,10 +29,16 @@ import "../core/ajax.js";
 
 
 import { AdminTools } from "./admin-tools.service.js";
+import { Loading, Progress } from "../tools/loading.js";
 
 
 
 mw.tools = new AdminTools(mw.app);
+mw.tools.loading = Loading;
+mw.tools.progress = Progress;
+
+import "../core/ajax.js";
+import "../libs/jseldom/jseldom-jquery.js";
 
 import {Helpers} from "../core/helpers.js";
 
