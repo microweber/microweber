@@ -5,6 +5,7 @@ namespace MicroweberPackages\LaravelModules;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
@@ -169,9 +170,23 @@ class LaravelModule extends Module
     {
         self::$jsonMemoryCache = [];
         StaticModuleCreator::$modulesCache = [];
+        $this->jsonMemoryCacheData = [];
         $this->cache->store(config('modules.cache.driver'))->flush();
 
     }
 
+    public function registerProviders(): void
+    {
 
+        $providers = $this->get('providers', []);
+
+        if ($providers) {
+            foreach ($providers as $provider) {
+                $this->app->register($provider);
+            }
+        }
+
+//        (new ProviderRepository($this->app, new Filesystem(), $this->getCachedServicesPath()))
+//            ->load($this->get('providers', []));
+    }
 }
