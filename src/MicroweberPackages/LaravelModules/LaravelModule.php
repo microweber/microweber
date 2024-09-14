@@ -118,21 +118,34 @@ class LaravelModule extends Module
         $this->jsonMemoryCacheData = $data;
 
     }
-//    public function get(string $key, $default = null)
-//    {
-//        if(isset($this->jsonMemoryCacheData[$key])){
-//
-//            return $this->jsonMemoryCacheData[$key];
-//        }
-//
-//
-//        return $this->json()->get($key, $default);
-//    }
+
+    public function get(string $key, $default = null)
+    {
+        if (!empty($this->jsonMemoryCacheData)) {
+            if (isset($this->jsonMemoryCacheData[$key])) {
+
+                return $this->jsonMemoryCacheData[$key];
+            } else {
+                return $default;
+            }
+        }
+
+        return $this->json()->get($key, $default);
+    }
+
     public function json($file = null): Json
     {
+
         if ($file === null) {
             $file = 'module.json';
         }
+
+//        if ($file == 'module.json') {
+//            if ($this->jsonMemoryCacheData) {
+//                return $this->jsonMemoryCacheData;
+//            }
+//        }
+
 
         $path = $this->getPath() . '/' . $file;
         if (isset(self::$jsonMemoryCache[$path])) {

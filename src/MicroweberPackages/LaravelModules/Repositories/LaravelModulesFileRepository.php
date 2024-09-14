@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\LaravelModules\Repositories;
 
+use Arcanedev\Html\Elements\P;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
@@ -9,9 +10,12 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Traits\Macroable;
+use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
+use Nwidart\Modules\Collection;
 use Nwidart\Modules\FileRepository;
 use Nwidart\Modules\Json;
+use Nwidart\Modules\Module;
 
 class LaravelModulesFileRepository extends FileRepository
 {
@@ -78,13 +82,31 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function register(): void
     {
-      //  Debugbar::startMeasure('module_register', 'Registering modules');
+        //  Debugbar::startMeasure('module_register', 'Registering modules');
         $modules = $this->getOrdered();
 
         foreach ($modules as $module) {
             $module->register();
         }
-     //   Debugbar::stopMeasure('module_register');
+        //   Debugbar::stopMeasure('module_register');
+    }
+
+    public function getOrderedModules($direction = 'asc'): array
+    {
+        $modules = $this->allEnabled();
+
+        if ($direction == 'desc') {
+            $modules = array_reverse($modules);
+        }
+
+
+        return $modules;
+    }
+
+    public function getOrdered($direction = 'asc'): array
+    {
+
+        return $this->getOrderedModules($direction);
     }
 
     /**
@@ -92,7 +114,7 @@ class LaravelModulesFileRepository extends FileRepository
      */
     public function boot(): void
     {
-         Debugbar::startMeasure('module_boot', 'Booting modules');
+        Debugbar::startMeasure('module_boot', 'Booting modules');
         $modules = $this->getOrdered();
 
         foreach ($modules as $module) {
@@ -117,7 +139,6 @@ class LaravelModulesFileRepository extends FileRepository
         return StaticModuleCreator::createModule(...$args);
 
     }
-
 
 
     public function getByStatus($status): array
@@ -163,12 +184,19 @@ class LaravelModulesFileRepository extends FileRepository
     {
 
         $enabledCache = $this->config['modules']['cache']['enabled'] ?? false;
-
         if (!$enabledCache) {
             return $this->scan();
         }
+        if (!empty(self::$cachedModules)) {
+            return self::$cachedModules;
+        }
+        start_measure('all', 'all');
 
-        return $this->formatCached($this->getCached());
+        $cachedJsonFileForAllModules = [];
+        $hasCached = $this->getCached();
+
+        stop_measure('all');
+        return $this->formatCached($hasCached);
     }
 
 
@@ -176,21 +204,32 @@ class LaravelModulesFileRepository extends FileRepository
 
     protected function formatCached($cached)
     {
+        if (!empty(self::$cachedModules)) {
+            return self::$cachedModules;
+        }
 
+
+        start_measure('creating_modules', 'creating_modules');
         $modules = [];
 
         foreach ($cached as $name => $module) {
+            $path = $module['path'];
+            $moduleJsonFileContent = $module;
+            $composerAutoloadContent = [];
+            if(isset($module['composer']) and isset($module['composer']['autoload']) and !empty($module['composer']['autoload'])){
+                $composerAutoloadContent = $module['composer']['autoload'];
+            }
 
-            if (isset(self::$cachedModules[$name])) {
-                $module = self::$cachedModules[$name];
-                $modules[$name] = $module;
-            } else {
-                $path = $module['path'];
-                $modules[$name] = $this->createModule($this->app, $name, $path);
-                self::$cachedModules[$name] = $modules[$name];
+
+
+            $moduleCreate = $this->createModule($this->app, $name, $path,$moduleJsonFileContent,$composerAutoloadContent);
+            if ($moduleCreate) {
+                $modules[$name] = $moduleCreate;
             }
 
         }
+        self::$cachedModules = $modules;
+        stop_measure('creating_modules');
         return $modules;
     }
 
@@ -200,14 +239,35 @@ class LaravelModulesFileRepository extends FileRepository
         return $this->files;
     }
 
+    public function toCollection(): Collection
+    {
+
+        return new Collection($this->scan());
+    }
+
+
     public function getCached()
     {
 
 
-        return $this->cache->store($this->config->get('modules.cache.driver'))->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+        return $this->cache->store($this->config->get('modules.cache.driver'))
+            ->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
+                $arr = [];
+                $modules = $this->toCollection();
 
-            return $this->toCollection()->toArray();
-        });
+                foreach ($modules as $key => $module) {
+                    $moduleArr = $module->json('module.json')->getAttributes();
+
+                    $composerJson = $module->json('composer.json')->getAttributes();
+
+                    $moduleArr['composer'] = $composerJson;
+                    $moduleArr['path'] = $module->getPath();
+                    $arr[$key] = $moduleArr;
+                }
+
+                return $arr;
+            });
+
     }
 
     public $scanMemory = [];
@@ -242,6 +302,23 @@ class LaravelModulesFileRepository extends FileRepository
                 $modules[$name] = $this->createModule($this->app, $name, dirname($manifest));
             }
         }
+
+
+        if ($modules) {
+            $direction = 'asc';
+            uasort($modules, function (Module $a, Module $b) use ($direction) {
+                if ($a->get('priority') === $b->get('priority')) {
+                    return 0;
+                }
+
+                if ($direction === 'desc') {
+                    return $a->get('priority') < $b->get('priority') ? 1 : -1;
+                }
+
+                return $a->get('priority') > $b->get('priority') ? 1 : -1;
+            });
+        }
+
         $this->scanMemory = $modules;
         return $modules;
     }
