@@ -37,9 +37,7 @@ class StaticModuleCreator
         if (!$path) {
             return null;
         }
-        if (!is_dir($path)) {
-            return null;
-        }
+
         if (!is_file($manifest)) {
             return null;
         }
