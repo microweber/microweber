@@ -3,7 +3,9 @@
 namespace MicroweberPackages\LaravelModules;
 
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\LaravelModules\Facades\LaravelModulesCache;
 use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
+use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesDatabaseCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use Nwidart\Modules\Contracts\RepositoryInterface;
@@ -18,26 +20,29 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
     public function register()
     {
 
-       // autoload_add_namespace(base_path() . '/Modules/', 'Modules\\');
-      //  autoload_add_namespace(base_path() . '/Modules/Test3/app', 'Modules\\Test3');
+        // autoload_add_namespace(base_path() . '/Modules/', 'Modules\\');
+        //  autoload_add_namespace(base_path() . '/Modules/Test3/app', 'Modules\\Test3');
         spl_autoload_register(function ($class) {
-            if(SplClassLoader::autoloadClass($class)){
+            if (SplClassLoader::autoloadClass($class)) {
                 return true;
             }
         });
+        $this->app->singleton(LaravelModulesCache::class, LaravelModulesCacheRepository::class);
+
         $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
 
         $this->registerServices();
         $this->setupStubPath();
         $this->registerProviders();
-    //     $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
-      $this->app->bind (RepositoryInterface::class, LaravelModulesFileRepository::class);
-      //  $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseCacheRepository::class);
+        //     $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
+        $this->app->bind(RepositoryInterface::class, LaravelModulesFileRepository::class);
+        //  $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseCacheRepository::class);
 
     }
+
     public function setupStubPath()
     {
-        $path = $this->app['config']->get('modules.stubs.path') ?? __DIR__.'/Commands/stubs';
+        $path = $this->app['config']->get('modules.stubs.path') ?? __DIR__ . '/Commands/stubs';
         Stub::setBasePath($path);
 
         $this->app->booted(function ($app) {

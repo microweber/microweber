@@ -12,6 +12,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Traits\Macroable;
 use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
+use MicroweberPackages\LaravelModules\LaravelModule;
+use MicroweberPackages\LaravelModules\Traits\ModulesRepositoryTrait;
 use Nwidart\Modules\Collection;
 use Nwidart\Modules\FileRepository;
 use Nwidart\Modules\Json;
@@ -21,66 +23,11 @@ use Nwidart\Modules\Process\Updater;
 
 class LaravelModulesFileRepository extends FileRepository
 {
-    use Macroable;
 
-    /**
-     * Application instance.
-     *
-     * @var \Illuminate\Contracts\Foundation\Application|\Laravel\Lumen\Application
-     */
-    protected $app;
+    use ModulesRepositoryTrait;
 
-    /**
-     * The module path.
-     *
-     * @var string|null
-     */
-    protected $path;
+    public $configPrefix = 'modules';
 
-    /**
-     * The scanned paths.
-     *
-     * @var array
-     */
-    protected $paths = [];
-
-    /**
-     * @var string
-     */
-    protected $stubPath;
-
-    /**
-     * @var UrlGenerator
-     */
-    private $url;
-
-    /**
-     * @var ConfigRepository
-     */
-    private $config;
-
-    /**
-     * @var Filesystem
-     */
-    private $files;
-
-    /**
-     * @var CacheManager
-     */
-    private $cache;
-
-
-    public function __construct(Container $app, $path = null)
-    {
-        $this->app = $app;
-        $this->path = $path;
-        $this->url = $app['url'];
-        $this->config = $app['config'];
-        $this->files = $app['files'];
-        $this->cache = $app['cache'];
-
-
-    }
 
     public function register(): void
     {
@@ -88,6 +35,8 @@ class LaravelModulesFileRepository extends FileRepository
         $modules = $this->getOrdered();
 
         foreach ($modules as $module) {
+            /** @var LaravelModule $module */
+
             $module->register();
         }
         //   Debugbar::stopMeasure('module_register');
@@ -120,6 +69,8 @@ class LaravelModulesFileRepository extends FileRepository
         $modules = $this->getOrdered();
 
         foreach ($modules as $module) {
+            /** @var LaravelModule $module */
+
             $module->boot();
         }
         Debugbar::stopMeasure('module_boot');
@@ -168,7 +119,7 @@ class LaravelModulesFileRepository extends FileRepository
 
         $all = $this->all();
         foreach ($all as $module) {
-            /** @var \Nwidart\Modules\Laravel\Module $module */
+            /** @var LaravelModule $module */
             if ($module->getLowerName() === strtolower($name)) {
                 return $module;
             }
@@ -178,14 +129,14 @@ class LaravelModulesFileRepository extends FileRepository
 
     public function config(string $key, $default = null)
     {
-        return $this->config->get('modules.' . $key, $default);
+        return $this->config->get($this->configPrefix . '.' . $key, $default);
     }
 
 
     public function all(): array
     {
 
-        $enabledCache = $this->config['modules']['cache']['enabled'] ?? false;
+        $enabledCache = $this->config[$this->configPrefix]['cache']['enabled'] ?? false;
         if (!$enabledCache) {
             return $this->scan();
         }
@@ -207,37 +158,51 @@ class LaravelModulesFileRepository extends FileRepository
     protected function formatCached($cached)
     {
         if (!empty(self::$cachedModules)) {
-           // return self::$cachedModules;
+            // return self::$cachedModules;
         }
 
 
         start_measure('creating_modules', 'creating_modules');
         $modules = [];
-
         foreach ($cached as $name => $module) {
-            if (isset(self::$cachedModules[$name])) {
-
-                $modules[$name] = self::$cachedModules[$name];
-            } else {
 
 
-                $path = $module['path'];
-                $moduleJsonFileContent = $module;
-                $composerAutoloadContent = [];
-                if (isset($module['composer']) and isset($module['composer']['autoload']) and !empty($module['composer']['autoload'])) {
-                    $composerAutoloadContent = $module['composer']['autoload'];
-                }
-
-
-                $moduleCreate = $this->createModule($this->app, $name, $path, $moduleJsonFileContent, $composerAutoloadContent);
-                if ($moduleCreate) {
-                    $modules[$name] = $moduleCreate;
-                    self::$cachedModules[$name] = $moduleCreate;
-                }
+            $cache = $this->cacheRepository->get($name);
+            if ($cache) {
+                $modules[$name] = $cache;
+                continue;
             }
 
+//            if (isset(self::$cachedModules[$name])) {
+//
+//
+//                $modules[$name] = self::$cachedModules[$name];
+//
+//            } else {
+
+
+            $path = $module['path'];
+            $moduleJsonFileContent = $module;
+            $composerAutoloadContent = [];
+            if (isset($module['composer']) and isset($module['composer']['autoload']) and !empty($module['composer']['autoload'])) {
+                $composerAutoloadContent = $module['composer']['autoload'];
+            }
+            if (isset($module['composer']) and isset($module['composer']['autoload-dev']) and !empty($module['composer']['autoload-dev'])) {
+                $composerAutoloadContent = array_merge_recursive($composerAutoloadContent, $module['composer']['autoload-dev']);
+            }
+
+
+            $moduleCreate = $this->createModule($this->app, $name, $path, $moduleJsonFileContent, $composerAutoloadContent);
+            if ($moduleCreate) {
+
+                $modules[$name] = $moduleCreate;
+                $this->cacheRepository->set($name, $moduleCreate);
+                //self::$cachedModules[$name] = $moduleCreate;
+            }
+            //  }
+
         }
-    //    self::$cachedModules = $modules;
+        //    self::$cachedModules = $modules;
         stop_measure('creating_modules');
         return $modules;
     }
@@ -259,7 +224,7 @@ class LaravelModulesFileRepository extends FileRepository
     {
 
 
-        return $this->cache->store($this->config->get('modules.cache.driver'))
+        return $this->cache->store($this->config->get($this->configPrefix . '.cache.driver'))
             ->remember($this->config('cache.key'), $this->config('cache.lifetime'), function () {
                 $arr = [];
                 $modules = $this->toCollection();
@@ -328,52 +293,52 @@ class LaravelModulesFileRepository extends FileRepository
             });
         }
 
-        $this->scanMemory = $modules;
+        //$this->scanMemory = $modules;
         return $modules;
     }
 
-    public function enable($name)
-    {
-
-        $this->flushCache();
-        parent::enable($name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function delete(string $name): bool
-    {
-        $this->flushCache();
-        return parent::delete($name);
-    }
-
-    /**
-     * Update dependencies for the specified module.
-     *
-     * @param string $module
-     */
-    public function update($module)
-    {
-        $this->flushCache();
-        parent::update($module);
-    }
-
-    /**
-     * Install the specified module.
-     *
-     * @param string $name
-     * @param string $version
-     * @param string $type
-     * @param bool $subtree
-     * @return \Symfony\Component\Process\Process
-     */
-    public function install($name, $version = 'dev-master', $type = 'composer', $subtree = false)
-    {
-
-        $this->flushCache();
-        return parent::install($name, $version, $type, $subtree);
-    }
+//    public function enable($name)
+//    {
+//
+//        $this->flushCache();
+//        parent::enable($name);
+//    }
+//
+//    /**
+//     * {@inheritDoc}
+//     */
+//    public function delete(string $name): bool
+//    {
+//        $this->flushCache();
+//        return parent::delete($name);
+//    }
+//
+//    /**
+//     * Update dependencies for the specified module.
+//     *
+//     * @param string $module
+//     */
+//    public function update($module)
+//    {
+//        $this->flushCache();
+//        parent::update($module);
+//    }
+//
+//    /**
+//     * Install the specified module.
+//     *
+//     * @param string $name
+//     * @param string $version
+//     * @param string $type
+//     * @param bool $subtree
+//     * @return \Symfony\Component\Process\Process
+//     */
+//    public function install($name, $version = 'dev-master', $type = 'composer', $subtree = false)
+//    {
+//
+//        $this->flushCache();
+//        return parent::install($name, $version, $type, $subtree);
+//    }
 
     public function flushCache()
     {

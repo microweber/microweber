@@ -171,6 +171,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
+
         //  return;
         //app()->usePublicPath(base_path());
 
@@ -190,6 +191,7 @@ class AppServiceProvider extends ServiceProvider
         //  $this->register(new TaggableFileCacheServiceProvider($this));
         $this->registerLaravelProviders();
         $this->registerLaravelAliases();
+        $this->app->register(ConfigExtendedServiceProvider::class);
 
         $this->app->singleton('mw_migrator', function ($app) {
             $repository = $app['migration.repository'];
@@ -209,7 +211,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-        $this->app->register(ConfigExtendedServiceProvider::class);
 
         //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         if (app()->bound('debugbar')) {
