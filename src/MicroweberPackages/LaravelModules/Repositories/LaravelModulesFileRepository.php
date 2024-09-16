@@ -16,6 +16,8 @@ use Nwidart\Modules\Collection;
 use Nwidart\Modules\FileRepository;
 use Nwidart\Modules\Json;
 use Nwidart\Modules\Module;
+use Nwidart\Modules\Process\Installer;
+use Nwidart\Modules\Process\Updater;
 
 class LaravelModulesFileRepository extends FileRepository
 {
@@ -188,7 +190,7 @@ class LaravelModulesFileRepository extends FileRepository
             return $this->scan();
         }
         if (!empty(self::$cachedModules)) {
-            return self::$cachedModules;
+            //    return self::$cachedModules;
         }
         start_measure('all', 'all');
 
@@ -205,7 +207,7 @@ class LaravelModulesFileRepository extends FileRepository
     protected function formatCached($cached)
     {
         if (!empty(self::$cachedModules)) {
-            return self::$cachedModules;
+           // return self::$cachedModules;
         }
 
 
@@ -213,22 +215,29 @@ class LaravelModulesFileRepository extends FileRepository
         $modules = [];
 
         foreach ($cached as $name => $module) {
-            $path = $module['path'];
-            $moduleJsonFileContent = $module;
-            $composerAutoloadContent = [];
-            if(isset($module['composer']) and isset($module['composer']['autoload']) and !empty($module['composer']['autoload'])){
-                $composerAutoloadContent = $module['composer']['autoload'];
-            }
+            if (isset(self::$cachedModules[$name])) {
+
+                $modules[$name] = self::$cachedModules[$name];
+            } else {
 
 
+                $path = $module['path'];
+                $moduleJsonFileContent = $module;
+                $composerAutoloadContent = [];
+                if (isset($module['composer']) and isset($module['composer']['autoload']) and !empty($module['composer']['autoload'])) {
+                    $composerAutoloadContent = $module['composer']['autoload'];
+                }
 
-            $moduleCreate = $this->createModule($this->app, $name, $path,$moduleJsonFileContent,$composerAutoloadContent);
-            if ($moduleCreate) {
-                $modules[$name] = $moduleCreate;
+
+                $moduleCreate = $this->createModule($this->app, $name, $path, $moduleJsonFileContent, $composerAutoloadContent);
+                if ($moduleCreate) {
+                    $modules[$name] = $moduleCreate;
+                    self::$cachedModules[$name] = $moduleCreate;
+                }
             }
 
         }
-        self::$cachedModules = $modules;
+    //    self::$cachedModules = $modules;
         stop_measure('creating_modules');
         return $modules;
     }
@@ -276,7 +285,7 @@ class LaravelModulesFileRepository extends FileRepository
     {
         if ($this->scanMemory) {
 
-            return $this->scanMemory;
+            //    return $this->scanMemory;
         }
 
         $paths = $this->getScanPaths();
@@ -321,5 +330,54 @@ class LaravelModulesFileRepository extends FileRepository
 
         $this->scanMemory = $modules;
         return $modules;
+    }
+
+    public function enable($name)
+    {
+
+        $this->flushCache();
+        parent::enable($name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function delete(string $name): bool
+    {
+        $this->flushCache();
+        return parent::delete($name);
+    }
+
+    /**
+     * Update dependencies for the specified module.
+     *
+     * @param string $module
+     */
+    public function update($module)
+    {
+        $this->flushCache();
+        parent::update($module);
+    }
+
+    /**
+     * Install the specified module.
+     *
+     * @param string $name
+     * @param string $version
+     * @param string $type
+     * @param bool $subtree
+     * @return \Symfony\Component\Process\Process
+     */
+    public function install($name, $version = 'dev-master', $type = 'composer', $subtree = false)
+    {
+
+        $this->flushCache();
+        return parent::install($name, $version, $type, $subtree);
+    }
+
+    public function flushCache()
+    {
+        self::$cachedModules = [];
+        $this->scanMemory = [];
     }
 }

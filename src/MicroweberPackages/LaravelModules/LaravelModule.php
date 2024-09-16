@@ -12,6 +12,7 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
 use MicroweberPackages\LaravelModules\Helpers\ModuleJsonFromArray;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
+use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Json;
@@ -168,8 +169,10 @@ class LaravelModule extends Module
 
     private function flushCache(): void
     {
+
         self::$jsonMemoryCache = [];
         StaticModuleCreator::$modulesCache = [];
+        $this->app->modules->flushCache();
         $this->jsonMemoryCacheData = [];
         $this->cache->store(config('modules.cache.driver'))->flush();
 
