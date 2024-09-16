@@ -20,7 +20,7 @@
 
         flag_icons: [
             function () {
-                mw.require(mw.settings.libs_url + '/flag-icon-css' + '/css/flag-icon.min.css');
+                mw.require(mw.settings.libs_url + '/flag-icons' + '/css/flag-icon.min.css');
 
             }
         ],
@@ -33,7 +33,7 @@
         ],
         font_awesome: [
             function () {
-                mw.require(mw.settings.libs_url + '/fontawesome-4.7.0' + '/css/font-awesome.min.css');
+                mw.require(mw.settings.libs_url + '/font-awesome/css/font-awesome.css');
 
             }
         ],
@@ -61,7 +61,7 @@
             function () {
                 mw.require(mw.settings.libs_url + '/slick/slick.css', true, undefined, true);
                 mw.require(mw.settings.libs_url + '/slick/slick-theme.css', undefined, undefined, true);
-                mw.require(mw.settings.libs_url + '/slick/slick.min.js', true);
+                mw.require(mw.settings.libs_url + '/slick/slick.js', true);
             }
         ],
 

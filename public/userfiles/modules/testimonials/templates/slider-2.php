@@ -16,8 +16,7 @@ description: Testimonials displayed in Slider
 
 
 <script>mw.module_css("<?php print $config['url_to_module'] ?>templates/templates.css", true);</script>
-<script>mw.module_css("<?php print $config['url_to_module'] ?>templates/js/slick.css", true);</script>
-<script>mw.require("<?php print $config['url_to_module'] ?>templates/js/slick.min.js", true);</script>
+<script>mw.lib.require('slick');</script>
 <script>
     $(document).ready(function () {
         var el = $("#<?php print $params['id']; ?> .mw-testimonials-slider-2");
