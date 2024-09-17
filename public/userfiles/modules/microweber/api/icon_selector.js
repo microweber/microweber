@@ -29,9 +29,9 @@
                     });
                 },
                 name: 'Font Awesome',
-                load:  mw.settings.libs_url + 'fontawesome-4.7.0' + '/css/font-awesome.min.css',
+                load:  mw.settings.libs_url + 'font-awesome/font-awesome.css',
                 unload: function () {
-                    document.querySelector('link[href*="fontawesome-4.7.0"]').remove();
+                    document.querySelector('link[href*="font-awesome/font-awesome"]').remove();
                 },
                 version: '4.7.0'
             },

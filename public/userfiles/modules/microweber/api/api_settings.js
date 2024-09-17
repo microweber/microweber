@@ -59,7 +59,7 @@
 
         flag_icons: [
             function () {
-                mw.require(mw.settings.libs_url + '/flag-icon-css' + '/css/flag-icon.min.css');
+                mw.require(mw.settings.libs_url + '/flag-icons/css/flag-icons.css');
 
             }
         ],
@@ -72,7 +72,7 @@
         ],
         font_awesome: [
             function () {
-                mw.require(mw.settings.libs_url + '/fontawesome-4.7.0' + '/css/font-awesome.min.css');
+                mw.require(mw.settings.libs_url + '/font-awesome/font-awesome.css');
 
             }
         ],
@@ -91,8 +91,8 @@
         ],
         collapse_nav: [
             function () {
-                mw.require(mw.settings.libs_url + '/collapse-nav/dist/collapse-nav.js', true);
-                mw.require(mw.settings.libs_url + '/collapse-nav/dist/collapse-nav.css', true);
+                mw.require(mw.settings.libs_url + '/collapse-nav/collapse-nav.js', true);
+                mw.require(mw.settings.libs_url + '/collapse-nav/collapse-nav.css', true);
 
             }
         ],
@@ -100,7 +100,7 @@
             function () {
                 mw.require(mw.settings.libs_url + '/slick/slick.css', true, undefined, true);
                 mw.require(mw.settings.libs_url + '/slick/slick-theme.css', undefined, undefined, true);
-                mw.require(mw.settings.libs_url + '/slick/slick.min.js', true);
+                mw.require(mw.settings.libs_url + '/slick/slick.js', true);
             }
         ],
 

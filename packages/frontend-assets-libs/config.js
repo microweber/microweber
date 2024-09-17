@@ -45,6 +45,7 @@ const css = [
     {target: `material-icons`, path: `node_modules/material-icons/iconfont/material-icons.css`},
     {target: `bxslider`, path: `node_modules/bxslider/dist/jquery.bxslider.css`},
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick.css`},
+    {target: `slick`, path: `node_modules/slick-carousel/slick/slick-theme.css`},
     {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.css`},
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/css/font-awesome.css`},
 
