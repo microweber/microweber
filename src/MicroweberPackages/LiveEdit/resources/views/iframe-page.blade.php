@@ -30,12 +30,12 @@
 
             <script>
 
-                mw.lib.require('nouislider');
-                mw.require('components.css')
-
-
-                mw.require('icon_selector.js');
-                mw.lib.require('flag_icons');
+                // mw.lib.require('nouislider');
+                // mw.require('components.css')
+                //
+                //
+                // mw.require('icon_selector.js');
+                // mw.lib.require('flag_icons');
                 /*mw.iconLoader()
 
                     .addIconSet('iconsMindLine')
