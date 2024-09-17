@@ -229,7 +229,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 //        load_all_service_providers_for_modules();
 //         load_functions_files_for_template();
 //        load_service_providers_for_template();
-        $app->rebootApplication();
+       // $app->rebootApplication();
         $this->app = $app;
         return $app;
     }
@@ -249,25 +249,6 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     }
 
-    protected function xxxtearDown(): void
-    {
-        //echo 'pre reduce memory usage: '.sprintf('%.2fM', memory_get_usage(true)/1024/1024);
-        // reduce memory usage
-
-        // get all properties of self
-        $refl = new \ReflectionObject($this);
-        foreach ($refl->getProperties() as $prop) {
-            // if not phpunit related or static
-            if (!$prop->isStatic() && 0 !== strpos($prop->getDeclaringClass()->getName(), 'PHPUnit_')) {
-                // make accessible and set value to to free memory
-                $prop->setAccessible(true);
-                $prop->setValue($this, null);
-            }
-        }
-        //echo 'post reduce memory usage: '.sprintf('%.2fM', memory_get_usage(true)/1024/1024);
-
-        parent::tearDown();
-    }
 
 
     private function normalizePath($path, $slash_it = true)
