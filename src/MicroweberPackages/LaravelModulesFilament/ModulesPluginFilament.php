@@ -39,6 +39,9 @@ class ModulesPluginFilament extends ServiceProvider
         if (!config('filament-modules.auto-register-plugins', false)) {
             return [];
         }
+        return [];
+
+
         $allFiles = [];
         $enabledModules = Module::allEnabled();
 

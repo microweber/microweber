@@ -45,12 +45,14 @@ return [
             'assets/img/icon.svg' => 'resources/assets/img/icon.svg',
             'vite' => 'vite.config.js',
             'package' => 'package.json',
+            'README' => 'README.md',
         ],
         'replacements' => [
             'routes/web' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE', 'CONTROLLER_NAMESPACE'],
             'routes/api' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE', 'CONTROLLER_NAMESPACE'],
             'vite' => ['LOWER_NAME', 'STUDLY_NAME'],
             'json' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE', 'PROVIDER_NAMESPACE'],
+            'README' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE', 'PROVIDER_NAMESPACE'],
             'views/index' => ['LOWER_NAME', 'STUDLY_NAME'],
             'views/master' => ['LOWER_NAME', 'STUDLY_NAME'],
             'scaffold/config' => ['STUDLY_NAME','LOWER_NAME'],
@@ -220,7 +222,7 @@ return [
     |
     */
     'composer' => [
-        'vendor' => env('MODULE_VENDOR', 'microweber-modules'),
+        'vendor' => env('MODULE_VENDOR', 'modules'),
         'author' => [
             'name' => env('MODULE_AUTHOR_NAME', 'Microweber Team'),
             'email' => env('MODULE_AUTHOR_EMAIL', 'info@microweber.com'),

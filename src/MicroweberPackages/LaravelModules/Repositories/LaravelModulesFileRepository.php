@@ -36,7 +36,6 @@ class LaravelModulesFileRepository extends FileRepository
 
         foreach ($modules as $module) {
             /** @var LaravelModule $module */
-
             $module->register();
         }
         //   Debugbar::stopMeasure('module_register');
@@ -157,8 +156,11 @@ class LaravelModulesFileRepository extends FileRepository
 
     protected function formatCached($cached)
     {
-        if (!empty(self::$cachedModules)) {
-            // return self::$cachedModules;
+        $cacheAll = $this->cacheRepository->all();
+
+        if (!empty($cacheAll)) {
+
+            return $cacheAll;
         }
 
 
@@ -344,5 +346,7 @@ class LaravelModulesFileRepository extends FileRepository
     {
         self::$cachedModules = [];
         $this->scanMemory = [];
+        $this->cache->store($this->config->get($this->configPrefix . '.cache.driver'))->forget($this->config('cache.key'));
+        $this->cacheRepository->flush();
     }
 }

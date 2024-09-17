@@ -41,7 +41,7 @@ class LaravelModulesLivewireServiceProvider extends \Mhmiton\LaravelModulesLivew
         if (Decomposer::checkDependencies()->type == 'error') {
             return false;
         }
-
+        return false;
         $modules = \Nwidart\Modules\Facades\Module::toCollection();
 
         $modulesLivewireNamespace = config('modules-livewire.namespace', 'Livewire');

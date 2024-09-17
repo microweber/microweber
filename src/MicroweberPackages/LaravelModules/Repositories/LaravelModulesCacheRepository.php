@@ -31,7 +31,7 @@ class LaravelModulesCacheRepository
     }
 
 
-    public function set($name,$module)
+    public function set($name, $module)
     {
 
         $this->cache[$name] = $module;
@@ -45,5 +45,14 @@ class LaravelModulesCacheRepository
         }
     }
 
+    public function all()
+    {
 
+        return $this->cache;
+    }
+
+    public function flush()
+    {
+        $this->cache = [];
+    }
 }
