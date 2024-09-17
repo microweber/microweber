@@ -17,7 +17,7 @@ export default {
             var saved = canvasWindow.mw.drag.save()
 
             if (saved) {
-                saved.success(function () {
+                saved.done(function () {
                     btn.classList.remove('btn-loading');
                     btn.disabled = false;
                     mw.notification.success('Page saved successfully.',7500);

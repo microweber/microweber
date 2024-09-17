@@ -597,23 +597,14 @@
                 return obj;
             }
         },
-        mwattr: function (el, a, b) {
-            if (!b && !!el) {
-                var data = mw.$(el).dataset(a);
-                if (!!$(el)[0].attributes) {
-                    var attr = mw.$(el)[0].attributes[a];
-                }
-
-                if (data !== '') {
-                    return data;
-                }
-                if (!!attr) {
-                    return attr.value;
-                }
-                return false;
+        mwattr: function (el, key, val) {
+            if(!el) {
+                return;
             }
-            else {
-                mw.$(el).dataset(a, b);
+            if (typeof val === 'undefined') {
+                return el.dataset[key] || el.getAttribute(key) || false;
+            } else {
+                el.dataset[key] = val;
             }
         },
         disable: function (el, text, global) {
