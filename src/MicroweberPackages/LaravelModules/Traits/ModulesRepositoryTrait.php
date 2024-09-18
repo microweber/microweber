@@ -34,6 +34,7 @@ trait ModulesRepositoryTrait
 
     public function register(): void
     {
+        $this->configPrefix = 'modules';
         Debugbar::startMeasure('module_register', 'Registering modules');
         $modules = $this->getOrdered();
 
@@ -112,17 +113,17 @@ trait ModulesRepositoryTrait
 
 
         $all = $this->all();
-//        if(isset($all[$name])){
-//            return $all[$name];
-//        }
-
-        //dd($all,$name);
-        foreach ($all as $module) {
-            /** @var LaravelModule $module */
-            if ($module->getLowerName() === strtolower($name)) {
-                return $module;
-            }
+        if(isset($all[$name])){
+            return $all[$name];
         }
+
+
+//        foreach ($all as $module) {
+//            /** @var LaravelModule $module */
+//            if ($module->getLowerName() === strtolower($name)) {
+//                return $module;
+//            }
+//        }
 
     }
 
@@ -334,12 +335,6 @@ trait ModulesRepositoryTrait
 
     public function getModulePath($module)
     {
-//        $modulesFolder = $this->config('paths.modules', base_path('Modules'));
-//        $moduleFolder = $modulesFolder . DS . $module;
-//
-//
-//        throw new ModuleNotFoundException("Module [{$module}] does not exist!");
-//        dd($module);
         try {
             return $this->findOrFail($module)->getPath() . '/';
         } catch (ModuleNotFoundException $e) {

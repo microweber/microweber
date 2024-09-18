@@ -3,7 +3,6 @@
 namespace MicroweberPackages\LaravelModules;
 
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
-use MicroweberPackages\LaravelModules\Facades\LaravelModulesCache;
 use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesDatabaseRepository;
@@ -29,7 +28,6 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
                 return true;
             }
         });
-        $this->app->singleton(LaravelModulesCache::class, LaravelModulesCacheRepository::class);
 
         $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
 

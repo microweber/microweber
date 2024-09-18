@@ -12,6 +12,9 @@ use Nwidart\Modules\Module;
 
 class LaravelModulesFileActivator extends FileActivator
 {
+
+    public $configPrefix = 'modules';
+
     /**
      * Laravel cache instance
      *
@@ -178,11 +181,11 @@ class LaravelModulesFileActivator extends FileActivator
      */
     private function getModulesStatuses(): array
     {
-        if (! $this->config->get('modules.cache.enabled')) {
+        if (! $this->config->get($this->configPrefix.'.cache.enabled')) {
             return $this->readJson();
         }
 
-        return $this->cache->store($this->config->get('modules.cache.driver'))->remember($this->cacheKey, $this->cacheLifetime, function () {
+        return $this->cache->store($this->config->get($this->configPrefix.'.cache.driver'))->remember($this->cacheKey, $this->cacheLifetime, function () {
 
             return $this->readJson();
         });
@@ -195,15 +198,20 @@ class LaravelModulesFileActivator extends FileActivator
      */
     private function config(string $key, $default = null)
     {
-        return $this->config->get('modules.activators.file.'.$key, $default);
+        return $this->config->get($this->configPrefix.'.activators.file.'.$key, $default);
     }
 
 
 
     private function flushCache(): void
     {
-        app('modules')->flushCache();
 
-        $this->cache->store($this->config->get('modules.cache.driver'))->forget($this->cacheKey);
+        if(app()->bound('modules')) {
+            app('modules')->flushCache();
+        }
+        if(app()->bound('templates')) {
+            app('templates')->flushCache();
+        }
+        $this->cache->store($this->config->get($this->configPrefix.'.cache.driver'))->forget($this->cacheKey);
     }
 }

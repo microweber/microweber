@@ -2,25 +2,16 @@
 
 namespace MicroweberPackages\LaravelModules\Repositories;
 
-use Arcanedev\Html\Elements\P;
-use Barryvdh\Debugbar\Facades\Debugbar;
+
 use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Traits\Macroable;
-use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
-use MicroweberPackages\LaravelModules\Facades\LaravelModulesCache;
-use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
-use MicroweberPackages\LaravelModules\LaravelModule;
+
 use MicroweberPackages\LaravelModules\Traits\ModulesRepositoryTrait;
-use Nwidart\Modules\Collection;
 use Nwidart\Modules\FileRepository;
-use Nwidart\Modules\Json;
-use Nwidart\Modules\Module;
-use Nwidart\Modules\Process\Installer;
-use Nwidart\Modules\Process\Updater;
+
 
 class LaravelModulesFileRepository extends FileRepository
 {
@@ -85,7 +76,7 @@ class LaravelModulesFileRepository extends FileRepository
         $this->files = $app['files'];
         $this->cache = $app['cache'];
 
-        $this->cacheRepository = $app[LaravelModulesCache::class];
+        $this->cacheRepository = new LaravelModulesCacheRepository();
 
 
     }
