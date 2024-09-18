@@ -66,7 +66,7 @@ if(window.self !== window.top) {
             data = {data_base64: data};
             /************  END base64  ************/
 
-            var xhr = mw.ajax({
+            var xhr = $.ajax({
                 type: 'POST',
                 url: mw.settings.api_url + 'save_edit',
                 data: data,
@@ -313,12 +313,16 @@ if(window.self !== window.top) {
             }
 
 
-            mw._liveeditData = data;
 
-            mw.trigger('saveStart', mw._liveeditData);
 
-            var xhr = mw.liveEditSaveService.coreSave(mw._liveeditData);
-            xhr.error(function (sdata) {
+            mw.trigger('saveStart', data);
+
+            var xhr = mw.liveEditSaveService.coreSave(data);
+            console.log(xhr, xhr.fail)
+            if (!xhr) {
+                return false;
+            }
+            xhr.fail(function (sdata) {
 
                 if (xhr.status == 403) {
                     var modal = mw.dialog({
@@ -358,7 +362,7 @@ if(window.self !== window.top) {
                     fail.call(sdata)
                 }
             });
-            xhr.success(function (sdata) {
+            xhr.done(function (sdata) {
                 mw.$('.edit.changed').removeClass('changed');
                 mw.$('.orig_changed').removeClass('orig_changed');
                 if (document.querySelector('.edit.changed') !== null) {
