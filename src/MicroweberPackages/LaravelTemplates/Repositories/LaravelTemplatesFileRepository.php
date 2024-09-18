@@ -18,7 +18,9 @@ use Nwidart\Modules\Json;
 
 class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 {
-    use Macroable;
+
+
+    public $configPrefix = 'templates';
 
     /**
      * Application instance.

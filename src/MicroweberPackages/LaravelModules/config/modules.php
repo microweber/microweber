@@ -271,7 +271,9 @@ return [
     */
     'activators' => [
         'file' => [
-            'class' => FileActivator::class,
+          //  'class' => FileActivator::class,
+            'class' => \MicroweberPackages\LaravelModules\Activators\LaravelModulesFileActivator::class,
+
             'statuses-file' => storage_path('modules_statuses.json'),
             'cache-key' => 'activator.installed',
             'cache-lifetime' => 604800,

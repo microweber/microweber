@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LaravelModulesLivewire;
 
 use Illuminate\Support\Str;
+use Mhmiton\LaravelModulesLivewire\Providers\LivewireComponentServiceProvider;
 use Mhmiton\LaravelModulesLivewire\Support\Decomposer;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 
@@ -35,7 +36,11 @@ class LaravelModulesLivewireServiceProvider extends \Mhmiton\LaravelModulesLivew
             'modules-livewire'
         );
     }
+    protected function registerProviders()
+    {
 
+      //  $this->app->register(LivewireComponentServiceProvider::class);
+    }
     protected function registerModuleComponents()
     {
         if (Decomposer::checkDependencies()->type == 'error') {

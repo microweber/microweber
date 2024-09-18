@@ -25,6 +25,8 @@ class LaravelModulesCacheRepository
 {
     public $cache = [];
 
+
+
     public function flushCache()
     {
         $this->cache = [];

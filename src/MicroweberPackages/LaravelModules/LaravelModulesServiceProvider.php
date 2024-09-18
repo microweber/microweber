@@ -6,9 +6,11 @@ use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\LaravelModules\Facades\LaravelModulesCache;
 use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
-use MicroweberPackages\LaravelModules\Repositories\LaravelModulesDatabaseCacheRepository;
+use MicroweberPackages\LaravelModules\Repositories\LaravelModulesDatabaseRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
+use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Contracts\RepositoryInterface;
+use Nwidart\Modules\Exceptions\InvalidActivatorClass;
 use Nwidart\Modules\Support\Stub;
 
 //from https://github.com/allenwakeup/laravel-modules/
@@ -35,9 +37,21 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
         $this->setupStubPath();
         $this->registerProviders();
         //     $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
-        $this->app->bind(RepositoryInterface::class, LaravelModulesFileRepository::class);
+        $this->app->singleton(RepositoryInterface::class, LaravelModulesFileRepository::class);
+        $this->app->singleton(RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
         //  $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseCacheRepository::class);
-
+//        $this->app->singleton(ActivatorInterface::class, function ($app) {
+//
+//            $activator = $app['config']->get('modules.activator');
+//            $class = $app['config']->get('modules.activators.'.$activator)['class'];
+//
+//            if ($class === null) {
+//                throw InvalidActivatorClass::missingConfig();
+//            }
+//
+//            return new $class($app);
+//
+//        });
     }
 
     public function setupStubPath()
@@ -53,6 +67,8 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
             }
         });
     }
+
+
 //    protected function registerNamespaces()
 //    {
 //
