@@ -217,9 +217,9 @@ class MicroweberServiceProvider extends ServiceProvider
          Debugbar::startMeasure('modules_load_service_providers', 'Loading modules');
 
         $this->app->register(LaravelModulesServiceProvider::class);
-        $this->app->register(LaravelModulesLivewireServiceProvider::class);
+      //  $this->app->register(LaravelModulesLivewireServiceProvider::class);
 
-        $this->app->register(LaravelModulesFilamentServiceProvider::class);
+      //  $this->app->register(LaravelModulesFilamentServiceProvider::class);
         $this->app->register(LaravelTemplatesServiceProvider::class);
 
          Debugbar::stopMeasure('modules_load_service_providers');

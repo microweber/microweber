@@ -86,9 +86,11 @@ class LaravelModule extends Module
         // and sets the path to a writable one (services path is not on a writable storage in Vapor).
         if (!is_null(env('VAPOR_MAINTENANCE_MODE', null))) {
             return Str::replaceLast('config.php', $this->getSnakeName() . '_module.php', $this->app->getCachedConfigPath());
+         //   return Str::replaceLast('config.php', $this->getSnakeName() . '_module.php', $this->app->getCachedConfigPath());
         }
 
         return Str::replaceLast('services.php', $this->getSnakeName() . '_module.php', $this->app->getCachedServicesPath());
+       // return Str::replaceLast('services.php', $this->getSnakeName() . '_module.php', $this->app->getCachedServicesPath());
     }
 
     public function isStatus(bool $status): bool
@@ -124,6 +126,7 @@ class LaravelModule extends Module
     public function get(string $key, $default = null)
     {
         if (!empty($this->jsonMemoryCacheData)) {
+
             if (isset($this->jsonMemoryCacheData[$key])) {
 
                 return $this->jsonMemoryCacheData[$key];
@@ -141,6 +144,8 @@ class LaravelModule extends Module
         if ($file === null) {
             $file = 'module.json';
         }
+
+
 
 //        if ($file == 'module.json') {
 //            if ($this->jsonMemoryCacheData) {
@@ -181,15 +186,24 @@ class LaravelModule extends Module
     public function registerProviders(): void
     {
 
+
+
         $providers = $this->get('providers', []);
 
         if ($providers) {
             foreach ($providers as $provider) {
+
                 $this->app->register($provider);
             }
         }
 
 //        (new ProviderRepository($this->app, new Filesystem(), $this->getCachedServicesPath()))
+//            ->load($this->get('providers', []));
+
+//        $manifestPath = $this->app->getCachedServicesPath();
+//        $manifestPath = Str::replaceLast('services.php',  'modules.php', $manifestPath);
+//
+//        (new ProviderRepository($this->app, new Filesystem(), $manifestPath))
 //            ->load($this->get('providers', []));
     }
 }

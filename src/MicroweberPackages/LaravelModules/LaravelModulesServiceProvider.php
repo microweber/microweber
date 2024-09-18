@@ -36,7 +36,7 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
         $this->registerProviders();
         //     $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
         $this->app->singleton(RepositoryInterface::class, LaravelModulesFileRepository::class);
-        $this->app->singleton(RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
+    //    $this->app->singleton(RepositoryInterface::class, LaravelModulesDatabaseRepository::class);
         //  $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseCacheRepository::class);
 //        $this->app->singleton(ActivatorInterface::class, function ($app) {
 //

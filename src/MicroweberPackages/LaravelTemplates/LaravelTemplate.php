@@ -8,6 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
+use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use Nwidart\Modules\Contracts\ActivatorInterface;
@@ -87,5 +88,14 @@ class LaravelTemplate extends LaravelModule
     public function isStatus(bool $status): bool
     {
         return $this->activator->hasStatus($this, $status);
+    }
+
+    private function flushCache(): void
+    {
+
+        $this->app->templates->flushCache();
+        $this->jsonMemoryCacheData = [];
+        $this->cache->store(config('templates.cache.driver'))->flush();
+
     }
 }

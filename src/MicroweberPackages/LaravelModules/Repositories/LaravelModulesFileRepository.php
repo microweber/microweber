@@ -15,6 +15,7 @@ use Nwidart\Modules\FileRepository;
 
 class LaravelModulesFileRepository extends FileRepository
 {
+    public $configPrefix = 'modules';
 
     /**
      * Application instance.
@@ -65,7 +66,6 @@ class LaravelModulesFileRepository extends FileRepository
 
 
     use ModulesRepositoryTrait;
-    public $configPrefix = 'modules';
 
     public function __construct(Container $app, $path = null)
     {

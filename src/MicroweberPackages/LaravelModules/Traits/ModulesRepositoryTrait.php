@@ -10,7 +10,6 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-use MicroweberPackages\LaravelModules\Facades\LaravelModulesCache;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
@@ -23,7 +22,7 @@ trait ModulesRepositoryTrait
 {
     use Macroable;
 
-    public $configPrefix = 'modules';
+  // public $configPrefix = 'modules';
 
 
     /**
@@ -34,7 +33,7 @@ trait ModulesRepositoryTrait
 
     public function register(): void
     {
-        $this->configPrefix = 'modules';
+       // $this->configPrefix = 'modules';
         Debugbar::startMeasure('module_register', 'Registering modules');
         $modules = $this->getOrdered();
 
@@ -44,6 +43,12 @@ trait ModulesRepositoryTrait
         }
         Debugbar::stopMeasure('module_register');
     }
+
+    public function setConfigPrefix($prefix)
+    {
+        $this->configPrefix = $prefix;
+    }
+
 
     public function getOrderedModules($direction = 'asc'): array
     {
@@ -129,6 +134,7 @@ trait ModulesRepositoryTrait
 
     public function config(string $key, $default = null)
     {
+
         return $this->config->get($this->configPrefix . '.' . $key, $default);
     }
 

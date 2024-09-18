@@ -181,6 +181,7 @@ class LaravelModulesFileActivator extends FileActivator
      */
     private function getModulesStatuses(): array
     {
+
         if (! $this->config->get($this->configPrefix.'.cache.enabled')) {
             return $this->readJson();
         }
