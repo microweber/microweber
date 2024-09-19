@@ -19,17 +19,16 @@ class TemplateGeneratorPath extends GeneratorPath
     public function __construct($config)
     {
         if (is_array($config)) {
-
             $this->path = $config['path'];
             $this->generate = $config['generate'];
-            $this->namespace = $config['namespace'] ??   config('templates.namespace', 'Templates');
+            $this->namespace = $config['namespace'] ?? $this->path_namespace(ltrim($config['path'], config('templates.paths.app_folder', '')));
 
             return;
         }
 
         $this->path = $config;
-        $this->generate = (bool)$config;
-        $this->namespace = config('templates.namespace', 'Templates');
+        $this->generate = (bool) $config;
+        $this->namespace = $this->path_namespace(ltrim($config, config('templates.paths.app_folder', '')));
     }
     public function module_namespace(string $module, ?string $path = null): string
     {
