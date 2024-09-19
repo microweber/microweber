@@ -193,17 +193,17 @@ class ModuleManager
 
     public function reload_laravel_modules()
     {
-        return;
+      //  return;
         /** @var LaravelModulesFileRepository $laravelModules */
         if (!app()->bound('modules')) {
             return;
         }
 
-
+        config()->set('modules.cache.enabled', false);
         $laravelModules = app('modules');
         $modules = $laravelModules->scan();
 
-        config()->set('modules.cache.enabled', false);
+
 
         if ($modules) {
             if (!defined('STDIN')) {
@@ -259,7 +259,7 @@ class ModuleManager
                 $moduleToSave['settings']['module_path'] = $modulePath;
                 $moduleToSave['settings']['module_path_relative'] = str_replace(base_path(), '', $modulePath);
 
-                app()->module_repository->installLaravelModule($moduleToSave);
+              //  app()->module_repository->installLaravelModule($moduleToSave);
 
             }
         }

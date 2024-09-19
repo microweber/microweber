@@ -45,7 +45,7 @@ class TemplateProviderMakeCommand extends GeneratorCommand
 
     public function getDefaultNamespace(): string
     {
-        return config('templates.paths.generator.provider.namespace')
+        return config('templates.namespace')
             ?? ltrim(config('templates.paths.generator.provider.path', 'Providers'), config('templates.paths.app_folder', ''));
     }
 
@@ -111,7 +111,13 @@ class TemplateProviderMakeCommand extends GeneratorCommand
 
         return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
     }
+    public function module_namespace(string $module, ?string $path = null): string
+    {
+        $module_namespace = config('templates.namespace', $this->path_namespace(config('templates.paths.modules'))).'\\'.($module);
+        $module_namespace .= strlen($path) ? '\\'.$this->path_namespace($path) : '';
 
+        return $this->studly_namespace($module_namespace);
+    }
     /**
      * @return string
      */

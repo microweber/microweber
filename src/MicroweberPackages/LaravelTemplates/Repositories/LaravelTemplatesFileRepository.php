@@ -92,6 +92,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     }
 
 
+
 //    /**
 //     * Application instance.
 //     *
@@ -171,10 +172,15 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 //        return $this->config('paths.assets');
 //    }
 //
+//    public function config(string $key, $default = null)
+//    {
+//
+//        return config()->get('templates.' . $key, $default);
+//    }
+
     public function config(string $key, $default = null)
     {
-
-        return config()->get('templates.' . $key, $default);
+        return $this->config->get('templates.'.$key, $default);
     }
 //
 //    public function getPath(): string

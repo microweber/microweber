@@ -9,6 +9,6 @@ class TemplateGenerateConfigReader extends GenerateConfigReader
 {
     public static function read(string $value): GeneratorPath
     {
-        return new GeneratorPath(config("templates.paths.generator.$value"));
+        return new TemplateGeneratorPath(config("templates.paths.generator.$value"));
     }
 }

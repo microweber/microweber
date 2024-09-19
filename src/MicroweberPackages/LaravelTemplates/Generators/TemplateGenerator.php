@@ -124,6 +124,26 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
 
         return $this;
     }
+    /**
+     * Generate the folders.
+     */
+    public function generateFolders()
+    {
+        foreach ($this->getFolders() as $key => $folder) {
+            $folder = TemplateGenerateConfigReader::read($key);
+
+            if ($folder->generate() === false) {
+                continue;
+            }
+
+            $path = $this->module->getModulePath($this->getName()).'/'.$folder->getPath();
+
+            $this->filesystem->ensureDirectoryExists($path, 0755, true);
+            if (config('templates.stubs.gitkeep')) {
+                $this->generateGitKeep($path);
+            }
+        }
+    }
 
     public function generate(): int
     {

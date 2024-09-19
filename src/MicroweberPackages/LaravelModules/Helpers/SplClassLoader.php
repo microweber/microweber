@@ -52,7 +52,7 @@ class SplClassLoader
             array_pop($segments);
         }
 
-        self::$notFoundClasses[$class] = true;
+       self::$notFoundClasses[$class] = true;
         return false;
     }
 

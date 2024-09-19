@@ -274,7 +274,7 @@ trait ModulesRepositoryTrait
 
             //    return $this->scanMemory;
         }
-
+$this->flushCache();
         $paths = $this->getScanPaths();
 
         $modules = [];
@@ -294,6 +294,7 @@ trait ModulesRepositoryTrait
 
 
                 $name = Json::make($manifest)->get('name');
+
 
                 $modules[$name] = $this->createModule($this->app, $name, dirname($manifest));
             }
