@@ -359,15 +359,25 @@ export class ElementHandleContent {
                 className: 'mw-handle-element-open-style-editor-button',
 
                 action: (el) => {
+
+                    mw.top().app.liveEdit.handles.hide();
                     const types = [
                         'default',
                         'decimal',
                         'circle',
+                        'square',
+                        'upper-latin',
+                        'lower-latin',
+                        'upper-roman',
+                        'lower-roman',
                         'check',
                         'check-square',
                         'custom-heart',
                         'custom-heart-suit',
                         'custom-x',
+                        'custom-four-dot',
+                        'custom-flake',
+                        'custom-star',
                     ];
                     const classes = types.map(type => `mw__list-style--${type}`)
 
@@ -409,11 +419,11 @@ export class ElementHandleContent {
                         <div class="${id}-tab">
                         <div class="form-group">
                               <label class="form-label font-weight-bold my-2">Bullet size</label>
-                              <input type="number" min="5" max="100" name="fontSize" class="form-control" value="${parseFloat(css.fontSize)}">
+                              <input type="range" min="5" max="100" name="fontSize" class="form-range" value="${parseFloat(css.fontSize)}">
                           </div>
 
                           <div class="form-group">
-                              <label class="form-label font-weight-bold my-2">Bullet size</label>
+                              <label class="form-label font-weight-bold my-2">Bullet color</label>
 
                               <div id="color-picker-${id}" class="form-control"></div>
                           </div>
@@ -429,6 +439,7 @@ export class ElementHandleContent {
                     const dlg = mw.dialog({
                         content: dialogContent,
                         title: 'Select bullet style',
+                        overlay: 'rgba(0,0,0,0)'
                     });
 
                     dlg.dialogContainer.querySelectorAll('[name="fontSize"]').forEach(node => {

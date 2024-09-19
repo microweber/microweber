@@ -17,11 +17,19 @@
 .mw__list-style--default{list-style-type: disc;}
 .mw__list-style--decimal{list-style-type: decimal;}
 .mw__list-style--circle{list-style-type: circle;}
+.mw__list-style--square{list-style-type: square;}
+.mw__list-style--upper-latin{list-style-type: upper-latin;}
+.mw__list-style--lower-latin{list-style-type: lower-latin;}
+.mw__list-style--upper-roman{list-style-type: upper-roman;}
+.mw__list-style--lower-roman{list-style-type: lower-roman;}
 .mw__list-style--check{list-style-type: '\2713';}
 .mw__list-style--check-square{list-style-type: '\2611';}
 .mw__list-style--custom-heart{list-style-type: '\2661';}
 .mw__list-style--custom-heart-suit{list-style-type: '\2665';}
 .mw__list-style--custom-x{list-style-type: '\2BBF';}
+.mw__list-style--custom-flake{list-style-type: '\2055';}
+.mw__list-style--custom-four-dot{list-style-type: '\2058';}
+.mw__list-style--custom-star{list-style-type: '\2605';}
 
 [class*="mw__list-style--custom-"] li,
 .mw__list-style--check li,
