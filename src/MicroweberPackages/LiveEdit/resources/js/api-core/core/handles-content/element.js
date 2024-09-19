@@ -365,6 +365,9 @@ export class ElementHandleContent {
                         'circle',
                         'check',
                         'check-square',
+                        'custom-heart',
+                        'custom-heart-suit',
+                        'custom-x',
                     ];
                     const classes = types.map(type => `mw__list-style--${type}`)
 
@@ -381,16 +384,16 @@ export class ElementHandleContent {
 
                     const id = mw.id('icon-tabs');
 
-                    var css = getComputedStyle(targetList.querySelector('li'), ':marker');
+                    var css = getComputedStyle(targetList.querySelector('li'), '::marker');
 
                     let dialogContent = `
-                        <nav id="${id}-nav">
-                            <a class="btn">Style</a>
-                            <a class="btn">Options</a>
+                        <nav id="${id}-nav" class="d-flex flex-wrap gap-md-4 gap-3 mb-4">
+                            <a class="btn btn-link text-decoration-none mw-admin-action-links js-custom-fields-card-tab">Style</a>
+                            <a class="btn btn-link text-decoration-none mw-admin-action-links js-custom-fields-card-tab">Options</a>
                         </nav>
 
                         <div class="${id}-tab active">
-                            <div class="mw-live-edit--bullet-type-selector" style="display: flex;flex-wrap: wrap;font-size: 14px;gap: 10px;">
+                            <div class="mw-live-edit--bullet-type-selector" style="display: flex;flex-wrap: wrap;font-size: 14px;gap: 10px;justify-content: space-between;">
                                 ${types.map(type => `
                                     <div data-bullet-type="${type}" class="mw-live-edit--bullet-type-selector-box">
                                         <ul class="mw__list-style--${type}">
@@ -454,6 +457,8 @@ export class ElementHandleContent {
                     if(!targetList.id) {
                         targetList.id = mw.id('mw--list')
                     }
+
+                    console.log(css, css.color)
 
                     var picker = mw.colorPicker({
                         element: `#color-picker-${id}`,

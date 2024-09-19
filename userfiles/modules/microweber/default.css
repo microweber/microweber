@@ -19,9 +19,14 @@
 .mw__list-style--circle{list-style-type: circle;}
 .mw__list-style--check{list-style-type: '\2713';}
 .mw__list-style--check-square{list-style-type: '\2611';}
+.mw__list-style--custom-heart{list-style-type: '\2661';}
+.mw__list-style--custom-heart-suit{list-style-type: '\2665';}
+.mw__list-style--custom-x{list-style-type: '\2BBF';}
 
-.mw__list-style--check li{padding-inline-start: 1ch;}
+[class*="mw__list-style--custom-"] li,
+.mw__list-style--check li,
 .mw__list-style--check-square li{padding-inline-start: 1ch;}
+
 
 .col > div, [class*="col-"] > div {
     max-width: 100%;

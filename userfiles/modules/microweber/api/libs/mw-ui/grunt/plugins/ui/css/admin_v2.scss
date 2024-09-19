@@ -3302,6 +3302,11 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
     border-radius: 5px;
     border: 1px solid #eee;
     padding: 7px;
+    width: calc(25% - 12px);
+    ul{
+        pointer-events: none;
+        margin: 0;
+    }
     &:hover{
         border-color: silver;
     }
