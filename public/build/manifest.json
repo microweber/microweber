@@ -1,9 +1,6 @@
 {
-  "_@core-61046abf.js": {
-    "file": "assets/@core-61046abf.js"
-  },
-  "_@core-e1660124.js": {
-    "file": "assets/@core-e1660124.js"
+  "_@core-34975908.js": {
+    "file": "assets/@core-34975908.js"
   },
   "_mitt-ddb05c3b.js": {
     "file": "assets/mitt-ddb05c3b.js"
@@ -14,22 +11,22 @@
     "src": "src/MicroweberPackages/LiveEdit/resources/js/api-core/core/css/scss/liveedit.scss"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js": {
-    "file": "assets/admin-app-632e9cfb.js",
+    "file": "assets/admin-app-b5a12359.js",
     "imports": [
-      "_@core-61046abf.js"
+      "_@core-34975908.js"
     ],
     "isEntry": true,
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/admin-app.js"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.css": {
-    "file": "assets/element-style-editor-app-f8414ebf.css",
+    "file": "assets/element-style-editor-app-0d20ad2f.css",
     "src": "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.css"
   },
   "src/MicroweberPackages/LiveEdit/resources/js/ui/apps/ElementStyleEditor/element-style-editor-app.js": {
     "css": [
-      "assets/element-style-editor-app-f8414ebf.css"
+      "assets/element-style-editor-app-0d20ad2f.css"
     ],
-    "file": "assets/element-style-editor-app-b6c75fd4.js",
+    "file": "assets/element-style-editor-app-685d92ea.js",
     "imports": [
       "_mitt-ddb05c3b.js"
     ],
@@ -44,9 +41,9 @@
     "css": [
       "assets/live-edit-app-f5c30970.css"
     ],
-    "file": "assets/live-edit-app-11f2cb92.js",
+    "file": "assets/live-edit-app-06b3ff31.js",
     "imports": [
-      "_@core-61046abf.js",
+      "_@core-34975908.js",
       "_mitt-ddb05c3b.js"
     ],
     "isEntry": true,

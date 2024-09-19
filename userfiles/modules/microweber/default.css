@@ -9,6 +9,20 @@
     min-height: 100px;
 }
 
+
+[class*="mw__list-style--"]{
+    list-style-position: outside;
+}
+
+.mw__list-style--default{list-style-type: disc;}
+.mw__list-style--decimal{list-style-type: decimal;}
+.mw__list-style--circle{list-style-type: circle;}
+.mw__list-style--check{list-style-type: '\2713';}
+.mw__list-style--check-square{list-style-type: '\2611';}
+
+.mw__list-style--check li{padding-inline-start: 1ch;}
+.mw__list-style--check-square li{padding-inline-start: 1ch;}
+
 .col > div, [class*="col-"] > div {
     max-width: 100%;
 }

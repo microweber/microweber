@@ -135,6 +135,21 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
         }
         return selfVisible;
     }
+    shouldShowBulletStyleButton(target) {
+
+        let hasList = false, curr = target;
+
+        while (curr && curr.parentNode) {
+            hasList = curr.nodeName === 'UL' || curr.nodeName === "OL";
+            if(hasList) {
+                break;
+            }
+            curr = curr.parentNode;
+        }
+
+
+        return hasList;
+    }
 
     shouldShowBackroundImageEditorButtonOnTheMoreButton(target) {
         var selfVisible = false;
