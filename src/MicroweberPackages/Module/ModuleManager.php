@@ -228,11 +228,19 @@ class ModuleManager
 
                 $modulePath = $module->getPath();
 
+                $moduleDisabled = $module->isStatus(0);
+                if($moduleDisabled){
+                    continue;
+                }
+
+
+
                 $json = @file_get_contents($moduleJsonPath);
                 $json = @json_decode($json, true);
                 if (!$json) {
                     continue;
                 }
+
               //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
                 $module->enable();
                 //$module->registerProviders();
@@ -259,7 +267,7 @@ class ModuleManager
                 $moduleToSave['settings']['module_path'] = $modulePath;
                 $moduleToSave['settings']['module_path_relative'] = str_replace(base_path(), '', $modulePath);
 
-              //  app()->module_repository->installLaravelModule($moduleToSave);
+             //    app()->module_repository->installLaravelModule($moduleToSave);
 
             }
         }
@@ -735,6 +743,7 @@ class ModuleManager
 
 //        if (app()->bound('modules')) {
 //            $module = app()->modules;
+//
 //            if ($module->find($module_name)) {
 //                return true;
 //            }

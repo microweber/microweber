@@ -90,3 +90,4 @@ userfiles/modules/fullpage_cache/admin.php
 docs/.vitepress/dist
 docs/.vitepress/cache
 
+.aider*

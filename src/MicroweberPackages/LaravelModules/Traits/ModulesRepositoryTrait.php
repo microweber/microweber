@@ -123,12 +123,12 @@ trait ModulesRepositoryTrait
         }
 
 
-//        foreach ($all as $module) {
-//            /** @var LaravelModule $module */
-//            if ($module->getLowerName() === strtolower($name)) {
-//                return $module;
-//            }
-//        }
+        foreach ($all as $module) {
+            /** @var LaravelModule $module */
+            if ($module->getLowerName() === strtolower($name)) {
+                return $module;
+            }
+        }
 
     }
 
