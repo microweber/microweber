@@ -350,6 +350,161 @@ export class ElementHandleContent {
 
                 },
 
+            },
+            {
+                title: 'Bullet style',
+                text: '',
+                icon: this.handleIcons.icon('bullet-style'),
+
+                className: 'mw-handle-element-open-style-editor-button',
+
+                action: (el) => {
+
+                    mw.top().app.liveEdit.handles.hide();
+                    const types = [
+                        'default',
+                        'decimal',
+                        'circle',
+                        'square',
+                        'upper-latin',
+                        'lower-latin',
+                        'upper-roman',
+                        'lower-roman',
+                        'check',
+                        'check-square',
+                        'custom-heart',
+                        'custom-heart-suit',
+                        'custom-x',
+                        'custom-four-dot',
+                        'custom-flake',
+                        'custom-star',
+                    ];
+                    const classes = types.map(type => `mw__list-style--${type}`)
+
+                    let targetList = false, curr = el;
+
+                    while (curr && curr.parentNode) {
+                        targetList = curr.nodeName === 'UL' || curr.nodeName === "OL";
+                        if(targetList) {
+                            targetList = curr;
+                            break;
+                        }
+                        curr = curr.parentNode;
+                    }
+
+                    const id = mw.id('icon-tabs');
+
+                    var css = getComputedStyle(targetList.querySelector('li'), '::marker');
+
+                    let dialogContent = `
+                        <nav id="${id}-nav" class="d-flex flex-wrap gap-md-4 gap-3 mb-4">
+                            <a class="btn btn-link text-decoration-none mw-admin-action-links js-custom-fields-card-tab">Style</a>
+                            <a class="btn btn-link text-decoration-none mw-admin-action-links js-custom-fields-card-tab">Options</a>
+                        </nav>
+
+                        <div class="${id}-tab active">
+                            <div class="mw-live-edit--bullet-type-selector" style="display: flex;flex-wrap: wrap;font-size: 14px;gap: 10px;justify-content: space-between;">
+                                ${types.map(type => `
+                                    <div data-bullet-type="${type}" class="mw-live-edit--bullet-type-selector-box">
+                                        <ul class="mw__list-style--${type}">
+                                            <li>Lorem ipsum dolor</li>
+                                            <li>Vestibulum in urna</li>
+                                            <li>Sed vel ligula facilisis</li>
+                                        </ul>
+                                    </div>
+                                `)
+                                .join('')}
+                            </div>
+                        </div>
+                        <div class="${id}-tab">
+                        <div class="form-group">
+                              <label class="form-label font-weight-bold my-2">Bullet size</label>
+                              <input type="range" min="5" max="100" name="fontSize" class="form-range" value="${parseFloat(css.fontSize)}">
+                          </div>
+
+                          <div class="form-group">
+                              <label class="form-label font-weight-bold my-2">Bullet color</label>
+
+                              <div id="color-picker-${id}" class="form-control"></div>
+                          </div>
+
+                        </div>
+                    `;
+
+
+
+                    const ok = mw.element(`<button class="btn btn-primary" data-action="save">Update</button>`);
+                    const cancel = mw.element(`<button class="btn">Cancel</button>`);
+
+                    const dlg = mw.dialog({
+                        content: dialogContent,
+                        title: 'Select bullet style',
+                        overlay: 'rgba(0,0,0,0)'
+                    });
+
+                    dlg.dialogContainer.querySelectorAll('[name="fontSize"]').forEach(node => {
+                        node.addEventListener("input", () => {
+                            mw.top().app.cssEditor.setPropertyForSelector(`#${targetList.id} > li::marker`, 'font-size', node.value + 'px');
+                        })
+                    })
+                    dlg.dialogContainer.querySelectorAll('.mw-live-edit--bullet-type-selector-box').forEach(node => {
+                        node.addEventListener("click", () => {
+                            targetList.classList.remove(...classes);
+                            targetList.classList.add(`mw__list-style--${node.dataset.bulletType}`);
+                            mw.app.registerChange(targetList);
+                            mw.app.registerAskUserToStay(true);
+
+
+                            //dlg.remove();
+                        })
+                    })
+
+
+                    mw.tabs({
+                        nav: dlg.dialogContainer.querySelectorAll(`#${id}-nav a`),
+                        tabs: dlg.dialogContainer.querySelectorAll(`.${id}-tab`),
+                    });
+
+                    if(!targetList.id) {
+                        targetList.id = mw.id('mw--list')
+                    }
+
+
+
+                    var picker = mw.colorPicker({
+                        element: `#color-picker-${id}`,
+                        method: 'inline',
+                        value: css.color,
+                        showHEX: true,
+                        onchange:function(color){
+                            mw.top().app.cssEditor.setPropertyForSelector(`#${targetList.id} > li::marker`, 'color', color);
+                        }
+                    });
+
+
+
+
+                    ok.on('click', function(){
+
+
+
+                        mw.app.registerChange(el)
+                        mw.app.registerAskUserToStay(true)
+
+
+                        dlg.remove();
+                    });
+                    cancel.on('click', function(){
+                        dlg.remove();
+
+                    });
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowBulletStyleButton(target);
+                    this.setMenuVisible(selfVisible, selfBtn);
+
+                },
+
             }
 
         ];

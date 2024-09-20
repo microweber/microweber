@@ -1,3 +1,4 @@
+@import '../../../../../public/userfiles/modules/microweber/default.css';
 @import '../../../../../vendor/filament/filament/resources/css/theme.css';
 
 @import 'filament/actions';
@@ -34,5 +35,7 @@
 
 
 @import "global.css";
+
+
 
 
