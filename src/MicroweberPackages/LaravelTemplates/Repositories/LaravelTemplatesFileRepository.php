@@ -73,7 +73,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     public $configPrefix = 'templates';
 
 
-    // use ModulesRepositoryTrait;
+      use ModulesRepositoryTrait;
 
     public function __construct(Container $app, $path = null)
     {

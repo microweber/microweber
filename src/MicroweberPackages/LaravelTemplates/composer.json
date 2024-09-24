@@ -11,7 +11,9 @@
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\LaravelTemplates\\": ""
-        }
+        },
+        "files": ["templates_helpers.php"]
+
     },
     "config": {
         "sort-packages": true
