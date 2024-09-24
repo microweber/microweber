@@ -144,3 +144,25 @@
 .mw-ui-btn {
     @apply font-normal text-center select-none leading-6 inline-flex items-center justify-center box-border px-6 cursor-pointer relative no-underline text-sm h-10 rounded-md text-gray-600 bg-gray-50 border border-gray-300 outline-none transition duration-300 whitespace-nowrap align-middle;
 }
+
+
+.mw-live-edit--bullet-type-selector-box{
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    padding: 7px;
+    width: calc(25% - 12px);
+    ul{
+        pointer-events: none;
+        margin: 0;
+    }
+    &:hover{
+        border-color: silver;
+    }
+    li{
+        font-size: 9px;
+        &::marker{
+            font-size: 17px;
+        }
+    }
+}
