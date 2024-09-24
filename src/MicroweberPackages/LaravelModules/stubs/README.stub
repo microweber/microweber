@@ -1,7 +1,2 @@
 # $STUDLY_NAME$
 
-## Make Livewire component for $STUDLY_NAME$
-
-```sh
-php artisan module:make-livewire Pages/SettingsPage $STUDLY_NAME$
-```

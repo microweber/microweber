@@ -1,4 +1,4 @@
-@extends('app::public.layout')
+@extends('install::layout')
 
 
 @section('content')

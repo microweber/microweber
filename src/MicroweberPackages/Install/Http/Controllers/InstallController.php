@@ -490,7 +490,8 @@ class InstallController extends Controller
             return 'done';
         }
 
-        $layout = new View($view);
+
+      $layout = new View($view);
 
         $defaultDbEngine = Config::get('database.default');
 
@@ -560,15 +561,23 @@ class InstallController extends Controller
                 $viewData['config'] = array_merge($viewData['config'], Config::get('microweber.pre_configured_input'));
             }
         }
-        $layout->set($viewData);
+       $layout->set($viewData);
 
         $is_installed = mw_is_installed();
         if ($is_installed) {
             App::abort(403, 'Unauthorized action. Microweber is already installed.');
+            $viewData['done'] = true;
         }
 
         $layout->assign('done', $is_installed);
         $layout = $layout->__toString();
+//        $langs = mw()->lang_helper->get_all_lang_codes();
+//        $viewData['langs'] = $langs;
+//        $viewData['dbDefaultLang'] = 'en_US';
+//        $templates = $this->_get_templates_for_install_screen();
+//        $viewData['templates'] = $templates;
+//        $layout =   view('install::install',$viewData);
+
 
         Cache::flush();
         return $layout;
