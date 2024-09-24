@@ -564,14 +564,14 @@
 
                                             <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
                                                 <?php if (!$hide_db_setup): ?>
-                                                    <h4><?php _e('Database Server'); ?></h4>
+                                                    <h2 style="font-weight: bold; margin-bottom: 15px;"><?php _e('Database Server'); ?></h2>
                                                 <?php else: ?>
                                                     <h4>
                                                         <button type="button" class="btn btn-secondary" onclick="$('#mw_db_setup_toggle').toggle();"><?php _e('Database Server'); ?></button>
                                                     </h4>
                                                 <?php endif; ?>
 
-                                                <hr class="thin"/>
+                                                <hr class="thin" style="margin-bottom:"/>
 
                                                 <div class="form-group">
                                                     <label class="form-label">Database Engine</label>
@@ -735,7 +735,7 @@
                                             <div class="mw-ui-col-container">
                                                 <div class="admin-setup">
                                                     <h4><?php print 'Login Information'; ?></h4>
-                                                    <hr class="thin">
+                                                    <hr class="thin" style="margin-bottom: 15px;">
 
                                                     <div class="row">
                                                         <div class="col-md-6">
