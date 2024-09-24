@@ -9,9 +9,12 @@
     <?php print mw_header_scripts() ?>
 
 
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print asset('vendor/microweber-packages/microweber-filament-theme/microweber-filament-theme.css'); ?>"/>
     <link type="text/css" rel="stylesheet" media="all" href="<?php print asset('vendor/microweber-packages/frontend-assets/css/install.css'); ?>"/>
 
     <?php
+
+
     $rand = uniqid();
     $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
     $defhost = strpos($ua, 'Linux') ? 'localhost' : '127.0.0.1';
@@ -19,6 +22,8 @@
     if (!isset($pre_configured)) {
         $pre_configured = false;
     }
+
+
     ?>
 
     <script type="text/javascript">
@@ -836,6 +841,7 @@
 
 </div>
 <?php print mw_footer_scripts() ?>
+
 
 </body>
 </html>
