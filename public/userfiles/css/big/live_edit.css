@@ -1,0 +1,24 @@
+@media screen, print {
+	:root {
+		--mw-font-family-sans-serif: Jost, sans-serif;
+	}
+	#mw-element-1726563274711 {
+		max-width: 100%;
+	}
+	#mw-element-1726577229270 {
+		max-width: 100%;
+	}
+	#mw-element-1720518862868 {
+		max-width: 100%;
+	}
+	#mw-element-1726835937580 {
+		text-align: left;
+	}
+	#mw-element-1726835937581 {
+		text-align: left;
+	}
+	#mw--list1726835937584 > li::marker {
+		color: #270f95;
+		font-size: 71px;
+	}
+}

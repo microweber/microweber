@@ -14,7 +14,21 @@ export class ElementHandleButtonsVisibility extends MicroweberBaseClass {
 
     }
 
+    shouldShowBulletStyleButton(target) {
 
+        let hasList = false, curr = target;
+
+        while (curr && curr.parentNode) {
+            hasList = curr.nodeName === 'UL' || curr.nodeName === "OL";
+            if(hasList) {
+                break;
+            }
+            curr = curr.parentNode;
+        }
+
+
+        return hasList;
+    }
     shouldShowCloneButtonInMoreButton(target) {
         const isVisible = this.isPlaceholder(target) && (target.classList.contains('cloneable') || target.classList.contains('mw-col'));
         if (!isVisible) {
