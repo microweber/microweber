@@ -17,12 +17,6 @@ class $CLASS$ extends ServiceProvider
      */
     public function boot(): void
     {
-        //$this->registerCommands();
-        //$this->registerCommandSchedules();
-        //$this->registerTranslations();
-        //$this->registerConfig();
-        //$this->registerViews();
-        //$this->loadMigrationsFrom(template_path($this->moduleName, '$MIGRATIONS_PATH$'));
 
     }
 
@@ -32,22 +26,9 @@ class $CLASS$ extends ServiceProvider
      */
     public function register(): void
     {
-
-    }
-
-    /**
-     * Register commands in the format of Command::class
-     */
-    protected function registerCommands(): void
-    {
-        // $this->commands([]);
-    }
-
-    /**
-     * Register command Schedules.
-     */
-    protected function registerCommandSchedules(): void
-    {
+        $this->registerTranslations();
+        $this->registerConfig();
+        $this->registerViews();
 
     }
 
