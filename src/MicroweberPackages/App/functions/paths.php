@@ -90,7 +90,8 @@ function templates_dir()
 {
     static $folder;
     if (!$folder) {
-        $folder = (userfiles_path() . MW_TEMPLATES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+      //  $folder = (userfiles_path() . MW_TEMPLATES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+        $folder = (base_path('Templates') . DIRECTORY_SEPARATOR);
     }
 
     return $folder;

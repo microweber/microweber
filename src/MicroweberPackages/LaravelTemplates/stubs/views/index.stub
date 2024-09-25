@@ -1,7 +1,10 @@
 @extends('$LOWER_NAME$::layouts.master')
 
 @section('content')
-    <h1>Hello World</h1>
 
-    <p>Template: {!! config('template.$LOWER_NAME$.name') !!}</p>
+    <div class="edit" data-layout-container field="content" rel="content">
+        <h2>Hello World $LOWER_NAME$</h2>
+        <p>Template: {!! config('template.$LOWER_NAME$.name') !!}</p>
+     </div>
+
 @endsection

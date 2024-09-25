@@ -2,8 +2,10 @@
 
 namespace MicroweberPackages\Template\Adapters;
 
+use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsPlaceholderReplacer;
 use MicroweberPackages\Template\Http\Livewire\Admin\StyleSettingsFirstLevelConvertor;
+use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View;
 
 class MicroweberTemplate
@@ -159,8 +161,27 @@ class MicroweberTemplate
         return $this->templateFolderName;
     }
 
+    public function renderBlade($params = array())
+    {
+        $render_file = $params['render_file'];
+        if (!$render_file) {
+            return '';
+        }
+        if (!is_file($render_file)) {
+            return '';
+        }
+
+        $bladeString = file_get_contents($render_file);
+        return Blade::render($bladeString, $params);
+    }
+
     public function render($params = array())
     {
+        if (isset($params['is_laravel_template']) and $params['is_laravel_template']) {
+            return $this->renderBlade($params);
+        }
+
+
         $render_file = $params['render_file'];
         $l = new View($render_file);
         $l->page_id = $params['page_id'];
@@ -447,6 +468,7 @@ class MicroweberTemplate
         } elseif (isset($page['active_site_template']) and $page['active_site_template'] == '') {
             $page['active_site_template'] = $site_template_settings;
         }
+
 
         if ($page['active_site_template'] and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default')) {
             if ($site_template_settings != 'default' and $page['active_site_template'] == 'mw_default') {

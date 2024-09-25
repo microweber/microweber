@@ -105,10 +105,12 @@ class TemplateManager
         $this->setLiveEditCssAdapter(new TemplateLiveEditCss());
         $this->setIconFontsAdapter(new TemplateIconFonts());
     }
+
     public function setIconFontsAdapter($adapter)
     {
         $this->iconFontsAdapter = $adapter;
     }
+
     public function setTemplateAdapter($adapter)
     {
         $this->templateAdapter = $adapter;
@@ -123,6 +125,7 @@ class TemplateManager
     {
         $this->customCssAdapter = $adapter;
     }
+
     public function setLiveEditCssAdapter($adapter)
     {
         $this->liveEditCssAdapter = $adapter;
@@ -206,12 +209,10 @@ class TemplateManager
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
 
 
-
-
-        $liveEditTags =  new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadTags();
+        $liveEditTags = new \MicroweberPackages\MetaTags\Entities\LiveEditCssHeadTags();
         $liveEditTagsHtml = $liveEditTags->toHtml();
 
-        if($liveEditTagsHtml){
+        if ($liveEditTagsHtml) {
             $layout = Str::replaceFirst('</head>', $liveEditTagsHtml . '</head>', $layout);
         }
 
@@ -684,6 +685,43 @@ class TemplateManager
         return $data;
     }
 
+    public function get_layout_for_laravel_template($page = array())
+    {
+        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+            if (isset($page['id'])) {
+                $this->defineConstants($page);
+            }
+        }
+
+
+        $override = app()->event_manager->trigger('mw.front.get_layout', $page);
+
+        $render_file = false;
+        $look_for_post = false;
+        $template_view_set_inner = false;
+        $fallback_render_internal_file = false;
+        $site_template_settings = app()->option_manager->get('current_template', 'template');
+        if (!isset($page['active_site_template'])) {
+            $page['active_site_template'] = 'default';
+        } elseif (isset($page['active_site_template']) and $page['active_site_template'] == '') {
+            $page['active_site_template'] = $site_template_settings;
+        }
+
+
+        $template = app()->templates->find($page['active_site_template']);
+        if ($template) {
+            $template_path = $template->getPath();
+
+            $index_file = $template_path . '/resources/views/index.blade.php';
+            $index_file = normalize_path($index_file, false);
+            if (is_file($index_file)) {
+                $render_file = $index_file;
+            }
+
+        }
+        return $render_file;
+
+    }
 
     /**
      * Return the path to the layout file that will render the page.
@@ -784,93 +822,96 @@ class TemplateManager
      * @param $options
      * $options ['type'] - 'layout' is the default type if you dont define any. You can define your own types as post/form, etc in the layout.txt file
      *
-     * @return array
+     * @return array|false
      *
      * @author    Microweber Dev Team
      *
      * @since     Version 1.0
      */
-    public function site_templates($options = false)
+    public function site_templates($options = [])
     {
-
-
-        if (!isset($options['path'])) {
-            $path = templates_dir();
-        } else {
-            $path = $options['path'];
-        }
-
-        $path_to_layouts = $path;
-        $layout_path = $path;
+        $path = $options['path'] ?? templates_dir();
         $map = directory_map($path, true, true);
-        $to_return = array();
-        if (!is_array($map) or empty($map)) {
+
+        if (!is_array($map) || empty($map)) {
             return false;
         }
 
-        $remove_hidden_from_install_screen = false;
-        if (isset($options['remove_hidden_from_install_screen']) and $options['remove_hidden_from_install_screen']) {
-            $remove_hidden_from_install_screen = true;
-
-        }
+        $remove_hidden = $options['remove_hidden_from_install_screen'] ?? false;
+        $templates = [];
 
         foreach ($map as $dir) {
-            //$filename = $path . $dir . DIRECTORY_SEPARATOR . 'layout.php';
-            $filename = $path . DIRECTORY_SEPARATOR . $dir;
-            $filename_location = false;
-            $filename_dir = false;
-            $filename = normalize_path($filename);
-            $filename = rtrim($filename, '\\');
-            $filename = (substr($filename, 0, 1) === '.' ? substr($filename, 1) : $filename);
-            if (!is_file($filename) and is_dir($filename)) {
-                $skip = false;
-                $fn1 = normalize_path($filename, true) . 'config.php';
-                $fn2 = normalize_path($filename);
-                if (is_file($fn1)) {
-                    $config = false;
-                    include $fn1;
-                    if (!empty($config)) {
-                        $config['is_symlink'] = false;
+            $template_path = normalize_path($path . DIRECTORY_SEPARATOR . $dir);
+            $template_path = rtrim(ltrim($template_path, '.'), '\\');
 
-                        if (is_link(normalize_path($filename, false))) {
-                            $config['is_symlink'] = true;
-                        }
+            if (is_file($template_path) || !is_dir($template_path)) {
+                continue;
+            }
 
-                        $c = $config;
-                        $c['dir_name'] = $dir;
-
-
-                        $screensshot_file = $fn2 . '/screenshot.jpg';
-                        $screensshot_file = normalize_path($screensshot_file, false);
-
-                        $screensshot_file_png = $fn2 . '/screenshot.png';
-                        $screensshot_file_png = normalize_path($screensshot_file_png, false);
-
-                        if (is_file($screensshot_file)) {
-                            $c['screenshot'] = $this->app->url_manager->link_to_file($screensshot_file);
-                        } elseif (is_file($screensshot_file_png)) {
-                            $c['screenshot'] = $this->app->url_manager->link_to_file($screensshot_file_png);
-                        }
-
-                        if ($remove_hidden_from_install_screen) {
-                            if (isset($c['is_hidden_from_install_screen']) and $c['is_hidden_from_install_screen']) {
-                                $skip = true;
-                            }
-                        }
-
-                        if (!$skip) {
-                            $to_return[] = $c;
-                        }
-                    }
-                } else {
-                    $filename_dir = false;
-                }
-                //	$path = $filename;
+            $config = $this->get_template_config($template_path);
+            if ($config && (!$remove_hidden || empty($config['is_hidden_from_install_screen']))) {
+                $config['screenshot'] = $this->get_template_screenshot($template_path);
+                $templates[] = $config;
             }
         }
 
-        return $to_return;
+        return $templates;
     }
+
+    /**
+     * Get the template configuration file.
+     *
+     * @param string $template_path
+     * @param string $dir
+     * @return array|false
+     */
+    public function get_template_config($template_path)
+    {
+
+        $legacy_config = normalize_path($template_path, true) . 'config.php';
+        $new_config = normalize_path($template_path, true) . 'config' . DS . 'config.php';
+        $dir = basename($template_path);
+        if (is_file($new_config)) {
+            $config = include $new_config;
+            $config['dir_name'] = $dir;
+            $config['is_legacy'] = false;
+
+            $config['template_type'] = 'laravel';
+        } elseif (is_file($legacy_config)) {
+            include $legacy_config;
+            $config['dir_name'] = $dir;
+            $config['is_legacy'] = true;
+            $config['template_type'] = 'legacy';
+
+            $config['is_symlink'] = is_link(normalize_path($template_path, false));
+        } else {
+            return false;
+        }
+
+        return $config;
+    }
+
+    /**
+     * Get the screenshot file for the template.
+     *
+     * @param string $template_path
+     * @return string|false
+     */
+    public function get_template_screenshot($template_path)
+    {
+        $jpg_screenshot = normalize_path($template_path . '/screenshot.jpg', false);
+        $png_screenshot = normalize_path($template_path . '/screenshot.png', false);
+
+        if (is_file($jpg_screenshot)) {
+            return $this->app->url_manager->link_to_file($jpg_screenshot);
+        } elseif (is_file($png_screenshot)) {
+            return $this->app->url_manager->link_to_file($png_screenshot);
+        }
+
+        return false;
+    }
+
+
     /**
      * @deprecated Templates and modules are booted from the Laravel modules and Templates service providers
      */
@@ -949,10 +990,6 @@ class TemplateManager
 //            app()->module_manager->boot_module($module);
 //        }
     }
-
-
-
-
 
 
 }

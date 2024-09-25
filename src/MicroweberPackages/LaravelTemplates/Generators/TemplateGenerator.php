@@ -9,6 +9,7 @@ use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
 use MicroweberPackages\LaravelTemplates\Support\TemplateGenerateConfigReader;
+use Nwidart\Modules\Support\Stub;
 use Nwidart\Modules\Traits\PathNamespace;
 
 class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
@@ -125,6 +126,7 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
 
         return $this;
     }
+
     /**
      * Generate the folders.
      */
@@ -138,7 +140,7 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
                 continue;
             }
 
-            $path = $this->module->getModulePath($this->getName()).'/'.$folder->getPath();
+            $path = $this->module->getModulePath($this->getName()) . '/' . $folder->getPath();
 
             $this->filesystem->ensureDirectoryExists($path, 0755, true);
             if (config('templates.stubs.gitkeep')) {
@@ -174,7 +176,7 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
 
         if ($this->type !== 'plain') {
             $this->generateFiles();
-           $this->generateResources();
+            $this->generateResources();
         }
 //
 //        if ($this->type === 'plain') {
@@ -189,6 +191,19 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
         cache()->flush();
 
         return 0;
+    }
+
+    protected function getStubContents($stub)
+    {
+
+        $stubPathBase = config('templates.stubs.path') ?? __DIR__ . '/../stubs/';
+        $stubPathBase = rtrim($stubPathBase, '\\') . '/';
+        $stubPathBase = rtrim($stubPathBase, '/') . '/';
+        $stub = new Stub('/' . $stub . '.stub', $this->getReplacement($stub));
+        $stub->setBasePath($stubPathBase);
+
+        return $stub->render();
+
     }
 
     /**
@@ -234,13 +249,13 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
 
         if ($providerGenerator->generate() === true) {
             $this->console->call('template:make-provider', [
-                'name' => $this->getName().'ServiceProvider',
+                'name' => $this->getName() . 'ServiceProvider',
                 'module' => $this->getName(),
                 '--master' => true,
             ]);
         } else {
             // delete register ServiceProvider on module.json
-            $path = $this->module->getModulePath($this->getName()).DIRECTORY_SEPARATOR.'module.json';
+            $path = $this->module->getModulePath($this->getName()) . DIRECTORY_SEPARATOR . 'module.json';
             $module_file = $this->filesystem->get($path);
             $this->filesystem->put(
                 $path,
