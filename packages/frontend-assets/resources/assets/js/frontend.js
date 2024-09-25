@@ -13,6 +13,7 @@ import "../tools/spinner.js";
 import "../tools/storage.js";
 import "../components/colorpicker.js";
 import "../tools/tabs.js";
+import "../components/components.js";
 import "../components/dialog.js";
 import "../tools/common-extend.js";
 import "../components/notification.js";
