@@ -694,7 +694,7 @@
 
 
                                             <div class="text-center">
-                                                <a class="btn btn-outline-success btn-sm mt-3 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
+                                                <a class="btn btn-outline-success my-4 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
                                             </div>
                                             <div class="row mt-3">
 
@@ -734,7 +734,7 @@
                                         <div id="admin-user" <?php if ($pre_configured == true): ?><?php endif; ?>>
                                             <div class="mw-ui-col-container">
                                                 <div class="admin-setup">
-                                                    <h4><?php print 'Login Information'; ?></h4>
+                                                    <h4 class="form-label"><?php print 'Login Information'; ?></h4>
                                                     <hr class="thin" style="margin-bottom: 15px;">
 
                                                     <div class="row">

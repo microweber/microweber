@@ -67,24 +67,24 @@
         }
     </script>
 
-    <div class="container mt-3">
+    <div class="container mt-5">
        <div class="text-center pt-5">
-           <h1 class="mb-3">Choose a template to start with</h1>
-           <h5 class="lh-1_4">Each of our premium templates contains 450+ layouts in 20 different categories. <br> By buying a premium template you are saving time and money to create any type of website.</h5>
+           <h3 class="mb-3">Choose a template to start with</h3>
+           <h6 class="lh-1_4">Each of our premium templates contains 450+ layouts in 20 different categories. <br> By buying a premium template you are saving time and money to create any type of website.</h6>
        </div>
         <div class="d-flex justify-content-center py-3">
-            <span class="btn btn-sm btn-primary rounded-0 js-btn-all js-btn-filter"  onclick="showTemplatesFilter('all')">ALL</span>
-            <span class="btn btn-sm btn-outlineprimary rounded-0 js-btn-free js-btn-filter" onclick="showTemplatesFilter('free')">FREE</span>
-            <span class="btn btn-sm btn-outlineprimary rounded-0 js-btn-paid js-btn-filter" onclick="showTemplatesFilter('paid')">PREMIUM</span>
+            <span class="btn btn-sm btn-primary rounded-0 js-btn-all js-btn-filter my-3"  onclick="showTemplatesFilter('all')">ALL</span>
+            <span class="btn btn-sm btn-outlineprimary rounded-0 js-btn-free js-btn-filter my-3" onclick="showTemplatesFilter('free')">FREE</span>
+            <span class="btn btn-sm btn-outlineprimary rounded-0 js-btn-paid js-btn-filter my-3" onclick="showTemplatesFilter('paid')">PREMIUM</span>
         </div>
-        <div class="row p-4 d-flex align-items-center">
+        <div class="row p-4 d-flex align-items-center gap-y-4">
 
         @foreach($templates as $template)
             <div class="hover-shadow-3 col-4  mt-4 templates @if($template['is_paid']) templates-paid @else templates-free @endif">
                 <div class="card rounded-0 ">
                     <div class="card-body py-4">
                         <div class="d-flex">
-                            <h5 class=" pl-0 col-6" >{{$template['description']}}</h5>
+                            <h6 class=" pl-0 col-6" >{{$template['description']}}</h6>
 
                             <div class="col-6 pr-0 text-right">
                                 @if($template['is_paid'])
@@ -99,7 +99,7 @@
 
                         <div class="template-preview" style="background-image: url('{{$template['screenshot_link']}}');"></div>
 
-                        <div class="text-right">
+                        <div class="text-right d-flex align-items-center justify-content-end gap-3">
                             @if($template['current_install'])
                                 <a href="<?php echo site_url();?>?request_template={{$template['target-dir']}}" class="btn btn-sm btn-outline-success rounded-0">
                                     USE TEMPLATE
