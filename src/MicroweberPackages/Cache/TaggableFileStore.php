@@ -614,7 +614,7 @@ class TaggableFileStore implements Store
      *
      * @param string $tag
      */
-    public function flush($all = false)
+    public function flush($all = true)
     {
         $this->files->cachedDataMemory = [];
         if (!empty($this->tags)) {
