@@ -5,6 +5,7 @@ namespace MicroweberPackages\LaravelTemplates\Generators;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Console\Command as Console;
 use Illuminate\Filesystem\Filesystem;
+use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
 use MicroweberPackages\LaravelTemplates\Support\TemplateGenerateConfigReader;
@@ -129,6 +130,7 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
      */
     public function generateFolders()
     {
+
         foreach ($this->getFolders() as $key => $folder) {
             $folder = TemplateGenerateConfigReader::read($key);
 
@@ -183,6 +185,8 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
         $this->console->newLine(1);
 
         $this->component->info("Template [{$name}] created successfully.");
+
+        cache()->flush();
 
         return 0;
     }

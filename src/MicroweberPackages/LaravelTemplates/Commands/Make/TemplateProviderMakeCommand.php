@@ -22,6 +22,7 @@ class TemplateProviderMakeCommand extends GeneratorCommand
 
         return $module->getStudlyName();
     }
+
     /**
      * The name of argument name.
      *
@@ -45,7 +46,7 @@ class TemplateProviderMakeCommand extends GeneratorCommand
 
     public function getDefaultNamespace(): string
     {
-        return  ltrim(config('templates.paths.generator.provider.path', 'Providers'), config('templates.paths.app_folder', ''));
+        return ltrim(config('templates.paths.generator.provider.path', 'Providers'), config('templates.paths.app_folder', ''));
     }
 
     /**
@@ -83,7 +84,10 @@ class TemplateProviderMakeCommand extends GeneratorCommand
         /** @var Module $module */
         $module = $this->laravel['templates']->findOrFail($this->getModuleName());
 
-        return (new Stub('/'.$stub.'.stub', [
+        $stubPathBase = config('templates.stubs.path') ?? __DIR__ . '/../stubs/';
+        $stubPathBase = rtrim($stubPathBase, '\\') . '/';
+        $stubPathBase = rtrim($stubPathBase, '/') . '/';
+        $stub = new Stub( $stub . '.stub',[
             'NAMESPACE' => $this->getClassNamespace($module),
             'CLASS' => $this->getClass(),
             'LOWER_NAME' => $module->getLowerName(),
@@ -96,7 +100,11 @@ class TemplateProviderMakeCommand extends GeneratorCommand
             'PATH_CONFIG' => TemplateGenerateConfigReader::read('config')->getPath(),
             'MIGRATIONS_PATH' => TemplateGenerateConfigReader::read('migration')->getPath(),
             'FACTORIES_PATH' => TemplateGenerateConfigReader::read('factory')->getPath(),
-        ]))->render();
+        ]);
+        $stub->setBasePath($stubPathBase);
+
+
+        return $stub->render();
     }
 
     /**
@@ -108,7 +116,7 @@ class TemplateProviderMakeCommand extends GeneratorCommand
 
         $generatorPath = TemplateGenerateConfigReader::read('provider');
 
-        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     /**
@@ -118,10 +126,11 @@ class TemplateProviderMakeCommand extends GeneratorCommand
     {
         return Str::studly($this->argument('name'));
     }
+
     public function module_namespace(string $module, ?string $path = null): string
     {
-        $module_namespace = config('templates.namespace', $this->path_namespace(config('templates.paths.modules'))).'\\'.($module);
-        $module_namespace .= strlen($path) ? '\\'.$this->path_namespace($path) : '';
+        $module_namespace = config('templates.namespace', $this->path_namespace(config('templates.paths.modules'))) . '\\' . ($module);
+        $module_namespace .= strlen($path) ? '\\' . $this->path_namespace($path) : '';
 
         return $this->studly_namespace($module_namespace);
     }

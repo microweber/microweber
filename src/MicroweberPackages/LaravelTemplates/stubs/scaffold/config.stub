@@ -1,0 +1,6 @@
+<?php
+
+return [
+    'name' => '$STUDLY_NAME$',
+    'icon' => asset('modules/$LOWER_NAME$/img/icon.svg'),
+];

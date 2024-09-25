@@ -56,10 +56,10 @@ class TemplateMakeCommand extends Command
             }
         }
 
-        // to discover new service providers
-        Process::path(base_path())
-            ->command('composer dump-autoload')
-            ->run()->output();
+//        // to discover new service providers
+//        Process::path(base_path())
+//            ->command('composer dump-autoload')
+//            ->run()->output();
 
         return $success ? 0 : E_ERROR;
     }

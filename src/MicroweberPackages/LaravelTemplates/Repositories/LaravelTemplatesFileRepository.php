@@ -70,11 +70,11 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     private $cache;
 
 
-    public $configPrefix = 'templates';
+
 
 
       use ModulesRepositoryTrait;
-
+    public $configPrefix = 'templates';
     public function __construct(Container $app, $path = null)
     {
         $this->setConfigPrefix('templates');
@@ -91,108 +91,43 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 
     }
 
+    public function boot(): void
+    {
+        Debugbar::startMeasure('module_boot', 'Booting modules');
+        $modules = $this->getOrdered();
+
+        foreach ($modules as $module) {
+            /** @var LaravelModule $module */
+
+            $module->boot();
+        }
+        Debugbar::stopMeasure('module_boot');
+    }
 
 
-//    /**
-//     * Application instance.
-//     *
-//     * @var \Illuminate\Contracts\Foundation\Application|\Laravel\Lumen\Application
-//     */
-//    protected $app;
+    public function getUsedStoragePath(): string
+    {
+
+        $directory = storage_path('app/modules');
+        if ($this->getFiles()->exists($directory) === false) {
+            $this->getFiles()->makeDirectory($directory, 0777, true);
+        }
+
+        $path = storage_path('app/modules/templates.used');
+        if (!$this->getFiles()->exists($path)) {
+            $this->getFiles()->put($path, '');
+        }
+
+        return $path;
+    }
 //
-//    /**
-//     * The module path.
-//     *
-//     * @var string|null
-//     */
-//    protected $path;
-//
-//    /**
-//     * The scanned paths.
-//     *
-//     * @var array
-//     */
-//    protected $paths = [];
-//
-//    /**
-//     * @var string
-//     */
-//    protected $stubPath;
-//
-//    /**
-//     * @var UrlGenerator
-//     */
-//    private $url;
-//
-//    /**
-//     * @var ConfigRepository
-//     */
-//    private $config;
-//
-//    /**
-//     * @var Filesystem
-//     */
-//    private $files;
-//
-//    /**
-//     * @var CacheManager
-//     */
-//    private $cache;
-//
-//    public function __construct(Container $app, $path = null)
-//    {
-//        $this->app = $app;
-//        $this->path = $path;
-//        $this->url = $app['url'];
-//        $this->config = $app['config'];
-//        $this->files = $app['files'];
-//        $this->cache = $app['cache'];
-//
-//    }
-//
-//
-//    public function getUsedStoragePath(): string
-//    {
-//
-//        $directory = storage_path('app/modules');
-//        if ($this->getFiles()->exists($directory) === false) {
-//            $this->getFiles()->makeDirectory($directory, 0777, true);
-//        }
-//
-//        $path = storage_path('app/modules/templates.used');
-//        if (!$this->getFiles()->exists($path)) {
-//            $this->getFiles()->put($path, '');
-//        }
-//
-//        return $path;
-//    }
-//
-//    public function getAssetsPath(): string
-//    {
-//        return $this->config('paths.assets');
-//    }
-//
-//    public function config(string $key, $default = null)
-//    {
-//
-//        return config()->get('templates.' . $key, $default);
-//    }
+
 
     public function config(string $key, $default = null)
     {
         return $this->config->get('templates.'.$key, $default);
     }
-//
-//    public function getPath(): string
-//    {
-//        return $this->path ?: $this->config('paths.modules', base_path('Templates'));
-//    }
-//
-//
-//    public function config(string $key, $default = null)
-//    {
-//        return $this->config->get('templates.'.$key, $default);
-//    }
+
 
     protected function createModule(...$args)
     {
@@ -222,6 +157,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         $hasCached = $this->getCached();
 
         stop_measure('all_templates');
+
         return $this->formatCached($hasCached);
     }
 
@@ -229,6 +165,11 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
     {
 
         return new Collection($this->scan());
+    }
+    public function getPath(): string
+    {
+
+        return $this->path ?: $this->config('paths.modules', base_path('Templates'));
     }
 
     public function getCached()

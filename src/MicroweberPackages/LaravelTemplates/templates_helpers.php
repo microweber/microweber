@@ -12,6 +12,16 @@ if (! function_exists('template_path')) {
 
     }
 }
+//
+//if (! function_exists('template_config')) {
+//    function template_config($name)
+//    {
+//        $module = app('templates')->find($name);
+//
+//        $getConfig = $module->json('module.json')->getAttributes();
+//
+//    }
+//}
 
 
 if (! function_exists('template_vite')) {
