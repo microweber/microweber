@@ -84,7 +84,7 @@ export class Dialog {
         });
         this.root.html(html);
 
-        var body = this.root.find('.modal-body')
+        var body = this.root.find('.modal-body');
         var content = this.root.find('.modal-content');
         this.container = body;
 

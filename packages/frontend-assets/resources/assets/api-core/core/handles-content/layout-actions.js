@@ -1,7 +1,7 @@
 import MicroweberBaseClass from "../../services/containers/base-class";
 import {ElementManager} from "../classes/element";
 import {Confirm} from "../classes/dialog";
-
+import {DomHelpers} from "../../../tools/domhelpers.js";
 
 export const afterLayoutChange = target => {
     const edit = mw.tools.firstParentOrCurrentWithClass(target, 'edit');

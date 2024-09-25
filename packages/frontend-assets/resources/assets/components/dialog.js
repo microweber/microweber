@@ -1,6 +1,6 @@
 (function (mw) {
 
-    mw.require('components.js')
+
 
 
     mw.dialog = function (options) {
