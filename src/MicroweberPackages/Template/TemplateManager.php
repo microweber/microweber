@@ -26,6 +26,7 @@ use MicroweberPackages\Template\Adapters\TemplateIconFonts;
 use MicroweberPackages\Template\Adapters\TemplateLiveEditCss;
 use MicroweberPackages\Template\Adapters\TemplateStackRenderer;
 
+
 class TemplateManager
 {
 
@@ -196,7 +197,12 @@ class TemplateManager
 //    }
 
 
-    public function frontend_append_meta_tags($layout)
+
+
+    /**
+     * @deprecated must be moved to the MetaTags package
+     */
+    public function frontend_append_meta_tags($layout,$is_laravel_template=false)
     {
 
 
@@ -204,7 +210,13 @@ class TemplateManager
 
         //   $layout = $this->append_livewire_to_layout($layout);
         //  $layout = $this->append_api_js_to_layout($layout);
-        $meta = mw_header_scripts();
+       if($is_laravel_template){
+           $meta = '';
+
+       } else {
+           $meta = mw_header_scripts();
+
+       }
 
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
 
@@ -215,10 +227,10 @@ class TemplateManager
         if ($liveEditTagsHtml) {
             $layout = Str::replaceFirst('</head>', $liveEditTagsHtml . '</head>', $layout);
         }
-
-        $meta = mw_footer_scripts();
-        $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
-
+        if(!$is_laravel_template) {
+            $meta = mw_footer_scripts();
+            $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
+        }
 
         return $layout;
     }
@@ -785,10 +797,10 @@ class TemplateManager
     public function render($params = array())
     {
         $layout = $this->templateAdapter->render($params);
-
-        $layout = $this->process_meta($layout);
-        $layout = $this->process_stacks($layout);
-
+        if (isset($params['meta_tags']) and $params['meta_tags']) {
+            $layout = $this->process_meta($layout);
+            $layout = $this->process_stacks($layout);
+        }
         return $layout;
     }
 

@@ -13,8 +13,6 @@
 
 namespace MicroweberPackages\Template;
 
-use Illuminate\Support\Facades\Cache;
-use Microweber\App\Providers\Illuminate\Support\Facades\Paginator;
 use MicroweberPackages\Template\Adapters\ElementsConfigReader;
 use MicroweberPackages\View\View;
 
@@ -186,6 +184,24 @@ class LayoutsManager
                 }
             }
         }
+        $is_laravel_template = false;
+        //check if template is laravel type
+        if(app()->bound('templates')){
+            $laravelTemplate = app()->templates->find($the_active_site_template);
+
+            if($laravelTemplate){
+                $is_laravel_template = true;
+            }
+        }
+
+        if($is_laravel_template){
+            $pathViews = $laravelTemplate->getPath() .'/resources/views';
+            $pathViews = normalize_path($pathViews, true);
+            if(is_dir($pathViews)){
+                $path = $pathViews;
+            }
+         }
+
 
         if (!isset($path) or $path == false) {
             return;
@@ -210,6 +226,11 @@ class LayoutsManager
         }
 
         $glob_patern = '*.php';
+
+        if($is_laravel_template){
+            $glob_patern = '*.blade.php';
+        }
+
         $template_dirs = array();
         if (isset($options['get_dynamic_layouts'])) {
             // $possible_dir = TEMPLATE_DIR.'modules'.DS.'layout'.DS;

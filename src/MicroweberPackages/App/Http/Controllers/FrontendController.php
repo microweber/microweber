@@ -1039,6 +1039,8 @@ class FrontendController extends Controller
             $render_params['page'] = $page;
             $render_params['meta_tags'] = true;
             if($is_laravel_template){
+                $render_params['meta_tags'] = false;
+
                 $render_params['is_laravel_template'] = true;
             }
 
@@ -1214,9 +1216,9 @@ class FrontendController extends Controller
 //                    $l = Str::replaceFirst('</body>', $template_footer_src . '</body>', $l);
 //                }
 
-
-                $l = $this->app->template_manager->frontend_append_meta_tags($l);
-
+                   // if(!$is_laravel_template) {
+                        $l = $this->app->template_manager->frontend_append_meta_tags($l,$is_laravel_template);
+                //    }
                 // @todo remove this and fix src/MicroweberPackages/MetaTags/Entities/LivewireHeadTags.php
                 //   $l = $this->app->template_manager->append_livewire_to_layout($l);
 
