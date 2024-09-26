@@ -772,42 +772,6 @@ function template_name()
     return app()->template_manager->folder_name();
 }
 
-function admin_head($script_src)
-{
-    return app()->template_manager->admin_head($script_src);
-}
-
-function template_head($script_src)
-{
-    return app()->template_manager->head($script_src);
-}
-
-function template_foot($script_src)
-{
-    return app()->template_manager->foot($script_src);
-}
-
-function template_headers_src()
-{
-    return app()->template_manager->head(true);
-}
-
-/**
- * @deprecated
- */
-function template_stack_add($src, $group = 'default')
-{
-    return app()->template_manager->stack_add($src, $group);
-}
-
-/**
- * @deprecated
- */
-function template_stack_display($group = 'default')
-{
-    return app()->template_manager->stack_display($group);
-}
-
 //
 //api_expose_admin('current_template_save_custom_css');
 //function current_template_save_custom_css($data)

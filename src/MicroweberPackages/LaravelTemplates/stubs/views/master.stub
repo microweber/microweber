@@ -7,12 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>$STUDLY_NAME$ Template - {{ config('app.name', 'Laravel') }}</title>
-
-    <meta name="description" content="{{ $description ?? '' }}">
-    <meta name="keywords" content="{{ $keywords ?? '' }}">
-    <meta name="author" content="{{ $author ?? '' }}">
-
+    {!! meta_tags_head() !!}
 
     {{-- Vite CSS --}}
     {{-- {{ template_vite('templates/$LOWER_NAME$/dist', 'resources/assets/sass/app.scss') }} --}}
@@ -23,4 +18,6 @@
 
     {{-- Vite JS --}}
     {{-- {{ template_vite('templates/$LOWER_NAME$/dist', 'resources/assets/js/app.js') }} --}}
+
+    {!! meta_tags_footer() !!}
 </body>

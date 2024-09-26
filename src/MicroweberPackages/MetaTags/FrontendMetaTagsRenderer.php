@@ -6,6 +6,8 @@ use Butschster\Head\Facades\Meta;
 
 class FrontendMetaTagsRenderer
 {
+
+
     public function getHeadMetaTags()
     {
         Meta::includePackages([

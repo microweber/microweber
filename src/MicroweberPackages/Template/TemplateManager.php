@@ -521,7 +521,9 @@ class TemplateManager
         }
     }
 
-
+    /**
+     * @internal
+     */
     public function admin_head($script_src)
     {
         static $mw_template_headers;
@@ -565,6 +567,9 @@ class TemplateManager
         }
     }
 
+    /**
+     * @internal
+     */
     public function head($script_src)
     {
         if ($this->head_callable == null) {
@@ -575,8 +580,9 @@ class TemplateManager
             if (!in_array($script_src, $this->head)) {
                 $this->head[] = $script_src;
 
-                return $this->head;
+                // return $this->head;
             }
+            return $script_src;
         } else {
             if (is_bool($script_src)) {
                 //   return $this->head;
@@ -608,12 +614,17 @@ class TemplateManager
                 if (!in_array($script_src, $this->head_callable)) {
                     $this->head_callable[] = $script_src;
 
-                    return $this->head_callable;
+
+                    // return $this->head_callable;
                 }
+                return '';
             }
         }
     }
 
+    /**
+     * @internal
+     */
     public function head_callback($data = false)
     {
         $data = array();
@@ -626,6 +637,9 @@ class TemplateManager
         return $data;
     }
 
+    /**
+     * @internal
+     */
     public function foot($script_src)
     {
         if ($this->foot_callable == null) {
@@ -636,8 +650,9 @@ class TemplateManager
             if (!in_array($script_src, $this->foot)) {
                 $this->foot[] = $script_src;
 
-                return $this->foot;
+                //  return $this->foot;
             }
+            return $script_src;
         } else {
             if (is_bool($script_src)) {
                 $src = '';
@@ -666,13 +681,17 @@ class TemplateManager
             } elseif (is_callable($script_src)) {
                 if (!in_array($script_src, $this->foot_callable)) {
                     $this->foot_callable[] = $script_src;
-
-                    return $this->foot_callable;
+                    return '';
+                    // return $script_src;
+                    // return $this->foot_callable;
                 }
             }
         }
     }
 
+    /**
+     * @internal
+     */
     public function foot_callback($data = false)
     {
         $data = array();
