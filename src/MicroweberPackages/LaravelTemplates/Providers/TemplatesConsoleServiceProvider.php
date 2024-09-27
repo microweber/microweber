@@ -32,6 +32,7 @@ class TemplatesConsoleServiceProvider extends ServiceProvider
         return collect([
             \MicroweberPackages\LaravelTemplates\Commands\Make\TemplateMakeCommand::class,
             \MicroweberPackages\LaravelTemplates\Commands\Make\TemplateProviderMakeCommand::class,
+            \MicroweberPackages\LaravelTemplates\Commands\Publish\TemplatePublishCommand::class,
         ]);
     }
 }

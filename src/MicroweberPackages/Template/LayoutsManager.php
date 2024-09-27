@@ -200,6 +200,7 @@ class LayoutsManager
             if(is_dir($pathViews)){
                 $path = $pathViews;
             }
+
          }
 
 

@@ -14,6 +14,9 @@ class MetaTagsUnitTestServiceProvider extends ServiceProvider
         $this->registerTestEventBinds();
     }
 
+
+
+
     private function registerTestEventBinds()
     {
 
