@@ -1,0 +1,90 @@
+<?php
+
+/*
+
+type: layout
+
+name: Default
+
+description: Default register template
+
+*/
+
+?>
+<?php if (is_logged() == false): ?>
+    <script type="text/javascript">
+        mw.moduleCSS("<?php print modules_url(); ?>users/users_modules.css");
+        mw.require('forms.js', true);
+        mw.require('url.js', true);
+        $(document).ready(function () {
+            mw.$('#user_registration_form_holder').submit(function () {
+                mw.form.post(mw.$('#user_registration_form_holder'), '<?php print site_url('api') ?>/user_register', function () {
+                    mw.response('#register_form_holder', this);
+                    if (typeof this.success !== 'undefined') {
+                        mw.form.post(mw.$('#user_registration_form_holder'), '<?php print site_url('api') ?>/user_login', function () {
+                            mw.load_module('users/login', '#<?php print $params['id'] ?>');
+                            window.location.href = window.location.href;
+                        });
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+    <div id="register_form_holder">
+        <h2  class="text-center p-t-10">
+            <?php _lang('First Name', "templates/bootstrap5"); ?>Register new account.
+
+        </h2>
+<h4 class="text-center p-t-10"> <?php _lang('First Name', "templates/bootstrap5"); ?>We are glad to welcome you in our community. </h4>
+        <form class="p-t-10" action="#" id="user_registration_form_holder" method="post">
+            <?php print csrf_form(); ?>
+            <?php if ($form_show_first_name): ?>
+                <div class="form-group">
+                    <input class="form-control input-lg" type="text" name="first_name" placeholder="<?php _lang('First Name', "templates/bootstrap5"); ?>">
+                </div>
+            <?php endif; ?>
+
+            <?php if ($form_show_last_name): ?>
+                <div class="form-group">
+                    <input class="form-control input-lg" type="text" name="last_name" placeholder="<?php _lang('Last Name', "templates/bootstrap5"); ?>">
+                </div>
+            <?php endif; ?>
+
+            <div class="form-group">
+                <input class="form-control input-lg" type="email" name="email" placeholder="<?php _lang("E-mail", "templates/bootstrap5"); ?>">
+            </div>
+
+            <div class="form-group m-t-20">
+                <input class="form-control input-lg" type="password" name="password" placeholder="<?php _lang("Password", "templates/bootstrap5"); ?>">
+            </div>
+
+            <?php if ($form_show_password_confirmation): ?>
+                <div class="form-group m-t-20">
+                    <input class="form-control input-lg" type="password" name="password2" placeholder="<?php _lang("Confirm Password", "templates/bootstrap5"); ?>">
+                </div>
+            <?php endif; ?>
+
+            <?php if (!$captcha_disabled): ?>
+                <module type="captcha" template="skin-1"/>
+            <?php endif; ?>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="personal-data"><?php _lang('Your personal data will be used to support your experience
+                                                                                  throughout this website, to manage access to your account
+                                                                                  and for other purposes described in our', "templates/bootstrap5"); ?> <a href="#"><?php _lang("privacy policy", "templates/bootstrap5"); ?></a>.</p>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-default btn-lg btn-block m-t-30 m-b-20"><?php print $form_btn_title ?></button>
+        </form>
+    </div>
+<?php else: ?>
+    <p class="text-center">
+       <?php _lang('You Are Logged In', "templates/bootstrap5"); ?>
+    </p>
+<?php endif; ?>
+<br/>

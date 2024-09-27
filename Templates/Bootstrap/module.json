@@ -1,0 +1,11 @@
+{
+    "name": "Bootstrap",
+    "alias": "bootstrap",
+    "description": "",
+    "keywords": [],
+    "priority": 100,
+    "providers": [
+        "Templates\\Bootstrap\\Providers\\BootstrapServiceProvider"
+    ],
+    "files": []
+}
