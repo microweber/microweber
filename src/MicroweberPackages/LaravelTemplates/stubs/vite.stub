@@ -18,7 +18,7 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        copyFolderSyncVite(__dirname+ '/resources/assets/', __dirname+ '/../../public/modules/$LOWER_NAME$/'),
+        copyFolderSyncVite(__dirname+ '/resources/assets/', __dirname+ '/../../public/templates/$LOWER_NAME$/'),
     ],
 });
 
