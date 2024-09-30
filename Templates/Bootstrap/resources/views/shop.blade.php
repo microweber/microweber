@@ -12,7 +12,7 @@ position: 4
 
 ?>
 
-@extends('bootstrap::layouts.master')
+@extends('templates.bootstrap::layouts.master')
 
 @section('content')
 <div class="edit" rel="content" field="content">

@@ -12,7 +12,7 @@ description: Contact Us
 
 
 ?>
-@extends('bootstrap::layouts.master')
+@extends('templates.bootstrap::layouts.master')
 
 @section('content')
 

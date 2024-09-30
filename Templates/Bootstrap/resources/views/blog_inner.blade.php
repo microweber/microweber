@@ -9,7 +9,7 @@ if (!$picture) {
 $itemData = content_data(CONTENT_ID);
 $itemTags = content_tags(CONTENT_ID);
 ?>
-@extends('bootstrap::layouts.master')
+@extends('templates.bootstrap::layouts.master')
 
 @section('content')
     <div class="blog-inner-page py-5" id="blog-content-<?php print CONTENT_ID; ?>">

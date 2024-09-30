@@ -8,8 +8,9 @@
   description: Home
 */
 
+
 ?>
-@extends('bootstrap::layouts.master')
+@extends('templates.bootstrap::layouts.master')
 
 @section('content')
 

@@ -29,7 +29,7 @@ $prev = prev_content(content_id());
 
 
 ?>
-@extends('bootstrap::layouts.master')
+@extends('templates.bootstrap::layouts.master')
 
 @section('content')
 

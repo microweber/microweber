@@ -26,35 +26,20 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->registerTranslations();
+
         $this->registerConfig();
         $this->registerViews();
 
     }
 
-    /**
-     * Register translations.
-     */
-    public function registerTranslations(): void
-    {
-        $langPath = resource_path('lang/templates/'.$this->moduleNameLower);
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
-            $this->loadJsonTranslationsFrom($langPath);
-        } else {
-            $this->loadTranslationsFrom(template_path($this->moduleName, ''), $this->moduleNameLower);
-            $this->loadJsonTranslationsFrom(template_path($this->moduleName, ''));
-        }
-    }
-
+   
     /**
      * Register config.
      */
     protected function registerConfig(): void
     {
         $this->publishes([template_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower.'.php')], 'config');
-        $this->mergeConfigFrom(template_path($this->moduleName, 'config/config.php'), 'template.'.$this->moduleNameLower);
+        $this->mergeConfigFrom(template_path($this->moduleName, 'config/config.php'), 'templates.'.$this->moduleNameLower);
     }
 
     /**
@@ -67,11 +52,11 @@ class BootstrapServiceProvider extends ServiceProvider
 
         $this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower.'-module-views']);
 
-        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]),  'templates.'.$this->moduleNameLower);
 
         $componentNamespace = str_replace('/', '\\', config('templates.namespace').'\\'.$this->moduleName.'\\'.ltrim(config('templates.paths.generator.component-class.path', ''), config('templates.paths.app_folder', '')));
 
-        Blade::componentNamespace($componentNamespace, $this->moduleNameLower);
+        Blade::componentNamespace($componentNamespace,  'templates.'.$this->moduleNameLower);
     }
 
     /**

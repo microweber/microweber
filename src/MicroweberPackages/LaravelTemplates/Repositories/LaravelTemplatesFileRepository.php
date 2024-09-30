@@ -8,18 +8,13 @@ use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
 use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelModules\Traits\ModulesRepositoryTrait;
 use MicroweberPackages\LaravelTemplates\Helpers\StaticTemplateCreator;
-use MicroweberPackages\LaravelTemplates\LaravelTemplate;
 use Nwidart\Modules\Collection;
-use Nwidart\Modules\Exceptions\ModuleNotFoundException;
-use Nwidart\Modules\FileRepository;
-use Nwidart\Modules\Json;
+
 
 class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
 {

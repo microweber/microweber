@@ -311,7 +311,10 @@ class TemplateManager
         }
 
     }
-
+    public function is_laravel_template($template = false)
+    {
+        return $this->templateAdapter->isLaravelTemplate($template);
+    }
 
     public function get_config($template = false)
     {

@@ -18,11 +18,6 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        copyFolderSyncVite(__dirname+ '/resources/assets/', __dirname+ '/../../public/modules/bootstrap/'),
+        copyFolderSyncVite(__dirname+ '/resources/assets/', __dirname+ '/../../public/templates/bootstrap/'),
     ],
 });
-
-//export const paths = [
-//    'Modules/Bootstrap/resources/assets/sass/app.scss',
-//    'Modules/Bootstrap/resources/assets/js/app.js',
-//];

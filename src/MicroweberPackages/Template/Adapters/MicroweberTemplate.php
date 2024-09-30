@@ -406,37 +406,72 @@ class MicroweberTemplate
     }
 
 
-    public $templateConfigCache = array();
+    public $isLaravelTemplateCache = array();
 
+    public function isLaravelTemplate($template = false)
+    {
+        if ($template !== false) {
+            if (isset($this->isLaravelTemplateCache[$template])) {
+                return $this->isLaravelTemplateCache[$template];
+            }
+        }
+
+
+        $is_laravel_template = false;
+        if (app()->bound('templates')) {
+            //check if the template is installed
+            $laravelTemplate = app()->templates->find($template);
+
+            if ($laravelTemplate) {
+                $is_laravel_template = true;
+            }
+
+        }
+        $this->isLaravelTemplateCache[$template] = $is_laravel_template;
+        return $is_laravel_template;
+    }
+
+    public $templateConfigCache = array();
 
     public function getConfig($template = false)
     {
+
         if ($template == false) {
-
-            $dir = $this->getActiveTemplateDir();
-
-            $file = $dir . 'config.php';
-
-            if (isset($this->templateConfigCache[$file])) {
-                return $this->templateConfigCache[$file];
-            }
-
-            if (is_file($file)) {
-                include $file;
-                if (isset($config)) {
-                    $config['dir_name'] = basename($dir);
-                    if (is_link(normalize_path($dir, false))) {
-                        $config['is_symlink'] = true;
-                    } else {
-                        $config['is_symlink'] = false;
-                    }
-                    $this->templateConfigCache[$file] = $config;
-                    return $config;
-                }
-
-                return false;
-            }
+            $template = $this->getTemplateFolderName();
         }
+
+        $is_laravel_template = $this->isLaravelTemplate($template);
+        $dir = templates_dir() . $template . DS;
+
+        // $dir = $this->getActiveTemplateDir();
+
+
+        $file = $dir . 'config.php';
+
+        if (isset($this->templateConfigCache[$file])) {
+            return $this->templateConfigCache[$file];
+        }
+
+        if ($is_laravel_template) {
+            // $config = app()->templates->find($template);
+            $config = config()->get('templates.' . strtolower($template));
+        } else if (is_file($file)) {
+            include $file;
+        }
+
+        if (isset($config)) {
+
+
+            $config['dir_name'] = basename($dir);
+            if (is_link(normalize_path($dir, false))) {
+                $config['is_symlink'] = true;
+            } else {
+                $config['is_symlink'] = false;
+            }
+            $this->templateConfigCache[$file] = $config;
+            return $config;
+        }
+        return false;
     }
 
     /**
@@ -449,12 +484,22 @@ class MicroweberTemplate
             ksort($page);
         }
 
+
+        if (isset($page['id']) and $page['id']) {
+            if (!isset($page['layout_file'])) {
+                $page_data = app()->content_manager->get_by_id($page['id']);
+                if ($page_data) {
+                    $page = array_merge($page, $page_data);
+                }
+            }
+        }
+
         if (!defined('ACTIVE_TEMPLATE_DIR')) {
             if (isset($page['id'])) {
                 $this->defineConstants($page);
             }
-        }
 
+        }
 
         $override = app()->event_manager->trigger('mw.front.get_layout', $page);
 
@@ -506,6 +551,15 @@ class MicroweberTemplate
             }
         }
 
+
+        if (isset($page['active_site_template']) and $page['active_site_template'] != false) {
+            $the_active_site_template = $page['active_site_template'];
+        } else {
+            $the_active_site_template = $site_template_settings;
+        }
+        $is_laravel_template = app()->template_manager->is_laravel_template($the_active_site_template);
+
+
         if ($render_file == false) {
             if (isset($page['active_site_template']) and isset($page['layout_file'])) {
                 $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
@@ -522,7 +576,15 @@ class MicroweberTemplate
 
                 $render_file_module_temp = modules_path() . DS . $page['layout_file'];
                 $render_file_module_temp = normalize_path($render_file_module_temp, false);
-                if (is_file($render_file_temp)) {
+
+
+                $is_laravel_template = app()->template_manager->is_laravel_template($page['active_site_template']);
+                $laravel_template_view = templates_dir() . $template_d . '/resources/views/' . $page['layout_file'];
+                $laravel_template_view = normalize_path($laravel_template_view, false);
+
+                if ($is_laravel_template and is_file($laravel_template_view)) {
+                    $render_file = $render_file_temp;
+                } else if (is_file($render_file_temp)) {
                     $render_file = $render_file_temp;
                 } elseif (is_file($render_file_module_temp)) {
                     $render_file = $render_file_module_temp;
@@ -839,6 +901,10 @@ class MicroweberTemplate
                 $template_view_set_inner = $this->getActiveTemplateDir() . 'inner.php';
                 $template_view_set_inner2 = $this->getActiveTemplateDir() . 'layouts/inner.php';
             }
+
+
+
+
         }
 
         if ($render_file == false and isset($page['simply_a_file'])) {
@@ -866,11 +932,21 @@ class MicroweberTemplate
             }
         }
 
-        if ($render_file == false and isset($page['content_type']) and ($page['content_type'] == 'page') and isset($page['layout_file']) and trim($page['layout_file']) == 'inherit') {
+        if ($render_file == false and
+            isset($page['content_type'])
+            and ($page['content_type'] == 'page')
+            and isset($page['layout_file'])
+            and trim($page['layout_file']) == 'inherit') {
             $use_index = $this->getActiveTemplateDir() . 'clean.php';
             $use_index2 = $this->getActiveTemplateDir() . 'layouts/clean.php';
             $use_index = normalize_path($use_index, false);
             $use_index2 = normalize_path($use_index2, false);
+
+
+//            $is_laravel_template = app()->template_manager->is_laravel_template($page['active_site_template']);
+//            $laravel_template_view = $this->getActiveTemplateDir(). '/resources/views/clean.blade.php';
+//            $laravel_template_view = normalize_path($laravel_template_view, false);
+
 
             if (is_file($use_index)) {
                 $render_file = $use_index;
@@ -891,7 +967,10 @@ class MicroweberTemplate
             $page['active_site_template'] = $this->getTemplateFolderName();
         }
 
-        if ($render_file == false and isset($page['active_site_template']) and isset($page['content_type']) and isset($page['layout_file'])) {
+        if ($render_file == false
+            and isset($page['active_site_template'])
+            and isset($page['content_type'])
+            and isset($page['layout_file'])) {
             $page['active_site_template'] = trim(sanitize_path($page['active_site_template']));
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 
@@ -904,7 +983,20 @@ class MicroweberTemplate
             $render_file_test2 = templates_dir() . $page['active_site_template'] . DS . 'layouts' . DS . $page['layout_file'];
             $render_file_test2 = normalize_path($render_file_test2, false);
 
-            if (is_file($render_file_test)) {
+            $is_laravel_template = app()->template_manager->is_laravel_template($page['active_site_template']);
+            $laravel_template_view = $this->getActiveTemplateDir() . '/resources/views/' . $page['layout_file'];
+            $laravel_template_view = normalize_path($laravel_template_view, false);
+            $laravel_template_view_inner = false;
+            if($is_laravel_template and $look_for_post){
+                $laravel_template_view_inner = str_replace('.blade.php', '_inner.blade.php', $laravel_template_view);
+            }
+
+
+            if ($look_for_post and $laravel_template_view_inner and $is_laravel_template and is_file($laravel_template_view_inner)) {
+                $render_file = $laravel_template_view_inner;
+            }else if ($is_laravel_template and is_file($laravel_template_view)) {
+                $render_file = $laravel_template_view;
+            } else if (is_file($render_file_test)) {
                 $render_file = $render_file_test;
             } elseif (is_file($render_file_test2)) {
                 $render_file = $render_file_test2;
@@ -912,7 +1004,11 @@ class MicroweberTemplate
         }
 
 
-        if ($render_file == false and isset($page['active_site_template']) and isset($page['layout_file'])) {
+        if ($render_file == false
+            and isset($page['active_site_template'])
+            and isset($page['layout_file'])) {
+
+
             if (isset($page['content_type']) and $page['content_type'] == 'page') {
                 $look_for_post = false;
             }
@@ -921,6 +1017,10 @@ class MicroweberTemplate
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 
             if ($look_for_post != false) {
+
+
+
+
                 $f1 = $page['layout_file'];
                 $stringA = $f1;
                 $stringB = '_inner';
@@ -1004,7 +1104,12 @@ class MicroweberTemplate
         }
 
 
-        if (isset($page['active_site_template']) and $render_file == false and (strtolower($page['active_site_template']) == 'default' or $page['active_site_template'] == $site_template_settings)) {
+        if (isset($page['active_site_template'])
+            and $render_file == false
+            and (strtolower($page['active_site_template']) == 'default'
+                or $page['active_site_template'] == $site_template_settings)) {
+
+
             if ($render_file == false and isset($page['active_site_template']) and isset($page['id'])) {
                 if (isset($look_for_post) and $look_for_post != false) {
                     if (isset($look_for_post['content_type'])) {
@@ -1028,7 +1133,9 @@ class MicroweberTemplate
             }
             //
             if ($render_file == false and isset($page['parent']) and $page['parent'] == 0) {
-                if ($render_file == false and isset($page['layout_file']) and $page['layout_file'] == 'inherit') {
+                if ($render_file == false
+                    and isset($page['layout_file'])
+                    and $page['layout_file'] == 'inherit') {
                     $t_dir = $this->getActiveTemplateDir();
                     if (isset($page['active_site_template'])) {
                         $t_dir = templates_dir() . DS . $page['active_site_template'] . DS;
@@ -1047,8 +1154,15 @@ class MicroweberTemplate
             }
 
 
-            if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false and ($page['layout_file']) != 'index.php' and ($page['layout_file']) != 'inherit') {
-                if ($render_file == false and isset($page['layout_file']) and ($page['layout_file']) != false) {
+            if ($render_file == false
+                and isset($page['layout_file'])
+                and ($page['layout_file']) != false
+                and ($page['layout_file']) != 'index.php'
+                and ($page['layout_file']) != 'inherit') {
+
+                if ($render_file == false
+                    and isset($page['layout_file'])
+                    and ($page['layout_file']) != false) {
                     $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 
                     $template_view = $this->getActiveTemplateDir() . $page['layout_file'];
@@ -1059,6 +1173,8 @@ class MicroweberTemplate
                     } else {
                         if (!isset($page['is_home']) or $page['is_home'] != 1) {
                             $template_view = $this->getActiveTemplateDir() . 'clean.php';
+
+
                             if (is_file($template_view) == true) {
                                 $render_file = $template_view;
                             }
@@ -1090,25 +1206,32 @@ class MicroweberTemplate
         }
 
         if ($render_file == false and isset($page['active_site_template']) and strtolower($page['active_site_template']) != 'default') {
+
+            $is_laravel_template = app()->template_manager->is_laravel_template($page['active_site_template']);
+            $laravel_template_view = $this->getActiveTemplateDir() . '/resources/views/index.blade.php';
+            $laravel_template_view = normalize_path($laravel_template_view, false);
+
             $template_view = $this->getActiveTemplateDir() . 'index.php';
-            if (is_file($template_view) == true) {
+            if ($is_laravel_template and is_file($laravel_template_view) == true) {
+                $render_file = $laravel_template_view;
+            } else if (is_file($template_view) == true) {
                 $render_file = $template_view;
             }
         }
 
-        if ($render_file == false and isset($page['active_site_template']) and strtolower($page['active_site_template']) != 'default') {
-            $template_view = $this->getActiveTemplateDir() . 'index.html';
-            if (is_file($template_view) == true) {
-                $render_file = $template_view;
-            }
-        }
-
-        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
-            $template_view = $this->getActiveTemplateDir() . 'index.htm';
-            if (is_file($template_view) == true) {
-                $render_file = $template_view;
-            }
-        }
+//        if ($render_file == false and isset($page['active_site_template']) and strtolower($page['active_site_template']) != 'default') {
+//            $template_view = $this->getActiveTemplateDir() . 'index.html';
+//            if (is_file($template_view) == true) {
+//                $render_file = $template_view;
+//            }
+//        }
+//
+//        if (isset($page['active_site_template']) and $render_file == false and strtolower($page['active_site_template']) != 'default') {
+//            $template_view = $this->getActiveTemplateDir() . 'index.htm';
+//            if (is_file($template_view) == true) {
+//                $render_file = $template_view;
+//            }
+//        }
 
 
         if ($render_file == false and $template_view_set_inner != false) {

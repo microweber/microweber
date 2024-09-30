@@ -937,17 +937,8 @@ class FrontendController extends Controller
 //            $link = $override[0];
 //        }
         event_trigger('mw_frontend', $content);
+        $is_laravel_template = app()->template_manager->is_laravel_template($the_active_site_template);
 
-        $is_laravel_template = false;
-        if(app()->bound('templates')){
-            //check if the template is installed
-            $laravelTemplate = app()->templates->find($the_active_site_template);
-
-            if($laravelTemplate){
-                $is_laravel_template = true;
-            }
-
-        }
 
         if($is_laravel_template){
             $render_file = $this->app->template_manager->get_layout_for_laravel_template($content);
@@ -955,7 +946,7 @@ class FrontendController extends Controller
             $render_file = $this->app->template_manager->get_layout($content);
         }
 
-
+       // $render_file = $this->app->template_manager->get_layout($content);
 
         $content['render_file'] = $render_file;
 

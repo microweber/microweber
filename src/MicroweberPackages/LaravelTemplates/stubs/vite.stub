@@ -21,8 +21,3 @@ export default defineConfig({
         copyFolderSyncVite(__dirname+ '/resources/assets/', __dirname+ '/../../public/templates/$LOWER_NAME$/'),
     ],
 });
-
-//export const paths = [
-//    'Modules/$STUDLY_NAME$/resources/assets/sass/app.scss',
-//    'Modules/$STUDLY_NAME$/resources/assets/js/app.js',
-//];

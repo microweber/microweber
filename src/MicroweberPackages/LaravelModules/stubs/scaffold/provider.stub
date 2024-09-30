@@ -69,10 +69,10 @@ class $CLASS$ extends ServiceProvider
         $langPath = resource_path('lang/modules/'.$this->moduleNameLower);
 
         if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
+            $this->loadTranslationsFrom($langPath, 'modules.'.$this->moduleNameLower);
             $this->loadJsonTranslationsFrom($langPath);
         } else {
-            $this->loadTranslationsFrom(module_path($this->moduleName, '$PATH_LANG$'), $this->moduleNameLower);
+            $this->loadTranslationsFrom(module_path($this->moduleName, '$PATH_LANG$'), 'modules.'.$this->moduleNameLower);
             $this->loadJsonTranslationsFrom(module_path($this->moduleName, '$PATH_LANG$'));
         }
     }
@@ -83,7 +83,7 @@ class $CLASS$ extends ServiceProvider
     protected function registerConfig(): void
     {
         $this->publishes([module_path($this->moduleName, '$PATH_CONFIG$/config.php') => config_path($this->moduleNameLower.'.php')], 'config');
-        $this->mergeConfigFrom(module_path($this->moduleName, '$PATH_CONFIG$/config.php'), $this->moduleNameLower);
+        $this->mergeConfigFrom(module_path($this->moduleName, '$PATH_CONFIG$/config.php'), 'modules.'.$this->moduleNameLower);
     }
 
     /**
@@ -96,10 +96,10 @@ class $CLASS$ extends ServiceProvider
 
         $this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower.'-module-views']);
 
-        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), 'modules.'.$this->moduleNameLower);
 
         $componentNamespace = str_replace('/', '\\', config('modules.namespace').'\\'.$this->moduleName.'\\'.ltrim(config('modules.paths.generator.component-class.path'), config('modules.paths.app_folder', '')));
-        Blade::componentNamespace($componentNamespace, $this->moduleNameLower);
+        Blade::componentNamespace($componentNamespace, 'modules.'.$this->moduleNameLower);
     }
 
     /**
