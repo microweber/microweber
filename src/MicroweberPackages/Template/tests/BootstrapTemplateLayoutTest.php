@@ -103,7 +103,7 @@ class BootstrapTemplateLayoutTest extends TestCase
         $addPostId = $this->_generatePost('testGetLayoutBootstrapTemplateBlogPage', 'testGetLayoutBootstrapTemplateBlogPage', $newCleanPageId);
 
         $template_render_file = app()->template_manager->get_layout(['id' => $addPostId]);
-        $this->assertTrue(str_ends_with($template_render_file, 'blog_inner.blade.php'));
+        $this->assertTrue(str_ends_with($template_render_file, 'post.blade.php'));
 
     }
 
@@ -125,10 +125,8 @@ class BootstrapTemplateLayoutTest extends TestCase
         $addProductId = $this->_generateProduct('testGetLayoutBootstrapTemplateShopPage', 'testGetLayoutBootstrapTemplateShopPage', $newCleanPageId);
 
         $template_render_file = app()->template_manager->get_layout(['id' => $addProductId]);
-        $this->assertTrue(str_ends_with($template_render_file, 'shop_inner.blade.php'));
+        $this->assertTrue(str_ends_with($template_render_file, 'product.blade.php'));
 
-      //  $this->assertTrue(str_ends_with($template_render_file, 'product.blade.php'));
-     //   $this->assertTrue(str_ends_with($template_render_file, 'post.blade.php'));
 
     }
 }

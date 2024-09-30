@@ -875,7 +875,10 @@ class MicroweberTemplate
             }
         }
 
-        if ($render_file == false and isset($page['content_type']) and $page['content_type'] != false and $page['content_type'] != '') {
+        if ($render_file == false
+            and isset($page['content_type'])
+            and $page['content_type'] != false
+            and $page['content_type'] != '') {
             $look_for_post = $page;
 
             if (isset($page['parent'])) {
@@ -901,8 +904,6 @@ class MicroweberTemplate
                 $template_view_set_inner = $this->getActiveTemplateDir() . 'inner.php';
                 $template_view_set_inner2 = $this->getActiveTemplateDir() . 'layouts/inner.php';
             }
-
-
 
 
         }
@@ -987,14 +988,21 @@ class MicroweberTemplate
             $laravel_template_view = $this->getActiveTemplateDir() . '/resources/views/' . $page['layout_file'];
             $laravel_template_view = normalize_path($laravel_template_view, false);
             $laravel_template_view_inner = false;
-            if($is_laravel_template and $look_for_post){
+            $laravel_template_view_inner_content_type = false;
+            if ($is_laravel_template and $look_for_post) {
                 $laravel_template_view_inner = str_replace('.blade.php', '_inner.blade.php', $laravel_template_view);
             }
-
+            if ($is_laravel_template and $look_for_post) {
+                if (isset($look_for_post['content_type']) and $look_for_post['content_type']) {
+                    $laravel_template_view_inner_content_type = $this->getActiveTemplateDir() . '/resources/views/' . $look_for_post['content_type'] . '.blade.php';
+                }
+            }
 
             if ($look_for_post and $laravel_template_view_inner and $is_laravel_template and is_file($laravel_template_view_inner)) {
                 $render_file = $laravel_template_view_inner;
-            }else if ($is_laravel_template and is_file($laravel_template_view)) {
+            } else if ($look_for_post and $is_laravel_template and is_file($laravel_template_view_inner_content_type)) {
+                $render_file = $laravel_template_view_inner_content_type;
+            } else if ($is_laravel_template and is_file($laravel_template_view)) {
                 $render_file = $laravel_template_view;
             } else if (is_file($render_file_test)) {
                 $render_file = $render_file_test;
@@ -1017,8 +1025,6 @@ class MicroweberTemplate
             $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
 
             if ($look_for_post != false) {
-
-
 
 
                 $f1 = $page['layout_file'];
