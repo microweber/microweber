@@ -6,6 +6,7 @@ import path from 'path';
 
 export default defineConfig({
     build: {
+        open: false,
         rollupOptions: {
             output: {
                 entryFileNames: `assets/[name].js`,

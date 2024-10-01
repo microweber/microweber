@@ -40,33 +40,37 @@
     "src": "../../public/userfiles/modules/microweber/img/enter_fullscreen.png"
   },
   "_mitt.js": {
-    "file": "assets/mitt.js"
+    "file": "assets/mitt.js",
+    "name": "mitt"
   },
   "resources/assets/css/scss/liveedit.scss": {
     "file": "assets/liveedit.css",
-    "isEntry": true,
-    "src": "resources/assets/css/scss/liveedit.scss"
-  },
-  "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.css": {
-    "file": "assets/element-style-editor-app.css",
-    "src": "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.css"
+    "src": "resources/assets/css/scss/liveedit.scss",
+    "isEntry": true
   },
   "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js": {
-    "css": [
-      "assets/element-style-editor-app.css"
-    ],
     "file": "assets/element-style-editor-app.js",
+    "name": "element-style-editor-app",
+    "src": "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js",
+    "isEntry": true,
     "imports": [
       "_mitt.js"
     ],
-    "isEntry": true,
-    "src": "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js"
-  },
-  "resources/assets/ui/live-edit-app.css": {
-    "file": "assets/live-edit-app.css",
-    "src": "resources/assets/ui/live-edit-app.css"
+    "css": [
+      "assets/element-style-editor-app.css"
+    ]
   },
   "resources/assets/ui/live-edit-app.js": {
+    "file": "assets/live-edit-app.js",
+    "name": "live-edit-app",
+    "src": "resources/assets/ui/live-edit-app.js",
+    "isEntry": true,
+    "imports": [
+      "_mitt.js"
+    ],
+    "css": [
+      "assets/live-edit-app.css"
+    ],
     "assets": [
       "assets/materialdesignicons-webfont.eot",
       "assets/materialdesignicons-webfont.woff2",
@@ -78,15 +82,6 @@
       "assets/cancel_fullscreen.png",
       "assets/dropable_zone_bg.svg",
       "assets/dropable_zone_image.svg"
-    ],
-    "css": [
-      "assets/live-edit-app.css"
-    ],
-    "file": "assets/live-edit-app.js",
-    "imports": [
-      "_mitt.js"
-    ],
-    "isEntry": true,
-    "src": "resources/assets/ui/live-edit-app.js"
+    ]
   }
 }

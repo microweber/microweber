@@ -7,13 +7,12 @@ import VueClickAway from "vue3-click-away";
 
 import mitt from 'mitt';
 
+
+
 const emitter = mitt();
 
 const app = createApp(App);
 app.config.globalProperties.emitter = emitter;
-
-
-
 
 
 // Vuetify

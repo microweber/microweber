@@ -5,18 +5,23 @@ import vue from '@vitejs/plugin-vue';
 import {copyFolderSyncVite} from "vite-plugin-copy-folder"
 
 import sass from 'sass';
+import liveReload from 'vite-plugin-live-reload'
 
 
 export default defineConfig({
+
+
+
     build: {
         rollupOptions: {
             output: {
                 entryFileNames: `assets/[name].js`,
                 chunkFileNames: `assets/[name].js`,
-                assetFileNames: `assets/[name].[ext]`
+                assetFileNames: `assets/[name].[ext]`,
+
             }
         },
-        open: false,
+        open: true,
         port: 3000,
         assetsInlineLimit: 0,
         outDir: './resources/dist/build',
@@ -34,6 +39,7 @@ export default defineConfig({
         }
     },
     plugins: [
+       // liveReload('resources/assets/**/*.*'),
 
         vue({
             template: {
@@ -49,7 +55,8 @@ export default defineConfig({
                 'resources/assets/ui/live-edit-app.js',
                 'resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js',
             ],
-          // publicDirectory: "./public/build",
+           publicDirectory: "resources/assets/",
+          //  refresh: true,
          //   publicDirectory: "public",
             refresh: true,
         }),
