@@ -1,0 +1,24 @@
+{
+  "_bootstrap.bundle.min-ba8858f6.js": {
+    "file": "assets/bootstrap.bundle.min-ba8858f6.js",
+    "isDynamicEntry": true
+  },
+  "resources/assets/js/app.js": {
+    "dynamicImports": [
+      "_bootstrap.bundle.min-ba8858f6.js"
+    ],
+    "file": "assets/app-27c5642f.js",
+    "isEntry": true,
+    "src": "resources/assets/js/app.js"
+  },
+  "resources/assets/sass/app-rtl.scss": {
+    "file": "assets/app-rtl-71226588.css",
+    "isEntry": true,
+    "src": "resources/assets/sass/app-rtl.scss"
+  },
+  "resources/assets/sass/app.scss": {
+    "file": "assets/app-9ff721aa.css",
+    "isEntry": true,
+    "src": "resources/assets/sass/app.scss"
+  }
+}

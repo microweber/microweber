@@ -39,10 +39,13 @@ function lang_attributes()
 {
     return mw()->lang_helper->lang_attributes();
 }
-
-function _lang_is_rtl($lang = false)
+function lang_is_rtl($lang = false)
 {
     return mw()->lang_helper->lang_is_rtl($lang);
+}
+function _lang_is_rtl($lang = false)
+{
+    return lang_is_rtl($lang);
 }
 
 

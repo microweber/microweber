@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html {!! lang_attributes() !!}>
 
 <head>
 
@@ -11,14 +11,21 @@
     {!! meta_tags_head() !!}
 
     {{-- Vite CSS --}}
-    {{-- {{ template_vite('templates/bootstrap/dist', 'resources/assets/sass/app.scss') }} --}}
+
+    @if(!lang_is_rtl())
+    {{ template_vite('templates/bootstrap/dist', 'resources/assets/sass/app.scss') }}
+    @else
+    {{ template_vite('templates/bootstrap/dist', 'resources/assets/sass/app-rtl.scss') }}
+    @endif
+
+
 </head>
 
 <body>
     @yield('content')
 
     {{-- Vite JS --}}
-    {{-- {{ template_vite('templates/bootstrap/dist', 'resources/assets/js/app.js') }} --}}
+    {{ template_vite('templates/bootstrap/dist', 'resources/assets/js/app.js') }}
 
     {!! meta_tags_footer() !!}
 </body>

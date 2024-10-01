@@ -1,0 +1,85 @@
+@media screen and (min-width: 1200px) {
+
+    .navbar-nav {
+        flex-direction: row!important;
+    }
+}
+
+
+li.dropdown {
+
+    list-style: none;
+
+
+}
+
+#to-top {
+    float: right;
+    margin: 2rem;
+}
+
+.h-350 {
+    height: 350px;
+}
+
+
+.img-as-background {
+    position: relative;
+    overflow: hidden;
+    background-position: center center;
+
+    img {
+        object-fit: cover;
+        position: absolute;
+        left: -1px;
+        right: 0;
+        z-index: 0;
+        margin: 0 auto;
+        top: 0;
+        bottom: 0;
+        min-width: calc(100% + 2px);
+        min-height: 100%;
+    }
+}
+
+
+section.section {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+}
+
+
+/* Square */
+.square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.square-75:after {
+    content: "";
+    display: block;
+    padding-bottom: 75%;
+}
+
+.square-50:after {
+    content: "";
+    display: block;
+    padding-bottom: 50%;
+}
+
+/* Overlay */
+
+/* Background */
+.background-image-holder {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: static;
+
+    > div {
+        z-index: 3;
+    }
+}
+
+@import "rtl-changes";

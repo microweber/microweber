@@ -227,7 +227,7 @@ class MicroweberTemplate
      */
     public function getActiveTemplateUrl(): string
     {
-        return templates_url() . $this->getTemplateFolderName() . '/';
+        return templates_url() .strtolower( $this->getTemplateFolderName() ). '/';
     }
 
     /**

@@ -14,6 +14,7 @@ export default defineConfig({
         laravel({
             input: [
                 __dirname + '/resources/assets/sass/app.scss',
+                __dirname + '/resources/assets/sass/app-rtl.scss',
                 __dirname + '/resources/assets/js/app.js'
             ],
             refresh: true,
