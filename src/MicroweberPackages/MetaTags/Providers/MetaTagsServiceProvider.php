@@ -28,6 +28,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
 
         PackageManager::create('frontend', function (Package $package) {
             $package->requires([
+                'title_head_tags',
                 'core_css',
                 'core',
                 'livewire',
@@ -68,6 +69,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'favicon_head_tag',
                 new \MicroweberPackages\MetaTags\Entities\FaviconHeadTag()
+            );
+    $package->addTag(
+                'csrf_token',
+                new \MicroweberPackages\MetaTags\Entities\CsrfTokenHeadTags()
             );
 
             $package->addTag(
@@ -123,9 +128,20 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             );
 
         });
+        PackageManager::create('title_head_tags', function (Package $package) {
+            $package->addTag(
+                'title_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\TitleHeadTags()
+            );
+            $package->addTag(
+                'author_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\AuthorHeadTags()
+            );
 
-
+        });
         PackageManager::create('custom_user_meta_tags', function (Package $package) {
+
+
             $package->addTag(
                 'custom_user_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\CustomUserHeadTags()
@@ -141,10 +157,6 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'webmaster_head_tags',
                 new \MicroweberPackages\MetaTags\Entities\WebmasterHeadTags()
-            );
-            $package->addTag(
-                'author_head_tags',
-                new \MicroweberPackages\MetaTags\Entities\AuthorHeadTags()
             );
 
             $package->addTag(

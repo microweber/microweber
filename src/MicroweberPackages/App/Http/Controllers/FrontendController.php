@@ -939,12 +939,15 @@ class FrontendController extends Controller
         event_trigger('mw_frontend', $content);
         $is_laravel_template = app()->template_manager->is_laravel_template($the_active_site_template);
 
+//
+//        if($is_laravel_template){
+//            $render_file = $this->app->template_manager->get_layout_for_laravel_template($content);
+//        } else {
+//            $render_file = $this->app->template_manager->get_layout($content);
+//        }
 
-        if($is_laravel_template){
-            $render_file = $this->app->template_manager->get_layout_for_laravel_template($content);
-        } else {
-            $render_file = $this->app->template_manager->get_layout($content);
-        }
+
+        $render_file = $this->app->template_manager->get_layout($content);
 
        // $render_file = $this->app->template_manager->get_layout($content);
 
@@ -1036,6 +1039,7 @@ class FrontendController extends Controller
             }
 
             $l = $this->app->template_manager->render($render_params);
+
             if (is_object($l)) {
                 return $l;
             }

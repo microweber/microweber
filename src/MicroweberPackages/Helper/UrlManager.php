@@ -334,6 +334,7 @@ class UrlManager
         if ($u == false and $this->current_url_var != false) {
             $u = $this->current_url_var;
         }
+
         if ($u == false) {
 
             $serverrequri = false;
@@ -342,6 +343,11 @@ class UrlManager
             } elseif (isset($_SERVER['PHP_SELF'])) {
                 $serverrequri = $_SERVER['PHP_SELF'];
             }
+            if(str_ends_with($serverrequri,'phpunit/phpunit/phpunit')){
+                $serverrequri = false;
+            }
+
+            //$serverrequri = site_url();
 
             $s = '';
             if (is_https()) {
@@ -369,6 +375,8 @@ class UrlManager
             } else {
                 if ($serverrequri) {
                     $u = url()->current() . $serverrequri;
+                } else {
+                    $u = url()->current();
                 }
             }
 

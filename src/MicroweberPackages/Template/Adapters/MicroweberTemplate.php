@@ -167,6 +167,7 @@ class MicroweberTemplate
         if (!$render_file) {
             return '';
         }
+
         if (!is_file($render_file)) {
             return '';
         }
@@ -583,7 +584,7 @@ class MicroweberTemplate
                 $laravel_template_view = normalize_path($laravel_template_view, false);
 
                 if ($is_laravel_template and is_file($laravel_template_view)) {
-                    $render_file = $render_file_temp;
+                    $render_file = $laravel_template_view;
                 } else if (is_file($render_file_temp)) {
                     $render_file = $render_file_temp;
                 } elseif (is_file($render_file_module_temp)) {
@@ -804,6 +805,8 @@ class MicroweberTemplate
                 }
             }
         }
+
+
         if ($render_file != false and (isset($page['content_type']) and ($page['content_type']) != 'page')) {
             $f1 = $render_file;
             $f2 = $render_file;
