@@ -21,8 +21,23 @@
 
 </head>
 
-<body>
+<body class="{!! helper_body_classes() !!}">
+<module type="logo" id="header-logo-loading" logo-name="header-logo" class="w-100"/>
+
+<div class="main">
+    <div class="navigation-holder">
+        <module type="layouts" template="menus/skin-1" template-filter="menus" id="header-layout"/>
+    </div>
+
+
+
     @yield('content')
+
+
+    <module type="layouts" template="footers/skin-4" id="footer-layout" template-filter="footers" />
+
+
+</div>
 
     {{-- Vite JS --}}
     {{ template_vite('templates/bootstrap/dist', 'resources/assets/js/app.js') }}

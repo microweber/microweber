@@ -13,7 +13,7 @@
     {{-- {{ template_vite('templates/$LOWER_NAME$/dist', 'resources/assets/sass/app.scss') }} --}}
 </head>
 
-<body>
+<body class="{!! helper_body_classes() !!}">
     @yield('content')
 
     {{-- Vite JS --}}
