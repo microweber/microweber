@@ -3,33 +3,38 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import { fileURLToPath } from 'url';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import {config} from './config.js';
+import { config } from './config.js';
+import { exec } from 'child_process';
 
-const {entry, outputJS, outputCSS} = config;
-
+const { entry, outputJS, outputCSS } = config;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const plugins =  [
+const plugins = [
     new RemoveEmptyScriptsPlugin(),
     new MiniCssExtractPlugin({
         ignoreOrder: true,
         filename: (pathData) => {
-            console.log(pathData.chunk.name, pathData.runtime);
-/*
-            if(pathData.chunk.name.endsWith('css')){ // todo
-                const i = pathData.chunk.name.lastIndexOf('css');
-                const name = pathData.chunk.name.substring(0, i);
-                pathData.chunk.name = name;
-                pathData.runtime = name;
-            }*/
             return `${outputCSS}/[name].css`;
         },
-        // chunkFilename: "[id].css",
     }),
-
-
+    {
+        apply: (compiler) => {
+            compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
+                exec('vite build', (err, stdout, stderr) => {
+                    if (err) {
+                        console.error(`Error executing Vite build: ${err}`);
+                        return;
+                    }
+                    console.log(`Vite build output: ${stdout}`);
+                    if (stderr) {
+                        console.error(`Vite build errors: ${stderr}`);
+                    }
+                });
+            });
+        }
+    },
     new CopyWebpackPlugin({
         patterns: [
             { from: path.resolve(__dirname, './resources/dist/'), to: path.resolve(__dirname, '../../public/vendor/microweber-packages/frontend-assets') }
@@ -38,21 +43,16 @@ const plugins =  [
 
 ];
 
-const module =  {
+const module = {
     rules: [
-
-
-
         {
-            test:  /\.(scss|css)$/,
-
+            test: /\.(scss|css)$/,
             use: [
                 MiniCssExtractPlugin.loader,
-              "css-loader",
-              "sass-loader",
+                "css-loader",
+                "sass-loader",
             ],
         },
-
     ],
 };
 
@@ -64,10 +64,8 @@ export default {
     },
     module,
     plugins,
-
     watchOptions: {
         aggregateTimeout: 200,
         poll: 1000,
     },
-
-}
+};

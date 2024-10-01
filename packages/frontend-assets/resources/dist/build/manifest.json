@@ -1,0 +1,92 @@
+{
+  "../../public/userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_bg.svg": {
+    "file": "assets/dropable_zone_bg.svg",
+    "src": "../../public/userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_bg.svg"
+  },
+  "../../public/userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg": {
+    "file": "assets/dropable_zone_image.svg",
+    "src": "../../public/userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/ui/img/dropable_zone_image.svg"
+  },
+  "../../public/userfiles/modules/microweber/css/fonts/font.ttf": {
+    "file": "assets/font.ttf",
+    "src": "../../public/userfiles/modules/microweber/css/fonts/font.ttf"
+  },
+  "../../public/userfiles/modules/microweber/css/fonts/materialdesignicons/fonts/materialdesignicons-webfont.eot": {
+    "file": "assets/materialdesignicons-webfont.eot",
+    "src": "../../public/userfiles/modules/microweber/css/fonts/materialdesignicons/fonts/materialdesignicons-webfont.eot"
+  },
+  "../../public/userfiles/modules/microweber/css/fonts/materialdesignicons/fonts/materialdesignicons-webfont.ttf": {
+    "file": "assets/materialdesignicons-webfont.ttf",
+    "src": "../../public/userfiles/modules/microweber/css/fonts/materialdesignicons/fonts/materialdesignicons-webfont.ttf"
+  },
+  "../../public/userfiles/modules/microweber/css/fonts/materialdesignicons/fonts/materialdesignicons-webfont.woff": {
+    "file": "assets/materialdesignicons-webfont.woff",
+    "src": "../../public/userfiles/modules/microweber/css/fonts/materialdesignicons/fonts/materialdesignicons-webfont.woff"
+  },
+  "../../public/userfiles/modules/microweber/css/fonts/materialdesignicons/fonts/materialdesignicons-webfont.woff2": {
+    "file": "assets/materialdesignicons-webfont.woff2",
+    "src": "../../public/userfiles/modules/microweber/css/fonts/materialdesignicons/fonts/materialdesignicons-webfont.woff2"
+  },
+  "../../public/userfiles/modules/microweber/images/magnifier.svg": {
+    "file": "assets/magnifier.svg",
+    "src": "../../public/userfiles/modules/microweber/images/magnifier.svg"
+  },
+  "../../public/userfiles/modules/microweber/img/cancel_fullscreen.png": {
+    "file": "assets/cancel_fullscreen.png",
+    "src": "../../public/userfiles/modules/microweber/img/cancel_fullscreen.png"
+  },
+  "../../public/userfiles/modules/microweber/img/enter_fullscreen.png": {
+    "file": "assets/enter_fullscreen.png",
+    "src": "../../public/userfiles/modules/microweber/img/enter_fullscreen.png"
+  },
+  "_mitt.js": {
+    "file": "assets/mitt.js"
+  },
+  "resources/assets/css/scss/liveedit.scss": {
+    "file": "assets/liveedit.css",
+    "isEntry": true,
+    "src": "resources/assets/css/scss/liveedit.scss"
+  },
+  "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.css": {
+    "file": "assets/element-style-editor-app.css",
+    "src": "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.css"
+  },
+  "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js": {
+    "css": [
+      "assets/element-style-editor-app.css"
+    ],
+    "file": "assets/element-style-editor-app.js",
+    "imports": [
+      "_mitt.js"
+    ],
+    "isEntry": true,
+    "src": "resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js"
+  },
+  "resources/assets/ui/live-edit-app.css": {
+    "file": "assets/live-edit-app.css",
+    "src": "resources/assets/ui/live-edit-app.css"
+  },
+  "resources/assets/ui/live-edit-app.js": {
+    "assets": [
+      "assets/materialdesignicons-webfont.eot",
+      "assets/materialdesignicons-webfont.woff2",
+      "assets/materialdesignicons-webfont.woff",
+      "assets/materialdesignicons-webfont.ttf",
+      "assets/font.ttf",
+      "assets/magnifier.svg",
+      "assets/enter_fullscreen.png",
+      "assets/cancel_fullscreen.png",
+      "assets/dropable_zone_bg.svg",
+      "assets/dropable_zone_image.svg"
+    ],
+    "css": [
+      "assets/live-edit-app.css"
+    ],
+    "file": "assets/live-edit-app.js",
+    "imports": [
+      "_mitt.js"
+    ],
+    "isEntry": true,
+    "src": "resources/assets/ui/live-edit-app.js"
+  }
+}

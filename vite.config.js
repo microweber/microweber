@@ -56,10 +56,10 @@ export default defineConfig({
                // 'src/MicroweberPackages/LiveEdit/resources/front-end/js/core/mw-core.js',
                 //'./packages/frontend-assets/resources/assets/core/mw-core.js',
 
-                 './packages/frontend-assets/resources/assets/css/scss/liveedit.scss',
+             //    './packages/frontend-assets/resources/assets/css/scss/liveedit.scss',
                 // './packages/frontend-assets/resources/assets/css/scss/liveedit.scss',
                //  'src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js',
-                './packages/frontend-assets/resources/assets/ui/live-edit-app.js',
+              //  './packages/frontend-assets/resources/assets/ui/live-edit-app.js',
 
                 /// './packages/frontend-assets/resources/assets/ui/live-edit-app.js',
 
@@ -75,7 +75,7 @@ export default defineConfig({
 
 
 
-                'packages/frontend-assets/resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js',
+             //   'packages/frontend-assets/resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js',
 
 
 
