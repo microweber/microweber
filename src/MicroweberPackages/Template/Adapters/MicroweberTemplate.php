@@ -583,8 +583,21 @@ class MicroweberTemplate
                 $laravel_template_view = templates_dir() . $template_d . '/resources/views/' . $page['layout_file'];
                 $laravel_template_view = normalize_path($laravel_template_view, false);
 
+
+                $legacy_filename_migration = $page['layout_file'];
+                $legacy_filename_migration = str_replace('___', DS, $legacy_filename_migration);
+                $legacy_filename_migration = str_replace('layouts\\', '', $legacy_filename_migration);
+                $legacy_filename_migration = str_replace('layouts/', '', $legacy_filename_migration);
+                $legacy_filename_migration = str_replace('.php', '.blade.php', $legacy_filename_migration);
+                $legacy_filename_migration_view = templates_dir() . $template_d . '/resources/views/' . $legacy_filename_migration;
+                $legacy_filename_migration_view = normalize_path($legacy_filename_migration_view, false);
+
+
+
                 if ($is_laravel_template and is_file($laravel_template_view)) {
                     $render_file = $laravel_template_view;
+                } else if (is_file($legacy_filename_migration_view)) {
+                    $render_file = $legacy_filename_migration_view;
                 } else if (is_file($render_file_temp)) {
                     $render_file = $render_file_temp;
                 } elseif (is_file($render_file_module_temp)) {
