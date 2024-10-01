@@ -35,17 +35,17 @@ if (page_title()) {
         <div class="row">
             <div class="col-12 col-sm-4 col-lg-4 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-7.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-7.png">
                 </div>
             </div>
             <div class="col-12 col-sm-4 col-lg-4 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-7.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-7.png">
                 </div>
             </div>
             <div class="col-12 col-sm-4 col-lg-4 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-7.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-7.png">
                 </div>
             </div>
         </div>

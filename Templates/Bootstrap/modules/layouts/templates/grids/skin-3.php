@@ -35,7 +35,7 @@ if (page_title()) {
         <div class="row">
             <div class="col-12 mb-2 cloneable">
                 <div class="cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-5.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-5.png">
                 </div>
             </div>
         </div>

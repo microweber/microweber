@@ -32,7 +32,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 
         <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
             <div class="col">
-                <div class="card card-cover background-image-holder h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('<?php print template_url(); ?>assets/img/bootstrap5/unsplash-photo-1.jpg'); ">
+                <div class="card card-cover background-image-holder h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('<?php print template_url(); ?>img/bootstrap5/unsplash-photo-1.jpg'); ">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Short title, long jacket</h2>
                         <ul class="d-flex list-unstyled mt-auto">
@@ -53,7 +53,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </div>
 
             <div class="col">
-                <div class="card card-cover background-image-holder bg-image h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('<?php print template_url(); ?>assets/img/bootstrap5/unsplash-photo-2.jpg');">
+                <div class="card card-cover background-image-holder bg-image h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('<?php print template_url(); ?>img/bootstrap5/unsplash-photo-2.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Much longer title that wraps to multiple lines</h2>
                         <ul class="d-flex list-unstyled mt-auto">
@@ -74,7 +74,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </div>
 
             <div class="col">
-                <div class="card card-cover background-image-holder bg-image h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('<?php print template_url(); ?>assets/img/bootstrap5/unsplash-photo-3.jpg');">
+                <div class="card card-cover background-image-holder bg-image h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('<?php print template_url(); ?>img/bootstrap5/unsplash-photo-3.jpg');">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
                         <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Another longer title belongs here</h2>
                         <ul class="d-flex list-unstyled mt-auto">

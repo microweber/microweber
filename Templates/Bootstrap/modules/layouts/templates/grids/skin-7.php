@@ -37,32 +37,32 @@ if (page_title()) {
         <div class="row">
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-9.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-9.png">
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-9.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-9.png">
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-9.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-9.png">
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-9.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-9.png">
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-9.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-9.png">
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2 mb-2 cloneable">
                 <div class="w-100 cube-wrapper">
-                    <img class=" " src="<?php print template_url(); ?>assets/img/layouts/grid-9.png">
+                    <img class=" " src="<?php print template_url(); ?>img/layouts/grid-9.png">
                 </div>
             </div>
         </div>

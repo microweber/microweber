@@ -36,7 +36,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </div>
 
             <div class="col-8 text-center not_found_img">
-                <img src="<?php print template_url(); ?>assets/img/sections/404_graphic.png"/>
+                <img src="<?php print template_url(); ?>img/sections/404_graphic.png"/>
             </div>
         </div>
     </div>

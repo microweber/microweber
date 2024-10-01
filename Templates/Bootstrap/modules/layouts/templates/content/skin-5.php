@@ -38,7 +38,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
                 </div>
             </div>
             <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
-                <img  class="rounded-lg-3" src="<?php print template_url(); ?>assets/img/bootstrap5/bootstrap-docs.png" width="720" alt="" >
+                <img  class="rounded-lg-3" src="<?php print template_url(); ?>img/bootstrap5/bootstrap-docs.png" width="720" alt="" >
 
             </div>
         </div>
