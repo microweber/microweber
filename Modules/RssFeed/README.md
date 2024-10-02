@@ -1,4 +1,4 @@
-# RssFeed Module
+# RssFeed Module for Microweber
 
 This module provides functionality for generating RSS feeds for posts and products.
 

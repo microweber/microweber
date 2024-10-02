@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\App\Http\Controllers\Traits;
+namespace Modules\Sitemap\Http\Controllers;
 
 
 use MicroweberPackages\Category\Models\Category;
