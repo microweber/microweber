@@ -1,0 +1,30 @@
+{
+    "name": "microweber-modules/rssfeed",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\RssFeed\\": "app/",
+            "Modules\\RssFeed\\Database\\Factories\\": "database/factories/",
+            "Modules\\RssFeed\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\RssFeed\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,10 +1,12 @@
 <?php
 
-namespace MicroweberPackages\App\Http\Controllers;
+namespace Modules\RssFeed\Http\Controllers;
 
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use MicroweberPackages\Content\Models\Content;
+use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class RssController extends Controller
 {
@@ -81,7 +83,7 @@ class RssController extends Controller
             'siteUrl' => mw()->url_manager->hostname(),
             'rssData' => $contentData,
         ];
-        return response()->view('rss::'.$view, $data)->header('Content-Type', 'text/xml');
+        return response()->view('modules.rssfeed::'.$view, $data)->header('Content-Type', 'text/xml');
     }
 
     public function posts(Request $request)
@@ -123,7 +125,7 @@ class RssController extends Controller
         ];
 
         return response()
-            ->view('rss::posts', $data)
+            ->view('modules.rssfeed::posts', $data)
             ->header('Content-Type', 'text/xml');
     }
 
@@ -166,7 +168,7 @@ class RssController extends Controller
         ];
 
         return response()
-            ->view('rss::products', $data)
+            ->view('modules.rssfeed::products', $data)
             ->header('Content-Type', 'text/xml');
     }
 
@@ -199,10 +201,7 @@ class RssController extends Controller
 
     private function isMutilangOn()
     {
-        if (is_module('multilanguage')
-            && get_option('is_active', 'multilanguage_settings') === 'y'
-            && function_exists('multilanguage_get_all_category_links'))
-        {
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
             $res = true;
         } else {
             $res = false;
