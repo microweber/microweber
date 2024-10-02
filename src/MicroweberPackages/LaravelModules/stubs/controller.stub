@@ -14,7 +14,7 @@ class $CLASS$ extends Controller
      */
     public function index()
     {
-        return view('$LOWER_NAME$::index');
+        return view('modules.$LOWER_NAME$::index');
     }
 
     /**
@@ -22,7 +22,7 @@ class $CLASS$ extends Controller
      */
     public function create()
     {
-        // return view('$LOWER_NAME$::create');
+        // return view('modules.$LOWER_NAME$::create');
     }
 
     /**
@@ -38,7 +38,7 @@ class $CLASS$ extends Controller
      */
     public function show($id)
     {
-        // return view('$LOWER_NAME$::show');
+        // return view('modules.$LOWER_NAME$::show');
     }
 
     /**
@@ -46,7 +46,7 @@ class $CLASS$ extends Controller
      */
     public function edit($id)
     {
-        // return view('$LOWER_NAME$::edit');
+        // return view('modules.$LOWER_NAME$::edit');
     }
 
     /**

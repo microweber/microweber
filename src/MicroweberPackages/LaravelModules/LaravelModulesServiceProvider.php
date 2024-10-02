@@ -4,12 +4,8 @@ namespace MicroweberPackages\LaravelModules;
 
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
-use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
-use MicroweberPackages\LaravelModules\Repositories\LaravelModulesDatabaseRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
-use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Contracts\RepositoryInterface;
-use Nwidart\Modules\Exceptions\InvalidActivatorClass;
 use Nwidart\Modules\Support\Stub;
 
 //from https://github.com/allenwakeup/laravel-modules/
