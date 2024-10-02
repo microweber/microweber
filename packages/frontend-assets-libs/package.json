@@ -13,11 +13,13 @@
         "dev": "gulp build"
     },
     "dependencies": {
+        "@mdi/font": "^7.4.47",
         "bxslider": "^4.2.17",
         "flag-icons": "^7.2.3",
         "jquery": "^3.7.1",
         "jquery-ui": "^1.13.3",
         "material-icons": "^1.13.12",
+        "moveable": "^0.53.0",
         "nestedSortable": "^1.3.4",
         "nouislider": "^15.8.1",
         "rangy": "^1.3.1",
