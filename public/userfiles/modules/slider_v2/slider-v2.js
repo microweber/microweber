@@ -50,6 +50,7 @@ class SliderV2 {
     runSwiper()
     {
         mw.lib.require('swiper');
+        console.log("module", mw.settings);
 
         let swiperConfig = {};
         if (this.config.loop) {

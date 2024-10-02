@@ -45,7 +45,7 @@
         mw.lib.require("collapse_nav");
         mw.lib.require('nouislider');
 
-        mw.require('icon_selector.js');
+
 
 
         mw.lib.require('flag_icons', true);

@@ -27,7 +27,7 @@ import { MWBroadcast } from '../api-core/services/services/broadcast.js';
 const vfm = createVfm();
 
 
-
+console.log(mw.settings)
 
 
 // const canvas = new LiveEditCanvas();

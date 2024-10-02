@@ -40,7 +40,7 @@ class MwModuleSettings extends \MicroweberPackages\FormBuilder\Elements\MwModule
             <script>mw.lib.require(\'flag_icons\')</script>
             <script>mw.require(\'prop_editor.js\')</script>
             <script>mw.require(\'module_settings.js\')</script>
-            <script>mw.require(\'icon_selector.js\')</script>
+
             <script>mw.require(\'wysiwyg.css\')</script>
             <div class="bs-component">
             <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1" dir="ltr">

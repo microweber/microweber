@@ -11,7 +11,7 @@
           href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap">
 
     <script>
-        mw.require('icon_selector.js');
+
         mw.lib.require('bootstrap4');
         mw.lib.require('bootstrap_select');
 

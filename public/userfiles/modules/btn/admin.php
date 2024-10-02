@@ -146,7 +146,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </style>
 
         <script>
-            mw.require('icon_selector.js')
+
             mw.require('wysiwyg.css');
             mw.require('editor.js');
         </script>

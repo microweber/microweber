@@ -152,6 +152,7 @@
     border: 1px solid #eee;
     padding: 7px;
     width: calc(25% - 12px);
+    padding: 7px 7px 7px 30px;
     ul{
         pointer-events: none;
         margin: 0;

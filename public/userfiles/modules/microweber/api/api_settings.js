@@ -4,21 +4,48 @@
         mw = {};
     }
 
+    const script = document.querySelector('script[data-public-url]');
+    let baseURL, templateURL ;
+
+    if(script) {
+        baseURL = script.dataset.publicUrl;
+        templateURL = script.dataset.templateUrl;
+    } else {
+        baseURL = '';
+        templateURL = '';
+    }
+
+
+    const mwurl = path => {
+
+        if(!path) {
+            return baseURL;
+        }
+        if(path.indexOf("/") !== 0) {
+            path = '/' + path;
+        }
+        let res = `${baseURL}${path || ''}`.replace(/([^:])(\/\/+)/g, '$1/');
+
+        return res;
+    };
+
+
+
+
 
      mw.settings = {
          regions: false,
          liveEdit: false,
          debug: true,
          basic_mode: false,
-         site_url: '<?php print site_url(); ?>',
-         template_url: '<?php print TEMPLATE_URL; ?>',
-         modules_url: '<?php print modules_url(); ?>',
-         includes_url: '<?php   print( mw_includes_url());  ?>',
-         upload_url: '<?php print site_url(); ?>api/upload/',
-         api_url: '<?php print site_url(); ?>api/',
-         libs_url: '<?php   print( mw_includes_url());  ?>api/libs/',
-         libs_url: '<?php   print( site_url());  ?>vendor/microweber-packages/frontend-assets-libs/',
-         api_html: '<?php print site_url(); ?>api_html/',
+         site_url: baseURL,
+         template_url: templateURL,
+         modules_url: mwurl('/userfiles/modules'),
+         includes_url: mwurl('/userfiles/modules/microweber/'),
+         upload_url: mwurl('/api/upload/'),
+         api_url: mwurl('/api'),
+         libs_url: mwurl('/vendor/microweber-packages/frontend-assets-libs/'),
+         api_html: mwurl('/api_html'),
          editables_created: false,
          element_id: false,
          text_edit_started: false,
@@ -29,12 +56,6 @@
          sorthandle_click: false,
          row_id: false,
 
-         edit_area_placeholder: '<div class="empty-element-edit-area empty-element ui-state-highlight ui-sortable-placeholder"><span><?php _ejs("Please drag items here"); ?></span></div>',
-         empty_column_placeholder: '<div id="_ID_" class="empty-element empty-element-column"><?php _ejs("Please drag items here"); ?></div>',
-         handles: {
-             item: "<div title='<?php _ejs("Click to select this item"); ?>.' class='mw_master_handle' id='items_handle'></div>"
-         },
-         sorthandle_delete_confirmation_text: "<?php _ejs("Are you sure you want to delete this element"); ?>?"
      };
 
      const assetsURL = mw.settings.site_url + "vendor/microweber-packages/frontend-assets";
@@ -65,6 +86,7 @@
         ],
         swiper: [
             function () {
+                console.log(mw.settings.libs_url + '/swiper/swiper.js')
                 mw.require(mw.settings.libs_url + '/swiper/swiper.js');
                 mw.require(mw.settings.libs_url + '/swiper/swiper.css');
 
@@ -84,6 +106,7 @@
         ],
         bxslider: [
             function () {
+                console.log(12, mw.settings.libs_url)
                 mw.require(mw.settings.libs_url + '/bxSlider/jquery.bxslider.min.js', true);
                 mw.require(mw.settings.libs_url + '/bxSlider/jquery.bxslider.css', true, undefined, true);
 

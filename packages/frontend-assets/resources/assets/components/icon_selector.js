@@ -113,7 +113,8 @@
                     });
                 },
                 name: 'Icons Mind Line',
-                load:  mw.settings.modules_url + 'microweber/api/libs/mw-icons-mind/line/style.css',
+
+                load:  mw.settings.site_url + 'vendor/microweber-packages/frontend-assets-libs/mw-icons-mind/line/style.css',
                 unload: function () {
                     document.querySelector('link[href*="mw-icons-mind/line/style"]').remove();
                 },
@@ -169,7 +170,8 @@
                     });
                 },
                 name: 'Icons Mind Solid',
-                load:  mw.settings.modules_url + 'microweber/api/libs/mw-icons-mind/solid/style.css',
+
+                load:  mw.settings.site_url + 'vendor/microweber-packages/frontend-assets-libs/mw-icons-mind/solid/style.css',
                 unload: function () {
                     document.querySelector('link[href*="mw-icons-mind/solid/style"]').remove();
                 },
@@ -226,7 +228,8 @@
                     });
                 },
                 name: 'Material Design Icons',
-                load:  mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css',
+                // load:  mw.settings.modules_url + 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.min.css',
+                load:  mw.settings.site_url + 'vendor/microweber-packages/frontend-assets-libs/mdi/css/materialdesignicons.css',
                 unload: function () {
                     document.querySelector('link[href*="materialdesignicons"]').remove();
                 },

@@ -1,9 +1,10 @@
 import  MicroweberBaseClass  from "../../containers/base-class.js";
-
+import   "../tools/spinner.js";
 
 class LiveEditCanvasBase extends MicroweberBaseClass {
     constructor() {
         super();
+
     }
 
     getIdentity() {

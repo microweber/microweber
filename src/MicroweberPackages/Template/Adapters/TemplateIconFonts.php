@@ -19,17 +19,19 @@ class TemplateIconFonts
 
     public function getIconSets(): array
     {
+        $basePath = site_url() . '/vendor/microweber-packages/frontend-assets-libs';
+
         $defaultFonts = [
             [
                 'name' => 'Material Icons',
                 'font_family' => 'materialIcons',
-                'url' => modules_url() . 'microweber/api/libs/material_icons/iconfont/material-icons.css',
+                'url' => $basePath . '/material-icons/material-icons.css',
                 'icon_class' => 'material-icons',
             ],
          [
                 'name' => 'Material Design Icons',
                 'font_family' => 'materialDesignIcons',
-                'url' => modules_url() . 'microweber/css/fonts/materialdesignicons/css/materialdesignicons.css',
+                'url' =>  $basePath . '/mdi/css/materialdesignicons.min.css',
                 'icon_class' => 'material-design-icons',
             ],
 
@@ -37,7 +39,7 @@ class TemplateIconFonts
             [
                 'name' => 'Font Awesome',
                 'font_family' => 'fontAwesome',
-                'url' => modules_url() . 'microweber/api/libs/fontawesome-4.7.0/css/font-awesome.min.css',
+                'url' =>  $basePath . '/font-awesome/font-awesome.css',
                 'icon_class' => 'fa',
                 'icon_class_prefix' => 'fa-',
             ],
@@ -45,7 +47,7 @@ class TemplateIconFonts
             [
                 'name' => 'IconsMind Line',
                 'font_family' => 'iconsMindLine',
-                'url' => modules_url() . 'microweber/api/libs/mw-icons-mind/line/style.css',
+                'url' =>  $basePath . '/mw-icons-mind/line/style.css',
                 'icon_class' => 'mw-micon',
                 'icon_class_prefix' => 'mw-micon-',
             ],
@@ -53,7 +55,8 @@ class TemplateIconFonts
             [
                 'name' => 'IconsMind Solid',
                 'font_family' => 'iconsMindSolid',
-                'url' => modules_url() . 'microweber/api/libs/mw-icons-mind/solid/style.css',
+
+                'url' =>  $basePath . '/mw-icons-mind/solid/style.css',
                 'icon_class' => 'mw-micon-solid',
                 'icon_class_prefix' => 'mw-micon-solid-',
             ],

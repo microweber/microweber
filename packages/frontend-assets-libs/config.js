@@ -58,6 +58,7 @@ const assets = [
     {target: `jquery-ui`, path: `node_modules/jquery-ui/dist/themes/base/images`},
     {target: `material-icons`, path: `node_modules/material-icons/iconfont`},
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/fonts`},
+    {target: `mw-icons-mind`, path: `./resources/local-libs/mw-icons-mind`},
     {
         target: `tinymce`,
         path: [
@@ -67,6 +68,15 @@ const assets = [
             `node_modules/tinymce/themes`,
         ]
     },
+    {
+        target: `mdi`,
+        path: [
+            `node_modules/@mdi/font/css`,
+            `node_modules/@mdi/font/fonts`,
+
+        ]
+    },
+
 ];
 
 const copy = [

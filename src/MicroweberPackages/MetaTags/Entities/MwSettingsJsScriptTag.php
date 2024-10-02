@@ -18,7 +18,7 @@ class MwSettingsJsScriptTag implements TagInterface, \Stringable
 
         $get_apijs_settings_url = app()->template_manager->get_apijs_settings_url();
         $siteUrl = site_url();
-        $append_html .= '<script src="' . $get_apijs_settings_url . '" id="mw-api-settings" data-base-url="'.$siteUrl.'" ></script>' . "\r\n";
+        $append_html .= '<script src="' . $get_apijs_settings_url . '" id="mw-api-settings" data-public-url="'.$siteUrl.'" data-template-url="'.template_url().'" ></script>' . "\r\n";
 
         return $append_html;
     }

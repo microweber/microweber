@@ -26,6 +26,7 @@
         ],
         swiper: [
             function () {
+                console.log(mw.settings.libs_url + '/swiper/swiper.js')
                 mw.require(mw.settings.libs_url + '/swiper/swiper.js');
                 mw.require(mw.settings.libs_url + '/swiper/swiper.css');
 
@@ -45,6 +46,7 @@
         ],
         bxslider: [
             function () {
+                console.log(888, mw.settings.libs_url)
                 mw.require(mw.settings.libs_url + '/bxSlider/jquery.bxslider.min.js', true);
                 mw.require(mw.settings.libs_url + '/bxSlider/jquery.bxslider.css', true, undefined, true);
 

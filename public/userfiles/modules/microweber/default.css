@@ -1,9 +1,9 @@
 /*
  * Microweber - Default styles
 */
-
+/*
 @import url("./css/ui.css");
-@import url("./css/animate.min.css");
+@import url("./css/animate.min.css");*/
 
 [data-layout-container] {
     min-height: 100px;

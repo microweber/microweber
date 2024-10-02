@@ -3,7 +3,7 @@
     <div class="tree-example"></div>
     <script>
         $(document).ready(function(){
-            $.get("<?php print $apiurl; ?>content/get_admin_js_tree_json", function(tdata){
+            $.get("<?php print $apiurl; ?>/content/get_admin_js_tree_json", function(tdata){
                 new mw.tree({
                     element:'.tree-example',
                     data:tdata,
