@@ -9,26 +9,28 @@ use Nwidart\Modules\Json;
 
 class SplClassLoader
 {
+    public $namespaces = [];
+    public $notFoundClasses = [];
+    public $foundClasses = [];
 
-    public static $namespaces = [];
 
     public static function addNamespace($namespace, $path)
     {
-        self::$namespaces[$namespace][] = $path;
+
+        $loader = new self();
+        $loader->namespaces[$namespace][] = $path;
+        spl_autoload_register([$loader, 'autoloadClass']);
     }
-
-    public static $notFoundClasses = [];
-    public static $foundClasses = [];
-
-
-    public static function autoloadClass($class): bool
+    public function autoloadClass($class): bool
     {
-        if (empty(self::$namespaces) || isset(self::$notFoundClasses[$class])) {
+
+
+        if (empty($this->namespaces) || isset($this->notFoundClasses[$class])) {
             return false;
         }
 
-        if (isset(self::$foundClasses[$class])) {
-            require_once(self::$foundClasses[$class]);
+        if (isset($this->foundClasses[$class])) {
+            require_once($this->foundClasses[$class]);
             return true;
         }
 
@@ -37,13 +39,13 @@ class SplClassLoader
 
         while (!empty($segments)) {
             $namespace = implode('\\', $segments);
-            if (isset(self::$namespaces[$namespace])) {
-                foreach (self::$namespaces[$namespace] as $path) {
+            if (isset($this->namespaces[$namespace])) {
+                foreach ($this->namespaces[$namespace] as $path) {
                     $relativeClass = str_replace($namespace . '\\', '', $originalClass);
                     $classFile = str_replace('\\', DIRECTORY_SEPARATOR, $relativeClass);
                     $file = rtrim($path, '\\/') . DIRECTORY_SEPARATOR . rtrim($classFile, '\\/') . '.php';
                     if (is_file($file)) {
-                        self::$foundClasses[$class] = $file;
+                        $this->foundClasses[$class] = $file;
                         require_once($file);
                         return true;
                     }
@@ -52,10 +54,7 @@ class SplClassLoader
             array_pop($segments);
         }
 
-       self::$notFoundClasses[$class] = true;
+        $this->notFoundClasses[$class] = true;
         return false;
     }
-
-
-
 }

@@ -36,6 +36,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
 
 
+
         parent::setUp();
 
 
@@ -229,8 +230,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 //        load_all_service_providers_for_modules();
 //         load_functions_files_for_template();
 //        load_service_providers_for_template();
-       // $app->rebootApplication();
-        $this->app = $app;
+     //  $app->rebootApplication();
+      //  $this->app = $app;
         return $app;
     }
 
@@ -301,7 +302,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
-
+//        \Config::set('modules.cache.enabled',false);
+//        \Config::set('templates.cache.enabled',false);
 
         if ($this->template_name) {
 

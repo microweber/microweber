@@ -78,7 +78,7 @@ class LaravelModulesFileRepository extends FileRepository
 
         $this->cacheRepository = new LaravelModulesCacheRepository();
 
-
+       
     }
 
 

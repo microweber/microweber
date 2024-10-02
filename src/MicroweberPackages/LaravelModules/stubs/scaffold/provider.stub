@@ -4,6 +4,7 @@ namespace $NAMESPACE$;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 
 class $CLASS$ extends BaseModuleServiceProvider
@@ -30,6 +31,8 @@ class $CLASS$ extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, '$MIGRATIONS_PATH$'));
+       // $this->loadRoutesFrom(module_path($this->moduleName, '$WEB_ROUTES_PATH$'));
+
     }
 
 }

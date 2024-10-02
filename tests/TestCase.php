@@ -10,4 +10,14 @@ abstract class TestCase extends \MicroweberPackages\Core\tests\TestCase
     use CreatesApplication;
     use WithConsoleEvents;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
+
 }

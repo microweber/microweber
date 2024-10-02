@@ -1,0 +1,11 @@
+{
+    "name": "Form",
+    "alias": "form",
+    "description": "",
+    "keywords": [],
+    "priority": 10,
+    "providers": [
+        "Modules\\Form\\Providers\\FormServiceProvider"
+    ],
+    "files": []
+}

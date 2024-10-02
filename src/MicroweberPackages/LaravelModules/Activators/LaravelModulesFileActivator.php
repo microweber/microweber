@@ -179,17 +179,25 @@ class LaravelModulesFileActivator extends FileActivator
      *
      * @throws FileNotFoundException
      */
+
+    static $jsonMemoryCache = [];
     private function getModulesStatuses(): array
     {
+        if(self::$jsonMemoryCache){
 
-        if (! $this->config->get($this->configPrefix.'.cache.enabled')) {
-            return $this->readJson();
+            return self::$jsonMemoryCache;
         }
 
-        return $this->cache->store($this->config->get($this->configPrefix.'.cache.driver'))->remember($this->cacheKey, $this->cacheLifetime, function () {
-
-            return $this->readJson();
-        });
+        self::$jsonMemoryCache = $this->readJson();
+        return self::$jsonMemoryCache;
+//        if (! $this->config->get($this->configPrefix.'.cache.enabled')) {
+//            return $this->readJson();
+//        }
+//
+//        return $this->cache->store($this->config->get($this->configPrefix.'.cache.driver'))->remember($this->cacheKey, $this->cacheLifetime, function () {
+//
+//            return $this->readJson();
+//        });
     }
 
     /**

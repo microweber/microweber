@@ -36,7 +36,6 @@ use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
-use MicroweberPackages\Form\Providers\FormServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
@@ -183,7 +182,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(ShippingManagerServiceProvider::class);
         $this->app->register(OfferServiceProvider::class);
         $this->app->register(FileManagerServiceProvider::class);
-        $this->app->register(FormServiceProvider::class);
+      //  $this->app->register(FormServiceProvider::class);
         $this->app->register(FormBuilderServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);

@@ -61,7 +61,21 @@ trait ModulesRepositoryTrait
 
         return $modules;
     }
+    /**
+     * Get list of enabled modules.
+     */
+    public function allEnabled(): array
+    {
+        return $this->getByStatus(true);
+    }
 
+    /**
+     * Get list of disabled modules.
+     */
+    public function allDisabled(): array
+    {
+        return $this->getByStatus(false);
+    }
     public function getOrdered($direction = 'asc'): array
     {
 
@@ -102,6 +116,7 @@ trait ModulesRepositoryTrait
     {
         $modules = [];
         $all = $this->all();
+
         /** @var \Nwidart\Modules\Laravel\Module $module */
         foreach ($all as $name => $module) {
             if ($module->isStatus($status)) {

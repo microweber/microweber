@@ -69,7 +69,7 @@ class StaticModuleCreator
         if (in_array($composer, self::$registeredComposerFiles)) {
             return;
         }
-        self::$registeredComposerFiles[] = $composer;
+       // self::$registeredComposerFiles[] = $composer;
 
 
         $autoloadNamespaces = $composerAutoloadContent['psr-4'] ?? [];
@@ -94,7 +94,7 @@ class StaticModuleCreator
     {
         if (isset(self::$loadModuleNamespacesPathLoadedCache[$path])) {
 
-            return;
+      //      return;
         }
 
         foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
@@ -121,7 +121,7 @@ class StaticModuleCreator
                 }
             }
         }
-        self::$loadModuleNamespacesPathLoadedCache[$path] = true;
+     //   self::$loadModuleNamespacesPathLoadedCache[$path] = true;
     }
 
 

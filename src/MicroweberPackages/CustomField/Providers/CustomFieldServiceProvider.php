@@ -4,6 +4,7 @@ namespace MicroweberPackages\CustomField\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
+use MicroweberPackages\CustomField\FieldsManager;
 use MicroweberPackages\CustomField\Http\Livewire\CustomFieldAddModalComponent;
 use MicroweberPackages\CustomField\Http\Livewire\CustomFieldEditModalComponent;
 use MicroweberPackages\CustomField\Http\Livewire\CustomFieldsListComponent;
@@ -21,6 +22,12 @@ class CustomFieldServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadMigrationsFrom(__DIR__. '/../database/migrations/');
+        /**
+         * @property \MicroweberPackages\CustomField\FieldsManager $fields_manager
+         */
+        $this->app->singleton('fields_manager', function ($app) {
+            return new FieldsManager();
+        });
 
         /**
          * @property CustomFieldRepository $custom_field_repository

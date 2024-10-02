@@ -190,7 +190,7 @@ class LaravelModule extends Module
         if ($providers) {
             foreach ($providers as $provider) {
 
-                $this->app->register($provider);
+                app()->register($provider);
             }
         }
 

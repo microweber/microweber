@@ -216,7 +216,9 @@
         },
         "merge-plugin": {
             "require": [
-                "src/MicroweberPackages/*/composer.json"
+                "src/MicroweberPackages/*/composer.json",
+                "Modules/*/composer.json",
+                "Templates/*/composer.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,
