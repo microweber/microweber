@@ -32,9 +32,18 @@ return new class extends Migration
     {
         if (Schema::hasTable('addresses')) {
             Schema::table('addresses', function (Blueprint $table) {
-                $table->dropColumn('company_name');
-                $table->dropColumn('company_vat');
-                $table->dropColumn('company_vat_registered');
+
+                if(Schema::hasColumn('addresses', 'company_name')) {
+                    $table->dropColumn('company_name');
+                }
+                if(Schema::hasColumn('addresses', 'company_vat')) {
+                    $table->dropColumn('company_vat');
+                }
+                if(Schema::hasColumn('addresses', 'company_vat_registered')) {
+                    $table->dropColumn('company_vat_registered');
+                }
+
+
             });
         }
     }

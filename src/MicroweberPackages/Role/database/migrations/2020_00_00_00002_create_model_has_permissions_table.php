@@ -33,6 +33,6 @@ class CreateModelHasPermissionsTable extends Migration
     {
         $tableNames = config('permission.table_names');
 
-        Schema::drop($tableNames['model_has_permissions']);
+        Schema::dropIfExists($tableNames['model_has_permissions']);
     }
 }

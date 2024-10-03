@@ -35,6 +35,6 @@ class CreateRolesTable extends Migration
     {
         $tableNames = config('permission.table_names');
 
-        Schema::drop($tableNames['roles']);
+        Schema::dropIfExists($tableNames['roles']);
     }
 }

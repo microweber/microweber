@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Option\Repositories;
 
 
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
@@ -77,6 +78,11 @@ class OptionRepository extends AbstractRepository
         }
 
         $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+            if (!Schema::hasTable('options')) {
+                return [];
+            }
+
+
 
             $allOptions = [];
             $getAllOptions = \DB::table('options')

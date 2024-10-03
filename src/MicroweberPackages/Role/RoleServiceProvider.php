@@ -13,13 +13,14 @@ namespace MicroweberPackages\Role;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\Role\Http\Controllers\IndexController;
 use MicroweberPackages\Role\Http\Controllers\RoleController;
 
 
 class RoleServiceProvider extends ServiceProvider
 {
-
+    use MergesConfig;
 
     public function register()
     {
@@ -42,9 +43,4 @@ class RoleServiceProvider extends ServiceProvider
     }
 
 
-    protected function mergeConfigFrom($path, $key)
-    {
-        $config = $this->app['config']->get($key, []);
-        $this->app['config']->set($key, array_merge($config, require $path,));
-    }
 }

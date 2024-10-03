@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Managers;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\App\Models\SystemLicenses;
 use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Install\UpdateMissingConfigFiles;
@@ -177,8 +178,13 @@ class UpdateManager
     public function perform_post_update_if_needed()
     {
         if (defined('MW_VERSION')) {
-            $websiteOptions = app()->option_repository->getWebsiteOptions();
+            $websiteOptions = array();
+            if (!Schema::hasTable('options')) {
 
+return;
+
+            }
+            $websiteOptions = app()->option_repository->getWebsiteOptions();
             $app_version = false;
             $app_base_path = false;
             if (isset($websiteOptions['app_version']) and $websiteOptions['app_version']) {

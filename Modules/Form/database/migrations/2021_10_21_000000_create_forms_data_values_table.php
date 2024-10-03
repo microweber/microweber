@@ -12,6 +12,10 @@ class CreateFormsDataValuesTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('forms_data_values')){
+            return;
+        }
+
         Schema::create('forms_data_values', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('form_data_id')->nullable();
@@ -21,5 +25,14 @@ class CreateFormsDataValuesTable extends Migration
             $table->longText('field_value')->nullable();
             $table->longText('field_value_json')->nullable();
         });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down(){
+        Schema::dropIfExists('forms_data_values');
     }
 }
