@@ -3,19 +3,17 @@
 namespace MicroweberPackages\Customer\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Admin\Http\Controllers\AdminController;
-use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Invoice\Conversation;
-use MicroweberPackages\Customer\Models\Customer;
-use MicroweberPackages\Country\Models\Country;
-use MicroweberPackages\Invoice\Group;
-use MicroweberPackages\Customer\Http\Requests;
-use MicroweberPackages\Invoice\Notifications\CustomerAdded;
 use Illuminate\Support\Facades\Hash;
+use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Currency\Currency;
+use MicroweberPackages\Customer\Http\Requests;
 use MicroweberPackages\Customer\Models\Address;
-use Illuminate\Support\Facades\DB;
+use MicroweberPackages\Customer\Models\Customer;
+use MicroweberPackages\Invoice\Conversation;
+use MicroweberPackages\Invoice\Group;
+use MicroweberPackages\Invoice\Notifications\CustomerAdded;
 use MicroweberPackages\Order\Models\Order;
+use Modules\Country\Models\Country;
 
 class CustomersController extends AdminController
 {
@@ -131,7 +129,7 @@ class CustomersController extends AdminController
         $currencies = Currency::all();
 
         if (empty($countries)) {
-            countries_list();
+
             $countries = Country::all();
         }
 

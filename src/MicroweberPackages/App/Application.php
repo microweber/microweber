@@ -16,6 +16,9 @@ use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
 use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Helper\XSSSecurity;
+use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
+use MicroweberPackages\LaravelTemplates\Contracts\TemplatesRepositoryInterface;
+use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Microweber\Microweber;
@@ -42,7 +45,6 @@ use MicroweberPackages\Content\DataFieldsManager;
 use MicroweberPackages\Database\DatabaseManager;
 use MicroweberPackages\Event\Event;
 use MicroweberPackages\CustomField\FieldsManager;
-use MicroweberPackages\Form\FormsManager;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\UrlManager;
 use MicroweberPackages\Media\MediaManager;
@@ -106,7 +108,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property CaptchaManager               $captcha_manager
  * @property Ui                            $ui
  * @property Http                              $http
- * @property FormsManager                  $forms_manager
+ * @property \Modules\Form\FormsManager                  $forms_manager
  * @property DataFieldsManager     $data_fields_manager
  * @property TagsManager           $tags_manager
  * @property AttributesManager     $attributes_manager
@@ -120,6 +122,8 @@ use MicroweberPackages\Utils\Http\Http;
  * @property Microweber       $microweber
  * @property PaymentMethodManager       $payment_method_manager
  * @property ShippingMethodManager      $shipping_method_manager
+ * @property LaravelTemplatesFileRepository      $templates
+ * @property LaravelModulesFileRepository $modules
 
 
 

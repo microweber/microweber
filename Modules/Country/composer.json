@@ -1,0 +1,32 @@
+{
+    "name": "modules/country",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Country\\": "app/",
+            "Modules\\Country\\Database\\Factories\\": "database/factories/",
+            "Modules\\Country\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": ["app/country_functions.php"]
+
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Country\\Tests\\": "tests/"
+        }
+    }
+}

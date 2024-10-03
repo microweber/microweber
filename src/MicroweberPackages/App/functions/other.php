@@ -752,10 +752,7 @@ function get_all_functions_files_for_modules($options = false)
     return $configs;
 }
 
-function countries_list($param = false)
-{
-    return mw()->forms_manager->countries_list($param);
-}
+
 
 function template_dir($param = false)
 {

@@ -202,7 +202,7 @@ class MicroweberServiceProvider extends ServiceProvider
         //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
         $this->app->register(SwaggerServiceProvider::class);
         //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
-        $this->app->register(CountryServiceProvider::class);
+       // $this->app->register(CountryServiceProvider::class);
         // $this->app->register(\EloquentFilter\ServiceProvider::class);
         $this->app->register(MailTemplatesServiceProvider::class);
         $this->app->register(NotificationServiceProvider::class);

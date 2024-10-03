@@ -1,7 +1,8 @@
 <?php
-namespace MicroweberPackages\Country\Models;
+namespace Modules\Country\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Country extends Model
@@ -12,8 +13,8 @@ class Country extends Model
     public $timestamps = false;
     protected $fillable = ['code','name','phonecode'];
 
-    public function address()
-    {
-        return $this->hasMany(Address::class);
-    }
+//    public function address()
+//    {
+//        return $this->hasMany(Address::class);
+//    }
 }

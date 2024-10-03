@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Country\Models\Country;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Address extends Model
@@ -37,6 +36,6 @@ class Address extends Model
 
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(\Modules\Country\Models\Country::class);
     }
 }

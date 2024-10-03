@@ -4,7 +4,6 @@ namespace MicroweberPackages\Customer\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Customer\Models\ModelFilters\CustomerFilter;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Order\Models\Order;
@@ -174,7 +173,7 @@ class Customer extends Model
             $city = $this->addresses[0]->city;
         }
         if (isset($this->addresses[0]->country_id)) {
-            $findCountry = \MicroweberPackages\Country\Models\Country::where('id', $this->addresses[0]->country_id)->first();
+            $findCountry = \Modules\Country\Models\Country::where('id', $this->addresses[0]->country_id)->first();
             if ($findCountry) {
                 $country = $findCountry->name;
             }

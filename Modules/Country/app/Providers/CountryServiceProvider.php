@@ -1,17 +1,17 @@
 <?php
 
-namespace $NAMESPACE$;
+namespace Modules\Country\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 
-class $CLASS$ extends BaseModuleServiceProvider
+class CountryServiceProvider extends BaseModuleServiceProvider
 {
-    protected string $moduleName = '$MODULE$';
+    protected string $moduleName = 'Country';
 
-    protected string $moduleNameLower = '$LOWER_NAME$';
+    protected string $moduleNameLower = 'country';
 
     /**
      * Boot the application events.
@@ -27,11 +27,8 @@ class $CLASS$ extends BaseModuleServiceProvider
      */
     public function register(): void
     {
-        $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, '$MIGRATIONS_PATH$'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
 
     }
 

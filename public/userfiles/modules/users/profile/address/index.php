@@ -1,7 +1,5 @@
 <?php
 
-use MicroweberPackages\Country\Models\Country;
-
 $user = get_user();
 
 if (empty($user)) {
@@ -70,7 +68,7 @@ if ($findCustomer) {
 $dataCountry = countries_list();
 
 $countries = [];
-$getCountries = \MicroweberPackages\Country\Models\Country::all();
+$getCountries = \Modules\Country\Models\Country::all();
 if ($getCountries->count() > 0) {
     $countries = $getCountries->toArray();
 }
