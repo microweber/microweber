@@ -9,6 +9,7 @@ use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Vite;
 use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
@@ -25,20 +26,27 @@ class MultilanguageFilamentPlugin implements Plugin
     {
 
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
-
-          //  return;
+            return;
         }
 
 
         // TODO
         $defaultLocales = [];
-        $getSupportedLocales = DB::table('multilanguage_supported_locales')
-            ->where('is_active', 'y')->get();
-        if ($getSupportedLocales->count() > 0) {
-            foreach ($getSupportedLocales as $locale) {
-                $defaultLocales[] = $locale->locale;
+
+        try {
+            if (Schema::hasTable('multilanguage_locales')) {
+                $getSupportedLocales = DB::table('multilanguage_supported_locales')
+                    ->where('is_active', 'y')->get();
+                if ($getSupportedLocales->count() > 0) {
+                    foreach ($getSupportedLocales as $locale) {
+                        $defaultLocales[] = $locale->locale;
+                    }
+                }
             }
+        } catch (\Exception $e) {
+            $defaultLocales = [];
         }
+
 
         if (empty($defaultLocales)) {
             //@todo disable multilanguage
@@ -48,9 +56,10 @@ class MultilanguageFilamentPlugin implements Plugin
 
         $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
         $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
-
-        $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
-        self::configureLanguageSwitch();
+        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+            $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
+            self::configureLanguageSwitch();
+        }
 
     }
 
@@ -60,7 +69,7 @@ class MultilanguageFilamentPlugin implements Plugin
             return;
         }
         FilamentAsset::register([
-          //  Js::make('mw-filament-translatable', Vite::asset('src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js')),
+            //  Js::make('mw-filament-translatable', Vite::asset('src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js')),
         ]);
 
 

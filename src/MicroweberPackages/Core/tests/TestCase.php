@@ -5,6 +5,7 @@ namespace MicroweberPackages\Core\tests;
 use Illuminate\Foundation\Testing\WithConsoleEvents;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use MicroweberPackages\Install\DbInstaller;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
 use Tests\CreatesApplication;
@@ -345,6 +346,16 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         }
 
         return $emailAsArray;
+    }
+
+
+    protected function afterRefreshingDatabase()
+    {
+//        $migrator = app()->mw_migrator->run(app()->migrator->paths());
+//dd(333);
+//        $installer = new DbInstaller();
+//        $installer->logger = $this;
+//        $installer->createSchema();
     }
 
 }

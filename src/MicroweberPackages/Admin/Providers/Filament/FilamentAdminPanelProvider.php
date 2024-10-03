@@ -204,7 +204,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->plugin(new MicroweberFilamentTheme());
         $panel->plugin(new UsersFilamentPlugin());
         $panel->plugin(new MarketplaceFilamentPlugin());
-        $panel->plugin(new MultilanguageFilamentPlugin());
+        //$panel->plugin(new MultilanguageFilamentPlugin());
 
         if ($registeredPlugins) {
             foreach ($registeredPlugins as $registeredPlugin) {

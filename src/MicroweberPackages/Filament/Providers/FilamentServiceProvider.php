@@ -106,24 +106,24 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
 
         if(mw_is_installed()) {
             // TODO move to the multilanguage module
-            $defaultLocales = [];
-            $defaultLocaleFlags = [];
-            $getSupportedLocales = DB::table('multilanguage_supported_locales')
-                ->whereNotNull('locale')
-                ->where('locale', '!=', '')
-                ->where('is_active', 'y')->get();
-            if ($getSupportedLocales->count() > 0) {
-                foreach ($getSupportedLocales as $locale) {
-                    $flagUrl = modules_url() . 'microweber/api/libs/flag-icon-css/flags/1x1/' . get_flag_icon($locale->locale) . '.svg';
-                    $defaultLocaleFlags[$locale->locale] = $flagUrl;
-                    $defaultLocales[] = $locale->locale;
-                }
-            }
-
-            LanguageSwitch::configureUsing(function (LanguageSwitch $switch) use ($defaultLocales, $defaultLocaleFlags) {
-                $switch->flags($defaultLocaleFlags);
-                $switch->locales($defaultLocales); // also accepts a closure
-            });
+//            $defaultLocales = [];
+//            $defaultLocaleFlags = [];
+//            $getSupportedLocales = DB::table('multilanguage_supported_locales')
+//                ->whereNotNull('locale')
+//                ->where('locale', '!=', '')
+//                ->where('is_active', 'y')->get();
+//            if ($getSupportedLocales->count() > 0) {
+//                foreach ($getSupportedLocales as $locale) {
+//                    $flagUrl = modules_url() . 'microweber/api/libs/flag-icon-css/flags/1x1/' . get_flag_icon($locale->locale) . '.svg';
+//                    $defaultLocaleFlags[$locale->locale] = $flagUrl;
+//                    $defaultLocales[] = $locale->locale;
+//                }
+//            }
+//
+//            LanguageSwitch::configureUsing(function (LanguageSwitch $switch) use ($defaultLocales, $defaultLocaleFlags) {
+//                $switch->flags($defaultLocaleFlags);
+//                $switch->locales($defaultLocales); // also accepts a closure
+//            });
         }
         // Register filament assets
         FilamentAsset::register([
