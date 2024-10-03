@@ -161,6 +161,12 @@
         }
     },
     "scripts": {
+        "publish-assets": [
+            "@php artisan vendor:publish --tag=public --force --ansi",
+            "@php artisan livewire:publish --assets",
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan filament:upgrade"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",

@@ -3,7 +3,7 @@
     "alias": "form",
     "description": "",
     "keywords": [],
-    "priority": 10,
+    "priority": 0,
     "providers": [
         "Modules\\Form\\Providers\\FormServiceProvider"
     ],

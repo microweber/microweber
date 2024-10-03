@@ -191,6 +191,69 @@ class ModuleManager
         return $this->scan_for_modules($options);
     }
 
+    public function reload_laravel_templates()
+    {
+        if (!app()->bound('templates')) {
+            return;
+        }
+
+        config()->set('templates.cache.enabled', false);
+        $laravelModules = app('templates');
+        $modules = $laravelModules->scan();
+
+
+
+        if ($modules) {
+            if (!defined('STDIN')) {
+                define('STDIN', fopen("php://stdin", "r"));
+            }
+
+            foreach ($modules as $module) {
+                /** @var \Nwidart\Modules\Laravel\Module $module */
+
+                if (!$module) {
+                    continue;
+                }
+                $composerPath = $module->getPath() . DS . 'composer.json';
+                if (!is_file($composerPath)) {
+                    continue;
+                }
+                $moduleJsonPath = $module->getPath() . DS . 'module.json';
+                if (!is_file($moduleJsonPath)) {
+                    continue;
+                }
+
+
+                $modulePath = $module->getPath();
+
+                $moduleDisabled = $module->isStatus(0);
+                if($moduleDisabled){
+                    continue;
+                }
+
+
+
+                $json = @file_get_contents($moduleJsonPath);
+                $json = @json_decode($json, true);
+                if (!$json) {
+                    continue;
+                }
+
+                //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
+                $module->enable();
+                //$module->registerProviders();
+
+
+                $autoload = $module->getComposerAttr('autoload', $json);
+
+                Artisan::call('template:migrate', ['module' => $module->getLowerName(), '--force']);
+                Artisan::call('template:publish', ['module' => $module->getLowerName(), '--force']);
+
+
+            }
+        }
+    }
+
     public function reload_laravel_modules()
     {
       //  return;

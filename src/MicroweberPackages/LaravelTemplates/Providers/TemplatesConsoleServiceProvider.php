@@ -33,6 +33,7 @@ class TemplatesConsoleServiceProvider extends ServiceProvider
             \MicroweberPackages\LaravelTemplates\Commands\Make\TemplateMakeCommand::class,
             \MicroweberPackages\LaravelTemplates\Commands\Make\TemplateProviderMakeCommand::class,
             \MicroweberPackages\LaravelTemplates\Commands\Publish\TemplatePublishCommand::class,
+            \MicroweberPackages\LaravelTemplates\Commands\Migrate\TemplateMigrateCommand::class,
         ]);
     }
 }

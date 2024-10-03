@@ -32,6 +32,8 @@ const runNpmScript = (folder) => {
                 }
                 resolve();
             });
+
+
         });
     });
 };
@@ -72,7 +74,21 @@ const run = async () => {
     });
 
     await Promise.all(promises);
+    console.log('All npm build jobs are done!');
+
+    console.log(`Running 'composer publish-assets'`);
+    exec('composer publish-assets', (err, stdout, stderr) => {
+        if (err) {
+            console.error(`Error running composer publish-assets:`, err);
+            return;
+        }
+        console.log(`Output from composer publish-assets:`, stdout);
+        if (stderr) {
+            console.error(`Stderr from composer publish-assets:`, stderr);
+        }
+    });
     console.log('All done!');
+
 };
 
 run();
