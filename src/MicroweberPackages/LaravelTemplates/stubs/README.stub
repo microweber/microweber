@@ -1,2 +1,54 @@
 # $STUDLY_NAME$
 
+
+
+## Run template migrations
+
+```sh
+php artisan template:migrate $STUDLY_NAME$
+```
+
+
+
+## Publish template assets
+
+```sh
+php artisan template:publish $STUDLY_NAME$
+```
+
+
+
+### Use template assets in your .blade.php file
+
+Using vite assets
+```blade
+{{ template_vite('templates/$LOWER_NAME$/dist', 'resources/assets/js/app.js') }}
+{{ template_vite('templates/$LOWER_NAME$/dist', 'resources/assets/sass/app.scss') }}
+```
+
+
+Using static assets
+```blade
+{{ asset('templates/$LOWER_NAME$/img/icon.svg') }}
+ ```
+
+### Template config values
+```php
+config('templates.$LOWER_NAME$.name')
+```
+
+
+
+### Template views
+
+Extend master layout
+
+```php
+@extends('templates.$LOWER_NAME$::layouts.master')
+```
+
+Use template view
+
+```php
+view('templates.$LOWER_NAME$::index')
+```
