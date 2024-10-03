@@ -133,7 +133,8 @@
 
         </script>
 
-        @vite('packages/frontend-assets/resources/assets/ui/live-edit-app.js')
+        @vite('resources/assets/ui/live-edit-app.js',  'vendor/microweber-packages/frontend-assets/build')
+
     </div>
 
 
