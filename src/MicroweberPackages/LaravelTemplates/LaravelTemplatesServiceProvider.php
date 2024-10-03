@@ -21,6 +21,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
     // use MergesConfig;
     public function boot()
     {
+
         //  $this->registerNamespaces();
         $this->registerModules();
 

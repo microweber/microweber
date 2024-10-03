@@ -120,7 +120,6 @@ class MicroweberServiceProvider extends ServiceProvider
 //        $this->app->register(BladeUIServiceProvider::class);
         $this->app->register(TemplateManagerServiceProvider::class);
 
-        $this->app->register(LivewireServiceProvider::class);
 
         $this->app->register(FortifyServiceProvider::class);
         $this->app->register(UserServiceProvider::class);
@@ -144,6 +143,7 @@ class MicroweberServiceProvider extends ServiceProvider
         // $this->app->register(AssetsServiceProvider::class);
         $this->app->register(TranslationServiceProvider::class);
         $this->app->register(TagsManagerServiceProvider::class);
+        $this->app->register(LivewireServiceProvider::class);
 
 
         $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
@@ -213,7 +213,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(LiveEditServiceProvider::class);
-         Debugbar::startMeasure('modules_load_service_providers', 'Loading modules');
+      //   Debugbar::startMeasure('modules_load_service_providers', 'Loading modules');
 
         $this->app->register(LaravelModulesServiceProvider::class);
       //  $this->app->register(LaravelModulesLivewireServiceProvider::class);
@@ -221,7 +221,7 @@ class MicroweberServiceProvider extends ServiceProvider
       //  $this->app->register(LaravelModulesFilamentServiceProvider::class);
         $this->app->register(LaravelTemplatesServiceProvider::class);
 
-         Debugbar::stopMeasure('modules_load_service_providers');
+       //  Debugbar::stopMeasure('modules_load_service_providers');
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 

@@ -226,10 +226,12 @@ class ModuleManager
 
                 $modulePath = $module->getPath();
 
-                $moduleDisabled = $module->isStatus(0);
-                if($moduleDisabled){
-                    continue;
-                }
+//                $moduleDisabled = $module->isStatus(0);
+//
+//                if($moduleDisabled){
+//
+//                    continue;
+//                }
 
 
 
@@ -253,7 +255,29 @@ class ModuleManager
             }
         }
     }
+    public function publish_vendor_assets()
+    {
+        if (!defined('STDIN')) {
+            define('STDIN', fopen("php://stdin", "r"));
+        }
 
+       // Artisan::call('vendor:publish', ['--force' => true]);
+      //  Artisan::call('livewire:publish', ['--assets' => true]);
+
+        Artisan::call('vendor:publish', [
+            '--provider' => 'Livewire\LivewireServiceProvider',
+            '--tag' => 'livewire:assets',
+        ]);
+
+
+        Artisan::call('filament:assets');
+        Artisan::call('vendor:publish', ['--force' => true, '--tag' => 'public']);
+        Artisan::call('vendor:publish', ['--force' => true, '--tag' => 'laravel-assets']);
+        Artisan::call('vendor:publish', ['--force' => true, '--tag' => 'assets']);
+
+
+
+    }
     public function reload_laravel_modules()
     {
       //  return;
@@ -263,6 +287,7 @@ class ModuleManager
         }
 
         config()->set('modules.cache.enabled', false);
+        config()->set('modules.scan.enabled', true);
         $laravelModules = app('modules');
         $modules = $laravelModules->scan();
 
@@ -291,10 +316,10 @@ class ModuleManager
 
                 $modulePath = $module->getPath();
 
-                $moduleDisabled = $module->isStatus(0);
-                if($moduleDisabled){
-                    continue;
-                }
+//                $moduleDisabled = $module->isStatus(0);
+//                if($moduleDisabled){
+//                    continue;
+//                }
 
 
 
@@ -385,7 +410,9 @@ class ModuleManager
             if (!$list_as_element) {
 
                 AbstractRepository::disableCache();
+
                 $this->reload_laravel_modules();
+                $this->reload_laravel_templates();
             }
 
 

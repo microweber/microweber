@@ -97,6 +97,11 @@ class LaravelModule extends Module
 
     public function enable(): void
     {
+        if($this->activator == null){
+            return;
+        }
+
+
         $this->fireEvent('enabling');
 
         $this->activator->enable($this);

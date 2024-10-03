@@ -12,20 +12,20 @@ class InsertCountries extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('countries')) {
-
-            $data = countries_list(true);
-
-            foreach ($data as $country) {
-                $findCountry = \MicroweberPackages\Country\Models\Country::where('code', $country[0])->first();
-                if (!$findCountry) {
-                    $newCountry = new \MicroweberPackages\Country\Models\Country();
-                    $newCountry->code = $country[0];
-                    $newCountry->name = $country[1];
-                    $newCountry->phonecode = $country[2];
-                    $newCountry->save();
-                }
-            }
-        }
+//        if (Schema::hasTable('countries')) {
+//
+//            $data = countries_list(true);
+//
+//            foreach ($data as $country) {
+//                $findCountry = \MicroweberPackages\Country\Models\Country::where('code', $country[0])->first();
+//                if (!$findCountry) {
+//                    $newCountry = new \MicroweberPackages\Country\Models\Country();
+//                    $newCountry->code = $country[0];
+//                    $newCountry->name = $country[1];
+//                    $newCountry->phonecode = $country[2];
+//                    $newCountry->save();
+//                }
+//            }
+//        }
     }
 }

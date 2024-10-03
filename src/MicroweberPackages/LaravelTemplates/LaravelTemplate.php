@@ -90,6 +90,21 @@ class LaravelTemplate extends LaravelModule
         return $this->activator->hasStatus($this, $status);
     }
 
+    public function enable(): void
+    {
+        if($this->activator == null){
+            return;
+        }
+
+
+        $this->fireEvent('enabling');
+
+        $this->activator->enable($this);
+        $this->flushCache();
+
+        $this->fireEvent('enabled');
+    }
+
     private function flushCache(): void
     {
 

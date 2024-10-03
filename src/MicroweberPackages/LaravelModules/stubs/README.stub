@@ -40,7 +40,7 @@ config('modules.$LOWER_NAME$.name')
 
 
 
-### module views
+### Module views
 
 Extend master layout
 
@@ -48,7 +48,7 @@ Extend master layout
 @extends('modules.$LOWER_NAME$::layouts.master')
 ```
 
-Use module view
+Use Module view
 
 ```php
 view('modules.$LOWER_NAME$::index')

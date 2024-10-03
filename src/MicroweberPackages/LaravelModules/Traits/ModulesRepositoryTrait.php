@@ -330,7 +330,7 @@ $this->flushCache();
                 return $a->get('priority') > $b->get('priority') ? 1 : -1;
             });
         }
-
+        $this->flushCache();
         //$this->scanMemory = $modules;
         return $modules;
     }
