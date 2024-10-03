@@ -1,14 +1,25 @@
 <?php
 namespace Modules\Country\tests;
 
-
-
 use Tests\TestCase;
+use Modules\Country\Support\CountriesHelper;
 
 class CountryTest extends TestCase
 {
-    public function testBasic()
+    public function testCountriesList()
     {
-        $this->assertTrue(true);
+        $countries = CountriesHelper::countriesList();
+        $this->assertIsArray($countries);
+        $this->assertNotEmpty($countries);
+        $this->assertContains('Afghanistan', $countries);
+    }
+
+    public function testCountriesListFromJson()
+    {
+        $countries = CountriesHelper::countriesListFromJson();
+        $this->assertIsArray($countries);
+        $this->assertNotEmpty($countries);
+        $this->assertArrayHasKey('AF', $countries);
+        $this->assertEquals('Afghanistan', $countries['AF']);
     }
 }
