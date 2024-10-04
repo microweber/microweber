@@ -13,11 +13,11 @@ namespace MicroweberPackages\Tag;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateOption;
-use MicroweberPackages\Tag\Model\Tag;
-use MicroweberPackages\Tag\Model\Tagged;
-use MicroweberPackages\Tag\Model\TagGroup;
 use MicroweberPackages\Tag\TranslateTables\TranslateTaggingTagged;
 use MicroweberPackages\Tag\TranslateTables\TranslateTaggingTags;
+use Modules\Tag\Model\Tag;
+use Modules\Tag\Model\Tagged;
+use Modules\Tag\Model\TagGroup;
 
 class TagsManagerServiceProvider extends ServiceProvider
 {

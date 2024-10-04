@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('rss', \Modules\RssFeed\Http\Controllers\RssController::class . '@index')->name('rss.index');
-Route::get('rss-products', \Modules\RssFeed\Http\Controllers\RssController::class . '@products')->name('rss.products');
-Route::get('rss-posts', \Modules\RssFeed\Http\Controllers\RssController::class . '@posts')->name('rss.posts');
+Route::get('rss', \Modules\RssFeed\Http\Controllers\RssController::class . '@index')->name('module.rss.index');
+Route::get('rss/posts', \Modules\RssFeed\Http\Controllers\RssController::class . '@posts')->name('module.rss.posts');
+Route::get('rss/products', \Modules\RssFeed\Http\Controllers\RssController::class . '@products')->name('module.rss.products');
 

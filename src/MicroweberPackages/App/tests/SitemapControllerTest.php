@@ -10,7 +10,6 @@ use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Shop\Http\Controllers\ShopController;
-use MicroweberPackages\Tag\Model\Tag;
 
 class SitemapControllerTest extends TestCase
 {

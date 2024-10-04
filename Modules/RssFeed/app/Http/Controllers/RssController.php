@@ -97,7 +97,7 @@ class RssController extends Controller
         $siteTitle = app()->option_manager->get('website_title', 'website');
         $siteDesc = app()->option_manager->get('website_description', 'website');
 
-        $posts = get_content('is_active=1&is_deleted=0&subtype=post&limit=2500&orderby=updated_at desc');
+        $posts = get_content('is_active=1&content_type=post&limit=2500&orderby=updated_at desc');
 
         if(!empty($posts)) {
             foreach($posts as $post) {
@@ -140,7 +140,7 @@ class RssController extends Controller
         $siteTitle = app()->option_manager->get('website_title', 'website');
         $siteDesc = app()->option_manager->get('website_description', 'website');
 
-        $products = get_content('is_active=1&is_deleted=0&subtype=product&limit=2500&orderby=updated_at desc');
+        $products = get_content('is_active=1&is_deleted=0&content_type=product&limit=2500&orderby=updated_at desc');
 
         if(!empty($products)) {
             foreach($products as $product) {

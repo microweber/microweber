@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Tag\Model;
+namespace Modules\Tag\Model;
 
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 

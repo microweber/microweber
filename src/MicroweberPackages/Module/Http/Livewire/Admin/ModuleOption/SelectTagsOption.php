@@ -2,8 +2,7 @@
 
 namespace MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption;
 
-use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Tag\Model\Tag;
+use Modules\Tag\Model\Tag;
 
 class SelectTagsOption extends OptionElement
 {

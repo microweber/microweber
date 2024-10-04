@@ -26,7 +26,7 @@ class MultilanguageFilamentPlugin implements Plugin
     {
 
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
-            return;
+       //     return;
         }
 
 

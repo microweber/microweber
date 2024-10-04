@@ -2,10 +2,7 @@
 
 namespace MicroweberPackages\Admin\Http\Livewire;
 
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Tag\Model\Tag;
-use MicroweberPackages\User\Models\User;
 
 class FilterItemProduct extends FilterItemComponent
 {
@@ -13,7 +10,7 @@ class FilterItemProduct extends FilterItemComponent
     public $selectedItemKey = 'productId';
     public string $placeholder = 'Type to search by products...';
     public string $view = 'admin::livewire.filters.filter-item-product';
-    
+
     public function refreshQueryData()
     {
         if ($this->selectedItem > 0) {

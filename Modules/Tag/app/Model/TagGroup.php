@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Tag\Model;
+namespace Modules\Tag\Model;
 
 use Illuminate\Support\Collection;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;

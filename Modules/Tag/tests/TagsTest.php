@@ -1,11 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Tag\tests;
+namespace Modules\Tag\tests;
+
 
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
-use Tag;
-use DB;
 
 class TagsTest extends TestCase
 {

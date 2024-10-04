@@ -2,8 +2,7 @@
 namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
 use Illuminate\Support\Facades\URL;
-use MicroweberPackages\Tag\Model\Tag;
-use MicroweberPackages\Tag\TagsManager;
+use Modules\Tag\Model\Tag;
 
 trait TagsTrait {
 

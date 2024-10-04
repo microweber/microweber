@@ -4,7 +4,6 @@ namespace MicroweberPackages\Modules\Testimonials\Http\Livewire;
 
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\OptionElement;
 use MicroweberPackages\Modules\Testimonials\Models\Testimonial;
-use MicroweberPackages\Tag\Model\Tag;
 
 class TestimonialsProjectsDropdownComponent extends OptionElement
 {
