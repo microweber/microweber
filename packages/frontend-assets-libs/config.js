@@ -50,6 +50,7 @@ const css = [
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/css/font-awesome.css`},
 
 
+
     {target: `swiper`, path: `node_modules/swiper/swiper.css`},
 
 ];
@@ -59,6 +60,7 @@ const assets = [
     {target: `material-icons`, path: `node_modules/material-icons/iconfont`},
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/fonts`},
     {target: `mw-icons-mind`, path: `./resources/local-libs/mw-icons-mind`},
+    {target: `api`, path: `./resources/local-libs/api`},
     {
         target: `tinymce`,
         path: [

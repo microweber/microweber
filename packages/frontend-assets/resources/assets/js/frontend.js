@@ -70,4 +70,3 @@ if(!jQuery.fn.reload_module) {
 
 
 
-console.log('frontend.js loaded');

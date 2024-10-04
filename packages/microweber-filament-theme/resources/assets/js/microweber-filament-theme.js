@@ -1,4 +1,4 @@
-console.log('microweber-filament-theme.js');
+
 
 
 // JavaScript to toggle dropdown visibility

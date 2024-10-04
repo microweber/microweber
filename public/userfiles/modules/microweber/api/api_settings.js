@@ -42,6 +42,7 @@
          template_url: templateURL,
          modules_url: mwurl('/userfiles/modules'),
          includes_url: mwurl('/userfiles/modules/microweber/'),
+         includes_url: mwurl('/vendor/microweber-packages/frontend-assets-libs/'),
          upload_url: mwurl('/api/upload/'),
          api_url: mwurl('/api'),
          libs_url: mwurl('/vendor/microweber-packages/frontend-assets-libs/'),
@@ -86,7 +87,7 @@
         ],
         swiper: [
             function () {
-                console.log(mw.settings.libs_url + '/swiper/swiper.js')
+
                 mw.require(mw.settings.libs_url + '/swiper/swiper.js');
                 mw.require(mw.settings.libs_url + '/swiper/swiper.css');
 
@@ -106,7 +107,7 @@
         ],
         bxslider: [
             function () {
-                console.log(12, mw.settings.libs_url)
+
                 mw.require(mw.settings.libs_url + '/bxSlider/jquery.bxslider.min.js', true);
                 mw.require(mw.settings.libs_url + '/bxSlider/jquery.bxslider.css', true, undefined, true);
 
@@ -143,7 +144,7 @@
                     mw.require(mw.settings.libs_url + '/bootstrap3' + '/js/bootstrap.min.js');
 
                     mw.require(mw.settings.libs_url + '/bootstrap3ns' + '/bootstrap.min.css');
-                    mw.require(mw.settings.libs_url + '/fontawesome-4.7.0' + '/css/font-awesome.min.css');
+                    mw.require(mw.settings.libs_url + '/font-awesome/font-awesome.css');
                 }
 
             }

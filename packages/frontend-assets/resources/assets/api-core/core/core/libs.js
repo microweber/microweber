@@ -26,7 +26,7 @@
         ],
         swiper: [
             function () {
-                console.log(mw.settings.libs_url + '/swiper/swiper.js')
+
                 mw.require(mw.settings.libs_url + '/swiper/swiper.js');
                 mw.require(mw.settings.libs_url + '/swiper/swiper.css');
 
@@ -83,7 +83,7 @@
                     mw.require(mw.settings.libs_url + '/bootstrap3' + '/js/bootstrap.min.js');
 
                     mw.require(mw.settings.libs_url + '/bootstrap3ns' + '/bootstrap.min.css');
-                    mw.require(mw.settings.libs_url + '/fontawesome-4.7.0' + '/css/font-awesome.min.css');
+                    mw.require(mw.settings.libs_url + '/font-awesome/font-awesome.css');
                 }
 
             }
