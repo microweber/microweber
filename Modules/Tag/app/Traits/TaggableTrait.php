@@ -1,17 +1,13 @@
 <?php
 
-namespace MicroweberPackages\Tag\Traits;
+namespace Modules\Tag\Traits;
 
-use Conner\Tagging\Taggable as _Taggable;
-
-
-use Conner\Tagging\Events\TagAdded;
-use Conner\Tagging\Events\TagRemoved;
 use Conner\Tagging\Model\Tag;
 use Conner\Tagging\Model\Tagged;
-use Conner\Tagging\TaggingUtility;
+use Conner\Tagging\Taggable as _Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+
 
 /**
  * @package Conner\Tagging

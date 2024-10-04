@@ -3,6 +3,7 @@
 namespace Modules\Tag\tests;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
