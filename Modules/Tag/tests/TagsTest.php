@@ -3,6 +3,7 @@
 namespace Modules\Tag\tests;
 
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
@@ -10,7 +11,10 @@ use MicroweberPackages\Core\tests\TestCase;
 class TagsTest extends TestCase
 {
 
-    public function testModel(){
+    use RefreshDatabase;
+
+    public function testModel()
+    {
         mw()->database_manager->extended_save_set_permission(true);
         $has_permission = mw()->database_manager->extended_save_has_permission();
         $this->assertTrue($has_permission);
@@ -26,43 +30,9 @@ class TagsTest extends TestCase
         $saved_id = intval($saved_id);
 
 
-      //  $c = get_content_by_id($saved_id);
+        //  $c = get_content_by_id($saved_id);
         DB::enableQueryLog();
         DB::flushQueryLog();
-        /*
-
-        The  "find" method maybe have a bug where the whole table is selected,
-        it executes 2 queries instead of 1 and it returns the whole table as result
-
-        $article = Content::find($saved_id)->first(); - makes 2 queries?
-
-        $article = Content::whereId($saved_id)->first(); - OK
-
-        the log shows
-
-        `
-        0 => array:3 [
-            "query" => "select * from "content" where "content"."id" = ? limit 1"
-            "bindings" => array:1 [
-              0 => 44
-            ]
-            "time" => 0.0
-          ]
-          1 => array:3 [
-            "query" => "select * from "content" limit 1"
-            "bindings" => []
-            "time" => 0.0
-          ]
-        ]
-        `
-
-        the bug is that
-        instead of returning the selected id, we get the whole table
-
-        we will use "whereId" instead of "find"
-
-
-        */
 
 
         $article = Content::whereId($saved_id)->first();
@@ -101,6 +71,7 @@ class TagsTest extends TestCase
 
 
     }
+
     public function testPosts()
     {
         mw()->database_manager->extended_save_set_permission(true);
@@ -150,17 +121,16 @@ class TagsTest extends TestCase
         $this->assertTrue($check);
 
 
-
         $existing = content_tags();
         $check = false;
-        if (in_array('Beer',$existing)) {
+        if (in_array('beer', $existing)) {
             $check = true;
         }
         $this->assertTrue($check);
 
 
         $new_page = array();
-        $new_page['title'] = 'Drinks with tags'.rand();
+        $new_page['title'] = 'Drinks with tags' . rand();
         $new_page['content_type'] = 'product';
 
         $saved_id = save_content($new_page);
@@ -173,37 +143,65 @@ class TagsTest extends TestCase
         $article->save();
 
 
-
-
         $article = Content::withAnyTag(['Water', 'Coffee'])->get();
 
 
         foreach ($article as $item) {
             $check = in_array("Pepsi", $item->tagNames());
             $this->assertTrue($check);
-
         }
-//
-//
-//        $article = Content::withAnyTag(['Cola'])->first();
-//        dd($article);
-//
-//        $article = Content::withAnyTag('Gardening, Cooking')->get(); // fetch articles with any tag listed
-//        //d($article);
-//        $article = Content::withAnyTag(['Gardening', 'Cooking'])->get(); // different syntax, same result as above
-//        // d($article);
-//        $article = Content::withAnyTag('Gardening', 'Cooking')->get(); // different syntax, same result as above
-//        // d($article);
-//
-//        $article = Content::withAllTags('Gardening, Cooking')->get(); // only fetch articles with all the tags
-//        d($article);
-//        //  Content::withAllTags(['Gardening', 'Cooking'])->get();
-//        //  Content::withAllTags('Gardening', 'Cooking')->get();
-//
-//
-//        $article = Content::existingTags(); // return collection of all existing tags on any articles
+
+        $article = Content::withAnyTag(['ColaZero'])->first();
+        $this->assertNull($article);
+
+
+        $article = Content::withAnyTag('Gardening Potatoes, Cooking Potatoes')->get(); // fetch articles with any tag listed
+        $this->assertEmpty($article);
+
+
+        $article = Content::existingTags(); // return collection of all existing tags on any articles
+        $this->assertNotNull($article);
 
 
     }
 
+
+    public function testTagContentModel()
+    {
+        $unique = 'tag-' . uniqid();
+
+        $content = new Content();
+        $content->title = 'Test the tags';
+        $content->content_type = 'page';
+        $content->url = 'test-the-tags';
+
+        $content->save();
+        $content->tag($unique);
+        $content = Content::where('title', 'Test the tags')->first();
+        $tags = $content->tagNames();
+
+
+        $this->assertIsArray($tags);
+        $this->assertTrue(in_array($unique, $tags));
+
+    }
+
+    public function testTagContentModelWithArray()
+    {
+        $unique = 'tag-' . uniqid();
+
+        $content = new Content();
+        $content->title = 'Test the tags';
+        $content->content_type = 'page';
+        $content->url = 'test-the-tags';
+
+        $content->save();
+        $content->tag([$unique, 'tag2']);
+        $content = Content::where('title', 'Test the tags')->first();
+        $tags = $content->tagNames();
+
+        $this->assertIsArray($tags);
+        $this->assertTrue(in_array($unique, $tags));
+        $this->assertTrue(in_array('tag2', $tags));
+    }
 }

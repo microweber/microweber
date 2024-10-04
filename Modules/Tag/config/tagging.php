@@ -10,10 +10,12 @@ return [
     'primary_keys_type' => 'integer', // 'string' or 'integer'
 
     // Value of are passed through this before save of tags
+    //'normalizer' => null,
     'normalizer' => '\Conner\Tagging\TaggingUtility::slug',
 
     // Display value of tags are passed through (for front end display)
-    'displayer' => '\Illuminate\Support\Str::title',
+    // 'displayer' => '\Illuminate\Support\Str::title',
+    'displayer' => '\Illuminate\Support\Str::trim',
 
     // Database connection for Conner\Taggable\Tag model to use
 // 	'connection' => 'mysql',

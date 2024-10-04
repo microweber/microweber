@@ -17,7 +17,18 @@ use Illuminate\Database\Eloquent\Collection;
  * @property Collection|Tagged[] tagged
  * @property Collection|Tag[] tags
  * @property string[] tag_names
+ * @method void addTags(string|array $tagNames) Add tags to the model
+ * @method void tag(string|array $tagNames) Alias for addTags
+ * @method array tagNames() Get the tag names related to the current model
+ * @method array tagSlugs() Get the tag slugs related to the current model
+ * @method void untag(string|array|null $tagNames = null) Remove tags from the model
+ * @method void retag(string|array $tagNames) Replace the tags from the model
+ * @method static Collection|Tagged[] existingTags() Get all tags in use by this model
+ * @method static Collection|Tagged[] existingTagsInGroups(array $groups) Get all tags in use by this model in specific groups
+ * /
+ *
  */
+
 trait TaggableTrait
 {
     use _Taggable;
