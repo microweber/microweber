@@ -22,22 +22,17 @@ class TagServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
-        // $this->registerTranslations();
         $this->registerConfig();
         //$this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/tagging.php'), 'tagging');
 
+        app()->afterResolving('translate_manager', function () {
+            app()->translate_manager->addTranslateProvider(TranslateTaggingTags::class);
+            app()->translate_manager->addTranslateProvider(TranslateTaggingTagged::class);
+        });
 
-        app()->translate_manager->addTranslateProvider(TranslateTaggingTags::class);
-        app()->translate_manager->addTranslateProvider(TranslateTaggingTagged::class);
-//
-//        /**
-//         * @property \Modules\Tag\TagsManager $tags_manager
-//         */
-//        $this->app->singleton('tags_manager', function ($app) {
-//            return new TagsManager();
-//        });
+
     }
 
 }

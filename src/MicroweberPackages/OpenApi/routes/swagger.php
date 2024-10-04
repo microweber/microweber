@@ -7,14 +7,14 @@ use L5Swagger\Http\Middleware\Config as L5SwaggerConfig;
 
 
 
-\Route::get('/_dusk/env', [
-    'as' => 'l5-swagger.dusk.env',
-    'middleware' => ['web','admin'],
-   // 'middleware' => [ \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class],
-    'uses' => function () {
-        return response(app()->environment());
-    }
-]);
+//\Route::get('/_dusk/env', [
+//    'as' => 'l5-swagger.dusk.env',
+//    'middleware' => ['web','admin'],
+//   // 'middleware' => [ \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class],
+//    'uses' => function () {
+//        return response(app()->environment());
+//    }
+//]);
 
 
 Route::group([
@@ -53,7 +53,7 @@ Route::group([
                 $router->get($config['routes']['api'], [
                     'as' => 'l5-swagger.'.$name.'.api',
                     'middleware' => $config['routes']['middleware']['api'] ?? [],
-                    'uses' => '\MicroweberPackages\OpenApi\Http\Controllers\SwaggerController@api',
+                    'uses' => \MicroweberPackages\OpenApi\Http\Controllers\SwaggerController::class.'@api',
                 ]);
             }
 
@@ -61,7 +61,7 @@ Route::group([
                 $router->get($config['routes']['docs'].'/{jsonFile?}', [
                     'as' => 'l5-swagger.'.$name.'.docs',
                     'middleware' => $config['routes']['middleware']['docs'] ?? [],
-                    'uses' => '\MicroweberPackages\OpenApi\Http\Controllers\SwaggerController@docs',
+                    'uses' => \MicroweberPackages\OpenApi\Http\Controllers\SwaggerController::class.'@docs',
                 ]);
 
                 $router->get($config['routes']['docs'].'/asset/{asset}', [

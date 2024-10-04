@@ -32,7 +32,7 @@ use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
-use MicroweberPackages\Tag\Traits\TaggableTrait;
+use Modules\Tag\Traits\TaggableTrait;
 use function Clue\StreamFilter\fun;
 
 class Product extends Model

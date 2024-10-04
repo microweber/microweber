@@ -20,7 +20,7 @@ use MicroweberPackages\Database\Traits\ParentCannotBeSelfTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Menu\Traits\HasMenuItem;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
-use MicroweberPackages\Tag\Traits\TaggableTrait;
+use Modules\Tag\Traits\TaggableTrait;
 
 class Content extends Model
 {

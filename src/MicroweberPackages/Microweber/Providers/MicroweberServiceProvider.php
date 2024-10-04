@@ -76,7 +76,7 @@ use MicroweberPackages\Repository\Providers\RepositoryServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
 use MicroweberPackages\Shipping\Providers\ShippingManagerServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
-use MicroweberPackages\Tag\TagsManagerServiceProvider;
+
 use MicroweberPackages\Tax\TaxManagerServiceProvider;
 use MicroweberPackages\Template\TemplateEventServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
@@ -142,7 +142,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // $this->app->register(AssetsServiceProvider::class);
         $this->app->register(TranslationServiceProvider::class);
-        $this->app->register(TagsManagerServiceProvider::class);
+     //   $this->app->register(TagsManagerServiceProvider::class);
         $this->app->register(LivewireServiceProvider::class);
 
 

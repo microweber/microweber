@@ -9,56 +9,54 @@ use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
-
+use MicroweberPackages\Cart\CartManager;
 use MicroweberPackages\Cart\Repositories\CartRepository;
+use MicroweberPackages\Category\CategoryManager;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
+use MicroweberPackages\Checkout\CheckoutManager;
+use MicroweberPackages\Content\AttributesManager;
+use MicroweberPackages\Content\ContentManager;
+use MicroweberPackages\Content\DataFieldsManager;
 use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\CustomField\FieldsManager;
 use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
+use MicroweberPackages\Database\DatabaseManager;
+use MicroweberPackages\Event\Event;
+use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Helper\UrlManager;
 use MicroweberPackages\Helper\XSSSecurity;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
-use MicroweberPackages\LaravelTemplates\Contracts\TemplatesRepositoryInterface;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
+use MicroweberPackages\Media\MediaManager;
 use MicroweberPackages\Media\Repositories\MediaRepository;
+use MicroweberPackages\Menu\MenuManager;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Microweber\Microweber;
+use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 use MicroweberPackages\Multilanguage\TranslateManager;
 use MicroweberPackages\Offer\Repositories\OfferRepository;
+use MicroweberPackages\Option\OptionManager;
 use MicroweberPackages\Option\Repositories\OptionRepository;
+use MicroweberPackages\Order\OrderManager;
 use MicroweberPackages\Order\Repositories\OrderRepository;
 use MicroweberPackages\Payment\PaymentManager;
 use MicroweberPackages\Payment\PaymentMethodManager;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
 use MicroweberPackages\Shipping\ShippingMethodManager;
-use MicroweberPackages\Translation\Translator;
-use MicroweberPackages\User\UserManager;
-use MicroweberPackages\Utils\Captcha\CaptchaManager;
-use MicroweberPackages\Cart\CartManager;
-use MicroweberPackages\Category\CategoryManager;
-use MicroweberPackages\Checkout\CheckoutManager;
-use MicroweberPackages\Content\AttributesManager;
-use MicroweberPackages\Content\ContentManager;
-use MicroweberPackages\Content\DataFieldsManager;
-use MicroweberPackages\Database\DatabaseManager;
-use MicroweberPackages\Event\Event;
-use MicroweberPackages\CustomField\FieldsManager;
-use MicroweberPackages\Helper\Format;
-use MicroweberPackages\Helper\UrlManager;
-use MicroweberPackages\Media\MediaManager;
-use MicroweberPackages\Menu\MenuManager;
-use MicroweberPackages\Module\ModuleManager;
-use MicroweberPackages\Option\OptionManager;
-use MicroweberPackages\Order\OrderManager;
 use MicroweberPackages\Shop\ShopManager;
-use MicroweberPackages\Tag\TagsManager;
 use MicroweberPackages\Tax\TaxManager;
 use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\Template;
 use MicroweberPackages\Template\TemplateManager;
+use MicroweberPackages\Translation\Translator;
+use MicroweberPackages\User\UserManager;
+use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Http\Http;
+
 
 /**
  * Application class.
@@ -110,7 +108,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property Http                              $http
  * @property \Modules\Form\FormsManager                  $forms_manager
  * @property DataFieldsManager     $data_fields_manager
- * @property TagsManager           $tags_manager
+
  * @property AttributesManager     $attributes_manager
  * @property Lang                  $lang_helper
  * @property PermalinkManager              $permalink_manager
@@ -124,11 +122,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property ShippingMethodManager      $shipping_method_manager
  * @property LaravelTemplatesFileRepository      $templates
  * @property LaravelModulesFileRepository $modules
-
-
-
-
-*/
+ */
 class Application
 {
     public static $instance;
