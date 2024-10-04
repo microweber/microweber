@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CountryModelTest extends TestCase
 {
-   // use RefreshDatabase;
+    use RefreshDatabase;
 
     public function testCountryModelCanBeCreated()
     {

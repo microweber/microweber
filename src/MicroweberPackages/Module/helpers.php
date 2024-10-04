@@ -4,7 +4,8 @@ function load_all_service_providers_for_modules()
 {
 
 
-    $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999order_by=position asc');
+  //  $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999order_by=position asc');
+    $modules = app()->module_repository->getAllModules();
 
     if (!empty($modules)) {
 
@@ -57,7 +58,8 @@ function load_all_functions_files_for_modules()
 
         return;
     }
-    $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999order_by=position asc');
+    $modules = app()->module_repository->getAllModules();
+
     $files = array();
     if (!empty($modules)) {
         foreach ($modules as $module) {

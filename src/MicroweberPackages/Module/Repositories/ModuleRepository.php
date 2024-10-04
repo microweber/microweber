@@ -5,6 +5,7 @@ namespace MicroweberPackages\Module\Repositories;
 
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Module\Models\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -32,6 +33,12 @@ class ModuleRepository extends AbstractRepository
         }
 
         $modules = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+
+            if(!Schema::hasTable('modules')) {
+                return [];
+            }
+
+
 
             $getModules = DB::table('modules')->get();
             $allModules = collect($getModules)->map(function ($item) {
@@ -90,6 +97,13 @@ class ModuleRepository extends AbstractRepository
     public function getSystemLicenses()
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
+
+            if(!Schema::hasTable('system_licenses')) {
+                return [];
+            }
+
+
+
             $data = DB::table('system_licenses')->get();
             if ($data === null) {
                 return [];
@@ -119,33 +133,33 @@ class ModuleRepository extends AbstractRepository
         return true;
     }
 
-    public function installLaravelModule($scannedModule)
-    {
-        $module = $scannedModule['module'];
-        $moduleData = Module::where('module', $module)->first();
-        if ($moduleData) {
-            $moduleData = $moduleData->toArray();
-        }
-
-
-        if ($moduleData and isset($moduleData['installed']) and $moduleData['installed'] == 0) {
-            // module is uninstalled
-            return;
-        }
-
-
-        $data = $scannedModule;
-
-
-        if (!$moduleData) {
-            $module = new Module();
-            $module->fill($data);
-            $module->save();
-        } else {
-            Module::where('module', $module)->update($data);
-        }
-        $this->clearCache();
-    }
+//    public function installLaravelModule($scannedModule)
+//    {
+//        $module = $scannedModule['module'];
+//        $moduleData = Module::where('module', $module)->first();
+//        if ($moduleData) {
+//            $moduleData = $moduleData->toArray();
+//        }
+//
+//
+//        if ($moduleData and isset($moduleData['installed']) and $moduleData['installed'] == 0) {
+//            // module is uninstalled
+//            return;
+//        }
+//
+//
+//        $data = $scannedModule;
+//
+//
+//        if (!$moduleData) {
+//            $module = new Module();
+//            $module->fill($data);
+//            $module->save();
+//        } else {
+//            Module::where('module', $module)->update($data);
+//        }
+//        $this->clearCache();
+//    }
 
     public function setInstalled($module, $config = [])
     {
