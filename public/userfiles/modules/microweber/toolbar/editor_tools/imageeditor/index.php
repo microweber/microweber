@@ -8,7 +8,7 @@
         mw.require('css_parser.js');
         mw.lib.require('colorpicker');
         mw.require("files.js");
-        mw.require("widgets.css");
+
         mw.require('filepicker.js');
         $(window).on('load', function (){
             var editImageRes = mw.top().settings.imageResponsiveEdit;

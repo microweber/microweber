@@ -16,6 +16,7 @@
         "@mdi/font": "^7.4.47",
         "bxslider": "^4.2.17",
         "flag-icons": "^7.2.3",
+        "fs-extra": "^11.2.0",
         "jquery": "^3.7.1",
         "jquery-ui": "^1.13.3",
         "material-icons": "^1.13.12",

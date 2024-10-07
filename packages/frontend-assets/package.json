@@ -33,6 +33,7 @@
     },
     "dependencies": {
         "filerobot-image-editor": "^4.8.1",
+        "fs-extra": "^11.2.0",
         "moveable": "^0.53.0",
         "react-filerobot-image-editor": "^4.8.1"
     }
