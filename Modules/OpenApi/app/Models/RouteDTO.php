@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\OpenApi\Models;
+namespace Modules\OpenApi\Models;
 
 use Illuminate\Routing\Route as LaravelRoute;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
- use Mtrajano\LaravelSwagger\DataObjects\Middleware;
+use Mtrajano\LaravelSwagger\DataObjects\Middleware;
 
 
 class RouteDTO

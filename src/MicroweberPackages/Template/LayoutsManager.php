@@ -184,6 +184,14 @@ class LayoutsManager
                 }
             }
         }
+
+        if(!isset($the_active_site_template)){
+            $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
+        }
+
+
+
+
         $is_laravel_template = false;
         //check if template is laravel type
         if(app()->bound('templates')){

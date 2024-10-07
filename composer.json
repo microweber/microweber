@@ -162,21 +162,17 @@
     },
     "scripts": {
         "publish-assets": [
-            "@php artisan vendor:publish --tag=public --force --ansi",
             "@php artisan livewire:publish --assets",
+            "@php artisan filament:upgrade",
+            "@php artisan vendor:publish --tag=public --force --ansi",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
             "@php artisan module:publish --all",
-            "@php artisan template:publish --all",
-            "@php artisan filament:upgrade"
+            "@php artisan template:publish --all"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade",
-            "@php artisan livewire:publish --assets",
-            "@php artisan vendor:publish --tag=public --force --ansi",
-            "@php artisan module:publish --all",
-            "@php artisan template:publish --all"
+            "@publish-assets"
         ],
         "post-install-cmd": [
             "php artisan vendor:publish --tag=public --force --ansi"

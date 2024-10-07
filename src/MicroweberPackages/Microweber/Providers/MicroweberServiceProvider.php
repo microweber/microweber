@@ -28,7 +28,7 @@ use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
 use MicroweberPackages\ContentDataVariant\Providers\ContentDataVariantServiceProvider;
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
-use MicroweberPackages\Country\CountryServiceProvider;
+
 use MicroweberPackages\Currency\CurrencyServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
@@ -60,7 +60,7 @@ use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\MailTemplatesServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
-use MicroweberPackages\OpenApi\Providers\SwaggerServiceProvider;
+
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Order\Providers\OrderServiceProvider;
@@ -200,7 +200,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(RoleServiceProvider::class);
         $this->app->register(\Barryvdh\DomPDF\ServiceProvider::class);
         //   $this->app->register(  \L5Swagger\L5SwaggerServiceProvider::class);
-        $this->app->register(SwaggerServiceProvider::class);
+      //  $this->app->register(SwaggerServiceProvider::class);
         //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
        // $this->app->register(CountryServiceProvider::class);
         // $this->app->register(\EloquentFilter\ServiceProvider::class);

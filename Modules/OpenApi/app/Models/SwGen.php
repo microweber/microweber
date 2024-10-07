@@ -1,20 +1,16 @@
 <?php
 
 
-namespace MicroweberPackages\OpenApi\Models;
+namespace Modules\OpenApi\Models;
 
 
-use Mtrajano\LaravelSwagger\Generator;
-
-
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
-use phpDocumentor\Reflection\DocBlockFactory;
 use Mtrajano\LaravelSwagger\DataObjects;
-use ReflectionMethod;
-use Mtrajano\LaravelSwagger\Parameters\PathParameterGenerator;
-use Mtrajano\LaravelSwagger\Parameters;
 use Mtrajano\LaravelSwagger\LaravelSwaggerException;
+use Mtrajano\LaravelSwagger\Parameters;
+use phpDocumentor\Reflection\DocBlockFactory;
+use ReflectionMethod;
+
 
 class SwGen
 {

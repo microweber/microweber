@@ -1,0 +1,11 @@
+{
+    "name": "OpenApi",
+    "alias": "openapi",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\OpenApi\\Providers\\OpenApiServiceProvider"
+    ],
+    "files": []
+}
