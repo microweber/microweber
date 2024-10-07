@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Currency;
+namespace Modules\Currency\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

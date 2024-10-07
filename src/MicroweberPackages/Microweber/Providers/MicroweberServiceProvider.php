@@ -29,7 +29,7 @@ use MicroweberPackages\ContentDataVariant\Providers\ContentDataVariantServicePro
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 
-use MicroweberPackages\Currency\CurrencyServiceProvider;
+
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
@@ -176,7 +176,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(PaymentManagerServiceProvider::class);
         $this->app->register(OrderServiceProvider::class);
         $this->app->register(OrderEventServiceProvider::class);
-        $this->app->register(CurrencyServiceProvider::class);
+      //  $this->app->register(CurrencyServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
         $this->app->register(ShippingManagerServiceProvider::class);

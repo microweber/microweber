@@ -12,13 +12,6 @@
 namespace MicroweberPackages\Shop;
 
 use DB;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
-
-use MicroweberPackages\Currency\Currency;
-use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Product\Notifications\ProductOutOfStockNotification;
-use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
 
 /**

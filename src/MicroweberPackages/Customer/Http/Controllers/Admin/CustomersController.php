@@ -5,7 +5,6 @@ namespace MicroweberPackages\Customer\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
-use MicroweberPackages\Currency\Currency;
 use MicroweberPackages\Customer\Http\Requests;
 use MicroweberPackages\Customer\Models\Address;
 use MicroweberPackages\Customer\Models\Customer;
@@ -14,6 +13,7 @@ use MicroweberPackages\Invoice\Group;
 use MicroweberPackages\Invoice\Notifications\CustomerAdded;
 use MicroweberPackages\Order\Models\Order;
 use Modules\Country\Models\Country;
+use Modules\Currency\Models\Currency;
 
 class CustomersController extends AdminController
 {
