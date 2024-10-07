@@ -4,6 +4,13 @@ import fs from 'fs';/*
 import babel from 'gulp-babel';
 import browserify  from 'browserify';*/
 
+import fse from "fs-extra";
+
+export const copyFolderSync = (from, to) => {
+    fse.removeSync(to);
+    fse.copySync(from, to);
+}
+
 export class BuildService {
 
     constructor(options) {
@@ -63,6 +70,15 @@ export class BuildService {
 
 
     copyAsset(obj) {
+        const output = `${obj.output || this.output}/${obj.target.split('/').slice(0, -1).join('/')}`
+        return new Promise(async (resolve, reject) => {
+            copyFolderSync(obj.path, output);
+            resolve();
+            console.log(`${obj.target} compiled`);
+        })
+    }
+
+    copyAsset__(obj) {
         return new Promise(async (resolve, reject) => {
             fs.stat(obj.path, (err, stats) => {
                 if (err) {
