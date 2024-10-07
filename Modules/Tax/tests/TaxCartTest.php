@@ -1,14 +1,16 @@
 <?php
-namespace MicroweberPackages\Tax\tests;
+namespace Modules\Tax\Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Shop\tests\ShopTestHelperTrait;
-use MicroweberPackages\Tax\Models\TaxType;
+use Modules\Tax\Models\TaxType;
 
 class TaxCartTest extends TestCase
 {
-     use ShopTestHelperTrait;
+    use RefreshDatabase;
+    use ShopTestHelperTrait;
     public function testTaxAppliedOnCheckout()
     {
         TaxType::truncate();

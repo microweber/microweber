@@ -9,10 +9,10 @@
  *
  */
 
-namespace MicroweberPackages\Tax;
+namespace Modules\Tax;
 
 use Illuminate\Support\Facades\Validator;
-use MicroweberPackages\Tax\Models\TaxType;
+use Modules\Tax\Models\TaxType;
 
 class TaxManager
 {

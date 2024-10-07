@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource\Pages;
+namespace Modules\Tax\Filament\Admin\Resources\TaxResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource;
+use Modules\Tax\Filament\Admin\Resources\TaxResource;
 
 class ListTaxes extends ListRecords
 {

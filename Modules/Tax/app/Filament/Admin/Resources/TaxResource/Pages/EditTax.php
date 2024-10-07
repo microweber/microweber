@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource\Pages;
+namespace Modules\Tax\Filament\Admin\Resources\TaxResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
-use MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource;
+use Modules\Tax\Filament\Admin\Resources\TaxResource;
 
 class EditTax extends EditRecord
 {

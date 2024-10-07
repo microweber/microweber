@@ -1,19 +1,18 @@
 <?php
 
-namespace MicroweberPackages\Tax\Filament\Admin\Resources;
+namespace Modules\Tax\Filament\Admin\Resources;
 
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Illuminate\Support\HtmlString;
-use MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource\Pages;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use MicroweberPackages\Tax\Models\TaxType;
+use Illuminate\Support\HtmlString;
+use Modules\Tax\Models\TaxType;
 
 class TaxResource extends Resource
 {
@@ -134,9 +133,9 @@ class TaxResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => \MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource\Pages\ListTaxes::route('/'),
-            'create' => \MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource\Pages\CreateTax::route('/create'),
-            'edit' => \MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource\Pages\EditTax::route('/{record}/edit'),
+            'index' => \Modules\Tax\Filament\Admin\Resources\TaxResource\Pages\ListTaxes::route('/'),
+            'create' => \Modules\Tax\Filament\Admin\Resources\TaxResource\Pages\CreateTax::route('/create'),
+            'edit' => \Modules\Tax\Filament\Admin\Resources\TaxResource\Pages\EditTax::route('/{record}/edit'),
         ];
     }
 }

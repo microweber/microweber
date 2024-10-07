@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Tax\Models;
+namespace Modules\Tax\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;

@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource\Pages;
+namespace Modules\Tax\Filament\Admin\Resources\TaxResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
-use MicroweberPackages\Tax\Filament\Admin\Resources\TaxResource;
+use Modules\Tax\Filament\Admin\Resources\TaxResource;
 
 class CreateTax extends CreateRecord
 {
