@@ -1,0 +1,30 @@
+{
+    "name": "modules/currency",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Currency\\": "app/",
+            "Modules\\Currency\\Database\\Factories\\": "database/factories/",
+            "Modules\\Currency\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Currency\\Tests\\": "tests/"
+        }
+    }
+}
