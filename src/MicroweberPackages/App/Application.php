@@ -48,7 +48,6 @@ use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shipping\ShippingManager;
 use MicroweberPackages\Shipping\ShippingMethodManager;
 use MicroweberPackages\Shop\ShopManager;
-use MicroweberPackages\Tax\TaxManager;
 use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\Template;
 use MicroweberPackages\Template\TemplateManager;
@@ -56,6 +55,7 @@ use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Http\Http;
+use Modules\Tax\TaxManager;
 
 
 /**
@@ -86,7 +86,7 @@ use MicroweberPackages\Utils\Http\Http;
  * @property OrderRepository    $order_repository
  * @property CustomFieldRepository $custom_field_repository
  * @property OfferRepository             $offer_repository
- * @property TaxManager               $tax_manager
+ * @property \Modules\Tax\TaxManager               $tax_manager
  * @property CheckoutManager          $checkout_manager
  * @property ShippingManager          $shipping_manager
  * @property PaymentManager          $payment_manager
@@ -108,7 +108,6 @@ use MicroweberPackages\Utils\Http\Http;
  * @property Http                              $http
  * @property \Modules\Form\FormsManager                  $forms_manager
  * @property DataFieldsManager     $data_fields_manager
-
  * @property AttributesManager     $attributes_manager
  * @property Lang                  $lang_helper
  * @property PermalinkManager              $permalink_manager

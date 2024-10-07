@@ -247,6 +247,7 @@ class SwGen
             //dump($parameters);
         }
         $model = $this->__getDefinitionForModel();
+
         $action_name = $this->route->getRoute()->getActionName();
         $try_get_summary = explode('@', $action_name);
         //   dump($try_get_summary);
@@ -468,72 +469,6 @@ class SwGen
 
     }
 
-
-
-    protected function __aaaagetDefinitionForModel()
-    {
-        $defs = [];
-
-        $action_name = $this->route->getRoute()->getActionName();
-
-        $error = false;
-        $comments = false;
-
-        $try_get_summary = explode('@', $action_name);
-
-        if (isset($try_get_summary[0]) and $try_get_summary[0]) {
-            if (isset($try_get_summary[1]) and $try_get_summary[1]) {
-                try {
-                    $rc = new \ReflectionClass($try_get_summary[0]);
-                    //   $comments = $rc->getMethod($try_get_summary[1])->getDocComment();
-                    $constructor = $rc->getConstructor();
-
-                    if ($constructor) {
-                        $constructor_params = $constructor->getParameters();
-                        if ($constructor_params) {
-                            foreach ($constructor_params as $constructor_param) {
-                                $constructor_param_type = $constructor_param->getType();
-                                //  dump($constructor_param->getType());
-                                if ($constructor_param_type) {
-                                    $rc_type_param_class = new \ReflectionClass($constructor_param_type->getName());
-                                    if ($rc_type_param_class->hasMethod('getModel')) {
-                                        $class_name = $constructor_param_type->getName();
-
-                                        $getModel = app()->make($class_name)->getModel();
-                                        $this->_map_models_to_action_names[$action_name] = $getModel;
-                                        return $getModel;
-                                        //dump($class_name);
-                                        // dump($rc_type_param_class);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-
-                } catch (\ReflectionException $exception) {
-                    $error = true;
-                }
-
-                //
-                //                    if (!$error and $comments) {
-                //                        $dbp = new AnnotationParser();
-                //                        $comments_annotations_parsed = $dbp->getAnnotations($comments);
-                //
-                //                        if($comments_annotations_parsed and isset($comments_annotations_parsed['param'])){
-                //                            $parsed_from_a = $this->_makeParametersFromAnnotations($comments_annotations_parsed['param']);
-                //                            if($parsed_from_a){
-                //                              //  $parameters = array_merge($parameters, $parsed_from_a);
-                //                            }
-                //                        }
-                //
-                //                    }
-            }
-        }
-
-        return;
-
-    }
 
     protected function getFormRules(): array
     {

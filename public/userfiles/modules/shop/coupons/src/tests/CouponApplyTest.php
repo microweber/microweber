@@ -7,7 +7,7 @@ use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Modules\Shop\Coupons\Models\CartCouponLog;
 use MicroweberPackages\Shop\tests\ShopTestHelperTrait;
-use MicroweberPackages\Tax\Models\TaxType;
+use Modules\Tax\Models\TaxType;
 
 class CouponApplyTest extends TestCase
 {
