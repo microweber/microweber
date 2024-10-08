@@ -31,8 +31,8 @@ export class BuildService {
         return new Promise(async (resolve, reject) => {
 
             this
-            .#createReadWriteStream(obj)
-            .pipe(gulp.dest(`${obj.output || this.output}/${obj.target}`))
+                .#createReadWriteStream(obj)
+                .pipe(gulp.dest(`${obj.output || this.output}/${obj.target}`))
                 .on('finish', resolve)
                 .on('error', reject)
             console.log(`${obj.target} compiled`);
@@ -46,7 +46,7 @@ export class BuildService {
         }
         return new Promise(async (resolve, reject) => {
             gulp.src([`${obj.path}/**`, `${obj.path}/*`])
-            .pipe(gulpCopy(`${obj.output || this.output}/${obj.target}`, {prefix: prefix ?? obj.path.split('/').length - 1}))
+                .pipe(gulpCopy(`${obj.output || this.output}/${obj.target}`, {prefix: prefix ?? obj.path.split('/').length - 1}))
                 .on('finish', resolve)
                 .on('error', err => {
                     console.log(err);
@@ -59,8 +59,8 @@ export class BuildService {
     buildSingleCss (obj)  {
         return new Promise(async (resolve, reject) => {
             this
-            .#createReadWriteStream(obj)
-            .pipe(gulp.dest(`${obj.output || this.output}/${obj.target}`))
+                .#createReadWriteStream(obj)
+                .pipe(gulp.dest(`${obj.output || this.output}/${obj.target}`))
                 .on('finish', resolve)
                 .on('error', reject)
             console.log(`${obj.target} compiled`);
@@ -70,12 +70,28 @@ export class BuildService {
 
 
     copyAsset(obj) {
-        const output = `${obj.output || this.output}/${obj.target.split('/').slice(0, -1).join('/')}`
-        return new Promise(async (resolve, reject) => {
-            copyFolderSync(obj.path, output);
-            resolve();
-            console.log(`${obj.target} compiled`);
-        })
+        const output = `${obj.output || this.output}/${obj.target.split('/').slice(0, -1).join('/')}`;
+        return new Promise((resolve, reject) => {
+            fs.stat(obj.path, (err, stats) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                if (stats.isFile()) {
+                    gulp.src(obj.path)
+                        .pipe(gulp.dest(output))
+                        .on('finish', resolve)
+                        .on('error', reject);
+                } else if (stats.isDirectory()) {
+                    copyFolderSync(obj.path, output);
+                    resolve();
+                } else {
+                    reject(new Error('Path is neither a file nor a directory'));
+                }
+
+                console.log(`${obj.target} compiled`);
+            });
+        });
     }
 
     copyAsset__(obj) {
@@ -87,7 +103,7 @@ export class BuildService {
 
                 if (stats.isFile()) {
                     this
-                    .#createReadWriteStream(obj)
+                        .#createReadWriteStream(obj)
                         .pipe(gulp.dest(`${obj.output || this.output}/${obj.target.split('/').slice(0, -1).join('/')}`))
                         .on('finish', resolve)
                         .on('error', reject);

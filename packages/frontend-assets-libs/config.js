@@ -60,7 +60,7 @@ const assets = [
     {target: `material-icons`, path: `node_modules/material-icons/iconfont`},
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/fonts`},
     {target: `mw-icons-mind`, path: `./resources/local-libs/mw-icons-mind`},
-    {target: `api`, path: `./resources/local-libs/api`},
+
     {
         target: `tinymce`,
         path: [
@@ -85,6 +85,7 @@ const copy = [
     {target: `flag-icons/css`, path: `node_modules/flag-icons/css`},
     {target: `flag-icons/flags`, path: `node_modules/flag-icons/flags`},
     {target: `flag-icons/country.json`, path: `node_modules/flag-icons/country.json`},
+    {target: `api`, path: `resources/local-libs/api`},
 ];
 
 
