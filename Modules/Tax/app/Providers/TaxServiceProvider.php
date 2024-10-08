@@ -29,7 +29,6 @@ class TaxServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
-        View::addNamespace('tax', __DIR__ . '/resources/views');
 
 
         /**

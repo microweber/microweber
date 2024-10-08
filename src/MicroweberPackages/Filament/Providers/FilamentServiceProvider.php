@@ -12,24 +12,16 @@
 namespace MicroweberPackages\Filament\Providers;
 
 
-use Arcanedev\Support\Providers\ServiceProvider;
-use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Facades\Filament;
+use Filament\FilamentServiceProvider as BaseFilamentPackageServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
 use Filament\Support\Assets\AlpineComponent;
-use Filament\Support\Assets\Css;
-use Filament\Support\Assets\Js;
-use Filament\Support\Assets\Theme;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
-use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
-use Filament\FilamentServiceProvider as BaseFilamentPackageServiceProvider;
-use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentThemeServiceProvider;
 
 
 class FilamentServiceProvider extends BaseFilamentPackageServiceProvider

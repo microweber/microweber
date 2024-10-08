@@ -2,18 +2,9 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Providers;
 
-use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
-use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
-use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
-use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
-use MicroweberPackages\Filament\MicroweberTheme;
-use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateCampaign;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\EditCampaign;
@@ -28,8 +19,7 @@ use MicroweberPackages\Modules\Newsletter\Filament\Widgets\CampaignsChart;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\MailsOverviewWidget;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\StatsOverviewWidget;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\SubscribersChart;
-use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
-use MicroweberPackages\User\Filament\UsersFilamentPlugin;
+use Modules\Admin\Providers\FilamentAdminPanelProvider;
 
 class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 {

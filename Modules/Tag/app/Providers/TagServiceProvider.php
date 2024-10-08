@@ -27,12 +27,15 @@ class TagServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/tagging.php'), 'tagging');
 
+
+    }
+
+    public function boot(): void
+    {
         app()->afterResolving('translate_manager', function () {
             app()->translate_manager->addTranslateProvider(TranslateTaggingTags::class);
             app()->translate_manager->addTranslateProvider(TranslateTaggingTagged::class);
         });
-
-
     }
 
 }

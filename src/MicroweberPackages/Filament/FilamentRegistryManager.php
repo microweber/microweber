@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Filament;
 
 
-use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
+use Modules\Admin\Providers\FilamentAdminPanelProvider;
 
 class FilamentRegistryManager
 {
@@ -49,7 +49,7 @@ class FilamentRegistryManager
         ];
     }
 
-    public function getPages(string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
+    public function getPages(string $scope = \Modules\Admin\Providers\FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
         if (isset($this->filamentPageRegistry[$panelId]) and !empty($this->filamentPageRegistry[$panelId])) {
             $results = [];
@@ -103,7 +103,7 @@ class FilamentRegistryManager
         ];
     }
 
-    public function getPlugins(string $scope = FilamentAdminPanelProvider::class, $panelId = 'admin'): array
+    public function getPlugins(string $scope = \Modules\Admin\Providers\FilamentAdminPanelProvider::class, $panelId = 'admin'): array
     {
         if (isset($this->filamentPluginRegistry[$panelId]) and !empty($this->filamentPluginRegistry[$panelId])) {
             $results = [];

@@ -3,10 +3,7 @@
 namespace MicroweberPackages\Admin\Providers\Filament;
 
 use Filament\Panel;
-use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
-use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
-use MicroweberPackages\Modules\Shop\Http\Livewire\ShopModuleSettings;
+use Modules\Admin\Providers\FilamentAdminPanelProvider;
 
 class FilamentLiveEditPanelProvider extends FilamentAdminPanelProvider
 {

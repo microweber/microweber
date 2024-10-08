@@ -542,7 +542,7 @@ class AppServiceProvider extends ServiceProvider
             $this->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
         }
 
-        $this->app->register(AdminRouteServiceProvider::class);
+    //    $this->app->register(AdminRouteServiceProvider::class);
 
 //        if (class_exists(\App\Providers\AppServiceProvider::class)) {
 //            app()->register(\App\Providers\AppServiceProvider::class);

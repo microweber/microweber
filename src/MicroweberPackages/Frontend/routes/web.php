@@ -7,7 +7,7 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
 
     Route::any('/', 'FrontendController@index')->name('home');
 
-//dd($slug);
+
    Route::any('{any}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
 
 });

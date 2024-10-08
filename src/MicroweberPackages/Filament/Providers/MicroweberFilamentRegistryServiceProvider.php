@@ -12,11 +12,8 @@
 namespace MicroweberPackages\Filament\Providers;
 
 
-use MicroweberPackages\Admin\Providers\Filament\FilamentAdminPanelProvider;
-use MicroweberPackages\Admin\Providers\Filament\FilamentLiveEditPanelProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Filament\FilamentRegistryManager;
-use MicroweberPackages\Modules\Newsletter\Providers\NewsletterFilamentAdminPanelProvider;
 
 class MicroweberFilamentRegistryServiceProvider extends \Illuminate\Support\ServiceProvider
 {

@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\LaravelModules;
 
+use Composer\InstalledVersions;
+use Illuminate\Foundation\Console\AboutCommand;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
@@ -19,6 +21,16 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 {
     use MergesConfig;
 
+    public function boot()
+    {
+
+
+        AboutCommand::add('Laravel-Modules', [
+            'Version' => fn () => InstalledVersions::getPrettyVersion('nwidart/laravel-modules'),
+        ]);
+    }
+
+
     public function register()
     {
 
@@ -32,7 +44,7 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 //        });
 
         $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
-        $this->app->singleton(RepositoryInterface::class, LaravelModulesFileRepository::class);
+       // $this->app->singleton(RepositoryInterface::class, LaravelModulesFileRepository::class);
 
         $this->registerServices();
         $this->setupStubPath();
@@ -52,6 +64,10 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 //            return new $class($app);
 //
 //        });
+
+
+        $this->registerNamespaces();
+        $this->registerModules();
     }
     protected function registerServices()
     {

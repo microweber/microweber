@@ -12,8 +12,10 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use Nwidart\Modules\Contracts\ActivatorInterface;
+use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Json;
 use Nwidart\Modules\Laravel\Module;
+use Nwidart\Modules\Support\Stub;
 
 
 class LaravelModule extends Module
@@ -184,13 +186,34 @@ class LaravelModule extends Module
         $this->cache->store(config('modules.cache.driver'))->flush();
 
     }
-
+//    public function register(): void
+//    {
+//        dd(34);
+//        $this->registerServices();
+//        $this->setupStubPath();
+//        $this->registerProviders();
+//
+//        $this->mergeConfigFrom(__DIR__.'/config/modules.php', 'modules');
+//    }
+//    public function setupStubPath()
+//    {
+//        $path = $this->app['config']->get('modules.stubs.path') ?? __DIR__.'/Commands/stubs';
+//        Stub::setBasePath($path);
+//
+//        $this->app->booted(function ($app) {
+//            /** @var RepositoryInterface $moduleRepository */
+//            $moduleRepository = $app[RepositoryInterface::class];
+//            if ($moduleRepository->config('stubs.enabled') === true) {
+//                Stub::setBasePath($moduleRepository->config('stubs.path'));
+//            }
+//        });
+//    }
     public function registerProviders(): void
     {
 
 
-
         $providers = $this->get('providers', []);
+
 
         if ($providers) {
             foreach ($providers as $provider) {
@@ -198,7 +221,7 @@ class LaravelModule extends Module
                 app()->register($provider);
             }
         }
-
+       // dd($providers,$this->app);
 //        (new ProviderRepository($this->app, new Filesystem(), $this->getCachedServicesPath()))
 //            ->load($this->get('providers', []));
 

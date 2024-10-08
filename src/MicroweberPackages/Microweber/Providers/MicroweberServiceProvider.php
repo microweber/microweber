@@ -86,6 +86,7 @@ use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\View\ViewServiceProvider;
+use Modules\Admin\Providers\FilamentAdminPanelProvider;
 use Spatie\Permission\PermissionServiceProvider;
 
 class MicroweberServiceProvider extends ServiceProvider
@@ -225,12 +226,18 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(UpdateMigratorServiceProvider::class);
 
 
+            // $this->app->register(FilamentLiveEditPanelProvider::class);
+
+  //      $this->app->register(FilamentAdminPanelProvider::class);
+
     }
 
 
     public function boot()
     {
+
         // FrontendServiceProvider must be loaded after all other providers on boot as it has catch all routes
         $this->app->register(FrontendServiceProvider::class);
+
     }
 }

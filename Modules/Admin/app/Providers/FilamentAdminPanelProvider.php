@@ -1,52 +1,34 @@
 <?php
 
-namespace MicroweberPackages\Admin\Providers\Filament;
+namespace Modules\Admin\Providers;
 
 use App\Filament\Admin\Resources\ContentResource;
 use App\Filament\Admin\Resources\PostResource;
 use App\Filament\Admin\Resources\ProductResource;
-use Filament\Http\Middleware\Authenticate;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\MinimalTheme;
 use Filament\Navigation\NavigationGroup;
 use Filament\Navigation\NavigationItem;
-use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\SpatieLaravelTranslatablePlugin;
+use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
-use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\DB;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
-use MicroweberPackages\Admin\Http\Middleware\Admin;
+use Illuminate\Support\Facades\Route;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Filament\MicroweberTheme;
-use MicroweberPackages\Filament\Plugins\FilamentTranslatableFieldsPlugin;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
-use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
-use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
-use SolutionForest\FilamentTranslateField\FilamentTranslateFieldPlugin;
-
-use Filament\Support\Colors\Color;
-use Filament\Support\Facades\FilamentColor;
 
 
 class FilamentAdminPanelProvider extends PanelProvider
 {
-
 
 
     public string $filamentId = 'admin';
@@ -56,8 +38,21 @@ class FilamentAdminPanelProvider extends PanelProvider
     {
         parent::__construct($app);
         $this->filamentPath = mw_admin_prefix_url();
-    }
 
+
+
+    }
+    public function register(): void
+    {
+
+
+        Filament::registerPanel(
+            fn (): Panel => $this->panel(Panel::make()),
+        );
+//dd(Filament::getPanel());
+        //$routeCollection =  Route::getRoutes();
+
+    }
     public function getPanelPages(): array
     {
 
@@ -66,7 +61,6 @@ class FilamentAdminPanelProvider extends PanelProvider
 
     public function getPanelResources(): array
     {
-
         return FilamentRegistry::getResources(self::class, $this->filamentId);
     }
 
@@ -78,7 +72,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 //            StartSession::class,
 //            AuthenticateSession::class,
 //            ShareErrorsFromSession::class,
-  //          VerifyCsrfToken::class, aways givev error to refresh
+            //          VerifyCsrfToken::class, aways givev error to refresh
             SubstituteBindings::class,
             DisableBladeIconComponents::class,
             DispatchServingFilamentEvent::class,
@@ -120,7 +114,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         if (request()->get('iframe') or request()->header('Sec-Fetch-Dest') === 'iframe') {
             $isIframe = true;
         }
-        if($isIframe){
+        if ($isIframe) {
             $panel->navigation(false);
             $panel->topbar(false);
         }
@@ -215,7 +209,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             }
         }
 
-      //  MicroweberFilamentTheme::configure();
+        //  MicroweberFilamentTheme::configure();
 
         return $panel;
     }
