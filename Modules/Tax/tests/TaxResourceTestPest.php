@@ -28,6 +28,10 @@ it('submits the tax form', function () {
         ->assertHasNoErrors();
 
     expect(TaxType::where('name', 'TESTVAT')->exists())->toBeTrue();
+
+    // delete the record
+    TaxType::where('name', 'TESTVAT')->delete();
+    expect(TaxType::where('name', 'TESTVAT')->exists())->toBeFalse();
 });
 
 it('can delete a tax', function () {
@@ -50,3 +54,7 @@ it('can delete a tax', function () {
     // Ensure the tax entry is deleted from the database
     expect(TaxType::where('name', 'Test Tax')->exists())->toBeFalse();
 });
+
+
+
+

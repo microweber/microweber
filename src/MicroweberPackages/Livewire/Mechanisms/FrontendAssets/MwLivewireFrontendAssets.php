@@ -24,21 +24,5 @@ class MwLivewireFrontendAssets extends FrontendAssets
         return [$url, $assetWarning];
     }
 
-    public static function scrip111ts($options = [])
-    {
-        dd($options);
 
-        app(static::class)->hasRenderedScripts = true;
-
-        $debug = config('app.debug');
-
-        $scripts = static::js($options);
-
-        // HTML Label.
-        $html = $debug ? ['<!-- Livewire Scripts -->'] : [];
-
-        $html[] = $scripts;
-
-        return implode("\n", $html);
-    }
 }

@@ -25,7 +25,7 @@ class CategoryManagerTest extends TestCase
         $cont_title = 'Content with cats to test filter';
         $newPage = new Content();
         $newPage->title = $cont_title;
-        $newPage->category_ids = $category->id;
+        $newPage->setCategories([$category->id]);
         $newPage->save();
 
         $contentForCategories = get_content(array(
@@ -39,7 +39,7 @@ class CategoryManagerTest extends TestCase
         $this->assertEquals(2, count($contentForCategories[0]));
 
         //delete from cat
-        $newPage->category_ids = 0;
+        $newPage->setCategories(0);
         $newPage->save();
 
         //check if deleted
