@@ -28,7 +28,7 @@ class ModulesPluginFilament extends ServiceProvider
 //        if ($pages) {
 //            foreach ($pages as $modulePage) {
 //
-//                FilamentRegistry::registerPage($modulePage, $scope = \Modules\Admin\Providers\FilamentAdminPanelProvider::class);
+//                FilamentRegistry::registerPage($modulePage, $scope = \MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider::class);
 //            }
 //        }
 

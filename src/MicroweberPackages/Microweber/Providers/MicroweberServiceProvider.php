@@ -86,7 +86,7 @@ use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\View\ViewServiceProvider;
-use Modules\Admin\Providers\FilamentAdminPanelProvider;
+use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 use Spatie\Permission\PermissionServiceProvider;
 
 class MicroweberServiceProvider extends ServiceProvider
@@ -146,7 +146,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(LivewireServiceProvider::class);
 
 
-        $this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
+        //$this->app->register('Conner\Tagging\Providers\TaggingServiceProvider');
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
 

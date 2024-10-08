@@ -13,7 +13,7 @@ namespace MicroweberPackages\Filament\Providers;
 
 
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentThemeServiceProvider;
-use Modules\Admin\Providers\FilamentAdminPanelProvider;
+use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 
 class MicroweberFilamentServiceProvider extends \Illuminate\Support\ServiceProvider
 {

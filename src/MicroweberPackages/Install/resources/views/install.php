@@ -338,7 +338,7 @@
                 <?php if ($pre_configured): ?>
                     <h4 class="text-center text-primary">Setup your website</h4>
                 <?php else: ?>
-                    <a href="http://Microweber.com" target="_blank" id="logo"><img src="<?php print mw_includes_url(); ?>api/libs/mw-ui/assets/img/logo.svg" style="width: 250px" /></a>
+                    <a href="http://Microweber.com" target="_blank" id="logo"><img src="<?php print asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg') ?>" style="width: 250px" /></a>
                 <?php endif; ?>
             </div>
 

@@ -19,7 +19,7 @@ use MicroweberPackages\Modules\Newsletter\Filament\Widgets\CampaignsChart;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\MailsOverviewWidget;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\StatsOverviewWidget;
 use MicroweberPackages\Modules\Newsletter\Filament\Widgets\SubscribersChart;
-use Modules\Admin\Providers\FilamentAdminPanelProvider;
+use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 
 class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
 {

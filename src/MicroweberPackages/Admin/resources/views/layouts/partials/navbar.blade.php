@@ -11,7 +11,7 @@
             elseif (mw()->ui->admin_logo_login() != false):
                 $logo = mw()->ui->admin_logo_login();
             else:
-                $logo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo.svg';
+                $logo = asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
             endif;
             ?>
             <a class="w-100 mb-md-3" href="<?php print admin_url(); ?>">
@@ -86,7 +86,7 @@
                     size = 240
                 }
 
-                
+
 
                 $('#pages-tree-container').css('transition', 'none')
                 $('.mw-admin-toggle-tree-navigation').css({
@@ -95,9 +95,9 @@
                 })
                 $('#pages-tree-container').width(size - 20)
                 $('#pages-tree-container, .mw-admin-toggle-tree-navigation').css('transition', '')
-                
+
                 if(init) {
-                    $("#admin-sidebar").width(size) 
+                    $("#admin-sidebar").width(size)
                 } else {
                     mw.storage.set('mw-admin-sidebar-size', size);
                 }
@@ -105,9 +105,9 @@
 
             var sidebarSize = mw.storage.get('mw-admin-sidebar-size');
 
-            
+
             setSidebarSize(sidebarSize, true)
-             
+
 
             $("#admin-sidebar").resizable({
                 maxWidth: 550,

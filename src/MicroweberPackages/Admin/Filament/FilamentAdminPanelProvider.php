@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Admin\Providers;
+namespace MicroweberPackages\Admin\Filament;
 
 use App\Filament\Admin\Resources\ContentResource;
 use App\Filament\Admin\Resources\PostResource;
@@ -8,7 +8,6 @@ use App\Filament\Admin\Resources\ProductResource;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\MinimalTheme;
 use Filament\Navigation\NavigationGroup;
 use Filament\Navigation\NavigationItem;
 use Filament\Panel;
@@ -40,17 +39,6 @@ class FilamentAdminPanelProvider extends PanelProvider
         $this->filamentPath = mw_admin_prefix_url();
 
 
-
-    }
-    public function register(): void
-    {
-
-
-        Filament::registerPanel(
-            fn (): Panel => $this->panel(Panel::make()),
-        );
-
-        //$routeCollection =  Route::getRoutes();
 
     }
     public function getPanelPages(): array
@@ -94,7 +82,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->brandLogoHeight('34px')
             ->brandLogo(function () {
-                return site_url('userfiles/modules/microweber/api/libs/mw-ui/assets/img/logo.svg');
+                return asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
             })
             ->sidebarWidth('15rem')
             ->colors([

@@ -16,6 +16,15 @@ class ListTaxes extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+
+        ];
+    }
+
+    protected function getActions(): array
+    {
+        return [
+            Actions\EditAction::make(),
+            Actions\DeleteAction::make(),
         ];
     }
 }

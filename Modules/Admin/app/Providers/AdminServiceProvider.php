@@ -22,10 +22,10 @@ class AdminServiceProvider extends BaseModuleServiceProvider
     public function register(): void
     {
 
-        $this->registerTranslations();
-        $this->registerConfig();
-        $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+      //  $this->registerTranslations();
+     //   $this->registerConfig();
+      // $this->registerViews();
+      //  $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->app->register(FilamentAdminPanelProvider::class);
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 

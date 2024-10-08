@@ -88,10 +88,26 @@ if (!function_exists('site_url')) {
                 }
             }
             if (isset($_SERVER['argv']) and isset($_SERVER['argv'][0]) and is_string($_SERVER['argv'][0])) {
-                $is_phpunit = $_SERVER['argv'][0];
-                if (str_contains($is_phpunit,'phpunit')) {
-                    $d = '';
-                    $pageURL_host =rtrim( config('app.url'), '/')  ;;
+
+                if(is_cli()) {
+                     $is_phpunit = $_SERVER['argv'][0];
+
+
+                     if(str_contains($is_phpunit, $d)) {
+                         $d = '';
+                         $pageURL_host = rtrim(config('app.url'), '/');
+                     }
+
+
+//                    if (str_contains($is_phpunit, 'phpunit')) {
+//                        $d = '';
+//                        $pageURL_host = rtrim(config('app.url'), '/');
+//                    }
+//
+//                    if (str_contains($is_phpunit, 'pest')) {
+//                        $d = '';
+//                        $pageURL_host = rtrim(config('app.url'), '/');
+//                    }
                 }
             }
 

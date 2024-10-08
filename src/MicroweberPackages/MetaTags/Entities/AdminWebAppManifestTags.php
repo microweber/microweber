@@ -92,7 +92,7 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
 
         $maskable_icon = get_option('maskable_icon', 'website');
         if (!$maskable_icon) {
-            $maskable_icon = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo-mobile.svg';
+            $maskable_icon = asset('vendor/microweber-packages/frontend-assets-libs/img/logo-mobile.svg');
         }
         $manifest_app_icon = get_option('manifest_app_icon', 'website');
         if (!$manifest_app_icon) {

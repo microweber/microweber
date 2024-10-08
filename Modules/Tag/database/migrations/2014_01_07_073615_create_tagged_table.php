@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Schema;
 class CreateTaggedTable extends Migration {
 
 	public function up() {
+
+        if(Schema::hasTable('tagging_tagged')) {
+            return;
+        }
+
+
 		Schema::create('tagging_tagged', function(Blueprint $table) {
 			$table->increments('id');
 			if(config('tagging.primary_keys_type') == 'string') {

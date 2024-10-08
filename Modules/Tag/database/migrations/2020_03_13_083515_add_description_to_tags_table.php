@@ -8,6 +8,11 @@ class AddDescriptionToTagsTable extends Migration {
     public function up()
     {
         Schema::table('tagging_tags', function ($table) {
+
+            if(Schema::hasColumn('tagging_tags', 'description')) {
+                return;
+            }
+
             $table->text('description')->nullable();
         });
 

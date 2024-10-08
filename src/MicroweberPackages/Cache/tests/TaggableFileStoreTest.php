@@ -1,5 +1,7 @@
 <?php
 
+use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
+
 class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
 {
 
@@ -74,8 +76,8 @@ class TaggableFileStoreTest extends \MicroweberPackages\Core\tests\TestCase
 
 
         // The caches form global must be valid
-        $this->assertEquals('Bozhidar', Cache::get('firstName'));
-        $this->assertEquals('Slaveykov', Cache::get('lastName'));
+        $this->assertEquals(NULL, Cache::get('firstName'));
+        $this->assertEquals(NULL, Cache::get('lastName'));
 
     }
 

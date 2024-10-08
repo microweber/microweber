@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Admin\Providers\Filament;
 
 use Filament\Panel;
-use Modules\Admin\Providers\FilamentAdminPanelProvider;
+use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
 
 class FilamentLiveEditPanelProvider extends FilamentAdminPanelProvider
 {
