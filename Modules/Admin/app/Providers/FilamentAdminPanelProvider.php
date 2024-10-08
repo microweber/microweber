@@ -49,7 +49,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         Filament::registerPanel(
             fn (): Panel => $this->panel(Panel::make()),
         );
-//dd(Filament::getPanel());
+
         //$routeCollection =  Route::getRoutes();
 
     }

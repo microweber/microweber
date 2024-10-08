@@ -14,14 +14,7 @@ class AdminServiceProvider extends BaseModuleServiceProvider
 
     protected string $moduleNameLower = 'admin';
 
-    /**
-     * Boot the application events.
-     */
-    public function boot(): void
-    {
-       //
 
-    }
 
     /**
      * Register the service provider.
@@ -33,7 +26,7 @@ class AdminServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-        $this->app->register(FilamentAdminPanelProvider::class);
+       // $this->app->register(FilamentAdminPanelProvider::class);
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
     }

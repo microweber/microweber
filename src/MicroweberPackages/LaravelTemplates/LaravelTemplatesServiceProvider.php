@@ -23,7 +23,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
     {
 
         //  $this->registerNamespaces();
-        $this->registerModules();
+
 
 
     }
@@ -53,7 +53,10 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
         $this->registerServices();
      //   $this->setupStubPath();
         $this->registerProviders();
-      $this->app->bind(TemplatesRepositoryInterface::class, LaravelTemplatesFileRepository::class);
+        $this->app->bind(TemplatesRepositoryInterface::class, LaravelTemplatesFileRepository::class);
+
+
+        $this->registerModules();
 
     }
 
