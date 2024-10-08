@@ -85,7 +85,7 @@ const copy = [
     {target: `flag-icons/css`, path: `node_modules/flag-icons/css`},
     {target: `flag-icons/flags`, path: `node_modules/flag-icons/flags`},
     {target: `flag-icons/country.json`, path: `node_modules/flag-icons/country.json`},
-    {target: `api`, path: `resources/local-libs/api`},
+    {target: `api/`, path: `resources/local-libs/api`},
 ];
 
 

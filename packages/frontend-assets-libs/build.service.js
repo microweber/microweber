@@ -1,8 +1,6 @@
 import gulp from 'gulp';
 import gulpCopy from 'gulp-copy';
-import fs from 'fs';/*
-import babel from 'gulp-babel';
-import browserify  from 'browserify';*/
+import fs from 'fs';
 
 import fse from "fs-extra";
 
@@ -90,31 +88,6 @@ export class BuildService {
                 }
 
                 console.log(`${obj.target} compiled`);
-            });
-        });
-    }
-
-    copyAsset__(obj) {
-        return new Promise(async (resolve, reject) => {
-            fs.stat(obj.path, (err, stats) => {
-                if (err) {
-                    return reject(err);
-                }
-
-                if (stats.isFile()) {
-                    this
-                        .#createReadWriteStream(obj)
-                        .pipe(gulp.dest(`${obj.output || this.output}/${obj.target.split('/').slice(0, -1).join('/')}`))
-                        .on('finish', resolve)
-                        .on('error', reject);
-                    console.log(`${obj.target} compiled`);
-                } else {
-                    gulp.src([`${obj.path}/**/*`])
-                        .pipe(gulp.dest(`${obj.output || this.output}/${obj.target}`))
-                        .on('finish', resolve)
-                        .on('error', reject);
-                    console.log(`${obj.target} compiled`);
-                }
             });
         });
     }

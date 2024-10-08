@@ -15,8 +15,8 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
         $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin.js';
         $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/admincss.css';
-        $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.min.js';
-        $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.min.js';
+        $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.js';
+        $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.js';
         $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
         $jqueryUiNestedSortable = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-nested-sortable/jquery.mjs.nestedSortable.js';
         $lib_tynymce = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/tinymce/tinymce.js';
