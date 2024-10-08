@@ -66,6 +66,14 @@ function get_white_label_config()
 
         return $params;
     }
+
+    $saas_file = storage_path('branding_saas.json');
+    if (is_file($saas_file)) {
+        $cont = file_get_contents($saas_file);
+        $saas_file_json = json_decode($cont, true);
+
+        return $saas_file_json;
+    }
 }
 
 event_bind('mw.after.boot', 'make_white_label');
