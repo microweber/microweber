@@ -68,6 +68,7 @@ class ProcessCampaigns extends Command
                     $this->info('Processing scheduled campaign: ' . $scheduledCampaign->name);
                     $this->info('Marking campaign as pending');
                     $scheduledCampaign->status = NewsletterCampaign::STATUS_PENDING;
+                    $scheduledCampaign->status_log = 'Scheduled campaign is now pending';
                     $scheduledCampaign->save();
                 }
             }
@@ -87,6 +88,7 @@ class ProcessCampaigns extends Command
         if (!$sender) {
             $this->error('Sender account not found');
             $campaign->status = NewsletterCampaign::STATUS_FAILED;
+            $campaign->status_log = 'Sender account not found';
             $campaign->save();
             return 0;
         }
@@ -96,12 +98,14 @@ class ProcessCampaigns extends Command
             if (!$template) {
                 $this->error('Email template not found');
                 $campaign->status = NewsletterCampaign::STATUS_FAILED;
+                $campaign->status_log = 'Email template not found';
                 $campaign->save();
                 return 0;
             }
         } else if (empty($campaign->email_content_html)) {
             $this->error('Email content not found');
             $campaign->status = NewsletterCampaign::STATUS_FAILED;
+            $campaign->status_log = 'Email content not found';
             $campaign->save();
             return 0;
         }
@@ -113,6 +117,7 @@ class ProcessCampaigns extends Command
         if (!$subscribers) {
             $this->error('No subscribers found');
             $campaign->status = NewsletterCampaign::STATUS_FAILED;
+            $campaign->status_log = 'No subscribers found';
             $campaign->save();
             return 0;
         }
@@ -143,8 +148,10 @@ class ProcessCampaigns extends Command
             ->finally(function (Batch $batch) use($campaign) {
                 if ($batch->finished()) {
                     $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+                    $campaign->status_log = 'Batch finished';
                 } else {
                     $campaign->status = NewsletterCampaign::STATUS_FAILED;
+                    $campaign->status_log = 'Batch failed';
                 }
                 $campaign->save();
             })
@@ -154,6 +161,7 @@ class ProcessCampaigns extends Command
 
         if (empty($batch->id)) {
             $campaign->status = NewsletterCampaign::STATUS_FAILED;
+            $campaign->status_log = 'Batch not created';
             $campaign->save();
             $this->error('Batch not created');
             return 0;
