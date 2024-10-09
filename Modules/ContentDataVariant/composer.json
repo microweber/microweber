@@ -1,5 +1,5 @@
 {
-    "name": "modules/admin",
+    "name": "modules/contentdatavariant",
     "description": "",
     "authors": [
         {
@@ -17,14 +17,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Admin\\": "app/",
-            "Modules\\Admin\\Database\\Factories\\": "database/factories/",
-            "Modules\\Admin\\Database\\Seeders\\": "database/seeders/"
+            "Modules\\ContentDataVariant\\": "app/",
+            "Modules\\ContentDataVariant\\Database\\Factories\\": "database/factories/",
+            "Modules\\ContentDataVariant\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\Admin\\Tests\\": "tests/"
+            "Modules\\ContentDataVariant\\Tests\\": "tests/"
         }
     }
 }
