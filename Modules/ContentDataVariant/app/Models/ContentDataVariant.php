@@ -1,11 +1,10 @@
 <?php
 
 
-namespace MicroweberPackages\ContentDataVariant\Models;
+namespace Modules\ContentDataVariant\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
-use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 
 class ContentDataVariant extends Model
 {

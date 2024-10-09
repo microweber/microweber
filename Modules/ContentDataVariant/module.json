@@ -1,0 +1,11 @@
+{
+    "name": "ContentDataVariant",
+    "alias": "contentdatavariant",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ContentDataVariant\\Providers\\ContentDataVariantServiceProvider"
+    ],
+    "files": []
+}
