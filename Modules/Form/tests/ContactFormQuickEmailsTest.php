@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Form\tests;
+namespace Modules\Form\Tests;
 
 
 use Tests\TestCase;

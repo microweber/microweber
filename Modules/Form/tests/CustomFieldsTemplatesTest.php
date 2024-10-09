@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Form\tests;
+namespace Modules\Form\Tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 
