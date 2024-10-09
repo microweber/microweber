@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Tag\tests;
+namespace Modules\Tag\Tests;
 
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,6 +15,8 @@ class TagsTest extends TestCase
 
     public function testModel()
     {
+
+        //legacy save
         mw()->database_manager->extended_save_set_permission(true);
         $has_permission = mw()->database_manager->extended_save_has_permission();
         $this->assertTrue($has_permission);
@@ -155,7 +157,7 @@ class TagsTest extends TestCase
         $this->assertNull($article);
 
 
-        $article = Content::withAnyTag('Gardening Potatoes, Cooking Potatoes')->get(); // fetch articles with any tag listed
+        $article = Content::withAnyTag(['Gardening Potatoes', 'Cooking Potatoes'])->get(); // fetch articles with any tag listed
         $this->assertEmpty($article);
 
 

@@ -32,10 +32,10 @@ class TagServiceProvider extends BaseModuleServiceProvider
 
     public function boot(): void
     {
-        app()->afterResolving('translate_manager', function () {
-            app()->translate_manager->addTranslateProvider(TranslateTaggingTags::class);
-            app()->translate_manager->addTranslateProvider(TranslateTaggingTagged::class);
-        });
+
+
+        app()->translate_manager->addTranslateProvider(TranslateTaggingTags::class);
+        app()->translate_manager->addTranslateProvider(TranslateTaggingTagged::class);
     }
 
 }

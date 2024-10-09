@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 
 /**
- * @package Conner\Tagging
+ * @package Modules\Tag
  * @method static Builder withAllTags(array $tags)
  * @method static Builder withAnyTag(array $tags)
  * @method static Builder withoutTags(array $tags)
