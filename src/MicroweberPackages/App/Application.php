@@ -45,8 +45,6 @@ use MicroweberPackages\Order\Repositories\OrderRepository;
 use MicroweberPackages\Payment\PaymentManager;
 use MicroweberPackages\Payment\PaymentMethodManager;
 use MicroweberPackages\Repository\RepositoryManager;
-use MicroweberPackages\Shipping\ShippingManager;
-use MicroweberPackages\Shipping\ShippingMethodManager;
 use MicroweberPackages\Shop\ShopManager;
 use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\Template;
@@ -55,7 +53,8 @@ use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Http\Http;
-use Modules\Tax\TaxManager;
+use Modules\Shipping\ShippingManager;
+use Modules\Shipping\ShippingMethodManager;
 
 
 /**

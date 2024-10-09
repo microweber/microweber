@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Shop\Shipping\Gateways\Pickup;
 
 
-use MicroweberPackages\Shipping\Providers\ShippingDriverInterface;
+use Modules\Shipping\Providers\ShippingDriverInterface;
 
 
 class PickupDriver implements ShippingDriverInterface

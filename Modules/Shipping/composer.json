@@ -1,0 +1,30 @@
+{
+    "name": "modules/shipping",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Shipping\\": "",
+            "Modules\\Shipping\\Database\\Factories\\": "database/factories/",
+            "Modules\\Shipping\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Shipping\\Tests\\": "Tests/"
+        }
+    }
+}

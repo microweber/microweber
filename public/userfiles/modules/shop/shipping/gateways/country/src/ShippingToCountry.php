@@ -5,7 +5,7 @@ namespace MicroweberPackages\Shop\Shipping\Gateways\Country;
 
 
 
-use MicroweberPackages\Shipping\Providers\ShippingDriverInterface;
+use Modules\Shipping\Providers\ShippingDriverInterface;
 use shop\shipping\gateways\country\shipping_to_country;
 
 class ShippingToCountry implements ShippingDriverInterface

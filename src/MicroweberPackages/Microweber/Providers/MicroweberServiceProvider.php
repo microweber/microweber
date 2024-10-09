@@ -11,7 +11,6 @@
 
 namespace MicroweberPackages\Microweber\Providers;
 
-use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
@@ -27,8 +26,6 @@ use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
 use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
-
-
 use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
@@ -41,8 +38,6 @@ use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\LaravelModules\LaravelModulesServiceProvider;
-use MicroweberPackages\LaravelModulesFilament\LaravelModulesFilamentServiceProvider;
-use MicroweberPackages\LaravelModulesLivewire\LaravelModulesLivewireServiceProvider;
 use MicroweberPackages\LaravelTemplates\LaravelTemplatesServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
@@ -59,7 +54,6 @@ use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\MailTemplatesServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Offer\Providers\OfferServiceProvider;
-
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Order\Providers\OrderServiceProvider;
@@ -73,9 +67,7 @@ use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryEventServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
-use MicroweberPackages\Shipping\Providers\ShippingManagerServiceProvider;
 use MicroweberPackages\Shop\ShopManagerServiceProvider;
-
 use MicroweberPackages\Template\TemplateEventServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
@@ -85,8 +77,9 @@ use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\View\ViewServiceProvider;
-use MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider;
+//use Modules\Shipping\Providers\ShippingManagerServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
+
 
 class MicroweberServiceProvider extends ServiceProvider
 {
@@ -178,7 +171,7 @@ class MicroweberServiceProvider extends ServiceProvider
       //  $this->app->register(CurrencyServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
-        $this->app->register(ShippingManagerServiceProvider::class);
+        //$this->app->register(ShippingManagerServiceProvider::class);
         $this->app->register(OfferServiceProvider::class);
         $this->app->register(FileManagerServiceProvider::class);
       //  $this->app->register(FormServiceProvider::class);
