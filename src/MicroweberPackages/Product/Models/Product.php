@@ -3,20 +3,16 @@
 namespace MicroweberPackages\Product\Models;
 
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\ContentData\Models\ContentData;
-use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
-use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Product\CartesianProduct;
-use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Product\Models\ModelFilters\ProductFilter;
 use MicroweberPackages\Product\Traits\CustomFieldPriceTrait;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
-use function Clue\StreamFilter\fun;
+use Modules\ContentDataVariant\Models\ContentDataVariant;
 
 class Product extends Content
 {
@@ -421,7 +417,7 @@ class Product extends Content
 
             foreach ($cartesianProduct['content_data_variant'] as $contentDataVariant) {
 
-                $findContentDataVariant = ContentDataVariant::where('rel_id', $productVariant->id)
+                $findContentDataVariant = \Modules\ContentDataVariant\Models\ContentDataVariant::where('rel_id', $productVariant->id)
                     ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
                     ->where('custom_field_id', $contentDataVariant['custom_field_id'])
                     ->where('custom_field_value_id', $contentDataVariant['custom_field_value_id'])

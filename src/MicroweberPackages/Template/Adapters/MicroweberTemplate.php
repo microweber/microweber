@@ -4,8 +4,6 @@ namespace MicroweberPackages\Template\Adapters;
 
 use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\Template\Adapters\RenderHelpers\TemplateMetaTagsPlaceholderReplacer;
-use MicroweberPackages\Template\Http\Livewire\Admin\StyleSettingsFirstLevelConvertor;
-use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View;
 
 class MicroweberTemplate
@@ -14,7 +12,7 @@ class MicroweberTemplate
     public string $templateFolderName = '';
     public string $templatePath = '';
     public string $templateUrl = '';
-    public string $fallbackTempleteFolderName = 'default';
+    public string $fallbackTempleteFolderName = 'Default';
     protected int $mainPageId = 0;
     protected int $postId = 0;
     protected int $categoryId = 0;
@@ -158,6 +156,12 @@ class MicroweberTemplate
             }
         }
 
+        if (!$this->templateFolderName) {
+            $fallbackFromConfig = config('templates.fallback') ?? $this->fallbackTempleteFolderName;
+
+            $this->templateFolderName = $fallbackFromConfig;
+        }
+
         return $this->templateFolderName;
     }
 
@@ -227,7 +231,7 @@ class MicroweberTemplate
      */
     public function getActiveTemplateUrl(): string
     {
-        return templates_url() .strtolower( $this->getTemplateFolderName() ). '/';
+        return templates_url() . strtolower($this->getTemplateFolderName()) . '/';
     }
 
     /**
@@ -591,7 +595,6 @@ class MicroweberTemplate
                 $legacy_filename_migration = str_replace('.php', '.blade.php', $legacy_filename_migration);
                 $legacy_filename_migration_view = templates_dir() . $template_d . '/resources/views/' . $legacy_filename_migration;
                 $legacy_filename_migration_view = normalize_path($legacy_filename_migration_view, false);
-
 
 
                 if ($is_laravel_template and is_file($laravel_template_view)) {

@@ -45,12 +45,6 @@ class TemplateManagerServiceProvider extends ServiceProvider
             return new LayoutsManager();
         });
 
-        /**
-         * @property \MicroweberPackages\Template\Template    $template
-         */
-        $this->app->singleton('template', function ($app) {
-            return new Template();
-        });
 
         View::addNamespace('template', __DIR__.'/resources/views');
 

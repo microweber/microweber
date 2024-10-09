@@ -16,6 +16,10 @@ return [
     */
     'namespace' => 'Templates',
 
+
+    // default template if there is no template chosen
+    'fallback' => 'Default',
+
     /*
     |--------------------------------------------------------------------------
     | Module Stubs
@@ -216,5 +220,5 @@ return [
         ],
     ],
 
-    'activator' => 'file',
+    'activator' => 'file'
 ];

@@ -12,7 +12,7 @@ use MicroweberPackages\Content\Scopes\ProductScope;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\ContentData\Models\ContentData;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
-use MicroweberPackages\ContentDataVariant\Models\ContentDataVariant;
+use Modules\ContentDataVariant\Models\ContentDataVariant;
 use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\CustomField\Models\CustomField;

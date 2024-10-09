@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Product\Models;
 
 use MicroweberPackages\Content\Scopes\ProductVariantScope;
-use MicroweberPackages\ContentDataVariant\Traits\ContentDataVariantTrait;
+use Modules\ContentDataVariant\Traits\ContentDataVariantTrait;
 
 class ProductVariant extends Product
 {

@@ -55,11 +55,11 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function getPanelMiddlewares(): array
     {
         return [
-            //  EncryptCookies::class,
-//            AddQueuedCookiesToResponse::class,
-//            StartSession::class,
-//            AuthenticateSession::class,
-//            ShareErrorsFromSession::class,
+           //   EncryptCookies::class,
+         //   AddQueuedCookiesToResponse::class,
+            //StartSession::class,
+           // AuthenticateSession::class,
+          //  ShareErrorsFromSession::class,
             //          VerifyCsrfToken::class, aways givev error to refresh
             SubstituteBindings::class,
             DisableBladeIconComponents::class,
