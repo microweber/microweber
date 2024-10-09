@@ -55,7 +55,7 @@ var MWEditor = function (options) {
             'image', 'linkTooltip', 'tableManager'
         ],
         language: 'en',
-        rootPath: mw.settings.modules_url + 'microweber/api/editor',
+        rootPath: mw.settings.includes_url + 'microweber/api/editor',
         editMode: 'normal', // normal | liveedit
         bar: null,
         storage: mw.storage,
