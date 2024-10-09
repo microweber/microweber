@@ -114,11 +114,13 @@ class TemplatesFileActivator extends LaravelModulesFileActivator implements Temp
      */
     public function hasStatus(Module|string $module, bool $status): bool
     {
-        if (! isset($this->modulesStatuses[$module->getName()])) {
+        $name = $module instanceof Module ? $module->getName() : $module;
+
+        if (! isset($this->modulesStatuses[$name])) {
             return $status === false;
         }
 
-        return $this->modulesStatuses[$module->getName()] === $status;
+        return $this->modulesStatuses[$name] === $status;
     }
 
     /**
