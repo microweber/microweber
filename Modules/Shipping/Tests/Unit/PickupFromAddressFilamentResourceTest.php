@@ -10,67 +10,65 @@ use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource\Pages\Lis
 use Modules\Shipping\Models\ShippingProvider;
 use Tests\TestCase;
 
-class FlatRateFilamentResourceTest extends TestCase
+class PickupFromAddressFilamentResourceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testFlatRateShippingProviderLifecycle()
+    public function testPickupFromAddressShippingProviderLifecycle()
     {
-        // Create Flat Rate Shipping Provider
+        // Create Pickup From Address Shipping Provider
         Livewire::test(CreateShippingProvider::class)
             ->fillForm([
-                'name' => 'Flat Rate Provider',
-                'provider' => 'flat_rate',
+                'name' => 'Pickup From Address Provider',
+                'provider' => 'pickup_from_address',
                 'is_active' => true,
                 'settings' => [
-                    'shipping_cost' => 10,
-                    'shipping_instructions' => 'Handle with care',
+                    'shipping_instructions' => 'Pickup at the front desk',
                 ],
             ])
             ->call('create')
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('shipping_providers', [
-            'name' => 'Flat Rate Provider',
-            'provider' => 'flat_rate',
+            'name' => 'Pickup From Address Provider',
+            'provider' => 'pickup_from_address',
             'is_active' => true,
         ]);
 
-        // Edit Flat Rate Shipping Provider
-        $provider = ShippingProvider::where('name', 'Flat Rate Provider')->first();
+        // Edit Pickup From Address Shipping Provider
+        $provider = ShippingProvider::where('name', 'Pickup From Address Provider')->first();
         Livewire::test(EditShippingProvider::class, ['record' => $provider->id])
             ->fillForm([
-                'name' => 'Updated Flat Rate Provider',
-                'provider' => 'flat_rate',
+                'name' => 'Updated Pickup From Address Provider',
+                'provider' => 'pickup_from_address',
                 'is_active' => false,
                 'settings' => [
-                    'shipping_cost' => 20,
-                    'shipping_instructions' => 'Handle with extra care',
+                    'shipping_instructions' => 'Pickup at the back door',
                 ],
             ])
             ->call('save')
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('shipping_providers', [
-            'name' => 'Updated Flat Rate Provider',
-            'provider' => 'flat_rate',
+            'name' => 'Updated Pickup From Address Provider',
+            'provider' => 'pickup_from_address',
             'is_active' => false,
         ]);
 
-        // List Flat Rate Shipping Providers
+        // List Pickup From Address Shipping Providers
         Livewire::test(ListShippingProviders::class)
-            ->assertSee('Updated Flat Rate Provider')
-            ->assertSee('flat_rate')
+            ->assertSee('Updated Pickup From Address Provider')
+            ->assertSee('pickup_from_address')
             ->assertSee('false');
 
-        // Delete Flat Rate Shipping Provider
+        // Delete Pickup From Address Shipping Provider
         Livewire::test(ListShippingProviders::class)
             ->callTableAction('delete', $provider)
             ->assertHasNoTableActionErrors();
 
         $this->assertDatabaseMissing('shipping_providers', [
-            'name' => 'Updated Flat Rate Provider',
-            'provider' => 'flat_rate',
+            'name' => 'Updated Pickup From Address Provider',
+            'provider' => 'pickup_from_address',
             'is_active' => false,
         ]);
     }

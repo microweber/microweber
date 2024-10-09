@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Features\SupportLegacyModels\EloquentCollectionSynth;
+use Livewire\Features\SupportLegacyModels\EloquentModelSynth;
 use Livewire\Livewire;
+use MicroweberPackages\Livewire\Features\SupportLegacyModels\MwEloquentModelSynth;
 use MicroweberPackages\Livewire\Mechanisms\HandleRequests\MwLivewireHandleRequests;
 
 //use Livewire\LivewireServiceProvider as BaseLivewireServiceProvider;
@@ -40,7 +43,7 @@ class LivewireServiceProvider extends ServiceProvider
     protected function mergeConfigFrom($path, $key)
     {
         $config = $this->app['config']->get($key, []);
-        $this->app['config']->set($key, array_merge($config, require $path,));
+        $this->app['config']->set($key, array_merge($config, require $path));
     }
 
 
@@ -83,7 +86,7 @@ class LivewireServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        if(defined('MW_SERVED_FROM_BASE_PATH')) {
+        if (defined('MW_SERVED_FROM_BASE_PATH')) {
             $livewireUrl = site_url('public/vendor/livewire/livewire.min.js');
         } else {
             $livewireUrl = site_url('vendor/livewire/livewire.min.js');
@@ -95,8 +98,14 @@ class LivewireServiceProvider extends ServiceProvider
             //   return site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js';
         });
 
-
-
+//
+//        if (config('livewire.legacy_model_binding')) {
+//            // see https://github.com/livewire/livewire/discussions/5979
+//            app('livewire')->propertySynthesizer([
+//                MwEloquentModelSynth::class,
+//                EloquentCollectionSynth::class,
+//            ]);
+//        }
 
 //         Livewire::setScriptRoute(function ($handle) {
 //
@@ -106,7 +115,7 @@ class LivewireServiceProvider extends ServiceProvider
 //             //   return site_url().'userfiles/cache/livewire/'.\MicroweberPackages\App\LaravelApplication::APP_VERSION.'/livewire/livewire.min.js';
 //        });
 
-         // dd(Route::post('livewire/update'));
+        // dd(Route::post('livewire/update'));
 //        Livewire::setUpdateRoute(function ($handle) {
 //            $route = Route::post( ('/livewire/update'), $handle)->name('livewire.update');
 //
@@ -138,7 +147,7 @@ class LivewireServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $config = __DIR__.'/config/livewire.php';
+        $config = __DIR__ . '/config/livewire.php';
         $this->mergeConfigFrom($config, 'livewire');
 
 
@@ -164,12 +173,12 @@ class LivewireServiceProvider extends ServiceProvider
 
 
         // Load UI Modal
-  //       app()->register(LivewireModalServiceProvider::class);
+        //       app()->register(LivewireModalServiceProvider::class);
 //        $this->mergeConfigFrom(__DIR__.'/config/livewire-ui-modal.php', 'livewire-ui-modal');
 //
 
         // the new mw dialog
-       app()->register(LivewireMwModalServiceProvider::class);
+        app()->register(LivewireMwModalServiceProvider::class);
         // $resolver = app()->make(MwLivewireComponentResolver::class);
         //  dd($reg,$resolver);
         //app()->make(\Livewire\Mechanisms\ComponentRegistry::class)->resolveMissingComponent($resolver);

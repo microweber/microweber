@@ -5,7 +5,7 @@ namespace MicroweberPackages\Content\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Model;
-use Kirschbaum\PowerJoins\PowerJoins;
+//use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentData\Traits\ContentDataTrait;
@@ -36,7 +36,7 @@ class Content extends Model
     use Filterable;
     use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
-    use PowerJoins;
+ //   use PowerJoins;
     use HasEvents;
     use HasMultilanguageTrait;
     use MaxPositionTrait;

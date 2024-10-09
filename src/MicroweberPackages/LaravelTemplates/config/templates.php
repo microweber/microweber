@@ -5,7 +5,7 @@ use Nwidart\Modules\Providers\ConsoleServiceProvider;
 
 
 return [
-
+    'app_folder' => '',
     /*
     |--------------------------------------------------------------------------
     | Module Namespace

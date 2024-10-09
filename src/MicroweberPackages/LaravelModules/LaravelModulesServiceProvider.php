@@ -11,6 +11,7 @@ use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Exceptions\InvalidActivatorClass;
 use Nwidart\Modules\Laravel\LaravelFileRepository;
+use Nwidart\Modules\Providers\BootstrapServiceProvider;
 use Nwidart\Modules\Providers\ConsoleServiceProvider;
 use Nwidart\Modules\Providers\ContractsServiceProvider;
 use Nwidart\Modules\Support\Stub;
@@ -68,6 +69,13 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 
         $this->registerNamespaces();
         $this->registerModules();
+    }
+
+    protected function registerModules()
+    {
+        $this->app->register(BootstrapServiceProvider::class);
+
+
     }
     protected function registerServices()
     {
