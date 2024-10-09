@@ -61,7 +61,7 @@ return [
                 'MODULE_NAMESPACE',
                 'PROVIDER_NAMESPACE',
                 'APP_FOLDER_NAME',
-            ],
+            ]
         ],
         'gitkeep' => false,
     ],
@@ -106,7 +106,7 @@ return [
         | app folder name
         | for example can change it to 'src' or 'App'
         */
-        'app_folder' => 'app/',
+        'app_folder' => '',
 
         /*
         |--------------------------------------------------------------------------
@@ -116,46 +116,46 @@ return [
         | Setting the generate key to false will not generate that folder
         */
         'generator' => [
-            // app/
-            'actions' => ['path' => 'app/Actions', 'generate' => false],
-            'casts' => ['path' => 'app/Casts', 'generate' => false],
-            'channels' => ['path' => 'app/Broadcasting', 'generate' => false],
-            'class' => ['path' => 'app/Classes', 'generate' => false],
-            'command' => ['path' => 'app/Console', 'generate' => false],
-            'component-class' => ['path' => 'app/View/Components', 'generate' => false],
-            'emails' => ['path' => 'app/Emails', 'generate' => false],
-            'event' => ['path' => 'app/Events', 'generate' => false],
-            'enums' => ['path' => 'app/Enums', 'generate' => false],
-            'exceptions' => ['path' => 'app/Exceptions', 'generate' => false],
-            'jobs' => ['path' => 'app/Jobs', 'generate' => false],
-            'helpers' => ['path' => 'app/Helpers', 'generate' => false],
-            'interfaces' => ['path' => 'app/Interfaces', 'generate' => false],
-            'listener' => ['path' => 'app/Listeners', 'generate' => false],
-            'model' => ['path' => 'app/Models', 'generate' => false],
-            'notifications' => ['path' => 'app/Notifications', 'generate' => false],
-            'observer' => ['path' => 'app/Observers', 'generate' => false],
-            'policies' => ['path' => 'app/Policies', 'generate' => false],
-            'provider' => ['path' => 'app/Providers', 'generate' => true],
-            'repository' => ['path' => 'app/Repositories', 'generate' => false],
-            'resource' => ['path' => 'app/Transformers', 'generate' => false],
-            'route-provider' => ['path' => 'app/Providers', 'generate' => false],
-            'rules' => ['path' => 'app/Rules', 'generate' => false],
-            'services' => ['path' => 'app/Services', 'generate' => false],
-            'scopes' => ['path' => 'app/Models/Scopes', 'generate' => false],
-            'traits' => ['path' => 'app/Traits', 'generate' => false],
+            //
+            'actions' => ['path' => 'Actions', 'generate' => false],
+            'casts' => ['path' => 'Casts', 'generate' => false],
+            'channels' => ['path' => 'Broadcasting', 'generate' => false],
+            'class' => ['path' => 'Classes', 'generate' => false],
+            'command' => ['path' => 'Console', 'generate' => false],
+            'component-class' => ['path' => 'View/Components', 'generate' => false],
+            'emails' => ['path' => 'Emails', 'generate' => false],
+            'event' => ['path' => 'Events', 'generate' => false],
+            'enums' => ['path' => 'Enums', 'generate' => false],
+            'exceptions' => ['path' => 'Exceptions', 'generate' => false],
+            'jobs' => ['path' => 'Jobs', 'generate' => false],
+            'helpers' => ['path' => 'Helpers', 'generate' => false],
+            'interfaces' => ['path' => 'Interfaces', 'generate' => false],
+            'listener' => ['path' => 'Listeners', 'generate' => false],
+            'model' => ['path' => 'Models', 'generate' => false],
+            'notifications' => ['path' => 'Notifications', 'generate' => false],
+            'observer' => ['path' => 'Observers', 'generate' => false],
+            'policies' => ['path' => 'Policies', 'generate' => false],
+            'provider' => ['path' => 'Providers', 'generate' => true],
+            'repository' => ['path' => 'Repositories', 'generate' => false],
+            'resource' => ['path' => 'Transformers', 'generate' => false],
+            'route-provider' => ['path' => 'Providers', 'generate' => false],
+            'rules' => ['path' => 'Rules', 'generate' => false],
+            'services' => ['path' => 'Services', 'generate' => false],
+            'scopes' => ['path' => 'Models/Scopes', 'generate' => false],
+            'traits' => ['path' => 'Traits', 'generate' => false],
 
-            // app/Http/
-            'controller' => ['path' => 'app/Http/Controllers', 'generate' => true],
-            'filter' => ['path' => 'app/Http/Middleware', 'generate' => false],
-            'request' => ['path' => 'app/Http/Requests', 'generate' => false],
+            // Http/
+            'controller' => ['path' => 'Http/Controllers', 'generate' => true],
+            'filter' => ['path' => 'Http/Middleware', 'generate' => false],
+            'request' => ['path' => 'Http/Requests', 'generate' => false],
 
             // config/
             'config' => ['path' => 'config', 'generate' => true],
 
             // database/
-            'factory' => ['path' => 'database/factories', 'generate' => true],
+            'factory' => ['path' => 'database/factories', 'generate' => false],
             'migration' => ['path' => 'database/migrations', 'generate' => true],
-            'seeder' => ['path' => 'database/seeders', 'generate' => true],
+            'seeder' => ['path' => 'database/seeders', 'generate' => false],
 
             // lang/
             'lang' => ['path' => 'lang', 'generate' => false],
@@ -169,8 +169,8 @@ return [
             'routes' => ['path' => 'routes', 'generate' => true],
 
             // tests/
-            'test-feature' => ['path' => 'tests/Feature', 'generate' => true],
-            'test-unit' => ['path' => 'tests/Unit', 'generate' => true],
+            'test-feature' => ['path' => 'Tests/Feature', 'generate' => false],
+            'test-unit' => ['path' => 'Tests/Unit', 'generate' => true],
         ],
     ],
 

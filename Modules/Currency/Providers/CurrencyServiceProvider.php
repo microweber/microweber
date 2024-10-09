@@ -31,7 +31,7 @@ class CurrencyServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
 
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-        $this->mergeConfigFrom(dirname(__DIR__,2) . '/config/money.php', 'money');
+        $this->mergeConfigFrom(dirname(__DIR__) . '/config/money.php', 'money');
 
 
     }

@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Country\\Providers\\CountryServiceProvider"
     ],
-    "files": []
+    "files": ["country_functions.php"]
 }

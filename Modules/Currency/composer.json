@@ -17,14 +17,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Currency\\": "app/",
+            "Modules\\Currency\\": "",
             "Modules\\Currency\\Database\\Factories\\": "database/factories/",
             "Modules\\Currency\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\Currency\\Tests\\": "tests/"
+            "Modules\\Currency\\Tests\\": "Tests/"
         }
     }
 }

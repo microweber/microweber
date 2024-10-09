@@ -6,7 +6,7 @@ class CountriesHelper
 {
     public static function countriesListFromJson()
     {
-         $countries_file = normalize_path(dirname(__DIR__,2) . '/resources/country.json', false);
+         $countries_file = normalize_path(dirname(__DIR__) . '/resources/country.json', false);
         $countries_file = json_decode(file_get_contents($countries_file), true);
 
         return $countries_file;
@@ -18,7 +18,7 @@ class CountriesHelper
 
         if (empty($data)) {
             $countries_file_userfiles = normalize_path(userfiles_path() . 'country.csv', false);
-            $countries_file = normalize_path(dirname(__DIR__,2) . '/resources/country.csv', false);
+            $countries_file = normalize_path(dirname(__DIR__) . '/resources/country.csv', false);
 
             if (is_file($countries_file_userfiles)) {
                 $countries_file = $countries_file_userfiles;

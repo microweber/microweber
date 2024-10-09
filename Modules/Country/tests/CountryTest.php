@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Country\tests;
+namespace Modules\Country\Tests;
 
 use Tests\TestCase;
 use Modules\Country\Support\CountriesHelper;
