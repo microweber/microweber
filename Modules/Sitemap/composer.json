@@ -17,14 +17,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Sitemap\\": "app/",
+            "Modules\\Sitemap\\": "",
             "Modules\\Sitemap\\Database\\Factories\\": "database/factories/",
             "Modules\\Sitemap\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\Sitemap\\Tests\\": "tests/"
+            "Modules\\Sitemap\\Tests\\": "Tests/"
         }
     }
 }
