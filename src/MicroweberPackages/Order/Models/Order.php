@@ -14,7 +14,7 @@ namespace MicroweberPackages\Order\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Kirschbaum\PowerJoins\PowerJoins;
+//use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Cart\Concerns\HasCartItems;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Content\Models\Content;
@@ -30,7 +30,7 @@ class Order extends Model
 {
     use Notifiable;
     use Filterable;
-    use PowerJoins;
+   // use PowerJoins;
     use SoftDeletes;
 
     use HasCartItems;
