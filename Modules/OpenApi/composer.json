@@ -17,14 +17,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\OpenApi\\": "app/",
+            "Modules\\OpenApi\\": "",
             "Modules\\OpenApi\\Database\\Factories\\": "database/factories/",
             "Modules\\OpenApi\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\OpenApi\\Tests\\": "tests/"
+            "Modules\\OpenApi\\Tests\\": "Tests/"
         }
     }
 }
