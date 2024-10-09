@@ -17,14 +17,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\RssFeed\\": "app/",
+            "Modules\\RssFeed\\": "",
             "Modules\\RssFeed\\Database\\Factories\\": "database/factories/",
             "Modules\\RssFeed\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\RssFeed\\Tests\\": "tests/"
+            "Modules\\RssFeed\\Tests\\": "Tests/"
         }
     }
 }
