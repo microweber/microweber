@@ -85,6 +85,7 @@ class CampaignResource extends Resource
                 Tables\Columns\ViewColumn::make('status')->alignCenter()
                         ->view('microweber-module-newsletter::livewire.filament.columns.campaign-status'),
 
+                TextColumn::make('status_log')
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
