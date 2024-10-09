@@ -13,6 +13,26 @@ class MWSiteMobileMenuService {
 
     currentMenu = null;
 
+    buildSubMenus(ul) {
+        const holder = document.querySelector('.navigation-holder');
+        const cacltop =  `${(holder ? holder.offsetHeight : 0)}px`;
+        const maxHeight = `calc(100vh - ${cacltop})`;
+
+        ul.querySelectorAll('ul').forEach(function (node) {
+            const li = node.parentNode;
+            const btn = document.createElement("span");
+            btn.className = 'mw-vhmbgr-submenu-toggle-button';
+            btn.addEventListener("click", function (e) {
+                li.classList.toggle('mw-vhmbgr-submenu-active');
+                node.style.maxHeight = li.classList.contains('mw-vhmbgr-submenu-active') ? maxHeight : '';
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            li.prepend(btn);
+
+        });
+    }
+
     buildMobileMenu(targetMenu) {
       if(this.currentMenu) {
         this.currentMenu.remove()
@@ -26,6 +46,7 @@ class MWSiteMobileMenuService {
           });
 
           const block =  document.createElement('div');
+          this.$block = block;
           const ovl =  document.createElement('div');
           ovl.className = 'mw-vhmbgr-active-overlay';
           block.className = this.settings.popupTemplate;
@@ -33,7 +54,9 @@ class MWSiteMobileMenuService {
 
           ovl.addEventListener('click', e => {
               this.mobileMenu(undefined, false)
-          })
+          });
+
+          this.buildSubMenus(ul)
 
 
           block.append(ul)
@@ -62,7 +85,9 @@ class MWSiteMobileMenuService {
         })
       }
 
-
+      const holder = document.querySelector('.navigation-holder');
+      this.$block.style.top =  `${(holder ? holder.offsetHeight : 0)}px`;
+      this.$block.style.maxHeight = `calc(100vh - ${this.$block.style.top})`;
 
       document.body.classList[action]('mw-vhmbgr-menu-active');
     }
