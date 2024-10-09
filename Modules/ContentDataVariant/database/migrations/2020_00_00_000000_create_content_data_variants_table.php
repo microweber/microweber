@@ -2,8 +2,9 @@
 
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
-class CreateContentDataVariantsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -32,4 +33,4 @@ class CreateContentDataVariantsTable extends Migration
     {
         Schema::drop('content_data_variants');
     }
-}
+};
