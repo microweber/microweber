@@ -39,6 +39,7 @@ $config['tables'] = array (
         'scheduled_timezone' => 'text',
         'is_done' => 'integer',
         'status' => 'text',
+        'status_log' => 'text',
         'email_content_type' => 'text',
         'email_content_html' => 'text',
         'email_attached_files' => 'text',
