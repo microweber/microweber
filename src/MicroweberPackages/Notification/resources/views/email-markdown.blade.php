@@ -3,7 +3,7 @@
 <x-slot:header>
 <x-mail::header url="{{site_url()}}">
 @php
-    $logo = get_option('logo_dark', 'website');
+    $logo = get_option('logo', 'email');
 @endphp
 
 @if($logo)
