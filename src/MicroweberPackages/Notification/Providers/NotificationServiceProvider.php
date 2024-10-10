@@ -35,6 +35,10 @@ class NotificationServiceProvider extends ServiceProvider
             $this->_configMailSender();
         }
 
+
+        // Laravel notifications
+       View::prependNamespace('notifications', dirname(__DIR__).'/resources/views/notifications');
+
        View::addNamespace('notification', dirname(__DIR__).'/resources/views');
 
        $this->loadMigrationsFrom(dirname(__DIR__) . '/migrations/');
