@@ -13,25 +13,30 @@ return new class extends Migration
      */
     public function up()
     {
-        $tableNames = config('permission.table_names');
+        try {
+            $tableNames = config('permission.table_names');
 
-        if (!Schema::hasTable($tableNames['model_has_roles'])) {
-            Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames) {
-                $table->unsignedInteger('role_id');
-                $table->morphs('model');
-                $table->primary(['role_id', 'model_id', 'model_type']);
-            });
-        }
+            if (!Schema::hasTable($tableNames['model_has_roles'])) {
+                Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames) {
+                    $table->unsignedInteger('role_id');
+                    $table->morphs('model');
+                    $table->primary(['role_id', 'model_id', 'model_type']);
+                });
+            }
 
-        if (!Schema::hasTable($tableNames['role_has_permissions'])) {
-            Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
-                $table->unsignedInteger('permission_id');
-                $table->unsignedInteger('role_id');
+            if (!Schema::hasTable($tableNames['role_has_permissions'])) {
+                Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames) {
+                    $table->unsignedInteger('permission_id');
+                    $table->unsignedInteger('role_id');
 
-                $table->primary(['permission_id', 'role_id']);
+                    $table->primary(['permission_id', 'role_id']);
 
-                app('cache')->forget('spatie.permission.cache');
-            });
+                    app('cache')->forget('spatie.permission.cache');
+                });
+            }
+
+        } catch (\Exception $e) {
+            // do nothing
         }
     }
 

@@ -335,9 +335,11 @@ class ModuleManager
 
                 $autoload = $module->getComposerAttr('autoload', $json);
                 $this->log('Migrating module: ' . $name);
-                Artisan::call('module:migrate', ['module' => $name, '--force']);
+                $call = Artisan::call('module:migrate', ['module' => $module->getLowerName(), '--force']);
+                dump($call,$name);
+
                 $this->log('Publishing module: ' .$name);
-                Artisan::call('module:publish', ['module' => $name, '--force']);
+                Artisan::call('module:publish', ['module' => $module->getLowerName(), '--force']);
 
                 $moduleToSave = [];
                 $moduleToSave['module'] = $module->getLowerName();

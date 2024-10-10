@@ -10,7 +10,13 @@ return new class() extends Migration
      * Run the migrations.
      */
     public function up(): void
+
     {
+
+        if(Schema::hasTable('exports')) {
+            return;
+        }
+
         Schema::create('exports', function (Blueprint $table) {
             $table->id();
             $table->timestamp('completed_at')->nullable();

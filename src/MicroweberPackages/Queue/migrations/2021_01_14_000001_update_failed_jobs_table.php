@@ -13,12 +13,17 @@ class UpdateFailedJobsTable extends Migration
      */
     public function up()
     {
-        Schema::table('failed_jobs', function (Blueprint $table) {
+        if(Schema::hasTable('failed_jobs')) {
 
-            if (!Schema::hasColumn('failed_jobs', 'created_at')) {
-                $table->timestamp('created_at')->nullable();
-            }
-        });
+            Schema::table('failed_jobs', function (Blueprint $table) {
+
+                if (!Schema::hasColumn('failed_jobs', 'created_at')) {
+                    $table->timestamp('created_at')->nullable();
+                }
+            });
+        }
+
+
     }
 
 }

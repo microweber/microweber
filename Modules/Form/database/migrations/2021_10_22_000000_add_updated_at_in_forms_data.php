@@ -13,7 +13,12 @@ class AddUpdatedAtInFormsData extends Migration
     public function up()
     {
         Schema::table('forms_data', function (Blueprint $table) {
-            $table->timestamp('updated_at')->nullable();
+
+            if(!Schema::hasColumn('forms_data', 'updated_at')) {
+                $table->timestamp('updated_at')->nullable();
+            }
+
+
         });
     }
 }

@@ -13,6 +13,11 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('countries')) {
+            return;
+        }
+
+
         Schema::create('countries', function (Blueprint $table) {
            $table->increments('id')->index();
            $table->string('code')->nullable();

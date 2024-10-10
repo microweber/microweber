@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTranslationKeysTable extends Migration
 {
@@ -11,6 +12,11 @@ class CreateTranslationKeysTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('translation_keys')) {
+            return;
+        }
+
+
         Schema::create('translation_keys', function (Blueprint $table) {
             $table->charset = 'utf8';
             $table->collation = 'utf8_bin';
@@ -30,6 +36,6 @@ class CreateTranslationKeysTable extends Migration
      */
     public function down()
     {
-        Schema::drop('translation_keys');
+        Schema::dropIfExists('translation_keys');
     }
 }

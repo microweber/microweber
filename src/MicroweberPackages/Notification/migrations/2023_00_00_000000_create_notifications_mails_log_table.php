@@ -13,6 +13,11 @@ class CreateNotificationsMailsLogTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('notifications_mails_log')) {
+            return;
+        }
+
+
         Schema::create('notifications_mails_log', function (Blueprint $table) {
             $table->increments('id');
             $table->string('type');

@@ -12,6 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
+
+        if(Schema::hasTable('currencies')) {
+            return;
+        }
+
         Schema::create('currencies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');

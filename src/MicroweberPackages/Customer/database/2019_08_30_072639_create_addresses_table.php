@@ -13,6 +13,12 @@ class CreateAddressesTable extends Migration
      */
     public function up()
     {
+
+        if(Schema::hasTable('addresses')) {
+            return;
+        }
+
+
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();

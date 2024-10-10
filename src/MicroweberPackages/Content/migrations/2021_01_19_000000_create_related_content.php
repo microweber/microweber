@@ -14,6 +14,12 @@ class CreateRelatedContent extends Migration
      */
     public function up()
     {
+
+        if(Schema::hasTable('content_related')) {
+            return;
+        }
+
+
         Schema::create('content_related', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('content_id')->nullable();
@@ -31,6 +37,6 @@ class CreateRelatedContent extends Migration
      */
     public function down()
     {
-        Schema::drop('content_related');
+        Schema::dropIfExists('content_related');
     }
 }

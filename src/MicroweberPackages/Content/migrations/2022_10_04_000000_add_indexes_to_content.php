@@ -30,8 +30,10 @@ class AddIndexesToContent extends Migration
     public function up()
     {
         //from https://gist.github.com/Razoxane/3bc74900b4eb5c983eb0927fa13b95f5
-        Schema::table('content', function (Blueprint $table) {
-            try {
+
+        try {
+            Schema::table('content', function (Blueprint $table) {
+
                 $indexColumns = $this->indexes;
                 foreach ($indexColumns as $indexColumn) {
                     $index_name = $indexColumn . '_index';
@@ -42,10 +44,12 @@ class AddIndexesToContent extends Migration
 
                     $table->index($indexColumn, $index_name);
                 }
-            } catch (\Exception $e) {
-                // do nothing
-            }
-        });
+
+            });
+
+        } catch (\Exception $e) {
+            // do nothing
+        }
     }
 
     /**

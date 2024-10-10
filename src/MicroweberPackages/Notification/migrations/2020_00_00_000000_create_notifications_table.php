@@ -13,7 +13,10 @@ class CreateNotificationsTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('notifications');
+
+        if(Schema::hasTable('notifications')) {
+            return;
+        }
 
 
         Schema::create('notifications', function (Blueprint $table) {

@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTranslationTextsTable extends Migration
 {
@@ -11,6 +12,11 @@ class CreateTranslationTextsTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('translation_texts')) {
+            return;
+        }
+
+
         Schema::create('translation_texts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('translation_key_id');
@@ -27,6 +33,6 @@ class CreateTranslationTextsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('translation_texts');
+        Schema::dropIfExists('translation_texts');
     }
 }

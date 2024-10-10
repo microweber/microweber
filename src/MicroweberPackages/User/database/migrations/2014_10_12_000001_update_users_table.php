@@ -13,9 +13,19 @@ class UpdateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
 
-            try {
+
+        try {
+
+            Schema::table('users', function (Blueprint $table) {
+                if (Schema::hasIndex('users', 'users_username_index')) {
+                    $table->dropUnique('users_username_index');
+                }
+
+                if (Schema::hasIndex('users', 'users_email_index')) {
+                    $table->dropUnique('users_email_index');
+                }
+
 
                 if (!Schema::hasIndex('users', 'users_username_index')) {
                     $table->unique('username', 'users_username_index');
@@ -24,13 +34,12 @@ class UpdateUsersTable extends Migration
                 if (!Schema::hasIndex('users', 'users_email_index')) {
                     $table->unique('email', 'users_email_index');
                 }
+            });
+        } catch (\Exception $e) {
+            // do nothing
+        }
 
-            } catch (\Exception $e) {
-                // do nothing
-            }
 
-
-        });
     }
 
     /**

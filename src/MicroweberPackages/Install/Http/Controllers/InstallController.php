@@ -419,13 +419,16 @@ class InstallController extends Controller
                     $installer->createSchema();
 
 
-                    $this->log('Publishing vendor assets');
+
                     app()->module_manager->logger = $this;
-                    app()->module_manager->publish_vendor_assets();
+
                     $this->log('Running install of laravel modules');
                     app()->module_manager->reload_laravel_modules();
                     $this->log('Running install of laravel templates');
                     app()->module_manager->reload_laravel_templates();
+
+                    $this->log('Publishing vendor assets');
+                    app()->module_manager->publish_vendor_assets();
 
 
 

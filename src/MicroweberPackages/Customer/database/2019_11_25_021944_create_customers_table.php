@@ -13,6 +13,12 @@ class CreateCustomersTable extends Migration
      */
     public function up()
     {
+        if(Schema::hasTable('customers')) {
+            return;
+        }
+
+
+
         Schema::create('customers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('user_id')->nullable();
