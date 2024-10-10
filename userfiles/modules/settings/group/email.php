@@ -1,5 +1,9 @@
 <?php must_have_access(); ?>
 
+<script>
+    mw.require('forms.js');
+</script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         //mw.options.form('.<?php print $config['module_class'] ?> .js-holder-email-server-settings', function () {
@@ -154,9 +158,10 @@
                                     <div class="form-group">
                                         <?php
                                         $logo = get_option('logo', 'email');
+
                                         $nologo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image.svg';
                                         if (!$logo) {
-                                            $logo = $nologo; 
+                                            $logo = $nologo;
                                         }
                                         ?>
                                         <script>
@@ -167,7 +172,7 @@
                                                     multiple: false
                                                 });
                                                 $(websiteLogo).on('FileUploaded', function (a, b) {
-                                                    mw.$("#logo-preview").val(b.src).trigger('change');
+                                                    mw.$("#logo-preview").val(b.src).trigger('input');
                                                     mw.$(".js-logo").attr('src', b.src);
                                                     // mw.$("link[rel*='icon']").attr('href', b.src);
                                                 });
@@ -185,7 +190,7 @@
                                         <div class="d-flex">
                                             <div class="avatar img-absolute border-radius-0 border-silver me-3" >
                                                 <img src="<?php print $logo; ?>" class="js-logo" />
-                                                <input type="hidden" class="mw_option_field" name="logo" id="logo-preview" value="<?php print $logo; ?>" option-group="email"/>
+                                                <input type="hidden" class="mw_option_field" name="logo" id="logo-preview" value="<?php print $logo; ?>" option-group="email" />
                                             </div>
                                             <button type="button" class="btn btn-outline-primary" id="js-upload-logo-image"><?php _e("Upload logo"); ?></button>
                                             <span class="tip mw-btn-icon" id="remove-logo-btn"   data-bs-toggle="tooltip" aria-label="Clear logo" data-bs-original-title="Clear logo">
