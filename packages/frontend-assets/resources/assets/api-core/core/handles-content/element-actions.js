@@ -381,6 +381,7 @@ export class ElementActions extends MicroweberBaseClass {
                 mw.top().app.cssEditor.temp(target, 'background-color', color);
                 mw.top().app.registerChangedState(target);
 
+
             },
 
         });

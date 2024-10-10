@@ -1,9 +1,9 @@
 /*
  * Microweber - Default styles
 */
-/*
+
 @import url("./css/ui.css");
-@import url("./css/animate.min.css");*/
+@import url("./css/animate.min.css");
 
 [data-layout-container] {
     min-height: 100px;
@@ -34,6 +34,7 @@
 [class*="mw__list-style--custom-"] li,
 .mw__list-style--check li,
 .mw__list-style--check-square li{padding-inline-start: 1ch;}
+
 
 .col > div, [class*="col-"] > div {
     max-width: 100%;

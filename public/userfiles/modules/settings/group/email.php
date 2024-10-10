@@ -1,5 +1,9 @@
 <?php must_have_access(); ?>
 
+<script>
+    mw.require('forms.js');
+</script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         //mw.options.form('.<?php print $config['module_class'] ?> .js-holder-email-server-settings', function () {
@@ -148,6 +152,52 @@
                                         <label class="form-label"><?php _e("From name"); ?></label>
                                         <small class="text-muted d-block mb-2"><?php _e("The website will use this name for the emails"); ?></small>
                                         <input name="email_from_name" class="mw_option_field form-control" type="text" option-group="email" value="<?php print get_option('email_from_name', 'email'); ?>" placeholder="<?php _e("e.g. Your Website Name"); ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <?php
+                                        $logo = get_option('logo', 'email');
+
+                                        $nologo = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image.svg';
+                                        if (!$logo) {
+                                            $logo = $nologo;
+                                        }
+                                        ?>
+                                        <script>
+                                            $(document).ready(function () {
+                                                websiteLogo = mw.uploader({
+                                                    element: document.getElementById('js-upload-logo-image'),
+                                                    filetypes: 'images',
+                                                    multiple: false
+                                                });
+                                                $(websiteLogo).on('FileUploaded', function (a, b) {
+                                                    mw.$("#logo-preview").val(b.src).trigger('input');
+                                                    mw.$(".js-logo").attr('src', b.src);
+                                                    // mw.$("link[rel*='icon']").attr('href', b.src);
+                                                });
+                                                mw.element('#remove-logo-btn').on('click', function(){
+                                                    mw.element('#logo-preview').val('').trigger('change')
+                                                    mw.element('.js-logo').attr('src', '<?php print $nologo; ?>');
+                                                })
+                                            })
+
+                                        </script>
+                                        <br>
+
+                                        <label class="form-label"><?php _e("Email Logo"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e('Select an logo for your website emails.'); ?></small>
+                                        <div class="d-flex">
+                                            <div class="avatar img-absolute border-radius-0 border-silver me-3" >
+                                                <img src="<?php print $logo; ?>" class="js-logo" />
+                                                <input type="hidden" class="mw_option_field" name="logo" id="logo-preview" value="<?php print $logo; ?>" option-group="email" />
+                                            </div>
+                                            <button type="button" class="btn btn-outline-primary" id="js-upload-logo-image"><?php _e("Upload logo"); ?></button>
+                                            <span class="tip mw-btn-icon" id="remove-logo-btn"   data-bs-toggle="tooltip" aria-label="Clear logo" data-bs-original-title="Clear logo">
+                                                <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/trash.svg" alt="">
+
+                                             </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

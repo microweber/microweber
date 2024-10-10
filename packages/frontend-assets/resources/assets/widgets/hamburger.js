@@ -2,11 +2,11 @@ class MWSiteMobileMenuService {
 
 
     constructor(options = {}) {
-      var defaults = {
-        popupTemplate: 'mw-vhmbgr-active-popup'
-      };
-      this.settings = Object.assign({}, defaults, options);
-      this.init()
+        var defaults = {
+            popupTemplate: 'mw-vhmbgr-active-popup'
+        };
+        this.settings = Object.assign({}, defaults, options);
+        this.init()
     }
 
     state = false;
@@ -34,62 +34,62 @@ class MWSiteMobileMenuService {
     }
 
     buildMobileMenu(targetMenu) {
-      if(this.currentMenu) {
-        this.currentMenu.remove()
-      }
-      var ul = document.createElement('ul');
-      if(ul && targetMenu.querySelector('ul')){
-          ul.innerHTML = targetMenu.querySelector('ul').innerHTML;
-          ul.querySelectorAll('[style],[class]').forEach(node => {
-              node.removeAttribute('style')
-              node.removeAttribute('class');
-          });
+        if(this.currentMenu) {
+            this.currentMenu.remove()
+        }
+        var ul = document.createElement('ul');
+        if(ul && targetMenu.querySelector('ul')){
+            ul.innerHTML = targetMenu.querySelector('ul').innerHTML;
+            ul.querySelectorAll('[style],[class]').forEach(node => {
+                node.removeAttribute('style')
+                node.removeAttribute('class');
+            });
 
-          const block =  document.createElement('div');
-          this.$block = block;
-          const ovl =  document.createElement('div');
-          ovl.className = 'mw-vhmbgr-active-overlay';
-          block.className = this.settings.popupTemplate;
-          this.currentMenu = block;
+            const block =  document.createElement('div');
+            this.$block = block;
+            const ovl =  document.createElement('div');
+            ovl.className = 'mw-vhmbgr-active-overlay';
+            block.className = this.settings.popupTemplate;
+            this.currentMenu = block;
 
-          ovl.addEventListener('click', e => {
-              this.mobileMenu(undefined, false)
-          });
+            ovl.addEventListener('click', e => {
+                this.mobileMenu(undefined, false)
+            });
 
-          this.buildSubMenus(ul)
+            this.buildSubMenus(ul)
 
 
-          block.append(ul)
-          document.body.append(ovl)
-          document.body.append(block)
-      }
+            block.append(ul)
+            document.body.append(ovl)
+            document.body.append(block)
+        }
 
 
     }
 
 
     mobileMenu (node, state)  {
-      var action = 'toggle';
-      if(state === true) {
-        action = 'add'
-      } else if(state === false) {
-        action = 'remove'
-      }
+        var action = 'toggle';
+        if(state === true) {
+            action = 'add'
+        } else if(state === false) {
+            action = 'remove'
+        }
 
 
-      if(node) {
-        node.classList[action]('mw-vhmbgr-active');
-      } else {
-        Array.from(document.querySelectorAll('.mw-vhmbgr')).forEach(node => {
-          node.classList[action]('mw-vhmbgr-active');
-        })
-      }
+        if(node) {
+            node.classList[action]('mw-vhmbgr-active');
+        } else {
+            Array.from(document.querySelectorAll('.mw-vhmbgr')).forEach(node => {
+                node.classList[action]('mw-vhmbgr-active');
+            })
+        }
 
-      const holder = document.querySelector('.navigation-holder');
-      this.$block.style.top =  `${(holder ? holder.offsetHeight : 0)}px`;
-      this.$block.style.maxHeight = `calc(100vh - ${this.$block.style.top})`;
+        const holder = document.querySelector('.navigation-holder');
+        this.$block.style.top =  `${(holder ? holder.offsetHeight : 0)}px`;
+        this.$block.style.maxHeight = `calc(100vh - ${this.$block.style.top})`;
 
-      document.body.classList[action]('mw-vhmbgr-menu-active');
+        document.body.classList[action]('mw-vhmbgr-menu-active');
     }
 
     init() {
@@ -97,31 +97,31 @@ class MWSiteMobileMenuService {
 
 
         document.body.addEventListener('click', (e) => {
-         this.mobileMenu(undefined, false)
+            this.mobileMenu(undefined, false)
         });
 
         const nav = document.querySelector('.mw-vhmbgr--navigation');
 
         if(nav) {
-          this.buildMobileMenu(nav);
+            this.buildMobileMenu(nav);
         }
 
 
         Array.from(document.querySelectorAll('.mw-vhmbgr')).forEach(node => {
-          node.addEventListener('click', e => {
-            this.mobileMenu(node);
-            e.preventDefault();
-            e.stopPropagation();
-          })
+            node.addEventListener('click', e => {
+                this.mobileMenu(node);
+                e.preventDefault();
+                e.stopPropagation();
+            })
         })
 
     }
 
-  }
+}
 
 
 
-  const MWSiteMobileMenu = ( options, hamburger = 5) => {
+const MWSiteMobileMenu = ( options, hamburger = 5) => {
     options.threshold = options.threshold || 800;
     options.color = options.color || '#111';
     options.size = options.size || '55px';
@@ -154,13 +154,13 @@ class MWSiteMobileMenuService {
     ];
 
 
-   var  curr = document.getElementById('mw-vhmbgr--style');
-   if(curr) {
-    curr.remove()
-   }
-   var  css = document.createElement('style');
-   css.id = `mw-vhmbgr--style`;
-   css.textContent = `
+    var  curr = document.getElementById('mw-vhmbgr--style');
+    if(curr) {
+        curr.remove()
+    }
+    var  css = document.createElement('style');
+    css.id = `mw-vhmbgr--style`;
+    css.textContent = `
 
 
 
@@ -401,17 +401,17 @@ body.mw-vhmbgr-menu-active .mw-vhmbgr-active-overlay{
     }
 
    `;
-   document.body.append(css);
-   document.querySelectorAll('.mw-vhmbgr--navigation').forEach(function(node){
-    var mobileMenu = document.createElement('span');
-    mobileMenu.className = 'mw-vhmbgr-wrapper';
-    mobileMenu.innerHTML = hamburgers[hamburger];
-    node.after(mobileMenu);
-   });
+    document.body.append(css);
+    document.querySelectorAll('.mw-vhmbgr--navigation').forEach(function(node){
+        var mobileMenu = document.createElement('span');
+        mobileMenu.className = 'mw-vhmbgr-wrapper';
+        mobileMenu.innerHTML = hamburgers[hamburger];
+        node.after(mobileMenu);
+    });
 
-   new MWSiteMobileMenuService(options);
-  };
+    new MWSiteMobileMenuService(options);
+};
 
-  if(window.mw) {
+if(window.mw) {
     window.mw.MWSiteMobileMenu = MWSiteMobileMenu
-  }
+}

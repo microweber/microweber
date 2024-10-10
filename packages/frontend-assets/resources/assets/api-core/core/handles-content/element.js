@@ -469,7 +469,7 @@ export class ElementHandleContent {
                         targetList.id = mw.id('mw--list')
                     }
 
-
+                    console.log(css, css.color)
 
                     var picker = mw.colorPicker({
                         element: `#color-picker-${id}`,
@@ -505,7 +505,7 @@ export class ElementHandleContent {
 
                 },
 
-            }
+            },
 
         ];
 
