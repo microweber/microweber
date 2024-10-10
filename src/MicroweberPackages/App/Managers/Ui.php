@@ -25,8 +25,8 @@ class Ui
 
     public function __construct()
     {
-        $this->admin_logo_login = asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
-        $this->logo_live_edit = asset('vendor/microweber-packages/frontend-assets-libs/img/logo-mobile.svg');
+        $this->admin_logo_login = asset('vendor/microweber-packages/frontend-assets/img/logo.svg');
+        $this->logo_live_edit = asset('vendor/microweber-packages/frontend-assets/img/logo-mobile.svg');
         if (mw_is_installed()) {
             $this->defaults();
         }

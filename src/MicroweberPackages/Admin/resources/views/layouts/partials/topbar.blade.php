@@ -52,7 +52,7 @@ if (!$past_page) {
                     elseif (mw()->ui->admin_logo_login() != false):
                         $logo = mw()->ui->admin_logo_login();
                     else:
-                        $logo = asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
+                        $logo = asset('vendor/microweber-packages/frontend-assets/img/logo.svg');
                     endif;
                     ?>
                     <a href="<?php print admin_url(); ?>">

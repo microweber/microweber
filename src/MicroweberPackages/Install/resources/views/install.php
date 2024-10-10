@@ -9,8 +9,10 @@
     <?php print mw_header_scripts() ?>
 
 
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print asset('vendor/microweber-packages/microweber-filament-theme/microweber-filament-theme.css'); ?>"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print asset('vendor/microweber-packages/frontend-assets/css/install.css'); ?>"/>
+    <link type="text/css" rel="stylesheet" media="all"
+          href="<?php print asset('vendor/microweber-packages/microweber-filament-theme/microweber-filament-theme.css'); ?>"/>
+    <link type="text/css" rel="stylesheet" media="all"
+          href="<?php print asset('vendor/microweber-packages/frontend-assets/css/install.css'); ?>"/>
 
     <?php
 
@@ -72,7 +74,7 @@
             mw.notification.success('Please wait... Installing... ' + $name, 16000);
             mw.tools.scrollTo('#demo-one');
 
-            if (typeof(mw.marketplace_dialog_jquery_ui) != 'undefined') {
+            if (typeof (mw.marketplace_dialog_jquery_ui) != 'undefined') {
                 mw.marketplace_dialog_jquery_ui.dialog('close');
             }
 
@@ -190,7 +192,7 @@
                 function (data) {
                     $('#mw_log').hide().empty();
                     if (data != undefined) {
-                        if (typeof(data) == 'object' && typeof(data.install_step) != undefined) {
+                        if (typeof (data) == 'object' && typeof (data.install_step) != undefined) {
                             install_step = data.install_step;
                             make_install_on_steps(install_step_orig_data);
                         } else {
@@ -253,32 +255,49 @@
             }
 
             <?php $log_file_url = userfiles_url() . 'install_log.txt'; ?>
-            $.get('<?php print $log_file_url ?>', function (data) {
-                var data = data.replace(/\r/g, '');
-                var arr = data.split('\n'),
-                    l = arr.length,
-                    i = 0,
-                    last = arr[l - 2],
-                    percentage = Math.round(((l - 1) / 500) * 100);
 
-                if (percentage > 100) {
-                    percentage = 100;
+
+            var jqxhr = $.ajax({
+                url: "<?php print $log_file_url ?>",
+                statusCode: {
+                    404: function () {
+                        // alert( "page not found" );
+                    }
                 }
+            })
+                .done(function (data) {
+                    data = data.replace(/\r/g, '');
+                    var arr = data.split('\n'),
+                        l = arr.length,
+                        last = arr[l - 2],
+                        percentage = Math.round(((l - 1) / 500) * 100);
 
-                bar[0].style.width = percentage + '%';
-                percent.html(percentage + '%');
+                    if (percentage > 100) {
+                        percentage = 100;
+                    }
 
-                if (last == 'done') {
-                    percent.html('0%');
-                    installprogressStop();
-                    $("#installinfo").html('');
-                } else {
-                    $("#installinfo").html(last);
-                    setTimeout(function () {
-                        installprogress(false);
-                    }, 1000);
-                }
-            });
+                    bar[0].style.width = percentage + '%';
+                    percent.html(percentage + '%');
+
+                    if (last == 'done') {
+                        percent.html('0%');
+                        installprogressStop();
+                        $("#installinfo").html('');
+                    } else {
+                        $("#installinfo").html(last);
+                        setTimeout(function () {
+                            installprogress(false);
+                        }, 1000);
+                    }
+                })
+                .fail(function () {
+                    // alert("error");
+                })
+                .always(function () {
+                    // alert("complete");
+                });
+
+
         }
 
         installprogressStop = function () {
@@ -338,7 +357,9 @@
                 <?php if ($pre_configured): ?>
                     <h4 class="text-center text-primary">Setup your website</h4>
                 <?php else: ?>
-                    <a href="http://Microweber.com" target="_blank" id="logo"><img src="<?php print asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg') ?>" style="width: 250px" /></a>
+                    <a href="http://Microweber.com" target="_blank" id="logo"><img
+                            src="<?php print asset('vendor/microweber-packages/frontend-assets/img/logo.svg') ?>"
+                            style="width: 250px"/></a>
                 <?php endif; ?>
             </div>
 
@@ -346,7 +367,9 @@
 
             <div class="mw_install_progress">
                 <div class="progress" id="installprogressbar" style="display: none">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span class="progress-bar-percent"></span></div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"><span
+                            class="progress-bar-percent"></span></div>
                 </div>
 
                 <div id="installinfo"></div>
@@ -433,7 +456,7 @@
                                 $server_check_errors['pdo'] = 'The PDO MYSQL PHP extension must be loaded';
                             }
 
-                            if (!class_exists('\ZipArchive')  ) {
+                            if (!class_exists('\ZipArchive')) {
                                 $check_pass = false;
                                 $server_check_errors['zip'] = 'The Zip PHP extension must be loaded';
                             }
@@ -496,57 +519,56 @@
 
 
                                 // hostname
-                                if(isset($config['host']) and $config['host']){
+                                if (isset($config['host']) and $config['host']) {
                                     $dbDefaultHostname = $config['host'];
                                 }
 
-                                if(isset($config['db_host']) and $config['db_host']){
+                                if (isset($config['db_host']) and $config['db_host']) {
                                     $dbDefaultHostname = $config['db_host'];
                                 }
 
                                 // db name
-                                if(isset($config['database']) and $config['database']){
+                                if (isset($config['database']) and $config['database']) {
                                     $dbDefaultDbname = $config['database'];
                                 }
-                                if(isset($config['db_name']) and $config['db_name']){
+                                if (isset($config['db_name']) and $config['db_name']) {
                                     $dbDefaultDbname = $config['db_name'];
                                 }
 
                                 // db username
-                                if(isset($config['username']) and $config['username']){
+                                if (isset($config['username']) and $config['username']) {
                                     $dbDefaultUsername = $config['username'];
                                 }
-                                if(isset($config['db_username']) and $config['db_username']){
+                                if (isset($config['db_username']) and $config['db_username']) {
                                     $dbDefaultUsername = $config['db_username'];
                                 }
 
                                 // db pass
-                                if(isset($config['password']) and $config['password']){
+                                if (isset($config['password']) and $config['password']) {
                                     $dbDefaultPassword = $config['password'];
                                 }
-                                if(isset($config['db_password']) and $config['db_password']){
+                                if (isset($config['db_password']) and $config['db_password']) {
                                     $dbDefaultPassword = $config['db_password'];
                                 }
 
                                 // prefix
 
-                                if(isset($config['prefix']) and $config['prefix']){
+                                if (isset($config['prefix']) and $config['prefix']) {
                                     $dbDefaultDbTablePrefix = $config['prefix'];
                                 }
 
-                                if(isset($config['db_prefix']) and $config['db_prefix']){
+                                if (isset($config['db_prefix']) and $config['db_prefix']) {
                                     $dbDefaultDbTablePrefix = $config['db_prefix'];
                                 }
 
                                 // driver
-                                if(isset($config['db_driver']) and $config['db_driver']){
+                                if (isset($config['db_driver']) and $config['db_driver']) {
                                     $dbDefaultEngine = $config['db_driver'];
                                 }
 
-                                if(isset($config['site_lang']) and $config['site_lang']){
+                                if (isset($config['site_lang']) and $config['site_lang']) {
                                     $dbDefaultLang = $config['site_lang'];
                                 }
-
 
 
                                 ?>
@@ -558,16 +580,19 @@
 
                                             <?php if ($hide_db_setup == true): ?>
 
-                                            <a href="javascript:$('#mw_db_setup_toggle').toggle()" class="btn-link mb-3 text-center">Advanced settings</a>
+                                                <a href="javascript:$('#mw_db_setup_toggle').toggle()"
+                                                   class="btn-link mb-3 text-center">Advanced settings</a>
 
                                             <?php endif; ?>
 
-                                            <div id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
+                                            <div
+                                                id="mw_db_setup_toggle" <?php if ($hide_db_setup == true): ?> style="display:none;" <?php endif; ?>>
                                                 <?php if (!$hide_db_setup): ?>
                                                     <h2 style="font-weight: bold; margin-bottom: 15px;"><?php _e('Database Server'); ?></h2>
                                                 <?php else: ?>
                                                     <h4>
-                                                        <button type="button" class="btn btn-secondary" onclick="$('#mw_db_setup_toggle').toggle();"><?php _e('Database Server'); ?></button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                                onclick="$('#mw_db_setup_toggle').toggle();"><?php _e('Database Server'); ?></button>
                                                     </h4>
                                                 <?php endif; ?>
 
@@ -575,9 +600,11 @@
 
                                                 <div class="form-group">
                                                     <label class="form-label">Database Engine</label>
-                                                    <small class="text-muted d-block mb-2">Choose the database type</small>
+                                                    <small class="text-muted d-block mb-2">Choose the database
+                                                        type</small>
 
-                                                    <select class="form-select" name="db_driver" onchange="showForm(this)" autocomplete="off" tabindex="1">
+                                                    <select class="form-select" name="db_driver"
+                                                            onchange="showForm(this)" autocomplete="off" tabindex="1">
                                                         <?php foreach ($dbEngines as $engine): ?>
                                                             <option value="<?php print $engine; ?>"
                                                                 <?php if ($dbDefaultEngine == $engine) {
@@ -592,44 +619,62 @@
                                                 <div id="db-form">
                                                     <div class="form-group">
                                                         <label class="form-label"><?php _e('Hostname'); ?></label>
-                                                        <small class="text-muted d-block mb-2"><?php _e('The address of your database server'); ?></small>
-                                                        <input type="text" class="form-control" autofocus name="db_host" tabindex="2" value="<?php if ($dbDefaultHostname): ?><?php print $dbDefaultHostname; ?><?php endif; ?>"/>
+                                                        <small
+                                                            class="text-muted d-block mb-2"><?php _e('The address of your database server'); ?></small>
+                                                        <input type="text" class="form-control" autofocus name="db_host"
+                                                               tabindex="2"
+                                                               value="<?php if ($dbDefaultHostname): ?><?php print $dbDefaultHostname; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="form-label"><?php _e('Username'); ?></label>
-                                                        <small class="text-muted d-block mb-2"><?php _e('The username of your database.'); ?></small>
-                                                        <input type="text" class="form-control" name="db_username" tabindex="2" value="<?php if ($dbDefaultUsername): ?><?php print $dbDefaultUsername; ?><?php endif; ?>"/>
+                                                        <small
+                                                            class="text-muted d-block mb-2"><?php _e('The username of your database.'); ?></small>
+                                                        <input type="text" class="form-control" name="db_username"
+                                                               tabindex="2"
+                                                               value="<?php if ($dbDefaultUsername): ?><?php print $dbDefaultUsername; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="form-label"><?php _e('Password'); ?></label>
-                                                        <small class="text-muted d-block mb-2"><?php _e('The password of your database.'); ?></small>
-                                                        <input type="password" class="form-control" name="db_password" tabindex="2" value="<?php if ($dbDefaultPassword): ?><?php print $dbDefaultPassword; ?><?php endif; ?>"/>
+                                                        <small
+                                                            class="text-muted d-block mb-2"><?php _e('The password of your database.'); ?></small>
+                                                        <input type="password" class="form-control" name="db_password"
+                                                               tabindex="2"
+                                                               value="<?php if ($dbDefaultPassword): ?><?php print $dbDefaultPassword; ?><?php endif; ?>"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label class="form-label"><?php _e('Database'); ?></label>
-                                                        <small class="text-muted d-block mb-2"><?php _e('The name of your database.'); ?></small>
-                                                        <input type="text" class="form-control" name="db_name" id="db_name_value" tabindex="2" value="<?php if ($dbDefaultDbname): ?><?php print $dbDefaultDbname; ?><?php endif; ?>"/>
+                                                        <small
+                                                            class="text-muted d-block mb-2"><?php _e('The name of your database.'); ?></small>
+                                                        <input type="text" class="form-control" name="db_name"
+                                                               id="db_name_value" tabindex="2"
+                                                               value="<?php if ($dbDefaultDbname): ?><?php print $dbDefaultDbname; ?><?php endif; ?>"/>
                                                     </div>
                                                 </div>
 
                                                 <div id="db-form-sqlite" style="display:none">
                                                     <div class="form-group">
                                                         <label class="form-label"><?php _e('Database file'); ?> </label>
-                                                        <small class="text-muted d-block mb-2"><?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?></small>
-                                                        <input type="text" class="form-control" autofocus name="db_name_sqlite" tabindex="2" value="<?php if (isset($config['db_name_sqlite'])): ?><?php print $config['db_name_sqlite']; ?><?php endif; ?>"/>
+                                                        <small
+                                                            class="text-muted d-block mb-2"><?php _e('A writable file path that may be relative to the root of your Microweber installation'); ?></small>
+                                                        <input type="text" class="form-control" autofocus
+                                                               name="db_name_sqlite" tabindex="2"
+                                                               value="<?php if (isset($config['db_name_sqlite'])): ?><?php print $config['db_name_sqlite']; ?><?php endif; ?>"/>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="form-label"><?php _e('Table Prefix'); ?></label>
-                                                    <small class="text-muted d-block mb-2"><?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?></small>
-                                                    <input type="text" class="form-control" name="db_prefix" tabindex="3" value="<?php if ($dbDefaultDbTablePrefix): ?><?php print $dbDefaultDbTablePrefix; ?><?php endif; ?>" onblur="prefix_add(this)"/>
+                                                    <small
+                                                        class="text-muted d-block mb-2"><?php _e('Change this If you want to install multiple instances of Microweber to this database. Only latin letters and numbers are allowed.'); ?></small>
+                                                    <input type="text" class="form-control" name="db_prefix"
+                                                           tabindex="3"
+                                                           value="<?php if ($dbDefaultDbTablePrefix): ?><?php print $dbDefaultDbTablePrefix; ?><?php endif; ?>"
+                                                           onblur="prefix_add(this)"/>
                                                 </div>
                                             </div>
-
 
 
                                             <div>
@@ -646,21 +691,31 @@
 
                                                         <div class="row">
                                                             <div class="col-auto">
-                                                                <button class="btn btn-primary btn-icon change-templ-btn" type="button" id="prev"><i class="mdi mdi-chevron-left mdi-24px"></i></button>
+                                                                <button
+                                                                    class="btn btn-primary btn-icon change-templ-btn"
+                                                                    type="button" id="prev"><i
+                                                                        class="mdi mdi-chevron-left mdi-24px"></i>
+                                                                </button>
                                                             </div>
 
                                                             <div class="col px-0">
-                                                                <select class="form-select" name="default_template" id="default_template" tabindex="6">
+                                                                <select class="form-select" name="default_template"
+                                                                        id="default_template" tabindex="6">
                                                                     <?php foreach ($templates as $template): ?>
                                                                         <?php if (isset($template['dir_name']) and isset($template['name'])): ?>
-                                                                            <option value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
+                                                                            <option
+                                                                                value="<?php print $template['dir_name']; ?>" <?php if (isset($template['screenshot']) and ($template['screenshot']) != false): ?> data-screenshot="<?php print $template['screenshot']; ?>" <?php endif; ?>><?php print $template['name']; ?></option>
                                                                         <?php endif; ?>
                                                                     <?php endforeach; ?>
                                                                 </select>
                                                             </div>
 
                                                             <div class="col-auto">
-                                                                <button class="btn btn-primary btn-icon change-templ-btn" type="button" id="next"><i class="mdi mdi-chevron-right mdi-24px"></i></button>
+                                                                <button
+                                                                    class="btn btn-primary btn-icon change-templ-btn"
+                                                                    type="button" id="next"><i
+                                                                        class="mdi mdi-chevron-right mdi-24px"></i>
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -673,11 +728,11 @@
                                                 });
 
                                                 function setscreenshot() {
-                                                    setTimeout(function(){
+                                                    setTimeout(function () {
                                                         var scrshot = ($('#default_template').children('option:selected').data('screenshot'));
                                                         $('#theImg').remove();
 
-                                                        if (typeof(scrshot) != 'undefined') {
+                                                        if (typeof (scrshot) != 'undefined') {
                                                             $('#screenshot_preview').append('<div id="theImg"></div>');
                                                             $('#theImg').css('background-image', 'url(' + scrshot + ')');
                                                             $('#theImg').attr('data-src', scrshot);
@@ -694,7 +749,9 @@
 
 
                                             <div class="text-center">
-                                                <a class="btn btn-outline-success my-4 " href="<?php echo site_url();?>?select_template=1">DISCOVER MORE PREMIUM TEMPLATES</a>
+                                                <a class="btn btn-outline-success my-4 "
+                                                   href="<?php echo site_url(); ?>?select_template=1">DISCOVER MORE
+                                                    PREMIUM TEMPLATES</a>
                                             </div>
                                             <div class="row mt-3">
 
@@ -702,16 +759,21 @@
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <div class="custom-control custom-checkbox my-2">
-                                                            <input type="checkbox" class="form-check-input" id="with_default_content" name="with_default_content" value="1" tabindex="7" checked="">
-                                                            <label class="custom-control-label" for="with_default_content"><?php _e('Import default content'); ?></label>
+                                                            <input type="checkbox" class="form-check-input"
+                                                                   id="with_default_content" name="with_default_content"
+                                                                   value="1" tabindex="7" checked="">
+                                                            <label class="custom-control-label"
+                                                                   for="with_default_content"><?php _e('Import default content'); ?></label>
                                                         </div>
-                                                        <small class="text-muted d-block mb-2"><?php _e('If checked, some default content will be added.'); ?></small>
+                                                        <small
+                                                            class="text-muted d-block mb-2"><?php _e('If checked, some default content will be added.'); ?></small>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-md-12">
                                                     <b><?php _e('Website Default Language'); ?></b>
-                                                    <small class="text-muted d-block mb-2"><?php _e('Choose the language you want to start with.'); ?></small>
+                                                    <small
+                                                        class="text-muted d-block mb-2"><?php _e('Choose the language you want to start with.'); ?></small>
                                                     <?php $currentLang = current_lang(); ?>
                                                     <div class="form-group">
                                                         <?php
@@ -719,8 +781,9 @@
                                                         $langs = $tm->getAvailableTranslations();
                                                         ?>
                                                         <select name="site_lang" class="form-select" tabindex="8">
-                                                            <?php foreach ($langs as $langKey=>$langValue): ?>
-                                                                <option <?php if ($dbDefaultLang and $dbDefaultLang == $langKey): ?> selected <?php endif; ?> value="<?php echo $langKey; ?>"><?php echo $langValue; ?></option>
+                                                            <?php foreach ($langs as $langKey => $langValue): ?>
+                                                                <option <?php if ($dbDefaultLang and $dbDefaultLang == $langKey): ?> selected <?php endif; ?>
+                                                                    value="<?php echo $langKey; ?>"><?php echo $langValue; ?></option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -728,7 +791,6 @@
 
                                             </div>
                                         </div>
-
 
 
                                         <div id="admin-user" <?php if ($pre_configured == true): ?><?php endif; ?>>
@@ -740,25 +802,35 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="form-label"><?php _e('Admin username'); ?></label>
-                                                                <input type="text" class="form-control" tabindex="9" name="admin_username" <?php if (isset($config['admin_username']) == true and isset($config['admin_username']) != ''): ?> value="<?php print $config['admin_username'] ?>" <?php endif; ?> />
+                                                                <label
+                                                                    class="form-label"><?php _e('Admin username'); ?></label>
+                                                                <input type="text" class="form-control" tabindex="9"
+                                                                       name="admin_username" <?php if (isset($config['admin_username']) == true and isset($config['admin_username']) != ''): ?> value="<?php print $config['admin_username'] ?>" <?php endif; ?> />
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <label class="form-label"><?php _e('Admin password'); ?></label>
-                                                                <input type="password" class="form-control" tabindex="11" name="admin_password" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
+                                                                <label
+                                                                    class="form-label"><?php _e('Admin password'); ?></label>
+                                                                <input type="password" class="form-control"
+                                                                       tabindex="11"
+                                                                       name="admin_password" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                <label class="form-label"><?php _e('Admin email'); ?></label>
-                                                                <input type="text" class="form-control" tabindex="10" name="admin_email" <?php if (isset($config['admin_email']) == true and isset($config['admin_email']) != ''): ?> value="<?php print $config['admin_email'] ?>" <?php endif; ?> />
+                                                                <label
+                                                                    class="form-label"><?php _e('Admin email'); ?></label>
+                                                                <input type="text" class="form-control" tabindex="10"
+                                                                       name="admin_email" <?php if (isset($config['admin_email']) == true and isset($config['admin_email']) != ''): ?> value="<?php print $config['admin_email'] ?>" <?php endif; ?> />
                                                             </div>
 
                                                             <div class="form-group">
-                                                                <label class="form-label"><?php _e('Repeat password'); ?></label>
-                                                                <input type="password" class="form-control" tabindex="12" name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
+                                                                <label
+                                                                    class="form-label"><?php _e('Repeat password'); ?></label>
+                                                                <input type="password" class="form-control"
+                                                                       tabindex="12"
+                                                                       name="admin_password2" <?php if (isset($config['admin_password']) == true and isset($config['admin_password']) != ''): ?> value="<?php print $config['admin_password'] ?>" <?php endif; ?> />
                                                             </div>
 
                                                             <a name="create-admin"></a>
@@ -767,11 +839,16 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <div class="custom-control custom-checkbox my-2">
-                                                                    <input type="checkbox" class="form-check-input" id="subscribe_for_update_notification" name="subscribe_for_update_notification" value="1" tabindex="13" checked="">
-                                                                    <label class="custom-control-label" for="subscribe_for_update_notification"><?php _e('Update nofitication'); ?></label>
+                                                                    <input type="checkbox" class="form-check-input"
+                                                                           id="subscribe_for_update_notification"
+                                                                           name="subscribe_for_update_notification"
+                                                                           value="1" tabindex="13" checked="">
+                                                                    <label class="custom-control-label"
+                                                                           for="subscribe_for_update_notification"><?php _e('Update nofitication'); ?></label>
                                                                 </div>
 
-                                                                <small class="text-muted d-block mb-2"><?php _e('If checked, you will get update notifications when new version is avaiable.'); ?></small>
+                                                                <small
+                                                                    class="text-muted d-block mb-2"><?php _e('If checked, you will get update notifications when new version is avaiable.'); ?></small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -781,13 +858,18 @@
 
                                         <div class="mt-2 mb-4">
                                             <div class="text-end text-right">
-                                                <button type="button" href="javascript:void(0);" class="btn btn-link px-0" onClick="$('.advanced-options-installation').toggle()" tabindex="14">Show advanced options</button>
+                                                <button type="button" href="javascript:void(0);"
+                                                        class="btn btn-link px-0"
+                                                        onClick="$('.advanced-options-installation').toggle()"
+                                                        tabindex="14">Show advanced options
+                                                </button>
                                             </div>
 
                                             <div class="advanced-options-installation mt-2" style="display:none;">
                                                 <div class="form-group">
                                                     <label class="form-label"><?php _e('Admin URL'); ?></label>
-                                                    <input type="text" class="form-control" name="admin_url" value="admin" id="admin_url" tabindex="15"/>
+                                                    <input type="text" class="form-control" name="admin_url"
+                                                           value="admin" id="admin_url" tabindex="15"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -798,11 +880,14 @@
                                         <input type="hidden" name="clean_pre_configured" value="1">
                                     <?php endif; ?>
 
-                                    <input type="hidden" name="make_install" value="1" id="is_installed_<?php print $rand; ?>">
+                                    <input type="hidden" name="make_install" value="1"
+                                           id="is_installed_<?php print $rand; ?>">
                                     <input type="hidden" value="UTC" name="default_timezone"/>
 
                                     <div class="text-end text-right">
-                                        <button type="submit" name="submit" class="btn btn-primary" dusk="install-button" id="install-button"  tabindex="16"><?php _e('Install'); ?></button>
+                                        <button type="submit" name="submit" class="btn btn-primary"
+                                                dusk="install-button" id="install-button"
+                                                tabindex="16"><?php _e('Install'); ?></button>
                                     </div>
                                 </form>
                             <?php endif; ?>
