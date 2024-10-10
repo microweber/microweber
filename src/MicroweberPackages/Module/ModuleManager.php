@@ -202,7 +202,6 @@ class ModuleManager
         $modules = $laravelModules->scan();
 
 
-
         if ($modules) {
             if (!defined('STDIN')) {
                 define('STDIN', fopen("php://stdin", "r"));
@@ -234,53 +233,55 @@ class ModuleManager
 //                }
 
 
-
                 $json = @file_get_contents($moduleJsonPath);
                 $json = @json_decode($json, true);
                 if (!$json) {
                     continue;
                 }
 
+                $name = $module->getName();
                 //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
                 $module->enable();
                 //$module->registerProviders();
 
 
+                $this->log('Migrating template: ' . $name);
                 $autoload = $module->getComposerAttr('autoload', $json);
-
-                Artisan::call('template:migrate', ['module' => $module->getLowerName(), '--force']);
-                Artisan::call('template:publish', ['module' => $module->getLowerName(), '--force']);
+                Artisan::call('template:migrate', ['module' => $name, '--force']);
+                $this->log('Publishing template: ' . $name);
+                Artisan::call('template:publish', ['module' => $name, '--force']);
 
 
             }
         }
     }
+
     public function publish_vendor_assets()
     {
         if (!defined('STDIN')) {
             define('STDIN', fopen("php://stdin", "r"));
         }
 
-       // Artisan::call('vendor:publish', ['--force' => true]);
-      //  Artisan::call('livewire:publish', ['--assets' => true]);
+        $this->log('Publishing vendor assets');
+
 
         Artisan::call('vendor:publish', [
             '--provider' => 'Livewire\LivewireServiceProvider',
             '--tag' => 'livewire:assets',
         ]);
 
-
         Artisan::call('filament:assets');
         Artisan::call('vendor:publish', ['--force' => true, '--tag' => 'public']);
         Artisan::call('vendor:publish', ['--force' => true, '--tag' => 'laravel-assets']);
         Artisan::call('vendor:publish', ['--force' => true, '--tag' => 'assets']);
-
+        $this->log('Publishing vendor assets ready');
 
 
     }
+
     public function reload_laravel_modules()
     {
-      //  return;
+        //  return;
         /** @var LaravelModulesFileRepository $laravelModules */
         if (!app()->bound('modules')) {
             return;
@@ -292,7 +293,6 @@ class ModuleManager
         $modules = $laravelModules->scan();
 
 
-
         if ($modules) {
             if (!defined('STDIN')) {
                 define('STDIN', fopen("php://stdin", "r"));
@@ -322,22 +322,22 @@ class ModuleManager
 //                }
 
 
-
                 $json = @file_get_contents($moduleJsonPath);
                 $json = @json_decode($json, true);
                 if (!$json) {
                     continue;
                 }
 
-              //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
+                //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
                 $module->enable();
                 //$module->registerProviders();
-
+                $name = $module->getName();
 
                 $autoload = $module->getComposerAttr('autoload', $json);
-
-                Artisan::call('module:migrate', ['module' => $module->getLowerName(), '--force']);
-                Artisan::call('module:publish', ['module' => $module->getLowerName(), '--force']);
+                $this->log('Migrating module: ' . $name);
+                Artisan::call('module:migrate', ['module' => $name, '--force']);
+                $this->log('Publishing module: ' .$name);
+                Artisan::call('module:publish', ['module' => $name, '--force']);
 
                 $moduleToSave = [];
                 $moduleToSave['module'] = $module->getLowerName();
@@ -355,7 +355,7 @@ class ModuleManager
                 $moduleToSave['settings']['module_path'] = $modulePath;
                 $moduleToSave['settings']['module_path_relative'] = str_replace(base_path(), '', $modulePath);
 
-             //    app()->module_repository->installLaravelModule($moduleToSave);
+                //    app()->module_repository->installLaravelModule($moduleToSave);
 
             }
         }

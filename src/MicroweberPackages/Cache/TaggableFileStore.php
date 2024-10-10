@@ -690,6 +690,8 @@ class TaggableFileStore implements Store
             }
 
         }
+
+        return true;
     }
 
     private function isTagFlushed()

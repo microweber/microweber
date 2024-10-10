@@ -420,6 +420,7 @@ class InstallController extends Controller
 
 
                     $this->log('Publishing vendor assets');
+                    app()->module_manager->logger = $this;
                     app()->module_manager->publish_vendor_assets();
                     $this->log('Running install of laravel modules');
                     app()->module_manager->reload_laravel_modules();
