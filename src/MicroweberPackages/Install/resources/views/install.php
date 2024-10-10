@@ -872,6 +872,52 @@
                                                            value="admin" id="admin_url" tabindex="15"/>
                                                 </div>
                                             </div>
+
+
+                                            <div class="advanced-options-installation mt-2" style="display:none;">
+                                                <div class="form-group">
+                                                    <label class="form-label"><?php _e('Configruation save method'); ?></label>
+
+                                                    <select class="form-select" name="config_save_method"
+                                                            tabindex="16">
+                                                        <option value="env">.env File</option>
+                                                        <option value="config_file">Config File</option>
+
+                                                    </select>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="advanced-options-installation mt-2" style="display:none;">
+                                                <div class="form-group">
+                                                    <label class="form-label"><?php _e('Force HTTPS'); ?></label>
+
+                                                    <select class="form-select" name="force_https"
+                                                            tabindex="17">
+                                                        <option value="">Default</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="advanced-options-installation mt-2" style="display:none;">
+                                                <div class="form-group">
+                                                    <label class="form-label"><?php _e('Enable debug'); ?></label>
+
+                                                    <select class="form-select" name="app_debug"
+                                                            tabindex="18">
+                                                        <option value="">Default</option>
+                                                        <option value="1">Yes</option>
+
+                                                    </select>
+
+
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 

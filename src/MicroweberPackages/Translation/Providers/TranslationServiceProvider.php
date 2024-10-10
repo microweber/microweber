@@ -21,7 +21,6 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
 
 
         /*
@@ -137,6 +136,8 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
      */
     public function register()
     {
+        $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
+
 
         if (!class_exists(Lingua::class)) {
             exit('The class ' . Lingua::class . ' cannot be found. Please run composer install.');

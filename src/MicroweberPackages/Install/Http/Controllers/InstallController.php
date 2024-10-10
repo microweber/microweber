@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Install\Http\Controllers;
 
+use Arcanedev\Html\Elements\I;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
@@ -54,16 +55,16 @@ class InstallController extends Controller
 
         $request = $runner->requestInstall($params);
         if (!isset($request['form_data_module_params'])) {
-            return ['status'=>'failed'];
+            return ['status' => 'failed'];
         }
 
         $request = $runner->requestInstall($request['form_data_module_params']);
 
         if (isset($request['success'])) {
-            return ['status'=>'success'];
+            return ['status' => 'success'];
         }
 
-        return ['status'=>'failed'];
+        return ['status' => 'failed'];
     }
 
     public function installTemplateModalView()
@@ -85,14 +86,14 @@ class InstallController extends Controller
 
         $template = MicroweberComposerPackage::format($getPackage);
 
-        return view('install::install_template_modal', ['template'=>$template]);
+        return view('install::install_template_modal', ['template' => $template]);
     }
 
-   public function selectTemplateView()
+    public function selectTemplateView()
     {
         $templates = $this->_getMarketTemplatesForInstallScreen();
 
-        return view('install::select_template', ['templates'=>$templates]);
+        return view('install::select_template', ['templates' => $templates]);
     }
 
     public function index($input = null)
@@ -104,6 +105,30 @@ class InstallController extends Controller
         if (!is_array($input) || empty($input)) {
             $input = Request::all();
         }
+        $save_to_env = true;
+        $save_to_config = false;
+
+        $install_step = false;
+        if (isset($input['install_step'])) {
+            $install_step = trim($input['install_step']);
+
+        }
+
+
+        if (isset($input['config_save_method']) and $input['config_save_method'] == 'env') {
+            $save_to_env = true;
+            $save_to_config = false;
+        $install_step = false;
+        } else  if (isset($input['config_save_method']) and $input['config_save_method'] == 'config_file') {
+            $save_to_env = false;
+            $save_to_config = true;
+        }
+
+
+
+
+
+
 
         $is_installed = mw_is_installed();
         if ($is_installed) {
@@ -114,9 +139,9 @@ class InstallController extends Controller
             $license = new License();
             $saveLicense = $license->saveLicense($input['license_key'], $input['license_rel_type']);
             if ($saveLicense) {
-                return ['validated'=>true];
+                return ['validated' => true];
             }
-            return ['validated'=>false];
+            return ['validated' => false];
         }
 
         if (isset($input['download_template'])) {
@@ -151,13 +176,11 @@ class InstallController extends Controller
         $view = dirname(dirname(__DIR__)) . '/resources/views/install.php';
         $view = normalize_path($view, false);
 
-        $install_step = null;
-        if (isset($input['install_step'])) {
-            $install_step = trim($input['install_step']);
-
-        }
 
         $connection = Config::get('database.connections');
+
+
+
 
         $this->log('Preparing to install');
         if (isset($input['make_install'])) {
@@ -187,6 +210,7 @@ class InstallController extends Controller
             }
 
             $errors = array();
+            $envToSave = array();
 
             if ($dbDriver == 'mysql') {
                 if (!isset($input['db_host'])) {
@@ -229,13 +253,43 @@ class InstallController extends Controller
                     $input['db_name'] = $input['db_name_sqlite'];
                     $input['db_name'] = str_replace(':.', '.', $input['db_name']);
                 }
+                //$input['db_name'] = str_replace('\\', '/', $input['db_name']);
+
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
                 if (isset($input['db_name']) and $input['db_name'] != ':memory:' and !file_exists($input['db_name'])) {
                     touch($input['db_name']);
                 }
 
+//                //make parth relative
+//                if(str_starts_with($input['db_name'], base_path())){
+////                    $input['db_name'] = str_replace(base_path(), '', $input['db_name']);
+////                    $input['db_name'] = ltrim($input['db_name'], '\\');
+////                    $input['db_name'] = ltrim($input['db_name'], '/');
+//                }
+
+
+
 
             }
+
+
+            if (isset($input['force_https']) and $input['force_https'] == 1) {
+                $envToSave['FORCE_HTTPS'] = true;
+                Config::set("microweber.force_https", true);
+            }
+            if (isset($input['app_debug']) and $input['app_debug'] == 1) {
+                $envToSave['APP_DEBUG'] = true;
+                Config::set("app.debug", true);
+            }
+
+
+
+            $envToSave['DB_CONNECTION'] = $dbDriver;
+            $envToSave['DB_HOST'] = $input['db_host'];
+            $envToSave['DB_DATABASE'] = $input['db_name'];
+            $envToSave['DB_USERNAME'] = $input['db_username'];
+            $envToSave['DB_PASSWORD'] = $input['db_password'];
+            $envToSave['DB_PREFIX'] = $input['db_prefix'];
 
             Config::set("database.connections.$dbDriver.host", $input['db_host']);
             Config::set("database.connections.$dbDriver.username", $input['db_username']);
@@ -243,15 +297,23 @@ class InstallController extends Controller
             Config::set("database.connections.$dbDriver.database", $input['db_name']);
             Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
 
+            DB::purge($dbDriver);
+            DB::reconnect();
+
+
+
             if (defined('MW_VERSION')) {
                 Config::set('microweber.version', MW_VERSION);
+               // $envToSave['MW_VERSION'] = MW_VERSION;
             }
 
             if (isset($input['default_template']) and $input['default_template'] != false) {
                 Config::set('microweber.install_default_template', $input['default_template']);
+                $envToSave['MW_DEFAULT_TEMPLATE'] = $input['default_template'];
             }
             if (isset($input['with_default_content']) and $input['with_default_content'] != false) {
                 Config::set('microweber.install_default_template_content', 1);
+                $envToSave['MW_DEFAULT_TEMPLATE_CONTENT'] = true;
             }
 
             if (!isset($input['developer_mode'])) {
@@ -265,23 +327,27 @@ class InstallController extends Controller
 
             if (isset($input['admin_url'])) {
                 Config::set('microweber.admin_url', $input['admin_url']);
+                $envToSave['MW_ADMIN_URL'] = $input['admin_url'];
             }
             if (!is_cli()) {
                 Config::set('app.url', site_url());
+                $envToSave['APP_URL'] = site_url();
             }
             Config::set('app.fallback_locale', 'en');
+            $envToSave['APP_FALLBACK_LOCALE'] = 'en';
 
             if (isset($input['site_lang'])) {
 
-                if($input['site_lang'] === 'none'){
+                if ($input['site_lang'] === 'none') {
                     $input['site_lang'] = 'en_US';
                 }
-
+                $envToSave['APP_LOCALE'] = $input['site_lang'];
+                $envToSave['MW_SITE_LANG'] = $input['site_lang'];
                 Config::set('app.locale', $input['site_lang']);
                 Config::set('microweber.site_lang', $input['site_lang']);
             }
 
-            if (Config::get('app.key') == 'YourSecretKey!!!') {
+            if (Config::get('app.key') == 'YourSecretKey!!!' or Config::get('app.key') == '') {
                 if (!is_cli()) {
                     $_SERVER['argv'] = array();
                 }
@@ -296,15 +362,39 @@ class InstallController extends Controller
                 $allowed_configs[] = 'app';
                 Config::set('app.key', $fallback_key_str);
 
+                $envToSave['APP_KEY'] = $fallback_key_str;
+
+            } else {
+                $envToSave['APP_KEY'] = Config::get('app.key');
             }
 
             $this->log('Saving config');
-            Config::save($allowed_configs);
+            if($save_to_config) {
+                Config::save($allowed_configs);
+            }
+            if($save_to_env){
+                if($this->_is_putenv_available()){
+                    foreach ($envToSave as $envKey => $envValue) {
+                        putenv("$envKey=$envValue");
+                    }
+                }
+
+                $this->setEnvironmentValuesAndSave($envToSave);
+                try {
+                    Artisan::call('optimize:clear');
+                } catch (\Exception $e) {
+                    // do nothing
+                }
+            }
+
+
             Cache::flush();
 
             if ($config_only) {
                 Config::set('microweber.pre_configured', 1);
                 Config::set('microweber.pre_configured_input', $input);
+                $envToSave['MW_PRE_CONFIGURED'] = 1;
+                $envToSave['MW_PRE_CONFIGURED_INPUT'] = json_encode($input);
             } else {
 
                 try {
@@ -419,7 +509,6 @@ class InstallController extends Controller
                     $installer->createSchema();
 
 
-
                     app()->module_manager->logger = $this;
 
                     $this->log('Running install of laravel modules');
@@ -429,7 +518,6 @@ class InstallController extends Controller
 
                     $this->log('Publishing vendor assets');
                     app()->module_manager->publish_vendor_assets();
-
 
 
                 }
@@ -480,24 +568,37 @@ class InstallController extends Controller
                         } else {
                             $admin_user_id = $check_if_has_admin->id;
                         }
-                        Config::set('microweber.has_admin', 1);
+                      //  Config::set('microweber.has_admin', 1);
+                      //  $envToSave['MW_HAS_ADMIN'] = 1;
                     }
                 }
 
                 $this->log('Saving ready config');
 
                 Config::set('microweber.is_installed', 1);
+                $envToSave['MW_IS_INSTALLED'] = 1;
 
             }
 
+            if($save_to_env){
+                $this->setEnvironmentValuesAndSave($envToSave);
+            }
 
-            Config::save($allowed_configs);
 
-            if (Config::get('microweber.has_admin') and !is_cli() and isset($admin_user_id)) {
+            if($save_to_config) {
+                Config::save($allowed_configs);
+            }
+            if (!is_cli() and isset($admin_user_id)) {
                 mw()->user_manager->make_logged($admin_user_id, true);
             }
 
             event_trigger('mw.install.complete', $input);
+
+            try {
+                Artisan::call('optimize:clear');
+            } catch (\Exception $e) {
+                // do nothing
+            }
 
             $this->clearLog();
 
@@ -505,7 +606,7 @@ class InstallController extends Controller
         }
 
 
-      $layout = new View($view);
+        $layout = new View($view);
 
         $defaultDbEngine = Config::get('database.default');
 
@@ -575,7 +676,7 @@ class InstallController extends Controller
                 $viewData['config'] = array_merge($viewData['config'], Config::get('microweber.pre_configured_input'));
             }
         }
-       $layout->set($viewData);
+        $layout->set($viewData);
 
         $is_installed = mw_is_installed();
         if ($is_installed) {
@@ -620,12 +721,53 @@ class InstallController extends Controller
 
     }
 
-    public function clearLog() {
+    public function clearLog()
+    {
         $log_file = userfiles_path() . 'install_log.txt';
         if (is_file($log_file)) {
             @unlink($log_file);
         }
     }
+
+    // from https://stackoverflow.com/a/54173207/731166
+    public function setEnvironmentValuesAndSave(array $values)
+    {
+
+        $envFile = app()->environmentFilePath();
+        $str = file_get_contents($envFile);
+
+        if (count($values) > 0) {
+            foreach ($values as $envKey => $envValue) {
+
+
+
+                $keyPosition = strpos($str, "{$envKey}=");
+                $endOfLinePosition = strpos($str, "\n", $keyPosition);
+                $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
+
+                // Ensure only a single \n is appended
+                if (substr($str, -1) !== "\n") {
+                    $str .= "\n";
+                }
+                // If key does not exist, add it
+                if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
+                    $str .= "{$envKey}={$envValue}" . "\n";
+                } else {
+                    $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+                }
+
+            }
+        }
+
+        $str = substr($str, 0, -1);
+
+        $str = trim($str);
+
+        if (!file_put_contents($envFile, $str)) return false;
+        return true;
+
+    }
+
 
     public function log($text)
     {

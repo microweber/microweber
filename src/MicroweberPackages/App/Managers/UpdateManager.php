@@ -289,9 +289,9 @@ return;
             event_trigger('mw_db_init');
 
             if ($version != false) {
-                Config::set('microweber.version', $version);
-                Config::set('microweber.updated_at', @date("Y-m-d H:i:s"));
-                Config::save('microweber');
+                //Config::set('microweber.version', $version);
+                //Config::set('microweber.updated_at', @date("Y-m-d H:i:s"));
+                //Config::save('microweber');
             }
         }
         return true;

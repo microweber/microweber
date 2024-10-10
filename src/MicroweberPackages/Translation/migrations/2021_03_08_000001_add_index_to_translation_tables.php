@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 
 if (!class_exists('AddIndexToTranslationTables', false)) {
@@ -16,7 +17,7 @@ if (!class_exists('AddIndexToTranslationTables', false)) {
          */
         public function up()
         {
-            // Addd indexes
+            // Add indexes
             try {
                 Schema::table('translation_texts', function (Blueprint $table) {
                     $table->index('translation_key_id');

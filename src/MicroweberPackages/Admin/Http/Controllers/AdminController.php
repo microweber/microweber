@@ -217,8 +217,8 @@ class AdminController extends Controller
             $adminUser->is_admin = 1;
             $adminUser->is_active = 1;
             $adminUser->save();
-            Config::set('microweber.has_admin', 1);
-            Config::save(array('microweber'));
+         //   Config::set('microweber.has_admin', 1);
+           // Config::save(array('microweber'));
             Auth::login($adminUser);
         }
     }
