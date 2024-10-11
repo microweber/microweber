@@ -56,7 +56,7 @@ default => 'primary',
 {{ $salutation }}
 @else
 @lang('Regards,')<br>
-{{ config('app.name') }}
+{{ get_option('website_title', 'website') }} Team
 @endif
 
 {{-- Subcopy --}}
@@ -68,7 +68,9 @@ default => 'primary',
 [
 'actionText' => $actionText,
 ]
-) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
+)
+<br />
+<span class="break-all">{{ $actionUrl }}</span>
 </x-slot:subcopy>
 @endisset
 
