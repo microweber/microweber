@@ -149,7 +149,7 @@ class AdminTemplateStyle
     public function getLiveEditStylesheets()
     {
         $return = [];
-        $return['live-edit-main'] = mw_includes_url() . 'css/liveedit.css';
+        //$return['live-edit-main'] = mw_includes_url() . 'css/liveedit.css';
         $return['live-edit-wysiwyg'] = mw_includes_url() . 'css/wysiwyg.css';
         $return['live-edit-components'] = mw_includes_url() . 'css/components.css';
         if (_lang_is_rtl()) {
