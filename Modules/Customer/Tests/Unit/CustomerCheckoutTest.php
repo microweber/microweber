@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Customer\tests;
+namespace Modules\Customer\Tests\Unit;
 
 use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Customer\Models\Address;
-use MicroweberPackages\Customer\Models\Customer;
+use Modules\Customer\Models\Address;
+use Modules\Customer\Models\Customer;
 
 /**
  * Run test

@@ -15,6 +15,8 @@ class UpdateCustomersTable extends Migration
     {
         if (Schema::hasTable('customers')) {
             Schema::table('customers', function (Blueprint $table) {
+
+
                 $table->string('name')->nullable()->change();
                 $table->string('first_name')->nullable()->change();
                 $table->string('last_name')->nullable()->change();

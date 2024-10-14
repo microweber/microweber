@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Order\Enums;
 
-
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
@@ -10,15 +9,10 @@ use Filament\Support\Contracts\HasLabel;
 enum OrderStatus: string implements HasColor, HasIcon, HasLabel
 {
     case New = 'new';
-
     case Processing = 'processing';
-
     case Shipped = 'shipped';
-
     case Delivered = 'delivered';
-
     case Cancelled = 'cancelled';
-
     case Refunded = 'refunded';
 
     public function getLabel(): string
@@ -54,5 +48,10 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
             self::Cancelled => 'heroicon-m-x-circle',
             self::Refunded => 'heroicon-m-arrow-uturn-left',
         };
+    }
+
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }

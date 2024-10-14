@@ -675,7 +675,8 @@ class InstallController extends Controller
             $viewData['config']['prefix'] = $pre . '_';
         }
         if (extension_loaded('pdo_sqlite') and $domain) {
-            $sqlite_path = normalize_path(storage_path() . DS . $domain . '.sqlite', false);
+           // $sqlite_path = normalize_path(storage_path() . DS . $domain . '.sqlite', false);
+            $sqlite_path = database_path('database.sqlite');
             $viewData['config']['db_name_sqlite'] = $sqlite_path;
         }
         if (Config::get('microweber.pre_configured')) {

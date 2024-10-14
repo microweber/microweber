@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Customer\Models;
+namespace Modules\Customer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;

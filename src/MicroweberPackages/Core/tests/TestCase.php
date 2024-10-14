@@ -27,7 +27,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         ini_set('memory_limit', '-1');
         \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
-        $config_folder = __DIR__ . '/../../../../config/testing/';
+        $config_folder = __DIR__ . '/../../../../config/';
+        //$config_folder = __DIR__ . '/../../../../config/testing/';
         $config_folder = realpath($config_folder);
 
         $mw_file = $config_folder . '/microweber.php';

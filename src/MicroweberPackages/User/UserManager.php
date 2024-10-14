@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User;
 
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -11,8 +12,6 @@ use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Socialite\MicroweberProvider;
-
-use \Illuminate\Support\Facades\Auth;
 
 class UserManager
 {
@@ -1732,9 +1731,9 @@ class UserManager
     {
         $shipping_address_from_profile = [];
         if ($this->is_logged()) {
-            $findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
+            $findCustomer = \Modules\Customer\Models\Customer::where('user_id', Auth::id())->first();
             if ($findCustomer) {
-                $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+                $findAddressShipping = \Modules\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
                 if ($findAddressShipping) {
                     $country_from_shipping_addr = $findAddressShipping->country()->first();
                     foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {

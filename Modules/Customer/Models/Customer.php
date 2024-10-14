@@ -1,12 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Customer\Models;
+namespace Modules\Customer\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Customer\Models\ModelFilters\CustomerFilter;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Order\Models\Order;
+use Modules\Customer\Models\ModelFilters\CustomerFilter;
 
 class Customer extends Model
 {

@@ -6,15 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Customer\Http\Requests;
-use MicroweberPackages\Customer\Models\Address;
-use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Invoice\Conversation;
 use MicroweberPackages\Invoice\Group;
 use MicroweberPackages\Invoice\Notifications\CustomerAdded;
 use MicroweberPackages\Order\Models\Order;
 use Modules\Country\Models\Country;
 use Modules\Currency\Models\Currency;
+use Modules\Customer\Models\Address;
+use Modules\Customer\Models\Customer;
 
+
+/* @deprecated  */
 class CustomersController extends AdminController
 {
     /**

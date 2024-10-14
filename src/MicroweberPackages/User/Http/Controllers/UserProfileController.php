@@ -2,14 +2,11 @@
 
 namespace MicroweberPackages\User\Http\Controllers;
 
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Customer\Models\Address;
-use MicroweberPackages\Customer\Models\Customer;
-use MicroweberPackages\User\Models\User;
+use Modules\Customer\Models\Address;
+use Modules\Customer\Models\Customer;
 
 class UserProfileController extends Controller
 {

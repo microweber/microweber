@@ -17,7 +17,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Passport\HasApiTokens;
 
 use MicroweberPackages\Core\Models\HasSearchableTrait;
-use MicroweberPackages\Customer\Models\Customer;
+use Modules\Customer\Models\Customer;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Casts\StripTagsCast;
 use MicroweberPackages\Database\Casts\StrToLowerTrimCast;

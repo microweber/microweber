@@ -13,18 +13,17 @@ namespace MicroweberPackages\Order\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-//use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Cart\Concerns\HasCartItems;
-use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
 use MicroweberPackages\Payment\Enums\PaymentStatus;
 use MicroweberPackages\Payment\Models\Payment;
 use MicroweberPackages\User\Models\User;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Customer\Models\Customer;
+
+//use Kirschbaum\PowerJoins\PowerJoins;
 
 class Order extends Model
 {
@@ -169,7 +168,7 @@ class Order extends Model
             return $this->first_name . ' ' . $this->last_name;
         }
         if ($this->customer_id > 0) {
-            $customer = Customer::where('id', $this->customer_id)->first();
+            $customer = \Modules\Customer\Models\Customer::where('id', $this->customer_id)->first();
             if ($customer) {
                 if (!empty($customer->first_name) and !empty($customer->last_name)) {
                     return $customer->first_name . ' ' . $customer->last_name;

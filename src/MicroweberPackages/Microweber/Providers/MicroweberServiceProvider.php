@@ -26,7 +26,6 @@ use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
 use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
-use MicroweberPackages\Customer\Providers\CustomerEventServiceProvider;
 use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
@@ -77,8 +76,9 @@ use MicroweberPackages\User\Providers\UserServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\View\ViewServiceProvider;
-//use Modules\Shipping\Providers\ShippingManagerServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
+
+//use Modules\Shipping\Providers\ShippingManagerServiceProvider;
 
 
 class MicroweberServiceProvider extends ServiceProvider
@@ -186,7 +186,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(BackupServiceProvider::class);
         //  $this->app->register(ImportServiceProvider::class);
         $this->app->register(CustomerServiceProvider::class);
-        $this->app->register(CustomerEventServiceProvider::class);
+        $this->app->register(\Modules\Customer\Providers\CustomerEventServiceProvider::class);
         $this->app->register(PermissionServiceProvider::class);
         //$this->app->register(PaymentServiceProvider::class);
         $this->app->register(RoleServiceProvider::class);

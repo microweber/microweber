@@ -6,13 +6,10 @@
  * Time: 3:25 PM
  */
 
-namespace MicroweberPackages\Customer\Models\ModelFilters;
+namespace Modules\Customer\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
-use MicroweberPackages\Helper\XSSClean;
-use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
-use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class CustomerFilter extends ModelFilter
 {

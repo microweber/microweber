@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Customer\Models\Customer;
+use Modules\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;

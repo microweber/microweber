@@ -3,8 +3,9 @@
 namespace MicroweberPackages\Customer\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AutoCompleteComponent;
-use MicroweberPackages\Customer\Models\Customer;
+use Modules\Customer\Models\Customer;
 
+/* @deprecated  */
 class CustomersAutoCompleteComponent extends AutoCompleteComponent
 {
     public $model = Customer::class;

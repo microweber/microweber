@@ -7,7 +7,7 @@ if (empty($user)) {
 }
 
 
-$findCustomer = \MicroweberPackages\Customer\Models\Customer::where('user_id', Auth::id())->first();
+$findCustomer = \Modules\Customer\Models\Customer::where('user_id', Auth::id())->first();
 
 $name = '';
 $first_name = '';
@@ -51,13 +51,13 @@ $shipping_address = [
 ];
 
 if ($findCustomer) {
-    $findAddressBilling = \MicroweberPackages\Customer\Models\Address::where('type', 'billing')->where('customer_id', $findCustomer->id)->first();
+    $findAddressBilling = \Modules\Customer\Models\Address::where('type', 'billing')->where('customer_id', $findCustomer->id)->first();
     if ($findAddressBilling) {
         foreach ($findAddressBilling->toArray() as $addressKey => $addressValue) {
             $billing_address[$addressKey] = $addressValue;
         }
     }
-    $findAddressShipping = \MicroweberPackages\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+    $findAddressShipping = \Modules\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
     if ($findAddressShipping) {
         foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {
             $shipping_address[$addressKey] = $addressValue;

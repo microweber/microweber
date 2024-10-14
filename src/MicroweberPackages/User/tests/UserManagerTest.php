@@ -3,33 +3,21 @@
 namespace MicroweberPackages\User\tests;
 
 use Illuminate\Auth\Events\Login;
-use Illuminate\Support\Facades\Auth;
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use Illuminate\Mail\Mailable;
-use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Testing\Fakes\MailFake;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Customer\Models\Address;
-use MicroweberPackages\Customer\Models\Customer;
-use MicroweberPackages\Notification\Channels\AppMailChannel;
-use MicroweberPackages\Notification\Mail\SimpleHtmlEmail;
 use MicroweberPackages\Option\Facades\Option;
-use MicroweberPackages\User\Events\UserWasRegistered;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Notifications\NewRegistration;
 use MicroweberPackages\User\Notifications\VerifyEmail;
-use MicroweberPackages\User\tests\UserTestHelperTrait;
 use MicroweberPackages\User\UserManager;
-use MicroweberPackages\Utils\Mail\MailSender;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
+use Modules\Customer\Models\Address;
+use Modules\Customer\Models\Customer;
+use function GuzzleHttp\Psr7\str;
 
 /**
  * Run test

@@ -3,8 +3,9 @@
 namespace MicroweberPackages\Customer\Http\Livewire;
 
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
-use MicroweberPackages\Customer\Models\Customer;
+use Modules\Customer\Models\Customer;
 
+/* @deprecated  */
 class CustomersListComponent extends ContentList
 {
     public $model = Customer::class;

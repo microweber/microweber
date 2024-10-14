@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Customer\Listeners;
+namespace Modules\Customer\Listeners;
 
-use MicroweberPackages\Customer\Models\Address;
-use MicroweberPackages\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\Order;
+use Modules\Customer\Models\Address;
+use Modules\Customer\Models\Customer;
 
 class CreateCustomerFromOrderListener
 {

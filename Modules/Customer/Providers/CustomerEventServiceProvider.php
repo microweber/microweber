@@ -9,11 +9,11 @@
  *
  */
 
-namespace MicroweberPackages\Customer\Providers;
+namespace Modules\Customer\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
-use MicroweberPackages\Customer\Listeners\CreateCustomerFromOrderListener;
 use MicroweberPackages\Order\Events\OrderWasCreated;
+use Modules\Customer\Listeners\CreateCustomerFromOrderListener;
 
 class CustomerEventServiceProvider extends EventServiceProvider
 {
