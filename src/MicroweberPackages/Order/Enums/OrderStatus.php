@@ -50,8 +50,4 @@ enum OrderStatus: string implements HasColor, HasIcon, HasLabel
         };
     }
 
-    public function __toString(): string
-    {
-        return $this->value;
-    }
 }

@@ -33,6 +33,9 @@ class CustomerServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
+
+        $this->app->register(CustomerEventServiceProvider::class);
+
     }
 
 }
