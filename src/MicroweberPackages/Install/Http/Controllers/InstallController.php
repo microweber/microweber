@@ -118,15 +118,10 @@ class InstallController extends Controller
             $install_step = false;
 
 
-        } else  if (isset($input['config_save_method']) and $input['config_save_method'] == 'config_file') {
+        } else if (isset($input['config_save_method']) and $input['config_save_method'] == 'config_file') {
             $save_to_env = false;
             $save_to_config = true;
         }
-
-
-
-
-
 
 
         $is_installed = mw_is_installed();
@@ -177,8 +172,6 @@ class InstallController extends Controller
 
 
         $connection = Config::get('database.connections');
-
-
 
 
         $this->log('Preparing to install');
@@ -267,8 +260,6 @@ class InstallController extends Controller
 //                }
 
 
-
-
             }
 
 
@@ -282,10 +273,12 @@ class InstallController extends Controller
             }
 
 
-
             $envToSave['DB_CONNECTION'] = $dbDriver;
             $envToSave['DB_HOST'] = $input['db_host'];
-            $envToSave['DB_DATABASE'] = $input['db_name'];
+            if ($input['db_name']  != ':memory:'
+                and $input['db_name'] != database_path('database.sqlite')) {
+                $envToSave['DB_DATABASE'] = $input['db_name'];
+            }
             $envToSave['DB_USERNAME'] = $input['db_username'];
             $envToSave['DB_PASSWORD'] = $input['db_password'];
             $envToSave['DB_PREFIX'] = $input['db_prefix'];
@@ -300,10 +293,9 @@ class InstallController extends Controller
             DB::reconnect();
 
 
-
             if (defined('MW_VERSION')) {
                 Config::set('microweber.version', MW_VERSION);
-               // $envToSave['MW_VERSION'] = MW_VERSION;
+                // $envToSave['MW_VERSION'] = MW_VERSION;
             }
 
             if (isset($input['default_template']) and $input['default_template'] != false) {
@@ -368,11 +360,11 @@ class InstallController extends Controller
             }
 
             $this->log('Saving config');
-            if($save_to_config) {
+            if ($save_to_config) {
                 Config::save($allowed_configs);
             }
-            if($save_to_env){
-                if($this->_is_putenv_available()){
+            if ($save_to_env) {
+                if ($this->_is_putenv_available()) {
                     foreach ($envToSave as $envKey => $envValue) {
                         putenv("$envKey=$envValue");
                     }
@@ -453,12 +445,6 @@ class InstallController extends Controller
                 }
 
                 if (!$install_step or $install_step == 3) {
-
-
-
-
-
-
 
 
                     $this->log('Setting up modules');
@@ -590,8 +576,8 @@ class InstallController extends Controller
                         } else {
                             $admin_user_id = $check_if_has_admin->id;
                         }
-                      //  Config::set('microweber.has_admin', 1);
-                      //  $envToSave['MW_HAS_ADMIN'] = 1;
+                        //  Config::set('microweber.has_admin', 1);
+                        //  $envToSave['MW_HAS_ADMIN'] = 1;
                     }
                 }
 
@@ -602,12 +588,12 @@ class InstallController extends Controller
 
             }
 
-            if($save_to_env){
+            if ($save_to_env) {
                 $this->setEnvironmentValuesAndSave($envToSave);
             }
 
 
-            if($save_to_config) {
+            if ($save_to_config) {
                 Config::save($allowed_configs);
             }
             if (!is_cli() and isset($admin_user_id)) {
@@ -752,7 +738,7 @@ class InstallController extends Controller
     {
         $log_file = userfiles_path() . 'install_log.txt';
         if (is_file($log_file)) {
-           // @unlink($log_file);
+            // @unlink($log_file);
             file_put_contents($log_file, '');
         }
     }
@@ -768,7 +754,6 @@ class InstallController extends Controller
             foreach ($values as $envKey => $envValue) {
 
 
-
                 $keyPosition = strpos($str, "{$envKey}=");
                 $endOfLinePosition = strpos($str, "\n", $keyPosition);
                 $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
@@ -779,7 +764,7 @@ class InstallController extends Controller
                 }
                 // If key does not exist, add it
                 if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
-                    $str .= "{$envKey}={$envValue}" . "\n". "\n";
+                    $str .= "{$envKey}={$envValue}" . "\n" . "\n";
                 } else {
                     $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
                 }
