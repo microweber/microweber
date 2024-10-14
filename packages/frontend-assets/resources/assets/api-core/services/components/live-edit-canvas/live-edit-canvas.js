@@ -305,7 +305,7 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
             mw.spinner({element: target, decorate: true}).remove();
 
             if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw) {
-               // liveEditIframe.contentWindow.mw.require('liveedit.css');
+
                 liveEditIframe.contentWindow.document.body.classList.add('live-edit-frame-loaded');
             }
 

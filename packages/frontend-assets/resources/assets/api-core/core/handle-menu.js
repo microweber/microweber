@@ -216,9 +216,7 @@ export const HandleMenu = function(options) {
         };
         var btnContent = ElementManager(btnContenConf);
 
-        if(conf.title) {
-            Tooltip(btnContent, conf.title);
-        }
+
 
         if(conf.icon) {
             var icon = ElementManager({
@@ -230,6 +228,22 @@ export const HandleMenu = function(options) {
 
             btnContent.append(icon);
         }
+
+        if(conf.title) {
+            Tooltip(btnContent, conf.title);
+            var btnTitleConf = {
+                props: {
+                    className: 'mw-le-handle-menu-button-content-title',
+                    innerHTML: conf.title
+                },
+
+            };
+            var btnTitle = ElementManager(btnTitleConf);
+            btnContent.append(btnTitle);
+        }
+
+
+
         if(conf.text) {
             var text = ElementManager({
                 props: {
