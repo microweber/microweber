@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Admin\Resources\CustomerResource\Pages;
+namespace Modules\Customer\Filament\CustomerResource\Pages;
 
-use App\Filament\Admin\Resources\CustomerResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
+use Modules\Customer\Filament\CustomerResource;
 
 class ManageCustomers extends ManageRecords
 {

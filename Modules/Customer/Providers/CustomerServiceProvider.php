@@ -5,7 +5,9 @@ namespace Modules\Customer\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Customer\Filament\CustomerResource;
 
 class CustomerServiceProvider extends BaseModuleServiceProvider
 {
@@ -35,7 +37,7 @@ class CustomerServiceProvider extends BaseModuleServiceProvider
 
 
         $this->app->register(CustomerEventServiceProvider::class);
-
+        FilamentRegistry::registerResource(CustomerResource::class);
     }
 
 }
