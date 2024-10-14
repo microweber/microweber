@@ -2,20 +2,16 @@
 
 namespace MicroweberPackages\Install\Http\Controllers;
 
-use Arcanedev\Html\Elements\I;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
-use Cache;
 use MicroweberPackages\ComposerClient\Client;
 use MicroweberPackages\Package\MicroweberComposerClient;
 use MicroweberPackages\Package\MicroweberComposerPackage;
-use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Translation\TranslationPackageInstallHelper;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\Misc\License;
@@ -118,7 +114,10 @@ class InstallController extends Controller
         if (isset($input['config_save_method']) and $input['config_save_method'] == 'env') {
             $save_to_env = true;
             $save_to_config = false;
-        $install_step = false;
+
+            $install_step = false;
+
+
         } else  if (isset($input['config_save_method']) and $input['config_save_method'] == 'config_file') {
             $save_to_env = false;
             $save_to_config = true;
@@ -388,7 +387,7 @@ class InstallController extends Controller
             }
 
 
-            Cache::flush();
+            \Illuminate\Support\Facades\Cache::flush();
 
             if ($config_only) {
                 Config::set('microweber.pre_configured', 1);
@@ -426,6 +425,21 @@ class InstallController extends Controller
                     @set_time_limit(0);
                 }
 
+
+                if (!$install_step or $install_step == 1) {
+                    app()->module_manager->logger = $this;
+
+                    $this->log('Running install of laravel modules');
+                    app()->module_manager->reload_laravel_modules();
+                    $this->log('Running install of laravel templates');
+                    app()->module_manager->reload_laravel_templates();
+
+                    $this->log('Publishing vendor assets');
+                    app()->module_manager->publish_vendor_assets();
+
+                }
+
+
                 if (!$install_step or $install_step == 1) {
                     $this->log('Setting up database');
                     $installer = new Install\DbInstaller();
@@ -439,6 +453,14 @@ class InstallController extends Controller
                 }
 
                 if (!$install_step or $install_step == 3) {
+
+
+
+
+
+
+
+
                     $this->log('Setting up modules');
                     $installer = new Install\ModulesInstaller();
                     $installer->logger = $this;
@@ -509,15 +531,15 @@ class InstallController extends Controller
                     $installer->createSchema();
 
 
-                    app()->module_manager->logger = $this;
-
-                    $this->log('Running install of laravel modules');
-                    app()->module_manager->reload_laravel_modules();
-                    $this->log('Running install of laravel templates');
-                    app()->module_manager->reload_laravel_templates();
-
-                    $this->log('Publishing vendor assets');
-                    app()->module_manager->publish_vendor_assets();
+//                    app()->module_manager->logger = $this;
+//
+//                    $this->log('Running install of laravel modules');
+//                    app()->module_manager->reload_laravel_modules();
+//                    $this->log('Running install of laravel templates');
+//                    app()->module_manager->reload_laravel_templates();
+//
+//                    $this->log('Publishing vendor assets');
+//                    app()->module_manager->publish_vendor_assets();
 
 
                 }
@@ -694,7 +716,12 @@ class InstallController extends Controller
 //        $layout =   view('install::install',$viewData);
 
 
-        Cache::flush();
+        //Cache::flush();
+
+        app()->terminating(function () {
+            Cache::flush();
+        });
+
         return $layout;
     }
 

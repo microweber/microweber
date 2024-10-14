@@ -19,6 +19,7 @@ use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class ModuleManager
 {
@@ -244,13 +245,20 @@ class ModuleManager
                 $module->enable();
                 //$module->registerProviders();
 
+                $output = new BufferedOutput();
+                $output->setDecorated(false);
 
                 $this->log('Migrating template: ' . $name);
                 $autoload = $module->getComposerAttr('autoload', $json);
-                Artisan::call('template:migrate', ['module' => $name, '--force']);
-                $this->log('Publishing template: ' . $name);
-                Artisan::call('template:publish', ['module' => $name, '--force']);
+                Artisan::call('template:migrate', ['module' => $name, '--force'=>true],$output);
+                $this->log($output->fetch());
 
+                $output = new BufferedOutput();
+                $output->setDecorated(false);
+
+                $this->log('Publishing template: ' . $name);
+                Artisan::call('template:publish', ['module' => $name],$output);
+                $this->log($output->fetch());
 
             }
         }
@@ -332,14 +340,24 @@ class ModuleManager
                 $module->enable();
                 //$module->registerProviders();
                 $name = $module->getName();
+                $output = new BufferedOutput();
+                $output->setDecorated(false);
 
                 $autoload = $module->getComposerAttr('autoload', $json);
                 $this->log('Migrating module: ' . $name);
-                Artisan::call('module:migrate', ['module' => $name, '--force']);
 
+                Artisan::call('module:migrate', ['module' => $name, '--force'=>true],$output);
+
+                $this->log($output->fetch());
+
+                $output = new BufferedOutput();
+                $output->setDecorated(false);
 
                 $this->log('Publishing module: ' .$name);
-                Artisan::call('module:publish', ['module' => $name, '--force']);
+                Artisan::call('module:publish', ['module' => $name],$output);
+                $this->log($output->fetch());
+
+
 
                 $moduleToSave = [];
                 $moduleToSave['module'] = $module->getLowerName();

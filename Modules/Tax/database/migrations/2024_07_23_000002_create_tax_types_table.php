@@ -12,6 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
+        if(Schema::hasTable('tax_types')) {
+            return;
+        }
+
+
         Schema::create('tax_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
@@ -30,8 +35,9 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
-    {
+    public function down(){
+
+
         Schema::dropIfExists('tax_types');
     }
 };

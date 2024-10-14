@@ -205,6 +205,8 @@
                                 $('#mw_log').addClass('mw-ui-box-important');
                             }
 
+
+
                             if (data == 'done') {
                                 setTimeout(function () {
                                     var redirect_after_install_url = "<?php print admin_url(); ?>?install_done=1";
@@ -263,10 +265,17 @@
                     404: function () {
                         // alert( "page not found" );
                     }
-                }
-            })
-                .done(function (data) {
+                },
+                success:function(data) {
+
                     data = data.replace(/\r/g, '');
+
+                    if (data.indexOf('Error') !== -1) {
+                        return;
+                    }
+
+
+
                     var arr = data.split('\n'),
                         l = arr.length,
                         last = arr[l - 2],
@@ -289,6 +298,12 @@
                             installprogress(false);
                         }, 1000);
                     }
+
+
+                }
+            })
+                .done(function (data) {
+
                 })
                 .fail(function () {
                     // alert("error");
@@ -573,7 +588,7 @@
 
                                 ?>
 
-                                <form method="post" id="form_<?php print $rand; ?>" autocomplete="off">
+                                <form method="post" id="form_<?php print $rand; ?>" autocomplete="on">
 
                                     <div class="mw-ui-row" id="install-row">
                                         <div>
