@@ -66,10 +66,10 @@ class FilamentTranslatableFieldsPlugin implements Plugin
         Field::macro('mwTranslatableOption', function () use ($supportedLanguages) {
 
             if (empty($supportedLanguages)) {
-                return $this;
+              return $this;
             }
             if (!MultilanguageHelpers::multilanguageIsEnabled()) {
-                return $this;
+               return $this;
             }
 
             $fieldName = $this->getName();

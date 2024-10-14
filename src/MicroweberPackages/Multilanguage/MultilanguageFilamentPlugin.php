@@ -56,8 +56,9 @@ class MultilanguageFilamentPlugin implements Plugin
 
         $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
         $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
+        $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
+
         if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
             self::configureLanguageSwitch();
         }
 
