@@ -30,6 +30,7 @@ html.preview .back-to-edit{
 .back-to-edit svg{
     transform: rotate(45deg);
     width: 24px;
+    margin-left: 20px;
 }
 
 </style>
