@@ -40,9 +40,7 @@ class ContentResource extends Resource
 
     protected static ?string $model = \MicroweberPackages\Content\Models\Content::class;
 
-
     protected static bool $shouldRegisterNavigation = false;
-
 
     public static function formArray($params = [])
     {
@@ -386,28 +384,7 @@ Forms\Components\Group::make([
 
         ];
 
-
-        return [
-            Tabs::make('ContentTabs')
-                ->tabs([
-                    Tabs\Tab::make('Details')
-                        ->schema(
-                            $mainForm
-                        ),
-                    Tabs\Tab::make('Custom Fields')
-                        ->schema([
-                            Livewire::make('admin-list-custom-fields')
-                        ]),
-                    Tabs\Tab::make('SEO')
-                        ->schema(
-                            self::seoFormArray()
-                        ),
-                    Tabs\Tab::make('Advanced')
-                        ->schema(self::advancedSettingsFormArray()),
-                ])->columnSpanFull()
-
-
-        ];
+        return $mainForm;
     }
 
     public static function form(Form $form): Form
