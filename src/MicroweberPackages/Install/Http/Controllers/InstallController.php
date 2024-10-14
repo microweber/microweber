@@ -752,11 +752,12 @@ class InstallController extends Controller
     {
         $log_file = userfiles_path() . 'install_log.txt';
         if (is_file($log_file)) {
-            @unlink($log_file);
+           // @unlink($log_file);
+            file_put_contents($log_file, '');
         }
     }
 
-    // from https://stackoverflow.com/a/54173207/731166
+    // see from https://stackoverflow.com/a/54173207/731166
     public function setEnvironmentValuesAndSave(array $values)
     {
 
@@ -778,7 +779,7 @@ class InstallController extends Controller
                 }
                 // If key does not exist, add it
                 if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
-                    $str .= "{$envKey}={$envValue}" . "\n";
+                    $str .= "{$envKey}={$envValue}" . "\n". "\n";
                 } else {
                     $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
                 }
