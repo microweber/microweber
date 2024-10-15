@@ -4,6 +4,7 @@ namespace MicroweberPackages\LaravelTemplates;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
+use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\LaravelTemplates\Contracts\LaravelTemplatesCacheRepositoryContract;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplatesRepositoryInterface;
@@ -20,7 +21,7 @@ use Nwidart\Modules\Support\Stub;
 
 class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesServiceProvider
 {
-    // use MergesConfig;
+    use MergesConfig;
     public function boot()
     {
 
@@ -37,14 +38,15 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
 
         $this->mergeConfigFrom(__DIR__ . '/config/templates.php', 'templates');
         $this->app->singleton(TemplatesRepositoryInterface::class, function ($app) {
-            $path = $app['config']->get('templates.paths.modules');
+
+            $path = app()->config->get('templates.paths.modules');
 
             return new LaravelTemplatesFileRepository($app, $path);
         });
         $this->app->singleton(TemplateActivatorInterface::class, function ($app) {
- 
-            $activator = $app['config']->get('templates.activator');
-            $class = $app['config']->get('templates.activators.' . $activator)['class'];
+
+            $activator = app()->config->get('templates.activator');
+            $class = app()->config->get('templates.activators.' . $activator)['class'];
 
             if ($class === null) {
                 throw InvalidActivatorClass::missingConfig();

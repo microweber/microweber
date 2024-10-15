@@ -1,5 +1,6 @@
 <?php
 
+use  \Illuminate\Support\Facades\Route;
 
 Route::name('api.editor.template_settings_v2.')
     ->prefix('api/editor/template_settings_v2')
@@ -7,6 +8,6 @@ Route::name('api.editor.template_settings_v2.')
     ->namespace('\MicroweberPackages\Editor\TemplateSettingsV2\Http\Controllers')
     ->group(function () {
 
-        \Route::get('list', 'EditorTemplateSettingsV2Controller@getSettings')->name('settings');
+        Route::get('list', 'EditorTemplateSettingsV2Controller@getSettings')->name('settings');
 
     });

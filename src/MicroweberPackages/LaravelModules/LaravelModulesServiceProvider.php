@@ -57,8 +57,8 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
         //  $this->app->bind (RepositoryInterface::class, LaravelModulesDatabaseCacheRepository::class);
 //        $this->app->singleton(ActivatorInterface::class, function ($app) {
 //
-//            $activator = $app['config']->get('modules.activator');
-//            $class = $app['config']->get('modules.activators.'.$activator)['class'];
+//            $activator = app()->config->get('modules.activator');
+//            $class = app()->config->get('modules.activators.'.$activator)['class'];
 //
 //            if ($class === null) {
 //                throw InvalidActivatorClass::missingConfig();
@@ -82,7 +82,7 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
     protected function registerServices()
     {
 //        $this->app->singleton(Contracts\RepositoryInterface::class, function ($app) {
-//            $path = $app['config']->get('modules.paths.modules');
+//            $path = app()->config->get('modules.paths.modules');
 //
 //            return new Laravel\LaravelFileRepository($app, $path);
 //        });
@@ -90,8 +90,8 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
         $this->app->singleton(LaravelModulesCacheRepositoryContract::class, LaravelModulesCacheRepository::class);
 
         $this->app->singleton(ActivatorInterface::class, function ($app) {
-            $activator = $app['config']->get('modules.activator');
-            $class = $app['config']->get('modules.activators.'.$activator)['class'];
+            $activator = app()->config->get('modules.activator');
+            $class = app()->config->get('modules.activators.'.$activator)['class'];
 
             if ($class === null) {
                 throw InvalidActivatorClass::missingConfig();
@@ -130,7 +130,7 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 //    protected function registerServices()
 //    {
 //        $this->app->singleton(Contracts\RepositoryInterface::class, function ($app) {
-//            $path = $app['config']->get('modules.paths.modules');
+//            $path = app()->config->get('modules.paths.modules');
 //
 //            return new LaravelModulesDatabaseRepository($app, $path);
 //        });

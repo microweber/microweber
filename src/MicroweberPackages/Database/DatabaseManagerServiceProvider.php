@@ -11,6 +11,7 @@
 
 namespace MicroweberPackages\Database;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -25,7 +26,7 @@ class DatabaseManagerServiceProvider extends ServiceProvider
     {
 
 
-        \Event::listen(['eloquent.saved: *', 'eloquent.created: *', 'eloquent.deleted: *'], function ($context) {
+        Event::listen(['eloquent.saved: *', 'eloquent.created: *', 'eloquent.deleted: *'], function ($context) {
             app()->database_manager->clearCache();
         });
 

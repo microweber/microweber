@@ -8,6 +8,6 @@ Route::name('api.')
     ->namespace('\MicroweberPackages\Option\Http\Controllers\Api')
     ->group(function () {
 
-        \Route::post('save_option', 'SaveOptionApiController@saveOption')->name('option.save');
+        Route::post('save_option', 'SaveOptionApiController@saveOption')->name('option.save');
 
     });

@@ -1704,7 +1704,7 @@ class UserManager
                 Config::set('services.microweber.redirect', $callback_url);
             }
             $this->socialite->extend('microweber', function ($app) {
-                $config = $app['config']['services.microweber'];
+                $config = app()->config['services.microweber'];
 
                 return $this->socialite->buildProvider(MicroweberProvider::class, $config);
             });

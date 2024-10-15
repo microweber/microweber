@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Support\Facades\Cookie;
 use  \Illuminate\Support\Facades\Route;
 
 Route::name('api.module.')
@@ -12,7 +14,7 @@ Route::name('api.module.')
         });
         if (config('microweber.allow_php_files_upload')) {
             Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
-                \Route::post('upload', 'ModuleUploadController@upload')->name('upload');
+                Route::post('upload', 'ModuleUploadController@upload')->name('upload');
             });
         }
 });
@@ -30,7 +32,7 @@ Route::name('api.')
         Route::any('mw_post_update', function () {
             $status = mw_post_update();
 
-            $cookie = \Cookie::forget('XSRF-TOKEN');
+            $cookie = Cookie::forget('XSRF-TOKEN');
 
             $response = response()->make('updated', 200)->withCookie($cookie);
             return $response;

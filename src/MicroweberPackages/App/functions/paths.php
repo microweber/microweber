@@ -1,6 +1,8 @@
 <?php
 
 
+use Illuminate\Support\Facades\Config;
+
 function userfiles_path()
 {
     static $folder;
@@ -128,7 +130,7 @@ function admin_url($add_string = false)
 {
     static $admin_url = null;
     if ($admin_url === null) {
-        $admin_url = \Config::get('microweber.admin_url');
+        $admin_url = Config::get('microweber.admin_url');
         if (!$admin_url) {
             $admin_url = 'admin';
         }

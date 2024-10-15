@@ -6,6 +6,7 @@
  * Time: 4:48 PM
  */
 
+use  \Illuminate\Support\Facades\Route;
 
 
 Route::name('admin.')

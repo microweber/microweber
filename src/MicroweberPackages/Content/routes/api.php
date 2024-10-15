@@ -102,7 +102,7 @@ Route::name('api.')
             $admin_url = route('admin.content.edit', $content['id']);
 
             if(isset($content['content_type']) and $content['content_type']){
-                if (\Route::has('admin.'.$content['content_type'].'.edit')) {
+                if (Route::has('admin.'.$content['content_type'].'.edit')) {
                     $admin_url = route('admin.' . $content['content_type'] . '.edit', $content['id']);
                 }
             }

@@ -78,7 +78,7 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         $this->app = $app;
         $this->path = $path;
         $this->url = $app['url'];
-        $this->config = $app['config'];
+        $this->config = app()->config;
         $this->files = $app['files'];
         $this->cache = $app['cache'];
 

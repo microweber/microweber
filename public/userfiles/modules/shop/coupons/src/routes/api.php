@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
-\Route::name('api.')
+Route::name('api.')
 
     ->prefix('api')
     ->middleware(['api', 'xss', \Illuminate\Routing\Middleware\ThrottleRequests::class])
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
 
     });
 
-\Route::name('api.')
+Route::name('api.')
 
     ->prefix('api')
     ->middleware(['api', 'xss', 'admin'])

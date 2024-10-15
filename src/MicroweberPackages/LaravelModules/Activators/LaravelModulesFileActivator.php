@@ -64,7 +64,7 @@ class LaravelModulesFileActivator extends FileActivator
     {
         $this->cache = $app['cache'];
         $this->files = $app['files'];
-        $this->config = $app['config'];
+        $this->config = app()->config;
         $this->statusesFile = $this->config('statuses-file');
         $this->cacheKey = $this->config('cache-key');
         $this->cacheLifetime = $this->config('cache-lifetime');

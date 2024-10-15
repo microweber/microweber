@@ -1,6 +1,7 @@
 <?php
 
 
+use  \Illuminate\Support\Facades\Route;
 
 
 Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function ($slug) {

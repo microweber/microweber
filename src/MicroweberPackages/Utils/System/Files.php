@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Utils\System;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -558,7 +559,7 @@ class Files
         }
 
         // Finish off, like Laravel would
-        \Event::fire('laravel.done', array($response));
+        Event::fire('laravel.done', array($response));
         $response->foundation->finish();
 
         exit;

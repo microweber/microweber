@@ -117,8 +117,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 //        $app->detectEnvironment(function () use ($testing_env_name) {
 //            return $testing_env_name;
 //        });
-//        $app['config']->set('cache.default', 'file');
-//        $app['config']->set('cache.stores.file',
+//        app()->config->set('cache.default', 'file');
+//        app()->config->set('cache.stores.file',
 //            [
 //                'driver' => 'file',
 //                'path' => storage_path('framework/cache'),
