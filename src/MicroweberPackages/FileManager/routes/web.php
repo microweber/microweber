@@ -6,6 +6,7 @@
  * Time: 2:17 PM
  */
 
+use  \Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => '\MicroweberPackages\FileManager\Http\Controllers'], function () {
 

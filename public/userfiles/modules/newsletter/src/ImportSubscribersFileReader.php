@@ -12,7 +12,7 @@ class ImportSubscribersFileReader
 
     public static function getImportTempPath()
     {
-        $environment = App::environment();
+        $environment = app()->environment();
         $folder = storage_path('newsletter_subscribers_list/') . ('default' . DIRECTORY_SEPARATOR);
 
         if(mw_is_multisite()) {

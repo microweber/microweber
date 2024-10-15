@@ -384,7 +384,7 @@ class Lang
         $title_value = $title;
         //$k1 = strip_tags($k);
         $k1 = url_title($title_value);
-        $environment = \App::environment();
+        $environment = app()->environment();
 
 
         $lang_key = preg_replace("/[^[:alnum:][:space:]]/u", '', $title_value);

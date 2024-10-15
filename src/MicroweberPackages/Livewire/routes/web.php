@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::name('admin.livewire.components.')
     ->prefix('admin-livewire-components')
     ->middleware(['admin'])

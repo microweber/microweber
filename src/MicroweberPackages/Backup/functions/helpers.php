@@ -6,7 +6,7 @@
  */
 function backup_location()
 {
-    $backupContent = storage_path() . '/backup_content/' . \App::environment() . '/';
+    $backupContent = storage_path() . '/backup_content/' . app()->environment() . '/';
     $backupContent = normalize_path($backupContent, true);
     if (!is_dir($backupContent)) {
         mkdir_recursive($backupContent);

@@ -70,7 +70,7 @@ class TemplateFonts
     public function getFontsStylesheetFilename(): string
     {
         if (mw_is_multisite()) {
-            $environment = App::environment();
+            $environment = app()->environment();
             $cache_file_name = 'custom_css.fonts.' . $environment . '.' . MW_VERSION . '.css';
         } else {
             $cache_file_name = 'custom_css.fonts.default.' . MW_VERSION . '.css';

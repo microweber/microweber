@@ -1,7 +1,7 @@
 <?php
 function media_uploads_url()
 {
-    $environment = App::environment();
+    $environment = app()->environment();
     $folder = media_base_url() . ('default/');
 
     if(mw_is_multisite()) {
@@ -14,7 +14,7 @@ function media_uploads_url()
 
 function media_uploads_path()
 {
-    $environment = App::environment();
+    $environment = app()->environment();
     $folder = media_base_path() . ('default' . DIRECTORY_SEPARATOR);
 
     if(mw_is_multisite()) {

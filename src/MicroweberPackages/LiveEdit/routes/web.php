@@ -1,5 +1,5 @@
 <?php
-
+use \Illuminate\Support\Facades\Route;
 //
 // legacy route
 //Route::group(['middleware' => 'admin', 'namespace' => '\MicroweberPackages\LiveEdit\Http\Controllers'], function () {

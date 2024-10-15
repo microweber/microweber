@@ -6,6 +6,7 @@
  * Time: 10:58 AM
  */
 
+use  \Illuminate\Support\Facades\Route;
 
 Route::name('api.menu.')
     ->prefix('api/menu')

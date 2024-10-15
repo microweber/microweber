@@ -50,7 +50,7 @@ class TemplateLiveEditCss
 
     public function getLiveEditCssFilenameMultisite()
     {
-        $environment = App::environment();
+        $environment = app()->environment();
         $checkMultisite = mw_is_multisite();
 
         $live_edit_filename = 'live_edit.css';

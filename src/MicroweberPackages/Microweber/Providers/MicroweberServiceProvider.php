@@ -177,6 +177,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(UserEventServiceProvider::class);
         $this->app->register(CartEventServiceProvider::class);
 
+
         // Others
         $this->app->register(MarketplaceServiceProvider::class);
         $this->app->register(CaptchaServiceProvider::class);

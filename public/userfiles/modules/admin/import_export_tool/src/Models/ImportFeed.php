@@ -65,7 +65,7 @@ class ImportFeed extends Model
 
     public static function getImportTempPath()
     {
-        $environment = App::environment();
+        $environment = app()->environment();
         $folder = storage_path('import_export_tool/') . ('default' . DIRECTORY_SEPARATOR);
 
         if(defined('MW_IS_MULTISITE') and MW_IS_MULTISITE) {

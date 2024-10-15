@@ -165,7 +165,7 @@ class AdminWebAppManifestTags implements TagInterface, \Stringable
 
         $cache_file_name = '';
         if (mw_is_multisite()) {
-            $environment = App::environment();
+            $environment = app()->environment();
             $cache_file_name = 'admin.' . $environment . '.' . $hash . MW_VERSION . '.json';
         } else {
             $cache_file_name = 'admin.default.' . $hash . MW_VERSION . '.json';
