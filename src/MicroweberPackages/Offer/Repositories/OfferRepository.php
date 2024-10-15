@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Offer\Repositories;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -92,7 +93,7 @@ class OfferRepository extends AbstractRepository
 
             $productIds = [];
 
-            $getOffers = \DB::table('offers')
+            $getOffers = DB::table('offers')
                 ->select('product_id')
                 ->groupBy('product_id')
                 ->get();

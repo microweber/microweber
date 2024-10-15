@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class UpdateCategoriesRelTypeInTables extends Migration
@@ -23,7 +24,7 @@ class UpdateCategoriesRelTypeInTables extends Migration
         ];
         foreach ($tables as $table) {
             if (Schema::hasTable($table)) {
-                \DB::table($table)
+                DB::table($table)
                     ->where('rel_type', 'category')
                     ->update(['rel_type' => morph_name(\MicroweberPackages\Category\Models\Category::class)]);
             }

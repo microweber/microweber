@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -19,7 +20,7 @@ class MigrateBackgroundImageModuleOptions extends Migration
                 'background_video' => 'data-background-video',
                 'background_color' => 'data-background-color',
             ];
-            $getAllOldOptions = \DB::table('options')
+            $getAllOldOptions = DB::table('options')
                 ->where('module', 'background')
                 ->whereNotNull('option_value')
                 ->whereNotNull('option_key')
@@ -32,7 +33,7 @@ class MigrateBackgroundImageModuleOptions extends Migration
                     foreach ($changeKeys as $changeKey => $newKey) {
                         if ($opt && $opt->option_key == $changeKey) {
                            // db update where
-                            \DB::table('options')
+                            DB::table('options')
                                 ->where('id', $opt->id)
                                 ->update([
                                     'option_key' => $newKey

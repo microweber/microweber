@@ -7,6 +7,8 @@
     })->name('module.standalone-updater.update');
 });*/
 
+use Illuminate\Support\Facades\Route;
+
 Route::name('standalone-updater.')
     ->prefix(ADMIN_PREFIX . '/standalone-updater')
     ->middleware(['admin'])

@@ -4,6 +4,7 @@ namespace MicroweberPackages\Import;
 
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\ZipReader;
 use MicroweberPackages\Import\Traits\DatabaseCategoriesWriter;
@@ -115,8 +116,8 @@ class DatabaseWriter
         if ($this->overwriteById && isset($item['id'])) {
 
             if ($item['save_to_table'] == 'users') {
-                $findUser = \DB::table($item['save_to_table'])->where('email', $item['email'])->first();
-                $findUserByUsername = \DB::table($item['save_to_table'])->where('username', $item['username'])->first();
+                $findUser = DB::table($item['save_to_table'])->where('email', $item['email'])->first();
+                $findUserByUsername = DB::table($item['save_to_table'])->where('username', $item['username'])->first();
                 if ($findUser) {
                     $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  User email: ' . $findUser->email);
                     return array('item' => $item, 'itemIdDatabase' => $findUser->id);
@@ -124,7 +125,7 @@ class DatabaseWriter
                     $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  Username: ' . $findUserByUsername->username);
                     return array('item' => $item, 'itemIdDatabase' => $findUserByUsername->id);
                 } else {
-                    $findUserIsAdmin = \DB::table($item['save_to_table'])
+                    $findUserIsAdmin = DB::table($item['save_to_table'])
                         ->where('is_admin', 1)
                         ->where('id', $item['id'])
                         ->first();
@@ -472,10 +473,10 @@ class DatabaseWriter
                     if ($table == 'users' || $table == 'users_oauth' || $table == 'system_licenses') {
                         continue;
                     }
-                    if (\Schema::hasTable($table)) {
+                    if (Schema::hasTable($table)) {
                         $this->logger->setLogInfo('Truncate table: ' . $table);
                         try {
-                            \DB::table($table)->truncate();
+                            DB::table($table)->truncate();
                         } catch (\Exception $e) {
                             $this->logger->setLogInfo('Can\'t truncate table: ' . $table);
                         }

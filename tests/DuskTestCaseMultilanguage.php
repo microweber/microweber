@@ -5,6 +5,7 @@ namespace Tests;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 
 abstract class DuskTestCaseMultilanguage extends DuskTestCase
@@ -28,7 +29,7 @@ abstract class DuskTestCaseMultilanguage extends DuskTestCase
             );
         } else {
 
-            \DB::table('options')
+            DB::table('options')
                 ->where('option_group', 'multilanguage_settings')
                 ->delete();
             change_language_by_locale('en_US');

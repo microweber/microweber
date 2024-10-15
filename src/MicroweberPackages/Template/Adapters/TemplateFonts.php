@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Template\Adapters;
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 
 class TemplateFonts
 {
@@ -88,7 +89,7 @@ class TemplateFonts
 
 
         $l = $this->getFontsStylesheetCss();
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
 
             $userfiles_dir = userfiles_path();

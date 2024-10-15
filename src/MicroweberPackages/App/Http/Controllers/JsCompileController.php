@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Template\Adapters\RenderHelpers\CsrfTokenRequestInlineJsScriptGenerator;
 use MicroweberPackages\Template\Adapters\RenderHelpers\ZiggyInlineJsRouteGenerator;
 use MicroweberPackages\View\View;
@@ -29,7 +30,7 @@ class JsCompileController extends Controller
         if (!mw_is_installed()) {
             $this->_should_compile_assets = false;
         } else {
-            $this->_should_compile_assets = \Config::get('microweber.compile_assets');;
+            $this->_should_compile_assets = Config::get('microweber.compile_assets');;
         }
 
         // $this->_should_compile_assets = false; //@todo remove before release

@@ -8,6 +8,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use MicroweberPackages\App\Managers\PermalinkManager;
@@ -155,12 +156,12 @@ abstract class DuskTestCase extends BaseTestCase
 
             \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
-            \DB::table('options')
+            DB::table('options')
                 ->where('option_group', 'multilanguage_settings')
                 ->delete();
 
-            \DB::table('multilanguage_translations')->truncate();
-            \DB::table('multilanguage_supported_locales')->truncate();
+            DB::table('multilanguage_translations')->truncate();
+            DB::table('multilanguage_supported_locales')->truncate();
 
 
             $option = array();

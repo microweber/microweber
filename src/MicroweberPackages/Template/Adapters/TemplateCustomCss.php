@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\Template\Adapters;
 
+use Illuminate\Support\Facades\Config;
+
 class TemplateCustomCss
 {
 
@@ -18,7 +20,7 @@ class TemplateCustomCss
             return $url;
         }
 
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
@@ -46,7 +48,7 @@ class TemplateCustomCss
 
 
         $l = $this->getCustomCssContent();
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);

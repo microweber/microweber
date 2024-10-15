@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Core\tests;
 
 use Illuminate\Foundation\Testing\WithConsoleEvents;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Install\DbInstaller;
@@ -24,11 +26,14 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         //  $_ENV['APP_ENV'] = 'testing';
         //  putenv('APP_ENV=testing');
+
+
+
         ini_set('memory_limit', '-1');
         // \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
         $installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
         //$installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
-//dd($installed);
+ //dd(\Illuminate\Support\Env::getRepository()->get('APP_ENV'));
 
         $config_folder = __DIR__ . '/../../../../config/';
         //$config_folder = __DIR__ . '/../../../../config/testing/';
@@ -158,9 +163,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
             //  $db_name = $this->sqlite_file;
             if ($test_env_from_conf) {
-                $dbEngines = \Config::get('database.connections');
-                $defaultDbEngine = \Config::get('database.default');
-                $default = \Config::get('database');
+                $dbEngines = Config::get('database.connections');
+                $defaultDbEngine = Config::get('database.default');
+                $default = Config::get('database');
 
                 if ($defaultDbEngine) {
                     $db_driver = $defaultDbEngine;
@@ -213,19 +218,19 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->assertEquals(0, $install);
 
             // Clear caches
-            \Artisan::call('config:cache');
-            \Artisan::call('config:clear');
-            \Artisan::call('cache:clear');
-            \Artisan::call('route:clear');
-            \Config::set('microweber.is_installed', 1);
+             Artisan::call('config:cache');
+             Artisan::call('config:clear');
+             Artisan::call('cache:clear');
+             Artisan::call('route:clear');
+             Config::set('microweber.is_installed', 1);
             $is_installed = mw_is_installed();
             $this->assertEquals(1, $is_installed);
             //  }
             // }
 
-            \Config::set('mail.driver', 'array');
-            \Config::set('queue.driver', 'sync');
-            \Config::set('mail.transport', 'array');
+             Config::set('mail.driver', 'array');
+             Config::set('queue.driver', 'sync');
+             Config::set('mail.transport', 'array');
 
 
         }

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Support\Facades\Config;
 use function Opis\Closure\serialize as serializeClosure;
 trait CacheableRepository
 {
@@ -74,7 +75,7 @@ trait CacheableRepository
             return true;
         }
 
-        $is_disabled = \Config::get('microweber.disable_model_cache');
+        $is_disabled = Config::get('microweber.disable_model_cache');
         if($is_disabled){
             return true;
         }

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Install\DbInstaller;
 use MicroweberPackages\Install\DefaultOptionsInstaller;
 use MicroweberPackages\Install\ModulesInstaller;
@@ -57,7 +58,7 @@ class ResetCommand extends Command
 
             foreach ($tables as $table) {
                 $table = trim($table);
-                \DB::table($table)->truncate();
+                DB::table($table)->truncate();
                 $this->info('Truncate table: ' . $table);
             }
 

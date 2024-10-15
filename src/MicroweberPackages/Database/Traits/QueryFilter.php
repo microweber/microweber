@@ -2,9 +2,8 @@
 
 namespace MicroweberPackages\Database\Traits;
 
-use DB;
+use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Database\Filter;
-use Config;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 trait QueryFilter

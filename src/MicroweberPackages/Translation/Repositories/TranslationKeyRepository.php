@@ -4,6 +4,8 @@
 namespace MicroweberPackages\Translation\Repositories;
 
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationKeyCached;
@@ -28,7 +30,7 @@ class TranslationKeyRepository extends AbstractRepository
 
                 $result = [];
 
-                $translation_namespaces = \DB::table('translation_keys')
+                $translation_namespaces = DB::table('translation_keys')
                     ->select('translation_namespace')
                     ->join('translation_texts', 'translation_keys.id', '=', 'translation_texts.translation_key_id')
                     ->groupBy('translation_namespace')
@@ -52,7 +54,7 @@ class TranslationKeyRepository extends AbstractRepository
                 });
 
             } catch (\Illuminate\Database\QueryException $e) {
-                if (!\Schema::hasTable('translation_keys')) {
+                if ( Schema::hasTable('translation_keys')) {
                     $system_refresh = new \MicroweberPackages\Install\DbInstaller();
                     $system_refresh->createSchema();
                     return false;
@@ -68,10 +70,10 @@ class TranslationKeyRepository extends AbstractRepository
 
     public function getImportedLocales($locale=false)
     {
-        $translation_locales = \DB::table('translation_texts')
+        $translation_locales = DB::table('translation_texts')
             ->select('translation_locale')
             ->groupBy('translation_locale');
-        
+
         if($locale){
             $translation_locales = $translation_locales->where('translation_locale', $locale);
         }

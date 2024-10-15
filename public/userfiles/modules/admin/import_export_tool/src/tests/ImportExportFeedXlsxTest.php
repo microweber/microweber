@@ -3,6 +3,8 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\tests;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Import\Formats\XlsxReader;
@@ -32,11 +34,11 @@ class ImportExportFeedXlsxTest extends TestCase
             'import_feeds',
             'export_feeds',
         ];
-        $delete = \DB::table('migrations')->whereIn('migration', $migrations)->delete();
+        $delete = DB::table('migrations')->whereIn('migration', $migrations)->delete();
 
         foreach ($drop as $table) {
-            if (\Schema::hasTable($table)) {
-                \Schema::drop($table);
+            if (Schema::hasTable($table)) {
+                Schema::drop($table);
             }
         }
 

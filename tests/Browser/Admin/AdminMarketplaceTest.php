@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\Admin;
 
+use Illuminate\Support\Facades\DB;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -15,7 +16,7 @@ class AdminMarketplaceTest extends DuskTestCase
         mw()->module_manager->uninstall(array('for_module' => 'browser_redirect'));
         rmdir_recursive(userfiles_path() . 'modules/browser_redirect',false);
 
-        \DB::table('modules')
+        DB::table('modules')
             ->where('module', 'browser_redirect')
             ->delete();
 

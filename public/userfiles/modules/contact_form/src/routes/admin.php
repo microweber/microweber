@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::name('admin.contact-form.')
     ->prefix(mw_admin_prefix_url_legacy() . '/contact-form')
     ->middleware(['admin'])

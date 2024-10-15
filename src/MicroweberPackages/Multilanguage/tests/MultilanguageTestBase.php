@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Multilanguage\tests;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
@@ -23,7 +24,7 @@ abstract class MultilanguageTestBase extends \Microweber\tests\TestCase
     {
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
-           \DB::table('options')
+           DB::table('options')
             ->where('option_group', 'multilanguage_settings')
             ->delete();
 

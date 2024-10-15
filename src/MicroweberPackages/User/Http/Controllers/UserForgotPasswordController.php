@@ -96,7 +96,7 @@ class UserForgotPasswordController extends Controller
         $status = Password::sendResetLink(
             $request->only('email'),
             function ($user, $token) {
-                (\DB::table('password_resets')
+                (DB::table('password_resets')
                     ->updateOrInsert(
                         ['email' => $user->email],
                         [

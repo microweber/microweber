@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Modules\SiteStats\UtmVisitorData;
 
 require_once(__DIR__ . DS . 'vendor' . DS . 'autoload.php');
@@ -75,7 +76,7 @@ event_bind('mw.pageview', function ($params = false) {
         $src = '<script async>' . $src_code . '</script>';
 
 
-        $compile_assets = \Config::get('microweber.compile_assets');   //$compile_assets =  \Config::get('microweber.compile_assets');
+        $compile_assets = Config::get('microweber.compile_assets');   //$compile_assets =  \Config::get('microweber.compile_assets');
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
             $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs' . DS);

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\MessageBag;
 use MicroweberPackages\Repository\Traits\CacheableRepository;
@@ -1374,7 +1375,7 @@ abstract class AbstractRepository implements Repository
 
             $result = [];
 
-            $translation_namespaces = \DB::table($table)
+            $translation_namespaces = DB::table($table)
                 ->select('rel_id')
                 ->where('rel_type', $rel_type)
                 ->groupBy('rel_id')

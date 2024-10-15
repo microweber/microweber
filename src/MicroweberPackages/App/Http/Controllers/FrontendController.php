@@ -70,7 +70,7 @@ class FrontendController extends Controller
             $this->debugbarEnabled = \Debugbar::isEnabled();;
         }
 
-        if (\Config::get('microweber.force_https') && !is_cli() && !is_https()) {
+        if (Config::get('microweber.force_https') && !is_cli() && !is_https()) {
             $https = str_ireplace('http://', 'https://', url_current());
             return mw()->url_manager->redirect($https);
         }
@@ -418,7 +418,7 @@ class FrontendController extends Controller
         }
         if (!defined('MW_NO_OUTPUT_CACHE')) {
             if (!$back_to_editmode and !$is_editmode and $enable_full_page_cache and $output_cache_timeout != false and isset($_SERVER['REQUEST_URI']) and $_SERVER['REQUEST_URI']) {
-                $compile_assets = \Config::get('microweber.compile_assets');
+                $compile_assets = Config::get('microweber.compile_assets');
 
                 $output_cache_content = false;
                 $output_cache_id = 'full_page_cache_' . __FUNCTION__ . crc32(MW_VERSION . intval($compile_assets) . intval(is_https()) . $_SERVER['REQUEST_URI'] . current_lang() . site_url());
@@ -430,7 +430,7 @@ class FrontendController extends Controller
                 }
 
                 if ($output_cache_content != false and !str_contains($output_cache_content, 'image-generate-tn-request')) {
-                    return \Response::make($output_cache_content)
+                    return Response::make($output_cache_content)
                         ->header('Cache-Control', 'public, max-age=10800, pre-check=10800')
                         ->header('Last-Modified', \Carbon::parse($output_cache_content_data['time'])->toRfc850String())
                         ->header('Pragma', 'public')

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Modules\Shop\Coupons\tests;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Modules\Shop\Coupons\Models\CartCouponLog;
@@ -25,7 +26,7 @@ class CouponApplyTest extends TestCase
         save_option('enable_coupons', 1, 'shop');
         save_option('enable_taxes', 0, 'shop');
 
-        \DB::table('cart_coupon_logs')->truncate();
+        DB::table('cart_coupon_logs')->truncate();
     }
 
     public function testValidCouponCode()

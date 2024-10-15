@@ -54,8 +54,8 @@ class UpdateManager
         $data['php_version'] = phpversion();
         $data['mw_version'] = MW_VERSION;
         $data['mw_update_check_site'] = $this->app->url_manager->site();
-        $data['update_channel'] = \Config::get('microweber.update_channel');
-        $data['last_update'] = \Config::get('microweber.updated_at');
+        $data['update_channel'] = Config::get('microweber.update_channel');
+        $data['last_update'] = Config::get('microweber.updated_at');
 
         $t = site_templates();
         $data['templates'] = $t;

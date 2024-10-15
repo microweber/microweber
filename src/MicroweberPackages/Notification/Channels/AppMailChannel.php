@@ -4,6 +4,7 @@ namespace MicroweberPackages\Notification\Channels;
 
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Channels\MailChannel;
+use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Symfony\Component\Mailer\Exception\TransportException;
 
@@ -24,7 +25,7 @@ class AppMailChannel extends MailChannel
          $mailSender->configMailDriver();
 
 
-        if (!\Config::get('mail.driver')) {
+        if (!Config::get('mail.driver')) {
             return;
         }
       //  return parent::send($notifiable, $notification);

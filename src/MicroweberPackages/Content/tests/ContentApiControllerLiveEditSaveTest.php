@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Content\tests;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
@@ -544,7 +545,7 @@ HTML;
     {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
-        \Config::set('microweber.disable_model_cache', 1);
+        Config::set('microweber.disable_model_cache', 1);
 
 
         MultilanguageHelpers::setMultilanguageEnabled(0);

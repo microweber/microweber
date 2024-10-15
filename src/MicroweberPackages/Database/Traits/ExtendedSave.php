@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Database\Traits;
 
+use Illuminate\Support\Facades\DB;
 use function Termwind\render;
 
 trait ExtendedSave
@@ -266,7 +267,7 @@ trait ExtendedSave
                         $save_content_data_item['field_name'] = $k;
                         $save_content_data_item['field_value'] = $v;
 
-                        $current_data = \DB::table('content_data')
+                        $current_data = DB::table('content_data')
                             ->where('rel_type', $morph_name)
                             ->where('rel_id', $data_to_save['id'])
                             ->where('field_name', $k)

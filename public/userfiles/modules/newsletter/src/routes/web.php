@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 Route::name('web.newsletter.')
     ->prefix('/web/modules/newsletter')
     ->middleware(['web'])

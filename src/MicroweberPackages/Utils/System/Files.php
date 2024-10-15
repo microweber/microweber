@@ -2,7 +2,10 @@
 
 namespace MicroweberPackages\Utils\System;
 
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -539,12 +542,12 @@ class Files
             'Content-Length' => \File::size($path),
         ), $headers);
 
-        $response = new \Response('', 200, $headers);
+        $response = new Response('', 200, $headers);
         $response->header('Content-Disposition', $response->disposition($name));
 
         // If there's a session we should save it now
-        if (\Config::get('session.driver') !== '') {
-            \Session::save();
+        if (Config::get('session.driver') !== '') {
+            Session::save();
         }
 
         // Send the headers and the file

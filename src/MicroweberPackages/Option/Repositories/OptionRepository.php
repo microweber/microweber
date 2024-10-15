@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Option\Repositories;
 
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
@@ -85,7 +86,7 @@ class OptionRepository extends AbstractRepository
 
 
             $allOptions = [];
-            $getAllOptions = \DB::table('options')
+            $getAllOptions = DB::table('options')
                 ->select('option_group')
                 ->whereNotNull('option_group')
                 ->groupBy('option_group')
@@ -145,7 +146,7 @@ class OptionRepository extends AbstractRepository
 
         $allOptions = $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($optionGroup) {
 
-            $allOptions = \DB::table('options')
+            $allOptions = DB::table('options')
                 ->where('option_group', $optionGroup)
                 ->whereNotNull('option_value')
                 ->get();

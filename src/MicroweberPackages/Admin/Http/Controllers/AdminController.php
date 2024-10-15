@@ -142,7 +142,7 @@ class AdminController extends Controller
             $this->app->update->perform_post_update_if_needed();
         }
 
-        $force_https = \Config::get('microweber.force_https');
+        $force_https = Config::get('microweber.force_https');
 
         if ($force_https and !is_cli()) {
             if (!is_https()) {

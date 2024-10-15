@@ -4,6 +4,7 @@
 namespace MicroweberPackages\Media\Repositories;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Media\Models\MediaThumbnail;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
@@ -16,7 +17,7 @@ class MediaRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId, $relType) {
 
-            $getMedia = \DB::table('media')
+            $getMedia = DB::table('media')
                 ->select('filename')
                 ->where('rel_type', $relType)
                 ->where('rel_id', $relId)
@@ -41,7 +42,7 @@ class MediaRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($tn_cache_id) {
             $return = false;
 
-            $check = \DB::table('media_thumbnails')
+            $check = DB::table('media_thumbnails')
                 ->select(['id', 'filename', 'image_options','uuid'])
                 ->where('filename', $tn_cache_id)->first();
 

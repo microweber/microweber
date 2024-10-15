@@ -9,6 +9,7 @@
 namespace MicroweberPackages\Translation\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Import\Formats\XlsxReader;
 use MicroweberPackages\Export\Formats\JsonExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
@@ -138,7 +139,7 @@ class TranslationController {
            }
        }
 
-       \Config::set('microweber.disable_model_cache', true);
+       Config::set('microweber.disable_model_cache', true);
 
        if (!empty($saveTranslations)) {
            foreach($saveTranslations as $translation) {

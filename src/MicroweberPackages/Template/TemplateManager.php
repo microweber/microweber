@@ -14,6 +14,7 @@
 namespace MicroweberPackages\Template;
 
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\JsCompileController;
 use MicroweberPackages\Template\Adapters\AdminTemplateStyle;
@@ -519,7 +520,7 @@ class TemplateManager
     public function clear_cached_custom_css()
     {
         $url = api_nosession_url('template/print_custom_css');
-        $compile_assets = \Config::get('microweber.compile_assets');
+        $compile_assets = Config::get('microweber.compile_assets');
         $userfiles_dir = userfiles_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
         $userfiles_cache_filename = $userfiles_cache_dir . 'custom_css.' . crc32(site_url()) . '.' . MW_VERSION . '.css';

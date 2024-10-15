@@ -253,7 +253,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if (isset($item['rel_id']) and ($item['rel_id'])) {
                             if ($item['rel'] == 'content') {
                                 if ($item['field'] == 'content' || $item['field'] == 'content_body') {
-                                    $del = \DB::table('content')
+                                    $del = DB::table('content')
                                         ->where('id', '=', $item['rel_id'])
                                         ->update([$item['field'] => '']);
                                 }
@@ -261,7 +261,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         }
 
 
-                        $del = \DB::table('content_fields')
+                        $del = DB::table('content_fields')
                             ->where('rel_type', '=', $item['rel'])
                             ->where('field', '=', $item['field']);
 
@@ -274,11 +274,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                         if ($fields) {
 
                             foreach ($fields as $field) {
-                                $delTranslations = \DB::table('multilanguage_translations')
+                                $delTranslations = DB::table('multilanguage_translations')
                                     ->where('rel_type', '=', 'content_fields')
                                     ->where('rel_id', '=', $field->id);
                                 $delTranslations->delete();
-                                \DB::table('content_fields')->where('id', '=', $field->id)->delete();
+                                DB::table('content_fields')->where('id', '=', $field->id)->delete();
                             }
                         }
 
@@ -1624,7 +1624,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
             $find = false;
             //delete old drafts
-            $old = \DB::table($table)
+            $old = DB::table($table)
                 ->where('rel_type', $data['rel_type'])
                 ->where('rel_id', $data['rel_id'])
                 ->where('field', $data['field'])
@@ -1634,7 +1634,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 ->get();
             if (!empty($old)) {
                 foreach ($old as $item) {
-                    \DB::table($table)->where('id', $item->id)->delete();
+                    DB::table($table)->where('id', $item->id)->delete();
                 }
             }
 

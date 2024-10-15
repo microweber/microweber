@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -22,7 +23,7 @@ class MigrateTemplateOptionsForModules extends Migration
                 'payments'
             ];
 
-            \DB::table('options')
+            DB::table('options')
                 ->where('option_key', 'template')
                 ->whereNotNull('option_value')
                 ->whereNotNull('module')

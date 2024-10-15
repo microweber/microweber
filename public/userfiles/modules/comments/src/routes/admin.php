@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 Route::name('admin.comments.')
     ->prefix(mw_admin_prefix_url_legacy() . '/comments')

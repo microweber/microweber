@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Translation\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
@@ -76,7 +77,7 @@ class TranslationServiceProvider extends IlluminateTranslationServiceProvider
                 $getNewKeys = app()->translator->getNewKeys();
                 if (!empty($getNewKeys)) {
 
-                    \Config::set('microweber.disable_model_cache', 1);
+                   Config::set('microweber.disable_model_cache', 1);
 
 
                     $toSave = [];

@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Menu;
 
 use Content;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Menu\Events\MenuWasUpdated;
 
 /**
@@ -964,7 +965,7 @@ class MenuManager
                     $parentId = intval($parentId);
                     $menuId = intval($menuId);
 
-                    \DB::table('menus')
+                    DB::table('menus')
                         ->whereId($menuId)
                         ->where('id', '!=', $parentId)
                         ->whereItemType('menu_item')

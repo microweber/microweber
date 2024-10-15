@@ -154,7 +154,7 @@ if (!function_exists('add_supported_language')) {
             $findSupportedLocales->language = $language;
             $findSupportedLocales->is_active = 'y';
             $position = 1;
-            $getLastLagnuage = \DB::table('multilanguage_supported_locales')->orderBy('position', 'desc')->first();
+            $getLastLagnuage = DB::table('multilanguage_supported_locales')->orderBy('position', 'desc')->first();
             if ($getLastLagnuage != null) {
                 $position = $getLastLagnuage->position + 1;
             }

@@ -26,7 +26,7 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($url) {
 
-            $getCategory = \DB::table('categories')->where('url', $url)->get();
+            $getCategory = DB::table('categories')->where('url', $url)->get();
             $getCategory = collect($getCategory)->map(function ($item) {
                 return (array)$item;
             })->toArray();
@@ -40,7 +40,7 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($columnName, $columnValue) {
 
-            $getCategory = \DB::table('categories')->where($columnName, $columnValue)->first();
+            $getCategory = DB::table('categories')->where($columnName, $columnValue)->first();
             if ($getCategory != null) {
 
                 $getCategory = (array)$getCategory;
@@ -91,7 +91,7 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
 
-            $getCategory = \DB::table('categories')->where('data_type', 'category')->where('parent_id', 0);
+            $getCategory = DB::table('categories')->where('data_type', 'category')->where('parent_id', 0);
             $getCategory = $getCategory->get();
 
             if ($getCategory != null) {
@@ -114,7 +114,7 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
 
-            $getCategory = \DB::table('categories')->where('data_type', 'category');
+            $getCategory = DB::table('categories')->where('data_type', 'category');
 
             if (is_array($categoryId)) {
                 $getCategory->whereIn('parent_id', $categoryId);
@@ -152,7 +152,7 @@ class CategoryRepository extends AbstractRepository
     {
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId) {
 
-            $getCategory = \DB::table('categories')
+            $getCategory = DB::table('categories')
                 ->select(['id', 'parent_id'])
                 ->where('data_type', 'category');
 

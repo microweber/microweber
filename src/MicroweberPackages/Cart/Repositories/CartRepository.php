@@ -3,6 +3,7 @@
 namespace MicroweberPackages\Cart\Repositories;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
@@ -18,7 +19,7 @@ class CartRepository extends AbstractRepository
 
          return $this->cacheCallback(__FUNCTION__, ['session_id'=>$sid], function () use ($sid) {
 
-            $cartItems = \DB::table('cart')
+            $cartItems = DB::table('cart')
                 // ->select(['id', 'qty'])
                 ->where('order_completed', 0)
                 ->where('session_id', $sid)

@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Export;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Export\Loggers\ExportLogger;
@@ -74,7 +75,7 @@ class Export
     public function start()
     {
         MultilanguageHelpers::setMultilanguageEnabled(false);
-        \Config::set('microweber.disable_model_cache', 1);
+        Config::set('microweber.disable_model_cache', 1);
 
         if (!$this->sessionId) {
             throw new \Exception('SessionId is missing.');

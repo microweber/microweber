@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Module\slow_tests;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use MicroweberPackages\Core\tests\TestCase;
 
@@ -97,7 +98,7 @@ class ModuleManagerTest extends TestCase
     public function testIfModulesAreInstalledOnlyOnce()
     {
 
-        $db = \DB::table('modules')
+        $db = DB::table('modules')
             ->select('module',  \DB::raw('count(module) as total'))
             ->groupBy('module')
             ->get();
