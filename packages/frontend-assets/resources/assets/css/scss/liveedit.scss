@@ -3,6 +3,7 @@
 @import "draggable";
 @import "dialog";
 @import "resizer";
+@import "editor.scss";
 
 .mw-le--hide-selection ::selection {
     color: revert-layer !important;
