@@ -202,7 +202,7 @@ trait ModulesRepositoryTrait
         start_measure('creating_modules', 'creating_modules');
         $modules = [];
         foreach ($cached as $name => $module) {
-         
+
 
             $cache = $this->cacheRepository->get($name);
             if ($cache) {
