@@ -4,11 +4,13 @@ namespace MicroweberPackages\LaravelTemplates;
 
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
+use MicroweberPackages\LaravelTemplates\Contracts\LaravelTemplatesCacheRepositoryContract;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplateActivatorInterface;
 use MicroweberPackages\LaravelTemplates\Contracts\TemplatesRepositoryInterface;
 use MicroweberPackages\LaravelTemplates\Providers\TemplatesBootstrapServiceProvider;
 use MicroweberPackages\LaravelTemplates\Providers\TemplatesConsoleServiceProvider;
 use MicroweberPackages\LaravelTemplates\Providers\TemplatesContractsServiceProvider;
+use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesCacheRepository;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Exceptions\InvalidActivatorClass;
@@ -31,6 +33,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
     public function register()
     {
 
+        $this->app->singleton(LaravelTemplatesCacheRepositoryContract::class,LaravelTemplatesCacheRepository::class);
 
         $this->mergeConfigFrom(__DIR__ . '/config/templates.php', 'templates');
         $this->app->singleton(TemplatesRepositoryInterface::class, function ($app) {

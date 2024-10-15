@@ -5,7 +5,9 @@ namespace MicroweberPackages\LaravelModules;
 use Composer\InstalledVersions;
 use Illuminate\Foundation\Console\AboutCommand;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
+use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Contracts\RepositoryInterface;
@@ -84,6 +86,9 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 //
 //            return new Laravel\LaravelFileRepository($app, $path);
 //        });
+
+        $this->app->singleton(LaravelModulesCacheRepositoryContract::class, LaravelModulesCacheRepository::class);
+
         $this->app->singleton(ActivatorInterface::class, function ($app) {
             $activator = $app['config']->get('modules.activator');
             $class = $app['config']->get('modules.activators.'.$activator)['class'];

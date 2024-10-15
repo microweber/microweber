@@ -12,6 +12,7 @@ use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelModules\Traits\ModulesRepositoryTrait;
+use MicroweberPackages\LaravelTemplates\Contracts\LaravelTemplatesCacheRepositoryContract;
 use MicroweberPackages\LaravelTemplates\Helpers\StaticTemplateCreator;
 use Nwidart\Modules\Collection;
 
@@ -81,7 +82,8 @@ class LaravelTemplatesFileRepository extends LaravelModulesFileRepository
         $this->files = $app['files'];
         $this->cache = $app['cache'];
 
-        $this->cacheRepository = new LaravelModulesCacheRepository();
+       // $this->cacheRepository = new LaravelModulesCacheRepository();
+       $this->cacheRepository = app()->make(LaravelTemplatesCacheRepositoryContract::class);
 
 
     }

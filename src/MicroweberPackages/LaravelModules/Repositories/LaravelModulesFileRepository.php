@@ -9,6 +9,7 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
 
+use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Traits\ModulesRepositoryTrait;
 use Nwidart\Modules\FileRepository;
 
@@ -76,9 +77,12 @@ class LaravelModulesFileRepository extends FileRepository
         $this->files = $app['files'];
         $this->cache = $app['cache'];
 
-        $this->cacheRepository = new LaravelModulesCacheRepository();
 
-       
+
+   //     $this->cacheRepository = new LaravelModulesCacheRepository();
+        $this->cacheRepository = app()->make(LaravelModulesCacheRepositoryContract::class);
+
+
     }
 
 

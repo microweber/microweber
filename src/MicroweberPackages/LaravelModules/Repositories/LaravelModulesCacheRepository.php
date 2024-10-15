@@ -11,6 +11,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Traits\Macroable;
 use MicroweberPackages\Cache\CacheFileHandler\Facades\Cache;
+use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
 use MicroweberPackages\LaravelModules\LaravelModule;
 use MicroweberPackages\LaravelModules\Traits\ModulesRepositoryTrait;
@@ -21,16 +22,10 @@ use Nwidart\Modules\Module;
 use Nwidart\Modules\Process\Installer;
 use Nwidart\Modules\Process\Updater;
 
-class LaravelModulesCacheRepository
+class LaravelModulesCacheRepository implements LaravelModulesCacheRepositoryContract
 {
     public $cache = [];
 
-
-
-    public function flushCache()
-    {
-        $this->cache = [];
-    }
 
 
     public function set($name, $module)

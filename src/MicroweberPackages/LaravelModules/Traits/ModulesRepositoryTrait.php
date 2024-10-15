@@ -191,21 +191,22 @@ trait ModulesRepositoryTrait
 
     protected function formatCached($cached)
     {
-//        $cacheAll = $this->cacheRepository->all();
-//
-//        if (!empty($cacheAll)) {
-//
-//            return $cacheAll;
-//        }
+        $cacheAll = $this->cacheRepository->all();
+
+        if (!empty($cacheAll)) {
+
+            return $cacheAll;
+        }
 
 
         start_measure('creating_modules', 'creating_modules');
         $modules = [];
         foreach ($cached as $name => $module) {
-
+         
 
             $cache = $this->cacheRepository->get($name);
             if ($cache) {
+
                 $modules[$name] = $cache;
                 continue;
             }
@@ -234,6 +235,7 @@ trait ModulesRepositoryTrait
 
                 $modules[$name] = $moduleCreate;
                 $this->cacheRepository->set($name, $moduleCreate);
+
                 //self::$cachedModules[$name] = $moduleCreate;
             }
             //  }
