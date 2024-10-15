@@ -42,7 +42,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
             return new LaravelTemplatesFileRepository($app, $path);
         });
         $this->app->singleton(TemplateActivatorInterface::class, function ($app) {
-
+ 
             $activator = $app['config']->get('templates.activator');
             $class = $app['config']->get('templates.activators.' . $activator)['class'];
 

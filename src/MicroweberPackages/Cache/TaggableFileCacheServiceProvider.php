@@ -29,7 +29,7 @@ class TaggableFileCacheServiceProvider extends ServiceProvider
 
                 $filesystem =new TaggableFilesystemManager();
 
-                return \Cache::repository(new TaggableFileStore($filesystem, $configPath, $config));
+                return Cache::repository(new TaggableFileStore($filesystem, $configPath, $config));
             });
 
         });

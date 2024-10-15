@@ -52,7 +52,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
         parent::register();
         View::addNamespace('microweber-live-edit', __DIR__ . '/resources/views');
 
-        \App::singleton('LiveEditManager', function () {
+        app()->singleton('LiveEditManager', function () {
             return new LiveEditManager();
         });
 

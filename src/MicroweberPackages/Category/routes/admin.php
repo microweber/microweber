@@ -1,5 +1,5 @@
 <?php
-
+use  \Illuminate\Support\Facades\Route;
 // Blog and pages
 Route::name('admin.')
     ->prefix(mw_admin_prefix_url_legacy())

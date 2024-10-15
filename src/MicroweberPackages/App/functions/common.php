@@ -1,6 +1,8 @@
 <?php
 
 
+use Illuminate\Support\Facades\Config;
+
 if (! function_exists('mw')) {
     function mw($class = null)
     {

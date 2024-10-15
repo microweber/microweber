@@ -252,12 +252,21 @@ class InstallController extends Controller
                     touch($input['db_name']);
                 }
 
-//                //make parth relative
-//                if(str_starts_with($input['db_name'], base_path())){
-////                    $input['db_name'] = str_replace(base_path(), '', $input['db_name']);
-////                    $input['db_name'] = ltrim($input['db_name'], '\\');
-////                    $input['db_name'] = ltrim($input['db_name'], '/');
-//                }
+                //make parth relative
+                if(str_starts_with($input['db_name'], database_path())){
+                    $input['db_name_relative'] = str_replace(database_path(), '', $input['db_name']);
+                    $input['db_name_relative'] = ltrim($input['db_name_relative'], '\\');
+                    $input['db_name_relative'] = ltrim($input['db_name_relative'], '/');
+                    //DB_DATABASE_FILENAME
+                    $envToSave['DB_DATABASE_FILENAME'] = $input['db_name_relative'];
+                    $sqlite_filename = database_path($input['db_name_relative']);
+                    if(!is_file($sqlite_filename)){
+                        touch($sqlite_filename);
+                    }
+
+                } else {
+                    $envToSave['DB_DATABASE'] = $input['db_name'];
+                }
 
 
             }
@@ -275,9 +284,12 @@ class InstallController extends Controller
 
             $envToSave['DB_CONNECTION'] = $dbDriver;
             $envToSave['DB_HOST'] = $input['db_host'];
-            if ($input['db_name']  != ':memory:'
-                and $input['db_name'] != database_path('database.sqlite')) {
-                $envToSave['DB_DATABASE'] = $input['db_name'];
+
+            if($dbDriver != 'sqlite') {
+                if ($input['db_name'] != ':memory:'
+                    and $input['db_name'] != database_path('database.sqlite')) {
+                    $envToSave['DB_DATABASE'] = $input['db_name'];
+                }
             }
             $envToSave['DB_USERNAME'] = $input['db_username'];
             $envToSave['DB_PASSWORD'] = $input['db_password'];
@@ -289,7 +301,7 @@ class InstallController extends Controller
             Config::set("database.connections.$dbDriver.database", $input['db_name']);
             Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
 
-            DB::purge($dbDriver);
+          //  DB::purge($dbDriver);
             DB::reconnect();
 
 

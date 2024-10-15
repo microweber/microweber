@@ -49,8 +49,8 @@ return [
 
         'sqlite' => [
             'driver'   => 'sqlite',
-            'database' => env('DB_DATABASE', storage_path('database.sqlite')),
-            'prefix'   => '',
+            'database' => env('DB_DATABASE_FILENAME') ? database_path(env('DB_DATABASE_FILENAME')) : env('DB_DATABASE', database_path('database.sqlite')),
+            'prefix'   => env('DB_PREFIX', ''),
         ],
 
         'mysql' => [
@@ -62,7 +62,7 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
+            'prefix'    => env('DB_PREFIX', ''),
             'prefix_indexes' => true,
             'strict'    => false,
         ],
@@ -76,7 +76,7 @@ return [
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => env('DB_CHARSET', 'utf8'),
-            'prefix' => '',
+            'prefix' => env('DB_PREFIX', ''),
             'prefix_indexes' => true,
             'search_path' => 'public',
             'sslmode' => 'prefer',
@@ -84,11 +84,11 @@ return [
 
         'sqlsrv' => [
             'driver'   => 'sqlsrv',
-            'host'     => 'localhost',
-            'database' => 'database',
-            'username' => 'root',
-            'password' => '',
-            'prefix'   => '',
+            'host'     => env('DB_HOST', 'localhost'),
+            'database' =>  env('DB_DATABASE', 'laravel'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'prefix'   => env('DB_PREFIX', ''),
         ],
 
     ],

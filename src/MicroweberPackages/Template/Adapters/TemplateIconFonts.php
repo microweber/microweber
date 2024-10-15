@@ -118,7 +118,7 @@ class TemplateIconFonts
         }
 
         if (mw_is_multisite()) {
-            $environment = App::environment();
+            $environment = app()->environment();
             $cache_file_name = 'icon_fonts_css.fonts.' . $environment . '.' . $hash . MW_VERSION . '.css';
         } else {
             $cache_file_name = 'icon_fonts_css.fonts.default.' . $hash . MW_VERSION . '.css';

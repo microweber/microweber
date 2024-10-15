@@ -1,5 +1,6 @@
 <?php
 
+use  \Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
     ->prefix(mw_admin_prefix_url_legacy())

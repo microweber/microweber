@@ -1235,7 +1235,7 @@ class MediaManager
 
         static $path;
         if ($path == false) {
-            $environment = \App::environment();
+            $environment = app()->environment();
 
             $path = MW_MEDIA_FOLDER_NAME . '/' . $environment . '';
         }

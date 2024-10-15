@@ -18,7 +18,7 @@ $path = media_uploads_path(); // the path the script should access
 $path_restirct = media_uploads_path(); // the path the script should access
 
 
-//$environment = App::environment();
+//$environment = app()->environment();
 
 
 if (isset($params['path']) and trim($params['path']) != '' and trim($params['path']) != 'false') {

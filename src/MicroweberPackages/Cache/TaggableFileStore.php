@@ -11,6 +11,7 @@ use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\InteractsWithTime;
 use Illuminate\Support\Str;
 use MicroweberPackages\Cache\CacheFileHandler\CacheFileHandler;
@@ -96,7 +97,7 @@ class TaggableFileStore implements Store
         $this->tags = $tags;
 
         $this->directory = $directory;
-        $this->directory = \Config::get('cache.stores.file.path') . '/' . app()->environment();
+        $this->directory = Config::get('cache.stores.file.path') . '/' . app()->environment();
         $this->directory = $this->normalizePath($this->directory);
 
         $this->directoryTags = $this->directory . (!empty($this->prefix) ? '/' . $this->prefix : '') . '/tags';
@@ -109,7 +110,7 @@ class TaggableFileStore implements Store
 
 
         // By emmiting events the RAM usage goes up twice , so we check if debugbar collector for cache is enabled
-        $this->emitEvents = \Config::get('debugbar.collectors.cache');
+        $this->emitEvents = Config::get('debugbar.collectors.cache');
 
 
     }

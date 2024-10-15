@@ -5,6 +5,7 @@
  * Date: 9/15/2020
  * Time: 2:56 PM
  */
+use  \Illuminate\Support\Facades\Route;
 
 Route::name('api.')
     ->prefix('api')
