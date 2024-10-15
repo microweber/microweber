@@ -20,7 +20,7 @@ class CreateNotificationsTable extends Migration
 
 
         Schema::create('notifications', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->string('type');
             $table->morphs('notifiable');
             $table->text('data');
@@ -28,10 +28,6 @@ class CreateNotificationsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-
-        });
     }
 
     /**

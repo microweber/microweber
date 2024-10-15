@@ -22,11 +22,13 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     protected function setUp(): void
     {
-      //  $_ENV['APP_ENV'] = 'testing';
-      //  putenv('APP_ENV=testing');
+        //  $_ENV['APP_ENV'] = 'testing';
+        //  putenv('APP_ENV=testing');
         ini_set('memory_limit', '-1');
-       // \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
-$installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
+        // \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+        $installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
+        //$installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
+//dd($installed);
 
         $config_folder = __DIR__ . '/../../../../config/';
         //$config_folder = __DIR__ . '/../../../../config/testing/';
@@ -38,7 +40,7 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
 //        }
 
 
-        if(!$installed){
+        if (!$installed) {
             $this->install();
         }
 
@@ -47,7 +49,6 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
 
 
     }
-
 
 
     public function install()
@@ -60,7 +61,7 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
             define('MW_UNIT_TEST', true);
         }
 
-        \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+    //    \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
@@ -69,7 +70,7 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
 
 
         if ($testEnvironment == 'testing') {
-          //  $config_folder = $config_folder . 'testing/';
+            //  $config_folder = $config_folder . 'testing/';
         }
 
         if (!is_dir($config_folder)) {
@@ -95,7 +96,7 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
 
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
             if (is_file($mw_file_database)) {
-            //    @unlink($mw_file_database);
+                //    @unlink($mw_file_database);
             }
 //            file_put_contents($mw_file, "<?php return array (
 //            'is_installed' => 0,
@@ -113,17 +114,17 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
         $app = require __DIR__ . '/../../../../bootstrap/app.php';
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
-        $app->detectEnvironment(function () use ($testing_env_name) {
-            return $testing_env_name;
-        });
-        $app['config']->set('cache.default', 'file');
-        $app['config']->set('cache.stores.file',
-            [
-                'driver' => 'file',
-                'path' => storage_path('framework/cache'),
-                'separator' => '~#~'
-            ]
-        );
+//        $app->detectEnvironment(function () use ($testing_env_name) {
+//            return $testing_env_name;
+//        });
+//        $app['config']->set('cache.default', 'file');
+//        $app['config']->set('cache.stores.file',
+//            [
+//                'driver' => 'file',
+//                'path' => storage_path('framework/cache'),
+//                'separator' => '~#~'
+//            ]
+//        );
 
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
 
@@ -200,7 +201,7 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
                 '--db-name' => $db_name,
                 '--db-prefix' => $db_prefix,
                 //  '--db-name' => ':memory:',
-                '--env' => $environment,
+              //  '--env' => $environment,
             );
 
             //  $is_installed = mw_is_installed();
@@ -216,12 +217,12 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
             \Artisan::call('config:clear');
             \Artisan::call('cache:clear');
             \Artisan::call('route:clear');
-
+            \Config::set('microweber.is_installed', 1);
             $is_installed = mw_is_installed();
             $this->assertEquals(1, $is_installed);
             //  }
             // }
-            //\Config::set('microweber.is_installed' , 1);
+
             \Config::set('mail.driver', 'array');
             \Config::set('queue.driver', 'sync');
             \Config::set('mail.transport', 'array');
@@ -236,8 +237,8 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
 //        load_all_service_providers_for_modules();
 //         load_functions_files_for_template();
 //        load_service_providers_for_template();
-     //  $app->rebootApplication();
-      //  $this->app = $app;
+        //  $app->rebootApplication();
+        //  $this->app = $app;
         return $app;
     }
 
@@ -251,11 +252,9 @@ $installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
         }
 
 
-
         parent::setUpBeforeClass();
 
     }
-
 
 
     private function normalizePath($path, $slash_it = true)
