@@ -118,6 +118,7 @@ return [
             'config' => ['path' => 'config', 'generate' => true],
             'assets' => ['path' => 'resources/assets', 'generate' => true],
             'views' => ['path' => 'resources/views', 'generate' => true],
+            'component-class' => ['path' => 'View/Components', 'generate' => false],
 
         ],
     ],

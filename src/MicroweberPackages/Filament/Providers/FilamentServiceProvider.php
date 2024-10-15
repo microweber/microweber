@@ -49,7 +49,7 @@ class FilamentServiceProvider extends BaseFilamentPackageServiceProvider
 
     public function packageBooted(): void
     {
-        parent::packageBooted();
+       // parent::packageBooted();
         $originalFolder = new \ReflectionClass(\Filament\FilamentServiceProvider::class);
         $originalFolder = dirname(dirname(dirname($originalFolder->getFileName())));
         $originalFolder = normalize_path($originalFolder, true);
