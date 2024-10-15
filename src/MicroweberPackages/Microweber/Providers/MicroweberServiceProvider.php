@@ -24,7 +24,6 @@ use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
 
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
-use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 //use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
@@ -199,7 +198,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(NotificationServiceProvider::class);
         $this->app->register(QueueServiceProvider::class);
         $this->app->register(QueueEventServiceProvider::class);
-        $this->app->register(ContentFilterServiceProvider::class);
+       // $this->app->register(ContentFilterServiceProvider::class);
         $this->app->register(BlogServiceProvider::class);
 
         $this->app->register(MultilanguageServiceProvider::class);
