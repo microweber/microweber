@@ -4,6 +4,7 @@
     <title><?php _e('Installation'); ?></title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Language" Content="en">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
     <meta name="robots" content="noindex">
     <?php get_favicon_tag(); ?>
     <?php print mw_header_scripts() ?>
