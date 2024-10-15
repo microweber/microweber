@@ -22,21 +22,25 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     protected function setUp(): void
     {
-        $_ENV['APP_ENV'] = 'testing';
-        putenv('APP_ENV=testing');
+      //  $_ENV['APP_ENV'] = 'testing';
+      //  putenv('APP_ENV=testing');
         ini_set('memory_limit', '-1');
-        \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+       // \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+$installed =  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
 
         $config_folder = __DIR__ . '/../../../../config/';
         //$config_folder = __DIR__ . '/../../../../config/testing/';
         $config_folder = realpath($config_folder);
 
-        $mw_file = $config_folder . '/microweber.php';
-        if (!is_file($mw_file)) {
+//        $mw_file = $config_folder . '/microweber.php';
+//        if (!is_file($mw_file)) {
+//            $this->install();
+//        }
+
+
+        if(!$installed){
             $this->install();
         }
-
-
 
 
         parent::setUp();
@@ -65,7 +69,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
 
         if ($testEnvironment == 'testing') {
-            $config_folder = $config_folder . 'testing/';
+          //  $config_folder = $config_folder . 'testing/';
         }
 
         if (!is_dir($config_folder)) {
@@ -78,28 +82,28 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $mw_file = $this->normalizePath($mw_file, false);
 
         $test_env_from_conf = env('APP_ENV_TEST_FROM_CONFIG');
-        if ($test_env_from_conf) {
-            $testing_env_name = $testEnvironment = $test_env_from_conf;
-            putenv("APP_ENV=$testing_env_name");
-            if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
-                define('MW_UNIT_TEST_ENV_FROM_TEST', $testing_env_name);
-                $config_folder = __DIR__ . '/../../../../config/';
-                $config_folder = realpath($config_folder);
-                $mw_file = $config_folder . '/microweber.php';
-            }
-        }
+//        if ($test_env_from_conf) {
+//            $testing_env_name = $testEnvironment = $test_env_from_conf;
+//            putenv("APP_ENV=$testing_env_name");
+//            if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
+//                define('MW_UNIT_TEST_ENV_FROM_TEST', $testing_env_name);
+//                $config_folder = __DIR__ . '/../../../../config/';
+//                $config_folder = realpath($config_folder);
+//                $mw_file = $config_folder . '/microweber.php';
+//            }
+//        }
 
         if (!defined('MW_UNIT_TEST_CONF_FILE_CREATED')) {
             if (is_file($mw_file_database)) {
-                @unlink($mw_file_database);
+            //    @unlink($mw_file_database);
             }
-            file_put_contents($mw_file, "<?php return array (
-            'is_installed' => 0,
-            'compile_assets' => 0,
-            'install_default_template' => 'default',
-            'install_default_template_content' => 1,
-            );"
-            );
+//            file_put_contents($mw_file, "<?php return array (
+//            'is_installed' => 0,
+//            'compile_assets' => 0,
+//            'install_default_template' => 'default',
+//            'install_default_template_content' => 1,
+//            );"
+//            );
 
 
             //   rmdir_recursive($config_folder, 1);

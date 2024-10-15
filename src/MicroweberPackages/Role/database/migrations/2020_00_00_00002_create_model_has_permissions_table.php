@@ -19,8 +19,17 @@ class CreateModelHasPermissionsTable extends Migration
             Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames) {
                 $table->unsignedInteger('permission_id');
                 $table->morphs('model');
-                $table->primary(['permission_id', 'model_id', 'model_type'], 'model_has_permissions_permission_model_type_primary');
             });
+
+            try {
+                Schema::create($tableNames['model_has_permissions'], function (Blueprint $table) use ($tableNames) {
+                    $table->primary(['permission_id', 'model_id', 'model_type'], 'model_has_permissions_permission_model_type_primary');
+                });
+            } catch (\Exception $e) {
+
+            }
+
+
         }
     }
 

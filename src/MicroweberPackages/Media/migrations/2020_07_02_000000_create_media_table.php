@@ -20,9 +20,9 @@ class CreateMediaTable extends Migration
                 $table->text('description')->nullable();
                 //$table->text('embed_code')->nullable();
                 $table->text('filename')->nullable();
-                $table->text('media_type')->nullable()->index();
+                $table->text('media_type')->nullable();
 
-                $table->string('rel_type')->nullable()->index();
+                $table->string('rel_type')->nullable();
                 $table->string('rel_id')->nullable();
 
                 $table->integer('created_by')->nullable();
@@ -33,6 +33,8 @@ class CreateMediaTable extends Migration
                 $table->integer('position')->nullable();
                 $table->timestamps();
             });
+
+
         }
     }
 

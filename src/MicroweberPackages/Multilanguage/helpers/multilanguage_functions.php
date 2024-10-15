@@ -317,6 +317,12 @@ if (!function_exists('get_supported_languages')) {
 
     function get_supported_languages($only_active = false)
     {
+
+
+        if(!\Illuminate\Support\Facades\Schema::hasTable('multilanguage_supported_locales')){
+            return [];
+        }
+
         $getSupportedLocalesQuery = DB::table('multilanguage_supported_locales');
         if ($only_active) {
             $getSupportedLocalesQuery->where('is_active', 'y');
