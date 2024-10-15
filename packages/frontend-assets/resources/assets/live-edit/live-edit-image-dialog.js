@@ -1,5 +1,5 @@
 import BaseComponent from "../containers/base-class.js";
-//import FilerobotImageEditor from "../../../../frontend-assets-libs/resources/dist/filerobot-image-editor/index.js";
+import FilerobotImageEditor from "../../../../frontend-assets/node_modules/filerobot-image-editor/lib/index.js";
 
 
 
