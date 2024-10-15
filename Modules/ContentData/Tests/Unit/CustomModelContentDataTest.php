@@ -1,10 +1,8 @@
 <?php
 
-namespace MicroweberPackages\ContentData\tests;
+namespace Modules\ContentData\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
-
-
 
 
 class CustomModelContentDataTest extends TestCase

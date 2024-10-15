@@ -1,10 +1,13 @@
 <?php
 
-namespace MicroweberPackages\ContentData\tests;
+namespace Modules\ContentData\Tests\Unit;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\ContentData\Traits\ContentDataTrait;
+use Modules\ContentData\Traits\ContentDataTrait;
 
+/*
+* @internal
+*/
 class TestModel extends Model
 {
     use ContentDataTrait;

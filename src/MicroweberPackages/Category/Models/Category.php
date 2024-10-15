@@ -3,11 +3,9 @@
 namespace MicroweberPackages\Category\Models;
 
 use EloquentFilter\Filterable;
-use Illuminate\Database\Eloquent\Concerns\HasAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
-use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -16,6 +14,7 @@ use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
+use Modules\ContentData\Traits\ContentDataTrait;
 
 class Category extends Model
 {

@@ -3,10 +3,7 @@
 namespace MicroweberPackages\Module\slow_tests;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\ContentData\Traits\ContentDataTrait;
-use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\User\Models\User;
 
 

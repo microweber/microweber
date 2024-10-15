@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\ContentData\Models;
+namespace Modules\ContentData\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;

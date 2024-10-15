@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\ContentData\Traits;
+namespace Modules\ContentData\Traits;
 
 
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\ContentData\Models\ContentData;
+use MicroweberPackages\ContentData\Traits\is;
+use Modules\ContentData\Models\ContentData;
 
 trait ContentDataTrait
 {

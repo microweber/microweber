@@ -5,10 +5,8 @@ namespace MicroweberPackages\Content\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Model;
-//use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
-use MicroweberPackages\ContentData\Traits\ContentDataTrait;
 use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
@@ -20,7 +18,10 @@ use MicroweberPackages\Database\Traits\ParentCannotBeSelfTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Menu\Traits\HasMenuItem;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
+use Modules\ContentData\Traits\ContentDataTrait;
 use Modules\Tag\Traits\TaggableTrait;
+
+//use Kirschbaum\PowerJoins\PowerJoins;
 
 class Content extends Model
 {

@@ -1,0 +1,11 @@
+{
+    "name": "ContentData",
+    "alias": "contentdata",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ContentData\\Providers\\ContentDataServiceProvider"
+    ],
+    "files": []
+}

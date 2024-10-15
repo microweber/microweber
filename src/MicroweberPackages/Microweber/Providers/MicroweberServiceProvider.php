@@ -22,8 +22,7 @@ use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
-use MicroweberPackages\ContentData\Providers\ContentDataEventServiceProvider;
-use MicroweberPackages\ContentData\Providers\ContentDataServiceProvider;
+
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
 use MicroweberPackages\ContentFilter\Providers\ContentFilterServiceProvider;
 //use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
@@ -151,9 +150,9 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(MenuEventServiceProvider::class);
         $this->app->register(ProductServiceProvider::class);
         $this->app->register(PostServiceProvider::class);
-        $this->app->register(ContentDataServiceProvider::class);
+        //$this->app->register(ContentDataServiceProvider::class);
         //$this->app->register(ContentDataVariantServiceProvider::class);
-        $this->app->register(ContentDataEventServiceProvider::class);
+        //$this->app->register(ContentDataEventServiceProvider::class);
         $this->app->register(ContentFieldServiceProvider::class);
         $this->app->register(CustomFieldServiceProvider::class);
         $this->app->register(CustomFieldEventServiceProvider::class);
