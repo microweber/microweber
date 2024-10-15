@@ -157,7 +157,7 @@ class AdminLiveEditPage extends Page
                             ->schema(
                                 ContentResource::formArray([
                                     'contentType' => $contentType
-                                ]) 
+                                ])
                             ),
                         Tabs\Tab::make('Custom Fields')
                             ->schema([
