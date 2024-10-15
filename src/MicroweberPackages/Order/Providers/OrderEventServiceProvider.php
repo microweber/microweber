@@ -17,9 +17,9 @@ use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Listeners\OrderCreatedListener;
 use MicroweberPackages\Order\Listeners\OrderWasPaidListener;
 use MicroweberPackages\Order\Listeners\PaymentListener;
-use MicroweberPackages\Payment\Events\PaymentWasCreated;
-use MicroweberPackages\Payment\Events\PaymentWasDeleted;
-use MicroweberPackages\Payment\Events\PaymentWasUpdated;
+use Modules\Payment\Events\PaymentWasCreated;
+use Modules\Payment\Events\PaymentWasDeleted;
+use Modules\Payment\Events\PaymentWasUpdated;
 
 class OrderEventServiceProvider extends EventServiceProvider
 {

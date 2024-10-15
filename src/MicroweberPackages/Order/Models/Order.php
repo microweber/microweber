@@ -18,10 +18,9 @@ use Illuminate\Notifications\Notifiable;
 use MicroweberPackages\Cart\Concerns\HasCartItems;
 use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
-use MicroweberPackages\Payment\Enums\PaymentStatus;
-use MicroweberPackages\Payment\Models\Payment;
 use MicroweberPackages\User\Models\User;
 use Modules\Customer\Models\Customer;
+use Modules\Payment\Enums\PaymentStatus;
 
 //use Kirschbaum\PowerJoins\PowerJoins;
 
@@ -115,7 +114,7 @@ class Order extends Model
 
     public function payments()
     {
-        return $this->morphMany(Payment::class, 'rel');
+        return $this->morphMany(\Modules\Payment\Models\Payment::class, 'rel');
     }
 
     public function customer()

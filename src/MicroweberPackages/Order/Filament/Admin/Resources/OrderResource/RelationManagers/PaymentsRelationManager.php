@@ -10,9 +10,8 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use MicroweberPackages\Order\Enums\OrderStatus;
-use MicroweberPackages\Payment\Enums\PaymentStatus;
-use MicroweberPackages\Payment\Models\PaymentProvider;
+use Modules\Payment\Enums\PaymentStatus;
+use Modules\Payment\Models\PaymentProvider;
 
 class PaymentsRelationManager extends RelationManager
 {

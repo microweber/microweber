@@ -14,12 +14,11 @@ namespace MicroweberPackages\Payment\Providers;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Facades\View;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Payment\Filament\Admin\Resources\PaymentProviderResource;
 use MicroweberPackages\Payment\PaymentManager;
-use MicroweberPackages\Payment\PaymentMethodManager;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
+use Modules\Payment\PaymentMethodManager;
 use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class PaymentManagerServiceProvider extends PackageServiceProvider
 {
@@ -42,30 +41,30 @@ class PaymentManagerServiceProvider extends PackageServiceProvider
         parent::register();
 
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+       // $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        View::addNamespace('payment', __DIR__ . '/../resources/views');
+   //     View::addNamespace('payment', __DIR__ . '/../resources/views');
 
-        $this->app->singleton('payment_method_manager', function ($app) {
+//        $this->app->singleton('payment_method_manager', function ($app) {
+//
+//            return new PaymentMethodManager($app->make(Container::class));
+//        });
+//
+//        $this->app->resolving('payment_method_manager', function (PaymentMethodManager $paymentManager) {
+//            $paymentManager->extend('pay_on_delivery', function () {
+//                return new \Modules\Payment\Drivers\PayOnDelivery();
+//            });
+//
+//            $paymentManager->extend('paypal', function () {
+//                return new \Modules\Payment\Drivers\PayPal();
+//            });
+//            $paymentManager->extend('stripe', function () {
+//                return new \Modules\Payment\Drivers\Stripe();
+//            });
+//        });
+//
 
-            return new PaymentMethodManager($app->make(Container::class));
-        });
-
-        $this->app->resolving('payment_method_manager', function (PaymentMethodManager $paymentManager) {
-            $paymentManager->extend('pay_on_delivery', function () {
-                return new \MicroweberPackages\Payment\Drivers\PayOnDelivery();
-            });
-
-            $paymentManager->extend('paypal', function () {
-                return new \MicroweberPackages\Payment\Drivers\PayPal();
-            });
-            $paymentManager->extend('stripe', function () {
-                return new \MicroweberPackages\Payment\Drivers\Stripe();
-            });
-        });
-
-
-        FilamentRegistry::registerResource(PaymentProviderResource::class);
+       // FilamentRegistry::registerResource(PaymentProviderResource::class);
 
 
     }

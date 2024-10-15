@@ -2,7 +2,7 @@
 
 This package is responsible for managing  payment methods.
 
-To add new payment method you need to create a new class that extends `MicroweberPackages\Payment\Drivers\AbstractPaymentMethod` and implement the abstract methods.
+To add new payment method you need to create a new class that extends `Modules\Payment\Drivers\AbstractPaymentMethod` and implement the abstract methods.
 
 ## Add new provider
 
@@ -12,7 +12,7 @@ public function register()
 {
     $this->app->resolving('payment_method_manager', function (PaymentMethodManager $paymentManager) {
         $paymentManager->extend('pay_on_delivery', function () {
-            return new \MicroweberPackages\Payment\Drivers\PayOnDelivery();
+            return new \Modules\Payment\Drivers\PayOnDelivery();
         });
     });
 

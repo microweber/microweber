@@ -1,0 +1,30 @@
+{
+    "name": "modules/payment",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Payment\\": "",
+            "Modules\\Payment\\Database\\Factories\\": "database/factories/",
+            "Modules\\Payment\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Payment\\Tests\\": "Tests/"
+        }
+    }
+}

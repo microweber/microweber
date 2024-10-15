@@ -43,7 +43,6 @@ use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Order\OrderManager;
 use MicroweberPackages\Order\Repositories\OrderRepository;
 use MicroweberPackages\Payment\PaymentManager;
-use MicroweberPackages\Payment\PaymentMethodManager;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shop\ShopManager;
 use MicroweberPackages\Template\LayoutsManager;
@@ -53,6 +52,7 @@ use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Http\Http;
+use Modules\Payment\PaymentMethodManager;
 use Modules\Shipping\ShippingManager;
 use Modules\Shipping\ShippingMethodManager;
 

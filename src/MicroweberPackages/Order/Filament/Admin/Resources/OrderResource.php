@@ -3,32 +3,24 @@
 namespace MicroweberPackages\Order\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ProductResource;
-use MicroweberPackages\CustomField\Fields\Text;
-use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
-use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\FormBuilder\Elements\Select;
+use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Order\Enums\OrderStatus;
+use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\RelationManagers\PaymentsRelationManager;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Widgets\OrderStats;
 use MicroweberPackages\Order\Models\Order;
-use Filament\Forms\Components\Actions\Action;
-use Filament\Forms\Components\Repeater;
-use Filament\Notifications\Notification;
-use MicroweberPackages\Payment\Models\PaymentProvider;
-use Squire\Models\Country;
-
-use Illuminate\Support\Carbon;
 use MicroweberPackages\Product\Models\Product;
+use Squire\Models\Country;
 
 class OrderResource extends Resource
 {
