@@ -88,8 +88,8 @@
         swiper: [
             function () {
 
-                mw.require(mw.settings.libs_url + '/swiper/swiper.js');
-                mw.require(mw.settings.libs_url + '/swiper/swiper.css');
+                mw.require(mw.settings.libs_url + 'swiper/swiper.js');
+                mw.require(mw.settings.libs_url + 'swiper/swiper.css');
 
             }
         ],
