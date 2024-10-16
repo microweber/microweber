@@ -26,7 +26,7 @@ class MultilanguageFilamentPlugin implements Plugin
     {
 
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
-       //     return;
+            //     return;
         }
 //       if (!mw_is_installed()) {
 //        //     return;
@@ -56,15 +56,15 @@ class MultilanguageFilamentPlugin implements Plugin
             $defaultLocales = ['en_US'];
         }
 
+        if (mw_is_installed()) {
+            $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
+            $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
+            $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
 
-        $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
-        $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
-        $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
-
-        if (MultilanguageHelpers::multilanguageIsEnabled()) {
-            self::configureLanguageSwitch();
+            if (MultilanguageHelpers::multilanguageIsEnabled()) {
+                self::configureLanguageSwitch();
+            }
         }
-
     }
 
     public function boot(Panel $panel): void

@@ -66,6 +66,11 @@ class LaravelApplication extends Application
         return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/cache_' . $this->getVersionPrefix() . '_packages.php');
     }
 
+    public function getCachedConfigPath()
+    {
+        return $this->normalizeCachePath('APP_PACKAGES_CACHE', 'cache/cache_' . $this->getVersionPrefix() . '_config.php');
+    }
+
     public function getCachedMicroweberServiceProvidersPath()
     {
 

@@ -14,8 +14,7 @@ namespace MicroweberPackages\Role;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
-use MicroweberPackages\Role\Http\Controllers\IndexController;
-use MicroweberPackages\Role\Http\Controllers\RoleController;
+
 
 
 class RoleServiceProvider extends ServiceProvider

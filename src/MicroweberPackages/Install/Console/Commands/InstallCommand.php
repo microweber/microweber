@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class InstallCommand extends Command
 {
     protected $name = 'microweber:install';
-    protected $description = 'Installs Microweber (duh)';
+    protected $description = 'Installs Microweber';
     protected $installer;
 
     /**
@@ -63,7 +63,6 @@ class InstallCommand extends Command
         */
 
 
-
         $input = array(
             'db_host' => $this->option('db-host'),
             'db_name' => $this->option('db-name'),
@@ -79,7 +78,6 @@ class InstallCommand extends Command
             'config_only' => $this->option('config-only'),
             'site_lang' => $this->option('language'),
         );
-
 
 
         $vals = array_filter($input);
@@ -128,7 +126,7 @@ class InstallCommand extends Command
 
 
         $templateFound = false;
-        if (is_file(templates_dir() . $input['default_template'] .DS. 'config.php')) {
+        if (is_file(templates_dir() . $input['default_template'] . DS . 'config.php')) {
             $templateFound = $input['default_template'];
         }
 
@@ -136,7 +134,7 @@ class InstallCommand extends Command
             // Search in composer json
             $availTemplates = scandir(templates_dir());
             foreach ($availTemplates as $templateFolderName) {
-                $templateComposerFile = templates_dir() . $templateFolderName . DS.'composer.json';
+                $templateComposerFile = templates_dir() . $templateFolderName . DS . 'composer.json';
                 if (is_file($templateComposerFile)) {
                     $templateComposerContent = file_get_contents($templateComposerFile);
                     $templateComposerContent = json_decode($templateComposerContent, true);
@@ -152,6 +150,8 @@ class InstallCommand extends Command
         $input['default_template'] = $templateFound;
 
         $this->info('Installing Microweber...');
+        $this->info('Environment: ' . app()->environment());
+
         $this->installer->command_line_logger = $this;
         $result = $this->installer->index($input);
 
