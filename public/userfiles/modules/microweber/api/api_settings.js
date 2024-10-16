@@ -40,7 +40,7 @@
          basic_mode: false,
          site_url: baseURL,
          template_url: templateURL,
-         modules_url: mwurl('/userfiles/modules'),
+         modules_url: mwurl('/userfiles/modules/'),
          includes_url: mwurl('/userfiles/modules/microweber/'),
          includes_url: mwurl('/vendor/microweber-packages/frontend-assets-libs/'),
          upload_url: mwurl('/api/upload/'),

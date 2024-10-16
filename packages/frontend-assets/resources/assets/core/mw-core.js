@@ -51,12 +51,10 @@ mw.require = function(url, inHead, key, defered) {
 
     var cssRel = " rel='stylesheet' ";
 
-    if(defered){
-        cssRel = " rel='preload' as='style' onload='this.onload=null;this.rel=\'stylesheet\'' ";
-    }
 
 
-    var string = t !== "css" ? "<script "+defer+"  src='" + url + "'></s>" : "<link "+cssRel+" href='" + url + "' />";
+
+    var string = t !== "css" ? "<script "+defer+"  src='" + url + "'></script>" : "<link "+cssRel+" href='" + url + "' />";
 
         if(typeof window.$?.fn === 'object'){
             $(document.head).append(string);
