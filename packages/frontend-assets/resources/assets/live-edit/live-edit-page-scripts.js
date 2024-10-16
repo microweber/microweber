@@ -67,7 +67,7 @@ if(window.self !== window.top) {
 
             var xhr = $.ajax({
                 type: 'POST',
-                url: mw.settings.api_url + '/save_edit',
+                url: mw.settings.api_url + 'save_edit',
                 data: data,
                 dataType: "json",
                 success: function (saved_data) {

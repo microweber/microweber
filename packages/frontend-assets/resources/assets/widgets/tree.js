@@ -22,7 +22,7 @@ mw.widget.tree = function (target, opt, mode) {
 
     var params = opt.params, options = opt.options || {};
 
-    var url = mw.settings.api_url + '/content/get_admin_js_tree_json';
+    var url = mw.settings.api_url + 'content/get_admin_js_tree_json';
     var treeEl = document.createElement('div');
     treeEl.className = 'mw--global-admin-tree';
     if(options.id) {

@@ -1157,7 +1157,7 @@ mw.emitter = {
                 title: 'File',
                 dataUrl: function () {
                     try {
-                        return mw.settings.api_url + '/content/get_admin_js_tree_json';
+                        return mw.settings.api_url + 'content/get_admin_js_tree_json';
                     } catch (e) {
                         return null;
                     }
