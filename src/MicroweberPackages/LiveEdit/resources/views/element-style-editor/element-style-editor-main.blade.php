@@ -148,7 +148,7 @@
 </style>
 
 
-@vite('packages/frontend-assets/resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js')
+@vite('resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js', 'vendor/microweber-packages/frontend-assets/build')
 
 <div id="mw-element-style-editor-app">
     Loading ...

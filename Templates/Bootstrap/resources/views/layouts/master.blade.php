@@ -22,7 +22,7 @@
 </head>
 
 <body class="{!! helper_body_classes() !!}">
-<module type="logo" id="header-logo-loading" logo-name="header-logo" class="w-100"/>
+<module type="logo" id="header-logo" class="w-100"/>
 
 <div class="main">
     <div class="navigation-holder">

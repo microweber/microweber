@@ -4,7 +4,7 @@
     "scripts": {
         "vitedev": "vite build --watch --sourcemap false --mode development",
         "dev": "concurrently \"npm run vitedev\" \"gulp packages-watch\"",
-        "build": "node run-build.js",
+        "build": "concurrently \"vite build\" \"node run-build.js\" ",
         "buildold": "concurrently \"vite build\" \"gulp packages\" ",
         "buildall": "node run-build.js",
         "devall": "node run-dev.js",
