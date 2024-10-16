@@ -395,9 +395,31 @@ Forms\Components\Group::make([
                             $mainForm
                         ),
                     Tabs\Tab::make('Custom Fields')
-                        ->schema([
-                            Livewire::make('admin-list-custom-fields')
-                        ]),
+                        ->schema(function(Content | null $record) {
+
+                            $relId = 0;
+                            if (isset($record->id)) {
+                                $relId = $record->id;
+                            }
+
+
+                            $customFieldParams = [
+                                'relId'   => $relId,
+                                'relType' => morph_name(Content::class),
+                            ];
+
+                            if ($relId == 0) {
+                                $customFieldParams['createdBy'] = user_id();
+//                            if (isset($this->data['session_id']) and $this->data['session_id']) {
+//                                $customFieldParams['sessionId'] = $this->data['session_id'];
+//                            }
+                            }
+
+                            $components = [];
+                            $components[] = Livewire::make('admin-list-custom-fields', $customFieldParams);
+
+                            return $components;
+                        }),
                     Tabs\Tab::make('SEO')
                         ->schema(
                             self::seoFormArray()
