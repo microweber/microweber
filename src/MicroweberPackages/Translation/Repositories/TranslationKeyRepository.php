@@ -59,8 +59,7 @@ class TranslationKeyRepository extends AbstractRepository
                     $system_refresh->createSchema();
                     return false;
                 } else {
-                    echo 'Caught exception: ', $e->getMessage(), "\n";
-                    exit();
+                    return false;
                 }
 
             }

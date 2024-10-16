@@ -43,18 +43,18 @@ class ConfigExtendedRepository extends Repository
         $default_dir = $this->app->configPath();
         $configurationIsCached = $this->app->configurationIsCached();
 
-        if ($configurationIsCached) {
-            $cachedFile = $this->app->getCachedConfigPath();
-            if (is_file($cachedFile)) {
-                $cached = include $cachedFile;
-                $this->items = $cached;
-                foreach ($cached as $key => $value) {
-
-                    parent::set($key, $value);
-                }
-                return true;
-            }
-        }
+//        if ($configurationIsCached) {
+//            $cachedFile = $this->app->getCachedConfigPath();
+//            if (is_file($cachedFile)) {
+//                $cached = include $cachedFile;
+//                $this->items = $cached;
+//                foreach ($cached as $key => $value) {
+//
+//                    parent::set($key, $value);
+//                }
+//                return true;
+//            }
+//        }
 
 
         //  dd($configurationIsCached);

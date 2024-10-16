@@ -58,6 +58,7 @@ class FrontendController extends Controller
     public function index($request_params = [])
     {
         $is_installed = mw_is_installed();
+
         if (!$is_installed) {
             $installer = new InstallController($this->app);
             return $installer->index();

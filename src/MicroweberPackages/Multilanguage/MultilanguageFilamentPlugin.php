@@ -24,13 +24,13 @@ class MultilanguageFilamentPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
+        if (!mw_is_installed()) {
+            return;
+        }
 
         if (!MultilanguageHelpers::multilanguageIsEnabled()) {
             //     return;
         }
-//       if (!mw_is_installed()) {
-//        //     return;
-//        }
 
 
         // TODO

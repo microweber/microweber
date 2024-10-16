@@ -4,11 +4,12 @@ namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\App\Managers\PermalinkManager;
+use MicroweberPackages\Core\tests\TestCase;
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
 
-abstract class MultilanguageTestBase extends \Microweber\tests\TestCase
+abstract class MultilanguageTestBase extends TestCase
 {
     protected $preserveGlobalState = FALSE;
  //   protected $runTestInSeparateProcess = TRUE;
