@@ -150,28 +150,9 @@ class AdminLiveEditPage extends Page
 //            ->modalContent(view('microweber-live-edit::modal.generate-action', [
 //                'contentType' => $contentType
 //            ]))
-            ->form([
-                Tabs::make('ContentTabs')
-                    ->tabs([
-                        Tabs\Tab::make('Details')
-                            ->schema(
-                                ContentResource::formArray([
-                                    'contentType' => $contentType
-                                ]) 
-                            ),
-                        Tabs\Tab::make('Custom Fields')
-                            ->schema([
-                                Livewire::make('admin-list-custom-fields')
-                            ]),
-                        Tabs\Tab::make('SEO')
-                            ->schema(
-                                ContentResource::seoFormArray()
-                            ),
-                        Tabs\Tab::make('Advanced')
-                            ->schema(ContentResource::advancedSettingsFormArray()),
-                    ])->columnSpanFull()
-]
-            )
+            ->form(ContentResource::formArray([
+                'contentType' => $contentType
+            ]))
             ->action(function ($data) use ($contentType) {
 
                 $data['content_type'] = $contentType;
