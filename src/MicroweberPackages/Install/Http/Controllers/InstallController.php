@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\Install\Http\Controllers;
 
+use Dotenv\Dotenv;
+use Illuminate\Foundation\Bootstrap\LoadConfiguration;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Routing\Controller;
@@ -301,8 +304,19 @@ class InstallController extends Controller
             Config::set("database.connections.$dbDriver.database", $input['db_name']);
             Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
 
-          //  DB::purge($dbDriver);
-            DB::reconnect();
+             DB::purge($dbDriver);
+               DB::reconnect();
+          // app('db')->purge($connection->getName());
+
+
+//            $start_connection = env('DB_CONNECTION');
+//            app()->loadEnvironmentFrom(app()->environmentPath());
+//            Dotenv::create(Env::getRepository(), app()->environmentPath(), app()->environmentFile())->load();
+//            (new LoadConfiguration())->bootstrap(app());
+//            app('db')->purge($start_connection);
+
+
+
 
 
             if (defined('MW_VERSION')) {
@@ -380,7 +394,7 @@ class InstallController extends Controller
                 $this->log('Saving env');
                 if ($this->_is_putenv_available()) {
                     foreach ($envToSave as $envKey => $envValue) {
-                        putenv("$envKey=$envValue");
+                 //       putenv("$envKey=$envValue");
                     }
                 }
 
@@ -763,7 +777,12 @@ class InstallController extends Controller
     {
         $envFile = app()->environmentFilePath();
 
-        //app()->terminating(function () use ($values,$envFile) {
+
+//        Dotenv::makeMutable();
+//        Dotenv::load(app()->environmentPath(), app()->environmentFile());
+//        Dotenv::makeImmutable();
+
+       app()->terminating(function () use ($values,$envFile) {
 
             $str = file_get_contents($envFile);
 
@@ -781,7 +800,7 @@ class InstallController extends Controller
                     }
                     // If key does not exist, add it
                     if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
-                        $str .= "{$envKey}={$envValue}" . "\n" . "\n";
+                        $str .= "{$envKey}={$envValue}" . "\n";
                     } else {
                         $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
                     }
@@ -792,13 +811,18 @@ class InstallController extends Controller
             $str = substr($str, 0, -1);
 
             $str = trim($str);
+            $envFile = trim($envFile);
+
+            if($envFile == $str){
+                return false;
+            }
 
             if (!file_put_contents($envFile, $str)) return false;
 
 
 
 
-       // });
+       });
 
 
 
