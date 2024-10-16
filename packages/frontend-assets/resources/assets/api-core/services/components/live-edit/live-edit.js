@@ -7,7 +7,7 @@ import {TemplateSettings} from "../../services/template-settings";
 import {WyswygEditor} from "../../services/wyswyg-editor";
 import {LiveEditSpacer} from "./live-edit-spacer";
 import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
-import LiveEditImageDialog from "./live-edit-image-dialog";
+import LiveEditImageDialog from "../../../../live-edit/live-edit-image-dialog.js";
 import {LiveEditLayoutBackground} from "./live-edit-layout-background";
 import LiveEditFontManager from "./live-edit-font-manager";
 import { FreeDraggableElementManager } from '../../../core/handles-content/free-draggable-element-manager.js';
