@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Install\DbInstaller;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
 use Tests\CreatesApplication;
@@ -28,12 +29,19 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         //  putenv('APP_ENV=testing');
 
 
+        $basePath = dirname(__DIR__, 4);
+        if (!is_file($basePath . '/.env.testing')) {
+            touch($basePath . '/.env.testing');
+        }
+
 
         ini_set('memory_limit', '-1');
         // \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
-        $installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
+        //   $installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
+
+
         //$installed = \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
- //dd(\Illuminate\Support\Env::getRepository()->get('APP_ENV'));
+        //dd(\Illuminate\Support\Env::getRepository()->get('APP_ENV'));
 
         $config_folder = __DIR__ . '/../../../../config/';
         //$config_folder = __DIR__ . '/../../../../config/testing/';
@@ -45,9 +53,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 //        }
 
 
-        if (!$installed) {
-            $this->install();
-        }
+        // if (!$installed) {
+        //$this->install();
+        // }
 
 
         parent::setUp();
@@ -66,7 +74,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             define('MW_UNIT_TEST', true);
         }
 
-    //    \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
+        //    \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
         $testing_env_name = 'testing';
         $testEnvironment = $testing_env_name = env('APP_ENV') ? env('APP_ENV') : 'testing';
@@ -204,33 +212,37 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 '--db-username' => $db_user,
                 '--db-password' => $db_pass,
                 '--db-name' => $db_name,
-                '--db-prefix' => $db_prefix,
+                //  '--db-prefix' => $db_prefix,
                 //  '--db-name' => ':memory:',
-              //  '--env' => $environment,
+                '--env' => $environment,
             );
 
             //  $is_installed = mw_is_installed();
 
             //if (!$is_installed) {
-
-            $install = \Artisan::call('microweber:install', $install_params);
-
+            $output = new BufferedOutput();
+            $output->setDecorated(false);
+            $install = Artisan::call('microweber:install', $install_params, $output);
+            $outputString = $output->fetch();
             $this->assertEquals(0, $install);
+            $this->assertStringContainsString('Environment: testing', $outputString);
+            $this->assertStringContainsString('done', $outputString);
 
+   
             // Clear caches
-             Artisan::call('config:cache');
-             Artisan::call('config:clear');
-             Artisan::call('cache:clear');
-             Artisan::call('route:clear');
-             Config::set('microweber.is_installed', 1);
+            Artisan::call('config:cache');
+            Artisan::call('config:clear');
+            Artisan::call('cache:clear');
+            Artisan::call('route:clear');
+            Config::set('microweber.is_installed', 1);
             $is_installed = mw_is_installed();
             $this->assertEquals(1, $is_installed);
             //  }
             // }
 
-             Config::set('mail.driver', 'array');
-             Config::set('queue.driver', 'sync');
-             Config::set('mail.transport', 'array');
+            Config::set('mail.driver', 'array');
+            Config::set('queue.driver', 'sync');
+            Config::set('mail.transport', 'array');
 
 
         }
@@ -249,6 +261,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     public static function setUpBeforeClass(): void
     {
+
 
         $test_env_from_conf = env('APP_ENV_TEST_FROM_CONFIG');
         if ($test_env_from_conf) {
@@ -310,8 +323,28 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     protected function assertPreConditions(): void
     {
+
+        //  dd($_ENV,env('MW_IS_INSTALLED'),\Illuminate\Support\Env::getRepository());
+
         $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
+
+        if (app()->environment() != 'testing') {
+            $this->markTestSkipped('Not in testing environment');
+        }
+
+        $envFile = app()->environmentFilePath();
+
+        if (!str_ends_with($envFile, '.env.testing')) {
+            $this->markTestSkipped('Not in testing environment');
+        }
+
+
+        if (!env('MW_IS_INSTALLED')) {
+            $this->install();
+        }
+
+
 //        \Config::set('modules.cache.enabled',false);
 //        \Config::set('templates.cache.enabled',false);
 

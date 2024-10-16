@@ -80,7 +80,6 @@
         "microweber-packages/frontend-assets-libs": "dev-filament",
         "microweber-packages/laravel-config-extended": "1.1",
         "microweber-packages/laravel-helper-functions": "dev-filament",
-        "microweber-packages/microweber-class-alias": "dev-master",
         "microweber-packages/microweber-filament-theme": "dev-filament",
         "microweber-templates/big-free": "v16.8",
         "mtrajano/laravel-swagger": "0.6.4",

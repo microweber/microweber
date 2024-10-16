@@ -120,7 +120,6 @@
         <env name="MAIL_DRIVER" value="array"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
-        <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
         <ini name="display_errors" value="On"/>

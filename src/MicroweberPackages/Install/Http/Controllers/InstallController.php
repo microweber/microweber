@@ -115,7 +115,7 @@ class InstallController extends Controller
             $save_to_env = true;
             $save_to_config = false;
 
-            $install_step = false;
+           // $install_step = false;
 
 
         } else if (isset($input['config_save_method']) and $input['config_save_method'] == 'config_file') {
@@ -371,11 +371,13 @@ class InstallController extends Controller
                 $envToSave['APP_KEY'] = Config::get('app.key');
             }
 
-            $this->log('Saving config');
+
             if ($save_to_config) {
+                $this->log('Saving config');
                 Config::save($allowed_configs);
             }
             if ($save_to_env) {
+                $this->log('Saving env');
                 if ($this->_is_putenv_available()) {
                     foreach ($envToSave as $envKey => $envValue) {
                         putenv("$envKey=$envValue");
@@ -759,9 +761,10 @@ class InstallController extends Controller
     // see from https://stackoverflow.com/a/54173207/731166
     public function setEnvironmentValuesAndSave(array $values)
     {
+        $envFile = app()->environmentFilePath();
 
-        app()->terminating(function () use ($values) {
-            $envFile = app()->environmentFilePath();
+        //app()->terminating(function () use ($values,$envFile) {
+
             $str = file_get_contents($envFile);
 
             if (count($values) > 0) {
@@ -795,7 +798,7 @@ class InstallController extends Controller
 
 
 
-        });
+       // });
 
 
 
