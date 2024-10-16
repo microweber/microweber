@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23456da8f33fd10716640e6401d44c9a",
+    "content-hash": "570f8f8cbf2e93731cde02a83227e1f4",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -8916,17 +8916,11 @@
         },
         {
             "name": "microweber-packages/laravel-config-extended",
-            "version": "v1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microweber-packages/laravel-config-extended.git",
-                "reference": "170763141281d6f99d6ea81a695d63094e3933ee"
-            },
+            "version": "dev-filament",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/laravel-config-extended/zipball/170763141281d6f99d6ea81a695d63094e3933ee",
-                "reference": "170763141281d6f99d6ea81a695d63094e3933ee",
-                "shasum": ""
+                "type": "path",
+                "url": "packages/laravel-config-extended",
+                "reference": "7e856c020e33eeb495149f795cf773f83a00cc93"
             },
             "require": {
                 "illuminate/collections": "^11.0",
@@ -8951,7 +8945,16 @@
                     "MicroweberPackages\\LaravelConfigExtended\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "MicroweberPackages\\LaravelConfigExtended\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -8972,11 +8975,12 @@
             "description": "Config rewrite for Laravel. Allows to save key and values in config files.",
             "homepage": "http://microweber.com",
             "support": {
-                "email": "support@microweber.com",
-                "issues": "https://github.com/microweber-packages/laravel-config-extended/issues",
-                "source": "https://github.com/microweber-packages/laravel-config-extended/tree/v1.1"
+                "email": "support@microweber.com"
             },
-            "time": "2024-05-29T09:12:05+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "microweber-packages/laravel-helper-functions",
@@ -9009,53 +9013,6 @@
                 "symlink": true,
                 "relative": true
             }
-        },
-        {
-            "name": "microweber-packages/microweber-class-alias",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microweber-packages/microweber-class-alias.git",
-                "reference": "c3f1671d5701a431c8895c44209f205ef57940db"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/microweber-packages/microweber-class-alias/zipball/c3f1671d5701a431c8895c44209f205ef57940db",
-                "reference": "c3f1671d5701a431c8895c44209f205ef57940db",
-                "shasum": ""
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Microweber\\": "src/Microweber/"
-                },
-                "classmap": [
-                    "src/Input.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Microweber",
-                    "email": "info@microweber.com"
-                },
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "PHP Microweber class alias.",
-            "homepage": "http://microweber.com",
-            "support": {
-                "email": "support@microweber.com",
-                "issues": "https://github.com/microweber-packages/microweber-class-alias/issues",
-                "source": "https://github.com/microweber-packages/microweber-class-alias/tree/0.7"
-            },
-            "time": "2021-01-13T13:19:55+00:00"
         },
         {
             "name": "microweber-packages/microweber-filament-theme",
@@ -22738,8 +22695,8 @@
         "microweber-deps/seo-helper": 20,
         "microweber-packages/frontend-assets": 20,
         "microweber-packages/frontend-assets-libs": 20,
+        "microweber-packages/laravel-config-extended": 20,
         "microweber-packages/laravel-helper-functions": 20,
-        "microweber-packages/microweber-class-alias": 20,
         "microweber-packages/microweber-filament-theme": 20,
         "opis/closure": 20,
         "phpdocumentor/reflection-docblock": 20,

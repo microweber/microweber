@@ -3,8 +3,10 @@
 namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
@@ -12,7 +14,6 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 
 class FrontendController extends Controller
@@ -432,7 +433,7 @@ class FrontendController extends Controller
                 if ($output_cache_content != false and !str_contains($output_cache_content, 'image-generate-tn-request')) {
                     return Response::make($output_cache_content)
                         ->header('Cache-Control', 'public, max-age=10800, pre-check=10800')
-                        ->header('Last-Modified', \Carbon::parse($output_cache_content_data['time'])->toRfc850String())
+                        ->header('Last-Modified', Carbon::parse($output_cache_content_data['time'])->toRfc850String())
                         ->header('Pragma', 'public')
                         ->setEtag(md5($output_cache_id))
                         ->header('X-App-Full-Page-Cache', true);
@@ -477,7 +478,7 @@ class FrontendController extends Controller
                 $content_503 = new View($maintenance_template);
                 $content_503 = $content_503->__toString();
             }
-            $response = \Response::make($content_503);
+            $response = Response::make($content_503);
             $response->setStatusCode(503);
             return $response;
         }
@@ -557,7 +558,7 @@ class FrontendController extends Controller
 
                 if (!$page_exact and !$page and stristr($page_url, 'index.php')) {
                     // prevent loading of non exisitng page at index.php/somepage
-                    $response = \Response::make('Error 404 The webpage cannot be found');
+                    $response = Response::make('Error 404 The webpage cannot be found');
                     $response->setStatusCode(404);
                     return $response;
                 }
@@ -1452,12 +1453,12 @@ class FrontendController extends Controller
 
 
             if ($show_404_to_non_admin and !$is_admin) {
-                $response = \Response::make($l);
+                $response = Response::make($l);
                 $response->setStatusCode(404);
                 return $response;
             }
 
-            $response = \Response::make($l);
+            $response = Response::make($l);
             if (defined('MW_NO_OUTPUT_CACHE')
                 or $is_editmode == true
                 or $is_editmode_iframe == true
@@ -1559,14 +1560,14 @@ class FrontendController extends Controller
 
         if (!defined('MW_API_HTML_OUTPUT')) {
             if (is_bool($res) or is_int($res)) {
-                return \Response::make(json_encode($res), $status_code);
+                return Response::make(json_encode($res), $status_code);
             } elseif ($res instanceof RedirectResponse) {
                 return $res;
             } elseif ($res instanceof Response) {
                 return $res;
             }
 
-            $response = \Response::make($res, $status_code);
+            $response = Response::make($res, $status_code);
             if (is_bool($res) or is_int($res) or is_array($res)) {
                 $response->header('Content-Type', 'application/json');
             }
@@ -1578,7 +1579,7 @@ class FrontendController extends Controller
             } else if (is_bool($res)) {
                 $res = (bool)$res;
             }
-            $response = \Response::make($res, $status_code);
+            $response = Response::make($res, $status_code);
             return $response;
         }
     }

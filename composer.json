@@ -78,7 +78,7 @@
         "microweber-packages/composer-client": "2.0",
         "microweber-packages/frontend-assets": "dev-filament",
         "microweber-packages/frontend-assets-libs": "dev-filament",
-        "microweber-packages/laravel-config-extended": "1.1",
+        "microweber-packages/laravel-config-extended": "dev-filament",
         "microweber-packages/laravel-helper-functions": "dev-filament",
         "microweber-packages/microweber-filament-theme": "dev-filament",
         "microweber-templates/big-free": "v16.8",
@@ -278,6 +278,13 @@
         {
             "type": "path",
             "url": "packages/laravel-helper-functions",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/laravel-config-extended",
             "options": {
                 "symlink": true
             }

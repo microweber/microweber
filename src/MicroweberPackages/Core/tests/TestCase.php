@@ -228,7 +228,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->assertStringContainsString('Environment: testing', $outputString);
             $this->assertStringContainsString('done', $outputString);
 
-   
+
             // Clear caches
             Artisan::call('config:cache');
             Artisan::call('config:clear');

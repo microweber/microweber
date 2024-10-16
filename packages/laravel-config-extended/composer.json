@@ -1,0 +1,67 @@
+{
+  "name": "microweber-packages/laravel-config-extended",
+  "description": "Config rewrite for Laravel. Allows to save key and values in config files.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "MicroweberPackages\\LaravelConfigExtended\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MicroweberPackages\\LaravelConfigExtended\\Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Peter Ivanov",
+      "email": "peter@microweber.com"
+    },
+    {
+      "name": "Microweber",
+      "email": "info@microweber.com"
+    },
+    {
+      "name": "Bozhidar Slaveykov",
+      "email": "bobi@microweber.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "microweber-packages/laravel-helper-functions": "*",
+    "illuminate/collections": "^11.0",
+    "illuminate/contracts": "^11.0",
+    "illuminate/database": "^11.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "orchestra/testbench": "^9.0"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "github-protocols": [
+      "https",
+      "http",
+      "git"
+    ],
+    "sort-packages": true,
+    "allow-plugins": {
+      "kylekatarnls/update-helper": true
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MicroweberPackages\\LaravelConfigExtended\\ConfigExtendedServiceProvider"
+      ]
+    }
+  },
+  "homepage": "http://microweber.com",
+  "support": {
+    "email": "support@microweber.com"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  }
+}
