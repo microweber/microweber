@@ -341,8 +341,8 @@ if(window.self !== window.top) {
                         var save_content_error_iframe_reloads = 0;
                         doc = document.getElementById('save_content_error_iframe').contentWindow.document;
 
-                        mw.$("#save_content_error_iframe").load(function () {
-                            // cloudflare captcha
+                        mw.$("#save_content_error_iframe").on('load', function () {
+
                             var is_cf = mw.$('.challenge-form', doc).length;
                             save_content_error_iframe_reloads++;
 
