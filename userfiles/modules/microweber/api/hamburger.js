@@ -22,6 +22,9 @@ class MWSiteMobileMenuService {
             const li = node.parentNode;
             const btn = document.createElement("span");
             btn.className = 'mw-vhmbgr-submenu-toggle-button';
+            li.classList.add('mw-vhmbgr-submenu-active');
+            node.style.maxHeight = maxHeight;
+
             btn.addEventListener("click", function (e) {
                 li.classList.toggle('mw-vhmbgr-submenu-active');
                 node.style.maxHeight = li.classList.contains('mw-vhmbgr-submenu-active') ? maxHeight : '';
