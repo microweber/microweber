@@ -22,9 +22,7 @@ use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Content\ContentManagerServiceProvider;
 use MicroweberPackages\Content\ContentServiceProvider;
-
 use MicroweberPackages\ContentField\Providers\ContentFieldServiceProvider;
-//use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
 use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
@@ -44,7 +42,7 @@ use MicroweberPackages\Media\MediaManagerServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuEventServiceProvider;
 use MicroweberPackages\Menu\Providers\MenuServiceProvider;
 use MicroweberPackages\MetaTags\Providers\MetaTagsServiceProvider;
-use MicroweberPackages\Microweber\Microweber;
+use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
@@ -76,6 +74,8 @@ use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\View\ViewServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
 
+//use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
+
 //use Modules\Shipping\Providers\ShippingManagerServiceProvider;
 
 
@@ -87,10 +87,10 @@ class MicroweberServiceProvider extends ServiceProvider
 
 
         /**
-         * @property Microweber $microweber
+         * @property \MicroweberPackages\Microweber\Repositories\MicroweberRepository $microweber
          */
-        $this->app->singleton('microweber', function () {
-            return new Microweber();
+        $this->app->bind('microweber', function () {
+            return new MicroweberRepository();
         });
 
         $this->registerInternalProviders();

@@ -32,7 +32,7 @@ use MicroweberPackages\Media\MediaManager;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\MenuManager;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
-use MicroweberPackages\Microweber\Microweber;
+use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
@@ -115,7 +115,7 @@ use Modules\Shipping\ShippingMethodManager;
  * @property Translator                    $translator
  * @property MultilanguageRepository       $multilanguage_repository
  * @property TranslateManager       $translate_manager
- * @property Microweber       $microweber
+ * @property \MicroweberPackages\Microweber\Repositories\MicroweberRepository       $microweber
  * @property PaymentMethodManager       $payment_method_manager
  * @property ShippingMethodManager      $shipping_method_manager
  * @property LaravelTemplatesFileRepository      $templates

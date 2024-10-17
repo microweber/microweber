@@ -375,7 +375,7 @@ class ModuleManager
                 $moduleToSave['settings']['module_path'] = $modulePath;
                 $moduleToSave['settings']['module_path_relative'] = str_replace(base_path(), '', $modulePath);
 
-                //    app()->module_repository->installLaravelModule($moduleToSave);
+              //  app()->module_repository->installLaravelModule($moduleToSave);
 
             }
         }
@@ -851,13 +851,13 @@ class ModuleManager
 
         }
 
-//        if (app()->bound('modules')) {
-//            $module = app()->modules;
-//
-//            if ($module->find($module_name)) {
-//                return true;
-//            }
-//        }
+
+
+        if (app()->bound('modules')) {
+             if ( app()->modules->find($module_name)) {
+                return true;
+            }
+        }
 
 
         global $mw_loaded_mod_memory;
@@ -870,6 +870,8 @@ class ModuleManager
                 $mw_loaded_mod_memory[$module_name] = false;
             }
         }
+
+
 
         return $mw_loaded_mod_memory[$module_name];
     }
