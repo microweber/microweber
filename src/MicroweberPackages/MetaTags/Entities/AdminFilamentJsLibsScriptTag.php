@@ -57,8 +57,8 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
 
         $append_html .= '' . "\r\n";
         $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
-        $append_html .= '<link rel="stylesheet" href="' . $adminCss . '" id="mw-admin-css">' . "\r\n";
-        $append_html .= '' . "\r\n";
+     //   $append_html .= '<link rel="stylesheet" href="' . $adminCss . '" id="mw-admin-css">' . "\r\n";
+     //   $append_html .= '' . "\r\n";
        // $append_html .= '<meta name="csrf-token" id="mw-csrf-token" content="' . csrf_token() . '">' . "\r\n";
 $append_html .= '<script id="mw-csrf-token-jquery">
 $.ajaxSetup({
