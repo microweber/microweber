@@ -960,7 +960,7 @@ mw.emitter = {
                 title: 'Pages ',
                 dataUrl: function () {
                     try {
-                        return mw.top().settings.api_url + '/content/get_admin_js_tree_json';
+                        return mw.top().settings.api_url + 'content/get_admin_js_tree_json';
                     } catch (e) {
                         return null;
                     }
