@@ -7,7 +7,6 @@
     mw.require('domtree.js');
 </script>
 <script>
-
     selectNodeInElementStyleEditorApp = function (ActiveNode) {
         if (ActiveNode) {
 
@@ -42,7 +41,14 @@
 
     }
 
-    $(document).on('ready', function () {
+    $(document).ready(function () {
+
+        ActiveNode = mw.top().app.liveEdit.getSelectedNode();
+        if(ActiveNode){
+            selectNodeInElementStyleEditorApp(ActiveNode);
+        }
+
+
         window.document.addEventListener('refreshSelectedElement', function (e) {
 
             ActiveNode = mw.top().app.liveEdit.getSelectedNode();
