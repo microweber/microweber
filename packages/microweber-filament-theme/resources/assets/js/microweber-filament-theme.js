@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to add bottom effect spans
     function addBottomEffect() {
         // Select all inputs within .form-control-live-edit-label-wrapper and .fi-input-wrp
-        const inputs = document.querySelectorAll('.form-control-live-edit-label-wrapper .form-control-live-edit-input, .fi-input-wrp .fi-input, .fi-input-wpr .fi-select-input');
+        const inputs = document.querySelectorAll('.form-control-live-edit-label-wrapper .form-control-live-edit-input:not(.form-select), .fi-input-wrp .fi-input, .fi-input-wpr .fi-select-input');
 
         // Loop through each input element
         inputs.forEach(input => {
