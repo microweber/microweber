@@ -22,7 +22,7 @@
                    placeholder="#ffffff"
 
             />
-            <input style="margin-left: 25px;" readonly class="colorField unit ready mw-color-picker-field"
+            <input readonly class="colorField unit ready mw-color-picker-field  .form-control-live-edit-input"
                    @click="togglePicker" ref="colorHex" :value="selectedColorHex"/>
 
 
