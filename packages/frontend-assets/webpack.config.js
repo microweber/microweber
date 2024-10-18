@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 
 const plugins = [
     new RemoveEmptyScriptsPlugin(),
+
     new MiniCssExtractPlugin({
         ignoreOrder: true,
         filename: (pathData) => {
@@ -64,9 +65,13 @@ export default {
     },
     module,
     plugins,
+    infrastructureLogging: {
+        level: 'log'
+    },
     watchOptions: {
         aggregateTimeout: 200,
-        ignored: ['resources/dist/', 'node_modules'],
+
+        ignored: [ '**/node_modules', '**/dist'],
         poll: 1000,
     },
 };
