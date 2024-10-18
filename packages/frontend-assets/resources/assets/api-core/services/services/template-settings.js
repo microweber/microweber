@@ -148,15 +148,15 @@ export class TemplateSettings extends MicroweberBaseClass {
                 name: "None",
                 value: ""
             },
-            {
+            /*{
                 name: "Shadow 1",
                 value: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-            },
+            },*/
             {
                 name: "Shadow 2",
                 value: "rgba(0, 0, 0, 0.15) 0px 0px 1.95px 1.95px"
             },
-            {
+            /*{
                 name: "Shadow 3",
                 value: "rgba(0, 0, 0, 0.35) 0px 0px 0px 5px"
             },
@@ -167,11 +167,11 @@ export class TemplateSettings extends MicroweberBaseClass {
             {
                 name: "Shadow 5",
                 value: "rgba(0, 0, 0, 0.24) 0px 0px 0px 3px"
-            },
+            },*/
             {
                 name: "Shadow 6",
                 value: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
-            },
+            },/*
             {
                 name: "Shadow 7",
                 value: "rgba(0, 0, 0, 0.16) 0px 1px 4px 0px, rgb(51, 51, 51) 0px 0px 0px 3px"
@@ -183,11 +183,11 @@ export class TemplateSettings extends MicroweberBaseClass {
             {
                 name: "Shadow 9",
                 value: "rgba(0, 0, 0, 0.1) 0px 4px 12px 0px"
-            },
+            },*/
             {
                 name: "Shadow 10",
                 value: "rgba(0, 0, 0, 0.25) 0px 54px 55px 0px, rgba(0, 0, 0, 0.12) 0px -12px 30px 0px, rgba(0, 0, 0, 0.12) 0px 4px 6px 0px, rgba(0, 0, 0, 0.17) 0px 12px 13px 0px, rgba(0, 0, 0, 0.09) 0px -3px 5px 0px"
-            },
+            },/*
             {
                 name: "Shadow 11",
                 value: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px"
@@ -215,11 +215,11 @@ export class TemplateSettings extends MicroweberBaseClass {
             {
                 name: "Shadow 17",
                 value: "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px"
-            },
+            },*/
             {
                 name: "Shadow 18",
                 value: "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
-            },
+            },/*
             {
                 name: "Shadow 19",
                 value: "rgb(38, 57, 77) 0px 20px 30px -10px"
@@ -227,11 +227,11 @@ export class TemplateSettings extends MicroweberBaseClass {
             {
                 name: "Shadow 20",
                 value: "rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset"
-            },
+            },*/
             {
                 name: "Shadow 21",
                 value: "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px"
-            },
+            },/*
             {
                 name: "Shadow 22",
                 value: "rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px"
@@ -243,7 +243,7 @@ export class TemplateSettings extends MicroweberBaseClass {
             {
                 name: "Shadow 24",
                 value: "rgba(0, 0, 0, 0.12) 0px 1px 3px 0px, rgba(0, 0, 0, 0.24) 0px 1px 2px 0px"
-            },
+            },*/
             {
                 name: "Shadow 25",
                 value: "rgba(0, 0, 0, 0.16) 0px 3px 6px 0px, rgba(0, 0, 0, 0.23) 0px 3px 6px 0px"
@@ -267,7 +267,7 @@ export class TemplateSettings extends MicroweberBaseClass {
             {
                 name: "Shadow 30",
                 value: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
-            },
+            },/*
             {
                 name: "Shadow 31",
                 value: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px"
@@ -315,7 +315,7 @@ export class TemplateSettings extends MicroweberBaseClass {
             {
                 name: "Shadow 42",
                 value: "rgba(255, 255, 255, 0.5) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.12) 0px 1px 3px 1px, rgba(0, 0, 0, 0.1) 0px 1px 2px 0px"
-            }
+            }*/
         ];
 
 

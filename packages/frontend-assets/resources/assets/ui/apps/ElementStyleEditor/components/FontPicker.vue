@@ -47,6 +47,18 @@
 
 </template>
 
+<style>
+.font-picker-selected-font {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+
+
+</style>
+
 <script>
 export default {
   props: {
@@ -67,6 +79,27 @@ export default {
       this.fontFamily = fontFamily;
       this.$emit('change', fontFamily);
     },
+    dropdown: e => {
+        let target = mw.tools.firstParentOrCurrentWithClass(e.target, 'form-control-live-edit-input'),
+        parent;
+        if(target) {
+            parent = mw.tools.firstParentOrCurrentWithClass(target, 'form-control-live-edit-label-wrapper');
+
+        }
+        if(parent) {
+            parent.classList.toggle('dropdown-active');
+        }
+
+        document.querySelectorAll('.dropdown-active').forEach(node => {
+            if(node !== parent) {
+                node.classList.remove('dropdown-active')
+            }
+        })
+
+
+
+
+    }
   },
 
   mounted() {
@@ -81,6 +114,8 @@ export default {
         this.$forceUpdate();
       });
     }, 1000);
+    document.body.addEventListener('click', this.dropdown)
+
   },
   data() {
     return {
