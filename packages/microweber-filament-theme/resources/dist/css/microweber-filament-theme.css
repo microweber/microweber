@@ -23310,14 +23310,14 @@ h1,h2,h3,h4,h5,h6{
   position: relative !important;
 }
 
-.card, .form-select, .dropdown-menu, .noUi-target{
+.card, .dropdown-menu, .noUi-target{
   --tw-bg-opacity:1 !important;
   background-color:rgb(255 255 255 / var(--tw-bg-opacity)) !important;
   --tw-text-opacity:1 !important;
   color:rgb(0 0 0 / var(--tw-text-opacity)) !important
 }
 
-.card:is(.dark *), .form-select:is(.dark *), .dropdown-menu:is(.dark *), .noUi-target:is(.dark *){
+.card:is(.dark *), .dropdown-menu:is(.dark *), .noUi-target:is(.dark *){
   --tw-bg-opacity:1 !important;
   background-color:rgb(24 36 51 / var(--tw-bg-opacity)) !important;
   --tw-text-opacity:1 !important;
