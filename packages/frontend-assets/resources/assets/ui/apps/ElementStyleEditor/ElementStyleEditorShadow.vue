@@ -12,15 +12,17 @@
     </div>
 
     <div v-if="showShadow">
-        <a class="mw-admin-action-links ms-3" :class="{'active': showTextShadowOptions }"
 
-           v-on:click="toggleTextShadow">
-            Text shadow
-        </a>
         <a class="mw-admin-action-links ms-3" :class="{'active': showBoxShadowOptions }"
            v-on:click="toggleBoxShadow">
             Box shadow
         </a>
+<!--        <a class="mw-admin-action-links ms-3" :class="{'active': showTextShadowOptions }"-->
+
+<!--           v-on:click="toggleTextShadow">-->
+<!--            Text shadow-->
+<!--        </a>-->
+
 
         <br>
 
