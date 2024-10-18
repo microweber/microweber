@@ -236,7 +236,9 @@ Forms\Components\Group::make([
                             'active_site_template',
                             'layout_file')
                             ->columnSpanFull(),
-                    ])->columnSpanFull()->visible(function (Forms\Get $get) {
+                    ])
+                    ->columnSpanFull()
+                    ->visible(function (Forms\Get $get) {
                     return $get('content_type') == 'page';
                 }),
 

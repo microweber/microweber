@@ -85,34 +85,20 @@
 
     <script>
 
-
-        document.addEventListener('livewire:initialized', () => {
-
+        Livewire.on('dynamicPreviewLayoutChange', (data) => {
             const tplPreview = new mw.templatePreview({
                 element: '.preview_frame_container_holder'
             });
-
             Livewire.on('dynamicPreviewLayoutChange', (data) => {
-
                 if (data && data.iframePreviewUrl) {
-
-
                     tplPreview.rend(data.iframePreviewUrl)
                 }
 
-
             });
             @if($url)
-
-
             tplPreview.rend('{!! $url !!}')
             @endif
-
-
-
         });
-
-
     </script>
 
 
