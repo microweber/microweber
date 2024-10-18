@@ -66,6 +66,7 @@ export default {
     plugins,
     watchOptions: {
         aggregateTimeout: 200,
+        ignored: ['resources/dist/', 'node_modules'],
         poll: 1000,
     },
 };
