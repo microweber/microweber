@@ -4,8 +4,31 @@ namespace MicroweberPackages\Module\Abstract;
 
 abstract class BaseModule
 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public string $title = 'Base module';
     public string $type = 'base';
+
+
+
+
+
+
+
+
+
 
 
     public function getIcon()

@@ -2,6 +2,11 @@
 
 namespace MicroweberPackages\Microweber\Traits;
 
+
+
+/**
+ * @deprecated
+ */
 trait ManagesModules
 {
     public array $modules = [];

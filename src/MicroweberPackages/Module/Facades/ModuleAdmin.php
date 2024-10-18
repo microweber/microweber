@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void registerSettingsComponent(string $moduleType, string $componentName)
  * @method static void registerSettings(string $moduleType, string $componentAlias)
  *
- */
+ *//** @deprecated */
 class ModuleAdmin extends Facade
 {
 

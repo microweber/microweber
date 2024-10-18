@@ -105,9 +105,7 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('admin-modules-list', ListModules::class);
         Livewire::component('admin-ask-for-module-uninstall-modal', AskForModuleUninstallModal::class);
 
-        $this->app->bind('module', function () {
-            return new Module();
-        });
+
 
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('ModuleManager', \MicroweberPackages\Module\Facades\ModuleManager::class);

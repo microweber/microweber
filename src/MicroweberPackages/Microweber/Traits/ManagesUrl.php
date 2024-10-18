@@ -2,6 +2,9 @@
 
 namespace MicroweberPackages\Microweber\Traits;
 
+/**
+ * @deprecated
+ */
 trait ManagesUrl
 {
     /**

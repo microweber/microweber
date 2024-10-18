@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Microweber\Contracts;
 
-interface MicroweberModule
+interface MicroweberModuleContract
 {
     public function render();
 

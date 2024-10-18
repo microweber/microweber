@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Module\Models\Module;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
-
+/** @deprecated */
 class ModuleRepository extends AbstractRepository
 {
     /**

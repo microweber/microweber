@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Module\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+/** @deprecated */
 class Module extends Model
 {
     public $table = 'modules';
@@ -83,7 +83,7 @@ class Module extends Model
         if (!$this->icon and isset($this->type)) {
             if ($this->type == 'laravel-module') {
                 $iconUrlLocationFromConfig = config($this->module . '.icon');
-              
+
                 if ($iconUrlLocationFromConfig) {
                     $this->icon = $iconUrlLocationFromConfig;
                     $iconUrl = $iconUrlLocationFromConfig;

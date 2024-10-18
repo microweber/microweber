@@ -12,7 +12,7 @@
 namespace MicroweberPackages\Module\Facades;
 
 use Illuminate\Support\Facades\Facade;
-
+/** @deprecated */
 class ModuleManager extends Facade
 {
 

@@ -3,10 +3,10 @@
 namespace Modules\Audio\Microweber;
 
 use Livewire\Component;
-use MicroweberPackages\Microweber\Contracts\MicroweberModule;
+use MicroweberPackages\Microweber\Contracts\MicroweberModuleContract;
 use MicroweberPackages\Module\Abstract\BaseModule;
 
-class AudioModule2   implements MicroweberModule
+class AudioModuleContract2   implements MicroweberModuleContract
 {
 
     public string $settingsModule =  \Modules\Audio\Microweber\AudioModuleSettings::class;

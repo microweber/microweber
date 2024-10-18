@@ -7,6 +7,9 @@ use MicroweberPackages\Microweber\Traits\ManagesModules;
 use MicroweberPackages\Microweber\Traits\ManagesUrl;
 
 //@todo move to manager class in seperate package
+/**
+ * @deprecated
+ */
 class MicroweberRepository
 {
     use ManagesUrl;
