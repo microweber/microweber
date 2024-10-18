@@ -149,7 +149,7 @@ class MwSelectTemplateForPage
                 $layoutOptions['no_folder_sort'] = true;
                 $layoutOptions['active_site_template'] = $activeSiteTemplate;
 
-                $layout = mw()->layouts_manager->get_layout_details($activeSiteTemplate);
+                $layout = mw()->layouts_manager->get_layout_details($layoutOptions);
                 $url = '';
 
                 if (isset($layout['layout_file_preview_url'])) {
