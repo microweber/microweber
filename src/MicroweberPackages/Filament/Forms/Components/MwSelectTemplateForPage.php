@@ -32,12 +32,12 @@ class MwSelectTemplateForPage
 
 
         $templates = site_templates();
-//        $active_site_template_default = template_name();
+        $active_site_template_default = template_name();
 
 
         $selectTemplateInput = Forms\Components\Select::make($activeSiteTemplateInputName)
             ->label('Template')
-            //->default($active_site_template)
+            ->default($active_site_template_default)
             ->live()
             ->reactive()
             ->options(function (Forms\Get $get, Forms\Set $set) use ($templates) {
@@ -86,20 +86,39 @@ class MwSelectTemplateForPage
         $selectLayoutInputInput = Forms\Components\Select::make($layoutFileInputName)
             ->label('Layout')
             ->live()
-            ->reactive()
-            ->options(function (Forms\Get $get, Forms\Set $set) use ($layoutFileInputName, $activeSiteTemplateInputName) {
-                $active_site_template = $get($activeSiteTemplateInputName);
+            ->default(function (Forms\Get $get) use($activeSiteTemplateInputName) {
 
-                if (!$active_site_template) {
+                $activeSiteTemplate = $get($activeSiteTemplateInputName);
+
+                if (!$activeSiteTemplate) {
                     return [];
                 }
 
-                $layout_options = [];
-                $layout_options['site_template'] = $active_site_template;
-                $layout_options['no_cache'] = true;
-                $layout_options['no_folder_sort'] = true;
+                $layoutOptions = [];
+                $layoutOptions['site_template'] = $activeSiteTemplate;
+                $layoutOptions['no_cache'] = true;
+                $layoutOptions['no_folder_sort'] = true;
 
-                $layouts = mw()->layouts_manager->get_all($layout_options);
+                $layouts = mw()->layouts_manager->get_all($layoutOptions);
+                if (isset($layouts[0])) {
+                    return $layouts[0]['layout_file'];
+                }
+
+            })
+            ->reactive()
+            ->options(function (Forms\Get $get, Forms\Set $set) use ($layoutFileInputName, $activeSiteTemplateInputName) {
+                $activeSiteTemplate = $get($activeSiteTemplateInputName);
+
+                if (!$activeSiteTemplate) {
+                    return [];
+                }
+
+                $layoutOptions = [];
+                $layoutOptions['site_template'] = $activeSiteTemplate;
+                $layoutOptions['no_cache'] = true;
+                $layoutOptions['no_folder_sort'] = true;
+
+                $layouts = mw()->layouts_manager->get_all($layoutOptions);
 
 
                 return collect($layouts)->mapWithKeys(function ($layout) use ($layoutFileInputName) {
@@ -111,10 +130,10 @@ class MwSelectTemplateForPage
 
                 $data = $livewire->data ?? [];
 
-                $layout_options = array();
-                $active_site_template = $get($activeSiteTemplateInputName);
-                if (!$active_site_template) {
-                    $active_site_template = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
+
+                $activeSiteTemplate = $get($activeSiteTemplateInputName);
+                if (!$activeSiteTemplate) {
+                    $activeSiteTemplate = isset($data['active_site_template']) ? $data['active_site_template'] : template_name();
                 }
 
 
@@ -122,17 +141,15 @@ class MwSelectTemplateForPage
 
                 //$layout_file_from_data = isset($data['layout_file']) ? $data['layout_file'] : 'clean.php';
                 // $layout_file = isset($state) ? $state : $layout_file_from_data;
-                $layout_file = $get($layoutFileInputName);
+                $layoutFile = $get($layoutFileInputName);
 
+                $layoutOptions = array();
+                $layoutOptions['layout_file'] = $layoutFile;
+                $layoutOptions['no_cache'] = true;
+                $layoutOptions['no_folder_sort'] = true;
+                $layoutOptions['active_site_template'] = $activeSiteTemplate;
 
-                $layout_options['layout_file'] = $layout_file;
-                $layout_options['no_cache'] = true;
-                $layout_options['no_folder_sort'] = true;
-
-                $layout_options['active_site_template'] = $active_site_template;
-
-
-                $layout = mw()->layouts_manager->get_layout_details($layout_options);
+                $layout = mw()->layouts_manager->get_layout_details($layoutOptions);
                 $url = '';
 
                 if (isset($layout['layout_file_preview_url'])) {
