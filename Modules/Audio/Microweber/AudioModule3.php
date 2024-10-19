@@ -3,22 +3,12 @@
 namespace Modules\Audio\Microweber;
 
 use Livewire\Component;
-
-use MicroweberPackages\Microweber\Traits\HasMicroweberModule;
-use MicroweberPackages\Microweber\Traits\HasMicroweberModuleLiveEditHandleAction;
-use MicroweberPackages\Microweber\Traits\HasMicroweberModuleOptions;
-use MicroweberPackages\Microweber\Traits\HasMicroweberModuleTemplates;
+use MicroweberPackages\Microweber\Contracts\MicroweberModuleContract;
 use MicroweberPackages\Module\Abstract\BaseModule;
 
 //class AudioModule  extends Component implements MicroweberModuleContract
-class AudioModule
+class AudioModule3  extends Component implements MicroweberModuleContract
 {
-    use HasMicroweberModule;
-    use HasMicroweberModuleOptions;
-    use HasMicroweberModuleTemplates;
-    use HasMicroweberModuleSettings;
-    use HasMicroweberModuleAdmin;
-    use HasMicroweberModuleLiveEditHandleAction;
 
     public static string $settingsModule = AudioModuleSettings::class;
     public static string $settingsClass = AudioModuleSettings::class;
@@ -45,34 +35,34 @@ class AudioModule
     public static string $type = 'audio';
 
 
-//    public array $params = [];
-//
-//    public function __construct($params)
-//    {
-//        $this->params = $params;
-//    }
-//
+    public array $params = [];
+
+    public function __construct($params)
+    {
+        $this->params = $params;
+    }
+
 
     public static function getIcon()
     {
         return '<i class="mdi mdi-cube-outline"></i>';
     }
-
     public function render()
     {
 
 
-        return view('googlemaps.skin1', $this->params);
-        return view('modules.audio.templates.skin1', $this->params);
-        return view('modules.users.forgot-password.templates.skin1', $this->params);
-        return view('modules.users.register.templates.skin1', $this->params);
-        return view('modules.billing.templates.dashboard', $this->params);
-        return livewire(AudioModule::class, $this->params)->render();
+
+        return view('googlemaps.skin1',$this->params);
+        return view('modules.audio.templates.skin1',$this->params);
+        return view('modules.users.forgot-password.templates.skin1',$this->params);
+        return view('modules.users.register.templates.skin1',$this->params);
+        return view('modules.billing.templates.dashboard',$this->params);
+        return livewire(AudioModule3::class,$this->params)->render();
     }
 
     public function admin()
     {
-        return livewire(AudioModuleAdmin::class, $this->params)->render();
+        return livewire(AudioModuleAdmin::class,$this->params)->render();
 
         return 'audio module';
     }
