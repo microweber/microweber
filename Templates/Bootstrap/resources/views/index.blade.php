@@ -21,7 +21,7 @@
         <x-bootstrap-container>
             <x-bootstrap-row>
 
-                <x-bootstrap-col size="3">
+                <x-bootstrap-col size="4">
                     <x-bootstrap-card>
 
                         <x-slot name="title">
@@ -43,7 +43,7 @@
                     </x-bootstrap-card>
                 </x-bootstrap-col>
 
-                <x-bootstrap-col size="3">
+                <x-bootstrap-col size="4">
                     <x-bootstrap-card>
 
                         <x-slot name="title">
@@ -56,16 +56,10 @@
                             </p>
                         </x-slot>
 
-                        <x-slot name="footer">
-                            <a href="#" class="btn btn-primary">
-                                Go somewhere
-                            </a>
-                        </x-slot>
-
                     </x-bootstrap-card>
                 </x-bootstrap-col>
 
-                <x-bootstrap-col size="3">
+                <x-bootstrap-col size="4">
                     <x-bootstrap-card>
 
                         <x-slot name="title">
