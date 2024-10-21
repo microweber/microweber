@@ -14,6 +14,83 @@
 
 @section('content')
 
+
+    <x-bootstrap-row>
+
+        <x-bootstrap-col size="3">
+            <x-bootstrap-card>
+
+                <x-slot name="title">
+                    Microweber Card
+                </x-slot>
+
+                <x-slot name="content">
+                    <p>
+                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                    </p>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <a href="#" class="btn btn-primary">
+                        Go somewhere
+                    </a>
+                </x-slot>
+
+            </x-bootstrap-card>
+        </x-bootstrap-col>
+
+        <x-bootstrap-col size="3">
+            <x-bootstrap-card>
+
+                <x-slot name="title">
+                    CloudVision Cart
+                </x-slot>
+
+                <x-slot name="content">
+                    <p>
+                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                    </p>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <a href="#" class="btn btn-primary">
+                        Go somewhere
+                    </a>
+                </x-slot>
+
+            </x-bootstrap-card>
+        </x-bootstrap-col>
+
+        <x-bootstrap-col size="3">
+            <x-bootstrap-card>
+
+                <x-slot name="title">
+                    CHAT GPT Card
+                </x-slot>
+
+                <x-slot name="content">
+                    <p>
+                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                    </p>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <a href="#" class="btn btn-primary">
+                        Go somewhere
+                    </a>
+                </x-slot>
+
+            </x-bootstrap-card>
+        </x-bootstrap-col>
+
+    </x-bootstrap-row>
+
+    <div>
+        <x-bootstrap-alert type="success" message="This is a success alert message."/>
+    </div>
+
+
+
     <div class="edit main-content" data-layout-container rel="content" field="content">
         <module type="layouts" template="jumbotron/skin-1"/>
         <module type="layouts" template="features/skin-4"/>
