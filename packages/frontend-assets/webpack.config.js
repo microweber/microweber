@@ -16,29 +16,29 @@ const __dirname = path.dirname(__filename);
 
 const plugins = [
     new RemoveEmptyScriptsPlugin(),
-    new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
         ignoreOrder: true,
         filename: (pathData) => {
             return `${outputCSS}/[name].css`;
         },
+
     }),
-    {
-        apply: (compiler) => {
-           // compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
-                exec('vite build', (err, stdout, stderr) => {
-                    if (err) {
-                        console.error(`Error executing Vite build: ${err}`);
-                        return;
-                    }
-                    console.log(`Vite build output: ${stdout}`);
-                    if (stderr) {
-                        console.error(`Vite build errors: ${stderr}`);
-                    }
-                });
-          //  });
-        }
-    },
+    // {
+    //     apply: (compiler) => {
+    //         compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
+    //             exec('vite build', (err, stdout, stderr) => {
+    //                 if (err) {
+    //                     console.error(`Error executing Vite build: ${err}`);
+    //                     return;
+    //                 }
+    //                 console.log(`Vite build output: ${stdout}`);
+    //                 if (stderr) {
+    //                     console.error(`Vite build errors: ${stderr}`);
+    //                 }
+    //             });
+    //         });
+    //     }
+    // },
     new CopyWebpackPlugin({
         patterns: [
             { from: path.resolve(__dirname, './resources/dist/'), to: path.resolve(__dirname, '../../public/vendor/microweber-packages/frontend-assets') }
