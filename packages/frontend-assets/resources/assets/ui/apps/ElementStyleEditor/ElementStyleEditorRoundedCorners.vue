@@ -16,7 +16,7 @@
     </div>
 
     <div :class="{'d-none': !showRoundedCorners }">
-        <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
+        <div class="form-control-live-edit-label-wrapper my-4">
 
             <label class="live-edit-label" for="borderRadiusSelect">Select predefined border radius:</label>
             <select class="form-control-live-edit-input form-select" id="borderRadiusSelect"

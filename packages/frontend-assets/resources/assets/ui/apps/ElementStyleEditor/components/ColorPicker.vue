@@ -1,6 +1,6 @@
 <template>
-    <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center gap-2">
-        <label class="live-edit-label px-0 col-4">{{ label }}</label>
+    <div class="form-control-live-edit-label-wrapper my-4">
+        <label class="live-edit-label">{{ label }}</label>
 
         <div class="mw-field mw-field-flat" data-size="medium" @click="togglePicker">
       <span class="mw-field-color-indicator">

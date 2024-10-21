@@ -595,3 +595,13 @@ html:not(.mw-le--page-preview) [data-mw-live-edithover="true"] > * {
     align-items: center;
     justify-content: center;
 }
+
+
+.mw-le-handle-menu-button-hidden{
+    display: none !important;
+}
+
+.mw-le-handle-menu-button-disabled{
+    opacity: .5;
+    pointer-events: none !important;
+}
