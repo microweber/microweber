@@ -11,6 +11,11 @@
     @endif
 
  ">
+
+    @if(isset($image))
+      <img src="{{$image}}" class="card-img-top" />
+    @endif
+
     <div class="card-body">
         @if(isset($title))
         <h5 class="card-title edit">
