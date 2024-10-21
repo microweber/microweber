@@ -10,6 +10,7 @@ use Templates\Bootstrap\View\Components\Alert;
 use Templates\Bootstrap\View\Components\Card;
 use Templates\Bootstrap\View\Components\Col;
 use Templates\Bootstrap\View\Components\Columns;
+use Templates\Bootstrap\View\Components\Container;
 use Templates\Bootstrap\View\Components\Row;
 
 class BootstrapServiceProvider extends BaseTemplateServiceProvider
@@ -23,6 +24,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
      */
     public function boot(): void
     {
+        Blade::component('bootstrap-container', Container::class);
         Blade::component('bootstrap-row', Row::class);
         Blade::component('bootstrap-col', Col::class);
         Blade::component('bootstrap-card', Card::class);
