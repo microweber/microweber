@@ -28,6 +28,8 @@ abstract class BaseModuleServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), 'modules.'.$this->moduleNameLower);
 
+
+
         $componentNamespace = str_replace('/', '\\', config('modules.namespace').'\\'.$this->moduleName.'\\'.ltrim(config('modules.paths.generator.component-class.path'), config('modules.paths.app_folder', '')));
         Blade::componentNamespace($componentNamespace, 'modules.'.$this->moduleNameLower);
     }

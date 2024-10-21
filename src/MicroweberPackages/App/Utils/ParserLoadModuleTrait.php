@@ -170,6 +170,18 @@ trait ParserLoadModuleTrait
             return \App::call($this->module_registry[$module_name . '/index'], ["params" => $attrs]);
         }
 
+        if (app()->bound('microweber')) {
+
+            if ( app()->microweber->hasModule($module_name)) {
+
+                return app()->microweber->renderModule($module_name, $attrs);
+
+            }
+        }
+
+
+
+
 
         //check for custom view component
         $customViewComponent = ModuleAdmin::getViewComponent($module_name);

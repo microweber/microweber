@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @method static array getModules()
  * @method static void module(string $type, string $moduleClass)
+ * @method static bool hasModule(string $type)
  */
 class Microweber extends Facade
 {

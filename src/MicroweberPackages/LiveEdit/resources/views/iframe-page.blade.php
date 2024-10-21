@@ -130,6 +130,7 @@
             mw.settings.adminUrl = '<?php print admin_url(); ?>';
             mw.settings.liveEditModuleSettingsUrls =  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::getLiveEditSettingsUrls()); ?>;
             mw.settings.liveEditModuleSettingsComponents=  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::getSettingsComponents()); ?>;
+            mw.settings.liveEditModuleSettingsComponentsFromModuleRepository=  <?php print json_encode(\MicroweberPackages\Microweber\Facades\Microweber::getSettingsComponents()); ?>;
 
         </script>
 

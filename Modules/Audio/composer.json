@@ -1,0 +1,30 @@
+{
+    "name": "modules/audio",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Audio\\": "",
+            "Modules\\Audio\\Database\\Factories\\": "database/factories/",
+            "Modules\\Audio\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Audio\\Tests\\": "Tests/"
+        }
+    }
+}

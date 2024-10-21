@@ -84,12 +84,12 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'microweber');
 
         /**
          * @property \MicroweberPackages\Microweber\Repositories\MicroweberRepository $microweber
          */
-        $this->app->bind('microweber', function () {
+        $this->app->singleton('microweber', function () {
             return new MicroweberRepository();
         });
 

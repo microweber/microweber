@@ -853,6 +853,13 @@ class ModuleManager
 
 
 
+        if (app()->bound('microweber')) {
+             if ( app()->microweber->hasModule($module_name)) {
+                return true;
+            }
+        }
+
+
         if (app()->bound('modules')) {
              if ( app()->modules->find($module_name)) {
                 return true;

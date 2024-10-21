@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Audio\Filament;
+namespace Modules\Audio\Filament;
 
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Section;
@@ -23,11 +23,11 @@ class AudioModuleSettings extends LiveEditModuleSettings
         return $form
             ->schema([
                 Section::make('Audio settings')->schema([
-                    MwFileUpload::make('options.data-audio-upload')
-                        ->label('Upload audio file')
-                        ->fileTypes('audio')
-                        ->helperText('Select an logo for your website.')
-                        ->live(),
+//                    MwFileUpload::make('options.data-audio-upload')
+//                        ->label('Upload audio file')
+//                        ->fileTypes(['audio'])
+//                        ->helperText('Select an logo for your website.')
+//                        ->live(),
 
                     TextInput::make('options.data-audio-url')
                         ->label('Audio file URL')

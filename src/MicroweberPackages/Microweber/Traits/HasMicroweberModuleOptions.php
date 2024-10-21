@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Microweber\Traits;
 
+
 trait HasMicroweberModuleOptions
 {
 
@@ -9,6 +10,8 @@ trait HasMicroweberModuleOptions
 
     public function getOptions()
     {
+
+      //  get_module_options($this->params['id'], $this->options);
         return $this->options;
     }
 

@@ -2,91 +2,34 @@
 
 namespace Modules\Audio\Microweber;
 
-use Livewire\Component;
-
-use MicroweberPackages\Microweber\Traits\HasMicroweberModule;
-use MicroweberPackages\Microweber\Traits\HasMicroweberModuleLiveEditHandleAction;
-use MicroweberPackages\Microweber\Traits\HasMicroweberModuleOptions;
-use MicroweberPackages\Microweber\Traits\HasMicroweberModuleTemplates;
-use MicroweberPackages\Module\Abstract\BaseModule;
+use MicroweberPackages\Microweber\Abstract\BaseModule;
+use Modules\Audio\Filament\AudioModuleSettings;
 
 //class AudioModule  extends Component implements MicroweberModuleContract
-class AudioModule
+class AudioModule extends BaseModule
 {
-    use HasMicroweberModule;
-    use HasMicroweberModuleOptions;
-    use HasMicroweberModuleTemplates;
-    use HasMicroweberModuleSettings;
-    use HasMicroweberModuleAdmin;
-    use HasMicroweberModuleLiveEditHandleAction;
-
-    public static string $settingsModule = AudioModuleSettings::class;
-    public static string $settingsClass = AudioModuleSettings::class;
-    public static string $adminClass = AudioModuleSettings::class;
-    public static string $adminModule = AudioModuleSettings::class;
-
-    public static string $admin = AudioModuleAdmin::class;
-
-
-//    public static function getModuleDetails() : array
-//    {
-//        return [
-//            'name' => 'Audio',
-//            'position' => 2,
-//            'description' => 'Audio module',
-//            'icon' => 'mdi mdi-cube-outline',
-//            'categories' => 'media, music',
-//        ];
-//    }
-
-
     public static string $title = 'Audio module';
+    public static string $icon = 'mdi mdi-cube-outline';
+    public static string $categories = 'media, music';
+    public static int $position = 2;
+    public static string $settingsComponent = AudioModuleSettings::class;
 
-    public static string $type = 'audio';
-
-
-//    public array $params = [];
-//
-//    public function __construct($params)
-//    {
-//        $this->params = $params;
-//    }
-//
-
-    public static function getIcon()
-    {
-        return '<i class="mdi mdi-cube-outline"></i>';
-    }
 
     public function render()
     {
 
+        $template = $this->getTemplate();
+        $viewData = $this->getViewData();
+//        if ($template) {
+//            return view($template, $viewData);
+//        }
 
-        return view('googlemaps.skin1', $this->params);
-        return view('modules.audio.templates.skin1', $this->params);
-        return view('modules.users.forgot-password.templates.skin1', $this->params);
-        return view('modules.users.register.templates.skin1', $this->params);
-        return view('modules.billing.templates.dashboard', $this->params);
-        return livewire(AudioModule::class, $this->params)->render();
-    }
+        return view('modules.audio::templates.default', $viewData);
 
-    public function admin()
-    {
-        return livewire(AudioModuleAdmin::class, $this->params)->render();
 
-        return 'audio module';
     }
 
 
 
-
-//    public function getModuleDefinition()
-//    {
-//        return [
-//            'index' => AudioModuleIndex::class,
-//            'edit' => AudioModuleSettings::class,
-//            'admin' => AudioModuleAdminResource::class,
-//        ];
-//    }
 
 }

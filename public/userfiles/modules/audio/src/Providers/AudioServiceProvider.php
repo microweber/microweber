@@ -21,18 +21,18 @@ class AudioServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        FilamentRegistry::registerPage(AudioModuleSettings::class);
+       // FilamentRegistry::registerPage(AudioModuleSettings::class);
     }
 
     public function boot(): void
     {
-        parent::boot();
-        Filament::serving(function () {
-            $panelId = Filament::getCurrentPanel()->getId();
-            if ($panelId == 'admin') {
-                ModuleAdmin::registerLiveEditSettingsUrl('audio', AudioModuleSettings::getUrl());
-            }
-        });
+//        parent::boot();
+//        Filament::serving(function () {
+//            $panelId = Filament::getCurrentPanel()->getId();
+//            if ($panelId == 'admin') {
+//                ModuleAdmin::registerLiveEditSettingsUrl('audio', AudioModuleSettings::getUrl());
+//            }
+//        });
 
     }
 

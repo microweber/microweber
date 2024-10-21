@@ -4,6 +4,8 @@ class MicroweberBaseClass {
         this.#events[e] ? this.#events[e].push(f) : (this.#events[e] = [f]);
         return this;
     };
+
+
     off(e, f) {
         if(!this.#events[e]) {
             return this;

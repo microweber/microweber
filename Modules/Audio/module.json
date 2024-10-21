@@ -1,0 +1,11 @@
+{
+    "name": "Audio",
+    "alias": "audio",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Audio\\Providers\\AudioServiceProvider"
+    ],
+    "files": []
+}

@@ -8,7 +8,13 @@
         "shop",
         "blog",
         "framework",
-        "laravel"
+        "laravel",
+        "php",
+        "ecommerce",
+        "website",
+        "builder",
+        "microweber",
+        "filament"
     ],
     "homepage": "http://microweber.com",
     "license": "MIT",
