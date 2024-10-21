@@ -1,7 +1,7 @@
 <template>
-  <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2">
+  <div class="form-control-live-edit-label-wrapper my-4">
 
-    <label class="live-edit-label px-0 col-4">Font</label>
+    <label class="live-edit-label">Font</label>
       <button
           class="form-control-live-edit-input form-select"
           type="button"

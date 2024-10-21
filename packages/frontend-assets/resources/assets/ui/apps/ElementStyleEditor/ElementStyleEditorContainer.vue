@@ -13,8 +13,8 @@
 
         <div v-if="showContainer">
 
-        <div class="form-control-live-edit-label-wrapper my-4 d-flex align-items-center flex-wrap gap-2" id="field-conatiner-type">
-            <label class="live-edit-label px-0 col-4">Container</label>
+        <div class="form-control-live-edit-label-wrapper my-4" id="field-conatiner-type">
+            <label class="live-edit-label">Container</label>
             <div class="s-field-content">
 
                 <label class="form-check">
