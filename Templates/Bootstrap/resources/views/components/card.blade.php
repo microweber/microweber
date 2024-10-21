@@ -1,4 +1,16 @@
-<div class="card">
+<div class="card
+
+    @if($theme == 'dark')
+        bg-dark text-white
+    @endif
+     @if($theme == 'danger')
+        bg-danger text-white
+    @endif
+     @if($theme == 'success')
+        bg-success text-white
+    @endif
+
+ ">
     <div class="card-body">
         @if(isset($title))
         <h5 class="card-title edit">

@@ -44,7 +44,7 @@
                 </x-bootstrap-col>
 
                 <x-bootstrap-col size="4">
-                    <x-bootstrap-card>
+                    <x-bootstrap-card theme="success">
 
                         <x-slot name="title">
                             CloudVision Cart
@@ -56,11 +56,17 @@
                             </p>
                         </x-slot>
 
+                        <x-slot name="footer">
+                            <a href="#" class="btn btn-primary">
+                                Go somewhere
+                            </a>
+                        </x-slot>
+
                     </x-bootstrap-card>
                 </x-bootstrap-col>
 
                 <x-bootstrap-col size="4">
-                    <x-bootstrap-card>
+                    <x-bootstrap-card theme="danger">
 
                         <x-slot name="title">
                             CHAT GPT Card

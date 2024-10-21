@@ -7,10 +7,14 @@ use Illuminate\View\View;
 
 class Card extends Component
 {
+    public $theme;
+
     /**
      * Create the component instance.
      */
-    public function __construct() {}
+    public function __construct($theme = 'light') {
+        $this->theme = $theme;
+    }
 
     /**
      * Get the view / contents that represent the component.
