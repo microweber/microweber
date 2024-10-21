@@ -2,15 +2,7 @@
   <div class="form-control-live-edit-label-wrapper my-4">
 
     <label class="live-edit-label">Font</label>
-      <button
-          class="form-control-live-edit-input form-select"
-          type="button"
-          ref="dropdownButton"
-          id="fontDropdown"
-          data-bs-toggle="dropdown"
-
-          aria-haspopup="true"
-          aria-expanded="false">
+      <button class="form-control-live-edit-input form-select" type="button">
         <div v-show="fontFamily">
           <span class="font-picker-selected-font" :style="{ fontFamily: fontFamily }">
             {{ fontFamily }}
@@ -47,13 +39,21 @@
 
 </template>
 
-<style>
+<style scoped>
 .font-picker-selected-font {
     display: block;
     white-space: nowrap;
     overflow: hidden;
     width: 100%;
     text-overflow: ellipsis;
+}
+
+  .dropdown-menu{
+    width: 100%
+  }
+.dropdown-active > .dropdown-menu{
+
+    display: block;
 }
 
 
