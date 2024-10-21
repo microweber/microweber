@@ -12,6 +12,7 @@ use Templates\Bootstrap\View\Components\Col;
 use Templates\Bootstrap\View\Components\Columns;
 use Templates\Bootstrap\View\Components\Container;
 use Templates\Bootstrap\View\Components\Row;
+use Templates\Bootstrap\View\Components\SimpleText;
 
 class BootstrapServiceProvider extends BaseTemplateServiceProvider
 {
@@ -24,6 +25,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
      */
     public function boot(): void
     {
+        Blade::component('bootstrap-simple-text', SimpleText::class);
         Blade::component('bootstrap-container', Container::class);
         Blade::component('bootstrap-row', Row::class);
         Blade::component('bootstrap-col', Col::class);
