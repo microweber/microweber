@@ -1,8 +1,8 @@
 <template>
   <div class="d-flex justify-content-center align-items-center">
-    <div class="rounded-corners my-5">
+    <div class="rounded-corners my-5 mx-2">
 
-      <div class="s-field-content">
+      <div class="s-field-content gap-2">
         <div class="mw-field mw-field-flat">
           <div class="mw-multiple-fields">
             <div class="mw-field mw-field-flat">
