@@ -155,7 +155,7 @@
 }
 
 .text-align > * {
-    @apply inline-block w-1/4 h-7 position-relative cursor-pointer p-[1px_0] text-center text-[17px];
+    @apply inline-block w-1/4 h-7 position-relative cursor-pointer p-[3px_0] text-center text-[17px];
 }
 
 #shadow > .mw-ui-field-holder.prop-ui-field-holder {
