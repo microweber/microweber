@@ -60,7 +60,9 @@ export default defineConfig({
          //   publicDirectory: "public",
             refresh: true,
         }),
-        copyFolderSyncVite(__dirname+ '/resources/dist/build', __dirname+ '/../../public/vendor/microweber-packages/frontend-assets/dist/build'),
+
+        copyFolderSyncVite(__dirname+ '/resources/dist/build', __dirname+ '/../../public/vendor/microweber-packages/frontend-assets/build/'),
+
 
 
         // istanbul({
