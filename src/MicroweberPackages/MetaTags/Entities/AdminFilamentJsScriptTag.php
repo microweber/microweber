@@ -13,8 +13,8 @@ class AdminFilamentJsScriptTag implements TagInterface, \Stringable
         //$libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
         // $srcipts = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-app.js');
        // $styles = Vite::asset('src/MicroweberPackages/LiveEdit/resources/js/ui/css/admin-filament.scss');
-        $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin.js';
-        $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/admincss.css';
+        $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin.js';
+        $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin.css';
         $append_html = '' . "\r\n";
 
 

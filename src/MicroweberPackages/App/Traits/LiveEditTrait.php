@@ -119,13 +119,13 @@ trait LiveEditTrait
         //$viteScriptCss = Vite::asset('resources/assets/css/scss/liveedit.scss', 'vendor/microweber-packages/frontend-assets/build');
         $viteScriptCss = asset('vendor/microweber-packages/frontend-assets/build/liveedit.css');
 
-        $viteScript = asset('vendor/microweber-packages/frontend-assets/js/live-edit-page-scripts.js');
+        $viteScript = asset('vendor/microweber-packages/frontend-assets/build/live-edit-page-scripts.js');
         //$viteScriptCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/live-edit-css.css';
 
         if ($viteScript) {
 
 
-            $viteScriptSrc = '<script src="' . $viteScript . '"></script>';
+            $viteScriptSrc = '<script id="mw-live-edit-page-scripts" src="' . $viteScript . '"></script>';
             $viteScriptSrc .= '<script>window.mwLiveEditIframeBackUrl = "' . $liveEditUrl . '"; </script>';
 
             $viteScriptSrc .= '<link rel="stylesheet" href="' . $viteScriptCss . '">';
