@@ -1,6 +1,9 @@
 <template>
   <div class="form-control-live-edit-label-wrapper">
-    <label  v-if="showLabel" class="live-edit-label">{{ label }} {{ selectedValue }}{{ unit }}</label>
+    <label  v-if="showLabel" class="live-edit-label">{{ label }}
+        <span class="form-control-input-range-slider">{{ selectedValue }} </span>
+        <span>{{ unit }} </span>
+    </label>
     <div data-size="medium" :class="{ 'col-12': !showLabel , 'col-12': showLabel }">
       <v-slider :min="min" :max="max" :step="step" v-model="selectedValue"></v-slider>
       <span @click="resetValue" class="reset-field tip  mw-action-buttons-background-circle-on-hover" data-tipposition="top-right" data-tip="Restore default value">
