@@ -6,6 +6,7 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Order\Models\Order;
+use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\ModelFilters\CustomerFilter;
 
 class Customer extends Model
@@ -234,4 +235,14 @@ class Customer extends Model
         }
         return '...';
     }
+
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
+
+    public function currency(){
+        return $this->belongsTo(Currency::class);
+    }
+
+
 }
