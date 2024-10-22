@@ -1,15 +1,12 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
-//import istanbul from 'vite-plugin-istanbul';
 import {copyFolderSyncVite} from "vite-plugin-copy-folder"
 
-import sass from 'sass';
-import liveReload from 'vite-plugin-live-reload'
 
+import sass from 'sass';
 
 export default defineConfig({
-
 
 
     build: {
@@ -39,7 +36,7 @@ export default defineConfig({
         }
     },
     plugins: [
-       // liveReload('resources/assets/**/*.*'),
+        // liveReload('resources/assets/**/*.*'),
 
         vue({
             template: {
@@ -55,14 +52,13 @@ export default defineConfig({
                 'resources/assets/ui/live-edit-app.js',
                 'resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js',
             ],
-           publicDirectory: "resources/assets/",
-          //  refresh: true,
-         //   publicDirectory: "public",
+            publicDirectory: "resources/assets/",
+            //  refresh: true,
+            //   publicDirectory: "public",
             refresh: true,
         }),
 
-        copyFolderSyncVite(__dirname+ '/resources/dist/build', __dirname+ '/../../public/vendor/microweber-packages/frontend-assets/build/'),
-
+        copyFolderSyncVite(__dirname + '/resources/dist/build', __dirname + '/../../public/vendor/microweber-packages/frontend-assets/build/'),
 
 
         // istanbul({
