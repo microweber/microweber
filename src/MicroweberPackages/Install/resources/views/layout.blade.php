@@ -10,7 +10,7 @@
 
 
     <link type="text/css" rel="stylesheet" media="all" href="<?php print asset('vendor/microweber-packages/microweber-filament-theme/microweber-filament-theme.css'); ?>"/>
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print asset('vendor/microweber-packages/frontend-assets/css/install.css'); ?>"/>
+    <link type="text/css" rel="stylesheet" media="all" href="<?php print asset('vendor/microweber-packages/frontend-assets/build/install.css'); ?>"/>
 
 </head>
 <body>

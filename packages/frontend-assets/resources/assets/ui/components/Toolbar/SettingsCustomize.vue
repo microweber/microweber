@@ -49,7 +49,7 @@ import ToolsButtons from "../RightSidebar/ToolsButtons.vue";
 import ToolbarMulilanguageSelector from "./ToolbarMulilanguageSelector.vue";
 import CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
 
-import {tr} from "vuetify/locale";
+
 
 export default {
     components: {

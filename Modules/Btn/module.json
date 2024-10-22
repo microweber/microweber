@@ -1,0 +1,11 @@
+{
+    "name": "Btn",
+    "alias": "btn",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Btn\\Providers\\BtnServiceProvider"
+    ],
+    "files": []
+}

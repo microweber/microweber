@@ -11,10 +11,11 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
     public function toHtml(): string
     {
         // $libs = Vite::asset('src/MicroweberPackages/LiveEdit/resources/front-end/js/admin/admin-filament-libs.js');
-        $libs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin-filament-libs.js';
+     //   $libs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin-filament-libs.js';
+        $libs = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin-filament-libs.js';
         // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
-        $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin.js';
-        $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/css/admincss.css';
+        $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin.js';
+        $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin.css';
         $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.js';
         $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.js';
         $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
