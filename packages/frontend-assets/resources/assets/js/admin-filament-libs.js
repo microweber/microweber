@@ -1,5 +1,5 @@
 //libs
-import "xss";
+//import "xss";
 
 
 // import "jquery";
@@ -7,7 +7,8 @@ import "xss";
 //import jQuery from 'jquery';
 //const jQuery  = (await import("jquery/dist/jquery.js")).default;
 
-import "../core/mw-require.js";
+//import "../core/mw-require.js";
+
 
 
 
@@ -19,14 +20,14 @@ globalThis.jQuery = jQuery;
 //await import("jquery-ui/dist/jquery-ui.js");
 
 
-import TomSelect  from "tom-select";
+//import TomSelect  from "tom-select";
 
 import {RichTextEditor} from "../components/richtext-editor.js";
 
 
-
-globalThis.TomSelect = TomSelect;
-window.TomSelect = TomSelect;
+//
+// globalThis.TomSelect = TomSelect;
+// window.TomSelect = TomSelect;
 
 
 import * as AColorPicker from "a-color-picker";

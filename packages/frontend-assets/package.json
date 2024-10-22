@@ -41,6 +41,7 @@
         "@popperjs/core": "^2.11.8",
         "@vueform/slider": "^2.1.10",
         "@yeger/vue-masonry-wall": "^5.0.16",
+        "a-color-picker": "^1.2.1",
         "axios": "^1.7.7",
         "filerobot-image-editor": "^4.8.1",
         "fs-extra": "^11.2.0",
