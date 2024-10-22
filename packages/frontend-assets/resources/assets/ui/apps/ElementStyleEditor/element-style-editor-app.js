@@ -1,6 +1,11 @@
 import {createApp} from 'vue';
 import {reactive} from 'vue';
 
+// Vuetify
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 import App from './ElementStyleEditorApp.vue';
 
 import VueClickAway from "vue3-click-away";
@@ -15,11 +20,6 @@ const app = createApp(App);
 app.config.globalProperties.emitter = emitter;
 
 
-// Vuetify
-import 'vuetify/styles';
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
 
 const vuetify = createVuetify({
     components,

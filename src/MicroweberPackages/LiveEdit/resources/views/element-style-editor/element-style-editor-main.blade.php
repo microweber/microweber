@@ -153,9 +153,9 @@
     }
 </style>
 
-<script src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}"></script>
-
 
 <div id="mw-element-style-editor-app">
     Loading ...
 </div>
+
+<script src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}"></script>
