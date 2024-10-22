@@ -8,6 +8,13 @@ html {
     --toolbar-height-animation-speed: .4s;
 
     --iframe-height-minus: 0px;
+
+    --tblr-body-color: #fff;
+    --tblr-active-bg: #4592ff;
+    --tblr-bg-surface: #fff;
+    --tblr-body-bg: #f5f5f5;
+    --tblr-body-bg2: #f4f4f4;
+
 }
 
 *, *:before, *:after {
@@ -200,7 +207,7 @@ html[dir="rtl"] #user-menu {
     transform: rotate(45deg) translate(-2px, 4px);
 }
 
-
+ 
 /* Editor */
 
 
