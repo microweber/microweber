@@ -117,7 +117,8 @@ class ModulesApiLiveEdit extends Controller
                 foreach ($modulesFromRegistry as $modkey => $mod) {
                     if (isset($mod['icon']) and ($mod['icon'])) {
                         try {
-                            $mod['icon'] = 'data:image/svg+xml;utf8,'.svg($mod['icon'])->toHtml();
+                          $mod['icon'] = 'data:image/svg+xml;utf8,'.$this->encodeURIComponent(svg($mod['icon'])->toHtml());
+                           //  $mod['icon'] = svg($mod['icon'])->toHtml();
 
                         } catch (\Exception $e) {
 
@@ -586,5 +587,10 @@ class ModulesApiLiveEdit extends Controller
 
         return $ready;
 
+    }
+
+    function encodeURIComponent($str) {
+        $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+        return strtr(rawurlencode($str), $revert);
     }
 }
