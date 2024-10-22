@@ -1,29 +1,26 @@
-<?php
+@php
+$id = "mwaudio-".$params['id'];
 
-$id = "mwaudio-" . $params['id'];
-//$prior =  get_module_option('prior', $params['id']);
 $audio = false;
 if (isset($params['data-audio-url'])) {
     $audio = $params['data-audio-url'];
 }
-//   if($prior == '1'){
-$audio_upload = get_module_option('data-audio-upload', $params['id']);
-//  }
-//else{
-$audio_url = get_module_option('data-audio-url', $params['id']);
-if ($audio_url and trim($audio_url) == '') {
-    $audio_url = false;
+$audioUpload = get_module_option('data-audio-upload', $params['id']);
+
+$audioUrl = get_module_option('data-audio-url', $params['id']);
+if ($audioUrl and trim($audioUrl) == '') {
+    $audioUrl = false;
 }
 
-// }
 
-if ($audio_upload) {
-    $audio = $audio_upload;
-} else if ($audio_url) {
-    $audio = trim($audio_url);
+if ($audioUpload) {
+    $audio = $audioUpload;
+} else {
+    if ($audioUrl) {
+        $audio = trim($audioUrl);
+    }
 }
-
-?>
+@endphp
 
 <div class="mwembed mw-audio" id="<?php print $id; ?>">
     <?php if ($audio != '') { ?>
@@ -32,8 +29,6 @@ if ($audio_upload) {
         <?php print lnotif(_lang('Upload Audio File or paste URL.', "modules/audio", true)); ?>
     <?php } ?>
 </div>
-
-
 
 
 
