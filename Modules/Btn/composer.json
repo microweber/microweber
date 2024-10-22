@@ -1,0 +1,30 @@
+{
+    "name": "modules/btn",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Btn\\": "",
+            "Modules\\Btn\\Database\\Factories\\": "database/factories/",
+            "Modules\\Btn\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Btn\\Tests\\": "Tests/"
+        }
+    }
+}
