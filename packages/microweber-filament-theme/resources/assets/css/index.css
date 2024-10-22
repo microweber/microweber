@@ -22,6 +22,7 @@
 @import '../../../../frontend-assets/resources/assets/css/scss/tree.scss';
 @import '../../../../frontend-assets/resources/assets/css/scss/editor.scss';
 @import '../../../../frontend-assets/resources/assets/css/scss/spinner.scss';
+@import '../../../../frontend-assets/resources/assets/css/scss/notification.scss';
 
 
 @import 'microweber/grid-only.css';

@@ -17,7 +17,7 @@ class ApijsScriptTag implements TagInterface, \Stringable
 
         $apijs_combined_loaded = app()->template_manager->get_apijs_combined_url();
 
-        $apijs_combined_loaded_new =  public_asset('vendor/microweber-packages/frontend-assets/js/frontend.js');;
+        $apijs_combined_loaded_new =  public_asset('vendor/microweber-packages/frontend-assets/build/frontend.js');;
 
         $append_html = '';
 

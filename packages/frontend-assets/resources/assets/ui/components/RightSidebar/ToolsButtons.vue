@@ -32,39 +32,6 @@
             </a>
         </li>
 
-        <!--            <li>-->
-        <!--                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="show('style-editor')">-->
-        <!--                    <svg class="me-1"-->
-        <!--                        xmlns="http://www.w3.org/2000/svg" height="20"-->
-        <!--                        viewBox="0 -960 960 960" width="20">-->
-        <!--                        <path d="M480-120q-133 0-226.5-92T160-436q0-65 25-121.5T254-658l226-222 226 222q44 44 69 100.5T800-436q0 132-93.5 224T480-120ZM242-400h474q12-72-13.5-123T650-600L480-768 310-600q-27 26-53 77t-15 123Z"/>-->
-        <!--                    </svg>-->
-        <!--                    Element Style Editor-->
-        <!--                </a>-->
-        <!--            </li>-->
-
-        <!--            <li>-->
-        <!--                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="editStylesheetVariablesInEditor()">-->
-        <!--                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20"-->
-        <!--                         viewBox="0 -960 960 960" width="20">-->
-        <!--                        <path-->
-        <!--                            d="M320-242 80-482l242-242 43 43-199 199 197 197-43 43Zm318 2-43-43 199-199-197-197 43-43 240 240-242 242Z"/>-->
-        <!--                    </svg>-->
-        <!--                    Css Variables Editor-->
-        <!--                </a>-->
-        <!--            </li>-->
-
-        <!--            <li>-->
-        <!--                <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="openContentRevisionsDialog()">-->
-        <!--                    <svg class="me-1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="20"-->
-        <!--                         viewBox="0 -960 960 960" width="20">-->
-        <!--                        <path-->
-        <!--                            d="M490-526h60v-84h84v-60h-84v-84h-60v84h-84v60h84v84Zm-84 156h228v-60H406v60ZM260-160q-24 0-42-18t-18-42v-640q0-24 18-42t42-18h348l232 232v468q0 24-18 42t-42 18H260Zm0-60h520v-442L578-860H260v640ZM140-40q-24 0-42-18t-18-42v-619h60v619h498v60H140Zm120-180v-640 640Z"/>-->
-        <!--                    </svg>-->
-        <!--                    Content Revisions-->
-        <!--                </a>-->
-        <!--            </li>-->
-
 
     </ul>
 </template>
