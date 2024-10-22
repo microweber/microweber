@@ -80,7 +80,6 @@
 
 
 </template>
-<style src="./ElementStyleEditor.css"></style>
 
 <script>
 import ElementStyleEditorActiveNode from './ElementStyleEditorActiveNode.vue';
