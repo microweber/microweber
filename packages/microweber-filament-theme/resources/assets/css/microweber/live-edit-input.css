@@ -75,8 +75,17 @@
 .js-modules-list-search-input .fi-input.form-select,
 .mw-file-manager-search .form-control .fi-input,
 .mw-file-manager-search .form-control .fi-input.form-select {
-    @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 !outline-0 appearance-none shadow-none bg-[#f0f0f0] dark:bg-gray-900 pl-[10px];
+    @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 !outline-0 appearance-none shadow-none !bg-[#f0f0f0] dark:bg-gray-900 pl-[10px];
 }
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.dropdown-menu {
+    @apply !top-[73%];
+
+    a{
+        @apply text-left;
+    }
+}
+
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
 .form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled,

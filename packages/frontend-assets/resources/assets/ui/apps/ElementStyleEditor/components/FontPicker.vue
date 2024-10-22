@@ -14,11 +14,11 @@
           </span>
         </div>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="fontDropdown">
+      <ul class="dropdown-menu form-control-live-edit-input" aria-labelledby="fontDropdown">
 
 
           <li>
-              <a class="dropdown-item" @click="selectFont('')">
+              <a class="dropdown-item " @click="selectFont('')">
                   Default
               </a>
 

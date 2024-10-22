@@ -110,35 +110,35 @@
     <div v-if="showSpacing">
 
 
-        <div class="mb-3 btn-small-holder">
+        <div class="mb-3">
             <div class="form-label live-edit-label ">Inner Spacing (Padding)</div>
             <div class="form-group">
                 <div class="flex" style="margin: auto">
-                    <a class="btn btn-sm btn-icon mdi mdi-cancel" @click="setPaddingOnAllSides(0)"></a>
-
-                    <a class="btn btn-sm btn-icon mdi mdi-size-s" @click="setPaddingOnAllSides(30)"></a>
-                    <a class="btn btn-sm btn-icon mdi mdi-size-m" @click="setPaddingOnAllSides(40)"></a>
-                    <a class="btn btn-sm btn-icon mdi mdi-size-l" @click="setPaddingOnAllSides(50)"></a>
-                    <a class="btn btn-sm btn-icon mdi mdi-size-xl" @click="setPaddingOnAllSides(100)"></a>
-                    <a class="btn btn-sm btn-icon mdi mdi-dots-horizontal" @click="toggleMarginAndPaddingControlls()"></a>
+                    <a class="btn btn-icon mdi mdi-size-s" @click="setPaddingOnAllSides(30)"></a>
+                    <a class="btn btn-icon mdi mdi-size-m" @click="setPaddingOnAllSides(40)"></a>
+                    <a class="btn btn-icon mdi mdi-size-l" @click="setPaddingOnAllSides(50)"></a>
+                    <a class="btn btn-icon mdi mdi-size-xl" @click="setPaddingOnAllSides(100)"></a>
+                    <a class="btn btn-icon mdi mdi-cancel" @click="setPaddingOnAllSides(0)"></a>
+                    <a class="btn btn-icon mdi mdi-dots-horizontal" @click="toggleMarginAndPaddingControlls()"></a>
 
                 </div>
             </div>
         </div>
 
 
-        <div class="mb-3 btn-small-holder">
+        <div class="mb-3">
             <div class="form-label live-edit-label ">Outer Spacing (Margin)</div>
             <div class="form-group">
                 <div class="flex" style="margin: auto">
-                    <a class="btn btn-sm btn-icon mdi mdi-cancel" @click="setMarginOnAllSides(0)"></a>
 
-                    <a class="btn btn-sm btn-icon mdi mdi-size-s" @click="setMarginOnAllSides(30)"></a>
-                    <a class="btn btn-sm btn-icon mdi mdi-size-m" @click="setMarginOnAllSides(40)"></a>
-                    <a class="btn btn-sm btn-icon mdi mdi-size-l" @click="setMarginOnAllSides(50)"></a>
-                    <a class="btn btn-sm btn-icon mdi mdi-size-xl" @click="setMarginOnAllSides(100)"></a>
 
-                    <a class="btn btn-sm btn-icon mdi mdi-dots-horizontal" @click="toggleMarginAndPaddingControlls()"></a>
+                    <a class="btn btn-icon mdi mdi-size-s" @click="setMarginOnAllSides(30)"></a>
+                    <a class="btn btn-icon mdi mdi-size-m" @click="setMarginOnAllSides(40)"></a>
+                    <a class="btn btn-icon mdi mdi-size-l" @click="setMarginOnAllSides(50)"></a>
+                    <a class="btn btn-icon mdi mdi-size-xl" @click="setMarginOnAllSides(100)"></a>
+
+                    <a class="btn btn-icon mdi mdi-cancel" @click="setMarginOnAllSides(0)"></a>
+                    <a class="btn btn-icon mdi mdi-dots-horizontal" @click="toggleMarginAndPaddingControlls()"></a>
 
                 </div>
             </div>
