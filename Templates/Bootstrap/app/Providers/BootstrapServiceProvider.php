@@ -11,6 +11,7 @@ use Templates\Bootstrap\View\Components\Card;
 use Templates\Bootstrap\View\Components\Col;
 use Templates\Bootstrap\View\Components\Columns;
 use Templates\Bootstrap\View\Components\Container;
+use Templates\Bootstrap\View\Components\Hero;
 use Templates\Bootstrap\View\Components\Row;
 use Templates\Bootstrap\View\Components\SimpleText;
 
@@ -25,6 +26,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
      */
     public function boot(): void
     {
+        Blade::component('bootstrap-hero', Hero::class);
         Blade::component('bootstrap-simple-text', SimpleText::class);
         Blade::component('bootstrap-container', Container::class);
         Blade::component('bootstrap-row', Row::class);
