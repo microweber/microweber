@@ -110,7 +110,7 @@
     <div v-if="showSpacing">
 
 
-        <div class="mb-3 btn-small-holder">
+        <div class="mb-3">
             <div class="form-label live-edit-label ">Inner Spacing (Padding)</div>
             <div class="form-group">
                 <div class="flex" style="margin: auto">
@@ -126,7 +126,7 @@
         </div>
 
 
-        <div class="mb-3 btn-small-holder">
+        <div class="mb-3">
             <div class="form-label live-edit-label ">Outer Spacing (Margin)</div>
             <div class="form-group">
                 <div class="flex" style="margin: auto">
