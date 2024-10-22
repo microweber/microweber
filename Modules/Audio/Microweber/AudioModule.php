@@ -18,15 +18,27 @@ class AudioModule extends BaseModule
 
     public function render()
     {
-
-        $template = $this->getTemplate();
         $viewData = $this->getViewData();
-//        if ($template) {
-//            return view($template, $viewData);
-//        }
+
+        $id = "mwaudio-".$this->params['id'];
+
+        $audio = false;
+        if (isset($this->params['data-audio-url'])) {
+            $audio = $this->params['data-audio-url'];
+        }
+        $audioSource = get_module_option('data-audio-source', $this->params['id']);
+        $audioUpload = get_module_option('data-audio-upload', $this->params['id']);
+        $audioUrl = get_module_option('data-audio-url', $this->params['id']);
+        if ($audioSource == 'url') {
+            $audio = $audioUrl;
+        } else {
+            $audio = $audioUpload;
+        }
+
+        $viewData['audio'] = $audio;
+        $viewData['id'] = $id;
 
         return view('modules.audio::templates.default', $viewData);
-
 
     }
 
