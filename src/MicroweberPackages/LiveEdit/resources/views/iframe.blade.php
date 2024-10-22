@@ -39,8 +39,7 @@
         $bodyDarkClass = 'theme-dark';
     }
     ?>
-
-    @vite('src/MicroweberPackages/LiveEdit/resources/js/ui/live-edit-app.js')
+     <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
 
      <?php event_trigger('mw.live_edit.header'); ?>
 </head>

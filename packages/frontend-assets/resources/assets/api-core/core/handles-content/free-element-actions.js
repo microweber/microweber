@@ -1,4 +1,4 @@
-import { FreeDraggableElementManagerTools } from "./free-draggable-element-manager";
+import { FreeDraggableElementManagerTools } from "./free-draggable-element-manager.js";
 
 export class FreeElementActions {
 

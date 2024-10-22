@@ -2,7 +2,7 @@
 import liveEditHelpers from "../../../api-core/core/live-edit-helpers.service.js";
 import {EditorComponent} from "../../../api-core/services/components/editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
-import {DomService} from "../../../api-core/core/classes/dom";
+import {DomService} from "../../../api-core/core/classes/dom.js";
 
 
 export default {

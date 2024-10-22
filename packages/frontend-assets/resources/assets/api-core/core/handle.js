@@ -4,7 +4,7 @@ import {Draggable} from "./draggable.js";
 import {ElementManager} from "./classes/element.js";
 import {DomService} from "./classes/dom.js";
 import {Resizable} from "./classes/resizable.js";
-import { type } from "jquery";
+
 
 export const Handle = function (options) {
 

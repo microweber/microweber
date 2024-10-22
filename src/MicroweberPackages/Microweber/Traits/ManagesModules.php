@@ -40,10 +40,33 @@ trait ManagesModules
     {
         $modules = $this->getModules();
         $settings = [];
-        foreach ($modules as $type=> $module) {
+        foreach ($modules as $type => $module) {
             /** @var BaseModule $module */
             $settings[$type] = $module::getSettingsComponent();
         }
+        return $settings;
+    }
+
+    public function getModulesDetails(): array
+    {
+        $modules = $this->getModules();
+        $settings = [];
+        foreach ($modules as $type => $module) {
+            /** @var BaseModule $module */
+            $settings[$type] = [
+                'module' => $type,
+                'name' => $module::getName(),
+                'icon' => $module::getIcon(),
+                'position' => $module::getPosition() ?? 0,
+            ];
+        }
+        //sort by position
+        if (!empty($settings)) {
+            usort($settings, function ($a, $b) {
+                return $a['position'] <=> $b['position'];
+            });
+        }
+
         return $settings;
     }
 

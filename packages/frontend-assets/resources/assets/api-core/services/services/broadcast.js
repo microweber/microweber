@@ -1,5 +1,5 @@
 
-import BaseComponent from "../containers/base-class";
+import BaseComponent from "../containers/base-class.js";
 import  "../../../tools/storage.js";
 
 export class MWBroadcast extends BaseComponent {

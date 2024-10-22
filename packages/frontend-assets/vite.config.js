@@ -9,19 +9,31 @@ import sass from 'sass';
 export default defineConfig({
 
 
+
     build: {
+        devServer: {
+            devMiddleware: {
+                writeToDisk: true,
+            },
+        },
+        mode: 'development', // production
+
         rollupOptions: {
             output: {
                 entryFileNames: `assets/[name].js`,
                 chunkFileNames: `assets/[name].js`,
                 assetFileNames: `assets/[name].[ext]`,
 
-            }
+            },
+
         },
-        open: true,
+        write: true,
+        open: false,
         port: 3000,
         assetsInlineLimit: 0,
         outDir: './resources/dist/build',
+        emptyOutDir: true,
+
         manifest: "manifest.json",
 
         target: 'es6'
@@ -55,10 +67,10 @@ export default defineConfig({
             publicDirectory: "resources/assets/",
             //  refresh: true,
             //   publicDirectory: "public",
-            refresh: true,
+          //  refresh: true,
         }),
 
-        copyFolderSyncVite(__dirname + '/resources/dist/build', __dirname + '/../../public/vendor/microweber-packages/frontend-assets/build/'),
+        copyFolderSyncVite(__dirname + '/resources/dist/build/', __dirname + '/../../public/vendor/microweber-packages/frontend-assets/build/'),
 
 
         // istanbul({

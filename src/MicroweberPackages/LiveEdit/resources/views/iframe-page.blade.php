@@ -134,9 +134,10 @@
 
         </script>
 
-        @vite('resources/assets/ui/live-edit-app.js',  'vendor/microweber-packages/frontend-assets/build')
+         <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
 
     </div>
+
 
 
     <x-filament-actions::modals />

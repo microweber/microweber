@@ -1,5 +1,4 @@
-import { type } from "jquery";
-import { ElementManager } from "./element";
+import { ElementManager } from "./element.js";
 
 export class ResizableInfo  {
     constructor(options = {}) {

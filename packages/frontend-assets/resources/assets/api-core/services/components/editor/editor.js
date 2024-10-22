@@ -1,4 +1,4 @@
-import { DomService } from "../../../core/classes/dom";
+import { DomService } from "../../../core/classes/dom.js";
 console.log(7651, mw.settings)
  mw.require('editor.js');
 mw.require('css_parser.js');

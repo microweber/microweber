@@ -16,7 +16,7 @@ import {InteractionHandleContent} from "./handles-content/interaction.js";
 import {DomService} from "./classes/dom.js";
 import "./core/@core.js";
 import liveEditHelpers from "./live-edit-helpers.service.js";
-import {BGImageHandles} from "./handle-bg-image";
+import {BGImageHandles} from "./handle-bg-image.js";
 
 
 

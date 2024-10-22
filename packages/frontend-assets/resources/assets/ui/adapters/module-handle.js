@@ -1,5 +1,5 @@
  import BaseComponent from "../../api-core/services/containers/base-class.js";
- import { insertModule } from "../../api-core/services/services/insert-module";
+ import {insertModule}  from "../../api-core/services/services/insert-module.js";
 
 class ModuleHandleAdapter extends BaseComponent {
     constructor() {

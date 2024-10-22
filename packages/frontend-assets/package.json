@@ -9,24 +9,27 @@
     },
     "private": true,
     "scripts": {
-        "build": "concurrently \"npx webpack build --mode=production\" \"vite build\"",
-        "dev": "concurrently \"npx webpack build --mode=development --watch\" \"vite build --watch\""
+        "build": "concurrently \"npx webpack build --mode=production\" \"npx mix\"",
+        "dev": "concurrently \"npx webpack build --mode=development --watch\" \"npx mix watch\""
     },
     "devDependencies": {
         "copy-webpack-plugin": "^12.0.2",
         "css-loader": "^7.1.2",
+        "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^1.0.5",
         "mini-css-extract-plugin": "^2.9.0",
         "postcss": "^8.3.7",
         "postcss-loader": "^8.1.1",
         "postcss-preset-env": "^10.0.0",
         "postcss-scss": "^4.0.9",
+        "resolve-url-loader": "^5.0.0",
         "sass": "^1.77.6",
         "sass-loader": "^16.0.0",
         "style-loader": "^4.0.0",
         "vite": "^5.4.9",
         "vite-plugin-copy-folder": "^1.0.1",
         "vite-plugin-live-reload": "*",
+        "vite-plugin-static-copy": "^2.0.0",
         "vue-loader": "^17.4.2",
         "vue-template-compiler": "^2.7.16",
         "webpack": "^5.93.0",
@@ -34,9 +37,22 @@
         "webpack-remove-empty-scripts": "^1.0.4"
     },
     "dependencies": {
+        "@heroicons/vue": "^1.0.6",
+        "@popperjs/core": "^2.11.8",
+        "@vueform/slider": "^2.1.10",
+        "@yeger/vue-masonry-wall": "^5.0.16",
+        "axios": "^1.7.7",
         "filerobot-image-editor": "^4.8.1",
         "fs-extra": "^11.2.0",
+        "mitt": "^3.0.1",
         "moveable": "^0.53.0",
-        "react-filerobot-image-editor": "^4.8.1"
+        "react-filerobot-image-editor": "^4.8.1",
+        "vue": "^3.5.12",
+        "vue-demi": "^0.14.10",
+        "vue-drag-resize": "^1.5.4",
+        "vue-final-modal": "^4.5.5",
+        "vue3-click-away": "^1.2.4",
+        "vue3-tags-input": "^1.0.12",
+        "vuetify": "^3.7.3"
     }
 }

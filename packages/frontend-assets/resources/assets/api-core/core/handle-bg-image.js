@@ -1,5 +1,8 @@
-import {HandleMenu} from "./handle-menu";
-import {HandleIcons} from "./handle-icons";
+import {HandleMenu} from "./handle-menu.js";
+import {HandleIcons} from "./handle-icons.js";
+
+
+
 
 export class BGImageHandles {
     constructor(options = {}) {

@@ -1,5 +1,5 @@
-import BaseComponent from "../../containers/base-class";
-import {DomService} from "../../../core/classes/dom";
+import BaseComponent from "../../containers/base-class.js";
+import {DomService} from "../../../core/classes/dom.js";
 
 export class LiveEditUndoRedoHandler extends BaseComponent {
     constructor() {

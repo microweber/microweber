@@ -1,5 +1,5 @@
-import BaseComponent from "../../containers/base-class";
-import liveEditHelpers from "../../../core/live-edit-helpers.service";
+import BaseComponent from "../../containers/base-class.js";
+import liveEditHelpers from "../../../core/live-edit-helpers.service.js";
 
 export class LiveEditSpacer extends BaseComponent {
     constructor() {

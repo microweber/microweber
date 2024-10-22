@@ -1,10 +1,10 @@
 import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
-import {HandleIcons} from "../handle-icons";
-import {ElementActions} from "./element-actions";
-import {DomService} from "../classes/dom";
-import {ElementSettingsTarget} from "./element-settings-target";
-import {ElementHandleButtonsVisibility} from "./element-handle-buttons-visibility";
+import {HandleIcons} from "../handle-icons.js";
+import {ElementActions} from "./element-actions.js";
+import {DomService} from "../classes/dom.js";
+import {ElementSettingsTarget} from "./element-settings-target.js";
+import {ElementHandleButtonsVisibility} from "./element-handle-buttons-visibility.js";
 import { FreeElementActions } from "./free-element-actions.js";
 
 

@@ -1,4 +1,4 @@
-import BaseComponent from "../../containers/base-class";
+import BaseComponent from "../../containers/base-class.js";
 
 export class LiveEditFontManager extends BaseComponent {
 

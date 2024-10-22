@@ -760,6 +760,9 @@ class ModuleManager
         return $this->get($params);
     }
 
+
+
+    /* @deprecated */
     public function get($params = false)
     {
 //        if (!mw_is_installed()) {

@@ -1,16 +1,16 @@
-import { EditorHandles } from '../../../../ui/adapters/module-handle.js';
-import {LiveEdit} from '../../../core/@live.js';
-import {DomService} from '../../../core/classes/dom.js';
+import { EditorHandles } from '../ui/adapters/module-handle.js';
+import {LiveEdit} from '../api-core/core/@live.js';
+import {DomService} from '../api-core/core/classes/dom.js';
 //import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
-import {ModuleSettings} from "../../services/module-settings";
-import {TemplateSettings} from "../../services/template-settings";
-import {WyswygEditor} from "../../services/wyswyg-editor";
-import {LiveEditSpacer} from "./live-edit-spacer";
-import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
-import LiveEditImageDialog from "./live-edit-image-dialog";
-import {LiveEditLayoutBackground} from "./live-edit-layout-background";
-import LiveEditFontManager from "./live-edit-font-manager";
-import { FreeDraggableElementManager } from '../../../core/handles-content/free-draggable-element-manager.js';
+import {ModuleSettings} from "../api-core/services/services/module-settings.js";
+import {TemplateSettings} from "../api-core/services/services/template-settings.js";
+import {WyswygEditor} from "../api-core/services/services/wyswyg-editor.js";
+import {LiveEditSpacer} from "./live-edit-spacer.js";
+import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler.js";
+import LiveEditImageDialog from "./live-edit-image-dialog.js";
+import {LiveEditLayoutBackground} from "./live-edit-layout-background.js";
+import LiveEditFontManager from "./live-edit-font-manager.js";
+import { FreeDraggableElementManager } from '../api-core/core/handles-content/free-draggable-element-manager.js';
 
 
 export const liveEditComponent = () => {

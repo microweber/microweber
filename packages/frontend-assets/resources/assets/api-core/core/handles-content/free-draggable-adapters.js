@@ -1,8 +1,7 @@
 
-import { parse } from "vue/compiler-sfc";
-import { ElementManager } from "../classes/element";
-import { ResizableInfo } from "../classes/resizable";
-import liveEditHelpersService from "../live-edit-helpers.service";
+import { ElementManager } from "../classes/element.js";
+import { ResizableInfo } from "../classes/resizable.js";
+import liveEditHelpersService from "../live-edit-helpers.service.js";
 
 export const movable = function(element, container) {
 

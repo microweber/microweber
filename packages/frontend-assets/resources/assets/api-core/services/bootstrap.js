@@ -8,9 +8,9 @@ import {Modules} from "./services/modules.js";
 import {Layouts} from "./services/layouts.js";
 import {License} from "./services/license.js";
 import {KeyboardEvents} from "./services/keyboard-events.js";
-import {IconPicker} from "./services/icon-picker";
-import {LinkPicker} from "./services/link-picker";
-import {ColorPicker} from "./services/color-picker";
+import {IconPicker} from "./services/icon-picker.js";
+import {LinkPicker} from "./services/link-picker.js";
+import {ColorPicker} from "./services/color-picker.js";
 
 import {normalizeBase64Images, normalizeBase64Image} from "../../tools/base64-images.js";
 //import '@nextapps-be/livewire-sortablejs';
@@ -19,7 +19,7 @@ import {normalizeBase64Images, normalizeBase64Image} from "../../tools/base64-im
 //import Alpine from 'alpinejs';
 //import focus from '@alpinejs/focus';
 import {DynamicTargetMenus} from './services/dynamic-target-menus.js';
-import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas";
+import {LiveEditCanvas} from "./components/live-edit-canvas/live-edit-canvas.js";
 import {SingleFilePickerComponent} from './services/single-file-picker-component.js';
 import {MWBroadcast} from './services/broadcast.js';
 import {MWDocumentFocus} from './services/document.focus.service.js';

@@ -153,8 +153,8 @@
     }
 </style>
 
+<script src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}"></script>
 
-@vite('resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js', 'vendor/microweber-packages/frontend-assets/build')
 
 <div id="mw-element-style-editor-app">
     Loading ...

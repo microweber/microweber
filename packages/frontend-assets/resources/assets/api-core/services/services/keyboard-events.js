@@ -1,5 +1,5 @@
 import MicroweberBaseClass from "../containers/base-class.js";
-import {KeyboardKeysHelper} from "./keyboard-keys-helper";
+import {KeyboardKeysHelper} from "./keyboard-keys-helper.js";
 
 
 export class KeyboardEvents extends MicroweberBaseClass {

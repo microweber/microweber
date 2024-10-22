@@ -1,6 +1,7 @@
 import axios from "axios";
-import { ElementManager } from "../../core/classes/element";
-import { afterLayoutChange } from "../../core/handles-content/layout-actions";
+import { ElementManager } from "../../core/classes/element.js";
+import { afterLayoutChange } from "../../core/handles-content/layout-actions.js";
+import MicroweberBaseClass from "../containers/base-class.js";
 
 
 export const insertModule = (target = null, module, options = {}, insertLocation = 'top', explicitAction) => {

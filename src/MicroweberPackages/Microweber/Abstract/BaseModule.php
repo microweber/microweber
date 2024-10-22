@@ -15,11 +15,11 @@ abstract class BaseModule
     use HasMicroweberModuleOptions;
     use HasMicroweberModuleTemplates;
 
-    public static string $title = 'Base module';
+    public static string $name = 'Base module';
     public static string $icon = '<i class="mdi mdi-cube-outline"></i>';
     public static string $categories = 'other';
     public static string $settingsComponent = NoSettings::class;
-    public static int $position = 999;
+    public static int $position = 0;
 
 
     public string $type = '';
@@ -51,11 +51,6 @@ abstract class BaseModule
     {
         return ''; // This should return the view for the frontend display
     }
-
-//    public function admin()
-//    {
-//        return ''; // This should return the view for the admin display
-//    }
 
 
 }

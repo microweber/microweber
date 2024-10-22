@@ -1,4 +1,4 @@
-import {DomService} from "./classes/dom";
+import {DomService} from "./classes/dom.js";
 
 export default {
 

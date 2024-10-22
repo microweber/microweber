@@ -5,10 +5,10 @@ namespace MicroweberPackages\Microweber\Traits;
 trait HasMicroweberModule
 {
 
-    public static function getTitle(): string
+    public static function getName(): string
     {
-        if (isset(static::$title)) {
-            return static::$title;
+        if (isset(static::$name)) {
+            return static::$name;
         }
 
         return '';

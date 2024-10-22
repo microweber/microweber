@@ -1,9 +1,9 @@
-import MicroweberBaseClass from "../../services/containers/base-class";
-import {Confirm} from "../classes/dialog";
-import {ElementManager} from "../classes/element";
-import {LinkPicker} from "../../services/services/link-picker";
-import {DomService} from "../classes/dom";
-import {HandleIcons} from "../handle-icons";
+import MicroweberBaseClass from "../../services/containers/base-class.js";
+import {Confirm} from "../classes/dialog.js";
+import {ElementManager} from "../classes/element.js";
+import {LinkPicker} from "../../services/services/link-picker.js";
+import {DomService} from "../classes/dom.js";
+import {HandleIcons} from "../handle-icons.js";
 
 
 export class ElementActions extends MicroweberBaseClass {

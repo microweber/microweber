@@ -38,6 +38,16 @@ class AudioServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
 
         FilamentRegistry::registerPage(AudioModuleSettings::class);
+//    use BladeUI\Icons\Factory;
+//
+//        $this->callAfterResolving(Factory::class, function (Factory $factory) {
+//            $factory->add('heroicons', [
+//                'path' => DIR.'/../resources/svg',
+//                'prefix' => 'heroicon',
+//            ]);
+//        });
+//    }
+
         Microweber::module('audio', \Modules\Audio\Microweber\AudioModule::class);
 
 

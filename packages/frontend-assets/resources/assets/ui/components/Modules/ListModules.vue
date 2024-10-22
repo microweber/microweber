@@ -53,7 +53,19 @@
                              data-bs-placement="top">
                             <div class="modules-list-block-item-picture"
                                  :style="{ backgroundImage: `url(${item.icon})` }"></div>
-                            <div class="modules-list-block-item-title">{{ item.name }}</div>
+                            <div class="modules-list-block-item-title">{{ item.name }}
+
+
+
+
+
+
+
+
+
+
+
+                            </div>
                             <div class="modules-list-block-item-description">{{ item.description }}</div>
                         </div>
                     </div>
@@ -223,6 +235,9 @@ export default {
             this.getModulesList().then(function (data) {
                 instance.modulesList = data.modules;
                 instance.filterModules();
+
+                console.log('modulesList', instance.modulesList)
+
             });
 
 

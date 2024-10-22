@@ -2,14 +2,14 @@ import { EditorHandles } from '../../../../ui/adapters/module-handle.js';
 import {LiveEdit} from '../../../core/@live.js';
 import {DomService} from '../../../core/classes/dom.js';
 //import liveeditCssDist from '../../../core/css/scss/liveedit.scss';
-import {ModuleSettings} from "../../services/module-settings";
-import {TemplateSettings} from "../../services/template-settings";
-import {WyswygEditor} from "../../services/wyswyg-editor";
-import {LiveEditSpacer} from "./live-edit-spacer";
-import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler";
+import {ModuleSettings} from "../../services/module-settings.js";
+import {TemplateSettings} from "../../services/template-settings.js";
+import {WyswygEditor} from "../../services/wyswyg-editor.js";
+import {LiveEditSpacer} from "./live-edit-spacer.js";
+import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler.js";
 import LiveEditImageDialog from "../../../../live-edit/live-edit-image-dialog.js";
-import {LiveEditLayoutBackground} from "./live-edit-layout-background";
-import LiveEditFontManager from "./live-edit-font-manager";
+import {LiveEditLayoutBackground} from "./live-edit-layout-background.js";
+import LiveEditFontManager from "./live-edit-font-manager.js";
 import { FreeDraggableElementManager } from '../../../core/handles-content/free-draggable-element-manager.js';
 
 

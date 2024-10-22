@@ -104,11 +104,36 @@ class ModulesApiLiveEdit extends Controller
 
         } else {
 
+            $modulesFromRegistry = app()->microweber->getModulesDetails();
             $modules = mw()->module_manager->get('installed=1&ui=1');
             $module_layouts = mw()->module_manager->get('installed=1&module=layouts');
             $hide_from_display_list = array('layouts', 'template_settings');
             $sortout_el = array();
             $sortout_mod = array();
+
+            if ($modulesFromRegistry) {
+
+
+                foreach ($modulesFromRegistry as $modkey => $mod) {
+                    if (isset($mod['icon']) and ($mod['icon'])) {
+                        try {
+                            $mod['icon'] = 'data:image/svg+xml;utf8,'.svg($mod['icon'])->toHtml();
+
+                        } catch (\Exception $e) {
+
+
+                        }
+
+                    } else {
+
+                    }
+                    $modulesFromRegistry[$modkey] = $mod;
+                }
+
+
+                $modules = array_merge($modulesFromRegistry,$modules);
+            }
+
 
             if (!empty($modules)) {
                 foreach ($modules as $mod) {
@@ -496,7 +521,6 @@ class ModulesApiLiveEdit extends Controller
                         $title = _e($title, true);
 
 
-
                         $moduleDataItem = [
                             'module_id' => $module_id,
                             'hidden' => false,
@@ -513,7 +537,7 @@ class ModulesApiLiveEdit extends Controller
                             'description' => $module_item['description'],
                             'settings' => $module_item['settings'],
                             'as_element' => $module_item['as_element'] ?? false,
-                            'keywords'=>$module_item['keywords'] ?? $module_item['name'],
+                            'keywords' => $module_item['keywords'] ?? $module_item['name'],
                         ];
 
                         if (isset($hide_from_display_list)) {

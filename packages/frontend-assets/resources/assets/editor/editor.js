@@ -1,4 +1,4 @@
-import { DomService } from "../../../core/classes/dom";
+import { DomService } from "../api-core/core/classes/dom.js";
 console.log(765, mw.settings)
 
  mw.require('editor.js');

@@ -1,8 +1,8 @@
-import MicroweberBaseClass from "../../services/containers/base-class";
-import { DomService } from "../classes/dom";
-import { ElementManager } from "../classes/element";
+import MicroweberBaseClass from "../../services/containers/base-class.js";
+import { DomService } from "../classes/dom.js";
+import { ElementManager } from "../classes/element.js";
 
-import { movable } from "./free-draggable-adapters";
+import { movable } from "./free-draggable-adapters.js";
 
 
 

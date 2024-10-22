@@ -1,7 +1,7 @@
-import MicroweberBaseClass from "../../services/containers/base-class";
+import MicroweberBaseClass from "../../services/containers/base-class.js";
 import liveEditHelpers from "../live-edit-helpers.service.js";
 
-import {DomService} from "../classes/dom";
+import {DomService} from "../classes/dom.js";
 
 
 export class ElementHandleButtonsVisibility extends MicroweberBaseClass {

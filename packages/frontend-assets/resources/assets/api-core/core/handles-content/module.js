@@ -1,9 +1,9 @@
 import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
 import {DomService} from '../classes/dom.js';
-import {Confirm} from "../classes/dialog";
-import {HandleIcons} from "../handle-icons";
-import liveEditHelpers from "../live-edit-helpers.service";
+import {Confirm} from "../classes/dialog.js";
+import {HandleIcons} from "../handle-icons.js";
+import liveEditHelpers from "../live-edit-helpers.service.js";
 import { FreeElementActions } from "./free-element-actions.js";
 
 export const moduleSettingsDispatch = function (target) {

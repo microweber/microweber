@@ -1,3 +1,25 @@
+//import mix from 'laravel-mix';
+let path = require('path');
 let mix = require('laravel-mix');
+let fs = require('fs-extra');
+mix.webpackConfig({
+    resolve: {
+        modules: [
+            path.resolve(__dirname, 'node_modules')
+        ],
+        fullySpecified: false,
+        extensions: [".*", ".webpack.js", ".web.js", ".js", ".json", ".less"]
+    },
+});
 
-mix.js('resources/assets/ui/live-edit-app.js', 'dist').setPublicPath('dist');
+mix.js('resources/assets/ui/live-edit-app.js', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
+mix.js('resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
+mix.sass('resources/assets/css/scss/liveedit.scss', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
+
+
+mix.after(() => {
+    fs.copySync(
+        path.resolve(__dirname, 'resources/dist/build'),
+        path.resolve(__dirname, '../../public/vendor/microweber-packages/frontend-assets/build')
+    );
+});

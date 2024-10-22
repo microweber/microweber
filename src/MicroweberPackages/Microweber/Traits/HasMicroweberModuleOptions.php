@@ -11,7 +11,7 @@ trait HasMicroweberModuleOptions
     public function getOptions()
     {
 
-      //  get_module_options($this->params['id'], $this->options);
+ // get_module_options($this->params['id'], $this->options);
         return $this->options;
     }
 

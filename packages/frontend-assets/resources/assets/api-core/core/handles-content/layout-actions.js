@@ -1,6 +1,6 @@
-import MicroweberBaseClass from "../../services/containers/base-class";
-import {ElementManager} from "../classes/element";
-import {Confirm} from "../classes/dialog";
+import MicroweberBaseClass from "../../services/containers/base-class.js";
+import {ElementManager} from "../classes/element.js";
+import {Confirm} from "../classes/dialog.js";
 import {DomHelpers} from "../../../tools/domhelpers.js";
 
 export const afterLayoutChange = target => {

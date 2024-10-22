@@ -18,10 +18,10 @@ trait HasMicroweberModuleTemplates
         return $this->template;
     }
 
-    public function setTemplates(array $templates = [])
-    {
-        $this->templates = $templates;
-    }
+//    public function setTemplates(array $templates = [])
+//    {
+//        $this->templates = $templates;
+//    }
 
 
 }

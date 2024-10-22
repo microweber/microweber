@@ -1,5 +1,5 @@
-import MicroweberBaseClass from "../../services/containers/base-class";
-import {DomService} from "../classes/dom";
+import MicroweberBaseClass from "../../services/containers/base-class.js";
+import {DomService} from "../classes/dom.js";
 
 export class ElementSettingsTarget extends MicroweberBaseClass {
     proto = null;

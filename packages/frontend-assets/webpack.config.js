@@ -3,6 +3,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
 import { fileURLToPath } from 'url';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import mix from 'laravel-mix';
 import { config } from './config.js';
 import { exec } from 'child_process';
 import { VueLoaderPlugin } from 'vue-loader';
@@ -13,6 +14,8 @@ const { entry, outputJS, outputCSS } = config;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
 
 const plugins = [
     new RemoveEmptyScriptsPlugin(),

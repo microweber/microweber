@@ -2,7 +2,7 @@ import {HandleMenu} from "../handle-menu.js";
 import {ElementManager} from "../classes/element.js";
 import {Confirm} from "../classes/dialog.js";
 import { DomService } from "../classes/dom.js";
-import {LayoutActions} from "./layout-actions";
+import {LayoutActions} from "./layout-actions.js";
 
 const _getModulesDataCache = {};
 
