@@ -1,9 +1,9 @@
-@import "drop-indicator";
-@import "handles";
-@import "draggable";
-@import "dialog";
-@import "resizer";
-@import "editor.scss";
+@use "drop-indicator";
+@use "handles";
+@use "draggable";
+@use "dialog";
+@use "resizer";
+@use "editor.scss";
 
 .mw-le--hide-selection ::selection {
     color: revert-layer !important;
