@@ -1,18 +1,14 @@
 {
     "name": "microweber-packages/frontend-assets",
-    "description": "Microweber CMS - Filament admin panel theme",
+    "description": "Microweber CMS - Frontend Assets",
     "keywords": [
         "microweber-packages",
         "laravel",
+        "microweber",
         "microweber-frontend-assets"
     ],
     "license": "MIT",
-    "require": {
-        "php": "^8.1"
-    },
-    "require-dev": {
-
-    },
+    "type": "library",
     "autoload": {
         "psr-4": {
             "MicroweberPackages\\FrontendAssets\\": "src/"

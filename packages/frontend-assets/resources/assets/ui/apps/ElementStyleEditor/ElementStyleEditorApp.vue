@@ -168,8 +168,10 @@ export default {
                 this.showAnimations = false;
                 this.showClassApplier = false;
                 this.showPosition = false;
+
                 this.showListStyleEditor = false;
                 this.showLayoutSettings = false;
+
 
                 if (settings.fieldSettings.components.includes('background')) {
                     this.showBackground = true;

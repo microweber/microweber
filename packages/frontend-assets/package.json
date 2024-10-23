@@ -48,6 +48,7 @@
         "mitt": "^3.0.1",
         "moveable": "^0.53.0",
         "react-filerobot-image-editor": "^4.8.1",
+        "tom-select": "^2.3.1",
         "vue": "^3.5.12",
         "vue-demi": "^0.14.10",
         "vue-drag-resize": "^1.5.4",
