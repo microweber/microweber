@@ -1,0 +1,11 @@
+{
+    "name": "Video",
+    "alias": "video",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Video\\Providers\\VideoServiceProvider"
+    ],
+    "files": []
+}
