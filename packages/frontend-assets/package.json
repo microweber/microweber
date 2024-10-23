@@ -9,8 +9,8 @@
     },
     "private": true,
     "scripts": {
-        "build": "concurrently \"npx webpack build --mode=production\" \"npx mix\"",
-        "dev": "concurrently \"npx webpack build --mode=development --watch\" \"npx mix watch\""
+        "build": "npx mix",
+        "dev": "npx mix watch"
     },
     "devDependencies": {
         "copy-webpack-plugin": "^12.0.2",
