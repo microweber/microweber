@@ -1,3 +1,3 @@
- @import "./ui/dialog.scss";
- @import './scss/control-box.scss';
- @import './scss/filemanager.css';
+ @use "./ui/dialog.scss";
+ @use './scss/control-box.scss';
+ @use './scss/filemanager.css';

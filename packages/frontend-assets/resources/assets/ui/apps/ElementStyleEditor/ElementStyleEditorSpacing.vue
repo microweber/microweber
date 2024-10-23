@@ -115,13 +115,12 @@
             <div class="form-label live-edit-label ">Inner Spacing (Padding)</div>
             <div class="form-group">
                 <div class="flex gap-1 mw-live-edit-spacing-wrapper" style="margin: auto">
-                    <a class="btn btn-icon" @click="setPaddingOnAllSides(30)">S</a>
-                    <a class="btn btn-icon" @click="setPaddingOnAllSides(40)">M</a>
-                    <a class="btn btn-icon" @click="setPaddingOnAllSides(50)">L</a>
-                    <a class="btn btn-icon " @click="setPaddingOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon mdi mdi-trash-can-outline" @click="setPaddingOnAllSides(0)"></a>
+                    <a class="btn btn-icon" :class="{ active: activePadding === 30 }" @click="setPaddingOnAllSides(30)">S</a>
+                    <a class="btn btn-icon" :class="{ active: activePadding === 40 }" @click="setPaddingOnAllSides(40)">M</a>
+                    <a class="btn btn-icon" :class="{ active: activePadding === 50 }" @click="setPaddingOnAllSides(50)">L</a>
+                    <a class="btn btn-icon" :class="{ active: activePadding === 100 }" @click="setPaddingOnAllSides(100)">XL</a>
+                    <a class="btn btn-icon mdi mdi-trash-can-outline" :class="{ active: activePadding === 0 }" @click="setPaddingOnAllSides(0)"></a>
                     <a class="btn btn-icon mdi mdi-dots-horizontal" @click="toggleMarginAndPaddingControlls()"></a>
-
                 </div>
             </div>
         </div>
@@ -131,24 +130,15 @@
             <div class="form-label live-edit-label ">Outer Spacing (Margin)</div>
             <div class="form-group">
                 <div class="flex gap-1 mw-live-edit-spacing-wrapper" style="margin: auto">
-
-
-                    <a class="btn btn-icon" @click="setMarginOnAllSides(30)">S</a>
-                    <a class="btn btn-icon" @click="setMarginOnAllSides(40)">M</a>
-                    <a class="btn btn-icon" @click="setMarginOnAllSides(50)">L</a>
-                    <a class="btn btn-icon " @click="setMarginOnAllSides(100)">XL</a>
-
-                    <a class="btn btn-icon mdi mdi-trash-can-outline" @click="setMarginOnAllSides(0)"></a>
+                    <a class="btn btn-icon" :class="{ active: activeMargin === 30 }" @click="setMarginOnAllSides(30)">S</a>
+                    <a class="btn btn-icon" :class="{ active: activeMargin === 40 }" @click="setMarginOnAllSides(40)">M</a>
+                    <a class="btn btn-icon" :class="{ active: activeMargin === 50 }" @click="setMarginOnAllSides(50)">L</a>
+                    <a class="btn btn-icon" :class="{ active: activeMargin === 100 }" @click="setMarginOnAllSides(100)">XL</a>
+                    <a class="btn btn-icon mdi mdi-trash-can-outline" :class="{ active: activeMargin === 0 }" @click="setMarginOnAllSides(0)"></a>
                     <a class="btn btn-icon mdi mdi-dots-horizontal" @click="toggleMarginAndPaddingControlls()"></a>
-
                 </div>
             </div>
         </div>
-
-
-
-
-
 
         <div class="mw-element-spacing-editor mt-4" v-show="showMarginAndPaddingControlls">
             <span class="mw-ese-label">Margin</span>
@@ -177,6 +167,8 @@ export default {
 
     data() {
         return {
+            'activePadding': null,
+            'activeMargin': null,
             'showSpacing': false,
             'showMarginAndPaddingControlls': false,
             'activeNode': null,
@@ -237,6 +229,7 @@ export default {
             this.paddingRight = val;
             this.paddingBottom = val;
             this.paddingLeft = val;
+            this.activePadding = val;
         },
 
         setMarginOnAllSides: function (val) {
@@ -244,7 +237,7 @@ export default {
             this.marginRight = val;
             this.marginBottom = val;
             this.marginLeft = val;
-
+            this.activeMargin = val;
 
         },
 
