@@ -13,6 +13,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
+use MicroweberPackages\Modules\Tabs\Models\TabItem;
 
 class VideoModuleSettings extends LiveEditModuleSettings
 {
@@ -23,10 +24,27 @@ class VideoModuleSettings extends LiveEditModuleSettings
 
         return $form
             ->schema([
-                Section::make('Video settings')->schema([
 
+                Tabs::make('Settings')
+                    ->tabs([
+                        Tabs\Tab::make('Video')
+                            ->schema([
+                                Textarea::make('options.embed_url')
+                                    ->label('Paste video URL or Embed Code')
+                                    ->live(),
+                                MwFileUpload::make('options.upload')
+                                    ->label('Upload Video')
+                            ]),
 
-                ])
+                        Tabs\Tab::make('Settings')
+                            ->schema([
+                            ]),
+                        Tabs\Tab::make('Design')
+                            ->schema([
+                            ]),
+
+                    ])
+
             ]);
     }
 
