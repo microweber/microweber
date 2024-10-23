@@ -847,7 +847,6 @@ h1,h2,h3,h4,h5,h6 {
     text-decoration: none;
     cursor: pointer;
     transition-duration: 0.4s;
-    -webkit-transition-duration: 0.4s; /* Safari */
 
     &:before {
         font-size: 18px;
@@ -864,16 +863,14 @@ h1,h2,h3,h4,h5,h6 {
           height: 100%;
           opacity: 0;
           transition: all 0.5s;
-          box-shadow: 0 0 10px 40px black;
+          box-shadow: 0 0 10px 40px white;
       }
 
-    &.active {
-        @apply bg-gray-900 text-white;
-
-        top: 1px;
+      &:active {
+           top: 1px;
 
         &:after {
-             box-shadow: 0 0 0 0 black;
+             box-shadow: 0 0 0 0 white;
              position: absolute;
              border-radius: 4em;
              left: 0;
@@ -881,6 +878,10 @@ h1,h2,h3,h4,h5,h6 {
              opacity: 1;
              transition: 0s;
          }
+       }
+
+    &.active {
+        @apply bg-gray-900 text-white;
      }
 }
 
