@@ -1,14 +1,14 @@
-@import '../../../../../public/userfiles/modules/microweber/default.css';
-/*@import '../../../../../vendor/filament/filament/resources/css/theme.css';*/
+/*@import '../../../../../public/userfiles/modules/microweber/default.css';*/
 
-@import 'filament/actions';
-@import 'filament/forms';
-@import 'filament/infolists/index.css';
-@import 'filament/notifications/index.css';
-@import 'filament/panels';
-@import 'filament/support';
-@import 'filament/tables';
-@import 'filament/widgets';
+/* @import 'theme/theme.css'; @import '../../../../../vendor/filament/filament/resources/css/theme.css';*/
+
+
+/*@import 'tailwindcss/components';*/
+/*@import 'tailwindcss/utilities';*/
+
+@import 'theme/theme.css';
+/*@import 'tailwindcss/components';*/
+/*@import 'tailwindcss/utilities';*/
 
 @import 'microweber/filepicker.css';
 @import 'microweber/live-edit-action-links.css';

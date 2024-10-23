@@ -3,6 +3,7 @@
     "type": "module",
 
     "scripts": {
+
         "build": "npx mix",
 
         "dev": "npx mix watch"
@@ -31,7 +32,7 @@
 
         "postcss-import": "^15.1.0",
 
-        "tailwindcss": "^3.3.3",
+        "tailwindcss": "^3.4.14",
 
         "webpack": "5.94.0",
 
