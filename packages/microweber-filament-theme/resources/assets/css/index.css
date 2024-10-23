@@ -1,5 +1,5 @@
 @import '../../../../../public/userfiles/modules/microweber/default.css';
-@import '../../../../../vendor/filament/filament/resources/css/theme.css';
+/*@import '../../../../../vendor/filament/filament/resources/css/theme.css';*/
 
 @import 'filament/actions';
 @import 'filament/forms';
@@ -9,7 +9,6 @@
 @import 'filament/support';
 @import 'filament/tables';
 @import 'filament/widgets';
-
 
 @import 'microweber/filepicker.css';
 @import 'microweber/live-edit-action-links.css';

@@ -51,8 +51,8 @@ class MicroweberFilamentTheme implements Plugin
 
         FilamentAsset::register([
             //  Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/css/microweber-filament-theme.css'),
-            Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/css/microweber-filament-theme.css')),
-            Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/js/microweber-filament-theme.js')),
+            Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css')),
+            Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.js')),
 
         ]);
 
