@@ -1,8 +1,15 @@
 const preset = require('./../../vendor/filament/filament/tailwind.config.preset')
 
 module.exports = {
+    future: {
+        relativeContentPathsByDefault: true,
+    },
     presets: [preset],
-
+   // mode: 'jit',
+   //  purge: [
+   //      // Your CSS will rebuild any time *any* file in `src` changes
+   //      './resources/assets/**/*.*',
+   //  ],
     theme: {
         extend: {
             colors: {
@@ -34,6 +41,7 @@ module.exports = {
             },
         },
     },
+
     plugins: [
 
         require('@tailwindcss/typography'),
@@ -42,13 +50,37 @@ module.exports = {
         require('@tailwindcss/container-queries'),
 
     ],
+   // safelist: [{ pattern: /./ }],
 
-    content: [
+
+    content: {
+        relative: true,
+        files: [
+            './../../app/Filament/Admin/**/*.php',
+            './../../resources/**/*.blade.php',
+            './resources/assets/css/*.css',
+            './resources/assets/css/**/*.scss',
+            './../../Modules/**/*.blade.php',
+            './../../Modules/**/resources/views/**/*.blade.php',
+            './../../src/MicroweberPackages/**/*.blade.php',
+            './../../src/MicroweberPackages/**/resources/views/**/*.blade.php',
+            './../../vendor/jaocero/radio-deck/resources/views/**/*.blade.php',
+            './../../vendor/filament/**/*.blade.php',
+            './../../userfiles/modules/**/*.blade.php',
+            './../../userfiles/modules/**/src/resources/views/**/*.blade.php',
+            './../../userfiles/modules/*/src/resources/views/**/*.blade.php',
+            './../../public/userfiles/modules/**/*.blade.php',
+            './../../public/userfiles/modules/**/src/resources/views/**/*.blade.php',
+            './../../public/userfiles/modules/*/src/resources/views/**/*.blade.php',
+        ],
+    },
+
+    content111: [
         './../../app/Filament/Admin/**/*.php',
         './../../resources/**/*.blade.php',
         './resources/**/*.css',
         './resources/**/*.scss',
-        './../../vendor/filament/**/*.blade.php',
+        './../../Modules/**/*.blade.php',
         './../../src/MicroweberPackages/**/*.blade.php',
         './../../src/MicroweberPackages/**/resources/views/**/*.blade.php',
         './../../vendor/jaocero/radio-deck/resources/views/**/*.blade.php',

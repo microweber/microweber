@@ -1,29 +1,23 @@
-/*@import '../../../../../public/userfiles/modules/microweber/default.css';*/
-
-/* @import 'theme/theme.css'; @import '../../../../../vendor/filament/filament/resources/css/theme.css';*/
-
-
-/*@import 'tailwindcss/components';*/
-/*@import 'tailwindcss/utilities';*/
-
-@import 'theme/theme.css';
-/*@import 'tailwindcss/components';*/
-/*@import 'tailwindcss/utilities';*/
-
+@import '../../../../../vendor/filament/filament/resources/css/theme.css';
+@import 'filament/actions';
+@import 'filament/forms';
+@import 'filament/infolists/index.css';
+@import 'filament/notifications/index.css';
+@import 'filament/panels';
+@import 'filament/support';
+@import 'filament/tables';
+@import 'filament/widgets';
 @import 'microweber/filepicker.css';
 @import 'microweber/live-edit-action-links.css';
 @import 'microweber/live-edit-input.css';
 @import 'microweber/linkpicker.css';
 @import 'microweber/general-styles.css';
 @import 'microweber/tomselect.css';
-
-
+@import '../../../../../public/userfiles/modules/microweber/default.css';
 @import '../../../../frontend-assets/resources/assets/css/scss/tree.scss';
 @import '../../../../frontend-assets/resources/assets/css/scss/editor.scss';
 @import '../../../../frontend-assets/resources/assets/css/scss/spinner.scss';
 @import '../../../../frontend-assets/resources/assets/css/scss/notification.scss';
-
-
 @import 'microweber/grid-only.css';
 @import 'microweber/pagination.css';
 @import 'microweber/icon-picker.css';
@@ -32,10 +26,18 @@
 @import 'microweber/bootstrap-classes.css';
 @import 'microweber/element-style-editor.css';
 @import 'microweber/live-edit-components.css';
-
-
-
+@import "tabler-vars.scss";
 @import "global.css";
+@config '../../../tailwind.config.js';
+
+
+
+
+
+
+
+
+
 
 
 

@@ -79,8 +79,8 @@ export default defineConfig({
 
 
 
-                'src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js',
-                'src/MicroweberPackages/Filament/resources/js/tiny-editor.js',
+          //      'src/MicroweberPackages/Multilanguage/resources/js/filament-translatable.js',
+            //    'src/MicroweberPackages/Filament/resources/js/tiny-editor.js',
 
               //  'resources/css/filament/admin/theme.css',
             ],
