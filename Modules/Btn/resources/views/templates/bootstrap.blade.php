@@ -4,7 +4,7 @@
 
 type: layout
 
-name: Default
+name: bootstrap
 
 description: Default
 
@@ -16,7 +16,10 @@ description: Default
         <?php print $text; ?>
 </button>
 <?php else: ?>
-<a id="<?php print $btn_id ?>" href="<?php print $url; ?>" <?php if ($blank) { print ' target="_blank" '; } ?> class="btn <?php print $style . ' ' . $size; ?>" <?php print $attributes ?>>
+<a id="<?php print $btn_id ?>" href="<?php print $url; ?>" <?php if ($blank) {
+    print ' target="_blank" ';
+} ?> class="btn <?php print $style . ' ' . $size; ?>" <?php print $attributes ?>>
+
         <?php print $text; ?>
 </a>
 <?php endif; ?>

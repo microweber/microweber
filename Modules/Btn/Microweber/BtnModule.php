@@ -17,7 +17,8 @@ class BtnModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
-        return view('modules.btn::templates.default', $viewData);
+        return view('modules.btn::btn-layout', $viewData);
+
 
     }
 
