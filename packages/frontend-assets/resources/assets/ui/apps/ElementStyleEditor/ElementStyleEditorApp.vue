@@ -1,3 +1,8 @@
+<style>
+    html,body{
+        overflow:hidden !important;
+    }
+</style>
 <template>
 
     <ElementStyleEditorActiveNode></ElementStyleEditorActiveNode>
@@ -155,6 +160,8 @@ export default {
     },
     mounted() {
 
+
+        mw.top().tools.iframeAutoHeight(frameElement)
         mw.top().app.on('cssEditorSettings', (settings) => {
 
             if (settings.fieldSettings.components) {

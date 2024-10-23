@@ -3,6 +3,7 @@ import liveEditHelpers from "../../../api-core/core/live-edit-helpers.service.js
 import {EditorComponent} from "../../../api-core/services/components/editor/editor";
 import {liveEditComponent} from "../../../api-core/services/components/live-edit/live-edit";
 import {DomService} from "../../../api-core/core/classes/dom.js";
+import CSSGUIService from "../../../api-core/services/services/css-gui.service.js";
 
 
 export default {
@@ -134,6 +135,7 @@ export default {
 
             mw.app.editor.on('editNodeStyleRequest', async (element) => {
                 this.emitter.emit('live-edit-ui-show', 'style-editor');
+                CSSGUIService.toggle()
             });
 
 
