@@ -836,3 +836,16 @@ h1,h2,h3,h4,h5,h6 {
 .image-settings {
     @apply flex items-center;
 }
+
+.mw-live-edit-spacing-wrapper a {
+    @apply hover:bg-gray-900 hover:text-white text-[12px] font-bold;
+
+    &:before {
+        font-size: 18px;
+     }
+
+    &.active {
+    @apply hover:bg-gray-900 hover:text-white;
+     }
+}
+ 
