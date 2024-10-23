@@ -1,0 +1,30 @@
+{
+    "name": "modules/video",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Video\\": "",
+            "Modules\\Video\\Database\\Factories\\": "database/factories/",
+            "Modules\\Video\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Video\\Tests\\": "Tests/"
+        }
+    }
+}
