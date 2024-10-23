@@ -847,7 +847,6 @@ h1,h2,h3,h4,h5,h6 {
     text-decoration: none;
     cursor: pointer;
     transition-duration: 0.4s;
-    -webkit-transition-duration: 0.4s; /* Safari */
 
     &:before {
         font-size: 18px;
@@ -867,10 +866,8 @@ h1,h2,h3,h4,h5,h6 {
           box-shadow: 0 0 10px 40px black;
       }
 
-    &.active {
-        @apply bg-gray-900 text-white;
-
-        top: 1px;
+      &:active {
+           top: 1px;
 
         &:after {
              box-shadow: 0 0 0 0 black;
@@ -881,6 +878,10 @@ h1,h2,h3,h4,h5,h6 {
              opacity: 1;
              transition: 0s;
          }
+       }
+
+    &.active {
+        @apply bg-gray-900 text-white;
      }
 }
 
