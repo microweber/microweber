@@ -42,6 +42,7 @@
 
 <script>
 export default {
+    emits: ['change'],
     props: {
         label: {
             type: String,
@@ -55,13 +56,12 @@ export default {
     data() {
         //this.setHexColorDisplay(this.color);
 
-      var colorHex = this.getHexColorDisplayValueText(this.color)
+        var colorHex = this.getHexColorDisplayValueText(this.color)
 
 
-
-      return {
+        return {
             selectedColor: this.color,
-          //  selectedColorHex: '',
+            //  selectedColorHex: '',
             selectedColorHex: colorHex,
         };
     },
@@ -107,6 +107,9 @@ export default {
         },
         handleColorChange(event) {
             const newColor = event.target.value;
+            this.setNewColor(newColor);
+        },
+        setNewColor(newColor) {
             this.selectedColor = newColor;
 
             this.setHexColorDisplay(newColor);
@@ -119,18 +122,10 @@ export default {
             this.$emit('change', this.selectedColor);
         },
         togglePicker() {
-
-
             let el = this.$refs.colorPickerElement;
-
-
             let colorPicker = mw.app.colorPicker.openColorPicker(this.selectedColor, color => {
-                this.$props.color = color;
-                this.selectedColor = color;
-                this.$emit('change', this.$props.color);
+                this.setNewColor(color);
             }, el);
-
-
         }
     }
 }

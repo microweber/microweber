@@ -10,6 +10,12 @@ export default {
 
 
     },
+
+    data() {
+        return {
+
+        }
+    },
     mounted() {
         mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
             this.$root.selectedLayout = null;

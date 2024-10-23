@@ -75,17 +75,4 @@ module.exports = {
         ],
     },
 
-    content111: [
-        './../../app/Filament/Admin/**/*.php',
-        './../../resources/**/*.blade.php',
-        './resources/**/*.css',
-        './resources/**/*.scss',
-        './../../Modules/**/*.blade.php',
-        './../../src/MicroweberPackages/**/*.blade.php',
-        './../../src/MicroweberPackages/**/resources/views/**/*.blade.php',
-        './../../vendor/jaocero/radio-deck/resources/views/**/*.blade.php',
-        './../../userfiles/modules/**/*.blade.php',
-        './../../userfiles/modules/**/src/resources/views/**/*.blade.php',
-        './../../userfiles/modules/*/src/resources/views/**/*.blade.php',
-    ]
 }

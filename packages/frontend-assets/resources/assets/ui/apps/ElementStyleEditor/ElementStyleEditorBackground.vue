@@ -220,6 +220,9 @@ export default {
         },
 
         applyPropertyToActiveNode: function (prop, val) {
+
+
+
             if (!this.isReady) {
                 return;
             }
