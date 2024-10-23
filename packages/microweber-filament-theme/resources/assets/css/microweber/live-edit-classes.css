@@ -840,48 +840,18 @@ h1,h2,h3,h4,h5,h6 {
 .mw-live-edit-spacing-wrapper a {
     @apply hover:bg-gray-900 hover:text-white text-[12px] font-bold;
 
-    position: relative;
-    cursor:pointer;
-    user-select:none;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition-duration: 0.4s;
-
     &:before {
         font-size: 18px;
      }
-
-     &:after {
-          content: "";
-          display: block;
-          position: absolute;
-          border-radius: 4em;
-          left: 0;
-          top:0;
-          width: 100%;
-          height: 100%;
-          opacity: 0;
-          transition: all 0.5s;
-          box-shadow: 0 0 10px 40px white;
-      }
-
-      &:active {
-           top: 1px;
-
-        &:after {
-             box-shadow: 0 0 0 0 white;
-             position: absolute;
-             border-radius: 4em;
-             left: 0;
-             top:0;
-             opacity: 1;
-             transition: 0s;
-         }
-       }
 
     &.active {
         @apply bg-gray-900 text-white;
      }
 }
 
+.mw-live-edit-border-radius {
+    input {
+        background-color: #f0f0f0;
+
+    }
+}
