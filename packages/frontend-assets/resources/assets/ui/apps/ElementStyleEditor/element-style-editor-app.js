@@ -1,9 +1,6 @@
 import {createApp} from 'vue';
 import {reactive} from 'vue';
 
-// Vuetify
-import './vuetify.scss';
-
 
 //import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
