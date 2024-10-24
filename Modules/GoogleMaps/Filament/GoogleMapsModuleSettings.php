@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\GoogleMaps\Filament;
+namespace Modules\GoogleMaps\Filament;
 
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
@@ -50,6 +50,4 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
                     ]),
             ]);
     }
-
-
 }

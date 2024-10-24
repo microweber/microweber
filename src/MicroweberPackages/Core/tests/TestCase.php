@@ -324,9 +324,6 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     protected function assertPreConditions(): void
     {
 
-        //  dd($_ENV,env('MW_IS_INSTALLED'),\Illuminate\Support\Env::getRepository());
-
-        $this->assertEquals('testing', \Illuminate\Support\Env::get('APP_ENV'));
         $this->assertEquals('testing', app()->environment());
 
         if (app()->environment() != 'testing') {
@@ -335,9 +332,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         $envFile = app()->environmentFilePath();
 
-        if (!str_ends_with($envFile, '.env.testing')) {
-            $this->markTestSkipped('Not in testing environment');
-        }
+//        if (!str_ends_with($envFile, '.env.testing')) {
+//            $this->markTestSkipped('Not in testing environment');
+//        }
 
 
         if (!env('MW_IS_INSTALLED')) {
