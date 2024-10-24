@@ -1,0 +1,11 @@
+{
+    "name": "GoogleMaps",
+    "alias": "googlemaps",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GoogleMaps\\Providers\\GoogleMapsServiceProvider"
+    ],
+    "files": []
+}

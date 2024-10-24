@@ -1,0 +1,30 @@
+{
+    "name": "modules/googlemaps",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\GoogleMaps\\": "",
+            "Modules\\GoogleMaps\\Database\\Factories\\": "database/factories/",
+            "Modules\\GoogleMaps\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\GoogleMaps\\Tests\\": "Tests/"
+        }
+    }
+}
