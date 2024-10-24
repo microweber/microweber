@@ -838,7 +838,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .mw-live-edit-spacing-wrapper a {
-    @apply hover:bg-gray-900 hover:text-white text-[12px] font-bold;
+    @apply hover:bg-gray-900 hover:text-white text-[12px] font-bold !p-3.5;
 
     &:before {
         font-size: 18px;
