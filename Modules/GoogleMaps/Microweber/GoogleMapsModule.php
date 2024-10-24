@@ -17,7 +17,7 @@ class GoogleMapsModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
-        $id = "mwgooglemaps-" . $this->params['id'];
+
 
         $address = $this->params['data-address'] ?? get_module_option('data-address', $this->params['id']);
         $mapType = get_module_option('data-map-type', $this->params['id']);
@@ -26,11 +26,31 @@ class GoogleMapsModule extends BaseModule
         $height = get_module_option('data-height', $this->params['id']);
 
         $viewData['address'] = $address;
+
+        $country = $this->params['data-country'] ?? get_module_option('data-country', $this->params['id']);
+        $city = $this->params['data-city'] ?? get_module_option('data-city', $this->params['id']);
+        $street = $this->params['data-street'] ?? get_module_option('data-street', $this->params['id']);
+        $zip = $this->params['data-zip'] ?? get_module_option('data-zip', $this->params['id']);
+
         $viewData['mapType'] = $mapType;
         $viewData['zoom'] = $zoom;
         $viewData['width'] = $width;
         $viewData['height'] = $height;
+        $id = 'mw-map-'.$this->params['id'];
         $viewData['id'] = $id;
+
+        if (!$address) {
+            $viewData['address'] = $country . ', ' . $city . ', ' . $street . ', ' . $zip;
+        }
+
+
+        if (!$address) {
+            $viewData['address'] = 'One loop street, Cupertino, CA';
+        }
+        if (!$zoom) {
+            $viewData['zoom'] = 13;
+        }
+
 
         return view('modules.googlemaps::templates.default', $viewData);
     }
