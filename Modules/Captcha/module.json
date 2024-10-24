@@ -1,0 +1,11 @@
+{
+    "name": "Captcha",
+    "alias": "captcha",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Captcha\\Providers\\CaptchaServiceProvider"
+    ],
+    "files": []
+}
