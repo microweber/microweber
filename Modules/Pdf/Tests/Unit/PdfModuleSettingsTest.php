@@ -33,7 +33,7 @@ class PdfModuleSettingsTest extends TestCase
             'options.data-pdf-upload' => 'path/to/uploaded/file.pdf',
         ];
 
-        $component = Livewire::test(PdfModuleSettings::class, $params)
+        $component = Livewire::test(PdfModuleSettings::class)
             ->set($params)
             ->fillForm($data)
             ->assertSet('options.data-pdf-source', 'file')
@@ -52,8 +52,9 @@ class PdfModuleSettingsTest extends TestCase
         $data = [
             'options.data-pdf-url' => 'https://www.example.com/document.pdf',
         ];
-
-        $component->fillForm($data)
+        $component = Livewire::test(PdfModuleSettings::class)
+            ->set($params)
+            ->fillForm($data)
             ->assertSet('options.data-pdf-url', 'https://www.example.com/document.pdf');
         $component->call('save')
             ->assertHasNoActionErrors()
