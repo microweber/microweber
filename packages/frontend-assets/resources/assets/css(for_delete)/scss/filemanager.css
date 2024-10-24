@@ -177,6 +177,10 @@
     display: flex;
     padding: 15px 0;
     justify-content: space-between;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 
 
@@ -567,3 +571,4 @@
 .mw-file-manager--multiselect--selected-actions {
     display: none;
 }
+
