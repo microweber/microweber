@@ -502,3 +502,15 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .v-slider-thumb__surface:focus {
     box-shadow: 0 0 0 1px #182433;
 }
+
+.mw-notification{
+    @apply p-4 fixed z-20 top-4 right-4 pointer-events-auto visible  w-full overflow-hidden transition duration-300 max-w-sm text-white rounded-xl !bg-green-500 shadow-lg ring-1;
+}
+
+html.dark{
+    .mw-notification{
+        @apply dark:bg-gray-900 ring-gray-950/5 dark:ring-white/10;
+    }
+}
+
+
