@@ -209,7 +209,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
 
-        $this->app->register(ConfigExtendedServiceProvider::class);
+      //  $this->app->register(ConfigExtendedServiceProvider::class);
 
         //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         if (app()->bound('debugbar')) {

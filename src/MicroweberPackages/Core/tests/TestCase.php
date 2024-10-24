@@ -29,10 +29,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         //  putenv('APP_ENV=testing');
 
 
-        $basePath = dirname(__DIR__, 4);
-        if (!is_file($basePath . '/.env.testing')) {
-            touch($basePath . '/.env.testing');
-        }
+//        $basePath = dirname(__DIR__, 4);
+//        if (!is_file($basePath . '/.env.testing')) {
+//            touch($basePath . '/.env.testing');
+//        }
 
 
         ini_set('memory_limit', '-1');
