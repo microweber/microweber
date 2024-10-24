@@ -109,7 +109,7 @@ export default {
             this.$refs.colorPickerButton.style.backgroundColor = 'transparent';
         },
         togglePicker() {
-            let el = this.$refs.colorPickerElement;
+            let el = this.$refs.colorPickerButton;
             let colorPicker = mw.app.colorPicker.openColorPicker(this.selectedColor, color => {
                 this.setNewColor(color);
             }, el);
