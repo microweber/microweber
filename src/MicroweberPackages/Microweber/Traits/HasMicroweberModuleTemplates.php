@@ -10,7 +10,7 @@ trait HasMicroweberModuleTemplates
 
     public function getTemplates()
     {
-        return $this->templates;
+        return module_templates($this->type);
     }
 
     public function getTemplate()

@@ -16,25 +16,27 @@ class PdfModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
+        $viewData['id'] = $this->generateId();
+        $viewData['pdf'] = $this->getPdfUrl();
 
-        $id = "mwpdf-" . $this->params['id'];
+        return view('modules.pdf::templates.default', $viewData);
+    }
 
-        $pdf = false;
+    private function generateId(): string
+    {
+        return "mwpdf-" . $this->params['id'];
+    }
+
+    private function getPdfUrl(): ?string
+    {
         if (isset($this->params['data-pdf-url'])) {
-            $pdf = $this->params['data-pdf-url'];
+            return $this->params['data-pdf-url'];
         }
+
         $pdfSource = get_module_option('data-pdf-source', $this->params['id']);
         $pdfUpload = get_module_option('data-pdf-upload', $this->params['id']);
         $pdfUrl = get_module_option('data-pdf-url', $this->params['id']);
-        if ($pdfSource == 'url') {
-            $pdf = $pdfUrl;
-        } else {
-            $pdf = $pdfUpload;
-        }
 
-        $viewData['pdf'] = $pdf;
-        $viewData['id'] = $id;
-
-        return view('modules.pdf::templates.default', $viewData);
+        return $pdfSource === 'url' ? $pdfUrl : $pdfUpload;
     }
 }
