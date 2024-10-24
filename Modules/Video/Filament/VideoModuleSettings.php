@@ -3,6 +3,7 @@
 namespace Modules\Video\Filament;
 
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
@@ -39,13 +40,15 @@ class VideoModuleSettings extends LiveEditModuleSettings
 
                         Tabs\Tab::make('Settings')
                             ->schema([
-                                TextInput::make('options.width')
-                                    ->label('Width')
-                                    ->live(),
-                                TextInput::make('options.height')
-                                    ->label('Height')
-                                    ->live(),
-
+                                Group::make([
+                                    TextInput::make('options.width')
+                                        ->label('Width')
+                                        ->live(),
+                                    TextInput::make('options.height')
+                                        ->label('Height')
+                                        ->live(),
+                                ])->columns(2),
+                                Group::make([
                                 Toggle::make('options.autoplay')
                                     ->label('Autoplay')
                                     ->live()
@@ -76,11 +79,11 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                     ->inline()
                                     ->default('0'),
 
+                                ])->columns(2),
+
                                 MwFileUpload::make('options.thumbnail')
                                     ->label('Thumbnail')
                                     ->live(),
-
-
 
                             ]),
                         Tabs\Tab::make('Design')
