@@ -1,18 +1,18 @@
 <template>
- <div class="form-control-live-edit-label-wrapper my-4 background-image-nav d-flex align-items-center gap-2">
-    <label class="live-edit-label px-0 text-start">{{ label }}</label>
-        <div class="d-flex col">
-           <div>
-                <span
-                    class="mw-ui-btn mw-ui-btn-outline tip background-select-item" style="border: 1px solid #000;"
-                    @click="selectBackgroundImage"
-                    data-tip="Select background image"
-                >
-                <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>
-                  <span v-if="!selectedFile" class="background-preview" style="background-image: none;"></span>
-                  <span v-if="selectedFile" class="background-preview" :style="{ backgroundImage: `url(${selectedFile})` }"></span>
-            </span>
-           </div>
+ <div class="form-control-live-edit-label-wrapper my-4 background-image-nav d-flex align-items-center justify-content-between">
+    <label class="live-edit-label col px-0 text-start">Background Image</label>
+    <div class="d-flex col-auto justify-content-end">
+
+        <div
+            class="mw-ui-btn mw-ui-btn-outline tip background-select-item d-flex justify-content-end" style="background-color: #f0f0f0; border: none !important;"
+            @click="selectBackgroundImage"
+            data-tip="Select background image"
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>
+          <span v-if="!selectedFile" class="background-preview" style="background-image: none;"></span>
+          <span v-if="selectedFile" class="background-preview" :style="{ backgroundImage: `url(${selectedFile})` }"></span>
+    </div>
+
 
 
            <div class="d-flex ms-auto justify-content-end pe-4">
@@ -42,7 +42,7 @@ export default {
     props: {
         label: {
             type: String,
-            default: 'Image', // Default label text
+            default: 'Background Image', // Default label text
         },
         file: {
             type: String,
@@ -75,7 +75,7 @@ export default {
         },
         resetBackgroundImage() {
             // Implement your reset logic here, e.g., set 'selectedFile' to a default image.
-            // Example: this.selectedFile = 'default-image-url.jpg';
+            // Exadmple: this.selectedFile = 'default-image-url.jpg';
             this.$emit('change', this.selectedFile);
         },
     },
