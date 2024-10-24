@@ -15,40 +15,45 @@ class CaptchaModule extends BaseModule
 
     public function render()
     {
-
         $viewData = $this->getViewData();
+        $viewData['form_id'] = uniqid('cap');
+        $viewData['captcha_provider'] = $this->getCaptchaProvider();
+        $viewData['template'] = $this->getTemplate();
+        $viewData['recaptcha_v3_secret_key'] = $this->getRecaptchaSecretKey('v3');
+        $viewData['recaptcha_v2_secret_key'] = $this->getRecaptchaSecretKey('v2');
+        $viewData['moduleTemplate'] = $this->getModuleTemplate();
 
+        return view('modules.captcha::templates.default', $viewData);
+    }
 
-        $form_id = uniqid('cap');
-        $captcha_provider = get_option('provider', 'captcha');
+    private function getCaptchaProvider()
+    {
+        return get_option('provider', 'captcha');
+    }
 
-        $template = get_option('data-template', $params['id']);
-
-        if (($template == false or ($template == '')) and isset($params['template'])) {
-            $template = $params['template'];
+    private function getTemplate()
+    {
+        $template = get_option('data-template', $this->params['id']);
+        if (empty($template) && isset($this->params['template'])) {
+            $template = $this->params['template'];
         }
+        return $template;
+    }
 
-        $recaptcha_v3_secret_key = get_option('recaptcha_v3_secret_key', 'captcha');
-        $recaptcha_v2_secret_key = get_option('recaptcha_v2_secret_key', 'captcha');
+    private function getRecaptchaSecretKey($version)
+    {
+        return get_option("recaptcha_{$version}_secret_key", 'captcha');
+    }
 
-        $viewData['form_id'] = $form_id;
-        $viewData['captcha_provider'] = $captcha_provider;
-        $viewData['template'] = $template;
-        $viewData['recaptcha_v3_secret_key'] = $recaptcha_v3_secret_key;
-        $viewData['recaptcha_v2_secret_key'] = $recaptcha_v2_secret_key;
-
-
+    private function getModuleTemplate()
+    {
         $moduleTemplate = get_option('template', $this->params['id']);
         if (empty($moduleTemplate)) {
             $moduleTemplate = get_option('data-template', $this->params['id']);
         }
-
-        if ($moduleTemplate == false and isset($this->params['template'])) {
+        if (empty($moduleTemplate) && isset($this->params['template'])) {
             $moduleTemplate = $this->params['template'];
         }
-
-        $viewData['moduleTemplate'] = $moduleTemplate;
-
-        return view('modules.captcha::templates.default', $viewData);
+        return $moduleTemplate;
     }
 }
