@@ -21,44 +21,26 @@ class BtnModule extends BaseModule
 
     public function templateData()
     {
-        $templateData = $this->initializeTemplateData();
-        $moduleOptions = $this->getModuleOptions();
+        $templateData = [];
+        $templateData['id'] = $this->params['id'];
+        $templateData['style'] = '';
+        $templateData['size'] = '';
+        $templateData['popupContent'] = '';
+        $templateData['url'] = '';
+        $templateData['blank'] = '';
+        $templateData['text'] = '';
+        $templateData['icon'] = '';
+        $templateData['iconPosition'] = '';
+        $templateData['action'] = '';
+        $templateData['attributes'] = '';
+
+        $moduleOptions = get_module_options($this->params['id']);
 
         if (!empty($moduleOptions)) {
             foreach ($moduleOptions as $btnOption) {
                 $templateData[$btnOption['option_key']] = $btnOption['option_value'];
             }
         }
-
-        $this->processLinkOptions($templateData);
-
-        return $templateData;
-    }
-
-    private function initializeTemplateData(): array
-    {
-        return [
-            'id' => $this->params['id'],
-            'style' => '',
-            'size' => '',
-            'popupContent' => '',
-            'url' => '',
-            'blank' => '',
-            'text' => '',
-            'icon' => '',
-            'iconPosition' => '',
-            'action' => '',
-            'attributes' => '',
-        ];
-    }
-
-    private function getModuleOptions(): array
-    {
-        return get_module_options($this->params['id']);
-    }
-
-    private function processLinkOptions(array &$templateData): void
-    {
         if (isset($templateData['link'])) {
             $btnOptionsLink = json_decode($templateData['link'], true);
             if (isset($btnOptionsLink['url'])) {
@@ -66,10 +48,15 @@ class BtnModule extends BaseModule
             }
             if (isset($btnOptionsLink['data']['id']) && isset($btnOptionsLink['data']['type']) && $btnOptionsLink['data']['type'] == 'category') {
                 $templateData['url'] = category_link($btnOptionsLink['data']['id']);
-            } elseif (isset($btnOptionsLink['data']['id'])) {
-                $templateData['url'] = content_link($btnOptionsLink['data']['id']);
+            } else {
+                if (isset($btnOptionsLink['data']['id'])) {
+                    $templateData['url'] = content_link($btnOptionsLink['data']['id']);
+                }
             }
         }
+
+        return $templateData;
+
     }
 
 
