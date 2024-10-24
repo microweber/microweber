@@ -1,0 +1,30 @@
+{
+    "name": "modules/pdf",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Pdf\\": "",
+            "Modules\\Pdf\\Database\\Factories\\": "database/factories/",
+            "Modules\\Pdf\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Pdf\\Tests\\": "Tests/"
+        }
+    }
+}
