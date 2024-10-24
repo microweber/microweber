@@ -17,10 +17,12 @@
 
         <div v-if="showGridSettings">
 
-            <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
-                <label class="live-edit-label px-0 col-4">Desktop</label>
-                <i class="mdi mdi-monitor col-2" style="font-size: 24px;"></i>
-                <div class="col-6">
+            <div class="form-control-live-edit-label-wrapper">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="mdi mdi-monitor" style="font-size: 24px;"></i>
+                    <label class="live-edit-label px-0 col-4">Desktop</label>
+                </div>
+                <div class="col-12">
                     <DropdownSmall
                         :options="colOptionsDesktop"
                         v-model="selectedColDesktop"
@@ -28,10 +30,12 @@
                 </div>
             </div>
 
-            <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
-                <label class="live-edit-label px-0 col-4">Tablet</label>
-                <i class="mdi mdi-tablet col-2" style="font-size: 24px;"></i>
-                <div class="col-6">
+            <div class="form-control-live-edit-label-wrapper">
+               <div class="d-flex align-items-center gap-2">
+                   <i class="mdi mdi-tablet" style="font-size: 24px;"></i>
+                   <label class="live-edit-label px-0 col-4">Tablet</label>
+               </div>
+                <div class="col-12">
                     <DropdownSmall
                         :options="colOptionsTablet"
                         v-model="selectedColTablet"
@@ -39,10 +43,12 @@
                 </div>
             </div>
 
-            <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
-                <label class="live-edit-label px-0 col-4">Mobile</label>
-                <i class="mdi mdi-cellphone col-2" style="font-size: 24px;"></i>
-                <div class="col-6">
+            <div class="form-control-live-edit-label-wrapper">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="mdi mdi-cellphone" style="font-size: 24px;"></i>
+                    <label class="live-edit-label px-0 col-4">Mobile</label>
+                </div>
+                <div class="col-12">
                     <DropdownSmall
                         :options="colOptionsMobile"
                         v-model="selectedColMobile"
