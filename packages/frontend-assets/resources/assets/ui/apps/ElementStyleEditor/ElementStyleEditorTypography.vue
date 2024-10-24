@@ -15,7 +15,7 @@
     <div v-if="showTypography">
         <div>
 
-            <div class="my-4 pt-2">
+            <div class="my-4">
                 <FontPicker v-model="fontFamily" v-bind:value=fontFamily @change="handleFontChange" :label="'Family'"/>
             </div>
 
