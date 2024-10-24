@@ -39,7 +39,9 @@
     display: flex;
 
 }
+
 .mw-file-manager-root {
+    width: 100%;
 
     min-height: 150px;
     position: relative;

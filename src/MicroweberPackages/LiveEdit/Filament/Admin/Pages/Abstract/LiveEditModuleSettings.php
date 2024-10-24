@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Option\Models\Option;
@@ -45,6 +46,15 @@ abstract class LiveEditModuleSettings extends Page
         ];
     }
 
+    public function setParams($params = [])
+    {
+        $this->params = $params;
+    }
+
+    public function getParams()
+    {
+        return $this->params;
+    }
 
     public function mount()
     {
@@ -278,6 +288,23 @@ abstract class LiveEditModuleSettings extends Page
 
 
         return $schema;
+    }
+
+
+    public function save(): void
+    {
+
+
+        $validator = Validator::make(['data' => $this->form->getState()], $this->getRules());
+        if (!count($validator->invalid())) {
+            $data = ($this->form->getState());
+
+            if (isset($data['options']) and !empty($data['options'])) {
+                foreach ($data['options'] as $key => $itemToSave) {
+                    $this->updated('options.' . $key, $itemToSave);
+                }
+            }
+        }
     }
 
 }

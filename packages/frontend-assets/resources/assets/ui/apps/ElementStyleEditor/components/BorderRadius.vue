@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center">
+  <div class="d-flex justify-content-center align-items-center mw-live-edit-border-radius">
     <div class="rounded-corners my-5 mx-2">
 
       <div class="s-field-content gap-2">

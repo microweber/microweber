@@ -40,11 +40,12 @@
 
 }
 .mw-file-manager-root {
-
+    width: 100%;
     min-height: 150px;
     position: relative;
 
 }
+
 .mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb{
     width: 46px;
     height: 43px;

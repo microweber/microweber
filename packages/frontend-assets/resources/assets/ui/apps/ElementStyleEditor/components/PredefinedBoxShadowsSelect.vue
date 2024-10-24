@@ -1,5 +1,5 @@
 <template>
-    <div class="form-control-live-edit-label-wrapper my-4">
+    <div class="form-control-live-edit-label-wrapper my-4 mx-3">
 
         <select :value="selectedShadow" @change="selectPredefinedShadow" style="display: none;">
             <option v-for="(shadow, index) in predefinedShadows" :key="index" :value="shadow.value"

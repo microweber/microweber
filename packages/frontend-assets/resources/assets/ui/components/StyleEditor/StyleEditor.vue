@@ -19,7 +19,7 @@ export default {
 
 
             var styleEditorSettings = {
-                fieldSettings: {}
+                fieldSettings: {} 
             };
             styleEditorSettings.fieldSettings.components = [
                 'elementSelector',

@@ -17,8 +17,8 @@
 
         <div v-if="showGridSettings">
 
-            <div class="form-control-live-edit-label-wrapper gap-2">
-                <label class="live-edit-label">Desktop</label>
+            <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
+                <label class="live-edit-label px-0 col-4">Desktop</label>
                 <i class="mdi mdi-monitor col-2" style="font-size: 24px;"></i>
                 <div class="col-6">
                     <DropdownSmall
@@ -28,8 +28,8 @@
                 </div>
             </div>
 
-            <div class="form-control-live-edit-label-wrapper gap-2">
-                <label class="live-edit-label">Tablet</label>
+            <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
+                <label class="live-edit-label px-0 col-4">Tablet</label>
                 <i class="mdi mdi-tablet col-2" style="font-size: 24px;"></i>
                 <div class="col-6">
                     <DropdownSmall
@@ -39,8 +39,8 @@
                 </div>
             </div>
 
-            <div class="form-control-live-edit-label-wrapper gap-2">
-                <label class="live-edit-label">Mobile</label>
+            <div class="form-control-live-edit-label-wrapper d-flex align-items-center gap-2">
+                <label class="live-edit-label px-0 col-4">Mobile</label>
                 <i class="mdi mdi-cellphone col-2" style="font-size: 24px;"></i>
                 <div class="col-6">
                     <DropdownSmall
