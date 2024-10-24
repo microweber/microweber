@@ -14,6 +14,3 @@ use Modules\Video\Http\Controllers\VideoController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('video', VideoController::class)->names('video');
-});
