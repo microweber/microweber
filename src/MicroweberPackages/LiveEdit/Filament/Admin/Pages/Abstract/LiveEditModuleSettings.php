@@ -46,15 +46,6 @@ abstract class LiveEditModuleSettings extends Page
         ];
     }
 
-    public function setParams($params = [])
-    {
-        $this->params = $params;
-    }
-
-    public function getParams()
-    {
-        return $this->params;
-    }
 
     public function mount()
     {
