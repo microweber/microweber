@@ -302,6 +302,7 @@
                             }
                         }, function (req) {
 
+
                             if(req && req.status === 400){
                                 if(typeof mw.cookie !== 'undefined'){
                                     mw.cookie.delete('XSRF-TOKEN');
@@ -310,11 +311,11 @@
 
                             var msg = false;
 
-                            if (req.responseJSON && req.responseJSON.error && req.responseJSON.error.message) {
-                                msg = req.responseJSON.error.message;
-                            } else if (req.responseJSON && req.responseJSON.error && req.responseJSON.message) {
-                                msg = req.responseJSON.message;
+                            if (req.responseJSON) {
+                                msg = req.responseJSON.error || req.responseJSON.error.message;
                             }
+
+                            console.log(msg)
 
                             if (msg) {
                                 mw.notification.warning(msg, 10000);
