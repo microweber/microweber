@@ -1,5 +1,4 @@
-<?php
-
+@php
 /*
 
 type: layout
@@ -9,17 +8,14 @@ name: bootstrap
 description: Default
 
 */
-?>
+@endphp
 
-<?php if($action == 'submit'): ?>
-<button type="submit" id="<?php print $btn_id ?>" class="btn <?php print $style . ' ' . $size; ?>" <?php print $attributes ?>>
-        <?php print $text; ?>
+@if($action == 'submit')
+<button type="submit" id="{{ $btn_id }}" class="btn {{ $style . ' ' . $size }}" {!! $attributes !!}>
+        {{ $text }}
 </button>
-<?php else: ?>
-<a id="<?php print $btn_id ?>" href="<?php print $url; ?>" <?php if ($blank) {
-    print ' target="_blank" ';
-} ?> class="btn <?php print $style . ' ' . $size; ?>" <?php print $attributes ?>>
-
-        <?php print $text; ?>
+@else
+<a id="{{ $btn_id }}" href="{{ $url }}" @if ($blank) target="_blank" @endif class="btn {{ $style . ' ' . $size }}" {!! $attributes !!}>
+        {{ $text }}
 </a>
-<?php endif; ?>
+@endif
