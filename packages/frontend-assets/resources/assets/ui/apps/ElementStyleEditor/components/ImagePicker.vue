@@ -75,7 +75,7 @@ export default {
         },
         resetBackgroundImage() {
             // Implement your reset logic here, e.g., set 'selectedFile' to a default image.
-            // Example: this.selectedFile = 'default-image-url.jpg';
+            // Exadmple: this.selectedFile = 'default-image-url.jpg';
             this.$emit('change', this.selectedFile);
         },
     },
