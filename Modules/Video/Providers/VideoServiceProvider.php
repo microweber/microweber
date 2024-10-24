@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
-use Modules\Audio\Filament\AudioModuleSettings;
 use Modules\Video\Filament\VideoModuleSettings;
+use Modules\Video\Microweber\VideoModule;
 
 class VideoServiceProvider extends BaseModuleServiceProvider
 {
@@ -38,7 +38,7 @@ class VideoServiceProvider extends BaseModuleServiceProvider
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
         FilamentRegistry::registerPage(VideoModuleSettings::class);
-        Microweber::module('audio', \Modules\Video\Microweber\VideoModule::class);
+        Microweber::module('audio', VideoModule::class);
 
     }
 

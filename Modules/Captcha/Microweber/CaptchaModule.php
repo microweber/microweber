@@ -15,7 +15,25 @@ class CaptchaModule extends BaseModule
 
     public function render()
     {
+        $viewData = $this->getViewData();
 
+        $viewData['form_id'] = uniqid('cap');
+        $viewData['captcha_provider'] = $this->getCaptchaProvider();
 
+        $viewData['recaptcha_v3_secret_key'] = $this->getRecaptchaSecretKey('v3');
+        $viewData['recaptcha_v2_secret_key'] = $this->getRecaptchaSecretKey('v2');
+
+        return view('modules.captcha::templates.default', $viewData);
     }
+
+    private function getCaptchaProvider()
+    {
+        return get_option('provider', 'captcha');
+    }
+
+    private function getRecaptchaSecretKey($version)
+    {
+        return get_option("recaptcha_{$version}_secret_key", 'captcha');
+    }
+
 }

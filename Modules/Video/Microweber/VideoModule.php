@@ -22,18 +22,6 @@ class VideoModule extends BaseModule
         $renderData = render_video_module($this->params);
         $viewData = array_merge($viewData, $renderData);
 
-
-        $moduleTemplate = get_option('template', $this->params['id']);
-        if (empty($moduleTemplate)) {
-            $moduleTemplate = get_option('data-template', $this->params['id']);
-        }
-
-        if ($moduleTemplate == false and isset($this->params['template'])) {
-            $moduleTemplate = $this->params['template'];
-        }
-
-        $viewData['moduleTemplate'] = $moduleTemplate;
-
         return view('modules.video::video-module-layout', $viewData);
 
     }

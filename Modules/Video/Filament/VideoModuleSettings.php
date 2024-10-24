@@ -33,9 +33,11 @@ class VideoModuleSettings extends LiveEditModuleSettings
                             ->schema([
                                 Textarea::make('options.embed_url')
                                     ->label('Paste video URL or Embed Code')
-                                    ->live(),
+                                    ->live()
+                                    ->helperText('Enter the URL or embed code for the video you want to display.'),
                                 MwFileUpload::make('options.upload')
                                     ->label('Upload Video')
+                                    ->helperText('Upload a video file from your computer.')
                             ]),
 
                         Tabs\Tab::make('Settings')
@@ -43,47 +45,57 @@ class VideoModuleSettings extends LiveEditModuleSettings
                                 Group::make([
                                     TextInput::make('options.width')
                                         ->label('Width')
-                                        ->live(),
+                                        ->suffix('px')
+                                        ->live()
+                                        ->helperText('Specify the width of the video player in pixels.'),
                                     TextInput::make('options.height')
                                         ->label('Height')
-                                        ->live(),
+                                        ->suffix('px')
+                                        ->live()
+                                        ->helperText('Specify the height of the video player in pixels.'),
                                 ])->columns(2),
                                 Group::make([
                                 Toggle::make('options.autoplay')
                                     ->label('Autoplay')
                                     ->live()
                                     ->inline()
-                                    ->default('0'),
+                                    ->default('0')
+                                    ->helperText('Automatically start playing the video when the page loads.'),
 
                                 Toggle::make('options.loop')
                                     ->label('Loop')
                                     ->live()
                                     ->inline()
-                                    ->default('0'),
+                                    ->default('0')
+                                    ->helperText('Replay the video automatically after it finishes.'),
 
                                 Toggle::make('options.muted')
                                     ->label('Muted')
                                     ->live()
                                     ->inline()
-                                    ->default('0'),
+                                    ->default('0')
+                                    ->helperText('Mute the video by default when it starts playing.'),
 
                                 Toggle::make('options.hide_controls')
                                     ->label('Hide Controls')
                                     ->live()
                                     ->inline()
-                                    ->default('0'),
+                                    ->default('0')
+                                    ->helperText('Hide the video player controls from the user.'),
 
                                 Toggle::make('options.lazy_load')
                                     ->label('Lazy Load')
                                     ->live()
                                     ->inline()
-                                    ->default('0'),
+                                    ->default('0')
+                                    ->helperText('Delay loading the video until it is needed, improving page load times.'),
 
                                 ])->columns(2),
 
                                 MwFileUpload::make('options.thumbnail')
                                     ->label('Thumbnail')
-                                    ->live(),
+                                    ->live()
+                                    ->helperText('Upload a thumbnail image to display before the video plays.'),
 
                             ]),
                         Tabs\Tab::make('Design')

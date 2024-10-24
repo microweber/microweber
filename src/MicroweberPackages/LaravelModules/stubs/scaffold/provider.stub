@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\$MODULE$\Filament\$MODULE$ModuleSettings;
+use Modules\$MODULE$\Microweber\$MODULE$Module;
 
 class $CLASS$ extends BaseModuleServiceProvider
 {
@@ -32,6 +36,13 @@ class $CLASS$ extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, '$MIGRATIONS_PATH$'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+
+
+        // Register filament page for Microweber module settings
+        FilamentRegistry::registerPage($MODULE$ModuleSettings::class);
+
+        // Register Microweber module
+        Microweber::module('$LOWER_NAME$', \Modules\$MODULE$\Microweber\$MODULE$Module::class);
 
     }
 

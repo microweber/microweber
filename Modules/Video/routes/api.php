@@ -14,6 +14,3 @@ use Modules\Video\Http\Controllers\VideoController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('video', VideoController::class)->names('video');
-});

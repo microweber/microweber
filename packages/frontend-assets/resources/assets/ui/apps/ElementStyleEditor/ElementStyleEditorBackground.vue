@@ -13,7 +13,7 @@
 
     <div v-if="showBackground">
 
-        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Color'"
+        <ColorPicker v-model="backgroundColor" v-bind:color=backgroundColor :label="'Background Color'"
                      @change="handleBackgroundColorChange"/>
 
 
