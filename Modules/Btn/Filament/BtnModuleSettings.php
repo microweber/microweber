@@ -33,18 +33,21 @@ class BtnModuleSettings extends LiveEditModuleSettings
 
                                 TextInput::make('options.text')
                                     ->label('Text')
+                                    ->helperText('Enter the text to display on the button.')
                                     ->live()
                                     ->default('Button'),
 
 
                                 MwLinkPicker::make('options.url')
                                     ->label('Link')
+                                    ->helperText('Select or enter the URL the button should link to.')
                                     ->live()
                                     ->setSimpleMode(true)
                                     ->columnSpanFull(),
 
 
                                 ToggleButtons::make('options.align')
+                                    ->helperText('Choose the alignment of the button.')
                                     ->live()
                                     ->options([
                                         'left' => 'Left',
@@ -59,6 +62,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                     ]),
 
                                 Toggle::make('options.url_blank')
+                                    ->helperText('Enable to open the link in a new window.')
                                     ->live()
                                     ->label('Open link in new window')
                                     ->default(false)
@@ -68,26 +72,33 @@ class BtnModuleSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Design')
                             ->schema([
 
-                                MwIconPicker::make('options.icon')
-                                    ->label('Button Icon')
-                                    ->live(),
+                                Section::make('Icon Settings')
+                                    ->columns(2)
+                                    ->schema([
+                                        MwIconPicker::make('options.icon')
+                                            ->label('Button Icon')
+                                            ->helperText('Select an icon to display on the button.')
+                                            ->live(),
 
-                                ToggleButtons::make('options.icon_position')
-                                    ->label('Button Icon Position ')
-                                    ->live()
-                                    ->inline()
-                                    ->options([
-                                        'left' => 'Left',
-                                        'right' => 'Right',
-                                    ])
-                                    ->icons([
-                                        'left' => 'heroicon-o-bars-3-bottom-left',
-                                        'right' => 'heroicon-o-bars-3-bottom-right',
-                                    ])
-                                    ->default('left'),
+                                        ToggleButtons::make('options.icon_position')
+                                            ->label('Button Icon Position ')
+                                            ->helperText('Choose the position of the icon on the button.')
+                                            ->live()
+                                            ->inline()
+                                            ->options([
+                                                'left' => 'Left',
+                                                'right' => 'Right',
+                                            ])
+                                            ->icons([
+                                                'left' => 'heroicon-o-bars-3-bottom-left',
+                                                'right' => 'heroicon-o-bars-3-bottom-right',
+                                            ])
+                                            ->default('left'),
+                                    ]),
 
                                 Select::make('options.style')
                                     ->label('Button Style')
+                                    ->helperText('Select the style of the button.')
                                     ->live()
                                     ->options([
                                         'normal' => 'Normal',
@@ -100,6 +111,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
 
                                 Select::make('options.size')
                                     ->label('Button Size')
+                                    ->helperText('Select the size of the button.')
                                     ->live()
                                     ->options([
                                         'default' => 'Default',
