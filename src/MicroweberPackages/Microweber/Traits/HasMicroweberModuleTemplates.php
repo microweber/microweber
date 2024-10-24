@@ -15,13 +15,14 @@ trait HasMicroweberModuleTemplates
 
     public function getTemplate()
     {
-        return $this->template;
+        $moduleTemplate = get_option('template', $this->params['id']);
+        if (empty($moduleTemplate)) {
+            $moduleTemplate = get_option('data-template', $this->params['id']);
+        }
+        if (empty($moduleTemplate) && isset($this->params['template'])) {
+            $moduleTemplate = $this->params['template'];
+        }
+        return $moduleTemplate;
     }
-
-//    public function setTemplates(array $templates = [])
-//    {
-//        $this->templates = $templates;
-//    }
-
 
 }
