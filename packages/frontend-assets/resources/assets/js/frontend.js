@@ -19,6 +19,7 @@ import "../tools/common-extend.js";
 import "../components/notification.js";
 
 import "../core/_.js";
+import "./animation.js";
 
 
 
