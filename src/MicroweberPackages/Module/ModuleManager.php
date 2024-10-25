@@ -1074,6 +1074,25 @@ class ModuleManager
      */
     public function templates($module_name, $template_name = false, $get_settings_file = false, $template_dir = false)
     {
+
+
+        if (app()->bound('microweber')) {
+            $microweberModule = app()->microweber->hasModule($module_name);
+            if($microweberModule){
+             //   dd('sss');
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
         $module_name = str_replace('admin', '', $module_name);
         $module_name_l = $this->locate($module_name);
         $replace_paths = array();
@@ -1097,11 +1116,12 @@ class ModuleManager
         $module_name_l_theme = $template_dir . 'modules' . DS . $module_name . DS . 'templates' . DS;
         $module_name_l_theme = normalize_path($module_name_l_theme, 1);
         $replace_paths[] = $module_name_l_theme;
-
-
         $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
 
         $template_config = app()->template_manager->get_config();
+
+
+
 
         if (!is_dir($module_name_l) /*and !is_dir($module_name_l_theme)*/) {
             return false;
