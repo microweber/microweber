@@ -61,7 +61,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                         'right' => 'heroicon-o-bars-3-bottom-right',
                                     ]),
 
-                                Toggle::make('options.url_blank')
+                                Toggle::make('options.urlBlank')
                                     ->helperText('Enable to open the link in a new window.')
                                     ->live()
                                     ->label('Open link in new window')
@@ -80,7 +80,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                             ->helperText('Select an icon to display on the button.')
                                             ->live(),
 
-                                        ToggleButtons::make('options.icon_position')
+                                        ToggleButtons::make('options.iconPosition')
                                             ->label('Button Icon Position ')
                                             ->helperText('Choose the position of the icon on the button.')
                                             ->live()
