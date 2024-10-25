@@ -13,9 +13,7 @@ class TeamcardModuleSettings extends LiveEditModuleSettings
     {
         return $form
             ->schema([
-
-
-
+                
             ]);
     }
 
