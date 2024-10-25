@@ -1,0 +1,11 @@
+{
+    "name": "Teamcard",
+    "alias": "teamcard",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Teamcard\\Providers\\TeamcardServiceProvider"
+    ],
+    "files": []
+}

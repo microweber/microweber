@@ -1,0 +1,23 @@
+<?php
+
+namespace Modules\Teamcard\Microweber;
+
+use MicroweberPackages\Microweber\Abstract\BaseModule;
+use MicroweberPackages\Modules\Teamcard\Http\Livewire\TeamcardModuleSettings;
+
+class TeamcardModule extends BaseModule
+{
+    public static string $name = 'Teamcard Module';
+    public static string $icon = 'heroicon-o-user-group';
+    public static string $categories = 'team, card';
+    public static int $position = 1;
+    public static string $settingsComponent = TeamcardModuleSettings::class;
+
+    public function render()
+    {
+        $viewData = $this->getViewData();
+
+        return view('modules.teamcard::templates.default', $viewData);
+    }
+
+}
