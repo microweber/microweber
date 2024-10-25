@@ -46,6 +46,10 @@ trait ManagesModules
     {
         return isset($this->modules[$type]);
     }
+    public function getModule($type): bool
+    {
+        return isset($this->modules[$type]);
+    }
 
     /**
      * Render a module of a specific type with given parameters.

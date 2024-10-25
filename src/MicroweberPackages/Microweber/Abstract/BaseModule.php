@@ -16,7 +16,7 @@ abstract class BaseModule
     use HasMicroweberModuleTemplates;
 
     public static string $name = 'Base module';
-    public static string $icon = '<i class="mdi mdi-cube-outline"></i>';
+    public static string $icon = '';
     public static string $categories = 'other';
     public static string $settingsComponent = NoSettings::class;
     public static int $position = 0;

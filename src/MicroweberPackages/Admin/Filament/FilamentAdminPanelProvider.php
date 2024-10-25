@@ -105,6 +105,8 @@ class FilamentAdminPanelProvider extends PanelProvider
         if ($isIframe) {
             $panel->navigation(false);
             $panel->topbar(false);
+          //  $panel->spa();
+
         }
 
         $panel
@@ -129,17 +131,8 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->sort(2)
                     ->icon('heroicon-o-megaphone'),
             ])
-            ->discoverResources(
-                in: app_path('Filament/Admin/Resources'),
-                for: 'App\\Filament\\Admin\\Resources')
-            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
-            ->discoverPages(in: app_path('MicroweberPackages/Menu/Filament/Admin/Pages'), for: 'MicroweberPackages\\Menu\\Filament\\Admin\\Pages')
-            ->pages($this->getPanelPages())
-            ->discoverWidgets(
-                in: app_path('Filament/Admin/Widgets'),
-                for: 'App\\Filament\\Admin\\Widgets'
-            )
-            ->resources($this->getPanelResources())
+
+
             ->widgets([
                 // Widgets\AccountWidget::class,
                 //  Widgets\FilamentInfoWidget::class,
@@ -193,9 +186,24 @@ class FilamentAdminPanelProvider extends PanelProvider
         if ($registeredPlugins) {
             foreach ($registeredPlugins as $registeredPlugin) {
                 $plugin = new $registeredPlugin;
+
                 $panel->plugin($plugin);
             }
         }
+
+
+        $panel->resources($this->getPanelResources())
+            ->pages($this->getPanelPages())
+            ->discoverResources(
+                in: app_path('Filament/Admin/Resources'),
+                for: 'App\\Filament\\Admin\\Resources')
+            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+            ->discoverPages(in: app_path('MicroweberPackages/Menu/Filament/Admin/Pages'), for: 'MicroweberPackages\\Menu\\Filament\\Admin\\Pages')
+
+            ->discoverWidgets(
+                in: app_path('Filament/Admin/Widgets'),
+                for: 'App\\Filament\\Admin\\Widgets'
+            );
 
         //  MicroweberFilamentTheme::configure();
 

@@ -43,8 +43,8 @@ class AdminLiveEditPage extends Page
         $params = request()->all();
         return view($this->getView(), $this->getViewData())
             ->layout($this->getLayout(), [
-                'livewire'        => $this,
-                'params'          => $params,
+                'livewire' => $this,
+                'params' => $params,
                 'maxContentWidth' => $this->getMaxContentWidth(),
                 ...$this->getLayoutData(),
             ]);
@@ -55,28 +55,28 @@ class AdminLiveEditPage extends Page
     {
         $actions = [];
         $actions[] = [
-            'title'       => 'New Page',
+            'title' => 'New Page',
             'description' => 'Create a new page to your website or online store, choose from pre-pared page designs ',
-            'action'      => 'addPageAction',
-            'icon'        => 'mw-add-page',
+            'action' => 'addPageAction',
+            'icon' => 'mw-add-page',
         ];
         $actions[] = [
-            'title'       => 'New Post',
+            'title' => 'New Post',
             'description' => 'Add new post to your blog page, linked to category of main page on your website ',
-            'action'      => 'addPostAction',
-            'icon'        => 'mw-add-post',
+            'action' => 'addPostAction',
+            'icon' => 'mw-add-post',
         ];
         $actions[] = [
-            'title'       => 'New Category',
+            'title' => 'New Category',
             'description' => 'Add new category and organize your blog posts or items from the shop in the right way ',
-            'action'      => 'addPageAction',
-            'icon'        => 'mw-add-category',
+            'action' => 'addPageAction',
+            'icon' => 'mw-add-category',
         ];
         $actions[] = [
-            'title'       => 'New Product',
+            'title' => 'New Product',
             'description' => 'Add new product to your online store, choose from pre-pared product designs ',
-            'action'      => 'addProductAction',
-            'icon'        => 'mw-add-product',
+            'action' => 'addProductAction',
+            'icon' => 'mw-add-product',
         ];
 
         return Action::make('addContentAction')
@@ -110,18 +110,42 @@ class AdminLiveEditPage extends Page
     {
         return Action::make('openModuleAction')
             ->label('Module Settings')
+            //  ->modalContent(view('microweber::livewire.no-settings'))
+            //->modalContent(view('microweber::livewire.no-settings'))
             ->form(
                 function (array $arguments) {
                     $data = $arguments['data'];
                     $params = $data['params'];
+
                     if (isset($data['moduleSettingsComponent'])) {
-                        if (!livewire_component_exists($data['moduleSettingsComponent'])) {
+                        $exists = livewire_component_exists($data['moduleSettingsComponent']);
+                        if (!$exists) {
+                            $exists = class_exists($data['moduleSettingsComponent']);
+                            if ($exists) {
+                                $resourceClass = $data['moduleSettingsComponent'];
+                                if (method_exists($resourceClass, 'getUrl')) {
+                                    $url = $resourceClass::getUrl();
+                                    if ($url) {
+                                        return [
+                                            \Filament\Forms\Components\View::make('microweber-live-edit::module-settings-iframe')
+                                                ->viewData([
+                                                    'iframeUrl' => $url,
+                                                    'resourceClass' => $resourceClass,
+                                                    'data' => $data,
+                                                    'params' => $params
+                                                ])
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+                        if (!$exists) {
                             return [
                                 TextInput::make('error')
                                     ->label('Error')
                                     ->readOnly()
-                                    ->default('Component not found: '
-                                        .$data['moduleSettingsComponent'])
+                                    ->default('Livewire or Filament Component not found: '
+                                        . $data['moduleSettingsComponent'])
                             ];
                         }
 
@@ -129,6 +153,7 @@ class AdminLiveEditPage extends Page
                             Livewire::make($data['moduleSettingsComponent'],
                                 ['params' => $params])
                         ];
+
                     }
                 }
             )
@@ -145,8 +170,8 @@ class AdminLiveEditPage extends Page
     public function generateAction($actionName, $contentType)
     {
         return Action::make($actionName)
-            ->label('Create '.$contentType)
-            ->modalHeading('Create '.$contentType)
+            ->label('Create ' . $contentType)
+            ->modalHeading('Create ' . $contentType)
 //            ->modalContent(view('microweber-live-edit::modal.generate-action', [
 //                'contentType' => $contentType
 //            ]))
@@ -166,19 +191,19 @@ class AdminLiveEditPage extends Page
 
                 Notification::make()
                     ->success()
-                    ->title($contentTypeFriendly.' is  created')
+                    ->title($contentTypeFriendly . ' is  created')
                     ->body($contentTypeFriendly
-                        .' has been created successfully.')
+                        . ' has been created successfully.')
                     ->actions([
                         \Filament\Notifications\Actions\Action::make('viewContent')
-                            ->label('View '.$contentTypeFriendly)
+                            ->label('View ' . $contentTypeFriendly)
                             ->url(content_link($model->id))
                             ->button(),
                     ])
                     ->send();
 
             })
-            ->modalSubmitActionLabel('Create '.$contentType)
+            ->modalSubmitActionLabel('Create ' . $contentType)
             ->slideOver();
     }
 }
