@@ -31,19 +31,24 @@ class TeamcardTableList extends Component implements HasForms, HasTable
         return [
             TextInput::make('name')
                 ->label('Team Member Name')
-                ->required(),
+                ->required()
+                ->helperText('Enter the full name of the team member.'),
             MwFileUpload::make('file')
                 ->label('Team Member Picture')
-                ->required(),
+                ->required()
+                ->helperText('Upload a picture of the team member.'),
             Textarea::make('bio')
                 ->label('Team Member Bio')
-                ->required(),
+                ->required()
+                ->helperText('Provide a short biography of the team member.'),
             TextInput::make('role')
                 ->label('Team Member Role')
-                ->required(),
+                ->required()
+                ->helperText('Specify the role of the team member in the team.'),
             TextInput::make('website')
                 ->label('Team Member Website')
-                ->required(),
+                ->required()
+                ->helperText('Enter the personal or professional website of the team member.'),
         ];
     }
 
