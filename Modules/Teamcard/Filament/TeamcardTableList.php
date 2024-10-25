@@ -2,6 +2,7 @@
 
 namespace Modules\Teamcard\Filament;
 
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Tables\Actions\CreateAction;
@@ -28,9 +29,20 @@ class TeamcardTableList extends Component implements HasForms, HasTable
     public function editFormArray()
     {
         return [
-            MwFileUpload::make('file')
-                ->required(),
             TextInput::make('name')
+                ->label('Team Member Name')
+                ->required(),
+            MwFileUpload::make('file')
+                ->label('Team Member Picture')
+                ->required(),
+            Textarea::make('bio')
+                ->label('Team Member Bio')
+                ->required(),
+            TextInput::make('role')
+                ->label('Team Member Role')
+                ->required(),
+            TextInput::make('website')
+                ->label('Team Member Website')
                 ->required(),
         ];
     }
@@ -41,9 +53,10 @@ class TeamcardTableList extends Component implements HasForms, HasTable
             ->query(TeamcardItem::query())
             ->columns([
                 ImageColumn::make('file')
-                    ->circular()
-                    ->label('Image'),
-                TextColumn::make('name'),
+                    ->label('Picture')
+                    ->circular(),
+                TextColumn::make('name')
+                    ->label('Name'),
             ])
             ->filters([
                 // ...
