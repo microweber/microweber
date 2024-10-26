@@ -85,11 +85,11 @@ class LaravelModule extends Module
         // and sets the path to a writable one (services path is not on a writable storage in Vapor).
         if (!is_null(env('VAPOR_MAINTENANCE_MODE', null))) {
             return Str::replaceLast('config.php', $this->getSnakeName() . '_module.php', $this->app->getCachedConfigPath());
-         //   return Str::replaceLast('config.php', $this->getSnakeName() . '_module.php', $this->app->getCachedConfigPath());
+            //   return Str::replaceLast('config.php', $this->getSnakeName() . '_module.php', $this->app->getCachedConfigPath());
         }
 
         return Str::replaceLast('services.php', $this->getSnakeName() . '_module.php', $this->app->getCachedServicesPath());
-       // return Str::replaceLast('services.php', $this->getSnakeName() . '_module.php', $this->app->getCachedServicesPath());
+        // return Str::replaceLast('services.php', $this->getSnakeName() . '_module.php', $this->app->getCachedServicesPath());
     }
 
     public function isStatus(bool $status): bool
@@ -99,7 +99,7 @@ class LaravelModule extends Module
 
     public function enable(): void
     {
-        if($this->activator == null){
+        if ($this->activator == null) {
             return;
         }
 
@@ -148,7 +148,6 @@ class LaravelModule extends Module
         if ($file === null) {
             $file = 'module.json';
         }
-
 
 
 //        if ($file == 'module.json') {
@@ -221,7 +220,7 @@ class LaravelModule extends Module
                 app()->register($provider);
             }
         }
-       // dd($providers,$this->app);
+        // dd($providers,$this->app);
 //        (new ProviderRepository($this->app, new Filesystem(), $this->getCachedServicesPath()))
 //            ->load($this->get('providers', []));
 
@@ -231,4 +230,21 @@ class LaravelModule extends Module
 //        (new ProviderRepository($this->app, new Filesystem(), $manifestPath))
 //            ->load($this->get('providers', []));
     }
+
+
+    public function getName(): string
+    {
+
+        return $this->name;
+    }
+
+    /**
+     * Get name in lower case.
+     */
+    public function getLowerName(): string
+    {
+
+        return $this->json()->get('alias') ?? strtolower($this->name);
+    }
+
 }

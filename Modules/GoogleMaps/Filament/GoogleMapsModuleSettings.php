@@ -46,6 +46,7 @@ class GoogleMapsModuleSettings extends LiveEditModuleSettings
                                     ->label('Height')
                                     ->numeric()
                                     ->live(),
+
                             ]),
                     ]),
             ]);

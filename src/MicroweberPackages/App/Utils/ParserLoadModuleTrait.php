@@ -174,7 +174,7 @@ trait ParserLoadModuleTrait
 
             if ( app()->microweber->hasModule($module_name)) {
 
-                return app()->microweber->renderModule($module_name, $attrs);
+                return app()->microweber->render($module_name, $attrs);
 
             }
         }

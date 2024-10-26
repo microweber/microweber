@@ -12,7 +12,7 @@ class GoogleMapsServiceProvider extends BaseModuleServiceProvider
 {
     protected string $moduleName = 'GoogleMaps';
 
-    protected string $moduleNameLower = 'googlemaps';
+    protected string $moduleNameLower = 'google_maps';
 
 
 

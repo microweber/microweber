@@ -17,8 +17,6 @@ class GoogleMapsModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
-
-        //   $address = get_module_option('data-address', $this->params['id']) ?? $this->params['data-address'] ?? false;
         $address = $this->params['data-address'] ?? '';
         $mapType = get_module_option('data-map-type', $this->params['id']) ?? $this->params['data-map-type'] ?? 'roadmap';
         $zoom = get_module_option('data-zoom', $this->params['id']) ?? $this->params['data-zoom'] ?? 18;
@@ -72,6 +70,6 @@ class GoogleMapsModule extends BaseModule
         }
 
 
-        return view('modules.googlemaps::templates.default', $viewData);
+        return view('modules.google_maps::templates.default', $viewData);
     }
 }

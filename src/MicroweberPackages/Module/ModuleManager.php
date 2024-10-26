@@ -689,6 +689,10 @@ class ModuleManager
 
             $this->app->cache_manager->save($c2, $cache_id, $cache_group);
 
+            if (isset($options['reload_modules']) == true and $options['reload_modules'] == true) {
+                clearcache();
+            }
+
             return $c2;
         }
     }

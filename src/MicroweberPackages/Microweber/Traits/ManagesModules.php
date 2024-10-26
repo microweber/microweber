@@ -58,7 +58,7 @@ trait ManagesModules
      * @param array $params The parameters for rendering the module.
      * @return string The rendered module output.
      */
-    public function renderModule($type, $params)
+    public function render($type, $params)
     {
         if (!$this->hasModule($type)) {
             return '';
@@ -113,5 +113,7 @@ trait ManagesModules
 
         return $settings;
     }
+    public function loadTemplatesFrom($folder,$moduleType){
 
+    }
 }

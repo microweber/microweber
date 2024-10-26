@@ -22,7 +22,7 @@ trait ModulesRepositoryTrait
 {
     use Macroable;
 
-  // public $configPrefix = 'modules';
+    // public $configPrefix = 'modules';
 
 
     /**
@@ -33,7 +33,7 @@ trait ModulesRepositoryTrait
 
     public function register(): void
     {
-       // $this->configPrefix = 'modules';
+        // $this->configPrefix = 'modules';
         Debugbar::startMeasure('module_register', 'Registering modules');
         $modules = $this->getOrdered();
 
@@ -61,6 +61,7 @@ trait ModulesRepositoryTrait
 
         return $modules;
     }
+
     /**
      * Get list of enabled modules.
      */
@@ -76,6 +77,7 @@ trait ModulesRepositoryTrait
     {
         return $this->getByStatus(false);
     }
+
     public function getOrdered($direction = 'asc'): array
     {
 
@@ -133,7 +135,7 @@ trait ModulesRepositoryTrait
 
 
         $all = $this->all();
-        if(isset($all[$name])){
+        if (isset($all[$name])) {
             return $all[$name];
         }
 
@@ -291,7 +293,7 @@ trait ModulesRepositoryTrait
 
             //    return $this->scanMemory;
         }
-$this->flushCache();
+        $this->flushCache();
         $paths = $this->getScanPaths();
 
         $modules = [];
@@ -356,6 +358,8 @@ $this->flushCache();
 
         throw new ModuleNotFoundException("Module [{$name}] does not exist!");
     }
+
+
 
     public function getModulePath($module)
     {
