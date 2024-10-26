@@ -31,7 +31,9 @@ class GoogleMapsServiceProvider extends BaseModuleServiceProvider
 
 
         FilamentRegistry::registerPage(GoogleMapsModuleSettings::class);
+
         Microweber::module('google_maps', GoogleMapsModule::class);
+
        // Microweber::module('googlemaps', GoogleMapsModule::class);
 
 
