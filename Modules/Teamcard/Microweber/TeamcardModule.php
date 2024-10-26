@@ -3,7 +3,7 @@
 namespace Modules\Teamcard\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
-use MicroweberPackages\Modules\Teamcard\Http\Livewire\TeamcardModuleSettings;
+use Modules\Teamcard\Filament\TeamcardModuleSettings;
 
 class TeamcardModule extends BaseModule
 {
