@@ -15,17 +15,17 @@
 
             <div class="modules-list modules-list-defaultModules py-3">
 
-                <div class="modules-list-search-block input-icon px-3 mx-md-3">
-                    <span class="input-icon-addon ms-3">
+                <div class="modules-list-search-block input-icon px-3 mx-md-3 position-relative">
+                    <span class="input-icon-addon ms-3 " style="z-index: 10; right: 10px;">
 
-                      <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="32" height="32" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                      <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="28" height="28" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
                     </span>
 
                     <input type="text"
                         autofocus
                            v-model="filterKeyword"
                            placeholder="Type to Search..."
-                           class="js-modules-list-search-input form-control mw-modules-list-search-block rounded-0">
+                           class="js-modules-list-search-input form-control mw-modules-list-search-block rounded-0 w-100">
 
                          <span v-show="filterKeyword.length > 0" style="position: absolute; cursor: pointer;color: #aeaeae;top: 15px;right: 23px;padding: 3px;" v-on:click="filterClearKeyword()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
