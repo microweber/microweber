@@ -181,7 +181,7 @@ $hoverborderColor = get_module_option('hoverborderColor', $params['id']);
                         Tabs\Tab::make('Design')
                             ->schema([
                                     Section::make('Design settings')->schema(
-                                        $this->getSkinsFormSchema())
+                                        $this->getTemplatesFormSchema())
                                 ]
                             ),
 

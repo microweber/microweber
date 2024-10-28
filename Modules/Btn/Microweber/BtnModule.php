@@ -13,6 +13,7 @@ class BtnModule extends BaseModule
     public static int $position = 2;
     public static string $settingsComponent = BtnModuleSettings::class;
 
+    public static string $templatesNamespace = 'modules.btn::templates';
     public function render()
     {
 
@@ -28,7 +29,7 @@ class BtnModule extends BaseModule
         $templateData['popupContent'] = '';
         $templateData['url'] = '';
         $templateData['blank'] = '';
-        $templateData['text'] = '';
+        $templateData['text'] = 'Button';
         $templateData['icon'] = '';
         $templateData['iconPosition'] = '';
         $templateData['action'] = '';

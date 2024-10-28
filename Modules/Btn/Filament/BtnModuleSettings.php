@@ -96,33 +96,122 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                             ->default('left'),
                                     ]),
 
-                                Select::make('options.style')
-                                    ->label('Button Style')
-                                    ->helperText('Select the style of the button.')
-                                    ->live()
-                                    ->options([
-                                        'normal' => 'Normal',
-                                        'primary' => 'Primary',
-                                        'secondary' => 'Secondary',
-                                        'outline'=> 'Outline',
-                                        'link' => 'Link',
-                                    ])
-                                    ->default('btn-primary'),
+//                                Select::make('options.style')
+//                                    ->label('Button Style')
+//                                    ->helperText('Select the style of the button.')
+//                                    ->live()
+//                                    ->options([
+//                                        'normal' => 'Normal',
+//                                        'primary' => 'Primary',
+//                                        'secondary' => 'Secondary',
+//                                        'outline'=> 'Outline',
+//                                        'link' => 'Link',
+//                                    ])
+//                                    ->default('btn-primary'),
+//
+//                                Select::make('options.size')
+//                                    ->label('Button Size')
+//                                    ->helperText('Select the size of the button.')
+//                                    ->live()
+//                                    ->options([
+//                                        'default' => 'Default',
+//                                        'large' => 'Large',
+//                                        'medium' => 'Medium',
+//                                        'small' => 'Small',
+//                                        'mini' => 'Mini',
+//                                    ]),
+                                Section::make('Design settings')->schema(
+                                    $this->getTemplatesFormSchema()),
 
-                                Select::make('options.size')
-                                    ->label('Button Size')
-                                    ->helperText('Select the size of the button.')
-                                    ->live()
-                                    ->options([
-                                        'default' => 'Default',
-                                        'large' => 'Large',
-                                        'medium' => 'Medium',
-                                        'small' => 'Small',
-                                        'mini' => 'Mini',
-                                    ]),
+
+                                Section::make('Advanced settings')->schema([
+                                    //button_action
+                                    Select::make('options.button_action')
+                                        ->label('Button Action')
+                                        ->live()
+                                        ->options([
+                                            'default' => 'Go to link',
+                                            'popup' => 'Popup',
+//                                            'submit' => 'Submit',
+//                                            'reset' => 'Reset',
+                                        ])
+                                        ->default('none'),
+                                    //popupcontent if action is popoup
+                                    Textarea::make('options.popupcontent')
+                                        ->label('Popup Content')
+                                        ->live()
+                                        ->visible(function (Get $get) {
+
+                                            return $get('options.button_action') === 'popup';
+
+                                        })
+                                        ->default(''),
+
+
+                                    //backgroundColor
+                                    ColorPicker::make('options.color')
+                                        ->label('Color')
+                                        ->live()
+                                        ->default(''),
+
+                                    ColorPicker::make('options.backgroundColor')
+                                        ->label('Background Color')
+                                        ->live()
+                                        ->default(''),
+
+
+                                    ColorPicker::make('options.borderColor')
+                                        ->label('Border color')
+                                        ->live()
+                                        ->default(''),
+
+                                    TextInput::make('options.borderWidth')
+                                        ->label('Border width')
+                                        ->live()
+                                        ->numeric()
+                                        ->default(''),
+
+                                    TextInput::make('options.borderRadius')
+                                        ->label('Border radius')
+                                        ->live()
+                                        ->numeric()
+                                        ->default(''),
+
+
+                                    //hoverbackgroundColor
+                                    ColorPicker::make('options.hovercolor')
+                                        ->label('Hover hover color')
+                                        ->live()
+                                        ->default(''),
+
+                                    ColorPicker::make('options.hoverbackgroundColor')
+                                        ->label('Hover background color')
+                                        ->live()
+                                        ->default(''),
+
+
+                                    ColorPicker::make('options.hoverborderColor')
+                                        ->label('Hover border color')
+                                        ->live()
+                                        ->default(''),
+
+
+                                    TextInput::make('options.customSize')
+                                        ->label('Custom size')
+                                        ->live()
+                                        ->numeric()
+                                        ->default(''),
+
+
+                                ])->collapsed(),
+
+
 
                             ])
+
                     ])
+
+
             ]);
     }
 

@@ -36,7 +36,7 @@ class LayoutsModuleSettingsPage extends LiveEditModuleSettings
                         Tabs\Tab::make('Design')
                             ->schema([
                                     Section::make('Design settings')->schema(
-                                        $this->getSkinsFormSchema())
+                                        $this->getTemplatesFormSchema())
                                 ]
                             ),
                     ]),

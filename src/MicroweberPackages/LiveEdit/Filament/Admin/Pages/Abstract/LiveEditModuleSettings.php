@@ -42,7 +42,7 @@ abstract class LiveEditModuleSettings extends Page
     {
         return [
             'form',
-            'skinsForm',
+            'templatesForm',
         ];
     }
 
@@ -181,19 +181,18 @@ abstract class LiveEditModuleSettings extends Page
     }
 
 
-    public function skinsForm(Form $form)
+    public function templatesForm(Form $form)
     {
-        return $form->schema($this->getSkinsFormSchema());
+        return $form->schema($this->getTemplatesFormSchema());
     }
 
-    public function getSkinsFormSchema()
+    public function getTemplatesFormSchema()
     {
 
 
         $moduleTemplates = module_templates($this->module);
         $optionGroup = $this->getOptionGroup();
         $selectedSkin = get_module_option('template', $optionGroup);
-
 
         $filter = request()->get('template-filter') ?? null;
 
@@ -227,6 +226,7 @@ abstract class LiveEditModuleSettings extends Page
         $moduleTemplatesForForm = [];
         $moduleTemplatesSkinSettingsSchema = [];
         if ($moduleTemplates) {
+
             foreach ($moduleTemplates as $moduleTemplate) {
                 $moduleTemplatesForForm[$moduleTemplate['layout_file']] = $moduleTemplate['name'];
 
@@ -267,7 +267,7 @@ abstract class LiveEditModuleSettings extends Page
 
         $schema = [
             Select::make('options.template')
-                ->label('Module skin')
+                ->label('Module template')
                 ->default($selectedSkin)
                 ->live()
                 ->options($moduleTemplatesForForm)

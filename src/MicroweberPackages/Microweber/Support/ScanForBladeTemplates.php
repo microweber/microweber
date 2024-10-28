@@ -207,13 +207,16 @@ class ScanForBladeTemplates
                     $layout_file_basename = basename($layout_file);
                     $view_name = str_replace('.blade.php', '', $layout_file_basename);
 
-                    $to_return_temp['view'] = $view_name;
+                    $to_return_temp['layout_file'] = $view_name;
                     $to_return_temp['filename'] = $filename;
+                    //$to_return_temp['layout_file'] = $layout_file;
                     $screen = str_ireplace('.php', '.png', $filename);
                     $screen_jpg = str_ireplace('.php', '.jpg', $filename);
-                    $skin_settings_json = str_ireplace('.php', '.json', $filename);
+                    $skin_settings_json = str_ireplace('.blade.php', '.json', $filename);
+                    $skin_settings_json = str_ireplace('.php', '.json', $skin_settings_json);
 
                     if (is_file($skin_settings_json)) {
+
                         $to_return_temp['skin_settings_json_file'] = $skin_settings_json;
                     }
 

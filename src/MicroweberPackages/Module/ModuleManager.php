@@ -1082,9 +1082,11 @@ class ModuleManager
 
         if (app()->bound('microweber')) {
             $microweberModule = app()->microweber->hasModule($module_name);
+            $templates = [];
             if($microweberModule){
-             //   dd('sss');
+                $templates = app()->microweber->getTemplates($module_name);
             }
+            return $templates;
 
         }
 

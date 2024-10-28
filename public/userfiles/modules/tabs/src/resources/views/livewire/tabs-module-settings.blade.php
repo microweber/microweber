@@ -25,7 +25,7 @@
         </div>
         <div x-show="activeTab=='design'">
 
-             {{ $this->skinsForm }}
+             {{ $this->templatesForm }}
 
 
         </div>
