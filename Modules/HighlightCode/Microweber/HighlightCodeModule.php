@@ -7,7 +7,7 @@ use MicroweberPackages\Modules\HighlightCode\Filament\HighlightCodeModuleSetting
 
 class HighlightCodeModule extends BaseModule
 {
-    public static string $name = 'HighlightCode Module';
+    public static string $name = 'HighlightCode';
     public static string $icon = 'heroicon-o-map';
     public static string $categories = 'other';
     public static int $position = 1;
@@ -20,4 +20,5 @@ class HighlightCodeModule extends BaseModule
 
         return view('modules.highlight_code::templates.default', $viewData);
      }
+     
 }
