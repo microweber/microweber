@@ -140,7 +140,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
     {
         return Section::make('Advanced settings')->schema([
             //button_action
-            Select::make('options.button_action')
+            Select::make('options.action')
                 ->label('Button Action')
                 ->live()
                 ->options([
@@ -151,12 +151,12 @@ class BtnModuleSettings extends LiveEditModuleSettings
                 ])
                 ->default('none'),
             //popupcontent if action is popoup
-            Textarea::make('options.popupcontent')
+            Textarea::make('options.popupContent')
                 ->label('Popup Content')
                 ->live()
                 ->visible(function (Get $get) {
 
-                    return $get('options.button_action') === 'popup';
+                    return $get('options.action') === 'popup';
 
                 })
                 ->default(''),

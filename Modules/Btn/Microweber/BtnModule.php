@@ -14,50 +14,80 @@ class BtnModule extends BaseModule
     public static string $settingsComponent = BtnModuleSettings::class;
 
     public static string $templatesNamespace = 'modules.btn::templates';
-    public function render()
-    {
 
-        return view('modules.btn::templates.default', $this->templateData());
-    }
-
-    public function templateData()
+    public function getViewData(): array
     {
-        $templateData = [];
-        $templateData['id'] = $this->params['id'];
-        $templateData['style'] = '';
-        $templateData['size'] = '';
-        $templateData['popupContent'] = '';
-        $templateData['url'] = '';
-        $templateData['blank'] = '';
-        $templateData['text'] = 'Button';
-        $templateData['icon'] = '';
-        $templateData['iconPosition'] = '';
-        $templateData['action'] = '';
-        $templateData['attributes'] = '';
+        $viewData = parent::getViewData();
+
+        $viewData['id'] =  $this->params['id'];
+        $viewData['btnId'] = 'link-'.$this->params['id'];
+        $viewData['popupFunctionId'] = 'mwPopupBtn'.md5($this->params['id']);
+
+        $viewData['style'] = '';
+        $viewData['size'] = '';
+        $viewData['popupContent'] = '';
+        $viewData['url'] = '';
+        $viewData['blank'] = '';
+        $viewData['text'] = 'Button';
+        $viewData['icon'] = '';
+        $viewData['iconPosition'] = '';
+        $viewData['action'] = '';
+        $viewData['attributes'] = '';
+        $viewData['align'] = '';
+
+
+        $viewData['backgroundColor'] = '';
+        $viewData['color'] = '';
+        $viewData['borderColor'] = '';
+        $viewData['borderWidth'] = '';
+        $viewData['borderRadius'] = '';
+        $viewData['customSize'] = '';
+        $viewData['shadow'] = '';
+        $viewData['hoverbackgroundColor'] = '';
+        $viewData['hovercolor'] = '';
+        $viewData['hoverborderColor'] = '';
+
+        $hasCustomStyles = false;
 
         $moduleOptions = get_module_options($this->params['id']);
 
         if (!empty($moduleOptions)) {
             foreach ($moduleOptions as $btnOption) {
-                $templateData[$btnOption['option_key']] = $btnOption['option_value'];
+                $viewData[$btnOption['option_key']] = $btnOption['option_value'];
             }
         }
-        if (isset($templateData['link'])) {
-            $btnOptionsLink = json_decode($templateData['link'], true);
+        if (isset($viewData['link'])) {
+            $btnOptionsLink = json_decode($viewData['link'], true);
             if (isset($btnOptionsLink['url'])) {
-                $templateData['url'] = $btnOptionsLink['url'];
+                $viewData['url'] = $btnOptionsLink['url'];
             }
             if (isset($btnOptionsLink['data']['id']) && isset($btnOptionsLink['data']['type']) && $btnOptionsLink['data']['type'] == 'category') {
-                $templateData['url'] = category_link($btnOptionsLink['data']['id']);
+                $viewData['url'] = category_link($btnOptionsLink['data']['id']);
             } else {
                 if (isset($btnOptionsLink['data']['id'])) {
-                    $templateData['url'] = content_link($btnOptionsLink['data']['id']);
+                    $viewData['url'] = content_link($btnOptionsLink['data']['id']);
                 }
             }
         }
+        $lookForCustomStylesIn = ['backgroundColor', 'color', 'borderColor', 'borderWidth', 'borderRadius', 'customSize', 'shadow', 'hoverbackgroundColor', 'hovercolor', 'hoverborderColor'];
 
-        return $templateData;
+        foreach ($lookForCustomStylesIn as $customStyleKey) {
+            if (isset($viewData[$customStyleKey]) && $viewData[$customStyleKey] != '') {
+                $hasCustomStyles = true;
+            }
+        }
+        $viewData['hasCustomStyles'] = $hasCustomStyles;
 
+
+        return $viewData;
+    }
+
+    public function render()
+    {
+
+
+
+        return view('modules.btn::templates.default', $this->getViewData());
     }
 
 
