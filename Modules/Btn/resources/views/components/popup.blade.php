@@ -1,16 +1,16 @@
 <?php
 
-if ($action == 'popup') { ?>
+if (isset($action) and $action == 'popup') { ?>
 
-<script type="text/microweber" id="area<?php print $btn_id; ?>">
-        <?php print $action_content; ?>
+<script type="text/microweber" id="popupContent<?php print $btnId; ?>">
+        <?php print $popupContent; ?>
 </script>
 
 <script>
-    function <?php print $popup_function_id ?>() {
+    function <?php print $popupFunctionId ?>() {
         mw.dialog({
-            name: 'frame<?php print $btn_id; ?>',
-            content: $(document.getElementById('area<?php print $btn_id; ?>')).html(),
+            name: 'frame<?php print $btnId; ?>',
+            content: $(document.getElementById('popupContent<?php print $btnId; ?>')).html(),
             template: 'basic',
             title: "<?php print addslashes($text); ?>"
         });

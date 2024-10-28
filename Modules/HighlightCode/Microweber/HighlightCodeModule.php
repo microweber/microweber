@@ -3,7 +3,7 @@
 namespace Modules\HighlightCode\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
-use MicroweberPackages\Modules\HighlightCode\Filament\HighlightCodeModuleSettings;
+use Modules\HighlightCode\Filament\HighlightCodeModuleSettings;
 
 class HighlightCodeModule extends BaseModule
 {
@@ -20,5 +20,5 @@ class HighlightCodeModule extends BaseModule
 
         return view('modules.highlight_code::templates.default', $viewData);
      }
-     
+
 }

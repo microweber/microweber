@@ -15,7 +15,7 @@ class HighlightCodeServiceProvider extends BaseModuleServiceProvider
 {
     protected string $moduleName = 'HighlightCode';
 
-    protected string $moduleNameLower = 'highlightcode';
+    protected string $moduleNameLower = 'highlight_code';
 
     /**
      * Boot the application events.

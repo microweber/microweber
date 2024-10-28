@@ -29,10 +29,9 @@ class HighlightCodeModuleSettings extends LiveEditModuleSettings
 
                             ]),
                         Tabs\Tab::make('Design')
-                            ->schema([
-
-
-                            ]),
+                            ->schema(
+                                $this->getTemplatesFormSchema() ?? [],
+                            ),
                     ]),
             ]);
     }
