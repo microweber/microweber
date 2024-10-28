@@ -113,18 +113,20 @@ class InstallController extends Controller
 
         }
 
+        $save_to_env = true;
+        $save_to_config = false;
 
-        if (isset($input['config_save_method']) and $input['config_save_method'] == 'env') {
-            $save_to_env = true;
-            $save_to_config = false;
-
-            $install_step = false;
-
-
-        } else if (isset($input['config_save_method']) and $input['config_save_method'] == 'config_file') {
-            $save_to_env = false;
-            $save_to_config = true;
-        }
+//        if (isset($input['config_save_method']) and $input['config_save_method'] == 'env') {
+//            $save_to_env = true;
+//            $save_to_config = false;
+//
+//            $install_step = false;
+//
+//
+//        } else if (isset($input['config_save_method']) and $input['config_save_method'] == 'config_file') {
+//            $save_to_env = false;
+//            $save_to_config = true;
+//        }
 
 
         $is_installed = mw_is_installed();

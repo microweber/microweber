@@ -894,7 +894,9 @@
                                             </div>
 
 
-                                            <div class="advanced-options-installation mt-2" style="display:none;">
+                                           <?php
+
+                                           /* <div class="advanced-options-installation mt-2" style="display:none;">
                                                 <div class="form-group">
                                                     <label class="form-label"><?php _e('Configruation save method'); ?></label>
 
@@ -907,7 +909,8 @@
 
 
                                                 </div>
-                                            </div>
+                                            </div>*/
+                                           ?>
 
                                             <div class="advanced-options-installation mt-2" style="display:none;">
                                                 <div class="form-group">
