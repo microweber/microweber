@@ -64,8 +64,11 @@
 
 }
 
-.live-edit-gui-editor-opened #live-editor-frame {
-    margin-right: 303px;
+.live-edit-sidebar-opened #live-edit-frame-holder {
+    left: 250px;
+}
+.live-edit-gui-editor-opened #live-edit-frame-holder {
+     right: 303px;
 }
 </style>
 

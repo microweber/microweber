@@ -963,3 +963,9 @@ body.loaded #bubble-nav span {
     pointer-events: none;
 
 }
+
+
+html .mw-control-box-left,
+html .mw-control-box-right{
+    top: var(--toolbar-height)
+}

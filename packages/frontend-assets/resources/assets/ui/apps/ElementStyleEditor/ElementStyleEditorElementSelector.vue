@@ -61,7 +61,8 @@ export default {
                     element: targetMW.__controlBoxDomTree.boxContent,
                     resizable: true,
 
-                    targetDocument: targetMW.__controlBoxDomTree.boxContent.ownerDocument,
+                    targetDocument: mw.app.canvas.getDocument(),
+
                     canSelect: function (node, li) {
                         if (node.id) {
                           return true;
@@ -85,8 +86,12 @@ export default {
                         }
 
                     }
-           })
+           });
            tree.select(this.activeNode)
+
+           setTimeout(() => {
+            this.domTree = tree
+           }, 1000)
 
            targetMW.__controlBoxDomTree.show();
         },
@@ -133,7 +138,8 @@ export default {
 
         },
 
-        populateDomTree: function (element) {
+        populateDomTree: function (element, domtree) {
+
             if (!this.displayDomTree) {
                 return;
             }

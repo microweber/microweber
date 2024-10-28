@@ -90,25 +90,29 @@
 }
 
 .mw-domtree-item-opener{
+    --size: 14px;
+    --color: red;
     display: inline-block;
-    width: 12px;
-    height: 12px;
+    width: var(--size);
+    height: var(--size);
     border-radius: 3px;
     cursor: pointer;
-    font-style: normal;
-    line-height: 12px;
     vertical-align: top;
     position: relative;
     top: 5px;
+    margin-inline-end: 5px;
 }
 
 .mw-domtree-item-opener:after{
-    content: '\f10a';
+    content: '';
     transition: .3s;
     position: relative;
     display: inline-block;
-    font-family: Microweber;
-    color: #5f5f5f;
+    background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960' fill='%23999'%3E%3Cpath d='m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: var(--size);
+    height: var(--size);
 
 }
 .expand > .mw-domtree-item-opener:after{
