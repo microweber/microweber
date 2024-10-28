@@ -374,7 +374,7 @@
                     <h4 class="text-center text-primary">Setup your website</h4>
                 <?php else: ?>
                     <a href="http://Microweber.com" target="_blank" id="logo"><img
-                            src="<?php print asset('vendor/microweber-packages/frontend-assets/img/logo.svg') ?>"
+                            src="<?php print asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg') ?>"
                             style="width: 250px"/></a>
                 <?php endif; ?>
             </div>

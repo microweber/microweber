@@ -11,7 +11,7 @@
             elseif (mw()->ui->admin_logo_login() != false):
                 $logo = mw()->ui->admin_logo_login();
             else:
-                $logo = asset('vendor/microweber-packages/frontend-assets/img/logo.svg');
+                $logo = asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
             endif;
             ?>
             <a class="w-100 mb-md-3" href="<?php print admin_url(); ?>">
