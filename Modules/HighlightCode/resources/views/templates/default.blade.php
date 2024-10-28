@@ -19,5 +19,5 @@
 
 </script>
 <div class="highlight_code_module" style="text-align:left;">
-    <pre><code>{{ htmlentities($text) }}</code></pre>
+    <pre><code>{!! htmlentities($text) !!}</code></pre>
 </div>
