@@ -45,8 +45,55 @@ export default {
 
     methods: {
 
+        initDomTree() {
+            const targetMW = mw.top();
+            if(!targetMW.__controlBoxDomTree) {
+
+                targetMW.__controlBoxDomTree = new targetMW.controlBox({
+                    content:``,
+                    position:  'left',
+                    id: 'mw-live-edit-domtree-box',
+                    closeButton: true
+                })
+            }
+
+           const tree = new targetMW.DomTree({
+                    element: targetMW.__controlBoxDomTree.boxContent,
+                    resizable: true,
+
+                    targetDocument: targetMW.__controlBoxDomTree.boxContent.ownerDocument,
+                    canSelect: function (node, li) {
+                        if (node.id) {
+                          return true;
+                        }
+
+                        var isInaccessible = mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(node);
+                        if (isInaccessible) {
+                            return false;
+                        }
+
+
+                        return true;
+                    },
+                    onHover: function (e, target, node, element) {
+
+                    },
+                    onSelect: (e, target, node, element) => {
+                        targetMW.app.dispatch('mw.elementStyleEditor.selectNode', node);
+                        if (node.ownerDocument.defaultView.mw) {
+                            node.ownerDocument.defaultView.mw.tools.scrollTo(node, false, 100);
+                        }
+
+                    }
+           })
+           tree.select(this.activeNode)
+
+           targetMW.__controlBoxDomTree.show();
+        },
+
         toggleDomTree: function () {
             this.displayDomTree = !this.displayDomTree;
+            this.initDomTree();
             if (this.displayDomTree) {
                 this.populateDomTree(this.activeNode);
             }
@@ -96,8 +143,6 @@ export default {
                 this.domTree = new mw.DomTree({
                     element: '#domtree',
                     resizable: true,
-                    // compactTreeView: true,
-                    //  targetDocument: targetMw.win.document,
                     targetDocument: element.ownerDocument,
                     canSelect: function (node, li) {
                         if (node.id) {
@@ -109,14 +154,6 @@ export default {
                             return false;
                         }
 
-
-                        // if (!node.id) {
-                        //   return false;
-                        // }
-                        //   return can;
-                        // var cant = (!mw.tools.isEditable(node) && !node.classList.contains('edit') && !node.id);
-                        //return !cant;
-                        // return mw.tools.isEditable(node) || node.classList.contains('edit');
 
                         return true;
                     },
