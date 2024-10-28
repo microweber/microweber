@@ -21,14 +21,18 @@ abstract class BaseModule
     public static string $settingsComponent = NoSettings::class;
     public static int $position = 0;
 
+    public static string $templatesNamespace = ''; //modules.my_module
 
-    public string $type = '';
-    public array $params = [];
+
+    public string $type = ''; // set in the constructor
+    public array $params = []; // set in the constructor
 
     public function __construct($type, $params = [])
     {
         $this->type = $type;
         $this->params = $params;
+
+
     }
 
     public function getViewData(): array

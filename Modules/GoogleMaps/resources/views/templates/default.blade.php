@@ -1,3 +1,17 @@
+<?php
+
+/*
+
+type: template
+
+name: Default
+
+description: Default
+
+*/
+?>
+
+
 <div class="mwembed mw-googlemaps" id="googlemaps-{{ $id }}">
     @if ($address != '')
         <iframe
