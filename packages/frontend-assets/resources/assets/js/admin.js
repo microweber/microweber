@@ -118,6 +118,7 @@ import "../components/uploader.js";
 import "../components/filemanager.js";
 
 import "../components/filepicker.js";
+
 import "../components/link-editor.js";
 import "../components/color.js";
 import "../components/colorpicker.js";

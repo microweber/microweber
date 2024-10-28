@@ -1,0 +1,30 @@
+{
+    "name": "modules/highlight_code",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\HighlightCode\\": "",
+            "Modules\\HighlightCode\\Database\\Factories\\": "database/factories/",
+            "Modules\\HighlightCode\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\HighlightCode\\Tests\\": "Tests/"
+        }
+    }
+}

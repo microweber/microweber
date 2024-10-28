@@ -26,6 +26,8 @@ class TeamcardTableList extends Component implements HasForms, HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    public $optionGroup = 'teamcard';
+
     public function editFormArray()
     {
         return [
@@ -55,7 +57,7 @@ class TeamcardTableList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(TeamcardItem::query())
+            ->query(TeamcardItem::queryForOptionGroup($this->optionGroup))
             ->columns([
                 ImageColumn::make('file')
                     ->label('Picture')

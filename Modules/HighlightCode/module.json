@@ -1,0 +1,11 @@
+{
+    "name": "HighlightCode",
+    "alias": "highlight_code",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\HighlightCode\\Providers\\HighlightCodeServiceProvider"
+    ],
+    "files": []
+}
