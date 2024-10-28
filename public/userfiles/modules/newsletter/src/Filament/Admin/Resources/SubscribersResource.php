@@ -104,7 +104,8 @@ class SubscribersResource extends Resource
             ->headerActions([
                 \MicroweberPackages\Filament\Tables\Actions\ImportAction::make('importProducts')
                     ->icon('heroicon-m-cloud-arrow-up')
-                    ->importer(NewsletterSubscriberImporter::class),
+                    ->importer(NewsletterSubscriberImporter::class)
+                    ->chunkSize(50),
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
