@@ -1085,8 +1085,9 @@ class ModuleManager
             $templates = [];
             if($microweberModule){
                 $templates = app()->microweber->getTemplates($module_name);
+                return $templates;
             }
-            return $templates;
+
 
         }
 
