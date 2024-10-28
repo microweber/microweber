@@ -20,7 +20,7 @@ class ImportAction extends \Filament\Tables\Actions\ImportAction
 
             $import =  MwFilamentImport::startImport($action, $data);
 
-            $this->dispatchTo('subscribersImported');
+            $this->dispatchTo('subscribersImported','imported', $import);
 
             return $import;
         });

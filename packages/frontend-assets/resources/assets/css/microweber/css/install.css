@@ -348,3 +348,29 @@ a {
 .shadow-lg {
     box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
+
+.mdi-chevron-right::before {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="white"><path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/></svg>');
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.mdi-chevron-left::before {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="white"><path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>');
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.mdi:before, .mdi-set {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: white;
+    font-size: inherit;
+    text-rendering: auto;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
