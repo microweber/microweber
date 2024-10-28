@@ -1,5 +1,3 @@
-@props(['id', 'style', 'size', 'url', 'blank', 'text', 'action', 'attributes','hasCustomStyles'])
-
 @php
 /*
 

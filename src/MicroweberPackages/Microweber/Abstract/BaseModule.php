@@ -41,20 +41,29 @@ abstract class BaseModule
         $params = $this->getParams();
         $template = $this->getTemplate();
         $viewData = [
-            'options' => $options,
+            'id' => $params['id'],
             'params' => $params,
             'template' => $template,
+            'options' => $options,
         ];
         return $viewData;
     }
 
-    /**
-     * Render the frontend view of the module.
-     */
+//    /**
+//     * Render the frontend view of the module.
+//     */
+//    public function render()
+//    {
+//        return ''; // This should return the view for the frontend display
+//    }
     public function render()
     {
-        return ''; // This should return the view for the frontend display
+        if (!isset(static::$templatesNamespace) || empty(static::$templatesNamespace)) {
+            return '';
+        }
+        $viewData = $this->getViewData();
+        $template = isset($viewData['template']) ? $viewData['template'] : 'default';
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
-
 
 }

@@ -19,9 +19,9 @@ class BtnModule extends BaseModule
     {
         $viewData = parent::getViewData();
 
-        $viewData['id'] =  $this->params['id'];
-        $viewData['btnId'] = 'link-'.$this->params['id'];
-        $viewData['popupFunctionId'] = 'mwPopupBtn'.md5($this->params['id']);
+        $viewData['id'] = $this->params['id'];
+        $viewData['btnId'] = 'link-' . $this->params['id'];
+        $viewData['popupFunctionId'] = 'mwPopupBtn' . md5($this->params['id']);
 
         $viewData['style'] = '';
         $viewData['size'] = '';
@@ -84,10 +84,10 @@ class BtnModule extends BaseModule
 
     public function render()
     {
+        $viewData = $this->getViewData();
+        $template = isset($viewData['template']) ? $viewData['template'] : 'default';
 
-
-
-        return view('modules.btn::templates.default', $this->getViewData());
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
 
