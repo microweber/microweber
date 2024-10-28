@@ -11,9 +11,9 @@
 
 
     <link type="text/css" rel="stylesheet" media="all"
-          href="<?php print asset('vendor/microweber-packages/microweber-filament-theme/microweber-filament-theme.css'); ?>"/>
+          href="<?php print asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css'); ?>"/>
     <link type="text/css" rel="stylesheet" media="all"
-          href="<?php print asset('vendor/microweber-packages/frontend-assets/css/install.css'); ?>"/>
+          href="<?php print asset('vendor/microweber-packages/frontend-assets/build/install.css'); ?>"/>
 
     <?php
 
@@ -361,6 +361,10 @@
             outline: 1px solid;
         }
     </style>
+
+
+
+
 </head>
 <body>
 
@@ -373,7 +377,7 @@
                 <?php if ($pre_configured): ?>
                     <h4 class="text-center text-primary">Setup your website</h4>
                 <?php else: ?>
-                    <a href="http://Microweber.com" target="_blank" id="logo"><img
+                    <a href="http://microweber.com" target="_blank" id="logo"><img
                             src="<?php print asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg') ?>"
                             style="width: 250px"/></a>
                 <?php endif; ?>

@@ -118,7 +118,7 @@ class InstallController extends Controller
             $save_to_env = true;
             $save_to_config = false;
 
-           // $install_step = false;
+            $install_step = false;
 
 
         } else if (isset($input['config_save_method']) and $input['config_save_method'] == 'config_file') {
@@ -392,21 +392,21 @@ class InstallController extends Controller
                 $this->log('Saving config');
                 Config::save($allowed_configs);
             }
-            if ($save_to_env) {
-                $this->log('Saving env');
-                if ($this->_is_putenv_available()) {
-                    foreach ($envToSave as $envKey => $envValue) {
-                 //       putenv("$envKey=$envValue");
-                    }
-                }
-
-                $this->setEnvironmentValuesAndSave($envToSave);
-                try {
-                    Artisan::call('optimize:clear');
-                } catch (\Exception $e) {
-                    // do nothing
-                }
-            }
+//            if ($save_to_env) {
+//                $this->log('Saving env');
+//                if ($this->_is_putenv_available()) {
+//                    foreach ($envToSave as $envKey => $envValue) {
+//                 //       putenv("$envKey=$envValue");
+//                    }
+//                }
+//
+//              $this->saveEnvValues($envToSave);
+//                try {
+//                    Artisan::call('optimize:clear');
+//                } catch (\Exception $e) {
+//                    // do nothing
+//                }
+//            }
 
 
             \Illuminate\Support\Facades\Cache::flush();
@@ -616,21 +616,28 @@ class InstallController extends Controller
                 Config::set('microweber.is_installed', 1);
                 $envToSave['MW_IS_INSTALLED'] = 1;
 
+                if ($save_to_env) {
+                    if (!$install_step or $install_step == 7) {
+                        $this->saveEnvValues($envToSave);
+                    }
+                }
+
             }
 
-            if ($save_to_env) {
-                $this->setEnvironmentValuesAndSave($envToSave);
-            }
+
 
 
             if ($save_to_config) {
-                Config::save($allowed_configs);
+            //    Config::save($allowed_configs);
             }
             if (!is_cli() and isset($admin_user_id)) {
                 mw()->user_manager->make_logged($admin_user_id, true);
             }
 
             event_trigger('mw.install.complete', $input);
+
+
+
 
             try {
                 Artisan::call('optimize:clear');
@@ -639,6 +646,7 @@ class InstallController extends Controller
             }
 
             $this->clearLog();
+
 
             return 'done';
         }
@@ -775,7 +783,7 @@ class InstallController extends Controller
     }
 
     // see from https://stackoverflow.com/a/54173207/731166
-    public function setEnvironmentValuesAndSave(array $values)
+    public function saveEnvValues(array $values)
     {
         $envFile = app()->environmentFilePath();
 
