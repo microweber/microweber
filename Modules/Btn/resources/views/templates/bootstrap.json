@@ -3,7 +3,7 @@
         {
             "type": "select",
             "label": "Button style",
-            "name": "button_style",
+            "name": "style",
             "placeholder": "Select button style",
             "help": "The style of the button",
             "options": {
@@ -11,13 +11,16 @@
                 "btn-primary": "Primary",
                 "btn-secondary": "Secondary",
                 "btn-outline": "Outline",
+                "btn-danger": "Danger",
+                "btn-warning": "Warning",
+                "btn-info": "Info",
                 "btn-link": "Link"
             }
         },
         {
             "type": "select",
             "label": "Button size",
-            "name": "button_size",
+            "name": "size",
             "placeholder": "Select button size",
             "help": "The size of the button",
             "options": {

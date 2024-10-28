@@ -124,8 +124,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                     $this->getTemplatesFormSchema()),
 
 
-
-
+                                $this->getCustomSettingsFormSchema(),
 
 
                             ])
@@ -137,7 +136,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
     }
 
 
-    private function getCustomSettingsFormShema()
+    private function getCustomSettingsFormSchema()
     {
         return Section::make('Advanced settings')->schema([
             //button_action

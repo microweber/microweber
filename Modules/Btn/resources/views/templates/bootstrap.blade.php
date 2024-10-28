@@ -3,9 +3,9 @@
 
 type: layout
 
-name: bootstrap
+name: Bootstrap
 
-description: Default
+description: Bootstrap button
 
 */
 @endphp
