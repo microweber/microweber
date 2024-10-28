@@ -11,9 +11,9 @@ mix.webpackConfig({
         fullySpecified: false,
         extensions: [".*", ".webpack.js", ".web.js", ".js", ".json", ".less"]
     },
-    stats: {
-        children: true
-    },
+    // stats: {
+    //     children: true
+    // },
 });
 
 mix.js('resources/assets/ui/live-edit-app.js', 'resources/dist/build').setPublicPath('resources/dist/build').vue();

@@ -48,10 +48,12 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
         });
         PackageManager::create('filament', function (Package $package) {
             $package->requires([
-                'admin_head_tags_filament_js_libs',
                 'mw_settings_js',
-                'admin_web_app_manifest',
+                'admin_head_tags_filament_js_libs',
+
                 'admin_filament_js',
+
+                'admin_web_app_manifest',
                 'mw_icon_fonts_css',
 
                 'admin_custom_css_and_js',
@@ -210,6 +212,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'admin_head_tags_filament_js',
                 new \MicroweberPackages\MetaTags\Entities\AdminFilamentJsScriptTag()
+            );        $package->addTag(
+
+              'admin_head_tags_filament_css',
+                new \MicroweberPackages\MetaTags\Entities\AdminFilamentCssTag()
             );
 
             $package->addTag(

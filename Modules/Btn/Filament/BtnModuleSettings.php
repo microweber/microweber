@@ -124,86 +124,7 @@ class BtnModuleSettings extends LiveEditModuleSettings
                                     $this->getTemplatesFormSchema()),
 
 
-                                Section::make('Advanced settings')->schema([
-                                    //button_action
-                                    Select::make('options.button_action')
-                                        ->label('Button Action')
-                                        ->live()
-                                        ->options([
-                                            'default' => 'Go to link',
-                                            'popup' => 'Popup',
-//                                            'submit' => 'Submit',
-//                                            'reset' => 'Reset',
-                                        ])
-                                        ->default('none'),
-                                    //popupcontent if action is popoup
-                                    Textarea::make('options.popupcontent')
-                                        ->label('Popup Content')
-                                        ->live()
-                                        ->visible(function (Get $get) {
 
-                                            return $get('options.button_action') === 'popup';
-
-                                        })
-                                        ->default(''),
-
-
-                                    //backgroundColor
-                                    ColorPicker::make('options.color')
-                                        ->label('Color')
-                                        ->live()
-                                        ->default(''),
-
-                                    ColorPicker::make('options.backgroundColor')
-                                        ->label('Background Color')
-                                        ->live()
-                                        ->default(''),
-
-
-                                    ColorPicker::make('options.borderColor')
-                                        ->label('Border color')
-                                        ->live()
-                                        ->default(''),
-
-                                    TextInput::make('options.borderWidth')
-                                        ->label('Border width')
-                                        ->live()
-                                        ->numeric()
-                                        ->default(''),
-
-                                    TextInput::make('options.borderRadius')
-                                        ->label('Border radius')
-                                        ->live()
-                                        ->numeric()
-                                        ->default(''),
-
-
-                                    //hoverbackgroundColor
-                                    ColorPicker::make('options.hovercolor')
-                                        ->label('Hover hover color')
-                                        ->live()
-                                        ->default(''),
-
-                                    ColorPicker::make('options.hoverbackgroundColor')
-                                        ->label('Hover background color')
-                                        ->live()
-                                        ->default(''),
-
-
-                                    ColorPicker::make('options.hoverborderColor')
-                                        ->label('Hover border color')
-                                        ->live()
-                                        ->default(''),
-
-
-                                    TextInput::make('options.customSize')
-                                        ->label('Custom size')
-                                        ->live()
-                                        ->numeric()
-                                        ->default(''),
-
-
-                                ])->collapsed(),
 
 
 
@@ -213,6 +134,91 @@ class BtnModuleSettings extends LiveEditModuleSettings
 
 
             ]);
+    }
+
+
+    private function getCustomSettingsFormShema()
+    {
+        return Section::make('Advanced settings')->schema([
+            //button_action
+            Select::make('options.button_action')
+                ->label('Button Action')
+                ->live()
+                ->options([
+                    'default' => 'Go to link',
+                    'popup' => 'Popup',
+//                                            'submit' => 'Submit',
+//                                            'reset' => 'Reset',
+                ])
+                ->default('none'),
+            //popupcontent if action is popoup
+            Textarea::make('options.popupcontent')
+                ->label('Popup Content')
+                ->live()
+                ->visible(function (Get $get) {
+
+                    return $get('options.button_action') === 'popup';
+
+                })
+                ->default(''),
+
+
+            //backgroundColor
+            ColorPicker::make('options.color')
+                ->label('Color')
+                ->live()
+                ->default(''),
+
+            ColorPicker::make('options.backgroundColor')
+                ->label('Background Color')
+                ->live()
+                ->default(''),
+
+
+            ColorPicker::make('options.borderColor')
+                ->label('Border color')
+                ->live()
+                ->default(''),
+
+            TextInput::make('options.borderWidth')
+                ->label('Border width')
+                ->live()
+                ->numeric()
+                ->default(''),
+
+            TextInput::make('options.borderRadius')
+                ->label('Border radius')
+                ->live()
+                ->numeric()
+                ->default(''),
+
+
+            //hoverbackgroundColor
+            ColorPicker::make('options.hovercolor')
+                ->label('Hover hover color')
+                ->live()
+                ->default(''),
+
+            ColorPicker::make('options.hoverbackgroundColor')
+                ->label('Hover background color')
+                ->live()
+                ->default(''),
+
+
+            ColorPicker::make('options.hoverborderColor')
+                ->label('Hover border color')
+                ->live()
+                ->default(''),
+
+
+            TextInput::make('options.customSize')
+                ->label('Custom size')
+                ->live()
+                ->numeric()
+                ->default(''),
+
+
+        ])->collapsed();
     }
 
 

@@ -14,8 +14,8 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
      //   $libs = public_asset() . 'vendor/microweber-packages/frontend-assets/js/admin-filament-libs.js';
         $libs = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin-filament-libs.js';
         // $jquery = mw_includes_url() . 'api/libs/jqueryui/external/jquery/jquery.js';
-        $adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin.js';
-        $adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin.css';
+        //$adminJs = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin.js';
+        //$adminCss = public_asset() . 'vendor/microweber-packages/frontend-assets/build/admin.css';
         $jquery = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery/jquery.js';
         $jqueryUi = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.js';
         $jqueryUiCss = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/jquery-ui/jquery-ui.css';
@@ -23,7 +23,7 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $lib_tynymce = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/tinymce/tinymce.js';
         $nouislider = public_asset() . 'vendor/microweber-packages/frontend-assets-libs/nouislider/nouislider.js';
 
-         $fileRobotUrl = public_asset() . 'vendor/microweber-packages/frontend-assets/js/imageeditor.js';
+      //   $fileRobotUrl = public_asset() . 'vendor/microweber-packages/frontend-assets/js/imageeditor.js';
 
 
         // $fileRobotUrl = "https://scaleflex.cloudimg.io/v7/plugins/filerobot-image-editor/latest/filerobot-image-editor.min.js";
@@ -53,11 +53,11 @@ class AdminFilamentJsLibsScriptTag implements TagInterface, \Stringable
         $append_html .= '<script src="' . $libs . '" type="module"  id="mw-filament-js-libs-scripts"></script>' . "\r\n";
 
 
-        $append_html .= '' . "\r\n";
-        $append_html .= '<script src="' . $fileRobotUrl . '" id="mw-admin-file-robot-js-libs-scripts"></script>' . "\r\n";
+//        $append_html .= '' . "\r\n";
+//        $append_html .= '<script src="' . $fileRobotUrl . '" id="mw-admin-file-robot-js-libs-scripts"></script>' . "\r\n";
 
         $append_html .= '' . "\r\n";
-        $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
+      //  $append_html .= '<script src="' . $adminJs . '" id="mw-admin-js-scripts"></script>' . "\r\n";
      //   $append_html .= '<link rel="stylesheet" href="' . $adminCss . '" id="mw-admin-css">' . "\r\n";
      //   $append_html .= '' . "\r\n";
        // $append_html .= '<meta name="csrf-token" id="mw-csrf-token" content="' . csrf_token() . '">' . "\r\n";
