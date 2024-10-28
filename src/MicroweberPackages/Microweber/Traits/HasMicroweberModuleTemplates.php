@@ -15,13 +15,17 @@ trait HasMicroweberModuleTemplates
     public string $template = 'default';
 
     /**
-     * Retrieve available templates for the module.
+     * Retrieve the namespaced template path for the module.
      *
-     * @return array The available templates for the module.
+     * @return string The available templates for the module. We will use the templates from the module's namespace.
      */
-    public function getTemplates()
+    public static function getTemplatesNamespace(): string
     {
-        return module_templates($this->type);
+
+        if(!isset(static::$templatesNamespace)) {
+            return '';
+        }
+        return static::$templatesNamespace;
     }
 
     /**

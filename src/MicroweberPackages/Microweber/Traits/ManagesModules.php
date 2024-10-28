@@ -46,9 +46,10 @@ trait ManagesModules
     {
         return isset($this->modules[$type]);
     }
-    public function getModule($type): bool
+
+    public function getModuleClass($type): string
     {
-        return isset($this->modules[$type]);
+        return isset($this->modules[$type]) ? $this->modules[$type] : '';
     }
 
     /**
@@ -63,11 +64,15 @@ trait ManagesModules
         if (!$this->hasModule($type)) {
             return '';
         }
-        /** @var BaseModule $module */
-
-        $module = new $this->modules[$type]($type, $params);
-
+        $module = $this->make($type, $params);
         return $module->render();
+    }
+
+    public function make($type, $params)
+    {
+        /** @var BaseModule $module */
+        $module = new $this->modules[$type]($type, $params);
+        return $module;
     }
 
     /**
@@ -113,7 +118,26 @@ trait ManagesModules
 
         return $settings;
     }
-    public function loadTemplatesFrom($folder,$moduleType){
 
+    public function getTemplates($moduleType)
+    {
+        $templatesForModule = [];
+        $foldersForScan = [];
+        $moduleClass = $this->getModuleClass($moduleType);
+        if ($moduleClass) {
+            if (class_exists($moduleClass)) {
+                /** @var BaseModule $moduleClass */
+                if (method_exists($moduleClass, 'getTemplatesNamespace')) {
+                    $templatesNamespace = $moduleClass::getTemplatesNamespace();
+                    $scanTemplates = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
+                    $templatesForModule = $scanTemplates->scan($templatesNamespace);
+                }
+            }
+            if ($templatesForModule) {
+                return $templatesForModule;
+            }
+        }
+        return [];
     }
+
 }
