@@ -1,5 +1,5 @@
 //libs
-//import "xss";
+import "../../../../frontend-assets-libs/resources/dist/xss/xss.js";
 
 
 // import "jquery";
