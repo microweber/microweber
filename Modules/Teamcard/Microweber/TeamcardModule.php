@@ -13,6 +13,7 @@ class TeamcardModule extends BaseModule
     public static string $categories = 'team, card';
     public static int $position = 1;
     public static string $settingsComponent = TeamcardModuleSettings::class;
+    public static string $templatesNamespace = 'modules.teamcard::templates';
 
     public function render()
     {
