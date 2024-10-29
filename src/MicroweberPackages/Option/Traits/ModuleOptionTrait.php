@@ -4,20 +4,29 @@ namespace MicroweberPackages\Option\Traits;
 
 use MicroweberPackages\Option\Models\ModuleOption;
 
-trait ModuleOptionTrait {
+trait ModuleOptionTrait
+{
 
     public $memoryModuleOptionGroup = [];
 
-    public function getModuleOptions($optionGroup)
+    public function getModuleOptions($optionGroup, $module = false)
     {
-        if (isset($this->memoryModuleOptionGroup[$optionGroup])) {
+        if (!$module and isset($this->memoryModuleOptionGroup[$optionGroup])) {
             return $this->memoryModuleOptionGroup[$optionGroup];
         }
 
         if ($optionGroup) {
 
-            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
-              $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
+            $allOptions = ModuleOption::where('option_group', $optionGroup);
+
+            if ($module) {
+                $allOptions->where('module', $module);
+            }
+
+            $allOptions = $allOptions->get()->toArray();
+            if (!$module) {
+                $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
+            }
             return $allOptions;
         }
 

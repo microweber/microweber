@@ -16,6 +16,7 @@ abstract class BaseModule
     use HasMicroweberModuleTemplates;
 
     public static string $name = 'Base module';
+    public static string $module = '';
     public static string $icon = '';
     public static string $categories = 'other';
     public static string $settingsComponent = NoSettings::class;
@@ -24,13 +25,11 @@ abstract class BaseModule
     public static string $templatesNamespace = ''; //modules.my_module
 
 
-    public string $type = ''; // set in the constructor
     public array $params = []; // set in the constructor
 
-    public function __construct($type, $params = [])
+    public function __construct($params = [])
     {
-        $this->type = $type;
-        $this->params = $params;
+         $this->params = $params;
 
 
     }

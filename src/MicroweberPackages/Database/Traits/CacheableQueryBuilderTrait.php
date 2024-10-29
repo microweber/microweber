@@ -50,6 +50,9 @@ trait CacheableQueryBuilderTrait
         static::creating(function ($model) {
             $model->clearModelCache($model);
         });
+        static::created(function ($model) {
+            $model->clearModelCache($model);
+        });
         static::updating(function ($model) {
             $model->clearModelCache($model);
         });

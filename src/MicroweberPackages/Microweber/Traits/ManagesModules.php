@@ -18,12 +18,21 @@ trait ManagesModules
     /**
      * Register a module with a specific type and class.
      *
-     * @param string $type The type of the module.
      * @param string $moduleClass The class of the module.
      */
-    public function module($type, $moduleClass): void
+    public function module($moduleClass): void
     {
-        $this->modules[$type] = $moduleClass;
+
+
+        if (class_exists($moduleClass)) {
+            /** @var BaseModule $moduleClass */
+            if (method_exists($moduleClass, 'getModuleType')) {
+                $type = $moduleClass::getModuleType();
+                if ($type) {
+                    $this->modules[$type] = $moduleClass;
+                }
+            }
+        }
     }
 
     /**
@@ -71,7 +80,7 @@ trait ManagesModules
     public function make($type, $params)
     {
         /** @var BaseModule $module */
-        $module = new $this->modules[$type]($type, $params);
+        $module = new $this->modules[$type]($params);
         return $module;
     }
 

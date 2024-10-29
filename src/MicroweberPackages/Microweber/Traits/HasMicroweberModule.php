@@ -24,6 +24,19 @@ trait HasMicroweberModule
 
         return '';
     }
+    /**
+     * Get the type of the module.
+     *
+     * @return string The name of the module, or an empty string if not set.
+     */
+    public static function getModuleType(): string
+    {
+        if (isset(static::$module)) {
+            return static::$module;
+        }
+
+        return '';
+    }
 
     /**
      * Get the icon of the module.

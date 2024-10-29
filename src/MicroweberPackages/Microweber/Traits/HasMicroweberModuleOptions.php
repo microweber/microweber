@@ -20,11 +20,15 @@ trait HasMicroweberModuleOptions
      *
      * @return array The current options for the module.
      */
-    public function getOptions()
+    public function getOptions() : array
     {
+        $options = get_module_options($this->params['id'],static::$module);
+        if(empty($options)){
+            $options = [];
+        }
 
- // get_module_options($this->params['id'], $this->options);
-        return $this->options;
+        return $options;
+
     }
 
     /**
