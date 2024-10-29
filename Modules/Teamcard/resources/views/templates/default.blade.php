@@ -52,6 +52,10 @@ description: Default
                 </div>
             </div>
         @endforeach
+    @else
+        <div>
+            Add your teamcard.
+        </div>
     @endif
 </div>
 
