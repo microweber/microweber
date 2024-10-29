@@ -1,23 +1,20 @@
-<?php
-
+@php
 /*
-
 type: layout
 name: Slider
 description slider
-
 */
-?>
+@endphp
 
 <script>
-    mw.require('<?php print modules_url() ?>slider_v2/slider-v2.js');
+    mw.require('{{ modules_url() }}slider_v2/slider-v2.js');
     $(document).ready(function () {
-        new SliderV2('#js-teamcard-slider-<?php echo $params['id']; ?>', {
+        new SliderV2('#js-teamcard-slider-{{ $params['id'] }}', {
             loop: true,
             autoplay:true,
             direction: 'vertical', //horizontal or vertical
             pagination: {
-                element: '#js-teamcard-slider-pagination-<?php echo $params['id']; ?>',
+                element: '#js-teamcard-slider-pagination-{{ $params['id'] }}',
             },
             navigation: {},
         });
@@ -25,13 +22,13 @@ description slider
 </script>
 
 <style>
-    #js-teamcard-slider-<?php echo $params['id']; ?>{
+    #js-teamcard-slider-{{ $params['id'] }}{
         max-height: 500px;
         background-color: #f5f5f5;
     }
 </style>
 
-<div id="js-teamcard-slider-<?php echo $params['id']; ?>" class="slider_v2-default swiper">
+<div id="js-teamcard-slider-{{ $params['id'] }}" class="slider_v2-default swiper">
     <div class="swiper-wrapper">
         @foreach($teamcard as $i => $member)
             <div class="swiper-slide">
@@ -64,5 +61,5 @@ description slider
             </div>
         @endforeach
     </div>
-    <div id="js-teamcard-slider-pagination-<?php echo $params['id']; ?>" class="swiper-pagination"></div>
+    <div id="js-teamcard-slider-pagination-{{ $params['id'] }}" class="swiper-pagination"></div>
 </div>

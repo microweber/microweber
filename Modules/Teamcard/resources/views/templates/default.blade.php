@@ -1,15 +1,10 @@
-<?php
+@php
 /*
-
 type: layout
-
 name: Default
-
 description: Default
-
 */
-?>
-
+@endphp
 
 <style>
     .team-card-item-image {
@@ -18,8 +13,6 @@ description: Default
         background-repeat: no-repeat;
         background-position: center;
     }
-
-
 </style>
 
 <div class="team-card-holder d-flex flex-wrap">
