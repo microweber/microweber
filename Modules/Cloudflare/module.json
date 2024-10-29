@@ -1,0 +1,11 @@
+{
+    "name": "Cloudflare",
+    "alias": "cloudflare",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Cloudflare\\Providers\\CloudflareServiceProvider"
+    ],
+    "files": []
+}

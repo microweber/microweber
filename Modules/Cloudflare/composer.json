@@ -1,0 +1,30 @@
+{
+    "name": "modules/cloudflare",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Cloudflare\\": "",
+            "Modules\\Cloudflare\\Database\\Factories\\": "database/factories/",
+            "Modules\\Cloudflare\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Cloudflare\\Tests\\": "Tests/"
+        }
+    }
+}
