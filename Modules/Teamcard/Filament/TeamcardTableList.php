@@ -2,6 +2,7 @@
 
 namespace Modules\Teamcard\Filament;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -41,6 +42,9 @@ class TeamcardTableList extends Component implements HasForms, HasTable
 //            MwFileUpload::make('file')
 //                ->label('Team Member Picture')
 //                ->helperText('Upload a picture of the team member.'),
+            FileUpload::make('file')
+                    ->label('Team Member Picture')
+                    ->helperText('Upload a picture of the team member.'),
             Textarea::make('bio')
                 ->label('Team Member Bio')
                 ->helperText('Provide a short biography of the team member.'),
@@ -56,6 +60,7 @@ class TeamcardTableList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->reorderable()
             ->query(Teamcard::query()->where('module_id', $this->moduleId))
             ->columns([
                 ImageColumn::make('file')
