@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Microweber\Traits;
 
 
-
 /**
  * Trait HasMicroweberModuleOptions
  *
@@ -13,16 +12,15 @@ trait HasMicroweberModuleOptions
 {
 
 
-
     /**
      * Retrieve the current module options.
      *
      * @return array The current options for the module.
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
-        $options = get_module_options($this->params['id'],static::$module);
-        if(empty($options)){
+        $options = get_module_options($this->params['id'], static::$module);
+        if (empty($options)) {
             $options = [];
         }
 
@@ -30,7 +28,19 @@ trait HasMicroweberModuleOptions
 
     }
 
+    public function getOption($key)
+    {
+
+        {
+            $options = $this->getOptions();
+            foreach ($options as $option) {
+                if ($option['option_key'] == $key) {
+                    return $option['option_value'];
+                }
+            }
 
 
+        }
+    }
 
 }
