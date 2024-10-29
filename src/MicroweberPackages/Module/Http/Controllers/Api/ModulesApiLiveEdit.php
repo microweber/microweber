@@ -117,9 +117,10 @@ class ModulesApiLiveEdit extends Controller
                 foreach ($modulesFromRegistry as $modkey => $mod) {
                     if (isset($mod['icon']) and ($mod['icon'])) {
                         try {
-                          $mod['icon'] = 'data:image/svg+xml;utf8,'.$this->encodeURIComponent(svg($mod['icon'])->toHtml());
-                           //  $mod['icon'] = svg($mod['icon'])->toHtml();
 
+                       //  $mod['icon'] = 'data:image/svg+xml;utf8,'.$this->encodeURIComponent(svg($mod['icon'])->toHtml());
+                          $mod['icon'] = 'data:image/svg+xml;base64,'.base64_encode(svg($mod['icon'])->toHtml());
+                           //  $mod['icon'] = svg($mod['icon'])->toHtml();
                         } catch (\Exception $e) {
 
 
