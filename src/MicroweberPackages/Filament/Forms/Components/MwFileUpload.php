@@ -16,17 +16,17 @@ class MwFileUpload extends Field
 
     protected bool | Closure $isMultiple = false;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->afterStateHydrated(static function (MwFileUpload $component, string|array|null $state): void {
-            if (blank($state)) {
-                $component->state([]);
-                return;
-            }
-        });
-    }
+//    protected function setUp(): void
+//    {
+//        parent::setUp();
+//
+//        $this->afterStateHydrated(static function (MwFileUpload $component, string|array|null $state): void {
+//            if (blank($state)) {
+//                $component->state([]);
+//                return;
+//            }
+//        });
+//    }
 
     public function fileTypes(array | Closure $fileTypes): static
     {
