@@ -80,10 +80,12 @@ class TeamcardTableList extends Component implements HasForms, HasTable
             ])
             ->headerActions([
                 CreateAction::make()
+                    ->slideOver()
                     ->form($this->editFormArray())
             ])
             ->actions([
                 EditAction::make()
+                    ->slideOver()
                     ->form($this->editFormArray()),
                 DeleteAction::make()
             ])
