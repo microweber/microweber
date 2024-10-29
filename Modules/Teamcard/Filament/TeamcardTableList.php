@@ -67,6 +67,7 @@ class TeamcardTableList extends Component implements HasForms, HasTable
     {
         return $table
             ->query(Teamcard::query()->where('module_id', $this->moduleId))
+            ->defaultSort('position', 'asc')
             ->columns([
                 ImageColumn::make('file')
                     ->label('Picture')
@@ -86,7 +87,7 @@ class TeamcardTableList extends Component implements HasForms, HasTable
                     ->form($this->editFormArray()),
                 DeleteAction::make()
             ])
-            ->reorderable()
+            ->reorderable('position')
             ->bulkActions([
 //                BulkActionGroup::make([
 //                    DeleteBulkAction::make()
