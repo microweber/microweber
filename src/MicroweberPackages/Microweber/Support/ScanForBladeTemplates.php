@@ -213,7 +213,7 @@ class ScanForBladeTemplates
                 $to_return_temp['layout_file'] = $view_name;
 
                 if(!isset($to_return_temp['name'])){
-                    $to_return_temp['name'] = $view_name;
+                    $to_return_temp['name'] = ucfirst($view_name);
                 }
 
                 $to_return_temp['filename'] = $filename;
