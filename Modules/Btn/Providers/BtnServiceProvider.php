@@ -39,7 +39,7 @@ class BtnServiceProvider extends BaseModuleServiceProvider
 
 
         FilamentRegistry::registerPage(BtnModuleSettings::class);
-        Microweber::module('btn', \Modules\Btn\Microweber\BtnModule::class);
+        Microweber::module( \Modules\Btn\Microweber\BtnModule::class);
 
     }
 

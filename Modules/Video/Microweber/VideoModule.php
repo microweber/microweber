@@ -9,6 +9,7 @@ use Modules\Video\Filament\VideoModuleSettings;
 class VideoModule extends BaseModule
 {
     public static string $name = 'Video module';
+    public static string $module = 'video';
     public static string $icon = 'heroicon-o-rectangle-stack';
     public static string $categories = 'media, video';
     public static int $position = 2;

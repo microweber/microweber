@@ -48,7 +48,7 @@ class AudioServiceProvider extends BaseModuleServiceProvider
 //        });
 //    }
 
-        Microweber::module('audio', \Modules\Audio\Microweber\AudioModule::class);
+        Microweber::module(\Modules\Audio\Microweber\AudioModule::class);
 
 
     }

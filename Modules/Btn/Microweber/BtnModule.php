@@ -8,12 +8,14 @@ use Modules\Btn\Filament\BtnModuleSettings;
 class BtnModule extends BaseModule
 {
     public static string $name = 'Button';
+    public static string $module = 'btn';
     public static string $icon = 'heroicon-o-rectangle-stack';
     public static string $categories = 'other';
     public static int $position = 2;
     public static string $settingsComponent = BtnModuleSettings::class;
 
     public static string $templatesNamespace = 'modules.btn::templates';
+
 
     public function getViewData(): array
     {
@@ -35,7 +37,6 @@ class BtnModule extends BaseModule
         $viewData['attributes'] = '';
         $viewData['align'] = '';
 
-
         $viewData['backgroundColor'] = '';
         $viewData['color'] = '';
         $viewData['borderColor'] = '';
@@ -49,7 +50,7 @@ class BtnModule extends BaseModule
 
         $hasCustomStyles = false;
 
-        $moduleOptions = get_module_options($this->params['id']);
+        $moduleOptions = $this->getOptions();
 
         if (!empty($moduleOptions)) {
             foreach ($moduleOptions as $btnOption) {

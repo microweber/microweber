@@ -8,6 +8,7 @@ use Modules\HighlightCode\Filament\HighlightCodeModuleSettings;
 class HighlightCodeModule extends BaseModule
 {
     public static string $name = 'HighlightCode';
+    public static string $module = 'highlight_code';
     public static string $icon = 'heroicon-o-map';
     public static string $categories = 'other';
     public static int $position = 1;

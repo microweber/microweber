@@ -4,6 +4,7 @@ namespace Modules\Btn\Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use Modules\Btn\Filament\BtnModuleSettings;
 use Tests\TestCase;
@@ -17,13 +18,13 @@ class BtnModuleSettingsFilamentTest extends TestCase
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'btn';
 
-        Option::where('option_group', $moduleId)->where('module', $moduleType)->delete();
+        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
 
         $params = [
+            'module' => $moduleType,
             'params' => [
                 'id' => $moduleId,
-                'type' => $moduleType
             ]
         ];
 
@@ -61,7 +62,7 @@ class BtnModuleSettingsFilamentTest extends TestCase
         $this->assertDatabaseHas('options', ['option_group' => $moduleId, 'module' => $moduleType, 'option_key' => 'urlBlank', 'option_value' => '1']);
 
         // Clean up
-        Option::where('option_group', $moduleId)->where('module', $moduleType)->delete();
+        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
     }
 }

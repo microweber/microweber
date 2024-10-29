@@ -31,19 +31,20 @@ class BtnModuleFrontendTest extends TestCase
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
         // Save options to the database
         foreach ($params as $key => $value) {
-
             ModuleOption::create([
                 'option_group' => $params['id'],
-                'module' => 'btn',
+                'module' =>$moduleType,
                 'option_key' => $key,
                 'option_value' => $value,
             ]);
         }
         $this->assertDatabaseHas('options', ['option_group' => $moduleId, 'module' => $moduleType]);
-        $btnModule = new BtnModule('btn', $params);
+        $btnModule = new BtnModule( $params);
         $viewData = $btnModule->getViewData();
 
+
         $viewOutput = $btnModule->render();
+
 
         $this->assertTrue(View::exists('modules.btn::templates.default'));
         $this->assertStringContainsString('Test Button', $viewOutput);
@@ -82,7 +83,7 @@ class BtnModuleFrontendTest extends TestCase
             ]);
         }
 
-        $btnModule = new BtnModule('btn', $params);
+        $btnModule = new BtnModule($params);
         $viewData = $btnModule->getViewData();
 
         $view = $btnModule->render();

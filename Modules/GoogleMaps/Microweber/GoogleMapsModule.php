@@ -8,6 +8,7 @@ use Modules\GoogleMaps\Filament\GoogleMapsModuleSettings;
 class GoogleMapsModule extends BaseModule
 {
     public static string $name = 'Google Maps Module';
+    public static string $module = 'google_maps';
     public static string $icon = 'heroicon-o-map';
     public static string $categories = 'maps, location';
     public static int $position = 1;

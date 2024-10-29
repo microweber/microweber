@@ -4,6 +4,7 @@ namespace Modules\Audio\Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
+use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Option\Models\Option;
 use Modules\Audio\Filament\AudioModuleSettings;
 use Tests\TestCase;
@@ -16,7 +17,7 @@ class AudioModuleSettingsFilamentTest extends TestCase
         $moduleId = 'module-id-test-' . uniqid();
         $moduleType = 'audio';
 
-        Option::where('option_group', $moduleId)->where('module', $moduleType)->delete();
+        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
 
         $params = [
@@ -73,7 +74,7 @@ class AudioModuleSettingsFilamentTest extends TestCase
 
 
         //clean up
-        Option::where('option_group', $moduleId)->where('module', $moduleType)->delete();
+        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
 
     }

@@ -46,7 +46,7 @@ class TeamcardServiceProvider extends BaseModuleServiceProvider
         Livewire::component('modules.teamcard.filament.teamcard-table-list', TeamcardTableList::class);
 
         // Register Microweber module
-        Microweber::module('teamcard', \Modules\Teamcard\Microweber\TeamcardModule::class);
+        Microweber::module( \Modules\Teamcard\Microweber\TeamcardModule::class);
 
     }
 
