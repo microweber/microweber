@@ -11,14 +11,12 @@
 
 namespace MicroweberPackages\LiveEdit\Providers;
 
-use Filament\Events\ServingFilament;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
-use MicroweberPackages\LiveEdit\Facades\LiveEditManager as LiveEditManagerFacade;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarElementStyleEditorPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarTemplateSettingsPage;
@@ -31,9 +29,8 @@ use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\Presets\ModulePresetsManager;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
+use MicroweberPackages\LiveEdit\Repository\LiveEditManagerRepository;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\Btn\Filament\ButtonModuleSettings;
-use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\TemplateEditor;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -52,8 +49,8 @@ class LiveEditServiceProvider extends PackageServiceProvider
         parent::register();
         View::addNamespace('microweber-live-edit', __DIR__ . '/resources/views');
 
-        app()->singleton('LiveEditManager', function () {
-            return new LiveEditManager();
+        app()->singleton('live_edit_manager', function () {
+            return new LiveEditManagerRepository();
         });
 
         Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
@@ -169,7 +166,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
             ->getChild('Users')
             ->setExtra('orderNumber', 12);
 
-        /*        \MicroweberPackages\LiveEdit\Facades\LiveEditManager::getMenuInstance('top_right_menu')
+        /*        \MicroweberPackages\LiveEdit\Facades\LiveEditManagerRepository::getMenuInstance('top_right_menu')
                     ->addChild('Plans and Payments', [
                         'attributes' => [
                             'route' => 'admin.settings.index',

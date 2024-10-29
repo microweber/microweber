@@ -119,8 +119,7 @@
 
         </div>
 
-        <?php //print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
-        <?php event_trigger('mw.live_edit.footer'); ?>
+
 
 <div>
         <?php //print mw_admin_footer_scripts(); ?>
@@ -135,7 +134,8 @@
         </script>
 
          <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
-
+        <?php  print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
+        <?php event_trigger('mw.live_edit.footer'); ?>
     </div>
 
 

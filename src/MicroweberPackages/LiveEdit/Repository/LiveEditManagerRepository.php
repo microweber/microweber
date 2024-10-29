@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\LiveEdit\Providers;
+namespace MicroweberPackages\LiveEdit\Repository;
 
 
 use MicroweberPackages\Admin\MenuBuilder\Menu;
@@ -9,27 +9,24 @@ use MicroweberPackages\Template\Traits\HasMenus;
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
 
-/*
-   @deprecated
-*/
-class LiveEditManager
+class LiveEditManagerRepository
 {
     use HasMenus;
     use HasScriptsAndStylesTrait;
 
     public function __construct()
     {
-        $allModules = get_modules('installed=1');
-        if ($allModules) {
-            foreach ($allModules as $module) {
-                $modFile = normalize_path(module_dir($module['module']) . '/live_edit.js', false);
-                if (is_file($modFile)) {
-                    $scriptUrl = module_url($module['module']) . 'live_edit.js';
-
-                    $this->addScript('mw-module-' . url_title($module['module']) . '-settings', $scriptUrl, ['type' => 'module', 'defer' => true]);
-                }
-            }
-        }
+//        $allModules = get_modules('installed=1');
+//        if ($allModules) {
+//            foreach ($allModules as $module) {
+//                $modFile = normalize_path(module_dir($module['module']) . '/live_edit.js', false);
+//                if (is_file($modFile)) {
+//                    $scriptUrl = module_url($module['module']) . 'live_edit.js';
+//
+//                    $this->addScript('mw-module-' . url_title($module['module']) . '-settings', $scriptUrl, ['type' => 'module', 'defer' => true]);
+//                }
+//            }
+//        }
 
         $this->initMenus();
     }
