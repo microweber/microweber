@@ -1,5 +1,5 @@
 .fi-main {
-    @apply !px-[5rem];
+    @apply lg:px-[5rem] md:px-[3rem] sm:px-[1rem];
 }
 
 /*GLOBAL RESOURCE STYLES*/
