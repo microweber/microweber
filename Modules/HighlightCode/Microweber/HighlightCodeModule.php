@@ -19,6 +19,12 @@ class HighlightCodeModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
+        $text = get_option('text', $this->params['id']);
+
+        if($text == false) {
+            $text = '<?php print "Hello Wordld"; ?>';
+        }
+        $viewData['text'] = $text;
         return view('modules.highlight_code::templates.default', $viewData);
      }
 

@@ -1,10 +1,3 @@
-@php
-    $text = get_option('text', $params['id']);
-
-    if($text == false) {
-        $text = '<?php print "Hello Wordld"; ?>';
-    }
-@endphp
 <script>
     mw.lib.require('highlight');
 </script>
