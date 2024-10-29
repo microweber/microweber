@@ -21,7 +21,7 @@ class TeamcardModuleSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 Livewire::make(TeamcardTableList::class, [
-                                    'optionGroup' => $this->getOptionGroup(),
+                                    'moduleId' => $this->params['id']
                                 ])
                             ]),
 
