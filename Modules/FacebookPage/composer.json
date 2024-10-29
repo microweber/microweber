@@ -1,0 +1,30 @@
+{
+    "name": "modules/facebook_page",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\FacebookPage\\": "",
+            "Modules\\FacebookPage\\Database\\Factories\\": "database/factories/",
+            "Modules\\FacebookPage\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\FacebookPage\\Tests\\": "Tests/"
+        }
+    }
+}

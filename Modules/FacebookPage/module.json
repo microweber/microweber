@@ -1,0 +1,11 @@
+{
+    "name": "FacebookPage",
+    "alias": "facebook_page",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\FacebookPage\\Providers\\FacebookPageServiceProvider"
+    ],
+    "files": []
+}
