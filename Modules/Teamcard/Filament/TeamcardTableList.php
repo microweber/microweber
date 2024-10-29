@@ -60,6 +60,7 @@ class TeamcardTableList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
+            ->reorderable()
             ->query(Teamcard::query()->where('module_id', $this->moduleId))
             ->columns([
                 ImageColumn::make('file')

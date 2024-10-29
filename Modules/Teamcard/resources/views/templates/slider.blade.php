@@ -33,31 +33,36 @@ description slider
 
 <div id="js-teamcard-slider-<?php echo $params['id']; ?>" class="slider_v2-default swiper">
     <div class="swiper-wrapper">
-        <?php foreach($data as $i => $teamData): ?>
+        @foreach($teamcard as $i => $member)
             <div class="swiper-slide">
                 <div class="mb-3 overflow-hidden text-start px-md-4 my-5 d-flex flex-wrap">
                     <div class="col-md-6">
-                        <?php if ($teamData['file']) { ?>
-                            <div class="m-auto rounded-circle" style="width:150px;height:150px;background-image: url('<?php print thumbnail($teamData['file'], 200); ?>');"></div>
-
-                        <?php } else { ?>
+                        @if ($member['file'])
+                            <div class="m-auto rounded-circle" style="width:150px;height:150px;background-image: url('{{ thumbnail($member['file'], 200) }}');"></div>
+                        @else
                             <div class="m-auto rounded-circle">
-
-                                <img  width="185" height="185" src="<?php print modules_url() ?>teamcard/templates/default-image.svg"/>
+                                <img width="185" height="185" src="{{ modules_url() }}teamcard/templates/default-image.svg"/>
                             </div>
-
-                        <?php } ?>
+                        @endif
                     </div>
 
                     <div class="col-md-6">
-                        <div class="py-4 fs-4" ><?php print array_get($teamData, 'name'); ?></div>
-                        <div class="pb-3"> <?php print array_get($teamData, 'role'); ?></div>
-                        <a href="<?php print $teamData['website']; ?>" target="_blank"> <?php print array_get($teamData, 'website'); ?></a>
-                        <div class="pt-3 italic"> <?php print array_get($teamData, 'bio'); ?></div>
+                        <div class="py-4 fs-4">
+                            {{$member['name']}}
+                        </div>
+                        <div class="pb-3">
+                            {{$member['role']}}
+                        </div>
+                        <a href="{{ $member['website'] }}" target="_blank">
+                            {{$member['website']}}
+                        </a>
+                        <div class="pt-3 italic">
+                            {{$member['bio']}}
+                        </div>
                     </div>
                 </div>
             </div>
-        <?php endforeach; ?>
+        @endforeach
     </div>
     <div id="js-teamcard-slider-pagination-<?php echo $params['id']; ?>" class="swiper-pagination"></div>
 </div>

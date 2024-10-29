@@ -4,6 +4,7 @@ namespace Modules\Teamcard\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Teamcard\Filament\TeamcardModuleSettings;
+use Modules\Teamcard\Models\Teamcard;
 
 class TeamcardModule extends BaseModule
 {
@@ -18,6 +19,7 @@ class TeamcardModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
+        $viewData['teamcard'] = Teamcard::where('module_id', $this->params['id'])->get();
 
         return view('modules.teamcard::templates.default', $viewData);
     }

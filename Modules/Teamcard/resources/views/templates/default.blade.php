@@ -23,42 +23,42 @@ description: Default
 </style>
 
 <div class="team-card-holder d-flex flex-wrap">
-    <?php
-    $count = 0;
+    @php
+        $count = 0;
+    @endphp
 
-    if (isset($data) AND $data) {
-        foreach ($data as $slide) {
-            $count++;
-            ?>
+    @if (isset($teamcard) && $teamcard)
+        @foreach ($teamcard as $member)
+            @php
+                $count++;
+            @endphp
             <div class="team-card-item col-md-6 col-12 mb-3 overflow-hidden text-start my-5 d-flex flex-wrap">
                 <div class="col-md-6 pe-2">
-                    <?php if ($slide['file']) { ?>
-                        <div class="team-card-item-image rounded-circle" style="background-image: url('<?php print thumbnail($slide['file'], 800); ?>');"></div>
-
-                    <?php } else { ?>
+                    @if ($member['file'])
+                        <div class="team-card-item-image rounded-circle" style="background-image: url('{{ thumbnail($member['file'], 800) }}');"></div>
+                    @else
                         <div class="rounded-circle">
-
-                            <img  width="300" height="300" src="<?php print modules_url() ?>teamcard/templates/default-image.svg"/>
+                            <img width="300" height="300" src="{{ modules_url() }}teamcard/templates/default-image.svg"/>
                         </div>
-
-                    <?php } ?>
+                    @endif
                 </div>
 
                 <div class="col-md-6 ps-2">
-
-                    <h3 class="team-card-item-name"><?php print array_get($slide, 'name'); ?></h3>
-
-                    <p class="team-card-item-position"><?php print array_get($slide, 'role'); ?></p>
-
-                    <a class="d-block mb-3" href="<?php print $slide['website']; ?>" target="_blank"> <?php print array_get($slide, 'website'); ?></a>
-
-                    <p class="team-card-item-bio italic">
-                        <?php print array_get($slide, 'bio'); ?>
+                    <h3 class="team-card-item-name">
+                        {{$member['name']}}
+                    </h3>
+                    <p class="team-card-item-position">
+                        {{$member['role']}}
                     </p>
-
+                    <a class="d-block mb-3" href="{{ $member['website'] }}" target="_blank">
+                        {{$member['website']}}
+                    </a>
+                    <p class="team-card-item-bio italic">
+                        {{$member['bio']}}
+                    </p>
                 </div>
             </div>
-        <?php }
-    } ?>
+        @endforeach
+    @endif
 </div>
 
