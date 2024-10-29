@@ -12,7 +12,6 @@ namespace MicroweberPackages\Microweber\Traits;
 trait HasMicroweberModuleOptions
 {
 
-    public array $options = [];
 
 
     /**
@@ -31,15 +30,7 @@ trait HasMicroweberModuleOptions
 
     }
 
-    /**
-     * Set the module options.
-     *
-     * @param array $options The options to set for the module.
-     */
-    public function setOptions(array $options = [])
-    {
-        $this->options = $options;
-    }
+
 
 
 }
