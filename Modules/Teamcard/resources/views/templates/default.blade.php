@@ -20,7 +20,7 @@ description: Default
         $count = 0;
     @endphp
 
-    @if (isset($teamcard) && $teamcard)
+    @if ($teamcard->count() > 0)
         @foreach ($teamcard as $member)
             @php
                 $count++;
