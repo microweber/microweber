@@ -1,0 +1,30 @@
+{
+    "name": "modules/contact_form",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ContactForm\\": "",
+            "Modules\\ContactForm\\Database\\Factories\\": "database/factories/",
+            "Modules\\ContactForm\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\ContactForm\\Tests\\": "Tests/"
+        }
+    }
+}
