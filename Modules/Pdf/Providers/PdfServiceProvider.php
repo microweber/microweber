@@ -34,7 +34,7 @@ class PdfServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         FilamentRegistry::registerPage(PdfModuleSettings::class);
-        Microweber::module('pdf', PdfModule::class);
+        Microweber::module( PdfModule::class);
 
     }
 

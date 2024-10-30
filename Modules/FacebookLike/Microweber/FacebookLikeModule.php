@@ -9,7 +9,7 @@ class FacebookLikeModule extends BaseModule
 {
     public static string $name = 'Facebook Like';
     public static string $module = 'facebook_like';
-    public static string $icon = 'heroicon-o-thumb-up';
+    public static string $icon = 'modules.facebook_like-icon';
     public static string $categories = 'social';
     public static int $position = 1;
     public static string $settingsComponent = FacebookLikeModuleSettings::class;

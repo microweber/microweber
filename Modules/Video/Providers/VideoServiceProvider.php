@@ -38,7 +38,7 @@ class VideoServiceProvider extends BaseModuleServiceProvider
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
         FilamentRegistry::registerPage(VideoModuleSettings::class);
-        Microweber::module('audio', VideoModule::class);
+        Microweber::module( VideoModule::class);
 
     }
 

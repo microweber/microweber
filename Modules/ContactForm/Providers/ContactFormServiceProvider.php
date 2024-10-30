@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Accordion\Providers;
+namespace Modules\ContactForm\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
-use Modules\Accordion\Filament\AccordionModuleSettings;
-use Modules\Accordion\Microweber\AccordionModule;
+use Modules\ContactForm\Filament\ContactFormModuleSettings;
+use Modules\ContactForm\Microweber\ContactFormModule;
 
-class AccordionServiceProvider extends BaseModuleServiceProvider
+class ContactFormServiceProvider extends BaseModuleServiceProvider
 {
-    protected string $moduleName = 'Accordion';
+    protected string $moduleName = 'ContactForm';
 
-    protected string $moduleNameLower = 'accordion';
+    protected string $moduleNameLower = 'contact_form';
 
     /**
      * Boot the application events.
@@ -39,10 +39,10 @@ class AccordionServiceProvider extends BaseModuleServiceProvider
 
 
         // Register filament page for Microweber module settings
-        FilamentRegistry::registerPage(AccordionModuleSettings::class);
+        FilamentRegistry::registerPage(ContactFormModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module(AccordionModule::class);
+        Microweber::module( ContactFormModule::class);
 
     }
 
