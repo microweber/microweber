@@ -35,8 +35,8 @@ html.preview .back-to-edit{
 
 </style>
 <template>
-    <div id="toolbar" class="shadow-sm" :style="{'display': toolbarDisplay}">
-        <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-start p-sm-0 p-3">
+    <div id="toolbar" class="shadow-sm py-2 md:px-6 px-3 gap-3" :style="{'display': toolbarDisplay}">
+        <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-start">
 
             <a id="mw-live-edit-toolbar-back-to-admin-link" class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
                 <svg class="mw-live-edit-toolbar-arrow-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
@@ -58,13 +58,13 @@ html.preview .back-to-edit{
         </div>
 
 
-        <div class="col-lg-3 col-sm-auto col-12 toolbar-col-container d-md-flex align-items-center p-sm-0 p-3">
+        <div class="col-lg-3 col-sm-auto col-12 toolbar-col-container d-md-flex align-items-center">
             <ContentSearchNav></ContentSearchNav>
             <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
         </div>
 
 
-        <div class="toolbar-col col-lg-auto col-12 justify-content-center align-items-center p-sm-0 p-3">
+        <div class="toolbar-col col-lg-auto col-12 justify-content-center align-items-center">
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center flex-wrap gap-2">
                     <ResolutionSwitch></ResolutionSwitch>

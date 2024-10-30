@@ -57,7 +57,9 @@ abstract class LiveEditModuleSettings extends Page
                 $fieldStatePath = $field->getStatePath();
                 $fieldStatePath = array_undot_str($fieldStatePath);
 
-                $this->options[$fieldStatePath['options']] = '';
+                if (isset($fieldStatePath['options'])) {
+                    $this->options[$fieldStatePath['options']] = '';
+                }
             }
         }
 
