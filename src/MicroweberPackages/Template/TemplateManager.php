@@ -720,43 +720,43 @@ class TemplateManager
         return $data;
     }
 
-    public function get_layout_for_laravel_template($page = array())
-    {
-        if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            if (isset($page['id'])) {
-                $this->defineConstants($page);
-            }
-        }
-
-
-        $override = app()->event_manager->trigger('mw.front.get_layout', $page);
-
-        $render_file = false;
-        $look_for_post = false;
-        $template_view_set_inner = false;
-        $fallback_render_internal_file = false;
-        $site_template_settings = app()->option_manager->get('current_template', 'template');
-        if (!isset($page['active_site_template'])) {
-            $page['active_site_template'] = 'default';
-        } elseif (isset($page['active_site_template']) and $page['active_site_template'] == '') {
-            $page['active_site_template'] = $site_template_settings;
-        }
-
-
-        $template = app()->templates->find($page['active_site_template']);
-        if ($template) {
-            $template_path = $template->getPath();
-
-            $index_file = $template_path . '/resources/views/index.blade.php';
-            $index_file = normalize_path($index_file, false);
-            if (is_file($index_file)) {
-                $render_file = $index_file;
-            }
-
-        }
-        return $render_file;
-
-    }
+//    public function get_layout_for_laravel_template($page = array())
+//    {
+//        if (!defined('ACTIVE_TEMPLATE_DIR')) {
+//            if (isset($page['id'])) {
+//                $this->defineConstants($page);
+//            }
+//        }
+//
+//
+//        $override = app()->event_manager->trigger('mw.front.get_layout', $page);
+//
+//        $render_file = false;
+//        $look_for_post = false;
+//        $template_view_set_inner = false;
+//        $fallback_render_internal_file = false;
+//        $site_template_settings = app()->option_manager->get('current_template', 'template');
+//        if (!isset($page['active_site_template'])) {
+//            $page['active_site_template'] = 'default';
+//        } elseif (isset($page['active_site_template']) and $page['active_site_template'] == '') {
+//            $page['active_site_template'] = $site_template_settings;
+//        }
+//
+//
+//        $template = app()->templates->find($page['active_site_template']);
+//        if ($template) {
+//            $template_path = $template->getPath();
+//
+//            $index_file = $template_path . '/resources/views/index.blade.php';
+//            $index_file = normalize_path($index_file, false);
+//            if (is_file($index_file)) {
+//                $render_file = $index_file;
+//            }
+//
+//        }
+//        return $render_file;
+//
+//    }
 
     /**
      * Return the path to the layout file that will render the page.
@@ -960,9 +960,9 @@ class TemplateManager
         return $this->templateAdapter->defineConstants($content);
     }
 
-    public function defineTemplateConstants()
+    public function defineTemplateConstants(): void
     {
-        return $this->templateAdapter->defineTemplateConstants();
+          $this->templateAdapter->defineTemplateConstants();
     }
 
     public function getContentId()

@@ -24,7 +24,6 @@ class AudioServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
 
-
     }
 
     /**

@@ -16,6 +16,7 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Template\Http\Livewire\Admin\AdminTemplateUpdateModal;
 use MicroweberPackages\Template\Http\Livewire\Admin\LiveEditTemplateSettingsSidebar;
+use MicroweberPackages\Template\Repositories\TemplateMetaTagsRepository;
 
 class TemplateManagerServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,13 @@ class TemplateManagerServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
+
+        /**
+         * @property \MicroweberPackages\Template\Repositories\TemplateMetaTagsRepository    $template_meta_tags
+         */
+        $this->app->singleton('template_meta_tags', function ($app) {
+            return new TemplateMetaTagsRepository();
+        });
 
         /**
          * @property \MicroweberPackages\Template\TemplateManager    $template_manager

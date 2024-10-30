@@ -72,7 +72,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'favicon_head_tag',
                 new \MicroweberPackages\MetaTags\Entities\FaviconHeadTag()
             );
-    $package->addTag(
+            $package->addTag(
                 'csrf_token',
                 new \MicroweberPackages\MetaTags\Entities\CsrfTokenHeadTags()
             );
@@ -81,10 +81,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
                 'generator_head_tag',
                 new \MicroweberPackages\MetaTags\Entities\GeneratorHeadTag()
             );
-             $package->addTag(
-                 'apijs_settings',
-                 new \MicroweberPackages\MetaTags\Entities\MwSettingsJsScriptTag()
-             );
+            $package->addTag(
+                'apijs_settings',
+                new \MicroweberPackages\MetaTags\Entities\MwSettingsJsScriptTag()
+            );
             $package->addTag(
                 'apijs',
                 new \MicroweberPackages\MetaTags\Entities\ApijsScriptTag()
@@ -162,6 +162,15 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             );
 
             $package->addTag(
+                'template_head_tags',
+                new \MicroweberPackages\MetaTags\Entities\TemplateHeadTags()
+            );
+            $package->addTag(
+                'template_footer_tags',
+                new \MicroweberPackages\MetaTags\Entities\TemplateFooterTags()
+            );
+
+            $package->addTag(
                 'custom_user_footer_tags',
                 new \MicroweberPackages\MetaTags\Entities\CustomUserFooterTags()
             );
@@ -212,9 +221,10 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             $package->addTag(
                 'admin_head_tags_filament_js',
                 new \MicroweberPackages\MetaTags\Entities\AdminFilamentJsScriptTag()
-            );        $package->addTag(
+            );
+            $package->addTag(
 
-              'admin_head_tags_filament_css',
+                'admin_head_tags_filament_css',
                 new \MicroweberPackages\MetaTags\Entities\AdminFilamentCssTag()
             );
 
