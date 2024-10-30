@@ -1,0 +1,11 @@
+{
+    "name": "Accordion",
+    "alias": "accordion",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Accordion\\Providers\\AccordionServiceProvider"
+    ],
+    "files": []
+}
