@@ -1,0 +1,27 @@
+<?php
+
+namespace Modules\Accordion\Microweber;
+
+use MicroweberPackages\Microweber\Abstract\BaseModule;
+use Modules\Accordion\Filament\AccordionModuleSettings;
+use Modules\Accordion\Models\Accordion;
+
+class AccordionModule extends BaseModule
+{
+    public static string $name = 'Accordion';
+    public static string $module = 'accordion';
+    public static string $icon = 'heroicon-o-user-group';
+    public static string $categories = 'miscellaneous';
+    public static int $position = 30;
+    public static string $settingsComponent = AccordionModuleSettings::class;
+    public static string $templatesNamespace = 'modules.accordion::templates';
+
+    public function render()
+    {
+        $viewData = $this->getViewData();
+        $viewData['accordion'] = Accordion::where('module_id', $this->params['id'])->get();
+
+        return view('modules.accordion::templates.default', $viewData);
+    }
+
+}
