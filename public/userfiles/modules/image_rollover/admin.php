@@ -77,7 +77,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         ?>
 
         <script>
-            mw.require('filepicker.js')
+
 
             function setNewImage(s) {
                 mw.$("#default_image").val(s).trigger('change');

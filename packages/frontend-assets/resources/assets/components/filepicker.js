@@ -20,6 +20,8 @@ var fileUploadProgress = function (fileName, progress, target) {
 
 mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) => {
 
+
+
     if(typeof conf === 'function') {
         callback = conf;
         conf = {pickerOptions: {}, dialogOptions: {}}

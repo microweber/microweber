@@ -6,7 +6,7 @@
     mw.require("files.js");
     mw.require("uploader.js");
     mw.lib.require('colorpicker');
-    mw.require('filepicker.js');
+
 
 
     $(document).ready(function () {
