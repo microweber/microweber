@@ -4,6 +4,7 @@ namespace Modules\BeforeAfter\Filament;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class BeforeAfterModuleSettings extends LiveEditModuleSettings
@@ -14,17 +15,17 @@ class BeforeAfterModuleSettings extends LiveEditModuleSettings
     {
         return $form
             ->schema([
-                TextInput::make('options.before')
+                MwFileUpload::make('options.before')
                     ->label('Before Image URL')
                     ->helperText('Enter the URL of the before image.')
                     ->live()
-                    ->default(module_url() . 'img/white-car.jpg'),
+                    ->default(asset('modules/beforeafter/img/white-car.jpg')),
 
-                TextInput::make('options.after')
+                MwFileUpload::make('options.after')
                     ->label('After Image URL')
                     ->helperText('Enter the URL of the after image.')
                     ->live()
-                    ->default(module_url() . 'img/blue-car.jpg'),
+                    ->default(asset('modules/beforeafter/img/blue-car.jpg' )),
             ]);
     }
 }

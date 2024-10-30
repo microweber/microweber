@@ -16,5 +16,3 @@ php artisan module:migrate BeforeAfter
 php artisan module:publish BeforeAfter
 ```
 
-
- 
