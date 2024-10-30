@@ -8,6 +8,7 @@ import {Modules} from "./services/modules.js";
 import {Layouts} from "./services/layouts.js";
 import {License} from "./services/license.js";
 import {KeyboardEvents} from "./services/keyboard-events.js";
+import {LivewireHooksReloadModule} from "./services/livewire-hooks-reload-module.js";
 import {IconPicker} from "./services/icon-picker.js";
 import {LinkPicker} from "./services/link-picker.js";
 import {ColorPicker} from "./services/color-picker.js";
@@ -70,6 +71,8 @@ mw.app.singleFilePickerComponent = options => {
     return new SingleFilePickerComponent(options)
 };
 
+mw.app.livewireHooksReloadModule = new LivewireHooksReloadModule();
+
 
 let sameUrlDialog = false;
 
@@ -109,6 +112,12 @@ mw.top().storage.change('mw-broadcast-data', async function () {
 });
 
 
+
+
+
+// document.addEventListener('livewire:init', () => {
+//     alert('livewire:init')
+// })
 //mw.app.register('commands', Commands);
 
 // mw.app.domTreeSelect = function(node) {
