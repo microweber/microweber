@@ -15,7 +15,9 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
 
     public function form(Form $form): Form
     {
+        dump($this->params);
         return $form
+//            ->model()
             ->schema([
 
                 Tabs::make('Contact Form')
@@ -23,11 +25,17 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Main settings')
                             ->schema([
 
-
                                 \LaraZeus\Accordion\Forms\Accordions::make('Options')
                                     ->slideOverRight()
                                     ->activeAccordion(0)
                                     ->accordions([
+                                        \LaraZeus\Accordion\Forms\Accordion::make('contact_settings')
+                                            ->columns()
+                                            ->label('Contact Settings')
+                                            ->schema([
+                                                TextInput::make('name')->required(),
+                                            ]),
+
                                         \LaraZeus\Accordion\Forms\Accordion::make('from_fields')
                                             ->columns()
                                             ->label('From Fields')
@@ -51,13 +59,6 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
                                         \LaraZeus\Accordion\Forms\Accordion::make('auto_respond_settings')
                                             ->columns()
                                             ->label('Auto Respond Settings')
-                                            ->schema([
-                                                TextInput::make('name')->required(),
-                                                TextInput::make('email')->required(),
-                                            ]),
-                                        \LaraZeus\Accordion\Forms\Accordion::make('contact_settings')
-                                            ->columns()
-                                            ->label('Contact Settings')
                                             ->schema([
                                                 TextInput::make('name')->required(),
                                                 TextInput::make('email')->required(),

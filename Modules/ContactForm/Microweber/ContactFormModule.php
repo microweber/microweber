@@ -4,6 +4,7 @@ namespace Modules\ContactForm\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\ContactForm\Filament\ContactFormModuleSettings;
+use Modules\ContactForm\Models\Form;
 use Modules\Teamcard\Filament\TeamcardModuleSettings;
 use Modules\Teamcard\Models\Teamcard;
 
@@ -21,6 +22,15 @@ class ContactFormModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
+        $findForm = Form::where('module_id', $this->params['id'])->first();
+        if (!$findForm) {
+            $findForm = new Form();
+            $findForm->module_id = $this->params['id'];
+            $findForm->name = 'Contact Form (' . $this->params['id'] . ')';
+            $findForm->save();
+        }
+
+        $viewData['form'] = $findForm;
 
         return view('modules.contact_form::templates.default', $viewData);
     }
