@@ -42,7 +42,7 @@ class ContactFormServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(ContactFormModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module('contact_form', \Modules\ContactForm\Microweber\ContactFormModule::class);
+        Microweber::module('contact_form', ContactFormModule::class);
 
     }
 
