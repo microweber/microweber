@@ -402,7 +402,7 @@ class InstallController extends Controller
 //                    }
 //                }
 //
-//              $this->saveEnvValues($envToSave);
+              $this->saveEnvValues($envToSave);
 //                try {
 //                    Artisan::call('optimize:clear');
 //                } catch (\Exception $e) {

@@ -178,6 +178,7 @@
         });
 
         install_step = 1;
+        install_step = 0;
         install_step_num_fails = 0;
         install_step_orig_data = null;
         make_install_on_steps = function ($data) {
