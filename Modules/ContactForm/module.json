@@ -1,0 +1,11 @@
+{
+    "name": "ContactForm",
+    "alias": "contact_form",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ContactForm\\Providers\\ContactFormServiceProvider"
+    ],
+    "files": []
+}
