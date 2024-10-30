@@ -61,14 +61,13 @@ a {
 }
 
 #toolbar {
-    height: var(--toolbar-height);
+    min-height: var(--toolbar-height);
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     background: var(--tblr-bg-surface);
     display: flex;
-    padding: 0 30px;
     position: relative;
     z-index: 2;
     transition: var(--toolbar-height-animation-speed);
@@ -97,8 +96,6 @@ html.preview #toolbar {
     background-color: var(--tblr-bg-surface);
     border-radius: 100px;
     display: inline-flex;
-    margin: 15px 0;
-    padding: 10px 10px;
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -967,5 +964,6 @@ body.loaded #bubble-nav span {
 
 html .mw-control-box-left,
 html .mw-control-box-right{
-    top: var(--toolbar-height)
+    top: var(--toolbar-height);
+    width: 250px;
 }

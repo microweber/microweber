@@ -1,6 +1,10 @@
 import BaseComponent from "../containers/base-class.js";
 
 const css = `
+    .mw-control-box-title{
+        padding: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
     .mw-control-box.active {
         z-index: 100;
     }

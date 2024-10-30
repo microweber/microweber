@@ -2,6 +2,7 @@ const localScripts = [
 
     {target: `jseldom`, path: `./resources/local-libs/jseldom-jquery.js`, output: `../frontend-assets/resources/assets/libs`},
     {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.js`},
+    {target: `highlight-js`, path: `./resources/local-libs/highlight/highlight.min.js`},
 
 ];
 
@@ -17,6 +18,7 @@ const nodeModulesScripts = [
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick.js`},
     {target: `swiper`, path: `node_modules/swiper/swiper.js`},
     {target: `xss`, path: `node_modules/xss/dist/xss.js`},
+
 
     {
         target: `rangy`,
@@ -49,10 +51,12 @@ const css = [
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick-theme.css`},
     {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.css`},
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/css/font-awesome.css`},
+    {target: `highlight-js`, path: `./resources/local-libs/highlight/styles/default.css`},
 
 
 
     {target: `swiper`, path: `node_modules/swiper/swiper.css`},
+
 
 ];
 

@@ -18,43 +18,7 @@
      <?php print mw_admin_header_scripts() ;    ?>
 
     <script type="text/javascript">
-/*
 
-
-        mw.lib.require('jqueryui');
-        mw.require("<?php print mw_includes_url(); ?>api/libs/jquery_slimscroll/jquery.slimscroll.min.js");
-        mw.require("liveadmin.js");
-        mw.require("<?php print mw_includes_url(); ?>css/wysiwyg.css");
-        mw.require("<?php print mw_includes_url(); ?>css/components.css");
-        mw.require("wysiwyg.js");
-        mw.require("url.js");
-
-        mw.require("events.js");
-
-        mw.require("editor_externals.js");
-        mw.require("keys.js");
-        mw.require("css_parser.js");
-        mw.require("custom_fields.js");
-        mw.require("session.js");
-        mw.require("content.js");
-        mw.require("filepicker.js");
-        mw.require("upgrades.js");
-        mw.require("tree.js");
-        mw.lib.require("bootstrap_select");
-        mw.lib.require("bootstrap_tags");
-        mw.lib.require("collapse_nav");
-        mw.lib.require('nouislider');
-
-
-
-
-        mw.lib.require('flag_icons', true);
-
-
-
-        <?php if(_lang_is_rtl()){ ?>
-        mw.require("<?php print mw_includes_url(); ?>css/rtl.css");
-        <?php } ?>*/
     </script>
     <?php
     $enableLivewireScripts = true;
