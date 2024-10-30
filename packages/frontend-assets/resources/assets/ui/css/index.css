@@ -61,11 +61,11 @@ a {
 }
 
 #toolbar {
-    height: var(--toolbar-height);
+    min-height: var(--toolbar-height);
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     background: var(--tblr-bg-surface);
     display: flex;
     padding: 0 30px;
