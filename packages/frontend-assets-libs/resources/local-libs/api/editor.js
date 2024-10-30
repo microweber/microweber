@@ -1634,4 +1634,4 @@ mw.require('editor/add.controller.js');
 mw.require('editor/interaction-controls.js');
 mw.require('editor/i18n.js');
 mw.require('editor/liveeditmode.js');
-mw.require('control_box.js');
+

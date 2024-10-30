@@ -4,12 +4,7 @@
 
         <div class="well">
 
-            <div v-show="displayDomTree">
-                <div id="domtree" style="margin-block-end: 15px;">
 
-
-                </div>
-            </div>
 
 
             <div class="d-flex align-items-center justify-content-between gap-2">
@@ -54,12 +49,19 @@ export default {
                     position:  'left',
                     id: 'mw-live-edit-domtree-box',
                     closeButton: true
-                })
+                });
+
+                targetMW.__controlBoxDomTree.on('show', () => {
+                    mw.top().doc.documentElement.classList.add('mw-live-edit-sidebar-start')
+                });
+                targetMW.__controlBoxDomTree.on('hide', () => {
+                    mw.top().doc.documentElement.classList.remove('mw-live-edit-sidebar-start')
+                });
             }
 
            const tree = new targetMW.DomTree({
                     element: targetMW.__controlBoxDomTree.boxContent,
-                    resizable: true,
+                    resizable: false,
 
                     targetDocument: mw.app.canvas.getDocument(),
 
@@ -89,9 +91,9 @@ export default {
            });
            tree.select(this.activeNode)
 
-           setTimeout(() => {
+
             this.domTree = tree
-           }, 1000)
+
 
            targetMW.__controlBoxDomTree.show();
         },
@@ -144,37 +146,7 @@ export default {
                 return;
             }
 
-            if (!this.domTree || !this.currentCanvasDocument || this.currentCanvasDocument !== mw.top().app.canvas.getDocument()) {
-                this.currentCanvasDocument = mw.top().app.canvas.getDocument();
-                this.domTree = new mw.DomTree({
-                    element: '#domtree',
-                    resizable: true,
-                    targetDocument: element.ownerDocument,
-                    canSelect: function (node, li) {
-                        if (node.id) {
-                          return true;
-                        }
 
-                        var isInaccessible = mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(node);
-                        if (isInaccessible) {
-                            return false;
-                        }
-
-
-                        return true;
-                    },
-                    onHover: function (e, target, node, element) {
-
-                    },
-                    onSelect: (e, target, node, element) => {
-                        mw.top().app.dispatch('mw.elementStyleEditor.selectNode', node);
-                        if (node.ownerDocument.defaultView.mw) {
-                            node.ownerDocument.defaultView.mw.tools.scrollTo(node, false, 100);
-                        }
-
-                    }
-                });
-            }
 
 
             this.domTree.select(element)

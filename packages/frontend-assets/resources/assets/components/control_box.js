@@ -142,7 +142,7 @@ export class ControlBox extends BaseComponent {
     show() {
         this.active = true;
         mw.$(this.box).addClass('active');
-        mw.$(this).trigger('ControlBoxShow');
+       this.dispatch('show');
     }
 
     init() {
@@ -153,13 +153,13 @@ export class ControlBox extends BaseComponent {
     hide() {
         this.active = false;
         mw.$(this.box).removeClass('active');
-        mw.$(this).trigger('ControlBoxHide');
+        this.dispatch('hide');
     }
 
     remove() {
         this.hide();
         mw.$(this.box).remove();
-        mw.$(this).trigger('ControlBoxRemove');
+        this.dispatch('remove');
     }
 
     toggle() {
