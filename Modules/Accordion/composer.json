@@ -1,0 +1,30 @@
+{
+    "name": "modules/accordion",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Accordion\\": "",
+            "Modules\\Accordion\\Database\\Factories\\": "database/factories/",
+            "Modules\\Accordion\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Accordion\\Tests\\": "Tests/"
+        }
+    }
+}
