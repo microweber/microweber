@@ -13,8 +13,11 @@
         rangy: ['rangy-core.js', 'rangy-classapplier.js', 'rangy-selectionsaverestore.js', 'rangy-serializer.js'],
         highlight: [
 
-            'highlight.min.js',
-            'highlight.min.css'
+            function () {
+                mw.require(mw.settings.libs_url + 'highlight-js/highlight.min.js');
+                mw.require(mw.settings.libs_url + 'highlight-js/default.css');
+
+            }
 
         ],
 

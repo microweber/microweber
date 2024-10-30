@@ -9,7 +9,7 @@
         mw.lib.require('colorpicker');
         mw.require("files.js");
 
-        mw.require('filepicker.js');
+
         $(window).on('load', function (){
             var editImageRes = mw.top().settings.imageResponsiveEdit;
             if(editImageRes) {

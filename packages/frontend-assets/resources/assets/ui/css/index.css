@@ -965,5 +965,6 @@ body.loaded #bubble-nav span {
 
 html .mw-control-box-left,
 html .mw-control-box-right{
-    top: var(--toolbar-height)
+    top: var(--toolbar-height);
+    width: 250px;
 }
