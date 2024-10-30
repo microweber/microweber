@@ -21,12 +21,17 @@ class MarqueeModule extends BaseModule
         $viewData = parent::getViewData();
 
         $viewData['text'] = $this->getOption('text', 'Your cool text here!');
-        $viewData['fontSize'] = $this->getOption('fontSize', '46');
-        $viewData['animationSpeed'] = $this->getOption('animationSpeed', 'normal');
+        $viewData['fontSize'] = $this->getOption('fontSize', 46);
+        $viewData['animationSpeed'] = $this->getOption('animationSpeed', 100);
         $viewData['textWeight'] = $this->getOption('textWeight', 'normal');
         $viewData['textStyle'] = $this->getOption('textStyle', 'normal');
         $viewData['textColor'] = $this->getOption('textColor', 'inherit');
         $viewData['id'] = $this->params['id'];
+
+        if(!is_numeric( $viewData['animationSpeed'])){
+            $viewData['animationSpeed'] = 100;
+        }
+
 
         return $viewData;
     }

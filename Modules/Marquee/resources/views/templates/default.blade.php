@@ -64,6 +64,6 @@
 <script type="module">
     import marquee from '{{ asset('modules/marquee/js/vanilla-marquee.min.js') }}';
     new marquee(document.getElementById('v-marquee-{{ $id }}'), {
-
+        speed: '{{ $animationSpeed }}',
     });
 </script>

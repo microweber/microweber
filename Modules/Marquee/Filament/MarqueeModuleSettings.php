@@ -2,6 +2,7 @@
 
 namespace Modules\Marquee\Filament;
 
+use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
@@ -25,11 +26,13 @@ class MarqueeModuleSettings extends LiveEditModuleSettings
                     ->label('Font Size')
                     ->helperText('Enter the font size for the marquee text.')
                     ->live()
-                    ->default('46'),
+                    ->numeric()
+                    ->default(46),
 
                 TextInput::make('options.animationSpeed')
                     ->label('Animation Speed')
                     ->helperText('Enter the animation speed for the marquee.')
+                    ->numeric()
                     ->live()
                     ->default('normal'),
 
@@ -45,7 +48,7 @@ class MarqueeModuleSettings extends LiveEditModuleSettings
                     ->live()
                     ->default('normal'),
 
-                TextInput::make('options.textColor')
+                ColorPicker::make('options.textColor')
                     ->label('Text Color')
                     ->helperText('Enter the text color for the marquee text.')
                     ->live()
