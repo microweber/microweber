@@ -22,6 +22,7 @@ class FacebookLikeServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+
         // Load module routes
      }
 
@@ -38,6 +39,6 @@ class FacebookLikeServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(FacebookLikeModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module('facebook_like', FacebookLikeModule::class);
+        Microweber::module(FacebookLikeModule::class);
     }
 }
