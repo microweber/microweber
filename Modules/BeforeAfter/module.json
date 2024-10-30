@@ -1,0 +1,11 @@
+{
+    "name": "BeforeAfter",
+    "alias": "beforeafter",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BeforeAfter\\Providers\\BeforeAfterServiceProvider"
+    ],
+    "files": []
+}

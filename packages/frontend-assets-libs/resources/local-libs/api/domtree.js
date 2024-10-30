@@ -394,12 +394,16 @@ mw.DomTree = function (options) {
             }
         }
         this.createItemEvents();
-        $(this.settings.element).empty().append(this.root).resizable({
-            handles: "s",
-            start: function (event, ui) {
-                ui.element.css('maxHeight', 'none');
-            }
-        });
+        $(this.settings.element).empty().append(this.root);
+        if(this.settings.resizable) {
+            $(this.settings.element).resizable({
+                handles: "s",
+                start: function (event, ui) {
+                    ui.element.css('maxHeight', 'none');
+                }
+            });
+        }
+
 
         if (this.settings.compactTreeView) {
             $(this.settings.element).before('' +
