@@ -1,0 +1,11 @@
+{
+    "name": "Marquee",
+    "alias": "marquee",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Marquee\\Providers\\MarqueeServiceProvider"
+    ],
+    "files": []
+}
