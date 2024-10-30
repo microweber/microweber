@@ -9,7 +9,7 @@ class FacebookPageModule extends BaseModule
 {
     public static string $name = 'Facebook Page';
     public static string $module = 'facebook_page';
-    public static string $icon = 'heroicon-o-facebook';
+    public static string $icon = 'modules.facebook_page-icon';
     public static string $categories = 'social';
     public static int $position = 1;
     public static string $settingsComponent = FacebookPageModuleSettings::class;
