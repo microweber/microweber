@@ -97,8 +97,6 @@ html.preview #toolbar {
     background-color: var(--tblr-bg-surface);
     border-radius: 100px;
     display: inline-flex;
-    margin: 15px 0;
-    padding: 10px 10px;
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
