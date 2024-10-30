@@ -167,11 +167,11 @@ body {
 
 
 .mw-autocomplete .mw-autocomplete-list {
-    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto p-[20px] bg-gray-100 dark:bg-gray-800 m-0 rounded-none p-0;
+    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto bg-gray-100 dark:bg-gray-800 m-0 rounded-none p-0;
 }
 
 .mw-autocomplete .mw-autocomplete-list a {
-    @apply whitespace-nowrap overflow-hidden text-ellipsis max-w-[400px] dark:text-white hover:dark:bg-gray-700 !p-4 border-none flex items-center hover:bg-gray-200;
+    @apply whitespace-nowrap overflow-hidden text-ellipsis max-w-[400px] dark:text-white hover:dark:bg-gray-700 !p-6 border-none flex items-center hover:bg-gray-200;
 }
 
 
