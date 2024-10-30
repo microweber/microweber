@@ -64,9 +64,9 @@ html.preview .back-to-edit{
         </div>
 
 
-        <div class="toolbar-col col-lg-auto col-12 justify-content-center">
+        <div class="toolbar-col col-lg-auto col-12 justify-content-center align-items-center">
             <div class="toolbar-col-container">
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center flex-wrap p-sm-0 p-3">
                     <ResolutionSwitch></ResolutionSwitch>
                     <SettingsCustomize></SettingsCustomize>
 
