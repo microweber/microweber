@@ -68,7 +68,6 @@ a {
     flex-wrap: wrap;
     background: var(--tblr-bg-surface);
     display: flex;
-    padding: 0 30px;
     position: relative;
     z-index: 2;
     transition: var(--toolbar-height-animation-speed);
