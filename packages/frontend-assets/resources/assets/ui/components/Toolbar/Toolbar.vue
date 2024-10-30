@@ -58,13 +58,13 @@ html.preview .back-to-edit{
         </div>
 
 
-        <div class="col-md-3 col-sm-auto col-12 toolbar-col-container d-md-flex align-items-center">
+        <div class="col-lg-3 col-sm-auto col-12 toolbar-col-container d-md-flex align-items-center">
             <ContentSearchNav></ContentSearchNav>
             <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
         </div>
 
 
-        <div class="toolbar-col col-md-auto col-12 justify-content-center">
+        <div class="toolbar-col col-lg-auto col-12 justify-content-center">
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center">
                     <ResolutionSwitch></ResolutionSwitch>
