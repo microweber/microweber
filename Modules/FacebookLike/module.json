@@ -1,0 +1,11 @@
+{
+    "name": "FacebookLike",
+    "alias": "facebook_like",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\FacebookLike\\Providers\\FacebookLikeServiceProvider"
+    ],
+    "files": []
+}

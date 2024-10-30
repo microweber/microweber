@@ -28,7 +28,7 @@ trait HasMicroweberModuleOptions
 
     }
 
-    public function getOption($key)
+    public function getOption($key, $default = null)
     {
         {
             $options = $this->getOptions();
@@ -39,6 +39,7 @@ trait HasMicroweberModuleOptions
                     }
                 }
             }
+            return $default;
         }
     }
 

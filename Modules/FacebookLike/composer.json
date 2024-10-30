@@ -1,0 +1,30 @@
+{
+    "name": "modules/facebook_like",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\FacebookLike\\": "",
+            "Modules\\FacebookLike\\Database\\Factories\\": "database/factories/",
+            "Modules\\FacebookLike\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\FacebookLike\\Tests\\": "Tests/"
+        }
+    }
+}
