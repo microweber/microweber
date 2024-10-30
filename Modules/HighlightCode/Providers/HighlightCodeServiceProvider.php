@@ -42,7 +42,7 @@ class HighlightCodeServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(HighlightCodeModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module('highlight_code', \Modules\HighlightCode\Microweber\HighlightCodeModule::class);
+        Microweber::module(\Modules\HighlightCode\Microweber\HighlightCodeModule::class);
 
     }
 

@@ -42,7 +42,7 @@ class AccordionServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AccordionModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module('accordion', AccordionModule::class);
+        Microweber::module(AccordionModule::class);
 
     }
 

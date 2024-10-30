@@ -42,7 +42,7 @@ class $CLASS$ extends BaseModuleServiceProvider
         FilamentRegistry::registerPage($MODULE$ModuleSettings::class);
 
         // Register Microweber module
-        Microweber::module('$LOWER_NAME$', \Modules\$MODULE$\Microweber\$MODULE$Module::class);
+        Microweber::module(\Modules\$MODULE$\Microweber\$MODULE$Module::class);
 
     }
 
