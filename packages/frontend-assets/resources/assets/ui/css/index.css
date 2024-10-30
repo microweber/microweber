@@ -966,4 +966,17 @@ html .mw-control-box-left,
 html .mw-control-box-right{
     top: var(--toolbar-height);
     width: 250px;
+
+}
+
+
+html .mw-control-box-left .mw-control-boxcontent,
+html .mw-control-box-right .mw-control-boxcontent{
+    max-height: calc(100% - 50px);
+    overflow: auto;
+}
+
+
+html.mw-live-edit-sidebar-start #live-edit-frame-holder{
+    left: 250px;
 }
