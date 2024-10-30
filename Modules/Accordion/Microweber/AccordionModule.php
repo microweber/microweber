@@ -8,10 +8,10 @@ use Modules\Accordion\Models\Accordion;
 
 class AccordionModule extends BaseModule
 {
-    public static string $name = 'Accordion';
+    public static string $name = 'Accordion Module';
     public static string $module = 'accordion';
     public static string $icon = 'heroicon-o-user-group';
-    public static string $categories = 'miscellaneous';
+    public static string $categories = 'content';
     public static int $position = 30;
     public static string $settingsComponent = AccordionModuleSettings::class;
     public static string $templatesNamespace = 'modules.accordion::templates';
