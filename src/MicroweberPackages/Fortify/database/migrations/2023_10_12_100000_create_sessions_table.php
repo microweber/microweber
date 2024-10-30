@@ -15,7 +15,7 @@ return new class extends Migration
     {
         if(!Schema::hasTable('sessions')) {
             Schema::create('sessions', function (Blueprint $table) {
-                $table->string('id')->unique();
+                $table->string('id',2500)->unique();
                 $table->integer('user_id')->unsigned();
                 $table->string('ip_address', 45)->nullable();
                 $table->text('user_agent')->nullable();

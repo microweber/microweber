@@ -30,16 +30,15 @@ trait HasMicroweberModuleOptions
 
     public function getOption($key)
     {
-
         {
             $options = $this->getOptions();
-            foreach ($options as $option) {
-                if ($option['option_key'] == $key) {
-                    return $option['option_value'];
+            if ($options) {
+                foreach ($options as $option) {
+                    if (isset($option['option_key']) and $option['option_key'] == $key) {
+                        return $option['option_value'];
+                    }
                 }
             }
-
-
         }
     }
 
