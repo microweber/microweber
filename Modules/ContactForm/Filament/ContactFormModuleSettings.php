@@ -6,6 +6,7 @@ use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class ContactFormModuleSettings extends LiveEditModuleSettings
@@ -27,26 +28,50 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
                                     ->slideOverRight()
                                     ->activeAccordion(0)
                                     ->accordions([
-                                        \LaraZeus\Accordion\Forms\Accordion::make('main-data')
+                                        \LaraZeus\Accordion\Forms\Accordion::make('from_fields')
                                             ->columns()
-                                            ->label('User Details')
-                                            ->icon('heroicon-o-user')
-                                            ->badge('New Badge')
-                                            ->badgeColor('info')
+                                            ->label('From Fields')
+                                            ->schema(function() {
+
+                                                $relId = 0;
+                                                $customFieldParams = [
+                                                    'relId'   => $relId,
+                                                    'relType' => 'contact_form'//morph_name(),
+                                                ];
+
+                                                if ($relId == 0) {
+                                                    $customFieldParams['createdBy'] = user_id();
+                                                }
+
+                                                $components = [];
+                                                $components[] = Livewire::make('admin-list-custom-fields', $customFieldParams)->columnSpanFull();
+
+                                                return $components;
+                                            }),
+                                        \LaraZeus\Accordion\Forms\Accordion::make('auto_respond_settings')
+                                            ->columns()
+                                            ->label('Auto Respond Settings')
                                             ->schema([
                                                 TextInput::make('name')->required(),
                                                 TextInput::make('email')->required(),
                                             ]),
-                                        \LaraZeus\Accordion\Forms\Accordion::make('settings')
+                                        \LaraZeus\Accordion\Forms\Accordion::make('contact_settings')
                                             ->columns()
-                                            ->label('Settings')
+                                            ->label('Contact Settings')
                                             ->schema([
                                                 TextInput::make('name')->required(),
                                                 TextInput::make('email')->required(),
                                             ]),
-                                        \LaraZeus\Accordion\Forms\Accordion::make('next')
+                                        \LaraZeus\Accordion\Forms\Accordion::make('receivers')
                                             ->columns()
-                                            ->label('Whats next?')
+                                            ->label('Receivers')
+                                            ->schema([
+                                                TextInput::make('name')->required(),
+                                                TextInput::make('email')->required(),
+                                            ]),
+                                        \LaraZeus\Accordion\Forms\Accordion::make('advanced')
+                                            ->columns()
+                                            ->label('Advanced')
                                             ->schema([
                                                 TextInput::make('name')->required(),
                                                 TextInput::make('email')->required(),
