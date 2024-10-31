@@ -1,16 +1,20 @@
 import BaseComponent from "../containers/base-class.js";
 
 const css = `
+    .mw-control-box-content{
+        padding: 20px;
+    }
     .mw-control-box-title{
-        padding: 10px;
+        padding: 20px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        display: block;
     }
     .mw-control-box.active {
         z-index: 100;
     }
     .mw-control-box {
         position: fixed;
-        padding: 20px;
+
         z-index: 99;
     }
     .mw-control-box-default {
@@ -96,7 +100,13 @@ export class ControlBox extends BaseComponent {
         this.box.className = 'mw-control-box mw-control-box-' + this.settings.position + ' mw-control-box-' + this.settings.skin;
         this.box.id = this.id;
         this.boxContent = document.createElement('div');
-        this.boxContent.className = 'mw-control-boxcontent';
+        this.boxContent.className = 'mw-control-box-content';
+        if(this.settings.title) {
+            const title = document.createElement("h3");
+            title.className = "mw-control-box-title";
+            title.innerHTML = this.settings.title;
+            this.box.appendChild(title);
+        }
         this.box.appendChild(this.boxContent);
         this.createCloseButton();
         document.body.appendChild(this.box);

@@ -1,5 +1,19 @@
+
 mw.DomTree = function (options) {
     var scope = this;
+
+
+    const _e = {};
+    this.on = (e, f) => {``
+        _e[e] ? _e[e].push(f) : (_e[e] = [f])
+    };
+    this.dispatch = (e, f) => {
+        _e[e] ? _e[e].forEach((c) => {
+            c.call(this, f);
+        }) : '';
+    };
+
+
     this.getNodeIconAndTitle = function (node) {
         var icon = false;
         var title = false;
@@ -436,6 +450,20 @@ mw.DomTree = function (options) {
             }
             curr = curr.nextElementSibling;
         }
+        if(this.settings.sortable) {
+            $(list).sortable({
+                axis: 'y',
+                items: "> li",
+                containment: "parent",
+                update: ( event, ui ) => {
+                    const node = ui.item.get(0);
+                    this.dispatch('sort', {
+                        node, target: node._value
+                    });
+                },
+            })
+        }
+
         parent.appendChild(list);
     };
 
