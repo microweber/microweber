@@ -1,0 +1,11 @@
+{
+    "name": "Embed",
+    "alias": "embed",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Embed\\Providers\\EmbedServiceProvider"
+    ],
+    "files": []
+}
