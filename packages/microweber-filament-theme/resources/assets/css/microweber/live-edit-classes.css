@@ -227,7 +227,7 @@ body {
 }
 
 .mw-live-edit-tools-dropdown-menu {
-    @apply !min-w-[200px];
+    @apply !min-w-[175px];
 }
 
 .mw-live-edit-tools-dropdown-menu ul li a {
