@@ -16,9 +16,12 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->integer('list_id')->nullable();
+            $table->integer('module_id')->nullable();
             $table->longText('description')->nullable();
             $table->longText('confirmation_message')->nullable();
             $table->longText('emails_notifications')->nullable();
+            $table->longText('emails_notifications_subject')->nullable();
+            $table->integer('is_active')->nullable();
             $table->timestamps();
         });
     }
