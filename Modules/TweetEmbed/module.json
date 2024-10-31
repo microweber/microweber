@@ -1,0 +1,11 @@
+{
+    "name": "TweetEmbed",
+    "alias": "tweet_embed",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TweetEmbed\\Providers\\TweetEmbedServiceProvider"
+    ],
+    "files": []
+}

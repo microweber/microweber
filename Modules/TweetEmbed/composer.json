@@ -1,0 +1,30 @@
+{
+    "name": "modules/tweet_embed",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\TweetEmbed\\": "",
+            "Modules\\TweetEmbed\\Database\\Factories\\": "database/factories/",
+            "Modules\\TweetEmbed\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\TweetEmbed\\Tests\\": "Tests/"
+        }
+    }
+}
