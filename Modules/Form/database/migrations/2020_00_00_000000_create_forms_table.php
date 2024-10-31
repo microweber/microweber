@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFormsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -27,6 +27,7 @@ class CreateFormsTable extends Migration
                 'list_id' => 'integer',
                 'form_values' => 'text',
                 'module_name' => 'string',
+                'module_id' => 'string',
                 'url' => 'string',
                 'user_ip' => 'string',
                 '$index' => [
@@ -62,4 +63,4 @@ class CreateFormsTable extends Migration
         Schema::drop('forms_data');
         Schema::drop('forms_lists');
     }
-}
+};

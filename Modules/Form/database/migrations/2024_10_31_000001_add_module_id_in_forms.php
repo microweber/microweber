@@ -3,7 +3,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends  Migration
+
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +13,10 @@ return new class extends  Migration
      */
     public function up()
     {
-        Schema::table('forms_data', function (Blueprint $table) {
+        Schema::table('forms', function (Blueprint $table) {
 
-            if(!Schema::hasColumn('forms_data', 'updated_at')) {
-                $table->timestamp('updated_at')->nullable();
+            if(!Schema::hasColumn('forms', 'module_id')) {
+                $table->string('module_id')->nullable();
             }
 
 
