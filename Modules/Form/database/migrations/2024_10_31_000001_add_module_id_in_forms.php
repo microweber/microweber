@@ -13,6 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
+
+        if(!Schema::hasTable('forms')) {
+            return;
+        }
+
         Schema::table('forms', function (Blueprint $table) {
 
             if(!Schema::hasColumn('forms', 'module_id')) {
