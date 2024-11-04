@@ -22,6 +22,7 @@ use League\Csv\Reader as CsvReader;
 use League\Csv\Statement;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SenderAccountsResource\Pages\ManageSenderAccounts;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Resources\SubscribersResource\Pages\ManageSubscribers;
+use MicroweberPackages\Modules\Newsletter\Filament\Exports\NewsletterSubscriberExporter;
 use MicroweberPackages\Modules\Newsletter\Filament\Imports\NewsletterSubscriberImporter;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
@@ -106,6 +107,9 @@ class SubscribersResource extends Resource
                     ->icon('heroicon-m-cloud-arrow-up')
                     ->importer(NewsletterSubscriberImporter::class)
                     ->chunkSize(50),
+                Tables\Actions\ExportAction::make()
+                    ->icon('heroicon-m-cloud-arrow-down')
+                    ->exporter(NewsletterSubscriberExporter::class),
                 Tables\Actions\CreateAction::make(),
             ])
             ->actions([
@@ -114,6 +118,8 @@ class SubscribersResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\ExportBulkAction::make()
+                        ->exporter(NewsletterSubscriberExporter::class),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);

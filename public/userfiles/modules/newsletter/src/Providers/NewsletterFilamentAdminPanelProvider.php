@@ -40,6 +40,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->brandLogo(fn () => view('microweber-module-newsletter::livewire.filament.admin.logo'))
             ->unsavedChangesAlerts()
             ->sidebarWidth('15rem')
+            ->databaseNotifications(true)
             ->colors([
                 'primary' => Color::Blue,
             ]) ->pages([
