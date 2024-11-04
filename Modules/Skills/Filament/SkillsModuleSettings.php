@@ -68,4 +68,10 @@ class SkillsModuleSettings extends LiveEditModuleSettings
         parent::updated($propertyName, $value);
         $this->saveOption('skills', json_encode($this->skills));
     }
+
+    public function save(): void
+    {
+        parent::save();
+        $this->saveOption('skills', json_encode($this->skills));
+    }
 }
