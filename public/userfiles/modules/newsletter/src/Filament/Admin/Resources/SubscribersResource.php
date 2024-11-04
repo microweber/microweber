@@ -107,9 +107,10 @@ class SubscribersResource extends Resource
                     ->icon('heroicon-m-cloud-arrow-up')
                     ->importer(NewsletterSubscriberImporter::class)
                     ->chunkSize(50),
-                Tables\Actions\CreateAction::make(),
                 Tables\Actions\ExportAction::make()
-                    ->exporter(NewsletterSubscriberExporter::class)
+                    ->icon('heroicon-m-cloud-arrow-down')
+                    ->exporter(NewsletterSubscriberExporter::class),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
