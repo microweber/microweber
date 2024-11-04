@@ -123,6 +123,7 @@ class ProcessCampaigns extends Command
         }
 
         $campaign->status = NewsletterCampaign::STATUS_QUEUED;
+        $campaign->status_log = 'Campaign is queued';
         $campaign->save();
 
         $batches = [];
@@ -133,14 +134,16 @@ class ProcessCampaigns extends Command
         $batch = Bus::batch($batches)
             ->progress(function (Batch $batch) use($campaign) {
 
-                $delaySeconds = 2;
+                $delaySeconds = 0;
                 if ($campaign->delay_between_sending_emails > 0) {
-                    if ($campaign->delay_between_sending_emails < 15) {
+                    if ($campaign->delay_between_sending_emails < 10) {
                         $delaySeconds = $campaign->delay_between_sending_emails;
                     }
                 }
 
-                sleep($delaySeconds);
+                if ($delaySeconds) {
+                    sleep($delaySeconds);
+                }
                 $campaign->jobs_progress = $batch->progress();
                 $campaign->save();
 
@@ -170,6 +173,7 @@ class ProcessCampaigns extends Command
         $campaign->total_jobs = count($batches);
         $campaign->jobs_batch_id = $batch->id;
         $campaign->status = NewsletterCampaign::STATUS_PROCESSING;
+        $campaign->status_log = 'Batch created';
         $campaign->save();
 
         return 0;
