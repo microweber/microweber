@@ -108,6 +108,8 @@ class SubscribersResource extends Resource
                     ->importer(NewsletterSubscriberImporter::class)
                     ->chunkSize(50),
                 Tables\Actions\CreateAction::make(),
+                Tables\Actions\ExportAction::make()
+                    ->exporter(NewsletterSubscriberExporter::class)
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
