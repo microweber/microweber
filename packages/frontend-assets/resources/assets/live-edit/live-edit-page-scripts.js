@@ -183,7 +183,7 @@ if(window.self !== window.top) {
                             var rel = mw.tools.mwattr(this, 'rel');
                             if (mw.tools.hasClass(cls, 'edit') && mw.tools.hasClass(cls, 'changed') && (!!rel)) {
                                 helper.item = this;
-                                mw.tools.stopLoop(loop);
+
                             }
                         });
                     }

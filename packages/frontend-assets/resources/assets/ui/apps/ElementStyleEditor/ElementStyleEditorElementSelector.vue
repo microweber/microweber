@@ -48,7 +48,8 @@ export default {
                     content:``,
                     position:  'left',
                     id: 'mw-live-edit-domtree-box',
-                    closeButton: true
+                    closeButton: true,
+                    title: mw.lang('Layers')
                 });
 
                 targetMW.__controlBoxDomTree.on('show', () => {
@@ -62,6 +63,7 @@ export default {
            const tree = new targetMW.DomTree({
                     element: targetMW.__controlBoxDomTree.boxContent,
                     resizable: false,
+                    sortable: true,
 
                     targetDocument: mw.app.canvas.getDocument(),
 
@@ -89,7 +91,21 @@ export default {
 
                     }
            });
-           tree.select(this.activeNode)
+           tree.select(this.activeNode);
+
+           tree.on('sort', data => {
+            const targetParent = data.target.parentNode;
+            const li = data.node;
+            const ul = li.parentNode;
+            Array.from(ul.children).forEach(li => {
+                const ref = li._value;
+                targetParent.append(ref)
+
+            });
+
+            mw.top().app.liveEdit.handles.reposition()
+
+           })
 
 
             this.domTree = tree

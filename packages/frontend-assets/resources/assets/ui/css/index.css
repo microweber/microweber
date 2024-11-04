@@ -966,12 +966,13 @@ html .mw-control-box-left,
 html .mw-control-box-right{
     top: var(--toolbar-height);
     width: 250px;
+    box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.2);
 
 }
 
 
-html .mw-control-box-left .mw-control-boxcontent,
-html .mw-control-box-right .mw-control-boxcontent{
+html .mw-control-box-left .mw-control-box-content,
+html .mw-control-box-right .mw-control-box-content{
     max-height: calc(100% - 50px);
     overflow: auto;
 }
