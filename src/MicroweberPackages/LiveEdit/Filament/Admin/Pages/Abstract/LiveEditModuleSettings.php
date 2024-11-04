@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Filament\Support\Commands\Concerns\CanReadModelSchemas;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
@@ -24,6 +25,7 @@ abstract class LiveEditModuleSettings extends Page
     public array $translatableOptions = [];
     protected static bool $showTopBar = false;
     protected static bool $shouldRegisterNavigation = false;
+
 
     public static function showTopBar(): bool
     {
@@ -85,7 +87,7 @@ abstract class LiveEditModuleSettings extends Page
         return [];
     }
 
-    public function updated($propertyName, $value)
+    public function updated($propertyName, $value): void
     {
 
         $option = array_undot_str($propertyName);
@@ -102,7 +104,8 @@ abstract class LiveEditModuleSettings extends Page
             $this->dispatch('mw-option-saved',
                 optionGroup: $optionGroup,
                 optionKey: $option['options'],
-                optionValue: $value
+                optionValue: $value,
+                module: $this->module
             );
         }
     }
@@ -284,10 +287,23 @@ abstract class LiveEditModuleSettings extends Page
     }
 
 
+    public function getOption($optionKey, $default = null)
+    {
+        return get_module_option($optionKey, $this->getOptionGroup(), false, $this->module) ?? $default;
+    }
+
+    public function saveOption($optionKey, $optionValue)
+    {
+        save_option([
+            'option_key' => $optionKey,
+            'option_value' => $optionValue,
+            'option_group' => $this->getOptionGroup(),
+            'module' => $this->module
+        ]);
+    }
+
     public function save(): void
     {
-
-
         $validator = Validator::make(['data' => $this->form->getState()], $this->getRules());
         if (!count($validator->invalid())) {
             $data = ($this->form->getState());

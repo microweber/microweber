@@ -3,8 +3,8 @@ function get_module_options($optionGroup,$module=false) {
     return mw()->option_manager->getModuleOptions($optionGroup,$module=false);
 }
 
-function get_module_option($optionKey, $optionGroup = false, $returnFull = false) {
-    return mw()->option_manager->getModuleOption($optionKey, $optionGroup, $returnFull);
+function get_module_option($optionKey, $optionGroup = false, $returnFull = false, $module = false){
+    return mw()->option_manager->getModuleOption($optionKey, $optionGroup, $returnFull, $module);
 }
 
 /**

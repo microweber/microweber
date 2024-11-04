@@ -330,6 +330,8 @@ class OptionManager
     public function save($data)
     {
 
+
+
 //        if (defined('MW_API_CALL')) {
         // this check is moved to middleware
 //            $is_admin = $this->app->user_manager->is_admin();
@@ -350,7 +352,19 @@ class OptionManager
 
         $option_group = false;
         if (is_array($data)) {
+
+
+            if(is_array($data['option_key'])){
+                //$data['option_key'] = dot($data['option_key']);
+                //dd($data['option_key']);
+            }
+
             if (isset($data['option_key']) and strval($data['option_key']) != '') {
+
+
+
+
+
                 if (strstr($data['option_key'], '|for_module|')) {
                     $option_key_1 = explode('|for_module|', $data['option_key']);
                     if (isset($option_key_1[0])) {

@@ -15,7 +15,8 @@ export class LivewireHooksReloadModule {
 
             for (let i = 0; i < this.modulesForReload.length; i++) {
                 let moduleId = this.modulesForReload[i];
-                mw.reload_module_everywhere('#' + moduleId);
+                //mw.reload_module_everywhere('#' + moduleId);
+                mw.reload_module_everywhere(moduleId);
                 //unset
                 this.modulesForReload.splice(i, 1);
             }
@@ -61,6 +62,8 @@ export class LivewireHooksReloadModule {
                                 if (snapshot.data) {
                                     if (snapshot.data.moduleId) {
                                         modulesForReloadIds.push(snapshot.data.moduleId);
+                                    } else   if (snapshot.data.module) {
+                                        modulesForReloadIds.push(snapshot.data.module);
                                     }
                                 }
 

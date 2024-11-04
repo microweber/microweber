@@ -347,7 +347,7 @@ class ModuleManager
                 $this->log('Migrating module: ' . $name);
 
                 Artisan::call('module:migrate', ['module' => $name, '--force'],$output);
- 
+
                 $this->log($output->fetch());
 
                 $output = new BufferedOutput();

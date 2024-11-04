@@ -129,7 +129,7 @@
                     </div>-->
 
                     <LazyList
-                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered.length > 0"
+                        v-if="layoutsListLoaded && (layoutsListTypePreview == 'list' || layoutsListTypePreview == 'full') && layoutsListFiltered && layoutsListFiltered.length > 0"
                         :data="layoutsListFiltered"
                         :itemsPerRender="18"
                         :containerClasses="'modules-list-block modules-list-block-' + layoutsListTypePreview"

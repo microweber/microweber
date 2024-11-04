@@ -17,49 +17,25 @@ class SkillsModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
+        $skills = @json_decode($this->getOption('skills'), true) ?? [];
 
-        // Retrieve settings from the SkillsModuleSettings
-      // $settings = app(SkillsModuleSettings::class)->getSettings();
+        if (!$skills) {
+            $skills = $this->getDefaultSkills();
+        }
+        $viewData = array_merge($viewData, ['skills' => $skills]);
+        return view('modules.skills::templates.default', $viewData);
+    }
 
-        // Prepare skills data for the view
-//        $skills = [
-//            [
-//                'skill' => $settings['options']['skill_name'] ?? 'Default Skill',
-//                'percent' => $settings['options']['percent'] ?? 0,
-//                'style' => $settings['options']['style'] ?? 'primary',
-//            ]
-//        ];
+    public function getDefaultSkills()
+    {
 
-        $skills=[
+        return [
             [
                 'skill' => 'HTML',
                 'percent' => 90,
                 'style' => 'primary',
             ],
-            [
-                'skill' => 'CSS',
-                'percent' => 80,
-                'style' => 'success',
-            ],
-            [
-                'skill' => 'JavaScript',
-                'percent' => 70,
-                'style' => 'info',
-            ],
-            [
-                'skill' => 'PHP',
-                'percent' => 60,
-                'style' => 'warning',
-            ],
-            [
-                'skill' => 'Laravel',
-                'percent' => 50,
-                'style' => 'danger',
-            ],
-        ];
-        // Merge skills data into view data
-        $viewData = array_merge($viewData, ['skills' => $skills]);
 
-        return view('modules.skills::templates.default', $viewData);
+        ];
     }
 }

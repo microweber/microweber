@@ -3,6 +3,7 @@ namespace MicroweberPackages\LiveEdit\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use MicroweberPackages\LiveEdit\Models\Scopes\HasOptionGroupScope;
 use Sushi\Sushi;
 
 class ModuleItemSushi extends Model
@@ -10,7 +11,7 @@ class ModuleItemSushi extends Model
     // Add the trait
     use Sushi;
 
-    protected static string $optionGroup = 'general';
+    public static string $optionGroup = 'general';
 
     protected $keyType = 'string';
 
@@ -28,6 +29,7 @@ class ModuleItemSushi extends Model
     public static function boot()
     {
         parent::boot();
+      //  static::addGlobalScope(new HasOptionGroupScope());
 
         static::creating(function ($model) {
             $optionGroup = $model::$optionGroup;
@@ -93,9 +95,15 @@ class ModuleItemSushi extends Model
         }
         return 'id';
     }
+    protected function sushiShouldCache()
+    {
+        return false;
+    }
 
     public function getRows()
     {
+
+
         $settings = get_option('settings', static::$optionGroup);
         if ($settings) {
             $settings = json_decode($settings, true);

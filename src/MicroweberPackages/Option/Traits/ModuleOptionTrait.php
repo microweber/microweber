@@ -33,7 +33,7 @@ trait ModuleOptionTrait
         return false;
     }
 
-    public function getModuleOption($optionKey, $optionGroup, $returnFull)
+    public function getModuleOption($optionKey, $optionGroup, $returnFull,$module = false)
     {
         if (isset($this->memoryModuleOptionGroup[$optionGroup])) {
             return $this->getOptionFromOptionsArray($optionKey, $this->memoryModuleOptionGroup[$optionGroup], $returnFull);
@@ -41,7 +41,11 @@ trait ModuleOptionTrait
 
         if ($optionGroup) {
 
-            $allOptions = ModuleOption::where('option_group', $optionGroup)->get()->toArray();
+            $allOptions = ModuleOption::where('option_group', $optionGroup);
+            if($module){
+                $allOptions->where('module', $module);
+            }
+            $allOptions = $allOptions->get()->toArray();
 
             $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
             return $this->getOptionFromOptionsArray($optionKey, $allOptions, $returnFull);
