@@ -1,4 +1,4 @@
-<div class="container mw-module-skills-list">
+<div class="mw-module-skills-list">
     <div class="skillst">
         <script>
             //Skill
