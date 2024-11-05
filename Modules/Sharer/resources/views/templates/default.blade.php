@@ -16,6 +16,15 @@
         <a href="javascript:void(0);" onclick="mw.pinMarklet();" target="_self">
             <span class="mdi mdi-pinterest"></span>
         </a>
+        <script type="text/javascript">
+            if (!mw.pinMarklet) {
+                mw.pinMarklet = function () {
+                    var script = document.createElement('script');
+                    script.src = '//assets.pinterest.com/js/pinmarklet.js';
+                    document.body.appendChild(script)
+                }
+            }
+        </script>
     @endif
 
     @if($linkedin_enabled)
