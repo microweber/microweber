@@ -35,6 +35,7 @@ export default {
             'domTree': null,
             'isReady': false,
             'currentCanvasDocument': false,
+            targetMW: mw.top()
         };
     },
 
@@ -98,14 +99,14 @@ export default {
             const li = data.node;
             const ul = li.parentNode;
             Array.from(ul.children).forEach(li => {
-                const ref = li._value;
-                targetParent.append(ref)
-
+            const ref = li._value;
+            targetParent.append(ref);
             });
 
             mw.top().app.liveEdit.handles.reposition()
+            mw.top().app.registerChange(targetParent)
 
-           })
+           });
 
 
             this.domTree = tree
@@ -173,9 +174,16 @@ export default {
 
 
     mounted() {
-        // mw.top().app.on('mw.elementStyleEditor.selectNode', (element) => {
-        //     this.populateStyleEditor(element)
-        // });
+        const targetMW = mw.top();
+        mw.top().app.canvas.on('liveEditCanvasBeforeUnload', function () {
+            targetMW.__controlBoxDomTree = null;
+            this.domTree = null;
+        });
+        mw.top().app.on('liveEditCanvasLoaded', event => {
+            targetMW.__controlBoxDomTree = null;
+            this.domTree = null;
+            this.initDomTree();
+        });
     },
 
     watch: {

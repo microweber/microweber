@@ -973,7 +973,7 @@ html .mw-control-box-right{
 
 html .mw-control-box-left .mw-control-box-content,
 html .mw-control-box-right .mw-control-box-content{
-    max-height: calc(100% - 50px);
+    max-height: calc(100% - 140px);
     overflow: auto;
 }
 
