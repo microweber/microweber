@@ -1,13 +1,4 @@
-# Skills
-
-
-
-## Run module migrations
-
-```sh
-php artisan module:migrate Skills
-```
-
+# Skills Module for Microweber CMS
 
 
 ## Publish module assets
