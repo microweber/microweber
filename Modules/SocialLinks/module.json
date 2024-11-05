@@ -1,0 +1,11 @@
+{
+    "name": "SocialLinks",
+    "alias": "sociallinks",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SocialLinks\\Providers\\SocialLinksServiceProvider"
+    ],
+    "files": []
+}
