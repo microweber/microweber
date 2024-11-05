@@ -5,22 +5,31 @@ export class LivewireHooksReloadModule {
 
         this.init();
     }
+    reloadTimeout = null;
 
     performReload() {
-        if (this.modulesForReload.length > 0) {
-            // make unique
-            this.modulesForReload = [...new Set(this.modulesForReload)];
 
-            console.log('performModulesReload', this.modulesForReload)
-
-            for (let i = 0; i < this.modulesForReload.length; i++) {
-                let moduleId = this.modulesForReload[i];
-                //mw.reload_module_everywhere('#' + moduleId);
-                mw.reload_module_everywhere(moduleId);
-                //unset
-                this.modulesForReload.splice(i, 1);
-            }
+        if (this.reloadTimeout) {
+            clearTimeout(this.reloadTimeout);
         }
+
+
+        this.reloadTimeout = setTimeout(() => {
+            if (this.modulesForReload.length > 0) {
+                // make unique
+                this.modulesForReload = [...new Set(this.modulesForReload)];
+
+                console.log('performModulesReload', this.modulesForReload);
+
+                for (let i = 0; i < this.modulesForReload.length; i++) {
+                    let moduleId = this.modulesForReload[i];
+                    //mw.reload_module_everywhere('#' + moduleId);
+                    mw.reload_module_everywhere(moduleId);
+                    //unset
+                    this.modulesForReload.splice(i, 1);
+                }
+            }
+        }, 300);
     }
 
     init() {

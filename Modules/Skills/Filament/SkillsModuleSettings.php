@@ -58,7 +58,7 @@ class SkillsModuleSettings extends LiveEditModuleSettings
                             ])
                             ->live(),
                     ])
-                    ->minItems(1)
+                    ->minItems(0)
                     ->live()
             ]);
     }

@@ -111,7 +111,7 @@ class SliderModuleSettings extends LiveEditModuleSettings
                         TextInput::make('imageBackgroundOpacity')
                             ->label('Image Background Opacity')
                             ->live(),
-                        
+
                         Select::make('showButton')
                             ->label('Show Button')
                             ->options([
@@ -121,7 +121,7 @@ class SliderModuleSettings extends LiveEditModuleSettings
                             ->default('1')
                             ->live(),
                     ])
-                    ->minItems(1)
+                    ->minItems(0)
                     ->live()
             ]);
     }

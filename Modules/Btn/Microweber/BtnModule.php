@@ -53,8 +53,8 @@ class BtnModule extends BaseModule
         $moduleOptions = $this->getOptions();
 
         if (!empty($moduleOptions)) {
-            foreach ($moduleOptions as $btnOption) {
-                $viewData[$btnOption['option_key']] = $btnOption['option_value'];
+            foreach ($moduleOptions as $btnOptionKey=>$btnOptionValue) {
+                $viewData[$btnOptionKey] = $btnOptionValue;
             }
         }
         if (isset($viewData['link'])) {

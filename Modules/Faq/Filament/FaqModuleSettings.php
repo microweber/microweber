@@ -27,7 +27,7 @@ class FaqModuleSettings extends LiveEditModuleSettings
                 TextInput::make('options.title')
                     ->label('FAQ Title')
                     ->placeholder('Enter FAQ title')
-                    ->live()
+                    ->live(debounce: 500)
                     ->default('Frequently Asked Questions'),
 
                 Repeater::make('faqs')
@@ -38,14 +38,14 @@ class FaqModuleSettings extends LiveEditModuleSettings
                         TextInput::make('question')
                             ->label('Question')
                             ->placeholder('Enter question')
-                            ->live(),
+                            ->live(debounce: 500),
 
                         Textarea::make('answer')
                             ->label('Answer')
                             ->placeholder('Enter answer')
-                            ->live(),
+                            ->live(debounce: 500),
                     ])
-                    ->minItems(1)
+                    ->minItems(0)
                     ->live(debounce: 500),
             ]);
     }
