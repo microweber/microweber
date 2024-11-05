@@ -13,6 +13,7 @@ class FaqModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'faq';
     public array $faqs;
+
     public function mount(): void
     {
         parent::mount();
@@ -33,10 +34,6 @@ class FaqModuleSettings extends LiveEditModuleSettings
                     ->addActionLabel('Add FAQ')
                     ->label('FAQs')
                     ->reorderableWithButtons()
-                    ->reorderAction( function (Forms\Get $get, Forms\Set $set) {
-                       // $this->faqs = $get('faqs');
-                      //  $set('faqs', $this->faqs);
-                    })
                     ->schema([
                         TextInput::make('question')
                             ->label('Question')
@@ -49,7 +46,7 @@ class FaqModuleSettings extends LiveEditModuleSettings
                             ->live(),
                     ])
                     ->minItems(1)
-                    ->live(),
+                    ->live(debounce: 500),
             ]);
     }
 
