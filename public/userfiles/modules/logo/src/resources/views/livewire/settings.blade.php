@@ -1,5 +1,0 @@
-<div>
-
-    {{$this->form}}
-
-</div>

@@ -1,0 +1,11 @@
+{
+    "name": "Logo",
+    "alias": "logo",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Logo\\Providers\\LogoServiceProvider"
+    ],
+    "files": []
+}
