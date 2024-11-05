@@ -1,0 +1,30 @@
+{
+    "name": "modules/sharer",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Sharer\\": "",
+            "Modules\\Sharer\\Database\\Factories\\": "database/factories/",
+            "Modules\\Sharer\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Sharer\\Tests\\": "Tests/"
+        }
+    }
+}

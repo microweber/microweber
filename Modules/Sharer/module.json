@@ -1,0 +1,11 @@
+{
+    "name": "Sharer",
+    "alias": "sharer",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Sharer\\Providers\\SharerServiceProvider"
+    ],
+    "files": []
+}
