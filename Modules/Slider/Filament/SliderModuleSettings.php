@@ -59,8 +59,6 @@ class SliderModuleSettings extends LiveEditModuleSettings
                             ->setSimpleMode(true)
                             ->columnSpanFull(),
 
-
-
                         Select::make('alignItems')
                             ->label('Align Items')
                             ->options([
@@ -68,6 +66,59 @@ class SliderModuleSettings extends LiveEditModuleSettings
                                 'center' => 'Center',
                                 'right' => 'Right',
                             ])
+                            ->live(),
+
+                        TextInput::make('titleColor')
+                            ->label('Title Color')
+                            ->live(),
+
+                        TextInput::make('descriptionColor')
+                            ->label('Description Color')
+                            ->live(),
+
+                        TextInput::make('buttonColor')
+                            ->label('Button Color')
+                            ->live(),
+
+                        TextInput::make('buttonTextColor')
+                            ->label('Button Text Color')
+                            ->live(),
+
+                        TextInput::make('titleFontSize')
+                            ->label('Title Font Size')
+                            ->live(),
+
+                        TextInput::make('descriptionFontSize')
+                            ->label('Description Font Size')
+                            ->live(),
+
+                        TextInput::make('buttonFontSize')
+                            ->label('Button Font Size')
+                            ->live(),
+
+                        TextInput::make('titleFontFamily')
+                            ->label('Title Font Family')
+                            ->live(),
+
+                        TextInput::make('descriptionFontFamily')
+                            ->label('Description Font Family')
+                            ->live(),
+
+                        TextInput::make('imageBackgroundColor')
+                            ->label('Image Background Color')
+                            ->live(),
+
+                        TextInput::make('imageBackgroundOpacity')
+                            ->label('Image Background Opacity')
+                            ->live(),
+                        
+                        Select::make('showButton')
+                            ->label('Show Button')
+                            ->options([
+                                '1' => 'Yes',
+                                '0' => 'No',
+                            ])
+                            ->default('1')
                             ->live(),
                     ])
                     ->minItems(1)

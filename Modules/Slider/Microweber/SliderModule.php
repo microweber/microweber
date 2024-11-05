@@ -23,13 +23,15 @@ class SliderModule extends BaseModule
             $slides = $this->getDefaultSlides();
         }
         $viewData = array_merge($viewData, ['slides' => $slides]);
-        return view('modules.slider::templates.default', $viewData);
+
+         return view('modules.slider::templates.default', $viewData);
     }
 
     public function getDefaultSlides()
     {
         return [
             [
+
                 'title' => 'Default Slide 1',
                 'description' => 'This is a default slide description.',
                 'image' => asset('modules/slider/img/default-slide-1.jpg'),
