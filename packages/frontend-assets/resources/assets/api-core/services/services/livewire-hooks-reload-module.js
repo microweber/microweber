@@ -73,6 +73,8 @@ export class LivewireHooksReloadModule {
                                         modulesForReloadIds.push(snapshot.data.moduleId);
                                     } else if (snapshot.data.module && snapshot.data.optionGroup) {
                                         modulesForReloadIds.push(snapshot.data.optionGroup);
+                                    } else if (snapshot.data.rel_type && snapshot.data.rel_id) {
+                                        modulesForReloadIds.push(snapshot.data.rel_id);
                                     } else if (snapshot.data.module) {
                                         modulesForReloadIds.push(snapshot.data.module);
                                     }

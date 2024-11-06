@@ -23,34 +23,28 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Teamcard\Models\Teamcard;
-use Modules\Teamcard\Models\TeamcardItem;
-
 
 class TeamcardTableList extends Component implements HasForms, HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;
 
-    public $moduleId = null;
+    public $rel_id = null;
+    public $rel_type = null;
 
     public function editFormArray()
     {
         return [
-            Hidden::make('module_id')
-                ->default($this->moduleId),
+            Hidden::make('rel_id')
+                ->default($this->rel_id),
+            Hidden::make('rel_type')
+                ->default($this->rel_type),
             TextInput::make('name')
                 ->label('Team Member Name')
                 ->helperText('Enter the full name of the team member.'),
             MwFileUpload::make('file')
-//                ->live()
-//                ->afterStateUpdated(function ($state) {
-////                    dump($state);
-//                })
                 ->label('Team Member Picture')
                 ->helperText('Upload a picture of the team member.'),
-//            FileUpload::make('file')
-//                    ->label('Team Member Picture')
-//                    ->helperText('Upload a picture of the team member.'),
             Textarea::make('bio')
                 ->label('Team Member Bio')
                 ->helperText('Provide a short biography of the team member.'),
@@ -66,7 +60,7 @@ class TeamcardTableList extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Teamcard::query()->where('module_id', $this->moduleId))
+            ->query(Teamcard::query()->where('rel_id', $this->rel_id)->where('rel_type', $this->rel_type))
             ->defaultSort('position', 'asc')
             ->columns([
                 ImageColumn::make('file')
@@ -91,12 +85,9 @@ class TeamcardTableList extends Component implements HasForms, HasTable
             ])
             ->reorderable('position')
             ->bulkActions([
-//                BulkActionGroup::make([
-//                    DeleteBulkAction::make()
-//                ])
+                // ...
             ]);
     }
-
 
     public function render()
     {

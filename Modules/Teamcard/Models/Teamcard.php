@@ -19,7 +19,8 @@ class Teamcard extends Model
         'role',
         'website',
         'position',
-        'module_id',
+        'rel_type',
+        'rel_id',
     ];
 
 }
