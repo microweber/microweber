@@ -1,7 +1,7 @@
 <div class="mw-social-links">
     @if($facebook_enabled)
         <a href="{{ $facebook_url }}" target="_blank">
-            <span class="mdi mdi-facebook"></span>
+            @svg('modules.social_links-facebook');
         </a>
     @endif
 
