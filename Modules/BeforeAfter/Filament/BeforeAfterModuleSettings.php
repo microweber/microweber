@@ -25,7 +25,7 @@ class BeforeAfterModuleSettings extends LiveEditModuleSettings
                     ->label('After Image URL')
                     ->helperText('Enter the URL of the after image.')
                     ->live()
-                    ->default(asset('modules/beforeafter/img/blue-car.jpg' )),
+                    ->default(asset('modules/beforeafter/img/blue-car.jpg')),
             ]);
     }
 }
