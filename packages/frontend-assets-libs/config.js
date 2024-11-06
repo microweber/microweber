@@ -16,8 +16,9 @@ const nodeModulesScripts = [
     {target: `tinymce`, path: `node_modules/tinymce/tinymce.js`},
     {target: `bxslider`, path: `node_modules/bxslider/dist/jquery.bxslider.min.js`},
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick.js`},
-    {target: `swiper`, path: `node_modules/swiper/swiper.js`},
+    //{target: `swiper`, path: `node_modules/swiper/swiper.js`},
     {target: `xss`, path: `node_modules/xss/dist/xss.js`},
+    {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.js`},
 
 
     {
@@ -55,7 +56,7 @@ const css = [
 
 
 
-    {target: `swiper`, path: `node_modules/swiper/swiper.css`},
+    {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.css`},
 
 
 ];
