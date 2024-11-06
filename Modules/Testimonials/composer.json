@@ -1,0 +1,30 @@
+{
+    "name": "modules/testimonials",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Testimonials\\": "",
+            "Modules\\Testimonials\\Database\\Factories\\": "database/factories/",
+            "Modules\\Testimonials\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Testimonials\\Tests\\": "Tests/"
+        }
+    }
+}
