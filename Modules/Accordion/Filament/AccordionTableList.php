@@ -31,8 +31,8 @@ class AccordionTableList extends Component implements HasForms, HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
-    public $rel_id = null;
-    public $rel_type = null;
+    public string|null $rel_id = null;
+    public string|null $rel_type = null;
 
     public function editFormArray()
     {

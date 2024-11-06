@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('position')->nullable();
             $table->string('rel_type')->nullable();
             $table->string('rel_id')->nullable();
+            $table->longText('settings')->nullable();
             $table->timestamps();
         });
     }

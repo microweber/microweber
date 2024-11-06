@@ -21,6 +21,9 @@ class Teamcard extends Model
         'position',
         'rel_type',
         'rel_id',
+        'settings',
     ];
-
+    protected $casts = [
+        'settings' => 'array',
+    ];
 }

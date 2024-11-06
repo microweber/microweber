@@ -19,8 +19,11 @@ class Accordion extends Model
         'position',
         'rel_id',
         'rel_type',
+        'settings',
         'updated_at',
         'created_at',
     ];
-
+    protected $casts = [
+        'settings' => 'array',
+    ];
 }

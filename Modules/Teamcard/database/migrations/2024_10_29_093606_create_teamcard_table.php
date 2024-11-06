@@ -19,12 +19,14 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('file')->nullable();
-            $table->string('bio')->nullable();
+            $table->longText('bio')->nullable();
             $table->string('role')->nullable();
             $table->string('website')->nullable();
             $table->integer('position')->nullable();
             $table->string('rel_type')->nullable();
             $table->string('rel_id')->nullable();
+            $table->longText('settings')->nullable();
+
             $table->timestamps();
         });
     }
