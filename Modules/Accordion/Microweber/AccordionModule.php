@@ -21,7 +21,7 @@ class AccordionModule extends BaseModule
         $viewData = $this->getViewData();
         $rel_type = $this->params['rel_type'] ?? 'module';
         $rel_id = $this->params['rel_id'] ?? $this->params['id'];
-        $viewData['accordion'] = Accordion::where('rel_type', $rel_type)->where('rel_id', $rel_id)->get();
+        $viewData['accordion'] = Accordion::where('rel_type', $rel_type)->where('rel_id', $rel_id)->orderBy('position', 'asc')->get();
         $template = $viewData['template'] ?? 'default';
 
         return view(static::$templatesNamespace . '.' . $template, $viewData);
