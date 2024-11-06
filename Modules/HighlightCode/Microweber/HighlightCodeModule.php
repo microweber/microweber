@@ -25,7 +25,13 @@ class HighlightCodeModule extends BaseModule
             $text = '<?php print "Hello Wordld"; ?>';
         }
         $viewData['text'] = $text;
-        return view('modules.highlight_code::templates.default', $viewData);
+
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
      }
 
 }

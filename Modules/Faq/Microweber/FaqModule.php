@@ -13,6 +13,7 @@ class FaqModule extends BaseModule
     public static string $categories = 'miscellaneous';
     public static int $position = 57;
     public static string $settingsComponent = FaqModuleSettings::class;
+    public static string $templatesNamespace = 'modules.faq::templates';
 
     public function render()
     {
@@ -24,7 +25,7 @@ class FaqModule extends BaseModule
         }
         $viewData = array_merge($viewData, ['faqs' => $faqs]);
 
-        return view('modules.faq::templates.default', $viewData);
+        return view(static::$templatesNamespace . '.default', $viewData);
     }
 
     public function getDefaultFaqs()

@@ -23,7 +23,12 @@ class TeamcardModule extends BaseModule
         $rel_id = $this->params['rel_id'] ?? $this->params['id'];
         $viewData['teamcard'] = Teamcard::where('rel_type', $rel_type)->where('rel_id', $rel_id)->get();
 
-        return view('modules.teamcard::templates.default', $viewData);
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
 }

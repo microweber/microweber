@@ -71,7 +71,11 @@ class GoogleMapsModule extends BaseModule
             $viewData['zoom'] = 18;
         }
 
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
 
-        return view('modules.google_maps::templates.default', $viewData);
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
      }
 }

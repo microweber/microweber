@@ -32,6 +32,10 @@ class BeforeAfterModule extends BaseModule
         $viewData = $this->getViewData();
         $template = isset($viewData['template']) ? $viewData['template'] : 'default';
 
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 }

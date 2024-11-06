@@ -24,6 +24,10 @@ class TabsModule extends BaseModule
         $viewData['tabs'] = Tab::where('rel_type', $rel_type)->where('rel_id', $rel_id)->orderBy('position', 'asc')->get();
         $template = $viewData['template'] ?? 'default';
 
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 }

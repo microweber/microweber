@@ -32,7 +32,12 @@ class ContactFormModule extends BaseModule
 
         $viewData['form'] = $findForm;
 
-        return view('modules.contact_form::templates.default', $viewData);
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
 }

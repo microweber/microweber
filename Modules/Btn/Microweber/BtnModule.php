@@ -16,7 +16,6 @@ class BtnModule extends BaseModule
 
     public static string $templatesNamespace = 'modules.btn::templates';
 
-
     public function getViewData(): array
     {
         $viewData = parent::getViewData();
@@ -79,7 +78,6 @@ class BtnModule extends BaseModule
         }
         $viewData['hasCustomStyles'] = $hasCustomStyles;
 
-
         return $viewData;
     }
 
@@ -88,8 +86,11 @@ class BtnModule extends BaseModule
         $viewData = $this->getViewData();
         $template = $viewData['template'] ?? 'default';
 
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
-
 
 }

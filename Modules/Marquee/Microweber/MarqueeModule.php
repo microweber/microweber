@@ -32,9 +32,18 @@ class MarqueeModule extends BaseModule
             $viewData['animationSpeed'] = 100;
         }
 
-
         return $viewData;
     }
 
+    public function render()
+    {
+        $viewData = $this->getViewData();
+        $template = $viewData['template'] ?? 'default';
 
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
+    }
 }

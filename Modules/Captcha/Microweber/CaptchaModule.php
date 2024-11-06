@@ -13,6 +13,7 @@ class CaptchaModule extends BaseModule
     public static string $categories = 'security, captcha';
     public static int $position = 3;
     public static string $settingsComponent = CaptchaModuleSettings::class;
+    public static string $templatesNamespace = 'modules.captcha::templates';
 
     public function render()
     {
@@ -24,7 +25,12 @@ class CaptchaModule extends BaseModule
         $viewData['recaptcha_v3_secret_key'] = $this->getRecaptchaSecretKey('v3');
         $viewData['recaptcha_v2_secret_key'] = $this->getRecaptchaSecretKey('v2');
 
-        return view('modules.captcha::templates.default', $viewData);
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
     private function getCaptchaProvider()

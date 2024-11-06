@@ -13,6 +13,7 @@ class SkillsModule extends BaseModule
     public static string $categories = 'other';
     public static int $position = 41;
     public static string $settingsComponent = SkillsModuleSettings::class;
+    public static string $templatesNamespace = 'modules.skills::templates';
 
     public function render()
     {
@@ -23,12 +24,17 @@ class SkillsModule extends BaseModule
             $skills = $this->getDefaultSkills();
         }
         $viewData = array_merge($viewData, ['skills' => $skills]);
-        return view('modules.skills::templates.default', $viewData);
+
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
     public function getDefaultSkills()
     {
-
         return [
             [
                 'skill' => 'HTML',

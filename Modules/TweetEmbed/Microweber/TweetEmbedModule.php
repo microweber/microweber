@@ -13,6 +13,7 @@ class TweetEmbedModule extends BaseModule
     public static string $categories = 'social';
     public static int $position = 200;
     public static string $settingsComponent = TweetEmbedModuleSettings::class;
+    public static string $templatesNamespace = 'modules.tweet_embed::templates';
 
     public function render()
     {
@@ -30,6 +31,6 @@ class TweetEmbedModule extends BaseModule
 
         $viewData['status_id'] = $statusID[1];
 
-        return view('modules.tweet_embed::templates.default', $viewData);
+        return view(static::$templatesNamespace . '.default', $viewData);
     }
 }

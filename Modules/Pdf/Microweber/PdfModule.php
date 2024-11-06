@@ -13,6 +13,7 @@ class PdfModule extends BaseModule
     public static string $categories = 'documents, pdf';
     public static int $position = 3;
     public static string $settingsComponent = PdfModuleSettings::class;
+    public static string $templatesNamespace = 'modules.pdf::templates';
 
     public function render()
     {
@@ -20,7 +21,12 @@ class PdfModule extends BaseModule
         $viewData['id'] = $this->generateId();
         $viewData['pdf'] = $this->getPdfUrl();
 
-        return view('modules.pdf::templates.default', $viewData);
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
     private function generateId(): string

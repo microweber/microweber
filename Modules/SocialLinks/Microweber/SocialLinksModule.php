@@ -13,6 +13,7 @@ class SocialLinksModule extends BaseModule
     public static string $categories = 'social';
     public static int $position = 9;
     public static string $settingsComponent = SocialLinksModuleSettings::class;
+    public static string $templatesNamespace = 'modules.social_links::templates';
 
     public function render()
     {
@@ -26,7 +27,6 @@ class SocialLinksModule extends BaseModule
         $viewData['whatsapp_enabled'] = $this->getOption('whatsapp_enabled') == '1';
         $viewData['telegram_enabled'] = $this->getOption('telegram_enabled') == '1';
 
-
         $viewData['facebook_url'] = $this->getOption('facebook_url');
         $viewData['twitter_url'] = $this->getOption('twitter_url');
         $viewData['pinterest_url'] = $this->getOption('pinterest_url');
@@ -35,6 +35,11 @@ class SocialLinksModule extends BaseModule
         $viewData['whatsapp_url'] = $this->getOption('whatsapp_url');
         $viewData['telegram_url'] = $this->getOption('telegram_url');
 
-        return view('modules.social_links::templates.default', $viewData);
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 }

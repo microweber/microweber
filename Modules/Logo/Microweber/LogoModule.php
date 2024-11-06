@@ -30,6 +30,10 @@ class LogoModule extends BaseModule
 
         $template = isset($viewData['template']) ? $viewData['template'] : 'default';
 
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 }

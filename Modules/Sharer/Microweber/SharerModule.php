@@ -13,6 +13,7 @@ class SharerModule extends BaseModule
     public static string $categories = 'social';
     public static int $position = 210;
     public static string $settingsComponent =  SharerModuleSettings::class;
+    public static string $templatesNamespace = 'modules.sharer::templates';
 
     public function render()
     {
@@ -26,6 +27,6 @@ class SharerModule extends BaseModule
         $viewData['whatsapp_enabled'] = $this->getOption('whatsapp_enabled') == '1';
         $viewData['telegram_enabled'] = $this->getOption('telegram_enabled') == '1';
 
-        return view('modules.sharer::templates.default', $viewData);
+        return view(static::$templatesNamespace . '.default', $viewData);
     }
 }

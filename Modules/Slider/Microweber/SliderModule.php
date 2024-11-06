@@ -13,6 +13,7 @@ class SliderModule extends BaseModule
     public static string $categories = 'media';
     public static int $position = 10;
     public static string $settingsComponent = SliderModuleSettings::class;
+    public static string $templatesNamespace = 'modules.slider::templates';
 
     public function render()
     {
@@ -24,7 +25,12 @@ class SliderModule extends BaseModule
         }
         $viewData = array_merge($viewData, ['slides' => $slides]);
 
-         return view('modules.slider::templates.default', $viewData);
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
     public function getDefaultSlides()

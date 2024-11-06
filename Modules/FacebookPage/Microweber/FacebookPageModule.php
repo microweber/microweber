@@ -13,7 +13,6 @@ class FacebookPageModule extends BaseModule
     public static string $categories = 'social';
     public static int $position = 1;
     public static string $settingsComponent = FacebookPageModuleSettings::class;
-
     public static string $templatesNamespace = 'modules.facebook_page::templates';
 
     public function getViewData(): array
@@ -33,6 +32,10 @@ class FacebookPageModule extends BaseModule
     {
         $viewData = $this->getViewData();
         $template = isset($viewData['template']) ? $viewData['template'] : 'default';
+
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
 
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }

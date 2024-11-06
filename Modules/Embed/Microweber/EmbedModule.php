@@ -13,6 +13,7 @@ class EmbedModule extends BaseModule
     public static string $categories = 'miscellaneous';
     public static int $position = 38;
     public static string $settingsComponent = EmbedModuleSettings::class;
+    public static string $templatesNamespace = 'modules.embed::templates';
 
     public function render()
     {
@@ -34,6 +35,11 @@ class EmbedModule extends BaseModule
             $viewData['source_code'] = $sourceCode;
         }
 
-        return view('modules.embed::templates.default', $viewData);
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 }

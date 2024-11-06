@@ -5,7 +5,6 @@ namespace Modules\Audio\Microweber;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Audio\Filament\AudioModuleSettings;
 
-//class AudioModule  extends Component implements MicroweberModuleContract
 class AudioModule extends BaseModule
 {
     public static string $name = 'Audio';
@@ -14,8 +13,7 @@ class AudioModule extends BaseModule
     public static string $categories = 'media, music';
     public static int $position = 2;
     public static string $settingsComponent = AudioModuleSettings::class;
-
-
+    public static string $templatesNamespace = 'modules.audio::templates';
 
     public function render()
     {
@@ -39,11 +37,7 @@ class AudioModule extends BaseModule
         $viewData['audio'] = $audio;
         $viewData['id'] = $id;
 
-        return view('modules.audio::templates.default', $viewData);
+        return view(static::$templatesNamespace . '.default', $viewData);
 
     }
-
-
-
-
 }

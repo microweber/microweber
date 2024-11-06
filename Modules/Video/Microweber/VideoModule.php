@@ -14,7 +14,7 @@ class VideoModule extends BaseModule
     public static string $categories = 'media, video';
     public static int $position = 2;
     public static string $settingsComponent = VideoModuleSettings::class;
-
+    public static string $templatesNamespace = 'modules.video::templates';
 
     public function render()
     {
@@ -23,9 +23,13 @@ class VideoModule extends BaseModule
         $renderData = render_video_module($this->params);
         $viewData = array_merge($viewData, $renderData);
 
-        return view('modules.video::video-module-layout', $viewData);
+        $template = $viewData['template'] ?? 'default';
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
+        }
+
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
 
     }
-
 
 }
