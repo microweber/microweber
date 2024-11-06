@@ -1,14 +1,16 @@
 <div class="mw-social-share-links">
     @if($facebook_enabled)
         <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(mw()->url->current()) }}">
-            <span class="mdi mdi-facebook"></span>
+            @svg('modules.social_links-facebook')
+
         </a>
     @endif
 
     @if($twitter_enabled)
         <a href="https://twitter.com/intent/tweet?text={{ urlencode(content_title()) }}&url={{ urlencode(mw()->url->current()) }}"
            target="_blank">
-            <span class="mdi mdi-twitter"></span>
+            @svg('modules.social_links-twitter')
+
         </a>
     @endif
 
@@ -30,7 +32,8 @@
     @if($linkedin_enabled)
         <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(mw()->url->current()) }}&title={{ urlencode(page_title()) }}"
            target="_blank">
-            <span class="mdi mdi-linkedin"></span>
+            @svg('modules.social_links-linkedin')
+
         </a>
     @endif
 
@@ -49,7 +52,7 @@
     @if($whatsapp_enabled)
         <a target="_blank" href="whatsapp://send?text=Check this out: {{ mw()->url->current() }}"
            data-action="share/whatsapp/share">
-            <span class="mdi mdi-whatsapp"></span>
+            @svg('modules.social_links-whatsapp')
         </a>
     @endif
 
