@@ -43,6 +43,13 @@ class SharerModuleSettings extends LiveEditModuleSettings
                     ->label('Enable WhatsApp Sharing')
                     ->live()
                     ->default(false),
+
+                Toggle::make('options.telegram_enabled')
+                    ->label('Enable Telegram Sharing')
+                    ->live()
+                    ->default(false),
+
+
             ]);
     }
 }

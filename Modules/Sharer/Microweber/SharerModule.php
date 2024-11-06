@@ -24,6 +24,7 @@ class SharerModule extends BaseModule
         $viewData['linkedin_enabled'] = $this->getOption('linkedin_enabled') == '1';
         $viewData['viber_enabled'] = $this->getOption('viber_enabled') == '1';
         $viewData['whatsapp_enabled'] = $this->getOption('whatsapp_enabled') == '1';
+        $viewData['telegram_enabled'] = $this->getOption('telegram_enabled') == '1';
 
         return view('modules.sharer::templates.default', $viewData);
     }
