@@ -1,0 +1,11 @@
+{
+    "name": "Tabs",
+    "alias": "tabs",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Tabs\\Providers\\TabsServiceProvider"
+    ],
+    "files": []
+}

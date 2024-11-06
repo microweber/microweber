@@ -45,25 +45,25 @@ export class LivewireHooksReloadModule {
                 // Runs immediately before a commit's payload is sent to the server...
 
                 //console.log('commit', commit)
-                mw.spinner({
-                    element: mw.top().win.document.body,
-                    size: 52,
-                    decorate: true
-                });
+                // mw.spinner({
+                //     element: mw.top().win.document.body,
+                //     size: 52,
+                //     decorate: true
+                // });
 
 
-                respond(() => {
-                    // Runs after a response is received but before it's processed...
-                    mw.spinner({element: mw.top().win.document.body}).remove();
-                })
-
-                succeed(({ snapshot, effect }) => {
-                    mw.spinner({element: mw.top().win.document.body}).remove();
-                })
-
-                fail(() => {
-                    mw.spinner({element: mw.top().win.document.body}).remove();
-                })
+                // respond(() => {
+                //     // Runs after a response is received but before it's processed...
+                //     mw.spinner({element: mw.top().win.document.body}).remove();
+                // })
+                //
+                // succeed(({ snapshot, effect }) => {
+                //  //   mw.spinner({element: mw.top().win.document.body}).remove();
+                // })
+                //
+                // fail(() => {
+                //     mw.spinner({element: mw.top().win.document.body}).remove();
+                // })
             })
 
 
@@ -73,10 +73,17 @@ export class LivewireHooksReloadModule {
             Livewire.hook('request', ({uri, options, payload, respond, succeed, fail}) => {
                 // Runs after commit payloads are compiled, but before a network request is sent...
 
+                mw.spinner({
+                    element: mw.top().win.document.body,
+                    size: 52,
+                    decorate: true
+                });
+
                 respond(({status, response}) => {
                     // Runs when the response is received...
                     // "response" is the raw HTTP response object
                     // before await response.text() is run...
+                    mw.spinner({element: mw.top().win.document.body}).remove();
                 })
 
                 succeed(({status, json}) => {
@@ -132,6 +139,7 @@ export class LivewireHooksReloadModule {
                     // "preventDefault" allows you to disable Livewire's
                     // default error handling...
                     // "content" is the raw response content...
+                    mw.spinner({element: mw.top().win.document.body}).remove();
                 })
             })
 
