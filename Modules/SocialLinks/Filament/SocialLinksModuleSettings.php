@@ -9,7 +9,7 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSett
 
 class SocialLinksModuleSettings extends LiveEditModuleSettings
 {
-    public string $module = 'sociallinks';
+    public string $module = 'social_links';
 
     public function form(Form $form): Form
     {

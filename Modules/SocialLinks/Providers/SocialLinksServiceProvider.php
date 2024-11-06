@@ -15,7 +15,7 @@ class SocialLinksServiceProvider extends BaseModuleServiceProvider
 {
     protected string $moduleName = 'SocialLinks';
 
-    protected string $moduleNameLower = 'sociallinks';
+    protected string $moduleNameLower = 'social_links';
 
     /**
      * Boot the application events.

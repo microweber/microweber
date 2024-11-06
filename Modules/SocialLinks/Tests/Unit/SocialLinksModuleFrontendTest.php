@@ -28,7 +28,7 @@ class SocialLinksModuleFrontendTest extends TestCase
             'whatsapp_url' => 'https://whatsapp.com/example',
         ];
         $moduleId = $params['id'];
-        $moduleType = 'sociallinks';
+        $moduleType = 'social_links';
 
         ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
@@ -47,7 +47,7 @@ class SocialLinksModuleFrontendTest extends TestCase
         $socialLinksModule = new SocialLinksModule($params);
         $viewOutput = $socialLinksModule->render();
 
-        $this->assertTrue(View::exists('modules.sociallinks::templates.default'));
+        $this->assertTrue(View::exists('modules.social_links::templates.default'));
         $this->assertStringContainsString('example', $viewOutput);
         $this->assertStringContainsString('facebook.com', $viewOutput);
         $this->assertStringContainsString('twitter.com', $viewOutput);

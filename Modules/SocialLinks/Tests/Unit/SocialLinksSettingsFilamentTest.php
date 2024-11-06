@@ -13,7 +13,7 @@ class SocialLinksSettingsFilamentTest extends TestCase
     public function testSocialLinksModuleSettingsForm()
     {
         $moduleId = 'module-id-test-' . uniqid();
-        $moduleType = 'sociallinks';
+        $moduleType = 'social_links';
 
         ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);

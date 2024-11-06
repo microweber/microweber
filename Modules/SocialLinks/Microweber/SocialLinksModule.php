@@ -8,7 +8,7 @@ use Modules\SocialLinks\Filament\SocialLinksModuleSettings;
 class SocialLinksModule extends BaseModule
 {
     public static string $name = 'Social Links';
-    public static string $module = 'sociallinks';
+    public static string $module = 'social_links';
     public static string $icon = 'modules.social-links-icon';
     public static string $categories = 'social';
     public static int $position = 9;
@@ -32,6 +32,6 @@ class SocialLinksModule extends BaseModule
         $viewData['viber_url'] = $this->getOption('viber_url');
         $viewData['whatsapp_url'] = $this->getOption('whatsapp_url');
 
-        return view('modules.sociallinks::templates.default', $viewData);
+        return view('modules.social_links::templates.default', $viewData);
     }
 }

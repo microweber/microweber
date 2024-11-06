@@ -23,19 +23,19 @@ php artisan module:publish SocialLinks
 
 Using vite assets
 ```blade
-{{ module_vite('modules/sociallinks/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/sociallinks/dist', 'resources/assets/sass/app.scss') }}
+{{ module_vite('modules/social_links/dist', 'resources/assets/js/app.js') }}
+{{ module_vite('modules/social_links/dist', 'resources/assets/sass/app.scss') }}
 ```
 
 
 Using static assets
 ```blade
-{{ asset('modules/sociallinks/img/icon.svg') }}
+{{ asset('modules/social_links/img/icon.svg') }}
  ```
 
 ### module config values
 ```php
-config('modules.sociallinks.name')
+config('modules.social_links.name')
 ```
 
 
@@ -45,11 +45,11 @@ config('modules.sociallinks.name')
 Extend master layout
 
 ```php
-@extends('modules.sociallinks::layouts.master')
+@extends('modules.social_links::layouts.master')
 ```
 
 Use Module view
 
 ```php
-view('modules.sociallinks::index')
+view('modules.social_links::index')
 ```
