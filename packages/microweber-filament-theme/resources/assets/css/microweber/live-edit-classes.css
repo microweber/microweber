@@ -167,7 +167,7 @@ body {
 
 
 .mw-autocomplete .mw-autocomplete-list {
-    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto bg-gray-100 dark:bg-gray-800 m-0 rounded-none p-0;
+    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto bg-gray-100 dark:bg-gray-800 m-0 rounded-none p-0 z-10;
 }
 
 .mw-autocomplete .mw-autocomplete-list a {
@@ -867,3 +867,4 @@ h1,h2,h3,h4,h5,h6 {
 .reset-field {
     top: 0 !important;
 }
+
