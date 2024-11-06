@@ -80,6 +80,20 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                     ->live()
                     ->placeholder('Enter WhatsApp URL')
                     ->visible(fn ($get) => $get('options.whatsapp_enabled')),
+
+                Toggle::make('options.telegram_enabled')
+                    ->label('Enable Telegram Sharing')
+                    ->live()
+                    ->default(false),
+
+                TextInput::make('options.telegram_url')
+                    ->label('Telegram URL')
+                    ->live()
+                    ->placeholder('Enter Telegram URL')
+                    ->visible(fn ($get) => $get('options.telegram_enabled')),
+
+
+
             ]);
     }
 }

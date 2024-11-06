@@ -24,6 +24,8 @@ class SocialLinksModule extends BaseModule
         $viewData['linkedin_enabled'] = $this->getOption('linkedin_enabled') == '1';
         $viewData['viber_enabled'] = $this->getOption('viber_enabled') == '1';
         $viewData['whatsapp_enabled'] = $this->getOption('whatsapp_enabled') == '1';
+        $viewData['telegram_enabled'] = $this->getOption('telegram_enabled') == '1';
+
 
         $viewData['facebook_url'] = $this->getOption('facebook_url');
         $viewData['twitter_url'] = $this->getOption('twitter_url');
@@ -31,6 +33,7 @@ class SocialLinksModule extends BaseModule
         $viewData['linkedin_url'] = $this->getOption('linkedin_url');
         $viewData['viber_url'] = $this->getOption('viber_url');
         $viewData['whatsapp_url'] = $this->getOption('whatsapp_url');
+        $viewData['telegram_url'] = $this->getOption('telegram_url');
 
         return view('modules.social_links::templates.default', $viewData);
     }

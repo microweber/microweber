@@ -1,37 +1,49 @@
 <div class="mw-social-links">
     @if($facebook_enabled)
         <a href="{{ $facebook_url }}" target="_blank">
-            @svg('modules.social_links-facebook');
+            @svg('modules.social_links-facebook')
         </a>
     @endif
 
     @if($twitter_enabled)
         <a href="{{ $twitter_url }}" target="_blank">
-            <span class="mdi mdi-twitter"></span>
+            @svg('modules.social_links-twitter')
+
         </a>
     @endif
 
     @if($pinterest_enabled)
         <a href="{{ $pinterest_url }}" target="_blank">
-            <span class="mdi mdi-pinterest"></span>
+            @svg('modules.social_links-pinterest')
+
         </a>
     @endif
 
     @if($linkedin_enabled)
         <a href="{{ $linkedin_url }}" target="_blank">
-            <span class="mdi mdi-linkedin"></span>
+            @svg('modules.social_links-linkedin')
+
         </a>
     @endif
 
     @if($viber_enabled)
         <a href="{{ $viber_url }}" target="_blank">
-            <span class="mdi mdi-viber"></span>
+            @svg('modules.social_links-viber')
+
         </a>
     @endif
 
     @if($whatsapp_enabled)
         <a href="whatsapp://send?text=Check this out: {{ mw()->url->current() }}" target="_blank">
-            <span class="mdi mdi-whatsapp"></span>
+            @svg('modules.social_links-whatsapp')
+
+        </a>
+    @endif
+
+    @if($telegram_enabled)
+        <a href="whatsapp://send?text=Check this out: {{ mw()->url->current() }}" target="_blank">
+            @svg('modules.social_links-telegram')
+
         </a>
     @endif
 
