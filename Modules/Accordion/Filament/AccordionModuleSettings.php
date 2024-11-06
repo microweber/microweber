@@ -21,7 +21,8 @@ class AccordionModuleSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 Livewire::make(AccordionTableList::class, [
-                                    'moduleId' => $this->params['id']
+                                    'rel_id' => $this->params['id'],
+                                    'rel_type' => 'module',
                                 ])
                             ]),
 

@@ -10,7 +10,7 @@ class AccordionModule extends BaseModule
 {
     public static string $name = 'Accordion Module';
     public static string $module = 'accordion';
-    public static string $icon = 'heroicon-o-user-group';
+    public static string $icon = 'modules.accordion-icon';
     public static string $categories = 'content';
     public static int $position = 30;
     public static string $settingsComponent = AccordionModuleSettings::class;
@@ -19,7 +19,9 @@ class AccordionModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        $viewData['accordion'] = Accordion::where('module_id', $this->params['id'])->get();
+        $rel_type = $this->params['rel_type'] ?? 'module';
+        $rel_id = $this->params['rel_id'] ?? $this->params['id'];
+        $viewData['accordion'] = Accordion::where('rel_type', $rel_type)->where('rel_id', $rel_id)->get();
 
         return view('modules.accordion::templates.default', $viewData);
     }

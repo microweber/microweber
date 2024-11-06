@@ -17,7 +17,10 @@ class Accordion extends Model
         'icon',
         'content',
         'position',
-        'module_id',
+        'rel_id',
+        'rel_type',
+        'updated_at',
+        'created_at',
     ];
 
 }
