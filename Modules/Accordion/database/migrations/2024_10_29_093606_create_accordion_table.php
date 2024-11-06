@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('icon')->nullable();
             $table->longText('content')->nullable();
             $table->integer('position')->nullable();
-            $table->integer('module_id')->nullable();
+            $table->string('rel_type')->nullable();
+            $table->string('rel_id')->nullable();
             $table->timestamps();
         });
     }

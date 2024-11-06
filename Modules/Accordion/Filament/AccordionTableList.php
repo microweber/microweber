@@ -31,13 +31,13 @@ class AccordionTableList extends Component implements HasForms, HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
-    public $moduleId = null;
+    public $rel_id = null;
+    public $rel_type = null;
 
     public function editFormArray()
     {
         return [
-            Hidden::make('module_id')
-                ->default($this->moduleId),
+
             TextInput::make('title')
                 ->label('Title')
                 ->required(),
@@ -46,13 +46,18 @@ class AccordionTableList extends Component implements HasForms, HasTable
             Textarea::make('content')
                 ->label('Content')
                 ->required(),
+
+            Hidden::make('rel_id')
+                ->default($this->rel_id),
+            Hidden::make('rel_type')
+                ->default($this->rel_type),
         ];
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->query(Accordion::query()->where('module_id', $this->moduleId))
+            ->query(Accordion::query()->where('rel_id', $this->rel_id)->where('rel_type', $this->rel_type))
             ->defaultSort('position', 'asc')
             ->columns([
                 TextColumn::make('title')

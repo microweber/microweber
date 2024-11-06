@@ -113,6 +113,7 @@ abstract class LiveEditModuleSettings extends Page
     public function getOptionGroup()
     {
         if (!empty($this->params) and isset($this->params['id'])) {
+            $this->optionGroup = $this->params['id'];
             return $this->params['id'];
         }
 
@@ -197,6 +198,7 @@ abstract class LiveEditModuleSettings extends Page
 
         $moduleTemplates = module_templates($this->module);
         $optionGroup = $this->getOptionGroup();
+
         $selectedSkin = get_module_option('template', $optionGroup);
 
         $filter = request()->get('template-filter') ?? null;
