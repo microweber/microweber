@@ -39,6 +39,37 @@ export class LivewireHooksReloadModule {
 
             // from https://livewire.laravel.com/docs/javascript#request-hooks
 
+
+
+            Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
+                // Runs immediately before a commit's payload is sent to the server...
+
+                //console.log('commit', commit)
+                mw.spinner({
+                    element: mw.top().win.document.body,
+                    size: 52,
+                    decorate: true
+                });
+
+
+                respond(() => {
+                    // Runs after a response is received but before it's processed...
+                    mw.spinner({element: mw.top().win.document.body}).remove();
+                })
+
+                succeed(({ snapshot, effect }) => {
+                    mw.spinner({element: mw.top().win.document.body}).remove();
+                })
+
+                fail(() => {
+                    mw.spinner({element: mw.top().win.document.body}).remove();
+                })
+            })
+
+
+
+
+
             Livewire.hook('request', ({uri, options, payload, respond, succeed, fail}) => {
                 // Runs after commit payloads are compiled, but before a network request is sent...
 
