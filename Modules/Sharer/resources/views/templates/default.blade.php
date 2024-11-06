@@ -1,14 +1,16 @@
 <div class="mw-social-share-links">
     @if($facebook_enabled)
         <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(mw()->url->current()) }}">
-            <span class="mdi mdi-facebook"></span>
+            @svg('modules.social_links-facebook')
+
         </a>
     @endif
 
     @if($twitter_enabled)
         <a href="https://twitter.com/intent/tweet?text={{ urlencode(content_title()) }}&url={{ urlencode(mw()->url->current()) }}"
            target="_blank">
-            <span class="mdi mdi-twitter"></span>
+            @svg('modules.social_links-twitter')
+
         </a>
     @endif
 
@@ -30,13 +32,15 @@
     @if($linkedin_enabled)
         <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(mw()->url->current()) }}&title={{ urlencode(page_title()) }}"
            target="_blank">
-            <span class="mdi mdi-linkedin"></span>
+            @svg('modules.social_links-linkedin')
+
         </a>
     @endif
 
     @if($viber_enabled)
         <a target="_blank" href="#" id="viber_share">
-            <span class="mdi mdi-viber"></span>
+            @svg('modules.social_links-viber')
+
         </a>
         <script>
             var buttonID = "viber_share";
@@ -49,9 +53,17 @@
     @if($whatsapp_enabled)
         <a target="_blank" href="whatsapp://send?text=Check this out: {{ mw()->url->current() }}"
            data-action="share/whatsapp/share">
-            <span class="mdi mdi-whatsapp"></span>
+            @svg('modules.social_links-whatsapp')
         </a>
     @endif
+
+    @if($telegram_enabled)
+        <a target="_blank" href="tg://msg_url?url={{ mw()->url->current() }}&text=Check this out: {{ mw()->url->current() }}">
+            @svg('modules.social_links-telegram')
+        </a>
+    @endif
+
+
 
     @if(!$facebook_enabled && !$twitter_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled)
         {!! lnotif('No sharing options enabled. Please enable at least one sharing option in the settings.') !!}
