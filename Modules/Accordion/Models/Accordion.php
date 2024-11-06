@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Accordion extends Model
 {
-    use HasFactory;
+    protected $table = 'accordion';
 
     /**
      * The attributes that are mass assignable.
