@@ -16,7 +16,8 @@
 
     @if($pinterest_enabled)
         <a href="javascript:void(0);" onclick="mw.pinMarklet();" target="_self">
-            <span class="mdi mdi-pinterest"></span>
+            @svg('modules.social_links-pinterest')
+
         </a>
         <script type="text/javascript">
             if (!mw.pinMarklet) {
