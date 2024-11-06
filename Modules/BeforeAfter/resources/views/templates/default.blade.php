@@ -10,9 +10,9 @@
 </div>
 
 <script>
-    mw.moduleCSS('{{ asset('modules/beforeafter/css/twentytwenty.css') }}');
-    mw.moduleJS('{{ asset('modules/beforeafter/js/jquery.event.move.js') }}');
-    mw.moduleJS('{{ asset('modules/beforeafter/js/jquery.twentytwenty.js') }}');
+    mw.moduleCSS('{{ asset('modules/before_after/css/twentytwenty.css') }}');
+    mw.moduleJS('{{ asset('modules/before_after/js/jquery.event.move.js') }}');
+    mw.moduleJS('{{ asset('modules/before_after/js/jquery.twentytwenty.js') }}');
 
     $(window).on('load', function () {
         mw.$("#mw-before-after-{{ $id }}").twentytwenty({default_offset_pct: 0.5});

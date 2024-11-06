@@ -15,7 +15,7 @@ class BeforeAfterServiceProvider extends BaseModuleServiceProvider
 {
     protected string $moduleName = 'BeforeAfter';
 
-    protected string $moduleNameLower = 'beforeafter';
+    protected string $moduleNameLower = 'before_after';
 
     /**
      * Boot the application events.

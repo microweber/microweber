@@ -13,7 +13,7 @@ class BeforeAfterModuleSettingsFilamentTest extends TestCase
     public function testBeforeAfterModuleSettingsForm()
     {
         $moduleId = 'module-id-test-' . uniqid();
-        $moduleType = 'beforeafter';
+        $moduleType = 'before_after';
 
         ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);

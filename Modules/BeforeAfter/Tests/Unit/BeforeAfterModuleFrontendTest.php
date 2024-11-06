@@ -14,12 +14,12 @@ class BeforeAfterModuleFrontendTest extends TestCase
     public function testDefaultViewRendering()
     {
         $params = [
-            'id' => 'test-beforeafter-id' . uniqid(),
+            'id' => 'test-before_after-id' . uniqid(),
             'before' => 'https://www.example.com/before.jpg',
             'after' => 'https://www.example.com/after.jpg',
         ];
         $moduleId = $params['id'];
-        $moduleType = 'beforeafter';
+        $moduleType = 'before_after';
 
         ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
         $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
@@ -40,7 +40,7 @@ class BeforeAfterModuleFrontendTest extends TestCase
 
         $viewOutput = $beforeAfterModule->render();
 
-        $this->assertTrue(View::exists('modules.beforeafter::templates.default'));
+        $this->assertTrue(View::exists('modules.before_after::templates.default'));
         $this->assertStringContainsString('before.jpg', $viewOutput);
         $this->assertStringContainsString('after.jpg', $viewOutput);
 
