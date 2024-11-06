@@ -1,8 +1,13 @@
-<div id="slider-{{ $params['id'] }}" class="slider-module">
-    <div class="slider-wrapper">
-        @if(!empty($slides))
+
+
+<div class="swiper" id="slider-{{ $params['id'] }}">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+
+
+            @if(!empty($slides))
             @foreach($slides as $slideKey => $slide)
-                <div class="slide" style="text-align: {{ isset($slide['alignItems']) && !empty($slide['alignItems']) ? $slide['alignItems'] : 'center' }};">
+                <div class="swiper-slide" style="text-align: {{ isset($slide['alignItems']) && !empty($slide['alignItems']) ? $slide['alignItems'] : 'center' }};">
                     @if(isset($slide['image']) && !empty($slide['image']))
                         <img src="{{ $slide['image'] }}" alt="{{ isset($slide['title']) && !empty($slide['title']) ? $slide['title'] : '' }}" class="slide-image">
                     @endif
@@ -17,33 +22,46 @@
                                 {{ $slide['description'] }}
                             </p>
                         @endif
-                        @if(!isset($slide['showButton']) || $slide['showButton'])
-                            <a href="{{ isset($slide['url']) && !empty($slide['url']) ? $slide['url'] : '#' }}" class="slide-button slide-button-{{ $slideKey }}">
-                                {{ $slide['buttonText'] }}
-                            </a>
+                        @if(isset($slide['buttonText']) )
+                            @if(!isset($slide['showButton']) || $slide['showButton'])
+                                <a href="{{ isset($slide['url']) && !empty($slide['url']) ? $slide['url'] : '#' }}" class="slide-button slide-button-{{ $slideKey }}">
+                                    {{ $slide['buttonText'] }}
+                                </a>
+                            @endif
                         @endif
                     </div>
                 </div>
             @endforeach
         @else
-            <p>{{ __('No slides available.') }}</p>
+            <div class="swiper-slide">
+                <p>{{ __('No slides available.') }}</p>
+            </div>
         @endif
-    </div>
+
+    ...
+  </div>
+
+  <div class="swiper-pagination"></div>
+
+
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+
+
+
 </div>
 
 <style>
+    #slider-{{ $params['id'] }} {
+        padding-bottom: 40px;
+    }
     .slider-module {
         width: 100%;
         overflow: hidden;
     }
-    .slider-wrapper {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-    }
+
     .slide {
         min-width: 100%;
-        box-sizing: border-box;
-        padding: 20px;
     }
     .slide-image {
         width: 100%;
@@ -89,22 +107,34 @@
     @endforeach
 </style>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const slider = document.getElementById('slider-{{ $params['id'] }}');
-        const slides = slider.querySelectorAll('.slide');
-        let currentIndex = 0;
+<script >
 
-        function showSlide(index) {
-            const offset = -index * 100;
-            slider.querySelector('.slider-wrapper').style.transform = `translateX(${offset}%)`;
-        }
+    mw.lib.require('swiper');
 
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % slides.length;
-            showSlide(currentIndex);
-        }
+    $(document).ready(function(){
+        const swiper = new Swiper('#slider-{{ $params['id'] }}', {
 
-        setInterval(nextSlide, 5000); // Change slide every 5 seconds
+
+            autoHeight: true,
+            loop: true,
+
+
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+
+
+
+        });
     });
+
+
+
 </script>
+
