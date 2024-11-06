@@ -151,7 +151,7 @@ body {
 }
 
 .mw-live-edit-search-dropdown input {
-    @apply !max-w-[180px] !overflow-hidden;
+    @apply w-full !overflow-hidden;
 }
 
 
@@ -171,9 +171,12 @@ body {
 }
 
 .mw-autocomplete .mw-autocomplete-list a {
-    @apply whitespace-nowrap overflow-hidden text-ellipsis max-w-[400px] dark:text-white hover:dark:bg-gray-700 !p-6 border-none flex items-center hover:bg-gray-200;
+    @apply whitespace-nowrap overflow-hidden text-ellipsis w-full dark:text-white hover:dark:bg-gray-700 !p-6 border-none flex items-center hover:bg-gray-200;
 }
 
+#mw-live-edit-search-content {
+    @apply max-w-[400px];
+}
 
 #mw-dialog-holder-mw-add-content-editor-front {
     @apply w-[800px] !important;
