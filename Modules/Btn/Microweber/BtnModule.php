@@ -86,7 +86,7 @@ class BtnModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        $template = isset($viewData['template']) ? $viewData['template'] : 'default';
+        $template = $viewData['template'] ?? 'default';
 
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
