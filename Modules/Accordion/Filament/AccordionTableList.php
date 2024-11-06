@@ -2,6 +2,7 @@
 
 namespace Modules\Accordion\Filament;
 
+use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Textarea;
@@ -30,6 +31,7 @@ class AccordionTableList extends Component implements HasForms, HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;
+    use InteractsWithActions;
 
     public string|null $rel_id = null;
     public string|null $rel_type = null;
@@ -56,6 +58,7 @@ class AccordionTableList extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
+
         return $table
             ->query(Accordion::query()->where('rel_id', $this->rel_id)->where('rel_type', $this->rel_type))
             ->defaultSort('position', 'asc')
@@ -67,15 +70,15 @@ class AccordionTableList extends Component implements HasForms, HasTable
                 // ...
             ])
             ->headerActions([
-                CreateAction::make()
+                CreateAction::make('create')
                     ->slideOver()
                     ->form($this->editFormArray())
             ])
             ->actions([
-                EditAction::make()
+                EditAction::make('edit')
                     ->slideOver()
                     ->form($this->editFormArray()),
-                DeleteAction::make()
+                DeleteAction::make('delete')
             ])
             ->reorderable('position')
             ->bulkActions([
@@ -85,6 +88,12 @@ class AccordionTableList extends Component implements HasForms, HasTable
             ]);
     }
 
+//    public function create()
+//    {
+//        return CreateAction::make()
+//            ->slideOver()
+//            ->form($this->editFormArray());
+//    }
 
     public function render()
     {

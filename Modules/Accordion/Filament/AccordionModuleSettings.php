@@ -13,6 +13,7 @@ class AccordionModuleSettings extends LiveEditModuleSettings
 
     public function form(Form $form): Form
     {
+
         return $form
             ->schema([
 
@@ -21,7 +22,7 @@ class AccordionModuleSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 Livewire::make(AccordionTableList::class, [
-                                    'rel_id' => $this->params['id'],
+                                    'rel_id' => $this->params['id'] ?? null,
                                     'rel_type' => 'module',
                                 ])
                             ]),

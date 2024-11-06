@@ -26,7 +26,7 @@
 <div id="mw-accordion-module-{{ $params['id'] }}">
     <div class="accordion" id="accordion">
 
-        @foreach ($json as $key => $slide)
+        @foreach ($accordion as $key => $slide)
             @php
                 $edit_field_key = $key;
                 if (isset($slide['id'])) {
@@ -44,7 +44,7 @@
                 </div>
                 <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse @if ($key == 0) show @endif" aria-labelledby="header-item-{{ $edit_field_key }}" data-parent="#mw-accordion-module-{{ $params['id'] }}">
                     <div class="card-body px-5 pt-0 pb-5">
-                        @include('modules.accordion.templates.partials.render_accordion_item_content')
+                        @include('modules.accordion::templates.partials.render_accordion_item_content')
                     </div>
                 </div>
             </div>
