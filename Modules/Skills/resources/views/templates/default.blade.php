@@ -1,3 +1,9 @@
+<style>
+    .mw-module-skills-list .progress-bar {
+        flex-direction: row;
+    }
+</style>
+
 <div class="mw-module-skills-list">
     <div class="skillst">
         <script>
@@ -35,10 +41,10 @@
 
                 <div class="progress mb-3">
                     <div class="progress-bar bg-{{ $skill['style'] }}" role="progressbar" style="width: {{ $skill['percent'] }}%;" aria-valuenow="{{ $skill['percent'] }}" aria-valuemin="0" aria-valuemax="100">
-                        @if(isset($skill['skill']) and $skill['skill']):
+                        @if(isset($skill['skill']) and $skill['skill'])
                         <span class="title">{{ $skill['skill'] }}</span>
                         @endif
-                        @if(isset($skill['percent'])):
+                        @if(isset($skill['percent'])) &nbsp;
                         <span class="count">{{ $skill['percent'] }}%</span>
                         @endif
                     </div>
