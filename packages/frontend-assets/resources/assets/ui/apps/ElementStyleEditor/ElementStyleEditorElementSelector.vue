@@ -174,14 +174,9 @@ export default {
 
 
     mounted() {
-        const targetMW = mw.top();
-        mw.top().app.canvas.on('liveEditCanvasBeforeUnload', function () {
-            targetMW.__controlBoxDomTree = null;
-            this.domTree = null;
-        });
+
+
         mw.top().app.on('liveEditCanvasLoaded', event => {
-            targetMW.__controlBoxDomTree = null;
-            this.domTree = null;
             this.initDomTree();
         });
     },
