@@ -6,7 +6,7 @@
 
     <div class="mw-live-edit-right-sidebar-wrapper me-2">
         <span v-on:click="toggle('template-settings')" :class="{'live-edit-right-sidebar-active': buttonIsActive && !buttonIsActiveStyleEditor }"
-              class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle">
+              class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle" title="Template settings">
 
 
             <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960" width="22"><path
@@ -14,12 +14,20 @@
         </span>
 
         <div v-on:click="toggle('style-editor')" :class="{'live-edit-right-sidebar-active': !buttonIsActive && buttonIsActiveStyleEditor }"
-             class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle">
+             class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle" title="Design">
             <svg class="me-1" fill="currentColor"
                  xmlns="http://www.w3.org/2000/svg" height="22"
                  viewBox="0 -960 960 960" width="22">
                 <path
                     d="M480-120q-133 0-226.5-92T160-436q0-65 25-121.5T254-658l226-222 226 222q44 44 69 100.5T800-436q0 132-93.5 224T480-120ZM242-400h474q12-72-13.5-123T650-600L480-768 310-600q-27 26-53 77t-15 123Z"/>
+            </svg>
+        </div>
+
+        <div v-on:click="toggle('layers')" :class="{'live-edit-right-sidebar-active':  layers }"
+             class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle" title="Layers">
+
+            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor">
+                <path d="M480-400 40-640l440-240 440 240-440 240Zm0 160L63-467l84-46 333 182 333-182 84 46-417 227Zm0 160L63-307l84-46 333 182 333-182 84 46L480-80Zm0-411 273-149-273-149-273 149 273 149Zm0-149Z"/>
             </svg>
         </div>
 
@@ -78,6 +86,10 @@ export default {
                     CSSGUIService.hide()
                 }
 
+            } else if(name === 'layers') {
+                this.layers = !this.layers;
+                mw.top().app.domTree[this.layers ? 'show' : 'hide']();
+
             } else if(name === 'style-editor') {
               if(this.buttonIsActiveStyleEditor){
 
@@ -119,6 +131,14 @@ export default {
 
     mounted() {
 
+        mw.top().app.on('DOMTreeReady', () => {
+            mw.top().app.domTree.on('show', () => {
+                this.layers = true
+            });
+            mw.top().app.domTree.on('hide', () => {
+                this.layers = false
+            });
+        });
         mw.top().app.on('mw.open-template-settings', () => {
             // close the hamburger
             if (document.getElementById('user-menu-wrapper')) {
@@ -186,7 +206,8 @@ export default {
     data() {
         return {
             buttonIsActive: false,
-            buttonIsActiveStyleEditor: false
+            buttonIsActiveStyleEditor: false,
+            layers: false,
         }
     }
 }

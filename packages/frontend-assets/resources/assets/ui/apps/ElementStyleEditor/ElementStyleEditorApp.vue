@@ -15,13 +15,6 @@
     <div class="mb-4" :class="{'style-editor-disabled': !selectedElement}">
         <div class="d-flex flex-column">
 
-
-
-            <div class="mb-4" v-show="showElementSelector">
-                <ElementStyleEditorElementSelector></ElementStyleEditorElementSelector>
-            </div>
-
-
             <div class="mb-4" v-show="showTypography">
                 <ElementStyleEditorTypography></ElementStyleEditorTypography>
             </div>

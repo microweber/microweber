@@ -302,6 +302,7 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
 
         liveEditIframe.addEventListener('load', e => {
 
+
             mw.spinner({element: target, decorate: true}).remove();
 
             if(liveEditIframe && liveEditIframe.contentWindow && liveEditIframe.contentWindow.mw) {

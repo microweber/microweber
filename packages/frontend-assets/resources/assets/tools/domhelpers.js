@@ -1,6 +1,9 @@
 
 export const DomHelpers = {
     loops: {},
+    stopLoop: loop => {
+        delete this.loops[loop];
+    },
     foreachParents: function (el, callback) {
         if (!el) return false;
         var index = mw.random();
