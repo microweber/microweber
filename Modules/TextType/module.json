@@ -1,0 +1,11 @@
+{
+    "name": "TextType",
+    "alias": "text_type",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TextType\\Providers\\TextTypeServiceProvider"
+    ],
+    "files": []
+}

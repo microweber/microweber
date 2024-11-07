@@ -8,7 +8,6 @@
 
   description: Default skin
 
-
 */
 
 ?>
@@ -17,7 +16,7 @@
 
 <style>
     #js-element-<?php echo $randId; ?> {
-        font-size: <?php echo $fontSize; ?>px;
+        font-size: <?php echo isset($fontSize) ? $fontSize : 24; ?>px;
     }
 </style>
 
@@ -45,17 +44,16 @@
             return parser.innerHTML;
         }
 
-        let strings = <?php echo $textsJsonArray; ?>.map(clean);
+        let strings = <?php echo json_encode(explode(PHP_EOL, isset($text) ? $text : '')); ?>.map(clean);
 
         new Typed('#js-element-<?php echo $randId;?>', {
             strings,
-            typeSpeed: <?php echo $typeSpeed; ?>,
-            backSpeed: <?php echo $backSpeed; ?>,
-            shuffle: <?php if ($shuffle){ echo 'true'; } else { echo 'false'; } ?>,
-            loop: <?php if ($loop){ echo 'true'; } else { echo 'false'; } ?>
+            typeSpeed: <?php echo isset($animationSpeed) ? $animationSpeed : 100; ?>,
+            backSpeed: <?php echo isset($backSpeed) ? $backSpeed : 50; ?>,
+            shuffle: <?php echo isset($shuffle) && $shuffle ? 'true' : 'false'; ?>,
+            loop: <?php echo isset($loop) && $loop ? 'true' : 'false'; ?>
         });
 
     });
 </script>
-
 
