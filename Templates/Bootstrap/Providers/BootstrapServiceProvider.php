@@ -13,6 +13,8 @@ use Templates\Bootstrap\View\Components\Col;
 use Templates\Bootstrap\View\Components\Columns;
 use Templates\Bootstrap\View\Components\Container;
 use Templates\Bootstrap\View\Components\Hero;
+use Templates\Bootstrap\View\Components\Navbar;
+use Templates\Bootstrap\View\Components\NavItem;
 use Templates\Bootstrap\View\Components\Row;
 use Templates\Bootstrap\View\Components\SimpleText;
 
@@ -47,6 +49,8 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
         Blade::component('bootstrap-card', Card::class);
         Blade::component('bootstrap-alert', Alert::class);
         Blade::component('bootstrap-button', Button::class);
+        Blade::component('bootstrap-navbar', Navbar::class);
+        Blade::component('bootstrap-nav-item', NavItem::class);
 
     }
 
