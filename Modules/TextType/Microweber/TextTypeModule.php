@@ -20,6 +20,8 @@ class TextTypeModule extends BaseModule
     {
         $viewData = parent::getViewData();
         $viewData['text'] = $this->getOption('text', 'Your cool text here!');
+        $viewData['fontSize'] = $this->getOption('fontSize', '24');
+        $viewData['animationSpeed'] = $this->getOption('animationSpeed', '50');
         $viewData['id'] = $this->params['id'];
         return $viewData;
     }
