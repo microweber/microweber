@@ -8,8 +8,8 @@ use Templates\Bootstrap\View\Components\Row;
 
 class RowTest extends TestCase
 {
-    /** @test */
-    public function test_renders_a_row()
+
+    public function testRendersARow()
     {
         $bladeString ='<x-bootstrap-row></x-bootstrap-row>';
 
@@ -18,24 +18,23 @@ class RowTest extends TestCase
         $this->assertStringContainsString('class="row', $output);
     }
 
-    /** @test */
-    public function test_renders_a_flex_row()
+    public function testRendersAFlexRow()
     {
         $bladeString = '<x-bootstrap-row flex></x-bootstrap-row>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('d-flex', $output);
     }
 
-    /** @test */
-    public function test_renders_a_flex_wrap_row()
+
+    public function testRendersAFlexWrapRow()
     {
         $bladeString = '<x-bootstrap-row flex-wrap></x-bootstrap-row>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('flex-wrap', $output);
     }
 
-    /** @test */
-    public function test_renders_a_flex_no_wrap_row()
+
+    public function testRendersAFlexNoWrapRow()
     {
         $bladeString = '<x-bootstrap-row flex-no-wrap></x-bootstrap-row>';
         $output = Blade::render($bladeString);

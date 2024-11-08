@@ -1,3 +1,3 @@
-<div class="alert alert-{{ $type }}">
+<div {{ $attributes->merge(['class' => 'alert alert-' . $type]) }}>
     {{ $message }}
 </div>

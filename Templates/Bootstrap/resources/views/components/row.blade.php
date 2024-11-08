@@ -1,3 +1,3 @@
-<div class="row {{$class}} {{ $flex ? 'd-flex' : '' }} {{ $flexWrap ? 'flex-wrap' : '' }} {{ $flexNoWrap ? 'flex-nowrap' : '' }}">
+<div {{ $attributes->merge(['class' => 'row ' . ($flex ? 'd-flex ' : '') . ($flexWrap ? 'flex-wrap ' : '') . ($flexNoWrap ? 'flex-nowrap ' : '') . $class]) }}>
     {{ $slot }}
 </div>

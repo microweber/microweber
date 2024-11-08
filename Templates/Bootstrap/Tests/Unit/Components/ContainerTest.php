@@ -10,10 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ContainerTest extends TestCase
 {
-
-    public function test_renders_a_container()
+    public function testRendersAContainer()
     {
-
         $bladeString ="<x-bootstrap-container></x-bootstrap-container>";
 
         $output = Blade::render($bladeString);
@@ -21,9 +19,8 @@ class ContainerTest extends TestCase
         $this->assertStringContainsString('class="container', $output);
     }
 
-    public function test_renders_a_fluid_container()
+    public function testRendersAFluidContainer()
     {
-
         $bladeString ="<x-bootstrap-container fluid></x-bootstrap-container>";
 
         $output = Blade::render($bladeString);

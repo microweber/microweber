@@ -1,15 +1,4 @@
-<div
-
-    @if($align == 'center')
-        class="text-center"
-    @endif
-
-    @if($align == 'right')
-        class="text-right"
-    @endif
-
->
-
+<div {{ $attributes->merge(['class' => ($align == 'center' ? 'text-center ' : '') . ($align == 'right' ? 'text-right ' : '') . $class]) }}>
     @if (isset($title))
         <div class="safe-mode">
             {{ $title }}
@@ -21,5 +10,4 @@
             {{ $content }}
         </div>
     @endif
-
 </div>
