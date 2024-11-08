@@ -9,13 +9,15 @@ class Hero extends Component
 {
 
     public $class = '';
+    public $image = '';
 
     /**
      * Create the component instance.
      */
-    public function __construct($class='')
+    public function __construct($class='', $image='')
     {
         $this->class = $class;
+        $this->image = $image;
 
     }
 
