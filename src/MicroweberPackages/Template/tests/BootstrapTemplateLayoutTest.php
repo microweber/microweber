@@ -3,13 +3,8 @@
 namespace MicroweberPackages\Template\tests;
 
 
-use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\User\Models\User;
-use PHPUnit\Framework\Attributes\PreserveGlobalState;
-use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 class BootstrapTemplateLayoutTest extends TestCase
 {

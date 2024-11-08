@@ -3,9 +3,7 @@
 namespace MicroweberPackages\Media;
 
 use Conner\Tagging\Model\Tagged;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
-use MicroweberPackages\Helper\HTMLClean;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Media\Models\MediaThumbnail;
 use MicroweberPackages\Utils\Media\ImageRotator;
@@ -41,11 +39,11 @@ class MediaManager
     {
 
         if (!$rel_type) {
-            $rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $rel_type = morph_name(\Modules\Content\Models\Content::class);
         }
 
         if ($rel_type == 'post' or $rel_type == 'posts' or $rel_type == 'page' or $rel_type == 'pages' or $rel_type == 'content') {
-            $rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $rel_type = morph_name(\Modules\Content\Models\Content::class);
         } elseif ($rel_type == 'category' or $rel_type == 'categories') {
             $rel_type = morph_name(\MicroweberPackages\Category\Models\Category::class);
         }
@@ -320,7 +318,7 @@ class MediaManager
         if ($params != false and !is_array($params) and intval($params) > 0) {
             $params2 = array();
 
-            $params2['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $params2['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
             $params2['rel_id'] = intval($params);
             $params = $params2;
         } else {
@@ -330,12 +328,12 @@ class MediaManager
         if (!isset($params['rel_type']) and isset($params['for'])) {
             $params['rel_type'] = $this->app->database_manager->assoc_table_name($params['for']);
 
-            if ($params['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
-                $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            if ($params['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
+                $params['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
             }
         }
         if (!isset($params['rel_type'])) {
-            $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $params['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
         }
 
         if (!isset($params['limit'])) {
@@ -396,11 +394,11 @@ class MediaManager
         if (isset($data['content-id'])) {
             $t = trim($data['content-id']);
             $s['rel_id'] = $t;
-            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
         } elseif (isset($data['content_id'])) {
             $t = trim($data['content_id']);
             $s['rel_id'] = $t;
-            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
         }
 
         if (isset($data['for'])) {

@@ -3,11 +3,9 @@
 
 namespace MicroweberPackages\Content\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use Modules\Content\Models\Content;
 
 /**
  * @mixin AbstractRepository
@@ -24,7 +22,7 @@ class ContentRepository extends AbstractRepository
      *
      * @return string
      */
-    public $model = \MicroweberPackages\Content\Models\Content::class;
+    public $model = \Modules\Content\Models\Content::class;
 
     /**
      * Find the media for content by contentId.
@@ -61,7 +59,7 @@ class ContentRepository extends AbstractRepository
             $categoryIds = [];
             $getCategoryItems = DB::table('categories_items')
                 ->select('parent_id')
-                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
+                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
                 ->where('rel_id', $id)
                 ->groupBy('parent_id')
                 ->get();
@@ -102,7 +100,7 @@ class ContentRepository extends AbstractRepository
 
             $getContentData = DB::table('content_data')
                 ->select(['field_name', 'field_value'])
-                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
+                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
                 ->where('rel_id', $id)
                 ->get();
 
@@ -129,7 +127,7 @@ class ContentRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($relId) {
 
             $getContentData = DB::table('content_data')
-                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class));
+                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class));
 
             if (is_array($relId)) {
                 $getContentData->whereIn('rel_id', $relId);
@@ -167,7 +165,7 @@ class ContentRepository extends AbstractRepository
             $customFields = [];
 
             $getCustomFields = DB::table('custom_fields')
-                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
+                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
                 ->where('rel_id', $relId)
                 ->get();
 
@@ -307,7 +305,7 @@ class ContentRepository extends AbstractRepository
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($contentId, $returnFullTagsData) {
 
             $query = DB::table('tagging_tagged');
-            $query->where('taggable_type',  morph_name(\MicroweberPackages\Content\Models\Content::class));
+            $query->where('taggable_type',  morph_name(\Modules\Content\Models\Content::class));
             if ($contentId) {
                 $query->where('taggable_id', $contentId);
             }
@@ -376,7 +374,7 @@ class ContentRepository extends AbstractRepository
             $check = DB::table('media')
                 ->select('filename')
                 ->where('rel_id', $contentId)
-                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
+                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
                 ->orderBy('position', 'asc')
                 ->limit(1);
             $media = $check->first();

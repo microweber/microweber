@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ContentResource\Pages;
+namespace Modules\Content\Filament\Admin\ContentResource\Pages;
 
-use App\Filament\Admin\Resources\ContentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Modules\Content\Filament\Admin\ContentResource;
 
 class ViewContent extends ViewRecord
 {

@@ -6,7 +6,6 @@ use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
 class ContactFormModuleSettings extends LiveEditModuleSettings

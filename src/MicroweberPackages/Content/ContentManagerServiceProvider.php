@@ -12,9 +12,7 @@
 namespace MicroweberPackages\Content;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Content\Repositories\ContentRepositoryApi;
 use MicroweberPackages\Content\Repositories\ContentRepository;
-use MicroweberPackages\Content\Models\Content;
 
 
 class ContentManagerServiceProvider extends ServiceProvider
@@ -33,12 +31,12 @@ class ContentManagerServiceProvider extends ServiceProvider
          * @property ContentRepository   $content_repository
          */
         $this->app->bind('content_repository', function ($app) {
-            return $this->app->repository_manager->driver(\MicroweberPackages\Content\Models\Content::class);;
+            return $this->app->repository_manager->driver(\Modules\Content\Models\Content::class);;
         });
 
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(\MicroweberPackages\Content\Models\Content::class, function () {
+            $repositoryManager->extend(\Modules\Content\Models\Content::class, function () {
                 return new ContentRepository();
             });
         });

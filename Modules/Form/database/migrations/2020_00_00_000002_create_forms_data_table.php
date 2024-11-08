@@ -19,6 +19,7 @@ return new class extends Migration
     public function getSchema()
     {
         return [
+
             'forms_data' => [
                 'created_at' => 'dateTime',
                 'created_by' => 'integer',

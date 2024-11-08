@@ -1,11 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Content\Models;
+namespace Modules\Content\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Traits\CategoryTrait;
+use MicroweberPackages\Content\Models\ContentRelated;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
 use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;

@@ -341,7 +341,7 @@ class OrderManager
         }
         $res = array();
         foreach ($cart_data as $item) {
-            if (!isset($item['rel_type']) or !isset($item['rel_id']) or $item['rel_type'] !== morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+            if (!isset($item['rel_type']) or !isset($item['rel_id']) or $item['rel_type'] !== morph_name(\Modules\Content\Models\Content::class)) {
                 continue;
             }
             $data_fields = $this->app->content_manager->data($item['rel_id']);

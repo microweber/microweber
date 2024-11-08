@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Database\Traits;
 
 use Illuminate\Support\Facades\DB;
-use function Termwind\render;
 
 trait ExtendedSave
 {
@@ -558,7 +557,7 @@ trait ExtendedSave
     public function morphClassFromTable($table)
     {
         if ($table == 'content' or $table == 'post' or $table == 'posts' or $table == 'page' or $table == 'pages') {
-            return morph_name(\MicroweberPackages\Content\Models\Content::class);
+            return morph_name(\Modules\Content\Models\Content::class);
         }
         if ($table == 'categories') {
             return morph_name(\MicroweberPackages\Category\Models\Category::class);

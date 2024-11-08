@@ -140,7 +140,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             $c_id = intval($data['id']);
             $del_ids[] = $c_id;
             if ($to_trash == false) {
-                \MicroweberPackages\Content\Models\Content::where('id', $c_id)->first()->delete();
+                \Modules\Content\Models\Content::where('id', $c_id)->first()->delete();
             }
         }
 
@@ -153,7 +153,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 if ($c_id) {
                     $del_ids[] = $c_id;
                     if ($to_trash == false) {
-                        \MicroweberPackages\Content\Models\Content::where('id', $c_id)->first()->delete();
+                        \Modules\Content\Models\Content::where('id', $c_id)->first()->delete();
                     }
                 }
             }
@@ -169,7 +169,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                         DB::table('content')->whereId($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
                         DB::table('content')->whereParent($c_id)->whereIsDeleted(1)->update(['is_deleted' => 0]);
-                        DB::table('categories')->whereRelId($c_id)->whereRelType(morph_name(\MicroweberPackages\Content\Models\Content::class))->whereIsDeleted(1)->update(['is_deleted' => 0]);
+                        DB::table('categories')->whereRelId($c_id)->whereRelType(morph_name(\Modules\Content\Models\Content::class))->whereIsDeleted(1)->update(['is_deleted' => 0]);
 
                     } elseif ($to_trash == false) {
                         DB::table('content')->whereParent($c_id)->update(['parent' => 0]);
@@ -177,17 +177,17 @@ class ContentManagerHelpers extends ContentManagerCrud
                         $this->app->database_manager->delete_by_id('menus', $c_id, 'content_id');
 
 
-                        DB::table('media')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\MicroweberPackages\Content\Models\Content::class))->delete();
+                        DB::table('media')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\Modules\Content\Models\Content::class))->delete();
 
 
-                        DB::table('categories')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\MicroweberPackages\Content\Models\Content::class))->delete();
+                        DB::table('categories')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\Modules\Content\Models\Content::class))->delete();
 
 
-                        DB::table('categories_items')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\MicroweberPackages\Content\Models\Content::class))->delete();
+                        DB::table('categories_items')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\Modules\Content\Models\Content::class))->delete();
 
-                        DB::table('custom_fields')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\MicroweberPackages\Content\Models\Content::class))->delete();
+                        DB::table('custom_fields')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\Modules\Content\Models\Content::class))->delete();
 
-                        DB::table('content_data')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\MicroweberPackages\Content\Models\Content::class))->delete();
+                        DB::table('content_data')->where('rel_id', '=', $c_id)->where('rel_type', '=', morph_name(\Modules\Content\Models\Content::class))->delete();
 
 
                         DB::table('menus')->where('content_id', '=', $c_id)->delete();
@@ -197,7 +197,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                         DB::table('content')->whereParent($c_id)->update(['is_deleted' => 1]);
 
 
-                        DB::table('categories')->whereRelId($c_id)->whereRelType(morph_name(\MicroweberPackages\Content\Models\Content::class))->update(['is_deleted' => 1]);
+                        DB::table('categories')->whereRelId($c_id)->whereRelType(morph_name(\Modules\Content\Models\Content::class))->update(['is_deleted' => 1]);
 
                     }
                     $this->app->cache_manager->delete('content/' . $c_id);
@@ -331,7 +331,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                     if (isset($data['categories'])) {
                         $to_save['categories'] = $data['categories'];
-                        CategoryItem::where('rel_id', $content_id)->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))->delete();
+                        CategoryItem::where('rel_id', $content_id)->where('rel_type', morph_name(\Modules\Content\Models\Content::class))->delete();
                     }
                     $this->app->content_manager->save_content($to_save);
                 }
@@ -1431,7 +1431,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 
                 $results = array();
                 if (isset($page_data['title'])) {
-                    $arr = array('rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
+                    $arr = array('rel_type' => morph_name(\Modules\Content\Models\Content::class),
                         'field' => 'title',
                         'value' => $page_data['title'],);
                     $results[] = $arr;
@@ -1449,7 +1449,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                     }
                 }
                 if (isset($page_data['content']) and $page_data['content'] != '') {
-                    $arr = array('rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
+                    $arr = array('rel_type' => morph_name(\Modules\Content\Models\Content::class),
                         'field' => 'content',
                         'value' => $page_data['content'],);
                     $results[] = $arr;

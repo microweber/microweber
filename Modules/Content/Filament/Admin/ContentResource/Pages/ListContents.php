@@ -1,15 +1,11 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ContentResource\Pages;
+namespace Modules\Content\Filament\Admin\ContentResource\Pages;
 
-use App\Filament\Admin\Resources\ContentResource;
-use App\Filament\Admin\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Hydrat\TableLayoutToggle\Concerns\HasToggleableTable;
-use Illuminate\Database\Connection;
-use Illuminate\Database\Eloquent\Builder;
-use function Filament\Support\generate_search_column_expression;
+use Modules\Content\Filament\Admin\ContentResource;
 
 class ListContents extends ListRecords
 {

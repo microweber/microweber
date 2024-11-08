@@ -3,10 +3,9 @@
 
 namespace MicroweberPackages\Menu\tests;
 
-use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Menu\Models\Menu;
+use Modules\Content\Models\Content;
 
 class MenuContentModelTest extends TestCase
 {

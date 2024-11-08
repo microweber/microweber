@@ -2,7 +2,6 @@
 namespace MicroweberPackages\Export\tests;
 
 use Faker\Factory;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;

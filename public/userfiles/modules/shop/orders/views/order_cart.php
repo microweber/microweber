@@ -171,7 +171,7 @@ if (isset($ord['order_id']) and $ord['order_id'] != false) {
                     <?php endif ?>
 
                     <td class="mw-order-item-sku">
-                        <?php if ($item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)): ?>
+                        <?php if ($item['rel_type'] == morph_name(\Modules\Content\Models\Content::class)): ?>
                             <?php $data_fields = app()->content_manager->data($item['rel_id']); ?>
                             <?php if (isset($data_fields['sku']) and $data_fields['sku'] != ''): ?>
                                 <span class="text-muted"><?php print $data_fields['sku']; ?></span>

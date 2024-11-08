@@ -9,11 +9,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Filament\Forms\Components\MwTree;
+use Modules\Content\Models\Content;
 
 class CategoryResource extends Resource
 {

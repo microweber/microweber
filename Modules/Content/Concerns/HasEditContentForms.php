@@ -1,9 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Content\Concerns;
+namespace Modules\Content\Concerns;
 
 use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\Page;
 
 trait HasEditContentForms
 {

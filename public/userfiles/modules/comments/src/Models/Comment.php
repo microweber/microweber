@@ -4,7 +4,7 @@ namespace MicroweberPackages\Modules\Comments\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use League\CommonMark\CommonMarkConverter;
-use MicroweberPackages\Content\Models\Content;
+use Modules\Content\Models\Content;
 
 class Comment extends Model
 {

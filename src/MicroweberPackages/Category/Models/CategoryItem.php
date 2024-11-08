@@ -2,7 +2,6 @@
 namespace MicroweberPackages\Category\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class CategoryItem extends Model
@@ -28,6 +27,6 @@ class CategoryItem extends Model
 
     public function contentItems()
     {
-        return $this->hasMany(Content::class, 'id', 'rel_id')->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class));
+        return $this->hasMany(\Modules\Content\Models\Content::class, 'id', 'rel_id')->where('rel_type', morph_name(\Modules\Content\Models\Content::class));
     }
 }

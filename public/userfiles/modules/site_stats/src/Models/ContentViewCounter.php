@@ -4,8 +4,6 @@
 namespace MicroweberPackages\Modules\SiteStats\Models;
 
 
-use MicroweberPackages\Content\Models\Content;
-
 class ContentViewCounter
 {
     public $cacheSeconds = 600;
@@ -41,7 +39,7 @@ class ContentViewCounter
 
         $range = $this->getDateRangeByPeriod($period);
 
-        $contentQuery = Content::query();
+        $contentQuery = \Modules\Content\Models\Content::query();
         $contentQuery->select('content.id', 'stats_urls.id as stats_url_id', \DB::raw('SUM(view_count) AS stats_view_count'));
         $contentQuery->where('content.parent', $contentId);
         $contentQuery->join('stats_urls', 'stats_urls.content_id', '=', 'content.id');

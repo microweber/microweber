@@ -124,6 +124,7 @@ Route::get('test-lang', function () {
 
 });
 */
+use  \Illuminate\Support\Facades\Route;
 
 
 Route::group([
@@ -137,10 +138,10 @@ Route::group([
     Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
 
 
-    \Route::get('/api/set_app_lang', function () {
+    Route::get('/api/set_app_lang', function () {
 
         $requestLang = request()->get('lang');
-        \Cookie::queue('lang', $requestLang, 86400 * 30);
+        \Illuminate\Support\Facades\Cookie::queue('lang', $requestLang, 86400 * 30);
 
     })->name('set_app_lang');
 
@@ -251,16 +252,16 @@ Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\
     Route::any('robots.txt', 'FrontendController@robotstxt')->name('robots');
     Route::any('ads.txt', 'FrontendController@adstxt')->name('ads-txt');
 
-    Route::get('sitemap.xml', 'SitemapController@index')->name('sitemap.index');
-    Route::get('sitemap.xml/categories', 'SitemapController@categories')->name('sitemap.categories');
-    Route::get('sitemap.xml/tags', 'SitemapController@tags')->name('sitemap.tags');
-    Route::get('sitemap.xml/products', 'SitemapController@products')->name('sitemap.products');
-    Route::get('sitemap.xml/posts', 'SitemapController@posts')->name('sitemap.posts');
-    Route::get('sitemap.xml/pages', 'SitemapController@pages')->name('sitemap.pages');
+//    Route::get('sitemap.xml', 'SitemapController@index')->name('sitemap.index');
+//    Route::get('sitemap.xml/categories', 'SitemapController@categories')->name('sitemap.categories');
+//    Route::get('sitemap.xml/tags', 'SitemapController@tags')->name('sitemap.tags');
+//    Route::get('sitemap.xml/products', 'SitemapController@products')->name('sitemap.products');
+//    Route::get('sitemap.xml/posts', 'SitemapController@posts')->name('sitemap.posts');
+//    Route::get('sitemap.xml/pages', 'SitemapController@pages')->name('sitemap.pages');
 
-    Route::any('rss', 'RssController@index')->name('rss.index');
-    Route::any('rss-products', 'RssController@products')->name('rss.products');
-    Route::any('rss-posts', 'RssController@posts')->name('rss.posts');
+//    Route::any('rss', 'RssController@index')->name('rss.index');
+//    Route::any('rss-products', 'RssController@products')->name('rss.products');
+//    Route::any('rss-posts', 'RssController@posts')->name('rss.posts');
 
     //  Route::any('{all}', array('as' => 'all', 'uses' => 'FrontendController@index'))->where('all', '.*');
 

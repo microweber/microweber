@@ -2,12 +2,9 @@
 
 namespace MicroweberPackages\Content\Http\Controllers\Requests;
 
-use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\ValidationRuleParser;
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Multilanguage\Http\Controllers\Requests\Rules\MultilanguageUniqueContentSlugRule;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Content\Models\Content;
 
 class ContentSaveRequest extends FormRequest
 {

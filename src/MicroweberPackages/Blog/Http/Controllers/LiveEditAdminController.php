@@ -3,9 +3,8 @@
 namespace MicroweberPackages\Blog\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Blog\FrontendFilter\FilterHelper;
 use MicroweberPackages\Blog\Http\Controllers\Traits\CustomFieldsRenderTrait;
-use MicroweberPackages\Content\Models\Content;
+
 /**
  * @deprecated
  */
@@ -15,7 +14,7 @@ class LiveEditAdminController
 
     public function index(Request $request)
     {
-        $pages = \MicroweberPackages\Content\Models\Content::where('content_type', 'page')
+        $pages = \Modules\Content\Models\Content::where('content_type', 'page')
             ->where('subtype','dynamic')
             ->where('is_shop', 0)
             ->get();

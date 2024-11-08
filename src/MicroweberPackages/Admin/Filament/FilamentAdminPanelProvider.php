@@ -2,10 +2,8 @@
 
 namespace MicroweberPackages\Admin\Filament;
 
-use App\Filament\Admin\Resources\ContentResource;
 use App\Filament\Admin\Resources\PostResource;
 use App\Filament\Admin\Resources\ProductResource;
-use Filament\Facades\Filament;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
@@ -18,7 +16,6 @@ use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Route;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
@@ -158,7 +155,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             name: \Filament\Tables\View\TablesRenderHook::TOOLBAR_SEARCH_BEFORE,
             hook: fn(): string => view('content::admin.content.filament.list-records-render-category-tree'),
             scopes: [
-                ContentResource\Pages\ListContents::class,
+                \Modules\Content\Filament\Admin\ContentResource\Pages\ListContents::class,
                 PostResource\Pages\ListPosts::class,
                 ProductResource\Pages\ListProducts::class
             ]

@@ -1,8 +1,8 @@
 <?php
 namespace MicroweberPackages\Content\tests;
 
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Content\Models\Content;
 
 class ContentManagerTest extends TestCase
 {
@@ -267,7 +267,7 @@ class ContentManagerTest extends TestCase
         $parent_page_data = get_content_by_id($parent_page_id);
         $params = array(
             'title' => 'Test Category 1',
-            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
+            'rel_type' => morph_name(\Modules\Content\Models\Content::class),
             'rel_id' => $parent_page_id,
         );
         //saving

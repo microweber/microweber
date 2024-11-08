@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Content\tests;
 
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 
 class DataFieldsTest extends TestCase
@@ -66,7 +65,7 @@ class DataFieldsTest extends TestCase
         $this->assertEquals($attributes['something_else_custom'], $val2);
 
 
-        \MicroweberPackages\Content\Models\Content::where('id', $id)->first()->delete();
+        \Modules\Content\Models\Content::where('id', $id)->first()->delete();
 
         $attributes = content_data($id);
         $this->assertTrue(empty($attributes));

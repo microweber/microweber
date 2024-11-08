@@ -2,12 +2,9 @@
 
 namespace App\Filament\Admin\Resources\PageResource\Pages;
 
-use App\Filament\Admin\Resources\ContentResource\Pages\EditContent;
 use App\Filament\Admin\Resources\PageResource;
-use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
 
-class EditPage extends EditContent
+class EditPage extends \Modules\Content\Filament\Admin\ContentResource\Pages\EditContent
 {
     protected static string $resource = PageResource::class;
 

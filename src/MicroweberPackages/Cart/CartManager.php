@@ -12,12 +12,10 @@
 namespace MicroweberPackages\Cart;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use MicroweberPackages\Cart\Events\AddToCartEvent;
 use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Checkout\Events\BeginCheckoutEvent;
 use MicroweberPackages\Database\Crud;
 
 class CartManager extends Crud
@@ -310,7 +308,7 @@ class CartManager extends Crud
                 if (is_array($item)) {
 
 
-                    if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+                    if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
                         $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
                         $item['url'] = $this->app->content_manager->link($item['rel_id']);
                         $item['picture'] = $this->app->media_manager->get_picture($item['rel_id']);
@@ -384,7 +382,7 @@ class CartManager extends Crud
                     $item = $this->app->format->render_item_custom_fields_data($item);
                 }
 
-                if (!isset($item['item_image']) and is_array($item) and isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+                if (!isset($item['item_image']) and is_array($item) and isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
                     $item['item_image'] = get_picture($item['rel_id']);
                 }
 
@@ -473,7 +471,7 @@ class CartManager extends Crud
         $cart['one'] = 1;
         $cart['limit'] = 1;
         $check_cart = $this->get($cart);
-        if (isset($check_cart['rel_type']) and isset($check_cart['rel_id']) and $check_cart['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+        if (isset($check_cart['rel_type']) and isset($check_cart['rel_id']) and $check_cart['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
             $data_fields = $this->app->content_manager->data($check_cart['rel_id'], 1);
             if (isset($check_cart['qty']) and isset($data_fields['qty']) and $data_fields['qty'] != 'nolimit') {
                 $old_qty = intval($data_fields['qty']);
@@ -562,11 +560,11 @@ class CartManager extends Crud
             $data['for_id'] = $data['rel_id'];
         }
         if (!isset($data['for']) and !isset($data['rel_type'])) {
-            $data['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['for'] = morph_name(\Modules\Content\Models\Content::class);
         }
 
         if (isset($data['content_id'])) {
-            $data['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['for'] = morph_name(\Modules\Content\Models\Content::class);
             $for_id = $data['for_id'] = $data['content_id'];
         }
         $override = $this->app->event_manager->trigger('mw.shop.update_cart', $data);
@@ -616,7 +614,7 @@ class CartManager extends Crud
             $data['qty'] = $update_qty;
         }
 
-        if ($data['for'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+        if ($data['for'] == morph_name(\Modules\Content\Models\Content::class)) {
 
             $cont = $this->app->content_manager->get_by_id($for_id);
 
@@ -1103,7 +1101,7 @@ class CartManager extends Crud
             $this->app->cache_manager->delete('cart');
             $this->app->cache_manager->delete('cart_orders');
 
-            if (isset($cart['rel_type']) and isset($cart['rel_id']) and $cart['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+            if (isset($cart['rel_type']) and isset($cart['rel_id']) and $cart['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
                 $cart_return['image'] = $this->app->media_manager->get_picture($cart['rel_id']);
                 $cart_return['product_link'] = $this->app->content_manager->link($cart['rel_id']);
             }

@@ -9,7 +9,7 @@ use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Scopes\ProductScope;
-use MicroweberPackages\Content\Models\Content;
+use Modules\Content\Models\Content;
 use Modules\ContentData\Models\ContentData;
 use Modules\ContentData\Traits\ContentDataTrait;
 use Modules\ContentDataVariant\Models\ContentDataVariant;
@@ -324,7 +324,7 @@ class Product extends Model
     {
 
         $cartQuery = Cart::query();
-        $cartQuery->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class));
+        $cartQuery->where('rel_type', morph_name(\Modules\Content\Models\Content::class));
         $cartQuery->where('rel_id', $this->getAttribute('id'));
         $cartQuery->whereHas('order');
         return $cartQuery->count();
@@ -423,7 +423,7 @@ class Product extends Model
                   if (!empty($matchWithCartesian)) {
                    foreach ($matchWithCartesian['content_data_variant'] as $contentDataVariant) {
                          $findContentDataVariant = ContentDataVariant::where('rel_id', $variant->id)
-                             ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
+                             ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
                              ->where('custom_field_id', $contentDataVariant['custom_field_id'])
                              ->where('custom_field_value_id', $contentDataVariant['custom_field_value_id'])
                              ->first();
@@ -464,7 +464,7 @@ class Product extends Model
             foreach ($cartesianProduct['content_data_variant'] as $contentDataVariant) {
 
                 $findContentDataVariant = ContentDataVariant::where('rel_id', $productVariant->id)
-                    ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
+                    ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
                     ->where('custom_field_id', $contentDataVariant['custom_field_id'])
                     ->where('custom_field_value_id', $contentDataVariant['custom_field_value_id'])
                     ->first();

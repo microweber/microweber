@@ -2,12 +2,10 @@
 
 namespace MicroweberPackages\Database\tests;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use Modules\Content\Models\Content;
 
 class DbTest extends TestCase
 {
@@ -42,7 +40,7 @@ class DbTest extends TestCase
     {
 
         $customFieldValueId = db_save('custom_fields_values', [
-            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
+            'rel_type' => morph_name(\Modules\Content\Models\Content::class),
             'rel_id' => 1,
             'custom_field_id' => 1,
             'value' => json_encode(['test' => 'test'])

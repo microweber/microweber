@@ -2,7 +2,6 @@
 namespace MicroweberPackages\Import;
 
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
@@ -199,7 +198,7 @@ class DatabaseSave
             if (is_file($newFilename)) {
                 mw()->media_manager->save([
                     'rel_id' => $contentId,
-                    'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
+                    'rel_type' => morph_name(\Modules\Content\Models\Content::class),
                     'media_type' => 'picture',
                     'name' => $photoId,
                     'filename' => $newFilename

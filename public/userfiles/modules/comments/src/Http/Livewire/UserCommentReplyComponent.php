@@ -6,12 +6,9 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
-use MicroweberPackages\Modules\Comments\Events\NewComment;
 use MicroweberPackages\Modules\Comments\Models\Comment;
-use MicroweberPackages\Modules\Comments\Notifications\NewCommentNotification;
-use MicroweberPackages\User\Models\User;
+use Modules\Content\Models\Content;
 
 class UserCommentReplyComponent extends Component
 {

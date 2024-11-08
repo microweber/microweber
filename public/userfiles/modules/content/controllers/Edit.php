@@ -3,8 +3,8 @@
 
 namespace content\controllers;
 
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\View\View;
+use Modules\Content\Models\Content;
 
 class Edit
 {

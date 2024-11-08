@@ -2,11 +2,10 @@
 namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
-use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
-use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Multilanguage\MultilanguageApi;
+use MicroweberPackages\User\Models\User;
+use Modules\Content\Models\Content;
 
 class MultilanguageContentTest extends MultilanguageTestBase
 {

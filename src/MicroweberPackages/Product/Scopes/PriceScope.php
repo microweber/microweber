@@ -17,7 +17,7 @@ class PriceScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-    //    $builder->where('rel_type', '=', morph_name(\MicroweberPackages\Content\Models\Content::class));
+    //    $builder->where('rel_type', '=', morph_name(\Modules\Content\Models\Content::class));
         $builder->where('type', '=', 'price');
      //   $builder->where('name', '=', 'price');
      //   $builder->where('name_key', '=', 'price');

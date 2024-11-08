@@ -2,11 +2,10 @@
 
 namespace App\Filament\Admin\Resources\PostResource\Pages;
 
-use App\Filament\Admin\Resources\ContentResource\Pages\EditContent;
 use App\Filament\Admin\Resources\PostResource;
 
 
-class EditPost extends EditContent
+class EditPost extends \Modules\Content\Filament\Admin\ContentResource\Pages\EditContent
 {
     protected static string $resource = PostResource::class;
 }

@@ -1,7 +1,6 @@
 <?php
 namespace MicroweberPackages\Product\Http\Requests;
 
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Http\Controllers\Requests\ContentSaveRequest;
 use MicroweberPackages\Product\Models\Product;
 

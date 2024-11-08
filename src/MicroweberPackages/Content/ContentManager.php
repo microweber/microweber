@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Content;
 
 use Content;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
@@ -299,7 +298,7 @@ class ContentManager
     public function attributes($content_id)
     {
         $data = array();
-        $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+        $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
         $data['rel_id'] = intval($content_id);
 
         return $this->app->attributes_manager->get_values($data);
@@ -2014,7 +2013,7 @@ class ContentManager
     public function custom_fields($content_id, $full = true, $field_type = false)
     {
         $filter = [];
-        $filter['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+        $filter['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
         $filter['rel_id'] = $content_id;
         if ($full) {
             $filter['return_full'] = $full;
@@ -2076,7 +2075,7 @@ class ContentManager
             $contentData['position'] = 0;
         }
 
-        $query = \MicroweberPackages\Content\Models\Content::query()->select('content.*');
+        $query = \Modules\Content\Models\Content::query()->select('content.*');
         $categories = array();
         $params = array();
 

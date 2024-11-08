@@ -4,8 +4,8 @@ namespace MicroweberPackages\Content\Http\Livewire\Admin;
 
 use Livewire\WithPagination;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Export\Formats\XlsxExport;
+use Modules\Content\Models\Content;
 
 class ContentList extends AdminComponent
 {

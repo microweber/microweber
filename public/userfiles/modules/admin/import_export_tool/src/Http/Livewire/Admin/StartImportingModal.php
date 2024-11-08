@@ -2,21 +2,10 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
-use Carbon\Carbon;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
-use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\App\Http\RequestRoute;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Import\DatabaseSave;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportFeedToDatabase;
-use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\FeedMapToArray;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
-use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use MicroweberPackages\Product\Models\Product;
 
 class StartImportingModal extends AdminModalComponent
 {

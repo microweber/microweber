@@ -2,12 +2,6 @@
 
 namespace MicroweberPackages\Template\Adapters\RenderHelpers;
 
-use Arcanedev\SeoHelper\Entities\Webmasters;
-use Arcanedev\SeoHelper\Entities\Analytics;
-use Illuminate\Support\Facades\Cookie;
-use MicroweberPackages\Option\Models\ModuleOption;
-use MicroweberPackages\Option\Models\Option;
-
 
 class TemplateMetaTagsPlaceholderReplacer
 {
@@ -141,7 +135,7 @@ class TemplateMetaTagsPlaceholderReplacer
                         $meta['product_currency'] = app()->option_manager->get('currency', 'payments');
                         $product_price = app()->shop_manager->get_product_price($meta_content_id);
                         $meta['product_price'] = $product_price;
-                        $product_fields = app()->fields_manager->get(['rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class), 'rel_id' => $meta_content_id, 'return_full' => true]);
+                        $product_fields = app()->fields_manager->get(['rel_type' => morph_name(\Modules\Content\Models\Content::class), 'rel_id' => $meta_content_id, 'return_full' => true]);
                         $meta['product_sku'] = '';
                         if (empty(!$product_fields)) {
                             foreach ($product_fields as $k => $field_data) {

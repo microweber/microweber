@@ -4,8 +4,8 @@
 namespace MicroweberPackages\Menu\tests;
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Content\Models\Content;
 
 class MenuManagerTest extends TestCase
 {

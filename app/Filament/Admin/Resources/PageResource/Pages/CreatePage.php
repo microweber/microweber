@@ -2,10 +2,8 @@
 
 namespace App\Filament\Admin\Resources\PageResource\Pages;
 
-use App\Filament\Admin\Resources\ContentResource\Pages\CreateContent;
 use App\Filament\Admin\Resources\PageResource;
-use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
+use Modules\Content\Filament\Admin\ContentResource\Pages\CreateContent;
 
 class CreatePage extends CreateContent
 {

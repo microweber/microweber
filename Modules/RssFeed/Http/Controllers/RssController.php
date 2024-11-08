@@ -2,10 +2,9 @@
 
 namespace Modules\RssFeed\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
-use Illuminate\Http\Request;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 
 class RssController extends Controller

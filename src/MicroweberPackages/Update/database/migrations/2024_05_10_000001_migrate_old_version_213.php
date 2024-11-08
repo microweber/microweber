@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 
 class MigrateOldVersion213 extends Migration
@@ -210,7 +210,7 @@ class MigrateOldVersion213 extends Migration
             //ensure all categories have slug
             $categories = DB::table('categories')
                 ->whereNull('url')
-                ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
+                ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
                 ->get();
             if ($categories) {
                 foreach ($categories as $category) {

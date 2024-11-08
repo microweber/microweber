@@ -3,10 +3,10 @@ namespace MicroweberPackages\Menu\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
+use Modules\Content\Models\Content;
 
 class Menu extends Model
 {

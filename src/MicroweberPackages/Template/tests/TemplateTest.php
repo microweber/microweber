@@ -5,7 +5,6 @@ namespace MicroweberPackages\Template\tests;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
@@ -135,10 +134,10 @@ class TemplateTest extends TestCase
     public function testTemplateEditFieldsAreSavedFieldContent()
     {
 
-        $count = DB::table('content_fields')->where('field', 'content')->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))->count();
+        $count = DB::table('content_fields')->where('field', 'content')->where('rel_type', morph_name(\Modules\Content\Models\Content::class))->count();
         $this->assertEquals(0, 0);
 
-        $count = DB::table('content_fields')->where('field', 'content_body')->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))->count();
+        $count = DB::table('content_fields')->where('field', 'content_body')->where('rel_type', morph_name(\Modules\Content\Models\Content::class))->count();
         $this->assertEquals(0, 0);
 
     }
@@ -203,7 +202,7 @@ class TemplateTest extends TestCase
 
         $newCleanCategoryId = save_category([
             'title' => 'Test Category for post vars' . uniqid(),
-            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
+            'rel_type' => morph_name(\Modules\Content\Models\Content::class),
             'rel_id' => $newCleanPageId,
         ]);
         $this->assertTrue($newCleanCategoryId > 0);
@@ -258,7 +257,7 @@ class TemplateTest extends TestCase
 
         $newCleanCategoryIdSub = save_category([
             'title' => 'Test Category for post sub vars-' . uniqid(),
-            'rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class),
+            'rel_type' => morph_name(\Modules\Content\Models\Content::class),
             'rel_id' => $newSubPageId,
         ]);
 

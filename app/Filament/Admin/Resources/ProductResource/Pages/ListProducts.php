@@ -2,8 +2,8 @@
 
 namespace App\Filament\Admin\Resources\ProductResource\Pages;
 
-use App\Filament\Admin\Resources\ContentResource\Pages\ListContents;
 use App\Filament\Admin\Resources\ProductResource;
+use Modules\Content\Filament\Admin\ContentResource\Pages\ListContents;
 
 
 class ListProducts extends ListContents

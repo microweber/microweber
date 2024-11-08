@@ -12,23 +12,17 @@
 namespace MicroweberPackages\Database;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
-use MicroweberPackages\Database\Utils as DbUtils;
-use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Traits\ExtendedSave;
-use MicroweberPackages\Helper\HTMLClean;
+use MicroweberPackages\Database\Traits\QueryFilter;
+use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\Media\Models\Media;
-
-use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
-use function Opis\Closure\serialize as serializeClosure;
-use function Opis\Closure\unserialize as unserializeClosure;
+use Modules\Content\Models\Content;
 
 class DatabaseManager extends DbUtils
 {

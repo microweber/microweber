@@ -3,26 +3,19 @@
 namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages;
 
 
-use App\Filament\Admin\Resources\ContentResource;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
-use Filament\Actions\CreateAction;
-use Filament\Actions\ViewAction;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Livewire;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\LiveEdit\Filament\Actions\CustomViewAction;
-use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
-use function Clue\StreamFilter\fun;
+use Modules\Content\Filament\Admin\ContentResource;
+use Modules\Content\Models\Content;
 
 class AdminLiveEditPage extends Page
 {

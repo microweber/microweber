@@ -3,10 +3,7 @@
 namespace MicroweberPackages\Offer\tests;
 
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
-
-use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\User\Models\User;
 
 

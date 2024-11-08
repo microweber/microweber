@@ -3,14 +3,12 @@
 namespace MicroweberPackages\Offer\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Events\ContentWasCreated;
 use MicroweberPackages\Content\Events\ContentWasUpdated;
-use MicroweberPackages\Product\Events\ProductWasCreated;
-use MicroweberPackages\Product\Events\ProductWasUpdated;
 use MicroweberPackages\Offer\Listeners\AddSpecialPriceProductListener;
 use MicroweberPackages\Offer\Listeners\EditSpecialPriceProductListener;
-use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Product\Events\ProductWasCreated;
+use MicroweberPackages\Product\Events\ProductWasUpdated;
 
 class EventServiceProvider extends ServiceProvider
 {

@@ -2,39 +2,30 @@
 
 namespace MicroweberPackages\App\Providers;
 
-use Illuminate\Filesystem\FilesystemServiceProvider;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Session\SessionServiceProvider;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\ViewServiceProvider;
 use Jenssegers\Agent\Agent;
-
-use MicroweberPackages\Admin\Providers\AdminRouteServiceProvider;
 use MicroweberPackages\App\Console\Commands\ServeCodeCoverageTestCommand;
 use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 use MicroweberPackages\App\Http\Middleware\TrimStrings;
 use MicroweberPackages\App\Utils\Parser;
-use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentRegistryServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\Helper\Format;
 use MicroweberPackages\Install\MicroweberMigrator;
-use MicroweberPackages\LaravelConfigExtended\ConfigExtendedServiceProvider;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
+use Modules\Content\Models\Content;
 
 
 // Shop

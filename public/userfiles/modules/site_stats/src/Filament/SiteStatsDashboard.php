@@ -3,19 +3,10 @@
 namespace MicroweberPackages\Modules\SiteStats\Filament;
 
 
-use Filament\Forms\Components\DatePicker;
-use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
-use Filament\Pages\Page;
-use Filament\Pages\BasePage;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Filament\Widgets\StatsOverviewWidget\Card;
-use MicroweberPackages\Content\Models\Content;
-use Filament\Pages\Dashboard as BaseDashboard;
-use Filament\Pages\Dashboard\Actions\FilterAction;
-use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
-use MicroweberPackages\Modules\SiteStats\Repositories\SiteStatsRepository;
 class SiteStatsDashboard extends BaseWidget
 {
     use InteractsWithPageFilters;

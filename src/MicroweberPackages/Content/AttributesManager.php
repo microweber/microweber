@@ -72,7 +72,7 @@ class AttributesManager extends Crud
             }
         }
         if (!isset($data['rel_type']) and isset($data['content_id'])) {
-            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
             $data['rel_id'] = $data['content_id'];
         }
         if (isset($data['attribute_name']) and isset($data['rel_id']) and isset($data['rel_type'])) {
@@ -94,10 +94,10 @@ class AttributesManager extends Crud
             $data['attribute_type'] = 'array';
         }
         if (!isset($data['rel_type'])) {
-            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
         }
 
-        if (isset($data['rel_type']) and $data['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+        if (isset($data['rel_type']) and $data['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
             if (isset($data['rel_id'])) {
                 $data['content_id'] = $data['rel_id'];
             }

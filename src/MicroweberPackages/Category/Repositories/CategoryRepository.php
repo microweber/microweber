@@ -5,11 +5,8 @@ namespace MicroweberPackages\Category\Repositories;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
-use function Symfony\Component\Translation\t;
 
 class CategoryRepository extends AbstractRepository
 {
@@ -292,7 +289,7 @@ class CategoryRepository extends AbstractRepository
         }
 
         if(!$relType){
-            $relType = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $relType = morph_name(\Modules\Content\Models\Content::class);
         }
 
         return $this->cacheCallback(__FUNCTION__, func_get_args(), function () use ($categoryId, $relType, $relId) {
@@ -327,7 +324,7 @@ class CategoryRepository extends AbstractRepository
                 ->where('content.is_active', '=', 1);
         })
             ->select(['categories_items.parent_id', 'categories_items.rel_type', DB::raw('count( DISTINCT `' . $realTableName . '`.`id` ) as count')])
-            ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))->groupBy('categories_items.parent_id');
+            ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))->groupBy('categories_items.parent_id');
 
 
         return $model;
@@ -348,7 +345,7 @@ class CategoryRepository extends AbstractRepository
         }
 
         if (isset($data['rel_type']) and $data['rel_type'] == 'content') {
-            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
 
         }
         if (isset($data['rel_type']) and $data['rel_type'] == 'category') {
@@ -356,11 +353,11 @@ class CategoryRepository extends AbstractRepository
         }
 
         if (isset($data['parent_page'])) {
-            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
             $data['rel_id'] = $data['parent_page'];
         }
         if (isset($data['content_id'])) {
-            $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+            $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
             $data['rel_id'] = $data['content_id'];
         }
 

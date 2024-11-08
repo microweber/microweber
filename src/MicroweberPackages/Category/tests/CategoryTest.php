@@ -3,20 +3,14 @@
 namespace MicroweberPackages\Category\tests;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\PlainTextCategoriesSave;
-use MicroweberPackages\Category\Traits\CategoryTrait;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
-
-use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
-use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\User\Models\User;
-
+use Modules\Content\Models\Content;
 
 
 class CategoryTest extends TestCase
@@ -62,7 +56,7 @@ class CategoryTest extends TestCase
 
         $category = new Category();
         $category->title = 'Categories';
-        $category->rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);;
+        $category->rel_type = morph_name(\Modules\Content\Models\Content::class);;
         $category->rel_id = $page->id;
         $category->parent_id = 0;
         $category->save();
@@ -166,7 +160,7 @@ class CategoryTest extends TestCase
 
         $this->assertEquals(1, count($categoryItems));
         $this->assertEquals($mainCategory->id, $categoryItems[0]['parent_id']);
-        $this->assertEquals(morph_name(\MicroweberPackages\Content\Models\Content::class), $categoryItems[0]['rel_type']);
+        $this->assertEquals(morph_name(\Modules\Content\Models\Content::class), $categoryItems[0]['rel_type']);
         $this->assertEquals($post->id, $categoryItems[0]['rel_id']);
 
         $options = array();

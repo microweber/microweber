@@ -464,7 +464,7 @@ if (isset($params['quick_edit'])) {
                  * @var \MicroweberPackages\FormBuilder\FormElementBuilder $formBuilder
                  */
 
-                $contentModel = \MicroweberPackages\Content\Models\Content::where('id', $data['id'])->first();
+                $contentModel = \Modules\Content\Models\Content::where('id', $data['id'])->first();
                 $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                 ?>
 

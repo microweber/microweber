@@ -2,14 +2,14 @@
 
 namespace MicroweberPackages\Content\Repositories;
 
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Content\Events\ContentWasDestroyed;
-use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Content\Events\ContentIsCreating;
 use MicroweberPackages\Content\Events\ContentIsUpdating;
 use MicroweberPackages\Content\Events\ContentWasCreated;
 use MicroweberPackages\Content\Events\ContentWasDeleted;
+use MicroweberPackages\Content\Events\ContentWasDestroyed;
 use MicroweberPackages\Content\Events\ContentWasUpdated;
+use MicroweberPackages\Core\Repositories\BaseRepository;
+use Modules\Content\Models\Content;
 
 class ContentRepositoryApi extends BaseRepository
 {

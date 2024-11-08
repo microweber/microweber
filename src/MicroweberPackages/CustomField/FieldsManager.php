@@ -2,6 +2,8 @@
 
 namespace MicroweberPackages\CustomField;
 
+use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
+use MicroweberPackages\CustomField\Fields\Address;
 use MicroweberPackages\CustomField\Fields\Breakline;
 use MicroweberPackages\CustomField\Fields\Button;
 use MicroweberPackages\CustomField\Fields\Checkbox;
@@ -22,14 +24,10 @@ use MicroweberPackages\CustomField\Fields\Site;
 use MicroweberPackages\CustomField\Fields\Text;
 use MicroweberPackages\CustomField\Fields\TextArea;
 use MicroweberPackages\CustomField\Fields\Time;
-use MicroweberPackages\Helper\HTMLClean;
-use MicroweberPackages\Helper\XSSSecurity;
-use function Matrix\trace;
-use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
-use MicroweberPackages\CustomField\Fields\Address;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\CustomField\Models\CustomFieldValue;
-use MicroweberPackages\View\View;
+use MicroweberPackages\Helper\HTMLClean;
+use function Matrix\trace;
 
 
 $_mw_made_default_fields_register = array();
@@ -418,7 +416,7 @@ class FieldsManager
         if ($customField == null) {
 
             if (!isset($fieldData['rel_type']) and isset($fieldData['content_id'])) {
-                $fieldData['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+                $fieldData['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
             }
 
             if (!isset($fieldData['rel_id']) and isset($fieldData['content_id'])) {

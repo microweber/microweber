@@ -1,11 +1,10 @@
 <?php
 namespace MicroweberPackages\Content;
 
-use MicroweberPackages\Content\Repositories\ContentRepository;
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Database\Crud;
 use Illuminate\Support\Facades\DB;
-use function Opis\Closure\serialize as serializeClosure;
+use MicroweberPackages\Content\Repositories\ContentRepository;
+use MicroweberPackages\Database\Crud;
+use Modules\Content\Models\Content;
 
 class ContentManagerCrud extends Crud
 {
@@ -1160,16 +1159,16 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
                 })
-                ->whereRelType(morph_name(\MicroweberPackages\Content\Models\Content::class))
-                ->update(['rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class), 'rel_id' => $id]);
+                ->whereRelType(morph_name(\Modules\Content\Models\Content::class))
+                ->update(['rel_type' => morph_name(\Modules\Content\Models\Content::class), 'rel_id' => $id]);
 
             DB::table('media')
                 ->whereSessionId($sid)
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null)->orWhere('rel_id', '0');
                 })
-                ->whereRelType(morph_name(\MicroweberPackages\Content\Models\Content::class))
-                ->update(['rel_type' => morph_name(\MicroweberPackages\Content\Models\Content::class), 'rel_id' => $id]);
+                ->whereRelType(morph_name(\Modules\Content\Models\Content::class))
+                ->update(['rel_type' => morph_name(\Modules\Content\Models\Content::class), 'rel_id' => $id]);
 
         }
 
@@ -1338,8 +1337,8 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         }
 //        if (!isset($data['rel_type'])) {
 //            if (isset($data['rel_type'])) {
-//                if ($data['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class) or $data['rel_type'] == 'page' or $data['rel_type'] == 'post' or $data['rel_type'] == 'product') {
-//                    $data['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+//                if ($data['rel_type'] == morph_name(\Modules\Content\Models\Content::class) or $data['rel_type'] == 'page' or $data['rel_type'] == 'post' or $data['rel_type'] == 'product') {
+//                    $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
 //                } else {
 //                    $data['rel_type'] = $data['rel_type'];
 //                }

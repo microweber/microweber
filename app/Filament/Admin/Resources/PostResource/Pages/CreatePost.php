@@ -2,10 +2,9 @@
 
 namespace App\Filament\Admin\Resources\PostResource\Pages;
 
-use App\Filament\Admin\Resources\ContentResource\Pages\CreateContent;
 use App\Filament\Admin\Resources\PostResource;
 
-class CreatePost extends CreateContent
+class CreatePost extends \Modules\Content\Filament\Admin\ContentResource\Pages\CreateContent
 {
     protected static string $resource = PostResource::class;
 }

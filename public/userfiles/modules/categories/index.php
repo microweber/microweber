@@ -32,7 +32,7 @@ if (isset($params['from-page']) and trim($params['from-page']) != 'false') {
 if (!isset($params['ul_class'])) {
     $params['ul_class'] = 'nav-list';
 }
-$params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+$params['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
 $category_tree_parent_page = get_option('data-content-id', $params['id']);
 $category_parent = get_option('data-category-id', $params['id']);
 

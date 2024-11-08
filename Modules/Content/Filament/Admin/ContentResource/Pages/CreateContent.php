@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ContentResource\Pages;
+namespace Modules\Content\Filament\Admin\ContentResource\Pages;
 
-use App\Filament\Admin\Resources\ContentResource;
 use Filament\Actions;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Content\Concerns\HasEditContentForms;
-use Livewire\Attributes\On;
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Filament\Actions\DeleteActionOnlyIcon;
 use MicroweberPackages\Filament\Concerns\ModifyComponentData;
+use Modules\Content\Concerns\HasEditContentForms;
+use Modules\Content\Filament\Admin\ContentResource;
+use Modules\Content\Models\Content;
 
 class CreateContent extends CreateRecord
 {

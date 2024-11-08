@@ -2,10 +2,9 @@
 namespace MicroweberPackages\Post\Models;
 
 use MicroweberPackages\Blog\FrontendFilter\BlogFilter;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Scopes\PostScope;
 
-class Post extends Content
+class Post extends \Modules\Content\Models\Content
 {
     protected $table = 'content';
     protected $primaryKey = 'id';

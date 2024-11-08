@@ -1,13 +1,10 @@
 <?php
 namespace MicroweberPackages\Page\Models;
 
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Content\Scopes\PageScope;
-use MicroweberPackages\Database\Traits\HasSlugTrait;
-use MicroweberPackages\Media\Traits\MediaTrait;
 
 
-class Page extends Content
+class Page extends \Modules\Content\Models\Content
 {
 
 

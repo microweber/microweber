@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 
 class MigrateMorphClassStandard extends Migration
@@ -42,7 +40,7 @@ class MigrateMorphClassStandard extends Migration
                         $tableData->rel_type = \MicroweberPackages\Category\Models\Category::class;
                     }
                     if ($tableData->rel_type == 'content') {
-                        $tableData->rel_type = \MicroweberPackages\Content\Models\Content::class;
+                        $tableData->rel_type = \Modules\Content\Models\Content::class;
                     }
                     \Illuminate\Support\Facades\DB::table($table)->where('id', $tableData->id)->update([
                         'rel_type' => $tableData->rel_type
@@ -63,7 +61,7 @@ class MigrateMorphClassStandard extends Migration
                         $tableData->taggable_type = \MicroweberPackages\Category\Models\Category::class;
                     }
                     if ($tableData->taggable_type == 'content') {
-                        $tableData->taggable_type = \MicroweberPackages\Content\Models\Content::class;
+                        $tableData->taggable_type = \Modules\Content\Models\Content::class;
                     }
                     \Illuminate\Support\Facades\DB::table('tagging_tagged')->where('id', $tableData->id)->update([
                         'taggable_type' => $tableData->taggable_type

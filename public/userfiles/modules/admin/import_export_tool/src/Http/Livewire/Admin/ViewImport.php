@@ -5,8 +5,8 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 use Carbon\Carbon;
 use Livewire\WithFileUploads;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
+use Modules\Content\Models\Content;
 
 class ViewImport extends AdminComponent
 {

@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Category;
 
-use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
 
 class AdminJsCategoryTree
@@ -170,7 +169,7 @@ class AdminJsCategoryTree
         foreach ($this->categories as $category) {
 
             if (isset($category['rel_type'])
-                and trim($category['rel_type']) == morph_name(\MicroweberPackages\Content\Models\Content::class)
+                and trim($category['rel_type']) == morph_name(\Modules\Content\Models\Content::class)
                 and $category['rel_id'] == $parentId) {
 
 
@@ -268,7 +267,7 @@ class AdminJsCategoryTree
                 }
 
                 if ($category['parent_id'] == 0) {
-                    if ($category['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+                    if ($category['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
                         if (!in_array($category['rel_id'], $this->outputPageIds)) {
                             continue;
                         }
@@ -311,7 +310,7 @@ class AdminJsCategoryTree
 
 
         if ($category['parent_id'] == 0) {
-            if ($category['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)) {
+            if ($category['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
                 $appendCategory['parent_type'] = 'page';
                 $appendCategory['parent_id'] = $category['rel_id'];
 

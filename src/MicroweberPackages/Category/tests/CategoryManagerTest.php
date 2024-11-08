@@ -2,13 +2,11 @@
 
 namespace MicroweberPackages\Category\tests;
 
-use Illuminate\View\View;
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Core\tests\TestCase;
-
 use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Product\Models\Product;
+use Modules\Content\Models\Content;
 
 
 class CategoryManagerTest extends TestCase
@@ -244,7 +242,7 @@ class CategoryManagerTest extends TestCase
 
         $category = new Category();
         $category->title = 'New cat testCategoryJsonTreeAdmin_' . uniqid();
-        $category->rel_type = morph_name(\MicroweberPackages\Content\Models\Content::class);;
+        $category->rel_type = morph_name(\Modules\Content\Models\Content::class);;
         $category->rel_id = $newBlogPage->id;
         $category->save();
 

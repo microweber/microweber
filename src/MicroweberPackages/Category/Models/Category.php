@@ -41,7 +41,7 @@ class Category extends Model
      */
     protected $attributes = [
         'data_type' => 'category',
-        'rel_type' => \MicroweberPackages\Content\Models\Content::class,
+        'rel_type' => \Modules\Content\Models\Content::class,
         'is_active' => '1',
         'is_deleted' => '0',
         'is_hidden' => '0',

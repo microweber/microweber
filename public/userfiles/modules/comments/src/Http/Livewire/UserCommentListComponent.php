@@ -54,7 +54,7 @@ class UserCommentListComponent extends Component {
                 $query->orWhereNull('reply_to_comment_id');
             })
             ->where('rel_id', $this->relId)
-            ->where('rel_type', morph_name(\MicroweberPackages\Content\Models\Content::class))
+            ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
             ->published()
             ->orderBy('created_at', 'desc')
             ->paginate(3, ['*'], 'commentsPage');

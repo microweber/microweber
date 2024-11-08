@@ -28,7 +28,7 @@ class ContentRepositoryTest extends TestCase
 
         // get from repository test
 
-        $content_repository = app()->repository_manager->driver(\MicroweberPackages\Content\Models\Content::class);
+        $content_repository = app()->repository_manager->driver(\Modules\Content\Models\Content::class);
 
         $cont = $content_repository->findAllBy('id', $prod_id);
 

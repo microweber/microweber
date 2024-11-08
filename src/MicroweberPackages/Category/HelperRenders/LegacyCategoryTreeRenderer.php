@@ -6,9 +6,8 @@ namespace MicroweberPackages\Category\HelperRenders;
 // this class need to be replaced with KnpCategoryTreeRenderer class when all features are implemented in the new class
 
 
-use Knp\Menu\MenuFactory;
-use Microweber\Providers\Categories\Helpers\CategoryTreeData;
 use KnpCustomListRenderer as ListRenderer;
+use Microweber\Providers\Categories\Helpers\CategoryTreeData;
 
 
 class LegacyCategoryTreeRenderer
@@ -224,7 +223,7 @@ class LegacyCategoryTreeRenderer
             if ($page['subtype'] == 'dynamic' and intval($page['subtype_value']) > 0) {
                 $parent = $page['subtype_value'];
             } else {
-                $params['rel_type'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+                $params['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
                 $params['rel_id'] = $params['for_page'];
                 $parent = 0;
             }
@@ -245,7 +244,7 @@ class LegacyCategoryTreeRenderer
 
         } else {
             if (!isset($params['for'])) {
-                $params['for'] = morph_name(\MicroweberPackages\Content\Models\Content::class);
+                $params['for'] = morph_name(\Modules\Content\Models\Content::class);
             }
 
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
@@ -334,7 +333,7 @@ class LegacyCategoryTreeRenderer
             $cat_get_params['rel_type'] = $table_assoc_name;
 
              $cont_check = true;
-            if ($cat_get_params['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class) and $cat_get_params['rel_id']) {
+            if ($cat_get_params['rel_type'] == morph_name(\Modules\Content\Models\Content::class) and $cat_get_params['rel_id']) {
                 $cont_check = $this->app->content_manager->get_by_id($cat_get_params['rel_id']);
                 if (!$cont_check) {
                    return;

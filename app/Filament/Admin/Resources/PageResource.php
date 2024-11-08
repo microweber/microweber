@@ -4,18 +4,8 @@ namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\PageResource\Pages;
 use App\Filament\Admin\Resources\PageResource\RelationManagers;
-use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
-use Filament\Support\Enums\FontWeight;
-use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Post\Models\Post;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Content\Filament\Admin\ContentResource;
 
 class PageResource extends ContentResource
 {
@@ -28,7 +18,7 @@ class PageResource extends ContentResource
 
     protected static string $contentType = 'page';
     protected static string $subType = 'page';
-    
+
     public static function getPages(): array
     {
         return [

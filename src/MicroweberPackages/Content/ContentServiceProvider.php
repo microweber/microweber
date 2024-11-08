@@ -36,7 +36,7 @@ class ContentServiceProvider extends ServiceProvider
         app()->translate_manager->addTranslateProvider(TranslateContent::class);
         app()->translate_manager->addTranslateProvider(TranslateContentFields::class);
 
-        \MicroweberPackages\Content\Models\Content::observe(BaseModelObserver::class);
+        \Modules\Content\Models\Content::observe(BaseModelObserver::class);
         //  Content::observe(CreatedByObserver::class);
 
 

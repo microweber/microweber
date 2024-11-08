@@ -2,9 +2,8 @@
 
 namespace MicroweberPackages\Content\tests;
 
-use MicroweberPackages\App\Http\Controllers\FrontendController;
-use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Content\Models\Content;
 
 class ContentRepositoryTest extends TestCase
 {

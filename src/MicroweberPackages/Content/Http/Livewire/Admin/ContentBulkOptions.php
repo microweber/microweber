@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Content\Http\Livewire\Admin;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-use MicroweberPackages\Content\Models\Content;
+use Modules\Content\Models\Content;
 
 class ContentBulkOptions extends AdminComponent
 {

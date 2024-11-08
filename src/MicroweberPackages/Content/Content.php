@@ -4,10 +4,10 @@ namespace MicroweberPackages\Content;
 
 /**
 
- * @deprecated deprecated use MicroweberPackages\Content\Models\Content instead
+ * @deprecated deprecated use Modules\Content\Models\Content instead
 
  */
-class Content extends \MicroweberPackages\Content\Models\Content
+class Content extends \Modules\Content\Models\Content
 {
 
 }

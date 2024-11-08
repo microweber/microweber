@@ -64,7 +64,7 @@ $data = mw()->notifications_manager->get($notif_params);
                         <?php if ($mod_info != false and isset($mod_info['name'])): ?>
 
                             <a class="mw-ui-link" href="<?php print admin_url() ?>module/view?type=<?php print module_name_encode($item['module']) ?>/mw_notif:<?php print $item['id'] ?>" title="<?php print $mod_info['name'] ?>"><span class="ellipsis"><?php print $item['title'] ?></span></a>
-                        <?php elseif (isset($item['rel_type']) and $item['rel_type'] == morph_name(\MicroweberPackages\Content\Models\Content::class)): ?>
+                        <?php elseif (isset($item['rel_type']) and $item['rel_type'] == morph_name(\Modules\Content\Models\Content::class)): ?>
                             <a class="mw-ui-link" href="<?php print admin_url() ?>view:content#action=editpage:<?php print ($item['rel_id']) ?>"> <?php print $item['title'] ?></a>
                         <?php else : ?>
                             <span>          <?php print $item['title'] ?></span>
