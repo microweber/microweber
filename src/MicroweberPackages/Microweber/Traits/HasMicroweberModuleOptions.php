@@ -55,12 +55,12 @@ trait HasMicroweberModuleOptions
         $options = $this->getOptions();
         if ($options) {
             foreach ($options as $optionKey => $optionValue) {
-                if ($optionKey == $key) {
+                if ($optionKey == $key and $optionValue) {
                     return $optionValue;
                 }
             }
-            return $default;
         }
+        return $default;
     }
 
 }
