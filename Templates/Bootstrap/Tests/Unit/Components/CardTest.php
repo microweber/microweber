@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Components;
+namespace Templates\Bootstrap\Tests\Unit\Components;
 
 use Illuminate\Support\Facades\Blade;
 use Tests\TestCase;
