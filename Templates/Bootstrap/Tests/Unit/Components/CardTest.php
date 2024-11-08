@@ -11,7 +11,7 @@ class CardTest extends TestCase
 
     public function testRendersACard()
     {
-        $bladeString = '<x-bootstrap-card></x-bootstrap-card>';
+        $bladeString = '<x-card></x-card>';
 
         $output = Blade::render($bladeString);
 
@@ -21,7 +21,7 @@ class CardTest extends TestCase
 
     public function testRendersACardWithDarkTheme()
     {
-        $bladeString = '<x-bootstrap-card theme="dark"></x-bootstrap-card>';
+        $bladeString = '<x-card theme="dark"></x-card>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('bg-dark text-white', $output);
     }
@@ -29,7 +29,7 @@ class CardTest extends TestCase
 
     public function testRendersACardWithSuccessTheme()
     {
-        $bladeString = '<x-bootstrap-card theme="success"></x-bootstrap-card>';
+        $bladeString = '<x-card theme="success"></x-card>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('bg-success text-white', $output);
     }
@@ -37,7 +37,7 @@ class CardTest extends TestCase
 
     public function testRendersACardWithCustomClasses()
     {
-        $bladeString = '<x-bootstrap-card class="custom-class"></x-bootstrap-card>';
+        $bladeString = '<x-card class="custom-class"></x-card>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('custom-class', $output);
     }

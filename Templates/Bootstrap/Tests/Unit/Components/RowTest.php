@@ -11,7 +11,7 @@ class RowTest extends TestCase
 
     public function testRendersARow()
     {
-        $bladeString ='<x-bootstrap-row></x-bootstrap-row>';
+        $bladeString ='<x-row></x-row>';
 
         $output = Blade::render($bladeString);
 
@@ -20,7 +20,7 @@ class RowTest extends TestCase
 
     public function testRendersAFlexRow()
     {
-        $bladeString = '<x-bootstrap-row flex></x-bootstrap-row>';
+        $bladeString = '<x-row flex></x-row>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('d-flex', $output);
     }
@@ -28,7 +28,7 @@ class RowTest extends TestCase
 
     public function testRendersAFlexWrapRow()
     {
-        $bladeString = '<x-bootstrap-row flex-wrap></x-bootstrap-row>';
+        $bladeString = '<x-row flex-wrap></x-row>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('flex-wrap', $output);
     }
@@ -36,7 +36,7 @@ class RowTest extends TestCase
 
     public function testRendersAFlexNoWrapRow()
     {
-        $bladeString = '<x-bootstrap-row flex-no-wrap></x-bootstrap-row>';
+        $bladeString = '<x-row flex-no-wrap></x-row>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('flex-nowrap', $output);
     }

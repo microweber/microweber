@@ -41,16 +41,17 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
         $this->registerConfig();
         $this->registerViews();
         //Blade::componentNamespace('Templates\\Bootstrap\\Views\\Components', 'bootstrap');
-        Blade::component('bootstrap-hero', Hero::class);
-        Blade::component('bootstrap-simple-text', SimpleText::class);
-        Blade::component('bootstrap-container', Container::class);
-        Blade::component('bootstrap-row', Row::class);
-        Blade::component('bootstrap-col', Col::class);
-        Blade::component('bootstrap-card', Card::class);
-        Blade::component('bootstrap-alert', Alert::class);
-        Blade::component('bootstrap-button', Button::class);
-        Blade::component('bootstrap-navbar', Navbar::class);
-        Blade::component('bootstrap-nav-item', NavItem::class);
+        Blade::component('hero', Hero::class);
+       // Blade::component('bootstrap-hero', Hero::class);
+        Blade::component('simple-text', SimpleText::class);
+        Blade::component('container', Container::class);
+        Blade::component('row', Row::class);
+        Blade::component('col', Col::class);
+        Blade::component('card', Card::class);
+        Blade::component('alert', Alert::class);
+        Blade::component('button', Button::class);
+        Blade::component('navbar', Navbar::class);
+        Blade::component('nav-item', NavItem::class);
 
     }
 

@@ -12,7 +12,7 @@ class ContainerTest extends TestCase
 {
     public function testRendersAContainer()
     {
-        $bladeString ="<x-bootstrap-container></x-bootstrap-container>";
+        $bladeString ="<x-container></x-container>";
 
         $output = Blade::render($bladeString);
 
@@ -21,7 +21,7 @@ class ContainerTest extends TestCase
 
     public function testRendersAFluidContainer()
     {
-        $bladeString ="<x-bootstrap-container fluid></x-bootstrap-container>";
+        $bladeString ="<x-container fluid></x-container>";
 
         $output = Blade::render($bladeString);
 

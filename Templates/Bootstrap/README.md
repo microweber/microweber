@@ -17,9 +17,9 @@ composer require microweber-templates/bootstrap
 Display alert messages with different styles.
 
 ```blade
-<x-bootstrap::alert type="success" dismissible>
+<x-alert type="success" dismissible>
     Your changes have been saved successfully!
-</x-bootstrap::alert>
+</x-alert>
 ```
 
 **Props:**
@@ -30,9 +30,9 @@ Display alert messages with different styles.
 Create Bootstrap styled buttons.
 
 ```blade
-<x-bootstrap::button type="primary" size="lg">
+<x-button type="primary" size="lg">
     Click Me
-</x-bootstrap::button>
+</x-button>
 ```
 
 **Props:**
@@ -46,13 +46,13 @@ Create Bootstrap styled buttons.
 Create Bootstrap card components.
 
 ```blade
-<x-bootstrap::card>
+<x-card>
     <x-slot name="header">Card Title</x-slot>
     
     Card content goes here
     
     <x-slot name="footer">Card Footer</x-slot>
-</x-bootstrap::card>
+</x-card>
 ```
 
 **Props:**
@@ -64,16 +64,16 @@ Create Bootstrap card components.
 Create Bootstrap modals.
 
 ```blade
-<x-bootstrap::modal id="exampleModal" title="Modal Title">
+<x-modal id="exampleModal" title="Modal Title">
     <x-slot name="body">
         Modal content goes here
     </x-slot>
     
     <x-slot name="footer">
-        <x-bootstrap::button type="secondary" data-bs-dismiss="modal">Close</x-bootstrap::button>
-        <x-bootstrap::button type="primary">Save changes</x-bootstrap::button>
+        <x-button type="secondary" data-bs-dismiss="modal">Close</x-button>
+        <x-button type="primary">Save changes</x-button>
     </x-slot>
-</x-bootstrap::modal>
+</x-modal>
 ```
 
 **Props:**
@@ -87,11 +87,11 @@ Create Bootstrap modals.
 Create responsive navigation bars.
 
 ```blade
-<x-bootstrap::navbar brand="My App" brandUrl="/">
-    <x-bootstrap::nav-item href="/" active>Home</x-bootstrap::nav-item>
-    <x-bootstrap::nav-item href="/about">About</x-bootstrap::nav-item>
-    <x-bootstrap::nav-item href="/contact">Contact</x-bootstrap::nav-item>
-</x-bootstrap::navbar>
+<x-navbar brand="My App" brandUrl="/">
+    <x-nav-item href="/" active>Home</x-nav-item>
+    <x-nav-item href="/about">About</x-nav-item>
+    <x-nav-item href="/contact">Contact</x-nav-item>
+</x-navbar>
 ```
 
 **Props:**
@@ -105,7 +105,7 @@ Create responsive navigation bars.
 
 #### Form Input
 ```blade
-<x-bootstrap::input 
+<x-input 
     name="email" 
     label="Email Address"
     type="email" 
@@ -126,7 +126,7 @@ Create responsive navigation bars.
 
 #### Form Select
 ```blade
-<x-bootstrap::select 
+<x-select 
     name="country" 
     label="Select Country"
     :options="$countries"
@@ -142,7 +142,7 @@ Create responsive navigation bars.
 
 #### Form Checkbox
 ```blade
-<x-bootstrap::checkbox 
+<x-checkbox 
     name="terms" 
     label="I agree to the terms"
 />
@@ -158,7 +158,7 @@ Create responsive navigation bars.
 Create Bootstrap styled pagination.
 
 ```blade
-<x-bootstrap::pagination 
+<x-pagination 
     :items="$posts"
 />
 ```
@@ -171,7 +171,7 @@ Create Bootstrap styled pagination.
 Display progress bars.
 
 ```blade
-<x-bootstrap::progress-bar 
+<x-progress-bar 
     value="75" 
     type="success"
     striped
@@ -189,14 +189,14 @@ Display progress bars.
 Create tabbed interfaces.
 
 ```blade
-<x-bootstrap::tabs>
-    <x-bootstrap::tab-pane title="Home" active>
+<x-tabs>
+    <x-tab-pane title="Home" active>
         Home content
-    </x-bootstrap::tab-pane>
-    <x-bootstrap::tab-pane title="Profile">
+    </x-tab-pane>
+    <x-tab-pane title="Profile">
         Profile content
-    </x-bootstrap::tab-pane>
-</x-bootstrap::tabs>
+    </x-tab-pane>
+</x-tabs>
 ```
 
 **Props:**
@@ -208,12 +208,12 @@ Create tabbed interfaces.
 All components use Bootstrap 5 classes and can be customized using standard Bootstrap utilities:
 
 ```blade
-<x-bootstrap::button 
+<x-button 
     type="primary" 
     class="shadow rounded-pill"
 >
     Custom Styled Button
-</x-bootstrap::button>
+</x-button>
 ```
 
 ## JavaScript Components

@@ -11,7 +11,7 @@ class ColTest extends TestCase
 
     public function testRendersACol()
     {
-        $bladeString ='<x-bootstrap-col></x-bootstrap-col>';
+        $bladeString ='<x-col></x-col>';
 
         $output = Blade::render($bladeString);
 
@@ -21,7 +21,7 @@ class ColTest extends TestCase
 
     public function testRendersAColWithCustomClasses()
     {
-        $bladeString ='<x-bootstrap-col col="6" class="custom-class"></x-bootstrap-col>';
+        $bladeString ='<x-col col="6" class="custom-class"></x-col>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 custom-class', $output);
     }

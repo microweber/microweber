@@ -18,9 +18,9 @@
     <div class="edit main-content" data-layout-container rel="content" field="content">
 
 
-        <x-bootstrap-container>
+        <x-container>
 
-            <x-bootstrap-hero editable="true" align="center">
+            <x-hero editable="true" align="center">
 
                 <x-slot name="image">{{asset('templates/bootstrap/img/heros/illustration-2.png')}}</x-slot>
 
@@ -40,9 +40,9 @@
                         Learn More
                     </a>
                 </x-slot>
-            </x-bootstrap-hero>
+            </x-hero>
 
-        </x-bootstrap-container>
+        </x-container>
 
 
 
@@ -52,9 +52,9 @@
         <br />
         <br />
 
-        <x-bootstrap-container>
+        <x-container>
 
-            <x-bootstrap-simple-text align="right">
+            <x-simple-text align="right">
                 <x-slot name="title">
                     <h1>Welcome to Microweber</h1>
                 </x-slot>
@@ -63,12 +63,12 @@
                         Microweber is a drag and drop website builder and a powerful next-generation CMS. It's easy to use, and it's a great tool for building websites, online shops, blogs, and more. It's based on the Laravel PHP framework and the Bootstrap front-end framework.
                     </p>
                 </x-slot>
-            </x-bootstrap-simple-text>
+            </x-simple-text>
 
-            <x-bootstrap-row>
+            <x-row>
 
-                <x-bootstrap-col col="4" col-lg="12">
-                    <x-bootstrap-card>
+                <x-col col="4" col-lg="12">
+                    <x-card>
 
                         <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
 
@@ -88,11 +88,11 @@
                             </a>
                         </x-slot>
 
-                    </x-bootstrap-card>
-                </x-bootstrap-col>
+                    </x-card>
+                </x-col>
 
-                <x-bootstrap-col size="4">
-                    <x-bootstrap-card theme="success">
+                <x-col size="4">
+                    <x-card theme="success">
 
                         <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
 
@@ -112,11 +112,11 @@
                             </a>
                         </x-slot>
 
-                    </x-bootstrap-card>
-                </x-bootstrap-col>
+                    </x-card>
+                </x-col>
 
-                <x-bootstrap-col size="4">
-                    <x-bootstrap-card theme="danger">
+                <x-col size="4">
+                    <x-card theme="danger">
 
                         <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
 
@@ -136,11 +136,11 @@
                             </a>
                         </x-slot>
 
-                    </x-bootstrap-card>
-                </x-bootstrap-col>
+                    </x-card>
+                </x-col>
 
-            </x-bootstrap-row>
-        </x-bootstrap-container>
+            </x-row>
+        </x-container>
 
 
         <module type="layouts" template="jumbotron/skin-1"/>

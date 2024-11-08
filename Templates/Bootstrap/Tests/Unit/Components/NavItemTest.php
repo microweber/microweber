@@ -10,7 +10,7 @@ class NavItemTest extends TestCase
 {
     public function testRendersANavItem()
     {
-        $bladeString = '<x-bootstrap-nav-item></x-bootstrap-nav-item>';
+        $bladeString = '<x-nav-item></x-nav-item>';
 
         $output = Blade::render($bladeString);
 
@@ -19,21 +19,21 @@ class NavItemTest extends TestCase
 
     public function testRendersANavItemWithActiveState()
     {
-        $bladeString = '<x-bootstrap-nav-item href="/" active></x-bootstrap-nav-item>';
+        $bladeString = '<x-nav-item href="/" active></x-nav-item>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('class="nav-link active"', $output);
     }
 
     public function testRendersANavItemWithHref()
     {
-        $bladeString = '<x-bootstrap-nav-item href="/about">About</x-bootstrap-nav-item>';
+        $bladeString = '<x-nav-item href="/about">About</x-nav-item>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('href="/about"', $output);
     }
 
     public function testRendersANavItemWithCustomClasses()
     {
-        $bladeString = '<x-bootstrap-nav-item class="custom-class"></x-bootstrap-nav-item>';
+        $bladeString = '<x-nav-item class="custom-class"></x-nav-item>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('custom-class', $output);
     }

@@ -23,14 +23,14 @@
 <body class="{!! helper_body_classes() !!}">
 
 <div class="main">
-    <x-bootstrap-container>
-        <x-bootstrap-navbar brand="My App" brandUrl="/">
-            <x-bootstrap-nav-item href="/" active>Home</x-bootstrap-nav-item>
-            <x-bootstrap-nav-item href="/about">About</x-bootstrap-nav-item>
-            <x-bootstrap-nav-item href="/contact">Contact</x-bootstrap-nav-item>
-        </x-bootstrap-navbar>
+    <x-container>
+        <x-navbar brand="My App" brandUrl="/">
+            <x-nav-item href="/" active>Home</x-nav-item>
+            <x-nav-item href="/about">About</x-nav-item>
+            <x-nav-item href="/contact">Contact</x-nav-item>
+        </x-navbar>
 
-        <x-bootstrap-hero>
+        <x-hero>
             <x-slot name="image">{{asset('templates/bootstrap/img/heros/illustration-2.png')}}</x-slot>
             <x-slot name="title">
                 <h1>Welcome to Microweber</h1>
@@ -46,11 +46,11 @@
                 <a href="#" class="btn btn-primary">Get Started</a>
                 <a href="#" class="btn btn-secondary">Learn More</a>
             </x-slot>
-        </x-bootstrap-hero>
-    </x-bootstrap-container>
+        </x-hero>
+    </x-container>
 
-    <x-bootstrap-container>
-        <x-bootstrap-simple-text align="right">
+    <x-container>
+        <x-simple-text align="right">
             <x-slot name="title">
                 <h1>Welcome to Microweber</h1>
             </x-slot>
@@ -61,11 +61,11 @@
                     Laravel PHP framework and the Bootstrap front-end framework.
                 </p>
             </x-slot>
-        </x-bootstrap-simple-text>
+        </x-simple-text>
 
-        <x-bootstrap-row>
-            <x-bootstrap-col col="4" col-lg="4">
-                <x-bootstrap-card>
+        <x-row>
+            <x-col col="4" col-lg="4">
+                <x-card>
                     <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
                     <x-slot name="title">Microweber Card</x-slot>
                     <x-slot name="content">
@@ -77,11 +77,11 @@
                     <x-slot name="footer">
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                     </x-slot>
-                </x-bootstrap-card>
-            </x-bootstrap-col>
+                </x-card>
+            </x-col>
 
-            <x-bootstrap-col col="4">
-                <x-bootstrap-card theme="success">
+            <x-col col="4">
+                <x-card theme="success">
                     <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
                     <x-slot name="title">CloudVision Cart</x-slot>
                     <x-slot name="content">
@@ -93,11 +93,11 @@
                     <x-slot name="footer">
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                     </x-slot>
-                </x-bootstrap-card>
-            </x-bootstrap-col>
+                </x-card>
+            </x-col>
 
-            <x-bootstrap-col col="4">
-                <x-bootstrap-card theme="danger">
+            <x-col col="4">
+                <x-card theme="danger">
                     <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
                     <x-slot name="title">CHAT GPT Card</x-slot>
                     <x-slot name="content">
@@ -109,50 +109,50 @@
                     <x-slot name="footer">
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                     </x-slot>
-                </x-bootstrap-card>
-            </x-bootstrap-col>
-        </x-bootstrap-row>
+                </x-card>
+            </x-col>
+        </x-row>
 
-        <x-bootstrap-alert type="success" message="This is a success alert!"></x-bootstrap-alert>
-        <x-bootstrap-button type="primary">Click Me!</x-bootstrap-button>
-    </x-bootstrap-container>
+        <x-alert type="success" message="This is a success alert!"></x-alert>
+        <x-button type="primary">Click Me!</x-button>
+    </x-container>
 
-    <x-bootstrap-container>
+    <x-container>
         <h2>Button Examples</h2>
-        <x-bootstrap-row>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button type="primary">Primary Button</x-bootstrap-button>
-            </x-bootstrap-col>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button type="secondary">Secondary Button</x-bootstrap-button>
-            </x-bootstrap-col>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button type="success">Success Button</x-bootstrap-button>
-            </x-bootstrap-col>
-        </x-bootstrap-row>
-        <x-bootstrap-row>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button type="danger">Danger Button</x-bootstrap-button>
-            </x-bootstrap-col>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button type="warning">Warning Button</x-bootstrap-button>
-            </x-bootstrap-col>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button type="info">Info Button</x-bootstrap-button>
-            </x-bootstrap-col>
-        </x-bootstrap-row>
-        <x-bootstrap-row>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button type="light">Light Button</x-bootstrap-button>
-            </x-bootstrap-col>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button type="dark">Dark Button</x-bootstrap-button>
-            </x-bootstrap-col>
-            <x-bootstrap-col col="4">
-                <x-bootstrap-button url="example" type="link">Link Button</x-bootstrap-button>
-            </x-bootstrap-col>
-        </x-bootstrap-row>
-    </x-bootstrap-container>
+        <x-row>
+            <x-col col="4">
+                <x-button type="primary">Primary Button</x-button>
+            </x-col>
+            <x-col col="4">
+                <x-button type="secondary">Secondary Button</x-button>
+            </x-col>
+            <x-col col="4">
+                <x-button type="success">Success Button</x-button>
+            </x-col>
+        </x-row>
+        <x-row>
+            <x-col col="4">
+                <x-button type="danger">Danger Button</x-button>
+            </x-col>
+            <x-col col="4">
+                <x-button type="warning">Warning Button</x-button>
+            </x-col>
+            <x-col col="4">
+                <x-button type="info">Info Button</x-button>
+            </x-col>
+        </x-row>
+        <x-row>
+            <x-col col="4">
+                <x-button type="light">Light Button</x-button>
+            </x-col>
+            <x-col col="4">
+                <x-button type="dark">Dark Button</x-button>
+            </x-col>
+            <x-col col="4">
+                <x-button url="example" type="link">Link Button</x-button>
+            </x-col>
+        </x-row>
+    </x-container>
 </div>
 
 </body>

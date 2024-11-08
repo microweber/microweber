@@ -10,7 +10,7 @@ class NavbarTest extends TestCase
 {
     public function testRendersANavbar()
     {
-        $bladeString = '<x-bootstrap-navbar></x-bootstrap-navbar>';
+        $bladeString = '<x-navbar></x-navbar>';
 
         $output = Blade::render($bladeString);
 
@@ -19,42 +19,42 @@ class NavbarTest extends TestCase
 
     public function testRendersANavbarWithBrand()
     {
-        $bladeString = '<x-bootstrap-navbar brand="My App"></x-bootstrap-navbar>';
+        $bladeString = '<x-navbar brand="My App"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('My App', $output);
     }
 
     public function testRendersANavbarWithBrandUrl()
     {
-        $bladeString = '<x-bootstrap-navbar brand="My App" brandUrl="/"></x-bootstrap-navbar>';
+        $bladeString = '<x-navbar brand="My App" brandUrl="/"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('href="/"', $output);
     }
 
     public function testRendersANavbarWithExpand()
     {
-        $bladeString = '<x-bootstrap-navbar expand="lg"></x-bootstrap-navbar>';
+        $bladeString = '<x-navbar expand="lg"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('navbar-expand-lg', $output);
     }
 
     public function testRendersANavbarWithDarkTheme()
     {
-        $bladeString = '<x-bootstrap-navbar dark="true"></x-bootstrap-navbar>';
+        $bladeString = '<x-navbar dark="true"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('navbar-dark', $output);
     }
 
     public function testRendersANavbarWithFixedPosition()
     {
-        $bladeString = '<x-bootstrap-navbar fixed="top"></x-bootstrap-navbar>';
+        $bladeString = '<x-navbar fixed="top"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('fixed-top', $output);
     }
 
     public function testRendersANavbarWithCustomClasses()
     {
-        $bladeString = '<x-bootstrap-navbar class="custom-class"></x-bootstrap-navbar>';
+        $bladeString = '<x-navbar class="custom-class"></x-navbar>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('custom-class', $output);
     }
