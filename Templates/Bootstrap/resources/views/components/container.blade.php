@@ -1,3 +1,3 @@
-<div class="{{ $fluid ? 'container-fluid' : 'container' }} {{$class}}">
+<div class="{{ $fluid ? 'container-fluid' : 'container' }} {{$class ?? ''}}">
     {{ $slot }}
 </div>

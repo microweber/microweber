@@ -8,12 +8,14 @@ use Illuminate\View\View;
 class Container extends Component
 {
     public $fluid;
+    public $class;
 
     /**
      * Create the component instance.
      */
-    public function __construct($fluid = false) {
+    public function __construct($class='',$fluid = false) {
         $this->fluid = $fluid;
+        $this->class = $class;
     }
 
     /**
