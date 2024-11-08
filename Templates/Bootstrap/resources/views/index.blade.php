@@ -67,7 +67,7 @@
 
             <x-bootstrap-row>
 
-                <x-bootstrap-col size="4">
+                <x-bootstrap-col col="4" col-lg="12">
                     <x-bootstrap-card>
 
                         <x-slot name="image">{{template_url()}}img/bootstrap5/bootstrap-docs.png</x-slot>

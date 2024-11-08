@@ -7,10 +7,14 @@ use Illuminate\View\View;
 
 class Container extends Component
 {
+    public $fluid;
+
     /**
      * Create the component instance.
      */
-    public function __construct() {}
+    public function __construct($fluid = false) {
+        $this->fluid = $fluid;
+    }
 
     /**
      * Get the view / contents that represent the component.

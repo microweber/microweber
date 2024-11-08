@@ -7,27 +7,37 @@ use Illuminate\View\View;
 
 class Col extends Component
 {
-    public $size = 12;
-    public $sizeLarge = 12;
-    public $sizeSmall = 12;
+    public $col = 12;
+    public $colLg = 12;
+    public $colSm = 12;
+    public $colXxl = 12;
+    public $colXl = 12;
+    public $class = '';
 
     /**
      * Create the component instance.
      */
-    public function __construct($size = 12, $sizeLarge = null, $sizeSmall = null)
+    public function __construct($col = 12, $colLg = null, $colSm = null, $colXxl = null, $colXl = null, $class = '')
     {
-        if(!$sizeLarge) {
-            $sizeLarge = $size;
+        if (!$colLg) {
+            $colLg = $col;
         }
-        if(!$sizeSmall) {
-            $sizeSmall = $size;
+        if (!$colSm) {
+            $colSm = $col;
         }
-
-        $this->size = $size;
-        $this->sizeLarge = $sizeLarge;
-        $this->sizeSmall = $sizeSmall;
+        if (!$colXxl) {
+            $colXxl = $col;
+        }
+        if (!$colXl) {
+            $colXl = $col;
+        }
+        $this->col = $col;
+        $this->colLg = $colLg;
+        $this->colSm = $colSm;
+        $this->colXxl = $colXxl;
+        $this->colXl = $colXl;
+        $this->class = $class;
     }
-
     /**
      * Get the view / contents that represent the component.
      */
