@@ -32,24 +32,25 @@ class ContentTableList extends Component implements HasForms, HasTable
     use InteractsWithForms;
     use InteractsWithActions;
 
-    public string|null $rel_id = null;
-    public string|null $rel_type = null;
+    public string|null $moduleId = null;
 
     public function editFormArray()
     {
         return [
 
-            Hidden::make('rel_id')
-                ->default($this->rel_id),
-            Hidden::make('rel_type')
-                ->default($this->rel_type),
+            Hidden::make('moduleId')
+                ->default($this->moduleId),
+
         ];
     }
 
     public function table(Table $table): Table
     {
+
+        $query = Content::query()->where('is_active', 1);
+
         return $table
-         //   ->query(Content::query()->where('rel_id', $this->rel_id)->where('rel_type', $this->rel_type))
+            ->query($query)
             ->defaultSort('position', 'asc')
             ->columns([
                 TextColumn::make('title')

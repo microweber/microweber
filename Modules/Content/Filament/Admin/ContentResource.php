@@ -160,7 +160,7 @@ class ContentResource extends Resource
                         MwMediaBrowser::make('mediaIds')
                             ->default(function () {
                                 $mediaIds = Media::where('created_by', auth()->id())
-                                    ->whereNull('rel_id')
+                                    ->whereNull('moduleId')
                                     ->orderBy('position', 'asc')
                                     ->pluck('id')->toArray();
 

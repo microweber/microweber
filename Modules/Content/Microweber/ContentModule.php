@@ -19,9 +19,8 @@ class ContentModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        $rel_type = $this->params['rel_type'] ?? 'module';
-        $rel_id = $this->params['rel_id'] ?? $this->params['id'];
-       // $viewData['contents'] = Content::get()
+        $moduleId = $this->params['moduleId'] ?? $this->params['id'];
+        $viewData['contents'] = static::getQueryBuilderFromOptions($viewData['options'])->get();
         $template = $viewData['template'] ?? 'default';
 
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
@@ -29,5 +28,11 @@ class ContentModule extends BaseModule
         }
 
         return view(static::$templatesNamespace . '.' . $template, $viewData);
+    }
+
+
+    public static function getQueryBuilderFromOptions($optionsArray = []) : \Illuminate\Database\Eloquent\Builder
+    {
+        return Content::query()->where('is_active', 1);
     }
 }

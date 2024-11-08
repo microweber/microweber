@@ -44,7 +44,7 @@ class TestimonialsTableList extends Component implements HasForms, HasTable
             Textarea::make('content')
                 ->label('Content')
                 ->required(),
-            TextInput::make('client_image')
+            MwFileUpload::make('client_image')
                 ->label('Client Image'),
             TextInput::make('client_company')
                 ->label('Client Company'),
@@ -69,7 +69,7 @@ class TestimonialsTableList extends Component implements HasForms, HasTable
                     ->label('Name'),
             ])
             ->filters([
-                // ...
+
             ])
             ->headerActions([
                 CreateAction::make('create')
@@ -90,6 +90,7 @@ class TestimonialsTableList extends Component implements HasForms, HasTable
 
     public function render()
     {
-        return view('modules.testimonials::testimonials-table-list');
+        $settings = config('testimonials'); // Assuming settings are stored in config
+        return view('modules.testimonials::testimonials-table-list', compact('settings'));
     }
 }

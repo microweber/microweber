@@ -153,7 +153,8 @@ class AdminLiveEditPage extends Page
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
             ->stickyModalHeader(true)
-            ->modalWidth(MaxWidth::ExtraLarge)
+          //  ->modalWidth(MaxWidth::ExtraLarge)
+            ->modalWidth(MaxWidth::Medium)
             ->extraModalWindowAttributes(['class' => 'mw-module-settings-live-edit-modal'])
             ->slideOver();
 
