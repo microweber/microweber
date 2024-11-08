@@ -11,9 +11,7 @@ class ButtonTest extends TestCase
     public function testRendersAButton()
     {
         $bladeString = '<x-button>Test</x-button>';
-
         $output = Blade::render($bladeString);
-
         $this->assertStringContainsString('class="btn', $output);
         $this->assertStringContainsString('Test', $output);
     }
@@ -58,5 +56,13 @@ class ButtonTest extends TestCase
         $bladeString = '<x-button class="custom-class"></x-button>';
         $output = Blade::render($bladeString);
         $this->assertStringContainsString('custom-class', $output);
+    }
+
+    public function testRendersAButtonWithAdditionalAttributes()
+    {
+        $bladeString = '<x-button id="test-button" data-test="value"></x-button>';
+        $output = Blade::render($bladeString);
+        $this->assertStringContainsString('id="test-button"', $output);
+        $this->assertStringContainsString('data-test="value"', $output);
     }
 }
