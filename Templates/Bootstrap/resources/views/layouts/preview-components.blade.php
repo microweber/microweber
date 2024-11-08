@@ -82,6 +82,16 @@
             </x-col>
         </x-row>
 
+        <h2>Radio Example</h2>
+        <x-row>
+            <x-col col="4">
+                <x-radio name="options" label="Option 1" value="1" />
+            </x-col>
+            <x-col col="4">
+                <x-radio name="options" label="Option 2" value="2" />
+            </x-col>
+        </x-row>
+
         <x-simple-text align="right">
             <x-slot name="title">
                 <h1>Welcome to Microweber</h1>

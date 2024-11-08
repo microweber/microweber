@@ -17,6 +17,7 @@ use Templates\Bootstrap\View\Components\Hero;
 use Templates\Bootstrap\View\Components\Input;
 use Templates\Bootstrap\View\Components\Navbar;
 use Templates\Bootstrap\View\Components\NavItem;
+use Templates\Bootstrap\View\Components\Radio;
 use Templates\Bootstrap\View\Components\Row;
 use Templates\Bootstrap\View\Components\SimpleText;
 
@@ -46,6 +47,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
         Blade::component('hero', Hero::class);
         Blade::component('input', Input::class);
         Blade::component('checkbox', Checkbox::class);
+        Blade::component('radio', Radio::class);
        // Blade::component('bootstrap-hero', Hero::class);
         Blade::component('simple-text', SimpleText::class);
         Blade::component('container', Container::class);
