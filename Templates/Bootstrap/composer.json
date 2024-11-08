@@ -24,7 +24,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Templates\\Bootstrap\\Tests\\": "tests/"
+            "Templates\\Bootstrap\\Tests\\": "Tests/"
         }
     }
 }

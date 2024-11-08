@@ -7,13 +7,13 @@ use Illuminate\View\View;
 
 class Container extends Component
 {
-    public $fluid;
-    public $class;
+    public $fluid = false;
+    public $class ='';
 
     /**
      * Create the component instance.
      */
-    public function __construct($class='',$fluid = false) {
+    public function __construct($fluid = false,$class='') {
         $this->fluid = $fluid;
         $this->class = $class;
     }
@@ -23,6 +23,7 @@ class Container extends Component
      */
     public function render(): View
     {
+
         return view('templates.bootstrap::components.container');
     }
 }
