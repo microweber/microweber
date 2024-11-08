@@ -31,7 +31,7 @@
         </x-bootstrap-navbar>
 
         <x-bootstrap-hero>
-            <x-slot name="image">{{template_url()}}img/heros/illustration-2.png</x-slot>
+            <x-slot name="image">{{asset('templates/bootstrap/img/heros/illustration-2.png')}}</x-slot>
             <x-slot name="title">
                 <h1>Welcome to Microweber</h1>
             </x-slot>
@@ -66,7 +66,7 @@
         <x-bootstrap-row>
             <x-bootstrap-col col="4" col-lg="4">
                 <x-bootstrap-card>
-                    <x-slot name="image">{{template_url()}}img/bootstrap5/bootstrap-docs.png</x-slot>
+                    <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
                     <x-slot name="title">Microweber Card</x-slot>
                     <x-slot name="content">
                         <p>
@@ -82,7 +82,7 @@
 
             <x-bootstrap-col col="4">
                 <x-bootstrap-card theme="success">
-                    <x-slot name="image">{{template_url()}}img/bootstrap5/bootstrap-docs.png</x-slot>
+                    <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
                     <x-slot name="title">CloudVision Cart</x-slot>
                     <x-slot name="content">
                         <p>
@@ -98,7 +98,7 @@
 
             <x-bootstrap-col col="4">
                 <x-bootstrap-card theme="danger">
-                    <x-slot name="image">{{template_url()}}img/bootstrap5/bootstrap-docs.png</x-slot>
+                    <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
                     <x-slot name="title">CHAT GPT Card</x-slot>
                     <x-slot name="content">
                         <p>

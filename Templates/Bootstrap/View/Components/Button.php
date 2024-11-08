@@ -13,11 +13,13 @@ class Button extends Component
     public $disabled;
     public $block;
     public $class;
+    public $url;
+    public $submit;
 
     /**
      * Create the component instance.
      */
-    public function __construct($type = 'primary', $size = 'md', $outline = false, $disabled = false, $block = false, $class = '')
+    public function __construct($type = 'primary', $size = 'md', $outline = false, $disabled = false, $block = false, $class = '', $url = null, $submit = false)
     {
         $this->type = $type;
         $this->size = $size;
@@ -25,6 +27,8 @@ class Button extends Component
         $this->disabled = $disabled;
         $this->block = $block;
         $this->class = $class;
+        $this->url = $url;
+        $this->submit = $submit;
     }
 
     /**
