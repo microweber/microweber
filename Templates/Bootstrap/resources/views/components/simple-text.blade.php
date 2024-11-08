@@ -11,13 +11,13 @@
 >
 
     @if (isset($title))
-        <div class="edit">
+        <div class="safe-mode">
             {{ $title }}
         </div>
     @endif
 
     @if (isset($content))
-        <div class="edit">
+        <div class="safe-mode">
             {{ $content }}
         </div>
     @endif

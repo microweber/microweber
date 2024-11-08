@@ -18,12 +18,12 @@
 
     <div class="card-body">
         @if(isset($title))
-        <h5 class="card-title edit">
+        <h5 class="card-title safe-mode">
             {{ $title }}
         </h5>
         @endif
         @if(isset($content))
-        <div class="edit">
+        <div class="safe-mode">
             {{ $content }}
         </div>
         @endif

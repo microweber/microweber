@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Templates\\Bootstrap\\": "app/",
+            "Templates\\Bootstrap\\": "",
             "Templates\\Bootstrap\\Database\\Factories\\": "database/factories/",
             "Templates\\Bootstrap\\Database\\Seeders\\": "database/seeders/"
         }

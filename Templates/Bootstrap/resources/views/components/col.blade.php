@@ -1,3 +1,3 @@
-<div class="col-md-{{$size}}">
+<div class="col-sm-{{$sizeSmall}} col-md-{{$size}} col-lg-{{$sizeLarge}}">
     {{ $slot }}
 </div>

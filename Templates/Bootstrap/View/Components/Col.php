@@ -7,13 +7,25 @@ use Illuminate\View\View;
 
 class Col extends Component
 {
-    public $size = 6;
+    public $size = 12;
+    public $sizeLarge = 12;
+    public $sizeSmall = 12;
 
     /**
      * Create the component instance.
      */
-    public function __construct($size = 6) {
+    public function __construct($size = 12, $sizeLarge = null, $sizeSmall = null)
+    {
+        if(!$sizeLarge) {
+            $sizeLarge = $size;
+        }
+        if(!$sizeSmall) {
+            $sizeSmall = $size;
+        }
+
         $this->size = $size;
+        $this->sizeLarge = $sizeLarge;
+        $this->sizeSmall = $sizeSmall;
     }
 
     /**
