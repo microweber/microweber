@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html {!! lang_attributes() !!}>
+<!DOCTYPE html {!! lang_attributes() !!}>
 <head>
 
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
@@ -50,6 +49,39 @@
     </x-container>
 
     <x-container>
+        <h2>Input Examples</h2>
+        <x-row>
+            <x-col col="4">
+                <x-input name="email" label="Email Address" type="email" placeholder="Enter your email" required />
+            </x-col>
+            <x-col col="4">
+                <x-input name="username" label="Username" placeholder="Enter your username" />
+            </x-col>
+            <x-col col="4">
+                <x-input name="password" label="Password" type="password" placeholder="Enter your password" required />
+            </x-col>
+        </x-row>
+        <x-row>
+            <x-col col="4">
+                <x-input name="phone" label="Phone Number" placeholder="Enter your phone number" />
+            </x-col>
+            <x-col col="4">
+                <x-input name="address" label="Address" placeholder="Enter your address" />
+            </x-col>
+            <x-col col="4">
+                <x-input name="website" label="Website" type="url" placeholder="Enter your website URL" />
+            </x-col>
+        </x-row>
+    </x-container>
+
+    <x-container>
+        <h2>Checkbox Example</h2>
+        <x-row>
+            <x-col col="4">
+                <x-checkbox name="terms" label="I agree to the terms" />
+            </x-col>
+        </x-row>
+
         <x-simple-text align="right">
             <x-slot name="title">
                 <h1>Welcome to Microweber</h1>
@@ -64,7 +96,7 @@
         </x-simple-text>
 
         <x-row>
-            <x-col col="4" col-lg="4">
+            <x-col col="4">
                 <x-card>
                     <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
                     <x-slot name="title">Microweber Card</x-slot>
@@ -115,43 +147,6 @@
 
         <x-alert type="success" message="This is a success alert!"></x-alert>
         <x-button type="primary">Click Me!</x-button>
-    </x-container>
-
-    <x-container>
-        <h2>Button Examples</h2>
-        <x-row>
-            <x-col col="4">
-                <x-button type="primary">Primary Button</x-button>
-            </x-col>
-            <x-col col="4">
-                <x-button type="secondary">Secondary Button</x-button>
-            </x-col>
-            <x-col col="4">
-                <x-button type="success">Success Button</x-button>
-            </x-col>
-        </x-row>
-        <x-row>
-            <x-col col="4">
-                <x-button type="danger">Danger Button</x-button>
-            </x-col>
-            <x-col col="4">
-                <x-button type="warning">Warning Button</x-button>
-            </x-col>
-            <x-col col="4">
-                <x-button type="info">Info Button</x-button>
-            </x-col>
-        </x-row>
-        <x-row>
-            <x-col col="4">
-                <x-button type="light">Light Button</x-button>
-            </x-col>
-            <x-col col="4">
-                <x-button type="dark">Dark Button</x-button>
-            </x-col>
-            <x-col col="4">
-                <x-button url="example" type="link">Link Button</x-button>
-            </x-col>
-        </x-row>
     </x-container>
 </div>
 
