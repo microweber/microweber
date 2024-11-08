@@ -9,12 +9,13 @@ class SimpleText extends Component
 {
 
     public $align;
-
+    public $class = '';
     /**
      * Create the component instance.
      */
-    public function __construct($align = null) {
+    public function __construct($align = null,$class = '') {
         $this->align = $align;
+        $this->class = $class;
     }
 
     /**
