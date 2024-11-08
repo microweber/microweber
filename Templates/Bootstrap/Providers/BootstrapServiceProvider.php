@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\LaravelTemplates\Providers\BaseTemplateServiceProvider;
 use MicroweberPackages\Package\ModulePackage;
 use Templates\Bootstrap\View\Components\Alert;
+use Templates\Bootstrap\View\Components\Button;
 use Templates\Bootstrap\View\Components\Card;
 use Templates\Bootstrap\View\Components\Col;
 use Templates\Bootstrap\View\Components\Columns;
@@ -45,6 +46,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
         Blade::component('bootstrap-col', Col::class);
         Blade::component('bootstrap-card', Card::class);
         Blade::component('bootstrap-alert', Alert::class);
+        Blade::component('bootstrap-button', Button::class);
 
     }
 
