@@ -19,6 +19,7 @@ use Templates\Bootstrap\View\Components\Navbar;
 use Templates\Bootstrap\View\Components\NavItem;
 use Templates\Bootstrap\View\Components\Radio;
 use Templates\Bootstrap\View\Components\Row;
+use Templates\Bootstrap\View\Components\Section;
 use Templates\Bootstrap\View\Components\SimpleText;
 
 class BootstrapServiceProvider extends BaseTemplateServiceProvider
@@ -50,6 +51,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
         Blade::component('radio', Radio::class);
        // Blade::component('bootstrap-hero', Hero::class);
         Blade::component('simple-text', SimpleText::class);
+        Blade::component('section', Section::class);
         Blade::component('container', Container::class);
         Blade::component('row', Row::class);
         Blade::component('col', Col::class);

@@ -47,7 +47,7 @@
             </x-slot>
         </x-hero>
     </x-container>
-
+    <x-section title="Test Title" some-attr="Test"  another-attr="Test2"  class="custom-class">Section Content goes here</x-section>
     <x-container>
         <h2>Column Examples</h2>
         <x-row>

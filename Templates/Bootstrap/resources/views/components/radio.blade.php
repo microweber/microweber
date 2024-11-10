@@ -5,6 +5,8 @@
     }
     if(!isset($id) or !$id and isset($label)){
         $id = str_slug($label);
+    } else if(!isset($id) or !$id and isset($name)){
+        $id = str_slug($name);
     }
 
 @endphp

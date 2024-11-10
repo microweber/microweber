@@ -67,7 +67,7 @@
 
             <x-row>
 
-                <x-col col="4" col-lg="12">
+                <x-col size="4">
                     <x-card>
 
                         <x-slot name="image">{{asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png')}}</x-slot>
