@@ -3,24 +3,21 @@
 namespace Templates\Bootstrap\Providers;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\LaravelTemplates\Providers\BaseTemplateServiceProvider;
-use MicroweberPackages\Package\ModulePackage;
-use Templates\Bootstrap\View\Components\Alert;
-use Templates\Bootstrap\View\Components\Button;
-use Templates\Bootstrap\View\Components\Card;
-use Templates\Bootstrap\View\Components\Checkbox;
-use Templates\Bootstrap\View\Components\Col;
-use Templates\Bootstrap\View\Components\Columns;
-use Templates\Bootstrap\View\Components\Container;
-use Templates\Bootstrap\View\Components\Hero;
-use Templates\Bootstrap\View\Components\Input;
-use Templates\Bootstrap\View\Components\Navbar;
-use Templates\Bootstrap\View\Components\NavItem;
-use Templates\Bootstrap\View\Components\Radio;
-use Templates\Bootstrap\View\Components\Row;
-use Templates\Bootstrap\View\Components\Section;
-use Templates\Bootstrap\View\Components\SimpleText;
+use Modules\Components\View\Components\Alert;
+use Modules\Components\View\Components\Button;
+use Modules\Components\View\Components\Card;
+use Modules\Components\View\Components\Checkbox;
+use Modules\Components\View\Components\Col;
+use Modules\Components\View\Components\Container;
+use Modules\Components\View\Components\Hero;
+use Modules\Components\View\Components\Input;
+use Modules\Components\View\Components\Navbar;
+use Modules\Components\View\Components\NavItem;
+use Modules\Components\View\Components\Radio;
+use Modules\Components\View\Components\Row;
+use Modules\Components\View\Components\Section;
+use Modules\Components\View\Components\SimpleText;
 
 class BootstrapServiceProvider extends BaseTemplateServiceProvider
 {
@@ -45,21 +42,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
         $this->registerConfig();
         $this->registerViews();
         //Blade::componentNamespace('Templates\\Bootstrap\\Views\\Components', 'bootstrap');
-        Blade::component('hero', Hero::class);
-        Blade::component('input', Input::class);
-        Blade::component('checkbox', Checkbox::class);
-        Blade::component('radio', Radio::class);
-       // Blade::component('bootstrap-hero', Hero::class);
-        Blade::component('simple-text', SimpleText::class);
-        Blade::component('section', Section::class);
-        Blade::component('container', Container::class);
-        Blade::component('row', Row::class);
-        Blade::component('col', Col::class);
-        Blade::component('card', Card::class);
-        Blade::component('alert', Alert::class);
-        Blade::component('button', Button::class);
-        Blade::component('navbar', Navbar::class);
-        Blade::component('nav-item', NavItem::class);
+
 
     }
 

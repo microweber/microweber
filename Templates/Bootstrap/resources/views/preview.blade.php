@@ -9,4 +9,4 @@
 
 
 ?>
-@extends('templates.bootstrap::layouts.preview-components')
+@extends('modules.components::layouts.preview-components')
