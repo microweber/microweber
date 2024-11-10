@@ -16,7 +16,6 @@
         {{ template_vite('templates/bootstrap/dist', 'resources/assets/sass/app-rtl.scss') }}
     @endif
 
-
 </head>
 
 <body class="{!! helper_body_classes() !!}">
@@ -47,7 +46,9 @@
             </x-slot>
         </x-hero>
     </x-container>
-    <x-section title="Test Title" some-attr="Test"  another-attr="Test2"  class="custom-class">Section Content goes here</x-section>
+
+    <x-section title="Test Title" some-attr="Test" another-attr="Test2" class="custom-class">Section Content goes here</x-section>
+
     <x-container>
         <h2>Column Examples</h2>
         <x-row>
@@ -70,6 +71,53 @@
                 </x-card>
             </x-col>
         </x-row>
+    </x-container>
+
+    <x-container>
+        <h2>Alert Example</h2>
+        <x-alert type="success" dismissible>Your changes have been saved successfully!</x-alert>
+        <x-alert type="danger" dismissible>There was an error processing your request.</x-alert>
+
+        <h2>Button Example</h2>
+        <x-button type="primary">Primary Button</x-button>
+        <x-button type="secondary" outline>Secondary Button</x-button>
+
+        <h2>Modal Example</h2>
+        <x-modal id="exampleModal" title="Modal Title">
+            <x-slot name="body">
+                This is the modal body content.
+            </x-slot>
+            <x-slot name="footer">
+                <x-button type="secondary" data-bs-dismiss="modal">Close</x-button>
+                <x-button type="primary">Save changes</x-button>
+            </x-slot>
+        </x-modal>
+
+        <h2>Select Example</h2>
+        <x-select name="country" label="Select Country" :options="['USA', 'Canada', 'Mexico']"/>
+
+        <h2>Input Example</h2>
+        <x-input name="email" label="Email Address" type="email" placeholder="Enter email" required/>
+
+        <h2>Progress Bar Example</h2>
+        <x-progress-bar value="75" type="success" striped animated/>
+
+        <h2>Tabs Example</h2>
+        <x-tabs>
+            <x-tab-pane title="Home" active>
+                Home content
+            </x-tab-pane>
+            <x-tab-pane title="Profile">
+                Profile content
+            </x-tab-pane>
+        </x-tabs>
+
+        <h2>Pagination Example</h2>
+        @php
+
+        $posts = new \Illuminate\Pagination\LengthAwarePaginator(range(1, 100), 100, 10);
+        @endphp
+        <x-pagination :items="$posts"/>
     </x-container>
 </div>
 
