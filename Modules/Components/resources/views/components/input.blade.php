@@ -1,21 +1,28 @@
-@php
-  $attr = $attributes->merge(['class' => 'form-control']);
-  if ($disabled) {
-      $attr['disabled'] = 'disabled';
-  }
-  if ($required) {
-      $attr['required'] = 'required';
-  }
-@endphp
-
 <div class="mb-3">
-    @if(!empty($label))
-        <label for="{{ $name }}">{{ $label }}</label>
+    @if($label)
+        <label for="{{ $name }}" class="form-label">{{ $label }}</label>
     @endif
 
-    <input type="{{ $type }}" name="{{ $name }}" id="{{ $name }}" value="{{ old($name, $value) }}" placeholder="{{ $placeholder }}" {!! $attr !!}>
+    <input 
+        type="{{ $type }}"
+        name="{{ $name }}"
+        id="{{ $name }}"
+        value="{{ old($name, $value) }}"
+        @if($placeholder) placeholder="{{ $placeholder }}" @endif
+        @if($required) required @endif
+        @if($disabled) disabled @endif
+        {{ $attributes->merge([
+            'class' => 'form-control' . ($errors && $errors->has($name) ? ' is-invalid' : '')
+        ]) }}
+    >
 
-    @if(!empty($help))
-        <small class="form-text text-muted">{{ $help }}</small>
+    @if($helper)
+        <div class="form-text">{{ $helper }}</div>
+    @endif
+
+    @if($errors && $errors->has($name))
+        <div class="invalid-feedback">
+            {{ $errors->first($name) }}
+        </div>
     @endif
 </div>

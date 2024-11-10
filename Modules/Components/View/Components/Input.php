@@ -7,31 +7,30 @@ use Illuminate\View\View;
 
 class Input extends Component
 {
-    public $name;
-    public $label;
-    public $type;
-    public $value;
-    public $placeholder;
-    public $required;
-    public $disabled;
-    public $help;
-    public $errors;
-
     /**
      * Create the component instance.
+     *
+     * @param string $name Input name
+     * @param string|null $label Input label
+     * @param string $type Input type (text, email, password, etc.)
+     * @param string|null $value Input value
+     * @param string|null $placeholder Input placeholder
+     * @param bool $required Makes the input required
+     * @param bool $disabled Disables the input
+     * @param string|null $helper Helper text below input
+     * @param array|null $errors Validation errors
      */
-    public function __construct($name, $label = null, $type = 'text', $value = '', $placeholder = '', $required = false, $disabled = false, $help = '', $errors = null)
-    {
-        $this->name = $name;
-        $this->label = $label;
-        $this->type = $type;
-        $this->value = $value;
-        $this->placeholder = $placeholder;
-        $this->required = $required;
-        $this->disabled = $disabled;
-        $this->help = $help;
-        $this->errors = $errors;
-    }
+    public function __construct(
+        public string $name,
+        public ?string $label = null,
+        public string $type = 'text',
+        public ?string $value = null,
+        public ?string $placeholder = null,
+        public bool $required = false,
+        public bool $disabled = false,
+        public ?string $helper = null,
+        public ?array $errors = null
+    ) {}
 
     /**
      * Get the view / contents that represent the component.

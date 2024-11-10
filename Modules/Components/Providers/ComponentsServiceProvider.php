@@ -18,12 +18,18 @@ use Modules\Components\View\Components\Col;
 use Modules\Components\View\Components\Container;
 use Modules\Components\View\Components\Hero;
 use Modules\Components\View\Components\Input;
+use Modules\Components\View\Components\Modal;
 use Modules\Components\View\Components\Navbar;
 use Modules\Components\View\Components\NavItem;
+use Modules\Components\View\Components\Pagination;
+use Modules\Components\View\Components\ProgressBar;
 use Modules\Components\View\Components\Radio;
 use Modules\Components\View\Components\Row;
 use Modules\Components\View\Components\Section;
+use Modules\Components\View\Components\Select;
 use Modules\Components\View\Components\SimpleText;
+use Modules\Components\View\Components\TabPane;
+use Modules\Components\View\Components\Tabs;
 
 class ComponentsServiceProvider extends BaseModuleServiceProvider
 {
@@ -49,9 +55,6 @@ class ComponentsServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
-
-
 
         Blade::component('hero', Hero::class);
         Blade::component('input', Input::class);
@@ -67,9 +70,11 @@ class ComponentsServiceProvider extends BaseModuleServiceProvider
         Blade::component('button', Button::class);
         Blade::component('navbar', Navbar::class);
         Blade::component('nav-item', NavItem::class);
-
-
-
+        Blade::component('modal', Modal::class);
+        Blade::component('select', Select::class);
+        Blade::component('progress-bar', ProgressBar::class);
+        Blade::component('tabs', Tabs::class);
+        Blade::component('tab-pane', TabPane::class);
+        Blade::component('pagination', Pagination::class);
     }
-
 }
