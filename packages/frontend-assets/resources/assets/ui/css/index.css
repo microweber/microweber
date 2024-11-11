@@ -79,7 +79,7 @@ a {
     }
 }
 
-.mw-live-edit-right-sidebar-wrapper {
+.mw-live-edit-right-sidebar-wrapper, .live-edit-toolbar-buttons-view, .mw-live-edit-resolutions-wrapper {
     display: none !important;
 }
 
@@ -96,17 +96,18 @@ a {
     }
 }
 
-.mw-live-edit-resolutions-wrapper {
-    display: none !important;
-}
-
-
 @media (min-width: 730px) {
     .live-edit-undo-redo-buttons-wrapper, .mw-live-edit-resolutions-wrapper {
         display: flex !important;
     }
 }
 
+@media (min-width: 328px) {
+    .live-edit-toolbar-buttons-view {
+        display: flex !important;
+
+    }
+}
 
 html.preview #toolbar {
 
