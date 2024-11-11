@@ -34,4 +34,11 @@ class AlertTest extends TestCase
         $this->assertStringContainsString('alert alert-danger', $view);
         $this->assertStringContainsString('Danger alert!', $view);
     }
+
+    public function testRendersACardWithDarkTheme()
+    {
+        $bladeString = '<x-card theme="dark"></x-card>';
+        $output = Blade::render($bladeString);
+        $this->assertStringContainsString('bg-dark text-white', $output);
+    }
 }

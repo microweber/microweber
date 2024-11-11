@@ -3,8 +3,6 @@
         @if(isset($slot) && !$slot->isEmpty())
             @foreach($slot as $slotKey => $tabPane)
                 @if(isset($tabPane))
-
-
                     <li class="nav-item" role="presentation">
                         <button
                             class="nav-link{{ $tabPane['attributes']['active'] ?? false ? ' active' : '' }}"
@@ -17,14 +15,14 @@
                             aria-selected="{{ $tabPane['attributes']['active'] ?? false ? 'true' : 'false' }}"
                         >
                             {{ $tabPane['attributes']['title'] ?? 'Tab ' . $slotKey }}
-                       </button>
-                   </li>
-               @endif
-           @endforeach
-       @endif
-   </ul>
+                        </button>
+                    </li>
+                @endif
+            @endforeach
+        @endif
+    </ul>
 
-   <div class="tab-content{{ $vertical ? ' flex-grow-1' : '' }} mt-2">
+    <div class="tab-content{{ $vertical ? ' flex-grow-1' : '' }} mt-2">
         {{ $slot }}
     </div>
 </div>

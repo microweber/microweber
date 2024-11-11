@@ -6,14 +6,15 @@
 php artisan module:publish Components
 ```
 
-
 # Bootstrap Components
 
-This package provides a set of reusable Bootstrap components for Laravel applications using Blade components with the `x-` prefix.
+This package provides a set of reusable Bootstrap components for Laravel applications using Blade components with the
+`x-` prefix.
 
 ## Installation
 
 1. Install the package via composer:
+
 ```bash
 composer require microweber-modules/components
 ```
@@ -23,6 +24,7 @@ composer require microweber-modules/components
 ## Available Components
 
 ### Alert
+
 Display alert messages with different styles.
 
 ```blade
@@ -32,10 +34,12 @@ Display alert messages with different styles.
 ```
 
 **Props:**
+
 - `type` (string): success, danger, warning, info, primary, secondary, light, dark
 - `dismissible` (boolean): Adds a close button to dismiss the alert
 
 ### Button
+
 Create Bootstrap styled buttons.
 
 ```blade
@@ -45,6 +49,7 @@ Create Bootstrap styled buttons.
 ```
 
 **Props:**
+
 - `type` (string): primary, secondary, success, danger, warning, info, light, dark
 - `size` (string): sm, md, lg
 - `outline` (boolean): Creates an outline button style
@@ -52,6 +57,7 @@ Create Bootstrap styled buttons.
 - `block` (boolean): Creates a block level button
 
 ### Card
+
 Create Bootstrap card components.
 
 ```blade
@@ -65,11 +71,13 @@ Create Bootstrap card components.
 ```
 
 **Props:**
+
 - `headerClass` (string): Additional classes for header
 - `bodyClass` (string): Additional classes for body
 - `footerClass` (string): Additional classes for footer
 
 ### Modal
+
 Create Bootstrap modals.
 
 ```blade
@@ -86,6 +94,7 @@ Create Bootstrap modals.
 ```
 
 **Props:**
+
 - `id` (string): Modal identifier
 - `title` (string): Modal title
 - `size` (string): sm, lg, xl
@@ -93,6 +102,7 @@ Create Bootstrap modals.
 - `scrollable` (boolean): Adds a scrollable body
 
 ### Navbar
+
 Create responsive navigation bars.
 
 ```blade
@@ -104,6 +114,7 @@ Create responsive navigation bars.
 ```
 
 **Props:**
+
 - `brand` (string): Brand text
 - `brandUrl` (string): Brand link URL
 - `expand` (string): sm, md, lg, xl
@@ -113,6 +124,7 @@ Create responsive navigation bars.
 ### Form Components
 
 #### Form Input
+
 ```blade
 <x-input 
     name="email" 
@@ -124,6 +136,7 @@ Create responsive navigation bars.
 ```
 
 **Props:**
+
 - `name` (string): Input name
 - `label` (string): Input label
 - `type` (string): Input type (text, email, password, etc.)
@@ -134,6 +147,7 @@ Create responsive navigation bars.
 - `helper` (string): Helper text below input
 
 #### Form Select
+
 ```blade
 <x-select 
     name="country" 
@@ -143,6 +157,7 @@ Create responsive navigation bars.
 ```
 
 **Props:**
+
 - `name` (string): Select name
 - `label` (string): Select label
 - `options` (array): Array of options
@@ -150,6 +165,7 @@ Create responsive navigation bars.
 - `multiple` (boolean): Allows multiple selections
 
 #### Form Checkbox
+
 ```blade
 <x-checkbox 
     name="terms" 
@@ -158,12 +174,14 @@ Create responsive navigation bars.
 ```
 
 **Props:**
+
 - `name` (string): Checkbox name
 - `label` (string): Checkbox label
 - `checked` (boolean): Checked state
 - `value` (string): Checkbox value
 
 ### Pagination
+
 Create Bootstrap styled pagination.
 
 ```blade
@@ -173,10 +191,12 @@ Create Bootstrap styled pagination.
 ```
 
 **Props:**
+
 - `items` (mixed): The paginator instance
 - `size` (string): sm, lg
 
 ### Progress Bar
+
 Display progress bars.
 
 ```blade
@@ -189,12 +209,14 @@ Display progress bars.
 ```
 
 **Props:**
+
 - `value` (integer): Progress value (0-100)
 - `type` (string): success, info, warning, danger
 - `striped` (boolean): Adds stripes
 - `animated` (boolean): Animates the stripes
 
 ### Tabs
+
 Create tabbed interfaces.
 
 ```blade
@@ -209,6 +231,7 @@ Create tabbed interfaces.
 ```
 
 **Props:**
+
 - `vertical` (boolean): Creates vertical tabs
 - `pills` (boolean): Uses pill style
 
@@ -225,22 +248,19 @@ All components use Bootstrap 5 classes and can be customized using standard Boot
 </x-button>
 ```
 
- 
-
 ## RTL Support
 
 All components automatically support RTL when the page direction is set to RTL:
 
 ```html
+
 <html dir="rtl">
 ```
 
-
-
-
-## Example 
+## Example Usage in Blade Templates
 
 ```html
+
 <x-container>
 
     <x-hero editable="true" align="center">
@@ -252,7 +272,12 @@ All components automatically support RTL when the page direction is set to RTL:
         </x-slot>
         <x-slot name="content">
             <p>
-                Microweber is a drag and drop website builder and a powerful next-generation CMS. It's easy to use, and it's a great tool for building websites, online shops, blogs, and more. It's based on the Laravel PHP framework and the Bootstrap front-end framework.
+                Microweber is a drag and drop website builder and a powerful next-generation CMS. It's easy to use, and
+                it's a great tool for building websites, online shops, blogs, and more. It's based on the Laravel PHP
+                framework and the Bootstrap front-end framework.
+                
+                
+                
             </p>
         </x-slot>
         <x-slot name="actions">
@@ -276,7 +301,9 @@ All components automatically support RTL when the page direction is set to RTL:
         </x-slot>
         <x-slot name="content">
             <p>
-                Microweber is a drag and drop website builder and a powerful next-generation CMS. It's easy to use, and it's a great tool for building websites, online shops, blogs, and more. It's based on the Laravel PHP framework and the Bootstrap front-end framework.
+                Microweber is a drag and drop website builder and a powerful next-generation CMS. It's easy to use, and
+                it's a great tool for building websites, online shops, blogs, and more. It's based on the Laravel PHP
+                framework and the Bootstrap front-end framework.
             </p>
         </x-slot>
     </x-simple-text>
@@ -354,12 +381,10 @@ All components automatically support RTL when the page direction is set to RTL:
 
             </x-card>
         </x-col>
-
     </x-row>
 </x-container>
 
 ```
-
 
 ## Contributing
 

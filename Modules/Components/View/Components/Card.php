@@ -7,18 +7,24 @@ use Illuminate\View\View;
 
 class Card extends Component
 {
-    /**
-     * Create the component instance.
-     *
-     * @param string|null $headerClass Additional classes for header
-     * @param string|null $bodyClass Additional classes for body
-     * @param string|null $footerClass Additional classes for footer
-     */
+
+    public string $theme;
+    public string $headerClass;
+    public string $bodyClass;
+    public string $footerClass;
     public function __construct(
-        public ?string $headerClass = null,
-        public ?string $bodyClass = null,
-        public ?string $footerClass = null
-    ) {}
+        ?string $theme = null,
+        ?string $headerClass = null,
+        ?string $bodyClass = null,
+        ?string $footerClass = null,
+    ) {
+
+        $this->theme = $theme ?? 'light';
+        $this->headerClass = $headerClass ?? '';
+        $this->bodyClass = $bodyClass ?? '';
+        $this->footerClass = $footerClass ?? '';
+
+    }
 
     /**
      * Get the view / contents that represent the component.
