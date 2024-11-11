@@ -1,4 +1,8 @@
 <div {{ $attributes->merge(['class' => 'card']) }}>
+    @if(isset($image))
+        <img src="{{ $image }}" class="card-img-top" alt="Card image">
+    @endif
+
     @if(isset($header))
         <div class="card-header {{ $headerClass }}">
             {{ $header }}
@@ -6,6 +10,9 @@
     @endif
 
     <div class="card-body {{ $bodyClass }}">
+        @if(isset($content))
+            {{ $content }}
+         @endif
         {{ $slot }}
     </div>
 

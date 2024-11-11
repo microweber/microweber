@@ -54,8 +54,13 @@
         <x-row>
             <x-col size="4">
                 <x-card>
-                    <x-slot name="title">Column 1</x-slot>
-                    <x-slot name="content">Content for column 1</x-slot>
+                    <x-slot name="image">{{ asset('templates/bootstrap/img/bootstrap5/bootstrap-docs.png') }}</x-slot>
+                    <x-slot name="title">Microweber Card</x-slot>
+                    <x-slot name="content">
+                        <p>
+                            Some quick example text to build on the card title and make up the bulk of the card's content.
+                        </p>
+                    </x-slot>
                 </x-card>
             </x-col>
             <x-col size="4">
@@ -114,7 +119,6 @@
 
         <h2>Pagination Example</h2>
         @php
-
         $posts = new \Illuminate\Pagination\LengthAwarePaginator(range(1, 100), 100, 10);
         @endphp
         <x-pagination :items="$posts"/>
