@@ -61,17 +61,52 @@ a {
 }
 
 #toolbar {
-    min-height: var(--toolbar-height);
+    height: var(--toolbar-height);
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     background: var(--tblr-bg-surface);
     display: flex;
     position: relative;
     z-index: 2;
     transition: var(--toolbar-height-animation-speed);
 }
+
+@media (min-width: 512px) {
+    .add-content-button-svg {
+        display: flex !important;
+
+    }
+}
+
+.mw-live-edit-right-sidebar-wrapper {
+    display: none !important;
+}
+
+@media (min-width: 512px) {
+    .mw-live-edit-right-sidebar-wrapper {
+        display: flex !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .toolbar-col-container {
+        display: flex !important;
+        align-items: center;
+    }
+}
+
+.mw-live-edit-resolutions-wrapper {
+    display: none !important;
+}
+
+
+@media (min-width: 730px) {
+    .live-edit-undo-redo-buttons-wrapper, .mw-live-edit-resolutions-wrapper {
+        display: flex !important;
+    }
+}
+
 
 html.preview #toolbar {
 

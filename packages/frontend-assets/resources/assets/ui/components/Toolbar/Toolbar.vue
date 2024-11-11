@@ -35,7 +35,7 @@ html.preview .back-to-edit{
 
 </style>
 <template>
-    <div id="toolbar" class="shadow-sm py-2 md:px-6 px-3 gap-3" :style="{'display': toolbarDisplay}">
+    <div id="toolbar" class="shadow-sm py-2 md:px-6 px-3 gap-3 " :style="{'display': toolbarDisplay}">
         <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-start">
 
             <a id="mw-live-edit-toolbar-back-to-admin-link" class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
@@ -48,7 +48,7 @@ html.preview .back-to-edit{
                  <span class="ms-1 font-weight-bold">ADMIN</span>
             </a>
 
-            <div class="live-edit-undo-redo-buttons-wrapper ms-1">
+            <div class="live-edit-undo-redo-buttons-wrapper hidden ms-1">
                 <UndoRedo></UndoRedo>
             </div>
 
@@ -58,13 +58,13 @@ html.preview .back-to-edit{
         </div>
 
 
-        <div class="col-lg-3 col-sm-auto col-12 toolbar-col-container d-md-flex align-items-center">
+        <div class="col-lg-3 col-sm-auto col-12 toolbar-col-container hidden">
             <ContentSearchNav></ContentSearchNav>
             <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
         </div>
 
 
-        <div class="toolbar-col col-lg-auto col-12 justify-content-center align-items-center">
+        <div class="toolbar-col justify-content-center align-items-center ">
             <div class="toolbar-col-container">
                 <div class="d-flex align-items-center flex-wrap gap-2">
                     <ResolutionSwitch></ResolutionSwitch>
