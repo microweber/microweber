@@ -6,37 +6,45 @@
         @else
             @foreach($testimonials as $item)
 
-                <x-card>
-                    @if($item->client_image)
-                        <x-slot name="image">{{ $item->client_image }}</x-slot>
-                    @endif
-                    @if($item->name)
-                        <x-slot name="header">
+                <div class="card">
+                    <div class="card-header" id="heading-{{ $params['id'] }}-{{ $item->id }}">
+                        @if($item->name)
+                            <h5 class="mb-0">
+                                {{ $item->name }}
+                            </h5>
+                        @endif
+                    </div>
 
-                            <h5 class="mb-0">{{ $item->name }}</h5>
+                    <div id="collapse-{{ $params['id'] }}-{{ $item->id }}"
+                         aria-labelledby="heading-{{ $params['id'] }}-{{ $item->id }}"
+                         data-parent="#testimonials-{{ $params['id'] }}">
 
-                        </x-slot>
-                    @endif
-                    <x-slot name="content">
-                        @if($item->content)
-                            {!! $item->content !!}
+                        @if($item->client_image)
+                            <img src="{{ $item->client_image }}" class="card-img-top" alt="{{ $item->name }}'s image">
                         @endif
 
-                        @if($item->client_company)
-                            <p>{{ $item->client_company }}</p>
-                        @endif
-                        @if($item->client_role)
-                            <p>{{ $item->client_role }}</p>
-                        @endif
-                        @if($item->client_website)
-                            <p>
-                                <a href="{{ $item->client_website }}"
-                                   target="_blank">{{ $item->client_website }}</a>
-                            </p>
-                        @endif
-                    </x-slot>
-                </x-card>
+                        <div class="card-body">
 
+                            @if($item->content)
+                                {!! $item->content !!}
+                            @endif
+
+                            @if($item->client_company)
+                                <p>{{ $item->client_company }}</p>
+                            @endif
+                            @if($item->client_role)
+                                <p>{{ $item->client_role }}</p>
+                            @endif
+                            @if($item->client_website)
+                                <p>
+                                    <a href="{{ $item->client_website }}"
+                                       target="_blank">{{ $item->client_website }}</a>
+                                </p>
+                            @endif
+
+                        </div>
+                    </div>
+                </div>
             @endforeach
         @endif
     </div>

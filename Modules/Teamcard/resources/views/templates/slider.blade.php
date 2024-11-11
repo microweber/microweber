@@ -38,7 +38,7 @@ description slider
                             <div class="m-auto rounded-circle" style="width:150px;height:150px;background-image: url('{{ thumbnail($member['file'], 200) }}');"></div>
                         @else
                             <div class="m-auto rounded-circle">
-                                <img width="185" height="185" src="{{ modules_url() }}teamcard/templates/default-image.svg"/>
+                                <img width="185" height="185" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
                             </div>
                         @endif
                     </div>
