@@ -26,7 +26,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 ?>
 
 
-<section class="section <?php print $layout_classes; ?> edit safe-mode  " field="layout-content-skin-2-<?php print $params['id'] ?>" rel="module">
+<section class="section <?php print $layout_classes; ?> edit safe-mode  " field="layout-content-skin-2-{{ $params['id'] }}" rel="module">
     <div class="px-4 pt-5 my-5 text-center border-bottom">
         <h1 class="display-4 fw-bold">Centered screenshot</h1>
         <div class="col-lg-6 mx-auto">

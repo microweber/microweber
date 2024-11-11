@@ -26,7 +26,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 ?>
 
 
-<section class="section <?php print $layout_classes; ?> edit safe-mode   " field="layout-features-skin-2-<?php print $params['id'] ?>" rel="module">
+<section class="section <?php print $layout_classes; ?> edit safe-mode   " field="layout-features-skin-2-{{ $params['id'] }}" rel="module">
     <div class="container px-4 py-5" id="hanging-icons">
         <h2 class="pb-2 border-bottom">Hanging icons</h2>
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">

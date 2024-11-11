@@ -26,7 +26,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 ?>
 
 
-<section class="section py-0 edit safe-mode nodrop" field="layout-text-block-skin-13-<?php print $params['id'] ?>" rel="module" data-background-position="center center" data-overlay-primary="true" data-overlay="4" style="background-color: #686340;">
+<section class="section py-0 edit safe-mode nodrop" field="layout-text-block-skin-13-{{ $params['id'] }}" rel="module" data-background-position="center center" data-overlay-primary="true" data-overlay="4" style="background-color: #686340;">
     <div class="mh-100vh d-flex align-items-center background-image-holder">
         <div class="container <?php print $layout_classes; ?>">
             <div class="row text-center">

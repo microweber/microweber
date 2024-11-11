@@ -26,7 +26,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 ?>
 
 <section class="  footer-background <?php print $layout_classes; ?> edit safe-mode  "
-         field="layout-footer-skin-1-<?php print $params['id'] ?>" rel="module">
+         field="layout-footer-skin-1-{{ $params['id'] }}" rel="module">
     <!-- Footer -->
     <div class="container">
        <div class="row d-flex justify-content-center text-center">
@@ -61,7 +61,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 <section class="py-2" style="background-color: #f5f5f5;">
     <div class="container py-2" >
         <div class="col-12 d-md-flex text-center">
-            <small class="col-sm-6 text-md-start text-center edit" field="footer-reserved-skin-4-<?php print $params['id'] ?>" rel="module">© All Rights Reserved. Your Website Design</small>
+            <small class="col-sm-6 text-md-start text-center edit" field="footer-reserved-skin-4-{{ $params['id'] }}" rel="module">© All Rights Reserved. Your Website Design</small>
             <small class="col-sm-6 mb-0 noedit text-md-end text-center"><?php print powered_by_link(); ?></small>
         </div>
     </div>

@@ -31,7 +31,7 @@ if (page_title()) {
 ?>
 
 
-<section class="section <?php print $layout_classes; ?> edit safe-mode allow-drop" field="layout-grids-skin-9-<?php print $params['id'] ?>" rel="module">
+<section class="section <?php print $layout_classes; ?> edit safe-mode allow-drop" field="layout-grids-skin-9-{{ $params['id'] }}" rel="module">
     <div class="container">
         <div class="row">
             <div class="col-12 col-sm-6 col-md-3 col-lg-3 mb-2 cloneable">

@@ -29,11 +29,11 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <div class="container-fluid">
         <div class="row gap-y align-items-center">
             <div class="col-md-3 text-center text-md-start">
-                <small class="edit" field="footer-reserved-skin-4-<?php print $params['id'] ?>" rel="module">© All Rights Reserved. Your Website Design</small>
+                <small class="edit" field="footer-reserved-skin-4-{{ $params['id'] }}" rel="module">© All Rights Reserved. Your Website Design</small>
             </div>
 
             <div class="col-md-6">
-                <module type="menu" template="simple" data-class="nav nav-center justify-content-center" id="footer_menu" name="footer_menu" field="footer-menu-skin-23-<?php print $params['id'] ?>" rel="module"/>
+                <module type="menu" template="simple" data-class="nav nav-center justify-content-center" id="footer_menu" name="footer_menu" field="footer-menu-skin-23-{{ $params['id'] }}" rel="module"/>
             </div>
 
             <div class="col-md-3 text-center text-md-end">

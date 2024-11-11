@@ -26,7 +26,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 ?>
 
 
-<section class="section <?php print $layout_classes; ?> edit safe-mode nodrop" field="layout-titles-skin-2-<?php print $params['id'] ?>" rel="module">
+<section class="section <?php print $layout_classes; ?> edit safe-mode nodrop" field="layout-titles-skin-2-{{ $params['id'] }}" rel="module">
     <div class="container">
         <div class="row text-center mb-5 nodrop">
             <div class="col-lg-12 mx-auto allow-drop">
