@@ -4,6 +4,15 @@ namespace MicroweberPackages\Microweber\Support;
 
 class ScanForBladeTemplates
 {
+
+    public int $depth = 0;
+
+
+    public function setScanDepth($depth)
+    {
+        $this->depth = $depth;
+    }
+
     public function scan($templatesNamespace)
     {
         $viewsHints = app('view')->getFinder()->getHints();
@@ -47,9 +56,21 @@ class ScanForBladeTemplates
         $folder = normalize_path($folder, false);
         $files = glob($folder . '/' . $glob_patern);
 
+        if($this->depth > 0){
+            $this->depth--;
+            $subfolders = glob($folder . '/*', GLOB_ONLYDIR);
+            foreach($subfolders as $subfolder){
+                $subfolderFiles = array_merge($files, glob($subfolder . '/' . $glob_patern));
+                $files = array_merge($files, $subfolderFiles);
+            }
+        }
+
         //   $files = array_merge($files, glob($folder . '/*/' . $glob_patern));
         $configs = array();
         foreach ($files as $filename) {
+            if(is_array($filename)) {
+                continue;
+            }
             if (is_file($filename)) {
 
                 $fin = file_get_contents($filename);
@@ -207,7 +228,16 @@ class ScanForBladeTemplates
 //                        if(!isset($the_active_site_template)){
 //                            $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
 //                        }
-                $layout_file_basename = basename($layout_file);
+              //  $layout_file_basename = basename($layout_file);
+
+                $folder_normalized = normalize_path($folder, true);
+                $filename_normalized = normalize_path($filename, false);
+
+                $layout_file_basename = str_replace($folder_normalized, '', $filename_normalized);
+             //   $layout_file_basename = basename( $layout_file_basename);
+                $layout_file_basename = str_replace('\\', '.', $layout_file_basename);
+                $layout_file_basename = str_replace('//', '.', $layout_file_basename);
+
                 $view_name = str_replace('.blade.php', '', $layout_file_basename);
 
                 $to_return_temp['layout_file'] = $view_name;

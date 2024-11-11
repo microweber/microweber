@@ -139,6 +139,11 @@ trait ManagesModules
                 if (method_exists($moduleClass, 'getTemplatesNamespace')) {
                     $templatesNamespace = $moduleClass::getTemplatesNamespace();
                     $scanTemplates = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
+                     if (method_exists($moduleClass, 'getTemplatesScanDepth')) {
+                        $scanTemplates->setScanDepth($moduleClass::getTemplatesScanDepth());
+                    }
+
+
                     $templatesForModule = $scanTemplates->scan($templatesNamespace);
                 }
             }

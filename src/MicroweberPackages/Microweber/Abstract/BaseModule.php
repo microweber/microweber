@@ -29,7 +29,7 @@ abstract class BaseModule
 
     public function __construct($params = [])
     {
-         $this->params = $params;
+        $this->params = $params;
 
 
     }
@@ -64,5 +64,27 @@ abstract class BaseModule
         $template = isset($viewData['template']) ? $viewData['template'] : 'default';
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
+
+
+    public function getViewName($template)
+    {
+        if (!static::$templatesNamespace) {
+            return throw new \Exception('No templates namespace provided');
+        }
+
+        $viewName = static::$templatesNamespace . '.' . 'default';
+        if ($template) {
+            $template = str_replace('.blade.php', '', $template);
+            $template = str_replace('.php', '', $template);
+            $template = str_replace('/', '.', $template);
+            $template = str_replace('\\', '.', $template);
+            $viewSettings = static::$templatesNamespace . '.' . $template;
+            if (view()->exists($viewSettings)) {
+                $viewName = $viewSettings;
+            }
+        }
+        return $viewName;
+    }
+
 
 }

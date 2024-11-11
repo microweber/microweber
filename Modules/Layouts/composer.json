@@ -1,0 +1,33 @@
+{
+    "name": "modules/layouts",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Layouts\\": "",
+            "Modules\\Layouts\\Database\\Factories\\": "database/factories/",
+            "Modules\\Layouts\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Layouts\\Tests\\": "Tests/"
+        }
+    }
+}
