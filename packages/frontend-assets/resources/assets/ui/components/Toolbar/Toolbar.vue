@@ -35,7 +35,7 @@ html.preview .back-to-edit{
 
 </style>
 <template>
-    <div id="toolbar" class="shadow-sm py-2 md:px-6 px-3 gap-3 " :style="{'display': toolbarDisplay}">
+    <div id="toolbar" class="shadow-sm md:px-6 px-3 gap-3 " :style="{'display': toolbarDisplay}">
         <div class="toolbar-nav toolbar-nav-hover col-xxl-3 col-auto d-flex justify-content-start">
 
             <a id="mw-live-edit-toolbar-back-to-admin-link" class="mw-live-edit-toolbar-link mw-live-edit-toolbar-link--arrowed" :href="backToAdminLink">
