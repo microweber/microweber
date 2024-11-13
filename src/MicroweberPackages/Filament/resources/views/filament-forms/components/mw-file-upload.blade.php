@@ -51,7 +51,7 @@
 
                 mw.filePickerDialog({
                     pickerOptions :{
-                        type: typeFile
+                        type: acceptedFileTypes
                     }
                 }, (url) => {
                     state = url;
