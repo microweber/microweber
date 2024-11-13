@@ -6,6 +6,7 @@
         x-data="layoutSettings('image', '{{ $optionGroup }}')"
     >
         <div id="mw-layout-setting-module">
+
             <div id="change-background" wire:ignore>
                 <style>
                     .change-layout-background-wrapper span {
@@ -72,9 +73,15 @@
                 </div>
             </div>
 
-            <div class="current-template-modules-list-wrap">
-                <label class="current-template-modules-list-label live-edit-label" style="display: none" >This layout contains those modules</label>
-                <div class="current-template-modules-list d-flex flex-wrap gap-2 ms-2"></div>
+            <div class="current-template-modules-list-wrap" x-show="modulesList.length > 0">
+                <label class="current-template-modules-list-label live-edit-label">This layout contains these modules</label>
+                <div class="current-template-modules-list d-flex flex-wrap gap-2 ms-2">
+                    <template x-for="module in modulesList" :key="module.moduleId">
+                        <a href="javascript:;" class="btn btn-outline-dark btn-sm" x-on:click="openModuleSettings(module.moduleId)">
+                            <span x-text="module.moduleTitle"></span>
+                        </a>
+                    </template>
+                </div>
             </div>
         </div>
     </div>

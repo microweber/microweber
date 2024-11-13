@@ -1,19 +1,23 @@
-export default function layoutSettings() {
+export default function layoutSettings(activeTab, optionGroup) {
     return {
         activeTab: 'image',
-        supports:[],
+        supports: [],
         optionGroup: '',
+        modulesList: [],
+        modalId: null,
+
         destroy() {
-            // mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
-            // mw.top().$(mw.top().dialog.get(this.frameElement)).on('Remove', () => {
-            //     mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
-            // });
+
         },
-        init(activeTab, optionGroup) {
+        init() {
+
+            this.modalId = this.$refs.modalContainer.getAttribute('wire:key')
+            this.modalId = this.modalId.substring(0, this.modalId.indexOf('.')) + '-action'
+
 
             let targets = this.getTargets();
 
-            if(targets.bg){
+            if (targets.bg) {
                 // add to support
                 this.supports.push('image');
                 this.supports.push('video');
@@ -21,7 +25,7 @@ export default function layoutSettings() {
                 this.supports.push('color');
 
             }
-            if(targets.bgOverlay){
+            if (targets.bgOverlay) {
                 // remove from supprot
 
             }
@@ -48,10 +52,47 @@ export default function layoutSettings() {
                     }
                 }
             }
-            return { bg, bgOverlay, bgNode, target };
+            let modulesList = [];
+
+            if (target) {
+                var mod_in_mods_html_btn = '';
+                var _win = mw.top().app.canvas.getWindow() || window;
+                var mods_in_mod = _win.$(target).find('.module');
+
+                if (mods_in_mod) {
+                    $(mods_in_mod).each(function () {
+                        var isInaccessible = mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(this);
+                        if (!isInaccessible) {
+                            var moduleType = $(this).attr("type") || $(this).attr("data-type");
+                            var moduleId = $(this).attr("id");
+                            var moduleTitle = $(this).attr("data-mw-title") || moduleType;
+                            modulesList.push({
+                                moduleId,
+                                moduleType,
+                                moduleTitle
+                            });
+                        }
+                    });
+                }
+
+                this.modulesList = modulesList;
+            }
+
+
+            return {bg, bgOverlay, bgNode, target, modulesList};
+        },
+
+        openModuleSettings(moduleId) {
+            if (this.modalId) {
+                Livewire.dispatch('close-modal', {id: this.modalId})
+            }
+            setTimeout(() => {
+                mw.top().openModuleSettings(moduleId)
+            }, 1000);
+
         },
         handleReadyLayoutSettingLoaded() {
-            let { bg, bgOverlay, bgNode, target } = this.getTargets();
+            let {bg, bgOverlay, bgNode, target, modulesList} = this.getTargets();
             let bgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
             let bgVideo = mw.top().app.layoutBackground.getBackgroundVideo(bgNode);
             let bgCursor = mw.top().app.layoutBackground.getBackgroundCursor(bgNode);
@@ -62,7 +103,7 @@ export default function layoutSettings() {
             document.querySelectorAll('[name="backgroundSize"]').forEach(el => {
                 el.checked = el.value === bgSize;
                 el.addEventListener('change', () => {
-                    const { bg, bgOverlay, bgNode, target } = this.getTargets();
+                    const {bg, bgOverlay, bgNode, target} = this.getTargets();
                     mw.top().app.layoutBackground.setBackgroundImageSize(bgNode, el.value);
                 });
             });
@@ -85,17 +126,17 @@ export default function layoutSettings() {
                 canEdit: false
             });
             cursorPicker.on('change', () => {
-                const { bg, bgOverlay, bgNode, target } = this.getTargets();
+                const {bg, bgOverlay, bgNode, target} = this.getTargets();
                 mw.top().app.layoutBackground.setBackgroundCursor(target, cursorPicker.file);
             });
             picker.on('change', () => {
-                const { bg, bgOverlay, bgNode, target } = this.getTargets();
+                const {bg, bgOverlay, bgNode, target} = this.getTargets();
                 videoPicker.setFile(null);
                 mw.top().app.layoutBackground.setBackgroundImage(bgNode, picker.file);
                 mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
             });
             videoPicker.on('change', () => {
-                const { bg, bgOverlay, bgNode, target } = this.getTargets();
+                const {bg, bgOverlay, bgNode, target} = this.getTargets();
                 mw.top().app.layoutBackground.setBackgroundVideo(bgNode, videoPicker.file);
                 picker.setFile(null);
                 mw.top().app.registerChange(mw.top().app.liveEdit.handles.get('layout').getTarget());
@@ -107,7 +148,7 @@ export default function layoutSettings() {
                 element: cpo,
                 mode: 'inline',
                 onchange: (color) => {
-                    let { bg, bgOverlay, bgNode, target } = this.getTargets();
+                    let {bg, bgOverlay, bgNode, target} = this.getTargets();
                     if (!cpoPickerPause) {
                         mw.top().app.layoutBackground.setBackgroundColor(bgOverlay, color);
                         this.showHideRemoveBackgroundsButtons();
@@ -140,45 +181,12 @@ export default function layoutSettings() {
                 }
             }));
 
-            if(!this.optionGroup || this.optionGroup == ''){
-                return;
-            }
-
-
-            var mod_in_mods_html_btn = '';
-            var _win = mw.top().app.canvas.getWindow() || window;
-            var mods_in_mod = _win.$('#' + this.optionGroup).find('.module', '#' + this.optionGroup);
-
-            if (mods_in_mod) {
-                $(mods_in_mod).each(function () {
-                    var isInaccessible = mw.top().app.liveEdit.liveEditHelpers.targetIsInacesibleModule(this);
-                    if (!isInaccessible) {
-                        var inner_mod_type = $(this).attr("type") || $(this).attr("data-type");
-                        var inner_mod_id = $(this).attr("id");
-                        var inner_mod_title = $(this).attr("data-mw-title") || inner_mod_type;
-
-                        if (inner_mod_type) {
-                            var inner_mod_type_admin = inner_mod_type + '/admin';
-                            mod_in_mods_html_btn += '<a href="javascript:;" class="btn btn-outline-dark btn-sm" onclick=\'window.mw.parent().tools.open_global_module_settings_modal("' + inner_mod_type_admin + '","' + inner_mod_id + '")\'>' + inner_mod_title + '</a>';
-                        }
-                    }
-                });
-            }
-
-            if (mod_in_mods_html_btn) {
-                $('.current-template-modules-list-wrap').show();
-                $('.current-template-modules-list-label').show();
-                $('.current-template-modules-list').html(mod_in_mods_html_btn);
-            } else {
-                $('.current-template-modules-list-wrap').hide();
-                $('.current-template-modules-list-label').hide();
-            }
         },
         handleLayoutTargetChange() {
             this.handleReadyLayoutSettingLoaded();
         },
         showHideRemoveBackgroundsButtons() {
-            let { bg, bgOverlay, bgNode, target } = this.getTargets();
+            let {bg, bgOverlay, bgNode, target} = this.getTargets();
             var hasBgColor = mw.top().app.layoutBackground.getBackgroundColor(bgOverlay);
             if (hasBgColor) {
                 $('#overlay-color-picker-remove-color').show();

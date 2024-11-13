@@ -18,7 +18,6 @@ export const moduleSettingsDispatch = function (target) {
 }
 
 
-
 export class ModuleHandleContent {
     constructor(rootScope) {
         this.root = ElementManager({
