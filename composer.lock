@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "570f8f8cbf2e93731cde02a83227e1f4",
+    "content-hash": "01a0fe762e16cf5d9120f3d53834aa94",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -1601,16 +1601,16 @@
         },
         {
             "name": "composer/installers",
-            "version": "v2.2.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/composer/installers.git",
-                "reference": "c29dc4b93137acb82734f672c37e029dfbd95b35"
+                "url": "https://github.com/peter-mw/installers.git",
+                "reference": "3f4f464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/c29dc4b93137acb82734f672c37e029dfbd95b35",
-                "reference": "c29dc4b93137acb82734f672c37e029dfbd95b35",
+                "url": "https://api.github.com/repos/peter-mw/installers/zipball/3f4f464",
+                "reference": "3f4f464",
                 "shasum": ""
             },
             "require": {
@@ -1618,13 +1618,14 @@
                 "php": "^7.2 || ^8.0"
             },
             "require-dev": {
-                "composer/composer": "1.6.* || ^2.0",
-                "composer/semver": "^1 || ^3",
-                "phpstan/phpstan": "^0.12.55",
-                "phpstan/phpstan-phpunit": "^0.12.16",
-                "symfony/phpunit-bridge": "^5.3",
-                "symfony/process": "^5"
+                "composer/composer": "^1.10.27 || ^2.7.8",
+                "composer/semver": "^1.7.2 || ^3.4.2",
+                "phpstan/phpstan": "^1.11.11",
+                "phpstan/phpstan-phpunit": "^1.4",
+                "phpunit/phpunit": "^8.5.39 || ^9.6.20",
+                "symfony/process": "^5 || ^6 || ^7.1.3"
             },
+            "default-branch": true,
             "type": "composer-plugin",
             "extra": {
                 "class": "Composer\\Installers\\Plugin",
@@ -1638,7 +1639,19 @@
                     "Composer\\Installers\\": "src/Composer/Installers"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Composer\\Installers\\Test\\": "tests/Composer/Installers/Test"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "@php phpunit"
+                ],
+                "phpstan": [
+                    "@php phpstan analyse"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -1652,97 +1665,83 @@
             "description": "A multi-framework Composer library installer",
             "homepage": "https://composer.github.io/installers/",
             "keywords": [
+                "AGL",
+                "AnnotateCms",
+                "Attogram",
+                "Bitrix",
+                "CakePHP",
+                "Chef",
+                "Cockpit",
+                "CodeIgniter",
+                "ConcreteCMS",
+                "Croogo",
+                "DokuWiki",
                 "Dolibarr",
+                "Drupal",
+                "Elgg",
                 "Eliasis",
+                "ExpressionEngine",
+                "FuelPHP",
+                "Grav",
                 "Hurad",
                 "ImageCMS",
                 "Kanboard",
+                "Known",
+                "Kohana",
                 "Lan Management System",
+                "Laravel",
+                "Lavalite",
+                "Lithium",
+                "MODULEWork",
+                "MODX",
                 "MODX Evo",
+                "Magento",
+                "Mako",
                 "MantisBT",
+                "Matomo",
                 "Mautic",
                 "Maya",
+                "MediaWiki",
+                "Miaoxing",
+                "Moodle",
                 "OXID",
+                "PPI",
+                "Pantheon",
+                "Piwik",
                 "Plentymarkets",
                 "Porto",
+                "ProcessWire",
+                "Puppet",
                 "RadPHP",
+                "ReIndex",
+                "Roundcube",
                 "SMF",
+                "SilverStripe",
                 "Starbug",
+                "SyDES",
+                "Sylius",
+                "TastyIgniter",
                 "Thelia",
-                "Whmcs",
+                "WHMCS",
                 "WolfCMS",
-                "agl",
-                "annotatecms",
-                "attogram",
-                "bitrix",
-                "cakephp",
-                "chef",
-                "cockpit",
-                "codeigniter",
+                "WordPress",
+                "YAWIK",
+                "Zend",
+                "Zikula",
                 "concrete5",
-                "croogo",
-                "dokuwiki",
-                "drupal",
                 "eZ Platform",
-                "elgg",
-                "expressionengine",
-                "fuelphp",
-                "grav",
+                "iTop",
                 "installer",
-                "itop",
-                "known",
-                "kohana",
-                "laravel",
-                "lavalite",
-                "lithium",
-                "magento",
                 "majima",
-                "mako",
-                "matomo",
-                "mediawiki",
-                "miaoxing",
-                "modulework",
-                "modx",
-                "moodle",
                 "osclass",
-                "pantheon",
-                "phpbb",
-                "piwik",
-                "ppi",
-                "processwire",
-                "puppet",
+                "phpBB",
                 "pxcms",
-                "reindex",
-                "roundcube",
-                "shopware",
-                "silverstripe",
-                "sydes",
-                "sylius",
-                "tastyigniter",
-                "wordpress",
-                "yawik",
-                "zend",
-                "zikula"
+                "shopware"
             ],
             "support": {
-                "issues": "https://github.com/composer/installers/issues",
-                "source": "https://github.com/composer/installers/tree/v2.2.0"
+                "source": "https://github.com/peter-mw/installers/tree/fix-microweber-v3"
             },
-            "funding": [
-                {
-                    "url": "https://packagist.com",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/composer",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2022-08-20T06:45:11+00:00"
+            "time": "2024-11-13T10:52:04+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -8732,48 +8731,6 @@
             "time": "2023-04-10T09:35:09+00:00"
         },
         {
-            "name": "microweber-modules/standalone-updater",
-            "version": "5.3.8",
-            "target-dir": "standalone-updater",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/microweber-modules/standalone-updater",
-                "reference": "db2074c6e9a3ac21a01b0f9c25b7a25718b8ede8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packages.microweberapi.com/dist/microweber-modules/standalone-updater/microweber-modules-standalone-updater-5.3.8-9a8fd1.zip",
-                "reference": "db2074c6e9a3ac21a01b0f9c25b7a25718b8ede8",
-                "shasum": "059bfc8ffe32c36fdf1ba9fd51289eff0a0daaa7"
-            },
-            "type": "microweber-module",
-            "extra": {
-                "_meta": {
-                    "readme": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/538/README.md",
-                    "screenshot": "https://packages.microweberapi.com/meta/microweber-modules-standalone-updater/538/screenshot.png"
-                },
-                "whmcs": {
-                    "whmcs_url": "https://members.microweber.com"
-                }
-            },
-            "notification-url": "http://packages.microweberapi.com/packages/download-notify",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bozhidar Slaveykov",
-                    "email": "bobi@microweber.com"
-                }
-            ],
-            "description": "Standalone Updater",
-            "homepage": "https://microweber.org/modules/microweber-modules/standalone-updater",
-            "keywords": [
-                "standalone-updater"
-            ],
-            "time": "2024-01-25T15:47:25+00:00"
-        },
-        {
             "name": "microweber-packages/composer-client",
             "version": "2.0",
             "source": {
@@ -8829,10 +8786,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "a939b6ad050130750660204ab53d54b6dfe41b81"
-            },
-            "require": {
-                "php": "^8.1"
+                "reference": "c7146a4b726d1f097392c381914f6fec39a1bd64"
             },
             "type": "library",
             "extra": {
@@ -8855,9 +8809,10 @@
             "license": [
                 "MIT"
             ],
-            "description": "Microweber CMS - Filament admin panel theme",
+            "description": "Microweber CMS - Frontend Assets",
             "keywords": [
                 "laravel",
+                "microweber",
                 "microweber-frontend-assets",
                 "microweber-packages"
             ],
@@ -22685,6 +22640,7 @@
         "alexwestergaard/php-ga4": 20,
         "bezhansalleh/filament-language-switch": 20,
         "bobimicroweber/filament-dropdown-column": 20,
+        "composer/installers": 20,
         "finlet/flexmail": 20,
         "hydrat/filament-table-layout-toggle": 20,
         "jenssegers/agent": 20,
