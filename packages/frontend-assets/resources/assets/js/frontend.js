@@ -17,6 +17,7 @@ import "../components/components.js";
 import "../components/dialog.js";
 import "../tools/common-extend.js";
 import "../components/notification.js";
+import "../components/icon_selector.js";
 
 import "../core/_.js";
 import "./animations.js";

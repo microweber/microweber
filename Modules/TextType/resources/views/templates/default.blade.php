@@ -20,6 +20,10 @@
         font-size: <?php echo isset($fontSize) ? $fontSize : 24; ?>px;
         vertical-align: middle;
     }
+    #js-element-<?php echo $randId; ?> + span.typed-cursor.typed-cursor--blink {
+        position: relative;
+        top: -.09em;
+    }
 </style>
 <!-- Element to contain animated typing -->
 <span id="js-element-<?php echo $randId;?>"></span>

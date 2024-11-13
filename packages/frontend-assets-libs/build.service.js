@@ -38,19 +38,21 @@ export class BuildService {
     }
 
     buildSingleAsset (obj, prefix) {
+        console.log(prefix);
         if(Array.isArray(obj.path)) {
 
             return Promise.all(obj.path.map(path => this.buildSingleAsset(Object.assign({}, obj, {path}), prefix)));
         }
         return new Promise(async (resolve, reject) => {
-            gulp.src([`${obj.path}/**`, `${obj.path}/*`])
+            //resolve(this.copyAsset(obj));
+             gulp.src([`${obj.path}/**`, `${obj.path}/*`])
                 .pipe(gulpCopy(`${obj.output || this.output}/${obj.target}`, {prefix: prefix ?? obj.path.split('/').length - 1}))
                 .on('finish', resolve)
                 .on('error', err => {
-                    console.log(err);
+
                     reject(err)
                 });
-            console.log(`${obj.target} asset compiled`);
+
         })
     }
 
