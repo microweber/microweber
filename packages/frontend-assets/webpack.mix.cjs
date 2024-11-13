@@ -20,6 +20,7 @@ mix.js('resources/assets/ui/live-edit-app.js', 'resources/dist/build').setPublic
 mix.js('resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
 mix.sass('resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.scss', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
 mix.sass('resources/assets/css/scss/liveedit.scss', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
+mix.css('resources/assets/css/microweber/css/default.css', 'resources/dist/build').setPublicPath('resources/dist/build');
 
 
 mix.js('resources/assets/js/core.js', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
