@@ -20,13 +20,17 @@ class LayoutsModuleSettings extends LiveEditModuleSettings
 
     public function form(Form $form): Form
     {
+
+       $optionGroup = $this->getOptionGroup();
         return $form
             ->schema([
                 Tabs::make('Layout settings')
                     ->tabs([
                         Tabs\Tab::make('Layout settings')
                             ->schema([
-                                View::make('modules.layouts::admin.settings'),
+                                View::make('modules.layouts::admin.settings')->viewData([
+'optionGroup' => $optionGroup
+                                ]),
                                 View::make('modules.layouts::admin.inner-modules-list')
                             ]),
                         Tabs\Tab::make('Design')

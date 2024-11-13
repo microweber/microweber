@@ -2,6 +2,9 @@
 
 namespace Modules\Layouts\Providers;
 
+use Filament\Support\Assets\AlpineComponent;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +46,15 @@ class LayoutsServiceProvider extends BaseModuleServiceProvider
 
         // Register Microweber module
         Microweber::module(\Modules\Layouts\Microweber\LayoutsModule::class);
+  //  use Filament\Support\Assets\Js;
+
+//        FilamentAsset::register([
+//            Js::make('layouts-module-settings', asset('modules/layouts/js/layouts-module-settings.js'))->module(),
+//        ]);
+//
+//        FilamentAsset::register([
+//            AlpineComponent::make('layouts-module-settings', __DIR__ . '/../resources/assets/js/layouts-module-settings.js'),
+//        ]);
 
     }
 

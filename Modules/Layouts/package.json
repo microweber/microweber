@@ -1,0 +1,38 @@
+{
+    "name": "microweber-modules-layouts",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microweber-modules/layouts.git"
+    },
+    "private": true,
+    "scripts": {
+        "build": "npx mix",
+        "dev": "npx mix watch"
+    },
+    "devDependencies": {
+        "copy-webpack-plugin": "^12.0.2",
+        "css-loader": "^7.1.2",
+        "laravel-mix": "^6.0.49",
+        "mini-css-extract-plugin": "^2.9.0",
+        "postcss": "^8.3.7",
+        "postcss-loader": "^8.1.1",
+        "postcss-preset-env": "^10.0.0",
+        "postcss-scss": "^4.0.9",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.77.6",
+        "sass-loader": "^16.0.0",
+        "style-loader": "^4.0.0",
+        "webpack": "^5.93.0",
+        "webpack-cli": "^5.1.4",
+        "fs-extra": "^11.2.0",
+        "webpack-remove-empty-scripts": "^1.0.4"
+    },
+    "dependencies": {
+
+
+
+    }
+}
