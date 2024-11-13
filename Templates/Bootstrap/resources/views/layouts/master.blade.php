@@ -18,6 +18,21 @@
     {{ template_vite('templates/bootstrap/dist', 'resources/assets/sass/app-rtl.scss') }}
     @endif
 
+    <script>
+
+
+
+
+        mw
+            .iconLoader()
+            .addIconSet('iconsMindLine')
+            .addIconSet('iconsMindSolid')
+            .addIconSet('fontAwesome')
+            .addIconSet('materialDesignIcons');
+
+
+    </script>
+
 
 </head>
 

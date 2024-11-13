@@ -1,6 +1,8 @@
 let mix = require('laravel-mix');
 let path = require('path');
 let fs = require('fs-extra');
+let config = require('./config-common.js');
+
 
 mix.webpackConfig({
     resolve: {
@@ -11,18 +13,46 @@ mix.webpackConfig({
         fullySpecified: false,
         extensions: [".*", ".webpack.js", ".web.js", ".js", ".json", ".less"]
     },
-    // stats: {
-    //     children: true
-    // },
+
 });
 mix.setPublicPath('public/build');
 
 
-// mix.js('resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.js', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
-// mix.sass('resources/assets/ui/apps/ElementStyleEditor/element-style-editor-app.scss', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
-// mix.sass('resources/assets/css/scss/liveedit.scss', 'resources/dist/build').setPublicPath('resources/dist/build').vue();
 
-// Assets
+mix.copy(`./resources/local-libs/jseldom-jquery.js`, `../frontend-assets/resources/assets/libs/jseldom/jseldom-jquery.js`);
+mix.copy(`./resources/local-libs/collapse-nav/collapse-nav.js`, `./resources/dist/collapse-nav/collapse-nav.js`);
+mix.copy(`./resources/local-libs/highlight/highlight.min.js`, `./resources/dist/highlight-js/highlight.min.js`);
+
+
+const isFolder = path => path.split(".").length > 1;
+
+const copy = (target, path) => {
+    const action = isFolder(path) ? 'copyDirectory' : 'copy';
+    mix[action](path, `./resources/dist/${target}/${path.split('/').pop()}`);
+}
+
+
+[
+    ...config.scripts,
+    ...config.css,
+    ...config.copy,
+    ...config.assets,
+
+].forEach((conf) => {
+      if(Array.isArray(conf.path)) {
+        conf.path.forEach((path) => {
+            copy(conf.target, path)
+        });
+      } else {
+        copy(conf.target, conf.path)
+      }
+});
+
+
+
+
+mix.copyDirectory(`./resources/local-libs/mw-icons-mind`, `./resources/dist/mw-icons-mind`);
+
 
 mix.after(() => {
     const from = './resources/dist';

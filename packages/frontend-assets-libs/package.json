@@ -2,15 +2,15 @@
     "name": "microweber-frontend-assets-libs",
     "version": "1.0.0",
     "description": "Microweber front-end libs",
-    "type": "module",
+
     "repository": {
         "type": "git",
         "url": "https://github.com/microweber-packages/frontend-assets-libs.git"
     },
     "private": true,
     "scripts": {
-        "build": "gulp build",
-        "dev": "gulp build"
+        "build": "npx mix",
+        "dev": "npx mix"
     },
     "dependencies": {
         "@mdi/font": "^7.4.47",
