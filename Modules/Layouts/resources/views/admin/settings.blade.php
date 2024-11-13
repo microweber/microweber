@@ -1,14 +1,11 @@
 <div>
-
     <div
         x-ignore
         ax-load
         ax-load-src="{{ asset('modules/layouts/js/layouts-module-settings.js') }}"
         x-data="layoutSettings('image', '{{ $optionGroup }}')"
     >
-
         <div id="mw-layout-setting-module">
-
             <div id="change-background" wire:ignore>
                 <style>
                     .change-layout-background-wrapper span {
@@ -21,14 +18,14 @@
 
                 <div>
                     <div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper" id="bg-tabs">
-                        <span x-on:click="activeTab = 'image'" x-bind:class="{ 'active': activeTab === 'image' }" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Image</span>
-                        <span x-on:click="activeTab = 'video'" x-bind:class="{ 'active': activeTab === 'video' }" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Video</span>
-                        <span x-on:click="activeTab = 'color'" x-bind:class="{ 'active': activeTab === 'color' }" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Color</span>
-                        <span x-on:click="activeTab = 'other'" x-bind:class="{ 'active': activeTab === 'other' }" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" style="display: none;">Other</span>
+                        <span x-show="supports.includes('image')" x-on:click="activeTab = 'image'" x-bind:class="{ 'active': activeTab === 'image' }" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Image</span>
+                        <span x-show="supports.includes('video')" x-on:click="activeTab = 'video'" x-bind:class="{ 'active': activeTab === 'video' }" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Video</span>
+                        <span x-show="supports.includes('color')" x-on:click="activeTab = 'color'" x-bind:class="{ 'active': activeTab === 'color' }" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100">Color</span>
+                        <span x-show="supports.includes('other')" x-on:click="activeTab = 'other'" x-bind:class="{ 'active': activeTab === 'other' }" class="btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" style="display: none;">Other</span>
                     </div>
                     <br>
 
-                    <div x-show="activeTab === 'image'" class="bg-tab">
+                    <div x-show="supports.includes('image') && activeTab === 'image'" class="bg-tab">
                         <div id="bg--image-picker"></div>
                         <br>
                         <div class="change-layout-background-wrapper">
@@ -54,11 +51,11 @@
                         </div>
                     </div>
 
-                    <div x-show="activeTab === 'video'" class="bg-tab">
+                    <div x-show="supports.includes('video') && activeTab === 'video'" class="bg-tab">
                         <div id="bg--video-picker"></div>
                     </div>
 
-                    <div x-show="activeTab === 'color'" class="bg-tab">
+                    <div x-show="supports.includes('color') && activeTab === 'color'" class="bg-tab">
                         <div id="overlay-color-picker" class="card card-body"></div>
                         <div id="overlay-color-picker-remove-wrapper">
                             <button id="overlay-color-picker-remove-color" type="button" class="btn btn-ghost-danger w-100">
@@ -67,7 +64,7 @@
                         </div>
                     </div>
 
-                    <div x-show="activeTab === 'other'" class="bg-tab">
+                    <div x-show="supports.includes('other') && activeTab === 'other'" class="bg-tab">
                         <h4>Other settings</h4>
                         Cursor image, must be small image, for example 32x32px
                         <div id="bg--cursor-picker"></div>
@@ -75,14 +72,10 @@
                 </div>
             </div>
 
-
             <div class="current-template-modules-list-wrap">
                 <label class="current-template-modules-list-label live-edit-label" style="display: none" >This layout contains those modules</label>
                 <div class="current-template-modules-list d-flex flex-wrap gap-2 ms-2"></div>
             </div>
-
         </div>
-
     </div>
-
 </div>

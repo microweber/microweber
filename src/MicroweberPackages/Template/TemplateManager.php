@@ -488,7 +488,8 @@ class TemplateManager
 
     public function get_default_system_ui_css_url()
     {
-        $url = mw_includes_url() . 'default.css';
+       // $url = mw_includes_url() . 'default.css';
+         $url = asset('vendor/microweber-packages/frontend-assets/build/default.css');
         return $url;
     }
 

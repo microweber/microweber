@@ -1,21 +1,30 @@
 export default function layoutSettings() {
     return {
         activeTab: 'image',
+        supports:[],
         optionGroup: '',
         destroy() {
-            mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
-            mw.top().$(mw.top().dialog.get(this.frameElement)).on('Remove', () => {
-                mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
-            });
+            // mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
+            // mw.top().$(mw.top().dialog.get(this.frameElement)).on('Remove', () => {
+            //     mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
+            // });
         },
         init(activeTab, optionGroup) {
 
+            let targets = this.getTargets();
 
-            mw.top().app.liveEdit.handles.get('layout').on('targetChange', this.handleLayoutTargetChange.bind(this));
-            mw.top().$(mw.top().dialog.get(this.frameElement)).on('Remove', () => {
-                mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
-            });
+            if(targets.bg){
+                // add to support
+                this.supports.push('image');
+                this.supports.push('video');
+                this.supports.push('other');
+                this.supports.push('color');
 
+            }
+            if(targets.bgOverlay){
+                // remove from supprot
+
+            }
 
             this.handleReadyLayoutSettingLoaded();
         },
