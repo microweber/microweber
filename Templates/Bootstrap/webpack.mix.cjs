@@ -32,7 +32,7 @@ mix.webpackConfig({
 
 mix.js('resources/assets/js/app.js', 'resources/dist/build')
     .sass('resources/assets/sass/app.scss', 'resources/dist/build')
-    .sass('resources/assets/sass/app-rtl.scss', 'resources/dist/build')
+    .sass('resources/assets/sass/app-rtl.scss', 'resources/dist/build').sourceMaps();
     //.copyDirectory('resources/assets', 'public/templates/bootstrap');
 mix.after(() => {
     fs.copySync(
