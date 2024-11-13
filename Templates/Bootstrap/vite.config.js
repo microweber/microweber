@@ -24,8 +24,8 @@ export default defineConfig({
                 __dirname + '/resources/assets/sass/app.scss',
                 __dirname + '/resources/assets/sass/app-rtl.scss',
                 __dirname + '/resources/assets/js/app.js'
-            ],
-            refresh: true,
+            ]
+
         }),
         copyFolderSyncVite(__dirname+ '/resources/assets/', __dirname+ '/../../public/templates/bootstrap/'),
     ],

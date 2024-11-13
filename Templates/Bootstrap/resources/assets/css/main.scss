@@ -43,9 +43,10 @@ li.dropdown {
 }
 
 
-section.section {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+.module-layouts > section.section {
+    //padding-top: 6rem;
+    //padding-bottom: 6rem;
+    position: relative;
 }
 
 
