@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to add bottom effect spans
     function addBottomEffect() {
         // Select all inputs within .form-control-live-edit-label-wrapper and .fi-input-wrp
-        const inputs = document.querySelectorAll('.form-control-live-edit-label-wrapper .form-control-live-edit-input:not(.form-select), .fi-input-wrp .fi-input, .fi-input-wpr .fi-select-input');
+        const inputs = document.querySelectorAll('.form-control-live-edit-label-wrapper .form-control-live-edit-input:not(.form-select, .form-control-input-range-slider), .fi-input-wrp .fi-input, .fi-input-wpr .fi-select-input');
 
         // Loop through each input element
         inputs.forEach(input => {
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const span = document.createElement('span');
                 span.className = 'form-control-live-edit-bottom-effect';
 
-                // Insert the span element after the input element
+                // Insert the span element after the input element 
                 input.insertAdjacentElement('afterend', span);
             }
         });
