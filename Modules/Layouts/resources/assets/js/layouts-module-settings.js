@@ -1,25 +1,22 @@
+
 export default function layoutSettings() {
     return {
         activeTab: 'image',
         optionGroup: '',
         destroy() {
-            mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
-            mw.top().$(mw.top().dialog.get(this.frameElement)).on('Remove', () => {
-                mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
-            });
+            mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleTargetChange);
+
         },
         init(activeTab, optionGroup) {
+            const scope = this;
+            this.handleTargetChange = () => {
+                scope.handleLayoutTargetChange.bind(scope)
+            }
 
 
-            mw.top().app.liveEdit.handles.get('layout').on('targetChange', this.handleLayoutTargetChange.bind(this));
-            mw.top().$(mw.top().dialog.get(this.frameElement)).on('Remove', () => {
-                mw.top().app.liveEdit.handles.get('layout').off('targetChange', this.handleLayoutTargetChange.bind(this));
-            });
+            mw.top().app.liveEdit.handles.get('layout').on('targetChange', this.handleTargetChange);
 
 
-            this.handleReadyLayoutSettingLoaded();
-        },
-        getTargets() {
             const target = mw.top().app.liveEdit.handles.get('layout').getTarget();
             let bg, bgOverlay, bgNode;
             if (target) {
