@@ -6,10 +6,13 @@
         "dev": "npx mix watch"
     },
     "devDependencies": {
+        "axios": "^1.1.2",
         "copy-webpack-plugin": "^12.0.2",
         "css-loader": "^7.1.2",
+        "fs-extra": "^11.2.0",
         "laravel-mix": "^6.0.49",
-        "mini-css-extract-plugin": "^2.9.0",
+        "laravel-vite-plugin": "^0.7.5",
+        "mini-css-extract-plugin": "^2.9.2",
         "postcss": "^8.3.7",
         "postcss-loader": "^8.1.1",
         "postcss-preset-env": "^10.0.0",
@@ -18,14 +21,11 @@
         "sass": "^1.77.6",
         "sass-loader": "^16.0.0",
         "style-loader": "^4.0.0",
+        "vite": "^4.0.0",
+        "vite-plugin-copy-folder": "^1.0.1",
         "webpack": "^5.93.0",
         "webpack-cli": "^5.1.4",
-        "fs-extra": "^11.2.0",
-        "webpack-remove-empty-scripts": "^1.0.4",
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.7.5",
-        "vite": "^4.0.0",
-        "vite-plugin-copy-folder": "^1.0.1"
+        "webpack-remove-empty-scripts": "^1.0.4"
     },
     "dependencies": {
         "bootstrap": "^5.3.3"
