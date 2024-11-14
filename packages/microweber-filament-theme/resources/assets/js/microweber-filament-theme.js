@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const span = document.createElement('span');
                 span.className = 'form-control-live-edit-bottom-effect';
 
-                // Insert the span element after the input element 
+                // Insert the span element after the input elementЕ
                 input.insertAdjacentElement('afterend', span);
             }
         });
