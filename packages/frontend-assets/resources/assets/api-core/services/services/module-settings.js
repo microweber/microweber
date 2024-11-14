@@ -207,6 +207,17 @@ export class ModuleSettings extends MicroweberBaseClass {
 
 
     }
+    openModuleSettingsById = function (moduleId) {
+
+        const event = new CustomEvent('close-modal', {id: 'modal_id'});
+        document.dispatchEvent(event)
+
+
+        var target = mw.top().app.canvas.getWindow().mw.$('#' + moduleId)[0];
+        if(target){
+            mw.app.editor.dispatch('onModuleSettingsRequest', target);
+        }
+    }
 
 
     openSettingsModal(attrsForSettings, moduleId, modalTitle,settingsUrl) {

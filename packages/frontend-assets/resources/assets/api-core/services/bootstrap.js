@@ -111,7 +111,9 @@ mw.top().storage.change('mw-broadcast-data', async function () {
 
 });
 
-
+mw.top().openModuleSettings = function (moduleId) {
+    mw.app.moduleSettings.openModuleSettingsById(moduleId);
+}
 
 
 
