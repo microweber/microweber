@@ -1,6 +1,7 @@
 export default function layoutSettings(activeTab, optionGroup) {
     return {
         activeTab: 'image',
+        backgroundSize: 'auto',
         supports: [],
         optionGroup: '',
         modulesList: [],
@@ -29,6 +30,10 @@ export default function layoutSettings(activeTab, optionGroup) {
                 // remove from supprot
 
             }
+
+            this.$watch('backgroundSize', (size) => {
+                this.changeBackgroundSize(size);
+            });
 
             this.handleReadyLayoutSettingLoaded();
         },
@@ -86,11 +91,24 @@ export default function layoutSettings(activeTab, optionGroup) {
             if (this.modalId) {
                 Livewire.dispatch('close-modal', {id: this.modalId})
             }
+
+           // $("form[wire\\:submit\\.prevent=\"callMountedAction\"]").promise().done((self) => { console.log(self); });
+
+
             setTimeout(() => {
                 mw.top().openModuleSettings(moduleId)
-            }, 1000);
+            }, 2000);
+
+
 
         },
+
+        changeBackgroundSize(size){
+            const {bg, bgOverlay, bgNode, target} = this.getTargets();
+            mw.top().app.layoutBackground.setBackgroundImageSize(bgNode, size);
+
+        },
+
         handleReadyLayoutSettingLoaded() {
             let {bg, bgOverlay, bgNode, target, modulesList} = this.getTargets();
             let bgImage = mw.top().app.layoutBackground.getBackgroundImage(bgNode);
@@ -100,13 +118,7 @@ export default function layoutSettings(activeTab, optionGroup) {
             if (!bgSize) {
                 bgSize = 'auto';
             }
-            document.querySelectorAll('[name="backgroundSize"]').forEach(el => {
-                el.checked = el.value === bgSize;
-                el.addEventListener('change', () => {
-                    const {bg, bgOverlay, bgNode, target} = this.getTargets();
-                    mw.top().app.layoutBackground.setBackgroundImageSize(bgNode, el.value);
-                });
-            });
+
 
             let picker = mw.app.singleFilePickerComponent({
                 element: '#bg--image-picker',
