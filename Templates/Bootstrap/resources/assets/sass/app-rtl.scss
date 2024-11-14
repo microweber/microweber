@@ -1,4 +1,4 @@
-@import url("./../../../node_modules/bootstrap/dist/css/bootstrap.rtl.css");
-@import url("../css/main.scss");
-@import url("../css/collapseNav.css");
-@import url("../css/rtl-changes.scss");
+@use "./../../../node_modules/bootstrap/dist/css/bootstrap.rtl.css";
+@use "../css/main.scss";
+@use "../css/collapseNav.css";
+@use "../css/rtl-changes.scss";
