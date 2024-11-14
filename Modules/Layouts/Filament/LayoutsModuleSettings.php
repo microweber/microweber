@@ -31,7 +31,6 @@ class LayoutsModuleSettings extends LiveEditModuleSettings
                                 View::make('modules.layouts::admin.settings')->viewData([
 'optionGroup' => $optionGroup
                                 ]),
-                                View::make('modules.layouts::admin.inner-modules-list')
                             ]),
                         Tabs\Tab::make('Design')
                             ->schema([
