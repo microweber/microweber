@@ -3,6 +3,7 @@
 namespace Templates\Bootstrap\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use MicroweberPackages\LaravelTemplates\Providers\BaseTemplateServiceProvider;
 use Modules\Components\View\Components\Alert;
 use Modules\Components\View\Components\Button;
@@ -31,6 +32,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
     public function boot(): void
     {
 
+        View::prependNamespace('modules.layouts', __DIR__ . '/../resources/views/modules/layouts');
 
     }
 

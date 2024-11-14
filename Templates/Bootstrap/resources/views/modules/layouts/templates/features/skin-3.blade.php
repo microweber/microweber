@@ -44,7 +44,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
                                 <small>Earth</small>
                             </li>
                             <li class="d-flex align-items-center">
-                                 <i class="mdi mdi-calendar"</i>
+                                 <i class="mdi mdi-calendar"></i>
                                 <small>3d</small>
                             </li>
                         </ul>
@@ -65,7 +65,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
                                 <small>Pakistan</small>
                             </li>
                             <li class="d-flex align-items-center">
-                                 <i class="mdi mdi-calendar"</i>
+                                 <i class="mdi mdi-calendar"></i>
                                 <small>4d</small>
                             </li>
                         </ul>
@@ -86,7 +86,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
                                 <small>California</small>
                             </li>
                             <li class="d-flex align-items-center">
-                                 <i class="mdi mdi-calendar"</i>
+                                 <i class="mdi mdi-calendar"></i>
                                 <small>5d</small>
                             </li>
                         </ul>
