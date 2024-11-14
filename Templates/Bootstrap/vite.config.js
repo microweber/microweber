@@ -20,11 +20,15 @@ export default defineConfig({
     },
     plugins: [
         laravel({
+            publicDirectory: '/resources/assets/dist',
+
             input: [
                 __dirname + '/resources/assets/sass/app.scss',
                 __dirname + '/resources/assets/sass/app-rtl.scss',
                 __dirname + '/resources/assets/js/app.js'
-            ]
+            ],
+
+            refresh: ['resources/assets/**/*.scss', 'resources/assets/**/*.js'],
 
         }),
         copyFolderSyncVite(__dirname+ '/resources/assets/', __dirname+ '/../../public/templates/bootstrap/'),

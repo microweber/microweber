@@ -216,8 +216,9 @@ class LaravelModule extends Module
 
         if ($providers) {
             foreach ($providers as $provider) {
-
-                app()->register($provider);
+                if(class_exists($provider)) {
+                    app()->register($provider);
+                }
             }
         }
         // dd($providers,$this->app);
