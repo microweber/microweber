@@ -15,8 +15,6 @@ class LayoutsModule extends BaseModule
     public static string $settingsComponent = LayoutsModuleSettings::class;
     public static string $templatesNamespace = 'modules.layouts::templates';
 
-    public static $templatesScanDepth = 5;
-
     public function render()
     {
         $viewData = $this->getViewData();

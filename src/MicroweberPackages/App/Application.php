@@ -98,7 +98,6 @@ use Modules\Shipping\ShippingMethodManager;
  * @property LayoutsManager                $layouts_manager
  * @property LogManager                    $log_manager
  * @property FieldsManager                 $fields_manager
- * @property Template                      $template
  * @property Event                         $event_manager
  * @property ConfigurationManager          $config_manager
  * @property TemplateManager               $template_manager

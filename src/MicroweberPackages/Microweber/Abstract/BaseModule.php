@@ -71,8 +71,8 @@ abstract class BaseModule
         if (!static::$templatesNamespace) {
             return throw new \Exception('No templates namespace provided');
         }
-
-        $viewName = static::$templatesNamespace . '.' . 'default';
+        $moduleTemplatesNamespace = static::$templatesNamespace;
+        $viewName = $moduleTemplatesNamespace. '.' . 'default';
         if ($template) {
             $template = str_replace('.blade.php', '', $template);
             $template = str_replace('.php', '', $template);
@@ -83,6 +83,32 @@ abstract class BaseModule
                 $viewName = $viewSettings;
             }
         }
+
+        $activeTemplate = template_name();
+        if ($activeTemplate) {
+            $activeTemplate = str_replace(' ', '_', $activeTemplate);
+            $activeTemplate = str_replace('-', '_', $activeTemplate);
+            $activeTemplate = str_replace('.', '_', $activeTemplate);
+            $activeTemplate = str_replace('/', '_', $activeTemplate);
+            $activeTemplate = str_replace('\\', '_', $activeTemplate);
+
+            $checkIfActiveSiteTemplate = app()->templates->find($activeTemplate);
+            if ($checkIfActiveSiteTemplate) {
+                $checkIfActiveSiteTemplateLowerName = $checkIfActiveSiteTemplate->getLowerName();
+                $templatesNamespaceInActiveSiteTemplate = str_replace('::', '.', $moduleTemplatesNamespace);
+                $templatesNamespaceInActiveSiteTemplate = 'templates.' . $checkIfActiveSiteTemplateLowerName . '::' . $templatesNamespaceInActiveSiteTemplate.'.'.$template;
+
+                if (view()->exists($templatesNamespaceInActiveSiteTemplate)) {
+                    $viewName = $templatesNamespaceInActiveSiteTemplate;
+                }
+
+
+            }
+
+
+        }
+
+
         return $viewName;
     }
 
