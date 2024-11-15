@@ -2,8 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "npx mix",
-        "prod": "npx mix --production",
+        "build": "npx mix --production",
         "dev": "npx mix watch"
     },
     "devDependencies": {
