@@ -3,6 +3,7 @@
     "type": "module",
     "scripts": {
         "build": "npx mix",
+        "prod": "npx mix --production",
         "dev": "npx mix watch"
     },
     "devDependencies": {
