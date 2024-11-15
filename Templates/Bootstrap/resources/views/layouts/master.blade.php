@@ -14,10 +14,10 @@
 
 
     @if(!lang_is_rtl())
-        <link rel="stylesheet" href="{{ asset('templates/bootstrap/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('templates/bootstrap/dist/build/app.css') }}">
     @else
 
-         <link rel="stylesheet" href="{{ asset('templates/bootstrap/app-rtl.css') }}">
+         <link rel="stylesheet" href="{{ asset('templates/bootstrap/dist/build/app-rtl.css') }}">
     @endif
 
     <script>
@@ -59,7 +59,7 @@
     {{-- Vite JS --}}
 
 
-    <script src="{{ asset('templates/bootstrap/app.js') }}"></script>
+    <script src="{{ asset('templates/bootstrap/dist/build/app.js') }}"></script>
 
     {!! meta_tags_footer() !!}
 </body>

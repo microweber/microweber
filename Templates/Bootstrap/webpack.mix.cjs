@@ -3,16 +3,17 @@ let path = require('path');
 let fs = require('fs-extra');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+mix.setPublicPath('resources/assets/dist/build');
 
 
 mix
-    .js('resources/assets/js/app.js', 'resources/dist/build')
-    .sass('resources/assets/sass/app.scss', 'resources/dist/build')
-    .sass('resources/assets/sass/app-rtl.scss', 'resources/dist/build').sourceMaps();
+    .js('resources/assets/js/app.js', 'resources/assets/dist/build')
+    .sass('resources/assets/sass/app.scss', 'resources/assets/dist/build')
+    .sass('resources/assets/sass/app-rtl.scss', 'resources/assets/dist/build').sourceMaps();
     //.copyDirectory('resources/assets', 'public/templates/bootstrap');
 mix.after(() => {
     fs.copySync(
-        path.resolve(__dirname, 'resources/dist/build'),
+        path.resolve(__dirname, 'resources/assets'),
         path.resolve(__dirname, '../../public/templates/bootstrap')
     );
 });
