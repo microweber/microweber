@@ -12,9 +12,10 @@
         $opts = $check->image_options;
         $opts = app()->url_manager->replace_site_url_back($opts);
         $cache_id_data_json = $opts;
-        $cache_id_data_json['cache_id'] = $check->rel_id;
+        $cache_id_data_json['cache_id'] = $check->rel_id ?? $mediaId;
 
         $tn = mw()->media_manager->thumbnail_img($cache_id_data_json);
+
         return $tn;
     }
 

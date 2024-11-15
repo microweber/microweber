@@ -6,7 +6,6 @@ class ScanForBladeTemplates
 {
 
 
-
     public function scan($templatesNamespace)
     {
 
@@ -68,7 +67,7 @@ class ScanForBladeTemplates
         //   $files = array_merge($files, glob($folder . '/*/' . $glob_patern));
         $configs = array();
         foreach ($files as $filename) {
-            if(is_array($filename)) {
+            if (is_array($filename)) {
                 continue;
             }
             if (is_file($filename)) {
@@ -228,13 +227,13 @@ class ScanForBladeTemplates
 //                        if(!isset($the_active_site_template)){
 //                            $the_active_site_template = $this->app->option_manager->get('current_template', 'template');
 //                        }
-              //  $layout_file_basename = basename($layout_file);
+                //  $layout_file_basename = basename($layout_file);
 
                 $folder_normalized = normalize_path($folder, true);
                 $filename_normalized = normalize_path($filename, false);
 
                 $layout_file_basename = str_replace($folder_normalized, '', $filename_normalized);
-             //   $layout_file_basename = basename( $layout_file_basename);
+                //   $layout_file_basename = basename( $layout_file_basename);
                 $layout_file_basename = str_replace('\\', '.', $layout_file_basename);
                 $layout_file_basename = str_replace('//', '.', $layout_file_basename);
 
@@ -242,14 +241,17 @@ class ScanForBladeTemplates
 
                 $to_return_temp['layout_file'] = $view_name;
 
-                if(!isset($to_return_temp['name'])){
+                if (!isset($to_return_temp['name'])) {
                     $to_return_temp['name'] = ucfirst($view_name);
                 }
 
                 $to_return_temp['filename'] = $filename;
                 //$to_return_temp['layout_file'] = $layout_file;
-                $screen = str_ireplace('.php', '.png', $filename);
-                $screen_jpg = str_ireplace('.php', '.jpg', $filename);
+                $screen = str_ireplace('.blade.php', '.png', $filename);
+                $screen_jpg = str_ireplace('.blade.php', '.jpg', $filename);
+
+                $screen2 = str_ireplace('.php', '.png', $filename);
+                $screen_jpg2 = str_ireplace('.php', '.jpg', $filename);
                 $skin_settings_json = str_ireplace('.blade.php', '.json', $filename);
                 $skin_settings_json = str_ireplace('.php', '.json', $skin_settings_json);
 
@@ -258,12 +260,20 @@ class ScanForBladeTemplates
                     $to_return_temp['skin_settings_json_file'] = $skin_settings_json;
                 }
 
+                if (is_file($screen2)) {
+                    $to_return_temp['screenshot_file'] = $screen2;
+                } elseif (is_file($screen_jpg2)) {
+                    $to_return_temp['screenshot_file'] = $screen_jpg2;
+                } elseif (is_file($screen_jpg)) {
+                    $to_return_temp['screenshot_file'] = $screen_jpg;
+                } elseif (is_file($screen)) {
+                    $to_return_temp['screenshot_file'] = $screen;
+                }
 
-//                        if (is_file($screen_jpg)) {
-//                            $to_return_temp['screenshot_file'] = $screen_jpg;
-//                        } elseif (is_file($screen)) {
-//                            $to_return_temp['screenshot_file'] = $screen;
-//                        }
+                if(isset($to_return_temp['screenshot_file'])){
+                    $to_return_temp['screenshot_file'] = normalize_path($to_return_temp['screenshot_file'], false);
+                }
+
 //                        if (isset($to_return_temp['screenshot_file'])) {
 //                            $to_return_temp['screenshot'] = $this->app->url_manager->link_to_file($to_return_temp['screenshot_file']);
 //                        }

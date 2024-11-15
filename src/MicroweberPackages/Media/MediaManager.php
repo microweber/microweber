@@ -1034,6 +1034,8 @@ class MediaManager
                 $src = $src2;
             } elseif (is_file($src3)) {
                 $src = $src3;
+            }  elseif (is_file($src)) {
+
             } else {
                 $no_img = true;
 
