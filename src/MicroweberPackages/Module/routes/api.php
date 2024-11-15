@@ -7,7 +7,7 @@ Route::name('api.module.')
     ->prefix('api/module')
     ->middleware(['api', 'admin'])
     ->group(function () {
-
+// modules/list
         Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
             Route::get('list', \MicroweberPackages\Module\Http\Controllers\Api\ModulesApiLiveEdit::class . '@index')->name('list');  //api.module.list
             Route::get('getSkins', \MicroweberPackages\Module\Http\Controllers\Api\ModulesApiLiveEdit::class . '@getSkins')->name('getSkins'); //api.module.getSkins

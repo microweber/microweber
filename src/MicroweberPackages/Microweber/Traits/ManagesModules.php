@@ -128,27 +128,64 @@ trait ManagesModules
         return $settings;
     }
 
-    public function getTemplates($moduleType)
+    public function getTemplates($moduleType, $activeSiteTemplate = false): array
     {
         $templatesForModule = [];
         $foldersForScan = [];
+        $ready = [];
         $moduleClass = $this->getModuleClass($moduleType);
         if ($moduleClass) {
             if (class_exists($moduleClass)) {
                 /** @var BaseModule $moduleClass */
                 if (method_exists($moduleClass, 'getTemplatesNamespace')) {
+
+
                     $templatesNamespace = $moduleClass::getTemplatesNamespace();
                     $scanTemplates = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
-                     if (method_exists($moduleClass, 'getTemplatesScanDepth')) {
-                        $scanTemplates->setScanDepth($moduleClass::getTemplatesScanDepth());
-                    }
-
-
                     $templatesForModule = $scanTemplates->scan($templatesNamespace);
+
+                    if ($activeSiteTemplate) {
+                        // we will check for module templates in the active site template
+                        $checkIfActiveSiteTemplate = app()->templates->find($activeSiteTemplate);
+                        if ($checkIfActiveSiteTemplate) {
+                            $checkIfActiveSiteTemplateLowerName = $checkIfActiveSiteTemplate->getLowerName();
+                            $templatesNamespaceInActiveSiteTemplate = str_replace('::', '.', $templatesNamespace);
+                            $templatesNamespaceInActiveSiteTemplate = 'templates.' . $checkIfActiveSiteTemplateLowerName . '::' . $templatesNamespaceInActiveSiteTemplate;
+
+
+                            $scanTemplatesInActiveSiteTemplate = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
+                            $templatesForModuleInActiveSiteTemplate = $scanTemplatesInActiveSiteTemplate->scan($templatesNamespaceInActiveSiteTemplate);
+                            if ($templatesForModuleInActiveSiteTemplate) {
+                                foreach ($templatesForModuleInActiveSiteTemplate as $templatesForModuleInActiveSiteTemplateKey => $templatesForModuleInActiveSiteTemplateValue) {
+                                    if (!$templatesForModule) {
+                                        continue;
+                                    }
+                                    foreach ($templatesForModule as $templatesForModuleKey => $templatesForModuleValue) {
+                                        //check if layout_file is the same as in the module and unset it
+                                        if (isset($templatesForModuleValue['layout_file']) && isset($templatesForModuleInActiveSiteTemplateValue['layout_file']) && $templatesForModuleValue['layout_file'] == $templatesForModuleInActiveSiteTemplateValue['layout_file']) {
+                                            $ready[] = $templatesForModuleInActiveSiteTemplateValue;
+                                            //    unset($templatesForModule[$templatesForModuleKey]);
+                                            //  unset($templatesForModuleInActiveSiteTemplate[$templatesForModuleInActiveSiteTemplateKey]);
+                                            continue(2);
+                                        }
+                                    }
+                                    if (isset($templatesForModuleInActiveSiteTemplate[$templatesForModuleInActiveSiteTemplateKey])) {
+                                        $ready[] = $templatesForModuleInActiveSiteTemplate[$templatesForModuleInActiveSiteTemplateKey];
+                                    }
+
+                                }
+
+                            } else {
+                                $ready = $templatesForModule;
+                            }
+                        }
+                    } else {
+                        $ready = $templatesForModule;
+                    }
                 }
             }
-            if ($templatesForModule) {
-                return $templatesForModule;
+            if ($ready) {
+                return $ready;
             }
         }
         return [];

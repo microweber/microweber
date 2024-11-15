@@ -13,7 +13,7 @@ trait HasMicroweberModuleTemplates
 
     public array $templates = [];
     public string $template = 'default';
-    public static $templatesScanDepth = 1;
+
 
     /**
      * Retrieve the namespaced template path for the module.
@@ -27,10 +27,6 @@ trait HasMicroweberModuleTemplates
             return '';
         }
         return static::$templatesNamespace;
-    }
-    public static function getTemplatesScanDepth(): int
-    {
-        return static::$templatesScanDepth;
     }
 
     /**

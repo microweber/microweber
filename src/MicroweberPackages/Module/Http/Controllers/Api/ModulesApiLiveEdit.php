@@ -63,38 +63,43 @@ class ModulesApiLiveEdit extends Controller
                 $show_grouped_by_cats = true;
             }
 
-            $modules = mw()->layouts_manager->get($el_params);
+//            $modules = mw()->layouts_manager->get($el_params);
+//
+//            if ($modules == false) {
+//                $el_params['no_cache'] = true;
+//                mw()->module_manager->scan_for_elements($el_params);
+//                $modules = mw()->layouts_manager->get($el_params);
+//            }
 
-            if ($modules == false) {
-                $el_params['no_cache'] = true;
-                mw()->module_manager->scan_for_elements($el_params);
-                $modules = mw()->layouts_manager->get($el_params);
-            }
+            // if ($modules == false) {
+            $modules = array();
+            //   }
 
-            if ($modules == false) {
-                $modules = array();
-            }
-
-            $elements_from_template = mw()->layouts_manager->get_elements_from_current_site_template();
-            if (!empty($elements_from_template)) {
-                $modules = array_merge($elements_from_template, $modules);
-            }
+//            $elements_from_template = mw()->layouts_manager->get_elements_from_current_site_template();
+//            if (!empty($elements_from_template)) {
+//                $modules = array_merge($elements_from_template, $modules);
+//            }
 
             if ($disable_elements) {
                 $modules = array();
             }
 
             $template_dir = template_dir();
+            $active_site_template = false;
             if (isset($params['active_site_template'])) {
                 $filter_template_dir = templates_dir() . $params['active_site_template'] . DS;
                 $filter_template_dir = normalize_path($filter_template_dir, true);
                 if (is_dir($filter_template_dir)) {
                     $template_dir = $filter_template_dir;
                 }
+                $active_site_template = $params['active_site_template'];
             }
 
-            $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-            $module_layouts_skins = mw()->module_manager->templates('layouts', false, false, $template_dir);
+            $module_layouts_skins = app()->microweber->getTemplates('layouts', $active_site_template);
+
+            //    $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
+            //$module_layouts_skins = mw()->module_manager->templates('layouts', false, false, $template_dir);
+            $dynamic_layouts = false;
 
             if ($hide_dynamic_layouts) {
                 $dynamic_layouts = false;
@@ -103,6 +108,7 @@ class ModulesApiLiveEdit extends Controller
 
 
         } else {
+
 
             $modulesFromRegistry = app()->microweber->getModulesDetails();
             $modules = mw()->module_manager->get('installed=1&ui=1');
@@ -118,9 +124,9 @@ class ModulesApiLiveEdit extends Controller
                     if (isset($mod['icon']) and ($mod['icon'])) {
                         try {
 
-                       //  $mod['icon'] = 'data:image/svg+xml;utf8,'.$this->encodeURIComponent(svg($mod['icon'])->toHtml());
-                          $mod['icon'] = 'data:image/svg+xml;base64,'.base64_encode(svg($mod['icon'])->toHtml());
-                           //  $mod['icon'] = svg($mod['icon'])->toHtml();
+                            //  $mod['icon'] = 'data:image/svg+xml;utf8,'.$this->encodeURIComponent(svg($mod['icon'])->toHtml());
+                            $mod['icon'] = 'data:image/svg+xml;base64,' . base64_encode(svg($mod['icon'])->toHtml());
+                            //  $mod['icon'] = svg($mod['icon'])->toHtml();
                         } catch (\Exception $e) {
 
 
@@ -133,7 +139,7 @@ class ModulesApiLiveEdit extends Controller
                 }
 
 
-                $modules = array_merge($modulesFromRegistry,$modules);
+                $modules = array_merge($modulesFromRegistry, $modules);
             }
 
 
@@ -590,8 +596,9 @@ class ModulesApiLiveEdit extends Controller
 
     }
 
-    function encodeURIComponent($str) {
-        $revert = array('%21'=>'!', '%2A'=>'*', '%27'=>"'", '%28'=>'(', '%29'=>')');
+    function encodeURIComponent($str)
+    {
+        $revert = array('%21' => '!', '%2A' => '*', '%27' => "'", '%28' => '(', '%29' => ')');
         return strtr(rawurlencode($str), $revert);
     }
 }

@@ -5,16 +5,11 @@ namespace MicroweberPackages\Microweber\Support;
 class ScanForBladeTemplates
 {
 
-    public int $depth = 0;
 
-
-    public function setScanDepth($depth)
-    {
-        $this->depth = $depth;
-    }
 
     public function scan($templatesNamespace)
     {
+
         $viewsHints = app('view')->getFinder()->getHints();
         $templatesForModule = [];
         if ($templatesNamespace and !empty($templatesNamespace)) {
@@ -56,14 +51,19 @@ class ScanForBladeTemplates
         $folder = normalize_path($folder, false);
         $files = glob($folder . '/' . $glob_patern);
 
-        if($this->depth > 0){
-            $this->depth--;
-            $subfolders = glob($folder . '/*', GLOB_ONLYDIR);
-            foreach($subfolders as $subfolder){
-                $subfolderFiles = array_merge($files, glob($subfolder . '/' . $glob_patern));
-                $files = array_merge($files, $subfolderFiles);
+
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($folder, \RecursiveDirectoryIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST
+        );
+
+        foreach ($iterator as $file) {
+            if ($file->isFile() && $file->getExtension() === 'php' && strpos($file->getFilename(), '.blade.php') !== false) {
+                $files[] = $file->getPathname();
             }
         }
+
+        $files = array_unique($files);
 
         //   $files = array_merge($files, glob($folder . '/*/' . $glob_patern));
         $configs = array();

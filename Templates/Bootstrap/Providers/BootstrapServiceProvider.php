@@ -32,7 +32,7 @@ class BootstrapServiceProvider extends BaseTemplateServiceProvider
     public function boot(): void
     {
 
-        View::prependNamespace('modules.layouts', __DIR__ . '/../resources/views/modules/layouts');
+      //  View::prependNamespace('modules.layouts', __DIR__ . '/../resources/views/modules/layouts');
 
     }
 
