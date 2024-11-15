@@ -12,10 +12,12 @@
 
     {{-- Vite CSS --}}
 
+
     @if(!lang_is_rtl())
-    {{ template_vite('templates/bootstrap/dist', 'resources/assets/sass/app.scss') }}
+        <link rel="stylesheet" href="{{ asset('templates/bootstrap/app.css') }}">
     @else
-    {{ template_vite('templates/bootstrap/dist', 'resources/assets/sass/app-rtl.scss') }}
+
+         <link rel="stylesheet" href="{{ asset('templates/bootstrap/app-rtl.css') }}">
     @endif
 
     <script>
@@ -55,7 +57,9 @@
 </div>
 
     {{-- Vite JS --}}
-    {{ template_vite('templates/bootstrap/dist', 'resources/assets/js/app.js') }}
+
+
+    <script src="{{ asset('templates/bootstrap/app.js') }}"></script>
 
     {!! meta_tags_footer() !!}
 </body>

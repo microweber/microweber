@@ -24,11 +24,15 @@ mix.copy(`./resources/local-libs/collapse-nav/collapse-nav.js`, `./resources/dis
 mix.copy(`./resources/local-libs/highlight/highlight.min.js`, `./resources/dist/highlight-js/highlight.min.js`);
 
 
-const isFolder = path => path.split(".").length > 1;
+const isFolder = path => {
+    const arr = path.split(".");
+    return arr.length > 1 && arr.pop().length < 5;
+};
 
 const copy = (target, path) => {
-    const action = isFolder(path) ? 'copyDirectory' : 'copy';
-    mix[action](path, `./resources/dist/${target}/${path.split('/').pop()}`);
+    const _isFolder = isFolder(target);
+    const action = _isFolder ? 'copyDirectory' : 'copy';
+    mix[action](path, `./resources/dist/${target}${!isFolder ? '/' + path.split('/').pop() : ''}`);
 }
 
 
