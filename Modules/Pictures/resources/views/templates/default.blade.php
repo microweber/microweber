@@ -1,0 +1,39 @@
+<?php
+
+/*
+
+type: layout
+
+name: Default
+
+description: Default Picture List
+
+*/
+
+?>
+<?php if (is_array($data) and !empty($data)): ?>
+    <?php $rand = uniqid(); ?>
+     <div class="mw-module-images<?php if ($no_img) { ?> no-image<?php } ?>">
+        <div class="mw-pictures-clean" id="mw-gallery-<?php print $rand; ?>">
+            <?php $count = -1; foreach ($data as $item): ?>
+                <?php $count++; ?>
+                <?php if(!isset($item['id'])){
+                    continue;
+                } ?>
+
+                <div class="mw-pictures-clean-item mw-pictures-clean-item-<?php print $item['id']; ?>">
+                    <a href="<?php print ($item['filename']); ?>"
+                       onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>);return false;">
+                        <img src="<?php print thumbnail($item['filename'], 600); ?>"/>
+                    </a>
+                </div>
+            <?php endforeach;  ?>
+            <script>gallery<?php print $rand; ?> = [
+                        <?php foreach($data  as $item): ?>{image: "<?php print ($item['filename']); ?>", description: "<?php print $item['title']; ?>"},
+                    <?php endforeach;  ?>
+                ];</script>
+        </div>
+    </div>
+<?php else : ?>
+<p>The pictures modules is empty, please upload a picture. </p>
+<?php endif; ?>
