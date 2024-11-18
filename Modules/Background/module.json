@@ -1,0 +1,11 @@
+{
+    "name": "Background",
+    "alias": "background",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Background\\Providers\\BackgroundServiceProvider"
+    ],
+    "files": []
+}
