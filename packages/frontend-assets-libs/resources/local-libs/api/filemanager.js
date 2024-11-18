@@ -94,8 +94,22 @@
                         fileAdded: function () {
                             scope.progress(5);
                         },
-                        filesUploaded: function () {
-                            scope.refresh(true);
+                        fileUploaded: function (file) {
+                            const fileData = Object.assign({}, file, {
+                                modified: Date.now(),
+                                created: Date.now(),
+                                size: file.bytes_uploaded,
+                                thumbnail: file.src,
+                                url: file.src,
+                                type: 'file'
+                            });
+                            var row = scope.singleListView(fileData);
+                            rows.push({data: fileData, row: row});
+                            tableBody.prepend(row);
+                        },
+                        filesUploaded: function (a,b) {
+                            console.log(1, this, a, b);
+                            //scope.refresh(true);
                         },
                         progress: function (val) {
                             scope.progress(val.percent);
@@ -301,10 +315,11 @@
         };
 
         var _image = function (item) {
+            const isImage = item.thumbnail || item.src;
             if (item.type === 'folder') {
                 return '<span class="mw-file-manager-list-item-thumb mw-file-manager-list-item-thumb-folder"><svg xmlns="http://www.w3.org/2000/svg" height="48" fill="currentColor" viewBox="0 96 960 960" width="48"><path d="M141 896q-24 0-42-18.5T81 836V316q0-23 18-41.5t42-18.5h280l60 60h340q23 0 41.5 18.5T881 376v460q0 23-18.5 41.5T821 896H141Zm0-580v520h680V376H456l-60-60H141Zm0 0v520-520Z"/></svg></span>';
-            } else if (item.thumbnail) {
-                return '<span class="mw-file-manager-list-item-thumb mw-file-manager-list-item-thumb-image" style="background-image: url(' + item.thumbnail + ')"></span>';
+            } else if (isImage) {
+                return '<span class="mw-file-manager-list-item-thumb mw-file-manager-list-item-thumb-image" style="background-image: url(' + isImage + ')"></span>';
             } else {
                 var ext = item.name.split('.').pop();
                 if(!ext) {
@@ -945,13 +960,7 @@
         this.creteSearchNode = function (target) {
 
 
-
-
-
-
-
-
-              var html = `<div class="row g-2 mw-file-manager-search">
+            var html = `<div class="row g-2 mw-file-manager-search">
               <div class="col">
                 <input type="text" class="form-control" placeholder="Search">
               </div>
