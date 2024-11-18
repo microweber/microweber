@@ -28,7 +28,8 @@ class MenusList extends Component implements HasForms, HasActions
     use InteractsWithForms;
 
     public int $menu_id = 0;
-    public string $optionGroup = ''; //if this is set it will save as module option on change
+    public string $option_group = ''; //if this is set it will save as module option on change
+    public string $option_key = ''; //if this is set it will save as module option on change
 
     public function form(Form $form): Form
     {
@@ -298,7 +299,26 @@ class MenusList extends Component implements HasForms, HasActions
         }
 
     }
+    public function updatedMenuId($value)
+    {
 
+        if($this->option_group != '' and $this->option_key != ''){
+            $menu = get_menus('one=1&limit=1&id=' . $value);
+            $title = '';
+            if($menu){
+                $title = $menu['title'];
+            }
+
+            save_option($this->option_key, $title, $this->option_group);
+
+            $this->dispatch('mw-option-saved',
+                optionGroup:  $this->option_group,
+                optionKey:  $this->option_key,
+                optionValue:  $title
+            );
+        }
+
+    }
     public function render(): View
     {
         $firstMenu = Menu::where('item_type', 'menu')

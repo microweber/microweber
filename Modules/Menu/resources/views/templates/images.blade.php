@@ -22,7 +22,7 @@ description: Images Menu skin
     if ($mt != false) {
         print($mt);
     } else {
-        print lnotif(_e('There are no items in the menu', true) . " <b>" . $params['menu-name'] . '</b>');
+        print lnotif(_e('There are no items in the menu', true) . " <b>" . $menuName . '</b>');
     }
     ?>
 </div>

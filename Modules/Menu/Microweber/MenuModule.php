@@ -20,10 +20,13 @@ class MenuModule extends BaseModule
         $menuName = $this->getOption('menu_name')
             ?? $viewData['params']['data-name']
             ?? $viewData['params']['menu_name']
+            ?? $viewData['params']['name']
             ?? 'header_menu';
 
 
         $menu_filter = [];
+
+       
         $menu = get_menus('make_on_not_found=1&one=1&limit=1&title=' . $menuName);
 
         if (is_array($menu)) {
