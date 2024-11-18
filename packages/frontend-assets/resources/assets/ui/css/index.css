@@ -72,7 +72,7 @@ a {
     transition: var(--toolbar-height-animation-speed);
 }
 
-@media (min-width: 512px) {
+@media (min-width: 1050px) {
     .add-content-button-svg {
         display: flex !important;
 
@@ -89,7 +89,7 @@ a {
     }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 815px) {
     .toolbar-col-container {
         display: flex !important;
         align-items: center;
@@ -100,7 +100,7 @@ a {
     .live-edit-undo-redo-buttons-wrapper, .mw-live-edit-resolutions-wrapper {
         display: flex !important;
     }
-}
+} 
 
 @media (min-width: 328px) {
     .live-edit-toolbar-buttons-view {

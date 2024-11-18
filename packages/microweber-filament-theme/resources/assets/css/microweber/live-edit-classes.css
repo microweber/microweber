@@ -147,7 +147,7 @@ body {
 }
 
 .mw-live-edit-search-dropdown {
-    @apply !bg-gray-100 dark:!bg-black !border-gray-100 rounded !max-h-[35px] !flex !items-center !relative !min-w-[235px] w-full;
+    @apply !bg-gray-100 dark:!bg-black !border-gray-100 rounded !max-h-[35px] !flex !items-center !relative w-full;
 }
 
 .mw-live-edit-search-dropdown input {

@@ -18,6 +18,7 @@ export const insertModule = (target = null, module, options = {}, insertLocation
                 && !mw.top().win.mw.app.liveEdit.handles.get('element').isVisible()
                 && !mw.top().win.mw.app.liveEdit.handles.get('module').isVisible();
 
+
         const itm = await target.ownerDocument.defaultView.mw.module.insert(target, module, options, insertLocation, mw.liveEditState, explicitAction);
 
 
