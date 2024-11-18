@@ -124,4 +124,6 @@ if (is_array($data)): ?>
         });
     </script>
 
+<?php else : ?>
+@include('modules.pictures::partials.no-pictures')
 <?php endif; ?>

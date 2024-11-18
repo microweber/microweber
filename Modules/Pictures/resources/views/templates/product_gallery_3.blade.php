@@ -13,7 +13,7 @@ description: Product Gallery
 ?>
 
 
-<?php if (is_array($data)): ?>
+<?php if (is_array($data) and $data): ?>
     <?php $id = "slider-" . uniqid(); ?>
     <?php $rand = uniqid(); ?>
 
@@ -100,4 +100,6 @@ description: Product Gallery
             </div>
         </div>
     </div>
+<?php else : ?>
+@include('modules.pictures::partials.no-pictures')
 <?php endif; ?>

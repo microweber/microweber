@@ -11,7 +11,7 @@ description: Slick Pictures List Template
 */
 
 ?>
-<?php if (is_array($data)): ?>
+<?php if (is_array($data) and $data): ?>
 
 
     <script>
@@ -104,5 +104,6 @@ description: Slick Pictures List Template
             </div>
         </div>
     <?php endif; ?>
-<?php else : ?>
+    <?php else : ?>
+@include('modules.pictures::partials.no-pictures')
 <?php endif; ?>

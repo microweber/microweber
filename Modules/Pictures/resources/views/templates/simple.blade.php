@@ -11,7 +11,7 @@ description: Simple Pictures List Template
 */
 
 ?>
-<?php if (is_array($data)): ?>
+<?php if (is_array($data) and $data): ?>
 
     <?php $rand = uniqid(); ?>
 
@@ -38,4 +38,5 @@ description: Simple Pictures List Template
         </div>
     </div>
 <?php else : ?>
+@include('modules.pictures::partials.no-pictures')
 <?php endif; ?>

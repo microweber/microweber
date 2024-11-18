@@ -12,7 +12,7 @@ description: Inner Slider
 
 ?>
 
-<?php if (is_array($data)): ?>
+<?php if (is_array($data) and $data): ?>
     <?php $id = "slider-" . uniqid(); ?>
     <div class=" mw-rotator mw-rotator-template-inner" id="<?php print $id; ?>">
         <div class=" mw-gallery-holder">
@@ -50,4 +50,5 @@ description: Inner Slider
         });
     </script>
 <?php else : ?>
+@include('modules.pictures::partials.no-pictures')
 <?php endif; ?>

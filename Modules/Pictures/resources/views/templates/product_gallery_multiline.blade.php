@@ -15,7 +15,7 @@ description: Product Gallery Multiline
 
 
 
-<?php if (is_array($data)): ?>
+<?php if (is_array($data) and $data): ?>
 
     <?php $id = "slider-" . uniqid(); ?>
 
@@ -72,4 +72,5 @@ description: Product Gallery Multiline
 
 
 <?php else : ?>
+@include('modules.pictures::partials.no-pictures')
 <?php endif; ?>

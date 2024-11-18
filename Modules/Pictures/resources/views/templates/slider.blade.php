@@ -6,7 +6,7 @@ description: Pictures slider
 */
 ?>
 
-<?php if (is_array($data)): ?>
+<?php if (is_array($data) and $data): ?>
     <?php $id = "slider-" . uniqid(); ?>
     <div class="well mw-module-images slider">
         <div class=" mw-rotator mw-rotator-template-slider" id="<?php print $id; ?>">
@@ -42,4 +42,5 @@ description: Pictures slider
         });
     </script>
 <?php else : ?>
+@include('modules.pictures::partials.no-pictures')
 <?php endif; ?>

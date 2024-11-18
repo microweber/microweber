@@ -11,7 +11,7 @@ description: Default Picture List
 */
 
 ?>
-<?php if (is_array($data)): ?>
+<?php if (is_array($data) and $data): ?>
     <?php $rand = uniqid(); ?>
     <script>mw.moduleCSS("<?php print asset('modules/pictures/css/clean.css'); ?>"); </script>
     <div class="mw-module-images<?php if ($no_img) { ?> no-image<?php } ?>">
@@ -36,4 +36,5 @@ description: Default Picture List
         </div>
     </div>
 <?php else : ?>
+@include('modules.pictures::partials.no-pictures')
 <?php endif; ?>
