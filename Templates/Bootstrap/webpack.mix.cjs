@@ -1,7 +1,15 @@
 let mix = require('laravel-mix');
 let path = require('path');
 let fs = require('fs-extra');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require('webpack');
+
+mix.webpackConfig({
+    plugins: [
+        new webpack.optimize.LimitChunkCountPlugin({
+          maxChunks: 5,
+        }),
+      ],
+});
 
 mix.setPublicPath('resources/assets/dist/build');
 

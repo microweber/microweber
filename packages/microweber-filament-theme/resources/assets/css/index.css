@@ -13,7 +13,8 @@
 @import 'microweber/linkpicker.css';
 @import 'microweber/general-styles.css';
 @import 'microweber/tomselect.css';
-@import '../../../../../public/userfiles/modules/microweber/default.css';
+
+@import '../../../../frontend-assets/resources/assets/css/microweber/css/default.css';
 @import '../../../../frontend-assets/resources/assets/css/scss/tree.scss';
 @import '../../../../frontend-assets/resources/assets/css/scss/editor.scss';
 @import '../../../../frontend-assets/resources/assets/css/scss/spinner.scss';
