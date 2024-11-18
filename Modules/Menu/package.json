@@ -1,0 +1,20 @@
+{
+    "name": "microweber-modules-menu",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microweber-modules/menu.git"
+    },
+    "private": true,
+    "scripts": {
+        "build": "npx mix",
+        "dev": "npx mix watch"
+    },
+    "devDependencies": {
+        "laravel-mix": "^6.0.49"
+    },
+    "dependencies": {
+    }
+}

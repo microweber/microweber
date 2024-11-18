@@ -28,6 +28,7 @@ class MenusList extends Component implements HasForms, HasActions
     use InteractsWithForms;
 
     public int $menu_id = 0;
+    public string $optionGroup = ''; //if this is set it will save as module option on change
 
     public function form(Form $form): Form
     {
