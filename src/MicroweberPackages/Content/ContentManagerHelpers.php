@@ -9,9 +9,9 @@ use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Content\Models\ContentRelated;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Helper\XSSClean;
-use MicroweberPackages\Menu\Models\Menu;
-use MicroweberPackages\Menu\Models\MenuItem;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Menu\Models\Menu;
+use Modules\Menu\Models\MenuItem;
 
 
 class ContentManagerHelpers extends ContentManagerCrud

@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Menu\Models;
+namespace Modules\Menu\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Models\Category;

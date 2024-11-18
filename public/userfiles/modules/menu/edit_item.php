@@ -109,7 +109,7 @@ if ($id == 0) {
 
 
 
-                        $menuModel = \MicroweberPackages\Menu\Models\Menu::where('id', $data['id'])->first();
+                        $menuModel = \Modules\Menu\Models\Menu::where('id', $data['id'])->first();
                         $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
 
                         echo $formBuilder->text('title')
@@ -145,7 +145,7 @@ if ($id == 0) {
 
 
 
-                        $menuModel = \MicroweberPackages\Menu\Models\Menu::where('id', $data['id'])->first();
+                        $menuModel = \Modules\Menu\Models\Menu::where('id', $data['id'])->first();
                         $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
 
                         echo $formBuilder->text('url')

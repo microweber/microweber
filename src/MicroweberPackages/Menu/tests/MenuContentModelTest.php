@@ -4,8 +4,8 @@
 namespace MicroweberPackages\Menu\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Menu\Models\Menu;
 use Modules\Content\Models\Content;
+use Modules\Menu\Models\Menu;
 
 class MenuContentModelTest extends TestCase
 {

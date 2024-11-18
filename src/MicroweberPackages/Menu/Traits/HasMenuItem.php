@@ -8,9 +8,7 @@
 
 namespace MicroweberPackages\Menu\Traits;
 
-use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Menu\Models\Menu;
-use MicroweberPackages\Menu\Models\MenuItem;
+use Modules\Menu\Models\MenuItem;
 
 trait HasMenuItem
 {

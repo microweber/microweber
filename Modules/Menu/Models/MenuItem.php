@@ -1,10 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Menu\Models;
-
-use Illuminate\Database\Eloquent\Model;
+namespace Modules\Menu\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Menu
 {

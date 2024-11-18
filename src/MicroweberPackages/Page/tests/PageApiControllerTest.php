@@ -5,8 +5,8 @@ namespace MicroweberPackages\Page\tests;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\User\Models\User;
+use Modules\Menu\Models\Menu;
 
 class PageApiControllerTest extends TestCase
 {

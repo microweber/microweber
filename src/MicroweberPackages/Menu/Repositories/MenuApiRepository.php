@@ -8,8 +8,8 @@ use MicroweberPackages\Menu\Events\MenuIsUpdating;
 use MicroweberPackages\Menu\Events\MenuWasCreated;
 use MicroweberPackages\Menu\Events\MenuWasDeleted;
 use MicroweberPackages\Menu\Events\MenuWasUpdated;
-use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Menu\Models\Page;
+use Modules\Menu\Models\Menu;
 
 class MenuApiRepository extends BaseRepository
 {

@@ -2,9 +2,9 @@
 
 namespace MicroweberPackages\Menu\Repositories;
 
-use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use Modules\Menu\Models\Menu;
 
 class MenuRepository extends AbstractRepository
 {

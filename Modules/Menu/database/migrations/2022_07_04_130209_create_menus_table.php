@@ -56,7 +56,7 @@ class CreateMenusTable extends Migration
                         DB::table('menus')
                             ->where('id', $field->id)
                             ->limit(1)
-                            ->update(['menu_name' => $field->title]);
+                            ->update(['menu_name' => str_slug($field->title)]);
 
                     }
                 }

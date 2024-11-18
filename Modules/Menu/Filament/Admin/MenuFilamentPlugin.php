@@ -1,11 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Menu\Filament\Admin;
+namespace Modules\Menu\Filament\Admin;
 
 use Filament\Contracts\Plugin;
-
 use Filament\Panel;
-use MicroweberPackages\Menu\Filament\Admin\Pages\AdminMenusPage;
+use Modules\Menu\Filament\Admin\Pages\AdminMenusPage;
 
 class MenuFilamentPlugin implements Plugin
 {

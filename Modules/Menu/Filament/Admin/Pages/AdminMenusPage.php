@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Menu\Filament\Admin\Pages;
+namespace Modules\Menu\Filament\Admin\Pages;
 
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 

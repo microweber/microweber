@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
-use MicroweberPackages\Menu\Models\Menu;
 use MicroweberPackages\Option\Models\Option;
 use Modules\Content\Models\Content;
+use Modules\Menu\Models\Menu;
 
 class TemplateInstaller
 {
