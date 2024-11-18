@@ -61,7 +61,7 @@ export default function layoutSettings(activeTab, optionGroup) {
 
             if (target) {
                 var mod_in_mods_html_btn = '';
-                var _win = mw.top().app.canvas.getWindow() || window;
+                var _win = mw.top().app.canvas?.getWindow() || window;
                 var mods_in_mod = _win.$(target).find('.module');
 
                 if (mods_in_mod) {
