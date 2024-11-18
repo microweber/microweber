@@ -258,4 +258,16 @@ class MwMediaBrowser extends Field
         return $this->mediaItems;
     }
 
+
+    public function setRelType($relType)
+    {
+        $this->relType = $relType;
+        return $this;
+    }
+    public function setRelId($relId)
+    {
+        $this->relId = $relId;
+        return $this;
+    }
+
 }

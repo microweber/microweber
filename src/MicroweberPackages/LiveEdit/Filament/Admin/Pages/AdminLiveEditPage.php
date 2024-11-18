@@ -141,10 +141,14 @@ class AdminLiveEditPage extends Page
                                         . $data['moduleSettingsComponent'])
                             ];
                         }
+                        $liveEditIframeData = [];
+                        if (isset($data['liveEditIframeData']) and !empty($data['liveEditIframeData'])) {
+                            $liveEditIframeData = $data['liveEditIframeData'];
 
+                        }
                         return [
                             Livewire::make($data['moduleSettingsComponent'],
-                                ['params' => $params])
+                                ['params' => $params, 'liveEditIframeData' => $liveEditIframeData])
                         ];
 
                     }
@@ -153,7 +157,7 @@ class AdminLiveEditPage extends Page
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
             ->stickyModalHeader(true)
-          //  ->modalWidth(MaxWidth::ExtraLarge)
+            //  ->modalWidth(MaxWidth::ExtraLarge)
             ->modalWidth(MaxWidth::Medium)
             ->extraModalWindowAttributes(['class' => 'mw-module-settings-live-edit-modal'])
             ->slideOver();

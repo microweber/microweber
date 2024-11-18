@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Microweber\Traits;
 
 
-
 /**
  * Trait HasMicroweberModuleParams
  *
@@ -22,6 +21,11 @@ trait HasMicroweberModuleParams
     public function getParams()
     {
         return $this->params;
+    }
+
+    public function getModuleId()
+    {
+        return $this->params['id'] ?? null;
     }
 
     /**

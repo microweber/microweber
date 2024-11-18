@@ -23,6 +23,7 @@ abstract class LiveEditModuleSettings extends Page
     public array $options = [];
     public array $params = [];
     public array $translatableOptions = [];
+    public array $liveEditIframeData = [];
     protected static bool $showTopBar = false;
     protected static bool $shouldRegisterNavigation = false;
 
