@@ -312,7 +312,7 @@ class MenusList extends Component implements HasForms, HasActions
             }
         }
 
-        return view('menu::livewire.admin.menus-list', [
+        return view('modules.menu::livewire.admin.menus-list', [
             'menu' => $firstMenu
         ]);
     }

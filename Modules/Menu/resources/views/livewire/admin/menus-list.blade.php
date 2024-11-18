@@ -166,7 +166,7 @@
                             $params = array(
                               'menu_id' => $menu->id,
                               'link' => function ($item) {
-                                  return view('menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
+                                  return view('modules.menu::livewire.admin.menu-list-item', ['item'=>$item])->render();
                               }
                              );
                              $menuTree = menu_tree($params);

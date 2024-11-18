@@ -11,7 +11,7 @@ class AdminMenusPage extends AdminSettingsPage
 
     protected static ?string $navigationGroup = 'Website Settings';
 
-    protected static string $view = 'menu::filament.admin.pages.menus-list-page';
+    protected static string $view = 'modules.menu::filament.admin.pages.menus-list-page';
 
     protected static ?string $title = 'Menu';
 
