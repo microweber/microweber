@@ -93,7 +93,7 @@ class BackgroundModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        $viewName = $this->getViewName($viewData['template']);
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
         return view($viewName, $viewData);
     }

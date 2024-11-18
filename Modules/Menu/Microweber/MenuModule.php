@@ -19,6 +19,7 @@ class MenuModule extends BaseModule
         $viewData = $this->getViewData();
         $menuName = $this->getOption('menu_name', 'Default Menu');
         $viewData['menuName'] = $menuName;
+        $viewData['menu_filter'] = [];
 
         return view('modules.menu::templates.default', $viewData);
     }

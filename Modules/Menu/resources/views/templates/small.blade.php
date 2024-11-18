@@ -21,4 +21,4 @@ if ($mt != false) {
 }
 ?>
 
-<script>mw.moduleCSS("<?php print $config['url_to_module']; ?>style.css");</script>
+<script>mw.moduleCSS("<?php print asset('modules/menu/style.css'); ?>", true);</script>

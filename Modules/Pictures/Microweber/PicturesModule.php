@@ -19,7 +19,7 @@ class PicturesModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        $viewName = $this->getViewName($viewData['template']);
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
 
         $params = $this->getParams();

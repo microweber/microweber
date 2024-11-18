@@ -20,7 +20,7 @@ class LayoutsModule extends BaseModule
         $viewData = $this->getViewData();
         $classes = mw_get_layout_css_classes($viewData['params']);
         $viewData['classes'] = $classes;
-        $viewName = $this->getViewName($viewData['template']);
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
         return view($viewName, $viewData);
     }
