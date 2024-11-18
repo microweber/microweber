@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Menu\Http\Livewire\Admin;
+namespace Modules\Menu\Livewire\Admin;
 
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;

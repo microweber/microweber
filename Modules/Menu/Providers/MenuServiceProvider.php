@@ -5,11 +5,13 @@ namespace Modules\Menu\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Menu\Filament\Admin\MenuFilamentPlugin;
 use Modules\Menu\Filament\MenuModuleSettings;
+use Modules\Menu\Livewire\Admin\MenusList;
 use Modules\Menu\Microweber\MenuModule;
 
 class MenuServiceProvider extends BaseModuleServiceProvider
@@ -41,6 +43,7 @@ class MenuServiceProvider extends BaseModuleServiceProvider
 
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(MenuModuleSettings::class);
+        Livewire::component('admin-menus-list', MenusList::class);
 
         // Register Microweber module
         Microweber::module(\Modules\Menu\Microweber\MenuModule::class);

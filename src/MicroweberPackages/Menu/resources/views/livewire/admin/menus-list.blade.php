@@ -2,8 +2,7 @@
 
     @script
     <script>
-        mw.lib.require('jqueryui')
-        mw.lib.require('nestedSortable')
+
         document.addEventListener('livewire:initialized', async () => {
 
 

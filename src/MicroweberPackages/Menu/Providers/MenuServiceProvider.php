@@ -16,12 +16,10 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Menu\Http\Livewire\Admin\MenusList;
 use MicroweberPackages\Menu\MenuManager;
 use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
-use Modules\Menu\Filament\Admin\MenuFilamentPlugin;
+use Modules\Menu\Livewire\Admin\MenusList;
 use Modules\Menu\Models\Menu;
 
 class MenuServiceProvider extends ServiceProvider
@@ -55,15 +53,11 @@ class MenuServiceProvider extends ServiceProvider
             return $this->app->repository_manager->driver(Menu::class);;
         });
 
-        Livewire::component('admin-menus-list', MenusList::class);
 
 
   //      FilamentRegistry::registerPlugin(MenuFilamentPlugin::class);
 
-        FilamentRegistry::registerPage(
-            \Modules\Menu\Filament\Admin\Pages\AdminMenusPage::class,
-            \App\Filament\Admin\Pages\Settings::class
-        );
+
 
         Event::listen(ServingFilament::class, function () {
 
