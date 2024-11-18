@@ -10,6 +10,7 @@ class BackgroundModule extends BaseModule
     public static string $module = 'background';
     public static string $icon = 'modules.background-icon';
     public static string $categories = 'media';
+    public static string $templatesNamespace = 'modules.background::templates';
     public static int $position = 1;
 
     public function getViewData(): array
@@ -92,6 +93,8 @@ class BackgroundModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        return view('modules.background::templates.default', $viewData);
+        $viewName = $this->getViewName($viewData['template']);
+
+        return view($viewName, $viewData);
     }
 }
