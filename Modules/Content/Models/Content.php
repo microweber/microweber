@@ -17,9 +17,9 @@ use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Database\Traits\ParentCannotBeSelfTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
-use MicroweberPackages\Menu\Traits\HasMenuItem;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use Modules\ContentData\Traits\ContentDataTrait;
+use Modules\Menu\Concerns\HasMenuItem;
 use Modules\Tag\Traits\TaggableTrait;
 
 //use Kirschbaum\PowerJoins\PowerJoins;

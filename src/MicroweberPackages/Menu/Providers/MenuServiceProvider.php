@@ -15,12 +15,7 @@ use Filament\Events\ServingFilament;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Livewire\Livewire;
-use MicroweberPackages\Menu\MenuManager;
-use MicroweberPackages\Menu\Repositories\MenuRepository;
-use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
-use Modules\Menu\Livewire\Admin\MenusList;
-use Modules\Menu\Models\Menu;
+use Modules\Menu\TranslateTables\TranslateMenu;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -33,25 +28,6 @@ class MenuServiceProvider extends ServiceProvider
     {
         View::addNamespace('menu', __DIR__ . '/../resources/views');
 
-        /**
-         * @property \MicroweberPackages\Menu\MenuManager $menu_manager
-         */
-        $this->app->singleton('menu_manager', function ($app) {
-            return new MenuManager();
-        });
-
-        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(Menu::class, function () {
-                return new MenuRepository();
-            });
-        });
-
-        /**
-         * @property MenuRepository $menu_repository
-         */
-        $this->app->bind('menu_repository', function ($app) {
-            return $this->app->repository_manager->driver(Menu::class);;
-        });
 
 
 
@@ -77,7 +53,6 @@ class MenuServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        $this->app->translate_manager->addTranslateProvider(TranslateMenu::class);
 
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');

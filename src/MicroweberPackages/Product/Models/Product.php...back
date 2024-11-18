@@ -23,7 +23,7 @@ use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Database\Traits\ParentCannotBeSelfTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
-use MicroweberPackages\Menu\Traits\HasMenuItem;
+use Modules\Menu\Concerns\HasMenuItem;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Order\Models\Order;

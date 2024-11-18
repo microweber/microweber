@@ -31,7 +31,7 @@ use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileReposit
 use MicroweberPackages\Media\MediaManager;
 use MicroweberPackages\Media\Repositories\MediaRepository;
 use MicroweberPackages\Menu\MenuManager;
-use MicroweberPackages\Menu\Repositories\MenuRepository;
+use Modules\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Module\Repositories\ModuleRepository;

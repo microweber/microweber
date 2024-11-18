@@ -13,15 +13,13 @@ namespace MicroweberPackages\Option\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Support\DeferrableProvider;
-use MicroweberPackages\Menu\TranslateTables\TranslateMenu;
-use MicroweberPackages\Option\TranslateTables\TranslateOption;
 use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\GlobalOptions;
-use MicroweberPackages\Option\Models\Option as OptionModel;
 use MicroweberPackages\Option\Models\Option;
+use MicroweberPackages\Option\Models\Option as OptionModel;
 use MicroweberPackages\Option\OptionManager;
 use MicroweberPackages\Option\Repositories\OptionRepository;
+use MicroweberPackages\Option\TranslateTables\TranslateOption;
 
 
 class OptionServiceProvider extends ServiceProvider
