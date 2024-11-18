@@ -36,15 +36,14 @@ class MenusList extends Component implements HasForms, HasActions
                 ->live()
                 ->native(false)
                 ->selectablePlaceholder(false)
-
                 ->reactive()
                 ->default(function (Component $component, Get $get) {
 
-                    return $get('menu_id') ;
+                    return $get('menu_id');
                 })
                 ->options(Menu::where('item_type', 'menu')->get()->pluck('title', 'id'))
                 ->preload()
-            ->label(' '),
+                ->label(' '),
         ]);
     }
 
@@ -82,9 +81,11 @@ class MenusList extends Component implements HasForms, HasActions
 
             });
     }
+
     protected $listeners = [
         'newMenuAdded' => '$refresh'
     ];
+
     public function createAction(): Action
     {
         return CreateAction::make('create')
@@ -92,10 +93,10 @@ class MenusList extends Component implements HasForms, HasActions
             ->createAnother(false)
             ->form([
                 TextInput::make('title')
-                     ->required()
+                    ->required()
                     ->maxLength(255),
             ])
-            ->action(function (array $data,Component $livewire) {
+            ->action(function (array $data, Component $livewire) {
 
                 $data['item_type'] = 'menu';
 
@@ -104,13 +105,13 @@ class MenusList extends Component implements HasForms, HasActions
                 $record->save();
 
                 $livewire->menu_id = $record->id;
-               // $this->menu_id = $record->id;
-               // $this->dispatch('newMenuAdded');
+                // $this->menu_id = $record->id;
+                // $this->dispatch('newMenuAdded');
 
-            }) ;
+            });
     }
 
-    public static function menuItemEditFormArray() : array
+    public static function menuItemEditFormArray(): array
     {
         return [
 
@@ -130,7 +131,7 @@ class MenusList extends Component implements HasForms, HasActions
             Checkbox::make('use_custom_title')
                 ->label('Use custom title')
                 ->live()
-                ->afterStateUpdated(function (Menu | null $record, Set $set, $state) {
+                ->afterStateUpdated(function (Menu|null $record, Set $set, $state) {
                     if ($state) {
                         if ($record) {
                             $set('title', $record->displayTitle);
@@ -146,8 +147,7 @@ class MenusList extends Component implements HasForms, HasActions
 
             MwLinkPicker::make('mw_link_picker')
                 ->live()
-
-                ->selectedData(function (Menu | null $record, Get $get) {
+                ->selectedData(function (Menu|null $record, Get $get) {
                     $dataId = '';
                     $dataType = '';
                     $dataUrl = '';
@@ -166,11 +166,11 @@ class MenusList extends Component implements HasForms, HasActions
                         }
                     }
                     $data = [
-                        'url'=> $dataUrl,
-                        'target'=> $dataTarget,
-                        'data'=>[
-                            'id'=> $dataId,
-                            'type'=> $dataType
+                        'url' => $dataUrl,
+                        'target' => $dataTarget,
+                        'data' => [
+                            'id' => $dataId,
+                            'type' => $dataType
                         ]
                     ];
                     return $data;
@@ -278,7 +278,7 @@ class MenusList extends Component implements HasForms, HasActions
             })
             ->action(function (Menu $record, array $data) {
                 if (isset($data['use_custom_title']) && $data['use_custom_title'] == false) {
-                   $data['title'] = '';
+                    $data['title'] = '';
                 }
                 $record->fill($data);
                 $record->save();

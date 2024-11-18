@@ -38,10 +38,10 @@ class MenuServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
-        FilamentRegistry::registerPlugin(MenuFilamentPlugin::class);
+
 
         // Register filament page for Microweber module settings
+        FilamentRegistry::registerPlugin(MenuFilamentPlugin::class);
         FilamentRegistry::registerPage(MenuModuleSettings::class);
         Livewire::component('admin-menus-list', MenusList::class);
 

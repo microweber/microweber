@@ -2,10 +2,16 @@
 
 namespace Modules\Menu\Filament;
 
+use Filament\Forms\Components\Livewire;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\View;
 use Filament\Forms\Form;
+use Filament\Support\Components\ViewComponent;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
+use Modules\Menu\Livewire\Admin\MenusList;
 
 class MenuModuleSettings extends LiveEditModuleSettings
 {
@@ -13,17 +19,23 @@ class MenuModuleSettings extends LiveEditModuleSettings
 
     public function form(Form $form): Form
     {
+
+        $optionGroup = $this->getOptionGroup();
         return $form
             ->schema([
-                TextInput::make('options.menu_name')
-                    ->label('Menu Name')
-                    ->placeholder('Enter the name of the menu')
-                    ->required(),
-
-                MwLinkPicker::make('options.menu_link')
-                    ->label('Menu Link')
-                    ->helperText('Select or enter the URL for the menu')
-                    ->required(),
+                Tabs::make('Layout settings')
+                    ->tabs([
+                        Tabs\Tab::make('Layout settings')
+                            ->schema([
+                                Livewire::make(MenusList::class),
+                            ]),
+                        Tabs\Tab::make('Design')
+                            ->schema([
+                                    Section::make('Design settings')->schema(
+                                        $this->getTemplatesFormSchema())
+                                ]
+                            ),
+                    ]),
             ]);
     }
 }
