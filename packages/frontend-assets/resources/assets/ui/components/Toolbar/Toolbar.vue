@@ -58,11 +58,10 @@ html.preview .back-to-edit{
         </div>
 
 
-        <div class="col-lg-3 col-sm-auto col-12 toolbar-col-container hidden">
+        <div class="col col-xl-auto toolbar-col-container hidden">
             <ContentSearchNav></ContentSearchNav>
             <ToolbarMulilanguageSelector></ToolbarMulilanguageSelector>
         </div>
-
 
         <div class="toolbar-col justify-content-center align-items-center ">
             <div class="toolbar-col-container">
