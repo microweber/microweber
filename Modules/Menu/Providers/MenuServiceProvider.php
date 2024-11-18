@@ -8,11 +8,15 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\Menu\MenuManager;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Menu\Filament\Admin\MenuFilamentPlugin;
 use Modules\Menu\Filament\MenuModuleSettings;
 use Modules\Menu\Livewire\Admin\MenusList;
 use Modules\Menu\Microweber\MenuModule;
+use Modules\Menu\Models\Menu;
+use Modules\Menu\Repositories\MenuRepository;
+use Modules\Menu\TranslateTables\TranslateMenu;
 
 class MenuServiceProvider extends BaseModuleServiceProvider
 {
@@ -26,6 +30,7 @@ class MenuServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
 
+        $this->app->translate_manager->addTranslateProvider(TranslateMenu::class);
 
     }
 
@@ -38,6 +43,25 @@ class MenuServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
+            $repositoryManager->extend(Menu::class, function () {
+                return new MenuRepository();
+            });
+        });
+        /**
+         * @property MenuRepository $menu_repository
+         */
+        $this->app->bind('menu_repository', function ($app) {
+            return $this->app->repository_manager->driver(Menu::class);;
+        });
+
+        /**
+         * @property \MicroweberPackages\Menu\MenuManager $menu_manager
+         */
+        $this->app->singleton('menu_manager', function ($app) {
+            return new MenuManager();
+        });
+
 
 
         // Register filament page for Microweber module settings
@@ -47,6 +71,7 @@ class MenuServiceProvider extends BaseModuleServiceProvider
 
         // Register Microweber module
         Microweber::module(\Modules\Menu\Microweber\MenuModule::class);
+
 
     }
 

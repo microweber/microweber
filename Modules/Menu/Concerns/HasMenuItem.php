@@ -6,7 +6,7 @@
  * Time: 1:16 PM
  */
 
-namespace MicroweberPackages\Menu\Traits;
+namespace Modules\Menu\Concerns;
 
 use Modules\Menu\Models\MenuItem;
 
@@ -26,7 +26,7 @@ trait HasMenuItem
         // $this->hidden[] = 'contentMenuIdsSet';
         $this->casts['add_content_to_menu'] = 'array';
         // $this->casts['contentMenuIdsSet'] = 'array';
-      //   $this->casts['menuIds'] = 'array';
+        //   $this->casts['menuIds'] = 'array';
     }
 
 
@@ -135,8 +135,6 @@ trait HasMenuItem
 
         return $menusItems;
     }
-
-
 
 
     //    public function addToMenu($contentId)

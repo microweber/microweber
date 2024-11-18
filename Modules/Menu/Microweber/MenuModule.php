@@ -17,10 +17,25 @@ class MenuModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        $menuName = $this->getOption('menu_name', 'Default Menu');
-        $viewData['menuName'] = $menuName;
-        $viewData['menu_filter'] = [];
+        $menuName = $this->getOption('menu_name')
+            ?? $viewData['params']['data-name']
+            ?? $viewData['params']['menu_name']
+            ?? 'header_menu';
 
+
+        $menu_filter = [];
+        $menu = get_menus('make_on_not_found=1&one=1&limit=1&title=' . $menuName);
+
+        if (is_array($menu)) {
+
+            if (!isset($params['ul_class'])) {
+                $menu_filter['ul_class'] = 'nav';
+            }
+            $menu_filter['menu_id'] = intval($menu['id']);
+
+        }
+        $viewData['menuName'] = $menuName;
+        $viewData['menu_filter'] = $menu_filter;
         return view('modules.menu::templates.default', $viewData);
     }
 }

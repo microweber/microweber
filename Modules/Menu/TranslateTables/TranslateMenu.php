@@ -5,10 +5,10 @@
  * Date: 2/27/2020
  * Time: 12:50 PM
  */
-namespace MicroweberPackages\Menu\TranslateTables;
+namespace Modules\Menu\TranslateTables;
 
-use MicroweberPackages\Menu\Repositories\MenuRepository;
 use MicroweberPackages\Multilanguage\TranslateTable;
+use Modules\Menu\Repositories\MenuRepository;
 
 class TranslateMenu extends TranslateTable {
 

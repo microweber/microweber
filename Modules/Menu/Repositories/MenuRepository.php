@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Menu\Repositories;
+namespace Modules\Menu\Repositories;
 
 use MicroweberPackages\Repository\MicroweberQuery;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
