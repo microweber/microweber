@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Menu;
+namespace Modules\Menu\Repositories;
 
 use Content;
 use Illuminate\Support\Facades\DB;

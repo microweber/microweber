@@ -26,7 +26,7 @@ class MenuModule extends BaseModule
 
         $menu_filter = [];
 
-       
+
         $menu = get_menus('make_on_not_found=1&one=1&limit=1&title=' . $menuName);
 
         if (is_array($menu)) {

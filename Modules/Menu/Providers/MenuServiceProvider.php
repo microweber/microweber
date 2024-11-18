@@ -2,19 +2,15 @@
 
 namespace Modules\Menu\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
-use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Menu\MenuManager;
+use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Menu\Filament\Admin\MenuFilamentPlugin;
 use Modules\Menu\Filament\MenuModuleSettings;
 use Modules\Menu\Livewire\Admin\MenusList;
-use Modules\Menu\Microweber\MenuModule;
 use Modules\Menu\Models\Menu;
+use Modules\Menu\Repositories\MenuManager;
 use Modules\Menu\Repositories\MenuRepository;
 use Modules\Menu\TranslateTables\TranslateMenu;
 
@@ -56,7 +52,7 @@ class MenuServiceProvider extends BaseModuleServiceProvider
         });
 
         /**
-         * @property \MicroweberPackages\Menu\MenuManager $menu_manager
+         * @property \Modules\Menu\Repositories\MenuManager $menu_manager
          */
         $this->app->singleton('menu_manager', function ($app) {
             return new MenuManager();

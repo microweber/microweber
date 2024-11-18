@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Menu\\Providers\\MenuServiceProvider"
     ],
-    "files": []
+    "files": ["menus_functions.php"]
 }

@@ -30,9 +30,6 @@ use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
 use MicroweberPackages\Media\MediaManager;
 use MicroweberPackages\Media\Repositories\MediaRepository;
-use MicroweberPackages\Menu\MenuManager;
-use Modules\Menu\Repositories\MenuRepository;
-use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
@@ -52,6 +49,8 @@ use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Http\Http;
+use Modules\Menu\Repositories\MenuManager;
+use Modules\Menu\Repositories\MenuRepository;
 use Modules\Payment\PaymentMethodManager;
 use Modules\Shipping\ShippingManager;
 use Modules\Shipping\ShippingMethodManager;
@@ -74,7 +73,7 @@ use Modules\Shipping\ShippingMethodManager;
  * @property ContentRepository                $content_repository
  * @property CategoryManager               $category_manager
  * @property CategoryRepository              $category_repository
- * @property MenuManager                   $menu_manager
+ * @property \Modules\Menu\Repositories\MenuManager                   $menu_manager
  * @property MenuRepository              $menu_repository
  * @property MediaManager                  $media_manager
  * @property MediaRepository                  $media_repository

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\Menu\tests;
+namespace Modules\Menu\Tests\Unit;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;

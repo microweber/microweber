@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\Menu\tests;
+namespace Modules\Menu\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;

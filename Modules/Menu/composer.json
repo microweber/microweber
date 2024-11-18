@@ -20,7 +20,10 @@
             "Modules\\Menu\\": "",
             "Modules\\Menu\\Database\\Factories\\": "database/factories/",
             "Modules\\Menu\\Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "menus_functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
