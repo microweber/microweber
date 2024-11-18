@@ -11,10 +11,9 @@ description: Default Picture List
 */
 
 ?>
-<?php if (is_array($data)): ?>
+<?php if (is_array($data) and !empty($data)): ?>
     <?php $rand = uniqid(); ?>
-    <script>mw.moduleCSS("<?php print asset('modules/pictures/css/clean.css'); ?>"); </script>
-    <div class="mw-module-images<?php if ($no_img) { ?> no-image<?php } ?>">
+     <div class="mw-module-images<?php if ($no_img) { ?> no-image<?php } ?>">
         <div class="mw-pictures-clean" id="mw-gallery-<?php print $rand; ?>">
             <?php $count = -1; foreach ($data as $item): ?>
                 <?php $count++; ?>
@@ -36,4 +35,5 @@ description: Default Picture List
         </div>
     </div>
 <?php else : ?>
+<p>The pictures modules is empty, please upload a picture. </p>
 <?php endif; ?>
