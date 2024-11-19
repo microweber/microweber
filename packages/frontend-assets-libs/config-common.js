@@ -4,6 +4,8 @@ const localScripts = [
     //x: {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.js`},
      //x:{target: `highlight-js`, path: `./resources/local-libs/highlight/highlight.min.js`},
 
+     {target: `jquery-nested-sortable`, path: `./resources/local-libs/nested-sortable/jquery.mjs.nestedSortable.js`},
+
 ];
 
 
@@ -11,7 +13,7 @@ const localScripts = [
 const nodeModulesScripts = [
     {target: `jquery`, path: `node_modules/jquery/dist/jquery.js`},
     {target: `jquery-ui`, path: `node_modules/jquery-ui/dist/jquery-ui.js`},
-    {target: `jquery-nested-sortable`, path: `node_modules/nestedSortable/jquery.mjs.nestedSortable.js`},
+
     {target: `nouislider`, path: `node_modules/nouislider/dist/nouislider.js`},
     {target: `tinymce`, path: `node_modules/tinymce/tinymce.js`},
     {target: `bxslider`, path: `node_modules/bxslider/dist/jquery.bxslider.min.js`},
