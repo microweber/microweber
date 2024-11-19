@@ -45,27 +45,22 @@ export default function sortableMenu() {
             };
 
 
-            var sortableLists = $('ul', '.admin-menu-items-holder');
+            var sortableLists = $(document.querySelector('.admin-menu-items-holder ul'));
 
-            for (var i = 0; i < sortableLists.length; i++) {
 
-                $(sortableLists[i]).nestedSortable({
-                    items: ".menu_element",
+
+                console.log(sortableLists);
+
+                sortableLists.nestedSortable({
+                    items: "li",
                     listType: 'ul',
-                    //handle:'.menu_element',
-                    start: function () { // firefox triggers click when drag ends
-                        // scope._disableClick = true;
-                    },
-                    stop: function () {
-                        //  setTimeout(() => {scope._disableClick = false;}, 78)
-                    },
-                    update: function (e, ui) {
-                        _orderChangeHandle(e, ui);
-                    }
+                    handle: ".cursor-move"
+
+
                 });
 
 
-            }
+
 
 
             // //onclick on .menu_element
