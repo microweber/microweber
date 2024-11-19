@@ -23,7 +23,6 @@ class ProductsModule extends BaseModule
 
         $viewData['data'] = static::getQueryBuilderFromOptions($viewData['options'])->get();
 
-
         $template = $viewData['template'] ?? 'default';
 
         // Populate schema_org_item_type_tag and other attributes
@@ -32,6 +31,7 @@ class ProductsModule extends BaseModule
         $viewData['character_limit'] = $this->getCharacterLimit($viewData['options']);
         $viewData['title_character_limit'] = $this->getTitleCharacterLimit($viewData['options']);
         $viewData['tn'] = $this->getThumbnailSize($viewData['options']);
+        $viewData['read_more_text'] = $this->getReadMoreText($viewData['options']);
 
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
             $template = 'default';
@@ -102,5 +102,10 @@ class ProductsModule extends BaseModule
             $tn_size[1] = $tn_size[0];
         }
         return $tn_size;
+    }
+
+    private function getReadMoreText($options)
+    {
+        return isset($options['data-read-more-text']) ? $options['data-read-more-text'] : 'Read More';
     }
 }
