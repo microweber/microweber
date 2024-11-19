@@ -25,6 +25,7 @@ class ContentModuleSettings extends LiveEditModuleSettings
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 Livewire::make(ContentTableList::class, [
+                                    'params' => $this->params ?? [],
                                     'moduleId' => $this->params['id'] ?? null,
                                 ])
                             ]),

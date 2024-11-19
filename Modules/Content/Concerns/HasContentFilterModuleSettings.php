@@ -7,20 +7,64 @@ use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms;
+use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Page\Models\Page;
 
 trait HasContentFilterModuleSettings
 {
-    public function getContentFilterModuleSettingsSchema()
+    public function getContentFilterModuleSettingsSchema(): array
     {
+
+        $pages = Page::query()->where('is_active', 1)->get();
+
+        $pagesOpts = [];
+        if ($pages) {
+            foreach ($pages as $page) {
+                $pagesOpts[$page->id] = $page->title;
+            }
+        }
+        $categories = Category::query()->where('is_active', 1)->get();
+
+        $categoriesOpts = [];
+        if ($categories) {
+            foreach ($categories as $category) {
+                $categoriesOpts[$category->id] = $category->title;
+            }
+        }
+
         return [
             Select::make('options.data-page-id')
-                ->label('From Source')
+                ->label('From Page Source')
                 ->live()
-                ->options([]),
+                ->visible(function (Forms\Get $get) use ($pagesOpts) {
+                    return !empty($pagesOpts);
+                })
+                ->options($pagesOpts),
+            Select::make('options.data-category-id')
+                ->label('From Category Source')
+                ->live()
+                ->visible(function (Forms\Get $get) use ($categoriesOpts) {
+                    return !empty($categoriesOpts);
+                })
+                ->options($categoriesOpts),
             Select::make('options.data-tags')
                 ->label('Filter Tags')
                 ->live()
                 ->options([]),
+
+            Select::make('options.data-order-by')
+                ->label('Order by')
+                ->options([
+                    'position+asc' => 'Position (ASC)',
+                    'position+desc' => 'Position (DESC)',
+                    'created_at+asc' => 'Date (ASC)',
+                    'created_at+desc' => 'Date (DESC)',
+                    'title+asc' => 'Title (ASC)',
+                    'title+desc' => 'Title (DESC)',
+                ])
+                ->live(),
+
+
             Radio::make('options.data-show')
                 ->label('Display on post')
                 ->live()
@@ -86,17 +130,7 @@ trait HasContentFilterModuleSettings
                 ->label('Post per page')
                 ->numeric()
                 ->live(),
-            Select::make('options.data-order-by')
-                ->label('Order by')
-                ->options([
-                    'position+asc' => 'Position (ASC)',
-                    'position+desc' => 'Position (DESC)',
-                    'created_at+asc' => 'Date (ASC)',
-                    'created_at+desc' => 'Date (DESC)',
-                    'title+asc' => 'Title (ASC)',
-                    'title+desc' => 'Title (DESC)',
-                ])
-                ->live(),
+
         ];
     }
 }

@@ -22,6 +22,8 @@ use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Media\Models\Media;
+use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 
@@ -46,6 +48,17 @@ class ContentResource extends Resource
         $contentSubtype = 'static';
         if (isset($params['contentType'])) {
             $contentType = $params['contentType'];
+        }
+        if (isset($params['contentModel'])) {
+            if ($params['contentModel'] == \Modules\Product\Models\Product::class) {
+                $contentType = 'product';
+            } elseif ($params['contentModel'] == \Modules\Content\Models\Content::class) {
+                $contentType = 'page';
+            } elseif ($params['contentModel'] == Post::class) {
+                $contentType = 'post';
+            } elseif ($params['contentModel'] == Page::class) {
+                $contentType = 'page';
+            }
         }
         if (isset($params['contentSubtype'])) {
             $contentSubtype = $params['contentSubtype'];

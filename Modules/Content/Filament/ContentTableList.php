@@ -16,6 +16,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -24,6 +25,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
+use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Models\Content;
 
 class ContentTableList extends Component implements HasForms, HasTable
@@ -33,21 +35,20 @@ class ContentTableList extends Component implements HasForms, HasTable
     use InteractsWithActions;
 
     public string|null $moduleId = null;
+    public string $contentModel = Content::class;
+    public array $params = [];
 
-    public function editFormArray()
+    public function editFormArray($params = [])
     {
-        return [
+        return ContentResource::formArray($params);
 
-            Hidden::make('moduleId')
-                ->default($this->moduleId),
-
-        ];
     }
 
     public function table(Table $table): Table
     {
 
-        $query = Content::query()->where('is_active', 1);
+        //  $query = Content::query()->where('is_active', 1);
+        $query = $this->contentModel::query()->where('is_active', 1);
 
         return $table
             ->query($query)
@@ -62,12 +63,27 @@ class ContentTableList extends Component implements HasForms, HasTable
             ->headerActions([
                 CreateAction::make('create')
                     ->slideOver()
-                    ->form($this->editFormArray())
+                    ->form(function () {
+                        $params = [];
+                        $params['contentModel'] = $this->contentModel;
+                        return $this->editFormArray($params);
+                    })
             ])
             ->actions([
                 EditAction::make('edit')
                     ->slideOver()
-                    ->form($this->editFormArray()),
+                    ->form(function (Model $record) {
+
+                        $params = [];
+                        if ($record) {
+                            $params['id'] = $record->id;
+                            $params['contentModel'] = $this->contentModel;
+                        }
+
+                        return $this->editFormArray($params);
+                        //  ->form()
+                    })
+                ,
                 DeleteAction::make('delete')
             ])
             ->reorderable('position')
