@@ -31,7 +31,9 @@ class CartesianProduct implements IteratorAggregate, Countable
      */
     public function __construct(array $set)
     {
-        $this->set = $set;
+        if(!empty($set)) {
+            $this->set = $set;
+        }
     }
 
     /**
@@ -103,6 +105,11 @@ class CartesianProduct implements IteratorAggregate, Countable
     public function count(): int
     {
         if (null === $this->count) {
+            if([] === $this->set) {
+                return 0;
+            }
+
+
             $this->count = (int) \array_product(
                 \array_map(
                     function ($subset, $key) {

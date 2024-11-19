@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MicroweberPackages\Product\tests;
+namespace Modules\Product\Tests\Unit;
 
 
 use MicroweberPackages\Cart\Models\Cart;

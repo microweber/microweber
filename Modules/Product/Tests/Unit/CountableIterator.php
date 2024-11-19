@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Product\tests;
+namespace Modules\Product\Tests\Unit;
 
 use ArrayIterator;
 use Countable;
