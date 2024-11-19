@@ -275,6 +275,9 @@ mw.reload_module = async function(module, callback) {
     if (typeof module !== 'undefined') {
         if (typeof module === 'object') {
 
+
+            module = $(module)[0];
+
             if(module.getAttribute('wire:id')) {
                 await refreshLiveWireModule(module);
                 done.call();
