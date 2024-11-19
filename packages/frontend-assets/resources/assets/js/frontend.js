@@ -29,7 +29,18 @@ import "./animations.js";
 
 
 
-
+$.fn.commuter = function (a, b) {
+    if (!a) { return }
+    var b = b || function () {};
+    return this.each(function () {
+        if ((this.type === 'checkbox' || this.type === 'radio') && !this.cmactivated) {
+            this.cmactivated = true;
+            mw.$(this).on("change", function () {
+                this.checked === true ? a.call(this) : b.call(this);
+            });
+        }
+    });
+};
 
 
 import { AdminTools } from "./admin-tools.service.js";
