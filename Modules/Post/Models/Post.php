@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Post\Models;
+namespace Modules\Post\Models;
 
 use MicroweberPackages\Blog\FrontendFilter\BlogFilter;
 use MicroweberPackages\Content\Scopes\PostScope;
