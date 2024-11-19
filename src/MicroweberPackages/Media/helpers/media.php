@@ -27,7 +27,11 @@ api_expose_admin('delete_media', function ($data) {
     return app()->media_manager->delete($data);
 });
 
-
+function content_picture($rel_id,  $full = false)
+{
+    $rel_type = morph_name(\Modules\Content\Models\Content::class);
+    return app()->media_manager->get_picture($rel_id, $rel_type, $full);
+}
 function get_picture($rel_id, $rel_type = false, $full = false)
 {
     return app()->media_manager->get_picture($rel_id, $rel_type, $full);

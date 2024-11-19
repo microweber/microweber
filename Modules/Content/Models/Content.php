@@ -158,7 +158,14 @@ class Content extends Model
         // TODO
         return Content::class;
     }
-
+    public function getImageAttribute()
+    {
+        return  content_picture($this->id);
+    }
+    public function getLinkAttribute()
+    {
+        return $this->link();
+    }
     public function link()
     {
         return content_link($this->id);

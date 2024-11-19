@@ -956,7 +956,7 @@ class FrontendController extends Controller
         $content['render_file'] = $render_file;
 
         if (defined('TEMPLATE_DIR')) {
-            app()->template_manager->boot_template();
+        //    app()->template_manager->boot_template();
         }
 
         if ($this->return_data != false) {
@@ -1034,7 +1034,10 @@ class FrontendController extends Controller
             $render_params['category'] = $category;
             $render_params['page'] = $page;
             $render_params['meta_tags'] = true;
-            if($is_laravel_template){
+
+
+
+            if($is_laravel_template or str_ends_with($render_file, '.blade.php')){
                 $render_params['meta_tags'] = false;
 
                 $render_params['is_laravel_template'] = true;
