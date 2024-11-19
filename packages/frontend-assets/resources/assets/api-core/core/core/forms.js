@@ -18,7 +18,7 @@ mw.serializeFields =  function(id, ignorenopost){
 
           if (el.type === 'file' && el.files[0]) {
               data[name] = el.files[0];
-          } else if(el.name.contains("[]")){
+          } else if(el.name.includes("[]")){
               data[name] = data[name] || []
               data[name].push(val);
           } else if(el.type === 'checkbox' && el.getAttribute('data-value-checked') ){
@@ -206,7 +206,7 @@ mw.form = {
                 return false;
             }
             else{
-                if(!url.contains('http')){var url = 'http://'+url}
+                if(!url.includes('http')){var url = 'http://'+url}
                 if(!window.ImgTester){
                     window.ImgTester = new Image();
                     document.body.appendChild(window.ImgTester);
