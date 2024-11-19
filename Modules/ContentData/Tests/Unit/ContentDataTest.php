@@ -3,7 +3,7 @@
 namespace Modules\ContentData\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ContentDataTest extends TestCase
 {

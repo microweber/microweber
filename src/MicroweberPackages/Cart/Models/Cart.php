@@ -15,7 +15,6 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Cart\Models\ModelFilters\CartFilter;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Product\Models\Product;
 
 class Cart extends Model
 {
@@ -67,6 +66,6 @@ class Cart extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'id', 'rel_id');
+        return $this->hasMany(\Modules\Product\Models\Product::class, 'id', 'rel_id');
     }
 }

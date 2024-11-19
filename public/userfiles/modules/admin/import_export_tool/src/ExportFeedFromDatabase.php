@@ -2,19 +2,14 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool;
 
-use Carbon\Carbon;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Export\Formats\CsvExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Export\Formats\XmlExport;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
-use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ExportFeedFromDatabase
 {

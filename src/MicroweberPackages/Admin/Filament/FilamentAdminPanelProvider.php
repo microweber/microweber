@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Admin\Filament;
 
 use App\Filament\Admin\Resources\PostResource;
-use App\Filament\Admin\Resources\ProductResource;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
@@ -21,6 +20,7 @@ use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
+use Modules\Product\Filament\Admin\Resources\ProductResource;
 
 
 class FilamentAdminPanelProvider extends PanelProvider

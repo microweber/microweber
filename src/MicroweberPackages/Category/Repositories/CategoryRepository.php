@@ -5,8 +5,8 @@ namespace MicroweberPackages\Category\Repositories;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
-use MicroweberPackages\Product\Models\Product;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use Modules\Product\Models\Product;
 
 class CategoryRepository extends AbstractRepository
 {

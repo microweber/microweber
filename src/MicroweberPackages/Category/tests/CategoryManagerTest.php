@@ -5,8 +5,8 @@ namespace MicroweberPackages\Category\tests;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
 use Modules\Content\Models\Content;
+use Modules\Product\Models\Product;
 
 
 class CategoryManagerTest extends TestCase

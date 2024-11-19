@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Multilanguage\MultilanguageApi;

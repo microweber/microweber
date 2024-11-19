@@ -2,7 +2,7 @@
 $hasVariants = false;
 if(content_data($params['content-id'], 'has_variants') == 1) {
     $hasVariants = true;
-    $product = \MicroweberPackages\Product\Models\Product::where('id', $params['content-id'])->first();
+    $product = \Modules\Product\Models\Product::where('id', $params['content-id'])->first();
 }
 ?>
 

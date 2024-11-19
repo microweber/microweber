@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Product\Http\Requests;
 
 use MicroweberPackages\Content\Http\Controllers\Requests\ContentSaveRequest;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ProductRequest extends ContentSaveRequest
 {

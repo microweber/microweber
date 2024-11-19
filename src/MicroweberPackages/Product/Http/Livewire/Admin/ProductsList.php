@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Product\Http\Livewire\Admin;
 
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ProductsList extends ContentList
 {

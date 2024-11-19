@@ -1,0 +1,31 @@
+<?php
+namespace Modules\Product\Models;
+
+/**
+ * @deprecated
+ */
+
+
+use MicroweberPackages\CustomField\Models\CustomField;
+use Modules\Product\Scopes\PriceScope;
+
+class ProductPrice extends CustomField
+{
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope(new PriceScope());
+    }
+
+    public function save(array $options = [])
+    {
+        $this->rel_type = morph_name(\Modules\Content\Models\Content::class);
+        $this->type = 'price';
+
+       return parent::save($options);
+    }
+}

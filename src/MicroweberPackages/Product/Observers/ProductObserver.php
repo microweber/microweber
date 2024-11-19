@@ -8,9 +8,7 @@
 
 namespace MicroweberPackages\Product\Observers;
 
-use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Product\Models\ProductPrice;
-use MicroweberPackages\Product\Models\ProductSpecialPrice;
+use Modules\Product\Models\Product;
 
 class ProductObserver
 {
@@ -47,7 +45,7 @@ class ProductObserver
     /**
      * Handle the Page "saving" event.
      *
-     * @param  \MicroweberPackages\Product\Models\Product $product
+     * @param  \Modules\Product\Models\Product $product
      * @return void
      */
     public function saved(Product $product)

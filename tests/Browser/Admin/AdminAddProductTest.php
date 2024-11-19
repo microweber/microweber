@@ -4,7 +4,7 @@ namespace Tests\Browser\Admin;
 
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;

@@ -6,7 +6,7 @@ namespace Modules\Sitemap\Http\Controllers;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 trait SitemapHelpersTrait
 {

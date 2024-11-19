@@ -17,9 +17,9 @@ use MicroweberPackages\Order\Events\OrderIsCreating;
 use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Product\Notifications\ProductOutOfStockNotification;
 use MicroweberPackages\User\Models\User;
+use Modules\Product\Models\Product;
+use Modules\Product\Notifications\ProductOutOfStockNotification;
 
 class OrderManager
 {

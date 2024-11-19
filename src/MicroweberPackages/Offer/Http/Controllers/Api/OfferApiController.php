@@ -8,7 +8,7 @@ use MicroweberPackages\Offer\Http\Requests\OfferCreateUpdateRequest;
 
 use MicroweberPackages\Offer\Models\Offer;
 use Illuminate\Http\Request;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class OfferApiController extends Controller
 {

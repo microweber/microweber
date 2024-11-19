@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Order\Filament\Admin\Resources;
 
-use App\Filament\Admin\Resources\ProductResource;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Repeater;
@@ -18,8 +17,8 @@ use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\RelationManagers\PaymentsRelationManager;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Widgets\OrderStats;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Product\Models\Product;
 use Modules\Content\Models\Content;
+use Modules\Product\Models\Product;
 use Squire\Models\Country;
 
 class OrderResource extends Resource
@@ -462,7 +461,7 @@ class OrderResource extends Resource
                             return null;
                         }
 
-                        return ProductResource::getUrl('edit', ['record' => $product]);
+                        return \Modules\Product\Filament\Admin\Resources\ProductResource::getUrl('edit', ['record' => $product]);
                     }, shouldOpenInNewTab: true)
                     ->hidden(fn(array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['rel_id'])),
             ])

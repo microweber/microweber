@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Admin\Http\Livewire;
 
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class FilterItemProduct extends FilterItemComponent
 {

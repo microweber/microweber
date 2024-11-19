@@ -3,7 +3,7 @@ namespace MicroweberPackages\App\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Post\Models\Post;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 
 class RssControllerTest extends TestCase

@@ -89,7 +89,7 @@ function get_product_price($content_id = false)
 
 function get_product_discount_price($content_id = false)
 {
-      $product = \MicroweberPackages\Product\Models\Product::query()->where('id', $content_id)->first();
+      $product = \Modules\Product\Models\Product::query()->where('id', $content_id)->first();
       if($product){
           return $product->getSpecialPriceAttribute();
       } else {
@@ -99,7 +99,7 @@ function get_product_discount_price($content_id = false)
 }
 function get_product_discount_percent($content_id = false)
 {
-    $product = \MicroweberPackages\Product\Models\Product::query()->where('id', $content_id)->first();
+    $product = \Modules\Product\Models\Product::query()->where('id', $content_id)->first();
     if($product){
         return $product->getDiscountPercentage();
     } else {

@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Product\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ProductQuickViewController
 {

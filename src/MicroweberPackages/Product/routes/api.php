@@ -1,5 +1,6 @@
 <?php
-use  \Illuminate\Support\Facades\Route;
+
+use Illuminate\Support\Facades\Route;
 
 Route::name('api.')
     ->prefix('api')
@@ -11,7 +12,7 @@ Route::name('api.')
 
 
         Route::post('product_variant/parent/{id}/options', function($parentId) {
-            $findProduct = \MicroweberPackages\Product\Models\Product::where('id', $parentId)->first();
+            $findProduct = \Modules\Product\Models\Product::where('id', $parentId)->first();
             if ($findProduct != null) {
                 $findProduct->setCustomField(
                     [
@@ -26,7 +27,7 @@ Route::name('api.')
 
         Route::get('product_variant/parent/{id}/options', function($parentId) {
 
-            $findProduct = \MicroweberPackages\Product\Models\Product::where('id', $parentId)->first();
+            $findProduct = \Modules\Product\Models\Product::where('id', $parentId)->first();
             if ($findProduct != null) {
                 $customFields = [];
                 $getCustomFields = $findProduct->customField()->where('type', 'radio')->orderBy('id','asc')->get();
@@ -56,7 +57,7 @@ Route::name('api.')
 
         Route::get('product_variant/parent/{id}', function($parentId) {
 
-            $findProduct = \MicroweberPackages\Product\Models\Product::where('id', $parentId)->first();
+            $findProduct = \Modules\Product\Models\Product::where('id', $parentId)->first();
             if ($findProduct != null) {
                 $productVariants = [];
                 $getProductVariants = $findProduct->variants()->get();
@@ -97,7 +98,7 @@ Route::name('api.')
             if (!empty($options)) {
 
                 $productId = request()->post('product_id', 0);
-                $findProduct = \MicroweberPackages\Product\Models\Product::where('id', $productId)->first();
+                $findProduct = \Modules\Product\Models\Product::where('id', $productId)->first();
                 if ($findProduct != null) {
 
                     $customFields = [];

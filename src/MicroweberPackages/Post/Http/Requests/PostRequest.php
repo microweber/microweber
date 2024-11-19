@@ -3,7 +3,7 @@ namespace MicroweberPackages\Post\Http\Requests;
 
 use MicroweberPackages\Content\Http\Controllers\Requests\ContentSaveRequest;
 use MicroweberPackages\Post\Models\Post;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class PostRequest extends ContentSaveRequest
 {

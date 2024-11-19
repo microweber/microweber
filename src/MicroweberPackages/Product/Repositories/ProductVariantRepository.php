@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Product\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Product\Models\ProductVariant;
+use Modules\Product\Models\ProductVariant;
 
 class ProductVariantRepository extends BaseRepository
 {

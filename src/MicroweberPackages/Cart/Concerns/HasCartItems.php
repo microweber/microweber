@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Cart\Concerns;
 
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Product\Models\Product;
 
 trait HasCartItems
 {

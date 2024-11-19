@@ -42,7 +42,7 @@ class SchemaOrgTest extends TestCase
 
         // TEST PRODUCT
 
-        $product = new \MicroweberPackages\Product\Models\Product();
+        $product = new \Modules\Product\Models\Product();
         $product->title = 'Product Test';
         $product->url = Str::slug($product->title);
         $product->setCustomField(
@@ -66,7 +66,7 @@ class SchemaOrgTest extends TestCase
 
         // TEST PRODUCT #2
 
-        $product = new \MicroweberPackages\Product\Models\Product();
+        $product = new \Modules\Product\Models\Product();
         $product->title = 'Product Test 2';
         $product->url = Str::slug($product->title);
         $product->setCustomField(

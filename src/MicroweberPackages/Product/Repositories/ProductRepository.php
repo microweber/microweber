@@ -9,7 +9,7 @@ use MicroweberPackages\Product\Events\ProductWasCreated;
 use MicroweberPackages\Product\Events\ProductWasDeleted;
 use MicroweberPackages\Product\Events\ProductWasDestroyed;
 use MicroweberPackages\Product\Events\ProductWasUpdated;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ProductRepository extends BaseRepository
 {

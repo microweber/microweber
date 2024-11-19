@@ -4,7 +4,7 @@ namespace MicroweberPackages\Shop\Http\Controllers;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\App\Http\Controllers\ModuleFrontController;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ShopController extends ModuleFrontController
 {

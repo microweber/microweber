@@ -11,7 +11,7 @@ namespace MicroweberPackages\Order\Models\ModelFilters;
 use EloquentFilter\ModelFilter;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
 use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class OrderFilter extends ModelFilter
 {

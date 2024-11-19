@@ -19,14 +19,14 @@ return new class extends Migration {
 
 
         Schema::create('content_data', function (Blueprint $table) {
-            $table->string('rel_type');
-            $table->string('rel_id');
-            $table->text('field_name');
-            $table->longText('field_value');
-            $table->dateTime('updated_at');
-            $table->dateTime('created_at');
-            $table->integer('created_by');
-            $table->integer('edited_by');
+            $table->string('rel_type')->nullable();
+            $table->string('rel_id')->nullable();
+            $table->text('field_name')->nullable();
+            $table->longText('field_value')->nullable();
+            $table->dateTime('updated_at')->nullable();
+            $table->dateTime('created_at')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('edited_by')->nullable();
         });
     }
 

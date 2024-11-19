@@ -3,7 +3,7 @@
 namespace MicroweberPackages\CustomField\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class CustomFieldModelTest extends TestCase
 {

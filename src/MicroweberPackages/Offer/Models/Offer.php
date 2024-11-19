@@ -4,7 +4,7 @@ namespace MicroweberPackages\Offer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Offer extends Model
@@ -30,7 +30,7 @@ class Offer extends Model
      */
     public function product()
     {
-        return $this->hasOne(Product::class);
+        return $this->hasOne(\Modules\Product\Models\Product::class);
     }
 
     public static function add($offerData)

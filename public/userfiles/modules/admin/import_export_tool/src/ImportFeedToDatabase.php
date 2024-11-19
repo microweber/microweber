@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ImportFeedToDatabase
 {

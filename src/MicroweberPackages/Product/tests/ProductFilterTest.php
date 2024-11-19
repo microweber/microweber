@@ -5,13 +5,10 @@ namespace MicroweberPackages\Product\tests;
 
 
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\User\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Modules\Product\Models\Product;
 
 class ProductFilterTest extends TestCase
 {
@@ -19,7 +16,7 @@ class ProductFilterTest extends TestCase
     public function testProductFilter()
     {
 
-        $clean = \MicroweberPackages\Product\Models\Product::truncate();
+        $clean = \Modules\Product\Models\Product::truncate();
         $clean = Order::truncate();
         $clean = Cart::truncate();
 
@@ -63,7 +60,7 @@ class ProductFilterTest extends TestCase
         );
         $newProduct2->save();
 
-        $model = \MicroweberPackages\Product\Models\Product::query();
+        $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
             'priceBetween' => 1 . ',' . 999,
@@ -75,7 +72,7 @@ class ProductFilterTest extends TestCase
         $this->assertEquals($newProduct->id, $results[0]->id);
 
 
-        $model = \MicroweberPackages\Product\Models\Product::query();
+        $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
             'priceBetween' => 1000
@@ -86,7 +83,7 @@ class ProductFilterTest extends TestCase
         $this->assertEquals($newProduct2->id, $results[0]->id);
 
 
-        $model = \MicroweberPackages\Product\Models\Product::query();
+        $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
             'priceBetween' => 1000 . ',' . 1100
@@ -95,7 +92,7 @@ class ProductFilterTest extends TestCase
         $this->assertEquals(1, count($results));
         $this->assertEquals($newProduct2->id, $results[0]->id);
 
-        $model = \MicroweberPackages\Product\Models\Product::query();
+        $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
             'priceBetween' => 2000 . ',' . 3000
@@ -124,7 +121,7 @@ class ProductFilterTest extends TestCase
 
 
 
-        $model = \MicroweberPackages\Product\Models\Product::query();
+        $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
             'priceBetween' => 0 . ',' . 1
@@ -138,7 +135,7 @@ class ProductFilterTest extends TestCase
 
 
 
-        $model = \MicroweberPackages\Product\Models\Product::query();
+        $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
             'price' => 1000
@@ -149,7 +146,7 @@ class ProductFilterTest extends TestCase
 
 
 
-        $model = \MicroweberPackages\Product\Models\Product::query();
+        $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
             'price' => 0
@@ -160,7 +157,7 @@ class ProductFilterTest extends TestCase
 
 
 
-        $model = \MicroweberPackages\Product\Models\Product::query();
+        $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
             'title' => 'zero'
@@ -239,7 +236,7 @@ class ProductFilterTest extends TestCase
 
         $count_orders = 2;
 
-        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery = \Modules\Product\Models\Product::query();
         $productQuery->filter([
             'orders'=>$count_orders
         ]);
@@ -253,7 +250,7 @@ class ProductFilterTest extends TestCase
 
 
 
-        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery = \Modules\Product\Models\Product::query();
         $productQuery->filter([
             'sortOrders'=>'asc'
         ]);
@@ -266,7 +263,7 @@ class ProductFilterTest extends TestCase
         }
 
 
-        $productQuery = \MicroweberPackages\Product\Models\Product::query();
+        $productQuery = \Modules\Product\Models\Product::query();
         $productQuery->filter([
             'sortOrders'=>'desc'
         ]);

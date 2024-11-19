@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Content\tests;
 
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 trait TestHelpers {
     private function _generateCategory($url, $title, $pageId)
@@ -46,7 +46,7 @@ trait TestHelpers {
             'url' => $url,
             'content_type' => 'product',
             'subtype' => 'product',
-            
+
             'is_active' => 1,
 
             'custom_fields_advanced' => array(

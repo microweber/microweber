@@ -51,7 +51,7 @@ class EventServiceProvider extends ServiceProvider
                     $content->fill($special_price);
                     $content->save();
                     //  ProductWasUpdated::dispatch($content);
-                    //event('eloquent.updated: \MicroweberPackages\Product\Models\Product', $content);
+                    //event('eloquent.updated: \Modules\Product\Models\Product', $content);
 
                     //
                     //   $user->save();

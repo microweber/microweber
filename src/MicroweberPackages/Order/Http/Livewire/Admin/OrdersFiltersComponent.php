@@ -3,9 +3,6 @@
 namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
 use Livewire\Component;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
 
 class OrdersFiltersComponent extends Component
 {

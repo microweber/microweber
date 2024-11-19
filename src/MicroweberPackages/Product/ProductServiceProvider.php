@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
-//use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsList;
+use Modules\Product\Models\Product;
+use Modules\Product\Validators\PriceValidator;
+
+//use MicroweberPackages\Product\Http\Livewire\Admin\ContentBulkOptions;
 //use MicroweberPackages\Product\Http\Livewire\Admin\ProductsTable;
 //use MicroweberPackages\Product\Http\Livewire\ProductsAutoComplete;
-use MicroweberPackages\Product\Models\Product;
-use MicroweberPackages\Product\Validators\PriceValidator;
 
 class ProductServiceProvider extends ServiceProvider
 {
@@ -35,7 +36,6 @@ class ProductServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
         $this->loadMigrationsFrom(__DIR__ . '/migrations');
 
-        Validator::extendImplicit('price', PriceValidator::class.'@validate', 'Invalid price value!');
     }
 
 }

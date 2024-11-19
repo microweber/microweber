@@ -4,7 +4,7 @@ namespace MicroweberPackages\Repository\tests;
 
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ContentRepositoryTest extends TestCase
 {

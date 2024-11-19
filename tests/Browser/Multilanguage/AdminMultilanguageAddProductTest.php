@@ -5,7 +5,7 @@ namespace Tests\Browser\Multilanguage;
 use Faker\Factory;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
@@ -14,7 +14,6 @@ use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\FrontendSwitchLanguage;
-use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
 
 

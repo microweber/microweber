@@ -4,7 +4,7 @@ namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 
 class ShopSettingsComponent extends ModuleSettingsComponent
 {

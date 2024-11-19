@@ -152,7 +152,7 @@ class Category extends Model
         }
 
         foreach ($category->items as $item) {
-            $product = \MicroweberPackages\Product\Models\Product::find($item->rel_id);
+            $product = \Modules\Product\Models\Product::find($item->rel_id);
 
             if ($product->in_stock) {
                 return true;

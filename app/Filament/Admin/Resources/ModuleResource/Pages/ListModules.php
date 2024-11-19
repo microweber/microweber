@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Resources\ModuleResource\Pages;
 
 use App\Filament\Admin\Resources\ModuleResource;
-use App\Filament\Admin\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;

@@ -1,13 +1,13 @@
 {!! $products->scripts() !!}
 
 @php
-$filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
+    $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 @endphp
 
 <style>
 
     .mw-shop-module-wrapper .card .card-header:after {
-        border: none!important;
+        border: none !important;
     }
 
 </style>
@@ -51,7 +51,8 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
         <div class="col-xl-9">
             <div class="row">
                 <div class="col-xl-6 col-lg-5 col-lg-7 col-lg-2 col-lg-5 py-lg-0 py-4">
-                    <p> <?php _e("Displaying"); ?> {{$products->count()}} <?php _e("of"); ?> {{ $products->total() }}  <?php _e("result(s)"); ?>.</p>
+                    <p> <?php _e("Displaying"); ?> {{$products->count()}} <?php _e("of"); ?> {{ $products->total() }}  <?php _e("result(s)"); ?>
+                        .</p>
                 </div>
                 <div class="col-xl-6 col-lg-7 d-block d-sm-flex justify-content-end ms-auto">
                     <div class="col-lg-auto col-md-6 col-sm px-1 ">{!! $products->limit(); !!}</div>
@@ -61,8 +62,8 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
             <div class="row">
                 @foreach($products->results() as $product)
 
-                    <?php
-                        /* @var $product \MicroweberPackages\Product\Models\Product */
+                        <?php
+                        /* @var $product \Modules\Product\Models\Product */
 
                         ?>
                     <div class="col-xl-4 col-lg-6 col-sm-12 mb-5">
@@ -71,7 +72,7 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
 
                                 <div @if($product->getContentDataByFieldName('label-color'))
                                          style="background-color: {{$product->getContentDataByFieldName('label-color')}} "
-                                    @endif >
+                                        @endif >
                                     @if($product->getContentDataByFieldName('label-type') == 'percent')
                                         <div class="discount-label">
                                                 <span class="discount-percentage">
@@ -83,13 +84,14 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                                     @endif
                                     @if($product->getContentDataByFieldName('label-type') == 'text' and $product->getContentDataByFieldName('label'))
 
-                                            <div class="position-absolute  top-0 left-0 m-2" style="z-index: 3;">
-                                                <div class="badge text-white px-3 pb-1 pt-2 rounded-0" style="background-color: {{$product->getContentDataByFieldName('label-color')}};">{{$product->getContentDataByFieldName('label')}}</div>
-                                            </div>
+                                        <div class="position-absolute  top-0 left-0 m-2" style="z-index: 3;">
+                                            <div class="badge text-white px-3 pb-1 pt-2 rounded-0"
+                                                 style="background-color: {{$product->getContentDataByFieldName('label-color')}};">{{$product->getContentDataByFieldName('label')}}</div>
+                                        </div>
                                     @endif
                                 </div>
 
-                                <img src="{{$product->thumbnail(1000,1000)}}" />
+                                <img src="{{$product->thumbnail(1000,1000)}}"/>
 
                             </div>
                             <h6 class="mt-3">{{$product->title}}</h6>
@@ -99,22 +101,20 @@ $filtersSort = json_decode(get_option('filters-sort', $moduleId), true);
                         <p>{{$product->content_text}}</p>
 
 
-
-
                         <div class="d-flex align-items-center price-holder">
 
-                                @if($product->hasSpecialPrice())
-                                    <h6 class="price-old mb-0"><?php print currency_format($product->price); ?></h6>
-                                    <h6 class="price mb-0"><?php print currency_format($product->specialPrice); ?></h6>
-                                @else
-                                    <h6 class="price mb-0"><?php print currency_format($product->price); ?></h6>
-                                @endif
+                            @if($product->hasSpecialPrice())
+                                <h6 class="price-old mb-0"><?php print currency_format($product->price); ?></h6>
+                                <h6 class="price mb-0"><?php print currency_format($product->specialPrice); ?></h6>
+                            @else
+                                <h6 class="price mb-0"><?php print currency_format($product->price); ?></h6>
+                            @endif
 
 
                         </div>
 
                         {{--@foreach($product->tags as $tag)--}}
-                            {{--<span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>--}}
+                        {{--<span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>--}}
                         {{--@endforeach--}}
                     </div>
                 @endforeach

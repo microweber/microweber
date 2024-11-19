@@ -21,7 +21,7 @@ use Filament\Tables\Table;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Product\Models\Product;
+use Modules\Product\Models\Product;
 use Modules\Tag\Model\Tag;
 
 class ShopModuleSettings extends LiveEditModuleSettings implements HasTable

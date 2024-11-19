@@ -2,11 +2,11 @@
 $product = [];
 $product['id'] = 0;
 $productPrice = 0;
-$contentData = \MicroweberPackages\Product\Models\Product::$contentDataDefault;
-$customFields = \MicroweberPackages\Product\Models\Product::$customFields;
+$contentData = \Modules\Product\Models\Product::$contentDataDefault;
+$customFields = \Modules\Product\Models\Product::$customFields;
 
 if ($data['id'] > 0) {
-    $product = \MicroweberPackages\Product\Models\Product::where('id',$data['id'])->first();
+    $product = \Modules\Product\Models\Product::where('id',$data['id'])->first();
     $contentData = $product->getContentData();
     $productPrice = $product->price;
 }
