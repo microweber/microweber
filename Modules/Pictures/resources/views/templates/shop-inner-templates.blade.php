@@ -75,7 +75,12 @@ if (is_array($data)): ?>
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
+
+              <?php if ($data and isset($data[0]['filename'])): ?>
             <img src="<?php print thumbnail($data[0]['filename'], 1080, 1080); ?>" id="<?php print $pictureElementId; ?>" />
+            <?php endif; ?>
+
+
         </div>
     </div>
 

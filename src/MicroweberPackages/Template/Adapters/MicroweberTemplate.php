@@ -564,8 +564,22 @@ class MicroweberTemplate
         }
         $is_laravel_template = app()->template_manager->is_laravel_template($the_active_site_template);
 
+        $is_laravel_template = app()->template_manager->is_laravel_template($page['active_site_template']);
 
         if ($render_file == false) {
+
+            // if ($render_file == false and (isset($page['content_type']) and ($page['content_type']) != '')) {
+            //
+            //        }
+
+            if($is_laravel_template){
+                if(!isset($page['layout_file']) or $page['layout_file'] == ''){
+                    if ((isset($page['content_type']) and ($page['content_type']) != '')) {
+                        $page['layout_file'] = $page['content_type'] . '.blade.php';
+                    }
+                }
+            }
+
             if (isset($page['active_site_template']) and isset($page['layout_file'])) {
                 $page['layout_file'] = str_replace('___', DS, $page['layout_file']);
                 $page['layout_file'] = str_replace('__', DS, $page['layout_file']);
@@ -583,7 +597,6 @@ class MicroweberTemplate
                 $render_file_module_temp = normalize_path($render_file_module_temp, false);
 
 
-                $is_laravel_template = app()->template_manager->is_laravel_template($page['active_site_template']);
                 $laravel_template_view = templates_dir() . $template_d . '/resources/views/' . $page['layout_file'];
                 $laravel_template_view = normalize_path($laravel_template_view, false);
 
@@ -690,7 +703,12 @@ class MicroweberTemplate
             }
         }
 
-        if ($render_file == false and isset($page['active_site_template']) and isset($page['active_site_template']) and isset($page['layout_file']) and $page['layout_file'] != 'inherit' and $page['layout_file'] != '') {
+
+        if ($render_file == false and isset($page['active_site_template'])
+            and isset($page['active_site_template'])
+            and isset($page['layout_file'])
+            and $page['layout_file'] != 'inherit'
+            and $page['layout_file'] != '') {
             $test_file = str_replace('___', DS, $page['layout_file']);
             $test_file = sanitize_path($test_file);
 
@@ -821,7 +839,6 @@ class MicroweberTemplate
                 }
             }
         }
-
 
         if ($render_file != false and (isset($page['content_type']) and ($page['content_type']) != 'page')) {
             $f1 = $render_file;

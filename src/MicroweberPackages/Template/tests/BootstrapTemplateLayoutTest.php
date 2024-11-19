@@ -124,4 +124,20 @@ class BootstrapTemplateLayoutTest extends TestCase
 
 
     }
+
+    public function testGetLayoutBootstrapTemplateProductInner()
+    {
+
+        $templateName = $this->template_name;
+        $newCleanPageId = save_content([
+            'content_type' => 'product',
+            'subtype' => 'product',
+            'price' => 100,
+            'title' => 'testGetLayoutBootstrapTemplateShopPageProduct',
+            'is_active' => 1,
+        ]);
+        $template_render_file = app()->template_manager->get_layout(['id' => $newCleanPageId]);
+        $this->assertTrue(str_ends_with($template_render_file, 'product.blade.php'));
+
+    }
 }

@@ -4,8 +4,8 @@
 namespace Modules\Product\Tests\Unit;
 
 
+use Tests\TestCase;
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
 use Modules\Product\Models\Product;
