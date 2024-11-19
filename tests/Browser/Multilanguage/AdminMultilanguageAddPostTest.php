@@ -3,11 +3,9 @@
 namespace Tests\Browser\Multilanguage;
 
 use Facebook\WebDriver\WebDriverBy;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
-use MicroweberPackages\Multilanguage\MultilanguageApi;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
@@ -15,7 +13,6 @@ use Tests\Browser\Components\AdminContentMultilanguage;
 use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
-use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
 
 class AdminMultilanguageAddPostTest extends DuskTestCaseMultilanguage

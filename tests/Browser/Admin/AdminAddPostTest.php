@@ -5,7 +5,7 @@ namespace Tests\Browser\Admin;
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;

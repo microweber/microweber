@@ -9,20 +9,20 @@
 namespace MicroweberPackages\Post\Observers;
 
 
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 
 class PostObserver
 {
     /**
      * Handle the Page "saving" event.
      *
-     * @param  \MicroweberPackages\Post\Models\Post  $post
+     * @param  \Modules\Post\Models\Post  $post
      * @return void
      */
     public function saving(Post $post)
     {
         $post->content_type = 'post';
-        
+
         cache_delete('content');
     }
 }

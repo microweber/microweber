@@ -5,7 +5,7 @@ use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 
 
 /**

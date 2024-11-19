@@ -23,8 +23,6 @@ class PostServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-
-
     }
 
     /**
@@ -40,11 +38,9 @@ class PostServiceProvider extends BaseModuleServiceProvider
 
         FilamentRegistry::registerResource(PostResource::class);
         // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(PostModuleSettings::class);
+         FilamentRegistry::registerPage(PostModuleSettings::class);
 
         // Register Microweber module
-        //  Microweber::module(\Modules\Post\Microweber\PostModule::class);
-
+          Microweber::module(\Modules\Post\Microweber\PostModule::class);
     }
-
 }

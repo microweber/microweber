@@ -2,7 +2,6 @@
 
 namespace MicroweberPackages\Admin\Filament;
 
-use App\Filament\Admin\Resources\PostResource;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationGroup;
@@ -156,7 +155,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             hook: fn(): string => view('content::admin.content.filament.list-records-render-category-tree'),
             scopes: [
                 \Modules\Content\Filament\Admin\ContentResource\Pages\ListContents::class,
-                PostResource\Pages\ListPosts::class,
+                \Modules\Post\Filament\Admin\Resources\PostResource\Pages\ListPosts::class,
                 ProductResource\Pages\ListProducts::class
             ]
         );

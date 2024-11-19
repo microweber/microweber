@@ -3,7 +3,7 @@ namespace MicroweberPackages\Import;
 
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 use Modules\Product\Models\Product;
 use Modules\Product\Models\ProductVariant;
 

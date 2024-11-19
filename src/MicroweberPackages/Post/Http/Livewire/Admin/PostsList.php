@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Post\Http\Livewire\Admin;
 
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 
 class PostsList extends ContentList
 {

@@ -2,21 +2,15 @@
 
 namespace Tests\Browser\Multilanguage;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Multilanguage\MultilanguageApi;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Post\Models\Post;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
-use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;
-use Tests\Browser\Components\AdminContentTagAdd;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
-use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
 
 #[RunTestsInSeparateProcesses]

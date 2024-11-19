@@ -3,11 +3,9 @@
 namespace Tests\Browser\Multilanguage;
 
 use Faker\Factory;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\tests\TestHelpers;
-use MicroweberPackages\Post\Models\Post;
 use Tests\Browser\Components\AdminCategoryMultilanguage;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;

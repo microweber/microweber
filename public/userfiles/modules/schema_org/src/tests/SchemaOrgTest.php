@@ -4,7 +4,7 @@ namespace MicroweberPackages\Modules\SchemaOrg\tests;
 use Illuminate\Support\Str;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 
 class SchemaOrgTest extends TestCase
 {

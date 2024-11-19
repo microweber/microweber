@@ -11,15 +11,12 @@ class PostResource extends ContentResource
 {
     protected static ?string $model = Post::class;
 
-  // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
     protected static ?string $navigationGroup = 'Website';
 
     protected static bool $shouldRegisterNavigation = true;
 
     protected static string $contentType = 'post';
     protected static string $subType = 'post';
-
 
     public static function getPages(): array
     {

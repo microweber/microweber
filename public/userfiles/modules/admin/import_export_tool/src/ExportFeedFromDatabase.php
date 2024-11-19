@@ -8,7 +8,7 @@ use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Export\Formats\XmlExport;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 use Modules\Product\Models\Product;
 
 class ExportFeedFromDatabase

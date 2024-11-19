@@ -10,7 +10,7 @@ use Modules\Content\Models\Content;
 use Modules\Customer\Models\Customer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 use Modules\Product\Models\Product;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;

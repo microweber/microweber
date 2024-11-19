@@ -33,7 +33,6 @@ class Post extends \Modules\Content\Models\Content
         "created_at",
     ];
 
-
     public $sortable = [
         'id'=>[
             'title'=> 'Post'
@@ -57,7 +56,6 @@ class Post extends \Modules\Content\Models\Content
     {
         static::addGlobalScope(new PostScope());
     }
-
 
     public function scopeFrontendFilter($query, $params)
     {

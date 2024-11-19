@@ -21,7 +21,12 @@ class ProductsModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
-        $viewData['data'] = static::getQueryBuilderFromOptions($viewData['options'])->get();
+
+        $viewData['data'] = [];
+        $data = static::getQueryBuilderFromOptions($viewData['options'])->get();
+        if ($data and !$data->empty()) {
+            $viewData['data'] = $data;
+        }
 
         $template = $viewData['template'] ?? 'default';
 
@@ -33,10 +38,9 @@ class ProductsModule extends BaseModule
         $viewData['tn'] = $this->getThumbnailSize($viewData['options']);
         $viewData['read_more_text'] = $this->getReadMoreText($viewData['options']);
 
-        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
-            $template = 'default';
-        }
-        return view(static::$templatesNamespace . '.' . $template, $viewData);
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
+
+        return view($viewName, $viewData);
     }
 
     public static function getQueryBuilderFromOptions($optionsArray = []): \Illuminate\Database\Eloquent\Builder

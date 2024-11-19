@@ -7,8 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
 use MicroweberPackages\Post\Http\Livewire\Admin\PostsList;
-use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Post\Observers\PostObserver;
+use Modules\Post\Models\Post;
 
 class PostServiceProvider extends ServiceProvider
 {

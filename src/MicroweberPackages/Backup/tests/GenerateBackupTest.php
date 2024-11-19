@@ -4,8 +4,8 @@ namespace MicroweberPackages\Backup\tests;
 use MicroweberPackages\Backup\GenerateBackup;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Post\Models\Post;
 use Modules\Content\Models\Content;
+use Modules\Post\Models\Post;
 
 
 /**

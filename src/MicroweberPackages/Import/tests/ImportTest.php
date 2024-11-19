@@ -4,7 +4,6 @@ namespace MicroweberPackages\Import\tests;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
-use MicroweberPackages\Post\Models\Post;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 

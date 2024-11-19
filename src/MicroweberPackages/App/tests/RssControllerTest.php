@@ -2,7 +2,7 @@
 namespace MicroweberPackages\App\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Post\Models\Post;
 use Modules\Product\Models\Product;
 
 
