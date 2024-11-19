@@ -9,7 +9,7 @@ use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCategoriesTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCustomFieldsTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
 use MicroweberPackages\Option\Models\ModuleOption;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
 
 class ShopComponent extends Component

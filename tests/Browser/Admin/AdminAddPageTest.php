@@ -3,10 +3,7 @@
 namespace Tests\Browser\Admin;
 
 use Laravel\Dusk\Browser;
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
-use MicroweberPackages\Media\Models\Media;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminLogin;

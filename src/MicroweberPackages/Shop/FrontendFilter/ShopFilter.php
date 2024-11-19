@@ -3,8 +3,8 @@ namespace MicroweberPackages\Shop\FrontendFilter;
 
 use MicroweberPackages\Blog\FrontendFilter\BaseFilter;
 use MicroweberPackages\Blog\FrontendFilter\Traits\CustomFieldsTrait;
-use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Shop\FrontendFilter\Traits\PriceFilter;
+use Modules\Page\Models\Page;
 
 class ShopFilter extends BaseFilter {
 

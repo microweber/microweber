@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace Modules\Page\Filament\Resources;
 
 use App\Filament\Admin\Resources\PageResource\Pages;
 use App\Filament\Admin\Resources\PageResource\RelationManagers;
-use MicroweberPackages\Page\Models\Page;
 use Modules\Content\Filament\Admin\ContentResource;
+use Modules\Page\Models\Page;
 
 class PageResource extends ContentResource
 {
@@ -22,9 +22,9 @@ class PageResource extends ContentResource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPages::route('/'),
-            'create' => Pages\CreatePage::route('/create'),
-            'edit' => Pages\EditPage::route('/{record}/edit'),
+            'index' => \Modules\Page\Filament\Resources\PageResource\Pages\ListPages::route('/'),
+            'create' => \Modules\Page\Filament\Resources\PageResource\Pages\CreatePage::route('/create'),
+            'edit' => \Modules\Page\Filament\Resources\PageResource\Pages\EditPage::route('/{record}/edit'),
         ];
     }
 }

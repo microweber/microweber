@@ -4,7 +4,7 @@ namespace MicroweberPackages\Blog\tests;
 use Illuminate\Support\Facades\App;
 use MicroweberPackages\Blog\Http\Controllers\BlogController;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 
 class BlogFilterTest extends TestCase

@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption;
 
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
 class SelectPageOption extends OptionElement
 {

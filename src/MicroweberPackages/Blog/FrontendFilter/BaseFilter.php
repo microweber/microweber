@@ -1,21 +1,16 @@
 <?php
 namespace MicroweberPackages\Blog\FrontendFilter;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\URL;
+use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\DateRangeTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\FiltersActiveTrait;
-use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\PaginationTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\SearchTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\SortTrait;
 use MicroweberPackages\Blog\FrontendFilter\Traits\TagsTrait;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
 abstract class BaseFilter
 {

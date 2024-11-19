@@ -4,11 +4,11 @@
 namespace Modules\Product\Tests\Unit;
 
 
-use Tests\TestCase;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
+use Tests\TestCase;
 
 class ProductFilterTest extends TestCase
 {

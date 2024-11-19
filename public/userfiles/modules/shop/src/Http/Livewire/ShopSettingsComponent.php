@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
 use MicroweberPackages\LiveEdit\Http\Livewire\ModuleSettingsComponent;
-use MicroweberPackages\Page\Models\Page;
 use Modules\Product\Models\Product;
 
 class ShopSettingsComponent extends ModuleSettingsComponent

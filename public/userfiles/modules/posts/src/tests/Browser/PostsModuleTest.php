@@ -2,13 +2,10 @@
 
 namespace MicroweberPackages\Modules\Posts\tests\Browser;
 
-use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Form\Models\FormData;
 use MicroweberPackages\Form\Models\FormDataValue;
-use MicroweberPackages\Page\Models\Page;
-use MicroweberPackages\User\Models\User;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 

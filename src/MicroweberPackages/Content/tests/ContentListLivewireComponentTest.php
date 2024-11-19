@@ -6,11 +6,11 @@ use Livewire\Livewire;
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Page\Http\Livewire\Admin\PagesList;
-use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Http\Livewire\Admin\PostsList;
 use MicroweberPackages\Product\Http\Livewire\Admin\ProductsList;
 use MicroweberPackages\User\tests\UserTestHelperTrait;
 use Modules\Content\Models\Content;
+use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 use Modules\Product\Models\Product;
 

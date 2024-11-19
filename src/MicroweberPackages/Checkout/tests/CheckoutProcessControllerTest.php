@@ -4,7 +4,7 @@ namespace MicroweberPackages\Checkout\tests;
 
 use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
 
 class CheckoutProcessControllerTest extends TestCase

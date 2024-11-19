@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Form\Models\FormData;
 use MicroweberPackages\Form\Models\FormDataValue;
-use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
+use Modules\Page\Models\Page;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 

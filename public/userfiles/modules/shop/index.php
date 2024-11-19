@@ -11,7 +11,7 @@
 //
 //echo $controller->index($request);
 
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
 $shopIsEnabled = false;
 $getShopCount = Page::select('id')->where('is_shop', 1)->count();

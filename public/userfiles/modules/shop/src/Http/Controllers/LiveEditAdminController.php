@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Modules\Shop\Http\Controllers;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Page\Models\Page;
 
 class LiveEditAdminController extends \MicroweberPackages\Shop\Http\Controllers\LiveEditAdminController
 {
@@ -16,7 +15,7 @@ class LiveEditAdminController extends \MicroweberPackages\Shop\Http\Controllers\
         if (get_option('shop_disabled','website') == 'n') {
             $shopIsEnabled = true;
         }
-        
+
         if (!$shopIsEnabled) {
             return view('microweber-module-shop::admin.enable_shop');
         }

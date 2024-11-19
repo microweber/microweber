@@ -20,7 +20,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
 use Modules\Tag\Model\Tag;
 

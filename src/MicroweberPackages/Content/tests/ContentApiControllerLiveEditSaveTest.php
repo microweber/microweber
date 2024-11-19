@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
+use Modules\Page\Models\Page;
 
 
 class ContentApiControllerLiveEditSaveTest extends TestCase

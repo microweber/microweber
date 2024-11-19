@@ -7,7 +7,7 @@ use MicroweberPackages\Export\Formats\CsvExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Export\Formats\XmlExport;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 use Modules\Product\Models\Product;
 

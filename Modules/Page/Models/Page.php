@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Page\Models;
+namespace Modules\Page\Models;
 
 use MicroweberPackages\Content\Scopes\PageScope;
 

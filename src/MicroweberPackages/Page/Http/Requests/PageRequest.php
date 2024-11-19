@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Page\Http\Requests;
 
 use MicroweberPackages\Content\Http\Controllers\Requests\ContentSaveRequest;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
 class PageRequest extends ContentSaveRequest
 {

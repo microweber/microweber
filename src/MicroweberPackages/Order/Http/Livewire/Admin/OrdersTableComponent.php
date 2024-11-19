@@ -2,15 +2,9 @@
 
 namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
-use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkDelete;
-use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkOrderStatus;
-use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
 use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Page\Models\Page;
 
 class OrdersTableComponent extends AdminComponent
 {

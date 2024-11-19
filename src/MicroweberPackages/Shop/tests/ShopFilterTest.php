@@ -3,8 +3,8 @@ namespace MicroweberPackages\Shop\tests;
 
 use Illuminate\Support\Facades\App;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Shop\Http\Controllers\ShopController;
+use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
 
 class ShopFilterTest extends TestCase

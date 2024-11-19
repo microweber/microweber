@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Page\Http\Livewire\Admin;
 
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
 class PagesList extends ContentList
 {

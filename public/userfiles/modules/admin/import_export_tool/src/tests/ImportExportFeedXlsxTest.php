@@ -15,8 +15,8 @@ use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartE
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\StartImportingModal;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
-use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
+use Modules\Page\Models\Page;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 #[RunTestsInSeparateProcesses]

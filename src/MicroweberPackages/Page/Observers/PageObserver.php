@@ -8,7 +8,7 @@
 
 namespace MicroweberPackages\Page\Observers;
 
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
 class PageObserver
 {
@@ -21,7 +21,7 @@ class PageObserver
     public function saving(Page $page)
     {
         $page->content_type = 'page';
-        
+
         cache_delete('content');
     }
 }

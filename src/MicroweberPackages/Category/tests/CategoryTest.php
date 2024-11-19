@@ -7,9 +7,9 @@ use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\PlainTextCategoriesSave;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
+use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 
 

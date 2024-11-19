@@ -3,7 +3,7 @@
 namespace Tests\Browser\Multilanguage;
 
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;

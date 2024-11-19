@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Category;
 
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
 class AdminJsCategoryTree
 {

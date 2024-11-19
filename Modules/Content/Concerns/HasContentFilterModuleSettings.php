@@ -2,15 +2,15 @@
 
 namespace Modules\Content\Concerns;
 
+use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 
- trait HasContentFilterModuleSettings
+trait HasContentFilterModuleSettings
 {
     public function getContentFilterModuleSettingsSchema(): array
     {

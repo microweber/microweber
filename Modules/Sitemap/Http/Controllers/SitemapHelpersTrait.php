@@ -4,7 +4,7 @@ namespace Modules\Sitemap\Http\Controllers;
 
 
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Page\Models\Page;
+use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 use Modules\Product\Models\Product;
 
