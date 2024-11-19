@@ -21,6 +21,7 @@ const nodeModulesScripts = [
     //{target: `swiper`, path: `node_modules/swiper/swiper.js`},
     {target: `xss`, path: `node_modules/xss/dist/xss.js`},
     {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.js`},
+    {target: `masonry`, path: `node_modules/masonry-layout/dist/masonry.pkgd.js`},
 
 
     {
