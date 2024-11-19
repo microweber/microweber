@@ -18,7 +18,7 @@ description: Masonry
     <?php if (!empty($data)): ?>
 
 
-<script>mw.require("<?php print modules_url(); ?>posts/js/masonry.pkgd.min.js", true); </script>
+<script>mw.lib.require("masonry"); </script>
 <script>mw.moduleCSS("<?php print modules_url(); ?>posts/css/style.css"); </script>
 <script>
     mw._masons = mw._masons || [];

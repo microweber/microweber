@@ -36,7 +36,7 @@ if(!isset($tn[1])){
   <?php if (!empty($data)): ?>
 
 
-<script>mw.require("<?php print $config['url_to_module']; ?>js/masonry.pkgd.min.js", true); </script>
+<script>mw.lib.require("masonry"); </script>
 <script>
     mw._masons = mw._masons || [];
     $(document).ready(function(){

@@ -13,7 +13,7 @@ description: Masonry
 ?>
 <?php if (is_array($data) and $data): ?>
     <?php $rand = uniqid(); ?>
-    <script>mw.require("<?php print asset('modules/pictures/js/masonry.pkgd.min.js'); ?>", true); </script>
+    <script>mw.lib.require("masonry"); </script>
     <script>mw.moduleCSS("<?php print asset('modules/pictures/css/style.css'); ?>"); </script>
     <script>
         mw._masons = mw._masons || [];
