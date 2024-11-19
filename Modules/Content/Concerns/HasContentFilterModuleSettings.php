@@ -6,6 +6,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms;
 
 trait HasContentFilterModuleSettings
 {
@@ -24,30 +25,67 @@ trait HasContentFilterModuleSettings
                 ->label('Display on post')
                 ->live()
                 ->options([
-                    '' => 'Default information from skin',
-                    'custom' => 'Custom information',
+                    0 => 'Default information from skin',
+                    1 => 'Custom information',
                 ]),
+
             Checkbox::make('options.data-show-thumbnail')
-                ->label('Thumbnail')->live(),
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
+                ->label('Thumbnail')
+                ->live(),
             Checkbox::make('options.data-show-title')
-                ->label('Title')->live(),
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
+                ->label('Title')
+                ->live(),
             TextInput::make('options.data-title-limit')
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
                 ->label('Title Limit')
-                ->numeric()->live(),
+                ->numeric()
+                ->live(),
             Checkbox::make('options.data-show-description')
-                ->label('Description')->live(),
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
+                ->label('Description')
+                ->live(),
             TextInput::make('data-character-limit')
-                ->label('Description Limit')->live()
-                ->numeric(),
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
+                ->label('Description Limit')
+                ->numeric()
+                ->live(),
             Checkbox::make('options.data-show-read-more')
-                ->label('Read More')->live(),
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
+                ->label('Read More')
+                ->live(),
             TextInput::make('options.data-read-more-text')
-                ->label('Read more text')->live(),
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
+                ->label('Read more text')
+                ->live(),
             Checkbox::make('options.data-show-date')
-                ->label('Created At')->live(),
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
+                ->label('Created At')
+                ->live(),
             TextInput::make('options.data-limit')
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
                 ->label('Post per page')
-                ->numeric()->live(),
+                ->numeric()
+                ->live(),
             Select::make('options.data-order-by')
                 ->label('Order by')
                 ->options([
@@ -57,7 +95,8 @@ trait HasContentFilterModuleSettings
                     'created_at+desc' => 'Date (DESC)',
                     'title+asc' => 'Title (ASC)',
                     'title+desc' => 'Title (DESC)',
-                ])->live(),
+                ])
+                ->live(),
         ];
     }
 }
