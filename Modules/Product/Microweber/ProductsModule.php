@@ -78,12 +78,12 @@ class ProductsModule extends BaseModule
 
     private function getCharacterLimit($options)
     {
-        return isset($options['data-character-limit']) ? intval($options['data-character-limit']) : 120;
+        return isset($options['data-character-limit']) ? intval($options['data-character-limit']) : 0;
     }
 
     private function getTitleCharacterLimit($options)
     {
-        return isset($options['data-title-limit']) ? intval($options['data-title-limit']) : 200;
+        return isset($options['data-title-limit']) ? intval($options['data-title-limit']) : 0;
     }
 
     private function getThumbnailSize($options)
