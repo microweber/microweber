@@ -18,6 +18,7 @@ import "../components/dialog.js";
 import "../tools/common-extend.js";
 import "../components/notification.js";
 import "../components/icon_selector.js";
+import "../api-core/core/core/forms.js";
 
 import "../core/_.js";
 import "./animations.js";
