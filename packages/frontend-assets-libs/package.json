@@ -2,7 +2,6 @@
     "name": "microweber-frontend-assets-libs",
     "version": "1.0.0",
     "description": "Microweber front-end libs",
-
     "repository": {
         "type": "git",
         "url": "https://github.com/microweber-packages/frontend-assets-libs.git"
@@ -24,6 +23,7 @@
         "jquery-ui": "^1.13.3",
         "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^1.0.5",
+        "masonry-layout": "^4.2.2",
         "material-icons": "^1.13.12",
         "mini-css-extract-plugin": "^2.9.0",
         "moveable": "^0.53.0",

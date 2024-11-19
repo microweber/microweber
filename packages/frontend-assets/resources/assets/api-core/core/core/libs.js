@@ -126,6 +126,11 @@
                 mw.require(mw.settings.libs_url + 'material_icons' + '/material_icons.css');
             }
         ],
+        masonry: [
+            function () {
+                mw.require(mw.settings.libs_url + 'masonry/masonry.pkgd.js');
+            }
+        ],
 
 
 
