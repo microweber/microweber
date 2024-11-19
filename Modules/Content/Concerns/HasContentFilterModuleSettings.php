@@ -10,11 +10,10 @@ use Filament\Forms;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Page\Models\Page;
 
-trait HasContentFilterModuleSettings
+ trait HasContentFilterModuleSettings
 {
     public function getContentFilterModuleSettingsSchema(): array
     {
-
         $pages = Page::query()->where('is_active', 1)->get();
 
         $pagesOpts = [];
@@ -63,10 +62,13 @@ trait HasContentFilterModuleSettings
                     'title+desc' => 'Title (DESC)',
                 ])
                 ->live(),
-
+            TextInput::make('options.data-limit')
+                ->label('Items per page')
+                ->numeric()
+                ->live(),
 
             Radio::make('options.data-show')
-                ->label('Display on post')
+                ->label('Display on content')
                 ->live()
                 ->options([
                     0 => 'Default information from skin',
@@ -123,14 +125,18 @@ trait HasContentFilterModuleSettings
                 })
                 ->label('Created At')
                 ->live(),
-            TextInput::make('options.data-limit')
+            Checkbox::make('options.data-show-author')
                 ->visible(function (Forms\Get $get) {
                     return $get('options.data-show') == 1;
                 })
-                ->label('Post per page')
-                ->numeric()
+                ->label('Show Author')
                 ->live(),
-
+            TextInput::make('options.data-add-to-cart-text')
+                ->visible(function (Forms\Get $get) {
+                    return $get('options.data-show') == 1;
+                })
+                ->label('Add to Cart Text')
+                ->live(),
         ];
     }
 }

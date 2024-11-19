@@ -55,6 +55,7 @@ class ContentTableList extends Component implements HasForms, HasTable
             ->defaultSort('position', 'asc')
             ->columns([
                 TextColumn::make('title')
+                    ->limit(20)
                     ->label('Title'),
             ])
             ->filters([

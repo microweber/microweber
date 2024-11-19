@@ -26,7 +26,7 @@ description: Default - 3 Columns
 
     @endphp
 
-    <div class="clearfix module-posts-template-columns-3 {{ $helpclass }}">
+    <div class="clearfix module-posts-template-default {{ $helpclass }}">
         @foreach ($data as $item)
             @php $count++; @endphp
             <div class="mw-ui-row">
@@ -69,15 +69,18 @@ description: Default - 3 Columns
                                     @endif
                                 @endif
                                 @if (!$show_fields || in_array('add_to_cart', $show_fields))
+
                                     @php
-                                        $add_cart_text = get_option('data-add-to-cart-text', $params['id']) ?? __('Add to cart', true);
+                                        $add_cart_text = $add_to_cart_text ?? __('Add to cart');
                                     @endphp
-                                    @if (is_array($item['prices']))
+                                    @if (is_array($item['prices']) and !empty($item['prices']))
                                         <button class="btn btn-primary" type="button"
                                                 onclick="mw.cart.add_and_checkout('{{ $item['id'] }}');">
                                             <i class="icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;{{ $add_cart_text }}
                                         </button>
                                     @endif
+
+
                                 @endif
                             </div>
                             @if (is_array($item['prices']))
