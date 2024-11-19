@@ -163,7 +163,11 @@ class Product extends Content
 
         return 0;
     }
+    public function getPricesAttribute()
+    {
+        return   app()->shop_manager->get_product_prices($this->id, false);
 
+    }
     public function getPriceDisplayAttribute()
     {
         $originalPrice = $this->getPriceAttribute();
