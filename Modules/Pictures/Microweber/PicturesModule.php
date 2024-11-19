@@ -23,13 +23,20 @@ class PicturesModule extends BaseModule
 
 
         $params = $this->getParams();
-        $relType = 'module';
+        $relType = $params['rel'] ?? $params['data-rel'] ?? 'module';
         $relId = $this->getModuleId();
 
 
         $picturesFromContent = $this->getOption('data-use-from-post');
 
         $openedFromContentPageId = content_id();
+
+        if ($relType == 'content') {
+            if (!isset($params['content_id']) and $openedFromContentPageId) {
+                $params['content_id'] = $openedFromContentPageId;
+            }
+        }
+
         if (isset($params['content_id'])) {
             $openedFromContentPageId = $params['content_id'];
 

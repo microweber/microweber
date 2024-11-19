@@ -685,8 +685,9 @@ class CartManager extends Crud
             if (isset($data['price'])) {
 
                 if ($product_prices) {
+
                     foreach ($product_prices as $price) {
-                        if ($price['value'] == $data['price']) {
+                        if ($price == $data['price']) {
                             $found_price = $data['price'];
                         }
                     }
@@ -703,6 +704,9 @@ class CartManager extends Crud
                 }
             }
         }
+
+
+
         $priceModifierCustomFields = [];
         foreach ($data as $k => $item) {
 
