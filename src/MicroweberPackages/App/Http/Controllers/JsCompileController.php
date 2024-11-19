@@ -165,6 +165,7 @@ class JsCompileController extends Controller
 
     public function apijs_combined()
     {
+
         $userfiles_dir = userfiles_path();
         $hash = $this->apijs_combined_get_hash();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs_combined');
@@ -173,7 +174,7 @@ class JsCompileController extends Controller
 
         $layout = [];
         $layout[] = $this->_load_apijs_settings();
-        $layout[] = $this->_load_apijs();
+      $layout[] = $this->_load_apijs();
 
         $layout = implode("\n\n", $layout);
 
@@ -388,6 +389,9 @@ class JsCompileController extends Controller
 
     private function _load_apijs()
     {
+//apijs is deprecated
+        return '';
+
         $file = mw_includes_path() . 'api' . DS . 'api.js';
         $l = new View($file);
 

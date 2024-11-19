@@ -5,27 +5,21 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" type="text/css"
-          href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap">
+    {!! meta_tags_head() !!}
 
-    <script>
-
-        mw.lib.require('bootstrap4');
-        mw.lib.require('bootstrap_select');
+    {{-- Vite CSS --}}
 
 
+    @if(!lang_is_rtl())
+        <link rel="stylesheet" href="{{ asset('templates/bootstrap/dist/build/app.css') }}">
+    @else
 
-    </script>
+        <link rel="stylesheet" href="{{ asset('templates/bootstrap/dist/build/app-rtl.css') }}">
+    @endif
 
-    <script>
-        $(document).ready(function () {
-            $('.selectpicker').selectpicker();
-        });
-    </script>
 
-    <?php print get_template_stylesheet(); ?>
 
     <style>
         html, body, section, .row {
@@ -208,18 +202,11 @@
         }
     </style>
 
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 <body>
 
-<script type="text/javascript">
-    mw.require("<?php print(mw_includes_url()); ?>css/ui.css");
-    mw.lib.require("bootstrap5");
-</script>
+
 
 @hasSection('checkout_sidebar')
 
@@ -285,5 +272,9 @@
         </div>
     @endif
 </div>
+<script src="{{ asset('templates/bootstrap/dist/build/app.js') }}"></script>
+
+{!! meta_tags_footer() !!}
 </body>
+
 </html>

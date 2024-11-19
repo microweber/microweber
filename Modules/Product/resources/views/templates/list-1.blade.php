@@ -22,6 +22,11 @@ if (!isset($tn[1])) {
 
 ?>
 
+
+<script>
+    mw.require('shop.js');
+</script>
+
 <?php if (!empty($data)): ?>
     <?php
     $count = 0;

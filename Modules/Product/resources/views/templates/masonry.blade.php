@@ -28,7 +28,9 @@ if(!isset($tn[1])){
 ?>
 
 
-
+<script>
+    mw.require('shop.js');
+</script>
 <?php  $rand = uniqid(); ?>
 <div class="clearfix module-posts-template-masonry" id="posts-<?php print $rand; ?>">
   <?php if (!empty($data)): ?>
