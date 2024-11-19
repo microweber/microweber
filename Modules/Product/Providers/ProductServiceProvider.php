@@ -40,7 +40,7 @@ class ProductServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+       $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
         FilamentRegistry::registerResource(ProductResource::class);
         FilamentRegistry::registerPage(ProductsModuleSettings::class);
 

@@ -54,7 +54,6 @@ use MicroweberPackages\Page\PageServiceProvider;
 use MicroweberPackages\Pagination\PaginationServiceProvider;
 use MicroweberPackages\Payment\Providers\PaymentManagerServiceProvider;
 use MicroweberPackages\Post\PostServiceProvider;
-use MicroweberPackages\Product\ProductServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryEventServiceProvider;
@@ -144,7 +143,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(CategoryServiceProvider::class);
         $this->app->register(CategoryEventServiceProvider::class);
         //$this->app->register(MenuServiceProvider::class);
-         $this->app->register(ProductServiceProvider::class);
+       //  $this->app->register(ProductServiceProvider::class);
         $this->app->register(PostServiceProvider::class);
         //$this->app->register(ContentDataServiceProvider::class);
         //$this->app->register(ContentDataVariantServiceProvider::class);

@@ -27,7 +27,7 @@ class ProductServiceProvider extends ServiceProvider
         Livewire::component('admin-products-list', ProductsList::class);
       // Livewire::component('admin-products-autocomplete', ProductsAutoComplete::class);
 
-        Product::observe(BaseModelObserver::class);
+       // Product::observe(BaseModelObserver::class);
       //  Product::observe(ProductObserver::class); ->moved to CustomFieldsTrait
 
         View::addNamespace('product', __DIR__ . '/resources/views');
