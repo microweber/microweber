@@ -226,7 +226,7 @@ if (!empty($template_config)) {
                         $relType = 'categories';
                     }
 
-                    $contentFieldModel = \MicroweberPackages\ContentField\Models\ContentField::where('rel_type', $relType)
+                    $contentFieldModel = \Modules\ContentField\Models\ContentField::where('rel_type', $relType)
                         ->where('rel_id', $params['content-id'])
                         ->where('field', $field['name'])
                         ->first();

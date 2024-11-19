@@ -1,0 +1,30 @@
+{
+    "name": "modules/contentfield",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ContentField\\": "",
+            "Modules\\ContentField\\Database\\Factories\\": "database/factories/",
+            "Modules\\ContentField\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\ContentField\\Tests\\": "Tests/"
+        }
+    }
+}

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\ContentField\Models;
+namespace Modules\ContentField\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;

@@ -6,7 +6,6 @@ use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\PowerJoins\PowerJoins;
 use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
-use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -15,6 +14,7 @@ use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use Modules\ContentData\Traits\ContentDataTrait;
+use Modules\ContentField\Concerns\HasContentFieldTrait;
 
 class Category extends Model
 {

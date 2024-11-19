@@ -1,0 +1,11 @@
+{
+    "name": "ContentField",
+    "alias": "contentfield",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ContentField\\Providers\\ContentFieldServiceProvider"
+    ],
+    "files": []
+}

@@ -1,7 +1,7 @@
 <?php
-namespace MicroweberPackages\ContentField\Traits;
+namespace Modules\ContentField\Concerns;
 
-use MicroweberPackages\ContentField\Models\ContentField;
+use Modules\ContentField\Models\ContentField;
 
 trait HasContentFieldTrait
 {

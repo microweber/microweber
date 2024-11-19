@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Content\Models\ContentRelated;
 use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
-use MicroweberPackages\ContentField\Traits\HasContentFieldTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
@@ -19,6 +18,7 @@ use MicroweberPackages\Database\Traits\ParentCannotBeSelfTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use Modules\ContentData\Traits\ContentDataTrait;
+use Modules\ContentField\Concerns\HasContentFieldTrait;
 use Modules\Menu\Concerns\HasMenuItem;
 use Modules\Tag\Traits\TaggableTrait;
 
