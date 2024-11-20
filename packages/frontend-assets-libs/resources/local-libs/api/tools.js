@@ -48,9 +48,7 @@ mw.tooltip = function (config) {
     return mw.tools.tooltip.init(config);
 };
 
-mw.gallery = function (arr, start, modal) {
-    return mw.tools.gallery.init(arr, start, modal)
-};
+
 
 
 
