@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Marketplace;
 
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -12,7 +11,7 @@ use MicroweberPackages\Admin\Facades\AdminManager;
 use MicroweberPackages\Admin\MenuBuilder\Link;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\MarketplaceItemModal;
-use MicroweberPackages\Marketplace\Http\Livewire\Filament\Admin\ListLicenses;
+use Modules\Marketplace\Filament\Admin\ListLicenses;
 
 class MarketplaceServiceProvider extends ServiceProvider
 {
@@ -24,7 +23,7 @@ class MarketplaceServiceProvider extends ServiceProvider
     public function boot()
     {
         Livewire::component('admin-list-licenses', ListLicenses::class);
-        Livewire::component('admin-marketplace', Marketplace::class);
+        //Livewire::component('admin-marketplace', Marketplace::class);
         Livewire::component('admin-marketplace-item-modal', MarketplaceItemModal::class);
 
         View::addNamespace('marketplace', __DIR__ . '/resources/views');

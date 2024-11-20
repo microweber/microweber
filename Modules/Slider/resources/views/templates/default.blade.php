@@ -6,10 +6,14 @@
 
 
             @if(!empty($slides))
+
+
+
+
             @foreach($slides as $slideKey => $slide)
                 <div class="swiper-slide" style="text-align: {{ isset($slide['alignItems']) && !empty($slide['alignItems']) ? $slide['alignItems'] : 'center' }};">
                     @if(isset($slide['image']) && !empty($slide['image']))
-                        <img src="{{ $slide['image'] }}" alt="{{ isset($slide['title']) && !empty($slide['title']) ? $slide['title'] : '' }}" class="slide-image">
+                        <img src="{{ $slide['image'] }}" alt="{{ isset($slide['title']) && !empty($slide['title']) ? $slide['title'] : '' }}" class="slide-image" />
                     @endif
                     <div class="slide-content">
                         @if(isset($slide['title']) && !empty($slide['title']))
@@ -38,7 +42,6 @@
             </div>
         @endif
 
-    ...
   </div>
 
   <div class="swiper-pagination"></div>

@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Marketplace\Models;
+namespace Modules\Marketplace\Models;
 
 
 use Carbon\Carbon;

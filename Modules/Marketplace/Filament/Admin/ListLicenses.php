@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Marketplace\Http\Livewire\Filament\Admin;
+namespace Modules\Marketplace\Filament\Admin;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -87,6 +87,6 @@ class ListLicenses extends Component implements HasForms, HasTable
 
     public function render(): View
     {
-        return view('marketplace::livewire.filament.admin.list-licenses');
+        return view('modules.marketplace::filament.admin.list-licenses');
     }
 }

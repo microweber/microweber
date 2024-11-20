@@ -1,0 +1,30 @@
+{
+    "name": "modules/marketplace",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Marketplace\\": "",
+            "Modules\\Marketplace\\Database\\Factories\\": "database/factories/",
+            "Modules\\Marketplace\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Marketplace\\Tests\\": "Tests/"
+        }
+    }
+}

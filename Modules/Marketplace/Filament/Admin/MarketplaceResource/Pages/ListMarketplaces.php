@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\Admin\Resources\MarketplaceResource\Pages;
+namespace Modules\Marketplace\Filament\Admin\MarketplaceResource\Pages;
 
-use App\Filament\Admin\Resources\MarketplaceResource;
 use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Modules\Marketplace\Filament\Admin\MarketplaceResource;
 
 class ListMarketplaces extends ListRecords
 {
@@ -26,7 +26,7 @@ class ListMarketplaces extends ListRecords
                 ->modalSubmitAction(false)
               //  ->modalCloseButton(false)
                 ->modalCancelAction(false)
-                ->modalContent(view('marketplace::livewire.filament.admin.show-list-licenses'))
+                ->modalContent(view('modules.marketplace::filament.admin.show-list-licenses'))
                 ->link()
                 ->color('secondary')
                 ->icon('mw-licenses'),

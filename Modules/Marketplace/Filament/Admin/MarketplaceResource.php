@@ -1,29 +1,22 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace Modules\Marketplace\Filament\Admin;
 
-use App\Filament\Admin\Resources\MarketplaceResource\Pages;
-use App\Filament\Admin\Resources\MarketplaceResource\RelationManagers;
+
 use Filament\Forms;
 use Filament\Forms\Form;
-
 use Filament\Forms\Get;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
-use Filament\Support\Enums\VerticalAlignment;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Filament\Tables\Columns\BadgesColumn;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
-use MicroweberPackages\Marketplace\Models\MarketplaceItem;
-use MicroweberPackages\Module\Models\Module;
 use MicroweberPackages\Package\MicroweberComposerClient;
-use function Clue\StreamFilter\fun;
+use Modules\Marketplace\Models\MarketplaceItem;
 
 class MarketplaceResource extends Resource
 {
@@ -287,7 +280,7 @@ class MarketplaceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListMarketplaces::route('/')
+            'index' => \Modules\Marketplace\Filament\Admin\MarketplaceResource\Pages\ListMarketplaces::route('/')
         ];
     }
 }

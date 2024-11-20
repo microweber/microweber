@@ -3,7 +3,7 @@
 namespace App\Filament\Admin\Pages;
 
 use Filament\Pages\Page;
-use MicroweberPackages\Marketplace\Models\MarketplaceItem;
+use Modules\Marketplace\Models\MarketplaceItem;
 
 class MarketplaceInstalledItem extends Page
 {
