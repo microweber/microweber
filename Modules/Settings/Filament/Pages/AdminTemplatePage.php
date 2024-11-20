@@ -18,7 +18,7 @@ class AdminTemplatePage extends Page
 
     protected static ?string $navigationIcon = 'mw-template';
 
-    protected static string $view = 'filament.admin.pages.settings-template';
+    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Template';
 

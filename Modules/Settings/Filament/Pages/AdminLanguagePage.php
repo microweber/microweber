@@ -8,7 +8,7 @@ class AdminLanguagePage extends AdminSettingsPage
 {
     protected static ?string $navigationIcon = 'mw-language';
 
-    protected static string $view = 'filament.admin.pages.settings-language';
+    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static ?string $title = 'Language';
 

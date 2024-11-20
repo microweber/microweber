@@ -15,7 +15,7 @@ class AdminEmailPage extends AdminSettingsPage
 {
     protected static ?string $navigationIcon = 'mw-email';
 
-    protected static string $view = 'filament.admin.pages.settings-email';
+    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static string $description = 'Configure your email settings';
 

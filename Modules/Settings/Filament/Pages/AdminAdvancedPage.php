@@ -16,7 +16,7 @@ class AdminAdvancedPage extends AdminSettingsPage
 {
     protected static ?string $navigationIcon = 'mw-advanced';
 
-    protected static string $view = 'filament.admin.pages.settings-advanced';
+    protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
 
     protected static string $description = 'Configure your advanced settings';
 
