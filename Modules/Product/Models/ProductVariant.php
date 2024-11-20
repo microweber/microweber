@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Product\Models;
 
-use MicroweberPackages\Content\Scopes\ProductVariantScope;
+use Modules\Content\Scopes\ProductVariantScope;
 use Modules\ContentDataVariant\Traits\ContentDataVariantTrait;
 
 class ProductVariant extends Product

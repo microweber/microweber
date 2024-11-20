@@ -9,8 +9,8 @@
 namespace MicroweberPackages\Order\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
+use Modules\Content\Models\ModelFilters\Traits\OrderByTrait;
 use Modules\Product\Models\Product;
 
 class OrderFilter extends ModelFilter

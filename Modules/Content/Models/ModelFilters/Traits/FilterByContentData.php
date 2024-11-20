@@ -6,13 +6,13 @@
  * Time: 3:42 PM
  */
 
-namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
+namespace Modules\Content\Models\ModelFilters\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-trait FilterByContentFields
+trait FilterByContentData
 {
-    public function contentFields($params)
+    public function contentData($params)
     {
         if (empty($params)) {
             return;
@@ -28,16 +28,16 @@ trait FilterByContentFields
                 continue;
             }
 
-            $this->query->whereHas('contentField', function (Builder $query) use ($key, $value) {
-                $query->where('field', '=', $key);
+            $this->query->whereHas('contentData', function (Builder $query) use ($key, $value) {
+                $query->where('field_name', '=', $key);
                 if (is_array($value)) {
                     $query->where(function ($query) use ($value) {
                         foreach ($value as $v){
-                              $query->orWhere('value', '=', $v);
+                              $query->orWhere('field_value', '=', $v);
                         }
                     });
                 } else {
-                    $query->where('value', '=', $value);
+                    $query->where('field_value', '=', $value);
                 }
             });
         }

@@ -10,11 +10,11 @@ namespace MicroweberPackages\Category\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use MicroweberPackages\Category\Models\ModelFilters\Traits\FilterByAvailableProductsByCategoryTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByStockTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
+use Modules\Content\Models\ModelFilters\Traits\OrderByTrait;
 
 class CategoryFilter extends ModelFilter
 {

@@ -13,7 +13,7 @@ namespace MicroweberPackages\Content;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Content\Repositories\ContentRepository;
-use Modules\Attributes\Repositories\AttributesManager;
+use Modules\ContentData\Repositories\DataFieldsManager;
 
 
 class ContentManagerServiceProvider extends ServiceProvider
@@ -51,7 +51,7 @@ class ContentManagerServiceProvider extends ServiceProvider
         });
 
         /**
-         * @property \MicroweberPackages\Content\DataFieldsManager    $data_fields_manager
+         * @property \Modules\ContentData\Repositories\DataFieldsManager    $data_fields_manager
          */
         $this->app->singleton('data_fields_manager', function ($app) {
             return new DataFieldsManager();

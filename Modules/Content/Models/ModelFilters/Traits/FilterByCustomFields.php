@@ -6,9 +6,7 @@
  * Time: 3:42 PM
  */
 
-namespace MicroweberPackages\Content\Models\ModelFilters\Traits;
-
-use Illuminate\Database\Eloquent\Builder;
+namespace Modules\Content\Models\ModelFilters\Traits;
 
 trait FilterByCustomFields
 {

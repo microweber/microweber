@@ -9,13 +9,9 @@
 namespace MicroweberPackages\User\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
-use MicroweberPackages\Helper\XSSClean;
-use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
-use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
+use Modules\Content\Models\ModelFilters\Traits\OrderByTrait;
 
 class UserFilter extends ModelFilter
 {

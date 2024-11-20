@@ -9,10 +9,9 @@
 namespace MicroweberPackages\Cart\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
 
 class CartFilter extends ModelFilter
 {

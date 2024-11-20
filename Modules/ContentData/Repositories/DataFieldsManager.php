@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content;
+namespace Modules\ContentData\Repositories;
 
 use MicroweberPackages\Database\Crud;
 
@@ -12,7 +12,7 @@ class DataFieldsManager extends Crud
     public $table = 'content_data';
 
 
-    public function get_values($params)
+    public function getValues($params)
     {
         $get = [];
         if (isset($params['content_id'])) {
@@ -89,4 +89,6 @@ class DataFieldsManager extends Crud
 
         return $save;
     }
+
+
 }

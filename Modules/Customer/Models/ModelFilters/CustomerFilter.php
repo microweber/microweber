@@ -9,7 +9,7 @@
 namespace Modules\Customer\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
 
 class CustomerFilter extends ModelFilter
 {

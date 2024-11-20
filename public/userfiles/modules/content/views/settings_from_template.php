@@ -21,7 +21,7 @@ if (!empty($template_config)) {
 
 
             } else if (isset($params['category-id'])) {
-                $data_fields_values = mw()->data_fields_manager->get_values('rel_type=category&rel_id=' . $params['category-id']);
+                $data_fields_values = mw()->data_fields_manager->getValues('rel_type=category&rel_id=' . $params['category-id']);
             }
         }
 

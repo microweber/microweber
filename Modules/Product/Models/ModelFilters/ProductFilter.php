@@ -8,28 +8,27 @@
 
 namespace Modules\Product\Models\ModelFilters;
 
-use MicroweberPackages\Content\Models\ModelFilters\ContentFilter;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByAuthor;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCategory;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentData;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByContentFields;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByCustomFields;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByOffersTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByOrdersTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPage;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByPriceTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByQtyTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByStockTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByTrashedTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\FilterByVisibleTrait;
-use MicroweberPackages\Content\Models\ModelFilters\Traits\OrderByTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByAuthor;
+use Modules\Content\Models\ModelFilters\Traits\FilterByCategory;
+use Modules\Content\Models\ModelFilters\Traits\FilterByContentData;
+use Modules\Content\Models\ModelFilters\Traits\FilterByContentFields;
+use Modules\Content\Models\ModelFilters\Traits\FilterByCustomFields;
+use Modules\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByOffersTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByOrdersTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByPage;
+use Modules\Content\Models\ModelFilters\Traits\FilterByPriceTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByQtyTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByStockTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByTagsTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByTitleTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByTrashedTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByUrlTrait;
+use Modules\Content\Models\ModelFilters\Traits\FilterByVisibleTrait;
+use Modules\Content\Models\ModelFilters\Traits\OrderByTrait;
 
-class ProductFilter extends ContentFilter
+class ProductFilter extends \Modules\Content\Models\ModelFilters\ContentFilter
 {
     use OrderByTrait;
     use FilterByAuthor;

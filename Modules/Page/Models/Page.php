@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Page\Models;
 
-use MicroweberPackages\Content\Scopes\PageScope;
+use Modules\Content\Scopes\PageScope;
 
 
 class Page extends \Modules\Content\Models\Content

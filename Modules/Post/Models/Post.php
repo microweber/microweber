@@ -2,7 +2,7 @@
 namespace Modules\Post\Models;
 
 use MicroweberPackages\Blog\FrontendFilter\BlogFilter;
-use MicroweberPackages\Content\Scopes\PostScope;
+use Modules\Content\Scopes\PostScope;
 
 class Post extends \Modules\Content\Models\Content
 {

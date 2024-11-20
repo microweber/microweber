@@ -1,12 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Content\Scopes;
+namespace Modules\Content\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 
-class ProductVariantScope implements Scope
+class PostScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
@@ -17,6 +17,6 @@ class ProductVariantScope implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->where('content_type', '=', 'product_variant');
+        $builder->where('content_type', '=', 'post');
     }
 }

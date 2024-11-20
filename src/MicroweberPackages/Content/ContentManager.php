@@ -147,7 +147,7 @@ class ContentManager
     public function get_by_id($id)
     {
 
-        return \MicroweberPackages\Content\Facades\ContentManager::getById($id);
+        return app()->content_repository->getById($id);
 
     }
 
@@ -277,7 +277,7 @@ class ContentManager
     {
         $data = array();
         $data['content_id'] = intval($content_id);
-        $values = $this->app->data_fields_manager->get_values($data);
+        $values = $this->app->data_fields_manager->getValues($data);
 
         if ($field_name) {
             if (isset($values[$field_name])) {
