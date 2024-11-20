@@ -181,7 +181,7 @@ if(typeof mw.rotator === 'undefined'){
           }, int);
           return rotator;
         }
-        if($(holder).children('.active').size()===0){
+        if($(holder).children('.active').length===0){
            rotator.goto(0);
         }
 
