@@ -10,6 +10,11 @@ return new class() extends Migration {
      */
     public function up(): void
     {
+        if(Schema::hasTable('attributes')) {
+            return;
+        }
+
+
         Schema::create('attributes', function (Blueprint $table) {
             $table->id();
             $table->text('attribute_name')->nullable();

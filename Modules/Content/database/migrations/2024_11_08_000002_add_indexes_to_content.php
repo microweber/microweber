@@ -5,9 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-class AddIndexesToContent extends Migration
+return new class extends Migration
 {
-    use \MicroweberPackages\Database\Traits\Schema\BlueprintHasIndexTrait;
 
     public $indexes = [
         'parent',
@@ -77,4 +76,4 @@ class AddIndexesToContent extends Migration
     }
 
 
-}
+};

@@ -9,7 +9,7 @@ namespace MicroweberPackages\Content\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
-use MicroweberPackages\Content\Repositories\ContentRepository;
+use Modules\Content\Repositories\ContentRepository;
 
 class ContentController extends AdminController
 {

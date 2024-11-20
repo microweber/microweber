@@ -1,12 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Content\tests;
+namespace Modules\Content\Tests\Unit;
 
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Core\tests\TestCase;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-#[RunTestsInSeparateProcesses]
+
 class ContentOriginalLinkTest extends TestCase
 {
 

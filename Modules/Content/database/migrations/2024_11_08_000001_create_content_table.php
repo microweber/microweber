@@ -54,7 +54,7 @@ return new class extends Migration {
             $table->integer('draft_of')->nullable();
             $table->integer('copy_of')->nullable();
 
-            //  $table->index(['url', 'title']);
+            $table->index(['url', 'title']);
         });
     }
 

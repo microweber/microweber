@@ -2,9 +2,9 @@
 namespace Modules\Content\Support;
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Database\Crud;
 use Modules\Content\Models\Content;
+use Modules\Content\Repositories\ContentRepository;
 
 
 /**

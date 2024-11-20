@@ -2,8 +2,9 @@
 
 namespace MicroweberPackages\Microweber\tests;
 
-use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Content\Tests\Unit\TestHelpers;
+
 /**
  * @deprecated
  */

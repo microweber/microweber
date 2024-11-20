@@ -3,8 +3,8 @@
 namespace MicroweberPackages\Template\tests;
 
 
-use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Content\Tests\Unit\TestHelpers;
 
 class BootstrapTemplateLayoutTest extends TestCase
 {

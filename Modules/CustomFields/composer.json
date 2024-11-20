@@ -1,0 +1,30 @@
+{
+    "name": "modules/customfields",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CustomFields\\": "",
+            "Modules\\CustomFields\\Database\\Factories\\": "database/factories/",
+            "Modules\\CustomFields\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\CustomFields\\Tests\\": "Tests/"
+        }
+    }
+}

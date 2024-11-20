@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Content\Services;
 
 use MicroweberPackages\Content\Contracts\ContentManagerInterface;
-use MicroweberPackages\Content\Repositories\ContentRepository;
+use Modules\Content\Repositories\ContentRepository;
 
 class ContentManager implements ContentManagerInterface
 {
@@ -19,7 +19,7 @@ class ContentManager implements ContentManagerInterface
 
 
     /**
-     * @return ContentRepository
+     * @return \Modules\Content\Repositories\ContentRepository
      */
     public function getRepository(): ContentRepository
     {
@@ -27,7 +27,7 @@ class ContentManager implements ContentManagerInterface
     }
 
     /**
-     * @param ContentRepository $repository
+     * @param \Modules\Content\Repositories\ContentRepository $repository
      */
     public function setRepository(ContentRepository $repository): void
     {

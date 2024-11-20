@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Microweber\tests;
 
-use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Core\tests\TestCase;
+
 /**
  * @deprecated
  */

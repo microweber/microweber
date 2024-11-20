@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content;
+namespace Modules\Content\Repositories;
 
 use Content;
 use Illuminate\Pagination\LengthAwarePaginator;

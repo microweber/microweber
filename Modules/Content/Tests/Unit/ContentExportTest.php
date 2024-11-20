@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Content\tests;
+namespace Modules\Content\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Utils\Misc\ContentExport;

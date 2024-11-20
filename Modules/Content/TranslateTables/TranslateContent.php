@@ -7,8 +7,8 @@
  */
 namespace Modules\Content\TranslateTables;
 
-use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Multilanguage\TranslateTable;
+use Modules\Content\Repositories\ContentRepository;
 
 class TranslateContent extends TranslateTable {
 

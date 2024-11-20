@@ -3,7 +3,7 @@
 namespace Tests\Browser\Admin;
 
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Content\tests\TestHelpers;
+use Modules\Content\Tests\Unit\TestHelpers;
 use Modules\Product\Models\Product;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;

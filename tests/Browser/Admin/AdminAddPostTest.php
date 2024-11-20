@@ -4,7 +4,7 @@ namespace Tests\Browser\Admin;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Content\tests\TestHelpers;
+use Modules\Content\Tests\Unit\TestHelpers;
 use Modules\Post\Models\Post;
 use Tests\Browser\Components\AdminContentCategorySelect;
 use Tests\Browser\Components\AdminContentCustomFieldAdd;

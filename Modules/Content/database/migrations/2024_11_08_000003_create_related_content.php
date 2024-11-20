@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 
-class CreateRelatedContent extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRelatedContent extends Migration
     public function up()
     {
 
-        if(Schema::hasTable('content_related')) {
+        if (Schema::hasTable('content_related')) {
             return;
         }
 
@@ -39,4 +38,4 @@ class CreateRelatedContent extends Migration
     {
         Schema::dropIfExists('content_related');
     }
-}
+};

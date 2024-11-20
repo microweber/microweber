@@ -3,9 +3,9 @@
 namespace MicroweberPackages\Modules\Posts\tests\Browser;
 
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\Form\Models\FormData;
 use MicroweberPackages\Form\Models\FormDataValue;
+use Modules\Content\Tests\Unit\TestHelpers;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 

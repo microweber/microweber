@@ -5,7 +5,7 @@ namespace Tests\Browser\Multilanguage;
 use Faker\Factory;
 use Laravel\Dusk\Browser;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Content\tests\TestHelpers;
+use Modules\Content\Tests\Unit\TestHelpers;
 use Tests\Browser\Components\AdminCategoryMultilanguage;
 use Tests\Browser\Components\AdminContentImageAdd;
 use Tests\Browser\Components\AdminContentMultilanguage;

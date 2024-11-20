@@ -1,7 +1,5 @@
 <?php
-namespace MicroweberPackages\Content\tests;
-
-use Modules\Product\Models\Product;
+namespace Modules\Content\Tests\Unit;
 
 trait TestHelpers {
     private function _generateCategory($url, $title, $pageId)

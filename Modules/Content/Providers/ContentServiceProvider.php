@@ -2,17 +2,16 @@
 
 namespace Modules\Content\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
-use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Filament\ContentModuleSettings;
 use Modules\Content\Filament\ContentTableList;
 use Modules\Content\Microweber\ContentModule;
+use Modules\Content\Repositories\ContentManager;
+use Modules\Content\Repositories\ContentRepository;
 use Modules\Content\TranslateTables\TranslateContent;
 use Modules\Content\TranslateTables\TranslateContentFields;
 
@@ -42,9 +41,32 @@ class ContentServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
 
+
+
+
+
+        /**
+         * @property \Modules\Content\Repositories\ContentRepository   $content_repository
+         */
+        $this->app->bind('content_repository', function ($app) {
+            return new ContentRepository();
+        });
+
+
+        /**
+         * @property \Modules\Content\Repositories\ContentManager    $content_manager
+         */
+        $this->app->singleton('content_manager', function ($app) {
+            return new ContentManager();
+        });
+
+
+
         Livewire::component('modules.content.filament.content-table-list', ContentTableList::class);
         FilamentRegistry::registerResource(ContentResource::class);
         FilamentRegistry::registerPage(ContentModuleSettings::class);
         Microweber::module(ContentModule::class);
+
+
     }
 }

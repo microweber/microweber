@@ -4,7 +4,7 @@ namespace MicroweberPackages\MetaTags\tests\Browser;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Content\tests\TestHelpers;
+use Modules\Content\Tests\Unit\TestHelpers;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\Browser\Components\LiveEditWaitUntilLoaded;

@@ -1,12 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Content\tests;
+namespace Modules\Content\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-#[RunTestsInSeparateProcesses]
+
 class ContentTest extends TestCase
 {
     public function testPosts()

@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\MetaTags\tests;
 
-use MicroweberPackages\Content\tests\TestHelpers;
 use MicroweberPackages\User\Models\User;
+use Modules\Content\Tests\Unit\TestHelpers;
 
 class TemplateMetaTagsSeoTagsTest extends \MicroweberPackages\Core\tests\TestCase
 {
