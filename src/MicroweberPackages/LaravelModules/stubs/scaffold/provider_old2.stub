@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
-
+use Modules\$MODULE$\Filament\$MODULE$ModuleSettings;
+use Modules\$MODULE$\Microweber\$MODULE$Module;
 
 class $CLASS$ extends BaseModuleServiceProvider
 {
@@ -38,10 +39,10 @@ class $CLASS$ extends BaseModuleServiceProvider
 
 
         // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage($MODULE$ModuleSettings::class);
+        FilamentRegistry::registerPage($MODULE$ModuleSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\$MODULE$\Microweber\$MODULE$Module::class);
+        Microweber::module(\Modules\$MODULE$\Microweber\$MODULE$Module::class);
 
     }
 

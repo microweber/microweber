@@ -6,10 +6,10 @@ namespace MicroweberPackages\Content;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Category\Models\CategoryItem;
-use MicroweberPackages\Content\Models\ContentRelated;
 use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Content\Models\ContentRelated;
 use Modules\Menu\Models\Menu;
 use Modules\Menu\Models\MenuItem;
 

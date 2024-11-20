@@ -146,7 +146,7 @@ return [
             'traits' => ['path' => 'Traits', 'generate' => false],
 
             // Http/
-            'controller' => ['path' => 'Http/Controllers', 'generate' => true],
+            'controller' => ['path' => 'Http/Controllers', 'generate' => false],
             'filter' => ['path' => 'Http/Middleware', 'generate' => false],
             'request' => ['path' => 'Http/Requests', 'generate' => false],
 
@@ -163,11 +163,11 @@ return [
 
             // resource/
             'assets' => ['path' => 'resources/assets', 'generate' => true],
-            'component-view' => ['path' => 'resources/views/components', 'generate' => true],
+            'component-view' => ['path' => 'resources/views/components', 'generate' => false],
             'views' => ['path' => 'resources/views', 'generate' => true],
 
             // routes/
-            'routes' => ['path' => 'routes', 'generate' => true],
+            'routes' => ['path' => 'routes', 'generate' => false],
 
             // tests/
             'test-feature' => ['path' => 'Tests/Feature', 'generate' => false],

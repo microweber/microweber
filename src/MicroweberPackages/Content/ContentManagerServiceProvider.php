@@ -13,6 +13,7 @@ namespace MicroweberPackages\Content;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Content\Repositories\ContentRepository;
+use Modules\Attributes\Repositories\AttributesManager;
 
 
 class ContentManagerServiceProvider extends ServiceProvider
@@ -56,12 +57,6 @@ class ContentManagerServiceProvider extends ServiceProvider
             return new DataFieldsManager();
         });
 
-        /**
-         * @property \MicroweberPackages\Content\AttributesManager    $attributes_manager
-         */
-        $this->app->singleton('attributes_manager', function ($app) {
-            return new AttributesManager();
-        });
 
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');

@@ -301,7 +301,7 @@ class ContentManager
         $data['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
         $data['rel_id'] = intval($content_id);
 
-        return $this->app->attributes_manager->get_values($data);
+        return $this->app->attributes_manager->getValues($data);
     }
 
     /**
