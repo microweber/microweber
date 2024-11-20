@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content;
+namespace Modules\Content\Support;
 
 
 use Illuminate\Support\Facades\DB;
@@ -13,7 +13,9 @@ use Modules\Content\Models\ContentRelated;
 use Modules\Menu\Models\Menu;
 use Modules\Menu\Models\MenuItem;
 
-
+/**
+ * @deprecated Legacy class, should not be used in new code
+ */
 class ContentManagerHelpers extends ContentManagerCrud
 {
     public function add_content_to_menu($content_id, $menu_id = false)

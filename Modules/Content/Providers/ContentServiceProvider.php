@@ -13,6 +13,8 @@ use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Filament\ContentModuleSettings;
 use Modules\Content\Filament\ContentTableList;
 use Modules\Content\Microweber\ContentModule;
+use Modules\Content\TranslateTables\TranslateContent;
+use Modules\Content\TranslateTables\TranslateContentFields;
 
 class ContentServiceProvider extends BaseModuleServiceProvider
 {
@@ -25,6 +27,9 @@ class ContentServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        app()->translate_manager->addTranslateProvider(TranslateContent::class);
+        app()->translate_manager->addTranslateProvider(TranslateContentFields::class);
+
     }
 
     /**

@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Content\\Providers\\ContentServiceProvider"
     ],
-    "files": []
+    "files": ["Support/content_functions.php"]
 }

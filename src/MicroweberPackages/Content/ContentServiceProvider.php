@@ -7,9 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentBulkOptions;
 use MicroweberPackages\Content\Http\Livewire\Admin\ContentList;
-use MicroweberPackages\Content\TranslateTables\TranslateContent;
-use MicroweberPackages\Content\TranslateTables\TranslateContentFields;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
+use Modules\Content\TranslateTables\TranslateContent;
+use Modules\Content\TranslateTables\TranslateContentFields;
 
 /**
  * Class ConfigSaveServiceProvider
@@ -33,8 +33,6 @@ class ContentServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app()->translate_manager->addTranslateProvider(TranslateContent::class);
-        app()->translate_manager->addTranslateProvider(TranslateContentFields::class);
 
         \Modules\Content\Models\Content::observe(BaseModelObserver::class);
         //  Content::observe(CreatedByObserver::class);

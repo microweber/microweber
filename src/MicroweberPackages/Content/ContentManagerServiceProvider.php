@@ -50,14 +50,6 @@ class ContentManagerServiceProvider extends ServiceProvider
             return new ContentManager();
         });
 
-        /**
-         * @property \Modules\ContentData\Repositories\DataFieldsManager    $data_fields_manager
-         */
-        $this->app->singleton('data_fields_manager', function ($app) {
-            return new DataFieldsManager();
-        });
-
-
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }

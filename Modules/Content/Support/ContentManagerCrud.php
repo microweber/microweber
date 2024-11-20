@@ -1,11 +1,15 @@
 <?php
-namespace MicroweberPackages\Content;
+namespace Modules\Content\Support;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Content\Repositories\ContentRepository;
 use MicroweberPackages\Database\Crud;
 use Modules\Content\Models\Content;
 
+
+/**
+ * @deprecated Legacy class, should not be used in new code
+ */
 class ContentManagerCrud extends Crud
 {
     /** @var \MicroweberPackages\App\LaravelApplication */

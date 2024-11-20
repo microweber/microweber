@@ -6,13 +6,18 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\ContentData\Repositories\DataFieldsManager;
+use Modules\ContentData\TranslateTables\TranslateContentData;
 
 class ContentDataServiceProvider extends BaseModuleServiceProvider
 {
     protected string $moduleName = 'ContentData';
 
     protected string $moduleNameLower = 'contentdata';
-
+    public function boot()
+    {
+        app()->translate_manager->addTranslateProvider(TranslateContentData::class);
+    }
 
     /**
      * Register the service provider.
@@ -24,11 +29,16 @@ class ContentDataServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        /**
+         * @property \Modules\ContentData\Repositories\DataFieldsManager    $data_fields_manager
+         */
+        $this->app->singleton('data_fields_manager', function ($app) {
+            return new DataFieldsManager();
+        });
+
+
 
     }
 
-    public function boot()
-    {
-         $this->app->translate_manager->addTranslateProvider(TranslateContentData::class);
-    }
+
 }

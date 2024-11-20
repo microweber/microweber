@@ -10,9 +10,15 @@ use Nwidart\Modules\Json;
 class StaticModuleCreator
 {
     public static $modulesCache = [];
+    public static $loadedFilesFromComposerCache = [];
 
     public static function createModule(...$args)
     {
+
+        if (empty(self::$loadedFilesFromComposerCache)) {
+            $loadedFilesFromComposer = get_included_files();
+            self::$loadedFilesFromComposerCache = $loadedFilesFromComposer;
+        }
 
 
         $app = $args[0];
@@ -96,7 +102,6 @@ class StaticModuleCreator
 
             return;
         }
-
         foreach ($autoloadNamespaces as $autoloadNamespace => $autoloadNamespacePath) {
             $autoloadNamespace = trim($autoloadNamespace, '\\');
             $autoloadNamespacePathFull = str_replace(['\\', '/'], [DS, DS], $path . DS . $autoloadNamespacePath);
@@ -108,13 +113,19 @@ class StaticModuleCreator
             SplClassLoader::addNamespace($namespace, $dirname);
 
 
-
-
         }
 
+
         foreach ($autoloadFiles as $autoloadFile) {
-            if (is_file($path . DS . $autoloadFile)) {
+            $filePath = $path . DS . $autoloadFile;
+            $filePathDS = str_replace(['\\', '/'], [DS, DS], $filePath);
+
+            if (is_file($filePath)) {
                 if (str_ends_with($autoloadFile, '.php')) {
+                    if(in_array($filePathDS, self::$loadedFilesFromComposerCache)){
+                        continue;
+                    }
+
                     include_once $path . DS . $autoloadFile;
                 } else {
                     continue;

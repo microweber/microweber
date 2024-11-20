@@ -6,6 +6,8 @@ use Content;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Modules\Content\Support\ContentManagerCrud;
+use Modules\Content\Support\ContentManagerHelpers;
 
 
 /**
