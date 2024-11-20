@@ -54,14 +54,8 @@ class CategoryServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../migrations/');
 
 
-        $this->app->translate_manager->addTranslateProvider(TranslateCategory::class);
 
-        /**
-         * @property \MicroweberPackages\Category\CategoryManager    $category_manager
-         */
-        $this->app->singleton('category_manager', function ($app) {
-            return new CategoryManager();
-        });
+
 
         Category::observe(BaseModelObserver::class);
         CategoryItem::observe(BaseModelObserver::class);

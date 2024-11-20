@@ -1,11 +1,12 @@
 {
     "name": "CustomFields",
-    "alias": "customfields",
+    "alias": "custom_fields",
     "description": "",
     "keywords": [],
     "priority": 0,
     "providers": [
         "Modules\\CustomFields\\Providers\\CustomFieldsServiceProvider"
     ],
-    "files": []
+    "files": ["Support/custom_fields_functions.php"]
+
 }

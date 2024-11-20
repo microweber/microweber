@@ -17,13 +17,10 @@ use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Cart\CartManagerServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
-use MicroweberPackages\Category\Providers\CategoryEventServiceProvider;
+
 use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
-use MicroweberPackages\Content\ContentManagerServiceProvider;
-use MicroweberPackages\Content\ContentServiceProvider;
-use MicroweberPackages\CustomField\Providers\CustomFieldEventServiceProvider;
-use MicroweberPackages\CustomField\Providers\CustomFieldServiceProvider;
+
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
@@ -49,7 +46,7 @@ use MicroweberPackages\Offer\Providers\OfferServiceProvider;
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
 use MicroweberPackages\Order\Providers\OrderEventServiceProvider;
 use MicroweberPackages\Order\Providers\OrderServiceProvider;
-use MicroweberPackages\Page\PageServiceProvider;
+
 use MicroweberPackages\Pagination\PaginationServiceProvider;
 use MicroweberPackages\Payment\Providers\PaymentManagerServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
@@ -135,11 +132,11 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(EventManagerServiceProvider::class);
         $this->app->register(ModuleServiceProvider::class);
 
-        $this->app->register(PageServiceProvider::class);
-        $this->app->register(ContentServiceProvider::class);
-        $this->app->register(ContentManagerServiceProvider::class);
-        $this->app->register(CategoryServiceProvider::class);
-        $this->app->register(CategoryEventServiceProvider::class);
+       // $this->app->register(PageServiceProvider::class);
+//        $this->app->register(ContentServiceProvider::class);
+//        $this->app->register(ContentManagerServiceProvider::class);
+      $this->app->register(CategoryServiceProvider::class);
+//        $this->app->register(CategoryEventServiceProvider::class);
         //$this->app->register(MenuServiceProvider::class);
        //  $this->app->register(ProductServiceProvider::class);
         //$this->app->register(PostServiceProvider::class);
@@ -147,8 +144,8 @@ class MicroweberServiceProvider extends ServiceProvider
         //$this->app->register(ContentDataVariantServiceProvider::class);
         //$this->app->register(ContentDataEventServiceProvider::class);
       //  $this->app->register(ContentFieldServiceProvider::class);
-        $this->app->register(CustomFieldServiceProvider::class);
-        $this->app->register(CustomFieldEventServiceProvider::class);
+        //$this->app->register(CustomFieldServiceProvider::class);
+        //$this->app->register(CustomFieldEventServiceProvider::class);
         $this->app->register(TemplateEventServiceProvider::class);
 
         //$this->app->register(DatabaseManagerServiceProvider::class);

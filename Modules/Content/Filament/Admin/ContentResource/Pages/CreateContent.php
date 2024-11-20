@@ -20,7 +20,7 @@ class CreateContent extends CreateRecord
 
     public $activeLocale;
 
-//    protected static string $view = 'content::admin.content.filament.create-record';
+//    protected static string $view = 'modules.content::filament.admin.create-record';
 
 
     protected static string $resource = ContentResource::class;

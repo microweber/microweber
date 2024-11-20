@@ -152,7 +152,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $panel->renderHook(
             name: \Filament\Tables\View\TablesRenderHook::TOOLBAR_SEARCH_BEFORE,
-            hook: fn(): string => view('content::admin.content.filament.list-records-render-category-tree'),
+            hook: fn(): string => view('modules.content::filament.admin.list-records-render-category-tree'),
             scopes: [
                 \Modules\Content\Filament\Admin\ContentResource\Pages\ListContents::class,
                 \Modules\Post\Filament\Admin\Resources\PostResource\Pages\ListPosts::class,

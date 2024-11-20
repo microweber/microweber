@@ -21,7 +21,7 @@ class EditContent extends EditRecord
 
     public $activeLocale;
 
-//    protected static string $view = 'content::admin.content.filament.edit-record';
+//    protected static string $view = 'modules.content::filament.admin.edit-record';
 
     protected static string $resource = ContentResource::class;
 
