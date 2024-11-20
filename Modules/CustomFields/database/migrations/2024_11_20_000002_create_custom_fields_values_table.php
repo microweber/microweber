@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->id();
             $table->integer('custom_field_id')->nullable();
             $table->text('value')->nullable();
+            $table->integer('price_modifier')->nullable();
             $table->integer('position')->nullable();
             $table->timestamps();
 

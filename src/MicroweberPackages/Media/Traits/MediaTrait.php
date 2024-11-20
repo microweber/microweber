@@ -3,7 +3,6 @@
 namespace MicroweberPackages\Media\Traits;
 
 use Illuminate\Support\Facades\Session;
-use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Media\Models\Media;
 
 

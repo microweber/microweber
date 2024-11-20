@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Concerns\HasEvents;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Category\Traits\CategoryTrait;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
-use MicroweberPackages\CustomField\Traits\CustomFieldsTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
@@ -18,6 +17,7 @@ use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use Modules\Content\Models\ModelFilters\ContentFilter;
 use Modules\ContentData\Traits\ContentDataTrait;
 use Modules\ContentField\Concerns\HasContentFieldTrait;
+use Modules\CustomFields\Traits\CustomFieldsTrait;
 use Modules\Menu\Concerns\HasMenuItem;
 use Modules\Tag\Traits\TaggableTrait;
 

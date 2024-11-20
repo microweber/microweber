@@ -4,8 +4,8 @@ namespace MicroweberPackages\Database\tests;
 
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use Modules\Content\Models\Content;
+use Modules\CustomFields\Models\CustomFieldValue;
 
 class DbTest extends TestCase
 {

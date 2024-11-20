@@ -1,7 +1,6 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -35,7 +34,7 @@ return new class extends Migration
 
                             // try to find field type from custom fields by name_key
                             if ($dataKey) {
-                                $findCf = (new \MicroweberPackages\CustomField\Models\CustomField())->where('name_key',$fieldKey)->first();
+                                $findCf = (new \Modules\CustomFields\Models\CustomField())->where('name_key',$fieldKey)->first();
                                 if($findCf and isset($findCf->type)){
                                     $formDataValue->field_type = $findCf->type;
                                 }

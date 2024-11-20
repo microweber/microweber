@@ -2,16 +2,6 @@
 
 namespace MicroweberPackages\Multilanguage;
 
-use MicroweberPackages\CustomField\Fields\Checkbox;
-use MicroweberPackages\FormBuilder\Elements\Color;
-use MicroweberPackages\FormBuilder\Elements\Date;
-use MicroweberPackages\FormBuilder\Elements\Email;
-use MicroweberPackages\FormBuilder\Elements\File;
-use MicroweberPackages\FormBuilder\Elements\Label;
-use MicroweberPackages\FormBuilder\Elements\Number;
-use MicroweberPackages\FormBuilder\Elements\RadioButton;
-use MicroweberPackages\FormBuilder\Elements\Range;
-use MicroweberPackages\FormBuilder\Elements\Select;
 use MicroweberPackages\FormBuilder\FormElementBuilder;
 use MicroweberPackages\Multilanguage\FormElements\FileOption;
 use MicroweberPackages\Multilanguage\FormElements\MwEditor;

@@ -15,7 +15,6 @@ use MicroweberPackages\Category\CategoryManager;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\CustomField\FieldsManager;
-use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
 use MicroweberPackages\Database\DatabaseManager;
 use MicroweberPackages\Event\Event;
 use MicroweberPackages\Helper\Format;
@@ -49,6 +48,7 @@ use Modules\Attributes\Repositories\AttributesManager;
 use Modules\Content\Repositories\ContentManager;
 use Modules\Content\Repositories\ContentRepository;
 use Modules\ContentData\Repositories\DataFieldsManager;
+use Modules\CustomFields\Repositories\CustomFieldRepository;
 use Modules\Menu\Repositories\MenuRepository;
 use Modules\Payment\PaymentMethodManager;
 use Modules\Shipping\ShippingManager;
@@ -81,7 +81,7 @@ use Modules\Shipping\ShippingMethodManager;
  * @property CartRepository         $cart_repository
  * @property OrderManager             $order_manager
  * @property OrderRepository    $order_repository
- * @property CustomFieldRepository $custom_field_repository
+ * @property \Modules\CustomFields\Repositories\CustomFieldRepository $custom_field_repository
  * @property OfferRepository             $offer_repository
  * @property \Modules\Tax\TaxManager               $tax_manager
  * @property CheckoutManager          $checkout_manager

@@ -3,7 +3,7 @@
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-use MicroweberPackages\CustomField\Models\CustomField;
+use Modules\CustomFields\Models\CustomField;
 
 class CustomFieldsListComponent extends AdminComponent
 {

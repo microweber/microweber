@@ -10,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\CustomField\Models\CustomField;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
@@ -18,6 +17,7 @@ use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\RelationMana
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Widgets\OrderStats;
 use MicroweberPackages\Order\Models\Order;
 use Modules\Content\Models\Content;
+use Modules\CustomFields\Models\CustomField;
 use Modules\Product\Models\Product;
 use Squire\Models\Country;
 

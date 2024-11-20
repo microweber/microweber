@@ -5,15 +5,10 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\CustomField\FieldsManager;
-use MicroweberPackages\CustomField\Http\Livewire\CustomFieldAddModalComponent;
-use MicroweberPackages\CustomField\Http\Livewire\CustomFieldEditModalComponent;
-use MicroweberPackages\CustomField\Http\Livewire\CustomFieldsListComponent;
 use MicroweberPackages\CustomField\Http\Livewire\Filament\Admin\ListCustomFields;
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Repositories\CustomFieldRepository;
-use MicroweberPackages\CustomField\TranslateTables\TranslateCustomFields;
-use MicroweberPackages\CustomField\TranslateTables\TranslateCustomFieldsValues;
-use MicroweberPackages\Marketplace\Http\Livewire\Filament\Admin\ListLicenses;
+use Modules\CustomFields\Repositories\CustomFieldRepository;
+use Modules\CustomFields\TranslateTables\TranslateCustomFields;
+use Modules\CustomFields\TranslateTables\TranslateCustomFieldsValues;
 
 
 class CustomFieldServiceProvider extends ServiceProvider

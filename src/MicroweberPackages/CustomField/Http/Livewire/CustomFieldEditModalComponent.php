@@ -2,11 +2,9 @@
 
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Admin\Http\Livewire\AdminMwTopDialogIframeComponent;
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
-use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\CustomFields\Models\CustomField;
+use Modules\CustomFields\Models\CustomFieldValue;
 
 class CustomFieldEditModalComponent extends AdminMwTopDialogIframeComponent
 {

@@ -2,9 +2,6 @@
 
 namespace MicroweberPackages\CustomField\tests;
 
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
-use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\tests\MultilanguageTestBase;
 
 class CustomFieldMultilanguageTest extends MultilanguageTestBase
@@ -92,7 +89,7 @@ class CustomFieldMultilanguageTest extends MultilanguageTestBase
 
 
         // Try to edit the custom field existing multilanguage value
-        $findCustomFieldValue = \MicroweberPackages\CustomField\Models\CustomFieldValue::find($customFieldValueId);
+        $findCustomFieldValue = \Modules\CustomFields\Models\CustomFieldValue::find($customFieldValueId);
         $findCustomFieldValue->value = 'This is the NEW custom field value - EN';
 
         $multilanguage = [];
@@ -101,7 +98,7 @@ class CustomFieldMultilanguageTest extends MultilanguageTestBase
         $findCustomFieldValue->multilanguage = $multilanguage;
         $findCustomFieldValue->save();
 
-        $findCustomFieldValue = \MicroweberPackages\CustomField\Models\CustomFieldValue::find($customFieldValueId);
+        $findCustomFieldValue = \Modules\CustomFields\Models\CustomFieldValue::find($customFieldValueId);
         $this->assertEquals('This is the NEW custom field value - EN', $findCustomFieldValue->value);
 
         $translations = $findCustomFieldValue->getTranslationsFormated();
@@ -114,7 +111,7 @@ class CustomFieldMultilanguageTest extends MultilanguageTestBase
 
     public function testAddCustomField()
     {
-        $newCustomField = new \MicroweberPackages\CustomField\Models\CustomField();
+        $newCustomField = new \Modules\CustomFields\Models\CustomField();
         $newCustomField->rel_type = 'content';
         $newCustomField->rel_id = 13;
         $newCustomField->type = 'text';
@@ -130,7 +127,7 @@ class CustomFieldMultilanguageTest extends MultilanguageTestBase
         $newCustomField->multilanguage = $multilanguage;
         $newCustomField->save();
 
-        $findCustomField = \MicroweberPackages\CustomField\Models\CustomField::find($newCustomField->id);
+        $findCustomField = \Modules\CustomFields\Models\CustomField::find($newCustomField->id);
 
         $translations = $findCustomField->getTranslationsFormated();
 

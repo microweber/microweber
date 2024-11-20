@@ -173,7 +173,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 
                     <div>
                         <?php
-                        $getExistingFields = \MicroweberPackages\CustomField\Models\CustomField::where('rel_type', $for)
+                        $getExistingFields = \Modules\CustomFields\Models\CustomField::where('rel_type', $for)
                             ->groupBy('name_key')
                             ->orderBy('created_at','desc')
                             ->get();

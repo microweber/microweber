@@ -3,30 +3,30 @@
 namespace MicroweberPackages\CustomField;
 
 use MicroweberPackages\CustomField\Events\CustomFieldWasDeleted;
-use MicroweberPackages\CustomField\Fields\Address;
-use MicroweberPackages\CustomField\Fields\Breakline;
-use MicroweberPackages\CustomField\Fields\Button;
-use MicroweberPackages\CustomField\Fields\Checkbox;
-use MicroweberPackages\CustomField\Fields\Color;
-use MicroweberPackages\CustomField\Fields\Country;
-use MicroweberPackages\CustomField\Fields\Date;
-use MicroweberPackages\CustomField\Fields\DefaultField;
-use MicroweberPackages\CustomField\Fields\Dropdown;
-use MicroweberPackages\CustomField\Fields\Email;
-use MicroweberPackages\CustomField\Fields\Hidden;
-use MicroweberPackages\CustomField\Fields\Number;
-use MicroweberPackages\CustomField\Fields\Password;
-use MicroweberPackages\CustomField\Fields\Phone;
-use MicroweberPackages\CustomField\Fields\Price;
-use MicroweberPackages\CustomField\Fields\Property;
-use MicroweberPackages\CustomField\Fields\Radio;
-use MicroweberPackages\CustomField\Fields\Site;
-use MicroweberPackages\CustomField\Fields\Text;
-use MicroweberPackages\CustomField\Fields\TextArea;
-use MicroweberPackages\CustomField\Fields\Time;
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Helper\HTMLClean;
+use Modules\CustomFields\Fields\Address;
+use Modules\CustomFields\Fields\Breakline;
+use Modules\CustomFields\Fields\Button;
+use Modules\CustomFields\Fields\Checkbox;
+use Modules\CustomFields\Fields\Color;
+use Modules\CustomFields\Fields\Country;
+use Modules\CustomFields\Fields\Date;
+use Modules\CustomFields\Fields\DefaultField;
+use Modules\CustomFields\Fields\Dropdown;
+use Modules\CustomFields\Fields\Email;
+use Modules\CustomFields\Fields\Hidden;
+use Modules\CustomFields\Fields\Number;
+use Modules\CustomFields\Fields\Password;
+use Modules\CustomFields\Fields\Phone;
+use Modules\CustomFields\Fields\Price;
+use Modules\CustomFields\Fields\Property;
+use Modules\CustomFields\Fields\Radio;
+use Modules\CustomFields\Fields\Site;
+use Modules\CustomFields\Fields\Text;
+use Modules\CustomFields\Fields\TextArea;
+use Modules\CustomFields\Fields\Time;
+use Modules\CustomFields\Models\CustomField;
+use Modules\CustomFields\Models\CustomFieldValue;
 use function Matrix\trace;
 
 
@@ -834,7 +834,7 @@ class FieldsManager
             'upload' => Time::class,
         ];
 
-        $fieldClass = $typeToClassMap[$type] ?? 'MicroweberPackages\\CustomField\\Fields\\' . ucfirst($type);
+        $fieldClass = $typeToClassMap[$type] ?? '\\Modules\\CustomFields\\Fields\\' . ucfirst($type);
 
         if (class_exists($fieldClass, true)) {
 

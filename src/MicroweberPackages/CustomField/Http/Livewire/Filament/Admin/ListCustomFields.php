@@ -2,15 +2,9 @@
 
 namespace MicroweberPackages\CustomField\Http\Livewire\Filament\Admin;
 
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -19,7 +13,6 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -30,14 +23,10 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
-use Livewire\Component;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-use MicroweberPackages\App\Models\SystemLicenses;
-use MicroweberPackages\CustomField\Enums\CustomFieldTypes;
-use MicroweberPackages\CustomField\Fields\Text;
-use MicroweberPackages\CustomField\Models\CustomField;
+use Modules\CustomFields\Enums\CustomFieldTypes;
+use Modules\CustomFields\Models\CustomField;
 
 class ListCustomFields extends AdminComponent implements HasForms, HasTable
 {

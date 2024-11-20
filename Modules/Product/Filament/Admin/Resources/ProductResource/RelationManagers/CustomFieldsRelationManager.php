@@ -10,8 +10,8 @@ use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use MicroweberPackages\CustomField\Enums\CustomFieldTypes;
-use MicroweberPackages\CustomField\Models\CustomField;
+use Modules\CustomFields\Enums\CustomFieldTypes;
+use Modules\CustomFields\Models\CustomField;
 
 class CustomFieldsRelationManager extends RelationManager
 {

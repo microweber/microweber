@@ -15,14 +15,14 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Database\Traits\ExtendedSave;
 use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Utils as DbUtils;
 use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Modules\Content\Models\Content;
+use Modules\CustomFields\Models\CustomField;
+use Modules\CustomFields\Models\CustomFieldValue;
 
 class DatabaseManager extends DbUtils
 {

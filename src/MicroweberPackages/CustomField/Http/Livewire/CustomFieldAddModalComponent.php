@@ -3,9 +3,9 @@
 namespace MicroweberPackages\CustomField\Http\Livewire;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminMwTopDialogIframeComponent;
-use MicroweberPackages\CustomField\CustomFieldsHelper;
-use MicroweberPackages\CustomField\Models\CustomField;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
+use Modules\CustomFields\Models\CustomField;
+use Modules\CustomFields\Models\CustomFieldValue;
+use Modules\CustomFields\Support\CustomFieldsHelper;
 
 class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
 {
@@ -76,7 +76,7 @@ class CustomFieldAddModalComponent extends AdminMwTopDialogIframeComponent
 
     public function render()
     {
-        $existingFields = \MicroweberPackages\CustomField\Models\CustomField::where('rel_type', $this->relType)
+        $existingFields = \Modules\CustomFields\Models\CustomField::where('rel_type', $this->relType)
             ->groupBy('name_key')
             ->orderBy('created_at','desc')
             ->get();

@@ -3,13 +3,13 @@
 namespace Modules\Product\Models;
 
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
 use Modules\Content\Models\Content;
 use Modules\Content\Scopes\ProductScope;
 use Modules\ContentDataVariant\Models\ContentDataVariant;
+use Modules\CustomFields\Models\CustomFieldValue;
 use Modules\Product\Models\ModelFilters\ProductFilter;
 use Modules\Product\Support\CartesianProduct;
 use Modules\Product\Traits\CustomFieldPriceTrait;
