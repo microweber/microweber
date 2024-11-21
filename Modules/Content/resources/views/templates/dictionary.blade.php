@@ -1,13 +1,8 @@
 <?php
-
 /*
-
 type: layout
-
 name: Dictionary
-
 description: Dictionary
-
 */
 ?>
 
@@ -179,8 +174,8 @@ description: Dictionary
         bottom: 0;
         border-radius: 30px;
     }
-
 </style>
+
 <script>
     $(function () {
         initGlossaryFilter();
@@ -248,18 +243,17 @@ description: Dictionary
     }
 </script>
 
-<?php if (!empty($data)): ?>
-    <?php
+@if (!empty($data))
+    @php
     $sorted = array();
     foreach ($data as $item) {
         $firstLetter = $item['title'];
         $firstLetter = trim(preg_replace('/\s+/', ' ', $firstLetter));
-
         $firstLetter = mb_substr($firstLetter, 0, 1);
         $sorted[$firstLetter][] = $item;
     }
     ksort($sorted);
-    ?>
+    @endphp
 
     <div class="mw-dictionary bootstrap3ns">
         <div class="clearfix"></div>
@@ -271,11 +265,11 @@ description: Dictionary
                             <a class="card card__content all" data-bs-toggle="glossary" href="#">All</a>
                         </li>
 
-                        <?php foreach ($sorted as $key => $list): ?>
+                        @foreach ($sorted as $key => $list)
                             <li class="glossary__nav__item">
-                                <a class="card card__content" data-nav="<?php print $key; ?>" data-bs-toggle="glossary" href="#"><?php print strtoupper($key); ?></a>
+                                <a class="card card__content" data-nav="{{ $key }}" data-bs-toggle="glossary" href="#">{{ strtoupper($key) }}</a>
                             </li>
-                        <?php endforeach; ?>
+                        @endforeach
                     </ul>
                 </nav>
 
@@ -286,28 +280,28 @@ description: Dictionary
                 </div>
 
                 <div class="glossary__results mb-6">
-                    <?php foreach ($sorted as $key => $list): ?>
-                        <div class="glossary__results__row" data-term="<?php print $key; ?>">
-                            <h3 class="glossary__results__term title-style--three mb-3"><?php print $key; ?></h3>
+                    @foreach ($sorted as $key => $list)
+                        <div class="glossary__results__row" data-term="{{ $key }}">
+                            <h3 class="glossary__results__term title-style--three mb-3">{{ $key }}</h3>
                             <div class="row">
-                                <?php foreach ($list as $item): ?>
-                                    <div class="glossary__results__item col-md-3 col-sm-6" data-item="<?php print $item['title'] ?>">
-                                        <a class="card card__content" href="<?php print $item['link'] ?>">
-                                            <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                                                <h4  itemprop="name" class="card__title"><?php print character_limiter($item['title'], 20) ?></h4>
-                                            <?php endif; ?>
-                                            <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                                                <p class="mb-0" itemprop="description"><?php print character_limiter($item['description'], 100) ?></p>
-                                            <?php endif; ?>
+                                @foreach ($list as $item)
+                                    <div class="glossary__results__item col-md-3 col-sm-6" data-item="{{ $item['title'] }}">
+                                        <a class="card card__content" href="{{ $item['link'] }}">
+                                            @if (!isset($show_fields) || $show_fields == false || in_array('title', $show_fields))
+                                                <h4 itemprop="name" class="card__title">{{ character_limiter($item['title'], 20) }}</h4>
+                                            @endif
+                                            @if (!isset($show_fields) || $show_fields == false || in_array('description', $show_fields))
+                                                <p class="mb-0" itemprop="description">{{ character_limiter($item['description'], 100) }}</p>
+                                            @endif
                                         </a>
                                     </div>
-                                <?php endforeach; ?>
+                                @endforeach
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    @endforeach
                 </div>
             </div>
         </main>
         <div class="clearfix"></div>
     </div>
-<?php endif; ?>
+@endif
