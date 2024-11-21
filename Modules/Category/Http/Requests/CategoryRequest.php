@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Category\Http\Requests;
+namespace Modules\Category\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

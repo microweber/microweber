@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category;
+namespace Modules\Category\Helpers;
 
 use Illuminate\Support\Str;
 use Modules\Category\Models\Category;

@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Category\HelperRenders;
+namespace Modules\Category\Helpers;
 
-use \Knp\Menu\ItemInterface;
-use \Knp\Menu\Matcher\MatcherInterface;
-use \Knp\Menu\Renderer\Renderer;
-use \Knp\Menu\Renderer\RendererInterface;
+use Knp\Menu\ItemInterface;
+use Knp\Menu\Matcher\MatcherInterface;
+use Knp\Menu\Renderer\Renderer;
+use Knp\Menu\Renderer\RendererInterface;
 
 /**
  * Renders MenuItem tree as unordered list

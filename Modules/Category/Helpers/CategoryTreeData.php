@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category\HelperRenders;
+namespace Modules\Category\Helpers;
 
 class CategoryTreeData
 {

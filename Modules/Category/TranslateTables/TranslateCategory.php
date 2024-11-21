@@ -5,10 +5,10 @@
  * Date: 2/27/2020
  * Time: 12:50 PM
  */
-namespace MicroweberPackages\Category\TranslateTables;
+namespace Modules\Category\TranslateTables;
 
-use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Multilanguage\TranslateTable;
+use Modules\Category\Repositories\CategoryRepository;
 
 class TranslateCategory extends TranslateTable {
 

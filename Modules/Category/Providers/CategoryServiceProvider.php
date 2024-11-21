@@ -2,14 +2,12 @@
 
 namespace Modules\Category\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
-use MicroweberPackages\Category\CategoryManager;
-use MicroweberPackages\Category\TranslateTables\TranslateCategory;
-use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Category\Models\Category;
+use Modules\Category\Repositories\CategoryManager;
+use Modules\Category\Repositories\CategoryRepository;
+use Modules\Category\TranslateTables\TranslateCategory;
 
 
 class CategoryServiceProvider extends BaseModuleServiceProvider
@@ -37,17 +35,24 @@ class CategoryServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
         /**
-         * @property \MicroweberPackages\Category\CategoryManager    $category_manager
+         * @property \Modules\Category\Repositories\CategoryManager $category_manager
          */
         $this->app->singleton('category_manager', function ($app) {
             return new CategoryManager();
         });
 
+        /**
+         * @property CategoryRepository $category_repository
+         */
+        $this->app->bind('category_repository', function ($app) {
+            return new CategoryRepository();
+        });
+
         // Register filament page for Microweber module settings
-          FilamentRegistry::registerResource(\Modules\Category\Filament\Admin\Resources\CategoryResource::class);
-          FilamentRegistry::registerResource(\Modules\Category\Filament\Admin\Resources\ShopCategoryResource::class);
+        FilamentRegistry::registerResource(\Modules\Category\Filament\Admin\Resources\CategoryResource::class);
+        FilamentRegistry::registerResource(\Modules\Category\Filament\Admin\Resources\ShopCategoryResource::class);
 
         // Register Microweber module
         // Microweber::module(\Modules\Category\Microweber\CategoryModule::class);

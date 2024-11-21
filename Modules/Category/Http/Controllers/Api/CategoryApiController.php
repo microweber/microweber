@@ -6,12 +6,12 @@
  * Time: 4:09 PM
  */
 
-namespace MicroweberPackages\Category\Http\Controllers\Api;
+namespace Modules\Category\Http\Controllers\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
-use   MicroweberPackages\Category\Http\Requests\CategoryRequest;
-use MicroweberPackages\Category\Repositories\CategoryRepositoryApi;
+use Modules\Category\Http\Requests\CategoryRequest;
+use Modules\Category\Repositories\CategoryRepositoryApi;
 
 class CategoryApiController extends AdminDefaultController
 {
@@ -27,7 +27,7 @@ class CategoryApiController extends AdminDefaultController
     /**
      * Display a listing of the product.\
      *
-     * @param CategoryRequest $request
+     * @param \Modules\Category\Http\Requests\CategoryRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(CategoryRequest $request)
@@ -45,7 +45,7 @@ class CategoryApiController extends AdminDefaultController
 
     /**
      * Store product in database
-     * @param CategoryRequest $request
+     * @param \Modules\Category\Http\Requests\CategoryRequest $request
      * @return mixed
      */
     public function store(CategoryRequest $request)

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category\tests;
+namespace Modules\Category\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Category\Models\Category;
@@ -306,7 +306,7 @@ class CategoryManagerTest extends TestCase
 
 
         $zip = new \ZipArchive();
-        $zip->open(__DIR__ . '/../../Helper/tests/misc/xss-test-files.zip');
+        $zip->open(base_path() . '/src/MicroweberPackages/Helper/tests/misc/xss-test-files.zip');
         $xssList = $zip->getFromName('xss-payload-list.txt');
         $zip->close();
         $xssList = preg_replace('~\R~u', "\r\n", $xssList);

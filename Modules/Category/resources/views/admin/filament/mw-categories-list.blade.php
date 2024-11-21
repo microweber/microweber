@@ -81,6 +81,9 @@
                     options
                 };
 
+
+
+
                 // let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
 
                 let pagesTree = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}', opts);

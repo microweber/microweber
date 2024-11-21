@@ -16,10 +16,10 @@ use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Category\Http\Livewire\Admin\CategoryBulkMoveModalComponent;
 use MicroweberPackages\Category\Http\Livewire\Admin\CategoryManageComponent;
-use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
 use Modules\Category\Models\Category;
 use Modules\Category\Models\CategoryItem;
+use Modules\Category\Repositories\CategoryRepository;
 
 class CategoryServiceProvider extends ServiceProvider
 {

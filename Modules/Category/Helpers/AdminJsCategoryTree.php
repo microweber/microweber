@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category;
+namespace Modules\Category\Helpers;
 
 use Modules\Page\Models\Page;
 
@@ -85,10 +85,10 @@ class AdminJsCategoryTree
             if (isset($this->filters['only_categories'])) {
                 $filterOnlyCategories = (int)$this->filters['only_categories'];
             }
-            if (isset($this->filters['is_shop'])) {
+            if (isset($this->filters['is_shop']) and $this->filters['is_shop']) {
                 $filterByShop = true;
             }
-            if (isset($this->filters['is_blog'])) {
+            if (isset($this->filters['is_blog']) and $this->filters['is_blog']) {
                 $filterByBlog = true;
             }
             if (isset($this->filters['keyword'])) {

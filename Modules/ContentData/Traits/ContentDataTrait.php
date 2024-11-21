@@ -81,7 +81,10 @@ trait ContentDataTrait
 
     public function contentData()
     {
-        return $this->morphMany(ContentData::class, 'rel')->where('rel_type', $this->getMorphClass());
+
+        return $this->morphMany(ContentData::class, 'rel')
+            ->where('rel_id', $this->id)
+            ->where('rel_type', $this->getMorphClass());
     }
 
     /**

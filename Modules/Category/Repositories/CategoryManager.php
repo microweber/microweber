@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Category;
+namespace Modules\Category\Repositories;
 
 use DB;
-use MicroweberPackages\Category\HelperRenders\KnpCategoryTreeRenderer;
+use Modules\Category\Helpers\KnpCategoryTreeRenderer;
 
 /**
  * Class to work with categories.
@@ -962,7 +962,7 @@ class CategoryManager
 
     public function get_admin_js_tree_json($params)
     {
-        $tree = new \MicroweberPackages\Category\AdminJsCategoryTree();
+        $tree = new \Modules\Category\Helpers\AdminJsCategoryTree();
         $tree->filters($params);
 
         return $tree->get();

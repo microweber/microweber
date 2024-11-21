@@ -144,6 +144,7 @@ class Category extends Model
 //    }
 
 
+    //todo move to repository
     public static function hasActiveProductInSubcategories($category)
     {
 

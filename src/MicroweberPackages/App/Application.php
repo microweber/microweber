@@ -11,8 +11,6 @@ use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
 use MicroweberPackages\Cart\CartManager;
 use MicroweberPackages\Cart\Repositories\CartRepository;
-use MicroweberPackages\Category\CategoryManager;
-use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\CustomField\FieldsManager;
 use MicroweberPackages\Database\DatabaseManager;
@@ -45,10 +43,10 @@ use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Http\Http;
 use Modules\Attributes\Repositories\AttributesManager;
+use Modules\Category\Repositories\CategoryManager;
 use Modules\Content\Repositories\ContentManager;
 use Modules\Content\Repositories\ContentRepository;
 use Modules\ContentData\Repositories\DataFieldsManager;
-use Modules\CustomFields\Repositories\CustomFieldRepository;
 use Modules\Menu\Repositories\MenuRepository;
 use Modules\Payment\PaymentMethodManager;
 use Modules\Shipping\ShippingManager;
@@ -70,8 +68,8 @@ use Modules\Shipping\ShippingMethodManager;
  * @property ContentManager                $content_manager
  * @property RepositoryManager                $repository_manager
  * @property ContentRepository                $content_repository
- * @property CategoryManager               $category_manager
- * @property CategoryRepository              $category_repository
+ * @property \Modules\Category\Repositories\CategoryManager               $category_manager
+ * @property \Modules\Category\Repositories\CategoryRepository              $category_repository
  * @property \Modules\Menu\Repositories\MenuManager                   $menu_manager
  * @property MenuRepository              $menu_repository
  * @property MediaManager                  $media_manager

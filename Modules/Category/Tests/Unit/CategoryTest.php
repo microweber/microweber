@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Category\tests;
+namespace Modules\Category\Tests\Unit;
 
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Category\PlainTextCategoriesSave;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use Modules\Category\Helpers\PlainTextCategoriesSave;
 use Modules\Category\Models\Category;
 use Modules\Category\Models\CategoryItem;
 use Modules\Content\Models\Content;

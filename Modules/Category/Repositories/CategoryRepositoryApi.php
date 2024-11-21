@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category\Repositories;
+namespace Modules\Category\Repositories;
 
 use MicroweberPackages\Category\Events\CategoryIsCreating;
 use MicroweberPackages\Category\Events\CategoryIsUpdating;
@@ -20,11 +20,9 @@ class CategoryRepositoryApi extends BaseRepository
 
     public function create($data)
     {
-        event($event = new CategoryIsCreating($data));
 
         $category = $this->model->create($data);
 
-        event(new CategoryWasCreated($category, $data));
 
         return $category;
     }
@@ -33,14 +31,12 @@ class CategoryRepositoryApi extends BaseRepository
     {
         $category = $this->model->find($id);
 
-        if(!$category){
+        if (!$category) {
             return;
         }
-        event($event = new CategoryIsUpdating($category, $data));
 
         $category->update($data);
 
-        event(new CategoryWasUpdated($category, $data));
 
         return $category;
     }
@@ -49,7 +45,6 @@ class CategoryRepositoryApi extends BaseRepository
     {
         $category = $this->model->find($id);
 
-        event(new CategoryWasDeleted($category));
 
         return $category->delete();
     }
@@ -57,7 +52,6 @@ class CategoryRepositoryApi extends BaseRepository
 
     public function destroy($ids)
     {
-        event(new CategoryWasDestroyed($ids));
 
         return $this->model->destroy($ids);
     }
@@ -72,7 +66,7 @@ class CategoryRepositoryApi extends BaseRepository
         return $this->model->whereIn('id', $ids)->update(['is_hidden' => 0]);
     }
 
-      public function moveBulk($ids, $moveToParentIds, $moveToRelId)
+    public function moveBulk($ids, $moveToParentIds, $moveToRelId)
     {
 
         if (!empty($ids) && !empty($moveToRelId)) {
@@ -81,7 +75,7 @@ class CategoryRepositoryApi extends BaseRepository
 
         if (!empty($ids) && !empty($moveToParentIds)) {
             foreach ($moveToParentIds as $moveToParentId) {
-                if(in_array($moveToParentId, $ids)){
+                if (in_array($moveToParentId, $ids)) {
                     // cannot move to self
                     continue;
                 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category\Traits;
+namespace Modules\Category\Traits;
 
 use Modules\Category\Models\Category;
 use Modules\Category\Models\CategoryItem;

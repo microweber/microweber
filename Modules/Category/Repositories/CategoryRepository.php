@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category\Repositories;
+namespace Modules\Category\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;

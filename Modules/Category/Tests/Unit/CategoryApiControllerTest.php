@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Category\tests;
+namespace Modules\Category\Tests\Unit;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +18,7 @@ class CategoryApiControllerTest extends TestCase
 
         $title = 'category controller test ! - ' . rand();
         $title2 = 'category controller test2 ! - ' . rand();
-$random = rand();
+        $random = rand();
 
         $contentData = [
             'label' => 'test',

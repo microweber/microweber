@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Category\tests;
+namespace Modules\Category\Tests\Unit;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Category\Traits\CategoryTrait;
+use Modules\Category\Traits\CategoryTrait;
 
 class ContentTestModelForCategories extends Model
 {
