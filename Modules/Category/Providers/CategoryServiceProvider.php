@@ -4,6 +4,8 @@ namespace Modules\Category\Providers;
 
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\Category\Filament\CategoryModuleSettings;
 use Modules\Category\Models\Category;
 use Modules\Category\Repositories\CategoryManager;
 use Modules\Category\Repositories\CategoryRepository;
@@ -53,9 +55,10 @@ class CategoryServiceProvider extends BaseModuleServiceProvider
         // Register filament page for Microweber module settings
         FilamentRegistry::registerResource(\Modules\Category\Filament\Admin\Resources\CategoryResource::class);
         FilamentRegistry::registerResource(\Modules\Category\Filament\Admin\Resources\ShopCategoryResource::class);
+        FilamentRegistry::registerPage(CategoryModuleSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\Category\Microweber\CategoryModule::class);
+        Microweber::module(\Modules\Category\Microweber\CategoryModule::class);
 
     }
 
