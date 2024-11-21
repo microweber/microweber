@@ -19,11 +19,11 @@ class ContentServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        Livewire::component('admin-content-list', ContentList::class);
-        Livewire::component('admin-content-bulk-options', ContentBulkOptions::class);
-        View::addNamespace('content', __DIR__ . DS . 'resources' . DS . 'views');
+     ///   Livewire::component('admin-content-list', ContentList::class);
+    //    Livewire::component('admin-content-bulk-options', ContentBulkOptions::class);
+    //    View::addNamespace('content', __DIR__ . DS . 'resources' . DS . 'views');
 
-        app()->register(ContentFormBuilderServiceProvider::class);
+    //    app()->register(ContentFormBuilderServiceProvider::class);
 
     }
     /**
@@ -34,7 +34,7 @@ class ContentServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        \Modules\Content\Models\Content::observe(BaseModelObserver::class);
+      //  \Modules\Content\Models\Content::observe(BaseModelObserver::class);
         //  Content::observe(CreatedByObserver::class);
 
 

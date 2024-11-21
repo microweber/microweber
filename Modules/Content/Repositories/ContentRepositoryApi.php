@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content\Repositories;
+namespace Modules\Content\Repositories;
 
 use MicroweberPackages\Content\Events\ContentIsCreating;
 use MicroweberPackages\Content\Events\ContentIsUpdating;

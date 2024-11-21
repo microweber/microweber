@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Content\tests;
+namespace Modules\Content\Tests\Unit;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -140,7 +140,7 @@ HTML;
         $_SERVER['REDIRECT_URL'] = $pageLink;
         $_SERVER['HTTP_REFERER'] = content_link($pageId);
 
-        $zipname = __DIR__ . '/../../Helper/tests/misc/bootstrap-5.0.2-examples.zip';
+        $zipname = base_path() . '/src/MicroweberPackages/Helper/tests/misc/bootstrap-5.0.2-examples.zip';
 
 
         //
@@ -267,7 +267,7 @@ HTML;
 
 
         $zip = new \ZipArchive();
-        $zip->open(__DIR__ . '/../../Helper/tests/misc/xss-test-files.zip');
+        $zip->open(base_path() . '/src/MicroweberPackages/Helper/tests/misc/xss-test-files.zip');
         $xssList = $zip->getFromName('xss-payload-list.txt');
         $zip->close();
 
@@ -367,7 +367,7 @@ HTML;
         $_SERVER['REDIRECT_URL'] = $pageLink;
         $_SERVER['HTTP_REFERER'] = content_link($pageId);
 
-        $zipname = __DIR__ . '/../../Helper/tests/misc/edit-fields-other-html.zip';
+        $zipname = base_path() . '/src/MicroweberPackages/Helper/tests/misc/edit-fields-other-html.zip';
 
 
         $zip = new \ZipArchive();
