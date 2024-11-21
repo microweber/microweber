@@ -21,7 +21,7 @@ mw.require("events.js");
   mw.require("css_parser.js");
 
   mw.require("forms.js");
-  mw.require("files.js");
+ ;
   mw.require("content.js", true);
   mw.require("session.js");
 

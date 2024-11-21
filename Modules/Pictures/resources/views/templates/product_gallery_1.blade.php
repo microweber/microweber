@@ -66,7 +66,7 @@ description: Product Gallery
 
     <div class="product-gallery-layout-1">
         <div class="bootstrap3ns">
-            <div class="gallery-content" id="<?php print $id; ?>">
+            <div class="gallery-content row" id="<?php print $id; ?>">
 
                 <div class="col-xs-12 col-lg-3 thumbs">
                     <div id="bx-pager">

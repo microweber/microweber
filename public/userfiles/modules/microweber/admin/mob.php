@@ -157,7 +157,7 @@ if (!empty($content)) {
 
 
 <script>
-    mw.require("files.js");
+   ;
 </script>
 <script>
 

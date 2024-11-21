@@ -34,7 +34,7 @@ mw.postMsg = function (w, obj) {
 
 mw.uploader = function (o) {
 
-    mw.require("files.js");
+   ;
 
     var uploader = mw.files.uploader(o);
 

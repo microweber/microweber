@@ -1,7 +1,7 @@
 <div>
     <script wire:ignore type="text/javascript">
 
-        mw.require("files.js");
+       ;
         mw.require("uploader.js");
 
         function initJsUploader() {

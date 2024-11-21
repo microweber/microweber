@@ -53,7 +53,6 @@ $saveRoute = route('api.user.store');
 
 ?>
 
-<script>mw.require("files.js");</script>
 
 <?php if (is_array($data)): ?>
     <?php event_trigger('mw.admin.user.edit', $data); ?>

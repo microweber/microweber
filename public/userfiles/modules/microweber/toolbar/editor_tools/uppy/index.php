@@ -32,7 +32,7 @@ exit('deprecated');
 <div id="container">
 
 </div>
-<script type="text/javascript"> mw.require('files.js'); </script>
+
 <script type="text/javascript">
     Name = this.name;
     document.body.className += ' ' + Name;

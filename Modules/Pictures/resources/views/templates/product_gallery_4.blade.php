@@ -81,6 +81,18 @@ description: Product Gallery
         ];
     </script>
 
+    <style>
+
+    #<?php print $id; ?> .bxslider .image{
+        height: min(calc(100vh - 200px), 900px);
+    }
+    #<?php print $id; ?> .bx-pager .image{
+        height: 60px;
+        width: 60px;
+        display: block
+    }
+    </style>
+
 
     <div class="product-gallery-layout-4">
         <div class="bootstrap3ns">

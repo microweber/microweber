@@ -20,6 +20,7 @@ import "../tools/common-extend.js";
 import "../components/notification.js";
 import "../components/icon_selector.js";
 import "../api-core/core/core/forms.js";
+import "../api-core/core/core/files.js";
 
 import "../core/_.js";
 import "./animations.js";

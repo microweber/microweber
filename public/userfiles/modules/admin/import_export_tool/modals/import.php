@@ -1,5 +1,5 @@
 <script>
-mw.require("files.js");
+
 mw.require("uploader.js");
 $(document).ready(function () {
     var uploader = mw.upload({

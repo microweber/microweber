@@ -25,7 +25,7 @@
                 <!-- Profile Photo File Input -->
 
                 <script>
-                    mw.require("files.js");
+                   ;
                 </script>
                 <script type="text/javascript">
                     $(document).ready(function () {
