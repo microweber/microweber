@@ -38,14 +38,17 @@ if(typeof mw.rotator === 'undefined'){
             rotator.setactive($(holder).children().index(prev));
         },
         rotator.normalize = function(rotator){
-           var img = mw.$('.active img:first', rotator)[0].src;
-           mw.image.preload(img, function(w,h){
-             var rw = mw.$('.mw-gallery-holder', rotator).width();
-             if(w > rw){
-                 $(this).width(rw);
-             }
-             mw.$('.mw-gallery-holder', rotator).height(mw.$('.active img:first', rotator)[0].offsetHeight)
-           });
+           var src = mw.$('.active img:first', rotator)[0].src;
+           const img = new Image();
+           img.onload = function(){
+            var rw = mw.$('.mw-gallery-holder', rotator).width();
+            if(img.naturalWidth > rw){
+                $(img).width(rw);
+            }
+            mw.$('.mw-gallery-holder', rotator).height(mw.$('.active img:first', rotator)[0].offsetHeight)
+           };
+
+           img.src = src;
         },
         rotator.setactive = function(i){ //for paging
            var paging = $(rotator).find('.rotator-index-control').eq(0);
