@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Category\\Providers\\CategoryServiceProvider"
     ],
-    "files": []
+    "files": ["Support/categories_functions.php"]
 }

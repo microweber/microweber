@@ -20,7 +20,10 @@
             "Modules\\Category\\": "",
             "Modules\\Category\\Database\\Factories\\": "database/factories/",
             "Modules\\Category\\Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "Support/categories_functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

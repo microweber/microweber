@@ -15,7 +15,10 @@ class CategoryModuleSettings extends LiveEditModuleSettings
     {
         return $form
             ->schema([
-
+                TextInput::make('options.single_only')->label('Show Only Parent Category'),
+                TextInput::make('options.show_subcats')->label('Show Subcategories'),
+                TextInput::make('options.hide_pages')->label('Hide Pages'),
+                TextInput::make('options.filter_only_in_stock')->label('Show Only Products in Stock'),
             ]);
     }
 }

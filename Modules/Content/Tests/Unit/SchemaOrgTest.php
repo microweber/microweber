@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\Modules\SchemaOrg\tests;
 
 use Illuminate\Support\Str;
@@ -11,7 +12,6 @@ class SchemaOrgTest extends TestCase
     public function testModule()
     {
 
-        load_all_functions_files_for_modules();
 
         // TEST PAGE
 
@@ -47,9 +47,9 @@ class SchemaOrgTest extends TestCase
         $product->url = Str::slug($product->title);
         $product->setCustomField(
             [
-                'type'=>'price',
-                'name'=>'price',
-                'value'=>'300',
+                'type' => 'price',
+                'name' => 'price',
+                'value' => '300',
             ]
         );
         $product->save();
@@ -71,12 +71,12 @@ class SchemaOrgTest extends TestCase
         $product->url = Str::slug($product->title);
         $product->setCustomField(
             [
-                'type'=>'price',
-                'name'=>'price',
-                'value'=>'341',
+                'type' => 'price',
+                'name' => 'price',
+                'value' => '341',
             ]
         );
-        $product->setContentData(['qty'=>'0']);
+        $product->setContentData(['qty' => '0']);
         $product->save();
 
         $graph = getSchemaOrgScriptByContentIds([$product->id]);
@@ -87,7 +87,6 @@ class SchemaOrgTest extends TestCase
         $this->assertStringContainsString('"price":"341"', $graph);
         $this->assertStringContainsString('Product', $graph);
         $this->assertStringContainsString($product->title, $graph);
-
 
 
     }

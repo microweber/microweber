@@ -36,6 +36,14 @@ class Page extends \Modules\Content\Models\Content
 //        "position",
 //    ];
 
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->attributes['content_type'] = 'page';
+        $this->attributes['subtype'] = 'static';
+    }
     /**
      * The "booted" method of the model.
      *

@@ -105,7 +105,7 @@ class CategoryResource extends Resource
 
     public static function table(Table $table): Table
     {
-
+        //list in handled in ListCategories.php
 
         $table
             ->columns([
