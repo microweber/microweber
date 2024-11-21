@@ -22,10 +22,22 @@ if(!isset($tn[1])){
      $tn[1] = $tn[0];
 }
 ?>
+<style>
+    .module-posts-template-sidebar li{
+        list-style: none
+    }
 
+    .module-posts-template-sidebar-image-column{
+        width: 80px;
+    }
 
-<script>mw.moduleCSS("<?php print modules_url(); ?>posts/css/style.css");</script>
-<div class="module-posts-template-sidebar">
+    .module-posts-template-sidebar-content-column h5{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+</style>
+
+ <div class="module-posts-template-sidebar">
   <?php if (!empty($data)): ?>
   <ul>
   <?php foreach ($data as $item): ?>
@@ -63,7 +75,7 @@ if(!isset($tn[1])){
                </div>
             </li>
   <?php endforeach; ?>
-   </ul> 
+   </ul>
   <?php endif; ?>
 </div>
 <?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>

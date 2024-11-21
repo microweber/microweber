@@ -31,7 +31,8 @@ class ContentModule extends BaseModule
         $viewData['show_fields'] = $this->getShowFields($viewData['options']);
         $viewData['character_limit'] = $this->getCharacterLimit($viewData['options']);
         $viewData['title_character_limit'] = $this->getTitleCharacterLimit($viewData['options']);
-        $viewData['tn'] = $this->getThumbnailSize($viewData['options']);
+      //  $viewData['tn'] = $this->getThumbnailSize($viewData['options']);
+        $viewData['tn_size'] = $this->getThumbnailSize($viewData['options']);
         $viewData['read_more_text'] = $this->getReadMoreText($viewData['options']);
         $viewData['add_to_cart_text'] = $this->getAddToCartText($viewData['options']);
 

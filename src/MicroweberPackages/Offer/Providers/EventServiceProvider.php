@@ -3,12 +3,7 @@
 namespace MicroweberPackages\Offer\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use MicroweberPackages\Content\Events\ContentWasCreated;
-use MicroweberPackages\Content\Events\ContentWasUpdated;
-use MicroweberPackages\Offer\Listeners\AddSpecialPriceProductListener;
-use MicroweberPackages\Offer\Listeners\EditSpecialPriceProductListener;
-use MicroweberPackages\Product\Events\ProductWasCreated;
-use MicroweberPackages\Product\Events\ProductWasUpdated;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,18 +13,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        ProductWasCreated::class => [
-            AddSpecialPriceProductListener::class
-        ],
-        ProductWasUpdated::class => [
-            EditSpecialPriceProductListener::class
-        ]
-        , ContentWasCreated::class => [
-            AddSpecialPriceProductListener::class
-        ],
-        ContentWasUpdated::class => [
-            EditSpecialPriceProductListener::class
-        ]
+
     ];
 
     public function register()

@@ -18,9 +18,57 @@ description: Masonry
     <?php if (!empty($data)): ?>
 
 
+    <style>
+
+
+        .module-posts-template-masonry .masonry-item{
+            cursor: default;
+            width: 33%;
+            min-width: 300px;
+            margin-bottom: 5px;
+            box-shadow: 0 0px 2px -1px #999;
+            border:1px solid #E0E0E0;
+            background: white;
+        }
+
+        .module-posts-template-masonry .masonry-item img{
+            width: 100%;
+        }
+
+        .module-posts-template-masonry .masonry-item-description{
+            padding: 7px;
+            font-size: 12px;
+            color: #353535;
+            text-align: center;
+        }
+        .module-posts-template-masonry .masonry-item-container{
+            padding: 10px;
+            zoom:1;
+        }
+        .module-posts-template-masonry .masonry-item-container:after{
+            content: ".";
+            display: block;
+            clear: both;
+            visibility: hidden;
+            line-height: 0;
+            height: 0;
+        }
+        .module-posts-template-masonry .masonry-item-container .description{
+            font-size: 13px;
+        }
+        .module-posts-template-masonry .masonry-item-container small.muted{
+            font-size: 11px;
+        }
+
+    </style>
+
+
 <script>mw.lib.require("masonry"); </script>
-<script>mw.moduleCSS("<?php print modules_url(); ?>posts/css/style.css"); </script>
-<script>
+
+
+
+
+    <script>
     mw._masons = mw._masons || [];
     $(document).ready(function(){
         var m = mw.$('#posts-<?php print $rand; ?>');

@@ -2,12 +2,7 @@
 
 namespace Modules\Content\Repositories;
 
-use MicroweberPackages\Content\Events\ContentIsCreating;
-use MicroweberPackages\Content\Events\ContentIsUpdating;
-use MicroweberPackages\Content\Events\ContentWasCreated;
-use MicroweberPackages\Content\Events\ContentWasDeleted;
-use MicroweberPackages\Content\Events\ContentWasDestroyed;
-use MicroweberPackages\Content\Events\ContentWasUpdated;
+
 use MicroweberPackages\Core\Repositories\BaseRepository;
 use Modules\Content\Models\Content;
 
@@ -21,11 +16,9 @@ class ContentRepositoryApi extends BaseRepository
 
     public function create($data)
     {
-        event($event = new ContentIsCreating($data));
 
         $product = $this->model->create($data);
 
-        event(new ContentWasCreated($product, $data));
 
         return $product;
     }
@@ -34,11 +27,9 @@ class ContentRepositoryApi extends BaseRepository
     {
         $product = $this->model->find($id);
 
-        event($event = new ContentIsUpdating($product, $data));
 
         $product->update($data);
 
-        event(new ContentWasUpdated($product, $data));
 
         return $product;
     }
@@ -48,7 +39,6 @@ class ContentRepositoryApi extends BaseRepository
     {
         $content = $this->model->find($id);
 
-        event(new ContentWasDeleted($content));
 
         return $content->delete();
     }
@@ -56,7 +46,6 @@ class ContentRepositoryApi extends BaseRepository
 
     public function destroy($ids)
     {
-        event(new ContentWasDestroyed($ids));
 
         return $this->model->destroy($ids);
     }
