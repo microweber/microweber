@@ -3,7 +3,7 @@ namespace MicroweberPackages\Content\tests;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Category\Models\Category;
+use Modules\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Page\Models\Page;

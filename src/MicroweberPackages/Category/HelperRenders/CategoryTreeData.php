@@ -519,8 +519,8 @@ class CategoryTreeData
 
     private function hasActiveProductsInItsTree($catId)
     {
-        $catObj = \MicroweberPackages\Category\Models\Category::find($catId);
-        $hasActiveProducts = \MicroweberPackages\Category\Models\Category::hasActiveProductInSubcategories($catObj);
+        $catObj = \Modules\Category\Models\Category::find($catId);
+        $hasActiveProducts = \Modules\Category\Models\Category::hasActiveProductInSubcategories($catObj);
 
         return $hasActiveProducts;
     }

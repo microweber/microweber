@@ -6,7 +6,7 @@
  * Time: 3:42 PM
  */
 
-namespace MicroweberPackages\Category\Models\ModelFilters\Traits;
+namespace Modules\Category\Models\ModelFilters\Traits;
 
 trait FilterByAvailableProductsByCategoryTrait
 {

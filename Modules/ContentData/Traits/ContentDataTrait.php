@@ -34,7 +34,12 @@ trait ContentDataTrait
                 foreach($model->_addContentData as $fieldName=>$fieldValue) {
 
                     if(!$fieldValue){
-                        $fieldValue = '';
+                        if(is_numeric($fieldValue)  ){
+                            $fieldValue = '0';
+                        } else {
+                            $fieldValue = '';
+                        }
+
                     }
 
                     $findContentData = ContentData::where('rel_id', $model->id)
@@ -47,6 +52,7 @@ trait ContentDataTrait
                         $findContentData->field_name = $fieldName;
                         $findContentData->rel_type = $model->getMorphClass();
                     }
+
                     $findContentData->field_value = $fieldValue;
                     $findContentData->save();
                 }

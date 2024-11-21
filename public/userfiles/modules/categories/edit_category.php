@@ -447,7 +447,7 @@ if ($creteCategoryIn == 'shop') {
                             <?php endif; ?>
 
                             <?php
-                            $categoryModel = \MicroweberPackages\Category\Models\Category::where('id', $data['id'])->first();
+                            $categoryModel = \Modules\Category\Models\Category::where('id', $data['id'])->first();
                             $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
                             ?>
 

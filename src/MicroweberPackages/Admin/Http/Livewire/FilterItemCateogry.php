@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Admin\Http\Livewire;
 
-use MicroweberPackages\Category\Models\Category;
+use Modules\Category\Models\Category;
 use Modules\Page\Models\Page;
 
 class FilterItemCateogry extends DropdownComponent

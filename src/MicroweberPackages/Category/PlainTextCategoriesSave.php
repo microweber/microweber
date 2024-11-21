@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Category;
 
 use Illuminate\Support\Str;
-use MicroweberPackages\Category\Models\Category;
+use Modules\Category\Models\Category;
 
 class PlainTextCategoriesSave
 {

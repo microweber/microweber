@@ -2,14 +2,14 @@
 
 namespace MicroweberPackages\Category\Repositories;
 
-use MicroweberPackages\Category\Events\CategoryWasDestroyed;
-use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Category\Events\CategoryIsCreating;
 use MicroweberPackages\Category\Events\CategoryIsUpdating;
 use MicroweberPackages\Category\Events\CategoryWasCreated;
 use MicroweberPackages\Category\Events\CategoryWasDeleted;
+use MicroweberPackages\Category\Events\CategoryWasDestroyed;
 use MicroweberPackages\Category\Events\CategoryWasUpdated;
-use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Core\Repositories\BaseRepository;
+use Modules\Category\Models\Category;
 
 class CategoryRepositoryApi extends BaseRepository
 {

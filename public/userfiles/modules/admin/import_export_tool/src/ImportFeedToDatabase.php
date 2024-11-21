@@ -3,11 +3,10 @@
 namespace MicroweberPackages\Modules\Admin\ImportExportTool;
 
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Category\Models\Category;
 use Modules\Product\Models\Product;
 
 class ImportFeedToDatabase

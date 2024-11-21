@@ -1,8 +1,7 @@
 <?php
 namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
-use Illuminate\Support\Facades\URL;
-use MicroweberPackages\Category\Models\Category;
+use Modules\Category\Models\Category;
 
 trait CategoriesTrait {
 

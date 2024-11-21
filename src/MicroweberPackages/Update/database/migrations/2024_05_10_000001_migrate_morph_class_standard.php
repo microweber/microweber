@@ -37,7 +37,7 @@ class MigrateMorphClassStandard extends Migration
                         $tableData->rel_type = \MicroweberPackages\Module\Models\Module::class;
                     }
                     if ($tableData->rel_type == 'categories') {
-                        $tableData->rel_type = \MicroweberPackages\Category\Models\Category::class;
+                        $tableData->rel_type = \Modules\Category\Models\Category::class;
                     }
                     if ($tableData->rel_type == 'content') {
                         $tableData->rel_type = \Modules\Content\Models\Content::class;
@@ -58,7 +58,7 @@ class MigrateMorphClassStandard extends Migration
                         $tableData->taggable_type = \MicroweberPackages\Module\Models\Module::class;
                     }
                     if ($tableData->taggable_type == 'categories') {
-                        $tableData->taggable_type = \MicroweberPackages\Category\Models\Category::class;
+                        $tableData->taggable_type = \Modules\Category\Models\Category::class;
                     }
                     if ($tableData->taggable_type == 'content') {
                         $tableData->taggable_type = \Modules\Content\Models\Content::class;

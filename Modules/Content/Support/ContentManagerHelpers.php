@@ -5,9 +5,9 @@ namespace Modules\Content\Support;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
-use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Category\Models\CategoryItem;
 use Modules\Content\Models\ContentRelated;
 use Modules\CustomFields\Models\CustomField;
 use Modules\Menu\Models\Menu;

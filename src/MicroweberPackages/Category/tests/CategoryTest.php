@@ -3,11 +3,11 @@
 namespace MicroweberPackages\Category\tests;
 
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\PlainTextCategoriesSave;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use Modules\Category\Models\Category;
+use Modules\Category\Models\CategoryItem;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;

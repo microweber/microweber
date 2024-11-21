@@ -3,11 +3,10 @@
 namespace MicroweberPackages\Category\tests;
 
 
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Core\tests\TestCase;
-
-use MicroweberPackages\User\Models\User;
 use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\Core\tests\TestCase;
+use MicroweberPackages\User\Models\User;
+use Modules\Category\Models\Category;
 
 class CategoryApiControllerTest extends TestCase
 {

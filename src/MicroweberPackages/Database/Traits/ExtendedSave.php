@@ -560,7 +560,7 @@ trait ExtendedSave
             return morph_name(\Modules\Content\Models\Content::class);
         }
         if ($table == 'categories') {
-            return morph_name(\MicroweberPackages\Category\Models\Category::class);
+            return morph_name(\Modules\Category\Models\Category::class);
         }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace Modules\Category\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\CategoryResource\Pages;
 use App\Filament\Admin\Resources\CategoryResource\RelationManagers;
@@ -9,8 +9,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use MicroweberPackages\Category\Models\Category;
+use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwTree;
+use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 
 class CategoryResource extends Resource
@@ -88,10 +89,12 @@ class CategoryResource extends Resource
                             ->label('Title')
                             ->required(),
                         Forms\Components\TextInput::make('url')
-                            ->label('Url')
-                            ->required(),
+                            ->label('Url'),
 
                         Forms\Components\TextInput::make('description')->label('Description'),
+
+
+                        MwMediaBrowser::make('mediaIds'),
                         Forms\Components\TextInput::make('category_meta_title')->label('Meta Title'),
                         Forms\Components\TextInput::make('category_meta_description')->label('Meta Description'),
 
@@ -152,9 +155,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => \Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\ListCategories::route('/'),
+            'create' => \Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\CreateCategory::route('/create'),
+            'edit' => \Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

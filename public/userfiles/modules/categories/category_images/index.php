@@ -156,7 +156,7 @@ if ($results) {
         $selected_cats = array_unique($selected_cats);
 
         $selected_cats_ids = $selected_cats;
-        $selectedCategories = \MicroweberPackages\Category\Models\Category::whereIn('id', $selected_cats_ids)->with('children')->get();
+        $selectedCategories = \Modules\Category\Models\Category::whereIn('id', $selected_cats_ids)->with('children')->get();
 
         if(!empty($selectedCategories)) {
             foreach ($selectedCategories as $catData) {

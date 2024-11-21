@@ -45,7 +45,7 @@ class MediaManager
         if ($rel_type == 'post' or $rel_type == 'posts' or $rel_type == 'page' or $rel_type == 'pages' or $rel_type == 'content') {
             $rel_type = morph_name(\Modules\Content\Models\Content::class);
         } elseif ($rel_type == 'category' or $rel_type == 'categories') {
-            $rel_type = morph_name(\MicroweberPackages\Category\Models\Category::class);
+            $rel_type = morph_name(\Modules\Category\Models\Category::class);
         }
 
         $media = app()->media_repository->getPictureByRelIdAndRelType($rel_id, $rel_type);

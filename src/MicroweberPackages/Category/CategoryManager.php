@@ -633,15 +633,15 @@ class CategoryManager
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null);
                 })
-                ->whereRelType(morph_name(\MicroweberPackages\Category\Models\Category::class))
-                ->update(['rel_type' => morph_name(\MicroweberPackages\Category\Models\Category::class), 'rel_id' => $id]);
+                ->whereRelType(morph_name(\Modules\Category\Models\Category::class))
+                ->update(['rel_type' => morph_name(\Modules\Category\Models\Category::class), 'rel_id' => $id]);
 
             DB::table('media')
                 ->whereSessionId($sid)
                 ->where(function ($query) {
                     $query->whereRelId(0)->orWhere('rel_id', null);
                 })
-                ->whereRelType(morph_name(\MicroweberPackages\Category\Models\Category::class))
+                ->whereRelType(morph_name(\Modules\Category\Models\Category::class))
                 ->update(['rel_id' => $id]);
         });
 

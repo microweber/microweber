@@ -14,15 +14,12 @@ namespace MicroweberPackages\Category\Providers;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
-use MicroweberPackages\Category\CategoryManager;
 use MicroweberPackages\Category\Http\Livewire\Admin\CategoryBulkMoveModalComponent;
 use MicroweberPackages\Category\Http\Livewire\Admin\CategoryManageComponent;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Category\Repositories\CategoryRepository;
 use MicroweberPackages\Database\Observers\BaseModelObserver;
-use Illuminate\Contracts\Support\DeferrableProvider;
-use MicroweberPackages\Category\TranslateTables\TranslateCategory;
+use Modules\Category\Models\Category;
+use Modules\Category\Models\CategoryItem;
 
 class CategoryServiceProvider extends ServiceProvider
 {

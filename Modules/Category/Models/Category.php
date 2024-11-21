@@ -1,11 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Category\Models;
+namespace Modules\Category\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\PowerJoins\PowerJoins;
-use MicroweberPackages\Category\Models\ModelFilters\CategoryFilter;
 use MicroweberPackages\Core\Models\HasSearchableTrait;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
@@ -13,6 +12,7 @@ use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
+use Modules\Category\Models\ModelFilters\CategoryFilter;
 use Modules\ContentData\Traits\ContentDataTrait;
 use Modules\ContentField\Concerns\HasContentFieldTrait;
 

@@ -1,9 +1,6 @@
 <?php
 namespace MicroweberPackages\Blog\FrontendFilter\Traits;
 
-use Illuminate\Support\Facades\URL;
-use MicroweberPackages\Category\Models\Category;
-
 trait PaginationTrait {
 
     protected $pagination;

@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Category\Traits;
 
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Category\Models\CategoryItem;
+use Modules\Category\Models\Category;
+use Modules\Category\Models\CategoryItem;
 
 trait CategoryTrait
 {

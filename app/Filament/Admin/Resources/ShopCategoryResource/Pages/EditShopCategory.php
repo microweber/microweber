@@ -2,9 +2,9 @@
 
 namespace App\Filament\Admin\Resources\ShopCategoryResource\Pages;
 
-use App\Filament\Admin\Resources\ShopCategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Modules\Category\Filament\Admin\Resources\ShopCategoryResource;
 
 class EditShopCategory extends EditRecord
 {

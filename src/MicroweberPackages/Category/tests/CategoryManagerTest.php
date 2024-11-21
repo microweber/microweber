@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Category\tests;
 
-use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;

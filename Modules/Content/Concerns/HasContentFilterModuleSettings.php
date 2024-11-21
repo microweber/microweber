@@ -7,7 +7,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use MicroweberPackages\Category\Models\Category;
+use Modules\Category\Models\Category;
 use Modules\Page\Models\Page;
 
 trait HasContentFilterModuleSettings

@@ -170,15 +170,7 @@ class ContentResource extends Resource
                             ->columnSpanFull()
                             ->columns(2),
 
-                        MwMediaBrowser::make('mediaIds')
-                            ->default(function () {
-                                $mediaIds = Media::where('created_by', auth()->id())
-                                    ->whereNull('moduleId')
-                                    ->orderBy('position', 'asc')
-                                    ->pluck('id')->toArray();
-
-                                return $mediaIds;
-                            }),
+                        MwMediaBrowser::make('mediaIds'),
 
 
                         Forms\Components\Section::make('Pricing')

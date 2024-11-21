@@ -24,10 +24,11 @@ class ContentData extends Model
         'field_value',
         'field_name',
         'content_id',
-       // 'edited_by',
-       // 'created_by'
+        'created_at',
+        'updated_at',
+        'edited_by',
+        'created_by'
     ];
-
 
 
 }

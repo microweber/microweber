@@ -46,7 +46,8 @@ class CategoryServiceProvider extends BaseModuleServiceProvider
         });
 
         // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(CategoryModuleSettings::class);
+          FilamentRegistry::registerResource(\Modules\Category\Filament\Admin\Resources\CategoryResource::class);
+          FilamentRegistry::registerResource(\Modules\Category\Filament\Admin\Resources\ShopCategoryResource::class);
 
         // Register Microweber module
         // Microweber::module(\Modules\Category\Microweber\CategoryModule::class);

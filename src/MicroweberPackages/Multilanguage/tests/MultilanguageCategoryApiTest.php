@@ -3,12 +3,10 @@ namespace MicroweberPackages\Multilanguage\tests;
 
 
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\User\Models\User;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
-
+use Modules\Category\Models\Category;
 
 
 class MultilanguageCategoryApiTest extends MultilanguageTestBase

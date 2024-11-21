@@ -6,10 +6,10 @@
  * Time: 3:25 PM
  */
 
-namespace MicroweberPackages\Category\Models\ModelFilters;
+namespace Modules\Category\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
-use MicroweberPackages\Category\Models\ModelFilters\Traits\FilterByAvailableProductsByCategoryTrait;
+use Modules\Category\Models\ModelFilters\Traits\FilterByAvailableProductsByCategoryTrait;
 use Modules\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;
 use Modules\Content\Models\ModelFilters\Traits\FilterByStockTrait;
 use Modules\Content\Models\ModelFilters\Traits\FilterByTitleTrait;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace Modules\Category\Filament\Admin\Resources;
 
 
 

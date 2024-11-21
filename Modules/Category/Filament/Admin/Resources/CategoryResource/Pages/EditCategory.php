@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Admin\Resources\CategoryResource\Pages;
+namespace Modules\Category\Filament\Admin\Resources\CategoryResource\Pages;
 
-use App\Filament\Admin\Resources\CategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Modules\Category\Filament\Admin\Resources\CategoryResource;
 
 class EditCategory extends EditRecord
 {

@@ -3,9 +3,9 @@
 namespace MicroweberPackages\Category\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Category\Models\Category;
-use MicroweberPackages\Category\Models\CategoryItem;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use Modules\Category\Models\Category;
+use Modules\Category\Models\CategoryItem;
 use Modules\Product\Models\Product;
 
 class CategoryRepository extends AbstractRepository
@@ -349,7 +349,7 @@ class CategoryRepository extends AbstractRepository
 
         }
         if (isset($data['rel_type']) and $data['rel_type'] == 'category') {
-            $data['rel_type'] = morph_name(\MicroweberPackages\Category\Models\Category::class);
+            $data['rel_type'] = morph_name(\Modules\Category\Models\Category::class);
         }
 
         if (isset($data['parent_page'])) {

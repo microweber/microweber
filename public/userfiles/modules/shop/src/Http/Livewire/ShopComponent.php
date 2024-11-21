@@ -4,11 +4,11 @@ namespace MicroweberPackages\Modules\Shop\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCategoriesTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopCustomFieldsTrait;
 use MicroweberPackages\Modules\Shop\Http\Livewire\Traits\ShopTagsTrait;
 use MicroweberPackages\Option\Models\ModuleOption;
+use Modules\Category\Models\Category;
 use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
 
