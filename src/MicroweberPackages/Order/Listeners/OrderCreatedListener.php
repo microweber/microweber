@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Option\Facades\Option;
 use MicroweberPackages\Order\Listeners\Tratis\NewOrderNotificationTrait;
-use MicroweberPackages\Order\Notifications\NewOrderNotification;
 use MicroweberPackages\User\Models\User;
+use Modules\Order\Notifications\NewOrderNotification;
 
 class OrderCreatedListener
 {

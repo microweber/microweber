@@ -1,9 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Order\Notifications;
+namespace Modules\Order\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Queue\InteractsWithQueue;
