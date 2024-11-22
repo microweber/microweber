@@ -6,6 +6,8 @@ namespace Modules\Product\Tests\Unit;
 
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Order\Models\Order;
+use Modules\CustomFields\Models\CustomField;
+use Modules\CustomFields\Models\CustomFieldValue;
 use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
 use Tests\TestCase;
@@ -13,12 +15,18 @@ use Tests\TestCase;
 class ProductFilterTest extends TestCase
 {
 
-    public function testProductFilter()
+    private function cleanUp()
     {
-
         $clean = \Modules\Product\Models\Product::truncate();
         $clean = Order::truncate();
         $clean = Cart::truncate();
+        $clean = CustomField::truncate();
+        $clean = CustomFieldValue::truncate();
+    }
+    public function testProductFilter()
+    {
+
+       $this->cleanUp();
 
         $newShopPage = new Page();
         $newShopPage->title = 'my-new-shop-page-for-filter-test-' . uniqid();
@@ -63,7 +71,7 @@ class ProductFilterTest extends TestCase
         $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
-            'priceBetween' => 1 . ',' . 999,
+            'priceBetween' => 1 . ',' . 3,
         ]);
         $results = $model->get();
 
@@ -169,8 +177,7 @@ class ProductFilterTest extends TestCase
 
     public function testProductFilterBySalesCount()
     {
-        $clean = \MicroweberPackages\Cart\Models\Cart::truncate();
-        $clean = \MicroweberPackages\Order\Models\Order::truncate();
+        $this->cleanUp();
 
 
 
