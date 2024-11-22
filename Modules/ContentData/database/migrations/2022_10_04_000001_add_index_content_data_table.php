@@ -18,7 +18,6 @@ return new class extends Migration {
                 $table->index('rel_type');
                 $table->index('rel_id');
                 $table->index('field_name');
-                $table->index('content_id');
                 $table->fullText('field_value');
             });
         } catch (Exception $e) {

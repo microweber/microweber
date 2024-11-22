@@ -3,6 +3,7 @@
 namespace Modules\ContentData\Traits;
 
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\ContentData\Traits\is;
 use Modules\ContentData\Models\ContentData;
 
@@ -29,12 +30,13 @@ trait ContentDataTrait
 
 
         static::saved(function ($model) {
+
             if (!empty($model->_addContentData) && is_array($model->_addContentData)) {
 
-                foreach($model->_addContentData as $fieldName=>$fieldValue) {
+                foreach ($model->_addContentData as $fieldName => $fieldValue) {
 
-                    if(!$fieldValue){
-                        if(is_numeric($fieldValue)  ){
+                    if (!$fieldValue) {
+                        if (is_numeric($fieldValue)) {
                             $fieldValue = '0';
                         } else {
                             $fieldValue = '';
@@ -46,20 +48,40 @@ trait ContentDataTrait
                         ->where('rel_type', $model->getMorphClass())
                         ->where('field_name', $fieldName)
                         ->first();
+
                     if ($findContentData == null) {
                         $findContentData = new ContentData();
                         $findContentData->rel_id = $model->id;
                         $findContentData->field_name = $fieldName;
                         $findContentData->rel_type = $model->getMorphClass();
+                        $findContentData->field_value = $fieldValue;
+                        $findContentData->save();
+                    } else {
+                        DB::table('content_data')
+                            ->where('id', $findContentData->id)
+                            ->update(['field_value' => $fieldValue]);
                     }
+// update with db by id
 
-                    $findContentData->field_value = $fieldValue;
-                    $findContentData->save();
+
+                    //dump($findContentData);
+
+
+//                    if ($findContentData == null) {
+//                        $findContentData = new ContentData();
+//                        $findContentData->rel_id = $model->id;
+//                        $findContentData->field_name = $fieldName;
+//                        $findContentData->rel_type = $model->getMorphClass();
+//                    }
+
+                    //     $findContentData->field_value = $fieldValue;
+                    //  $findContentData->save();
+                    //  dump($findContentData);
                 }
             }
         });
 
-        static::deleting(function($model) {
+        static::deleting(function ($model) {
             $model->contentData()->delete();
         });
     }
@@ -82,8 +104,7 @@ trait ContentDataTrait
     public function contentData()
     {
 
-        return $this->morphMany(ContentData::class, 'rel', 'rel_type', 'rel_id')
-            ->where('rel_type', $this->getMorphClass());
+        return $this->morphMany(ContentData::class, 'rel', 'rel_type');
     }
 
     /**
@@ -92,6 +113,7 @@ trait ContentDataTrait
      */
     public function setContentData($values)
     {
+
         $this->_addContentData = $values;
         return $this;
     }

@@ -100,7 +100,7 @@ trait CategoryTrait
 
     public function categoryItems()
     {
-        return $this->hasMany(CategoryItem::class, 'rel_id')
+        return $this->hasMany(CategoryItem::class, 'rel_id', 'id')
             ->where('rel_type', $this->getMorphClass());
     }
 

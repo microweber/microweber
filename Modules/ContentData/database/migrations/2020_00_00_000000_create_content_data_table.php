@@ -19,6 +19,7 @@ return new class extends Migration {
 
 
         Schema::create('content_data', function (Blueprint $table) {
+            $table->id();
             $table->string('rel_type')->nullable();
             $table->string('rel_id')->nullable();
             $table->text('field_name')->nullable();

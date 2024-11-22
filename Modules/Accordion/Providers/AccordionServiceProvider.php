@@ -33,6 +33,7 @@ class AccordionServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();

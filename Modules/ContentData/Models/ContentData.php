@@ -19,6 +19,7 @@ class ContentData extends Model
 
 
     protected $fillable = [
+        'id',
         'rel_type',
         'rel_id',
         'field_value',
