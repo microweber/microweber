@@ -23,6 +23,7 @@ const nodeModulesScripts = [
     {target: `masonry`, path: `node_modules/masonry-layout/dist/masonry.pkgd.js`},
 
 
+
     {
         target: `rangy`,
         path: [
@@ -68,6 +69,7 @@ const assets = [
     {target: `material-icons`, path: `node_modules/material-icons/iconfont`},
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/fonts`},
     {target: `mw-icons-mind`, path: `./resources/local-libs/mw-icons-mind`},
+    {target: `slick`, path: `node_modules/slick-carousel/slick/ajax-loader.gif`},
 
     {
         target: `tinymce`,

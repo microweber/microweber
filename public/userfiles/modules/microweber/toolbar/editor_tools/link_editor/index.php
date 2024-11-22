@@ -1,6 +1,6 @@
 <script>
     mw.require("forms.js");
-    mw.require("files.js");
+   ;
     mw.require("instruments.js");
 </script>
 

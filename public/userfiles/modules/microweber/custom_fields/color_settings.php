@@ -7,7 +7,7 @@ return;
 
 <script type="text/javascript">
 
-    mw.require("files.js");
+   ;
     mw.require("uploader.js");
     mw.lib.require('colorpicker');
 

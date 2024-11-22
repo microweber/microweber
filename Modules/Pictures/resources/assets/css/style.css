@@ -12,7 +12,7 @@
 .mw-module-images{
   zoom:1;
   position: relative;
-   
+
 }
 
 .mw-module-images:after{
@@ -341,6 +341,7 @@ a.rotator-paging-item-digit.active{
 .mw-rotator-template-inner .mw-rotator-ctrls{
     margin-bottom: 130px;
     float: left;
+    width: 100%;
 }
 
 .mw-rotator-template-inner .rotator-index-control-mode-thumbnails{
