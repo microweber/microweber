@@ -2,9 +2,9 @@
 
 namespace MicroweberPackages\Checkout;
 
-use MicroweberPackages\Order\Events\OrderWasPaid;
 use MicroweberPackages\Order\Notifications\NewOrder;
 use MicroweberPackages\Utils\Mail\MailSender;
+use Modules\Order\Events\OrderWasPaid;
 use Modules\Order\Models\Order;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;

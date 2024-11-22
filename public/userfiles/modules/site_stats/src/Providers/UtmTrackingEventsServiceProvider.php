@@ -14,13 +14,11 @@ use MicroweberPackages\Modules\SiteStats\Listeners\AddPaymentInfoListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\AddShippingInfoListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\AddToCartListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\BeginCheckoutListener;
-use MicroweberPackages\Modules\SiteStats\Listeners\OrderWasCreatedListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\OrderWasPaidListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\RemoveFromCartListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasLoggedListener;
 use MicroweberPackages\Modules\SiteStats\Listeners\UserWasRegisteredListener;
-use MicroweberPackages\Order\Events\OrderWasCreated;
-use MicroweberPackages\Order\Events\OrderWasPaid;
+use Modules\Order\Events\OrderWasPaid;
 
 class UtmTrackingEventsServiceProvider extends EventServiceProvider
 {

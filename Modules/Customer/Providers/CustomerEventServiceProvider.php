@@ -12,8 +12,8 @@
 namespace Modules\Customer\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
-use MicroweberPackages\Order\Events\OrderWasCreated;
 use Modules\Customer\Listeners\CreateCustomerFromOrderListener;
+use Modules\Order\Events\OrderWasCreated;
 
 class CustomerEventServiceProvider extends EventServiceProvider
 {

@@ -16,9 +16,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use MicroweberPackages\Cart\Concerns\HasCartItems;
-use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\User\Models\User;
 use Modules\Customer\Models\Customer;
+use Modules\Order\Enums\OrderStatus;
 use Modules\Order\Models\ModelFilters\OrderFilter;
 use Modules\Payment\Enums\PaymentStatus;
 

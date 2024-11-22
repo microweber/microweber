@@ -2,12 +2,11 @@
 
 namespace Modules\Order\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
-use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Order\Filament\Admin\Resources\OrderResource;
+use Modules\Order\Repositories\OrderManager;
+use Modules\Order\Repositories\OrderRepository;
 
 
 class OrderServiceProvider extends BaseModuleServiceProvider
@@ -34,14 +33,24 @@ class OrderServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
+        /**
+         * @property \Modules\Order\Repositories\OrderManager    $order_manager
+         */
+        $this->app->singleton('order_manager', function ($app) {
+            return new OrderManager();
+        });
+
+        /**
+         * @property \Modules\Order\Repositories\OrderRepository    $order_repository
+         */
+        $this->app->singleton('order_repository', function ($app) {
+            return new OrderRepository();
+        });
 
 
-        // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(OrderModuleSettings::class);
+        FilamentRegistry::registerResource(OrderResource::class);
 
-        // Register Microweber module
-        // Microweber::module(\Modules\Order\Microweber\OrderModule::class);
 
     }
 

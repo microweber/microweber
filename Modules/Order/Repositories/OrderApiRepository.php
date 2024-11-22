@@ -3,12 +3,12 @@
 namespace Modules\Order\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
-use MicroweberPackages\Order\Events\OrderIsCreating;
-use MicroweberPackages\Order\Events\OrderIsUpdating;
-use MicroweberPackages\Order\Events\OrderWasCreated;
-use MicroweberPackages\Order\Events\OrderWasDeleted;
-use MicroweberPackages\Order\Events\OrderWasDestoyed;
-use MicroweberPackages\Order\Events\OrderWasUpdated;
+use Modules\Order\Events\OrderIsCreating;
+use Modules\Order\Events\OrderIsUpdating;
+use Modules\Order\Events\OrderWasCreated;
+use Modules\Order\Events\OrderWasDeleted;
+use Modules\Order\Events\OrderWasDestoyed;
+use Modules\Order\Events\OrderWasUpdated;
 use Modules\Order\Models\Order;
 
 class OrderApiRepository extends BaseRepository
