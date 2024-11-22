@@ -5,9 +5,9 @@ namespace Modules\Product\Tests\Unit;
 
 
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Order\Models\Order;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
+use Modules\Order\Models\Order;
 use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
 use Tests\TestCase;

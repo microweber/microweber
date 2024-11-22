@@ -15,22 +15,21 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource;
 use MicroweberPackages\Order\Http\Controllers\OrdersController;
+use MicroweberPackages\Order\Http\Livewire\Admin\FilterItemOrderCustomer;
+use MicroweberPackages\Order\Http\Livewire\Admin\FilterItemOrdersShippingAddress;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkDelete;
-use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
 use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkOrderStatus;
+use MicroweberPackages\Order\Http\Livewire\Admin\Modals\OrdersBulkPaymentStatus;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersCustomersAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersFiltersComponent;
-use MicroweberPackages\Order\Http\Livewire\Admin\FilterItemOrdersShippingAddress;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersShippingCityAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersShippingCountryAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersShippingStateAutoComplete;
 use MicroweberPackages\Order\Http\Livewire\Admin\OrdersTableComponent;
-use MicroweberPackages\Order\Http\Livewire\Admin\FilterItemOrderCustomer;
 use MicroweberPackages\Order\OrderManager;
-use MicroweberPackages\Order\Repositories\OrderRepository;
+use Modules\Order\Repositories\OrderRepository;
 
 class OrderServiceProvider extends ServiceProvider
 {
@@ -63,7 +62,7 @@ class OrderServiceProvider extends ServiceProvider
         });
 
         /**
-         * @property \MicroweberPackages\Order\Repositories\OrderRepository    $order_repository
+         * @property \Modules\Order\Repositories\OrderRepository    $order_repository
          */
         $this->app->singleton('order_repository', function ($app) {
             return new OrderRepository();

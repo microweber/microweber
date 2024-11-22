@@ -3,19 +3,28 @@
 use \Illuminate\Support\Facades\Route;
 
 
-//api_expose_admin('media/upload', function ($data) {
-//
-//});
 
 Route::post('media/upload', function (\Illuminate\Http\Request $request) {
 
     return mw()->media_manager->upload($_POST);
 
 
-})->middleware(['api', 'admin', 'xss'])->name('api.save_media');
+})->middleware(['api', 'admin', 'xss'])->name('api.media_upload');
 
-api_expose('pixum_img');
-api_expose('thumbnail_img');
+Route::get('pixum_img', function (\Illuminate\Http\Request $request) {
+
+    return pixum_img();
+
+
+})->middleware('web')->name('api.pixum_img');
+
+Route::get('thumbnail_img', function (\Illuminate\Http\Request $request) {
+
+    return thumbnail_img($request->all());
+
+
+})->middleware('web')->name('api.pixum_img');
+
 
 
 

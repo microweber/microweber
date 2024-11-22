@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Order\Models;
+namespace Modules\Order\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;

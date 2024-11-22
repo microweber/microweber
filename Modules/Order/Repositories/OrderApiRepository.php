@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Order\Repositories;
+namespace Modules\Order\Repositories;
 
 use MicroweberPackages\Core\Repositories\BaseRepository;
 use MicroweberPackages\Order\Events\OrderIsCreating;
@@ -9,7 +9,7 @@ use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasDeleted;
 use MicroweberPackages\Order\Events\OrderWasDestoyed;
 use MicroweberPackages\Order\Events\OrderWasUpdated;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class OrderApiRepository extends BaseRepository
 {

@@ -4,7 +4,7 @@ namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
 use Livewire\WithPagination;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class OrdersTableComponent extends AdminComponent
 {

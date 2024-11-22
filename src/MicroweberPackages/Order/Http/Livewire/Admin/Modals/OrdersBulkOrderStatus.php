@@ -2,9 +2,8 @@
 
 namespace MicroweberPackages\Order\Http\Livewire\Admin\Modals;
 
-use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class OrdersBulkOrderStatus extends AdminModalComponent
 {
@@ -26,7 +25,7 @@ class OrdersBulkOrderStatus extends AdminModalComponent
 
     public function mount()
     {
-        $this->orderStatuses = \MicroweberPackages\Order\Models\Order::getOrderStatuses();
+        $this->orderStatuses = \Modules\Order\Models\Order::getOrderStatuses();
     }
 
     public function render()

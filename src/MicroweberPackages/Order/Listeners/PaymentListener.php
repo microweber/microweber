@@ -4,7 +4,7 @@ namespace MicroweberPackages\Order\Listeners;
 
 
 
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class PaymentListener
 {

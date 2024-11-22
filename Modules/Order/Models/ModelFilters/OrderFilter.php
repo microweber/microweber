@@ -6,7 +6,7 @@
  * Time: 3:25 PM
  */
 
-namespace MicroweberPackages\Order\Models\ModelFilters;
+namespace Modules\Order\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use Modules\Content\Models\ModelFilters\Traits\FilterByDateBetweenTrait;

@@ -2,9 +2,9 @@
 
 namespace Modules\Customer\Listeners;
 
-use MicroweberPackages\Order\Models\Order;
 use Modules\Customer\Models\Address;
 use Modules\Customer\Models\Customer;
+use Modules\Order\Models\Order;
 
 class CreateCustomerFromOrderListener
 {

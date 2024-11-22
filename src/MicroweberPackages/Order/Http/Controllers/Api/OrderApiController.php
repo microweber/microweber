@@ -11,10 +11,10 @@ namespace MicroweberPackages\Order\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Order\Http\Requests\OrderRequest;
 use MicroweberPackages\Order\Http\Requests\OrderCreateRequest;
+use MicroweberPackages\Order\Http\Requests\OrderRequest;
 use MicroweberPackages\Order\Http\Requests\OrderUpdateRequest;
-use MicroweberPackages\Order\Repositories\OrderApiRepository;
+use Modules\Order\Repositories\OrderApiRepository;
 
 class OrderApiController extends AdminDefaultController
 {

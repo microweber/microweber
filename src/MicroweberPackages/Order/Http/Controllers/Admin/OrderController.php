@@ -9,7 +9,7 @@ namespace MicroweberPackages\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class OrderController extends AdminController
 {

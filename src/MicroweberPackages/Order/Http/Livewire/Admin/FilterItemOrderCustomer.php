@@ -2,11 +2,8 @@
 
 namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
-use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Admin\Http\Livewire\FilterItemComponent;
-use MicroweberPackages\Admin\Http\Livewire\FilterItemMultipleSelectComponent;
-use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\User\Models\User;
+use Modules\Order\Models\Order;
 
 class FilterItemOrderCustomer extends FilterItemComponent
 {

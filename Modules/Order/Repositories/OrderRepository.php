@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Order\Repositories;
+namespace Modules\Order\Repositories;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use Modules\Order\Models\Order;
 
 class OrderRepository extends AbstractRepository
 {

@@ -4,9 +4,9 @@ namespace Modules\Form\Tests;
 
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Order\Models\Order;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
+use Modules\Order\Models\Order;
 
 
 class CustomFieldsTest extends TestCase

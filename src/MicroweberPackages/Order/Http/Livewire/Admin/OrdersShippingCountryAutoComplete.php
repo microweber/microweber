@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Order\Http\Livewire\Admin;
 
 use MicroweberPackages\Admin\Http\Livewire\AutoCompleteComponent;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class OrdersShippingCountryAutoComplete extends AutoCompleteComponent
 {

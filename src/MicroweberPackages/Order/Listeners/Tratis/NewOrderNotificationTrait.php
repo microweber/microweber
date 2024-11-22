@@ -9,10 +9,9 @@
 
 namespace MicroweberPackages\Order\Listeners\Tratis;
 
-use Illuminate\Support\Facades\Notification;
-use MicroweberPackages\Order\Models\OrderAnonymousClient;
 use MicroweberPackages\Order\Notifications\NewOrderNotification;
 use MicroweberPackages\User\Models\User;
+use Modules\Order\Models\OrderAnonymousClient;
 
 trait NewOrderNotificationTrait {
 

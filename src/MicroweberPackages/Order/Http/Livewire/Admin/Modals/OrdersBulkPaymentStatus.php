@@ -2,9 +2,8 @@
 
 namespace MicroweberPackages\Order\Http\Livewire\Admin\Modals;
 
-use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class OrdersBulkPaymentStatus extends AdminModalComponent
 {

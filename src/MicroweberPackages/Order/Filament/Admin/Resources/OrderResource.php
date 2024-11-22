@@ -15,9 +15,9 @@ use MicroweberPackages\Order\Enums\OrderStatus;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\RelationManagers\PaymentsRelationManager;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Widgets\OrderStats;
-use MicroweberPackages\Order\Models\Order;
 use Modules\Content\Models\Content;
 use Modules\CustomFields\Models\CustomField;
+use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Squire\Models\Country;
 

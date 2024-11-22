@@ -5,7 +5,6 @@ namespace MicroweberPackages\Order\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Order\Models\Order;
 
 class AbandonedOrderController extends AdminController
 {

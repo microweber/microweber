@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Export\Formats\XlsxExport;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 use function redirect;
 use function response;
 

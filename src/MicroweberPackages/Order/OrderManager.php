@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\Order\Events\OrderIsCreating;
 use MicroweberPackages\Order\Events\OrderWasCreated;
 use MicroweberPackages\Order\Events\OrderWasPaid;
-use MicroweberPackages\Order\Models\Order;
 use MicroweberPackages\User\Models\User;
+use Modules\Order\Models\Order;
 use Modules\Product\Models\Product;
 use Modules\Product\Notifications\ProductOutOfStockNotification;
 

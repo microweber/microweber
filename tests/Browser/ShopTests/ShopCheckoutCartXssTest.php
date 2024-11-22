@@ -3,12 +3,9 @@
 namespace Tests\Browser\ShopTests;
 
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Order\Models\Order;
-use Tests\Browser\Components\ChekForJavascriptErrors;
-use Tests\DuskTestCase;
+use Modules\Order\Models\Order;
 use function app;
 use function get_option;
-use function save_option;
 use function Tests\Browser\Multilanguage\str_contains;
 
 class ShopCheckoutCartXssTest extends ShopDuskTestCase

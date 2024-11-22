@@ -9,7 +9,7 @@
  *
  */
 
-namespace MicroweberPackages\Order\Models;
+namespace Modules\Order\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
@@ -17,12 +17,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use MicroweberPackages\Cart\Concerns\HasCartItems;
 use MicroweberPackages\Order\Enums\OrderStatus;
-use MicroweberPackages\Order\Models\ModelFilters\OrderFilter;
 use MicroweberPackages\User\Models\User;
 use Modules\Customer\Models\Customer;
+use Modules\Order\Models\ModelFilters\OrderFilter;
 use Modules\Payment\Enums\PaymentStatus;
-
-//use Kirschbaum\PowerJoins\PowerJoins;
 
 class Order extends Model
 {

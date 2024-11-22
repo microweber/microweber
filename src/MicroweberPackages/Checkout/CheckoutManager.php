@@ -2,23 +2,15 @@
 
 namespace MicroweberPackages\Checkout;
 
-use Carbon\Carbon;
-use Illuminate\Encryption\MissingAppKeyException;
-use Illuminate\Http\Request;
-use Illuminate\Notifications\AnonymousNotifiable;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
-
-use MicroweberPackages\Checkout\Http\Controllers\CheckoutController;
+use MicroweberPackages\Order\Events\OrderWasPaid;
+use MicroweberPackages\Order\Notifications\NewOrder;
+use MicroweberPackages\Utils\Mail\MailSender;
+use Modules\Order\Models\Order;
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
 
 //use MicroweberPackages\Invoice\Address;
 //use MicroweberPackages\Invoice\Invoice;
-use MicroweberPackages\Order\Events\OrderWasPaid;
-use MicroweberPackages\Order\Models\Order;
-use MicroweberPackages\Order\Notifications\NewOrder;
-use MicroweberPackages\Utils\Mail\MailSender;
-use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 
 class CheckoutManager
 {

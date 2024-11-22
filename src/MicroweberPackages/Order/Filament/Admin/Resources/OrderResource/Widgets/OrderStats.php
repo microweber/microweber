@@ -8,7 +8,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 use MicroweberPackages\Order\Filament\Admin\Resources\OrderResource\Pages\ListOrders;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class OrderStats extends BaseWidget
 {

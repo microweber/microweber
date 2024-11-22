@@ -14,7 +14,7 @@ use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ContactInformationTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\PaymentTrait;
 use MicroweberPackages\Checkout\Http\Controllers\Traits\ShippingTrait;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class CheckoutController extends Controller {
 

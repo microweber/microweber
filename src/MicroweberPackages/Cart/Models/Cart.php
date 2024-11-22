@@ -14,7 +14,7 @@ namespace MicroweberPackages\Cart\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Cart\Models\ModelFilters\CartFilter;
-use MicroweberPackages\Order\Models\Order;
+use Modules\Order\Models\Order;
 
 class Cart extends Model
 {
