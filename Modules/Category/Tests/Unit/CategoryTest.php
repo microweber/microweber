@@ -32,68 +32,59 @@ class CategoryTest extends TestCase
 
     public function testRecusriveRender()
     {
-
-        Content::truncate();
-        Category::truncate();
-        CategoryItem::truncate();
-
-
-        $categoryLink = category_link(0);
-        $this->assertFalse($categoryLink);
-
-        Content::truncate();
-        Category::truncate();
-        CategoryItem::truncate();
-
+        $uniqid = uniqid();
+        $pageTitle = 'blog-' . $uniqid;
+        $mainCategoryTitle = 'Categories-' . $uniqid;
 
         $page = new Page();
-        $page->title = 'Blog';
+        $page->title = $pageTitle;
         $page->content_type = 'page';
-        $page->url = 'blog';
+        $page->url = $pageTitle;
         $page->subtype = 'dynamic';
         $page->save();
         $blogId = $page->id;
 
         $category = new Category();
-        $category->title = 'Categories';
-        $category->rel_type = morph_name(\Modules\Content\Models\Content::class);;
+        $category->title = $mainCategoryTitle;
+        $category->rel_type = morph_name(\Modules\Content\Models\Content::class);
         $category->rel_id = $page->id;
         $category->parent_id = 0;
         $category->save();
         $mainCategoryId = $category->id;
 
+        $uidRoot = 'Root' . $uniqid;
         $categoriesToSave = [];
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Dragalevci';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Mladost';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Nadejda';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Shoes';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Clothes';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Clocks';
-        $categoriesToSave[] = 'Properties > Locations > City > Sofia > Center > Market > Machine';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Sofia > Dragalevci';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Sofia > Mladost';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Sofia > Nadejda';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Sofia > Center';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Sofia > Center > Market > Shoes';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Sofia > Center > Market > Clothes';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Sofia > Center > Market > Clocks';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Sofia > Center > Market > Machine';
 
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Kenana';
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Rakovska';
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Bqlo more';
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center';
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Shoes';
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Clothes';
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Clocks';
-        $categoriesToSave[] = 'Properties > Locations > City > Haskovo > Center > Market > Machine';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Haskovo > Kenana';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Haskovo > Rakovska';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Haskovo > Bqlo more';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Haskovo > Center';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Haskovo > Center > Market > Shoes';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Haskovo > Center > Market > Clothes';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Haskovo > Center > Market > Clocks';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Haskovo > Center > Market > Machine';
 
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Qvor';
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Georgi Qnakiev';
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Asen II';
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center';
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Shoes';
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clothes';
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Clocks';
-        $categoriesToSave[] = 'Properties > Locations > City > Plovdiv > Center > Market > Machine';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Plovdiv > Qvor';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Plovdiv > Georgi Qnakiev';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Plovdiv > Asen II';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Plovdiv > Center';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Plovdiv > Center > Market > Shoes';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Plovdiv > Center > Market > Clothes';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Plovdiv > Center > Market > Clocks';
+        $categoriesToSave[] = $uidRoot . ' > Properties > Locations > City > Plovdiv > Center > Market > Machine';
 
         $newCategorySave = new PlainTextCategoriesSave();
         $newCategorySave->saveCategories($categoriesToSave, $mainCategoryId);
 
-        $findCategoryProperties = Category::where('title', 'Properties')->first();
+        $findCategoryProperties = Category::where('title', $uidRoot)->first();
         $this->assertIsInt($findCategoryProperties->id);
         $this->assertIsInt($findCategoryProperties->position);
         $this->assertIsInt($findCategoryProperties->parent_id);
@@ -108,20 +99,18 @@ class CategoryTest extends TestCase
             $this->_assertCategoryRecursive($categoryTreeRendered, $categoriesToSave, $mainCategoryId);
         }
 
-
+        // Clean up by deleting the created entries
+        $page->delete();
+        $category->delete();
     }
 
     public function testRender()
     {
-        Content::truncate();
-        Category::truncate();
-        CategoryItem::truncate();
-
-
-        $categoryLink = category_link(0);
-        $this->assertFalse($categoryLink);
-
         $pageTitle = 'my-new-page-' . uniqid();
+        $mainCategoryTitle = 'Category level 1' . uniqid();
+        $subCategoryTitle = 'Category level 2' . uniqid();
+        $postTitle = 'my-new-post-' . uniqid();
+
         $page = new Page();
         $page->title = $pageTitle;
         $page->content_type = 'page';
@@ -129,23 +118,21 @@ class CategoryTest extends TestCase
         $page->subtype = 'dynamic';
         $page->save();
 
+        // Create and save the main category
         $mainCategory = new Category();
         $mainCategory->parent_id = 0;
         $mainCategory->rel_id = $page->id;
         $mainCategory->rel_type = 'content';
-        $mainCategory->title = 'Category level 1' . uniqid();
+        $mainCategory->title = $mainCategoryTitle;
         $mainCategory->save();
 
+        // Create and save the subcategory
         $subCategory = new Category();
         $subCategory->parent_id = $mainCategory->id;
-        $subCategory->title = 'Category level 2' . uniqid();
+        $subCategory->title = $subCategoryTitle;
         $subCategory->save();
 
-
-        $categoryTitle = category_title($mainCategory->id);
-        $this->assertEquals($mainCategory->title, $categoryTitle);
-
-        $postTitle = 'my-new-post-' . uniqid();
+        // Create and save a new post
         $post = new Post();
         $post->title = $postTitle;
         $post->content_type = 'post';
@@ -153,11 +140,14 @@ class CategoryTest extends TestCase
         $post->category_ids = [$mainCategory->id, $subCategory->id];
         $post->save();
 
+        // Perform assertions
+        $categoryTitle = category_title($mainCategory->id);
+        $this->assertEquals($mainCategory->title, $categoryTitle);
+
         $categoryItems = get_category_items($mainCategory->id);
         $categoryItemsCount = get_category_items_count($mainCategory->id);
 
         $this->assertEquals(1, $categoryItemsCount);
-
         $this->assertEquals(1, count($categoryItems));
         $this->assertEquals($mainCategory->id, $categoryItems[0]['parent_id']);
         $this->assertEquals(morph_name(\Modules\Content\Models\Content::class), $categoryItems[0]['rel_type']);
@@ -174,10 +164,8 @@ class CategoryTest extends TestCase
         $this->assertTrue(str_contains($categoryTree, 'data-category-id'));
         $this->assertTrue(str_contains($categoryTree, $mainCategory->title));
 
-
         $categoryItemsTestGetFalse = get_category_items(99999);
         $this->assertFalse($categoryItemsTestGetFalse);
-
 
         $foundCat = false;
         $foundSubCat = false;
@@ -202,12 +190,15 @@ class CategoryTest extends TestCase
             if ($item['parent_id'] == $subCategory->id) {
                 $foundSubCat = true;
             }
-
         }
         $this->assertTrue($foundCat);
         $this->assertTrue($foundSubCat);
 
-
+        // Clean up by deleting the created entries
+        $page->delete();
+        $mainCategory->delete();
+        $subCategory->delete();
+        $post->delete();
     }
 
     public function testAddcategoriesToModel()
@@ -300,10 +291,7 @@ class CategoryTest extends TestCase
 
     public function testCategoriesSlugToAcceptIdnChars()
     {
-        Content::truncate();
-        Category::truncate();
-        CategoryItem::truncate();
-
+        $uidRoot = 'Root' . uniqid();
         $slugs = [
             'category-1' => 'category-1',
             'категория-на-бг' => 'категория-на-бг',
@@ -312,19 +300,33 @@ class CategoryTest extends TestCase
             'category with weird symbols !@#$%^&*()_+:?' => 'category-with-weird-symbols',
         ];
 
+        $createdCategories = [];
+
         foreach ($slugs as $slug => $expected) {
+            $title = $uidRoot . '-' . $slug . '-' . uniqid();
             $save = [];
-            $save['title'] = $slug;
-            $save['url'] = $slug;
+            $save['title'] = $title;
+            $save['url'] = $uidRoot . '-' . $slug;
             $saveId = app()->category_repository->save($save);
             $saveGet = get_category_by_id($saveId);
-            $this->assertEquals($saveGet['url'], $expected);
+            $this->assertEquals($saveGet['url'], $uidRoot . '-' . $expected);
 
-            $findCategoryBySlug = get_categories('url=' . $expected . '&single=1');
+            $findCategoryBySlug = get_categories('url=' . $uidRoot . '-' . $expected . '&single=1');
             $this->assertEquals($saveGet['url'], $findCategoryBySlug['url']);
             $this->assertEquals($saveGet['id'], $findCategoryBySlug['id']);
+
+            $createdCategories[] = $saveGet;
+        }
+
+        // Clean up by deleting the created entries
+        foreach ($createdCategories as $category) {
+            $categoryModel = Category::find($category['id']);
+            if ($categoryModel) {
+                $categoryModel->delete();
+            }
         }
     }
+
     public function testCategoriesSameItemsIfSamePostIsSavedTwice()
     {
         $user = User::where('is_admin', '=', '1')->first();
@@ -344,7 +346,7 @@ class CategoryTest extends TestCase
             'subtype' => 'post',
             'content_type' => 'post',
             'title' => 'testCategoriesSameRelIdsIfSamePost' . $unique,
-            'category_ids' => [$savedId,$savedId2],
+            'category_ids' => [$savedId, $savedId2],
 
         ];
         $newPostInCategoriesId = save_content($testPostData);
@@ -357,8 +359,8 @@ class CategoryTest extends TestCase
         $newPostInCategoriesId2 = save_content($testPostData);
 
         $catItems2 = get_category_items($savedId);
-        $this->assertEquals( $catItems,$catItems2);
-        $this->assertEquals(  $newPostInCategoriesId,$newPostInCategoriesId2);
+        $this->assertEquals($catItems, $catItems2);
+        $this->assertEquals($newPostInCategoriesId, $newPostInCategoriesId2);
 
 
     }

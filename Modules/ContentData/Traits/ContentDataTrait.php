@@ -61,22 +61,7 @@ trait ContentDataTrait
                             ->where('id', $findContentData->id)
                             ->update(['field_value' => $fieldValue]);
                     }
-// update with db by id
 
-
-                    //dump($findContentData);
-
-
-//                    if ($findContentData == null) {
-//                        $findContentData = new ContentData();
-//                        $findContentData->rel_id = $model->id;
-//                        $findContentData->field_name = $fieldName;
-//                        $findContentData->rel_type = $model->getMorphClass();
-//                    }
-
-                    //     $findContentData->field_value = $fieldValue;
-                    //  $findContentData->save();
-                    //  dump($findContentData);
                 }
             }
         });
