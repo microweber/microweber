@@ -20,8 +20,9 @@ trait FilterByStockTrait
      */
     public function inStock($isInStock)
     {
+
          return $this->query->whereHas('contentData', function (Builder $query) use ($isInStock) {
-            if ($isInStock == 1) {
+            if ($isInStock) {
                 // in of stock
                 $query->where('field_name', '=', 'qty');
                 $query->where(function ($contentDataFieldValueQuery) {

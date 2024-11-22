@@ -109,6 +109,15 @@ class CategoryManagerTest extends TestCase
         $newProduct->setContentData(['qty' => '1']);
         $newProduct->category_ids = $category->id;
         $newProduct->save();
+
+
+        $checkModelFilter = Product::select(['content.id'])
+            ->filter(['inStock' => 1])
+            ->where('id', $newProduct->id)
+          ->first();
+
+        $this->assertEquals($checkModelFilter->id, $newProduct->id);
+
         $content_data = content_data($newProduct->id);
         $check = app()->category_repository->hasProductsInStock($category->id);
 
