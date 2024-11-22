@@ -21,7 +21,6 @@ use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
 use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
-use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
 use Modules\Page\Models\Page;

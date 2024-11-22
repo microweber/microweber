@@ -33,7 +33,7 @@ use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
 use MicroweberPackages\Marketplace\MarketplaceServiceProvider;
-use MicroweberPackages\Media\MediaManagerServiceProvider;
+
 use MicroweberPackages\MetaTags\Providers\MetaTagsServiceProvider;
 use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
@@ -112,7 +112,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(RepositoryServiceProvider::class);
         $this->app->register(RepositoryEventServiceProvider::class);
-        $this->app->register(MediaManagerServiceProvider::class);
+       // $this->app->register(MediaManagerServiceProvider::class);
         //$this->app->register(DebugbarServiceProvider::class);
 
         $this->app->register(PaginationServiceProvider::class);

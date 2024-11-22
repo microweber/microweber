@@ -7,7 +7,7 @@ use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
-use MicroweberPackages\Media\Models\Media;
+use Modules\Media\Models\Media;
 
 class PicturesModuleSettings extends LiveEditModuleSettings
 {

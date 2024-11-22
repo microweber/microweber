@@ -10,11 +10,11 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
-use MicroweberPackages\Media\Traits\MediaTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use Modules\Category\Models\ModelFilters\CategoryFilter;
 use Modules\ContentData\Traits\ContentDataTrait;
 use Modules\ContentField\Concerns\HasContentFieldTrait;
+use Modules\Media\Traits\MediaTrait;
 
 class Category extends Model
 {

@@ -89,40 +89,6 @@ api_expose('template/print_custom_css_fonts', function ($data) {
 
 });
 
-api_expose_admin('media_library/search', function ($data) {
-
-    $search = array();
-    $unsplash = new \MicroweberPackages\Utils\Media\Adapters\Unsplash();
-
-    $page = 1;
-
-    if (isset($data['page'])) {
-        $page = $data['page'];
-    }
-
-    if (isset($data['keyword'])) {
-        $search = $unsplash->search($data['keyword'], $page);
-    }
-
-    $response = Response::make($search);
-    $response->header('Content-Type', 'text/json');
-
-    return $response;
-
-});
-
-api_expose_admin('media_library/download', function ($data) {
-
-    $unsplash = new \MicroweberPackages\Utils\Media\Adapters\Unsplash();
-    if (isset($data['photo_id'])) {
-        $image = $unsplash->download($data['photo_id']);
-    }
-
-    return $image;
-
-});
-
-
 api_expose_admin('current_template_save_custom_css', function ($data) {
     return mw()->layouts_manager->template_save_css($data);
 });

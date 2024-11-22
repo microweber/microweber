@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
         //
         app()->register(EventServiceProvider::class);
         app()->register(RouteServiceProvider::class);
-        app()->register(DrinksProvider::class);
+       // app()->register(DrinksProvider::class);
 
 
     }

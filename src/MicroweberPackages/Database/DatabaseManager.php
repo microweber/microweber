@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Database\Traits\ExtendedSave;
 use MicroweberPackages\Database\Traits\QueryFilter;
 use MicroweberPackages\Database\Utils as DbUtils;
-use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Modules\Category\Models\Category;
 use Modules\Content\Models\Content;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
+use Modules\Media\Models\Media;
 
 class DatabaseManager extends DbUtils
 {

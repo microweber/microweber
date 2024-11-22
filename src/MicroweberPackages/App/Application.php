@@ -12,7 +12,6 @@ use MicroweberPackages\App\Managers\Ui;
 use MicroweberPackages\Cart\CartManager;
 use MicroweberPackages\Cart\Repositories\CartRepository;
 use MicroweberPackages\Checkout\CheckoutManager;
-use MicroweberPackages\CustomField\FieldsManager;
 use MicroweberPackages\Database\DatabaseManager;
 use MicroweberPackages\Event\Event;
 use MicroweberPackages\Helper\Format;
@@ -21,8 +20,7 @@ use MicroweberPackages\Helper\UrlManager;
 use MicroweberPackages\Helper\XSSSecurity;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\LaravelTemplates\Repositories\LaravelTemplatesFileRepository;
-use MicroweberPackages\Media\MediaManager;
-use MicroweberPackages\Media\Repositories\MediaRepository;
+use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\Module\ModuleManager;
 use MicroweberPackages\Module\Repositories\ModuleRepository;
 use MicroweberPackages\Multilanguage\Repositories\MultilanguageRepository;
@@ -36,17 +34,18 @@ use MicroweberPackages\Payment\PaymentManager;
 use MicroweberPackages\Repository\RepositoryManager;
 use MicroweberPackages\Shop\ShopManager;
 use MicroweberPackages\Template\LayoutsManager;
-use MicroweberPackages\Template\Template;
 use MicroweberPackages\Template\TemplateManager;
 use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Http\Http;
 use Modules\Attributes\Repositories\AttributesManager;
-use Modules\Category\Repositories\CategoryManager;
 use Modules\Content\Repositories\ContentManager;
 use Modules\Content\Repositories\ContentRepository;
 use Modules\ContentData\Repositories\DataFieldsManager;
+use Modules\CustomFields\Repositories\CustomFieldRepository;
+use Modules\CustomFields\Repositories\FieldsManager;
+use Modules\Media\Repositories\MediaManager;
 use Modules\Menu\Repositories\MenuRepository;
 use Modules\Payment\PaymentMethodManager;
 use Modules\Shipping\ShippingManager;
@@ -61,59 +60,59 @@ use Modules\Shipping\ShippingMethodManager;
  * @category Application
  * @desc
  *
- * @property UrlManager                    $url_manager
- * @property HTMLClean                            $html_clean
- * @property XSSSecurity                            $xss_security
- * @property Format                            $format
- * @property ContentManager                $content_manager
- * @property RepositoryManager                $repository_manager
- * @property ContentRepository                $content_repository
- * @property \Modules\Category\Repositories\CategoryManager               $category_manager
- * @property \Modules\Category\Repositories\CategoryRepository              $category_repository
- * @property \Modules\Menu\Repositories\MenuManager                   $menu_manager
- * @property MenuRepository              $menu_repository
- * @property MediaManager                  $media_manager
- * @property MediaRepository                  $media_repository
- * @property ShopManager                   $shop_manager
- * @property CartManager              $cart_manager
- * @property CartRepository         $cart_repository
- * @property OrderManager             $order_manager
- * @property OrderRepository    $order_repository
- * @property \Modules\CustomFields\Repositories\CustomFieldRepository $custom_field_repository
- * @property OfferRepository             $offer_repository
- * @property \Modules\Tax\TaxManager               $tax_manager
- * @property CheckoutManager          $checkout_manager
- * @property ShippingManager          $shipping_manager
- * @property PaymentManager          $payment_manager
- * @property OptionManager                 $option_manager
- * @property OptionRepository                 $option_repository
- * @property CacheManager                  $cache_manager
- * @property UserManager                   $user_manager
- * @property DatabaseManager              $database_manager
- * @property NotificationsManager          $notifications_manager
- * @property LayoutsManager                $layouts_manager
- * @property LogManager                    $log_manager
- * @property FieldsManager                 $fields_manager
- * @property Event                         $event_manager
- * @property ConfigurationManager          $config_manager
- * @property TemplateManager               $template_manager
- * @property CaptchaManager               $captcha_manager
- * @property Ui                            $ui
- * @property Http                              $http
- * @property \Modules\Form\FormsManager                  $forms_manager
- * @property DataFieldsManager     $data_fields_manager
- * @property AttributesManager     $attributes_manager
- * @property Lang                  $lang_helper
- * @property PermalinkManager              $permalink_manager
- * @property ModuleManager              $module_manager
- * @property ModuleRepository              $module_repository
- * @property Translator                    $translator
- * @property MultilanguageRepository       $multilanguage_repository
- * @property TranslateManager       $translate_manager
- * @property \MicroweberPackages\Microweber\Repositories\MicroweberRepository       $microweber
- * @property PaymentMethodManager       $payment_method_manager
- * @property ShippingMethodManager      $shipping_method_manager
- * @property LaravelTemplatesFileRepository      $templates
+ * @property UrlManager $url_manager
+ * @property HTMLClean $html_clean
+ * @property XSSSecurity $xss_security
+ * @property Format $format
+ * @property ContentManager $content_manager
+ * @property RepositoryManager $repository_manager
+ * @property ContentRepository $content_repository
+ * @property \Modules\Category\Repositories\CategoryManager $category_manager
+ * @property \Modules\Category\Repositories\CategoryRepository $category_repository
+ * @property \Modules\Menu\Repositories\MenuManager $menu_manager
+ * @property MenuRepository $menu_repository
+ * @property \Modules\Media\Repositories\MediaManager $media_manager
+ * @property \Modules\Media\Repositories\MediaRepository $media_repository
+ * @property ShopManager $shop_manager
+ * @property CartManager $cart_manager
+ * @property CartRepository $cart_repository
+ * @property OrderManager $order_manager
+ * @property OrderRepository $order_repository
+ * @property CustomFieldRepository $custom_field_repository
+ * @property OfferRepository $offer_repository
+ * @property \Modules\Tax\TaxManager $tax_manager
+ * @property CheckoutManager $checkout_manager
+ * @property ShippingManager $shipping_manager
+ * @property PaymentManager $payment_manager
+ * @property OptionManager $option_manager
+ * @property OptionRepository $option_repository
+ * @property CacheManager $cache_manager
+ * @property UserManager $user_manager
+ * @property DatabaseManager $database_manager
+ * @property NotificationsManager $notifications_manager
+ * @property LayoutsManager $layouts_manager
+ * @property LogManager $log_manager
+ * @property  FieldsManager $fields_manager
+ * @property Event $event_manager
+ * @property ConfigurationManager $config_manager
+ * @property TemplateManager $template_manager
+ * @property CaptchaManager $captcha_manager
+ * @property Ui $ui
+ * @property Http $http
+ * @property \Modules\Form\FormsManager $forms_manager
+ * @property DataFieldsManager $data_fields_manager
+ * @property AttributesManager $attributes_manager
+ * @property Lang $lang_helper
+ * @property PermalinkManager $permalink_manager
+ * @property ModuleManager $module_manager
+ * @property ModuleRepository $module_repository
+ * @property Translator $translator
+ * @property MultilanguageRepository $multilanguage_repository
+ * @property TranslateManager $translate_manager
+ * @property  MicroweberRepository $microweber
+ * @property PaymentMethodManager $payment_method_manager
+ * @property ShippingMethodManager $shipping_method_manager
+ * @property LaravelTemplatesFileRepository $templates
  * @property LaravelModulesFileRepository $modules
  */
 class Application

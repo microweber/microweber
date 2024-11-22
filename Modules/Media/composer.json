@@ -1,0 +1,33 @@
+{
+    "name": "modules/media",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Media\\": "",
+            "Modules\\Media\\Database\\Factories\\": "database/factories/",
+            "Modules\\Media\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "Support/media_functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Media\\Tests\\": "Tests/"
+        }
+    }
+}

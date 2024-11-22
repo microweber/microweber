@@ -8,8 +8,7 @@ use Filament\Forms\Components\Field;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Livewire\Attributes\On;
-use MicroweberPackages\Media\Models\Media;
+use Modules\Media\Models\Media;
 
 class MwMediaBrowser extends Field
 {

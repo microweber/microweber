@@ -3,8 +3,7 @@
 namespace Modules\Pictures\Tests\Unit;
 
 use Illuminate\Support\Facades\View;
-
-use MicroweberPackages\Media\Models\Media;
+use Modules\Media\Models\Media;
 use Modules\Pictures\Microweber\PicturesModule;
 use Tests\TestCase;
 

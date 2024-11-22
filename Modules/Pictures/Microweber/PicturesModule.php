@@ -2,8 +2,8 @@
 
 namespace Modules\Pictures\Microweber;
 
-use MicroweberPackages\Media\Models\Media;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
+use Modules\Media\Models\Media;
 use Modules\Pictures\Filament\PicturesModuleSettings;
 
 class PicturesModule extends BaseModule

@@ -226,7 +226,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             foreach ($modules_ids as $modules_id) {
                 if ($modules_id) {
                     \MicroweberPackages\Option\Models\Option::where('option_group', '=', $modules_id)->delete();
-                    \MicroweberPackages\Media\Models\Media::where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
+                    \Modules\Media\Models\Media::where('rel_type', '=', 'modules')->where('rel_id', '=', $modules_id)->delete();
                     CustomField::where('rel_type', '=', 'module')->where('rel_id', '=', $modules_id)->delete();
 
                 }
