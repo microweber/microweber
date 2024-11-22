@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Multilanguage;
 
-class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManager
+class MultilanguagePermalinkManager extends \MicroweberPackages\App\Managers\PermalinkManager
 {
     public $language = false;
 

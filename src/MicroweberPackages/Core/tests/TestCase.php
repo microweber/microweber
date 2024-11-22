@@ -340,6 +340,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         if (!env('MW_IS_INSTALLED')) {
             $this->install();
         }
+        \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
 
 
 //        \Config::set('modules.cache.enabled',false);

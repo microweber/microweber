@@ -32,7 +32,7 @@ class ContentApiController extends AdminDefaultController
     {
 
 
-        return (new JsonResource($this->content->filter($request->all() )->get()));
+        return (new JsonResource($this->content->filter($request->all())->get()));
     }
 
     /**
@@ -60,8 +60,8 @@ class ContentApiController extends AdminDefaultController
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
-     * @param  string $id
+     * @param Request $request
+     * @param string $id
      * @return JsonResource
      */
     public function update(Request $request, $id)
@@ -72,11 +72,11 @@ class ContentApiController extends AdminDefaultController
     /**
      * Destroy resources by given id.
      * @param string $id
-     * @return void
+     * @return JsonResource
      */
     public function destroy($id)
     {
-        return (new JsonResource(['id'=>$this->content->delete($id)]));
+        return (new JsonResource(['id' => $this->content->delete($id)]));
     }
 
 

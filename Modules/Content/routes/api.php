@@ -13,11 +13,15 @@ use  \Illuminate\Support\Facades\Route;
 Route::name('api.')
     ->prefix('api')
     ->middleware(['api', 'admin'])
-    ->namespace('\Modules\Content\Http\Controllers\Api')
+
     ->group(function () {
         Route::get('content/get_admin_js_tree_json', function (\Illuminate\Http\Request $request) {
             return mw()->category_manager->get_admin_js_tree_json($request->all());
         })->name('content.get_admin_js_tree_json');
+
+        Route::apiResource('content', \Modules\Content\Http\Controllers\Api\ContentApiController::class)->only([
+            'update','destroy','index','show','store'
+        ]);
     });
 
 Route::name('api.')
