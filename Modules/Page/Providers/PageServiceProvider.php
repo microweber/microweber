@@ -36,13 +36,10 @@ class PageServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
+
         FilamentRegistry::registerResource(PageResource::class);
-
-        // Register filament page for Microweber module settings
-         FilamentRegistry::registerPage(PageModuleSettings::class);
-
-        // Register Microweber module
+        FilamentRegistry::registerPage(PageModuleSettings::class);
         Microweber::module(\Modules\Page\Microweber\PageModule::class);
 
     }
