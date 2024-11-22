@@ -1,9 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Offer\Listeners;
+namespace Modules\Offer\Listeners;
 
-use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Offer\Models\Offer;
+use Modules\Offer\Models\Offer;
 
 trait ModifySpecialPriceProductTrait {
 

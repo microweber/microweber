@@ -41,7 +41,6 @@ use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\MailTemplatesServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
-use MicroweberPackages\Offer\Providers\OfferServiceProvider;
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
 
 
@@ -159,7 +158,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(CheckoutManagerServiceProvider::class);
         $this->app->register(CartManagerServiceProvider::class);
         //$this->app->register(ShippingManagerServiceProvider::class);
-        $this->app->register(OfferServiceProvider::class);
+        //$this->app->register(OfferServiceProvider::class);
         $this->app->register(FileManagerServiceProvider::class);
       //  $this->app->register(FormServiceProvider::class);
         $this->app->register(FormBuilderServiceProvider::class);

@@ -1,10 +1,10 @@
 <?php
-namespace MicroweberPackages\Offer\Repositories;
+namespace Modules\Offer\Repositories;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Offer\Models\Offer;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use Modules\Offer\Models\Offer;
 
 class OfferRepository extends AbstractRepository
 {

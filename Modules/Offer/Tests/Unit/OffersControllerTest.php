@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Offer\tests;
+namespace Modules\Offer\Tests\Unit;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;

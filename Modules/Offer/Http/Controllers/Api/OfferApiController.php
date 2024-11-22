@@ -1,13 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Offer\Http\Controllers\Api;
+namespace Modules\Offer\Http\Controllers\Api;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-use MicroweberPackages\App\Http\Controllers\Controller;
-use MicroweberPackages\Offer\Http\Requests\OfferCreateUpdateRequest;
-
-use MicroweberPackages\Offer\Models\Offer;
 use Illuminate\Http\Request;
+use MicroweberPackages\App\Http\Controllers\Controller;
+use Modules\Offer\Models\Offer;
 use Modules\Product\Models\Product;
 
 class OfferApiController extends Controller

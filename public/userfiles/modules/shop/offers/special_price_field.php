@@ -1,7 +1,7 @@
 <?php must_have_access(); ?>
 
 <?php
-if (!isset($params['product_id']) or !class_exists('\MicroweberPackages\Offer\Models\Offer')) {
+if (!isset($params['product_id']) or !class_exists('\Modules\Offer\Models\Offer')) {
     return;
 }
 

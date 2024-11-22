@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Offer\Listeners;
+namespace Modules\Offer\Listeners;
 
 class AddSpecialPriceProductListener
 {

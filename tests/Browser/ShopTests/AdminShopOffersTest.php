@@ -3,7 +3,7 @@
 namespace Tests\Browser\ShopTests;
 
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Offer\Models\Offer;
+use Modules\Offer\Models\Offer;
 use Modules\Product\Models\Product;
 use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;

@@ -1,10 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Offer\Models;
+namespace Modules\Offer\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Modules\Product\Models\Product;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Offer extends Model

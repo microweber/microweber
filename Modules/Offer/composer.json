@@ -1,0 +1,33 @@
+{
+    "name": "modules/offer",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Offer\\": "",
+            "Modules\\Offer\\Database\\Factories\\": "database/factories/",
+            "Modules\\Offer\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "Support/offers_functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Offer\\Tests\\": "Tests/"
+        }
+    }
+}

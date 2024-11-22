@@ -11,7 +11,7 @@ if (!function_exists('offers_get_products')) {
 
         $table = 'content';
 
-        $offers = DB::table($table)->select('content.id as product_id', 'content.title as product_title', 'custom_fields.name as price_name', 'custom_fields.name_key as price_key', 'custom_fields_values.value as price')
+        $offers = \Illuminate\Support\Facades\DB::table($table)->select('content.id as product_id', 'content.title as product_title', 'custom_fields.name as price_name', 'custom_fields.name_key as price_key', 'custom_fields_values.value as price')
             ->leftJoin('custom_fields', 'content.id', '=', 'custom_fields.rel_id')
             ->leftJoin('custom_fields_values', 'custom_fields.id', '=', 'custom_fields_values.custom_field_id')
             ->where('content.content_type', '=', 'product')
@@ -54,7 +54,7 @@ if (!function_exists('offers_get_offer_product_ids')) {
 
     function offers_get_offer_product_ids()
     {
-        $offers = DB::table('offers')->select('product_id')->get();
+        $offers = \Illuminate\Support\Facades\DB::table('offers')->select('product_id')->get();
         $product_ids = array();
         foreach ($offers as $offer) {
             $product_ids[] = $offer->product_id;

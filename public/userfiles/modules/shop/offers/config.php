@@ -19,8 +19,8 @@ $config['version'] = 1.1;
 $config['position'] = 27;
 
 $config['settings']['service_provider'] = [
-    \MicroweberPackages\Offer\Providers\EventServiceProvider::class,
-    \MicroweberPackages\Offer\Providers\OfferServiceProvider::class,
+  //  \MicroweberPackages\Offer\Providers\EventServiceProvider::class,
+ //   \MicroweberPackages\Offer\Providers\OfferServiceProvider::class,
 ];
 
 //
