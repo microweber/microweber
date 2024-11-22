@@ -34,13 +34,10 @@ class PostServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
 
         FilamentRegistry::registerResource(PostResource::class);
-        // Register filament page for Microweber module settings
-         FilamentRegistry::registerPage(PostModuleSettings::class);
-
-        // Register Microweber module
-          Microweber::module(\Modules\Post\Microweber\PostModule::class);
+        FilamentRegistry::registerPage(PostModuleSettings::class);
+        Microweber::module(\Modules\Post\Microweber\PostModule::class);
     }
 }

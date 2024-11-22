@@ -5,7 +5,7 @@ namespace Modules\Product\Tests\Unit;
 
 
 use Illuminate\Support\Facades\Auth;
-use MicroweberPackages\Category\Models\Category;
+use Modules\Category\Models\Category;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 
@@ -48,8 +48,7 @@ class ProductVariantApiControllerTest extends TestCase
           'price'=>$price
         ];
 
-        $response = $this->call(
-            'POST',
+        $response = $this->postJson(
             route('api.product_variant.store'),
             [
                 'title' => $title,

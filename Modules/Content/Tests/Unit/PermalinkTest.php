@@ -8,7 +8,9 @@
 
 namespace Modules\Content\Tests\Unit;
 
-use MicroweberPackages\Core\tests\TestCase;
+
+
+use Tests\TestCase;
 
 class PermalinkTest extends TestCase
 {

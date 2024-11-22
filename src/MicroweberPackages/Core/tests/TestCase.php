@@ -5,8 +5,10 @@ namespace MicroweberPackages\Core\tests;
 use Illuminate\Foundation\Testing\WithConsoleEvents;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\Install\DbInstaller;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
@@ -341,6 +343,13 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $this->install();
         }
         \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(false);
+        DB::table('options')
+            ->where('option_group', 'multilanguage_settings')
+            ->delete();
+
+        app()->bind('permalink_manager', function () {
+            return new PermalinkManager();
+        });
 
 
 //        \Config::set('modules.cache.enabled',false);
