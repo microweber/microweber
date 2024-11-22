@@ -18,7 +18,6 @@ use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Cart\CartManagerServiceProvider;
 use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
 
-use MicroweberPackages\Category\Providers\CategoryServiceProvider;
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 
 use MicroweberPackages\Event\EventManagerServiceProvider;
@@ -135,7 +134,7 @@ class MicroweberServiceProvider extends ServiceProvider
        // $this->app->register(PageServiceProvider::class);
 //        $this->app->register(ContentServiceProvider::class);
 //        $this->app->register(ContentManagerServiceProvider::class);
-      $this->app->register(CategoryServiceProvider::class);
+      //$this->app->register(CategoryServiceProvider::class);
 //        $this->app->register(CategoryEventServiceProvider::class);
         //$this->app->register(MenuServiceProvider::class);
        //  $this->app->register(ProductServiceProvider::class);
