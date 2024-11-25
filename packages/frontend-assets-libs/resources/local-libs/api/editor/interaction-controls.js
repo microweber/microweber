@@ -150,8 +150,9 @@ MWEditor.interactionControls = {
                 css.left -= off.left;
             }
 
-            this.element.urlElement.html(data.target.href);
-            this.element.urlElement.prop('href', data.target.href);
+
+            this.element.urlElement.html(tg.href);
+            this.element.urlElement.prop('href', tg.href);
             this.element.css(css).show();
         };
         this.element = this.render();
