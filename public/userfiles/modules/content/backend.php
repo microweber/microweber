@@ -697,7 +697,7 @@ if ($action == 'posts') {
                                                     title: '<?php _e("Trash") ?>',
                                                     icon: 'mdi mdi-delete',
                                                     action: function () {
-                                                      
+
                                                         mw.url.windowHashParam('action', 'trash');
                                                     }
                                                 }
@@ -736,17 +736,15 @@ if ($action == 'posts') {
                                                     {
                                                         title: 'Move to trash',
                                                         icon: 'mdi mdi-delete',
-                                                        action: function (element, data, menuitem) {
+                                                        action: async function (element, data, menuitem) {
                                                             if (data.type === 'category') {
-                                                                mw.content.deleteCategory(data.id, function () {
-
-                                                                    $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function () {
+                                                                await mw.api.category.delete(data.id);
+                                                                $('#' + pagesTree.options.id + '-' + data.type + '-' + data.id).fadeOut(function () {
                                                                         if (window.pagesTreeRefresh) {
                                                                             pagesTreeRefresh()
                                                                         }
 
                                                                     })
-                                                                });
                                                             }
                                                             else {
                                                                 mw.content.deleteContent(data.id, function () {

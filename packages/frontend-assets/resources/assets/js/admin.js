@@ -7,6 +7,7 @@ import "../core/ajax.js";
 import "./admin-filament-app.globals.js";
 import "../core/url.js";
 import "../core/events.js";
+import "../core/api.js";
 import "../api-core/core/core/forms.js";
 import "../../../../frontend-assets-libs/resources/local-libs/api/domtree.js";
 import LiveEditImageDialog from "../live-edit/live-edit-image-dialog.js";

@@ -123,7 +123,7 @@
         ],
         material_icons: [
             function () {
-                mw.require(mw.settings.libs_url + 'material_icons' + '/material_icons.css');
+                mw.require(mw.settings.libs_url + 'material-icons/material-icons.css');
             }
         ],
         masonry: [
