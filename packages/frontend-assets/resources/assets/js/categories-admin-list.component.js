@@ -97,13 +97,14 @@ export class CategoriesAdminListComponent extends MicroweberBaseClass {
                     {
                         title: 'Delete',
                         icon: '<svg class="  text-danger" fill="currentColor" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>',
-                        action: function (element, data, menuitem) {
+                        action: async function (element, data, menuitem) {
                             if (data.type === 'category') {
-                                mw.content.deleteCategory(data.id, function () {
-                                    $(element).fadeOut(function () {
-                                        $(element).remove()
-                                    })
-                                }, false);
+
+                                await mw.api.category.delete(data.id);
+
+                                $(element).fadeOut(function () {
+                                    $(element).remove()
+                                })
                             }
                         },
                         filter: function (obj, node) {

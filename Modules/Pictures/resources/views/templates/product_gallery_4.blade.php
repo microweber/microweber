@@ -21,11 +21,12 @@ description: Product Gallery
         mw.lib.require('bxslider');
         mw.lib.require('slick');
         mw.lib.require('bootstrap3ns');
+        mw.lib.require('material_icons');
     </script>
 
     <script>
         $(document).ready(function () {
-            $('.bxslider', '#<?php print $id ?>').bxSlider({
+            const bx = $('.bxslider', '#<?php print $id ?>').bxSlider({
                 pagerCustom: '#bx-pager',
                 adaptiveHeight: false,
                 controls: false,
@@ -72,6 +73,9 @@ description: Product Gallery
                         }
                     }
                 ]
+            })
+            .on('click', '[data-slick-index]', function(){
+                   bx.goToSlide(this.dataset.slickIndex);
             });
         });
 
@@ -85,11 +89,35 @@ description: Product Gallery
 
     #<?php print $id; ?> .bxslider .image{
         height: min(calc(100vh - 200px), 900px);
+        display:block;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    #<?php print $id; ?> .bx-pager .slick .slick-arrow:first-child{left:0}
+    #<?php print $id; ?> .bx-pager .slick .slick-arrow:last-child{right:0}
+    #<?php print $id; ?> .bx-pager .slick-arrow.slick-disabled{
+        opacity: .5
+    }
+    #<?php print $id; ?> .bx-pager .slick-arrow{
+        position:absolute;
+        top: calc(50% - 17.5px);
+        width: 35px;
+        height: 35px;
+        background-color: rgba(0,0,0,.5);
+        color: #fff;
+        text-align: center;
+        align-content: center;
+        z-index: 2;
+        cursor: pointer;
     }
     #<?php print $id; ?> .bx-pager .image{
         height: 60px;
         width: 60px;
-        display: block
+        display: block;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     </style>
 
@@ -110,7 +138,7 @@ description: Product Gallery
                 </div>
 
                 <div class="col-xs-12 thumbs">
-                    <div id="bx-pager">
+                    <div class="bx-pager">
                         <div class="slick">
                             <?php foreach ($data as $key => $item): ?>
                                 <div class="item">
