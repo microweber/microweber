@@ -24,13 +24,14 @@ class BtnModule extends BaseModule
         $viewData['btnId'] = 'link-' . $this->params['id'];
         $viewData['popupFunctionId'] = 'mwPopupBtn' . md5($this->params['id']);
 
-        $viewData['style'] =  $this->params['button_style'] ?? '';
-        $viewData['size'] = '';
+        $viewData['style'] = $this->params['button_style'] ?? '';
+        $viewData['size'] = $this->params['button_size'] ?? $params['size'] ?? '';
+        $viewData['class'] = $this->params['class'] ?? '';
         $viewData['popupContent'] = '';
         $viewData['url'] = '';
         $viewData['blank'] = '';
-        $viewData['text'] = 'Button';
-        $viewData['icon'] = '';
+        $viewData['text'] = $this->params['button_size'] ?? $this->params['text'] ?? 'Button';
+        $viewData['icon'] = $this->params['icon'] ?? '';
         $viewData['iconPosition'] = '';
         $viewData['action'] = '';
         $viewData['attributes'] = '';
@@ -52,7 +53,7 @@ class BtnModule extends BaseModule
         $moduleOptions = $this->getOptions();
 
         if (!empty($moduleOptions)) {
-            foreach ($moduleOptions as $btnOptionKey=>$btnOptionValue) {
+            foreach ($moduleOptions as $btnOptionKey => $btnOptionValue) {
                 $viewData[$btnOptionKey] = $btnOptionValue;
             }
         }
