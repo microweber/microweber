@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
-## [2.0.17] - 2024-06-26
+## [2.0.17] - 2024-11-26
 - Maintenance release
 - Fixed various issues in live edit
 - [See all changes...](https://github.com/microweber/microweber/compare/2.0.16...2.0.17 "")
