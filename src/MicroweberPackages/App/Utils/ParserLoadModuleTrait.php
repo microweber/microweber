@@ -37,7 +37,7 @@ trait ParserLoadModuleTrait
             // $this->registry->registerParsedModule($module_name,$attrs['id']);
 
         } else {
-            $mod_id_value = 'load' . crc32($module_name . json_encode($attrs['id']));
+            $mod_id_value = 'load' . crc32($module_name . json_encode($attrs));
 
         }
 
