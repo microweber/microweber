@@ -91,6 +91,14 @@ class ContentResource extends Resource
                         Forms\Components\Hidden::make('subtype')
                             ->default($contentSubtype),
 
+
+                        Forms\Components\Hidden::make('active_site_template')->visible(function (Forms\Get $get) {
+                            return $get('content_type') == 'page';
+                        }),
+                        Forms\Components\Hidden::make('layout_file')->visible(function (Forms\Get $get) {
+                            return $get('content_type') == 'page';
+                        }),
+
                         Forms\Components\Hidden::make('categoryIds')
                             ->default(function (?Model $record) {
                                 if ($record) {
