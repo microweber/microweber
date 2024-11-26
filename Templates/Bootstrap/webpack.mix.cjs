@@ -6,7 +6,7 @@ const webpack = require('webpack');
 mix.webpackConfig({
     plugins: [
         new webpack.optimize.LimitChunkCountPlugin({
-          maxChunks: 5,
+            maxChunks:1,
         }),
       ],
 });
