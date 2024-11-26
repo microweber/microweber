@@ -170,14 +170,6 @@ trait ParserLoadModuleTrait
             return \App::call($this->module_registry[$module_name . '/index'], ["params" => $attrs]);
         }
 
-        if (app()->bound('microweber')) {
-
-            if ( app()->microweber->hasModule($module_name)) {
-
-                return app()->microweber->render($module_name, $attrs);
-
-            }
-        }
 
 
 
@@ -386,22 +378,18 @@ trait ParserLoadModuleTrait
                 $attrs['id'] = str_replace('__MODULE_CLASS_NAME__', $config['module_class'], $attrs['id']);
                 //$attrs['id'] = ('__MODULE_CLASS__' . '-' . $attrs1);
             }
-
-            //load scripts and css
             $module_css = '';
-            $module_css_file = dirname($try_file1) . DS . 'module.css';
-            if (is_file($module_css_file)) {
-                $module_css = @file_get_contents($module_css_file);
+//            //load scripts and css
+//            $module_css = '';
+//            $module_css_file = dirname($try_file1) . DS . 'module.css';
+//            if (is_file($module_css_file)) {
+//                $module_css = @file_get_contents($module_css_file);
+//
+//                if ($module_css) {
+//                    $module_css = str_replace('#module', '#' . url_title($attrs['id']), $module_css);
+//                }
+//            }
 
-                if ($module_css) {
-                    $module_css = str_replace('#module', '#' . url_title($attrs['id']), $module_css);
-                }
-            }
-
-
-            $l1 = new View($try_file1);
-            $l1->config = $config;
-            $l1->app = app();
 
             if (!isset($attrs['module'])) {
                 $attrs['module'] = $module_name;
@@ -409,6 +397,23 @@ trait ParserLoadModuleTrait
             if (!isset($attrs['type'])) {
                 $attrs['type'] = $module_name;
             }
+
+            if (app()->bound('microweber')) {
+
+                if ( app()->microweber->hasModule($module_name)) {
+
+
+                    return app()->microweber->render($module_name, $attrs);
+
+                }
+            }
+
+
+
+            $l1 = new View($try_file1);
+            $l1->config = $config;
+            $l1->app = app();
+
 
 //            if (!isset($attrs['parent-module'])) {
 //                $attrs['parent-module'] = $module_name;

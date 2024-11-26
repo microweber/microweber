@@ -8,9 +8,24 @@ use Livewire\Exceptions\ComponentAttributeMissingOnDynamicComponentException;
 
 class MicroweberModuleTagCompiler extends ComponentTagCompiler
 {
+    public static $isEnabled = true;
+
+    public static function enableModuleProcessing()
+    {
+        self::$isEnabled = true;
+    }
+    public static function disableModuleProcessing()
+    {
+        self::$isEnabled = false;
+    }
+
+
     public function compile($value)
     {
-
+        if( !self::$isEnabled){
+            return $value;
+        }
+      //  return $value;
         return $this->compileMicroweberModuleSelfClosingTags($value);
     }
 
@@ -60,7 +75,7 @@ class MicroweberModuleTagCompiler extends ComponentTagCompiler
 
         }, $value);
 
-        //dd($pregReplaceResponse);
+
 
         return $pregReplaceResponse;
     }

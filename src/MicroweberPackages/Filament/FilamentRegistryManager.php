@@ -21,7 +21,7 @@ class FilamentRegistryManager
 
     public function getResources(string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
     {
-        if ($this->filamentResourceRegistry[$panelId] and !empty($this->filamentResourceRegistry[$panelId])) {
+        if (isset($this->filamentResourceRegistry[$panelId]) and !empty($this->filamentResourceRegistry[$panelId])) {
             $results = [];
             if ($scope) {
                 foreach ($this->filamentResourceRegistry[$panelId] as $resource) {
