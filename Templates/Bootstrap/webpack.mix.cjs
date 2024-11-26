@@ -11,7 +11,6 @@ mix.webpackConfig({
       ],
 });
 
-mix.setPublicPath('resources/assets/dist/build');
 
 
 mix
