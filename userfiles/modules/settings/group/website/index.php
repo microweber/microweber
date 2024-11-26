@@ -243,6 +243,52 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <?php
+                                        $logoDark = get_option('logo_dark', 'website');
+                                        $nologoDark = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image.svg';
+                                        if (!$logoDark) {
+                                            $logoDark = $nologoDark;
+                                        }
+                                        ?>
+                                        <script>
+                                            $(document).ready(function () {
+                                                websiteLogoDark = mw.uploader({
+                                                    element: document.getElementById('js-upload-logo-image-dark'),
+                                                    filetypes: 'images',
+                                                    multiple: false
+                                                });
+                                                $(websiteLogoDark).on('FileUploaded', function (a, b) {
+                                                    mw.$("#logo-preview-dark").val(b.src).trigger('change');
+                                                    mw.$(".js-logo-dark").attr('src', b.src);
+                                                    // mw.$("link[rel*='icon']").attr('href', b.src);
+                                                });
+                                                mw.element('#remove-logo-btn-dark').on('click', function(){
+                                                    mw.element('#logo-preview-dark').val('').trigger('change')
+                                                    mw.element('.js-log-dark').attr('src', '<?php print $nologoDark; ?>');
+                                                })
+                                            })
+
+                                        </script>
+                                        <br>
+
+                                        <label class="form-label"><?php _e("Website Logo (Dark)"); ?></label>
+                                        <small class="text-muted d-block mb-2"><?php _e('Select an dark logo for your website.'); ?></small>
+                                        <div class="d-flex">
+                                            <div class="avatar img-absolute border-radius-0 border-silver me-3" >
+                                                <img src="<?php print $logoDark; ?>" class="js-logo-dark" />
+                                                <input type="hidden" class="mw_option_field" name="logo_dark" id="logo-preview-dark" value="<?php print $logoDark; ?>" option-group="website"/>
+                                            </div>
+                                            <button type="button" class="btn btn-outline-primary" id="js-upload-logo-image-dark"><?php _e("Upload logo"); ?></button>
+                                            <span class="tip mw-btn-icon" id="remove-logo-btn-dark"   data-bs-toggle="tooltip" aria-label="Clear logo" data-bs-original-title="Clear logo">
+                                                <img src="<?php print modules_url()?>/microweber/api/libs/mw-ui/assets/img/trash.svg" alt="">
+
+                                             </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <?php
                                         $favicon_image = get_option('favicon_image', 'website');
                                         $nofavicon = modules_url() . 'microweber/api/libs/mw-ui/assets/img/no-image.svg';
                                         if (!$favicon_image) {

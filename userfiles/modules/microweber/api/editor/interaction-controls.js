@@ -116,6 +116,7 @@ MWEditor.interactionControls = {
             el.hide();
             return el;
         };
+        this._interactParent = null;
         this.interact = function (data) {
 
             var tg = mw.tools.firstParentOrCurrentWithTag(data.target,'a');
@@ -124,12 +125,33 @@ MWEditor.interactionControls = {
                 return;
             }
 
+
+
             var $target = $(data.target);
             this.$target = $target;
             var css = $target.offset();
             css.top += $target.height();
-            this.element.urlElement.html(data.target.href);
-            this.element.urlElement.prop('href', data.target.href);
+
+
+
+            if(!this._interactParent) {
+
+                this._interactParent = $(this.element.get(0)).parents().filter((i, node) => {
+                    const pos = getComputedStyle(node).position
+                    return  pos !== 'static';
+                })[0]
+            }
+
+
+
+            if(this._interactParent) {
+                const off = $(this._interactParent).offset()
+                css.top -= off.top;
+                css.left -= off.left;
+            }
+
+            this.element.urlElement.html(tg.href);
+            this.element.urlElement.prop('href', tg.href);
             this.element.css(css).show();
         };
         this.element = this.render();
@@ -351,8 +373,13 @@ MWEditor.interactionControls = {
         var lscope = this;
         lscope.__tableManagerTimeout = null;
         this.interact = function (data) {
+
             if (!data.eventIsActionLike) { return; }
-            var td = mw.tools.firstParentOrCurrentWithTag(data.localTarget, 'td');
+            let localTarget = data.localTarget;
+            if(localTarget && localTarget.nodeType !== 1) {
+                localTarget = localTarget.parentElement;
+            }
+            var td = mw.tools.firstParentOrCurrentWithTag(localTarget, 'td');
 
             rootScope.document.querySelectorAll('.mw-editor-td-focus').forEach(td => td.classList.remove('mw-editor-td-focus'));
             if (td) {

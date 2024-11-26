@@ -199,7 +199,22 @@ if (isset($edit_page_info['content_type']) and $edit_page_info['content_type'] =
 
         });
 
+
     });
+
+    addEventListener('load', function() {
+
+        document.querySelectorAll('textarea.form-control').forEach(node => {
+            const editor = mw.editor.get(node);
+            if(editor) {
+                editor.on('change', function() {
+                    if(window.contentChanged) {
+                        window.contentChanged(true)
+                    }
+                })
+            }
+        })
+    })
 </script>
 
 <?php

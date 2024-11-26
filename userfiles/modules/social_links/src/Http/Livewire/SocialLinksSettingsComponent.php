@@ -46,7 +46,10 @@ class SocialLinksSettingsComponent extends ModuleSettingsComponent
         ),
         'skype' => array(
             'icon' => 'mdi-skype'
-        )
+        ),
+        'telegram' => array(
+            'icon' => 'mdi-telegram'
+        ),
     );
 
     public function render()
