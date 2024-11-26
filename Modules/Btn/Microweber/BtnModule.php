@@ -24,7 +24,7 @@ class BtnModule extends BaseModule
         $viewData['btnId'] = 'link-' . $this->params['id'];
         $viewData['popupFunctionId'] = 'mwPopupBtn' . md5($this->params['id']);
 
-        $viewData['style'] = '';
+        $viewData['style'] =  $this->params['button_style'] ?? '';
         $viewData['size'] = '';
         $viewData['popupContent'] = '';
         $viewData['url'] = '';
