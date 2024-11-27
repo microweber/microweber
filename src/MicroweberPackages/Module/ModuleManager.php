@@ -1084,11 +1084,8 @@ class ModuleManager
             $microweberModule = app()->microweber->hasModule($module_name);
             $templates = [];
             if($microweberModule){
-                if($template_name){
-                    return new \Exception('$template_name parameter is not supported for new modules');
-                }
 
-                $templates = app()->microweber->getTemplates($module_name);
+                $templates = app()->microweber->getTemplates($module_name,$template_name);
                 return $templates;
             }
 

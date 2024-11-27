@@ -151,7 +151,29 @@ class ContentResource extends Resource
 
 
                         Forms\Components\Section::make('General Information')
-                            ->heading(false)
+                            ->heading(function (Forms\Get $get) {
+                                if ($get('content_type') === 'page') {
+                                    if ($get('id')) {
+                                        return 'Edit Page';
+                                    } else {
+                                        return 'Add New Page';
+                                    }
+                                }
+                                if ($get('content_type') === 'product') {
+                                    if ($get('id')) {
+                                        return 'Edit Product';
+                                    } else {
+                                        return 'Add New Product';
+                                    }
+                                }
+                                if ($get('content_type') === 'post') {
+                                    if ($get('id')) {
+                                        return 'Edit Post';
+                                    } else {
+                                        return 'Add New Post';
+                                    }
+                                }
+                            })
                             ->schema([
 
                                 MwTitleWithSlugInput::make(
