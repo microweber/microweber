@@ -51,11 +51,11 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function getPanelMiddlewares(): array
     {
         return [
-           //   EncryptCookies::class,
-         //   AddQueuedCookiesToResponse::class,
+            //   EncryptCookies::class,
+            //   AddQueuedCookiesToResponse::class,
             //StartSession::class,
-           // AuthenticateSession::class,
-          //  ShareErrorsFromSession::class,
+            // AuthenticateSession::class,
+            //  ShareErrorsFromSession::class,
             //          VerifyCsrfToken::class, aways givev error to refresh
             SubstituteBindings::class,
             DisableBladeIconComponents::class,
@@ -82,21 +82,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             })
             ->sidebarWidth('15rem')
             ->colors([
-//                'primary' => '#000',
-
-                'primary' => [
-                    50 => '238, 242, 255',
-                    100 => '224, 231, 255',
-                    200 => '199, 210, 254',
-                    300 => '165, 180, 252',
-                    400 => '0, 0, 0',
-                    500 => '0, 0, 0',
-                    600 => '0, 0, 0',
-                    700 => '67, 56, 202',
-                    800 => '55, 48, 163',
-                    900 => '49, 46, 129',
-                    950 => '30, 27, 75',
-                ],
+                'primary' => Color::Blue,
             ])
             ->unsavedChangesAlerts();
 
@@ -115,7 +101,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         if ($isIframe) {
             $panel->navigation(false);
             $panel->topbar(false);
-          //  $panel->spa();
+            //  $panel->spa();
 
         }
 
@@ -190,7 +176,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $panel->plugin(new MicroweberFilamentTheme());
         $panel->plugin(new UsersFilamentPlugin());
-       // $panel->plugin(new MarketplaceFilamentPlugin());
+        // $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
 
         if ($registeredPlugins) {
