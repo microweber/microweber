@@ -179,7 +179,7 @@ class AdminLiveEditPage extends Page
             ->action(function ($data) use ($contentType) {
 
                 $data['content_type'] = $contentType;
-                $data['layout_file'] = 'clean.php';
+            //   $data['layout_file'] = 'clean.php';
 
                 $model = new Content();
                 $model->fill($data);
@@ -201,7 +201,7 @@ class AdminLiveEditPage extends Page
                     ->send();
 
             })
-            ->modalSubmitActionLabel('Create ' . $contentType)
+            ->modalSubmitActionLabel('Save' )
             ->slideOver();
     }
 }

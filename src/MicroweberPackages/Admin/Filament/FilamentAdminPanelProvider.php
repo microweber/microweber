@@ -35,8 +35,8 @@ class FilamentAdminPanelProvider extends PanelProvider
         $this->filamentPath = mw_admin_prefix_url();
 
 
-
     }
+
     public function getPanelPages(): array
     {
 
@@ -127,8 +127,6 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->sort(2)
                     ->icon('heroicon-o-megaphone'),
             ])
-
-
             ->widgets([
                 // Widgets\AccountWidget::class,
                 //  Widgets\FilamentInfoWidget::class,
@@ -147,6 +145,11 @@ class FilamentAdminPanelProvider extends PanelProvider
         $panel->renderHook(
             name: PanelsRenderHook::TOPBAR_START,
             hook: fn(): string => Blade::render('@livewire(\'admin-top-navigation-actions\')')
+        );
+
+        $panel->renderHook(
+            name: PanelsRenderHook::TOPBAR_END,
+            hook: fn(): string => view('admin::livewire.filament.top-navigation-go-live-edit')
         );
 
 
@@ -195,7 +198,6 @@ class FilamentAdminPanelProvider extends PanelProvider
                 for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverPages(in: app_path('MicroweberPackages/Menu/Filament/Admin/Pages'), for: 'MicroweberPackages\\Menu\\Filament\\Admin\\Pages')
-
             ->discoverWidgets(
                 in: app_path('Filament/Admin/Widgets'),
                 for: 'App\\Filament\\Admin\\Widgets'
