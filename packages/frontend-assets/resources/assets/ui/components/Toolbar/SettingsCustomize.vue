@@ -23,13 +23,7 @@
             </svg>
         </div>
 
-        <div v-on:click="toggle('layers')" :class="{'live-edit-right-sidebar-active':  layers }"
-             class="btn-icon live-edit-toolbar-buttons live-edit-toolbar-button-css-editor-toggle" title="Layers">
 
-            <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor">
-                <path d="M480-400 40-640l440-240 440 240-440 240Zm0 160L63-467l84-46 333 182 333-182 84 46-417 227Zm0 160L63-307l84-46 333 182 333-182 84 46L480-80Zm0-411 273-149-273-149-273 149 273 149Zm0-149Z"/>
-            </svg>
-        </div>
 
         <div class="dropdown btn-icon live-edit-toolbar-buttons">
             <a role="button" id="dropdownLiveEditMenuLinkMoreSettings" data-bs-toggle="dropdown" aria-expanded="false">
@@ -86,10 +80,6 @@ export default {
                     CSSGUIService.hide()
                 }
 
-            } else if(name === 'layers') {
-                this.layers = !this.layers;
-                mw.top().app.domTree[this.layers ? 'show' : 'hide']();
-
             } else if(name === 'style-editor') {
               if(this.buttonIsActiveStyleEditor){
 
@@ -131,14 +121,7 @@ export default {
 
     mounted() {
 
-        mw.top().app.on('DOMTreeReady', () => {
-            mw.top().app.domTree.on('show', () => {
-                this.layers = true
-            });
-            mw.top().app.domTree.on('hide', () => {
-                this.layers = false
-            });
-        });
+
         mw.top().app.on('mw.open-template-settings', () => {
             // close the hamburger
             if (document.getElementById('user-menu-wrapper')) {
@@ -207,7 +190,7 @@ export default {
         return {
             buttonIsActive: false,
             buttonIsActiveStyleEditor: false,
-            layers: false,
+
         }
     }
 }

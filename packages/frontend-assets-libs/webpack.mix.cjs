@@ -3,7 +3,7 @@ let path = require('path');
 let fs = require('fs-extra');
 let config = require('./config-common.js');
 
-
+/*
 mix.webpackConfig({
     resolve: {
         modules: [
@@ -15,7 +15,7 @@ mix.webpackConfig({
     },
 
 });
-mix.setPublicPath('public/build');
+mix.setPublicPath('public/build');*/
 
 
 
@@ -35,6 +35,15 @@ const copy = (target, path) => {
     mix[action](path, `./resources/dist/${target}${!isFolder ? '/' + path.split('/').pop() : ''}`);
 }
 
+const js = async (target, path) => {
+
+
+    await mix.js(path, `./resources/dist/${target}/${path.split('/').pop()}`);
+
+};
+
+
+
 
 [
     ...config.scripts,
@@ -43,13 +52,18 @@ const copy = (target, path) => {
     ...config.assets,
 
 ].forEach((conf) => {
-      if(Array.isArray(conf.path)) {
+    let action = 'copy';
+    if(conf.process) {
+        action = 'js';
+    }
+    const actions = {js, copy};
+    if(Array.isArray(conf.path)) {
         conf.path.forEach((path) => {
-            copy(conf.target, path)
+            actions[action](conf.target, path)
         });
-      } else {
-        copy(conf.target, conf.path)
-      }
+    } else {
+        actions[action](conf.target, conf.path)
+    }
 });
 
 

@@ -192,7 +192,12 @@
                 mw.require(mw.settings.libs_url + 'masonry/masonry.pkgd.js');
             }
         ],
-
+        codemirror: [
+            function () {
+                mw.require(mw.settings.libs_url + 'codemirror/codemirror.js');
+                mw.require(mw.settings.libs_url + 'codemirror/codemirror.css');
+            }
+        ],
 
 
 

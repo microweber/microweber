@@ -22,7 +22,7 @@ const nodeModulesScripts = [
     {target: `xss`, path: `node_modules/xss/dist/xss.js`},
     {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.js`},
     {target: `masonry`, path: `node_modules/masonry-layout/dist/masonry.pkgd.js`},
-
+    {target: `codemirror`, path: `node_modules/codemirror/lib/codemirror.js`, process: false},
 
     {
         target: `rangy`,
@@ -56,8 +56,7 @@ const css = [
     {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.css`},
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/css/font-awesome.css`},
     {target: `highlight-js`, path: `./resources/local-libs/highlight/styles/default.css`},
-
-
+    {target: `codemirror`, path: `node_modules/codemirror/lib/codemirror.css`},
 
     {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.css`},
 
