@@ -547,3 +547,18 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     flex-direction: row;
 }
 
+.fi-modal-header {
+    @apply !p-4;
+
+    .absolute.top-6 {
+        @apply !top-[1.1rem];
+    }
+}
+
+.fi-modal-header .fi-modal-heading {
+    @apply !mb-0;
+}
+
+.fi-modal-content {
+    @apply !p-0;
+}
