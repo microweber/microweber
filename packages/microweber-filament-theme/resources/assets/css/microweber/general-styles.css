@@ -548,7 +548,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-modal-header {
-    @apply !p-4;
+    @apply !py-4 !px-7;
 
     .absolute.top-6 {
         @apply !top-[1.1rem];
@@ -560,5 +560,5 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .fi-modal-content {
-    @apply !p-0;
+    @apply !px-2 !py-0;
 }

@@ -1,4 +1,5 @@
 const preset = require('./../../vendor/filament/filament/tailwind.config.preset')
+const colors = require('tailwindcss/colors')
 
 module.exports = {
     future: {
@@ -37,7 +38,7 @@ module.exports = {
                     '800': '#182433',
                     '900': '#182433',
                     '950': '#030712'
-                }
+                },
             },
         },
     },
