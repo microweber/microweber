@@ -79,8 +79,8 @@ class AdminLiveEditPage extends Page
                         'actions' => $actions
                     ])
             ])
-            ->modalSubmitAction(null)
-            ->modalCancelAction(null)
+            ->modalSubmitAction(false)
+            ->modalCancelAction(false)
             ->slideOver();
     }
 
