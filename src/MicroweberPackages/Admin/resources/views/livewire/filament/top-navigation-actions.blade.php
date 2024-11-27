@@ -1,4 +1,4 @@
-<div class="flex justify-between w-full">
+<div class="flex justify-between">
     <x-filament::modal width="lg">
         <x-slot name="trigger">
             <x-filament::button

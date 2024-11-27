@@ -148,7 +148,7 @@ class FilamentAdminPanelProvider extends PanelProvider
         );
 
         $panel->renderHook(
-            name: PanelsRenderHook::TOPBAR_END,
+            name: PanelsRenderHook::GLOBAL_SEARCH_AFTER,
             hook: fn(): string => view('admin::livewire.filament.top-navigation-go-live-edit')
         );
 
