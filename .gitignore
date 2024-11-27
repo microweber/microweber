@@ -93,3 +93,4 @@ docs/.vitepress/cache
 .aider*
 /packages/frontend-assets/resources/dist/
 /packages/frontend-assets-libs/resources/dist/
+Templates/Big2/
