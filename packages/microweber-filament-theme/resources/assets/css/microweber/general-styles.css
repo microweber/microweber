@@ -573,8 +573,18 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .fi-sidebar-nav {
 
+    scrollbar-gutter: stable both-edges;
+
     &::-webkit-scrollbar {
-        width: 5px;
+        width: 0;
+         scrollbar-gutter: stable both-edges;
+
+     }
+
+    &:hover{
+        &::-webkit-scrollbar {
+             width: 5px !important;
+         }
     }
 
     /* Track */
@@ -594,3 +604,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 
+.fi-main .flex.flex-col.gap-y-8.py-8 {
+    @apply pt-0;
+
+}
