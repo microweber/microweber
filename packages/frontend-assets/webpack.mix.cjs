@@ -2,7 +2,18 @@
 let path = require('path');
 let mix = require('laravel-mix');
 let fs = require('fs-extra');
+
+const webpack = require('webpack');
+
+
+
+
 mix.webpackConfig({
+    plugins: [
+        new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks:1,
+        }),
+    ],
     resolve: {
         modules: [
             path.resolve(__dirname, 'node_modules')

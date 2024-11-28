@@ -107,7 +107,7 @@
             })"
     >
 
-        <div wire:ignore id="mw-tree-edit-content-{{$suffix}}">Loading...</div>
+        <div wire:ignore id="mw-tree-edit-content-{{$suffix}}"> </div>
 
     </div>
 

@@ -24,7 +24,6 @@ class CategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
-
         $selectedPage = 0;
         $selectedCategories = [];
         $livewire = $form->getLivewire();
@@ -38,70 +37,86 @@ class CategoryResource extends Resource
             }
         }
 
-
         return $form
             ->schema([
-                Forms\Components\Group::make()
-                    ->schema([
+                Forms\Components\Tabs::make('Category Details')
+                    ->tabs([
+                        // General Tab
+                        Forms\Components\Tabs\Tab::make('Category Details')
+                            ->schema([
+                                MwTree::make('mw_parent_page_and_category_state')
+                                    ->live()
+                                    ->required(function (Forms\Get $get) {
+                                       $required = true;
 
-
-                        MwTree::make('mw_parent_page_and_category_state')
-                            ->live()
-                            ->viewData([
-                                'singleSelect' => true,
-                                'selectedPage' => $selectedPage,
-                                'selectedCategories' => $selectedCategories
-                            ])
-                            ->default([
-                                //  'page' => $parent,
-                                //'categories' => $category_ids
-                            ])->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
-                                if (!$state) {
-                                    $set('parent_id', '');
-                                    $set('rel_type', '');
-                                    $set('rel_id', '');
-                                }
-                                if ($state) {
-                                    foreach ($state as $item) {
-                                        if (isset($item['type']) and $item['type'] == 'page') {
-                                            $set('rel_type', morph_name(Content::class));
-                                            $set('rel_id', $item['id']);
-                                            $set('parent_id', '');
+                                        if ($get('parent_id')) {
+                                            $required = false;
                                         }
-                                        if (isset($item['type']) and $item['type'] == 'category') {
-                                            $set('parent_id', $item['id']);
+                                        if ($get('rel_id')) {
+                                            $required = false;
+                                        }
+
+                                        return $required;
+
+                                    })
+                                    ->label('Parent Page or Category')
+                                    ->viewData([
+                                        'singleSelect' => true,
+                                        'selectedPage' => $selectedPage,
+                                        'selectedCategories' => $selectedCategories,
+                                    ])
+                                    ->default([])
+                                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?array $old, ?array $state) {
+                                        if (!$state) {
+                                            $set('parent_id', '');
                                             $set('rel_type', '');
                                             $set('rel_id', '');
                                         }
-                                    }
-                                }
-                            }),
+                                        if ($state) {
+                                            foreach ($state as $item) {
+                                                if (isset($item['type']) && $item['type'] === 'page') {
+                                                    $set('rel_type', morph_name(Content::class));
+                                                    $set('rel_id', $item['id']);
+                                                    $set('parent_id', '');
+                                                }
+                                                if (isset($item['type']) && $item['type'] === 'category') {
+                                                    $set('parent_id', $item['id']);
+                                                    $set('rel_type', '');
+                                                    $set('rel_id', '');
+                                                }
+                                            }
+                                        }
+                                    }),
 
+                                Forms\Components\Hidden::make('id'),
+                                Forms\Components\Hidden::make('parent_id'),
+                                Forms\Components\Hidden::make('rel_type'),
+                                Forms\Components\Hidden::make('rel_id'),
 
-                        Forms\Components\TextInput::make('id')
-                            ->hidden(),
-                        Forms\Components\TextInput::make('parent_id'),
-                        Forms\Components\TextInput::make('rel_type'),
-                        Forms\Components\TextInput::make('rel_id'),
+                                Forms\Components\TextInput::make('title')
+                                    ->label('Title')
+                                    ->required(),
 
+                                Forms\Components\Textarea::make('description')
+                                    ->label('Description'),
+                            ]),
 
-                        Forms\Components\TextInput::make('title')
-                            ->label('Title')
-                            ->required(),
-                        Forms\Components\TextInput::make('url')
-                            ->label('Url'),
-
-                        Forms\Components\TextInput::make('description')->label('Description'),
-
-
-                        MwMediaBrowser::make('mediaIds'),
-                        Forms\Components\TextInput::make('category_meta_title')->label('Meta Title'),
-                        Forms\Components\TextInput::make('category_meta_description')->label('Meta Description'),
-
-
-                    ])
+                        // Advanced Tab
+                        Forms\Components\Tabs\Tab::make('Advanced')
+                            ->schema([
+                                Forms\Components\TextInput::make('url')
+                                    ->label('Url'),
+                                MwMediaBrowser::make('mediaIds')
+                                    ->label('Category Images'),
+                                Forms\Components\TextInput::make('category_meta_title')
+                                    ->label('Meta Title'),
+                                Forms\Components\Textarea::make('category_meta_description')
+                                    ->label('Meta Description'),
+                            ]),
+                    ]),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
