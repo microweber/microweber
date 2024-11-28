@@ -63,6 +63,11 @@ class CategoryResource extends Resource
                                     ->live()
                                     ->extraFieldWrapperAttributes([
                                         'class' => 'mw-tree-wrapper',
+                                    ])->columnSpan([
+                                        'default' => 1,
+                                        'sm' => 1,
+                                        'xl' => 1,
+                                        '2xl' => 1,
                                     ])
                                     ->required(function (Forms\Get $get) {
                                         $required = true;

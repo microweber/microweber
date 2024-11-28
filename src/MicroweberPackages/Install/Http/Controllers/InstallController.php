@@ -112,7 +112,7 @@ class InstallController extends Controller
             $install_step = trim($input['install_step']);
 
         }
-
+        $install_step = false;
         $save_to_env = true;
         $save_to_config = false;
 

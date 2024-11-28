@@ -3,6 +3,7 @@
 namespace MicroweberPackages\App\Providers;
 
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -450,7 +451,7 @@ class AppServiceProvider extends ServiceProvider
         //   \Illuminate\Support\Facades\Vite::useBuildDirectory('build');
 
         if (defined('MW_SERVED_FROM_BASE_PATH')) {
-            app()->usePublicPath(base_path());
+             app()->usePublicPath(base_path().'/public');
             \Illuminate\Support\Facades\Vite::useBuildDirectory('public/build');
         }
 

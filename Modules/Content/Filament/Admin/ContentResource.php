@@ -187,7 +187,7 @@ class ContentResource extends Resource
                                     ->columnSpanFull(),
 
 
-                                Forms\Components\TextInput::make('description')
+                                Forms\Components\Textarea::make('description')
                                     ->columnSpan('full'),
 
 //                    MwRichEditor::make('content_body')
@@ -199,7 +199,7 @@ class ContentResource extends Resource
                             ->columnSpanFull()
                             ->columns(2),
 
-                        MwMediaBrowser::make('mediaIds'),
+                        MwMediaBrowser::make('mediaIds')->label('Pictures'),
 
 
                         Forms\Components\Section::make('Pricing')
@@ -350,15 +350,13 @@ class ContentResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make('Visible')
+                        Forms\Components\Section::make('Published')
                             ->schema([
-                                Forms\Components\ToggleButtons::make('is_active')
-                                    ->label(false)
-                                    ->options([
-                                        1 => 'Published',
-                                        0 => 'Unpublished',
-                                    ])
-                                    ->default(true),
+                                Forms\Components\Toggle::make('is_active')
+                                    ->label('Published')
+                                    ->default(function (Forms\Get $get) {
+                                        return $get('id') ? 0 : 1;
+                                    })
 
                             ]),
 

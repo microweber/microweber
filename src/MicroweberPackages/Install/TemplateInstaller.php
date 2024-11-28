@@ -4,6 +4,7 @@ namespace MicroweberPackages\Install;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Import;
 use MicroweberPackages\Option\Models\Option;
@@ -111,6 +112,10 @@ class TemplateInstaller
 
     public function createDefaultContent()
     {
+        if (!Schema::hasTable('content')) {
+            return;
+        }
+
         $existing = Content::where('is_home', 1)->first();
 
         if ($existing == false) {
