@@ -559,9 +559,9 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply !mb-0;
 }
 
-.fi-modal-content {
-    @apply !px-2 !py-0;
-}
+/*.fi-modal-content {*/
+/*    @apply !px-2 !py-0;*/
+/*}*/
 
 .fi-sidebar-header {
     @apply !mt-0 !mb-5;
@@ -654,4 +654,12 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .fi-fo-tabs.fi-contained {
     @apply !p-0;
+}
+
+.mw-tree-wrapper .grid {
+    @apply !block;
+}
+
+.mw-tree-wrapper .fi-fo-field-wrp-label, .mw-tree-wrapper .mw-tags--container {
+    @apply py-3;
 }
