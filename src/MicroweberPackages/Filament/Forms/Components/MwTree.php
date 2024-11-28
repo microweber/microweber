@@ -13,4 +13,11 @@ class MwTree extends Field
 
     protected string $view = 'filament-forms::components.mw-tree';
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+    //    $this->columnSpan('full');
+    //    $this->hiddenLabel(true);
+     }
 }
