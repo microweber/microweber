@@ -44,10 +44,28 @@ class CategoryResource extends Resource
                         // General Tab
                         Forms\Components\Tabs\Tab::make('Category Details')
                             ->schema([
+
+                                Forms\Components\Hidden::make('id'),
+                                Forms\Components\Hidden::make('parent_id'),
+                                Forms\Components\Hidden::make('rel_type'),
+                                Forms\Components\Hidden::make('rel_id'),
+
+                                Forms\Components\TextInput::make('title')
+                                    ->label('Title')
+                                    ->required(),
+
+                                Forms\Components\Textarea::make('description')
+                                    ->label('Description'),
+
+
+
                                 MwTree::make('mw_parent_page_and_category_state')
                                     ->live()
+                                    ->extraFieldWrapperAttributes([
+                                        'class' => 'mw-tree-wrapper',
+                                    ])
                                     ->required(function (Forms\Get $get) {
-                                       $required = true;
+                                        $required = true;
 
                                         if ($get('parent_id')) {
                                             $required = false;
@@ -59,7 +77,7 @@ class CategoryResource extends Resource
                                         return $required;
 
                                     })
-                                    ->label('Parent Page or Category')
+                                    ->label('Choose Parent Page or Category')
                                     ->viewData([
                                         'singleSelect' => true,
                                         'selectedPage' => $selectedPage,
@@ -88,17 +106,6 @@ class CategoryResource extends Resource
                                         }
                                     }),
 
-                                Forms\Components\Hidden::make('id'),
-                                Forms\Components\Hidden::make('parent_id'),
-                                Forms\Components\Hidden::make('rel_type'),
-                                Forms\Components\Hidden::make('rel_id'),
-
-                                Forms\Components\TextInput::make('title')
-                                    ->label('Title')
-                                    ->required(),
-
-                                Forms\Components\Textarea::make('description')
-                                    ->label('Description'),
                             ]),
 
                         // Advanced Tab
