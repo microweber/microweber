@@ -13,9 +13,11 @@ use Filament\Pages\Page;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
 use MicroweberPackages\LiveEdit\Filament\Actions\CustomViewAction;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\Modules\Logo\Http\Livewire\LogoModuleSettings;
 use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Models\Content;
+use function Clue\StreamFilter\fun;
 
 class AdminLiveEditPage extends Page
 {
@@ -102,7 +104,43 @@ class AdminLiveEditPage extends Page
     public function openModuleSettingsAction(): Action
     {
         return Action::make('openModuleAction')
-            ->label('Module Settings')
+
+            ->modalIcon(function (array $arguments) {
+                $data = $arguments['data'];
+                if (isset($data['moduleSettingsComponent'])) {
+                    if (isset($data['moduleSettingsComponent'])) {
+                        $exists = class_exists($data['moduleSettingsComponent']);
+                        if ($exists) {
+
+                            /** @var LiveEditModuleSettings $resourceClass */
+                            $resourceClass = $data['moduleSettingsComponent'];
+                            if (method_exists($resourceClass, 'getNavigationIcon')) {
+                                return $resourceClass::getNavigationIcon();
+                            }
+                        }
+                    }
+                }
+
+                return 'mw-settings';
+            })
+            ->label(function (array $arguments) {
+                $data = $arguments['data'];
+                 if (isset($data['moduleSettingsComponent'])) {
+                    if (isset($data['moduleSettingsComponent'])) {
+                        $exists = class_exists($data['moduleSettingsComponent']);
+                        if ($exists) {
+                            $resourceClass = $data['moduleSettingsComponent'];
+                            /** @var LiveEditModuleSettings $resourceClass */
+                            if (method_exists($resourceClass, 'getNavigationLabel')) {
+                                return $resourceClass::getNavigationLabel();
+
+                            }
+                        }
+                    }
+                }
+
+                return 'Module Settings';
+            })
             //  ->modalContent(view('microweber::livewire.no-settings'))
             //->modalContent(view('microweber::livewire.no-settings'))
             ->form(
@@ -179,7 +217,7 @@ class AdminLiveEditPage extends Page
             ->action(function ($data) use ($contentType) {
 
                 $data['content_type'] = $contentType;
-            //   $data['layout_file'] = 'clean.php';
+                //   $data['layout_file'] = 'clean.php';
 
                 $model = new Content();
                 $model->fill($data);
@@ -201,7 +239,7 @@ class AdminLiveEditPage extends Page
                     ->send();
 
             })
-            ->modalSubmitActionLabel('Save' )
+            ->modalSubmitActionLabel('Save')
             ->slideOver();
     }
 }

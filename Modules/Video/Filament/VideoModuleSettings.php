@@ -21,6 +21,10 @@ class VideoModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'video';
 
+    protected static ?string $navigationLabel = 'Video';
+    protected static ?string $navigationIcon = 'heroicon-o-video-camera';
+
+
     public function form(Form $form): Form
     {
 
