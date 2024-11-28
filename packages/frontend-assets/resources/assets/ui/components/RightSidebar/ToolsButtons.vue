@@ -12,6 +12,16 @@
         </li>
 
         <li>
+
+            <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="layers()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="currentColor">
+                <path d="M480-400 40-640l440-240 440 240-440 240Zm0 160L63-467l84-46 333 182 333-182 84 46-417 227Zm0 160L63-307l84-46 333 182 333-182 84 46L480-80Zm0-411 273-149-273-149-273 149 273 149Zm0-149Z"/>
+            </svg>
+                Layers
+            </a>
+
+        </li>
+        <li>
             <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="openContentResetContent()">
                 <svg class="mb-1 me-1" xmlns="http://www.w3.org/2000/svg"
                      height="18" viewBox="0 -960 960 960" width="18">
@@ -66,6 +76,9 @@ export default {
                     location.reload();
                 });
             });
+        },
+        layers: function () {
+            mw.top().app.domTree[this.layers ? 'show' : 'hide']();
         },
         openContentResetContent: function () {
             var moduleType = 'editor/reset_content';
@@ -222,13 +235,21 @@ export default {
                 toolButtonsInstance.hideContentResetDialog();
             });
         });
-
+        mw.top().app.on('DOMTreeReady', () => {
+            mw.top().app.domTree.on('show', () => {
+                this.layers = true
+            });
+            mw.top().app.domTree.on('hide', () => {
+                this.layers = false
+            });
+        });
 
     },
     data() {
         return {
             contentRevisionsDialogInstance: null,
             contentResetContentInstance: null,
+            layers: false,
         }
 
     }

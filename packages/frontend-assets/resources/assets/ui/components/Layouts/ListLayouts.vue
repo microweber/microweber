@@ -18,7 +18,7 @@
         <div class="modules-list modules-list-defaultModules">
             <div class="mw-le-layouts-dialog-row">
 
-                <div v-if="layoutsList && layoutsList.categories && layoutsList.categories.length > 0" class="mw-le-layouts-dialog-col">
+                <div v-if=" layoutsList?.categories?.length" class="mw-le-layouts-dialog-col">
                     <div class="modules-list-search-block input-icon">
                           <span class="input-icon-addon ms-3">
 
@@ -27,7 +27,7 @@
 
                         <input v-model="filterKeyword" autofocus type="search" placeholder="Type to Search..." class="modules-list-search-field form-control rounded-0">
 
-                        <span v-show="filterKeyword.length > 0" style="position: absolute; cursor: pointer;color: #aeaeae;top: 15px;right: 13px;padding: 3px;" v-on:click="filterClearKeyword()">
+                        <span v-show="filterKeyword?.length" style="position: absolute; cursor: pointer;color: #aeaeae;top: 15px;right: 13px;padding: 3px;" v-on:click="filterClearKeyword()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"></path>
                             </svg>
@@ -53,7 +53,7 @@
                     </ul>
                 </div>
 
-                <div :class="[layoutsList && layoutsList.categories && layoutsList.categories.length > 0 ? 'mw-le-layouts-dialog-col' : 'mw-le-layouts-dialog-col-full col-xl-10 mx-auto px-xl-0 px-5']">
+                <div :class="[layoutsList?.categories?.length ? 'mw-le-layouts-dialog-col' : 'mw-le-layouts-dialog-col-full col-xl-10 mx-auto px-xl-0 px-5']">
 
 <!--                    <div v-if="filterKeyword" class="pl-4 mb-3 mt-3">
                         Looking for {{filterKeyword}}
@@ -62,7 +62,7 @@
                         </span>
                     </div>-->
 
-                    <div v-show="layoutsList && layoutsList.categories && layoutsList.categories.length == 0">
+                    <div v-show="layoutsList?.categories?.length">
                         <div class="modules-list-search-block input-icon" style="margin-top:25px;">
                           <span class="input-icon-addon ms-3">
 
@@ -150,10 +150,10 @@
                         </template>
                     </LazyList>
 
-                    <div v-if="layoutsListFiltered.length == 0" class="modules-list-block">
+                    <div v-if="layoutsListFiltered?.length == 0" class="modules-list-block">
                         <div class="modules-list-block-no-results">
 
-                            <div v-if="filterCategory.length > 0 && filterKeyword.length >0">
+                            <div v-if="filterCategory?.length > 0 && filterKeyword?.length >0">
                                 Nothing found in <b>{{filterCategory}}</b> with keyword <i>"{{filterKeyword}}"</i>.
                                 <br />
                                 <br />

@@ -14,6 +14,7 @@
     "dependencies": {
         "@mdi/font": "^7.4.47",
         "bxslider": "^4.2.17",
+        "codemirror": "^5.65.18",
         "copy-webpack-plugin": "^12.0.2",
         "css-loader": "^7.1.2",
         "flag-icons": "^7.2.3",
