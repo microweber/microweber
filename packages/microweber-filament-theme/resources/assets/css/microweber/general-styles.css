@@ -641,3 +641,17 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .mw-select.disabled {
     display: none;
 }
+
+.fi-no-notification:not(.fi-inline) {
+    @apply w-[250px] right-[40px] !bottom-[20px] items-center absolute;
+    top: unset;
+}
+
+.fi-no-notification-title {
+
+    @apply !mb-0;
+}
+
+.fi-fo-tabs.fi-contained {
+    @apply !p-0;
+}
