@@ -69,6 +69,11 @@ class MWSiteMobileMenuService {
 
 
     mobileMenu (node, state)  {
+
+        if(!this.$block ) {
+            return
+        }
+
         var action = 'toggle';
         if(state === true) {
             action = 'add'

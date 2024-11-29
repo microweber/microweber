@@ -4,14 +4,23 @@
        .mw-testimonials-module-default-skin img {
             width: 100px;
             height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
+            object-fit: contain;
             margin: 0 auto;
             display: flex;
         }
+
+        #testimonials-{{ $params['id'] }} {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+
+        }
+        #testimonials-{{ $params['id'] }} .card{
+            width: calc(33.333% - 15px);
+        }
     </style>
 
-    <div class="mw-testimonials-module-default-skin d-flex align-items-center gap-3" id="testimonials-{{ $params['id'] }}">
+    <div class="mw-testimonials-module-default-skin" id="testimonials-{{ $params['id'] }}">
         @if($testimonials->isEmpty())
             <p>No testimonials available.</p>
         @else
@@ -22,9 +31,15 @@
                          aria-labelledby="heading-{{ $params['id'] }}-{{ $item->id }}"
                          data-parent="#testimonials-{{ $params['id'] }}">
 
-                        @if($item->client_image)
-                            <img src="{{ $item->client_image }}" class="card-img-top" alt="{{ $item->name }}'s image">
-                        @endif
+                            @php
+
+                                $pixel = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+                                $src =  $item->client_image ? $item->client_image : $pixel;
+
+                            @endphp
+
+                            <img src="{{$src}}" class="card-img-top" alt="{{ $item->name }}'s image">
+
 
 
 

@@ -54,7 +54,8 @@ import MicroweberBaseClass from "../containers/base-class.js";
                 });
                 mw.notification.success(mw.lang('Category deleted'));
                 return res;
-            }
+            },
+
         };
 
         post = {
