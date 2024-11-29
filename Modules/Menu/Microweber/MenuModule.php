@@ -13,7 +13,7 @@ class MenuModule extends BaseModule
     public static string $categories = 'navigation';
     public static int $position = 20;
     public static string $settingsComponent = MenuModuleSettings::class;
-
+    public static string $templatesNamespace = 'modules.menu::templates';
     public function render()
     {
         $viewData = $this->getViewData();
@@ -39,6 +39,9 @@ class MenuModule extends BaseModule
         }
         $viewData['menuName'] = $menuName;
         $viewData['menu_filter'] = $menu_filter;
-        return view('modules.menu::templates.default', $viewData);
+
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
+
+        return view($viewName, $viewData);
     }
 }
