@@ -172,7 +172,15 @@ trait ParserLoadModuleTrait
 
 
 
+        if (app()->bound('microweber')) {
 
+            if ( app()->microweber->hasModule($module_name)) {
+
+
+                return app()->microweber->render($module_name, $attrs);
+
+            }
+        }
 
 
         //check for custom view component
@@ -398,15 +406,7 @@ trait ParserLoadModuleTrait
                 $attrs['type'] = $module_name;
             }
 
-            if (app()->bound('microweber')) {
 
-                if ( app()->microweber->hasModule($module_name)) {
-
-
-                    return app()->microweber->render($module_name, $attrs);
-
-                }
-            }
 
 
 
