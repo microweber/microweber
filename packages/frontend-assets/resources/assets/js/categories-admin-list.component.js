@@ -55,30 +55,14 @@ export class CategoriesAdminListComponent extends MicroweberBaseClass {
 
                         icon: 'add-subcategory-icon-tree',
                         action: function (element, data, menuitem) {
-                            var loc = mw.settings.adminUrl  + 'category/create?parent_page_id=' + data.id;
-                            if (data.type === 'page') {
-                                if(data.is_shop === 1){
-                                    loc = mw.settings.adminUrl  +  'shop/category/create?parent_page_id=' + data.id;
-                                }
-                            }
+                            var loc = mw.settings.adminUrl  + 'categories/create?parent_page_id=' + data.id;
+
 
                             window.location.href = loc;
 
                         },
                         filter: function (obj, node) {
                             return obj.type === 'page';
-                        },
-                        className: ''
-                    },
-                    {
-                        title: 'View',
-
-                        icon: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>',
-                        action: function (element, data, menuitem) {
-                            top.location.href = data.url;
-                        },
-                        filter: function (obj, node) {
-                            return obj.type === 'category';
                         },
                         className: ''
                     },
@@ -95,15 +79,28 @@ export class CategoriesAdminListComponent extends MicroweberBaseClass {
                         className: ''
                     },
                     {
+                        title: 'View',
+
+                        icon: '<svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="24"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/></svg>',
+                        action: function (element, data, menuitem) {
+                            top.location.href = data.url;
+                        },
+                        filter: function (obj, node) {
+                            return obj.type === 'category';
+                        },
+                        className: ''
+                    },
+
+                    {
                         title: 'Delete',
                         icon: '<svg class="  text-danger" fill="currentColor" data-bs-toggle="tooltip" aria-label="Delete" data-bs-original-title="Delete" xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z"></path></svg>',
                         action: async function (element, data, menuitem) {
                             if (data.type === 'category') {
-
-                                await mw.api.category.delete(data.id);
-
-                                $(element).fadeOut(function () {
-                                    $(element).remove()
+                                mw.confirm(`${mw.lang('Are you sure you want to delete this category')}?`, async function () {
+                                    await mw.api.category.delete(data.id);
+                                    $(element).fadeOut(function () {
+                                        $(element).remove()
+                                    })
                                 })
                             }
                         },
