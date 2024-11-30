@@ -3,6 +3,7 @@
 namespace Modules\Background\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
+use Modules\Background\Filament\BackgroundModuleSettings;
 
 class BackgroundModule extends BaseModule
 {
@@ -11,6 +12,7 @@ class BackgroundModule extends BaseModule
     public static string $icon = 'modules.background-icon';
     public static string $categories = 'media';
     public static string $templatesNamespace = 'modules.background::templates';
+    public static string $settingsComponent = BackgroundModuleSettings::class;
     public static int $position = 1;
 
     public function getViewData(): array

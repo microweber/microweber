@@ -17,7 +17,7 @@ $mt = menu_tree($menu_filter);
 if ($mt != false) {
     print($mt);
 } else {
-    print lnotif(_e('There are no items in the menu', true) . " <b>" . $params['menu-name'] . '</b>');
+    print lnotif(_e('There are no items in the menu', true) . " <b>" . $menu_name . '</b>');
 }
 ?>
 

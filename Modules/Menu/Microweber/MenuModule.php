@@ -37,7 +37,7 @@ class MenuModule extends BaseModule
             $menu_filter['menu_id'] = intval($menu['id']);
 
         }
-        $viewData['menuName'] = $menuName;
+        $viewData['menu_name'] = $menuName;
         $viewData['menu_filter'] = $menu_filter;
 
         $viewName = $this->getViewName($viewData['template'] ?? 'default');

@@ -31,7 +31,7 @@ $mt = menu_tree($menu_filter);
 @if ($mt != false)
     {!! $mt !!}
 @else
-    {!! lnotif("There are no items in the menu <b>" . $params['menu-name'] . '</b>') !!}
+    {!! lnotif("There are no items in the menu <b>" . $menu_name . '</b>') !!}
 @endif
 
 <style>
