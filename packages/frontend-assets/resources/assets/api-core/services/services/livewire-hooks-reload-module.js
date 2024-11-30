@@ -109,15 +109,24 @@ export class LivewireHooksReloadModule {
                                 if (snapshot.data) {
                                     if (snapshot.data.moduleId) {
                                         modulesForReloadIds.push('#'+snapshot.data.moduleId);
-                                    } else if (snapshot.data.module && snapshot.data.optionGroup) {
+                                    }
+                                    if (snapshot.data.module_id) {
+                                        modulesForReloadIds.push('#'+snapshot.data.module_id);
+                                    }
+                                    if (snapshot.data.module && snapshot.data.optionGroup) {
                                         modulesForReloadIds.push('#'+snapshot.data.optionGroup);
-                                    } else if (snapshot.data.relType && snapshot.data.relId) {
+                                    }
+                                    if (snapshot.data.relType && snapshot.data.relId) {
                                         modulesForReloadIds.push('#'+snapshot.data.relId);
-                                    } else if (snapshot.data.rel_type && snapshot.data.rel_id) {
+                                    }
+                                    if (snapshot.data.rel_type && snapshot.data.rel_id) {
                                         modulesForReloadIds.push('#'+snapshot.data.rel_id);
-                                    } else if (snapshot.data.module) {
+                                    }
+                                    if (snapshot.data.module) {
                                         modulesForReloadIds.push(snapshot.data.module);
                                     }
+
+
                                 }
 
 

@@ -19,37 +19,13 @@ use Filament\Tables\Table;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
+
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
-use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
+use MicroweberPackages\LiveEdit\Filament\Admin\Tables\LiveEditModuleTable;
 use Modules\Testimonials\Models\Testimonial;
 
-class TestimonialsTableList extends Component implements HasForms, HasTable
+class TestimonialsTableList extends LiveEditModuleTable
 {
-    use InteractsWithTable;
-    use InteractsWithForms;
-    use InteractsWithActions;
-
-    public string|null $rel_id = null;
-    public string|null $rel_type = null;
-
-
-    #[On('tableFilterUpdated')]
-    public function tableFilterUpdated($data)
-    {
-        if (isset($data['rel_id'])) {
-            $this->rel_id = $data['rel_id'];
-        }
-        if (isset($data['rel_type'])) {
-            $this->rel_type = $data['rel_type'];
-        }
-        //  $this->js('$wire.render()');
-        $this->resetTable();
-        // $this->dispatch('$refresh');
-    }
 
     public function editFormArray()
     {
@@ -77,7 +53,6 @@ class TestimonialsTableList extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
-
 
         return $table
             ->query(Testimonial::query()
@@ -113,9 +88,5 @@ class TestimonialsTableList extends Component implements HasForms, HasTable
             ]);
     }
 
-    public function render()
-    {
 
-        return view('modules.testimonials::admin.filament.testimonials-table-list');
-    }
 }
