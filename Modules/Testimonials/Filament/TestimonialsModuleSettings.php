@@ -7,11 +7,15 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettingsTable;
 use Modules\Testimonials\Models\Testimonial;
 
-class TestimonialsModuleSettings extends LiveEditModuleSettings
+class TestimonialsModuleSettings extends LiveEditModuleSettingsTable
 {
     public string $module = 'testimonials';
+
+    public static string $modelName = Testimonial::class;
+    public static string $tableComponentName = TestimonialsTableList::class;
 
     public function form(Form $form): Form
     {
@@ -25,7 +29,7 @@ class TestimonialsModuleSettings extends LiveEditModuleSettings
                     ->tabs([
                         Tabs\Tab::make('Main settings')
                             ->schema([
-                                Livewire::make(TestimonialsTableList::class, [
+                                Livewire::make(static::$tableComponentName, [
                                     'rel_id' => $rel_id,
                                     'rel_type' => $rel_type,
                                     'module_id' => $module_id,
@@ -35,54 +39,12 @@ class TestimonialsModuleSettings extends LiveEditModuleSettings
                             ->schema($this->getTemplatesFormSchema()),
 
                         Tabs\Tab::make('Advanced')
-                            ->schema([
-                                Select::make('options.rel_type')
-                                    ->label('Data Source Type')
-                                    ->helperText('Select the type of data source for the module')
-                                    ->options(fn () => $this->getRelTypeOptions())
-                                    ->live()
-                                    ->reactive()
-                                    ->searchable()
-                                    ->afterStateUpdated(function ($state, callable $set) {
-                                        $this->dispatch('resetTableList', ['rel_type' => $state]);
-                                    }),
-
-                                Select::make('options.rel_id')
-                                    ->label('Data Source Identifier')
-                                    ->helperText('Choose the specific identifier for the selected data source type')
-                                    ->options(fn () => $this->getRelIdOptions())
-                                    ->live()
-                                    ->reactive()
-                                    ->searchable()
-                                    ->afterStateUpdated(function ($state, callable $set) {
-                                        $this->dispatch('resetTableList', ['rel_id' => $state]);
-                                    }),
-                            ]),
+                            ->schema($this->getDataSourceFormSchema()),
 
 
                     ]),
             ]);
     }
 
-    /**
-     * Get options for the `rel_id` field dynamically.
-     *
-     * @return array
-     */
-    protected function getRelIdOptions($rel_type = false): array
-    {
 
-        $vals = Testimonial::query()->select('rel_id');
-        if ($rel_type) {
-            $vals->where('rel_type', $rel_type);
-        }
-        $vals = $vals->distinct()->pluck('rel_id')->toArray();
-        return array_combine($vals, $vals);
-    }
-
-    protected function getRelTypeOptions(): array
-    {
-        $vals = Testimonial::query()->select('rel_type')->distinct()->pluck('rel_type')->toArray();
-        return array_combine($vals, $vals);
-    }
 }
