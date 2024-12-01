@@ -6,7 +6,7 @@
  * Time: 3:25 PM
  */
 
-namespace MicroweberPackages\Cart\Models\ModelFilters;
+namespace Modules\Cart\Models\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 use Modules\Content\Models\ModelFilters\Traits\FilterByKeywordTrait;

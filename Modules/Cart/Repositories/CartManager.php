@@ -9,14 +9,14 @@
  *
  */
 
-namespace MicroweberPackages\Cart;
+namespace Modules\Cart\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use MicroweberPackages\Cart\Events\AddToCartEvent;
-use MicroweberPackages\Cart\Events\RemoveFromCartEvent;
-use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Database\Crud;
+use Modules\Cart\Events\AddToCartEvent;
+use Modules\Cart\Events\RemoveFromCartEvent;
+use Modules\Cart\Models\Cart;
 
 class CartManager extends Crud
 {
@@ -706,7 +706,6 @@ class CartManager extends Crud
         }
 
 
-
         $priceModifierCustomFields = [];
         foreach ($data as $k => $item) {
 
@@ -753,11 +752,11 @@ class CartManager extends Crud
                                         ->where('value', $item)
                                         ->orderBy('position', 'asc')
                                         ->first();
-                                    if($getCustomFieldValuePriCeModifier and $getCustomFieldValuePriCeModifier->price_modifier){
+                                    if ($getCustomFieldValuePriCeModifier and $getCustomFieldValuePriCeModifier->price_modifier) {
                                         $modifierData['selected_price_modifier_from_user'] = $getCustomFieldValuePriCeModifier->price_modifier;
 
                                     }
-                                    $priceModifierCustomFields[$cf['id']] =$modifierData;
+                                    $priceModifierCustomFields[$cf['id']] = $modifierData;
                                 }
                             }
                         }
@@ -769,9 +768,6 @@ class CartManager extends Crud
                 }
 
                 if (is_array($prices)) {
-
-
-
 
 
                     foreach ($prices as $price_key => $price) {
@@ -819,13 +815,13 @@ class CartManager extends Crud
             }
         }
 
-        if($found_price && $priceModifierCustomFields){
-            foreach ($priceModifierCustomFields as $priceModifierCustomField){
-                if(isset($priceModifierCustomField['selected_price_modifier_from_user'])){
+        if ($found_price && $priceModifierCustomFields) {
+            foreach ($priceModifierCustomFields as $priceModifierCustomField) {
+                if (isset($priceModifierCustomField['selected_price_modifier_from_user'])) {
                     $found_price = $found_price + floatval($priceModifierCustomField['selected_price_modifier_from_user']);
                 }
             }
-         }
+        }
 
         if (is_array($prices)) {
             ksort($add);
@@ -840,7 +836,7 @@ class CartManager extends Crud
             $inputFields = [];
             $fieldsValidationRules = [];
             $customFieldsFileUploads = [];
-            foreach($content_custom_fields as $cf){
+            foreach ($content_custom_fields as $cf) {
                 if (!$add) {
                     continue;
                 }
@@ -852,7 +848,7 @@ class CartManager extends Crud
                 if ((isset($cf['required']) and $cf['required']) or (isset($cf['options']['required']) && $cf['options']['required'] == 1)) {
                     $customFieldRules[] = 'required';
                 }
-                if(isset($cf['type']) and $cf['type'] == 'upload') {
+                if (isset($cf['type']) and $cf['type'] == 'upload') {
 
                     $mimeTypes = [];
                     if (isset($cf['options']['file_types']) && !empty($cf['options']['file_types'])) {
@@ -901,7 +897,7 @@ class CartManager extends Crud
 
             $fileAttachments = [];
 
-            $attachmentsPath = media_uploads_path() . '/attachments/shop-cart/'.md5(app()->user_manager->session_id());
+            $attachmentsPath = media_uploads_path() . '/attachments/shop-cart/' . md5(app()->user_manager->session_id());
             $attachmentsPath = normalize_path($attachmentsPath, 0);
             if (!is_dir($attachmentsPath)) {
                 mkdir_recursive($attachmentsPath);
@@ -962,7 +958,7 @@ class CartManager extends Crud
 
                     $attachmentFilename = $attachmentsPath . '/' . $file['name'];
                     if (is_file($attachmentFilename)) { // if file with same name exists, add timestamp to the name
-                        $attachmentFilename = $attachmentsPath . '/' . date('Ymd-His') .'-'. $file['name'];
+                        $attachmentFilename = $attachmentsPath . '/' . date('Ymd-His') . '-' . $file['name'];
                     }
 
                     $fileContent = @file_get_contents($file['tmp_name']);
@@ -984,7 +980,7 @@ class CartManager extends Crud
             }
 
             if (!empty($fileAttachments)) {
-                foreach ($fileAttachments as $customFieldKey=>$fileAttachment) {
+                foreach ($fileAttachments as $customFieldKey => $fileAttachment) {
                     $add[$customFieldKey] = $fileAttachment;
                 }
             }
@@ -1090,7 +1086,7 @@ class CartManager extends Crud
                 $findCart->custom_fields_data = $cart['custom_fields_data'];
                 $findCart->custom_fields_json = $cart['custom_fields_json'];
             }
-            if(!isset($cart['qty'])){
+            if (!isset($cart['qty'])) {
                 $cart['qty'] = 1;
             }
 

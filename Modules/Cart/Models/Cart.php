@@ -9,11 +9,11 @@
  *
  */
 
-namespace MicroweberPackages\Cart\Models;
+namespace Modules\Cart\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Cart\Models\ModelFilters\CartFilter;
+use Modules\Cart\Models\ModelFilters\CartFilter;
 use Modules\Order\Models\Order;
 
 class Cart extends Model

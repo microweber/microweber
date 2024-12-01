@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Cart\Listeners;
+namespace Modules\Cart\Listeners;
 use Illuminate\Support\Facades\Session;
 
 class UserLoginListener
@@ -11,7 +11,7 @@ class UserLoginListener
         $oldSid = Session::get('old_sid');
 
         if(!empty($oldSid)) {
-            \MicroweberPackages\Cart\Models\Cart::where('session_id', $oldSid)->update(array('session_id' => Session::getId()));
+            \Modules\Cart\Models\Cart::where('session_id', $oldSid)->update(array('session_id' => Session::getId()));
             mw()->cache_manager->delete('cart');
         }
     }

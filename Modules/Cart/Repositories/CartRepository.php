@@ -1,23 +1,23 @@
 <?php
 
-namespace MicroweberPackages\Cart\Repositories;
+namespace Modules\Cart\Repositories;
 
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
+use Modules\Cart\Models\Cart;
 
 
 class CartRepository extends AbstractRepository
 {
 
-    public $model = Cart::class;
+    public string $model = Cart::class;
 
     public function getCartItems()
     {
         $sid = app()->user_manager->session_id();
 
-         return $this->cacheCallback(__FUNCTION__, ['session_id'=>$sid], function () use ($sid) {
+        return $this->cacheCallback(__FUNCTION__, ['session_id' => $sid], function () use ($sid) {
 
             $cartItems = DB::table('cart')
                 // ->select(['id', 'qty'])
@@ -30,7 +30,7 @@ class CartRepository extends AbstractRepository
             })->toArray();
 
             return $cartItems;
-         });
+        });
 
     }
 

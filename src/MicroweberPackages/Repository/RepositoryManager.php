@@ -20,6 +20,7 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 
 /**
  * @mixin AbstractRepository
+ * @deprecated
  */
 class RepositoryManager extends Manager
 {

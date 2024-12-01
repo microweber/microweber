@@ -15,11 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
-use MicroweberPackages\Cart\CartManagerServiceProvider;
-use MicroweberPackages\Cart\Providers\CartEventServiceProvider;
-
 use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
-
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
@@ -33,7 +29,6 @@ use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
 use MicroweberPackages\Marketplace\MarketplaceServiceProvider;
-
 use MicroweberPackages\MetaTags\Providers\MetaTagsServiceProvider;
 use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
@@ -42,8 +37,6 @@ use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
 use MicroweberPackages\Notification\Providers\MailTemplatesServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
-
-
 use MicroweberPackages\Pagination\PaginationServiceProvider;
 use MicroweberPackages\Payment\Providers\PaymentManagerServiceProvider;
 use MicroweberPackages\Queue\Providers\QueueEventServiceProvider;
@@ -62,6 +55,7 @@ use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
 use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
 use MicroweberPackages\View\ViewServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
+
 
 //use MicroweberPackages\Customer\Providers\CustomerServiceProvider;
 
@@ -156,14 +150,14 @@ class MicroweberServiceProvider extends ServiceProvider
 //        $this->app->register(OrderEventServiceProvider::class);
       //  $this->app->register(CurrencyServiceProvider::class);
         $this->app->register(CheckoutManagerServiceProvider::class);
-        $this->app->register(CartManagerServiceProvider::class);
+       // $this->app->register(CartManagerServiceProvider::class);
         //$this->app->register(ShippingManagerServiceProvider::class);
         //$this->app->register(OfferServiceProvider::class);
         $this->app->register(FileManagerServiceProvider::class);
       //  $this->app->register(FormServiceProvider::class);
         $this->app->register(FormBuilderServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
-        $this->app->register(CartEventServiceProvider::class);
+    //    $this->app->register(CartEventServiceProvider::class);
 
 
         // Others

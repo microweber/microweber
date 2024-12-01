@@ -13,8 +13,8 @@ use Modules\Teamcard\Models\Teamcard;
 class TeamcardModuleSettings extends LiveEditModuleSettingsTable
 {
     public string $module = 'teamcard';
-    public static string $modelName = Teamcard::class;
-    public static string $tableComponentName = TeamcardTableList::class;
+    public string $modelName = Teamcard::class;
+    public string $tableComponentName = TeamcardTableList::class;
 
     public function form(Form $form): Form
     {
@@ -28,7 +28,7 @@ class TeamcardModuleSettings extends LiveEditModuleSettingsTable
                     ->tabs([
                         Tabs\Tab::make('Main settings')
                             ->schema([
-                                Livewire::make(static::$tableComponentName, [
+                                Livewire::make($this->tableComponentName, [
                                     'rel_id' => $rel_id,
                                     'rel_type' => $rel_type,
                                     'module_id' => $module_id,

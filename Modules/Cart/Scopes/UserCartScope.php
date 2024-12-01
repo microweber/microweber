@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Cart\Scopes;
+namespace Modules\Cart\Scopes;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

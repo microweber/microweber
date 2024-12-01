@@ -14,8 +14,8 @@ class TestimonialsModuleSettings extends LiveEditModuleSettingsTable
 {
     public string $module = 'testimonials';
 
-    public static string $modelName = Testimonial::class;
-    public static string $tableComponentName = TestimonialsTableList::class;
+    public string $modelName = Testimonial::class;
+    public string $tableComponentName = TestimonialsTableList::class;
 
     public function form(Form $form): Form
     {
@@ -29,7 +29,7 @@ class TestimonialsModuleSettings extends LiveEditModuleSettingsTable
                     ->tabs([
                         Tabs\Tab::make('Main settings')
                             ->schema([
-                                Livewire::make(static::$tableComponentName, [
+                                Livewire::make($this->tableComponentName, [
                                     'rel_id' => $rel_id,
                                     'rel_type' => $rel_type,
                                     'module_id' => $module_id,

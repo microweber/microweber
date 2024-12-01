@@ -1,0 +1,33 @@
+{
+    "name": "modules/cart",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Cart\\": "",
+            "Modules\\Cart\\Database\\Factories\\": "database/factories/",
+            "Modules\\Cart\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "Support/cart_functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Cart\\Tests\\": "Tests/"
+        }
+    }
+}

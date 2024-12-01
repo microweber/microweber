@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Cart\Events;
+namespace Modules\Cart\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;

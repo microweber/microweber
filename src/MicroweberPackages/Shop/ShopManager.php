@@ -156,7 +156,7 @@ class ShopManager
     {
 
         if (!$product_id) {
-            $product_id = CONTENT_ID;
+            $product_id = product_id();
         }
 
         $for = 'content';

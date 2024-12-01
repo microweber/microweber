@@ -1,8 +1,8 @@
 <?php
 
-namespace MicroweberPackages\Cart\Concerns;
+namespace Modules\Cart\Traits;
 
-use MicroweberPackages\Cart\Models\Cart;
+use Modules\Cart\Models\Cart;
 
 trait HasCartItems
 {

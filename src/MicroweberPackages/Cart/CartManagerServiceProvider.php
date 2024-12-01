@@ -12,9 +12,8 @@
 namespace MicroweberPackages\Cart;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Support\DeferrableProvider;
-use MicroweberPackages\Cart\Models\Cart;
-use MicroweberPackages\Cart\Repositories\CartRepository;
+use Modules\Cart\Models\Cart;
+use Modules\Cart\Repositories\CartRepository;
 
 class CartManagerServiceProvider extends ServiceProvider
 {
@@ -25,12 +24,7 @@ class CartManagerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /**
-         * @property \MicroweberPackages\Cart\CartManager    $cart_manager
-         */
-        $this->app->singleton('cart_manager', function ($app) {
-            return new CartManager();
-        });
+
 
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Cart::class, function () {
@@ -38,18 +32,13 @@ class CartManagerServiceProvider extends ServiceProvider
             });
         });
 
-        /**
-         * @property CartRepository   $cart_repository
-         */
-        $this->app->bind('cart_repository', function () {
-            return $this->app->repository_manager->driver(Cart::class);;
-        });
+
 
     }
 
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+     //   $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
     }
 
     /**

@@ -9,9 +9,9 @@
  *
  */
 
-namespace MicroweberPackages\Cart\Models;
+namespace Modules\Cart\Models;
 
-use MicroweberPackages\Cart\Scopes\UserCartScope;
+use Modules\Cart\Scopes\UserCartScope;
 
 class UserCart extends Cart
 {
