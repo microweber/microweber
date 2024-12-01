@@ -127,6 +127,9 @@ class StaticModuleCreator
                     if(in_array($filePathDS, self::$loadedFilesFromComposerCache)){
                         continue;
                     }
+                    if(!is_file($path . DS . $autoloadFile)){
+                        continue;
+                    }
 
                     include_once $path . DS . $autoloadFile;
                     self::$loadedFilesFromComposerCache[] = $filePathDS;

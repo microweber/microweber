@@ -1,5 +1,5 @@
 {
-    "name": "modules/menu",
+    "name": "modules/site_stats",
     "description": "",
     "authors": [
         {
@@ -17,17 +17,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Menu\\": "",
-            "Modules\\Menu\\Database\\Factories\\": "database/factories/",
-            "Modules\\Menu\\Database\\Seeders\\": "database/seeders/"
+            "Modules\\SiteStats\\": "",
+            "Modules\\SiteStats\\Database\\Factories\\": "database/factories/",
+            "Modules\\SiteStats\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-          "Support/menus_functions.php"
+            "Support/stats_functions.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\Menu\\Tests\\": "Tests/"
+            "Modules\\SiteStats\\Tests\\": "Tests/"
         }
     }
 }

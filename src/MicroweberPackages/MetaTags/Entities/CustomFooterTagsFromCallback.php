@@ -20,6 +20,7 @@ class CustomFooterTagsFromCallback implements TagInterface, \Stringable
                 }
             }
         }
+
         return $template_headers_src;
     }
 

@@ -940,7 +940,7 @@ class FrontendController extends Controller
 //        }
         event_trigger('mw_frontend', $content);
         $is_laravel_template = app()->template_manager->is_laravel_template($the_active_site_template);
-
+        event_trigger('mw.pageview');
 //
 //        if($is_laravel_template){
 //            $render_file = $this->app->template_manager->get_layout_for_laravel_template($content);
@@ -1135,7 +1135,7 @@ class FrontendController extends Controller
                 and !is_cli()
                 and !defined('MW_API_CALL')
             ) {
-                event_trigger('mw.pageview');
+
             }
 
             //$apijs_loaded = $this->app->template_manager->get_apijs_url();
