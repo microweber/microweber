@@ -1,11 +1,5 @@
 <?php
 
-if (!function_exists('checkout_url')) {
-    function checkout_url()
-    {
-        return app()->shop_manager->checkout_url();
-    }
-}
 
 if (!function_exists('delete_client')) {
     function delete_client($data)
@@ -18,13 +12,6 @@ if (!function_exists('is_product_in_stock')) {
     function is_product_in_stock($content_id)
     {
         return mw()->cart_manager->is_product_in_stock($content_id);
-    }
-}
-
-if (!function_exists('checkout_ipn')) {
-    function checkout_ipn($data)
-    {
-        return app()->shop_manager->checkout_ipn($data);
     }
 }
 
@@ -66,20 +53,6 @@ if (!function_exists('get_product_discount_percent')) {
     }
 }
 
-if (!function_exists('checkout')) {
-    function checkout($data)
-    {
-        return app()->shop_manager->checkout($data);
-    }
-}
-
-if (!function_exists('checkout_confirm_email_test')) {
-    function checkout_confirm_email_test($params)
-    {
-        return app()->shop_manager->checkout_confirm_email_test($params);
-    }
-}
-
 if (!function_exists('update_order')) {
     function update_order($params = false)
     {
@@ -112,13 +85,6 @@ if (!function_exists('payment_options')) {
     function payment_options($option_key = false)
     {
         return app()->shop_manager->payment_options($option_key);
-    }
-}
-
-if (!function_exists('checkout_get_user_info')) {
-    function checkout_get_user_info()
-    {
-        return mw()->checkout_manager->checkout_get_user_info();
     }
 }
 

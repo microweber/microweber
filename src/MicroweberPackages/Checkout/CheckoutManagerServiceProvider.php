@@ -25,17 +25,12 @@ class CheckoutManagerServiceProvider extends ServiceProvider implements Deferrab
      */
     public function boot()
     {
-        /**
-         * @property \MicroweberPackages\Checkout\CheckoutManager    $checkout_manager
-         */
-        $this->app->singleton('checkout_manager', function ($app) {
-            return new CheckoutManager();
-        });
+
 
         View::addNamespace('checkout', __DIR__.'/resources/views');
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
-        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+    //    $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+    //    $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 
     /**

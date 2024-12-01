@@ -2,9 +2,9 @@
 namespace Modules\Tax\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Shop\tests\ShopTestHelperTrait;
+use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Tax\Models\TaxType;
 
 class TaxCartTest extends TestCase

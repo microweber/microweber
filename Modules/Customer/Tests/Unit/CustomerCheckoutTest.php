@@ -2,8 +2,8 @@
 
 namespace Modules\Customer\Tests\Unit;
 
-use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Customer\Models\Address;
 use Modules\Customer\Models\Customer;
 
