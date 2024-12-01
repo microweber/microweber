@@ -15,7 +15,6 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
-use MicroweberPackages\Checkout\CheckoutManagerServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
@@ -149,7 +148,7 @@ class MicroweberServiceProvider extends ServiceProvider
 //        $this->app->register(OrderServiceProvider::class);
 //        $this->app->register(OrderEventServiceProvider::class);
       //  $this->app->register(CurrencyServiceProvider::class);
-        $this->app->register(CheckoutManagerServiceProvider::class);
+      //  $this->app->register(CheckoutManagerServiceProvider::class);
        // $this->app->register(CartManagerServiceProvider::class);
         //$this->app->register(ShippingManagerServiceProvider::class);
         //$this->app->register(OfferServiceProvider::class);
