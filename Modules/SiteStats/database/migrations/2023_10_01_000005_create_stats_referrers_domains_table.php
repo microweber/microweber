@@ -17,7 +17,7 @@ return new class extends Migration {
             Schema::create('stats_referrers_domains', function (Blueprint $table) {
                 $table->id();
                 $table->text('referrer_domain');
-                $table->dateTime('updated_at');
+                $table->timestamps();
             });
         }
     }

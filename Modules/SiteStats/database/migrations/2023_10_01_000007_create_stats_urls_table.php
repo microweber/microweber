@@ -20,8 +20,8 @@ return new class extends Migration {
                 $table->integer('content_id');
                 $table->integer('category_id');
                 $table->string('url_hash');
-                $table->dateTime('updated_at');
-                $table->dateTime('created_at');
+                $table->timestamps();
+
             });
         }
     }

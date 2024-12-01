@@ -31,8 +31,8 @@ return new class extends Migration {
                 $table->string('session_id');
                 $table->string('user_id');
                 $table->integer('is_sent');
-                $table->dateTime('created_at');
-                $table->dateTime('updated_at');
+                $table->timestamps();
+
             });
         }
     }

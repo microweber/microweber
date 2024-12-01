@@ -22,8 +22,8 @@ return new class extends Migration {
                 $table->string('city');
                 $table->string('latitude');
                 $table->string('longitude');
-                $table->dateTime('updated_at');
-                $table->dateTime('created_at');
+                $table->timestamps();
+
             });
         }
     }

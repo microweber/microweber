@@ -26,8 +26,8 @@ return new class extends Migration {
                 $table->integer('referrer_path_id');
                 $table->integer('geoip_id');
                 $table->string('language');
-                $table->dateTime('updated_at');
-                $table->dateTime('created_at');
+                $table->timestamps();
+
             });
         }
     }

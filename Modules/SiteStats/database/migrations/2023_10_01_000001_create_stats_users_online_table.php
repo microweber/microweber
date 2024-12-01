@@ -22,7 +22,6 @@ return new class extends Migration {
                 $table->string('last_page');
                 $table->date('visit_date');
                 $table->time('visit_time');
-                $table->dateTime('updated_at');
                 $table->string('session_id');
                 $table->string('user_ip');
                 $table->string('user_id');

@@ -18,7 +18,7 @@ return new class extends Migration {
                 $table->id();
                 $table->integer('referrer_domain_id');
                 $table->string('referrer_path');
-                $table->dateTime('updated_at');
+                $table->timestamps();
             });
         }
     }

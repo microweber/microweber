@@ -21,7 +21,6 @@ return new class extends Migration {
                 $table->integer('main_page_id');
                 $table->integer('parent_page_id');
                 $table->integer('category_id');
-                $table->dateTime('updated_at');
                 $table->string('session_id');
                 $table->string('user_ip');
                 $table->string('user_id');

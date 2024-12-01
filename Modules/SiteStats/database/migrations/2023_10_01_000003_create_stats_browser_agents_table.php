@@ -30,8 +30,8 @@ return new class extends Migration {
                 $table->text('robot_name');
                 $table->string('is_robot');
                 $table->string('language');
-                $table->dateTime('updated_at');
-                $table->dateTime('created_at');
+                $table->timestamps();
+
             });
         }
     }

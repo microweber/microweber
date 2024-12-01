@@ -19,7 +19,6 @@ return new class extends Migration {
                 $table->integer('url_id');
                 $table->integer('referrer_id');
                 $table->integer('view_count')->default(1);
-                $table->dateTime('updated_at');
                 $table->integer('session_id_key');
                 $table->timestamps();
             });
