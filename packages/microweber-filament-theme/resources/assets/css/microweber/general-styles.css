@@ -693,6 +693,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply dark:bg-gray-50 dark:text-black;
 }
 
-.fi-modal-header {
+.fi-modal-header svg {
     @apply dark:text-white dark:fill-current;
 }
+
