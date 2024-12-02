@@ -131,7 +131,7 @@ class StaticModuleCreator
                         continue;
                     }
 
-                    include_once $path . DS . $autoloadFile;
+                    require_once($path . DS . $autoloadFile);
                     self::$loadedFilesFromComposerCache[] = $filePathDS;
                 } else {
                     continue;
