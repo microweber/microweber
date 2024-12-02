@@ -547,12 +547,12 @@ class ParserProcessor
 
                                         $mod_id = $this->_str_clean_mod_id($mod_id);
 
-                                        if($module_name == 'btn') {
-Debugbar::info($mod_id);
-                                          //  dump($layout,$more,$coming_from_parent_id);
-                                            //  dd(debug_backtrace(1));
-                                          //  dd($curent_mod_field,$mod_id,$attrs);
-                                        }
+//                                        if($module_name == 'btn') {
+//Debugbar::info($mod_id);
+//                                          //  dump($layout,$more,$coming_from_parent_id);
+//                                            //  dd(debug_backtrace(1));
+//                                          //  dd($curent_mod_field,$mod_id,$attrs);
+//                                        }
 
                                         if ($curent_mod_rel) {
 

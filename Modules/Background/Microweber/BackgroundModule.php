@@ -3,6 +3,7 @@
 namespace Modules\Background\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
+use Modules\Background\Filament\BackgroundModuleSettings;
 
 class BackgroundModule extends BaseModule
 {
@@ -11,20 +12,19 @@ class BackgroundModule extends BaseModule
     public static string $icon = 'modules.background-icon';
     public static string $categories = 'media';
     public static string $templatesNamespace = 'modules.background::templates';
+    public static string $settingsComponent = BackgroundModuleSettings::class;
     public static int $position = 1;
 
     public function getViewData(): array
     {
-        $background_image_option = $this->getOption('background_image', '');
-        $background_size_option = $this->getOption('background_size', '');
-        $background_color_option = $this->getOption('background_color', '');
-        $background_video_option = $this->getOption('background_video', '');
-
-        $background_image = $background_image_option ?? $this->params['data-background-image'] ?? '';
-        $background_size = $background_size_option ?? $this->params['data-background-size'] ?? '';
-        $background_color = $background_color_option ?? $this->params['data-background-color'] ?? '';
-        $background_video = $background_video_option ?? $this->params['data-background-video'] ?? '';
-
+        $background_image_option = $this->getOption('background_image' );
+        $background_size_option = $this->getOption('background_size' );
+        $background_color_option = $this->getOption('background_color' );
+        $background_video_option = $this->getOption('background_video' );
+        $background_image = $background_image_option ?? $this->params['data-background-image'] ?? $this->params['background-image'] ?? '';
+        $background_size = $background_size_option ?? $this->params['data-background-size'] ?? $this->params['background-size'] ?? '';
+        $background_color = $background_color_option ?? $this->params['data-background-color'] ?? $this->params['background-color'] ?? '';
+        $background_video = $background_video_option ?? $this->params['data-background-video'] ?? $this->params['background-video'] ?? '';
 
         $style_attributes_overlay = [];
         $style_attributes = [];

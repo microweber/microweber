@@ -33,7 +33,7 @@ function coupon_apply($params = array())
 
     $customer_ip = user_ip();
 
-//    $checkout = new MicroweberPackages\Checkout\CheckoutManager();
+//    $checkout = new Modules\Checkout\Repositories\CheckoutManager();
 //    $getCart = $checkout->app->shop_manager->get_cart(array(
 //        'session_id' => $checkout->app->user_manager->session_id()
 //

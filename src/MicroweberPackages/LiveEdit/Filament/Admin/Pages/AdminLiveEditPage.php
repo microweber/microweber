@@ -182,7 +182,6 @@ class AdminLiveEditPage extends Page
                         $liveEditIframeData = [];
                         if (isset($data['liveEditIframeData']) and !empty($data['liveEditIframeData'])) {
                             $liveEditIframeData = $data['liveEditIframeData'];
-
                         }
                         return [
                             Livewire::make($data['moduleSettingsComponent'],

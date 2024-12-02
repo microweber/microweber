@@ -1,0 +1,11 @@
+{
+    "name": "SiteStats",
+    "alias": "site_stats",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SiteStats\\Providers\\SiteStatsServiceProvider"
+    ],
+    "files": ["Support/stats_functions.php"]
+}

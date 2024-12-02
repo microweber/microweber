@@ -21,9 +21,9 @@ class GoogleMapsModule extends BaseModule
 
         $address = $this->params['data-address'] ?? '';
         $mapType = get_module_option('data-map-type', $this->params['id']) ?? $this->params['data-map-type'] ?? 'roadmap';
-        $zoom = get_module_option('data-zoom', $this->params['id']) ?? $this->params['data-zoom'] ?? 18;
-        $width = get_module_option('data-width', $this->params['id'] ?? $this->params['data-width'] ?? '100%');
-        $height = get_module_option('data-height', $this->params['id']) ?? $this->params['data-height'] ?? '400';
+        $zoom = get_module_option('data-zoom', $this->params['id']) ?? $this->params['data-zoom'] ?? $this->params['zoom'] ?? 17;
+        $width = get_module_option('data-width', $this->params['id'] ?? $this->params['data-width'] ?? $this->params['width'] ?? '100%');
+        $height = get_module_option('data-height', $this->params['id']) ?? $this->params['data-height'] ?? $this->params['height'] ?? '400';
 
         $addressPartsFromParams = [];
         $addressPartsFromParams['country'] = $this->params['data-country'] ?? '';
@@ -57,7 +57,9 @@ class GoogleMapsModule extends BaseModule
             $address = trim($address, ',');
         }
 
-
+        if(!$address){
+            $address = '1 Infinite Loop in Cupertino, California, United States.';
+        }
         $viewData['mapType'] = $mapType;
         $viewData['zoom'] = $zoom;
         $viewData['width'] = $width;
@@ -67,15 +69,13 @@ class GoogleMapsModule extends BaseModule
         $viewData['address'] = $address;
 
 
+
+
         if (!$zoom) {
             $viewData['zoom'] = 18;
         }
 
-        $template = $viewData['template'] ?? 'default';
-        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
-            $template = 'default';
-        }
-
-        return view(static::$templatesNamespace . '.' . $template, $viewData);
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
+        return view($viewName, $viewData);
      }
 }

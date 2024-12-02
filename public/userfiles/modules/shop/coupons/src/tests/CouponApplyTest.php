@@ -4,10 +4,10 @@ namespace MicroweberPackages\Modules\Shop\Coupons\tests;
 
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Modules\Shop\Coupons\Models\CartCouponLog;
 use MicroweberPackages\Shop\tests\ShopTestHelperTrait;
+use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Tax\Models\TaxType;
 
 class CouponApplyTest extends TestCase

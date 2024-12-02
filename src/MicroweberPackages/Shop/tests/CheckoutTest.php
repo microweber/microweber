@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Shop\tests;
 
-use MicroweberPackages\Checkout\CheckoutManager;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Checkout\Repositories\CheckoutManager;
 
 /**
  * Run test

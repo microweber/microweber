@@ -5,6 +5,8 @@ namespace Modules\Slider\Filament;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Forms;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
@@ -33,98 +35,122 @@ class SliderModuleSettings extends LiveEditModuleSettings
                             $set('slides', $this->slides);
                         }
                     )
+                    ->itemLabel(fn(array $state): ?string => $state['title'] ?? 'New Slide') // Dynamically sets item label
                     ->label('Slides')
                     ->schema([
-                        TextInput::make('title')
-                            ->label('Slide Title')
-                            ->placeholder('Insert slide title')
-                            ->live(),
+                        // Main Section
+                        Section::make()
+                            ->heading('Slide')
+                            ->compact()
+                            ->schema([
+                                TextInput::make('title')
+                                    ->label('Slide Title')
+                                    ->placeholder('Insert slide title')
+                                    ->live(false, 1500),
 
-                        TextInput::make('description')
-                            ->label('Description')
-                            ->live(),
+                                TextInput::make('description')
+                                    ->label('Description')
+                                    ->live(false, 1500),
 
-                        MwFileUpload::make('image')
-                            ->label('Image URL')
-                            ->live(),
+                                MwFileUpload::make('image')
+                                    ->label('Image URL')
+                                    ->live(false, 1500),
 
-                        TextInput::make('buttonText')
-                            ->label('Button Text')
-                            ->live(),
+                                TextInput::make('buttonText')
+                                    ->label('Button Text')
+                                    ->live(false, 1500),
 
-                        MwLinkPicker::make('url')
-                            ->label('Button URL')
-                            ->helperText('Select or enter the URL the button should link to.')
-                            ->live()
-                            ->setSimpleMode(true)
-                            ->columnSpanFull(),
-
-                        Select::make('alignItems')
-                            ->label('Align Items')
-                            ->options([
-                                'left' => 'Left',
-                                'center' => 'Center',
-                                'right' => 'Right',
+                                MwLinkPicker::make('url')
+                                    ->label('Button URL')
+                                    ->helperText('Select or enter the URL the button should link to.')
+                                    ->live()
+                                    ->setSimpleMode(true)
+                                    ->columnSpanFull(),
                             ])
-                            ->live(),
+                            ->collapsible(false), // Non-collapsible main section
 
-                        TextInput::make('titleColor')
-                            ->label('Title Color')
-                            ->live(),
+                        // Collapsible Advanced Section
+                        Section::make()
+                            ->label('Advanced')
+                            ->heading('Advanced')
+                            ->compact()
+                            ->columns(2)
+                            ->schema([
 
-                        TextInput::make('descriptionColor')
-                            ->label('Description Color')
-                            ->live(),
+                                TextInput::make('titleFontSize')
+                                    ->label('Title Font Size')
+                                    ->numeric()
+                                    ->live(false, 1500),
+                                ColorPicker::make('titleColor')
+                                    ->label('Title Color')
+                                    ->live(false, 1500),
 
-                        TextInput::make('buttonColor')
-                            ->label('Button Color')
-                            ->live(),
+                                TextInput::make('descriptionFontSize')
+                                    ->label('Description Font Size')
+                                    ->numeric()
+                                    ->live(false, 1500),
 
-                        TextInput::make('buttonTextColor')
-                            ->label('Button Text Color')
-                            ->live(),
+                                ColorPicker::make('descriptionColor')
+                                    ->label('Description Color')
+                                    ->live(false, 1500),
 
-                        TextInput::make('titleFontSize')
-                            ->label('Title Font Size')
-                            ->live(),
 
-                        TextInput::make('descriptionFontSize')
-                            ->label('Description Font Size')
-                            ->live(),
+                                TextInput::make('buttonFontSize')
+                                    ->label('Button Font Size')
+                                    ->numeric()
+                                    ->live(false, 1500),
 
-                        TextInput::make('buttonFontSize')
-                            ->label('Button Font Size')
-                            ->live(),
+                                ColorPicker::make('buttonColor')
+                                    ->label('Button Color')
+                                    ->live(false, 1500),
 
-                        TextInput::make('titleFontFamily')
-                            ->label('Title Font Family')
-                            ->live(),
+                                ColorPicker::make('buttonTextColor')
+                                    ->label('Button Text Color')
+                                    ->live(false, 1500),
 
-                        TextInput::make('descriptionFontFamily')
-                            ->label('Description Font Family')
-                            ->live(),
 
-                        TextInput::make('imageBackgroundColor')
-                            ->label('Image Background Color')
-                            ->live(),
+                                TextInput::make('titleFontFamily')
+                                    ->label('Title Font Family')
+                                    ->live(false, 1500),
 
-                        TextInput::make('imageBackgroundOpacity')
-                            ->label('Image Background Opacity')
-                            ->live(),
+                                TextInput::make('descriptionFontFamily')
+                                    ->label('Description Font Family')
+                                    ->live(false, 1500),
 
-                        Select::make('showButton')
-                            ->label('Show Button')
-                            ->options([
-                                '1' => 'Yes',
-                                '0' => 'No',
+                                ColorPicker::make('imageBackgroundColor')
+                                    ->label('Image Background Color')
+                                    ->live(false, 1500),
+
+                                TextInput::make('imageBackgroundOpacity')
+                                    ->label('Image Background Opacity')
+                                    ->numeric()
+                                    ->live(false, 1500),
+                                Select::make('alignItems')
+                                    ->label('Align Items')
+                                    ->options([
+                                        'left' => 'Left',
+                                        'center' => 'Center',
+                                        'right' => 'Right',
+                                    ])
+                                    ->live(false, 1500),
+                                Select::make('showButton')
+                                    ->label('Show Button')
+                                    ->options([
+                                        '1' => 'Yes',
+                                        '0' => 'No',
+                                    ])
+                                    ->default('1')
+                                    ->live(false, 1500),
                             ])
-                            ->default('1')
-                            ->live(),
+                            ->collapsible(true)
+                            ->collapsed(),
                     ])
+                    ->collapsible(true)
                     ->minItems(0)
-                    ->live()
+
             ]);
     }
+
 
     public function updated($propertyName, $value): void
     {

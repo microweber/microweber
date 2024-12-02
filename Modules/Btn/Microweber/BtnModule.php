@@ -30,7 +30,7 @@ class BtnModule extends BaseModule
         $viewData['popupContent'] = '';
         $viewData['url'] = '';
         $viewData['blank'] = '';
-        $viewData['text'] = $this->params['button_size'] ?? $this->params['text'] ?? 'Button';
+        $viewData['text'] = $this->params['button_text'] ?? $this->params['text'] ?? $this->params['data-text'] ?? 'Button';
         $viewData['icon'] = $this->params['icon'] ?? '';
         $viewData['iconPosition'] = '';
         $viewData['action'] = '';
@@ -85,13 +85,9 @@ class BtnModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        $template = $viewData['template'] ?? 'default';
 
-        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
-            $template = 'default';
-        }
-
-        return view(static::$templatesNamespace . '.' . $template, $viewData);
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
+        return view($viewName, $viewData);
     }
 
 }

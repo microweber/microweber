@@ -81,7 +81,7 @@ class StaticModuleCreator
         $autoloadNamespaces = $composerAutoloadContent['psr-4'] ?? [];
 
         $autoloadFiles = [];
-        //$autoloadFiles = $composerAutoloadContent['files'] ?? [];
+         $autoloadFiles = $composerAutoloadContent['files'] ?? [];
 
 
         $path = dirname($composer);
@@ -89,7 +89,7 @@ class StaticModuleCreator
         if (empty($autoloadNamespaces)) {
             $moduleComposer = Json::make($composer)->getAttributes();
             $autoloadNamespaces = $moduleComposer['autoload']['psr-4'] ?? [];
-            //$autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
+            $autoloadFiles = $moduleComposer['autoload']['files'] ?? [];
         }
 
         self::loadModuleNamespaces($path, $autoloadNamespaces, $autoloadFiles);
@@ -127,8 +127,11 @@ class StaticModuleCreator
                     if(in_array($filePathDS, self::$loadedFilesFromComposerCache)){
                         continue;
                     }
+                    if(!is_file($path . DS . $autoloadFile)){
+                        continue;
+                    }
 
-                    include_once $path . DS . $autoloadFile;
+                    require_once($path . DS . $autoloadFile);
                     self::$loadedFilesFromComposerCache[] = $filePathDS;
                 } else {
                     continue;

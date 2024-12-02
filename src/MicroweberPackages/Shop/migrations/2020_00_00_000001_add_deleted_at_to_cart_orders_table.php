@@ -13,6 +13,10 @@ class AddDeletedAtToCartOrdersTable extends Migration
      */
     public function up()
     {
+        if(!Schema::hasTable('cart_orders')) {
+            return;
+        }
+
         Schema::table('cart_orders', function (Blueprint $table) {
             if(!Schema::hasColumn('cart_orders', 'deleted_at')) {
                 $table->dateTime('deleted_at')->nullable();

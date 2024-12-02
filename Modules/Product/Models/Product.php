@@ -2,8 +2,8 @@
 
 namespace Modules\Product\Models;
 
-use MicroweberPackages\Cart\Models\Cart;
 use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
+use Modules\Cart\Models\Cart;
 use Modules\Content\Models\Content;
 use Modules\Content\Scopes\ProductScope;
 use Modules\ContentDataVariant\Models\ContentDataVariant;
@@ -281,7 +281,7 @@ class Product extends Content
     public function getOrdersCountAttribute()
     {
 
-        $cartQuery = Cart::query();
+        $cartQuery = \Modules\Cart\Models\Cart::query();
         $cartQuery->where('rel_type', morph_name(\Modules\Content\Models\Content::class));
         $cartQuery->where('rel_id', $this->getAttribute('id'));
         $cartQuery->whereHas('order');
@@ -477,7 +477,7 @@ class Product extends Content
     {
         return $this->hasManyThrough(
             Order::class,
-            Cart::class,
+            \Modules\Cart\Models\Cart::class,
             'rel_id',
             'id',
             'id',

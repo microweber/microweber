@@ -4,7 +4,7 @@
 namespace Modules\Product\Tests\Unit;
 
 
-use MicroweberPackages\Cart\Models\Cart;
+use Modules\Cart\Models\Cart;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
 use Modules\Order\Models\Order;

@@ -23,14 +23,16 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Teamcard\Models\Teamcard;
+use MicroweberPackages\LiveEdit\Filament\Admin\Tables\LiveEditModuleTable;
 
-class TeamcardTableList extends Component implements HasForms, HasTable
+class TeamcardTableList extends LiveEditModuleTable implements HasForms, HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;
 
-    public $rel_id = null;
-    public $rel_type = null;
+    public string|null $rel_id = null;
+    public string|null $rel_type = null;
+    public string|null $module_id = null;
 
     public function editFormArray()
     {

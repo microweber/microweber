@@ -19,15 +19,10 @@ class TestimonialsModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
-        $rel_type = $this->params['rel_type'] ?? 'module';
-        $rel_id = $this->params['rel_id'] ?? $this->params['id'];
+        $rel_id = $this->getOption('rel_id') ?? $this->params['rel_id'] ?? $this->params['id'] ?? null;
+        $rel_type = $this->getOption('rel_type') ?? $this->params['rel_type'] ?? 'module';
         $viewData['testimonials'] = Testimonial::where('rel_type', $rel_type)->where('rel_id', $rel_id)->orderBy('position', 'asc')->get();
-        $template = $viewData['template'] ?? 'default';
-
-        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
-            $template = 'default';
-        }
-
-        return view(static::$templatesNamespace . '.' . $template, $viewData);
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
+        return view($viewName, $viewData);
     }
 }

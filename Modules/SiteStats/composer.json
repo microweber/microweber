@@ -1,0 +1,33 @@
+{
+    "name": "modules/site_stats",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\SiteStats\\": "",
+            "Modules\\SiteStats\\Database\\Factories\\": "database/factories/",
+            "Modules\\SiteStats\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "Support/stats_functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\SiteStats\\Tests\\": "Tests/"
+        }
+    }
+}

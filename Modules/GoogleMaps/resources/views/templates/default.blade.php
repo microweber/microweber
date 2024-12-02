@@ -24,6 +24,6 @@ description: Default
             src="https://maps.google.com/maps?q={{ urlencode($address) }}&amp;z={{ intval($zoom) }}&amp;t={{ $mapType ?? 'm' }}&amp;output=embed">
         </iframe>
     @else
-        {!! lnotif(_lang('Set an address to display the map.', "modules/googlemaps", true)) !!}
+        {!! lnotif(lang('Set an address to display the map.')) !!}
     @endif
 </div>

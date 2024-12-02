@@ -137,6 +137,12 @@ abstract class LiveEditModuleSettings extends Page
         foreach ($schemaItemsArray as $schema) {
             $name = $schema['name'];
 
+            if(!isset($schema['type'])){
+                continue;
+            }
+            if(!isset($schema['label'])){
+                $schema['label'] = titlelize($name);
+            }
             // $name must  start with options.
 
             if ($appendSettingsKey and strpos($name, $settingsKey . '.') !== 0) {
@@ -149,38 +155,38 @@ abstract class LiveEditModuleSettings extends Page
                 $formFields[] = TextInput::make($name)
                     ->label($schema['label'])
                     ->live()
-                    ->placeholder($schema['placeholder']);
+                    ->placeholder($schema['placeholder'] ?? '');
 
             }
             if ($schema['type'] == 'textarea') {
                 $formFields[] = Textarea::make($name)
                     ->label($schema['label'])
                     ->live()
-                    ->placeholder($schema['placeholder']);
+                    ->placeholder($schema['placeholder'] ?? '');
             }
             if ($schema['type'] == 'image') {
                 $formFields[] = MwFileUpload::make($name)
                     ->label($schema['label'])
                     ->live()
-                    ->placeholder($schema['placeholder']);
+                    ->placeholder($schema['placeholder'] ?? '');
             }
             if ($schema['type'] == 'color') {
                 $formFields[] = ColorPicker::make($name)
                     ->label($schema['label'])
                     ->live()
-                    ->placeholder($schema['placeholder']);
+                    ->placeholder($schema['placeholder'] ?? '');
             }
             if ($schema['type'] == 'select') {
                 $formFields[] = Select::make($name)
                     ->label($schema['label'])
                     ->options($schema['options'])
                     ->live()
-                    ->placeholder($schema['placeholder']);
+                    ->placeholder($schema['placeholder'] ?? '');
             }
             if ($schema['type'] == 'toggle') {
                 $formFields[] = Toggle::make($name)
                     ->live()
-                    ->label($schema['label']);
+                    ->label($schema['label'] ?? '');
             }
 
         }
@@ -196,8 +202,19 @@ abstract class LiveEditModuleSettings extends Page
     public function getTemplatesFormSchema()
     {
 
+        $template_name_from_website = false;
+        if (!empty($this->params) and isset($this->params['id'])) {
+            if (isset($this->liveEditIframeData) and !empty($this->liveEditIframeData)) {
+                $liveEditIframeData = $this->liveEditIframeData;
+                if (isset($liveEditIframeData['template_name'])) {
+                    $template_name_from_website = $liveEditIframeData['template_name'];
+                }
+            }
 
-        $moduleTemplates = module_templates($this->module);
+
+        }
+
+        $moduleTemplates = module_templates($this->module, $template_name_from_website);
         $optionGroup = $this->getOptionGroup();
 
         $selectedSkin = get_module_option('template', $optionGroup);
@@ -205,14 +222,17 @@ abstract class LiveEditModuleSettings extends Page
         $filter = request()->get('template-filter') ?? null;
 
         if (!$selectedSkin) {
-            $selectedSkin = request()->get('template') ?? null;
+            $selectedSkin = request()->get('template') ?? $this->params['template'] ?? null;
             // append .php if extension not set
-
-
-            if ($selectedSkin and Str::endsWith($selectedSkin, '.php') == false) {
-                $selectedSkin = $selectedSkin . '.php';
-
+            if ($selectedSkin and $selectedSkin != 'default') {
+                $selectedSkin = str_replace('/', '.', $selectedSkin);
+                $selectedSkin = str_replace('\\', '.', $selectedSkin);
+                $selectedSkin = str_replace('.', '/', $selectedSkin);
             }
+//            if ($selectedSkin and Str::endsWith($selectedSkin, '.php') == false) {
+//                $selectedSkin = $selectedSkin . '.php';
+//
+//            }
 
 
         }
@@ -243,27 +263,60 @@ abstract class LiveEditModuleSettings extends Page
                         and $moduleTemplate['skin_settings_json_file']
                         and is_file($moduleTemplate['skin_settings_json_file'])
                     ) {
+
+                        $curretSkinSettingsFromJson = [];
                         $jsonContent = file_get_contents($moduleTemplate['skin_settings_json_file']);
                         if ($jsonContent) {
+
                             $moduleTemplateSettingsJson = @json_decode($jsonContent, true);
+                            $mergeSchema = [];
+                            if (is_array($moduleTemplateSettingsJson)
+                                and isset($moduleTemplateSettingsJson['schema'])
+                                and !empty($moduleTemplateSettingsJson['useSchemaFrom'])) {
+                                $mergeFile = dirname($moduleTemplate['skin_settings_json_file']) . '/' . $moduleTemplateSettingsJson['useSchemaFrom'];
+                                if ($mergeFile and !Str::endsWith($mergeFile, '.json')) {
+                                    $mergeFile = $mergeFile . '.json';
+                                    if (is_file($mergeFile)) {
+                                        $jsonContent = file_get_contents($mergeFile);
+                                        if ($jsonContent) {
+                                            $mergeSchemaContent = @json_decode($jsonContent, true);
+
+                                            if (is_array($mergeSchemaContent)
+                                                and isset($mergeSchemaContent['schema'])
+                                                and !empty($mergeSchemaContent['schema'])) {
+                                                $mergeSchema = $mergeSchemaContent['schema'];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
                             if (is_array($moduleTemplateSettingsJson)
                                 and isset($moduleTemplateSettingsJson['schema'])
                                 and !empty($moduleTemplateSettingsJson['schema'])) {
+
                                 $curretSkinSettingsFromJson = $moduleTemplateSettingsJson['schema'];
 
-                                $settingsKey = 'options';
+                            }
+                        }
 
-                                if (isset($moduleTemplateSettingsJson['config'])
-                                    and isset($moduleTemplateSettingsJson['config']['settingsKey'])) {
-                                    $settingsKey = $moduleTemplateSettingsJson['config']['settingsKey'];
-                                }
+                        if (!empty($curretSkinSettingsFromJson)) {
 
-                                $formFieldsFromSchema = $this->schemaToFormFields($curretSkinSettingsFromJson, $settingsKey, true);
+                            if (!empty($mergeSchema)) {
+                                $curretSkinSettingsFromJson = array_merge($curretSkinSettingsFromJson, $mergeSchema);
+                            }
+                            $settingsKey = 'options';
 
-                                if ($formFieldsFromSchema) {
-                                    $moduleTemplatesSkinSettingsSchema = array_merge($moduleTemplatesSkinSettingsSchema, $formFieldsFromSchema);
-                                }
+                            if (isset($moduleTemplateSettingsJson['config'])
+                                and isset($moduleTemplateSettingsJson['config']['settingsKey'])) {
+                                $settingsKey = $moduleTemplateSettingsJson['config']['settingsKey'];
+                            }
 
+                            $formFieldsFromSchema = $this->schemaToFormFields($curretSkinSettingsFromJson, $settingsKey, true);
+
+                            if ($formFieldsFromSchema) {
+                                $moduleTemplatesSkinSettingsSchema = array_merge($moduleTemplatesSkinSettingsSchema, $formFieldsFromSchema);
                             }
                         }
 
@@ -271,6 +324,12 @@ abstract class LiveEditModuleSettings extends Page
                 }
             }
         }
+
+        if ($selectedSkin) {
+            $this->options['template'] = $selectedSkin;
+        }
+
+        //  dump($selectedSkin,$moduleTemplatesForForm);
 
 
         $schema = [

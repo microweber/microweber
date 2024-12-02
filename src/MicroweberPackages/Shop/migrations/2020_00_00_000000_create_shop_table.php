@@ -19,33 +19,33 @@ class CreateShopTable extends Migration
     public function getSchema()
     {
         return [
-            'cart' => [
-                'title' => 'longText',
-                'is_active' => 'string',
-                'rel_id' => 'integer',
-                'rel_type' => 'string',
-                'order_id' => 'string',
-                'qty' => 'integer',
-                'price' => 'float',
-                'currency' => 'string',
-                'order_completed' => 'integer',
-                'session_id' => 'string',
-
-                'other_info' => 'longText',
-
-                'skip_promo_code' => 'string',
-                'item_image' => 'string',
-                'link' => 'string',
-                'description' => 'longText',
-                'custom_fields_data' => 'longText',
-                'custom_fields_json' => 'longText',
-                'created_by' => 'integer',
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'deleted_at' => 'dateTime',
-
-                '$index' => ['rel_type', 'rel_id'],
-            ],
+//            'cart' => [
+//                'title' => 'longText',
+//                'is_active' => 'string',
+//                'rel_id' => 'integer',
+//                'rel_type' => 'string',
+//                'order_id' => 'string',
+//                'qty' => 'integer',
+//                'price' => 'float',
+//                'currency' => 'string',
+//                'order_completed' => 'integer',
+//                'session_id' => 'string',
+//
+//                'other_info' => 'longText',
+//
+//                'skip_promo_code' => 'string',
+//                'item_image' => 'string',
+//                'link' => 'string',
+//                'description' => 'longText',
+//                'custom_fields_data' => 'longText',
+//                'custom_fields_json' => 'longText',
+//                'created_by' => 'integer',
+//                'updated_at' => 'dateTime',
+//                'created_at' => 'dateTime',
+//                'deleted_at' => 'dateTime',
+//
+//                '$index' => ['rel_type', 'rel_id'],
+//            ],
 //
 //
 //            'cart_orders' => [

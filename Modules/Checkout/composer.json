@@ -1,0 +1,33 @@
+{
+    "name": "modules/checkout",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Checkout\\": "",
+            "Modules\\Checkout\\Database\\Factories\\": "database/factories/",
+            "Modules\\Checkout\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "Support/checkout_functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Checkout\\Tests\\": "Tests/"
+        }
+    }
+}

@@ -50,6 +50,10 @@ class ScanForBladeTemplates
         $folder = normalize_path($folder, false);
         $files = glob($folder . '/' . $glob_patern);
 
+        if(!is_dir($folder)){
+            return [];
+        }
+
 
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($folder, \RecursiveDirectoryIterator::SKIP_DOTS),
@@ -61,6 +65,14 @@ class ScanForBladeTemplates
                 $files[] = $file->getPathname();
             }
         }
+
+        if(!$files){
+            return [];
+        }
+
+        //nat sort 01, 02, 03
+        natsort($files);
+
 
         $files = array_unique($files);
 

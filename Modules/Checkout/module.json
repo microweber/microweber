@@ -1,0 +1,11 @@
+{
+    "name": "Checkout",
+    "alias": "checkout",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Checkout\\Providers\\CheckoutServiceProvider"
+    ],
+    "files": ["Support/checkout_functions.php"]
+}

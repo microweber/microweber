@@ -16,24 +16,16 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
+
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
-use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
+use MicroweberPackages\LiveEdit\Filament\Admin\Tables\LiveEditModuleTable;
 use Modules\Testimonials\Models\Testimonial;
 
-class TestimonialsTableList extends Component implements HasForms, HasTable
+class TestimonialsTableList extends LiveEditModuleTable
 {
-    use InteractsWithTable;
-    use InteractsWithForms;
-    use InteractsWithActions;
-
-    public string|null $rel_id = null;
-    public string|null $rel_type = null;
 
     public function editFormArray()
     {
@@ -61,12 +53,20 @@ class TestimonialsTableList extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
+
         return $table
-            ->query(Testimonial::query()->where('rel_id', $this->rel_id)->where('rel_type', $this->rel_type))
+            ->query(Testimonial::query()
+                ->where('rel_id', $this->rel_id)
+                ->where('rel_type', $this->rel_type))
             ->defaultSort('position', 'asc')
             ->columns([
                 TextColumn::make('name')
                     ->label('Name'),
+                TextColumn::make('rel_id')
+                    ->label('rel_id')
+                    ->hidden(),
+
+                TextColumn::make('rel_type')->hidden()
             ])
             ->filters([
 
@@ -88,9 +88,5 @@ class TestimonialsTableList extends Component implements HasForms, HasTable
             ]);
     }
 
-    public function render()
-    {
-        $settings = config('testimonials'); // Assuming settings are stored in config
-        return view('modules.testimonials::testimonials-table-list', compact('settings'));
-    }
+
 }

@@ -3,7 +3,7 @@
 namespace Tests\Browser\ShopTests;
 
 use Laravel\Dusk\Browser;
-use MicroweberPackages\Cart\Models\Cart;
+use Modules\Cart\Models\Cart;
 use Modules\Order\Models\Order;
 use function app;
 use function get_option;
