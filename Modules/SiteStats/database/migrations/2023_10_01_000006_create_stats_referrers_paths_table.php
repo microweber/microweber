@@ -16,8 +16,8 @@ return new class extends Migration {
         if (!Schema::hasTable('stats_referrers_paths')) {
             Schema::create('stats_referrers_paths', function (Blueprint $table) {
                 $table->id();
-                $table->integer('referrer_domain_id');
-                $table->string('referrer_path');
+                $table->integer('referrer_domain_id')->nullable();
+                $table->string('referrer_path')->nullable();
                 $table->timestamps();
             });
         }

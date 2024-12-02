@@ -16,13 +16,12 @@ return new class extends Migration {
         if (!Schema::hasTable('stats_referrers')) {
             Schema::create('stats_referrers', function (Blueprint $table) {
                 $table->id();
-                $table->text('referrer');
-                $table->string('referrer_hash');
-                $table->integer('referrer_domain_id');
-                $table->integer('referrer_path_id');
-                $table->integer('is_internal');
+                $table->text('referrer')->nullable();
+                $table->string('referrer_hash')->nullable();
+                $table->integer('referrer_domain_id')->nullable();
+                $table->integer('referrer_path_id')->nullable();
+                $table->integer('is_internal')->nullable();
                 $table->timestamps();
-
             });
         }
     }

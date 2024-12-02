@@ -16,10 +16,10 @@ return new class extends Migration {
         if (!Schema::hasTable('stats_visits_log')) {
             Schema::create('stats_visits_log', function (Blueprint $table) {
                 $table->id();
-                $table->integer('url_id');
-                $table->integer('referrer_id');
-                $table->integer('view_count')->default(1);
-                $table->integer('session_id_key');
+                $table->integer('url_id')->nullable();
+                $table->integer('referrer_id')->nullable();
+                $table->integer('view_count')->nullable()->default(1);
+                $table->integer('session_id_key')->nullable();
                 $table->timestamps();
             });
         }

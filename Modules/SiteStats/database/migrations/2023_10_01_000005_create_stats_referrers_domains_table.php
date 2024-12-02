@@ -16,7 +16,7 @@ return new class extends Migration {
         if (!Schema::hasTable('stats_referrers_domains')) {
             Schema::create('stats_referrers_domains', function (Blueprint $table) {
                 $table->id();
-                $table->text('referrer_domain');
+                $table->text('referrer_domain')->nullable();
                 $table->timestamps();
             });
         }

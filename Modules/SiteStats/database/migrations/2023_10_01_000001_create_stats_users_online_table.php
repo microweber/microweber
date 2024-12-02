@@ -16,15 +16,15 @@ return new class extends Migration {
         if (!Schema::hasTable('stats_users_online')) {
             Schema::create('stats_users_online', function (Blueprint $table) {
                 $table->id();
-                $table->integer('created_by');
-                $table->integer('view_count')->default(1);
-                $table->string('referrer');
-                $table->string('last_page');
-                $table->date('visit_date');
-                $table->time('visit_time');
-                $table->string('session_id');
-                $table->string('user_ip');
-                $table->string('user_id');
+                $table->integer('created_by')->nullable();
+                $table->integer('view_count')->nullable()->default(1);
+                $table->string('referrer')->nullable();
+                $table->string('last_page')->nullable();
+                $table->date('visit_date')->nullable();
+                $table->time('visit_time')->nullable();
+                $table->string('session_id')->nullable();
+                $table->string('user_ip')->nullable();
+                $table->string('user_id')->nullable();
                 $table->timestamps();
             });
         }

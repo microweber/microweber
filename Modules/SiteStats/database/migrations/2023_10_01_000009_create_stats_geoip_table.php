@@ -16,14 +16,13 @@ return new class extends Migration {
         if (!Schema::hasTable('stats_geoip')) {
             Schema::create('stats_geoip', function (Blueprint $table) {
                 $table->id();
-                $table->string('country_code');
-                $table->string('country_name');
-                $table->string('region');
-                $table->string('city');
-                $table->string('latitude');
-                $table->string('longitude');
+                $table->string('country_code')->nullable();
+                $table->string('country_name')->nullable();
+                $table->string('region')->nullable();
+                $table->string('city')->nullable();
+                $table->string('latitude')->nullable();
+                $table->string('longitude')->nullable();
                 $table->timestamps();
-
             });
         }
     }

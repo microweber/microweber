@@ -16,22 +16,21 @@ return new class extends Migration {
         if (!Schema::hasTable('stats_browser_agents')) {
             Schema::create('stats_browser_agents', function (Blueprint $table) {
                 $table->id();
-                $table->text('browser_agent');
-                $table->string('browser_agent_hash');
-                $table->string('platform');
-                $table->string('platform_version');
-                $table->string('browser');
-                $table->string('browser_version');
-                $table->string('device');
-                $table->integer('is_desktop');
-                $table->integer('is_mobile');
-                $table->integer('is_phone');
-                $table->integer('is_tablet');
-                $table->text('robot_name');
-                $table->string('is_robot');
-                $table->string('language');
+                $table->text('browser_agent')->nullable();
+                $table->string('browser_agent_hash')->nullable();
+                $table->string('platform')->nullable();
+                $table->string('platform_version')->nullable();
+                $table->string('browser')->nullable();
+                $table->string('browser_version')->nullable();
+                $table->string('device')->nullable();
+                $table->integer('is_desktop')->nullable();
+                $table->integer('is_mobile')->nullable();
+                $table->integer('is_phone')->nullable();
+                $table->integer('is_tablet')->nullable();
+                $table->text('robot_name')->nullable();
+                $table->string('is_robot')->nullable();
+                $table->string('language')->nullable();
                 $table->timestamps();
-
             });
         }
     }

@@ -16,12 +16,11 @@ return new class extends Migration {
         if (!Schema::hasTable('stats_urls')) {
             Schema::create('stats_urls', function (Blueprint $table) {
                 $table->id();
-                $table->string('url');
-                $table->integer('content_id');
-                $table->integer('category_id');
-                $table->string('url_hash');
+                $table->string('url')->nullable();
+                $table->integer('content_id')->nullable();
+                $table->integer('category_id')->nullable();
+                $table->string('url_hash')->nullable();
                 $table->timestamps();
-
             });
         }
     }
