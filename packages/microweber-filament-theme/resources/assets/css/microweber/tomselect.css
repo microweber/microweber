@@ -16,7 +16,7 @@
 }
 
 .full .ts-control {
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-white dark:bg-slate-900;
 }
 
 .disabled .ts-control, .disabled .ts-control * {
@@ -99,7 +99,7 @@
 }
 
 .disabled .ts-control {
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-white dark:bg-slate-900;
     opacity: .5
 }
 
@@ -110,7 +110,7 @@
 }
 
 .ts-dropdown {
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-white dark:bg-slate-900;
     border: 1px solid #d0d0d0;
     border-radius: 0 0 5px 5px;
     border-top: 0;
@@ -153,7 +153,7 @@
 }
 
 .ts-dropdown .optgroup-header {
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-white dark:bg-slate-900;
     color: #6c757d;
     cursor: default
 }
@@ -437,7 +437,7 @@
 }
 
 .ts-control, .ts-wrapper.single.input-active .ts-control {
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-white dark:bg-slate-900;
     cursor: text
 }
 
@@ -454,7 +454,7 @@
 }
 
 .ts-dropdown, .ts-dropdown.form-control, .ts-dropdown.form-select {
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-white dark:bg-slate-900;
     border: 1px solid #ececec;
     border-radius: .375rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);

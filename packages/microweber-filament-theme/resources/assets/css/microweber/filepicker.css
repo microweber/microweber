@@ -11,7 +11,7 @@
 }
 
 .form-control-live-edit-label-wrapper a.active {
-    @apply bg-white dark:bg-gray-900;
+    @apply bg-white dark:bg-slate-900;
 }
 .mw-ui-field-holder {
     @apply w-full flex flex-col items-center gap-4 border-2 border-dashed border-blue-600/50 rounded p-12;
