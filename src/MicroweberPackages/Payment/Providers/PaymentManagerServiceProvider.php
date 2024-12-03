@@ -12,11 +12,7 @@
 namespace MicroweberPackages\Payment\Providers;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\View;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Payment\PaymentManager;
-use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
-use Modules\Payment\PaymentMethodManager;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

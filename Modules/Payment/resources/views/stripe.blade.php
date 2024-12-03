@@ -1,3 +1,0 @@
-<div>
-    stripe placeholder
-</div>

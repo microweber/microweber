@@ -82,7 +82,7 @@ class BackgroundModule extends BaseModule
         return [
             'background_image' => $background_image,
             'background_video' => $video_url,
-            'background_color' => $background_color_option ?? $this->params['data-background-color'] ?? '',
+            'background_color' => $background_color ?? $background_color_option ?? $this->params['data-background-color'] ?? '',
             'style_attr' => $style_attr,
             'style_attr_overlay' => $style_attr_overlay,
             'video_html' => $video_html,

@@ -1,17 +1,25 @@
 <?php
 
 namespace Modules\Payment\Drivers;
+use Modules\Payment\Models\PaymentProvider;
+
 abstract class AbstractPaymentMethod
 {
+    public string $provider = '';
 
     public function title(): string
     {
         return '';
     }
 
-    public function view(): string
+    public function render(): string
     {
         return '';
+    }
+
+    public function getModel() : PaymentProvider | null
+    {
+        return  PaymentProvider::query()->where('provider', $this->provider)->first();
     }
 
     public function process($data = [])

@@ -1,5 +1,5 @@
 <div class="mw-layout-background-block"
-     @if($background_color):
+     @if($background_color)
      style="background-color: {{ $background_color }};"
     @endif
 >

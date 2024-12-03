@@ -801,66 +801,72 @@ class CheckoutManager
 
     public function payment_options($option_key = false)
     {
-        $option_key_q = '';
-        if (is_string($option_key)) {
-            $option_key_q = "&limit=1&option_key={$option_key}";
+        if($option_key){
+            return app()->payment_method_manager->getProvider($option_key);
         }
-        $providers = $this->app->option_manager->get_all('group=payments' . $option_key_q);
-      //  $providers = $this->app->option_repository->getByParams('group=payments' . $option_key_q);
+        return app()->payment_method_manager->getProviders();
 
-        $payment_modules = get_modules('type=payment_gateway');
-        $str = 'payment_gw_';
-        $l = strlen($str);
-        $enabled_providers = array();
-        if (!empty($payment_modules) and !empty($providers)) {
-            foreach ($payment_modules as $payment_module) {
-                foreach ($providers as $value) {
-                    if ($value['option_value'] == 1) {
-                        if (substr($value['option_key'], 0, $l) == $str) {
-                            $title = substr($value['option_key'], $l);
-                            $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
-                            $value['gw_file'] = $title;
 
-                            if (isset($payment_module['module']) and $value['gw_file'] == $payment_module['module']) {
-                                $payment_module['gw_file'] = $title;
-                                $enabled_providers[] = $payment_module;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!empty($enabled_providers)) {
-            return $enabled_providers;
-        }
-
-        // the rest is for comaptibily and will be removed in the near future
-        $str = 'payment_gw_';
-        $l = strlen($str);
-        if (is_array($providers)) {
-            $valid = array();
-            foreach ($providers as $value) {
-                if ($value['option_value'] == 1) {
-                    if (substr($value['option_key'], 0, $l) == $str) {
-                        $title = substr($value['option_key'], $l);
-                        $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
-                        $value['gw_file'] = $title;
-                        $mod_infp = $this->app->module_manager->get('ui=any&one=1&module=' . $title);
-
-                        if (!empty($mod_infp)) {
-                            $value = $mod_infp;
-                            $title = sanitize_path($title);
-
-                            $value['gw_file'] = $title;
-                            $valid[] = $value;
-                        }
-                    }
-                }
-            }
-
-            return $valid;
-        }
+//        $option_key_q = '';
+//        if (is_string($option_key)) {
+//            $option_key_q = "&limit=1&option_key={$option_key}";
+//        }
+//        $providers = $this->app->option_manager->get_all('group=payments' . $option_key_q);
+//      //  $providers = $this->app->option_repository->getByParams('group=payments' . $option_key_q);
+//
+//        $payment_modules = get_modules('type=payment_gateway');
+//        $str = 'payment_gw_';
+//        $l = strlen($str);
+//        $enabled_providers = array();
+//        if (!empty($payment_modules) and !empty($providers)) {
+//            foreach ($payment_modules as $payment_module) {
+//                foreach ($providers as $value) {
+//                    if ($value['option_value'] == 1) {
+//                        if (substr($value['option_key'], 0, $l) == $str) {
+//                            $title = substr($value['option_key'], $l);
+//                            $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
+//                            $value['gw_file'] = $title;
+//
+//                            if (isset($payment_module['module']) and $value['gw_file'] == $payment_module['module']) {
+//                                $payment_module['gw_file'] = $title;
+//                                $enabled_providers[] = $payment_module;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (!empty($enabled_providers)) {
+//            return $enabled_providers;
+//        }
+//
+//        // the rest is for comaptibily and will be removed in the near future
+//        $str = 'payment_gw_';
+//        $l = strlen($str);
+//        if (is_array($providers)) {
+//            $valid = array();
+//            foreach ($providers as $value) {
+//                if ($value['option_value'] == 1) {
+//                    if (substr($value['option_key'], 0, $l) == $str) {
+//                        $title = substr($value['option_key'], $l);
+//                        $string = preg_replace('/(\w+)([A-Z])/U', '\\1 \\2', $title);
+//                        $value['gw_file'] = $title;
+//                        $mod_infp = $this->app->module_manager->get('ui=any&one=1&module=' . $title);
+//
+//                        if (!empty($mod_infp)) {
+//                            $value = $mod_infp;
+//                            $title = sanitize_path($title);
+//
+//                            $value['gw_file'] = $title;
+//                            $valid[] = $value;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            return $valid;
+//        }
     }
 
     public function after_checkout($orderId)

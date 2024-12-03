@@ -18,8 +18,8 @@ class PaymentModelTest extends TestCase
 
     public function testPaymentProviderModel()
     {
-        PaymentProvider::truncate();
-        Payment::truncate();
+        PaymentProvider::where('name', 'Test Provider')->delete();
+        Payment::where('payment_provider_reference_id', '12345')->delete();
 
         // Fake events
         Event::fake();

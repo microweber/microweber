@@ -1,3 +1,0 @@
-<div>
-    paypal placeholder
-</div>

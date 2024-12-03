@@ -15,6 +15,7 @@ class PaymentModule extends BaseModule
     public static int $position = 1;
     public static string $settingsComponent = PaymentProviderResource::class;
     public static string $templatesNamespace = 'modules.payment::templates';
+    protected static bool $shouldRegisterNavigation = false;
 
 
     public function render()

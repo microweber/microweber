@@ -8,7 +8,7 @@ use Filament\Forms;
 class PayPal extends AbstractPaymentMethod
 {
 
-
+    public string $provider = 'paypal';
     public function logo(): string
     {
         return asset('modules/payment/img/paypal.png');
@@ -64,9 +64,9 @@ class PayPal extends AbstractPaymentMethod
     }
 
 
-    public function view(): string
+    public function render(): string
     {
-        return 'module.payment::paypal';
+        return view('modules.payment::providers.paypal');
     }
 
 }

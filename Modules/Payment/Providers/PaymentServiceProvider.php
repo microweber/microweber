@@ -3,13 +3,14 @@
 namespace Modules\Payment\Providers;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
-use Modules\Payment\PaymentMethodManager;
+use Modules\Payment\Livewire\PaymentMethodSelector;
+use Modules\Payment\Microweber\PaymentModule;
+use Modules\Payment\Repositories\PaymentMethodManager;
 
 class PaymentServiceProvider extends BaseModuleServiceProvider
 {
@@ -22,9 +23,7 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-
-
-    }
+           }
 
     /**
      * Register the service provider.
@@ -37,9 +36,8 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
-
+        /* @property PaymentMethodManager $payment_method_manager */
         $this->app->singleton('payment_method_manager', function ($app) {
-
             return new PaymentMethodManager($app->make(Container::class));
         });
 
@@ -55,11 +53,11 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
                 return new \Modules\Payment\Drivers\Stripe();
             });
         });
-
-
-
+        // Register Livewire Components
+        Livewire::component('payment-method-selector', PaymentMethodSelector::class);
 
         FilamentRegistry::registerResource(PaymentProviderResource::class);
-    }
 
+        Microweber::module(PaymentModule::class);
+    }
 }

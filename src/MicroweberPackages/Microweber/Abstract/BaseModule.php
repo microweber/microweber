@@ -22,6 +22,8 @@ abstract class BaseModule
     public static string $settingsComponent = NoSettings::class;
     public static int $position = 0;
 
+    protected static bool $shouldRegisterNavigation = true;
+
     public static string $templatesNamespace = ''; //modules.my_module
 
 
@@ -48,20 +50,14 @@ abstract class BaseModule
         return $viewData;
     }
 
-//    /**
-//     * Render the frontend view of the module.
-//     */
-//    public function render()
-//    {
-//        return ''; // This should return the view for the frontend display
-//    }
+
     public function render()
     {
         if (!isset(static::$templatesNamespace) || empty(static::$templatesNamespace)) {
             return '';
         }
         $viewData = $this->getViewData();
-        $template = isset($viewData['template']) ? $viewData['template'] : 'default';
+        $template = $viewData['template'] ?? 'default';
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 

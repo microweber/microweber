@@ -45,7 +45,7 @@ use Modules\CustomFields\Repositories\FieldsManager;
 use Modules\Menu\Repositories\MenuRepository;
 use Modules\Order\Repositories\OrderManager;
 use Modules\Order\Repositories\OrderRepository;
-use Modules\Payment\PaymentMethodManager;
+use Modules\Payment\Repositories\PaymentMethodManager;
 use Modules\Shipping\ShippingManager;
 use Modules\Shipping\ShippingMethodManager;
 

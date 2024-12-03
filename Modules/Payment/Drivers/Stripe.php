@@ -7,7 +7,7 @@ use Filament\Forms;
 
 class Stripe extends AbstractPaymentMethod
 {
-
+    public string $provider = 'stripe';
     public function logo(): string
     {
         return asset('modules/payment/img/stripe.png');
@@ -59,9 +59,9 @@ class Stripe extends AbstractPaymentMethod
     }
 
 
-    public function view(): string
+    public function render(): string
     {
-        return 'module.payment::stripe';
+        return view('modules.payment::providers.stripe');
     }
 
 }

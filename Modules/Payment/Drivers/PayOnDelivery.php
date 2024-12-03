@@ -7,6 +7,7 @@ use Filament\Forms;
 
 class PayOnDelivery extends AbstractPaymentMethod
 {
+    public string $provider = 'pay_on_delivery';
 
     public function title(): string
     {
@@ -57,9 +58,13 @@ class PayOnDelivery extends AbstractPaymentMethod
     }
 
 
-    public function view(): string
+    public function render(): string
     {
-        return 'module.payment::pay_on_delivery';
+
+        $model = $this->getModel();
+        $paymentInstructions = $model->settings['payment_instructions'] ?? '';
+
+        return view('modules.payment::providers.pay_on_delivery', compact('paymentInstructions'));
     }
 
 }

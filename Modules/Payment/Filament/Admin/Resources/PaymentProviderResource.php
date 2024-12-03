@@ -32,7 +32,7 @@ class PaymentProviderResource extends Resource
             }
         }
         $paymentProviders = [];
-        $paymentDrivers = app()->payment_method_manager->getProviders();
+        $paymentDrivers = app()->payment_method_manager->getDrivers();
         if ($paymentDrivers) {
             foreach ($paymentDrivers as $paymentDriver) {
                 $driver = app()->payment_method_manager->driver($paymentDriver);

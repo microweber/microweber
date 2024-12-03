@@ -81,13 +81,6 @@ if (!function_exists('get_order_by_id')) {
     }
 }
 
-if (!function_exists('payment_options')) {
-    function payment_options($option_key = false)
-    {
-        return app()->shop_manager->payment_options($option_key);
-    }
-}
-
 if (!function_exists('currency_format')) {
     function currency_format($amount, $curr = false)
     {
