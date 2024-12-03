@@ -55,7 +55,7 @@ export class Resizable  {
             this.document.removeEventListener(l, this.listeners[l]);
         }
         this.listeners = {}
-        this.dispatch('resizeStop')
+        this.dispatch('resizeStop');
     };
 
     mouseDownHandler (e) {
@@ -71,7 +71,20 @@ export class Resizable  {
 
 
         this.listeners.mousemove = e => this.mouseMoveHandler(e)
-        this.listeners.mouseup = e => this.mouseUpHandler(e)
+        this.listeners.mouseup = e => this.mouseUpHandler(e);
+
+        try {
+            if(this.document !== this.document.defaultView.parent.document ) {
+                this.document.defaultView.parent.document.addEventListener('mouseup', () => {
+                    this.dispatch('resizeStop');
+                });
+                this.document.defaultView.parent.document.addEventListener('touchend', () => {
+                    this.dispatch('resizeStop');
+                });
+            }
+        } catch(err) {
+
+        }
 
         for (const l in this.listeners) {
             this.document.addEventListener(l, this.listeners[l]);

@@ -441,10 +441,10 @@
 
                 var selectedItemsCount = scope.getSelected().length;
                 if (selectedItemsCount > 0) {
-                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--selected-actions').style.display = 'block';
-                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--count').innerHTML = selectedItemsCount;
+                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--selected-actions').classList.add('active');
+                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--count').innerHTML = `${selectedItemsCount} ${selectedItemsCount > 1 ? mw.lang('files are selected') : mw.lang('file is selected')}`;
                 } else {
-                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--selected-actions').style.display = 'none';
+                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--selected-actions').classList.add('remove');
                 }
             }
         };
@@ -1148,7 +1148,7 @@
 
             var multiSelectMenuTemplate = mw.element(`
                 <div class="mw-file-manager--multiselect--context-actions">
-                    <div>
+                    <div class="mw-file-manager--multiselect--context-actions">
                         <button type="button" class="btn btn-icon btn-sm" data-action="multiSelectDownloadAll" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M240 896q-33 0-56.5-23.5T160 816V696h80v120h480V696h80v120q0 33-23.5 56.5T720 896H240Zm240-160L280 536l56-58 104 104V256h80v326l104-104 56 58-200 200Z"/></svg>
                         </button>
@@ -1158,28 +1158,29 @@
                     </div>
 
                     <div class="mw-file-manager--multiselect--selected-actions">
-                        <span class="mw-file-manager--multiselect--count">0</span> files are marked.
-                        <button type="button" class="btn btn-outline-info btn-sm" data-action="multiSelectRemoveSelection">Cancel</button>
+                        <span class="mw-file-manager--multiselect--count">0</span>.
+                        <button type="button" class="btn btn-outline-info btn-sm" data-action="selectNone">Cancel</button>
                         <button type="button" class="btn btn-outline-success btn-sm" data-action="multiSelectInsert">Insert</button>
                     </div>
                 </div>
             `);
 
 
+            const _actions = {};
 
-            scope.multiSelectDeleteAll = function() {
+
+
+            _actions.multiSelectDeleteAll = function() {
                 const selected = scope.getSelected();
                 _deleteHandle(selected)
             }
 
-            scope.multiSelectRemoveSelection = function() {
-                scope.selectNone();
-            }
-            scope.multiSelectInsert = function() {
+
+            _actions.multiSelectInsert = function() {
                 scope.dispatch('insert');
             }
 
-            scope.multiSelectDownloadAll = function() {
+            _actions.multiSelectDownloadAll = function() {
                 const selected = scope.getSelected().filter(itm => itm.type === 'file');
                 selected.forEach(itm => {
                     _downloadHandle(itm)
@@ -1194,7 +1195,7 @@
 
                 multiSelectMenuTemplate.get(0).querySelectorAll('.btn').forEach(node => {
                     node.addEventListener('click', e => {
-                        this[node.dataset.action]();
+                        _actions[node.dataset.action]();
                     });
                 });
 

@@ -1606,7 +1606,7 @@ if (window.mw) {
 }
 
 
-mw.require('filemanager.js');
+
 mw.require('autocomplete.js');
 
 
