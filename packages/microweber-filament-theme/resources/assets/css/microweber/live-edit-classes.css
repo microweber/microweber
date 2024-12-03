@@ -111,7 +111,7 @@ body {
 
 .live-edit-toolbar-buttons-undo-redo,
 .live-edit-toolbar-buttons-view {
-    @apply !bg-gray-100 !border-gray-100 dark:!bg-black;
+    @apply !bg-gray-100 !border-gray-100 dark:!bg-slate-800;
 }
 
 .mw-live-edit-resolutions-wrapper,
@@ -121,7 +121,7 @@ body {
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
-    @apply dark:!bg-black !rounded-[5px]  !p-[3px_7px] !border-gray-100 !bg-gray-100 shadow-none text-[14px];
+    @apply dark:!bg-slate-800 !rounded-[5px]  !p-[3px_7px] !border-gray-100 !bg-gray-100 shadow-none text-[14px];
     border: 1px solid transparent !important;
 }
 
@@ -137,7 +137,7 @@ body {
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
-    @apply !bg-white !border-white dark:!bg-black;
+    @apply !bg-white !border-white dark:!bg-slate-800;
 
 }
 
@@ -147,7 +147,7 @@ body {
 }
 
 .mw-live-edit-search-dropdown {
-    @apply !bg-gray-100 dark:!bg-black !border-gray-100 rounded !max-h-[35px] !flex !items-center !relative w-full;
+    @apply !bg-gray-100 dark:!bg-slate-800 !border-gray-100 rounded !max-h-[35px] !flex !items-center !relative w-full;
 }
 
 .mw-live-edit-search-dropdown input {
@@ -167,11 +167,11 @@ body {
 
 
 .mw-autocomplete .mw-autocomplete-list {
-    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto bg-gray-100 dark:bg-gray-800 m-0 rounded-none p-0 z-10;
+    @apply absolute top-full left-0 min-w-full max-h-[60vh] h-auto overflow-auto bg-gray-100 dark:bg-slate-800 m-0 rounded-none p-0 z-10;
 }
 
 .mw-autocomplete .mw-autocomplete-list a {
-    @apply whitespace-nowrap overflow-hidden text-ellipsis w-full dark:text-white hover:dark:bg-gray-700 !p-6 border-none flex items-center hover:bg-gray-200;
+    @apply whitespace-nowrap overflow-hidden text-ellipsis w-full dark:text-white hover:dark:bg-slate-700 !p-6 border-none flex items-center hover:bg-gray-200;
 }
 
 #mw-live-edit-search-content {
