@@ -2,9 +2,9 @@
     @apply absolute top-3 right-3 text-black dark:text-white cursor-pointer text-2xl;
 }
 
-.bg-white {
-    @apply dark:bg-black;
-}
+/*.bg-white {*/
+/*    @apply dark:bg-neutral-950;*/
+/*}*/
 
 .tblr-body-color {
     @apply text-black dark:text-white;
@@ -559,16 +559,12 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply !mb-0;
 }
 
-.fi-modal-content {
-    @apply !px-2 !py-0;
-}
+/*.fi-modal-content {*/
+/*    @apply !px-2 !py-0;*/
+/*}*/
 
 .fi-sidebar-header {
     @apply !mt-0 !mb-5;
-}
-
-.fi-sidebar-group-icon, .fi-sidebar-group-label {
-    @apply !text-black dark:text-white;
 }
 
 .fi-sidebar-nav {
@@ -610,7 +606,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-tree-nav-skin-category-manager li[data-type="page"] > .mw-tree-item-content-root .mw-tree-item-content {
-    @apply !bg-gray-50 !pl-[35px] !rounded-none;
+    @apply bg-gray-50 dark:bg-slate-700 !pl-[35px] !rounded-none;
 }
 
 .mw-tree-nav-skin-category-manager .mw-tree-item-content-root .mw-tree-toggler {
@@ -634,9 +630,10 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply !w-[20px] !h-[20px];
 }
 
-.mw-tree-nav-skin-category-manager li[data-type="category"] > .mw-tree-item-content-root .mw-tree-item-content:hover {
-    @apply !bg-gray-50 !rounded-none !shadow-none;
+.mw-tree-nav-skin-category-manager li[data-type="category"] > .mw-tree-item-content-root .mw-tree-item-content {
+    @apply bg-gray-50 dark:bg-slate-700 !rounded-none !shadow-none;
 }
+
 
 .mw-select.disabled {
     display: none;
@@ -655,3 +652,48 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .fi-fo-tabs.fi-contained {
     @apply !p-0;
 }
+
+.mw-tree-wrapper .grid {
+    @apply !block;
+}
+
+.mw-tree-wrapper .fi-fo-field-wrp-label, .mw-tree-wrapper .mw-tags--container {
+    @apply py-3;
+}
+
+.mw-le-modules-dialog .modules-list-defaultModules {
+    @apply bg-white dark:bg-gray-900;
+
+    input {
+        margin: 10px auto;
+    }
+}
+
+.mw-le-modules-dialog .modules-list-block {
+    @apply !w-[96%];
+}
+
+.mw-tree-context-menu-item svg, .fi-ta-col-wrp svg  {
+    @apply fill-current;
+}
+
+.fi-dropdown-list svg{
+    @apply text-black dark:text-white;
+}
+
+.mw-control-box-default {
+    @apply px-3 dark:bg-slate-800;
+}
+
+.bg-custom-600 {
+
+    svg  {
+        @apply dark:text-black dark:fill-current;
+    }
+    @apply dark:bg-gray-50 dark:text-black;
+}
+
+.fi-modal-header svg {
+    @apply dark:text-white dark:fill-current;
+}
+
