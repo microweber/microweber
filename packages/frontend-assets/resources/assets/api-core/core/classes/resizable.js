@@ -157,7 +157,9 @@ export class Resizable  {
 
 
         this.listeners.mousemove = e => this.mouseMoveHandler(e, target)
-        this.listeners.mouseup = e => this.mouseUpHandler(e)
+        this.listeners.mouseup = e => this.mouseUpHandler(e);
+
+
 
 
 
@@ -241,6 +243,22 @@ export class Resizable  {
                 this.activeHandle = resizer;
             });
         });
+        try {
+            if(this.document !== this.document.defaultView.parent.document ) {
+                const stopSevents = ['mouseup', 'touchend', 'blur', 'error'];
+                stopSevents.forEach(stopEvent => {
+                    this.document.defaultView.parent.document.addEventListener(stopEvent, () => {
+                        if(this.activeHandle) {
+                            this.dispatch('resizeStop');
+                        }
+
+                    });
+                })
+            }
+        } catch(err) {
+
+        }
+
         this.dispatch('ready', { height: this.element.offsetHeight, width: this.element.offsetWidth });
         return this;
     }

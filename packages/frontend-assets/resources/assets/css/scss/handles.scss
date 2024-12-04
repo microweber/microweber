@@ -437,6 +437,8 @@ html[dir="rtl"] {
 
 body.mw--resizing{
 
+    -webkit-user-select: none;
+    user-select: none;
 
     .mw-handle-item-layout-plus {
         opacity: 0;

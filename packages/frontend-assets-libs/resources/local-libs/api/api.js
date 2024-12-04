@@ -1155,7 +1155,7 @@ mw.required.push("<?php print mw_includes_url(); ?>api/forms.js");
 
 mw.required.push("<?php print mw_includes_url(); ?>api/url.js");
 
-mw.required.push("<?php print mw_includes_url(); ?>api/events.js");
+
 
 //mw.required.push("<?php print mw_includes_url(); ?>api/upgrades.js");
 mw.required.push("<?php print mw_includes_url(); ?>api/session.js");

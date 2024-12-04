@@ -92,12 +92,21 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
 .mw-le-resizable{
     .mw-le-spacer-info-content{
         opacity: 0;
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
+
+    }
+    .mw-le-resizable--info{
+        opacity: 0;
+    }
+    .mw-le-resizer-t{
+        height: 100%;
+    }
+    .mw-le-spacer-info{
+        pointer-events: none;
+        -webkit-user-select: none;
+        user-select: none;
     }
 
-    &:hover{
+    &:hover, &.mw-le-spacer-resizing{
         .mw-le-spacer-info-content{
             opacity: 1
         }
