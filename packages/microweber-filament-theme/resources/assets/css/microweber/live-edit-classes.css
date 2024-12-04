@@ -849,7 +849,7 @@ h1,h2,h3,h4,h5,h6 {
      }
 
     &.active {
-        @apply bg-gray-900 text-white;
+        @apply bg-gray-900 dark:bg-slate-900 text-white;
      }
 }
 

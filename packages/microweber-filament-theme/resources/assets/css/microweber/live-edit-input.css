@@ -45,7 +45,7 @@
 .form-control-live-edit-label-wrapper .text-align .active,
 .js-modules-list-search-input .text-align .active,
 .mw-file-manager-search .form-control .text-align .active {
-    @apply bg-black border-black;
+    @apply bg-black dark:bg-slate-900 border-black;
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input,
