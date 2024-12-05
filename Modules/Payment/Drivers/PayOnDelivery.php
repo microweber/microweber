@@ -28,7 +28,23 @@ class PayOnDelivery extends AbstractPaymentMethod
         ];
     }
 
-    public function getSettingsForm($form): array
+    public function getForm(): array
+    {
+        $model = $this->getModel();
+        $message = $model->settings['payment_instructions'] ?? 'Pay on delivery';
+
+        return [
+            Forms\Components\Section::make()
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) use ($message) {
+                    return [
+                        Forms\Components\Placeholder::make('')
+                            ->content($message)
+                    ];
+                })
+        ];
+    }
+
+    public function getSettingsForm(): array
     {
         return [
             Forms\Components\Section::make()
@@ -58,13 +74,6 @@ class PayOnDelivery extends AbstractPaymentMethod
     }
 
 
-    public function render(): string
-    {
 
-        $model = $this->getModel();
-        $paymentInstructions = $model->settings['payment_instructions'] ?? '';
-
-        return view('modules.payment::providers.pay_on_delivery', compact('paymentInstructions'));
-    }
 
 }

@@ -8,6 +8,7 @@ use Filament\Forms;
 class Stripe extends AbstractPaymentMethod
 {
     public string $provider = 'stripe';
+
     public function logo(): string
     {
         return asset('modules/payment/img/stripe.png');
@@ -26,7 +27,20 @@ class Stripe extends AbstractPaymentMethod
         ];
     }
 
-    public function getSettingsForm($form): array
+    public function getForm(): array
+    {
+        return [
+            Forms\Components\Section::make()
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
+                    return [
+                        Forms\Components\Placeholder::make('')
+                            ->content('You will be redirected to Stripe to complete your payment.'),
+                    ];
+                })
+        ];
+    }
+
+    public function getSettingsForm(): array
     {
         return [
             Forms\Components\Section::make()
@@ -59,9 +73,6 @@ class Stripe extends AbstractPaymentMethod
     }
 
 
-    public function render(): string
-    {
-        return view('modules.payment::providers.stripe');
-    }
+
 
 }

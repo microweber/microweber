@@ -108,7 +108,7 @@ class PaymentProviderResource extends Resource
                             /* @var \Modules\Payment\Drivers\AbstractPaymentMethod $driver */
 
                             if (is_object($driver) && method_exists($driver, 'getSettingsForm')) {
-                                $providerForm = $driver->getSettingsForm($form);
+                                $providerForm = $driver->getSettingsForm();
                                 if ($providerForm) {
                                     foreach ($providerForm as $component) {
                                         $component->columnSpanFull();
@@ -119,7 +119,6 @@ class PaymentProviderResource extends Resource
                         }
 
 
-
                         return $schemas;
                     }),
             ])
@@ -127,8 +126,6 @@ class PaymentProviderResource extends Resource
                 ->columnSpanFull(),
         ]);
     }
-
-
 
 
     public static function table(Table $table): Table

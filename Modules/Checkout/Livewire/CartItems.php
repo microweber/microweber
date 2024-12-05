@@ -9,7 +9,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 class CartItems extends Component
 {
     use InteractsWithForms;
-
+    public array $cartItems = [];
     public function mount()
     {
         $this->cartItems = app()->cart_manager->get() ?? [];

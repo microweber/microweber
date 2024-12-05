@@ -12,10 +12,7 @@ abstract class AbstractPaymentMethod
         return 'PaymentMethod';
     }
 
-    public function render(): string
-    {
-        return '';
-    }
+
 
     public function getModel() : PaymentProvider | null
     {
@@ -27,7 +24,11 @@ abstract class AbstractPaymentMethod
         return [];
     }
 
-    public function getSettingsForm($form): array
+    public function getSettingsForm(): array
+    {
+        return [];
+    }
+    public function getForm(): array
     {
         return [];
     }

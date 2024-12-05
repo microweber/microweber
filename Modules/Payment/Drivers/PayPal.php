@@ -28,7 +28,7 @@ class PayPal extends AbstractPaymentMethod
         ];
     }
 
-    public function getSettingsForm($form): array
+    public function getSettingsForm(): array
     {
         return [
             Forms\Components\Section::make()
@@ -63,10 +63,18 @@ class PayPal extends AbstractPaymentMethod
         ];
     }
 
-
-    public function render(): string
+    public function getForm(): array
     {
-        return view('modules.payment::providers.paypal');
+        return [
+            Forms\Components\Section::make()
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
+                    return [
+                        Forms\Components\Placeholder::make('')
+                            ->content('You will be redirected to PayPal to complete your purchase.')
+                    ];
+                })
+        ];
     }
+
 
 }
