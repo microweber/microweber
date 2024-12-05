@@ -16,17 +16,18 @@
 
 
                     </label>
+
+
+                    @if(!empty($selectedMethod) and $selectedMethod === $method['provider'])
+                        <div class="mt-4">
+                            {!! app()->payment_method_manager->render($selectedMethod) !!}
+                        </div>
+                    @endif
                 @endforeach
             </div>
 
 
         </div>
-
-        @if(!empty($selectedMethod))
-            <div class="mt-4">
-                {!! app()->payment_method_manager->render($selectedMethod) !!}
-            </div>
-        @endif
 
     @else
         <div class="alert alert-info">

@@ -69,6 +69,17 @@ class PaymentMethodManager extends Manager
         return [];
     }
 
+    public function hasProviders(): bool
+    {
+
+        $existingPaymentProviders = PaymentProvider::where('is_active', 1)->count();
+        if ($existingPaymentProviders) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function render($provider)
     {
         if (!$provider) {

@@ -735,7 +735,7 @@ class AppServiceProvider extends ServiceProvider
 
                 if (!empty($linkSegments)) {
                     if (isset($linkSegments[0]) and $linkSegments[0]) {
-                        $skip_items = ['api', 'token'];
+                        $skip_items = ['api', 'token', '_token'];
 
                         if (!in_array($linkSegments[0], $skip_items)) {
                             $localeSettings = app()->multilanguage_repository->getSupportedLocale($linkSegments[0]);
@@ -780,7 +780,6 @@ class AppServiceProvider extends ServiceProvider
 
             if ($setCurrentLangTo && is_lang_correct($setCurrentLangTo)) {
                 if (MultilanguageHelpers::multilanguageIsEnabled()) {
-
 
                     $localeSettings = app()->multilanguage_repository->getSupportedLocaleByLocale($setCurrentLangTo);
                     if (!empty($localeSettings) && isset($localeSettings['is_active']) && $localeSettings['is_active'] == 'y') {

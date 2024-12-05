@@ -65,7 +65,7 @@ class PaymentManager extends Manager
     /**
      * Get a driver instance.
      *
-     * @param  string|null $driver
+     * @param string|null $driver
      * @return AbstractPaymentProvider
      *
      * @throws \InvalidArgumentException
@@ -74,10 +74,11 @@ class PaymentManager extends Manager
     {
         return parent::driver($driver);
     }
+
     public function getPaymentProviderModule($driver = 'default')
     {
         $modules = $this->getPaymentModules();
-        if($modules and isset($modules[$driver])){
+        if ($modules and isset($modules[$driver])) {
             return $modules[$driver];
         }
     }
@@ -85,65 +86,26 @@ class PaymentManager extends Manager
     public function hasPaymentProvider($driver = 'default')
     {
 
-         $module = $this->getPaymentProviderModule($driver);
-         if($module){
-             return true;
-         }
+        $module = $this->getPaymentProviderModule($driver);
+        if ($module) {
+            return true;
+        }
 
-         return false;
-     }
+        return false;
+    }
+
     /**
      * @deprecated
      */
     public function getPaymentModules($only_enabled = true)
     {
+        return app()->payment_method_manager->getProviders();
 
 
-        $payment_gateways = app()->module_repository->getModulesByType('payment_gateway');
-        if (!empty($payment_gateways)) {
-            $gw = array();
-            foreach ($payment_gateways as $item) {
-                if (!isset($item['gw_file']) and isset($item['module'])) {
-                    $item['gw_file'] = $item['module'];
-                }
-                if (!isset($item['module_base']) and isset($item['module'])) {
-                    $item['module_base'] = $item['module'];
-                }
-                $gw[$item['gw_file']] = $item;
-
-            }
-
-            $this->paymentModules = array_merge($this->paymentModules, $gw);
-        } else {
-          //  $this->paymentModules = array_merge($this->paymentModules,$payment_gateways);
-        }
-
-
-        if ($only_enabled) {
-            if (!empty($this->paymentModules)) {
-                foreach ($this->paymentModules as $key => $item) {
-                    if (isset($item['gw_file']) and isset($item['gw_file'])) {
-                        $isEnabled = false;
-
-                        try {
-                            $isEnabled = $this->driver($item['gw_file'])->isEnabled();
-                        } catch (\InvalidArgumentException $e) {
-                            $isEnabled = false;
-                        }
-
-                        if (!$isEnabled) {
-                            unset($this->paymentModules[$key]);
-                        }
-
-                    }
-                }
-            }
-        }
-
-
-        return $this->paymentModules;
     }
-
+    /**
+     * @deprecated
+     */
     public function setDefaultDriver($driver)
     {
         app()->user_manager->session_set('payment_provider', $driver);
