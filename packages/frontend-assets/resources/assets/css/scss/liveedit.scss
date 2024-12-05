@@ -61,9 +61,7 @@ body:not(.is_admin) [contenteditable="true"]{
     outline-offset: 7px;
 }
 
-.FIE_topbar-save-wrapper, .FIE_topbar-close-button{
-    display: none !important;
-}
+
 
 #sidebar-menu{
     overflow: auto;

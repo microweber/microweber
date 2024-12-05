@@ -12,7 +12,7 @@ import "../api-core/core/core/forms.js";
 import "../../../../frontend-assets-libs/resources/local-libs/api/domtree.js";
 import LiveEditImageDialog from "../live-edit/live-edit-image-dialog.js";
 
-import {AdminTools} from "./admin-tools.service.js";
+import {AdminColorThemeService, AdminTools} from "./admin-tools.service.js";
 import {AdminFilament} from "./admin-filament.js";
 import {AdminModules}  from "./admin-modules.js";
 
@@ -106,6 +106,7 @@ import {TemplatePreview} from "../js/template-preview.service.js";
 
 mw.app.editImageDialog =  new LiveEditImageDialog();
 mw.app.adminModules =  new AdminModules();
+mw.app.theme =  new AdminColorThemeService();
 
 mw.alert = Alert;
 mw.controlBox = ControlBox;
