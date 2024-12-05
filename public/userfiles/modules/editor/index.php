@@ -16,7 +16,7 @@ if(user_id() == 0){
   mw.lib.require("jqueryui");
 
   mw.require("liveadmin.js");
-  mw.require("events.js");
+
   mw.require("url.js");
   mw.require("wysiwyg.js");
   mw.require("css_parser.js");

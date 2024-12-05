@@ -178,9 +178,23 @@
     padding: 15px 0;
     justify-content: space-between;
     position: absolute;
-    top: 0;
+    top: 48px;
     left: 0;
     width: 100%;
+    background: white;
+    z-index: 5;
+}
+
+html.dark {
+    .mw-filemanager-actions-bar{
+
+        color: white;
+        background-color: black;
+    }
+}
+
+.mw-file-manager--multiselect--context-actions{
+    display: flex;
 }
 
 
@@ -369,6 +383,24 @@
     justify-content: space-between;
 
     padding: 10px 0;
+
+    position: absolute;
+    top:48px;
+    left:0;
+    width:100%;
+    z-index: 5;
+    background-color: white;
+}
+
+
+.mw-file-manager--multiselect--count{
+    white-space: nowrap;
+}
+html.dark {
+    .mw-file-manager-bar{
+
+        background-color: black;
+    }
 }
 
 .mw-file-manager-bar-view-type-selector{
@@ -570,5 +602,8 @@
 }
 .mw-file-manager--multiselect--selected-actions {
     display: none;
+    &.active{
+        display: flex;
+    }
 }
 

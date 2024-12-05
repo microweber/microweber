@@ -97,7 +97,7 @@
 
 
 
-<script>mw.require('filemanager.js')</script>
+
 
 
 

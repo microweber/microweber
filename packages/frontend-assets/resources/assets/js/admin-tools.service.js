@@ -1,5 +1,52 @@
+import MicroweberBaseClass from "../containers/base-class.js";
 import {DomHelpers} from "../tools/domhelpers.js";
 import {iframeAutoHeight} from "../tools/iframe-auto-height.js";
+
+
+
+class AdminColorThemeService extends MicroweberBaseClass {
+    constructor(options = {}) {
+        super();
+        const defaults = {
+            storage: localStorage,
+        }
+
+        this.settings = Object.assign({}, defaults, options);
+        this.storage = this.settings.storage;
+    }
+    get theme () {
+        return this.isSystem() ? this.getSystem() : this.storage.getItem("theme");
+    }
+
+    set theme (value) {
+        this.storage.setItem("theme", value);
+        this.dispatch('change')
+    }
+
+    getSystem() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    isSystem() {
+        return this.storage.getItem('theme') === 'system';
+    }
+
+    isSystemDark() {
+        return this.getSystem() === 'dark';
+    }
+    isSystemLight() {
+        return !this.isSystemDark();
+    }
+
+    isDark() {
+        return this.theme === 'dark';
+    }
+
+    isLight() {
+        return  !this.isDark();
+    }
+}
+
 
 export class AdminTools {
     constructor(app) {
@@ -13,6 +60,7 @@ export class AdminTools {
         if(this.#ready) {
             return;
         }
+
         this.#ready = true;
         this.extend(DomHelpers)
         this.iframeAutoHeight = iframeAutoHeight;

@@ -1,7 +1,7 @@
 <div id="files-manager"></div>
 <script>
     mw.require('uploader.js');
-    mw.require('filemanager.js');
+
 </script>
 <script>
     mw.FileManager({

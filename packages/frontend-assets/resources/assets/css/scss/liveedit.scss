@@ -5,6 +5,8 @@
 @use "resizer";
 @use "editor.scss";
 
+
+
 .mw-le--hide-selection ::selection {
     color: revert-layer !important;
     background: transparent !important;
@@ -83,3 +85,74 @@ html:not(.mw-le--page-preview) .mw-prevent-interaction{
         pointer-events: none !important;
     }
 }
+
+
+/* spacer 2 */
+
+.mw-le-resizable{
+    .mw-le-spacer-info-content{
+        opacity: 0;
+
+    }
+    .mw-le-resizable--info{
+        opacity: 0;
+    }
+    .mw-le-resizer-t{
+        height: 100%;
+    }
+    .mw-le-spacer-info{
+        pointer-events: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    &:hover, &.mw-le-spacer-resizing{
+        .mw-le-spacer-info-content{
+            opacity: 1
+        }
+    }
+}
+
+.mw-le-spacer-resizing .mw-le-spacer-info{
+    opacity: 1;
+    background-color: rgba(10, 83, 190, 0.25);
+    transition-delay: 0s !important;
+}
+
+.mw-le-spacer:hover .mw-le-spacer-info{
+    opacity: 1;
+    background-color: rgba(10, 83, 190, 0.25);
+    transition-delay: 0.32s;
+}
+
+.mw-le-spacer-info-content{
+    border-radius: 50px;
+    display: inline-block;
+    padding: 5px 8px;
+    color: #ffffffdb;
+    background-color: rgba(0,0,0,.7);
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: normal;
+}
+.mw-le-spacer-info{
+    position: absolute;
+    bottom: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    left: 0;
+    width: 100%;
+    transition: background-color .2s, opacity .2s;
+    opacity: 0;
+    background-color: transparent;
+    font-family: sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    box-sizing: border-box;
+    color: #414141;
+}
+
+/* /spacer */

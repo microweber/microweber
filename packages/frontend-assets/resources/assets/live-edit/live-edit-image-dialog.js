@@ -8,7 +8,23 @@ const { TABS, TOOLS } = FilerobotImageEditor;
 const editImage = (url, target, dialog) => {
     const config = {
         source: url,
+        theme: {
+            palette: {
+              'bg-secondary': 'red',
+              'bg-primary':  'rgb(3 7 18)',
+              /*'bg-primary-active': : '....',
+              'accent-primary': : '....',
+              'accent-primary-active': : '....',
+              'icons-primary': : '....',
+              'icons-secondary': : '....',
+              'borders-secondary': : '....',
+              'borders-primary': : '....',
+              'borders-strong': : '....',*/
 
+
+            },
+
+        },
         showCanvasOnly: false,
 
         annotationsCommon: {
