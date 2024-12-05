@@ -33,6 +33,14 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
+
+
+        if (Auth::user() &&  Auth::user()->is_admin == 1) {
+            return $next($request);
+        }
+
+
+
         if (!mw_is_installed()) {
             return redirect(site_url());
         }

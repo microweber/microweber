@@ -2,8 +2,10 @@
 
 namespace MicroweberPackages\App\Providers;
 
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\UrlGenerator;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -331,16 +333,16 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-
-        if (defined('MW_UNIT_TEST')) {
-            $this->app->detectEnvironment(function () {
-                if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
-                    return 'testing';
-                }
-
-                return MW_UNIT_TEST_ENV_FROM_TEST;
-            });
-        }
+//
+//        if (defined('MW_UNIT_TEST')) {
+//            $this->app->detectEnvironment(function () {
+//                if (!defined('MW_UNIT_TEST_ENV_FROM_TEST')) {
+//                    return 'testing';
+//                }
+//
+//                return MW_UNIT_TEST_ENV_FROM_TEST;
+//            });
+//        }
 
 
         if (!is_cli()) {
@@ -553,17 +555,19 @@ class AppServiceProvider extends ServiceProvider
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\CheckForMaintenanceMode::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ValidatePostSize::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\TrimStrings::class);
-        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Session\Middleware\StartSession::class);
+       // $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Session\Middleware\StartSession::class);
         //   $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\StartSessionExtended::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
 
-        //    $router->pushMiddlewareToGroup('web', \Illuminate\Session\Middleware\StartSession::class);
-        $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\EncryptCookies::class);
-        $router->pushMiddlewareToGroup('web', AuthenticateSessionForUser::class);
+      //  $router->pushMiddlewareToGroup('web', AuthenticateSessionForUser::class);
+        $router->pushMiddlewareToGroup('web', \Illuminate\Session\Middleware\StartSession::class);
+        $router->pushMiddlewareToGroup('web', \Illuminate\Cookie\Middleware\EncryptCookies::class);
         $router->pushMiddlewareToGroup('web', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
+        $router->pushMiddlewareToGroup('web', AuthenticateSession::class);
         // $router->pushMiddlewareToGroup('web', \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
         $router->pushMiddlewareToGroup('web', \Illuminate\Routing\Middleware\SubstituteBindings::class);
+       // AddQueuedCookiesToResponse::class,
 
         $router->aliasMiddleware('auth', \MicroweberPackages\App\Http\Middleware\Authenticate::class);
         $router->aliasMiddleware('auth.basic', \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class);
@@ -577,23 +581,38 @@ class AppServiceProvider extends ServiceProvider
         $router->aliasMiddleware('verified', \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class);
         $router->aliasMiddleware('xss', \MicroweberPackages\App\Http\Middleware\XSS::class);
         $router->aliasMiddleware('remove_html', \MicroweberPackages\App\Http\Middleware\RemoveHtml::class);
-        $router->aliasMiddleware('admin', \MicroweberPackages\Admin\Http\Middleware\Admin::class);
+    //    $router->aliasMiddleware('admin', \MicroweberPackages\Admin\Http\Middleware\Admin::class);
         $router->aliasMiddleware('api_auth', \MicroweberPackages\App\Http\Middleware\ApiAuth::class);
         $router->aliasMiddleware('allowed_ips', \MicroweberPackages\App\Http\Middleware\AllowedIps::class);
+
+
+        $router->pushMiddlewareToGroup('admin', \Illuminate\Session\Middleware\StartSession::class);
+        $router->pushMiddlewareToGroup('admin', \Illuminate\Cookie\Middleware\EncryptCookies::class);
+        $router->pushMiddlewareToGroup('admin', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
+        $router->pushMiddlewareToGroup('admin', AuthenticateSession::class);
+        $router->pushMiddlewareToGroup('admin', \MicroweberPackages\Admin\Http\Middleware\Admin::class);
+
+        $router->pushMiddlewareToGroup('api', \Illuminate\Session\Middleware\StartSession::class);
+        $router->pushMiddlewareToGroup('api', \Illuminate\Cookie\Middleware\EncryptCookies::class);
+        $router->pushMiddlewareToGroup('api', \Illuminate\View\Middleware\ShareErrorsFromSession::class);
+        $router->pushMiddlewareToGroup('api', AuthenticateSession::class);
+
 
         $router->middlewareGroup('public.web', [
             'xss',
             TrimStrings::class,
             MultilanguageMiddleware::class,
-            AuthenticateSessionForUser::class,
+            // AuthenticateSessionForUser::class,
         ]);
 
         $router->middlewareGroup('api', [
             'xss',
+
             TrimStrings::class,
             // 'throttle:1000,1',
             // 'api_auth'
         ]);
+
         $router->middlewareGroup('api.user', [
             'xss',
             TrimStrings::class,

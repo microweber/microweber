@@ -4,7 +4,7 @@
 use  \Illuminate\Support\Facades\Route;
 
 
-Route::group(['middleware' => 'public.web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function ($slug) {
+Route::group(['middleware' => 'web', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function ($slug) {
 
     Route::any('/', 'FrontendController@index')->name('home');
 

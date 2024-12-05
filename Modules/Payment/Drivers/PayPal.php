@@ -47,8 +47,8 @@ class PayPal extends AbstractPaymentMethod
                         Forms\Components\Toggle::make('paypal_test_mode')
                             ->label('Test Mode')
                             ->columnSpan('full')
-                            ->default(1)
-                            ->required(),
+
+                        ,
 
                     ];
 

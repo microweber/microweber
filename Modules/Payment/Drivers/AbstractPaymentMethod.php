@@ -9,7 +9,7 @@ abstract class AbstractPaymentMethod
 
     public function title(): string
     {
-        return '';
+        return 'PaymentMethod';
     }
 
     public function render(): string

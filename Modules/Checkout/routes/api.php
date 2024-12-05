@@ -11,7 +11,7 @@ use  \Illuminate\Support\Facades\Route;
 Route::name('api.checkout.')
     ->prefix('api/checkout')
    // ->middleware(['web'])
-    ->namespace('\MicroweberPackages\Checkout\Http\Controllers')
+
     ->group(function () {
-        Route::post('validate', 'CheckoutController@validate');
+        Route::post('validate', Modules\Checkout\Http\Controllers\CheckoutController::class.'@validate');
     });

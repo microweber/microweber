@@ -82,7 +82,7 @@
 
 
 
-            <module type="shop/payments" @if(isset($checkout_session['payment_gw'])) selected_provider="{{$checkout_session['payment_gw']}}" @endif  template="checkout_v2" />
+            <module type="shop/payments"  template="checkout_v2" />
 
             <module type="shop/checkout/terms" template="checkout_v2" class="no-settings" />
         </div>

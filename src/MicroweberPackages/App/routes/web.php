@@ -128,14 +128,15 @@ use  \Illuminate\Support\Facades\Route;
 
 
 Route::group([
+    'middleware' =>"web",
     //'middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
-    'namespace' => '\MicroweberPackages\App\Http\Controllers'
+   // 'namespace' => '\MicroweberPackages\App\Http\Controllers'
 ], function () {
-    Route::any('/apijs', 'JsCompileController@apijs');
-    Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => 'JsCompileController@apijs'))->where('all', '.*');
-    Route::any('/apijs_settings', 'JsCompileController@apijs_settings');
-    Route::any('/apijs_combined', 'JsCompileController@apijs_combined');
-    Route::any('/apijs_liveedit', 'JsCompileController@apijs_liveedit');
+    Route::any('/apijs', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs');
+    Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs'))->where('all', '.*');
+    Route::any('/apijs_settings', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs_settings');
+    Route::any('/apijs_combined', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs_combined');
+    Route::any('/apijs_liveedit', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs_liveedit');
 
 
     Route::get('/api/set_app_lang', function () {
@@ -179,9 +180,10 @@ Route::post('/csrf-validate-token', function () {
     );
     return $response;
 })->middleware([
+    'web',
     \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
     \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class,
-    \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
+  //  \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
     \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
 ])->name('csrf-validate-token');
 
@@ -200,9 +202,10 @@ Route::post('/csrf', function () {
 
 
 })->middleware([
+    'web',
     \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
     \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class,
-    \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
+ //   \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
 
 ])->name('csrf');
 

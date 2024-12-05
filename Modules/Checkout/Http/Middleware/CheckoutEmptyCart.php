@@ -3,6 +3,7 @@
 namespace Modules\Checkout\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Session;
 
 class CheckoutEmptyCart
 {

@@ -73,7 +73,7 @@ class ServeTestCommand extends ServeCommand
      * @param string $line
      * @return int
      */
-    protected function getRequestPortFromLine($line)
+    public static function getRequestPortFromLine($line)
     {
         preg_match('/:(\d+)\s(?:(?:\w+$)|(?:\[.*))/', $line, $matches);
         if (!isset($matches[1])) {
@@ -102,18 +102,18 @@ class ServeTestCommand extends ServeCommand
 
                 $this->serverRunningHasBeenDisplayed = true;
             } elseif (str($line)->contains(' Accepted')) {
-                $requestPort = $this->getRequestPortFromLine($line);
+                $requestPort = ServeTestCommand::getRequestPortFromLine($line);
 
                 $this->requestsPool[$requestPort] = [
                     $this->getDateFromLine($line),
                     false,
                 ];
             } elseif (str($line)->contains([' [200]: GET '])) {
-                $requestPort = $this->getRequestPortFromLine($line);
+                $requestPort = ServeTestCommand::getRequestPortFromLine($line);
 
                 $this->requestsPool[$requestPort][1] = trim(explode('[200]: GET', $line)[1]);
             } elseif (str($line)->contains(' Closing')) {
-                $requestPort = $this->getRequestPortFromLine($line);
+                $requestPort = ServeTestCommand::getRequestPortFromLine($line);
                 $request = $this->requestsPool[$requestPort];
 
                 [$startDate, $file] = $request;

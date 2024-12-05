@@ -73,7 +73,7 @@ class ServeCodeCoverageTestCommand extends ServeCommand
      * @param string $line
      * @return int
      */
-    protected function getRequestPortFromLine($line)
+    public static function getRequestPortFromLine($line)
     {
         preg_match('/:(\d+)\s(?:(?:\w+$)|(?:\[.*))/', $line, $matches);
         if (!isset($matches[1])) {

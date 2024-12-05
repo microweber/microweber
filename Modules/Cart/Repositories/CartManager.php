@@ -260,26 +260,28 @@ class CartManager extends Crud
         $table = 'cart';
         $params['table'] = $table;
         $skip_sid = false;
-        if (!defined('MW_API_CALL')) {
-            if (isset($params['order_id'])) {
-                $skip_sid = 1;
-            }
-        }
-        if ($skip_sid == false) {
-            if (!defined('MW_ORDERS_SKIP_SID')) {
-                if ($this->app->user_manager->is_admin() == false) {
-                    $params['session_id'] = mw()->user_manager->session_id();
-                } else {
-                    if (isset($params['session_id']) and $this->app->user_manager->is_admin() == true) {
-                    } else {
-                        $params['session_id'] = mw()->user_manager->session_id();
-                    }
-                }
-                if (isset($params['no_session_id']) and $this->app->user_manager->is_admin() == true) {
-                    unset($params['session_id']);
-                }
-            }
-        }
+//        if (!defined('MW_API_CALL')) {
+//            if (isset($params['order_id'])) {
+//                $skip_sid = 1;
+//            }
+//        }
+//        if ($skip_sid == false) {
+//            if (!defined('MW_ORDERS_SKIP_SID')) {
+//                if ($this->app->user_manager->is_admin() == false) {
+//                    $params['session_id'] = mw()->user_manager->session_id();
+//                } else {
+//                    if (isset($params['session_id']) and $this->app->user_manager->is_admin() == true) {
+//                    } else {
+//                        $params['session_id'] = mw()->user_manager->session_id();
+//                    }
+//                }
+//                if (isset($params['no_session_id']) and $this->app->user_manager->is_admin() == true) {
+//                    unset($params['session_id']);
+//                }
+//            }
+//        }
+
+        $params['session_id'] = mw()->user_manager->session_id();
         if (!isset($params['rel']) and isset($params['for'])) {
             $params['rel_type'] = $params['for'];
         } elseif (isset($params['rel']) and !isset($params['rel_type'])) {
@@ -1104,7 +1106,10 @@ class CartManager extends Crud
             if (isset($cart['rel_type']) and isset($cart['rel_id']) and $cart['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
                 $cart_return['image'] = $this->app->media_manager->get_picture($cart['rel_id']);
                 $cart_return['product_link'] = $this->app->content_manager->link($cart['rel_id']);
-            }
+                $cart_return['content_id'] = ($cart['rel_id']);
+             }
+            $cart_return['cart_item_id'] = $findCart->id;
+
             $cart_sum = $this->sum(true);
             $cart_qty = $this->sum(false);
 
@@ -1118,7 +1123,10 @@ class CartManager extends Crud
                 'currency' => get_currency_code(),
             ]));
 
-            return array('success' => 'Item added to cart', 'product' => $cart_return, 'cart_sum' => $cart_sum, 'cart_items_quantity' => $cart_qty);
+            return array('success' => 'Item added to cart',
+                'product' => $cart_return,
+                'cart_sum' => $cart_sum,
+                'cart_items_quantity' => $cart_qty);
         } else {
             return array('error' => 'Invalid cart items');
         }
@@ -1265,5 +1273,20 @@ class CartManager extends Crud
 
     }
 
+    public function get_cart_item_image($cartItemId)
+    {
+        $cartItem = Cart::where('id', $cartItemId)->first();
+
+        if ($cartItem) {
+            if($cartItem->rel_type == morph_name(\Modules\Content\Models\Content::class)
+            or ($cartItem->rel_type == 'content'))
+            {
+
+                return $this->app->media_manager->get_picture($cartItem->rel_id);
+            }
+
+        }
+        return false;
+    }
 
 }

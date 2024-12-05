@@ -4,6 +4,9 @@ namespace MicroweberPackages\App\Http\Middleware;
 use Illuminate\Session\Middleware\AuthenticateSession;
 
 
+/**
+ * @deprecated
+ */
 class AuthenticateSessionForUser extends AuthenticateSession
 {
     /**

@@ -5,7 +5,9 @@ namespace App\Http;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 
-
+/**
+ * @deprecated
+ */
 class Kernel extends HttpKernel
 {
     /**

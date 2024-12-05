@@ -10,6 +10,7 @@ namespace Modules\Checkout\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 use Modules\Checkout\Http\Controllers\Traits\ContactInformationTrait;
@@ -76,20 +77,20 @@ class CheckoutController extends Controller {
 
     public function _renderView($view, $data = [])
     {
-        $html = view($view, $data);
+        return view($view, $data);
 
 //        // Append api js
 //        $html = app()->template_manager->append_api_js_to_layout($html);
 //
 //        $html = $this->appendLiveEdit($html);
 
-        return app()->parser->process($html);
+    //    return app()->parser->process($html);
     }
 
     /**
      * Description: THIS METHOD IS FOR OLD VERSION OF CHECKOUT MODULE
      * @param Request $request
-     * @return bool[]
+
     */
     public function validate(Request $request)
     {
@@ -126,7 +127,7 @@ class CheckoutController extends Controller {
 
         if ($validator->fails()) {
 
-            $response = \Response::make(['errors'=>$validator->messages()->toArray()]);
+            $response = Response::make(['errors'=>$validator->messages()->toArray()]);
             $response->setStatusCode(422);
 
             return $response;

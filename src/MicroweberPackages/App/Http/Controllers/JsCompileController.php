@@ -32,8 +32,9 @@ class JsCompileController extends Controller
         } else {
             $this->_should_compile_assets = Config::get('microweber.compile_assets');;
         }
-
+        $this->_should_compile_assets = false;
         // $this->_should_compile_assets = false; //@todo remove before release
+
     }
 
 
@@ -111,6 +112,7 @@ class JsCompileController extends Controller
         $l = $this->_load_apijs_settings();
 
         $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
+
         if ($compile_assets and defined('MW_VERSION')) {
             $l = $this->minify_js($l);
             $hash = $this->apijs_combined_get_hash();
@@ -457,6 +459,7 @@ class JsCompileController extends Controller
         $except = ['_debugbar.*', 'ignition.*', 'dusk.*', 'horizon.*', 'l5-swagger.*'];
         if (!is_admin()) {
             $except[] = 'admin.*';
+            $except[] = 'filament.admin.*';
             $except[] = 'api.*';
 
         }

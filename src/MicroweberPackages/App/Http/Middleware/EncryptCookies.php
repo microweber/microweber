@@ -3,7 +3,9 @@
 namespace MicroweberPackages\App\Http\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
-
+/**
+ * @deprecated
+ */
 class EncryptCookies extends Middleware
 {
     /**

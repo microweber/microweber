@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->integer('qty')->nullable();
             $table->float('price')->nullable();
             $table->string('currency')->nullable();
-            $table->integer('order_completed')->nullable();
+            $table->integer('order_completed')->nullable()->default(0);
             $table->string('session_id')->nullable();
             $table->longText('other_info')->nullable();
             $table->string('skip_promo_code')->nullable();

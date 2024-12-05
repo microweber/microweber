@@ -71,4 +71,16 @@ return [
     |
     */
     'is_installed' => env('MW_IS_INSTALLED', false),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Force HTTPS
+    |--------------------------------------------------------------------------
+    |
+    | This value determines whether to force HTTPS.
+    |
+    */
+    'force_https' => env('MW_FORCE_HTTPS', is_https()),
+
 ];

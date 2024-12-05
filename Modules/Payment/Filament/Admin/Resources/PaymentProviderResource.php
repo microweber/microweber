@@ -4,6 +4,7 @@ namespace Modules\Payment\Filament\Admin\Resources;
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Pages\Actions\ButtonAction;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\IconSize;
 use Filament\Tables;
@@ -52,117 +53,83 @@ class PaymentProviderResource extends Resource
 
     public static function form(Form $form): Form
     {
-
         $getAvailableToSetup = self::getAvailableToSetup();
         $paymentDrivers = $getAvailableToSetup['paymentDrivers'];
         $paymentProviders = $getAvailableToSetup['paymentProviders'];
 
-        $schema = [
+        return $form->schema([
+            Forms\Components\Wizard::make([
+                Forms\Components\Wizard\Step::make('Select Provider')
+                    ->visible(function (Forms\Get $get) {
+                        return !$get('id');
 
-            RadioDeck::make('provider')
-                ->live()
-                ->hidden(function (?PaymentProvider $record) {
-                    if ($record) {
-                        return true;
-                    }
-                    return false;
-                })
-                ->required()
-                ->padding('py-4 px-8')
-                ->gap('gap-0')
-                ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, string $state) use ($paymentProviders) {
-                    if($get('name')){
-                        return;
-                    }
+                    })
+                    ->schema([
+                        RadioDeck::make('provider')
+                            ->live()
+                            ->required()
+                            ->padding('py-4 px-8')
+                            ->gap('gap-0')
+                            ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, string $state) use ($paymentProviders) {
+                                if ($state) {
+                                    $set('name', $paymentProviders[$state] ?? null);
+                                    $set('is_active', 1);
+                                    $set('settings', []);
+                                }
+                            })
+                            ->extraCardsAttributes(['class' => 'rounded-xl'])
+                            ->extraOptionsAttributes(['class' => 'text-lg leading-none w-full flex flex-col p-4'])
+                            ->extraDescriptionsAttributes(['class' => 'text-sm font-light'])
+                            ->iconSize(IconSize::Large)
+                            ->color('primary')
+                            ->options($paymentProviders)
+                            ->columnSpanFull()
+                            ->label('Select Provider'),
+                    ]),
+                Forms\Components\Wizard\Step::make('Provider Details')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->label('Name')
+                            ->placeholder('Name')
+                            ->required()
+                            ->columnSpanFull(),
 
-                    $set('name', $paymentProviders[$state]);
-                })
-                ->extraCardsAttributes([ // Extra Attributes to add to the card HTML element
-                    'class' => 'rounded-xl'
-                ])
-                ->extraOptionsAttributes([ // Extra Attributes to add to the option HTML element
-                    'class' => 'text-lg leading-none w-full flex flex-col p-4'
-                ])
-                ->extraDescriptionsAttributes([ // Extra Attributes to add to the description HTML element
-                    'class' => 'text-sm font-light'
-                ])
-                ->icons([
-                    'all_subscribers' => 'heroicon-o-users',
-                    'specific_list' => 'heroicon-o-list-bullet',
-                    'import_new_list' => 'heroicon-o-arrow-up-tray',
-                ])
-                ->iconSize(IconSize::Large)
-                ->color('primary')
-                ->live()
-                ->descriptions([
+                        Forms\Components\Toggle::make('is_active')
+                            ->default(1)
+                            ->label('Is Active')
+                            ->columnSpanFull(),
+                    ]),
+                Forms\Components\Wizard\Step::make('Settings')
+                    ->schema(function () use ($paymentDrivers, $form) {
+                        $schemas = [];
+                        foreach ($paymentDrivers as $paymentDriver) {
+                            $driver = app()->payment_method_manager->driver($paymentDriver);
 
-                ])
-                ->columnSpanFull()
-                ->columns(2)
-                ->options($paymentProviders),
-        ];
+                            /* @var \Modules\Payment\Drivers\AbstractPaymentMethod $driver */
 
-        $schema[] = Forms\Components\Hidden::make('name')
-            ->required()
-            ->hidden(function (?PaymentProvider $record) {
-                if ($record) {
-                    return true;
-                }
-                return false;
-            })
-            ->columnSpan('full');
-
-        $schema[] = Forms\Components\Hidden::make('is_active')
-            ->required()
-            ->hidden(function (?PaymentProvider $record) {
-                if ($record) {
-                    return true;
-                }
-                return false;
-            })->default(1);
-
-        $schema[] = Forms\Components\TextInput::make('name')
-            ->label('Name')
-            ->placeholder('Name')
-            ->required()
-//            ->hidden(function (?PaymentProvider $record) {
-//                if ($record) {
-//                    return false;
-//                }
-//                return true;
-//            })
-            ->columnSpan('full');
-
-        if ($paymentDrivers) {
-
-            foreach ($paymentDrivers as $paymentDriver) {
-                $driver = app()->payment_method_manager->driver($paymentDriver);
-                if (is_object($driver) and method_exists($driver, 'getSettingsForm')) {
-                    $provderForm = $driver->getSettingsForm($form);
-                    if ($provderForm) {
-                        $schema = array_merge($schema, $provderForm);
-                    }
-                }
-            }
-        }
+                            if (is_object($driver) && method_exists($driver, 'getSettingsForm')) {
+                                $providerForm = $driver->getSettingsForm($form);
+                                if ($providerForm) {
+                                    foreach ($providerForm as $component) {
+                                        $component->columnSpanFull();
+                                    }
+                                    $schemas = array_merge($schemas, $providerForm);
+                                }
+                            }
+                        }
 
 
-        $schema[] = Forms\Components\Toggle::make('is_active')
-            ->default(1)
-            ->label('Is Active')
-            ->columnSpan('full')
-            ->hidden(function (?PaymentProvider $record) {
-                if ($record) {
-                    return false;
-                }
-                return true;
-            })
-            ->required();
 
-
-        return $form
-            ->schema($schema);
+                        return $schemas;
+                    }),
+            ])
+                ->skippable()
+                ->columnSpanFull(),
+        ]);
     }
+
+
+
 
     public static function table(Table $table): Table
     {

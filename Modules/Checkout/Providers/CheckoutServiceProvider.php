@@ -2,7 +2,9 @@
 
 namespace Modules\Checkout\Providers;
 
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Checkout\Livewire\ReviewOrder;
 use Modules\Checkout\Repositories\CheckoutManager;
 
 
@@ -39,7 +41,8 @@ class CheckoutServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('checkout_manager', function ($app) {
             return new CheckoutManager();
         });
-
+        Livewire::component('modules.checkout.livewire.review-order', ReviewOrder::class);
+        $this->app->register(FilamentCheckoutPanelProvider::class);
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(CheckoutModuleSettings::class);

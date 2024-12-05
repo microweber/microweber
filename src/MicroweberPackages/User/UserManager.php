@@ -1613,7 +1613,7 @@ class UserManager
     {
         $this->app->event_manager->trigger('mw.user.session_set', $name, $val);
 
-        return Session::put($name, $val);
+          Session::put($name, $val);
     }
 
     public function csrf_form($unique_form_name = false)

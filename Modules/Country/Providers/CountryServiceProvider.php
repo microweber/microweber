@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use Modules\Country\Repositories\CountryManager;
 
 class CountryServiceProvider extends BaseModuleServiceProvider
 {
@@ -29,6 +30,13 @@ class CountryServiceProvider extends BaseModuleServiceProvider
     {
         $this->registerConfig();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+
+        /**
+         * @property CountryManager    $country_manager
+         */
+        $this->app->singleton('country_manager', function ($app) {
+            return new CountryManager();
+        });
 
     }
 

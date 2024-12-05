@@ -4,6 +4,7 @@ namespace Modules\Cart\Repositories;
 
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Modules\Cart\Models\Cart;
 
@@ -17,7 +18,6 @@ class CartRepository extends AbstractRepository
     {
         $sid = app()->user_manager->session_id();
 
-        return $this->cacheCallback(__FUNCTION__, ['session_id' => $sid], function () use ($sid) {
 
             $cartItems = DB::table('cart')
                 // ->select(['id', 'qty'])
@@ -30,7 +30,7 @@ class CartRepository extends AbstractRepository
             })->toArray();
 
             return $cartItems;
-        });
+
 
     }
 
@@ -63,4 +63,6 @@ class CartRepository extends AbstractRepository
         return $different_items;
 
     }
+
+
 }

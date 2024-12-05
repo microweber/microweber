@@ -20,6 +20,18 @@ use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
 use MicroweberPackages\User\Filament\UsersFilamentPlugin;
 use Modules\Product\Filament\Admin\Resources\ProductResource;
+use Filament\Http\Middleware\Authenticate;
+
+use Filament\Pages;
+
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Modules\Checkout\Filament\Resources\CheckoutResource;
+use Modules\Checkout\Filament\Resources\Pages\CheckoutPage;
 
 
 class FilamentAdminPanelProvider extends PanelProvider
@@ -51,12 +63,9 @@ class FilamentAdminPanelProvider extends PanelProvider
     public function getPanelMiddlewares(): array
     {
         return [
-            //   EncryptCookies::class,
-            //   AddQueuedCookiesToResponse::class,
-            //StartSession::class,
-            // AuthenticateSession::class,
-            //  ShareErrorsFromSession::class,
-            //          VerifyCsrfToken::class, aways givev error to refresh
+            'web',
+
+            VerifyCsrfToken::class,
             SubstituteBindings::class,
             DisableBladeIconComponents::class,
             DispatchServingFilamentEvent::class,

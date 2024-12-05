@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ModuleResource\Pages\ListModules;
-use App\Filament\Admin\Resources\ModuleResource\Pages\ViewModule;
 use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
 use Filament\Forms;

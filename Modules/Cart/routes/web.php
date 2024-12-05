@@ -1,23 +1,13 @@
 <?php
-use  \Illuminate\Support\Facades\Route;
 
-Route::name('api.')
-    ->prefix('api')
-    ->middleware([
-        \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class
-    ])
-    ->group(function () {
+use Illuminate\Support\Facades\Route;
+use Modules\Cart\Http\Controllers\CartApiController;
 
-        Route::post('update_cart', function (\Illuminate\Http\Request $request) {
-            return update_cart($request->all());
-        });
+Route::group(['middleware' => ['web']], function () {
+    Route::post('api/update_cart', [CartApiController::class, 'updateCart'])->name('update_cart');
+    Route::post('api/remove_cart_item', [CartApiController::class, 'removeCartItem'])->name('remove_cart_item');
+    Route::post('api/update_cart_item_qty', [CartApiController::class, 'updateCartItemQty'])->name('update_cart_item_qty');
 
-        Route::post('remove_cart_item', function (\Illuminate\Http\Request $request) {
-            return remove_cart_item($request->all());
-        });
 
-        Route::post('update_cart_item_qty', function (\Illuminate\Http\Request $request) {
-            return update_cart_item_qty($request->all());
-        });
+});
 
-    });

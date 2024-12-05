@@ -8,7 +8,9 @@ use Illuminate\Cookie\CookieValuePrefix;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpFoundation\Cookie;
-
+/**
+ * @deprecated
+ */
 class VerifyCsrfToken extends Middleware
 {
     /**
@@ -42,7 +44,7 @@ class VerifyCsrfToken extends Middleware
         } catch (TokenMismatchException $e) {
 
             $cookie = [];
-            $cookie[] = \Cookie::forget('XSRF-TOKEN');
+            $cookie[] = \Illuminate\Support\Facades\Cookie::forget('XSRF-TOKEN');
 
             $response = response()->json(['error' => 'Invalid XSRF token', 'message' => 'Invalid XSRF token, please reload the page and try again'], 400);
 

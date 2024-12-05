@@ -4,7 +4,7 @@ use \Illuminate\Support\Facades\Route;
 
 Route::name('api.live-edit.')
     ->prefix('api/live-edit')
-    ->middleware(['api', 'admin', 'live_edit'])
+    ->middleware(['web', 'admin', 'live_edit'])
     ->group(function () {
 
         Route::namespace('MicroweberPackages\LiveEdit\Http\Controllers\Api')->group(function () {

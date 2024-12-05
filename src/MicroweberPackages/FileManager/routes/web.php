@@ -8,8 +8,9 @@
 
 use  \Illuminate\Support\Facades\Route;
 
-Route::group(['namespace' => '\MicroweberPackages\FileManager\Http\Controllers'], function () {
+Route::group(['middleware' => ['api','admin']], function () {
 
-    Route::post('/plupload', 'PluploadController@upload');
+    Route::post('/plupload', [\MicroweberPackages\FileManager\Http\Controllers\PluploadController::class, 'upload'])
+        ->name('plupload.upload');
 
 });

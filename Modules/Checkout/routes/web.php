@@ -3,11 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Checkout\Http\Controllers\CheckoutController;
 
+
+
+
+
 // Private
 Route::name('checkout.')
     ->prefix('checkout')
     // ->prefix(multilanguage_route_prefix('checkout'))
     ->middleware([
+        'web',
         \Modules\Checkout\Http\Middleware\CheckoutEmptyCart::class,
         \MicroweberPackages\App\Http\Middleware\XSS::class
     ])

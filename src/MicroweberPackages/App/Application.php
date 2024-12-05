@@ -40,6 +40,7 @@ use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Content\Repositories\ContentManager;
 use Modules\Content\Repositories\ContentRepository;
 use Modules\ContentData\Repositories\DataFieldsManager;
+use Modules\Country\Repositories\CountryManager;
 use Modules\CustomFields\Repositories\CustomFieldRepository;
 use Modules\CustomFields\Repositories\FieldsManager;
 use Modules\Menu\Repositories\MenuRepository;
@@ -80,6 +81,7 @@ use Modules\Shipping\ShippingMethodManager;
  * @property \Modules\Offer\Repositories\OfferRepository $offer_repository
  * @property \Modules\Tax\TaxManager $tax_manager
  * @property CheckoutManager $checkout_manager
+ * @property CountryManager $country_manager
  * @property ShippingManager $shipping_manager
  * @property PaymentManager $payment_manager
  * @property OptionManager $option_manager

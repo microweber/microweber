@@ -19,7 +19,7 @@ class TemplateIconFonts
 
     public function getIconSets(): array
     {
-        $basePath = site_url() . '/vendor/microweber-packages/frontend-assets-libs';
+        $basePath = site_url() . 'vendor/microweber-packages/frontend-assets-libs';
 
         $defaultFonts = [
             [

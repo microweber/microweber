@@ -36,6 +36,16 @@ class ApijsScriptTag implements TagInterface, \Stringable
          $append_html .= '' . "\r\n";
          $append_html .= '<script  src="' . $apijs_combined_loaded_new . '"  id="mw-js-core-scripts"></script>' . "\r\n";
 
+
+        $append_html .= '<script id="mw-js-csrf-jquery" type="text/javascript">
+$.ajaxSetup({
+headers: {
+\'X-CSRF-TOKEN\': $(\'meta[name="csrf-token"]\').attr(\'content\')
+}
+});
+</script>';
+
+
         return $append_html;
     }
 
