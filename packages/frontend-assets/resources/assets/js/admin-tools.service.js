@@ -4,7 +4,7 @@ import {iframeAutoHeight} from "../tools/iframe-auto-height.js";
 
 
 
-class AdminColorThemeService extends MicroweberBaseClass {
+export class AdminColorThemeService extends MicroweberBaseClass {
     constructor(options = {}) {
         super();
         const defaults = {
@@ -14,13 +14,31 @@ class AdminColorThemeService extends MicroweberBaseClass {
         this.settings = Object.assign({}, defaults, options);
         this.storage = this.settings.storage;
     }
-    get theme () {
+    get #theme () {
         return this.isSystem() ? this.getSystem() : this.storage.getItem("theme");
     }
 
-    set theme (value) {
+    set #theme (value) {
+        if(value === this.#theme) {
+            return;
+        }
         this.storage.setItem("theme", value);
         this.dispatch('change')
+    }
+
+    setDark(){
+        this.#theme = 'dark';
+    }
+    setLight(){
+        this.#theme = 'light';
+    }
+
+    setSystem(){
+        this.#theme = 'system';
+    }
+
+    toggle() {
+        this.#theme = this.#theme === 'light' ? 'dark' : 'light';
     }
 
     getSystem() {
@@ -39,7 +57,7 @@ class AdminColorThemeService extends MicroweberBaseClass {
     }
 
     isDark() {
-        return this.theme === 'dark';
+        return this.#theme === 'dark';
     }
 
     isLight() {

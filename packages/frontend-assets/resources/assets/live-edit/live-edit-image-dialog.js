@@ -6,25 +6,10 @@ import FilerobotImageEditor from "../../../../frontend-assets/node_modules/filer
 const { TABS, TOOLS } = FilerobotImageEditor;
 
 const editImage = (url, target, dialog) => {
+
     const config = {
         source: url,
-        theme: {
-            palette: {
-              'bg-secondary': 'red',
-              'bg-primary':  'rgb(3 7 18)',
-              /*'bg-primary-active': : '....',
-              'accent-primary': : '....',
-              'accent-primary-active': : '....',
-              'icons-primary': : '....',
-              'icons-secondary': : '....',
-              'borders-secondary': : '....',
-              'borders-primary': : '....',
-              'borders-strong': : '....',*/
 
-
-            },
-
-        },
         showCanvasOnly: false,
 
         annotationsCommon: {
@@ -82,6 +67,29 @@ const editImage = (url, target, dialog) => {
         defaultTabId: TABS.FINETUNE, // or 'Annotate'
         defaultToolId: TOOLS.TEXT, // or 'Text'
     };
+
+
+    if(mw.admin.theme.isDark()) {
+        const theme = {
+            palette: {
+                'bg-secondary': 'rgb(30 41 59)',
+                'bg-primary':  'rgb(3 7 18)',
+                'bg-primary-active': 'rgb(15 23 42)',
+                'accent-primary':   'white',
+                'accent-primary-active':   'white',
+                'light-shadow': 'red',
+              /* 'icons-primary': : '....',
+              'icons-secondary': : '....',
+              'borders-secondary': : '....',
+              'borders-primary': : '....',
+              'borders-strong': : '....',*/
+
+
+            },
+
+        };
+        config.theme = theme;
+    }
 
 
 
