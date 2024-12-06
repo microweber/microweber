@@ -13,11 +13,12 @@ class Payment extends Model
     protected $fillable = [
         'rel_id',
         'rel_type',
-        'payment_provider_id',
-        'payment_provider_reference_id',
         'amount',
         'currency',
         'status',
+        'payment_provider',
+        'payment_provider_id',
+        'payment_provider_reference_id',
         'payment_data',
     ];
 

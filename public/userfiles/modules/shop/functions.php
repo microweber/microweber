@@ -90,9 +90,7 @@ event_bind('mw_edit_product_admin', function ($data) {
 //});
 
 
-event_bind('recover_shopping_cart', function ($params = false) {
-    return mw()->cart_manager->recover_cart($params);
-});
+
 
 
 

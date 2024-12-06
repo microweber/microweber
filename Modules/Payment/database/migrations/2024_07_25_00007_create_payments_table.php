@@ -21,8 +21,9 @@ class CreatePaymentsTable extends Migration
             $table->string('currency')->nullable();
             $table->string('status')->nullable();
 
+            $table->string('payment_provider')->nullable();
             $table->string('payment_provider_id')->nullable();
-            $table->string('payment_provider_reference_id')->nullable();
+            $table->string('transaction_id')->nullable();
             $table->string('payment_data')->nullable();
 
 

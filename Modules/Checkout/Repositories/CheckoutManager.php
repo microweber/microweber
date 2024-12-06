@@ -5,6 +5,7 @@ namespace Modules\Checkout\Repositories;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Modules\Order\Events\OrderWasPaid;
 use Modules\Order\Models\Order;
+use Modules\Payment\Drivers\AbstractPaymentMethod;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
@@ -38,6 +39,24 @@ class CheckoutManager
         $this->tables = $tables;
     }
 
+    public function unifyParams($params)
+    {
+        if (isset($params['postal_code'])) {
+            $params['zip'] = $params['postal_code'];
+            unset($params['postal_code']);
+        }
+
+        if (isset($params['payment_gw'])) {
+            $params['payment_provider'] = $params['payment_gw'];
+            unset($params['payment_gw']);
+        }
+        if (isset($params['payment_method'])) {
+            $params['payment_provider'] = $params['payment_method'];
+            unset($params['payment_method']);
+        }
+        return $params;
+    }
+
     public function checkout($data)
     {
         $exec_return = false;
@@ -49,77 +68,88 @@ class CheckoutManager
         $cart['session_id'] = $sid;
         $cart['order_completed'] = 0;
         $cart['for_checkout'] = true;
-      //  $cart['limit'] = 1;
+        //  $cart['limit'] = 1;
         $mw_process_payment = true;
         $mw_process_payment_success = false;
         $mw_process_payment_failed = false;
-        if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
-
-            $update_order = $update_order_orig = $this->app->order_manager->get_by_id($sess_order_id);
-            if (isset($update_order['payment_gw']) and isset($update_order['id'])) {
-                $gw_return = normalize_path(modules_path() . $update_order['payment_gw'] . DS . 'return.php', false);
-                if (is_file($gw_return)) {
-                    include $gw_return;
-
-                    if ($update_order != $update_order_orig) {
-
-                        if (isset($update_order['is_paid'])) {
-                            if (intval($update_order['is_paid']) == 1) {
-                                $_REQUEST['mw_payment_success'] = true;
-                                $_REQUEST['mw_payment_failure'] = null;
-                            } else {
-                                $_REQUEST['mw_payment_success'] = null;
-                                $_REQUEST['mw_payment_failure'] = true;
-                                //    mw()->cart_manager->recover_cart(session()->getId(), $update_order['id']);
-
-                            }
-                        }
-
-                        $should_mark_as_paid = false;
 
 
-                        $this->_verify_request_params($update_order);
+        $data = $this->unifyParams($data);
+
+        /*
+         *
+         *
+               if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
+
+                   $update_order = $update_order_orig = $this->app->order_manager->get_by_id($sess_order_id);
+                   if (isset($update_order['payment_provider']) and isset($update_order['id'])) {
+                       $gw_return = normalize_path(modules_path() . $update_order['payment_provider'] . DS . 'return.php', false);
+                       if (is_file($gw_return)) {
+                           include $gw_return;
+
+                           if ($update_order != $update_order_orig) {
+
+                               if (isset($update_order['is_paid'])) {
+                                   if (intval($update_order['is_paid']) == 1) {
+                                       $_REQUEST['mw_payment_success'] = true;
+                                       $_REQUEST['mw_payment_failure'] = null;
+                                   } else {
+                                       $_REQUEST['mw_payment_success'] = null;
+                                       $_REQUEST['mw_payment_failure'] = true;
+                                       //    mw()->cart_manager->recover_cart(session()->getId(), $update_order['id']);
+
+                                   }
+                               }
+
+                               $should_mark_as_paid = false;
 
 
-                        if (!isset($update_order_orig['is_paid']) or (isset($update_order_orig['is_paid']) and intval($update_order_orig['is_paid']) == 0)) {
-                            if (isset($update_order['is_paid']) and intval($update_order['is_paid']) == 1) {
-                                $should_mark_as_paid = true;
-                                unset($update_order['is_paid']);
-                            }
-                        }
-
-                        $this->app->order_manager->save($update_order);
+                               $this->_verify_request_params($update_order);
 
 
-                        if ($should_mark_as_paid) {
-                            $this->app->checkout_manager->mark_order_as_paid($update_order['id']);
-                        }
+                               if (!isset($update_order_orig['is_paid']) or (isset($update_order_orig['is_paid']) and intval($update_order_orig['is_paid']) == 0)) {
+                                   if (isset($update_order['is_paid']) and intval($update_order['is_paid']) == 1) {
+                                       $should_mark_as_paid = true;
+                                       unset($update_order['is_paid']);
+                                   }
+                               }
+
+                               $this->app->order_manager->save($update_order);
 
 
-                        if (isset($update_order['id'])) {
-                            $this->after_checkout($update_order['id']);
-                        }
+                               if ($should_mark_as_paid) {
+                                   $this->app->checkout_manager->mark_order_as_paid($update_order['id']);
+                               }
 
 
-                    }
-                }
-            }
+                               if (isset($update_order['id'])) {
+                                   $this->after_checkout($update_order['id']);
+                               }
 
-            if (isset($_REQUEST['mw_payment_success'])) {
-                $mw_process_payment = false;
-                $mw_process_payment_success = true;
-                $exec_return = true;
-            } elseif (isset($_REQUEST['mw_payment_failure'])) {
 
-                if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false and isset($_REQUEST['order_id'])) {
+                           }
+                       }
+                   }
 
-                    mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
-                }
+                   if (isset($_REQUEST['mw_payment_success'])) {
+                       $mw_process_payment = false;
+                       $mw_process_payment_success = true;
+                       $exec_return = true;
+                   } elseif (isset($_REQUEST['mw_payment_failure'])) {
 
-                $mw_process_payment_failed = true;
-                $exec_return = true;
-            }
-        }
+                       if (isset($_REQUEST['recart']) and $_REQUEST['recart'] != false and isset($_REQUEST['order_id'])) {
+
+                           mw()->cart_manager->recover_cart($_REQUEST['recart'], $_REQUEST['order_id']);
+                       }
+
+                       $mw_process_payment_failed = true;
+                       $exec_return = true;
+                   }
+               }
+
+
+            */
+
 
         $cart_table_real = $this->app->database_manager->real_table_name($cart_table);
         $order_table_real = $this->app->database_manager->real_table_name($table_orders);
@@ -145,11 +175,11 @@ class CheckoutManager
                 return $this->app->url_manager->redirect($return_to);
             } else {
 
-                if(isset($update_order) and isset($update_order['id'])){
+                if (isset($update_order) and isset($update_order['id'])) {
                     if ($mw_process_payment_success == true) {
-                        return redirect(route('checkout.finish', $update_order['id']))->with('success',_e('Your payment is complete',true));
+                        return redirect(route('checkout.finish', $update_order['id']))->with('success', _e('Your payment is complete', true));
                     } elseif ($mw_process_payment_failed == true) {
-                        return redirect(route('checkout.finish', $update_order['id']))->with('success',_e('Your payment was not complete',true));
+                        return redirect(route('checkout.finish', $update_order['id']))->with('success', _e('Your payment was not complete', true));
 
                     } else {
                         return redirect('/');
@@ -203,25 +233,25 @@ class CheckoutManager
             }
         }
 
-   /*
-    *  OLD VALIDATION ON MODAL
-    *      $validator = app()->make(CheckoutController::class);
+        /*
+         *  OLD VALIDATION ON MODAL
+         *      $validator = app()->make(CheckoutController::class);
 
-        if (!empty($data)) {
-            $request = new Request();
-            $request->merge($data);
-            $is_valid = $validator->validate($request);
-        } else {
-            $is_valid['errors'] = 'Data not entered.';
-        }
+             if (!empty($data)) {
+                 $request = new Request();
+                 $request->merge($data);
+                 $is_valid = $validator->validate($request);
+             } else {
+                 $is_valid['errors'] = 'Data not entered.';
+             }
 
-        if (is_object($is_valid)) {
-            return $is_valid;
-        }
+             if (is_object($is_valid)) {
+                 return $is_valid;
+             }
 
-        if (isset($is_valid['errors'])) {
-            return $is_valid;
-        }*/
+             if (isset($is_valid['errors'])) {
+                 return $is_valid;
+             }*/
 
         $checkout_errors = array();
         $check_cart = $this->app->shop_manager->get_cart($cart);
@@ -230,58 +260,66 @@ class CheckoutManager
             $checkout_errors['cart_empty'] = 'Your cart is empty';
         } else {
 
-            if (!is_admin()) {
-                $shop_require_terms = $this->app->option_manager->get('shop_require_terms', 'website');
-                if ($shop_require_terms) {
-                    $user_id_or_email = $this->app->user_manager->id();
-                    if (!$user_id_or_email) {
-                        if (isset($data['email'])) {
-                            $user_id_or_email = $data['email'];
-                        }
+
+            $shop_require_terms = $this->app->option_manager->get('shop_require_terms', 'website');
+            if ($shop_require_terms) {
+                $user_id_or_email = $this->app->user_manager->id();
+                if (!$user_id_or_email) {
+                    if (isset($data['email'])) {
+                        $user_id_or_email = $data['email'];
                     }
+                }
 
-                    if (!$user_id_or_email) {
-                        $checkout_errors['cart_needs_email'] = _e('You must provide email address', true);
-                    } else {
-                        $terms_and_conditions_name = 'terms_shop';
+                if (!$user_id_or_email) {
+                    $checkout_errors['cart_needs_email'] = _e('You must provide email address', true);
+                } else {
+                    $terms_and_conditions_name = 'terms_shop';
 
-                        $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
-                        if (!$check_term) {
-                            if (isset($data['terms']) and $data['terms']) {
-                                $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
-                            } else {
-                                return array(
-                                    'error' => _e('You must agree to terms and conditions', true),
-                                    'form_data_required' => 'terms',
-                                    'form_data_module' => 'users/terms'
-                                );
+                    $check_term = $this->app->user_manager->terms_check($terms_and_conditions_name, $user_id_or_email);
+                    if (!$check_term) {
+                        if (isset($data['terms']) and $data['terms']) {
+                            $this->app->user_manager->terms_accept($terms_and_conditions_name, $user_id_or_email);
+                        } else {
+                            return array(
+                                'error' => _e('You must agree to terms and conditions', true),
+                                'form_data_required' => 'terms',
+                                'form_data_module' => 'users/terms'
+                            );
 
-                            }
                         }
                     }
                 }
+
             }
 
 
-            if (!isset($data['payment_gw']) and $mw_process_payment == true) {
-                $data['payment_gw'] = 'none';
-            } else {
-                if ($mw_process_payment == true) {
-                  //  $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
-                    $gw_check = app()->payment_manager->hasPaymentProvider($data['payment_gw']);
-                    if ($gw_check) {
-                        $gateway = app()->payment_manager->getPaymentProviderModule($data['payment_gw']);
-                    } else {
-                        $checkout_errors['payment_gw'] = 'No such payment gateway is activated';
-                    }
+            /*  if (!isset($data['payment_provider']) and $mw_process_payment == true) {
+                  $data['payment_provider'] = 'none';
+              } else {
+                  if ($mw_process_payment == true) {
+                      //  move to cotroler
+                      //  move to cotroler
+                      //  move to cotroler
+                      //  move to cotroler
+                      //  move to cotroler
+                      //  move to cotroler
 
-//                    if (isset($gw_check[0]) && is_array($gw_check[0])) {
-//                        $gateway = $gw_check[0];
-//                    } else {
-//                        $checkout_errors['payment_gw'] = 'No such payment gateway is activated';
-//                    }
-                }
-            }
+                      $gw_check = app()->payment_method_manager->getProvider($data['payment_provider']);
+
+                      if ($gw_check) {
+                          $gatewayResponse = app()->payment_method_manager->process($data['payment_provider'],$data);
+
+                       } else {
+                          $checkout_errors['payment_provider'] = 'No such payment gateway is activated';
+                      }
+
+  //                    if (isset($gw_check[0]) && is_array($gw_check[0])) {
+  //                        $gateway = $gw_check[0];
+  //                    } else {
+  //                        $checkout_errors['payment_provider'] = 'No such payment gateway is activated';
+  //                    }
+                  }
+              }*/
 
             $shipping_country = false;
             $shipping_cost_max = false;
@@ -332,9 +370,9 @@ class CheckoutManager
 
             if (($this->app->user_manager->session_get('discount_value'))) {
                 $discount_value = $this->app->user_manager->session_get('discount_value');
-                if($discount_value) {
+                if ($discount_value) {
                     $discount_value = floatval($discount_value);
-                 }
+                }
 
             }
             if (($this->app->user_manager->session_get('discount_type'))) {
@@ -349,7 +387,7 @@ class CheckoutManager
 
 
             //post any of those on the form
-            $flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_gw', 'other_info');
+            $flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_provider', 'other_info');
 
             if (!isset($data['email']) or $data['email'] == '') {
                 $data['email'] = user_name(user_id(), 'email');
@@ -378,15 +416,15 @@ class CheckoutManager
                 }
             }
 
-            if (isset($data['payment_gw']) and $data['payment_gw'] != '') {
-                $data['payment_gw'] = sanitize_path($data['payment_gw']);
+            if (isset($data['payment_provider']) and $data['payment_provider'] != '') {
+                $data['payment_provider'] = xss_clean($data['payment_provider']);
             }
 
 
             $custom_order_id = $this->app->option_manager->get('custom_order_id', 'shop');
             $posted_fields = array();
             $place_order = array();
-            $place_order['id'] = false;
+            //$place_order['id'] = false;
 
             $return_url_after = '';
             $return_to_ref = false;
@@ -415,19 +453,16 @@ class CheckoutManager
 
                 if (!$this->app->cart_manager->couponCodeCheckIfValid($coupon_code)) {
                     //check if coupon is valid
-                    if(function_exists('coupons_delete_session')){
+                    if (function_exists('coupons_delete_session')) {
                         coupons_delete_session();
                     }
 
                     $place_order['promo_code'] = '';
-                    $place_order['coupon_id'] ='';
+                    $place_order['coupon_id'] = '';
                     $place_order['discount_type'] = '';
-                    $place_order['discount_value'] ='';
+                    $place_order['discount_value'] = '';
                 }
             }
-
-
-
 
 
             $amount = $this->app->shop_manager->cart_total();
@@ -442,7 +477,7 @@ class CheckoutManager
             }
 
 
-            if ($amount  ) {
+            if ($amount) {
                 $amount = floatval($amount);
                 $amount = number_format($amount, 2, ".", "");
                 $amount = floatval($amount);
@@ -450,7 +485,7 @@ class CheckoutManager
 
             $place_order['amount'] = $amount;
 
-          //  $place_order['allow_html'] = true;
+            //  $place_order['allow_html'] = true;
             $place_order['currency'] = $this->app->option_manager->get('currency', 'payments');
             if (!$place_order['currency']) {
                 $place_order['currency'] = 'USD';
@@ -479,30 +514,28 @@ class CheckoutManager
                 $place_order['shipping'] = 0;
             }
 
-            $temp_order = $this->app->database_manager->save($table_orders, $place_order);
-            if ($temp_order != false) {
-                $place_order['id'] = $temp_order;
-            } else {
-                $place_order['id'] = 0;
-            }
-
-            if ($custom_order_id != false) {
-                foreach ($place_order as $key => $value) {
-                    $custom_order_id = str_ireplace('{' . $key . '}', $value, $custom_order_id);
-                }
-
-                $custom_order_id = str_ireplace('{YYYYMMDD}', date('Ymd'), $custom_order_id);
-                $custom_order_id = str_ireplace('{date}', date('Y-m-d'), $custom_order_id);
-            }
-
-            if ($custom_order_id != false) {
-                $place_order['item_name'] = 'Order id:' . ' ' . $custom_order_id;
-                $place_order['order_id'] = $custom_order_id;
-            } else {
-                $place_order['item_name'] = 'Order id:' . ' ' . $place_order['id'];
-            }
-
-
+//            $temp_order = $this->app->database_manager->save($table_orders, $place_order);
+//            if ($temp_order != false) {
+//                $place_order['id'] = $temp_order;
+//            } else {
+//                $place_order['id'] = 0;
+//            }
+//
+//            if ($custom_order_id != false) {
+//                foreach ($place_order as $key => $value) {
+//                    $custom_order_id = str_ireplace('{' . $key . '}', $value, $custom_order_id);
+//                }
+//
+//                $custom_order_id = str_ireplace('{YYYYMMDD}', date('Ymd'), $custom_order_id);
+//                $custom_order_id = str_ireplace('{date}', date('Y-m-d'), $custom_order_id);
+//            }
+//
+//            if ($custom_order_id != false) {
+//                $place_order['item_name'] = 'Order id:' . ' ' . $custom_order_id;
+//                $place_order['order_id'] = $custom_order_id;
+//            } else {
+//                $place_order['item_name'] = 'Order id:' . ' ' . $place_order['id'];
+//            }
 
 
             // convert currency to payment provider currency
@@ -510,18 +543,18 @@ class CheckoutManager
             $currencyCode = strtoupper($place_order['currency']);
             $amount = $place_order['amount'];
 
-            if (!isset($place_order['payment_amount'])) {
-                $place_order['payment_amount'] = $amount;
-            }
+//            if (!isset($place_order['payment_amount'])) {
+//                $place_order['payment_amount'] = $amount;
+//            }
             $place_order['payment_shipping'] = $place_order['shipping'];
 
 
             $payment_currency = get_option('payment_currency', 'payments');
             $payment_currency_rate = get_option('payment_currency_rate', 'payments');
 
-            if (!isset($place_order['payment_currency'])) {
-                $place_order['payment_currency'] = $place_order['currency'];
-            }
+//            if (!isset($place_order['payment_currency'])) {
+//                $place_order['payment_currency'] = $place_order['currency'];
+//            }
 
             if ($payment_currency and $payment_currency != $currencyCode) {
 
@@ -545,87 +578,115 @@ class CheckoutManager
 
                     if ($place_order['payment_shipping']) {
                         $place_order['payment_shipping'] = $place_order['payment_shipping'] * $payment_currency_rate;
-
                     }
-
 
                 }
             }
 
 
             $place_order['payment_currency'] = $currencyCode;
+            $place_order['order_id'] = 'ORD-' . time() . '-' . uniqid();
 
 
             // end of convert for curency
 
 
             if ($mw_process_payment == true) {
-                $shop_dir = module_dir('shop');
-                $shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
+                // $shop_dir = module_dir('shop');
+                //$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
 
-                if ($data['payment_gw'] != 'none') {
-                    $place_order['posted_fields']  = $posted_fields;
+                if ($data['payment_provider'] != 'none') {
+                    $place_order['posted_fields'] = $posted_fields;
 
                     $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key') . $place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
 
-                    $vkey_data = array();
 
-                    $vkey_data['payment_verify_token'] = $place_order['payment_verify_token'];
+                    $vkey_data = $place_order['payment_verify_token'];
 
-                    $enc_key_hash = md5(json_encode($vkey_data));
+                    $enc_key_hash = md5($vkey_data);
                     $enc_key_hash = $encrypter->encrypt($enc_key_hash);
 
-                    $mw_return_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_success=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
-                    $vkey_data_temp = $vkey_data;
+                    $mw_return_url = route('checkout.payment.return') . '?mw_payment_success=1&order_id=' . $place_order['order_id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
 
 
-                    $mw_cancel_url = $this->app->url_manager->api_link('checkout') . '?mw_payment_failure=1&order_id=' . $place_order['id'] . '&payment_gw=' . $place_order['payment_gw'] . '&_vkey_url=' . $enc_key_hash . '&recart=' . $sid . $return_url_after;
-                    $vkey_data_temp = $vkey_data;
+                    $mw_cancel_url = route('checkout.payment.cancel') . '?mw_payment_failure=1&order_id=' . $place_order['order_id'] . '&payment_verify_token=' . $enc_key_hash . '&recart=' . $sid . $return_url_after;
 
-
-                    $mw_ipn_url = $this->app->url_manager->api_link('checkout_ipn') . '?payment_gw=' . $place_order['payment_gw'] . '&order_id=' . $place_order['id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
-                    $vkey_data_temp = $vkey_data;
+                    $mw_ipn_url = route('checkout.payment.notify') . '?order_id=' . $place_order['order_id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
 
 
                     $mw_payment_fields = array();
-                    $mw_payment_fields['enc_key_hash']  = $enc_key_hash;
-                    $mw_payment_fields['mw_return_url']  = $mw_return_url;
-                    $mw_payment_fields['mw_cancel_url']  = $mw_cancel_url;
-                    $mw_payment_fields['mw_ipn_url']  = $mw_ipn_url;
+                    $mw_payment_fields['enc_key_hash'] = $enc_key_hash;
+                    $mw_payment_fields['mw_return_url'] = $mw_return_url;
+                    $mw_payment_fields['mw_cancel_url'] = $mw_cancel_url;
+                    $mw_payment_fields['mw_ipn_url'] = $mw_ipn_url;
 
-                    $place_order['mw_payment_fields']  = $mw_payment_fields;
-                    $place_order['posted_data']  = $data;
+                    $place_order['mw_payment_fields'] = $mw_payment_fields;
+                    $place_order['posted_data'] = $data;
+                    $place_order['returnUrl'] = $mw_return_url;
+                    $place_order['cancelUrl'] = $mw_cancel_url;
+                    $place_order['notifyUrl'] = $mw_ipn_url;
+                    // $place_order['transaction_id'] = $place_order['id'];
 
-                    $paymentDriver = app()->payment_manager->driver($data['payment_gw']);
-                    $skipLegacy = false;
-                    if(method_exists($paymentDriver, 'process')){
-                        $skipLegacy = true;
-                        $place_order =  $paymentDriver->process($place_order);
+
+                    $gatewayResponse = [];
+                    $gw_check = app()->payment_method_manager->getProvider($data['payment_provider']);
+
+                    if ($gw_check) {
+                        /* @var AbstractPaymentMethod $gatewayResponse */
+                        $gatewayResponse = app()->payment_method_manager->process($data['payment_provider'], $place_order);
+
+                    } else {
+                        $checkout_errors['payment_provider'] = 'No such payment gateway is activated';
+                    }
+                    if (isset($gatewayResponse['success']) and $gatewayResponse['success'] == true) {
+                        $place_order['order_completed'] = 1;
+                        $place_order['is_paid'] = 0;
+                        $place_order['success'] = 'Your order has been placed successfully!';
+                    }
+                    if (isset($gatewayResponse['success']) and $gatewayResponse['success'] == false) {
+                        $place_order['order_completed'] = 0;
+                        $place_order['is_paid'] = 0;
+                        $place_order['error'] = $gatewayResponse['error'] ?? 'An error occurred while processing the payment';
+                    }
+                    if (isset($gatewayResponse['redirectUrl']) and $gatewayResponse['redirectUrl']) {
+                        $place_order['redirect'] = $gatewayResponse['redirectUrl'];
+                    }
+                    if (isset($gatewayResponse['transactionId']) and $gatewayResponse['transactionId']) {
+                        $place_order['transaction_id'] = $gatewayResponse['transactionId'];
                     }
 
 
-
-                    if ($skipLegacy == false) {
-                        $place_order['payment_gw'] = $data['payment_gw'];
-                        $gw_process = modules_path() . $data['payment_gw'] . '_process.php';
-                        if (!is_file($gw_process)) {
-                            $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'process.php', false);
-                        }
-
-
-                        if (is_file($gw_process)) {
-                            require_once $gw_process;
-                        } else {
-                            $checkout_errors['payment_gw'] = 'Payment gateway\'s process file not found.';
-                        }
-                    }
+                    //
+//                    $paymentDriver = app()->payment_manager->driver($data['payment_provider']);
+//                    $skipLegacy = false;
+//                    if (method_exists($paymentDriver, 'process')) {
+//                        $skipLegacy = true;
+//                        $place_order = $paymentDriver->process($place_order);
+//                    }
+//
+//
+//                    if ($skipLegacy == false) {
+//                        $place_order['payment_provider'] = $data['payment_provider'];
+//                        $gw_process = modules_path() . $data['payment_provider'] . '_process.php';
+//                        if (!is_file($gw_process)) {
+//                            $gw_process = normalize_path(modules_path() . $data['payment_provider'] . DS . 'process.php', false);
+//                        }
+//
+//
+//                        if (is_file($gw_process)) {
+//                            require_once $gw_process;
+//                        } else {
+//                            $checkout_errors['payment_provider'] = 'Payment gateway\'s process file not found.';
+//                        }
+//                    }
 
                     if (isset($place_order['posted_fields'])) {
                         unset($place_order['posted_fields']);
                     }
                     if (isset($place_order['mw_payment_fields'])) {
                         unset($place_order['mw_payment_fields']);
-                    } if (isset($place_order['posted_data'])) {
+                    }
+                    if (isset($place_order['posted_data'])) {
                         unset($place_order['posted_data']);
                     }
 
@@ -687,11 +748,12 @@ class CheckoutManager
                          ]);
                      }*/
 
+
                 $ord = $this->app->shop_manager->place_order($place_order);
                 $place_order['id'] = $ord;
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid']) {
-                    $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $place_order);
+                    //            $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $place_order);
                 }
 
 
@@ -740,9 +802,9 @@ class CheckoutManager
         if (!$checkout_session2) {
             $checkout_session2 = [];
         }
-        $checkout_session = array_merge($checkout_session,$checkout_session2);
+        $checkout_session = array_merge($checkout_session, $checkout_session2);
         $user_fields_from_profile = ['email', 'last_name', 'first_name', 'phone', 'username', 'middle_name'];
-        $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_gw'];
+        $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_provider'];
 
         $all_field_keys = array_merge($user_fields_from_profile, $shipping_fields_keys);
 
@@ -801,7 +863,7 @@ class CheckoutManager
 
     public function payment_options($option_key = false)
     {
-        if($option_key){
+        if ($option_key) {
             return app()->payment_method_manager->getProvider($option_key);
         }
         return app()->payment_method_manager->getProviders();
@@ -815,7 +877,7 @@ class CheckoutManager
 //      //  $providers = $this->app->option_repository->getByParams('group=payments' . $option_key_q);
 //
 //        $payment_modules = get_modules('type=payment_gateway');
-//        $str = 'payment_gw_';
+//        $str = 'payment_provider_';
 //        $l = strlen($str);
 //        $enabled_providers = array();
 //        if (!empty($payment_modules) and !empty($providers)) {
@@ -842,7 +904,7 @@ class CheckoutManager
 //        }
 //
 //        // the rest is for comaptibily and will be removed in the near future
-//        $str = 'payment_gw_';
+//        $str = 'payment_provider_';
 //        $l = strlen($str);
 //        if (is_array($providers)) {
 //            $valid = array();
@@ -1095,12 +1157,12 @@ class CheckoutManager
         if (isset($data['payment_verify_token'])) {
             $payment_verify_token = ($data['payment_verify_token']);
         }
-        if (!isset($data['payment_gw'])) {
+        if (!isset($data['payment_provider'])) {
             return array('error' => 'You must provide a payment gateway parameter!');
         }
 
 
-        $data['payment_gw'] = sanitize_path($data['payment_gw']);
+        $data['payment_provider'] = sanitize_path($data['payment_provider']);
 
         $should_mark_as_paid = false;
 
@@ -1134,13 +1196,13 @@ class CheckoutManager
         $cart_table = 'cart';
         $table_orders = 'cart_orders';
 
-        $data['payment_gw'] = sanitize_path($data['payment_gw']);
-        $gw_process = modules_path() . $data['payment_gw'] . '_checkout_ipn.php';
+        $data['payment_provider'] = sanitize_path($data['payment_provider']);
+        $gw_process = modules_path() . $data['payment_provider'] . '_checkout_ipn.php';
         if (!is_file($gw_process)) {
-            $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'checkout_ipn.php', false);
+            $gw_process = normalize_path(modules_path() . $data['payment_provider'] . DS . 'checkout_ipn.php', false);
         }
         if (!is_file($gw_process)) {
-            $gw_process = normalize_path(modules_path() . $data['payment_gw'] . DS . 'notify.php', false);
+            $gw_process = normalize_path(modules_path() . $data['payment_provider'] . DS . 'notify.php', false);
         }
 
 
@@ -1176,7 +1238,7 @@ class CheckoutManager
 
 
             //            $update_order_event_data['id'] = $ord;
-//            $update_order_event_data['payment_gw'] = $data['payment_gw'];
+//            $update_order_event_data['payment_provider'] = $data['payment_provider'];
 //            $ord = $this->app->database_manager->save($table_orders, $update_order_event_data);
 //
 //
@@ -1300,7 +1362,6 @@ class CheckoutManager
         }
 
 
-
         $vkey = false;
 
         if (isset($_REQUEST['_vkey_url'])) {
@@ -1329,8 +1390,8 @@ class CheckoutManager
             $error = true;
         }
         $order_data = false;
-        if(!$error and isset($data['id'])){
-        $order_data = get_order_by_id($data['id']);
+        if (!$error and isset($data['id'])) {
+            $order_data = get_order_by_id($data['id']);
         }
 
         if ($order_data and $vkey) {

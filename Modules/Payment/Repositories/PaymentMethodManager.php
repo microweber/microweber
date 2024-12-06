@@ -3,6 +3,7 @@
 namespace Modules\Payment\Repositories;
 
 use Illuminate\Support\Manager;
+use Modules\Order\Models\Order;
 use Modules\Payment\Drivers\AbstractPaymentMethod;
 use Modules\Payment\Models\PaymentProvider;
 
@@ -94,6 +95,36 @@ class PaymentMethodManager extends Manager
         $driver = $this->driver($provider);
         if ($driver) {
             return $driver->getForm();
+        }
+    }
+
+    public function process($provider, $data): array|null
+    {
+        if (!$provider) {
+            return null;
+        }
+        if (!$this->driverExists($provider)) {
+            return null;
+        }
+        /* @var AbstractPaymentMethod $driver */
+        $driver = $this->driver($provider);
+        if ($driver) {
+            return $driver->process($data);
+        }
+    }
+
+    public function verifyPayment($provider, $data): bool
+    {
+        if (!$provider) {
+            return false;
+        }
+        if (!$this->driverExists($provider)) {
+            return false;
+        }
+        /* @var AbstractPaymentMethod $driver */
+        $driver = $this->driver($provider);
+        if ($driver) {
+            return $driver->verifyPayment($data);
         }
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +15,6 @@ return new class extends Migration {
             $table->id();
             $table->string('order_id')->nullable();
             $table->float('amount')->nullable();
-            $table->longText('transaction_id')->nullable();
             $table->longText('shipping_service')->nullable();
             $table->float('shipping')->nullable();
             $table->string('currency')->nullable();
@@ -41,26 +39,6 @@ return new class extends Migration {
             $table->string('user_ip')->nullable();
             $table->integer('items_count')->nullable();
             $table->longText('custom_fields_data')->nullable();
-            $table->string('payment_gw')->nullable();
-            $table->string('payment_verify_token')->nullable();
-            $table->float('payment_amount')->nullable();
-            $table->string('payment_currency')->nullable();
-            $table->string('payment_status')->nullable();
-            $table->text('payment_email')->nullable();
-            $table->text('payment_receiver_email')->nullable();
-            $table->text('payment_name')->nullable();
-            $table->text('payment_country')->nullable();
-            $table->text('payment_address')->nullable();
-            $table->text('payment_city')->nullable();
-            $table->string('payment_state')->nullable();
-            $table->string('payment_zip')->nullable();
-            $table->string('payment_phone')->nullable();
-            $table->text('payer_id')->nullable();
-            $table->text('payer_status')->nullable();
-            $table->text('payment_type')->nullable();
-            $table->longText('payment_data')->nullable();
-            $table->string('order_status')->nullable();
-            $table->float('payment_shipping')->nullable();;
             $table->integer('is_active')->nullable();
             $table->integer('rel_id')->nullable();
             $table->string('rel_type')->nullable();
@@ -72,17 +50,30 @@ return new class extends Migration {
             $table->string('discount_type')->nullable();
             $table->float('discount_value')->nullable();
             $table->float('taxes_amount')->nullable();
+
+            // Payment-related columns
+            $table->longText('transaction_id')->nullable();
+            $table->string('payment_provider')->nullable();
+            $table->string('payment_provider_id')->nullable();
+            $table->string('payment_verify_token')->nullable();
+            $table->float('payment_amount')->nullable();
+            $table->string('payment_currency')->nullable();
+            $table->string('payment_status')->nullable();
+
+            $table->longText('payment_data')->nullable();
+            $table->float('payment_shipping')->nullable();
+
+
+            // Timestamps
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
+
+
+
 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('cart_orders');

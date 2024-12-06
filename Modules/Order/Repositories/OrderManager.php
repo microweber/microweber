@@ -11,7 +11,8 @@
 
 namespace Modules\Order\Repositories;
 
-use DB;
+
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\User\Models\User;
 use Modules\Order\Events\OrderIsCreating;
@@ -59,7 +60,7 @@ class OrderManager
         $params['table'] = $table;
         $params['no_cache'] = true;
 
-        $data =  $this->app->database_manager->get($params);
+        $data = $this->app->database_manager->get($params);
 
 
         return $data;
@@ -85,10 +86,11 @@ class OrderManager
 
         return $item;
     }
+
     public function get_count_of_new_orders()
     {
 
-        $count  = Order::where('order_status', 'new')->where('order_completed',1)->count('id');
+        $count = Order::where('order_status', 'new')->where('order_completed', 1)->count('id');
 
         return $count;
 
@@ -108,7 +110,7 @@ class OrderManager
         if (defined('MW_API_CALL') and $adm == false) {
             return $this->app->error('Not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $table =  'cart_orders';
+        $table = 'cart_orders';
         if (!is_array($data)) {
             $data = array('id' => intval($data));
         }
@@ -126,18 +128,24 @@ class OrderManager
         }
     }
 
+    public function create($place_order = array())
+    {
+        return $this->place_order($place_order);
+    }
+
     public function place_order($place_order = array())
     {
         $sid = mw()->user_manager->session_id();
         if ($sid == false) {
-            return $sid;
+            return;
         }
+
         if (empty($place_order)) {
             return;
         }
         array_walk_recursive(
             $place_order,
-            function(&$string) {
+            function (&$string) {
                 if (is_string($string)) {
                     $string = trim(strip_tags($string));
                 }
@@ -151,12 +159,11 @@ class OrderManager
             unset($place_order['is_paid']);
             $should_mark_as_paid = true;
         }
+
         $ord = $this->app->database_manager->save('cart_orders', $place_order);
         $place_order['id'] = $ord;
 
         $orderModel = Order::find($ord);
-
-
 
 
         //get client
@@ -170,11 +177,15 @@ class OrderManager
 //
 //            }
 //        }
-        DB::transaction(function () use ($sid, $ord, $place_order,$should_mark_as_paid) {
+
+
+
+
+        DB::transaction(function () use ($sid, $ord, $place_order, $should_mark_as_paid) {
 
             DB::table('cart')->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
 
-            $this->app->event_manager->trigger('mw.cart.checkout.recarted_order', $ord);
+           // $this->app->event_manager->trigger('mw.cart.checkout.recarted_order', $ord);
 
             if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
                 DB::table('cart')->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord, 'order_completed' => 1]);
@@ -189,12 +200,12 @@ class OrderManager
 
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                  //  $this->app->shop_manager->update_quantities($ord);
+                    //  $this->app->shop_manager->update_quantities($ord);
 
                     event($event = new OrderWasPaid(Order::find($ord), $place_order));
                 }
 
-                if($should_mark_as_paid){
+                if ($should_mark_as_paid) {
                     $this->app->checkout_manager->mark_order_as_paid($ord);
                 }
 
@@ -235,8 +246,8 @@ class OrderManager
 
 
         if (isset($params['payment_data']) and !empty($params['payment_data'])) {
-            if(is_array($params['payment_data'])){
-               $params['payment_data'] = json_encode($params['payment_data']);
+            if (is_array($params['payment_data'])) {
+                $params['payment_data'] = json_encode($params['payment_data']);
             }
         }
         $table = 'cart_orders';
@@ -251,7 +262,7 @@ class OrderManager
     public function export_orders()
     {
         if (isset($_POST['id'])) {
-            $data = get_orders('no_limit=true&id='. intval($_POST['id']));
+            $data = get_orders('no_limit=true&id=' . intval($_POST['id']));
         } else {
             $data = get_orders('no_limit=true&order_completed=1');
         }
@@ -327,12 +338,12 @@ class OrderManager
     public function update_quantities($order_id = false)
     {
 
-       // dd('update_quantities',123123123154555555,$order_id);
+        // dd('update_quantities',123123123154555555,$order_id);
         $order_id = intval($order_id);
         if ($order_id == false) {
             return;
         }
-        $res =  array();
+        $res = array();
         $ord_data = $this->get_by_id($order_id);
 
         $cart_data = $this->get_items($order_id);
@@ -367,7 +378,7 @@ class OrderManager
             $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
             if ($notify) {
                 $notifiables = User::whereIsAdmin(1)->get();
-                if($notifiables){
+                if ($notifiables) {
                     $product = Product::find($item['rel_id']);
                     if ($product) {
                         Notification::send($notifiables, new ProductOutOfStockNotification($product));
@@ -378,7 +389,6 @@ class OrderManager
 
         return $res;
     }
-
 
 
 }

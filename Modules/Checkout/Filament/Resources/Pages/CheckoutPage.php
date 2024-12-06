@@ -27,6 +27,15 @@ class CheckoutPage extends CreateRecord
 
     public function mount(): void
     {
+
+
+        $order_id = app()->user_manager->session_get('order_id');
+        $cart = get_cart();
+        if (!$cart and $order_id) {
+
+            app()->cart_manager->recover_cart($order_id);
+        }
+
         $this->form->fill();
     }
 
@@ -52,17 +61,14 @@ class CheckoutPage extends CreateRecord
             Event::dispatch('checkout.payment.before');
 
             // Create order
-            $order = app()->order_manager->create([
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'address' => $data['address'],
-                'city' => $data['city'],
-                'state' => $data['state'],
-                'postal_code' => $data['postal_code'],
-                'country' => $data['country'],
-            ]);
+            $order = app()->checkout_manager->checkout($data);
+
+            if (isset($order['redirect'])) {
+                return redirect()->to($order['redirect']);
+            }
+
+            dd('Create order no redirect to payment', $order);
+
 
             Event::dispatch('checkout.payment.after', ['order' => $order]);
 

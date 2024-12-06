@@ -1,6 +1,7 @@
 <?php
 
 namespace Modules\Payment\Drivers;
+
 use Modules\Payment\Models\PaymentProvider;
 
 abstract class AbstractPaymentMethod
@@ -13,14 +14,20 @@ abstract class AbstractPaymentMethod
     }
 
 
-
-    public function getModel() : PaymentProvider | null
+    public function getModel(): PaymentProvider|null
     {
-        return  PaymentProvider::query()->where('provider', $this->provider)->first();
+        return PaymentProvider::query()->where('provider', $this->provider)->first();
+    }
+
+    public function getModelId(): int|null
+    {
+        $model = $this->getModel();
+        return $model?->id;
     }
 
     public function process($data = [])
     {
+
         return [];
     }
 
@@ -28,9 +35,15 @@ abstract class AbstractPaymentMethod
     {
         return [];
     }
+
     public function getForm(): array
     {
         return [];
+    }
+
+    public function verifyPayment(array $data): bool
+    {
+        return false;
     }
 
 

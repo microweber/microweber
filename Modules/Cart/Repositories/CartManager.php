@@ -52,6 +52,12 @@ class CartManager extends Crud
 
     }
 
+    public function getTotal()
+    {
+        return $this->sum();
+
+    }
+
     public function totals($return = 'all')
     {
         $all_totals = array('subtotal', 'shipping', 'tax', 'discount', 'total');
@@ -304,6 +310,7 @@ class CartManager extends Crud
         if (isset($params['count']) and $params['count'] != false) {
             return $get;
         }
+
         $return = array();
         if (is_array($get)) {
             foreach ($get as $k => $item) {
@@ -361,8 +368,11 @@ class CartManager extends Crud
         } else {
             $return = $get;
         }
+        if ($return) {
+            return $return;
+        }
 
-        return $return;
+        return [];
     }
 
     public function get_by_order_id($order_id = false)
@@ -1107,7 +1117,7 @@ class CartManager extends Crud
                 $cart_return['image'] = $this->app->media_manager->get_picture($cart['rel_id']);
                 $cart_return['product_link'] = $this->app->content_manager->link($cart['rel_id']);
                 $cart_return['content_id'] = ($cart['rel_id']);
-             }
+            }
             $cart_return['cart_item_id'] = $findCart->id;
 
             $cart_sum = $this->sum(true);
@@ -1132,23 +1142,21 @@ class CartManager extends Crud
         }
     }
 
-    public function recover_cart($sid = false, $ord_id = false)
+    public function recover_cart( $ord_id = false)
     {
-        if ($sid == false) {
-            return;
-        }
-        $cur_sid = mw()->user_manager->session_id();
+
+         $cur_sid = mw()->user_manager->session_id();
         if ($cur_sid == false) {
             return;
         } else {
 
 
             if ($cur_sid != false) {
-                $c_id = $sid;
+             //   $c_id = $sid;
                 $table = 'cart';
                 $params = array();
                 //   $params['order_completed'] = 0;
-                $params['session_id'] = $c_id;
+              //  $params['session_id'] = $c_id;
                 $params['table'] = $table;
                 if ($ord_id != false) {
                     unset($params['order_completed']);
@@ -1191,14 +1199,16 @@ class CartManager extends Crud
                             $data['session_id'] = $cur_sid;
 
                             if (isset($item['order_completed']) and intval($item['order_completed']) == 1) {
-                                if ($sid == $cur_sid) {
-                                    if (isset($item['is_paid']) and intval($item['is_paid']) == 0) {
-                                        $data['id'] = $item['id'];
-                                    }
-                                }
+                                //if ($sid == $cur_sid) {
+                                   // if (isset($item['is_paid']) and intval($item['is_paid']) == 0) {
+
+                                 //   }
+                             //   }
+                                $data['id'] = $item['id'];
+                                $s = $this->app->database_manager->save($table, $data);
+
                             }
                             if ($will_add == true) {
-                                $s = $this->app->database_manager->save($table, $data);
                             }
                         }
                     }
@@ -1278,9 +1288,8 @@ class CartManager extends Crud
         $cartItem = Cart::where('id', $cartItemId)->first();
 
         if ($cartItem) {
-            if($cartItem->rel_type == morph_name(\Modules\Content\Models\Content::class)
-            or ($cartItem->rel_type == 'content'))
-            {
+            if ($cartItem->rel_type == morph_name(\Modules\Content\Models\Content::class)
+                or ($cartItem->rel_type == 'content')) {
 
                 return $this->app->media_manager->get_picture($cartItem->rel_id);
             }

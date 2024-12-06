@@ -55,7 +55,9 @@ class PaymentManager extends Manager
             return new NoPaymentProvider();
         }
     }
-
+    /**
+     * @deprecated  use PaymentMethodManager
+     */
     public function createDefaultDriver()
     {
         return $this->getDefaultDriver();
@@ -70,11 +72,16 @@ class PaymentManager extends Manager
      *
      * @throws \InvalidArgumentException
      */
+    /**
+     * @deprecated  use PaymentMethodManager
+     */
     public function driver($driver = 'default')
     {
         return parent::driver($driver);
     }
-
+    /**
+     * @deprecated  use PaymentMethodManager
+     */
     public function getPaymentProviderModule($driver = 'default')
     {
         $modules = $this->getPaymentModules();
@@ -82,7 +89,9 @@ class PaymentManager extends Manager
             return $modules[$driver];
         }
     }
-
+    /**
+     * @deprecated  use PaymentMethodManager
+     */
     public function hasPaymentProvider($driver = 'default')
     {
 

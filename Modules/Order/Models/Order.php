@@ -26,25 +26,19 @@ class Order extends Model
 {
     use Notifiable;
     use Filterable;
-   // use PowerJoins;
+
+    // use PowerJoins;
     use SoftDeletes;
 
     use HasCartItems;
 
     public $table = 'cart_orders';
     public $fillable = [
-        'id',
-        'order_id',
-        'customer_id',
+
         'email',
         'first_name',
         'last_name',
         'country',
-        'amount',
-        'payment_amount',
-        'transaction_id',
-        'order_completed',
-        'is_paid',
         'city',
         'state',
         'zip',
@@ -52,11 +46,6 @@ class Order extends Model
         'address2',
         'other_info',
         'phone',
-        'user_ip',
-        'is_completed',
-        'payment_gw',
-        'order_status',
-        'deleted_at'
     ];
 
     protected $searchable = [
@@ -72,37 +61,37 @@ class Order extends Model
     {
         parent::boot();
 
-        static::created(function ($model) {
-            $model->calculateNewAmounts();
-        });
-        static::updated(function ($model) {
-            $model->calculateNewAmounts();
-        });
+//        static::created(function ($model) {
+//            $model->calculateNewAmounts();
+//        });
+//        static::updated(function ($model) {
+//            $model->calculateNewAmounts();
+//        });
 
     }
 
-    public function calculateNewAmounts()
-    {
-        $paymentAmount = 0;
-        $amount = 0;
-//        $cart = $this->cart;
-//        if ($cart) {
-//            foreach ($cart as $cartItem) {
-//                $amount += $cartItem->price * $cartItem->qty;
+//    public function calculateNewAmounts()
+//    {
+//        $paymentAmount = 0;
+//        $amount = 0;
+////        $cart = $this->cart;
+////        if ($cart) {
+////            foreach ($cart as $cartItem) {
+////                $amount += $cartItem->price * $cartItem->qty;
+////            }
+////        }
+//
+//        $payments = $this->payments()->where('status', PaymentStatus::Completed)->get();
+//        if ($payments) {
+//            foreach ($payments as $payment) {
+//                $paymentAmount += $payment->amount;
 //            }
 //        }
-
-        $payments = $this->payments()->where('status', PaymentStatus::Completed)->get();
-        if ($payments) {
-            foreach ($payments as $payment) {
-                $paymentAmount += $payment->amount;
-            }
-        }
-
-        $this->payment_amount = $paymentAmount;
-        $this->amount = $amount;
-        $this->saveQuietly();
-    }
+//
+//        $this->payment_amount = $paymentAmount;
+//        $this->amount = $amount;
+//        $this->saveQuietly();
+//    }
 
     public function modelFilter()
     {
@@ -175,7 +164,6 @@ class Order extends Model
 
         return 'Anonymous';
     }
-
 
 
     public function thumbnail($width = 100, $height = 100)

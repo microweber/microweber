@@ -19,7 +19,6 @@ class CartServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
 
-
     }
 
     /**
