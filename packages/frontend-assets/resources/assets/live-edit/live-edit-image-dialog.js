@@ -77,7 +77,9 @@ const editImage = (url, target, dialog) => {
                 'bg-primary-active': 'rgb(15 23 42)',
                 'accent-primary':   'white',
                 'accent-primary-active':   'white',
-                'light-shadow': 'red',
+                'bg-primary-stateles':   'white',
+                'bg-primary-0-5-opacity':   'lime',
+
               /* 'icons-primary': : '....',
               'icons-secondary': : '....',
               'borders-secondary': : '....',

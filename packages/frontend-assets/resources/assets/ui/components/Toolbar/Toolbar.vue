@@ -94,14 +94,27 @@ html.preview .back-to-edit{
                             {{ menuItem.title }}
 
                         </a>
-                        <a v-on:click="this.toggleDarkMode()">
-                            <span>
-                            <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 96 960 960" width="36">
-                                <path
-                                    d="M480 936q-150 0-255-105T120 576q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444 396q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
-                            </svg>
+
+                        <a  v-on:click="toggleDarkMode()"  >
+
+
+                            <span   v-if="theme === 'dark'">
+                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 96 960 960" width="36">
+                                    <path
+                                        d="M480 936q-150 0-255-105T120 576q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444 396q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+                                </svg>
+                                Dark mode
                             </span>
-                            Dark mode
+                            <span v-if="theme === 'light'">
+                                <svg height="36"  width="36"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+                                    <path d="M10 2a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 2ZM10 15a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 15ZM10 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6ZM15.657 5.404a.75.75 0 1 0-1.06-1.06l-1.061 1.06a.75.75 0 0 0 1.06 1.06l1.06-1.06ZM6.464 14.596a.75.75 0 1 0-1.06-1.06l-1.06 1.06a.75.75 0 0 0 1.06 1.06l1.06-1.06ZM18 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 18 10ZM5 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 5 10ZM14.596 15.657a.75.75 0 0 0 1.06-1.06l-1.06-1.061a.75.75 0 1 0-1.06 1.06l1.06 1.06ZM5.404 6.464a.75.75 0 0 0 1.06-1.06l-1.06-1.06a.75.75 0 1 0-1.061 1.06l1.06 1.06Z"></path>
+                                </svg>
+                                Light mode
+                            </span>
+
+
+
+
                         </a>
                     </nav>
                 </div>
@@ -148,33 +161,10 @@ export default {
                 instance.menu = response.data;
             });
         },
-        toggleDarkMode: () => {
-            var is_dark = $("body").hasClass('theme-dark');
-            if (!is_dark) {
-                mw.cookie.set('admin_theme_dark', 'true');
+        toggleDarkMode(){
+                mw.top().admin.theme.toggle();
 
-            } else {
-
-                mw.cookie.delete('admin_theme_dark');
-            }
-            var canvasWindow = mw.top().app.canvas.getWindow();
-            mw.tools.eachWindow(function () {
-                if(this.mw && this !== canvasWindow ){
-                    console.log(this.document.body)
-                    if (!is_dark) {
-                        $("body", this.document).addClass('theme-dark')
-                        $("#navbar-change-theme-icon-dark", this.document).show()
-                        $("#navbar-change-theme-icon-light", this.document).hide()
-                    } else {
-                        $("body", this.document).removeClass('theme-dark')
-                        $("#navbar-change-theme-icon-light", this.document).show()
-                        $("#navbar-change-theme-icon-dark", this.document).hide()
-                    }
-                }
-            })
-
-
-
+               //  this.theme = mw.top().admin.theme.getTheme();
 
         },
 
@@ -183,13 +173,21 @@ export default {
         return {
             menu: [],
             toolbarDisplay: 'none',
-            backToAdminLink: ''
+            backToAdminLink: '',
+            theme: window.mw.top().admin.theme.getTheme()
         }
     },
     mounted() {
 
         this.getTopRightMenu();
-        const userMenuWrapper = document.getElementById('user-menu-wrapper')
+        const userMenuWrapper = document.getElementById('user-menu-wrapper');
+
+        mw.top().admin.theme.on('change', () => {
+            this.theme = mw.top().admin.theme.getTheme();
+        })
+
+
+
 
         document.addEventListener('click', e => {
             if(!userMenuWrapper.contains(e.target)) {
