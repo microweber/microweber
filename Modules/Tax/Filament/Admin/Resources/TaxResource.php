@@ -20,6 +20,8 @@ class TaxResource extends Resource
 
     protected static ?string $navigationGroup = 'Shop';
     protected static ?string $modelLabel = 'Tax';
+    protected static ?int $navigationSort = 7;
+
 
     public static function form(Form $form): Form
     {
