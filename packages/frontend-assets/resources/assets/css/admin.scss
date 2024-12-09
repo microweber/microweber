@@ -1,22 +1,10 @@
  @use "./ui/dialog.scss";
  @use './scss/select.scss';
  @use './scss/control-box.scss';
+ @use './scss/image-editor.scss';
  @use './scss/filemanager.css';
  @use 'microweber/buttons.css';
  @use '../ui/apps/ElementStyleEditor/dom-tree.css';
 
- .FIE_topbar-save-wrapper, .FIE_topbar-close-button{
-    display: none !important;
-}
-
-
-html.dark{
-    .FIE_carousel-prev-button {
-        background: linear-gradient( 90deg,rgb(30 41 59) 1.56%,rgba(30, 41, 59, 0.89) 52.4%,rgba(30, 41, 59, 0.532) 76.04%,rgba(30, 41, 59, 0) 100% );
-    }
-    .FIE_carousel-next-button{
-        background: linear-gradient( 270deg,rgba(30, 41, 59,1) 1.56%,rgba(30, 41, 59,0.89) 52.4%,rgba(30, 41, 59,0.532165) 76.04%,rgba(30, 41, 59,0) 100% );
-    }
-}
 
 

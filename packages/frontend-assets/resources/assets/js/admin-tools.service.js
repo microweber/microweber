@@ -18,12 +18,18 @@ export class AdminColorThemeService extends MicroweberBaseClass {
         return this.isSystem() ? this.getSystem() : this.storage.getItem("theme");
     }
 
+
+
     set #theme (value) {
         if(value === this.#theme) {
             return;
         }
         this.storage.setItem("theme", value);
         this.dispatch('change')
+    }
+
+    getTheme() {
+        return this.#theme
     }
 
     setDark(){
@@ -62,6 +68,24 @@ export class AdminColorThemeService extends MicroweberBaseClass {
 
     isLight() {
         return  !this.isDark();
+    }
+}
+
+export class AdminFilamentColorThemeService extends AdminColorThemeService {
+    constructor(options) {
+        super(options);
+        this.#filamentSync();
+        this.on('change', () => this.#filamentSync());
+        window.addEventListener('load', () => this.#filamentSync());
+        document.addEventListener('DOMContentLoaded', () => this.#filamentSync());
+        window.addEventListener("storage", () => {
+            this.#filamentSync();
+            this.dispatch('change')
+        });
+    }
+    #filamentSync() {
+
+        document.documentElement?.classList[this.isDark() ? 'add' : 'remove']('dark');
     }
 }
 
