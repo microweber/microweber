@@ -135,7 +135,15 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyState(function (Table $table) {
+                $modelName = static::$model;
+
+                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
+
+            })
+
             ->columns([
+
 
                 Tables\Columns\TextColumn::make('created_at'),
 
@@ -175,6 +183,8 @@ class OrderResource extends Resource
                     ->label('Paid')
                     ->sortable()
                     ->toggleable(),
+
+
 
             ])
             ->filters([
