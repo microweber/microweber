@@ -100,23 +100,28 @@ class PaymentProviderResource extends Resource
                             ->columnSpanFull(),
                     ]),
                 Forms\Components\Wizard\Step::make('Settings')
-                    ->schema(function () use ($paymentDrivers, $form) {
+                    ->schema(function (Forms\Get $get) use ($paymentDrivers, $form) {
+
+                        $paymentDriver = $get('provider');
                         $schemas = [];
-                        foreach ($paymentDrivers as $paymentDriver) {
-                            $driver = app()->payment_method_manager->driver($paymentDriver);
+                        $driver = app()->payment_method_manager->driver($paymentDriver);
 
-                            /* @var \Modules\Payment\Drivers\AbstractPaymentMethod $driver */
+                        /* @var \Modules\Payment\Drivers\AbstractPaymentMethod $driver */
 
-                            if (is_object($driver) && method_exists($driver, 'getSettingsForm')) {
-                                $providerForm = $driver->getSettingsForm();
-                                if ($providerForm) {
-                                    foreach ($providerForm as $component) {
-                                        $component->columnSpanFull();
-                                    }
-                                    $schemas = array_merge($schemas, $providerForm);
+                        if (is_object($driver) && method_exists($driver, 'getSettingsForm')) {
+                            $providerForm = $driver->getSettingsForm();
+                            if ($providerForm) {
+                                foreach ($providerForm as $component) {
+                                    $component->columnSpanFull();
                                 }
+                                $schemas = array_merge($schemas, $providerForm);
                             }
                         }
+
+//
+//                        foreach ($paymentDrivers as $paymentDriver) {
+//
+//                        }
 
 
                         return $schemas;
