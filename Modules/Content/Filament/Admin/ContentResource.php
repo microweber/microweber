@@ -34,7 +34,7 @@ class ContentResource extends Resource
 
     protected static ?string $navigationGroup = 'Website';
 
-    //protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = false;
 
 
     public static function formArray($params = [])

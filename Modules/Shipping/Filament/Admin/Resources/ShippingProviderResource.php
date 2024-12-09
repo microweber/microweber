@@ -95,9 +95,12 @@ class ShippingProviderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyState(function (Table $table) {
+                $modelName = static::$model;
+                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
-            ->emptyStateHeading('No Shipping Providers')
-            ->emptyStateDescription('Add new shipping providers to your store.')
+            })
+
             ->columns([
 
                 Tables\Columns\TextColumn::make('id')
