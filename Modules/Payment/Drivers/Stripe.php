@@ -54,6 +54,9 @@ class Stripe extends AbstractPaymentMethod
 
     public function process($data = []): array
     {
+
+
+
         try {
             $model = $this->getModel();
             if (!$model || !$model->settings) {
@@ -76,7 +79,7 @@ class Stripe extends AbstractPaymentMethod
                 'mode' => 'payment',
 
             ])->send();
-
+dd($response);
             if ($response->isRedirect()) {
                 return [
                     'success' => true,

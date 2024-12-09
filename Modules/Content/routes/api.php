@@ -35,6 +35,10 @@ Route::name('api.')
             return save_edit($request->all());
         })->name('content.save_edit');
 
+        Route::any('get_content_admin', function (\Illuminate\Http\Request $request) {
+            return get_content_admin($request->all());
+        })->name('content.get_content_admin');
+
 
         Route::post('content/set_published', function (\Illuminate\Http\Request $request) {
             return app()->content_manager->set_published($request->all());
