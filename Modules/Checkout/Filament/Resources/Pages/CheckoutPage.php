@@ -67,6 +67,21 @@ class CheckoutPage extends CreateRecord
                 return redirect()->to($order['redirect']);
             }
 
+            if (isset($order['success'])) {
+
+                $success = $order['succes111s']??false;
+
+                if(!$success){
+                    Notification::make()
+                        ->title('Error processing order')
+                        ->body('Error processing order')
+                        ->danger()
+                        ->send();
+                    return redirect()->to('/checkout');
+                }
+
+            }
+
             dd('Create order no redirect to payment', $order);
 
 

@@ -113,13 +113,13 @@ class PaymentMethodManager extends Manager
         }
     }
 
-    public function verifyPayment($provider, $data): bool
+    public function verifyPayment($provider, $data): array
     {
         if (!$provider) {
-            return false;
+            return [];
         }
         if (!$this->driverExists($provider)) {
-            return false;
+            return [];
         }
         /* @var AbstractPaymentMethod $driver */
         $driver = $this->driver($provider);

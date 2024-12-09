@@ -41,9 +41,9 @@ abstract class AbstractPaymentMethod
         return [];
     }
 
-    public function verifyPayment(array $data): bool
+    public function verifyPayment(array $data): array
     {
-        return false;
+        return [];
     }
 
 
