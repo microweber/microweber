@@ -741,10 +741,9 @@ class ContentResource extends Resource
                     ? static::getGridTableColumns()
                     : static::getListTableColumns()
             )
-//            ->emptyState(view('modules.content::filament.admin.empty-state'))
             ->emptyState(function (Table $table) {
-               $modelName = self::$model;
-                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
+                $modelName = static::$model;
+                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
 
