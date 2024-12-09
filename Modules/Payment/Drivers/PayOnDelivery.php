@@ -24,8 +24,8 @@ class PayOnDelivery extends AbstractPaymentMethod
     {
         return [
             'success' => true,
-            // 'redirect' => route('checkout.success')
-        ];
+            'status' => 'pending',
+         ];
     }
 
     public function getForm(): array

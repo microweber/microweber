@@ -73,27 +73,15 @@ class Stripe extends AbstractPaymentMethod
                     'order_id' => $data['order_id'] ?? null,
                     'customer_email' => $data['email'] ?? null,
                 ],
-                //   'payment_method_types' => ['card'],
                 'mode' => 'payment',
-                'line_items' => [[
-                    'price_data' => [
-                        'currency' => $data['currency'] ?? 'USD',
-                        'unit_amount' => $data['amount'],
-                        'product_data' => [
-                            'name' => $data['description'] ?? 'Order Payment',
-                        ],
-                    ],
-                    'quantity' => 1,
-                ]],
+
             ])->send();
 
-            if ($response->isSuccessful()) {
-                $data = ($response->getData());
-
+            if ($response->isRedirect()) {
                 return [
                     'success' => true,
-                    'transactionId' => $data['id'],
-                    'redirectUrl' => $data['url'],
+                    'transactionId' => $response->getTransactionReference(),
+                    'redirectUrl' => $response->getRedirectUrl(),
                     'providerResponse' => $response->getData(),
                 ];
             } else {
@@ -108,33 +96,49 @@ class Stripe extends AbstractPaymentMethod
         }
     }
 
-    public function verifyPayment(array $data): bool
+    public function verifyPayment(array $data): array
     {
-
-
         try {
             $model = $this->getModel();
             if (!$model || !$model->settings) {
-                return false;
+                return [
+                    'success' => false,
+                    'message' => 'Stripe is not configured properly',
+                ];
             }
-           $transaction_id = $data['order']['transaction_id'] ?? null;
+
             $this->gateway->setApiKey($model->settings['secret_key']);
 
             // Retrieve the checkout session
             $response = $this->gateway->fetchTransaction([
-                'transactionReference' => $transaction_id
+                'transactionReference' => $data['session_id']
             ])->send();
 
             if ($response->isSuccessful()) {
                 $session = $response->getData();
-               
-                return $session['payment_status'] === 'paid';
+                if ($session['payment_status'] === 'paid') {
+                    return [
+                        'success' => true,
+                        'transactionId' => $session['id'],
+                        'amount' => $session['amount_total'],
+                        'currency' => $session['currency'],
+                        'status' => 'completed', // or 'pending'
+                        'providerResponse' => $session,
+                    ];
+                }
             }
 
-            return false;
+            return [
+                'success' => false,
+                'message' => $response->getMessage() ?? 'Payment verification failed',
+                'providerResponse' => $response->getData(),
+            ];
 
         } catch (\Exception $e) {
-            return false;
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
         }
     }
 }

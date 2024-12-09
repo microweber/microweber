@@ -26,7 +26,6 @@ class PayPal extends AbstractPaymentMethod
         $settings = $model->settings ?? [];
 
         try {
-
             /* @var $gateway \Omnipay\PayPal\ExpressGateway */
             $this->gateway = Omnipay::create('PayPal_Express');
 
@@ -66,10 +65,8 @@ class PayPal extends AbstractPaymentMethod
         }
     }
 
-    public function verifyPayment(array $data): bool
+    public function verifyPayment(array $data): array
     {
-
-
         try {
             $this->gateway = Omnipay::create('PayPal_Express');
             $model = $this->getModel();
@@ -87,15 +84,29 @@ class PayPal extends AbstractPaymentMethod
                 'payerId' => $data['PayerID'],
             ])->send();
 
-
             if ($response->isSuccessful()) {
-                return true;
+                $responseData = $response->getData();
+                return [
+                    'success' => true,
+                    'transactionId' => $response->getTransactionReference(),
+                    'amount' => $data['amount'],
+                    'currency' => $data['currency'],
+                    'status' => 'completed',
+                    'providerResponse' => $responseData,
+                ];
             }
 
-            return false;
-        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $response->getMessage() ?? 'Payment verification failed',
+                'providerResponse' => $response->getData(),
+            ];
 
-            return false;
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
         }
     }
 

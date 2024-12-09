@@ -179,19 +179,25 @@ class OrderManager
 //        }
 
 
-
-
+        // cart is cleared here and converted to order
         DB::transaction(function () use ($sid, $ord, $place_order, $should_mark_as_paid) {
 
-            DB::table('cart')->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
+            //DB::table('cart')->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord]);
+            DB::table('cart')->where('order_completed', 0)
+                ->where('session_id', $sid)->update(['order_id' => $ord]);
 
-           // $this->app->event_manager->trigger('mw.cart.checkout.recarted_order', $ord);
+            // $this->app->event_manager->trigger('mw.cart.checkout.recarted_order', $ord);
 
             if (isset($place_order['order_completed']) and $place_order['order_completed'] == 1) {
-                DB::table('cart')->whereOrderCompleted(0)->whereSessionId($sid)->update(['order_id' => $ord, 'order_completed' => 1]);
+
+                DB::table('cart')->where('order_completed', 0)
+                    ->where('session_id', $sid)
+                    ->update(['order_id' => $ord, 'order_completed' => 1]);
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                    DB::table('cart_orders')->whereOrderCompleted(0)->whereSessionId($sid)->whereId($ord)->update(['order_completed' => 1]);
+                    DB::table('cart_orders')->where('order_completed', 0)
+                        ->where('session_id', $sid)->where('id', $ord)
+                        ->update(['order_completed' => 1]);
                 }
 
                 $this->app->cache_manager->delete('cart');
@@ -200,8 +206,6 @@ class OrderManager
 
 
                 if (isset($place_order['is_paid']) and $place_order['is_paid'] == 1) {
-                    //  $this->app->shop_manager->update_quantities($ord);
-
                     event($event = new OrderWasPaid(Order::find($ord), $place_order));
                 }
 

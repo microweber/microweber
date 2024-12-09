@@ -77,20 +77,33 @@ class CheckoutPaymentController extends Controller
             return false;
         }
 
-        $isPaymentCompletedTrue = app()->payment_method_manager->verifyPayment($order->payment_provider, $verify_request);
+        $isPaymentCompleted = app()->payment_method_manager->verifyPayment($order->payment_provider, $verify_request);
+        $isPaymentCompletedTrue = isset($isPaymentCompleted['success']) && $isPaymentCompleted['success'] == true;
 
         if ($isPaymentCompletedTrue) {
+
+            $payment_amount = $isPaymentCompleted['amount'];
+            $payment_currency = $isPaymentCompleted['currency'];
+            $payment_data = $isPaymentCompleted['providerResponse'];
+
+            $order->transaction_id = $isPaymentCompleted['transactionId'];
+            $order->payment_amount = $payment_amount;
+            $order->payment_currency = $payment_currency;
             $order->is_paid = 1;
             $order->payment_status = 'completed';
+            $order->payment_data = $payment_data;
             $order->save();
-            //create payment
+
+
+            // Create payment record
             $payment = Payment::create([
-                'rel_type' => 'order',
+                'rel_type' => morph_name(Order::class),
                 'rel_id' => $order->id,
                 'amount' => $order->amount,
                 'currency' => $order->currency,
                 'status' => PaymentStatus::Completed,
                 'payment_provider' => $order->payment_provider,
+                'payment_data' => $payment_data,
                 'transaction_id' => $order->transaction_id,
             ]);
 

@@ -17,8 +17,8 @@ class Payment extends Model
         'currency',
         'status',
         'payment_provider',
+        'transaction_id',
         'payment_provider_id',
-        'payment_provider_reference_id',
         'payment_data',
     ];
 

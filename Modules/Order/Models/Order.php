@@ -54,6 +54,7 @@ class Order extends Model
 
     protected $casts = [
         'order_status' => OrderStatus::class,
+        'payment_data' => 'array',
     ];
 
 
