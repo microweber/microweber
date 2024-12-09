@@ -40,7 +40,7 @@ class PayPal extends AbstractPaymentMethod
                 'currency' => $data['currency'],
                 'returnUrl' => $data['returnUrl'],
                 'cancelUrl' => $data['cancelUrl'],
-                'notifyUrl' => $data['notifyUrl'],              
+                'notifyUrl' => $data['notifyUrl'],
             ])->send();
 
             if ($response->isRedirect()) {

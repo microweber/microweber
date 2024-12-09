@@ -423,7 +423,15 @@ class CheckoutManager
 
             $custom_order_id = $this->app->option_manager->get('custom_order_id', 'shop');
             $posted_fields = array();
-            $place_order = array();
+
+            if(isset($data['id'])){
+                unset($data['id']);
+            }
+            if(isset($data['session_id'])){
+                unset($data['session_id']);
+            }
+
+            $place_order = $data;
             //$place_order['id'] = false;
 
             $return_url_after = '';
@@ -621,7 +629,7 @@ class CheckoutManager
                     $mw_payment_fields['mw_ipn_url'] = $mw_ipn_url;
 
                     $place_order['mw_payment_fields'] = $mw_payment_fields;
-                    $place_order['posted_data'] = $data;
+                //    $place_order['posted_data'] = $data;
                     $place_order['returnUrl'] = $mw_return_url;
                     $place_order['cancelUrl'] = $mw_cancel_url;
                     $place_order['notifyUrl'] = $mw_ipn_url;
