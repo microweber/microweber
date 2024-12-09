@@ -611,7 +611,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-tree-nav-skin-category-manager li[data-type="page"] > .mw-tree-item-content-root .mw-tree-item-content {
-    @apply bg-gray-50 dark:bg-slate-700 !pl-[35px] !rounded-none;
+    @apply !bg-gray-50 dark:!bg-slate-700 !pl-[35px] !rounded-none;
 }
 
 .mw-tree-nav-skin-category-manager .mw-tree-item-content-root .mw-tree-toggler {
@@ -636,7 +636,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-tree-nav-skin-category-manager li[data-type="category"] > .mw-tree-item-content-root .mw-tree-item-content {
-    @apply bg-gray-50 dark:bg-slate-700 !rounded-none !shadow-none;
+    @apply !bg-gray-50 dark:!bg-slate-700 !rounded-none !shadow-none;
 }
 
 
