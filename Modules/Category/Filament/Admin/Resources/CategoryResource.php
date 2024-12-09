@@ -40,6 +40,7 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Tabs::make('Category Details')
+                    ->columnSpanFull()
                     ->tabs([
                         // General Tab
                         Forms\Components\Tabs\Tab::make('Category Details')
