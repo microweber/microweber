@@ -69,10 +69,10 @@
 
         @endif
 
-            @if($modelName == 'Modules\Post\Models\Post')
+            @if($modelName == 'Modules\Payment\Models\PaymentProvider')
 
                 <h1 style="font-weight: 600;" class="text-center mt-4">
-                    You do not have any posts yet.
+                    You do not have any payment providers yet.
                 </h1>
 
                 <p class="mb-4">No contents found for this filters</p>

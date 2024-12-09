@@ -136,6 +136,11 @@ class PaymentProviderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyState(function (Table $table) {
+                $modelName = static::$model;
+                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
+
+            })
             ->columns([
 
                 ImageUrlColumn::make('logo')
