@@ -52,7 +52,7 @@
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select,
 .js-modules-list-search-input,
 .mw-file-manager-search .form-control {
-    @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 !outline-0 appearance-none shadow-none bg-[#f0f0f0] dark:bg-slate-900 pl-[10px];
+    @apply border-none flex-[1_1_0%] text-[14px] leading-[22px] text-left caret-black min-h-[45px] w-full border-0 !outline-0 appearance-none shadow-none bg-[#f0f0f0] dark:bg-slate-700 pl-[10px];
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.dropdown-menu {
