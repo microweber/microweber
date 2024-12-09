@@ -741,7 +741,13 @@ class ContentResource extends Resource
                     ? static::getGridTableColumns()
                     : static::getListTableColumns()
             )
-            ->emptyState(view('modules.content::filament.admin.empty-state'))
+//            ->emptyState(view('modules.content::filament.admin.empty-state'))
+            ->emptyState(function (Table $table) {
+//                dd($this->getModel());
+                return view('modules.content::filament.admin.empty-state');
+
+            })
+
 
 //            ->contentGrid(
 //                fn() => $livewire->isListLayout()
