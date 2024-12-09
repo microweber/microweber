@@ -2,7 +2,7 @@
     <div>
         @if($modelName == 'Modules\Content\Models\Content')
 
-        <h1 style="font-weight: 600;" class="text-center mt-4">
+        <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
             No content found.
         </h1>
 
@@ -12,7 +12,7 @@
 
         @if($modelName == 'Modules\Order\Models\Order')
 
-            <h1 style="font-weight: 600;" class="text-center mt-4">
+            <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                 You do not have any orders yet.
             </h1>
 
@@ -21,7 +21,7 @@
 
         @if($modelName == 'Modules\Customer\Models\Customer')
 
-                <h1 style="font-weight: 600;" class="text-center mt-4">
+                <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                     You do not have any customers yet.
                 </h1>
 
@@ -31,7 +31,7 @@
 
         @if($modelName == 'Modules\Product\Models\Product')
 
-            <h1 style="font-weight: 600;" class="text-center mt-4">
+            <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                 You do not have any products yet.
             </h1>
 
@@ -40,7 +40,7 @@
 
         @if($modelName == 'Modules\Page\Models\Page')
 
-            <h1 style="font-weight: 600;" class="text-center mt-4">
+            <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                 You do not have any pages yet.
             </h1>
 
@@ -50,7 +50,7 @@
 
         @if($modelName == 'Modules\Post\Models\Post')
 
-            <h1 style="font-weight: 600;" class="text-center mt-4">
+            <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                 You do not have any posts yet.
             </h1>
 
@@ -60,7 +60,7 @@
 
         @if($modelName == 'Modules\Payment\Models\PaymentProvider')
 
-                <h1 style="font-weight: 600;" class="text-center mt-4">
+                <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                     You do not have any payment providers yet.
                 </h1>
 
@@ -71,7 +71,7 @@
 
         @if($modelName == 'Modules\Shipping\Models\ShippingProvider')
 
-            <h1 style="font-weight: 600;" class="text-center mt-4">
+            <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                 You do not have any shipping providers yet.
             </h1>
 
@@ -80,7 +80,7 @@
         @endif
 
         @if($modelName == 'Modules\Tax\Models\TaxType')
-                <h1 style="font-weight: 600;" class="text-center mt-4">
+                <h1 style="font-weight: 600;" class="mw-admin-empty-state-heading text-center mt-4">
                     You do not have any taxes yet.
                 </h1>
 
