@@ -85,8 +85,8 @@ if (!function_exists('remove_cart_item')) {
 }
 
 if (!function_exists('mw_shop_recover_shopping_cart')) {
-    function mw_shop_recover_shopping_cart($sid = false)
+    function mw_shop_recover_shopping_cart($order_id = false)
     {
-        return app()->cart_manager->recover_cart($sid);
+        return app()->cart_manager->recover_cart($order_id);
     }
 }

@@ -2,7 +2,21 @@
 
 //    dump($this->getForm());
 
+
+
 @endphp
+
+
+{{ $modelName }}
+
+
+@if($modelName == 'Modules\Content\Models\Content')
+
+
+    content   svg
+
+
+@endif
 
 <div class="text-center you-dont-have-any d-flex justify-content-center mt-5" style="height: 100vh;">
 

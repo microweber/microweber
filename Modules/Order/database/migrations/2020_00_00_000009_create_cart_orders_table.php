@@ -35,11 +35,13 @@ return new class extends Migration {
             $table->integer('customer_id')->nullable();
             $table->integer('order_completed')->nullable();
             $table->integer('is_paid')->nullable();
+
             $table->text('url')->nullable();
             $table->string('user_ip')->nullable();
             $table->integer('items_count')->nullable();
             $table->longText('custom_fields_data')->nullable();
-            $table->integer('is_active')->nullable();
+
+
             $table->integer('rel_id')->nullable();
             $table->string('rel_type')->nullable();
             $table->float('price')->nullable();

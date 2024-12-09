@@ -57,8 +57,7 @@ class CheckoutPage extends CreateRecord
             app()->user_manager->session_set('checkout_postal_code', $data['postal_code']);
             app()->user_manager->session_set('checkout_country', $data['country']);
 
-            // Process payment
-            Event::dispatch('checkout.payment.before');
+
 
             // Create order
             $order = app()->checkout_manager->checkout($data);
@@ -66,33 +65,28 @@ class CheckoutPage extends CreateRecord
             if (isset($order['redirect'])) {
                 return redirect()->to($order['redirect']);
             }
-
+            $success = false;
             if (isset($order['success'])) {
-
-                $success = $order['succes111s']??false;
-
-                if(!$success){
-                    Notification::make()
-                        ->title('Error processing order')
-                        ->body('Error processing order')
-                        ->danger()
-                        ->send();
-                    return redirect()->to('/checkout');
-                }
-
+                $success = $order['success'] ?? false;
             }
 
-            dd('Create order no redirect to payment', $order);
-
-
-            Event::dispatch('checkout.payment.after', ['order' => $order]);
+            if (!$success) {
+                Notification::make()
+                    ->title('Error processing order')
+                    ->body('Error processing order')
+                    ->danger()
+                    ->send();
+                return redirect()->route('filament.checkout.resources.checkout.failed')->with('error', 'Error processing order');
+            }
 
             Notification::make()
                 ->title('Order placed successfully')
                 ->success()
                 ->send();
 
-            return redirect()->to('/thank-you');
+            return redirect()->route('filament.checkout.resources.checkout.success')
+                ->with('success', 'Order placed successfully');
+
 
         } catch (\Exception $e) {
             Notification::make()

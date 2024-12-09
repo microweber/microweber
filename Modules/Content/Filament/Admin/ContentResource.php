@@ -743,8 +743,8 @@ class ContentResource extends Resource
             )
 //            ->emptyState(view('modules.content::filament.admin.empty-state'))
             ->emptyState(function (Table $table) {
-//                dd($this->getModel());
-                return view('modules.content::filament.admin.empty-state');
+               $modelName = self::$model;
+                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
 
