@@ -21,7 +21,7 @@ class CategoryResource extends Resource
     //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Website';
-
+    protected static ?int $navigationSort = 3;
     public static function form(Form $form): Form
     {
         $selectedPage = 0;
@@ -40,6 +40,7 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Tabs::make('Category Details')
+                    ->columnSpanFull()
                     ->tabs([
                         // General Tab
                         Forms\Components\Tabs\Tab::make('Category Details')

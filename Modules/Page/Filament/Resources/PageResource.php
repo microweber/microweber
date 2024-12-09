@@ -15,6 +15,7 @@ class PageResource extends ContentResource
 
     protected static ?string $navigationGroup = 'Website';
     protected static bool $shouldRegisterNavigation = true;
+    protected static ?int $navigationSort = 1;
 
     protected static string $contentType = 'page';
     protected static string $subType = 'page';

@@ -12,6 +12,8 @@ class PostResource extends ContentResource
     protected static ?string $model = Post::class;
 
     protected static ?string $navigationGroup = 'Website';
+    protected static ?int $navigationSort = 2;
+
 
     protected static bool $shouldRegisterNavigation = true;
 

@@ -14,6 +14,8 @@ class ProductResource extends ContentResource
     protected static ?string $navigationGroup = 'Shop';
 
     protected static bool $shouldRegisterNavigation = true;
+    protected static ?int $navigationSort = 1;
+
 
     protected static string $contentType = 'product';
     protected static string $subType = 'product';

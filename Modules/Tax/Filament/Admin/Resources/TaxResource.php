@@ -20,6 +20,8 @@ class TaxResource extends Resource
 
     protected static ?string $navigationGroup = 'Shop';
     protected static ?string $modelLabel = 'Tax';
+    protected static ?int $navigationSort = 7;
+
 
     public static function form(Form $form): Form
     {
@@ -87,8 +89,11 @@ class TaxResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->emptyStateHeading('No Taxes')
-            ->emptyStateDescription('Add new taxes to your store.')
+            ->emptyState(function (Table $table) {
+                $modelName = static::$model;
+                return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
+
+            })
             ->columns([
 
                 Tables\Columns\TextColumn::make('name')

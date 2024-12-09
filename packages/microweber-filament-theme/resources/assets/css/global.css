@@ -115,10 +115,6 @@
     @apply !hidden;
 }
 
-/*SIDEBAR STYLES*/
-.fi-sidebar-group-label {
-    @apply uppercase text-[0.7rem];
-}
 .fi-sidebar-group-icon {
 
 }
