@@ -47,8 +47,13 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
             $paymentManager->extend('paypal', function () {
                 return new \Modules\Payment\Drivers\PayPal();
             });
+            
             $paymentManager->extend('stripe', function () {
                 return new \Modules\Payment\Drivers\Stripe();
+            });
+
+            $paymentManager->extend('mollie', function () {
+                return new \Modules\Payment\Drivers\Mollie();
             });
         });
 

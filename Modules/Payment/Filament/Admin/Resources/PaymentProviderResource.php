@@ -103,6 +103,11 @@ class PaymentProviderResource extends Resource
                     ->schema(function (Forms\Get $get) use ($paymentDrivers, $form) {
 
                         $paymentDriver = $get('provider');
+
+                        if(!$paymentDriver) {
+                            return [];
+                        }
+
                         $schemas = [];
                         $driver = app()->payment_method_manager->driver($paymentDriver);
 
