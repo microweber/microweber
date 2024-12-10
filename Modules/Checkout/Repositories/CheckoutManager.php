@@ -151,10 +151,10 @@ class CheckoutManager
             */
 
 
-        $cart_table_real = $this->app->database_manager->real_table_name($cart_table);
-        $order_table_real = $this->app->database_manager->real_table_name($table_orders);
+        //$cart_table_real = $this->app->database_manager->real_table_name($cart_table);
+     //   $order_table_real = $this->app->database_manager->real_table_name($table_orders);
 
-        if ($exec_return == true) {
+     /*   if ($exec_return == true) {
 
             $return_url = $this->app->user_manager->session_get('checkout_return_to_url');
             if (isset($_REQUEST['return_to']) and $_REQUEST['return_to'] != false) {
@@ -188,9 +188,9 @@ class CheckoutManager
 
 
             }
-        }
+        }*/
 
-        $additional_fields = false;
+        $additional_fields = [];
         if (isset($data['for']) and isset($data['for_id'])) {
             $additional_fields = $this->app->fields_manager->get([
                 'rel_type' => $data['for'],
@@ -564,35 +564,35 @@ class CheckoutManager
 //                $place_order['payment_currency'] = $place_order['currency'];
 //            }
 
-            if ($payment_currency and $payment_currency != $currencyCode) {
-
-                if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)) {
-
-                    $currencyCode = $payment_currency;
-
-
-                    if ($payment_currency_rate != false) {
-                        $payment_currency_rate = str_replace(',', '.', $payment_currency_rate);
-                        $payment_currency_rate = floatval($payment_currency_rate);
-
-                    }
-                    if ($payment_currency_rate != 0.00) {
-                        $amount = str_replace(',', '', $amount);
-                        $amount = floatval($amount);
-                        $amount = $amount * $payment_currency_rate;
-                        $place_order['payment_amount'] = $amount;
-                    }
-
-
-                    if ($place_order['payment_shipping']) {
-                        $place_order['payment_shipping'] = $place_order['payment_shipping'] * $payment_currency_rate;
-                    }
-
-                }
-            }
-
-
-            $place_order['payment_currency'] = $currencyCode;
+//            if ($payment_currency and $payment_currency != $currencyCode) {
+//
+//                if (!in_array(strtoupper($place_order['currency']), $currencies_list_paypal)) {
+//
+//                    $currencyCode = $payment_currency;
+//
+//
+//                    if ($payment_currency_rate != false) {
+//                        $payment_currency_rate = str_replace(',', '.', $payment_currency_rate);
+//                        $payment_currency_rate = floatval($payment_currency_rate);
+//
+//                    }
+//                    if ($payment_currency_rate != 0.00) {
+//                        $amount = str_replace(',', '', $amount);
+//                        $amount = floatval($amount);
+//                        $amount = $amount * $payment_currency_rate;
+//                        $place_order['payment_amount'] = $amount;
+//                    }
+//
+//
+//                    if ($place_order['payment_shipping']) {
+//                        $place_order['payment_shipping'] = $place_order['payment_shipping'] * $payment_currency_rate;
+//                    }
+//
+//                }
+//            }
+//
+//
+//            $place_order['payment_currency'] = $currencyCode;
             $place_order['order_id'] = 'ORD-' . time() . '-' . uniqid();
 
 

@@ -42,7 +42,7 @@ return new class extends Migration {
             $table->longText('custom_fields_data')->nullable();
 
 
-            $table->integer('rel_id')->nullable();
+            $table->string('rel_id')->nullable();
             $table->string('rel_type')->nullable();
             $table->float('price')->nullable();
             $table->longText('other_info')->nullable();

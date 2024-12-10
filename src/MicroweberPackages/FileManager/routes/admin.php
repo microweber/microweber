@@ -10,7 +10,7 @@ use  \Illuminate\Support\Facades\Route;
 Route::name('api.')
     ->prefix('api')
     ->namespace('\MicroweberPackages\FileManager\Http\Controllers\Api')
-    ->middleware(['xss','admin'])
+    ->middleware(['api','xss','admin'])
     ->group(function () {
 
     Route::get('file-manager/list', 'FileManagerApiController@list')->name('file-manager.list');

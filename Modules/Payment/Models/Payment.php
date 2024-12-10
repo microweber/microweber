@@ -22,9 +22,8 @@ class Payment extends Model
         'payment_data',
     ];
 
-
     protected $casts = [
-        'status' => PaymentStatus::class,
+    //    'status' => PaymentStatus::class,
         'payment_data' => 'array',
     ];
 
@@ -36,13 +35,4 @@ class Payment extends Model
     ];
 
 
-    public function getPaymentProviderNameAttribute()
-    {
-        return $this->paymentProvider->name;
-    }
-
-    public function paymentProvider()
-    {
-        return $this->belongsTo(PaymentProvider::class);
-    }
 }

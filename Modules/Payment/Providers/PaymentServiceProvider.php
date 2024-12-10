@@ -7,6 +7,7 @@ use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
+use Modules\Payment\Filament\Admin\Resources\PaymentResource;
 use Modules\Payment\Microweber\PaymentModule;
 use Modules\Payment\Repositories\PaymentMethodManager;
 
@@ -47,7 +48,7 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
             $paymentManager->extend('paypal', function () {
                 return new \Modules\Payment\Drivers\PayPal();
             });
-            
+
             $paymentManager->extend('stripe', function () {
                 return new \Modules\Payment\Drivers\Stripe();
             });
@@ -59,6 +60,7 @@ class PaymentServiceProvider extends BaseModuleServiceProvider
 
 
         FilamentRegistry::registerResource(PaymentProviderResource::class);
+        FilamentRegistry::registerResource(PaymentResource::class);
 
         Microweber::module(PaymentModule::class);
     }

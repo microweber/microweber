@@ -3,7 +3,9 @@
 namespace Modules\Payment\Drivers;
 
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Omnipay\Omnipay;
+use Stripe\StripeClient;
 
 class Stripe extends AbstractPaymentMethod
 {
@@ -43,6 +45,11 @@ class Stripe extends AbstractPaymentMethod
             TextInput::make('settings.webhook_secret')
                 ->label('Webhook Secret')
                 ->helperText('Optional: Your Stripe webhook signing secret for verifying webhook events'),
+
+            Toggle::make('settings.collect_phone_number')
+                ->label('Collect Phone Number')
+                ->helperText('Enable phone number collection during checkout')
+                ->default(false),
         ];
     }
 
@@ -54,9 +61,6 @@ class Stripe extends AbstractPaymentMethod
 
     public function process($data = []): array
     {
-
-
-
         try {
             $model = $this->getModel();
             if (!$model || !$model->settings) {
@@ -66,26 +70,48 @@ class Stripe extends AbstractPaymentMethod
             // Set API key
             $this->gateway->setApiKey($model->settings['secret_key']);
 
-            // Create Checkout Session
-            $response = $this->gateway->purchase([
-                'amount' => $data['amount'],
-                'currency' => $data['currency'] ?? 'USD',
-                'successUrl' => $data['returnUrl'],
-                'cancelUrl' => $data['cancelUrl'],
+            $stripe = new StripeClient($model->settings['secret_key']);
+
+            $sessionData = [
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'unit_amount' => $data['amount'],
+                            'product_data' => ['name' => $data['order_id'] ?? null],
+                            'currency' => $data['currency'] ?? 'USD',
+                        ],
+                        'quantity' => 1,
+                    ],
+                ],
                 'metadata' => [
                     'order_id' => $data['order_id'] ?? null,
                     'customer_email' => $data['email'] ?? null,
                 ],
                 'mode' => 'payment',
+                'success_url' => $data['returnUrl'],
+                'cancel_url' => $data['cancelUrl'],
+            ];
 
-            ])->send();
-dd($response);
-            if ($response->isRedirect()) {
+            // Add phone number collection if enabled in settings
+            if (isset($model->settings['collect_phone_number']) && $model->settings['collect_phone_number']) {
+                $sessionData['phone_number_collection'] = [
+                    'enabled' => true
+                ];
+            }
+
+            $response = $stripe->checkout->sessions->create($sessionData);
+
+            if (isset($response['success']) and $response['success'] == false) {
+                throw new \Exception($response['message']);
+            }
+
+            if (isset($response['url']) and $response['url']) {
+
                 return [
                     'success' => true,
-                    'transactionId' => $response->getTransactionReference(),
-                    'redirectUrl' => $response->getRedirectUrl(),
-                    'providerResponse' => $response->getData(),
+                    'transactionId' => $response['id'],
+                    'redirectUrl' => $response['url'],
+                    'providerResponse' => $response,
                 ];
             } else {
                 throw new \Exception($response->getMessage());
@@ -114,10 +140,11 @@ dd($response);
 
             // Retrieve the checkout session
             $response = $this->gateway->fetchTransaction([
-                'transactionReference' => $data['session_id']
+                'transactionReference' => $data['order']['transaction_id']
             ])->send();
 
             if ($response->isSuccessful()) {
+
                 $session = $response->getData();
                 if ($session['payment_status'] === 'paid') {
                     return [
