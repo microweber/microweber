@@ -54,8 +54,6 @@ class OrderResource extends Resource
 
                                         Forms\Components\Select::make('country')
                                             ->searchable()
-                                            //  ->preload()
-                                            //   ->native(false)
                                             ->getSearchResultsUsing(fn(string $query) => Country::where('name', 'like', "%{$query}%")->pluck('name', 'id'))
                                             ->getOptionLabelUsing(fn($value): ?string => Country::firstWhere('id', $value)?->getAttribute('name')),
 
@@ -86,7 +84,7 @@ class OrderResource extends Resource
                                     ->action(fn(Forms\Set $set) => $set('cart', [])),
                             ])
                             ->schema([
-                                static::getItemsRepeater(),
+                              static::getItemsRepeater(),
                             ]),
                     ])
                     ->columnSpan(['lg' => 2]),
@@ -142,7 +140,6 @@ class OrderResource extends Resource
                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
-
             ->columns([
 
 
@@ -174,7 +171,6 @@ class OrderResource extends Resource
                     ->money(fn($record) => $record->currency),
 
 
-
                 Tables\Columns\BooleanColumn::make('order_completed')
                     ->label('Completed')
                     ->sortable()
@@ -186,10 +182,9 @@ class OrderResource extends Resource
                     ->toggleable(),
 
 
-
             ])
             ->filters([
-                //
+
             ])
             ->paginationPageOptions([
                 50,
@@ -254,7 +249,7 @@ class OrderResource extends Resource
                 ->searchable()
                 ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->getFullName()}  {$record->getEmail()}")
                 ->label('Customer')
-          //    ->preload()
+                //    ->preload()
                 ->lazy()
                 ->native(false)
                 ->required()
@@ -309,6 +304,7 @@ class OrderResource extends Resource
 
     public static function getItemsRepeater(): Repeater
     {
+
 
 
         return Repeater::make('cart')

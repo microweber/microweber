@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Video\\Providers\\VideoServiceProvider"
     ],
-    "files": []
+    "files": ["Support/video_functions.php"]
 }
