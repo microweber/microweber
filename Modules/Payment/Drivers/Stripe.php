@@ -77,14 +77,14 @@ class Stripe extends AbstractPaymentMethod
                     [
                         'price_data' => [
                             'unit_amount' => $data['amount'],
-                            'product_data' => ['name' => $data['order_id'] ?? null],
+                            'product_data' => ['name' => $data['order_reference_id'] ?? null],
                             'currency' => $data['currency'] ?? 'USD',
                         ],
                         'quantity' => 1,
                     ],
                 ],
                 'metadata' => [
-                    'order_id' => $data['order_id'] ?? null,
+                    'order_reference_id' => $data['order_reference_id'] ?? null,
                     'customer_email' => $data['email'] ?? null,
                 ],
                 'mode' => 'payment',

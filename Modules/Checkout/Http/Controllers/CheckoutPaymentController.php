@@ -47,9 +47,9 @@ class CheckoutPaymentController extends Controller
 
         $vkey = $request->get('_vkey_url');
         $payment_verify_token = $request->get('payment_verify_token');
-        $order_id = $request->get('order_id');
+        $order_reference_id = $request->get('order_reference_id');
 
-        if (!$order_id) {
+        if (!$order_reference_id) {
             return response()->json(['status' => 'error', 'message' => 'Invalid request']);
         }
 
@@ -65,7 +65,7 @@ class CheckoutPaymentController extends Controller
         }
 
 
-        $order = Order::where('payment_verify_token', $request->get('payment_verify_token'))->where('order_id', $order_id)->firstOrFail();
+        $order = Order::where('payment_verify_token', $request->get('payment_verify_token'))->where('order_reference_id', $order_reference_id)->firstOrFail();
 
 
         $verify_request = $request->all();

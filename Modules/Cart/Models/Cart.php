@@ -35,13 +35,12 @@ class Cart extends Model
         'link',
         'other_info',
         'custom_fields_data',
-        'custom_fields_json',
 
     ];
 
 
     protected $casts = [
-        'custom_fields_json' => 'array',
+         'custom_fields_data' => 'array',
     ];
 
     use Filterable;

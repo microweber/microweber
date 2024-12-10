@@ -143,6 +143,10 @@ class OrderResource extends Resource
             ->columns([
 
 
+                Tables\Columns\TextColumn::make('id')
+                    ->label('ID')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at'),
 
                 ImageUrlColumn::make('firstProductThumbnail')
@@ -152,7 +156,7 @@ class OrderResource extends Resource
                         return $record->thumbnail();
                     }),
 
-                Tables\Columns\TextColumn::make('order_id')
+                Tables\Columns\TextColumn::make('order_reference_id')
                     ->label('Number')
                     ->searchable()
                     ->sortable(),
@@ -235,13 +239,13 @@ class OrderResource extends Resource
     public static function getDetailsFormSchema(): array
     {
         return [
-            Forms\Components\TextInput::make('order_id')
+            Forms\Components\TextInput::make('order_reference_id')
                 ->default('ORDER-' . now()->format('YmdHis'))
                 //   ->disabled()
                 ->dehydrated()
                 ->required()
                 ->maxLength(32)
-                ->unique(Order::class, 'order_id', ignoreRecord: true),
+                ->unique(Order::class, 'order_reference_id', ignoreRecord: true),
 
 
             Forms\Components\Select::make('customer_id')
@@ -371,7 +375,7 @@ class OrderResource extends Resource
                         'md' => 3,
                     ]),
 
-                Repeater::make('custom_fields_json')
+                Repeater::make('custom_fields_data')
                     ->label('Custom fields')
                     ->hidden(function (Forms\Get $get) {
                         $relId = $get('rel_id');

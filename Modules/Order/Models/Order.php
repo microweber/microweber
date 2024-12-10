@@ -46,15 +46,36 @@ class Order extends Model
         'address2',
         'other_info',
         'phone',
+        'custom_fields_data',
+        'order_status',
+        'customer_id',
+        'order_reference_id',
     ];
 
     protected $searchable = [
         'is_completed',
+        'order_reference_id',
+        'email',
+        'first_name',
+        'last_name',
+        'country',
+        'city',
+        'state',
+        'zip',
+        'address',
+        'address2',
+        'other_info',
+        'phone',
+        'custom_fields_data',
+        'order_status',
+        'customer_id',
+
     ];
 
     protected $casts = [
-        'order_status' => OrderStatus::class,
+       // 'order_status' => OrderStatus::class,
         'payment_data' => 'array',
+        'custom_fields_data' => 'array',
     ];
 
 
@@ -133,19 +154,9 @@ class Order extends Model
 
     public function paymentMethodName()
     {
-        if ($this->payment_gw == 'shop/payments/gateways/paypal') {
-            return 'PayPal';
-        } else {
-
-            $name = $this->payment_gw;
-            $name = str_replace('shop/payments/gateways/', '', $name);
-            $name = str_replace('_', ' ', $name);
-
-            $name = ucwords($name);
-
-            return $name;
+        if ($this->payment_method) {
+            return app()->payment_method_manager->getProviderName($this->payment_method);
         }
-
         return '';
     }
 

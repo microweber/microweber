@@ -13,10 +13,10 @@ return new class extends Migration {
 
         Schema::create('cart_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('order_id')->nullable();
+            $table->string('order_reference_id')->nullable();
             $table->float('amount')->nullable();
-            $table->longText('shipping_service')->nullable();
-            $table->float('shipping')->nullable();
+            $table->string('order_status')->nullable()->default('new');
+
             $table->string('currency')->nullable();
             $table->string('currency_code')->nullable();
             $table->longText('first_name')->nullable();
@@ -61,9 +61,15 @@ return new class extends Migration {
             $table->float('payment_amount')->nullable();
             $table->string('payment_currency')->nullable();
             $table->string('payment_status')->nullable();
+        //    $table->float('payment_shipping')->nullable();
 
             $table->longText('payment_data')->nullable();
-            $table->float('payment_shipping')->nullable();
+
+
+            //shipping
+
+            $table->longText('shipping_service')->nullable();
+            $table->float('shipping')->nullable();
 
 
             // Timestamps

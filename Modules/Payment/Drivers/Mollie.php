@@ -74,7 +74,7 @@ class Mollie extends AbstractPaymentMethod
                 'cancelUrl' => $data['cancelUrl'],
                 'notifyUrl' => $data['notifyUrl'] ?? null,
                 'metadata' => [
-                    'order_id' => $data['order_id'] ?? null,
+                    'order_reference_id' => $data['order_reference_id'] ?? null,
                     'customer_email' => $data['email'] ?? null,
                 ],
                 'profileId' => $model->settings['profile_id'],

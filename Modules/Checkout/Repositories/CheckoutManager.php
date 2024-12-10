@@ -430,8 +430,7 @@ class CheckoutManager
             if(isset($data['session_id'])){
                 unset($data['session_id']);
             }
-
-            $place_order = $data;
+             $place_order = $data;
             //$place_order['id'] = false;
 
             $return_url_after = '';
@@ -440,6 +439,7 @@ class CheckoutManager
 
 
             $place_order['session_id'] = $sid;
+            $place_order['order_status'] = 'draft';
             $place_order['order_completed'] = 0;
             $items_count = 0;
 
@@ -593,7 +593,7 @@ class CheckoutManager
 //
 //
 //            $place_order['payment_currency'] = $currencyCode;
-            $place_order['order_id'] = 'ORD-' . time() . '-' . uniqid();
+            $place_order['order_reference_id'] = 'ORD-' . time() . '-' . uniqid();
 
 
             // end of convert for curency
@@ -614,12 +614,12 @@ class CheckoutManager
                     $enc_key_hash = md5($vkey_data);
                     $enc_key_hash = $encrypter->encrypt($enc_key_hash);
 
-                    $mw_return_url = route('checkout.payment.return') . '?mw_payment_success=1&order_id=' . $place_order['order_id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
+                    $mw_return_url = route('checkout.payment.return') . '?mw_payment_success=1&order_reference_id=' . $place_order['order_reference_id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
 
 
-                    $mw_cancel_url = route('checkout.payment.cancel') . '?mw_payment_failure=1&order_id=' . $place_order['order_id'] . '&payment_verify_token=' . $enc_key_hash . '&recart=' . $sid . $return_url_after;
+                    $mw_cancel_url = route('checkout.payment.cancel') . '?mw_payment_failure=1&order_reference_id=' . $place_order['order_reference_id'] . '&payment_verify_token=' . $enc_key_hash . '&recart=' . $sid . $return_url_after;
 
-                    $mw_ipn_url = route('checkout.payment.notify') . '?order_id=' . $place_order['order_id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
+                    $mw_ipn_url = route('checkout.payment.notify') . '?order_reference_id=' . $place_order['order_reference_id'] . '&payment_verify_token=' . $place_order['payment_verify_token'] . '&_vkey_url=' . $enc_key_hash . $return_url_after;
 
 
                     $mw_payment_fields = array();
@@ -1159,7 +1159,7 @@ class CheckoutManager
             }
         }
     }
-
+/*
     public function checkout_ipn($data)
     {
         if (isset($data['payment_verify_token'])) {
@@ -1282,7 +1282,7 @@ class CheckoutManager
         }
 
         return;
-    }
+    }*/
 
     private function get_domain_from_str($address)
     {

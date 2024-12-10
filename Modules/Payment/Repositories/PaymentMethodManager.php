@@ -81,6 +81,15 @@ class PaymentMethodManager extends Manager
 
         return false;
     }
+    public function getProviderName($driverName): string | null
+    {
+        $existingPaymentProvider = PaymentProvider::where('provider', $driverName)
+            ->where('is_active', 1)->first();
+        if ($existingPaymentProvider) {
+            return $existingPaymentProvider->name;
+        }
+        return null;
+    }
 
 
     public function getForm($provider): array|null
