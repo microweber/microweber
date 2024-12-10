@@ -154,10 +154,8 @@ class Order extends Model
 
     public function paymentMethodName()
     {
-        if ($this->payment_method) {
-            return app()->payment_method_manager->getProviderName($this->payment_method);
-        }
-        return '';
+
+        return 'paymentMethodName here';
     }
 
     public function customerName()

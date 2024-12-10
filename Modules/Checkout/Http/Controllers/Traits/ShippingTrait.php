@@ -5,6 +5,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Modules\Checkout\Events\AddShippingInfoEvent;
 
+/*
+ * @deprecated
+ *
+ * */
 trait ShippingTrait {
 
     public function shippingMethod() {

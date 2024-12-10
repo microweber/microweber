@@ -56,19 +56,18 @@ class PaymentMethodManager extends Manager
 
     }
 
-    public function getProvider($provider): array
+    public function getProviderById($provider_id): PaymentProvider | null
     {
-        $existingPaymentProvider = PaymentProvider::where('provider', $provider)
+        $existingPaymentProvider = PaymentProvider::where('id', $provider_id)
             ->where('is_active', 1)->first();
         if ($existingPaymentProvider) {
             $item = $existingPaymentProvider->toArray();
             if (!$this->driverExists($item['provider'])) {
-                return [];
+                return null;
             }
-            $item['gw_file'] = $item['provider'];
-            return $item;
+            return $existingPaymentProvider;
         }
-        return [];
+        return null;
     }
 
     public function hasProviders(): bool
@@ -80,15 +79,6 @@ class PaymentMethodManager extends Manager
         }
 
         return false;
-    }
-    public function getProviderName($driverName): string | null
-    {
-        $existingPaymentProvider = PaymentProvider::where('provider', $driverName)
-            ->where('is_active', 1)->first();
-        if ($existingPaymentProvider) {
-            return $existingPaymentProvider->name;
-        }
-        return null;
     }
 
 
@@ -107,16 +97,21 @@ class PaymentMethodManager extends Manager
         }
     }
 
-    public function process($provider, $data): array|null
+    public function process($provider_id, $data): array|null
     {
-        if (!$provider) {
+        $providerModel = $this->getProviderById($provider_id);
+
+
+        if (!$providerModel) {
             return null;
         }
-        if (!$this->driverExists($provider)) {
+        $providerName = $providerModel['provider'] ?? null;
+        if (!$this->driverExists($providerName)) {
             return null;
         }
         /* @var AbstractPaymentMethod $driver */
-        $driver = $this->driver($provider);
+        $driver = $this->driver($providerName);
+        $driver->setModel($providerModel);
         if ($driver) {
             return $driver->process($data);
         }

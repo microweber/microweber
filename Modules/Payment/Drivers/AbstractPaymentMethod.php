@@ -7,6 +7,7 @@ use Modules\Payment\Models\PaymentProvider;
 abstract class AbstractPaymentMethod
 {
     public string $provider = '';
+    public PaymentProvider $model; // must be set by the driver with setModel
 
     public function title(): string
     {
@@ -16,14 +17,14 @@ abstract class AbstractPaymentMethod
 
     public function getModel(): PaymentProvider|null
     {
-        return PaymentProvider::query()->where('provider', $this->provider)->first();
+        return $this->model ?? null;
     }
 
-    public function getModelId(): int|null
+    public function setModel(PaymentProvider $model)
     {
-        $model = $this->getModel();
-        return $model?->id;
+        return $this->model = $model;
     }
+
 
     public function process($data = [])
     {

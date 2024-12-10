@@ -87,6 +87,7 @@ class Stripe extends AbstractPaymentMethod
                     'order_reference_id' => $data['order_reference_id'] ?? null,
                     'customer_email' => $data['email'] ?? null,
                 ],
+                'client_reference_id' =>  $data['order_reference_id'] ?? null,
                 'mode' => 'payment',
                 'success_url' => $data['returnUrl'],
                 'cancel_url' => $data['cancelUrl'],

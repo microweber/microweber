@@ -17,7 +17,10 @@ use Modules\Checkout\Http\Controllers\Traits\ContactInformationTrait;
 use Modules\Checkout\Http\Controllers\Traits\PaymentTrait;
 use Modules\Checkout\Http\Controllers\Traits\ShippingTrait;
 use Modules\Order\Models\Order;
-
+/*
+ * @deprecated move to checkout module
+ *
+ * */
 class CheckoutController extends Controller {
 
     use LiveEditTrait;

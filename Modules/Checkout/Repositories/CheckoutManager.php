@@ -54,6 +54,10 @@ class CheckoutManager
             $params['payment_provider'] = $params['payment_method'];
             unset($params['payment_method']);
         }
+        if (isset($params['payment_method_id'])) {
+            $params['payment_provider_id'] = $params['payment_method_id'];
+            unset($params['payment_method_id']);
+        }
         return $params;
     }
 
@@ -69,7 +73,7 @@ class CheckoutManager
         $cart['order_completed'] = 0;
         $cart['for_checkout'] = true;
         //  $cart['limit'] = 1;
-        $mw_process_payment = true;
+        $mw_process_payment = false;
         $mw_process_payment_success = false;
         $mw_process_payment_failed = false;
 
@@ -387,7 +391,7 @@ class CheckoutManager
 
 
             //post any of those on the form
-            $flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_provider', 'other_info');
+            $flds_from_data = array('first_name', 'last_name', 'email', 'country', 'city', 'state', 'zip', 'address', 'address2', 'payment_email', 'payment_name', 'payment_country', 'payment_address', 'payment_city', 'payment_state', 'payment_zip', 'phone', 'promo_code', 'payment_provider_id', 'other_info');
 
             if (!isset($data['email']) or $data['email'] == '') {
                 $data['email'] = user_name(user_id(), 'email');
@@ -416,9 +420,9 @@ class CheckoutManager
                 }
             }
 
-            if (isset($data['payment_provider']) and $data['payment_provider'] != '') {
-                $data['payment_provider'] = xss_clean($data['payment_provider']);
-            }
+//            if (isset($data['payment_provider']) and $data['payment_provider'] != '') {
+//                $data['payment_provider'] = xss_clean($data['payment_provider']);
+//            }
 
 
             $custom_order_id = $this->app->option_manager->get('custom_order_id', 'shop');
@@ -596,14 +600,31 @@ class CheckoutManager
             $place_order['order_reference_id'] = 'ORD-' . time() . '-' . uniqid();
 
 
-            // end of convert for curency
+
+            if(isset($data['payment_provider_id'])){
+                //check privider
+                $provider = app()->payment_method_manager->getProviderById($data['payment_provider_id']);
+
+                if($provider) {
+                    $mw_process_payment = true;
+                    $place_order['payment_provider_id'] = $data['payment_provider_id'];
+                    $place_order['payment_provider'] = $provider['provider'];
+                } else {
+                    $mw_process_payment = false;
+                }
+             }
+
+
+
+
+
 
 
             if ($mw_process_payment == true) {
                 // $shop_dir = module_dir('shop');
                 //$shop_dir = $shop_dir . DS . 'payments' . DS . 'gateways' . DS;
 
-                if ($data['payment_provider'] != 'none') {
+                if ($place_order['payment_provider'] != 'none') {
                     $place_order['posted_fields'] = $posted_fields;
 
                     $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Illuminate\Support\Facades\Config::get('app.key') . $place_order['payment_verify_token']), \Illuminate\Support\Facades\Config::get('app.cipher'));
@@ -637,16 +658,17 @@ class CheckoutManager
 
 
                     $gatewayResponse = [];
-                    $gw_check = app()->payment_method_manager->getProvider($data['payment_provider']);
+                    $gw_check = app()->payment_method_manager->getProviderById($data['payment_provider_id']);
 
                     if ($gw_check) {
                         /* @var AbstractPaymentMethod $gatewayResponse */
-                        $gatewayResponse = app()->payment_method_manager->process($data['payment_provider'], $place_order);
+                        $gatewayResponse = app()->payment_method_manager->process($data['payment_provider_id'], $place_order);
 
                     } else {
                         $checkout_errors['payment_provider'] = 'No such payment gateway is activated';
                     }
-                    if (isset($gatewayResponse['success']) and $gatewayResponse['success'] == true) {
+
+                    if (isset($gatewayResponse['success']) and $gatewayResponse['success']) {
                         $place_order['order_completed'] = 1;
                         $place_order['is_paid'] = 0;
                         $place_order['success'] = 'Your order has been placed successfully!';
@@ -812,7 +834,7 @@ class CheckoutManager
         }
         $checkout_session = array_merge($checkout_session, $checkout_session2);
         $user_fields_from_profile = ['email', 'last_name', 'first_name', 'phone', 'username', 'middle_name'];
-        $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_provider'];
+        $shipping_fields_keys = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_provider_id'];
 
         $all_field_keys = array_merge($user_fields_from_profile, $shipping_fields_keys);
 
@@ -872,7 +894,8 @@ class CheckoutManager
     public function payment_options($option_key = false)
     {
         if ($option_key) {
-            return app()->payment_method_manager->getProvider($option_key);
+            return throw new \Exception('Not implemented payment_options $option_key');
+           // return app()->payment_method_manager->getProvider($option_key);
         }
         return app()->payment_method_manager->getProviders();
 

@@ -3,7 +3,10 @@ namespace Modules\Checkout\Http\Controllers\Traits;
 
 use Illuminate\Http\Request;
 use Modules\Checkout\Events\AddPaymentInfoEvent;
-
+/*
+ * @deprecated
+ *
+ * */
 trait PaymentTrait {
 
     public function paymentMethod() {

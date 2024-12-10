@@ -4,7 +4,10 @@ namespace Modules\Checkout\Http\Controllers\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Modules\Checkout\Events\BeginCheckoutEvent;
-
+/*
+ * @deprecated
+ *
+ * */
 trait ContactInformationTrait {
 
     public function contactInformation() {

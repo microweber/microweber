@@ -65,7 +65,8 @@ class CheckoutPaymentController extends Controller
         }
 
 
-        $order = Order::where('payment_verify_token', $request->get('payment_verify_token'))->where('order_reference_id', $order_reference_id)->firstOrFail();
+        $order = Order::where('payment_verify_token', $request->get('payment_verify_token'))
+            ->where('order_reference_id', $order_reference_id)->firstOrFail();
 
 
         $verify_request = $request->all();
@@ -76,7 +77,7 @@ class CheckoutPaymentController extends Controller
         if (!$order->payment_provider) {
             return false;
         }
-
+dd('test11245',$order);
         $isPaymentCompleted = app()->payment_method_manager->verifyPayment($order->payment_provider, $verify_request);
         $isPaymentCompletedTrue = isset($isPaymentCompleted['success']) && $isPaymentCompleted['success'] == true;
 

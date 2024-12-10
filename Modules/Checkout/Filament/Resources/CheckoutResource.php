@@ -169,20 +169,21 @@ class CheckoutResource extends Resource
 
                                         $options = [];
                                         foreach ($methods as $provider) {
-                                            $options[$provider['provider']] = $provider['name'] ?? ucfirst($provider['provider']);
+                                            $options[$provider['id']] = $provider['name'] ?? ucfirst($provider['provider']);
                                         }
 
-                                        $selected = app()->user_manager->session_get('payment_provider');
+                                        $selected = app()->user_manager->session_get('payment_provider_id');
 
                                         $providerForm = app()->payment_method_manager->getForm($selected);
 
                                         $formSchema = [
-                                            Radio::make('payment_method')
+                                            Radio::make('payment_method_id')
+                                                ->label('Payment Method')
                                                 ->options($options)
                                                 ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                    app()->user_manager->session_set('payment_provider', $state);
+                                                    app()->user_manager->session_set('payment_provider_id', $state);
                                                 })
-                                                ->default(fn() => app()->user_manager->session_get('payment_provider'))
+                                                ->default(fn() => app()->user_manager->session_get('payment_provider_id'))
                                                 ->live()
                                                 ->reactive()
                                                 ->columnSpanFull(),
