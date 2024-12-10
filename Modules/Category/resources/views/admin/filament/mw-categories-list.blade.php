@@ -89,6 +89,7 @@
                 let pagesTree = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}', opts);
          //       let pagesTree2 = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}2', {...opts, skin: 'default'});
 
+                const hasData = pagesTree.options.data?.length;
 
 
                 pagesTree.tree.on('selectionChange', e => {

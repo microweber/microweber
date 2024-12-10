@@ -270,5 +270,14 @@ html[dir='rtl'] {
   }
 }
 
+.mw-dialog-drag-start *{
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+.mw-dialog-header--is-draggable{
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
 
 

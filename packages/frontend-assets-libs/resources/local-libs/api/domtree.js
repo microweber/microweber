@@ -97,7 +97,13 @@ mw.DomTree = function (options) {
                                     display = info.name;
                                 }
                                 if (info && info.icon) {
-                                    display = '<span  style="background-image: url(' + info.icon + ')" class="mw_module_settings_sidebar_icon"></span> ' + display;
+                                    console.log(info.icon)
+                                    if(info.icon.indexOf('<svg') !== -1) {
+                                        display = '<span class="mw_module_settings_sidebar_icon mw-module-settings-sidebar-icon-svg">' + info.icon + '</span> ' + display;
+                                    } else {
+                                        display = '<span  style="background-image: url(' + info.icon + ')" class="mw_module_settings_sidebar_icon mw-module-settings-sidebar-icon-background-image"></span> ' + display;
+                                    }
+
                                 }
 
                                 return display;

@@ -215,6 +215,7 @@
         this.draggable = function () {
             if (this.options.draggable && $.fn.draggable) {
                 var $holder = mw.$(this.dialogHolder);
+                $holder.addClass('mw-dialog-header--is-draggable');
                 $holder.draggable({
                     handle: this.options.draggableHandle || '.mw-dialog-header',
                     start: function () {
@@ -227,7 +228,8 @@
                     containment: scope.options.containment,
                     scroll: false,
                     iframeFix: true
-                });
+                })
+
             }
         };
 

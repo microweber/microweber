@@ -3,7 +3,7 @@
         mw.settings.liveEdit = true;
         mw.require("liveadmin.js");
         mw.lib.require("jqueryui");
-        mw.require("events.js");
+
         mw.require("url.js");
         //mw.require("tools.js");
         mw.require("wysiwyg.js");
