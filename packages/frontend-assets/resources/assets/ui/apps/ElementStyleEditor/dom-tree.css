@@ -99,7 +99,7 @@
     cursor: pointer;
     vertical-align: top;
     position: relative;
-    top: 5px;
+    top: 3px;
     margin-inline-end: 5px;
 }
 
@@ -117,4 +117,10 @@
 }
 .expand > .mw-domtree-item-opener:after{
     transform: rotate(90deg);
+}
+
+
+
+html.dark .mw-module-settings-sidebar-icon-background-image{
+    filter: invert(1)
 }

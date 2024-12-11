@@ -304,7 +304,9 @@
 
         if (frame && frame.element) {
             //append remove color
-            var frameEl = $(frame.element).find('.a-color-picker-palette').first()[0];
+            var $frameEl = $(frame.element).find('.a-color-picker-palette').first();
+            var frameEl = $frameEl[0];
+
             var removeColorButton = mw.element('<div class="a-color-picker-palette-color color-picker-palette-color-transparent"  style="background-image: repeating-conic-gradient(silver 0 25%, transparent 0 50%);background-size: 9px 9px;"></div>')
             removeColorButton.on('click', function (e) {
                 e.stopPropagation()
@@ -312,6 +314,9 @@
                     proto.settings.onchange('rgb(0 0 0 / 0%)');
                 }
             });
+
+
+            $frameEl.after(removeColorButton)
 
             var resetColorButton = mw.element(`
                 <div
@@ -327,10 +332,31 @@
             });
 
 
+
+
+
+
+
+            setTimeout(function () {
+                const iframe = frame.element.querySelector("iframe");
+                iframe.style.width = 'calc(100% - 50px)';
+                if(iframe) {
+                    const wrap = $('<div class="a-color-picker-row"></div>');
+                    $frameEl.before(wrap);
+                    wrap
+                        .append(iframe)
+                        .append(resetColorButton.get(0))
+                        .append($frameEl.find('.a-color-picker-palette-add'))
+
+                } else {
+                    $frameEl.append(resetColorButton.get(0))
+                    $frameEl.append($frameEl.find('.a-color-picker-palette-add'))
+                }
+
+            }, 10);
+
+
             frameEl.append(removeColorButton.get(0))
-            frameEl.append(resetColorButton.get(0))
-
-
 
 
             if (typeof mw.top().app !== 'undefined'
