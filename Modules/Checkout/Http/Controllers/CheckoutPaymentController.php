@@ -77,24 +77,21 @@ class CheckoutPaymentController extends Controller
         if (!$order->payment_provider) {
             return false;
         }
-dd('test11245',$order);
-        $isPaymentCompleted = app()->payment_method_manager->verifyPayment($order->payment_provider, $verify_request);
-        $isPaymentCompletedTrue = isset($isPaymentCompleted['success']) && $isPaymentCompleted['success'] == true;
+        if (!$order->payment_provider_id) {
+            return false;
+        }
 
+        $verifyPaymentResponce = app()->payment_method_manager->verifyPayment($order->payment_provider_id, $verify_request);
+        $isPaymentCompletedTrue = isset($verifyPaymentResponce['status']) && $verifyPaymentResponce['status'] == 'completed';
         if ($isPaymentCompletedTrue) {
 
-            $payment_amount = $isPaymentCompleted['amount'];
-            $payment_currency = $isPaymentCompleted['currency'];
-            $payment_data = $isPaymentCompleted['providerResponse'];
-
-            $order->transaction_id = $isPaymentCompleted['transactionId'];
-            $order->payment_amount = $payment_amount;
-            $order->payment_currency = $payment_currency;
+            $order->transaction_id = $verifyPaymentResponce['transactionId'];
+            $order->payment_amount = $verifyPaymentResponce['amount'];
+            $order->payment_currency = $verifyPaymentResponce['currency'];
             $order->is_paid = 1;
             $order->payment_status = 'completed';
-            $order->payment_data = $payment_data;
+            $order->payment_data = $verifyPaymentResponce['providerResponse'];
             $order->save();
-
 
             // Create payment record
             $payment = Payment::create([
@@ -104,7 +101,7 @@ dd('test11245',$order);
                 'currency' => $order->currency,
                 'status' => PaymentStatus::Completed,
                 'payment_provider' => $order->payment_provider,
-                'payment_data' => $payment_data,
+                'payment_data' => $verifyPaymentResponce['providerResponse'],
                 'transaction_id' => $order->transaction_id,
             ]);
 

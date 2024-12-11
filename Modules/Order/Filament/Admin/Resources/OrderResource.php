@@ -84,7 +84,7 @@ class OrderResource extends Resource
                                     ->action(fn(Forms\Set $set) => $set('cart', [])),
                             ])
                             ->schema([
-                              static::getItemsRepeater(),
+                                static::getItemsRepeater(),
                             ]),
                     ])
                     ->columnSpan(['lg' => 2]),
@@ -134,6 +134,8 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultPaginationPageOption(50)
+            ->paginationPageOptions([50, 100, 200, 500, 'all'])
             ->emptyState(function (Table $table) {
                 $modelName = static::$model;
 
@@ -308,7 +310,6 @@ class OrderResource extends Resource
 
     public static function getItemsRepeater(): Repeater
     {
-
 
 
         return Repeater::make('cart')
