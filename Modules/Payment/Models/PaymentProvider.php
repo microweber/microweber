@@ -34,4 +34,5 @@ class PaymentProvider extends \Illuminate\Database\Eloquent\Model
         return $this->getLogoAttribute();
     }
 
+
 }

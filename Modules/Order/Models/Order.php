@@ -49,6 +49,8 @@ class Order extends Model
         'custom_fields_data',
         'order_status',
         'customer_id',
+        'payment_provider_id',
+        'payment_provider',
         'order_reference_id',
     ];
 

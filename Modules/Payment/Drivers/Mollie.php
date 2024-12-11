@@ -77,7 +77,7 @@ class Mollie extends AbstractPaymentMethod
                     'order_reference_id' => $data['order_reference_id'] ?? null,
                     'customer_email' => $data['email'] ?? null,
                 ],
-                'profileId' => $model->settings['profile_id'],
+                'profileId' => $model->settings['profile_id'] ?? null,
                 'description' => $data['description'] ?? 'Order Payment',
             ])->send();
 

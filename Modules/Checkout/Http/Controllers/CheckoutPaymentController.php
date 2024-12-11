@@ -101,6 +101,7 @@ class CheckoutPaymentController extends Controller
                 'currency' => $order->currency,
                 'status' => PaymentStatus::Completed,
                 'payment_provider' => $order->payment_provider,
+                'payment_provider_id' => $order->payment_provider_id,
                 'payment_data' => $verifyPaymentResponce['providerResponse'],
                 'transaction_id' => $order->transaction_id,
             ]);

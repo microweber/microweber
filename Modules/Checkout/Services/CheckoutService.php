@@ -64,7 +64,7 @@ class CheckoutService
             if ($gw_check) {
                 /* @var AbstractPaymentMethod $gatewayResponse */
                 $gatewayResponse = $this->processPayment($data['payment_provider_id'], $orderData);
-
+                $orderData['payment_provider_id'] = $data['payment_provider_id'];
             } else {
                 $orderData['error'] = 'No such payment gateway is activated';
             }

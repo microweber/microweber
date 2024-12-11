@@ -33,6 +33,10 @@ class Payment extends Model
         'updated' => PaymentWasUpdated::class,
         'deleted' => PaymentWasDeleted::class,
     ];
+    public function paymentProvider()
+    {
 
+        return $this->belongsTo(PaymentProvider::class, 'payment_provider_id');
+    }
 
 }

@@ -64,14 +64,21 @@ class PaymentsRelationManager extends RelationManager
                     ->sortable()
                     ->money(fn ($record) => $record->currency),
 
-                Tables\Columns\TextColumn::make('paymentProviderName')
-                    ->formatStateUsing(fn ($state) => Str::headline($state))
+                Tables\Columns\TextColumn::make('paymentProvider.name')
+//                   ->formatStateUsing(function ($state) {
+//                       dd($state);
+//                       dd($record->paymentProvider->name);
+//                        return $record->paymentProvider->name;
+//                    })
+                    //->format(fn ($record) => $record->paymentProvider()->name)
+                 //   ->formatStateUsing(fn ($state) => Str::headline($state))
+                   // ->formatStateUsing(fn ($record) => $record->paymentProvider()->name)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge(),
             ])
             ->filters([
-                //
+               // paymentProviderName
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make(),

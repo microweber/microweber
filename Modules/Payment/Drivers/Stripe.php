@@ -76,7 +76,7 @@ class Stripe extends AbstractPaymentMethod
                 'line_items' => [
                     [
                         'price_data' => [
-                            'unit_amount' => $data['amount'],
+                            'unit_amount' => $data['amount'] * 100,  //in cents
                             'product_data' => ['name' => $data['order_reference_id'] ?? null],
                             'currency' => $data['currency'] ?? 'USD',
                         ],
@@ -151,7 +151,7 @@ class Stripe extends AbstractPaymentMethod
                     return [
                         'success' => true,
                         'transactionId' => $session['id'],
-                        'amount' => $session['amount_total'],
+                        'amount' => $session['amount_total'] / 100, // convert back to whole number
                         'currency' => $session['currency'],
                         'status' => 'completed', // or 'pending'
                         'providerResponse' => $session,

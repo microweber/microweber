@@ -78,6 +78,7 @@ class CheckoutResource extends Resource
                                         Select::make('country')
                                             ->required()
                                             ->searchable()
+                                            ->native()
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
 
                                                 app()->user_manager->session_set('checkout_country', $state);
