@@ -14,9 +14,28 @@ class PickupFromAddress extends AbstractShippingMethod
         return 'Pickup From Address';
     }
 
-    public function getShippingCost($data = []): float
+    public function getShippingCost($data = []): float|int
     {
         return 0;
+    }
+
+    public function getForm(): array
+    {
+        $instructions = $this->getModel()->settings['shipping_instructions'] ?? '';
+
+        if (!$instructions) {
+            return [];
+        }
+
+        return [
+            Forms\Components\Section::make()
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) use ($instructions) {
+                    return [
+                        Forms\Components\Placeholder::make('')
+                            ->content($instructions)
+                    ];
+                })
+        ];
     }
 
     public function getSettingsForm(): array

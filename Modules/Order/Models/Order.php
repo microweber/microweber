@@ -51,6 +51,8 @@ class Order extends Model
         'customer_id',
         'payment_provider_id',
         'payment_provider',
+        'shipping_provider_id',
+        'shipping_provider',
         'order_reference_id',
     ];
 

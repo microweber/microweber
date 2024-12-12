@@ -139,14 +139,16 @@ class CheckoutResource extends Resource
                                         $hasDriver = app()->shipping_method_manager->getProviderById($selectedId);
                                         $providerForm = [];
                                         if ($hasDriver) {
-                                            $providerForm = app()->payment_method_manager->getForm($selectedId);
+                                            $providerForm = app()->shipping_method_manager->getForm($selectedId);
                                         }
+
                                         $formSchema = [
                                             Radio::make('shipping_provider_id')
                                                 ->label('Shipping Method')
                                                 ->options($options)
                                                 ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                     checkout_set_user_info('shipping_provider_id', $state);
+                                                    $livewire->dispatch('reload-cart');
                                                 })
                                                 ->default(fn() => checkout_get_user_info('shipping_provider_id'))
                                                 ->live()

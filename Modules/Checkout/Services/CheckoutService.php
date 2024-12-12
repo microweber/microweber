@@ -103,7 +103,7 @@ class CheckoutService
         ];
     }
 
-    public function setUserInfo($key, $value) : void
+    public function setUserInfo($key, $value): void
     {
         $checkout_session = session_get('checkout') ?: [];
         $checkout_session[$key] = $value;
@@ -185,17 +185,20 @@ class CheckoutService
      */
     public function getShippingCost(array $data = [])
     {
-        $shipping_cost = session_get('shipping_cost', 0);
+        $shipping_cost = 0;
 
-        $shipping_provider_id = $data['shipping_provider_id'] ?? session_get('shipping_provider_id');
-        
+        $shipping_provider_id = checkout_get_user_info('shipping_provider_id');
+
         if ($shipping_provider_id) {
-            $provider = ShippingProvider::find($shipping_provider_id);
+
+            $provider = app()->shipping_method_manager->getProviderById($shipping_provider_id);
+
             if ($provider) {
                 try {
-                    $shipping_cost = $this->app->shipping_manager->driver($provider->provider)->cost();
+                    $shipping_cost = app()->shipping_method_manager->getShippingCost($shipping_provider_id, $data);
+
                 } catch (\InvalidArgumentException $e) {
-                    $shipping_cost = 0;
+
                 }
             }
         }
@@ -304,7 +307,7 @@ class CheckoutService
             'is_paid' => 0,
             'currency' => $this->app->option_manager->get('currency', 'payments') ?: 'USD',
             'amount' => $this->app->shop_manager->cart_total(),
-            'shipping' => $this->getShippingCost($data),
+            'shipping_amount' => $this->getShippingCost($data),
             'items_count' => $this->app->shop_manager->cart_sum(false),
             'order_reference_id' => $order_reference_id,
             'payment_verify_token' => md5(uniqid(time())),
@@ -320,6 +323,10 @@ class CheckoutService
 
         if (isset($data['shipping_provider_id'])) {
             $orderData['shipping_provider_id'] = $data['shipping_provider_id'];
+        }
+
+        if (isset($data['shipping_provider'])) {
+            $orderData['shipping_provider'] = $data['shipping_provider'];
         }
 
         if (get_option('enable_taxes', 'shop') == 1) {

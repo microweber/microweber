@@ -14,19 +14,27 @@ class FlatRate extends AbstractShippingMethod
         return 'Flat Rate';
     }
 
-    public function getShippingCost($data = []): float
+    public function getShippingCost($data = []): float|int
     {
-        return 0;
+        $model = $this->getModel();
+        if (!$model) {
+            return 0;
+        }
+        $shipping_cost = $model->settings['shipping_cost'] ? floatval($model->settings['shipping_cost']) : 0;
+        return $shipping_cost;
     }
 
     public function getForm(): array
     {
+        $instructions = $this->getModel()->settings['shipping_instructions'] ?? 'You have selected the Flat Rate shipping method. This method charges a fixed rate for shipping.';
+
+
         return [
             Forms\Components\Section::make()
-                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) use ($instructions) {
                     return [
                         Forms\Components\Placeholder::make('')
-                            ->content('You have selected the Flat Rate shipping method. This method charges a fixed rate for shipping.')
+                            ->content($instructions)
                     ];
                 })
         ];

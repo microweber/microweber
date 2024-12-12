@@ -24,7 +24,6 @@ class PaymentProviderResource extends Resource
     protected static ?int $navigationSort = 4;
 
 
-
     public static function getAvailableToSetup()
     {
         $existingPaymentProvidersNames = [];
@@ -102,11 +101,11 @@ class PaymentProviderResource extends Resource
                             ->columnSpanFull(),
                     ]),
                 Forms\Components\Wizard\Step::make('Settings')
-                    ->schema(function (Forms\Get $get) use ($paymentDrivers, $form) {
+                    ->schema(function (Forms\Get $get) use ($form) {
 
                         $paymentDriver = $get('provider');
 
-                        if(!$paymentDriver) {
+                        if (!$paymentDriver) {
                             return [];
                         }
 

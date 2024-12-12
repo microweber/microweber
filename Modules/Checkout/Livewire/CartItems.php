@@ -3,6 +3,7 @@
 namespace Modules\Checkout\Livewire;
 
 use Filament\Actions\Concerns\InteractsWithActions;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -19,7 +20,13 @@ class CartItems extends Component implements HasForms
     {
         $this->cartItems = app()->cart_manager->get() ?? [];
         $this->cartTotals = mw()->cart_manager->totals();
+    }
 
+    #[On('reload-cart')]
+    public function reloadCart()
+    {
+        $this->cartItems = app()->cart_manager->get() ?? [];
+        $this->cartTotals = mw()->cart_manager->totals();
     }
 
     public function updateQuantity($itemId, $quantity)

@@ -101,9 +101,6 @@ api_expose('currency_format');
 api_expose('empty_cart');
 api_expose('payment_options');
 
-api_expose('shop/redirect_to_checkout', function () {
-    return app()->shop_manager->redirect_to_checkout();
-});
 
 
 api_expose_admin('get_cart');

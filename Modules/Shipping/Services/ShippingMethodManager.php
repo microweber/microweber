@@ -99,22 +99,22 @@ class ShippingMethodManager extends Manager
         return $driver->getForm();
     }
 
-    public function getShippingCost($providerId, $data): array|null
+    public function getShippingCost($providerId, $data): float|int
     {
         $providerModel = $this->getProviderById($providerId);
 
         if (!$providerModel) {
-            return null;
+            return 0;
         }
         $providerName = $providerModel['provider'] ?? null;
         if (!$this->driverExists($providerName)) {
-            return null;
+            return 0;
         }
         /* @var AbstractShippingMethod $driver */
         $driver = $this->driver($providerName);
         $driver->setModel($providerModel);
-        if ($driver) {
-            return $driver->getShippingCost($data);
-        }
+
+        return $driver->getShippingCost($data);
+
     }
 }

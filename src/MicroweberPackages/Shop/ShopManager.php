@@ -314,17 +314,20 @@ class ShopManager
 
     public function checkout_url()
     {
-        $template_dir = $this->app->template_manager->dir();
-        $file = $template_dir . 'checkout.php';
-        if (is_file($file)) {
-            $default_url = $this->app->url_manager->site('checkout');
-        } else {
-            $default_url = route('checkout.contact_information');
-            $checkout_url = $this->app->option_manager->get('checkout_url', 'shop');
-            if ($checkout_url != false and trim($checkout_url) != '') {
-                $default_url = $checkout_url;
-            }
+//        $template_dir = $this->app->template_manager->dir();
+//        $file = $template_dir . 'checkout.php';
+//        if (is_file($file)) {
+//            $default_url = $this->app->url_manager->site('checkout');
+//        } else {
+//
+//        }
+
+        $default_url = route('filament.checkout.resources.checkout.index');
+        $checkout_url = $this->app->option_manager->get('checkout_url', 'shop');
+        if ($checkout_url != false and trim($checkout_url) != '') {
+            $default_url = $checkout_url;
         }
+
 
         $checkout_url_sess = $this->app->user_manager->session_get('checkout_url');
 

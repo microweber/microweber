@@ -26,8 +26,11 @@ abstract class AbstractShippingMethod
     }
 
 
-    public function getShippingCost($data = []): float
+    public function getShippingCost($data = []): float|int
     {
+
+
+
         return 0;
     }
 

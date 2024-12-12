@@ -460,7 +460,7 @@ class CheckoutManager
 
     public function getShippingModules()
     {
-        return $this->app->shipping_manager->getShippingModules();
+        return $this->app->shipping_method_manager->getProviders();
 
     }
 

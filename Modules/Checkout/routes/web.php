@@ -11,3 +11,10 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('api/checkout/payment/notify', [CheckoutPaymentController::class, 'notify'])->name('checkout.payment.notify'); // checkout.payment.notify
 
 });
+
+Route::group(['middleware' => 'web'], function () {
+
+    Route::any('api/shop/redirect_to_checkout', function () {
+        return app()->shop_manager->redirect_to_checkout();
+    });
+});
