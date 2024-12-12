@@ -1,0 +1,150 @@
+<?php
+
+namespace Modules\Payment\Services;
+
+use Illuminate\Support\Manager;
+use Modules\Payment\Drivers\AbstractPaymentMethod;
+use Modules\Payment\Models\PaymentProvider;
+
+class PaymentMethodManager extends Manager
+{
+    public function getDefaultDriver()
+    {
+        $selected = app()->user_manager->session_get('payment_provider_id');
+        if ($selected) {
+            $provider = $this->getProviderById($selected);
+            if ($provider) {
+                return $provider['provider'];
+            }
+        }
+    }
+
+    public function driverExists($driver)
+    {
+
+        if (!$driver) {
+            return false;
+        }
+        if ($driver and isset($this->customCreators[$driver])) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public function getDrivers()
+    {
+        return array_keys($this->customCreators);
+    }
+
+    public function getProviders(): array
+    {
+        $existingPaymentProvidersNames = [];
+        $existingPaymentProviders = PaymentProvider::where('is_active', 1)
+            ->orderBy('position', 'asc')
+            ->get();
+        if ($existingPaymentProviders) {
+            foreach ($existingPaymentProviders as $existingPaymentProvider) {
+                $item = $existingPaymentProvider->toArray();
+
+                if (!isset($item['provider'])) {
+                    continue;
+                }
+                if (!$this->driverExists($item['provider'])) {
+                    continue;
+                }
+                $existingPaymentProvidersNames[] = $item;
+            }
+        }
+
+        return $existingPaymentProvidersNames;
+
+    }
+
+    public function getProviderById($providerId): PaymentProvider|null
+    {
+        $existingPaymentProvider = PaymentProvider::where('id', $providerId)
+            ->where('is_active', 1)->first();
+        if ($existingPaymentProvider) {
+            $item = $existingPaymentProvider->toArray();
+            if (!$this->driverExists($item['provider'])) {
+                return null;
+            }
+            return $existingPaymentProvider;
+        }
+        return null;
+    }
+
+    public function hasProviders(): bool
+    {
+
+        $existingPaymentProviders = PaymentProvider::where('is_active', 1)->count();
+        if ($existingPaymentProviders) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public function getForm($providerId): array|null
+    {
+        $providerModel = $this->getProviderById($providerId);
+
+
+        if (!$providerModel) {
+            return null;
+        }
+        $providerName = $providerModel['provider'] ?? null;
+        if (!$this->driverExists($providerName)) {
+            return null;
+        }
+        /* @var AbstractPaymentMethod $driver */
+        $driver = $this->driver($providerName);
+        $driver->setModel($providerModel);
+
+
+        return $driver->getForm();
+
+    }
+
+    public function process($providerId, $data): array|null
+    {
+        $providerModel = $this->getProviderById($providerId);
+
+
+        if (!$providerModel) {
+            return null;
+        }
+        $providerName = $providerModel['provider'] ?? null;
+        if (!$this->driverExists($providerName)) {
+            return null;
+        }
+        /* @var AbstractPaymentMethod $driver */
+        $driver = $this->driver($providerName);
+        $driver->setModel($providerModel);
+        if ($driver) {
+            return $driver->process($data);
+        }
+    }
+
+    public function verifyPayment($providerId, $data): array|null
+    {
+        $providerModel = $this->getProviderById($providerId);
+
+
+        if (!$providerModel) {
+            return null;
+        }
+        $providerName = $providerModel['provider'] ?? null;
+        if (!$this->driverExists($providerName)) {
+            return null;
+        }
+        /* @var AbstractPaymentMethod $driver */
+        $driver = $this->driver($providerName);
+        $driver->setModel($providerModel);
+
+        return $driver->verifyPayment($data);
+
+    }
+}

@@ -3,16 +3,13 @@
 namespace Modules\Shipping\Providers;
 
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use MicroweberPackages\App\Application;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Shipping\Filament\Admin\Resources\ShippingProviderResource;
+use Modules\Shipping\Services\ShippingMethodManager;
 use Modules\Shipping\ShippingManager;
-use Modules\Shipping\ShippingMethodManager;
 
 class ShippingServiceProvider extends BaseModuleServiceProvider
 {

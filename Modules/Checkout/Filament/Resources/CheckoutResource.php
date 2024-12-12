@@ -11,7 +11,6 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
-use Modules\Checkout\Filament\Actions\PaymentAction;
 use Illuminate\Support\Facades\Event;
 use Modules\Checkout\Livewire\ReviewOrder;
 use Modules\Checkout\Livewire\CartItems;
@@ -37,7 +36,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('first_name')
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('first_name', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -46,7 +45,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('last_name')
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('last_name', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -56,7 +55,7 @@ class CheckoutResource extends Resource
                                             ->email()
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('email', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -65,7 +64,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('phone')
                                             ->tel()
                                             ->required()
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('phone', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -79,7 +78,7 @@ class CheckoutResource extends Resource
                                             ->required()
                                             ->searchable()
                                             ->native()
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('country', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -91,7 +90,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('city')
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('city', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -100,7 +99,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('state')
                                             ->required()
                                             ->maxLength(255)
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('state', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -109,7 +108,7 @@ class CheckoutResource extends Resource
                                         TextInput::make('postal_code')
                                             ->required()
                                             ->maxLength(20)
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('postal_code', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -119,7 +118,7 @@ class CheckoutResource extends Resource
                                             ->required()
                                             ->maxLength(255)
                                             ->columnSpanFull()
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('address', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
@@ -129,29 +128,38 @@ class CheckoutResource extends Resource
 
 
                                 Section::make('Shipping Method')
-                                    ->schema([
-                                        Radio::make('shipping_method')
-                                            ->options(function () {
-                                                $methods = app()->shipping_method_manager->getProviders();
-                                                $options = [];
-                                                foreach ($methods as $id) {
-                                                    $options[$id] = ucfirst($id);
-                                                }
-                                                return $options;
-                                            })
-                                            ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                checkout_set_user_info('shipping_provider', $state);
-                                                $livewire->dispatch('shipping-method-changed');
-                                            })
-                                            ->default(fn() => checkout_get_user_info('shipping_provider'))
-                                            ->live()
-                                            ->columnSpanFull(),
+                                    ->schema(function (Forms\Get $get) {
+                                        $methods = app()->shipping_method_manager->getProviders();
+                                        $options = [];
+                                        foreach ($methods as $provider) {
+                                            $options[$provider['id']] = $provider['name'] ?? ucfirst($provider['provider']);
+                                        }
 
-//                                        Forms\Components\View::make('modules.shipping::filament.components.shipping-method-renderer')
-//                                            ->statePath('shipping_method')
-//                                            ->live()
-//                                            ->columnSpanFull(),
-                                    ])
+                                        $selectedId = checkout_get_user_info('shipping_provider_id');
+                                        $hasDriver = app()->shipping_method_manager->getProviderById($selectedId);
+                                        $providerForm = [];
+                                        if ($hasDriver) {
+                                            $providerForm = app()->payment_method_manager->getForm($selectedId);
+                                        }
+                                        $formSchema = [
+                                            Radio::make('shipping_provider_id')
+                                                ->label('Shipping Method')
+                                                ->options($options)
+                                                ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                                    checkout_set_user_info('shipping_provider_id', $state);
+                                                })
+                                                ->default(fn() => checkout_get_user_info('shipping_provider_id'))
+                                                ->live()
+                                                ->reactive()
+                                                ->columnSpanFull(),
+                                        ];
+                                        if ($providerForm) {
+                                            $formSchema = array_merge($formSchema, $providerForm);
+                                        }
+
+                                        return $formSchema;
+                                    }),
+
                             ])
                             ->columnSpan(1),
 
@@ -164,7 +172,7 @@ class CheckoutResource extends Resource
                                     ]),
 
                                 Section::make('Payment Method')
-                                    ->schema(function (callable $get) {
+                                    ->schema(function (Forms\Get $get) {
                                         $methods = app()->payment_method_manager->getProviders();
 
                                         $options = [];
@@ -182,7 +190,7 @@ class CheckoutResource extends Resource
                                             Radio::make('payment_method_id')
                                                 ->label('Payment Method')
                                                 ->options($options)
-                                                ->afterStateUpdated(function ($state, callable $get, $livewire) {
+                                                ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                     checkout_set_user_info('payment_provider_id', $state);
                                                 })
                                                 ->default(fn() => checkout_get_user_info('payment_provider_id'))

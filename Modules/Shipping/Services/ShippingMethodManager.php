@@ -1,25 +1,26 @@
 <?php
 
-namespace Modules\Payment\Repositories;
+namespace Modules\Shipping\Services;
 
 use Illuminate\Support\Manager;
-use Modules\Order\Models\Order;
-use Modules\Payment\Drivers\AbstractPaymentMethod;
-use Modules\Payment\Models\PaymentProvider;
+use Modules\Shipping\Drivers\AbstractShippingMethod;
+use Modules\Shipping\Models\ShippingProvider;
 
-class PaymentMethodManager extends Manager
+class ShippingMethodManager extends Manager
 {
     public function getDefaultDriver()
     {
-        $selected = app()->user_manager->session_get('payment_provider');
+        $selected = app()->user_manager->session_get('shipping_provider_id');
         if ($selected) {
-            return $selected;
+            $provider = $this->getProviderById($selected);
+            if ($provider) {
+                return $provider['provider'];
+            }
         }
     }
 
     public function driverExists($driver)
     {
-
         if (!$driver) {
             return false;
         }
@@ -29,7 +30,6 @@ class PaymentMethodManager extends Manager
         return false;
     }
 
-
     public function getDrivers()
     {
         return array_keys($this->customCreators);
@@ -37,11 +37,13 @@ class PaymentMethodManager extends Manager
 
     public function getProviders(): array
     {
-        $existingPaymentProvidersNames = [];
-        $existingPaymentProviders = PaymentProvider::where('is_active', 1)->get();
-        if ($existingPaymentProviders) {
-            foreach ($existingPaymentProviders as $existingPaymentProvider) {
-                $item = $existingPaymentProvider->toArray();
+        $existingShippingProvidersNames = [];
+        $existingShippingProviders = ShippingProvider::where('is_active', 1)
+            ->orderBy('position', 'asc')
+            ->get();
+        if ($existingShippingProviders) {
+            foreach ($existingShippingProviders as $existingShippingProvider) {
+                $item = $existingShippingProvider->toArray();
 
                 if (!isset($item['provider'])) {
                     continue;
@@ -49,45 +51,40 @@ class PaymentMethodManager extends Manager
                 if (!$this->driverExists($item['provider'])) {
                     continue;
                 }
-                $existingPaymentProvidersNames[] = $item;
+                $existingShippingProvidersNames[] = $item;
             }
         }
 
-        return $existingPaymentProvidersNames;
-
+        return $existingShippingProvidersNames;
     }
 
-    public function getProviderById($providerId): PaymentProvider|null
+    public function getProviderById($providerId): ShippingProvider|null
     {
-        $existingPaymentProvider = PaymentProvider::where('id', $providerId)
+        $existingShippingProvider = ShippingProvider::where('id', $providerId)
             ->where('is_active', 1)->first();
-        if ($existingPaymentProvider) {
-            $item = $existingPaymentProvider->toArray();
+        if ($existingShippingProvider) {
+            $item = $existingShippingProvider->toArray();
             if (!$this->driverExists($item['provider'])) {
                 return null;
             }
-            return $existingPaymentProvider;
+            return $existingShippingProvider;
         }
         return null;
     }
 
     public function hasProviders(): bool
     {
-
-        $existingPaymentProviders = PaymentProvider::where('is_active', 1)->count();
-        if ($existingPaymentProviders) {
+        $existingShippingProviders = ShippingProvider::where('is_active', 1)->count();
+        if ($existingShippingProviders) {
             return true;
         }
-
         return false;
     }
-
 
     public function getForm($providerId): array|null
     {
         $providerModel = $this->getProviderById($providerId);
 
-
         if (!$providerModel) {
             return null;
         }
@@ -95,19 +92,16 @@ class PaymentMethodManager extends Manager
         if (!$this->driverExists($providerName)) {
             return null;
         }
-        /* @var AbstractPaymentMethod $driver */
+
         $driver = $this->driver($providerName);
         $driver->setModel($providerModel);
 
-
         return $driver->getForm();
-
     }
 
-    public function process($providerId, $data): array|null
+    public function getShippingCost($providerId, $data): array|null
     {
         $providerModel = $this->getProviderById($providerId);
-
 
         if (!$providerModel) {
             return null;
@@ -116,31 +110,11 @@ class PaymentMethodManager extends Manager
         if (!$this->driverExists($providerName)) {
             return null;
         }
-        /* @var AbstractPaymentMethod $driver */
+        /* @var AbstractShippingMethod $driver */
         $driver = $this->driver($providerName);
         $driver->setModel($providerModel);
         if ($driver) {
-            return $driver->process($data);
+            return $driver->getShippingCost($data);
         }
-    }
-
-    public function verifyPayment($providerId, $data): array|null
-    {
-        $providerModel = $this->getProviderById($providerId);
-
-
-        if (!$providerModel) {
-            return null;
-        }
-        $providerName = $providerModel['provider'] ?? null;
-        if (!$this->driverExists($providerName)) {
-            return null;
-        }
-        /* @var AbstractPaymentMethod $driver */
-        $driver = $this->driver($providerName);
-        $driver->setModel($providerModel);
-
-        return $driver->verifyPayment($data);
-
     }
 }

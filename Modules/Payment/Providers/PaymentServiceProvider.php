@@ -9,7 +9,7 @@ use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Payment\Filament\Admin\Resources\PaymentProviderResource;
 use Modules\Payment\Filament\Admin\Resources\PaymentResource;
 use Modules\Payment\Microweber\PaymentModule;
-use Modules\Payment\Repositories\PaymentMethodManager;
+use Modules\Payment\Services\PaymentMethodManager;
 
 class PaymentServiceProvider extends BaseModuleServiceProvider
 {

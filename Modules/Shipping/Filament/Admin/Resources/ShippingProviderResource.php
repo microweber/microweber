@@ -23,74 +23,68 @@ class ShippingProviderResource extends Resource
     public static function form(Form $form): Form
     {
 
-        $shippingDriversOption = [];
-        $shippingDrivers = app()->shipping_method_manager->getProviders();
-
-        if($shippingDrivers){
-            foreach ($shippingDrivers as $shippingDriver) {
-                $driver = app()->shipping_method_manager->driver($shippingDriver);
-                if (!($driver->title())) {
-                    continue;
-                }
-
-
-
-                $shippingDriversOption[$shippingDriver] = $driver->title();
-            }
-        }
-
-
-
-        $schema = [
-
-            Forms\Components\TextInput::make('name')
-                ->label('Name')
-                ->placeholder('Name')
-                ->required()
-                ->columnSpan('full'),
-
-            Forms\Components\Select::make('provider')
-                ->label('Provider')
-                ->live()
-                ->reactive()
-                ->afterStateUpdated(function (Forms\Components\Select $component, Forms\Set $set, ?string $state) {
-
-                    $set('provider', $state);
-                })
-                ->placeholder('Select Provider')
-                ->options($shippingDriversOption)
-                ->required()
-                ->columnSpan('full'),
-
-            Forms\Components\Toggle::make('is_active')
-                ->default(1)
-                ->label('Is Active')
-                ->columnSpan('full')
-                ->required(),
-        ];
-
-
-        if ($shippingDrivers) {
-
-            foreach ($shippingDrivers as $provider) {
-                $driver = app()->shipping_method_manager->driver($provider);
-                if (is_object($driver) and method_exists($driver, 'getSettingsForm')) {
-                    $provderForm = $driver->getSettingsForm($form);
-                    if ($provderForm) {
-                        $schema = array_merge($schema, $provderForm);
-                    }
-                }
-            }
-        }
-
-
-
 
         return $form
-            ->schema($schema);
+            ->schema(function (Forms\Get $get) {
+                $shippingDriversOption = [];
+                $shippingDrivers = app()->shipping_method_manager->getDrivers();
+
+                if ($shippingDrivers) {
+                    foreach ($shippingDrivers as $shippingDriver) {
+                        $driver = app()->shipping_method_manager->driver($shippingDriver);
+                        if (!($driver->title())) {
+                            continue;
+                        }
+
+
+                        $shippingDriversOption[$shippingDriver] = $driver->title();
+                    }
+                }
+
+
+                $schema = [
+
+                    Forms\Components\TextInput::make('name')
+                        ->label('Name')
+                        ->placeholder('Name')
+                        ->required()
+                        ->columnSpan('full'),
+
+                    Forms\Components\Select::make('provider')
+                        ->label('Provider')
+                        ->live()
+                        ->reactive()
+                        ->afterStateUpdated(function (Forms\Components\Select $component, Forms\Set $set, ?string $state) {
+
+                            $set('provider', $state);
+                        })
+                        ->placeholder('Select Provider')
+                        ->options($shippingDriversOption)
+                        ->required()
+                        ->columnSpan('full'),
+
+                    Forms\Components\Toggle::make('is_active')
+                        ->default(1)
+                        ->label('Is Active')
+                        ->columnSpan('full')
+                        ->required(),
+                ];
+
+
+                if ($shippingDrivers) {
+                    foreach ($shippingDrivers as $provider) {
+                        $driver = app()->shipping_method_manager->driver($provider);
+                        if (is_object($driver) and method_exists($driver, 'getSettingsForm')) {
+                            $provderForm = $driver->getSettingsForm();
+                            if ($provderForm) {
+                                $schema = array_merge($schema, $provderForm);
+                            }
+                        }
+                    }
+                }
+                return $schema;
+            });
     }
-
-
 
 
     public static function table(Table $table): Table
@@ -101,7 +95,6 @@ class ShippingProviderResource extends Resource
                 return view('modules.content::filament.admin.empty-state', ['modelName' => $modelName]);
 
             })
-
             ->columns([
 
                 Tables\Columns\TextColumn::make('id')

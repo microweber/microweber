@@ -5,10 +5,8 @@ namespace Modules\Checkout\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Order\Models\Order;
-use Modules\Payment\Enums\PaymentStatus;
-use Modules\Payment\Models\Payment;
-use Modules\Payment\Repositories\PaymentMethodManager;
 use Modules\Payment\Events\PaymentWasProcessed;
+use Modules\Payment\Models\Payment;
 
 class CheckoutPaymentController extends Controller
 {
@@ -56,8 +54,8 @@ class CheckoutPaymentController extends Controller
         if (!$vkey || !$payment_verify_token) {
             return response()->json(['status' => 'error', 'message' => 'Invalid request']);
         }
-        $encrypter = new \Illuminate\Encryption\Encrypter(md5(\Config::get('app.key') . $payment_verify_token),
-            \Config::get('app.cipher'));
+        $encrypter = new \Illuminate\Encryption\Encrypter(md5(config('app.key') . $payment_verify_token),
+            config('app.cipher'));
 
         $decrypt_data = $encrypter->decrypt($vkey);
         if (md5($payment_verify_token) != $decrypt_data) {

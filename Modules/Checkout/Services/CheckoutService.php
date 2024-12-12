@@ -7,6 +7,7 @@ use Modules\Order\Events\OrderWasPaid;
 use Modules\Order\Models\Order;
 use MicroweberPackages\Utils\Mail\MailSender;
 use Modules\Payment\Drivers\AbstractPaymentMethod;
+use Modules\Shipping\Models\ShippingProvider;
 
 class CheckoutService
 {
@@ -55,8 +56,6 @@ class CheckoutService
         $orderData = $this->prepareOrderData($data);
 
         if (isset($data['payment_provider_id'])) {
-
-
             $gatewayResponse = [];
             $gw_check = app()->payment_method_manager->getProviderById($data['payment_provider_id']);
 
@@ -84,9 +83,7 @@ class CheckoutService
             if (isset($gatewayResponse['transactionId']) and $gatewayResponse['transactionId']) {
                 $orderData['transaction_id'] = $gatewayResponse['transactionId'];
             }
-
         }
-
 
         if (isset($orderData['error'])) {
             return array('error' => $orderData['error']);
@@ -118,30 +115,32 @@ class CheckoutService
      */
     public function getUserInfo($key = false)
     {
-    //    $ready = [];
         $ready = session_get('checkout') ?: [];
 
         $user_fields = ['email', 'last_name', 'first_name', 'phone', 'username', 'middle_name'];
-        $shipping_fields = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_provider_id'];
+        $shipping_fields = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_provider_id', 'payment_provider_id'];
         $all_fields = array_merge($user_fields, $shipping_fields);
 
         // Get shipping address from profile if logged in
         if (is_logged()) {
             $shipping_address = $this->app->user_manager->get_shipping_address();
             foreach ($all_fields as $field) {
-                if (!empty($shipping_address[$field])) {
-                    $ready[$field] = $shipping_address[$field];
+                if (!isset($ready[$field])) {
+                    if (!empty($shipping_address[$field])) {
+                        $ready[$field] = $shipping_address[$field];
+                    }
                 }
             }
         }
 
         // Merge with session data
         foreach ($all_fields as $field) {
-            if (isset($checkout_session[$field])) {
-                $ready[$field] = $checkout_session[$field];
+            if (!isset($ready[$field])) {
+                if (isset($checkout_session[$field])) {
+                    $ready[$field] = $checkout_session[$field];
+                }
             }
         }
-
 
         if (is_logged()) {
             $user_fields = get_user();
@@ -153,12 +152,6 @@ class CheckoutService
                 }
             }
         }
-
-        // Set country from session if not set
-//        if (!isset($ready['country'])) {
-//            $ready['country'] = session_get('shipping_country');
-//        }
-
 
         if ($key) {
             return $ready[$key] ?? null;
@@ -194,12 +187,17 @@ class CheckoutService
     {
         $shipping_cost = session_get('shipping_cost', 0);
 
-        $shipping_provider = $data['shipping_gw'] ?? session_get('shipping_provider', 'default');
-
-        try {
-            $shipping_cost = $this->app->shipping_manager->driver($shipping_provider)->cost();
-        } catch (\InvalidArgumentException $e) {
-            $shipping_cost = 0;
+        $shipping_provider_id = $data['shipping_provider_id'] ?? session_get('shipping_provider_id');
+        
+        if ($shipping_provider_id) {
+            $provider = ShippingProvider::find($shipping_provider_id);
+            if ($provider) {
+                try {
+                    $shipping_cost = $this->app->shipping_manager->driver($provider->provider)->cost();
+                } catch (\InvalidArgumentException $e) {
+                    $shipping_cost = 0;
+                }
+            }
         }
 
         return $shipping_cost;
@@ -216,7 +214,10 @@ class CheckoutService
             'postal_code' => 'zip',
             'payment_gw' => 'payment_provider',
             'payment_method' => 'payment_provider',
-            'payment_method_id' => 'payment_provider_id'
+            'payment_method_id' => 'payment_provider_id',
+            'shipping_gw' => 'shipping_provider',
+            'shipping_method' => 'shipping_provider',
+            'shipping_method_id' => 'shipping_provider_id'
         ];
 
         foreach ($mappings as $old => $new) {
@@ -289,7 +290,6 @@ class CheckoutService
      */
     protected function prepareOrderData($data)
     {
-
         $order_reference_id = 'ORD-' . crc32(uniqid(time()));
         //check if exists
         $check = Order::where('order_reference_id', $order_reference_id)->first();
@@ -316,6 +316,10 @@ class CheckoutService
             if (isset($data[$field])) {
                 $orderData[$field] = $data[$field];
             }
+        }
+
+        if (isset($data['shipping_provider_id'])) {
+            $orderData['shipping_provider_id'] = $data['shipping_provider_id'];
         }
 
         if (get_option('enable_taxes', 'shop') == 1) {

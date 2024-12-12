@@ -4,7 +4,7 @@ namespace Modules\Checkout\Services;
 
 use Modules\Payment\Models\Payment;
 use Modules\Payment\Models\PaymentProvider;
-use Modules\Payment\Repositories\PaymentMethodManager;
+use Modules\Payment\Services\PaymentMethodManager;
 
 class PaymentService
 {

@@ -7,21 +7,19 @@ use Filament\Forms;
 
 class PickupFromAddress extends AbstractShippingMethod
 {
+    public string $provider = 'pickup_from_address';
 
     public function title(): string
     {
         return 'Pickup From Address';
     }
 
-    public function process($data = [])
+    public function getShippingCost($data = []): float
     {
-        return [
-            'success' => true,
-            // 'redirect' => route('checkout.success')
-        ];
+        return 0;
     }
 
-    public function getSettingsForm($form): array
+    public function getSettingsForm(): array
     {
         return [
             Forms\Components\Section::make()
@@ -51,10 +49,5 @@ class PickupFromAddress extends AbstractShippingMethod
         ];
     }
 
-
-    public function view(): string
-    {
-        return 'shipping::flat_rate';
-    }
 
 }

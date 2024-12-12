@@ -7,21 +7,32 @@ use Filament\Forms;
 
 class FlatRate extends AbstractShippingMethod
 {
+    public string $provider = 'flat_rate';
 
     public function title(): string
     {
         return 'Flat Rate';
     }
 
-    public function process($data = [])
+    public function getShippingCost($data = []): float
+    {
+        return 0;
+    }
+
+    public function getForm(): array
     {
         return [
-            'success' => true,
-            // 'redirect' => route('checkout.success')
+            Forms\Components\Section::make()
+                ->schema(function (Forms\Components\Section $component, Forms\Set $set, Forms\Get $get, ?array $state) {
+                    return [
+                        Forms\Components\Placeholder::make('')
+                            ->content('You have selected the Flat Rate shipping method. This method charges a fixed rate for shipping.')
+                    ];
+                })
         ];
     }
 
-    public function getSettingsForm($form): array
+    public function getSettingsForm(): array
     {
         return [
             Forms\Components\Section::make()
@@ -55,10 +66,5 @@ class FlatRate extends AbstractShippingMethod
         ];
     }
 
-
-    public function view(): string
-    {
-        return 'shipping::flat_rate';
-    }
 
 }

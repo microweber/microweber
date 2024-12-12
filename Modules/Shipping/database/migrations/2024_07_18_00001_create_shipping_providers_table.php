@@ -4,8 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShippingProvidersTable extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -23,7 +22,6 @@ class CreateShippingProvidersTable extends Migration
             $table->string('name')->nullable();
             $table->string('provider')->nullable();
             $table->integer('is_active')->nullable();
-            $table->integer('is_default')->nullable();
             $table->integer('position')->nullable();
             $table->text('settings')->nullable();
             $table->timestamps();
@@ -32,5 +30,9 @@ class CreateShippingProvidersTable extends Migration
 
     }
 
+    public function down()
+    {
+        Schema::dropIfExists('shipping_providers');
+    }
 
-}
+};

@@ -86,6 +86,7 @@ class KitchenSink extends Page
                             ->icon('heroicon-o-user')
                             ->badge('New Badge')
                             ->badgeColor('info')
+
                             ->schema([
                                 TextInput::make('name')->required(),
                                 TextInput::make('email')->required(),
@@ -114,6 +115,7 @@ class KitchenSink extends Page
                             ->columns()
                             ->label('User Details')
                             ->icon('heroicon-o-user')
+
                             ->badge('New Badge')
                             ->badgeColor('info')
                             ->schema([
@@ -170,6 +172,7 @@ class KitchenSink extends Page
                     Actions\Action::make('star')
                         ->icon('heroicon-m-star')
                         ->requiresConfirmation()
+                        ->tooltip('New Badge Tooltip')
                         ->action(function () {
                             Notification::make()
                                 ->title('Saved successfully')

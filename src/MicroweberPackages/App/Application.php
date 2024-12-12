@@ -46,9 +46,9 @@ use Modules\CustomFields\Repositories\FieldsManager;
 use Modules\Menu\Repositories\MenuRepository;
 use Modules\Order\Repositories\OrderManager;
 use Modules\Order\Repositories\OrderRepository;
-use Modules\Payment\Repositories\PaymentMethodManager;
+use Modules\Payment\Services\PaymentMethodManager;
+use Modules\Shipping\Services\ShippingMethodManager;
 use Modules\Shipping\ShippingManager;
-use Modules\Shipping\ShippingMethodManager;
 
 
 /**
@@ -111,7 +111,7 @@ use Modules\Shipping\ShippingMethodManager;
  * @property TranslateManager $translate_manager
  * @property  MicroweberRepository $microweber
  * @property PaymentMethodManager $payment_method_manager
- * @property ShippingMethodManager $shipping_method_manager
+ * @property \Modules\Shipping\Services\ShippingMethodManager $shipping_method_manager
  * @property LaravelTemplatesFileRepository $templates
  * @property LaravelModulesFileRepository $modules
  */

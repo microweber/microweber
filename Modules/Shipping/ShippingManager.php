@@ -15,6 +15,7 @@ namespace Modules\Shipping;
 use Illuminate\Support\Manager;
 use Modules\Shipping\Providers\AbstractShippingDriver;
 use Modules\Shipping\Providers\NoShippingDriver;
+use Modules\Shipping\Models\ShippingProvider;
 
 
 /**
@@ -24,7 +25,6 @@ class ShippingManager extends Manager
 {
 
     public $shippingModules = [];
-    // public $defaultDriver = 'NoShippingDriver';
 
     /**
      * Get default driver instance.
@@ -35,33 +35,36 @@ class ShippingManager extends Manager
      */
     public function getDefaultDriver()
     {
-        $selected = app()->user_manager->session_get('shipping_provider');
+        $selected = app()->user_manager->session_get('shipping_provider_id');
 
+        if ($selected) {
+            $provider = ShippingProvider::find($selected);
+            if ($provider && $provider->provider) {
+                if (!isset($this->drivers[$provider->provider])) {
+                    $this->drivers[$provider->provider] = $this->createDriver($provider->provider);
+                }
+                return $this->drivers[$provider->provider];
+            }
+        }
 
         if (!$selected) {
             $mods = $this->getShippingModules();
             if ($mods and isset($mods[0]) and isset($mods[0]['gw_file'])) {
-                $selected = $mods[0]['gw_file'];
+                $provider = ShippingProvider::where('provider', $mods[0]['gw_file'])->first();
+                if ($provider) {
+                    $selected = $provider->id;
+                    app()->user_manager->session_set('shipping_provider_id', $selected);
+                }
             }
         }
 
-
-        if ($selected) {
-            if (!isset($this->drivers[$selected])) {
-                $this->drivers[$selected] = $this->createDriver($selected);
-            }
-            return $this->drivers[$selected];
-
-        } else {
-            return new NoShippingDriver();
-        }
+        return new NoShippingDriver();
     }
 
     public function createDefaultDriver()
     {
         return $this->getDefaultDriver();
     }
-
 
     /**
      * Get a driver instance.
@@ -76,25 +79,12 @@ class ShippingManager extends Manager
         return parent::driver($driver);
     }
 
-
-
     /**
      * @deprecated
      */
     public function getShippingModules($only_enabled = true)
     {
-
-        $shipping_modules_path = modules_path() . 'shop/shipping/gateways';
-
-
-     //   $shipping_gateways = get_modules('is_installed=1&type=shipping_gateway');
-      //  $shipping_gateways = get_modules('is_installed=1&type=shipping_gateway');
         $shipping_gateways = app()->module_repository->getModulesByType('shipping_gateway');
-
-        if ($shipping_gateways == false) {
-          //  $shipping_gateways = scan_for_modules("cache_group=modules/global&dir_name={$shipping_modules_path}");
-
-        }
 
         if (!empty($shipping_gateways)) {
             $gw = array();
@@ -106,7 +96,6 @@ class ShippingManager extends Manager
                     $item['module_base'] = $item['module'];
                 }
                 $gw[] = $item;
-
             }
 
             $this->shippingModules = $gw;
@@ -114,14 +103,14 @@ class ShippingManager extends Manager
             $this->shippingModules = $shipping_gateways;
         }
 
-
         if ($only_enabled) {
             if (!empty($this->shippingModules)) {
                 foreach ($this->shippingModules as $key => $item) {
-                    if (isset($item['gw_file']) and isset($item['gw_file'])) {
+                    if (isset($item['gw_file'])) {
                         $isEnabled = false;
                         try {
-                            $isEnabled = $this->driver($item['gw_file'])->isEnabled();
+                            $provider = ShippingProvider::where('provider', $item['gw_file'])->where('is_active', 1)->first();
+                            $isEnabled = $provider ? true : false;
                         } catch (\InvalidArgumentException $e) {
                             $isEnabled = false;
                         }
@@ -129,27 +118,21 @@ class ShippingManager extends Manager
                         if (!$isEnabled) {
                             unset($this->shippingModules[$key]);
                         }
-
                     }
-
-
                 }
             }
         }
-
 
         return $this->shippingModules;
     }
 
     public function setDefaultDriver($driver)
     {
-        app()->user_manager->session_set('shipping_provider', $driver);
-        return true;
+        $provider = ShippingProvider::where('provider', $driver)->first();
+        if ($provider) {
+            app()->user_manager->session_set('shipping_provider_id', $provider->id);
+            return true;
+        }
+        return false;
     }
-
-//    public function with($driver = null)
-//    {
-//        return $this->driver($driver);
-//    }
-
 }

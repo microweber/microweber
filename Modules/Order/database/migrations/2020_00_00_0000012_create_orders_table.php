@@ -56,7 +56,7 @@ return new class extends Migration {
             // Payment-related columns
             $table->longText('transaction_id')->nullable();
             $table->string('payment_provider')->nullable();
-            $table->string('payment_provider_id')->nullable();
+            $table->integer('payment_provider_id')->nullable();
             $table->string('payment_verify_token')->nullable();
             $table->float('payment_amount')->nullable();
             $table->string('payment_currency')->nullable();
@@ -68,8 +68,9 @@ return new class extends Migration {
 
             //shipping
 
-            $table->longText('shipping_service')->nullable();
-            $table->float('shipping')->nullable();
+            $table->string('shipping_provider')->nullable();
+            $table->integer('shipping_provider_id')->nullable();
+            $table->float('shipping_amount')->nullable();
 
 
             // Timestamps
