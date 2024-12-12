@@ -56,7 +56,7 @@ default => 'primary',
 {{ $salutation }}
 @else
 @lang('Regards,')<br>
-{{ config('app.name') }}
+{{ get_option('website_title', 'website') }} Team
 @endif
 
 {{-- Subcopy --}}
