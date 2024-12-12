@@ -163,7 +163,7 @@
                                                        class="form-check-input">
                                             </label>
 
-                                        </div> 
+                                        </div>
                                     </div>
 
                                 @endforeach
