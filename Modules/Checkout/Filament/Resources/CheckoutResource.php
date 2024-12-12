@@ -38,38 +38,38 @@ class CheckoutResource extends Resource
                                             ->required()
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('checkout_first_name', $state);
+                                                checkout_set_user_info('first_name', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_first_name')),
+                                            ->default(fn() => checkout_get_user_info('first_name')),
 
                                         TextInput::make('last_name')
                                             ->required()
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('checkout_last_name', $state);
+                                                checkout_set_user_info('last_name', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_last_name')),
+                                            ->default(fn() => checkout_get_user_info('last_name')),
 
                                         TextInput::make('email')
                                             ->email()
                                             ->required()
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('checkout_email', $state);
+                                                checkout_set_user_info('email', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_email')),
+                                            ->default(fn() => checkout_get_user_info('email')),
 
                                         TextInput::make('phone')
                                             ->tel()
                                             ->required()
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('checkout_phone', $state);
+                                                checkout_set_user_info('phone', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_phone')),
+                                            ->default(fn() => checkout_get_user_info('phone')),
                                     ])
                                     ->columns(2),
 
@@ -80,51 +80,50 @@ class CheckoutResource extends Resource
                                             ->searchable()
                                             ->native()
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-
-                                                app()->user_manager->session_set('checkout_country', $state);
+                                                checkout_set_user_info('country', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
                                             ->options(function () {
                                                 return app()->country_manager->getCountries();
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_country')),
+                                            ->default(fn() => checkout_get_user_info('country')),
 
                                         TextInput::make('city')
                                             ->required()
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('checkout_city', $state);
+                                                checkout_set_user_info('city', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_city')),
+                                            ->default(fn() => checkout_get_user_info('city')),
 
                                         TextInput::make('state')
                                             ->required()
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('checkout_state', $state);
+                                                checkout_set_user_info('state', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_state')),
+                                            ->default(fn() => checkout_get_user_info('state')),
 
                                         TextInput::make('postal_code')
                                             ->required()
                                             ->maxLength(20)
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('checkout_postal_code', $state);
+                                                checkout_set_user_info('postal_code', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_postal_code')),
+                                            ->default(fn() => checkout_get_user_info('postal_code')),
 
                                         Forms\Components\Textarea::make('address')
                                             ->required()
                                             ->maxLength(255)
                                             ->columnSpanFull()
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('checkout_address', $state);
+                                                checkout_set_user_info('address', $state);
                                                 $livewire->dispatch('cart-updated');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('checkout_address')),
+                                            ->default(fn() => checkout_get_user_info('address')),
                                     ])
                                     ->columns(2),
 
@@ -141,17 +140,17 @@ class CheckoutResource extends Resource
                                                 return $options;
                                             })
                                             ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                app()->user_manager->session_set('shipping_provider', $state);
+                                                checkout_set_user_info('shipping_provider', $state);
                                                 $livewire->dispatch('shipping-method-changed');
                                             })
-                                            ->default(fn() => app()->user_manager->session_get('shipping_provider'))
+                                            ->default(fn() => checkout_get_user_info('shipping_provider'))
                                             ->live()
                                             ->columnSpanFull(),
 
-                                        Forms\Components\View::make('modules.shipping::filament.components.shipping-method-renderer')
-                                            ->statePath('shipping_method')
-                                            ->live()
-                                            ->columnSpanFull(),
+//                                        Forms\Components\View::make('modules.shipping::filament.components.shipping-method-renderer')
+//                                            ->statePath('shipping_method')
+//                                            ->live()
+//                                            ->columnSpanFull(),
                                     ])
                             ])
                             ->columnSpan(1),
@@ -173,18 +172,20 @@ class CheckoutResource extends Resource
                                             $options[$provider['id']] = $provider['name'] ?? ucfirst($provider['provider']);
                                         }
 
-                                        $selected = app()->user_manager->session_get('payment_provider_id');
-
-                                        $providerForm = app()->payment_method_manager->getForm($selected);
-
+                                        $selectedId = checkout_get_user_info('payment_provider_id');
+                                        $hasDriver = app()->payment_method_manager->getProviderById($selectedId);
+                                        $providerForm = [];
+                                        if ($hasDriver) {
+                                            $providerForm = app()->payment_method_manager->getForm($selectedId);
+                                        }
                                         $formSchema = [
                                             Radio::make('payment_method_id')
                                                 ->label('Payment Method')
                                                 ->options($options)
                                                 ->afterStateUpdated(function ($state, callable $get, $livewire) {
-                                                    app()->user_manager->session_set('payment_provider_id', $state);
+                                                    checkout_set_user_info('payment_provider_id', $state);
                                                 })
-                                                ->default(fn() => app()->user_manager->session_get('payment_provider_id'))
+                                                ->default(fn() => checkout_get_user_info('payment_provider_id'))
                                                 ->live()
                                                 ->reactive()
                                                 ->columnSpanFull(),

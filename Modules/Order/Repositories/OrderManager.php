@@ -128,11 +128,7 @@ class OrderManager
         }
     }
 
-    public function create($place_order = array())
-    {
-        return $this->place_order($place_order);
-    }
-
+ 
     public function place_order($place_order = array())
     {
         $sid = mw()->user_manager->session_id();

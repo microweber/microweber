@@ -57,7 +57,6 @@ class CheckoutService
         if (isset($data['payment_provider_id'])) {
 
 
-
             $gatewayResponse = [];
             $gw_check = app()->payment_method_manager->getProviderById($data['payment_provider_id']);
 
@@ -93,7 +92,7 @@ class CheckoutService
             return array('error' => $orderData['error']);
         }
         // Place order
-        $order = $this->app->shop_manager->place_order($orderData);
+        $order = $this->app->order_manager->place_order($orderData);
 
         if (isset($orderData['is_paid']) && $orderData['is_paid']) {
             $this->markOrderAsPaid($order);
@@ -107,16 +106,20 @@ class CheckoutService
         ];
     }
 
+    public function setUserInfo($key, $value) : void
+    {
+        $checkout_session = session_get('checkout') ?: [];
+        $checkout_session[$key] = $value;
+        session_set('checkout', $checkout_session);
+    }
 
     /**
      * Get user checkout information
      */
-    public function getUserInfo()
+    public function getUserInfo($key = false)
     {
-        $ready = [];
-        $checkout_session = session_get('checkout') ?: [];
-        $checkout_session2 = session_get('checkout_v2') ?: [];
-        $checkout_session = array_merge($checkout_session, $checkout_session2);
+    //    $ready = [];
+        $ready = session_get('checkout') ?: [];
 
         $user_fields = ['email', 'last_name', 'first_name', 'phone', 'username', 'middle_name'];
         $shipping_fields = ['address', 'city', 'state', 'zip', 'other_info', 'country', 'shipping_gw', 'payment_provider_id'];
@@ -139,9 +142,26 @@ class CheckoutService
             }
         }
 
+
+        if (is_logged()) {
+            $user_fields = get_user();
+            foreach ($all_fields as $field) {
+                if (isset($user_fields[$field])) {
+                    if (!isset($ready[$field])) {
+                        $ready[$field] = $user_fields[$field];
+                    }
+                }
+            }
+        }
+
         // Set country from session if not set
-        if (!isset($ready['country'])) {
-            $ready['country'] = session_get('shipping_country');
+//        if (!isset($ready['country'])) {
+//            $ready['country'] = session_get('shipping_country');
+//        }
+
+
+        if ($key) {
+            return $ready[$key] ?? null;
         }
 
         return $ready;
@@ -152,7 +172,7 @@ class CheckoutService
      */
     public function markOrderAsPaid($orderId)
     {
-        $order = Order::find($orderId);
+        $order = Order::where('id', $orderId)->first();
         if (!$order) {
             return;
         }
@@ -270,11 +290,11 @@ class CheckoutService
     protected function prepareOrderData($data)
     {
 
-        $order_reference_id = 'ORD-'.crc32(uniqid(time()));
+        $order_reference_id = 'ORD-' . crc32(uniqid(time()));
         //check if exists
         $check = Order::where('order_reference_id', $order_reference_id)->first();
-        if($check){
-            $order_reference_id = 'ORD-'.crc32(uniqid(time()).rand());
+        if ($check) {
+            $order_reference_id = 'ORD-' . crc32(uniqid(time()) . rand());
         }
 
         $orderData = [

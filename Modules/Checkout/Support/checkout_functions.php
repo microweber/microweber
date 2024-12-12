@@ -30,8 +30,15 @@ if (!function_exists('checkout_ipn')) {
 }
 
 if (!function_exists('checkout_get_user_info')) {
-    function checkout_get_user_info()
+    function checkout_get_user_info($key=false)
     {
-        return mw()->checkout_manager->checkout_get_user_info();
+        return mw()->checkout_manager->getUserInfo($key);
+    }
+}
+
+if (!function_exists('checkout_set_user_info')) {
+    function checkout_set_user_info($key=false,$value=false)
+    {
+        return mw()->checkout_manager->setUserInfo($key,$value);
     }
 }

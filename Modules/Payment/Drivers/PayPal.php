@@ -92,7 +92,7 @@ class PayPal extends AbstractPaymentMethod
                     'transactionId' => $response->getTransactionReference(),
                     'amount' => $data['amount'],
                     'currency' => $data['currency'],
-                    'status' => PaymentStatus::Completed,
+                    'status' => 'completed',
                     'providerResponse' => $responseData,
                 ];
             }

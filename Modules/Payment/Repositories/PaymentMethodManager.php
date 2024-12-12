@@ -19,6 +19,10 @@ class PaymentMethodManager extends Manager
 
     public function driverExists($driver)
     {
+
+        if (!$driver) {
+            return false;
+        }
         if ($driver and isset($this->customCreators[$driver])) {
             return true;
         }
@@ -79,19 +83,25 @@ class PaymentMethodManager extends Manager
     }
 
 
-    public function getForm($provider): array|null
+    public function getForm($providerId): array|null
     {
-        if (!$provider) {
+        $providerModel = $this->getProviderById($providerId);
+
+
+        if (!$providerModel) {
             return null;
         }
-        if (!$this->driverExists($provider)) {
+        $providerName = $providerModel['provider'] ?? null;
+        if (!$this->driverExists($providerName)) {
             return null;
         }
         /* @var AbstractPaymentMethod $driver */
-        $driver = $this->driver($provider);
-        if ($driver) {
-            return $driver->getForm();
-        }
+        $driver = $this->driver($providerName);
+        $driver->setModel($providerModel);
+
+
+        return $driver->getForm();
+
     }
 
     public function process($providerId, $data): array|null

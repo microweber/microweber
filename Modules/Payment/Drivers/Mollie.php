@@ -142,7 +142,7 @@ class Mollie extends AbstractPaymentMethod
                     'transactionId' => $paymentData['id'],
                     'amount' => $paymentData['amount']['value'],
                     'currency' => $paymentData['amount']['currency'],
-                    'status' => $isPaid ? PaymentStatus::Completed : PaymentStatus::Pending,
+                    'status' => $isPaid ? 'completed' : 'pending',
                     'providerResponse' => $paymentData,
                 ];
             }

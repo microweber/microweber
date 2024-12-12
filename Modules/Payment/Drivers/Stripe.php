@@ -154,7 +154,7 @@ class Stripe extends AbstractPaymentMethod
                         'transactionId' => $session['id'],
                         'amount' => $session['amount_total'] / 100, // convert back to whole number
                         'currency' => $session['currency'],
-                        'status' => PaymentStatus::Completed, // or 'pending'
+                        'status' => 'completed', // or 'pending'
                         'providerResponse' => $session,
                     ];
                 }

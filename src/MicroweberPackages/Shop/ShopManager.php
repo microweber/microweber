@@ -96,10 +96,10 @@ class ShopManager
         return $this->app->checkout_manager->checkout($data);
     }
 
-    public function place_order($place_order)
-    {
-        return $this->app->order_manager->place_order($place_order);
-    }
+//    public function place_order($place_order)
+//    {
+//        return $this->app->order_manager->place_order($place_order);
+//    }
 
     public function get_order_by_id($id = false)
     {

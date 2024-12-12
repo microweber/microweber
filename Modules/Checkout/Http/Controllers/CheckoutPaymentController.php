@@ -19,7 +19,7 @@ class CheckoutPaymentController extends Controller
 
         $payment = $this->handlePaymentResponse($request);
 
-        if ($payment and $payment->status === PaymentStatus::Completed) {
+        if ($payment and $payment->status === 'completed') {
 
             return redirect()->route('filament.checkout.resources.checkout.success')
                 ->with('success', 'Payment completed successfully');
@@ -82,15 +82,17 @@ class CheckoutPaymentController extends Controller
 
         $verifyPaymentResponce = app()->payment_method_manager->verifyPayment($order->payment_provider_id, $verify_request);
         $isPaymentCompletedTrue = isset($verifyPaymentResponce['status']) && $verifyPaymentResponce['status'] == 'completed';
-        if ($isPaymentCompletedTrue) {
+         if ($isPaymentCompletedTrue) {
 
             $order->transaction_id = $verifyPaymentResponce['transactionId'];
             $order->payment_amount = $verifyPaymentResponce['amount'];
             $order->payment_currency = $verifyPaymentResponce['currency'];
             $order->is_paid = 1;
-            $order->payment_status = PaymentStatus::Completed;
+            $order->payment_status = 'completed';
             $order->payment_data = $verifyPaymentResponce['providerResponse'];
             $order->save();
+
+           // app()->checkout_manager->mark_order_as_paid($order->id);
 
             // Create payment record
             $payment = Payment::create([
@@ -98,7 +100,7 @@ class CheckoutPaymentController extends Controller
                 'rel_id' => $order->id,
                 'amount' => $order->amount,
                 'currency' => $order->currency,
-                'status' => PaymentStatus::Completed,
+                'status' => 'completed',
                 'payment_provider' => $order->payment_provider,
                 'payment_provider_id' => $order->payment_provider_id,
                 'payment_data' => $verifyPaymentResponce['providerResponse'],
