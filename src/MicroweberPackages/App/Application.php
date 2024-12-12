@@ -79,7 +79,7 @@ use Modules\Shipping\ShippingMethodManager;
  * @property OrderRepository $order_repository
  * @property CustomFieldRepository $custom_field_repository
  * @property \Modules\Offer\Repositories\OfferRepository $offer_repository
- * @property \Modules\Tax\TaxManager $tax_manager
+ * @property \Modules\Tax\Services\TaxManager $tax_manager
  * @property CheckoutManager $checkout_manager
  * @property CountryManager $country_manager
  * @property ShippingManager $shipping_manager

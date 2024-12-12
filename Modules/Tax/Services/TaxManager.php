@@ -9,7 +9,7 @@
  *
  */
 
-namespace Modules\Tax;
+namespace Modules\Tax\Services;
 
 use Illuminate\Support\Facades\Validator;
 use Modules\Tax\Models\TaxType;
@@ -119,7 +119,7 @@ class TaxManager
                         $amt = floatval($tax['rate']);
                         if ($tax['type'] == 'fixed') {
                             $difference = $difference + $amt;
-                        } elseif ($tax['type'] == 'percent') {
+                        } elseif ($tax['type'] == 'percentage') {
                             if($is_gross) {
 								$difference_percent = $sum - (($sum / ($amt + 100)) * 100);
                             } else {

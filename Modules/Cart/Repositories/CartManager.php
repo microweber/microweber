@@ -95,12 +95,12 @@ class CartManager extends Crud
 
         $total = $sum + $shipping_cost;
 
-        if (get_option('enable_taxes', 'shop') == 1) {
+       // if (get_option('enable_taxes', 'shop') == 1) {
             if ($total > 0) {
                 $tax = $this->app->tax_manager->calculate($sum);
                 $total = $total + $tax;
             }
-        }
+      //  }
 
 
         $totals = array();

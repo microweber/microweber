@@ -2,14 +2,10 @@
 
 namespace Modules\Tax\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Tax\Filament\Admin\Resources\TaxResource;
-use Modules\Tax\TaxManager;
+use Modules\Tax\Services\TaxManager;
 
 class TaxServiceProvider extends BaseModuleServiceProvider
 {
@@ -32,7 +28,7 @@ class TaxServiceProvider extends BaseModuleServiceProvider
 
 
         /**
-         * @property \Modules\Tax\TaxManager $tax_manager
+         * @property \Modules\Tax\Services\TaxManager $tax_manager
          */
         app()->singleton('tax_manager', function ($app) {
             return new TaxManager();
