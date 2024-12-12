@@ -774,3 +774,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .fi-ta-record {
     @apply !rounded-none;
 }
+
+.fi-section-header {
+    @apply bg-gray-50 dark:bg-slate-800 !py-3 m-0;
+
+    .fi-section-header-heading {
+        @apply mb-0;
+    }
+}
