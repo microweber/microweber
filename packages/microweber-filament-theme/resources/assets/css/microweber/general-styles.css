@@ -2,9 +2,14 @@
     @apply absolute top-3 right-3 text-black dark:text-white cursor-pointer text-2xl;
 }
 
-/*.bg-white {*/
-/*    @apply dark:bg-neutral-950;*/
-/*}*/
+
+.bg-white {
+    @apply dark:bg-slate-800;
+}
+
+.text-gray-500 {
+    @apply dark:text-white;
+}
 
 .tblr-body-color {
     @apply text-black dark:text-white;
@@ -678,7 +683,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply !w-[96%];
 }
 
-.mw-tree-context-menu-item svg, .fi-ta-col-wrp svg  {
+.mw-tree-context-menu-item svg  {
     @apply fill-current;
 }
 
@@ -768,4 +773,12 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 .fi-ta-record {
     @apply !rounded-none;
+}
+
+.fi-section-header {
+    @apply bg-gray-50 dark:bg-slate-800 !py-3 m-0;
+
+    .fi-section-header-heading {
+        @apply mb-0;
+    }
 }

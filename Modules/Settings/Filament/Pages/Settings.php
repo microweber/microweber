@@ -4,6 +4,7 @@ namespace Modules\Settings\Filament\Pages;
 
 use Filament\Facades\Filament;
 use Filament\Pages\Page;
+use Filament\Support\Enums\MaxWidth;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 
 
@@ -16,6 +17,11 @@ class Settings extends Page
     protected static ?string $navigationGroup = 'Other';
 
     protected static ?int $navigationSort = 97;
+
+    public function getMaxContentWidth(): MaxWidth
+    {
+        return MaxWidth::MaxContent;
+    }
 
     public function getViewData(): array
     {

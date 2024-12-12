@@ -8,7 +8,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
                         @foreach($settings as $setting)
                             <a href="{{ $setting['url'] }}">
-                                <div class="flex gap-4 cursor-pointer transition duration-150 hover:bg-blue-500/5 border border-transparent dark:hover:bg-white/5 dark:hover:border-white/10 hover:border-blue-500/10 rounded-2xl p-8">
+                                <div class="flex gap-4 cursor-pointer transition duration-150 hover:bg-blue-500/5 border border-transparent dark:hover:bg-white/5 dark:hover:border-white/10 hover:border-blue-500/10 rounded-2xl py-6 px-3">
                                     <div class="flex items-center justify-center bg-blue-500/10 dark:bg-white/5 transition duration-150 group-hover:bg-white rounded-xl p-4">
                                         @svg($setting['icon'], "h-6 w-6 text-black/90 dark:text-white")
                                     </div>

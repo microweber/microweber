@@ -129,7 +129,10 @@
 
 
                                             <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
-                                               class="image-settings settings-img  "
+                                               class="image-settings settings-img  " x-data="{}" x-tooltip="{
+                                                                                            content: 'Edit Image',
+                                                                                            theme: $store.theme,
+                                                                                        }"
                                             >
                                                 @svg('mw-image-edit')
                                             </a>
@@ -137,14 +140,20 @@
 
                                             <a
                                                 x-on:click="{{ '$wire.mountFormComponentAction(\'' . $statePath . '\', \'edit\', { id: \'' . $item->id . '\' })' }}"
-                                               class="image-settings settings-img  ">
+                                               class="image-settings settings-img  " x-data="{}" x-tooltip="{
+                                                                                            content: 'Image Settings',
+                                                                                            theme: $store.theme,
+                                                                                        }">
                                                 @svg('mw-media-item-edit-small')
                                             </a>
 
                                             <a
                                                 x-on:click="{{ '$wire.mountFormComponentAction(\'' . $statePath . '\', \'delete\', { id: \'' . $item->id . '\' })' }}"
 
-                                               class="image-settings settings-img  "
+                                               class="image-settings settings-img  " x-data="{}" x-tooltip="{
+                                                                                            content: 'Delete Image',
+                                                                                            theme: $store.theme,
+                                                                                        }"
                                             >
                                                 @svg('mw-media-item-delete-small')
                                             </a>

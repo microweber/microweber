@@ -17,6 +17,7 @@ use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;
@@ -391,12 +392,14 @@ class ContentResource extends Resource
                             ->schema([
 
                                 Forms\Components\CheckboxList::make('menuIds')
+                                    ->label('Menus')
+                                    ->helperText('Select menu where this content will appear')
                                     ->options(function (?Model $record) {
                                         $menus = get_menus();
                                         $menusCheckboxes = [];
                                         if ($menus) {
                                             foreach ($menus as $menu) {
-                                                $menusCheckboxes[$menu['id']] = $menu['title'];
+                                                $menusCheckboxes[$menu['id']] = Str::headline($menu['title']);
                                             }
                                         }
                                         return $menusCheckboxes;
