@@ -58,7 +58,7 @@ class CheckoutManager
         $cart['session_id'] = $sid;
         $cart['order_completed'] = 0;
         $cart['for_checkout'] = true;
-      //  $cart['limit'] = 1;
+        //  $cart['limit'] = 1;
         $mw_process_payment = true;
         $mw_process_payment_success = false;
         $mw_process_payment_failed = false;
@@ -212,25 +212,25 @@ class CheckoutManager
             }
         }
 
-   /*
-    *  OLD VALIDATION ON MODAL
-    *      $validator = app()->make(CheckoutController::class);
+        /*
+         *  OLD VALIDATION ON MODAL
+         *      $validator = app()->make(CheckoutController::class);
 
-        if (!empty($data)) {
-            $request = new Request();
-            $request->merge($data);
-            $is_valid = $validator->validate($request);
-        } else {
-            $is_valid['errors'] = 'Data not entered.';
-        }
+             if (!empty($data)) {
+                 $request = new Request();
+                 $request->merge($data);
+                 $is_valid = $validator->validate($request);
+             } else {
+                 $is_valid['errors'] = 'Data not entered.';
+             }
 
-        if (is_object($is_valid)) {
-            return $is_valid;
-        }
+             if (is_object($is_valid)) {
+                 return $is_valid;
+             }
 
-        if (isset($is_valid['errors'])) {
-            return $is_valid;
-        }*/
+             if (isset($is_valid['errors'])) {
+                 return $is_valid;
+             }*/
 
         $checkout_errors = array();
         $check_cart = $this->app->shop_manager->get_cart($cart);
@@ -276,7 +276,7 @@ class CheckoutManager
                 $data['payment_gw'] = 'none';
             } else {
                 if ($mw_process_payment == true) {
-                  //  $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
+                    //  $gw_check = $this->payment_options('payment_gw_' . $data['payment_gw']);
                     $gw_check = app()->payment_manager->hasPaymentProvider($data['payment_gw']);
                     if ($gw_check) {
                         $gateway = app()->payment_manager->getPaymentProviderModule($data['payment_gw']);
@@ -343,7 +343,7 @@ class CheckoutManager
                 $discount_value = $this->app->user_manager->session_get('discount_value');
                 if($discount_value) {
                     $discount_value = floatval($discount_value);
-                 }
+                }
 
             }
             if (($this->app->user_manager->session_get('discount_type'))) {
@@ -459,7 +459,7 @@ class CheckoutManager
 
             $place_order['amount'] = $amount;
 
-          //  $place_order['allow_html'] = true;
+            //  $place_order['allow_html'] = true;
             $place_order['currency'] = $this->app->option_manager->get('currency', 'payments');
             if (!$place_order['currency']) {
                 $place_order['currency'] = 'USD';
@@ -815,7 +815,7 @@ class CheckoutManager
             $option_key_q = "&limit=1&option_key={$option_key}";
         }
         $providers = $this->app->option_manager->get_all('group=payments' . $option_key_q);
-      //  $providers = $this->app->option_repository->getByParams('group=payments' . $option_key_q);
+        //  $providers = $this->app->option_repository->getByParams('group=payments' . $option_key_q);
 
         $payment_modules = get_modules('type=payment_gateway');
         $str = 'payment_gw_';
@@ -1332,8 +1332,8 @@ class CheckoutManager
             $error = true;
         }
         $order_data = false;
-        if(!$error and isset($data['id'])){
-        $order_data = get_order_by_id($data['id']);
+        if(isset($data['id'])){
+            $order_data = get_order_by_id($data['id']);
         }
 
         if ($order_data and $vkey) {
@@ -1355,7 +1355,7 @@ class CheckoutManager
 
             $decrypt_data = $encrypter->decrypt($vkey);
 
-            //    dd($enc_key_hash,$decrypt_data);
+
 
             //  $enc_key_hash = $encrypter->encrypt(json_encode($vkey_data));
 
