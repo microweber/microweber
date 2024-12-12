@@ -2,9 +2,14 @@
     @apply absolute top-3 right-3 text-black dark:text-white cursor-pointer text-2xl;
 }
 
-/*.bg-white {*/
-/*    @apply dark:bg-neutral-950;*/
-/*}*/
+
+.bg-white {
+    @apply dark:bg-slate-800;
+}
+
+.text-gray-500 {
+    @apply dark:text-white;
+}
 
 .tblr-body-color {
     @apply text-black dark:text-white;
