@@ -391,6 +391,8 @@ class ContentResource extends Resource
                             ->schema([
 
                                 Forms\Components\CheckboxList::make('menuIds')
+                                    ->label('Menus')
+                                    ->helperText('Select menu where this content will appear')
                                     ->options(function (?Model $record) {
                                         $menus = get_menus();
                                         $menusCheckboxes = [];
