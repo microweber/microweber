@@ -4,6 +4,7 @@ namespace Modules\Payment\Drivers;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Modules\Payment\Enums\PaymentStatus;
 use Omnipay\Omnipay;
 use Stripe\StripeClient;
 
@@ -153,7 +154,7 @@ class Stripe extends AbstractPaymentMethod
                         'transactionId' => $session['id'],
                         'amount' => $session['amount_total'] / 100, // convert back to whole number
                         'currency' => $session['currency'],
-                        'status' => 'completed', // or 'pending'
+                        'status' => PaymentStatus::Completed, // or 'pending'
                         'providerResponse' => $session,
                     ];
                 }

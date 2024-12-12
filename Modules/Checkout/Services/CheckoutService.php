@@ -107,6 +107,7 @@ class CheckoutService
         ];
     }
 
+
     /**
      * Get user checkout information
      */

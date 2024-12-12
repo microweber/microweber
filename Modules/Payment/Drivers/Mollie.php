@@ -3,6 +3,7 @@
 namespace Modules\Payment\Drivers;
 
 use Filament\Forms;
+use Modules\Payment\Enums\PaymentStatus;
 use Omnipay\Omnipay;
 
 class Mollie extends AbstractPaymentMethod
@@ -141,7 +142,7 @@ class Mollie extends AbstractPaymentMethod
                     'transactionId' => $paymentData['id'],
                     'amount' => $paymentData['amount']['value'],
                     'currency' => $paymentData['amount']['currency'],
-                    'status' => $isPaid ? 'completed' : 'pending',
+                    'status' => $isPaid ? PaymentStatus::Completed : PaymentStatus::Pending,
                     'providerResponse' => $paymentData,
                 ];
             }

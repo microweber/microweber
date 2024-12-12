@@ -70,8 +70,7 @@ class CheckoutPaymentController extends Controller
 
 
         $verify_request = $request->all();
-        $verify_request['amount'] = $order->amount;
-        $verify_request['currency'] = $order->currency;
+
         $verify_request['order'] = $order;
 
         if (!$order->payment_provider) {
@@ -89,7 +88,7 @@ class CheckoutPaymentController extends Controller
             $order->payment_amount = $verifyPaymentResponce['amount'];
             $order->payment_currency = $verifyPaymentResponce['currency'];
             $order->is_paid = 1;
-            $order->payment_status = 'completed';
+            $order->payment_status = PaymentStatus::Completed;
             $order->payment_data = $verifyPaymentResponce['providerResponse'];
             $order->save();
 

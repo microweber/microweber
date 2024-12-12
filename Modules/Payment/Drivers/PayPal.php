@@ -3,6 +3,7 @@
 namespace Modules\Payment\Drivers;
 
 use Filament\Forms;
+use Modules\Payment\Enums\PaymentStatus;
 use Omnipay\Omnipay;
 
 class PayPal extends AbstractPaymentMethod
@@ -35,8 +36,8 @@ class PayPal extends AbstractPaymentMethod
             $this->gateway->setTestMode($settings['paypal_test_mode'] ?? true);
 
             $response = $this->gateway->authorize([
-                'amount' => $data['amount'],
-                'currency' => $data['currency'],
+                'amount' => $data['order']['amount'],
+                'currency' => $data['order']['currency'],
                 'returnUrl' => $data['returnUrl'],
                 'cancelUrl' => $data['cancelUrl'],
                 'notifyUrl' => $data['notifyUrl'],
@@ -91,7 +92,7 @@ class PayPal extends AbstractPaymentMethod
                     'transactionId' => $response->getTransactionReference(),
                     'amount' => $data['amount'],
                     'currency' => $data['currency'],
-                    'status' => 'completed',
+                    'status' => PaymentStatus::Completed,
                     'providerResponse' => $responseData,
                 ];
             }
