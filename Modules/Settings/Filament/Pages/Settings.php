@@ -27,11 +27,7 @@ class Settings extends Page
     {
         return '';
     }
-
-    public function getMaxContentWidth(): MaxWidth
-    {
-        return MaxWidth::ScreenTwoExtraLarge;
-    }
+    
 
     public function getViewData(): array
     {
