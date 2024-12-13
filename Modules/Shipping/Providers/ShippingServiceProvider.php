@@ -25,6 +25,7 @@ class ShippingServiceProvider extends BaseModuleServiceProvider
 
         /**
          * @property \Modules\Shipping\ShippingManager $shipping_manager
+         * @deprecated do not use this, use shipping_method_manager instead
          */
 
         $this->app->singleton('shipping_manager', function ($app) {
@@ -63,6 +64,9 @@ class ShippingServiceProvider extends BaseModuleServiceProvider
 
             $shippingMethodManager->extend('pickup_from_address', function () {
                 return new \Modules\Shipping\Drivers\PickupFromAddress();
+            });
+            $shippingMethodManager->extend('shipping_to_country', function () {
+                return new \Modules\Shipping\Drivers\ShippingToCountry();
             });
         });
 
