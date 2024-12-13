@@ -1,0 +1,30 @@
+{
+    "name": "modules/invoice",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Invoice\\": "",
+            "Modules\\Invoice\\Database\\Factories\\": "database/factories/",
+            "Modules\\Invoice\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Invoice\\Tests\\": "Tests/"
+        }
+    }
+}
