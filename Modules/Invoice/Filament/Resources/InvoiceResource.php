@@ -10,6 +10,8 @@ use Filament\Tables\Table;
 use Modules\Invoice\Models\Invoice;
 use Modules\Invoice\Filament\Resources\InvoiceResource\Pages;
 use Illuminate\Database\Eloquent\Builder;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Filament\Tables\Actions\Action;
 
 class InvoiceResource extends Resource
 {
@@ -72,7 +74,7 @@ class InvoiceResource extends Resource
                                     ])
                                     ->required(),
                             ])
-                            ->columnSpan(1),
+                            ->columnSpanFull(),
 
                         Forms\Components\Section::make('Invoice Items')
                             ->schema([
@@ -100,41 +102,28 @@ class InvoiceResource extends Resource
                                             ->numeric()
                                             ->default(1)
                                             ->required(),
+
+                                        Forms\Components\Placeholder::make('subtotal')
+                                            ->content(function ($get) {
+                                                $price = $get('price') ?? 0;
+                                                $quantity = $get('quantity') ?? 0;
+                                                return '$' . number_format($price * $quantity, 2);
+                                            }),
                                     ])
-                                    ->columns(2),
-                            ])
-                            ->columnSpan(1),
+                                    ->columns(3)
+                                    ->columnSpanFull()
+                                    ->live(),
 
-                        Forms\Components\Section::make('Additional Details')
-                            ->schema([
-                                Forms\Components\TextInput::make('discount')
-                                    ->numeric()
-                                    ->prefix('$'),
-
-                                Forms\Components\Select::make('discount_type')
-                                    ->options([
-                                        'fixed' => 'Fixed Amount',
-                                        'percentage' => 'Percentage',
-                                    ]),
-
-                                Forms\Components\TextInput::make('discount_val')
-                                    ->numeric()
-                                    ->prefix('$')
-                                    ->afterStateHydrated(function ($state, $set) {
-                                        if ($state) {
-                                            $set('discount_val', $state / 100);
-                                        }
+                                Forms\Components\Placeholder::make('total')
+                                    ->content(function ($get) {
+                                        $total = collect($get('items') ?? [])->reduce(function ($sum, $item) {
+                                            return $sum + ($item['price'] ?? 0) * ($item['quantity'] ?? 0);
+                                        }, 0);
+                                        return 'Total: $' . number_format($total, 2);
                                     })
-                                    ->dehydrateStateUsing(fn ($state) => $state * 100),
-
-                                Forms\Components\TextInput::make('tax')
-                                    ->numeric()
-                                    ->suffix('%'),
-
-                                Forms\Components\Textarea::make('notes')
-                                    ->rows(3),
+                                    ->columnSpanFull(),
                             ])
-                            ->columnSpan(2),
+                            ->columnSpanFull(),
                     ]),
             ]);
     }
@@ -201,6 +190,15 @@ class InvoiceResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Action::make('pdf')
+                    ->label('Export PDF')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->action(function (Invoice $record) {
+                        $pdf = Pdf::loadView('invoice::pdf', ['invoice' => $record]);
+                        return response()->streamDownload(function () use ($pdf) {
+                            echo $pdf->output();
+                        }, $record->invoice_number . '.pdf');
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

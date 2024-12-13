@@ -33,6 +33,7 @@ return new class extends Migration {
             $table->integer('edited_by')->nullable();
             $table->string('session_id')->nullable();
             $table->integer('customer_id')->nullable();
+            $table->integer('invoice_id')->nullable();
             $table->integer('order_completed')->nullable();
             $table->integer('is_paid')->nullable();
 
