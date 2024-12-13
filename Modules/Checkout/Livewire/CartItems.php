@@ -20,6 +20,8 @@ class CartItems extends Component implements HasForms
     {
         $this->cartItems = app()->cart_manager->get() ?? [];
         $this->cartTotals = mw()->cart_manager->totals();
+
+
     }
 
     #[On('reload-cart')]
@@ -33,14 +35,14 @@ class CartItems extends Component implements HasForms
     {
         $item = ['id' => $itemId, 'qty' => $quantity];
         app()->cart_manager->update_item_qty($item);
-        $this->cartTotals = mw()->cart_manager->totals();
+        $this->reloadCart();
         $this->dispatch('cart-updated');
     }
 
     public function removeItem($itemId)
     {
         app()->cart_manager->remove_item($itemId);
-        $this->cartTotals = mw()->cart_manager->totals();
+        $this->reloadCart();
         $this->dispatch('cart-updated');
     }
 

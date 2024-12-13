@@ -139,6 +139,10 @@ class CheckoutResource extends Resource
 
 
                                 Section::make('Shipping Method')
+                                    ->visible(function (Forms\Get $get) {
+                                        $visible = app()->shipping_method_manager->getProviders() && app()->cart_manager->get();
+                                        return $visible;
+                                    })
                                     ->schema(function (Forms\Get $get) {
                                         $methods = app()->shipping_method_manager->getProviders();
                                         $options = [];
@@ -186,6 +190,10 @@ class CheckoutResource extends Resource
                                     ]),
 
                                 Section::make('Payment Method')
+                                    ->visible(function (Forms\Get $get) {
+                                        $visible = app()->shipping_method_manager->getProviders() && app()->cart_manager->get();
+                                        return $visible;
+                                    })
                                     ->schema(function (Forms\Get $get) {
                                         $methods = app()->payment_method_manager->getProviders();
 

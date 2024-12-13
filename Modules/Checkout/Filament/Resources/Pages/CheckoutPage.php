@@ -43,6 +43,11 @@ class CheckoutPage extends CreateRecord
     {
         $data = $this->form->getState();
 
+        if (!app()->cart_manager->get()) {
+            return redirect()->route('filament.checkout.resources.checkout.failed')->with('error', 'Cart is empty');
+        }
+
+
         try {
             // Save contact information
             app()->user_manager->session_set('checkout_first_name', $data['first_name']);
@@ -56,7 +61,6 @@ class CheckoutPage extends CreateRecord
             app()->user_manager->session_set('checkout_state', $data['state']);
             app()->user_manager->session_set('checkout_postal_code', $data['postal_code']);
             app()->user_manager->session_set('checkout_country', $data['country']);
-
 
 
             // Create order

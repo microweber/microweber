@@ -95,12 +95,12 @@ class CartManager extends Crud
 
         $total = $sum + $shipping_cost;
 
-       // if (get_option('enable_taxes', 'shop') == 1) {
-            if ($total > 0) {
-                $tax = $this->app->tax_manager->calculate($sum);
-                $total = $total + $tax;
-            }
-      //  }
+        // if (get_option('enable_taxes', 'shop') == 1) {
+        if ($total > 0) {
+            $tax = $this->app->tax_manager->calculate($sum);
+            $total = $total + $tax;
+        }
+        //  }
 
 
         $totals = array();
@@ -313,11 +313,13 @@ class CartManager extends Crud
 
         $return = array();
         if (is_array($get)) {
+
             foreach ($get as $k => $item) {
                 if (is_array($item)) {
 
 
-                    if (isset($item['rel_id']) and isset($item['rel_type']) and $item['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
+                    if (isset($item['rel_id']) and isset($item['rel_type'])
+                        and $item['rel_type'] == morph_name(\Modules\Content\Models\Content::class)) {
                         $item['content_data'] = $this->app->content_manager->data($item['rel_id']);
                         $item['url'] = $this->app->content_manager->link($item['rel_id']);
                         $item['picture'] = $this->app->media_manager->get_picture($item['rel_id']);
@@ -577,8 +579,14 @@ class CartManager extends Crud
 
         if (isset($data['content_id'])) {
             $data['for'] = morph_name(\Modules\Content\Models\Content::class);
-            $for_id = $data['for_id'] = $data['content_id'];
+            $data['for_id'] = $data['content_id'];
         }
+
+        if (isset($data['for']) and $data['for'] == 'content') {
+            $data['for'] = morph_name(\Modules\Content\Models\Content::class);
+        }
+
+
         $override = $this->app->event_manager->trigger('mw.shop.update_cart', $data);
         if (is_array($override)) {
             foreach ($override as $resp) {
@@ -908,95 +916,95 @@ class CartManager extends Crud
 
 
             $fileAttachments = [];
-
-            $attachmentsPath = media_uploads_path() . '/attachments/shop-cart/' . md5(app()->user_manager->session_id());
-            $attachmentsPath = normalize_path($attachmentsPath, 0);
-            if (!is_dir($attachmentsPath)) {
-                mkdir_recursive($attachmentsPath);
-            }
-
-            if ($customFieldsFileUploads and !empty($customFieldsFileUploads)) {
-                foreach ($customFieldsFileUploads as $fieldName => $file_up) {
-
-                    if (!isset($_FILES[$fieldName])) {
-                        continue;
-                    }
-
-                    $file = $_FILES[$fieldName];
-
-                    if (!is_array($file)) {
-                        continue;
-                    }
-                    if (!isset($file['name'])) {
-                        continue;
-                    }
-
-                    if ($files_utils->is_dangerous_file($file['full_path'])) {
-                        return array(
-                            'form_errors' => array(
-                                $fieldName => 'This file is not allowed to be uploaded'
-                            ),
-                            'error' => 'This file is not allowed to be uploaded'
-                        );
-
-                    }
-                    $filePath = $file['tmp_name'];
-                    $ext = get_file_extension($file['name']);
-                    if ($ext === 'svg') {
-                        $valid = false;
-                        if (is_file($filePath)) {
-                            $sanitizer = new \enshrined\svgSanitize\Sanitizer();
-                            // Load the dirty svg
-                            $dirtySVG = file_get_contents($filePath);
-                            // Pass it to the sanitizer and get it back clean
-                            $valid = $files_utils->check_if_svg_is_valid($dirtySVG);
-
-                            if (!$valid) {
-                                @unlink($filePath);
-
-                                return array(
-                                    'form_errors' => array(
-                                        $fieldName => 'This file is not because it contains invalid SVG code'
-                                    ),
-                                    'error' => 'This file is not allowed because it contains invalid SVG code'
-                                );
-
-                            }
-
-                        }
-
-                    }
-
-
-                    $attachmentFilename = $attachmentsPath . '/' . $file['name'];
-                    if (is_file($attachmentFilename)) { // if file with same name exists, add timestamp to the name
-                        $attachmentFilename = $attachmentsPath . '/' . date('Ymd-His') . '-' . $file['name'];
-                    }
-
-                    $fileContent = @file_get_contents($file['tmp_name']);
-
-                    if ($fileContent) {
-                        $save = file_put_contents($attachmentFilename, $fileContent);
-                        if ($save) {
-
-                            $mediaFileUrl = dir2url($attachmentFilename);
-                            $fileAttachments[$fieldName] = $mediaFileUrl;
-                        }
-
-                    } else {
-                        return array(
-                            'error' => _e('Invalid file.', true)
-                        );
-                    }
-                }
-            }
-
-            if (!empty($fileAttachments)) {
-                foreach ($fileAttachments as $customFieldKey => $fileAttachment) {
-                    $add[$customFieldKey] = $fileAttachment;
-                }
-            }
-
+//
+//            $attachmentsPath = media_uploads_path() . '/attachments/shop-cart/' . md5(app()->user_manager->session_id());
+//            $attachmentsPath = normalize_path($attachmentsPath, 0);
+//            if (!is_dir($attachmentsPath)) {
+//                mkdir_recursive($attachmentsPath);
+//            }
+//
+//            if ($customFieldsFileUploads and !empty($customFieldsFileUploads)) {
+//                foreach ($customFieldsFileUploads as $fieldName => $file_up) {
+//
+//                    if (!isset($_FILES[$fieldName])) {
+//                        continue;
+//                    }
+//
+//                    $file = $_FILES[$fieldName];
+//
+//                    if (!is_array($file)) {
+//                        continue;
+//                    }
+//                    if (!isset($file['name'])) {
+//                        continue;
+//                    }
+//
+//                    if ($files_utils->is_dangerous_file($file['full_path'])) {
+//                        return array(
+//                            'form_errors' => array(
+//                                $fieldName => 'This file is not allowed to be uploaded'
+//                            ),
+//                            'error' => 'This file is not allowed to be uploaded'
+//                        );
+//
+//                    }
+//                    $filePath = $file['tmp_name'];
+//                    $ext = get_file_extension($file['name']);
+//                    if ($ext === 'svg') {
+//                        $valid = false;
+//                        if (is_file($filePath)) {
+//                            $sanitizer = new \enshrined\svgSanitize\Sanitizer();
+//                            // Load the dirty svg
+//                            $dirtySVG = file_get_contents($filePath);
+//                            // Pass it to the sanitizer and get it back clean
+//                            $valid = $files_utils->check_if_svg_is_valid($dirtySVG);
+//
+//                            if (!$valid) {
+//                                @unlink($filePath);
+//
+//                                return array(
+//                                    'form_errors' => array(
+//                                        $fieldName => 'This file is not because it contains invalid SVG code'
+//                                    ),
+//                                    'error' => 'This file is not allowed because it contains invalid SVG code'
+//                                );
+//
+//                            }
+//
+//                        }
+//
+//                    }
+///*
+//
+//                    $attachmentFilename = $attachmentsPath . '/' . $file['name'];
+//                    if (is_file($attachmentFilename)) { // if file with same name exists, add timestamp to the name
+//                        $attachmentFilename = $attachmentsPath . '/' . date('Ymd-His') . '-' . $file['name'];
+//                    }
+//
+//                    $fileContent = @file_get_contents($file['tmp_name']);
+//
+//                    if ($fileContent) {
+//                        $save = file_put_contents($attachmentFilename, $fileContent);
+//                        if ($save) {
+//
+//                            $mediaFileUrl = dir2url($attachmentFilename);
+//                            $fileAttachments[$fieldName] = $mediaFileUrl;
+//                        }
+//
+//                    } else {
+//                        return array(
+//                            'error' => _e('Invalid file.', true)
+//                        );
+//                    }*/
+//                }
+//            }
+//
+//            if (!empty($fileAttachments)) {
+//                foreach ($fileAttachments as $customFieldKey => $fileAttachment) {
+//                    $add[$customFieldKey] = $fileAttachment;
+//                }
+//            }
+//
             $cart = array();
             $cart['rel_type'] = trim($data['for']);
             $cart['rel_id'] = intval($data['for_id']);
@@ -1142,21 +1150,21 @@ class CartManager extends Crud
         }
     }
 
-    public function recover_cart( $ord_id = false)
+    public function recover_cart($ord_id = false)
     {
 
-         $cur_sid = mw()->user_manager->session_id();
+        $cur_sid = mw()->user_manager->session_id();
         if ($cur_sid == false) {
             return;
         } else {
 
 
             if ($cur_sid != false) {
-             //   $c_id = $sid;
+                //   $c_id = $sid;
                 $table = 'cart';
                 $params = array();
                 //   $params['order_completed'] = 0;
-              //  $params['session_id'] = $c_id;
+                //  $params['session_id'] = $c_id;
                 $params['table'] = $table;
                 if ($ord_id != false) {
                     unset($params['order_completed']);
@@ -1200,10 +1208,10 @@ class CartManager extends Crud
 
                             if (isset($item['order_completed']) and intval($item['order_completed']) == 1) {
                                 //if ($sid == $cur_sid) {
-                                   // if (isset($item['is_paid']) and intval($item['is_paid']) == 0) {
+                                // if (isset($item['is_paid']) and intval($item['is_paid']) == 0) {
 
-                                 //   }
-                             //   }
+                                //   }
+                                //   }
                                 $data['id'] = $item['id'];
                                 $s = $this->app->database_manager->save($table, $data);
 
