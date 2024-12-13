@@ -3,6 +3,7 @@
 namespace Modules\Checkout\Services;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Session;
 use Modules\Order\Events\OrderWasPaid;
 use Modules\Order\Models\Order;
 use MicroweberPackages\Utils\Mail\MailSender;
@@ -94,6 +95,9 @@ class CheckoutService
         if (isset($orderData['is_paid']) && $orderData['is_paid']) {
             $this->markOrderAsPaid($order);
         }
+
+
+
 
         return [
             'success' => true,

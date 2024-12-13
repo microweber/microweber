@@ -21,6 +21,7 @@ class CheckoutSuccessPage extends Page
 
     public function mount(): void
     {
+
 //        // Clear checkout session data
 //        app()->user_manager->session_del('checkout_first_name');
 //        app()->user_manager->session_del('checkout_last_name');

@@ -18,7 +18,10 @@ class LogsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('description')
+                Forms\Components\TextInput::make('coupon_code')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('customer_ip')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -28,7 +31,12 @@ class LogsRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('coupon_code')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('customer_ip')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),

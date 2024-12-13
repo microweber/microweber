@@ -57,13 +57,20 @@ class CheckoutPage extends CreateRecord
             app()->user_manager->session_set('checkout_postal_code', $data['postal_code']);
             app()->user_manager->session_set('checkout_country', $data['country']);
 
+
+            // Consume coupon if one was applied
+            $couponCode = Session::get('coupon_code');
+            if ($couponCode) {
+                coupon_consume($couponCode, $data['email']);
+            }
+
             // Create order
             $order = app()->checkout_manager->checkout($data);
 
             if (isset($order['redirect'])) {
                 return redirect()->to($order['redirect']);
             }
-            
+
             $success = false;
             if (isset($order['success'])) {
                 $success = $order['success'] ?? false;
@@ -78,11 +85,7 @@ class CheckoutPage extends CreateRecord
                 return redirect()->route('filament.checkout.resources.checkout.failed')->with('error', 'Error processing order');
             }
 
-            // Consume coupon if one was applied
-            $couponCode = Session::get('coupon_code');
-            if ($couponCode) {
-                coupon_consume($couponCode, $data['email']);
-            }
+
 
             Notification::make()
                 ->title('Order placed successfully')
