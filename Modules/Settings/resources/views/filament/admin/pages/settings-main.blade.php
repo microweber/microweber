@@ -2,7 +2,7 @@
 
     <div>
         @foreach($settingsGroups as $settingsTitle=>$settings)
-            <div class="mb-4">
+            <div class="my-4 pt-4">
                 <h2 class="text-2xl">{{ $settingsTitle }}</h2>
                 <div class="mt-4 bg-white dark:bg-white/5 p-4 rounded-md shadow">
                     <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">

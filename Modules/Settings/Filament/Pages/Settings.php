@@ -30,7 +30,7 @@ class Settings extends Page
 
     public function getMaxContentWidth(): MaxWidth
     {
-        return MaxWidth::MaxContent;
+        return MaxWidth::ScreenTwoExtraLarge;
     }
 
     public function getViewData(): array
