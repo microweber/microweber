@@ -8,10 +8,9 @@ return new class extends Migration {
     public function up(): void
     {
 
-        if(Schema::hasTable('invoices')) {
+        if (Schema::hasTable('invoices')) {
             return;
         }
-
 
 
         Schema::create('invoices', function (Blueprint $table) {
@@ -25,17 +24,13 @@ return new class extends Migration {
             $table->string('status')->nullable();
             $table->string('paid_status')->nullable();
             $table->integer('sub_total')->nullable();
-            $table->string('discount')->nullable();
-            $table->string('discount_type')->nullable();
             $table->integer('discount_val')->nullable()->default(0);
             $table->integer('total')->nullable();
             $table->integer('due_amount')->nullable();
-            $table->boolean('tax_per_item')->nullable()->default(false);
-            $table->boolean('discount_per_item')->nullable()->default(false);
             $table->decimal('tax', 10, 2)->nullable();
             $table->text('notes')->nullable();
             $table->string('unique_hash', 60)->nullable();
-            $table->integer('invoice_template_id')->nullable()->default(1);
+            $table->integer('invoice_template_id')->nullable();
 
             $table->timestamps();
 

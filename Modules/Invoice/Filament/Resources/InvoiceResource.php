@@ -42,13 +42,13 @@ class InvoiceResource extends Resource
                                 Forms\Components\TextInput::make('invoice_number')
                                     ->required()
                                     ->unique(ignoreRecord: true)
-                                    ->default(fn () => 'INV-' . Invoice::getNextInvoiceNumber('INV')),
+                                    ->default(fn() => 'INV-' . Invoice::getNextInvoiceNumber('INV')),
 
                                 Forms\Components\TextInput::make('reference_number'),
 
                                 Forms\Components\Select::make('customer_id')
                                     ->relationship('customer', 'name')
-                                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->getFullName())
+                                    ->getOptionLabelFromRecordUsing(fn($record) => $record->getFullName())
                                     ->searchable()
                                     ->preload()
                                     ->required(),
@@ -93,10 +93,10 @@ class InvoiceResource extends Resource
                                             ->prefix('$')
                                             ->afterStateHydrated(function ($state, $set) {
                                                 if ($state) {
-                                                    $set('price', $state / 100);
+                                                    $set('price', $state);
                                                 }
                                             })
-                                            ->dehydrateStateUsing(fn ($state) => $state * 100),
+                                            ->dehydrateStateUsing(fn($state) => $state),
 
                                         Forms\Components\TextInput::make('quantity')
                                             ->numeric()
@@ -137,7 +137,7 @@ class InvoiceResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('customer.name')
-                    ->getStateUsing(fn ($record) => $record->customer?->getFullName())
+                    ->getStateUsing(fn($record) => $record->customer?->getFullName())
                     ->searchable()
                     ->sortable(),
 
@@ -152,7 +152,7 @@ class InvoiceResource extends Resource
                 Tables\Columns\TextColumn::make('total')
                     ->money()
                     ->sortable()
-                    ->formatStateUsing(fn ($state) => $state / 100),
+                    ->formatStateUsing(fn($state) => $state),
 
                 Tables\Columns\BadgeColumn::make('status')
                     ->colors([
