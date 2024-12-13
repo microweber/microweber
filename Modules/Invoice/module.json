@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Invoice\\Providers\\InvoiceServiceProvider"
     ],
-    "files": []
+    "files": ["Support/helpers.php"]
 }

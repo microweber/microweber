@@ -20,6 +20,7 @@ class Invoice extends Model
     const STATUS_PARTIALLY_PAID = 'partially_paid';
     const STATUS_REFUNDED = 'refunded';
 
+
     protected $fillable = [
         'invoice_date',
         'due_date',
@@ -71,27 +72,9 @@ class Invoice extends Model
             return 1;
         }
 
-        $lastNumber = (int) str_replace($prefix . '-', '', $lastInvoice->invoice_number);
+        $lastNumber = (int)str_replace($prefix . '-', '', $lastInvoice->invoice_number);
         return $lastNumber + 1;
     }
 
-    public function getFormattedSubTotalAttribute(): string
-    {
-        return number_format($this->sub_total / 100, 2);
-    }
 
-    public function getFormattedTotalAttribute(): string
-    {
-        return number_format($this->total / 100, 2);
-    }
-
-    public function getFormattedDueAmountAttribute(): string
-    {
-        return number_format($this->due_amount / 100, 2);
-    }
-
-    public function getFormattedDiscountValAttribute(): string
-    {
-        return number_format($this->discount_val / 100, 2);
-    }
 }

@@ -21,7 +21,7 @@ class InvoiceResource extends Resource
     protected static ?string $navigationLabel = 'Invoices';
     protected static ?string $modelLabel = 'Invoice';
     protected static ?string $slug = 'invoices';
-    protected static ?int $navigationSort = 13;
+    protected static ?int $navigationSort = 12;
 
     public static function form(Form $form): Form
     {

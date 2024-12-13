@@ -43,6 +43,7 @@ use Modules\Country\Repositories\CountryManager;
 use Modules\Coupons\Services\CouponService;
 use Modules\CustomFields\Repositories\CustomFieldRepository;
 use Modules\CustomFields\Repositories\FieldsManager;
+use Modules\Invoice\Services\InvoiceService;
 use Modules\Menu\Repositories\MenuRepository;
 use Modules\Order\Repositories\OrderManager;
 use Modules\Order\Repositories\OrderRepository;
@@ -76,6 +77,7 @@ use Modules\Shipping\ShippingManager;
  * @property CartManager $cart_manager
  * @property CartRepository $cart_repository
  * @property CouponService $coupon_service
+ * @property InvoiceService $invoice_service
  * @property OrderManager $order_manager
  * @property OrderRepository $order_repository
  * @property CustomFieldRepository $custom_field_repository
