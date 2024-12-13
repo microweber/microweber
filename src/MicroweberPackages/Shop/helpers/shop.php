@@ -87,6 +87,12 @@ if (!function_exists('currency_format')) {
         return app()->shop_manager->currency_format($amount, $curr);
     }
 }
+if (!function_exists('price_format')) {
+    function price_format($amount)
+    {
+        return app()->shop_manager->currency_format($amount);
+    }
+}
 if (!function_exists('format_currency')) {
     function format_currency($amount, $curr = false)
     {

@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Checkout\\Providers\\CheckoutServiceProvider"
     ],
-    "files": ["Support/checkout_functions.php"]
+    "files": ["Support/helpers.php"]
 }

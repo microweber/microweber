@@ -22,7 +22,7 @@
             "Modules\\Category\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "Support/categories_functions.php"
+            "Support/helpers.php"
         ]
     },
     "autoload-dev": {

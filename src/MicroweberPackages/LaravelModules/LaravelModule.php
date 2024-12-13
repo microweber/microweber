@@ -216,7 +216,7 @@ class LaravelModule extends Module
 
         if ($providers) {
             foreach ($providers as $provider) {
-                if(class_exists($provider)) {
+                if (class_exists($provider)) {
                     app()->register($provider);
                 }
             }
@@ -248,4 +248,19 @@ class LaravelModule extends Module
         return $this->json()->get('alias') ?? strtolower($this->name);
     }
 
+    protected function registerFiles(): void
+    {
+        if (!isset($this->files)) {
+            return;
+        }
+        foreach ($this->get('files', []) as $file) {
+
+            $file = $this->path . '/' . $file;
+            if (!is_file($file)) {
+                continue;
+            }
+
+            include_once($file);
+        }
+    }
 }

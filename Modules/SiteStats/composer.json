@@ -22,7 +22,7 @@
             "Modules\\SiteStats\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "Support/stats_functions.php"
+            "Support/helpers.php"
         ]
     },
     "autoload-dev": {

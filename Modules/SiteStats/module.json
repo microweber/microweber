@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\SiteStats\\Providers\\SiteStatsServiceProvider"
     ],
-    "files": ["Support/stats_functions.php"]
+    "files": ["Support/helpers.php"]
 }

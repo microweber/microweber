@@ -22,7 +22,7 @@
             "Modules\\Cart\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "Support/cart_functions.php"
+            "Support/helpers.php"
         ]
     },
     "autoload-dev": {

@@ -22,7 +22,7 @@
             "Modules\\Checkout\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "Support/checkout_functions.php"
+            "Support/helpers.php"
         ]
     },
     "autoload-dev": {

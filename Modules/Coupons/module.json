@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Coupons\\Providers\\CouponsServiceProvider"
     ],
-    "files": ["Support/coupons_functions.php"]
+    "files": ["Support/helpers.php"]
 }

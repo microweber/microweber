@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Cart\\Providers\\CartServiceProvider"
     ],
-    "files": ["Support/cart_functions.php"]
+    "files": ["Support/helpers.php"]
 }

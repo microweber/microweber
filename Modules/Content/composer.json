@@ -21,7 +21,7 @@
             "Modules\\Content\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "Support/content_functions.php"
+            "Support/helpers.php"
         ]
     },
     "autoload-dev": {

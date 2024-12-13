@@ -189,6 +189,64 @@ class CheckoutResource extends Resource
                                             ->columnSpanFull(),
                                     ]),
 
+                                Section::make('Apply Coupon')
+                                    ->schema([
+                                        Forms\Components\Placeholder::make('coupon_code')
+                                            ->hidden(fn() => !coupons_get_session())
+                                            ->label('Coupon Code')
+                                            ->content(function () {
+                                                $coupon = coupons_get_session();
+                                                if ($coupon) {
+                                                    return 'Active coupon: ' . $coupon['coupon_code'];
+                                                }
+                                                return '';
+                                            }),
+
+                                        Forms\Components\Actions::make([
+                                            Action::make('apply_coupon')
+                                                ->label('Apply Coupon')
+                                                ->button()
+                                                ->hidden(fn() => coupons_get_session())
+                                                ->modalHeading('Apply Coupon')
+                                                ->modalDescription('Enter your coupon code to get a discount')
+                                                ->modalSubmitActionLabel('Apply Coupon')
+                                                ->modalCancelActionLabel('Cancel')
+                                                ->form([
+                                                    TextInput::make('coupon_code')
+                                                        ->label('Coupon Code')
+                                                        ->placeholder('Enter your coupon code')
+                                                        ->required()
+                                                        ->maxLength(255)
+                                                ])
+                                                ->action(function (array $data, $livewire) {
+                                                    if (empty($data['coupon_code'])) {
+                                                        return;
+                                                    }
+
+                                                    $result = coupon_apply([
+                                                        'coupon_code' => $data['coupon_code']
+                                                    ]);
+
+                                                    if (isset($result['error'])) {
+                                                        $livewire->addError('coupon_code', $result['message'] ?? 'Invalid coupon code');
+                                                        return;
+                                                    }
+
+                                                    $livewire->dispatch('reload-cart');
+                                                }),
+
+                                            Action::make('remove_coupon')
+                                                ->label('Remove Coupon')
+                                                ->visible(fn() => coupons_get_session())
+                                                ->button()
+                                                ->color('danger')
+                                                ->action(function ($state, $livewire) {
+                                                    coupons_delete_session();
+                                                    $livewire->dispatch('reload-cart');
+                                                }),
+                                        ])->columnSpanFull(),
+                                    ]),
+
                                 Section::make('Payment Method')
                                     ->visible(function (Forms\Get $get) {
                                         $visible = app()->shipping_method_manager->getProviders() && app()->cart_manager->get();

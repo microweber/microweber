@@ -24,7 +24,7 @@
             "Modules\\Coupons\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "Support/coupons_functions.php"
+            "Support/helpers.php"
         ]
     },
     "autoload-dev": {

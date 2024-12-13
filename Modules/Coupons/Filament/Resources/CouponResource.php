@@ -15,7 +15,7 @@ use Modules\Coupons\Filament\Resources\CouponResource\RelationManagers;
 class CouponResource extends Resource
 {
     protected static ?string $model = Coupon::class;
-     protected static ?string $navigationGroup = 'Shop';
+    protected static ?string $navigationGroup = 'Shop';
 
     public static function form(Form $form): Form
     {
@@ -35,6 +35,8 @@ class CouponResource extends Resource
 
                     Forms\Components\Select::make('discount_type')
                         ->label('Discount Type')
+                        ->live()
+                        ->reactive()
                         ->options([
                             'percentage' => 'Percentage',
                             'fixed_amount' => 'Fixed Amount'
@@ -44,10 +46,11 @@ class CouponResource extends Resource
                     Forms\Components\TextInput::make('discount_value')
                         ->label('Discount Value')
                         ->required()
+                        ->live()
+                        ->reactive()
                         ->numeric()
                         ->minValue(0)
-                        ->maxValue(fn (callable $get) =>
-                            $get('discount_type') === 'percentage' ? 100 : null
+                        ->maxValue(fn(callable $get) => $get('discount_type') === 'percentage' ? 100 : null
                         ),
 
                     Forms\Components\TextInput::make('total_amount')
@@ -89,22 +92,19 @@ class CouponResource extends Resource
 
                 Tables\Columns\TextColumn::make('discount_type')
                     ->label('Type')
-                    ->formatStateUsing(fn (string $state): string =>
-                        ucfirst(str_replace('_', ' ', $state))
+                    ->formatStateUsing(fn(string $state): string => ucfirst(str_replace('_', ' ', $state))
                     ),
 
                 Tables\Columns\TextColumn::make('discount_value')
                     ->label('Value')
-                    ->formatStateUsing(fn ($state, $record): string =>
-                        $record->discount_type === 'percentage'
-                            ? "{$state}%"
-                            : price_format($state)
+                    ->formatStateUsing(fn($state, $record): string => $record->discount_type === 'percentage'
+                        ? "{$state}%"
+                        : price_format($state)
                     ),
 
                 Tables\Columns\TextColumn::make('total_amount')
                     ->label('Min. Amount')
-                    ->formatStateUsing(fn ($state): string =>
-                        $state ? price_format($state) : '-'
+                    ->formatStateUsing(fn($state): string => $state ? price_format($state) : '-'
                     ),
 
                 Tables\Columns\IconColumn::make('is_active')

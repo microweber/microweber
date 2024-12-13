@@ -10,12 +10,12 @@ class CouponService
 {
     public function applyCoupon(string $code, float $cartTotal, ?string $customerEmail = null, ?string $customerIp = null): array
     {
-        if (!get_option('enable_coupons', 'shop')) {
-            return [
-                'success' => false,
-                'message' => __('The coupon code usage is disabled.')
-            ];
-        }
+//        if (!get_option('enable_coupons', 'shop')) {
+//            return [
+//                'success' => false,
+//                'message' => __('The coupon code usage is disabled.')
+//            ];
+//        }
 
         $coupon = Coupon::where('coupon_code', $code)
             ->where('is_active', 1)
@@ -91,7 +91,7 @@ class CouponService
     {
         $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = '';
-        
+
         do {
             $code = '';
             for ($i = 0; $i < $length; $i++) {
@@ -105,6 +105,20 @@ class CouponService
     public function getAppliedCoupon(): ?array
     {
         return Session::get('applied_coupon_data');
+    }
+
+    public function getCouponSession(): ?array
+    {
+        $couponData = $this->getAppliedCoupon();
+        if (!$couponData) {
+            return null;
+        }
+        
+        return [
+            'coupon_code' => $couponData['coupon_code'],
+            'discount_value' => $couponData['discount_value'],
+            'discount_type' => $couponData['discount_type']
+        ];
     }
 
     public function getAppliedDiscount(float $cartTotal): float

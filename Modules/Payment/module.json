@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\Payment\\Providers\\PaymentServiceProvider"
     ],
-    "files": ["Support/payment_functions.php"]
+    "files": ["Support/helpers.php"]
 }

@@ -7,10 +7,9 @@ use Modules\Coupons\Services\CouponService;
 if (!function_exists('coupon_apply')) {
     function coupon_apply(array $params = []): array
     {
-        $service = app(CouponService::class);
         $cartTotal = cart_sum(true);
-        
-        return $service->applyCoupon(
+
+        return app()->coupon_service->applyCoupon(
             $params['coupon_code'],
             $cartTotal,
             auth()->user()?->email,
@@ -22,8 +21,7 @@ if (!function_exists('coupon_apply')) {
 if (!function_exists('coupon_consume')) {
     function coupon_consume(string $coupon_code, string $customer_email): void
     {
-        $service = app(CouponService::class);
-        $service->consumeCoupon($coupon_code, $customer_email, request()->ip());
+        app()->coupon_service->consumeCoupon($coupon_code, $customer_email, request()->ip());
     }
 }
 
@@ -100,10 +98,16 @@ if (!function_exists('coupon_logs_get_by_code')) {
 if (!function_exists('coupons_delete_session')) {
     function coupons_delete_session(): array
     {
-        $service = app(CouponService::class);
-        $service->clearCouponSession();
-        
+        app()->coupon_service->clearCouponSession();
+
         return ['success' => true];
+    }
+}
+
+if (!function_exists('coupons_get_session')) {
+    function coupons_get_session(): ?array
+    {
+        return app()->coupon_service->getCouponSession();
     }
 }
 

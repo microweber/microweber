@@ -6,11 +6,10 @@ use Filament\Resources\Pages\CreateRecord;
 use Modules\Checkout\Filament\Resources\CheckoutResource;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Session;
 
 class CheckoutPage extends CreateRecord
 {
-
-
     protected static string $resource = CheckoutResource::class;
 
     protected static string $view = 'modules.checkout::filament.pages.checkout';
@@ -27,12 +26,9 @@ class CheckoutPage extends CreateRecord
 
     public function mount(): void
     {
-
-
         $order_id = app()->user_manager->session_get('order_id');
         $cart = get_cart();
         if (!$cart and $order_id) {
-
             app()->cart_manager->recover_cart($order_id);
         }
 
@@ -46,7 +42,6 @@ class CheckoutPage extends CreateRecord
         if (!app()->cart_manager->get()) {
             return redirect()->route('filament.checkout.resources.checkout.failed')->with('error', 'Cart is empty');
         }
-
 
         try {
             // Save contact information
@@ -62,13 +57,13 @@ class CheckoutPage extends CreateRecord
             app()->user_manager->session_set('checkout_postal_code', $data['postal_code']);
             app()->user_manager->session_set('checkout_country', $data['country']);
 
-
             // Create order
             $order = app()->checkout_manager->checkout($data);
 
             if (isset($order['redirect'])) {
                 return redirect()->to($order['redirect']);
             }
+            
             $success = false;
             if (isset($order['success'])) {
                 $success = $order['success'] ?? false;
@@ -83,6 +78,12 @@ class CheckoutPage extends CreateRecord
                 return redirect()->route('filament.checkout.resources.checkout.failed')->with('error', 'Error processing order');
             }
 
+            // Consume coupon if one was applied
+            $couponCode = Session::get('coupon_code');
+            if ($couponCode) {
+                coupon_consume($couponCode, $data['email']);
+            }
+
             Notification::make()
                 ->title('Order placed successfully')
                 ->success()
@@ -90,7 +91,6 @@ class CheckoutPage extends CreateRecord
 
             return redirect()->route('filament.checkout.resources.checkout.success')
                 ->with('success', 'Order placed successfully');
-
 
         } catch (\Exception $e) {
             Notification::make()
