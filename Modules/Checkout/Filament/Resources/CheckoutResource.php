@@ -2,7 +2,9 @@
 
 namespace Modules\Checkout\Filament\Resources;
 
+
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\View;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +14,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Event;
+use Livewire\Component;
+use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use Modules\Checkout\Livewire\ReviewOrder;
 use Modules\Checkout\Livewire\CartItems;
 use Modules\Checkout\Filament\Resources\Pages;
@@ -22,6 +26,7 @@ class CheckoutResource extends Resource
     protected static ?string $navigationLabel = 'Checkout';
     protected static ?string $modelLabel = 'Checkout';
     protected static ?string $slug = 'checkout';
+
 
     public static function form(Form $form): Form
     {
@@ -38,7 +43,7 @@ class CheckoutResource extends Resource
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('first_name', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
                                             })
                                             ->default(fn() => checkout_get_user_info('first_name')),
 
@@ -47,7 +52,7 @@ class CheckoutResource extends Resource
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('last_name', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
                                             })
                                             ->default(fn() => checkout_get_user_info('last_name')),
 
@@ -57,16 +62,17 @@ class CheckoutResource extends Resource
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('email', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
                                             })
                                             ->default(fn() => checkout_get_user_info('email')),
 
                                         TextInput::make('phone')
                                             ->tel()
+                                            ->maxLength(255)
                                             ->required()
                                             ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('phone', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
                                             })
                                             ->default(fn() => checkout_get_user_info('phone')),
                                     ])
@@ -76,11 +82,14 @@ class CheckoutResource extends Resource
                                     ->schema([
                                         Select::make('country')
                                             ->required()
-                                            ->searchable()
+                                            // ->searchable()
                                             ->native()
-                                            ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
+                                            ->live()
+                                            ->afterStateUpdated(function ($state, Forms\Get $get, $component) {
+                                                /** @var Component $livewire */
+                                                $livewire = $component->getLivewire();
                                                 checkout_set_user_info('country', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
                                             })
                                             ->options(function () {
                                                 return app()->country_manager->getCountries();
@@ -92,7 +101,7 @@ class CheckoutResource extends Resource
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('city', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
                                             })
                                             ->default(fn() => checkout_get_user_info('city')),
 
@@ -101,7 +110,7 @@ class CheckoutResource extends Resource
                                             ->maxLength(255)
                                             ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('state', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
                                             })
                                             ->default(fn() => checkout_get_user_info('state')),
 
@@ -110,7 +119,7 @@ class CheckoutResource extends Resource
                                             ->maxLength(20)
                                             ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('postal_code', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
                                             })
                                             ->default(fn() => checkout_get_user_info('postal_code')),
 
@@ -120,7 +129,9 @@ class CheckoutResource extends Resource
                                             ->columnSpanFull()
                                             ->afterStateUpdated(function ($state, Forms\Get $get, $livewire) {
                                                 checkout_set_user_info('address', $state);
-                                                $livewire->dispatch('cart-updated');
+                                                $livewire->dispatch('reload-cart');
+
+
                                             })
                                             ->default(fn() => checkout_get_user_info('address')),
                                     ])
@@ -152,6 +163,7 @@ class CheckoutResource extends Resource
                                                 })
                                                 ->default(fn() => checkout_get_user_info('shipping_provider_id'))
                                                 ->live()
+                                                ->required()
                                                 ->reactive()
                                                 ->columnSpanFull(),
                                         ];
@@ -197,6 +209,7 @@ class CheckoutResource extends Resource
                                                 })
                                                 ->default(fn() => checkout_get_user_info('payment_provider_id'))
                                                 ->live()
+                                                ->required()
                                                 ->reactive()
                                                 ->columnSpanFull(),
                                         ];
