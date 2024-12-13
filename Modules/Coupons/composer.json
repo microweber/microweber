@@ -1,0 +1,35 @@
+{
+    "name": "modules/coupons",
+    "description": "Manage discount coupons for your online store",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Coupons\\Providers\\CouponsServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Coupons\\": "",
+            "Modules\\Coupons\\Database\\Factories\\": "database/factories/",
+            "Modules\\Coupons\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "Support/coupons_functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Coupons\\Tests\\": "Tests/"
+        }
+    }
+}

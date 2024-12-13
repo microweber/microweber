@@ -1,0 +1,11 @@
+{
+    "name": "Coupons",
+    "alias": "coupons",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Coupons\\Providers\\CouponsServiceProvider"
+    ],
+    "files": ["Support/coupons_functions.php"]
+}
