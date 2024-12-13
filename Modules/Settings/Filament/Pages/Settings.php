@@ -27,7 +27,7 @@ class Settings extends Page
     {
         return '';
     }
-    
+
 
     public function getViewData(): array
     {
