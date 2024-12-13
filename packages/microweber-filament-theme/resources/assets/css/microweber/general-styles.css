@@ -782,3 +782,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
         @apply mb-0;
     }
 }
+
+.fi-main-ctn.w-screen, .fi-topbar nav {
+    @apply !bg-slate-50;
+}
