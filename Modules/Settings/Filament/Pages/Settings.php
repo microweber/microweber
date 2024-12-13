@@ -18,10 +18,16 @@ class Settings extends Page
 
     protected static ?int $navigationSort = 97;
 
-    public function getMaxContentWidth(): MaxWidth
+    public function getBreadcrumb(): string
     {
-        return MaxWidth::MaxContent;
+        return '';
     }
+
+    public function getTitle(): string
+    {
+        return '';
+    }
+
 
     public function getViewData(): array
     {

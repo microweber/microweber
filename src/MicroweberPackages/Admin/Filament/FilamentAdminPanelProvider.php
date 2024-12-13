@@ -9,6 +9,7 @@ use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Filament\View\PanelsRenderHook;
 use Filament\Widgets;
 use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
@@ -93,6 +94,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Blue,
             ])
+            ->maxContentWidth(MaxWidth::ScreenTwoExtraLarge)
             ->unsavedChangesAlerts();
 
         return $panel;
