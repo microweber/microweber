@@ -21,6 +21,7 @@ use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use MicroweberPackages\Repository\Repositories\AbstractRepository;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+
 class ModuleManager
 {
     public $tables = array();
@@ -250,14 +251,14 @@ class ModuleManager
 
                 $this->log('Migrating template: ' . $name);
                 $autoload = $module->getComposerAttr('autoload', $json);
-                Artisan::call('template:migrate', ['module' => $name, '--force'],$output);
+                Artisan::call('template:migrate', ['module' => $name, '--force'], $output);
                 $this->log($output->fetch());
 
                 $output = new BufferedOutput();
                 $output->setDecorated(false);
 
                 $this->log('Publishing template: ' . $name);
-                Artisan::call('template:publish', ['module' => $name],$output);
+                Artisan::call('template:publish', ['module' => $name], $output);
                 $this->log($output->fetch());
 
             }
@@ -346,17 +347,16 @@ class ModuleManager
                 $autoload = $module->getComposerAttr('autoload', $json);
                 $this->log('Migrating module: ' . $name);
 
-                Artisan::call('module:migrate', ['module' => $name, '--force'],$output);
+                Artisan::call('module:migrate', ['module' => $name, '--force'], $output);
 
                 $this->log($output->fetch());
 
                 $output = new BufferedOutput();
                 $output->setDecorated(false);
 
-                $this->log('Publishing module: ' .$name);
-                Artisan::call('module:publish', ['module' => $name],$output);
+                $this->log('Publishing module: ' . $name);
+                Artisan::call('module:publish', ['module' => $name], $output);
                 $this->log($output->fetch());
-
 
 
                 $moduleToSave = [];
@@ -375,11 +375,13 @@ class ModuleManager
                 $moduleToSave['settings']['module_path'] = $modulePath;
                 $moduleToSave['settings']['module_path_relative'] = str_replace(base_path(), '', $modulePath);
 
-              //  app()->module_repository->installLaravelModule($moduleToSave);
+                //  app()->module_repository->installLaravelModule($moduleToSave);
 
             }
         }
     }
+
+    /* @deprecated */
 
     public function scan_for_modules($options = false)
     {
@@ -759,11 +761,11 @@ class ModuleManager
         return $save;
     }
 
+    /* @deprecated */
     public function get_modules($params)
     {
         return $this->get($params);
     }
-
 
 
     /* @deprecated */
@@ -859,16 +861,15 @@ class ModuleManager
         }
 
 
-
         if (app()->bound('microweber')) {
-             if ( app()->microweber->hasModule($module_name)) {
+            if (app()->microweber->hasModule($module_name)) {
                 return true;
             }
         }
 
 
         if (app()->bound('modules')) {
-             if ( app()->modules->find($module_name)) {
+            if (app()->modules->find($module_name)) {
                 return true;
             }
         }
@@ -886,10 +887,10 @@ class ModuleManager
         }
 
 
-
         return $mw_loaded_mod_memory[$module_name];
     }
 
+    /* @deprecated */
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
     {
 
@@ -969,6 +970,7 @@ class ModuleManager
         return $try_file1;
     }
 
+    /* @deprecated */
     public function delete_module($id)
     {
         if ($this->app->user_manager->is_admin() == false) {
@@ -990,6 +992,7 @@ class ModuleManager
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
     }
 
+    /* @deprecated */
     public function info($module_name)
     {
         $module_name = preg_replace('/admin$/', '', $module_name);
@@ -1083,22 +1086,14 @@ class ModuleManager
         if (app()->bound('microweber')) {
             $microweberModule = app()->microweber->hasModule($module_name);
             $templates = [];
-            if($microweberModule){
+            if ($microweberModule) {
 
-                $templates = app()->microweber->getTemplates($module_name,$template_name);
+                $templates = app()->microweber->getTemplates($module_name, $template_name);
                 return $templates;
             }
 
 
         }
-
-
-
-
-
-
-
-
 
 
         $module_name = str_replace('admin', '', $module_name);
@@ -1127,8 +1122,6 @@ class ModuleManager
         $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
 
         $template_config = app()->template_manager->get_config();
-
-
 
 
         if (!is_dir($module_name_l) /*and !is_dir($module_name_l_theme)*/) {
@@ -1253,6 +1246,7 @@ class ModuleManager
         }
     }
 
+    /* @deprecated */
     public function url($module_name = false)
     {
         if ($module_name == false) {
@@ -1322,11 +1316,13 @@ class ModuleManager
         return $checked[$module_name];
     }
 
+    /* @deprecated */
     public function path($module_name)
     {
         return $this->dir($module_name);
     }
 
+    /* @deprecated */
     public function dir($module_name)
     {
         if (!is_string($module_name)) {
@@ -1361,7 +1357,7 @@ class ModuleManager
         return $checked[$module_name];
     }
 
-
+    /* @deprecated */
     public function is_installed($module_name)
     {
 
@@ -1396,6 +1392,8 @@ class ModuleManager
         }
     }
 
+
+    /* @deprecated */
     public function reorder_modules($data)
     {
         $adm = $this->app->user_manager->is_admin();
@@ -1420,6 +1418,7 @@ class ModuleManager
         // $this->db_init();
     }
 
+    /* @deprecated */
     public function delete_all()
     {
         if ($this->app->user_manager->is_admin() == false) {
@@ -1445,6 +1444,7 @@ class ModuleManager
         app()->module_repository->clearCache();
     }
 
+    /* @deprecated */
     public function icon_with_title($module_name, $link = true)
     {
         $params = array();
@@ -1476,6 +1476,7 @@ class ModuleManager
         echo $to_print;
     }
 
+    /* @deprecated */
     public function uninstall($params)
     {
         if (isset($params['for_module'])) {
@@ -1535,6 +1536,7 @@ class ModuleManager
 //dd($this_module);
     }
 
+    /* @deprecated */
     public function set_installed($params)
     {
 
@@ -1580,6 +1582,7 @@ class ModuleManager
 
     }
 
+    /* @deprecated */
     public function update_db()
     {
         if (isset($options['glob'])) {
@@ -1617,6 +1620,7 @@ class ModuleManager
 
     }
 
+    /* @deprecated */
     public function get_saved_modules_as_template($params)
     {
         $params = parse_params($params);
@@ -1634,6 +1638,7 @@ class ModuleManager
         return $data;
     }
 
+    /* @deprecated */
     public function delete_module_as_template($data)
     {
         if ($this->app->user_manager->is_admin() == false) {
@@ -1663,6 +1668,7 @@ class ModuleManager
 
     }
 
+    /* @deprecated */
     public function save_module_as_template($data_to_save)
     {
         if ($this->app->user_manager->is_admin() == false) {
@@ -1775,6 +1781,7 @@ class ModuleManager
 
     public $_module_locations_root_cache = array();
 
+    /* @deprecated */
     public function locate_root_module($module_name)
     {
         if (isset($this->_module_locations_root_cache[$module_name])) {

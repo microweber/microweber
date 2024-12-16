@@ -1,10 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Backup;
+namespace Modules\Backup\Support;
 
-use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Export\Export;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\Loggers\BackupLogger;
 
 class GenerateBackup extends Export
 {

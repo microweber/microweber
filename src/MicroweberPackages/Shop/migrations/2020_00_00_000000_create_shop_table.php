@@ -111,25 +111,25 @@ class CreateShopTable extends Migration
 //                'taxes_amount' => 'float',
 //                '$index' => ['session_id'],
 //            ],
-            'cart_shipping' => [
-                'updated_at' => 'dateTime',
-                'created_at' => 'dateTime',
-                'is_active' => 'string',
-
-
-                'shipping_cost' => 'float',
-                'shipping_cost_max' => 'float',
-                'shipping_cost_above' => 'float',
-
-                'shipping_country' => 'longText',
-                'position' => 'integer',
-                'shipping_type' => 'longText',
-
-                'shipping_price_per_size' => 'float',
-                'shipping_price_per_weight' => 'float',
-                'shipping_price_per_item' => 'float',
-                'shipping_price_custom' => 'float',
-            ]
+//            'cart_shipping' => [
+//                'updated_at' => 'dateTime',
+//                'created_at' => 'dateTime',
+//                'is_active' => 'string',
+//
+//
+//                'shipping_cost' => 'float',
+//                'shipping_cost_max' => 'float',
+//                'shipping_cost_above' => 'float',
+//
+//                'shipping_country' => 'longText',
+//                'position' => 'integer',
+//                'shipping_type' => 'longText',
+//
+//                'shipping_price_per_size' => 'float',
+//                'shipping_price_per_weight' => 'float',
+//                'shipping_price_per_item' => 'float',
+//                'shipping_price_custom' => 'float',
+//            ]
         ];
 
         /*

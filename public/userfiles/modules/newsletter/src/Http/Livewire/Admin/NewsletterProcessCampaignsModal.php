@@ -3,9 +3,8 @@
 namespace MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\Backup\Loggers\DefaultLogger;
-use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\ProcessCampaigns;
+use Modules\Backup\Loggers\DefaultLogger;
 
 class NewsletterProcessCampaignsModal extends AdminModalComponent
 {

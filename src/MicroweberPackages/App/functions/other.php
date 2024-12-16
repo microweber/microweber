@@ -21,9 +21,10 @@ function mw_admin_prefix_url_live_edit()
 {
     return config('microweber.admin_url_live_edit', 'admin-live-edit');
 }
+
 function mw_admin_prefix_url_legacy()
 {
-    return config('microweber.admin_url_legacy', mw_admin_prefix_url().'/legacy');
+    return config('microweber.admin_url_legacy', mw_admin_prefix_url() . '/legacy');
 }
 
 function mw_is_multisite(): bool
@@ -34,205 +35,10 @@ function mw_is_multisite(): bool
     return false;
 }
 
-
-/**
- *  Microweber common functions.
- */
-api_expose_admin('reorder_modules');
-
-function reorder_modules($data)
-{
-    return mw()->module_manager->reorder_modules($data);
-}
-
-
-api_expose_admin('get_modules_list_json', function () {
-    return mw()->module_manager->get('installed=1&ui=1');
-
-});
-
-api_expose_admin('get_layouts_list_json', function () {
-    return mw()->module_manager->templates('layouts');
-
-
-});
-api_expose_admin('get_elements_list_json', function () {
-    return mw()->module_manager->scan_for_elements();
-
-});
-
-api_expose_admin('get_modules_and_elements_json', function ($params) {
-
-    $modules_options = array();
-    $modules_options['skip_admin'] = true;
-    $modules_options['ui'] = true;
-    $elements_ready = array();
-    $modules_by_categories = array();
-    $mod_obj_str = 'modules';
-    $template_config = app()->template_manager->get_config();
-    $show_grouped_by_cats = false;
-    $show_layouts_grouped_by_cats = false;
-    $show_group_elements_by_category = false;
-    $hide_dynamic_layouts = false;
-    $disable_elements = false;
-
-    if (isset($template_config['elements_mode']) and $template_config['elements_mode'] == 'disabled') {
-        $disable_elements = true;
-    }
-
-    if (isset($params['hide-dynamic']) and $params['hide-dynamic']) {
-        $hide_dynamic_layouts = true;
-    }
-
-    if (isset($params['group_modules_by_category']) and $params['group_modules_by_category']) {
-        $show_grouped_by_cats = true;
-    }
-
-    if (isset($params['group_layouts_by_category']) and $params['group_layouts_by_category']) {
-        $show_layouts_grouped_by_cats = true;
-    }
-
-    if (isset($template_config['group_layouts_by_category']) and $template_config['group_layouts_by_category']) {
-        $show_layouts_grouped_by_cats = true;
-    }
-
-    if (isset($template_config['group_elements_by_category']) and $template_config['group_elements_by_category']) {
-        $show_group_elements_by_category = true;
-    }
-
-    if (isset($template_config['use_dynamic_layouts_for_posts']) and $template_config['use_dynamic_layouts_for_posts']) {
-        $hide_dynamic_layouts = false;
-    }
-
-
-    $ready = [];
-    $ready['config'] = $template_config;
-
-
-    $mod_obj_str = 'elements';
-    $el_params = array();
-    if (isset($params['layout_type'])) {
-        $el_params['layout_type'] = $params['layout_type'];
-    }
-
-    $elements_ready = mw()->layouts_manager->get($el_params);
-
-    if ($elements_ready == false) {
-        // scan_for_modules($modules_options);
-        $el_params['no_cache'] = true;
-        mw()->module_manager->scan_for_elements($el_params);
-        $elements_ready = mw()->layouts_manager->get($el_params);
-    }
-
-    if ($elements_ready == false) {
-        $elements_ready = array();
-    }
-
-    $elements_from_template = mw()->layouts_manager->get_elements_from_current_site_template();
-    if (!empty($elements_from_template)) {
-        $elements_ready = array_merge($elements_from_template, $elements_ready);
-    }
-
-    if ($disable_elements) {
-        $elements_ready = array();
-    }
-
-
-    if ($disable_elements) {
-        $elements_ready = array();
-    }
-
-
-    if ($elements_ready) {
-
-
-    }
-
-    $ready_elements = [];
-
-    if ($show_group_elements_by_category) {
-        $ready_elements['hasCategories'] = 1;
-    }
-
-    $ready_elements['data'] = $elements_ready;
-
-    $ready['elements'] = $ready_elements;
-
-
-    // $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-    $dynamic_layouts = false;
-    $module_layouts_skins = false;
-    $dynamic_layouts = mw()->layouts_manager->get_all('no_cache=1&get_dynamic_layouts=1');
-    $module_layouts_skins = mw()->module_manager->templates('layouts');
-    if ($hide_dynamic_layouts) {
-        $dynamic_layouts = false;
-        $module_layouts_skins = false;
-    }
-    if (!$module_layouts_skins) {
-        $module_layouts_skins = [];
-    }
-
-    if ($dynamic_layouts) {
-        $module_layouts_skins = array_merge($module_layouts_skins, $module_layouts_skins);
-    }
-
-
-    $modules = mw()->module_manager->get('installed=1&ui=1');
-    $module_layouts = mw()->module_manager->get('installed=1&module=layouts');
-    $hide_from_display_list = array('layouts', 'template_settings');
-    $sortout_el = array();
-    $sortout_mod = array();
-    if (!empty($modules)) {
-        foreach ($modules as $mod) {
-            if (isset($mod['as_element']) and intval($mod['as_element']) == 1) {
-                $sortout_el[] = $mod;
-            } else {
-                $sortout_mod[] = $mod;
-            }
-        }
-        $modules = array_merge($sortout_el, $sortout_mod);
-        if ($modules and !empty($module_layouts)) {
-            $modules = array_merge($modules, $module_layouts);
-        }
-    }
-
-    $modules_from_template = mw()->module_manager->get_modules_from_current_site_template();
-    if (!empty($modules_from_template)) {
-        if (!is_array($modules)) {
-            $modules = array();
-        }
-        foreach ($modules as $module) {
-            foreach ($modules_from_template as $k => $module_from_template) {
-                if (isset($module['name']) and isset($module_from_template['name'])) {
-                    if ($module['name'] == $module_from_template['name']) {
-                        unset($modules_from_template[$k]);
-                    }
-                }
-            }
-        }
-        $modules = array_merge($modules, $modules_from_template);
-    }
-
-    $modules_ready = [];
-    if ($show_grouped_by_cats) {
-        $modules_ready['hasCategories'] = 1;
-    }
-    $modules_ready['data'] = $modules;
-
-
-    $ready['modules'] = $modules_ready;
-
-    $layouts_ready = [];
-    if ($show_layouts_grouped_by_cats) {
-        $layouts_ready['hasCategories'] = 1;
-    }
-    $layouts_ready['data'] = $module_layouts_skins;
-
-    $ready['layouts'] = $layouts_ready;
-    return response()->json($ready);
-    //  return $ready;
-
-});
+//
+///**
+// *  Microweber other functions.
+// */
 
 /*
  *
@@ -753,7 +559,6 @@ function get_all_functions_files_for_modules($options = false)
 }
 
 
-
 function template_dir($param = false)
 {
     return app()->template_manager->dir($param);
@@ -964,7 +769,7 @@ function get_date_db_format($str_date)
 
 }
 
-if(!function_exists('get_class_protected_property_value')){
+if (!function_exists('get_class_protected_property_value')) {
     function get_class_protected_property_value($obj, $prop)
     {
         $refl = new ReflectionClass($obj);
@@ -1011,3 +816,5 @@ function mw_save_framework_config_file($params)
         return array('success' => 'Config is changed!');
     }
 }
+
+

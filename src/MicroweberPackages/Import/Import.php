@@ -2,8 +2,6 @@
 
 namespace MicroweberPackages\Import;
 
-use Illuminate\Support\Facades\Log;
-use MicroweberPackages\Backup\Loggers\DefaultLogger;
 use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Import\Formats\CsvReader;
 use MicroweberPackages\Import\Formats\JsonReader;

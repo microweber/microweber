@@ -214,6 +214,9 @@ class Export
                 return array(
                     'success' => 'Items are exported',
                     'export_type' => $this->type,
+                    'filepath' => $zipExportReady['filepath'],
+                    'filename' => $zipExportReady['filename'],
+                    'downloadUrl' => $zipExportReady['download'],
                     'data' => $zipExportReady
                 );
             } else {

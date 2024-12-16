@@ -23,13 +23,14 @@ class Manager
             }
         }
         $this->views_dir = dirname(__DIR__) . DS . 'views' . DS;
-        $this->provider = $this->app->content_manager;
-        $this->category_provider = $this->app->category_manager;
-        $this->event_manager = $this->app->event_manager;
+
     }
 
     function index($params)
     {
+        $this->provider = $this->app->content_manager;
+        $this->category_provider = $this->app->category_manager;
+        $this->event_manager = $this->app->event_manager;
         if (!user_can_access('module.content.index')) {
             return;
         }

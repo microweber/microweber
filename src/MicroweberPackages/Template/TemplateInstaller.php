@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Template;
 
-use MicroweberPackages\Backup\Loggers\BackupLogger;
 use MicroweberPackages\Import\Import;
+use Modules\Backup\Loggers\BackupLogger;
 
 class TemplateInstaller extends Import
 {

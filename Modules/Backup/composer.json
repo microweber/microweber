@@ -1,0 +1,34 @@
+{
+    "name": "modules/backup",
+    "description": "Backup module for Microweber",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Backup\\": "",
+            "Modules\\Backup\\Database\\Factories\\": "database/factories/",
+            "Modules\\Backup\\Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "Support/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Backup\\Tests\\": "Tests/"
+        }
+    }
+}

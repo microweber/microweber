@@ -2,15 +2,11 @@
 
 namespace MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin;
 
-use Carbon\Carbon;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\Backup\Loggers\DefaultLogger;
-use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
 use MicroweberPackages\Modules\Newsletter\ImportSubscribersFileReader;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList;
-use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\ProcessCampaigns;
 
 class NewsletterImportSubscribersModal extends AdminModalComponent

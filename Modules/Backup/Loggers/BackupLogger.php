@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Backup\Loggers;
+namespace Modules\Backup\Loggers;
 
 class BackupLogger extends DefaultLogger
 {

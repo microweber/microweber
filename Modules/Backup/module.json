@@ -1,0 +1,14 @@
+{
+    "name": "Backup",
+    "alias": "backup",
+    "description": "Backup and restore functionality for Microweber",
+    "keywords": ["microweber", "backup", "restore"],
+    "priority": 0,
+    "providers": [
+        "Modules\\Backup\\Providers\\BackupServiceProvider"
+    ],
+    "files": [
+        "Support/helpers.php"
+    ],
+    "requires": []
+}
