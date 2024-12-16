@@ -13,10 +13,13 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\Support\Restore;
 use Modules\Backup\Filament\Admin\Resources\BackupResource\Pages;
 
 class BackupResource extends Resource
@@ -31,19 +34,10 @@ class BackupResource extends Resource
         return $form->schema([
             Section::make('Backup Options')
                 ->schema([
-//                    Select::make('format')
-//                        ->options([
-//                            'json' => 'JSON',
-//                            'zip' => 'ZIP',
-//                            'xml' => 'XML',
-//                        ])
-//                        ->required()
-//                        ->default('json'),
-
                     Forms\Components\TextInput::make('filename')
                         ->label('Filename')
                         ->default(function () {
-                          return 'backup-' . date('Y-m-d-H-i-s');
+                            return 'backup-' . date('Y-m-d-H-i-s');
                         })
                         ->placeholder('backup')
                         ->required(),
@@ -53,7 +47,6 @@ class BackupResource extends Resource
                         ->default(5)
                         ->placeholder('100')
                         ->required(),
-
 
                     Toggle::make('include_media')
                         ->label('Include Media Files')
@@ -130,16 +123,8 @@ class BackupResource extends Resource
                     ->sortable(),
             ])
             ->headerActions([
-                Action::make('refresh')
-                    ->label('Refresh Backups')
-                    ->icon('heroicon-m-arrow-path')
-                    ->action(function () {
-                        Backup::refreshFromDisk();
-                        Notification::make()
-                            ->title('Backups refreshed successfully')
-                            ->success()
-                            ->send();
-                    })
+
+
             ])
             ->actions([
                 Action::make('download')
@@ -152,7 +137,34 @@ class BackupResource extends Resource
                     ->icon('heroicon-m-arrow-path')
                     ->requiresConfirmation()
                     ->action(function (Backup $record) {
-                        return $record->restore($record->filepath);
+                        try {
+
+                            $sessionId = SessionStepper::generateSessionId(1);
+                            $restore = new Restore();
+                            $restore->setSessionId($sessionId);
+                            $restore->setFile($record->filepath);
+                            $restore->setOvewriteById(true);
+                            $restore->setToDeleteOldContent(false);
+
+                            $result = $restore->start();
+
+                            if (isset($result['error'])) {
+                                throw new \Exception($result['error']);
+                            }
+
+                            Notification::make()
+                                ->title('Backup restored successfully')
+                                ->success()
+                                ->send();
+
+                            return $result;
+                        } catch (\Exception $e) {
+                            Notification::make()
+                                ->title('Restore failed')
+                                ->body($e->getMessage())
+                                ->danger()
+                                ->send();
+                        }
                     }),
 
                 Tables\Actions\DeleteAction::make(),
