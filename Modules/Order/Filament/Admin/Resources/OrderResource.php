@@ -30,6 +30,16 @@ class OrderResource extends Resource
     protected static ?string $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 2;
 
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'New orders';
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('order_status', OrderStatus::New)->count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -134,8 +144,8 @@ class OrderResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultPaginationPageOption(50)
-            ->paginationPageOptions([50, 100, 200, 500, 'all'])
+            ->defaultPaginationPageOption(150)
+            ->paginationPageOptions([150, 200, 500, 1000, 'all'])
             ->emptyState(function (Table $table) {
                 $modelName = static::$model;
 
@@ -151,6 +161,9 @@ class OrderResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at'),
 
+                Tables\Columns\TextColumn::make('order_status')
+                    ->label('Status')
+                    ->badge(),
                 ImageUrlColumn::make('firstProductThumbnail')
                     ->label('Product')
                     ->circular()
@@ -169,8 +182,6 @@ class OrderResource extends Resource
                     ->sortable()
                     ->toggleable(),
 
-                Tables\Columns\TextColumn::make('order_status')
-                    ->badge(),
 
                 Tables\Columns\TextColumn::make('amount')
                     ->sortable()

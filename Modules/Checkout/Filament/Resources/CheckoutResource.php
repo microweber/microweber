@@ -190,6 +190,9 @@ class CheckoutResource extends Resource
                                     ]),
 
                                 Section::make('Apply Coupon')
+                                    ->visible(function (Forms\Get $get) {
+                                        return app()->cart_manager->get() and coupon_get_count();
+                                    })
                                     ->schema([
                                         Forms\Components\Placeholder::make('coupon_code')
                                             ->hidden(fn() => !coupons_get_session())
