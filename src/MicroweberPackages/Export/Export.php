@@ -34,7 +34,7 @@ class Export
      * Set export file format
      * @param string $type
      */
-    public function setType($type)
+    public function setType($type): void
     {
         $this->type = $type;
     }
@@ -43,7 +43,7 @@ class Export
      * Set wich data want to export
      * @param array $data
      */
-    public function setExportData($dataType, $dataIds)
+    public function setExportData($dataType, $dataIds): void
     {
         $this->exportData[$dataType] = $dataIds;
     }
@@ -52,7 +52,7 @@ class Export
      * Set export full
      * @param string $type
      */
-    public function setExportAllData($exportAllData = true)
+    public function setExportAllData($exportAllData = true): void
     {
         $this->exportAllData = $exportAllData;
     }
@@ -61,12 +61,12 @@ class Export
      * Set logger
      * @param class $logger
      */
-    public function setLogger($logger)
+    public function setLogger($logger): void
     {
         $this->logger = $logger;
     }
 
-    public function setSessionId($sessionId)
+    public function setSessionId($sessionId): void
     {
         $this->sessionId = $sessionId;
     }

@@ -11,8 +11,12 @@ use Filament\Forms\Form;
 use Modules\Backup\Models\Backup;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Modules\Backup\Filament\Admin\Resources\BackupResource\Pages;
 
 class BackupResource extends Resource
@@ -25,22 +29,84 @@ class BackupResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Select::make('format')
-                ->options([
-                    'json' => 'JSON',
-                    'zip' => 'ZIP',
-                    'xml' => 'XML',
+            Section::make('Backup Options')
+                ->schema([
+//                    Select::make('format')
+//                        ->options([
+//                            'json' => 'JSON',
+//                            'zip' => 'ZIP',
+//                            'xml' => 'XML',
+//                        ])
+//                        ->required()
+//                        ->default('json'),
+
+                    Forms\Components\TextInput::make('filename')
+                        ->label('Filename')
+                        ->default(function () {
+                          return 'backup-' . date('Y-m-d-H-i-s');
+                        })
+                        ->placeholder('backup')
+                        ->required(),
+
+                    Forms\Components\TextInput::make('steps')
+                        ->label('steps')
+                        ->default(5)
+                        ->placeholder('100')
+                        ->required(),
+
+
+                    Toggle::make('include_media')
+                        ->label('Include Media Files')
+                        ->default(true),
+
+                    Toggle::make('include_modules')
+                        ->label('Include Modules')
+                        ->default(true),
+                ]),
+
+            Section::make('Tables')
+                ->schema([
+                    CheckboxList::make('tables')
+                        ->label('Select Tables to Backup')
+                        ->options(function () {
+                            $tables = [];
+                            $skipTables = [
+                                'migrations',
+                                'personal_access_tokens',
+                                'sessions',
+                                'cache',
+                                'jobs',
+                                'failed_jobs',
+                                'backups',
+                                'login_attempts',
+                                'log',
+                                'jobs',
+                                'job_batches',
+                                'imports',
+                                'exports',
+                                'password_resets',
+                                'failed_jobs'
+                            ];
+
+                            // Get all tables using Schema facade
+                            $allTables = app()->database_manager->get_tables_list();
+                            $prefix = DB::getTablePrefix();
+                            foreach ($allTables as $tableInfo) {
+                                $tableName = array_values((array)$tableInfo)[0];
+                                $tableName = str_replace_first($prefix, '', $tableName);
+                                if (!in_array($tableName, $skipTables)) {
+                                    $tables[$tableName] = $tableName;
+                                }
+                            }
+
+                            return $tables;
+                        })
+                        ->columns(3)
+                        ->searchable()
+                        ->bulkToggleable()
+                        ->helperText('Select the tables you want to include in the backup.')
                 ])
-                ->required()
-                ->default('json'),
-
-            Toggle::make('include_media')
-                ->label('Include Media Files')
-                ->default(true),
-
-            Toggle::make('include_modules')
-                ->label('Include Modules')
-                ->default(true),
+                ->collapsible(),
         ]);
     }
 
@@ -55,7 +121,7 @@ class BackupResource extends Resource
 
                 TextColumn::make('size')
                     ->label('Size')
-                    ->formatStateUsing(fn ($state) => format_bytes($state))
+                    ->formatStateUsing(fn($state) => format_bytes($state))
                     ->sortable(),
 
                 TextColumn::make('created_at')
@@ -63,12 +129,23 @@ class BackupResource extends Resource
                     ->dateTime()
                     ->sortable(),
             ])
-
+            ->headerActions([
+                Action::make('refresh')
+                    ->label('Refresh Backups')
+                    ->icon('heroicon-m-arrow-path')
+                    ->action(function () {
+                        Backup::refreshFromDisk();
+                        Notification::make()
+                            ->title('Backups refreshed successfully')
+                            ->success()
+                            ->send();
+                    })
+            ])
             ->actions([
                 Action::make('download')
                     ->label('Download')
                     ->icon('heroicon-m-arrow-down-tray')
-                    ->action(fn (Backup $record) => response()->download($record->filepath)),
+                    ->action(fn(Backup $record) => response()->download($record->filepath)),
 
                 Action::make('restore')
                     ->label('Restore')

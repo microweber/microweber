@@ -102,7 +102,7 @@ class RestoreBackupTest extends TestCase
         // Restore
         $sessionId = SessionStepper::generateSessionId(1);
 
-        $restore = new \MicroweberPackages\Backup\Restore();
+        $restore = new \Modules\Backup\Support\Restore();
         $restore->setFile($exportedFile);
         $restore->setOvewriteById(true);
         $restore->setWriteOnDatabase(true);

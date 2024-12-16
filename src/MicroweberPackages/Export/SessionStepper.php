@@ -73,7 +73,8 @@ class SessionStepper
         file_put_contents(self::sessionFilepath(), json_encode($cacheFile));
     }
 
-    public static function finish() {
+    public static function finish()
+    {
 
         $cacheFile = self::getSessionFileData();
         $cacheFile['done'] = true;
@@ -82,6 +83,10 @@ class SessionStepper
 
         file_put_contents(self::sessionFilepath(), json_encode($cacheFile));
     }
+
+
+
+
 
     public static function totalSteps()
     {
@@ -137,7 +142,7 @@ class SessionStepper
         if ($currentStep < 1) {
             return 100;
         }
-        return (int) round((($currentStep * 100) / self::totalSteps()),2);
+        return (int)round((($currentStep * 100) / self::totalSteps()), 2);
     }
 
     public static function isFinished()

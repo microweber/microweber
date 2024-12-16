@@ -3,9 +3,9 @@
 namespace Modules\Backup\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Backup\Restore;
-use Modules\Backup\Support\GenerateBackup;
 use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\Support\GenerateBackup;
+use Modules\Backup\Support\Restore;
 
 class Backup extends Model
 {
@@ -55,9 +55,11 @@ class Backup extends Model
     {
         $backup = new GenerateBackup();
 
-        // Generate a new session ID with 5 steps
-        $sessionId = SessionStepper::generateSessionId(5);
-        $backup->setSessionId($sessionId);
+        // Set session ID for progress tracking
+        if (!isset($data['session_id'])) {
+            $data['session_id'] = SessionStepper::generateSessionId();
+        }
+        $backup->setSessionId($data['session_id']);
 
         if (isset($data['format'])) {
             $backup->type = $data['format'];
@@ -65,6 +67,10 @@ class Backup extends Model
 
         if (isset($data['exclude_tables']) && !empty($data['exclude_tables'])) {
             $backup->excludeTables = $data['exclude_tables'];
+        }
+
+        if (isset($data['exclude_folders']) && !empty($data['exclude_folders'])) {
+            $backup->excludeFolders = $data['exclude_folders'];
         }
 
         // Set export data with proper structure
@@ -79,6 +85,9 @@ class Backup extends Model
         if (isset($data['category_ids'])) {
             $backup->setExportData('categoryIds', $data['category_ids']);
         }
+
+        // Initialize progress tracking
+        SessionStepper::setSessionId($data['session_id']);
 
         $result = $backup->start();
 

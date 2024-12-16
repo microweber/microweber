@@ -5,58 +5,102 @@ namespace Modules\Backup\Filament\Admin\Resources\BackupResource\Pages;
 use Filament\Resources\Pages\CreateRecord;
 use Modules\Backup\Filament\Admin\BackupResource;
 use Modules\Backup\Models\Backup;
+use Modules\Backup\Support\GenerateBackup;
 use Filament\Notifications\Notification;
+use MicroweberPackages\Export\SessionStepper;
+use Livewire\Attributes\On;
+use Filament\Support\Exceptions\Halt;
+use Illuminate\Contracts\View\View;
 
 class CreateBackup extends CreateRecord
 {
     protected static string $resource = BackupResource::class;
+    public $progress = 0;
+    public $isBackingUp = false;
+    public $sessionId;
+
+    public function mount(): void
+    {
+
+        parent::mount();
+    }
 
     protected function handleRecordCreation(array $data): Backup
     {
-        $backup = new Backup();
+        $this->isBackingUp = true;
 
-        $exportData = [
-            'format' => $data['format'],
-            'include_media' => $data['include_media'] ?? false,
-            'include_modules' => $data['include_modules'] ?? false,
-        ];
 
-        if (!$data['include_media']) {
-            $exportData['exclude_tables'] = ['media'];
-        }
+        // Start backup process using GenerateBackup
+        try {
+            $this->sessionId = SessionStepper::generateSessionId(1);
 
-        if (!$data['include_modules']) {
-            $exportData['exclude_folders'] = ['modules'];
-        }
+            $exportData = [
+                'format' => $data['format'] ?? 'json',
+                'include_media' => $data['include_media'] ?? false,
+                'include_modules' => $data['include_modules'] ?? false,
+                'session_id' => $this->sessionId,
+            ];
 
-        $result = $backup->generateBackup($exportData);
+            // Add selected tables to export data
+            if (isset($data['tables']) && !empty($data['tables'])) {
+                $exportData['tables'] = $data['tables'];
+            }
 
-        $filename = $result['data']['filename'] ?? null;
+            if (!$data['include_media']) {
+                $exportData['exclude_tables'] = ['media'];
+            }
 
-        if (isset($result['success']) and $filename) {
+            if (!$data['include_modules']) {
+                $exportData['exclude_folders'] = ['modules'];
+            }
+
+            $generateBackup = new GenerateBackup();
+            $generateBackup->setSessionId($this->sessionId);
+
+            $generateBackup->setType($exportData['format']);
+            // $generateBackup->setExportWithZip(true);
+            //  $generateBackup->setExportAllData(true);
+
+            $generateBackup->setExportData('tables', $exportData['tables'] ?? []);
+            $result = $generateBackup->start();
+
+            $filename = $result['data']['filename'] ?? null;
+            $filepath = $result['data']['filepath'] ?? null;
+
+            if (isset($result['success']) && $filename) {
+                Notification::make()
+                    ->title('Backup created successfully')
+                    ->success()
+                    ->send();
+                Backup::refreshFromDisk();
+                $backup = new Backup();
+//
+//                $backup->filepath = $filepath;
+//                $backup->filename = $filename;
+//                $backup->size = 0;
+//                $backup->created_at = now();
+//                $backup->save();
+
+                return $backup->where('filename', $filename)->first();
+            }
+            throw new \Exception('Failed to create backup');
+
+        } catch (\Exception $e) {
             Notification::make()
-                ->title('Backup created successfully')
-                ->success()
+                ->title('Failed to create backup')
+                ->danger()
+                ->body($e->getMessage())
                 ->send();
-
-            // Refresh the rows to include the new backup
-        //    $backup->getRows();
-
-            // Find and return the newly created backup
-            //return $backup->where('filename',$filename)->first();
-            $this->halt();
+            throw new Halt();
+        } finally {
+            $this->isBackingUp = false;
         }
-
-        Notification::make()
-            ->title('Failed to create backup')
-            ->danger()
-            ->send();
-
-        $this->halt();
     }
+
 
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
+
 }

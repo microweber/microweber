@@ -13,7 +13,6 @@ namespace MicroweberPackages\Microweber\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
-use MicroweberPackages\Backup\Providers\BackupServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FileManager\FileManagerServiceProvider;
@@ -162,7 +161,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(MarketplaceServiceProvider::class);
         $this->app->register(CaptchaServiceProvider::class);
         $this->app->register(CaptchaEventServiceProvider::class);
-        $this->app->register(BackupServiceProvider::class);
+        //.$this->app->register(BackupServiceProvider::class);
         //  $this->app->register(ImportServiceProvider::class);
       //  $this->app->register(CustomerServiceProvider::class);
        // $this->app->register(\Modules\Customer\Providers\CustomerEventServiceProvider::class);

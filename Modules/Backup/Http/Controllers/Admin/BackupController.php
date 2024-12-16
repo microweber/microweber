@@ -1,14 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Backup\Http\Controllers\Admin;
+namespace Modules\Backup\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use MicroweberPackages\Backup\Backup;
-use MicroweberPackages\Backup\Export;
-use MicroweberPackages\Backup\Restore;
 use MicroweberPackages\Export\SessionStepper;
 use Modules\Backup\Support\GenerateBackup;
+use Modules\Backup\Support\Restore;
 
 class BackupController
 {
@@ -296,14 +294,4 @@ class BackupController
 
 }
 
-
-class BackupV2Logger
-{
-
-    public function log($log)
-    {
-        echo $log . '<br />';
-    }
-
-}
 
