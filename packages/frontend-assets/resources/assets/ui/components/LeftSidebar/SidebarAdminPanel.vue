@@ -47,6 +47,7 @@ export default {
         },
     },
     mounted() {
+        this.showAdminSidebar();
         this.emitter.on("live-edit-ui-show", show => {
 
             if (show == 'sidebar-admin-panel-toggle') {

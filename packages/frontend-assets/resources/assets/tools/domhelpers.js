@@ -1,13 +1,15 @@
 
+const _domHelpersLoops = {};
+
 export const DomHelpers = {
     loops: {},
     stopLoop: loop => {
-        delete this.loops[loop];
+        delete _domHelpersLoops[loop];
     },
     foreachParents: function (el, callback) {
         if (!el) return false;
         var index = mw.random();
-        this.loops[index] = true;
+        _domHelpersLoops[index] = true;
         var _curr = el.parentNode;
         var count = -1;
         if (_curr !== null && _curr !== undefined) {
@@ -16,8 +18,8 @@ export const DomHelpers = {
                 count++;
                 var caller = callback.call(_curr, index, count);
                 _curr = _curr.parentNode;
-                if (caller === false || _curr === null || _curr === undefined || !this.loops[index]) {
-                    delete this.loops[index];
+                if (caller === false || _curr === null || _curr === undefined || !_domHelpersLoops[index]) {
+                    delete _domHelpersLoops[index];
                     break;
                 }
                 _tag = _curr.tagName;

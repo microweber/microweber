@@ -1,0 +1,25 @@
+
+
+.a-color-picker{
+    box-shadow: none;
+}
+
+
+.a-color-picker-palette-color svg{
+    fill: silver;
+}
+.a-color-picker-palette-color{
+    min-width: 25px;
+    min-height: 25px;
+
+    border-radius: 50px;
+    margin: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.a-color-picker-palette-add{
+     line-height: 22px;
+    font-size: 26px;
+    color: #607d8b;
+}
