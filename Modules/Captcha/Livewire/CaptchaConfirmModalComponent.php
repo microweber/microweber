@@ -1,8 +1,7 @@
 <?php
-namespace MicroweberPackages\MicroweberUI\Http\Livewire;
+namespace Modules\Captcha\Livewire;
 
 use LivewireUI\Modal\ModalComponent;
-use MicroweberPackages\MicroweberUI\Http\Livewire;
 
 class CaptchaConfirmModalComponent extends ModalComponent
 {
@@ -16,11 +15,12 @@ class CaptchaConfirmModalComponent extends ModalComponent
 
     public function render()
     {
-        return view('microweber-ui::livewire.modals.captcha-confirm');
+        return view('modules.captcha::livewire.modals.captcha-confirm');
     }
 
     public function confirm()
     {
+
         if ($this->action) {
             $this->dispatch($this->action, $this->captcha);
         }

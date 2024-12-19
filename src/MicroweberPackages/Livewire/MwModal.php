@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Livewire;
 
 use Illuminate\View\View;
+use Livewire\Attributes\On;
+use Livewire\Mechanisms\ComponentRegistry;
 use LivewireUI\Modal\Modal;
 
 class MwModal extends Modal
@@ -10,8 +12,18 @@ class MwModal extends Modal
     public function openModal($component, $componentAttributes = [], $modalAttributes = []): void
     {
         $requiredInterface = \LivewireUI\Modal\Contracts\ModalComponent::class;
-        $componentClass = app('livewire')->getClass($component);
-        $componentClass = app()->make($componentClass);
+        //  $componentClass = app('livewire')->getClass($component);
+        $componentClass = $component;
+
+        if (!livewire_component_exists($componentClass)) {
+            throw new \Exception("[{$componentClass}] does not exist as a Livewire component.");
+        }
+
+        $id = md5($component . serialize($componentAttributes));
+
+        //   $componentClass = \Livewire\Livewire::new($component,$id);
+        $componentClass = app(ComponentRegistry::class)->getClass($component);
+
 
         $reflect = new \ReflectionClass($componentClass);
 
@@ -19,7 +31,6 @@ class MwModal extends Modal
             throw new \Exception("[{$componentClass}] does not implement [{$requiredInterface}] interface.");
         }
 
-        $id = md5($component.serialize($componentAttributes));
 
         $componentAttributes = collect($componentAttributes)
             ->merge($this->resolveComponentProps($componentAttributes, new $componentClass()))
@@ -33,6 +44,7 @@ class MwModal extends Modal
 
         $this->components[$id] = [
             'name' => $component,
+            //    'id' => $id,
             'attributes' => $componentAttributes,
             'modalAttributes' => array_merge([
                 'closeOnClickAway' => $componentClass::closeModalOnClickAway(),
@@ -46,11 +58,19 @@ class MwModal extends Modal
         ];
 
         $this->activeComponent = $id;
-
-        $this->dispatch('activeModalComponentChanged', [
+        $data = [
             'id' => $id,
-            'modalSettings' => $modalSettings,
-        ]);
+            'modalSettings' => $modalSettings
+        ];
+
+        $this->dispatch('activeModalComponentChanged', data: $data);
+        // $this->render();
+    }
+
+    #[On('closeModal')]
+    public function closeModal()
+    {
+        $this->resetState();
     }
 
     public function render(): View

@@ -2,10 +2,11 @@
 
 namespace Modules\Captcha\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\Captcha\Livewire\CaptchaConfirmModalComponent;
+use Modules\Captcha\Microweber\CaptchaModule;
 
 class CaptchaServiceProvider extends BaseModuleServiceProvider
 {
@@ -30,8 +31,12 @@ class CaptchaServiceProvider extends BaseModuleServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        //$this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        Livewire::component('captcha-confirm-modal', CaptchaConfirmModalComponent::class);
+
+        // Register Microweber module
+        Microweber::module(CaptchaModule::class);
 
     }
 

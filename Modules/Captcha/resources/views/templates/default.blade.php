@@ -1,4 +1,4 @@
-{{-- 
+{{--
 
 type: layout
 
@@ -16,8 +16,10 @@ description: Default comments template
 @endphp
 
 @if($callback)
+
 <script type="text/javascript">
     $(document).ready(function () {
+
         $('#captcha-{{ $params['id'] }}-input').on('input paste keyup blur', function () {
             var val = $(this).val();
             if (val.length > 0) {

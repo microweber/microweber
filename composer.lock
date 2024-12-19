@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f85246e7e095325c13a58e3402cf28e8",
+    "content-hash": "4a05d0e6666b65b78b63640620384112",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -19572,16 +19572,16 @@
         },
         {
             "name": "wire-elements/modal",
-            "version": "2.0.11",
+            "version": "2.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wire-elements/modal.git",
-                "reference": "1af56472af185d1196bff518c3751268ae5cc707"
+                "reference": "cacff22fda2bffe23dfc6194d6f0ea88165aa15f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wire-elements/modal/zipball/1af56472af185d1196bff518c3751268ae5cc707",
-                "reference": "1af56472af185d1196bff518c3751268ae5cc707",
+                "url": "https://api.github.com/repos/wire-elements/modal/zipball/cacff22fda2bffe23dfc6194d6f0ea88165aa15f",
+                "reference": "cacff22fda2bffe23dfc6194d6f0ea88165aa15f",
                 "shasum": ""
             },
             "require": {
@@ -19624,7 +19624,7 @@
             ],
             "support": {
                 "issues": "https://github.com/wire-elements/modal/issues",
-                "source": "https://github.com/wire-elements/modal/tree/2.0.11"
+                "source": "https://github.com/wire-elements/modal/tree/2.0.12"
             },
             "funding": [
                 {
@@ -19632,7 +19632,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-07T18:51:03+00:00"
+            "time": "2024-10-14T10:54:05+00:00"
         },
         {
             "name": "zircote/swagger-php",
@@ -22677,7 +22677,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-zip": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

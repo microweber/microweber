@@ -81,7 +81,8 @@
 
     <div class="form-group">
         <div id="js-mw-google-recaptcha-v2-{{ $params['id'] }}"></div>
-        <input name="captcha" type="hidden" value="" id="js-mw-google-recaptcha-v2-{{ $params['id'] }}-input" class="mw-captcha-input"/>
+        <input name="captcha" type="hidden" value="" id="js-mw-google-recaptcha-v2-{{ $params['id'] }}-input"
+               class="mw-captcha-input"/>
     </div>
 @elseif ($captcha_provider == 'google_recaptcha_v3')
 
@@ -91,15 +92,14 @@
 
         window.runRecaptchaV3Attach{{ $js_function_hash }} = function () {
             var captcha_el = $('#{{ $input_id }}')
-                if (captcha_el) {
-                    var parent_form = mw.tools.firstParentWithTag(captcha_el[0], 'form')
-                   //   window.runRecaptchaV3<?php print $js_function_hash ?>();
-                     if (parent_form) {
+            if (captcha_el) {
+                var parent_form = mw.tools.firstParentWithTag(captcha_el[0], 'form')
+                //   window.runRecaptchaV3<?php print $js_function_hash ?>();
+                if (parent_form) {
 
-                        parent_form.$beforepost = window.runRecaptchaV3{{ $js_function_hash }}
-                    }
+                    parent_form.$beforepost = window.runRecaptchaV3{{ $js_function_hash }}
                 }
-
+            }
 
 
         }
@@ -109,9 +109,9 @@
         })
 
 
-         window.runRecaptchaV3{{ $js_function_hash }} = function () {
+        window.runRecaptchaV3{{ $js_function_hash }} = function () {
 
-             return  new Promise(function (resolve){
+            return new Promise(function (resolve) {
                 grecaptcha.ready(function () {
 
                     grecaptcha.execute('{{ get_option('recaptcha_v3_site_key', 'captcha') }}', {
@@ -129,7 +129,7 @@
                         @endif
 
 
-                      resolve(token)
+                        resolve(token)
                     });
                 });
 
@@ -140,21 +140,21 @@
     </script>
 
 
-<script>
-    $(document).ready(function () {
+    <script>
+        $(document).ready(function () {
 
-        if (typeof (window.grecaptcha) === 'undefined') {
+            if (typeof (window.grecaptcha) === 'undefined') {
 
-            $.getScript( "//www.google.com/recaptcha/api.js?render={{ get_option('recaptcha_v3_site_key', 'captcha') }}&hl={{ app()->getLocale() }}", function( data, textStatus, jqxhr ) {
+                $.getScript("//www.google.com/recaptcha/api.js?render={{ get_option('recaptcha_v3_site_key', 'captcha') }}&hl={{ app()->getLocale() }}", function (data, textStatus, jqxhr) {
+                    window.runRecaptchaV3Attach{{ $js_function_hash }}();
+                    window.runRecaptchaV3{{ $js_function_hash }}();
+                });
+            } else {
                 window.runRecaptchaV3Attach{{ $js_function_hash }}();
                 window.runRecaptchaV3{{ $js_function_hash }}();
-            });
-        } else {
-            window.runRecaptchaV3Attach{{ $js_function_hash }}();
-            window.runRecaptchaV3{{ $js_function_hash }}();
-        }
-    });
-</script>
+            }
+        });
+    </script>
 
     @if (isset($params['_confirm']))
         <h6>@lang('Please confirm form submit')</h6>

@@ -18,6 +18,9 @@
                             let captchaDataElement = document.getElementById('js-{{$randId}}');
                             captchaDataElement.value = value;
                             captchaDataElement.dispatchEvent(new Event('input'));
+
+                            alert(value)
+
                         }
                     </script>
                     <div>
