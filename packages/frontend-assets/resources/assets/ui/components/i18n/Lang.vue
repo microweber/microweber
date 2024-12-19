@@ -1,25 +1,24 @@
 
-<script>
+<script >
 
  import { useSlots } from 'vue';
 
 export default {
     components: {   },
-    data() {
-
-    },
     mounted (){
-
-
+        const node = this.$refs.lang;
         const slots = useSlots();
-        console.log(this.$slots.default[0] )
-        console.log(slots.default()[0].text )
+        if(node) {
+            node.textContent = mw.lang( this.$slots.default()[0].children );
+        }
     }
 }
 </script>
 
+
 <template>
 
-    <span class="mw-lang" ref="lang"><slot></slot></span>
+    <div ref="lang"><slot></slot></div>
 
 </template>
+
