@@ -1739,7 +1739,7 @@ class ModuleManager
 
                     $try_icon = $module_dir . $module_name . '.png';
                     $try_icon_svg = $module_dir . $module_name . '.svg';
-                    $config['icon']= '';
+                    $config['icon'] = '';
 //                    if (is_file($try_icon_svg)) {
 //                        $config['icon'] = $this->app->url_manager->link_to_file($try_icon_svg);
 //                    } elseif (is_file($try_icon)) {
