@@ -61,6 +61,7 @@ const css = [
 
     {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.css`},
     {target: `easymde`, path: `node_modules/easymde/dist/easymde.min.css` },
+    {target: `async-alpine`, path: `node_modules/async-alpine/dist/async-alpine.script.js` },
 
 
 ];

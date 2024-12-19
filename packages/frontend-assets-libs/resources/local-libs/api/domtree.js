@@ -97,7 +97,7 @@ mw.DomTree = function (options) {
                                     display = info.name;
                                 }
                                 if (info && info.icon) {
-                                    console.log(info.icon)
+
                                     if(info.icon.indexOf('<svg') !== -1) {
                                         display = '<span class="mw_module_settings_sidebar_icon mw-module-settings-sidebar-icon-svg">' + info.icon + '</span> ' + display;
                                     } else {
