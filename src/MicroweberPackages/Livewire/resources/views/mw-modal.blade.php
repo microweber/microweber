@@ -15,8 +15,8 @@
                 width: 100%;
                 height: 100%;
                 overflow: auto;
-                background-color: rgb(0,0,0);
-                background-color: rgba(0,0,0,0.4);
+                background-color: rgb(0, 0, 0);
+                background-color: rgba(0, 0, 0, 0.4);
             }
 
             .js-modal-livewire-content {
@@ -25,19 +25,23 @@
                 width: 100%;
                 overflow: auto;
             }
+
             @media only screen and (min-width: 600px) {
                 .js-modal-livewire {
                     padding-top: 100px;
                 }
+
                 .js-modal-livewire-content {
                     max-width: 480px;
                     max-height: calc(100vh - 100px);
                 }
             }
+
             @media only screen and (min-width: 768px) {
                 .js-modal-livewire {
                     padding-top: 8%;
                 }
+
                 .js-modal-livewire-content {
                     max-height: calc(100vh - 100px);
                     overflow: auto;
@@ -47,28 +51,27 @@
     </div>
 
 
-
-
     <div id="modal-holder-livewire">
 
 
-        @forelse($components as $id => $component)
-            <div class="js-modal-livewire {{$activeComponent ? 'active' : ''}}" id="js-modal-livewire-id-{{ $id }}" wire:key="{{ $id }}">
-                <div class="js-modal-livewire-content">
-                    @livewire($component['name'], $component['attributes'], key($id))
+        @if($components)
+            @foreach($components as $id => $component)
+                <div class="js-modal-livewire {{$activeComponent ? 'active' : ''}}" id="js-modal-livewire-id-{{ $id }}"
+                     wire:key="{{ $id }}">
+                    <div class="js-modal-livewire-content">
+                        @livewire($component['name'], $component['attributes'], key($id))
+                    </div>
                 </div>
-            </div>
-        @empty
-        @endforelse
-    </div>
 
+            @endforeach
+        @endif
+    </div>
 
 
     <div wire:ignore>
         <script>
 
             document.addEventListener('livewire:init', function () {
-
 
 
                 Livewire.on('closeMwTopDialogIframe', () => {
@@ -107,31 +110,32 @@
                     for (let i = 0; i < openedModals.length; i++) {
                         let openedModalId = openedModals[i].getAttribute('wire:key');
                         let modal = document.getElementById("js-modal-livewire-id-" + openedModalId);
-                        if(modal) {
+                        if (modal) {
                             modal.style.display = "none";
-                            Livewire.dispatch('destroyComponent', openedModalId);
+                            //Livewire.dispatch('destroyComponent', ['id', openedModalId]);
                         }
                     }
                 });
 
-              /*  Livewire.on('activeModalComponentChanged', (data) => {
+
+                /*  Livewire.on('activeModalComponentChanged', (data) => {
 
 
 
 
-                    let modal = document.getElementById("js-modal-livewire-id-" + data.id);
+                      let modal = document.getElementById("js-modal-livewire-id-" + data.id);
 
-                    if(!modal) {
-                       console.log('Modal not found', data);
-                    }
+                      if(!modal) {
+                         console.log('Modal not found', data);
+                      }
 
-                    if (modal) {
-                        modal.style.display = "block";
-                        if (data.modalSettings) {
-                            modal.querySelector('.js-modal-livewire-content').style.width = data.modalSettings.width;
-                        }
-                    }
-                });*/
+                      if (modal) {
+                          modal.style.display = "block";
+                          if (data.modalSettings) {
+                              modal.querySelector('.js-modal-livewire-content').style.width = data.modalSettings.width;
+                          }
+                      }
+                  });*/
 
             });
 

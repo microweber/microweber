@@ -40,10 +40,17 @@
             <div class="mt-2">
 
                 <label>Comment:</label>
-                <livewire:comments::editors.textarea model="state.comment_body"/>
+
+                <textarea wire:model.lazy="state.comment_body" class="form-control"></textarea>
+
+                    <?php
+
+                    /*  <livewire:comments::editors.textarea model="state.comment_body"/>
                 @if($errors->has('state.comment_body'))
                     <span>{{ $errors->first('state.comment_body') }}</span>
-                @endif
+                @endif*/
+                    ?>
+
             </div>
 
             <div class="mt-2">

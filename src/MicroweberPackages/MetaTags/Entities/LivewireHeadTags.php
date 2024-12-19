@@ -16,12 +16,15 @@ class LivewireHeadTags implements TagInterface, \Stringable
         $alpineScript = '<script src="' . $alpineUrl . '" defer></script>';*/
 
         $scripts = app()->make(\Livewire\Mechanisms\FrontendAssets\FrontendAssets::class)->scripts();
+
+
       //  $scripts = \Livewire\Livewire::scripts();
      //   $styles = \Livewire\Livewire::styles();
         $styles = app()->make(\Livewire\Mechanisms\FrontendAssets\FrontendAssets::class)->styles();
        // $modal = \Livewire\Livewire::mount('livewire-ui-modal')->html();
 
         $append_html = '' . "\r\n";
+        $append_html = '<script id="mw-async-alpine" defer src="https://cdn.jsdelivr.net/npm/async-alpine@2.x.x/dist/async-alpine.script.js"></script>' . "\r\n";
       //  $append_html .= $alpineScript . "\r\n";
         $append_html .= $scripts . "\r\n";
         $append_html .= $styles . "\r\n";

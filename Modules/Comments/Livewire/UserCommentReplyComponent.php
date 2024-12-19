@@ -5,6 +5,7 @@ namespace Modules\Comments\Livewire;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use Modules\Comments\Models\Comment;
@@ -28,7 +29,7 @@ class UserCommentReplyComponent extends Component
     public function getListeners()
     {
         return [
-            "setCaptcha".md5($this->getId()) => 'setCaptcha',
+            "setCaptcha" . md5($this->getId()) => 'setCaptcha',
         ];
     }
 
@@ -46,7 +47,7 @@ class UserCommentReplyComponent extends Component
     public function isEnabledCaptcha()
     {
         $enableCaptcha = true;
-        $enableCaptchaOption = get_option('enable_captcha','comments');
+        $enableCaptchaOption = get_option('enable_captcha', 'comments');
         if ($enableCaptchaOption == 'n') {
             $enableCaptcha = false;
         }
@@ -58,7 +59,7 @@ class UserCommentReplyComponent extends Component
     {
 
         $allowAnonymousComments = true;
-        $allowAnonymousCommentsOption = get_option('allow_anonymous_comments','comments');
+        $allowAnonymousCommentsOption = get_option('allow_anonymous_comments', 'comments');
         if ($allowAnonymousCommentsOption == 'n') {
             $allowAnonymousComments = false;
         }
@@ -82,29 +83,35 @@ class UserCommentReplyComponent extends Component
     {
         $data = $this->getViewData();
 
-        return view($this->view,$data);
+        return view($this->view, $data);
     }
 
-    public function setCaptcha($value)
+    #[On('validateCaptchaValueAndSave')]
+    public function validateCaptchaValueAndSave($value)
     {
         $this->captcha = $value;
+
+
         $this->save();
+
+
     }
 
     public function validateCaptcha()
     {
-        $validateCaptcha = Validator::make([ 'captcha'=>$this->captcha ],  [
+        $validateCaptcha = Validator::make(['captcha' => $this->captcha], [
             'captcha' => 'required|captcha'
         ]);
 
         if ($validateCaptcha->fails()) {
             $this->dispatch('openModal', 'captcha-confirm-modal', [
-                'action'=>'setCaptcha' . md5($this->getId())
+                //   'action' => 'setCaptcha' . md5($this->getId())
+                'action' => 'validateCaptchaValueAndSave'
             ]);
             return false;
         }
 
-        $this->dispatch('closeModal', 'captcha-confirm-modal');
+        $this->dispatch('closeCaptchaConfirmModal');
 
         return true;
     }
@@ -113,7 +120,7 @@ class UserCommentReplyComponent extends Component
     {
         $hasRateLimiterId = $this->state['rel_id'] . $this->state['reply_to_comment_id'] . user_ip();
 
-        if (RateLimiter::tooManyAttempts('save-comment:'.$hasRateLimiterId, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('save-comment:' . $hasRateLimiterId, $perMinute = 1)) {
             $this->addError('state.comment_body', 'Only one comment is allowed per minute. You may try again after 1 minute.');
             return;
         }
@@ -164,7 +171,7 @@ class UserCommentReplyComponent extends Component
         }
 
         $needsApproval = true;
-        $requiresApproval = get_option('requires_approval','comments');
+        $requiresApproval = get_option('requires_approval', 'comments');
         if ($requiresApproval == 'n') {
             $needsApproval = false;
         }
@@ -183,10 +190,10 @@ class UserCommentReplyComponent extends Component
         $comment->comment_body = $this->state['comment_body'];
         $comment->save();
 
-        RateLimiter::hit('save-comment:'.$hasRateLimiterId);
+        RateLimiter::hit('save-comment:' . $hasRateLimiterId);
 
-       // event(new NewComment($comment));
-      //  Notification::sendNow(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
+        // event(new NewComment($comment));
+        //  Notification::sendNow(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
 
         if ($needsApproval) {
             $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);

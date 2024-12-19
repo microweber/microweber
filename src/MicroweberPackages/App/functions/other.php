@@ -620,7 +620,7 @@ function delete_log_entry($data)
     return mw()->log_manager->delete_entry($data);
 }
 
-api_expose('captcha');
+
 /**
  * Returns PNG Image.
  */

@@ -13,3 +13,9 @@ use Modules\Captcha\Http\Controllers\CaptchaController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::middleware('web')->get('api/captcha', function () {
+    $params = request()->all();
+    return mw()->captcha_manager->render($params);
+});

@@ -1,6 +1,8 @@
 <?php
+
 namespace Modules\Captcha\Livewire;
 
+use Livewire\Attributes\On;
 use LivewireUI\Modal\ModalComponent;
 
 class CaptchaConfirmModalComponent extends ModalComponent
@@ -9,9 +11,17 @@ class CaptchaConfirmModalComponent extends ModalComponent
     public $action = '';
     public $data = [];
 
-    public $listeners = [
-        'closeCaptchaConfirmModal' => 'closeModal',
-    ];
+//    public $listeners = [
+//        //  'closeCaptchaConfirmModal' => 'closeModal',
+//    ];
+
+    #[On('closeCaptchaConfirmModal')]
+    public function closeCaptchaConfirmModal()
+    {
+
+        $this->forceClose();
+        return $this->closeModal();
+    }
 
     public function render()
     {
@@ -20,9 +30,10 @@ class CaptchaConfirmModalComponent extends ModalComponent
 
     public function confirm()
     {
-
         if ($this->action) {
+
             $this->dispatch($this->action, $this->captcha);
+
         }
     }
 }

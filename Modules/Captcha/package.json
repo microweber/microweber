@@ -1,0 +1,19 @@
+{
+    "name": "microweber-modules-capcha",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microweber-modules/catpcha.git"
+    },
+    "private": true,
+    "scripts": {
+        "build": "cpy resources/assets/js ../../public/modules/captcha/js --flat",
+        "dev": "chokidar resources/assets/js/captcha-alpine.js -c \"npm run build\""
+    },
+    "devDependencies": {
+        "chokidar-cli": "^3.0.0",
+        "cpy-cli": "^5.0.0"
+    }
+}
