@@ -138,6 +138,13 @@
             }
         ],
 
+        easymde: [
+            function () {
+                mw.require(mw.settings.libs_url + 'easymde/easymde.min.js');
+                mw.require(mw.settings.libs_url + 'easymde/easymde.min.css');
+            }
+        ],
+
 
 
 
