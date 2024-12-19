@@ -116,7 +116,12 @@ class ModulesApiLiveEdit extends Controller
             $hide_from_display_list = array('layouts', 'template_settings');
             $sortout_el = array();
             $sortout_mod = array();
-
+            if ($modules) {
+                foreach ($modules as $mkey => $mod) {
+                    $mod['icon'] = '';  // old modules do not have icons
+                    $modules[$mkey] = $mod;
+                }
+            }
             if ($modulesFromRegistry) {
 
 
@@ -129,7 +134,7 @@ class ModulesApiLiveEdit extends Controller
                             //  $mod['icon'] = svg($mod['icon'])->toHtml();
                         } catch (\Exception $e) {
 
-
+                            $mod['icon'] = '';
                         }
 
                     } else {
@@ -145,7 +150,7 @@ class ModulesApiLiveEdit extends Controller
 
             if (!empty($modules)) {
                 foreach ($modules as $mod) {
-                    if (isset($mod['as_element']) and intval($mod['as_element']) == 1) {
+                     if (isset($mod['as_element']) and intval($mod['as_element']) == 1) {
                         $sortout_el[] = $mod;
                     } else {
                         $sortout_mod[] = $mod;
@@ -441,7 +446,7 @@ class ModulesApiLiveEdit extends Controller
                         }
                         if (!isset($dynamic_layout['screenshot'])) {
                             if (isset($dynamic_layout['screenshot_file']) and ($dynamic_layout['screenshot_file']) and is_file($dynamic_layout['screenshot_file'])) {
-                                $dynamic_layout['screenshot'] =thumbnail($dynamic_layout['screenshot_file'],1024);
+                                $dynamic_layout['screenshot'] = thumbnail($dynamic_layout['screenshot_file'], 1024);
 
                             }
                         }

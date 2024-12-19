@@ -30,8 +30,7 @@ class CreateBackup extends CreateRecord
         $this->isBackingUp = true;
 
 
-        // Start backup process using GenerateBackup
-        try {
+         try {
             $this->sessionId = SessionStepper::generateSessionId(1);
 
             $exportData = [
@@ -58,6 +57,7 @@ class CreateBackup extends CreateRecord
             $generateBackup->setSessionId($this->sessionId);
 
             $generateBackup->setType($exportData['format']);
+            $generateBackup->setExportFileName($data['filename'] ?? 'backup-' . date('Y-m-d-H-i-s'));
             // $generateBackup->setExportWithZip(true);
             //  $generateBackup->setExportAllData(true);
 

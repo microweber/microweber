@@ -37,9 +37,9 @@ class BackupServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
-        $this->app->bind('backup', function () {
-            return new GenerateBackup();
-        });
+//        $this->app->bind('backup', function () {
+//            return new GenerateBackup();
+//        });
 
         // Register filament page for Microweber module settings
         FilamentRegistry::registerResource(BackupResource::class);

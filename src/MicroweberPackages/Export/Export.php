@@ -188,11 +188,11 @@ class Export
             }
 
             if ($this->exportModules) {
-                $zipExport->setExportModules($this->exportModules);
+            //    $zipExport->setExportModules($this->exportModules);
             }
 
             if ($this->exportTemplates) {
-                $zipExport->setExportTemplates($this->exportTemplates);
+             //   $zipExport->setExportTemplates($this->exportTemplates);
             }
 
             if ($this->exportOnlyTemplate) {

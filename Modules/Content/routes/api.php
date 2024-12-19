@@ -26,7 +26,7 @@ Route::name('api.')
 
 Route::name('api.')
     ->prefix('api')
-    ->middleware([ 'api', 'admin'])
+    ->middleware([ 'web','api', 'admin'])
     ->namespace('\Modules\Content\Http\Controllers\Api')
     ->group(function () {
 
