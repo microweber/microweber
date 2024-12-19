@@ -68,7 +68,7 @@
     left: 250px;
 }
 .live-edit-gui-editor-opened #live-edit-frame-holder {
-     right: 303px;
+     right: var(--sidebar-size);
 }
 </style>
 

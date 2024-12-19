@@ -100,7 +100,7 @@ a {
     .live-edit-undo-redo-buttons-wrapper, .mw-live-edit-resolutions-wrapper {
         display: flex !important;
     }
-} 
+}
 
 @media (min-width: 328px) {
     .live-edit-toolbar-buttons-view {
@@ -449,72 +449,7 @@ html.preview #preview-button {
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
-#bubble-nav {
-    position: fixed;
-    top: calc(var(--toolbar-height) + 100px);
-    left: 30px;
-    z-index: 4;
-    transition: .4s;
-}
 
-
-#bubble-nav span svg {
-    width: 25px;
-    height: 25px;
-    display: block;
-}
-
-#bubble-nav span {
-    pointer-events: none;
-    opacity: 0;
-    cursor: pointer;
-    display: flex;
-    margin: 0 auto 5px;
-    width: 50px;
-    height: 50px;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50px;
-    background-color: #FFFFFF;
-    transform: translateX(-100px);
-    box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
-    color: white;
-}
-
-#bubble-nav span:hover {
-    background-color: #000000;
-    color: #FFFFFF;
-    fill: #FFFFFF;
-}
-
-#bubble-nav.active span {
-    pointer-events: all;
-    opacity: 1;
-}
-
-#bubble-nav span:nth-child(1) {
-    transition: .4s cubic-bezier(.41, .2, .21, 1.37);
-}
-
-#bubble-nav span:nth-child(2) {
-    transition: .6s cubic-bezier(.41, .2, .21, 1.37);
-}
-
-#bubble-nav span:nth-child(3) {
-    transition: .8s cubic-bezier(.41, .2, .21, 1.37);
-}
-
-#bubble-nav span:nth-child(4) {
-    transition: 1s cubic-bezier(.41, .2, .21, 1.37);
-}
-
-#bubble-nav span:nth-child(5) {
-    transition: 1.2s cubic-bezier(.41, .2, .21, 1.37);
-}
-
-body.loaded #bubble-nav span {
-    transform: translateX(0px);
-}
 
 /*.modules-list-block {*/
 /*    max-width: 960px !important;*/
@@ -934,13 +869,17 @@ body.loaded #bubble-nav span {
 
 /* gui editor */
 
+:root{
+    --sidebar-size: 28rem;
+}
+
 
 #css-editor-template {
     position: fixed;
     top: var(--toolbar-height);
     bottom: 0;
-    right: -340px;
-    width: 330px;
+    right: calc(var(--sidebar-size) + 10px);
+    width: var(--sidebar-size);
     z-index: 5;
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
@@ -948,7 +887,7 @@ body.loaded #bubble-nav span {
 }
 
 #css-editor-template.active + #live-edit-frame-holder {
-    right: 330px;
+    right: var(--sidebar-size);
 }
 
 #css-editor-template.active {
@@ -961,8 +900,8 @@ body.loaded #bubble-nav span {
     position: fixed;
     top: var(--toolbar-height);
     bottom: 0;
-    right: -300px;
-    width: 300px;
+    right: calc(-1 * var(--sidebar-size));
+    width: calc(var(--sidebar-size));
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
     background-color: var(--tblr-bg-surface);

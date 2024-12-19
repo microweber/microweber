@@ -1,6 +1,9 @@
 
 
-import "../../../node_modules/moveable/dist/moveable.js";
+import Moveable from "moveable";
+
+
+window.Moveable = Moveable;
 
 
 if(window.self !== window.top) {

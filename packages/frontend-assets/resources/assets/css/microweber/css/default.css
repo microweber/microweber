@@ -853,3 +853,8 @@ html[dir="rtl"] .mw-text-start{
 .edit,.allow-drop{
     min-height: 20px;
 }
+
+.mw-free-layout-container .edit > *{
+    position: absolute;
+    min-height: none !important;
+}
