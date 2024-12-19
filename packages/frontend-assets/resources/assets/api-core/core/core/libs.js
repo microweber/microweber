@@ -144,7 +144,12 @@
                 mw.require(mw.settings.libs_url + 'easymde/easymde.min.css');
             }
         ],
+        "async-alpine": [
+            function () {
+                mw.require(mw.settings.libs_url + 'async-alpine/async-alpine.script.js');
 
+            }
+        ],
 
 
 

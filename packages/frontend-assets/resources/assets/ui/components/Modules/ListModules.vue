@@ -226,7 +226,7 @@ export default {
                 instance.modulesList = data.modules;
                 instance.filterModules();
 
-                console.log('modulesList', instance.modulesList)
+
 
             });
 
