@@ -22,6 +22,8 @@ import './css/gui.css';
 import './css/index.css';
 import 'vue-final-modal/style.css';
 import { MWBroadcast } from '../api-core/services/services/broadcast.js';
+import   i18n   from './components/i18n/lang.plugin.js';
+import Lang from './components/i18n/Lang.vue';
 
 
 const vfm = createVfm();
@@ -108,4 +110,6 @@ app.component('vue-drag-resize', VueDragResize);
 app.config.globalProperties.emitter = emitter;
 app.use(VueClickAway);
 app.use(vfm);
+app.use(i18n);
+app.component('Lang', Lang);
 app.mount('#live-edit-app');

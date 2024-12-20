@@ -3,6 +3,8 @@
     <div v-if="showModal" style="visibility: hidden; position: absolute; width: 1px; height: 1px;"></div>
     <div v-if="showModal" v-on:click="showModal = false" class="mw-le-overlay active"></div>
 
+
+
     <Transition
         enter-active-class="animate__animated animate__zoomIn"
         leave-active-class="animate__animated animate__zoomOut"
@@ -24,7 +26,7 @@
                     <input type="text"
                         autofocus
                            v-model="filterKeyword"
-                           placeholder="Type to Search..."
+                           v-bind:placeholder="$lang('Type to Search') + '...'"
                            class="js-modules-list-search-input form-control mw-modules-list-search-block rounded-0 w-100">
 
                          <span v-show="filterKeyword.length > 0" style="position: absolute; cursor: pointer;color: #aeaeae;top: 15px;right: 23px;padding: 3px;" v-on:click="filterClearKeyword()">
@@ -80,6 +82,7 @@
 
 <script>
 import { ElementManager } from '../../../api-core/core/classes/element';
+
 
 
 

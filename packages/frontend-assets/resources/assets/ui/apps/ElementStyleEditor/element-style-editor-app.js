@@ -11,6 +11,8 @@ import App from './ElementStyleEditorApp.vue';
 import VueClickAway from "vue3-click-away";
 
 import mitt from 'mitt';
+import Lang from '../../components/i18n/Lang.vue';
+import i18n from '../../components/i18n/lang.plugin';
 
 
 
@@ -28,4 +30,8 @@ const vuetify = createVuetify({
 
 app.use(vuetify);
 app.use(VueClickAway);
+
+app.use(i18n);
+app.component('Lang', Lang);
+
 app.mount('#mw-element-style-editor-app');

@@ -1,11 +1,11 @@
 <script>
-import Lang from '../i18n/Lang.vue';
+
 
 
 
 
 export default {
-    components: { Lang },
+
     data() {
 
     }
