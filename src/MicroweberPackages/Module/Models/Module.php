@@ -57,7 +57,8 @@ class Module extends Model
                 $content = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $content);
                 return $content;
             } else {
-                return '<img src="' . $iconUrl . '" />';
+                $icon = site_url($icon);
+                return '<img src="' . $icon . '" />';
             }
         }
     }
