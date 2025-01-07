@@ -175,6 +175,21 @@ description: Dictionary
         bottom: 0;
         border-radius: 30px;
     }
+
+    .mw-dictionary .thumbnail-image-holder {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+
+
+    .mw-dictionary .thumbnail-image-holder .thumbnail{
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        min-width: calc(100% + 2px);
+        min-height: 100%;
+    }
 </style>
 
 <script>

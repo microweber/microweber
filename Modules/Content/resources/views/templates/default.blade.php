@@ -43,6 +43,7 @@
     #posts-{{ $params['id'] }} .thumbnail-image-holder {
         position: relative;
         overflow: hidden;
+        height: 200px;
     }
 
 
@@ -54,7 +55,6 @@
         min-height: 100%;
     }
     #posts-{{ $params['id'] }} .mw-products-title{
-
         a {
 
             color: var(--mw-heading-color);
@@ -125,9 +125,9 @@
                                 <small class="text-muted" itemprop="dateCreated">{{ __("Posted on") }}: {{ date_system_format($item['created_at']) }}</small>
                             @endif
 
-                            @if (!isset($show_fields) || $show_fields == false || in_array('description', $show_fields))
-                                <p itemprop="description" class="mt-3">{{ $item['description'] }}</p>
-                            @endif
+                                @if (!isset($show_fields) || $show_fields == false || in_array('description', $show_fields))
+                                    <p itemprop="description" class="mt-3">{{ \Illuminate\Support\Str::limit($item['description'], 150) }}</p>
+                                @endif
 
                             @if (!isset($show_fields) || $show_fields == false || in_array('read_more', $show_fields))
                                 <a href="{{ $item['link'] }}" itemprop="url" class="button-8 m-t-20">

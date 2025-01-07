@@ -39,28 +39,18 @@
 
 @endphp
 
-<style>
-    .post-holder.mw-content-skin-1 {
-        margin-bottom: 10px;
-        padding: 20px;
-    }
-
-    .post-holder.mw-content-skin-1:hover {
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        transition: .3s;
-    }
-</style>
 
 
 <style>
     #posts-{{ $params['id'] }} .thumbnail-image-holder {
         position: relative;
         overflow: hidden;
+        height: 200px;
     }
 
 
     #posts-{{ $params['id'] }} .thumbnail-image-holder .thumbnail{
-        object-fit: cover;
+        object-fit: contain;
         width: 100%;
         height: 100%;
         min-width: calc(100% + 2px);
@@ -87,13 +77,21 @@
         background: var(--background);
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
         margin: 20px 0;
-        border-radius: 5px;
-        border: 1px solid #ccc;
         text-align: left;
     }
 
     #posts-{{ $params['id'] }} .post-list-image{
         width: 240px;
+    }
+
+   #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1 {
+        margin-bottom: 10px;
+        padding: 20px;
+    }
+
+   #posts-{{ $params['id'] }} .post-holder.mw-content-skin-1:hover {
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        transition: .3s;
     }
 </style>
 
@@ -139,8 +137,9 @@
                             @endif
 
                             @if (!isset($show_fields) || $show_fields == false || in_array('description', $show_fields))
-                                <p itemprop="description" class="mt-3">{{ $item['description'] }}</p>
+                                <p itemprop="description" class="mt-3">{{ \Illuminate\Support\Str::limit($item['description'], 150) }}</p>
                             @endif
+
 
                             @if (!isset($show_fields) || $show_fields == false || in_array('read_more', $show_fields))
                                 <a href="{{ $item['link'] }}" itemprop="url" class="button-8 m-t-20">
