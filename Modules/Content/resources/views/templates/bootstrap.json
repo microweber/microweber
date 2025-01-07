@@ -1,0 +1,38 @@
+{
+    "schema": [
+        {
+            "type": "select",
+            "label": "Columns mobile",
+            "name": "style",
+            "placeholder": "Select on how much columns you want to split the content",
+            "help": "The number of columns",
+            "options": {
+                "btn": "Normal",
+                "btn-primary": "Primary",
+                "btn-secondary": "Secondary",
+                "btn-outline": "Outline",
+                "btn-danger": "Danger",
+                "btn-warning": "Warning",
+                "btn-info": "Info",
+                "btn-link": "Link"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Columns tablet",
+            "name": "style",
+            "placeholder": "Select on how much columns you want to split the content",
+            "help": "The number of columns",
+            "options": {
+                "btn": "Normal",
+                "btn-primary": "Primary",
+                "btn-secondary": "Secondary",
+                "btn-outline": "Outline",
+                "btn-danger": "Danger",
+                "btn-warning": "Warning",
+                "btn-info": "Info",
+                "btn-link": "Link"
+            }
+        }
+    ]
+}
