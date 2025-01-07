@@ -29,7 +29,7 @@ import Lang from './components/i18n/Lang.vue';
 const vfm = createVfm();
 
 
-console.log(mw.settings)
+
 
 
 // const canvas = new LiveEditCanvas();

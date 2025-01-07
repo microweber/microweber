@@ -78,13 +78,19 @@
 
 /*  Handles content  */
 
-$darkBG: #404040;
+$darkBG: rgb(24 36 51);
 $lightBG: #ffffff;
 
 $bg: $lightBG;
 
 $handleHeight: 38;
 $handleholderHeight: 42;
+
+
+:root{
+    --dark-bg: rgb(24 36 51);;
+    --light-bg: white;
+}
 
 .mw-handle-item-menus-holder{
 
@@ -122,7 +128,7 @@ $handleholderHeight: 42;
         border-radius: 7px;
         border: 1px solid transparent;
         box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-        background-color: $bg;
+        background-color: var(--light-bg);
 
         .mw-le-handle-menu-button {
             display: inline-flex;
@@ -153,7 +159,7 @@ $handleholderHeight: 42;
             }
 
             &:hover {
-                background-color: #f1f1f1;
+                background-color: #8f8f8f5b;
             }
 
             &.mw-handle-drag-button {
@@ -168,6 +174,15 @@ $handleholderHeight: 42;
         top: 40px;
         right: -4px;
 
+    }
+}
+
+html.dark, html[data-mw-theme="dark"]{
+    .mw-handle-item {
+        .mw-handle-item-menus-holder, .mw-le-handle-menu-button-sub-menu{
+            background-color: var(--dark-bg);
+            color: white;
+        }
     }
 }
 
@@ -196,7 +211,6 @@ $handleholderHeight: 42;
     }
     position: relative;
 
-    color: $darkBG;
 
     * {
         vertical-align: middle;
@@ -261,7 +275,7 @@ $handleholderHeight: 42;
         padding: 5px;
 
         &:hover {
-            background-color: #f1f1f1;
+            background-color: rgba(0,0,0,.2);
         }
     }
 
@@ -297,9 +311,7 @@ $handleholderHeight: 42;
                 vertical-align: middle;
             }
         }
-        &:hover {
-            background-color: #f1f1f1;
-        }
+
         &.mw-handle-drag-button{
             cursor: grab;
         }
@@ -338,9 +350,7 @@ html[dir="rtl"] {
         text-align: left;
         transition: background-color .3s;
 
-        &:hover {
-            background-color: #f1f1f1;
-        }
+
     }
 }
 
@@ -410,10 +420,10 @@ html[dir="rtl"] {
         max-width: 25px;
         max-height: 25px;
         display: inline-block;
-        fill: black;
+        fill: currentColor;
 
         &.path {
-            fill: black;
+            fill: currentColor;
         }
     }
 
