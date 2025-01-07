@@ -6,7 +6,7 @@ type: layout
 
 name: skin-1
 
-description: skin-1 - 2 Columns
+description: skin-1 - with Hover
 
 */
 ?>
