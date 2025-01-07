@@ -381,7 +381,7 @@ export class LayoutHandleContent {
     }
 
     addButtons() {
-        const plusLabel = 'Add Layout';
+        const plusLabel = mw.lang('Add Layout');
 
         const handlePlus = which => {
             this.dispatch('insertLayoutRequest');

@@ -10,6 +10,8 @@ export const afterLayoutChange = target => {
         if(canHasLayout) {
             if(edit.querySelector('.module-layouts') === null) {
 
+                const id = mw.id();
+
                 var ghostLayout = mw.element()
 
                     .addClass('mw-le-ghost-layout')
@@ -20,10 +22,14 @@ export const afterLayoutChange = target => {
                     .addClass('mw-handle-item-layout-plus-top')
                     .html(mw.lang('Add Layout'))
                     .css({position: 'static'})
-                    .on('mousedown touchstart', e => {
-                        mw.app.editor.dispatch('appendLayoutRequestOnBottom', edit);
-                        e.preventDefault()
-                        e.stopPropagation()
+                    .attr('id', id);
+
+                    mw.element(edit).on('mousedown touchstart', e => {
+                        if(e.target.id === id) {
+                            mw.app.editor.dispatch('appendLayoutRequestOnBottom', edit);
+                            e.preventDefault()
+                            e.stopPropagation()
+                        }
                     });
                     ghostLayout.get(0).__edit = edit;
                 edit.appendChild(ghostLayout.get(0))

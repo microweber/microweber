@@ -12,7 +12,7 @@ import VueClickAway from "vue3-click-away";
 
 import mitt from 'mitt';
 import Lang from '../../components/i18n/Lang.vue';
-import i18n from '../../components/i18n/lang.plugin';
+import i18n from '../../components/i18n/lang.plugin.js';
 
 
 
