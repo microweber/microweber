@@ -34,6 +34,8 @@ class VerifyCsrfToken extends Middleware
      */
     public function handle($request, \Closure $next)
     {
+
+
         $this->addHttpCookie = false;
         if(app()->runningUnitTests()){
             return $next($request);

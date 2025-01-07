@@ -575,7 +575,7 @@ class ModuleManager
                     } else {
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
                     }
-
+                    $config['icon']  = '';
                     $config['icon'] = str_replace(site_url(), '{SITE_URL}', $config['icon']);
 
                     if (isset($config['ui'])) {

@@ -266,16 +266,19 @@ abstract class LiveEditModuleSettings extends Page
 
                         $curretSkinSettingsFromJson = [];
                         $jsonContent = file_get_contents($moduleTemplate['skin_settings_json_file']);
+                      //  dump($jsonContent);
                         if ($jsonContent) {
 
                             $moduleTemplateSettingsJson = @json_decode($jsonContent, true);
                             $mergeSchema = [];
                             if (is_array($moduleTemplateSettingsJson)
-                                and isset($moduleTemplateSettingsJson['schema'])
+                               // and isset($moduleTemplateSettingsJson['schema'])
                                 and !empty($moduleTemplateSettingsJson['useSchemaFrom'])) {
                                 $mergeFile = dirname($moduleTemplate['skin_settings_json_file']) . '/' . $moduleTemplateSettingsJson['useSchemaFrom'];
+
                                 if ($mergeFile and !Str::endsWith($mergeFile, '.json')) {
                                     $mergeFile = $mergeFile . '.json';
+
                                     if (is_file($mergeFile)) {
                                         $jsonContent = file_get_contents($mergeFile);
                                         if ($jsonContent) {
@@ -285,6 +288,8 @@ abstract class LiveEditModuleSettings extends Page
                                                 and isset($mergeSchemaContent['schema'])
                                                 and !empty($mergeSchemaContent['schema'])) {
                                                 $mergeSchema = $mergeSchemaContent['schema'];
+
+
                                             }
                                         }
                                     }
@@ -300,12 +305,13 @@ abstract class LiveEditModuleSettings extends Page
 
                             }
                         }
+                        if (!empty($mergeSchema)) {
+                            $curretSkinSettingsFromJson = array_merge($curretSkinSettingsFromJson, $mergeSchema);
+                        }
 
                         if (!empty($curretSkinSettingsFromJson)) {
 
-                            if (!empty($mergeSchema)) {
-                                $curretSkinSettingsFromJson = array_merge($curretSkinSettingsFromJson, $mergeSchema);
-                            }
+
                             $settingsKey = 'options';
 
                             if (isset($moduleTemplateSettingsJson['config'])

@@ -13,3 +13,10 @@ Route::group(['middleware' => 'web', 'namespace' => '\MicroweberPackages\App\Htt
 
 });
 
+
+
+
+//Route::group(['middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
+//    'namespace' => '\MicroweberPackages\App\Http\Controllers'], function ($slug) {
+//    Route::any('userfiles/{any}', array('as' => 'userfiles', 'uses' => 'FrontendAssetController@index'))->where('any', '.*');
+//});
