@@ -113,13 +113,13 @@ class ProcessCampaigns extends Command
         }
 
         $batches = [];
-        NewsletterSubscriber::whereHas('lists', function ($query) use ($campaign) {
-            $query->where('list_id', $campaign->list_id);
-        })->chunk(100, function ($subscribers) use (&$batches, $campaign) {
-            foreach ($subscribers as $subscriber) {
-                $batches[] = new ProcessCampaignSubscriber($subscriber->id, $campaign->id);
-            }
-        });
+
+        NewsletterSubscriberList::where('list_id', $campaign->list_id)
+            ->chunk(100, function ($subscribers) use (&$batches, $campaign) {
+                foreach ($subscribers as $subscriber) {
+                    $batches[] = new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id);
+                }
+            });
 
         if (empty($batches)) {
             $this->error('No subscribers found');
