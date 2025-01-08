@@ -520,9 +520,9 @@ class InstallController extends Controller
                         }
 
                         $selected_template = Config::get('microweber.install_default_template');
-                        app()->content_manager->define_constants(['active_site_template' => $selected_template]);
+//                        app()->content_manager->define_constants(['active_site_template' => $selected_template]);
                         if (defined('TEMPLATE_DIR')) {
-                            app()->template_manager->boot_template();
+//                            app()->template_manager->boot_template();
                         }
                         $this->log('Running migrations after install for template' . $selected_template);
                         $installer = new Install\DbInstaller();
@@ -633,7 +633,7 @@ class InstallController extends Controller
             //    Config::save($allowed_configs);
             }
             if (!is_cli() and isset($admin_user_id)) {
-                mw()->user_manager->make_logged($admin_user_id, true);
+//                mw()->user_manager->make_logged($admin_user_id, true);
             }
 
             event_trigger('mw.install.complete', $input);
