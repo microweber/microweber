@@ -301,7 +301,10 @@ export class LiveEditCanvas extends LiveEditCanvasBase {
 
 
         liveEditIframe.addEventListener('load', e => {
-
+            this.getDocument().documentElement.dataset.mwTheme = mw.top().admin.theme.getTheme();
+            mw.top().admin.theme.on('change', () => {
+                this.getDocument().documentElement.dataset.mwTheme = mw.top().admin.theme.getTheme();
+            })
 
             mw.spinner({element: target, decorate: true}).remove();
 

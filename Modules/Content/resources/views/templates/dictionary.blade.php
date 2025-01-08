@@ -58,6 +58,7 @@ description: Dictionary
         font-size: 16px;
         line-height: 24px;
         height: 40px;
+        margin-top: 15px;
     }
 
     .mw-dictionary .card__title a {
@@ -174,6 +175,21 @@ description: Dictionary
         bottom: 0;
         border-radius: 30px;
     }
+
+    .mw-dictionary .thumbnail-image-holder {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+
+
+    .mw-dictionary .thumbnail-image-holder .thumbnail{
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        min-width: calc(100% + 2px);
+        min-height: 100%;
+    }
 </style>
 
 <script>
@@ -253,6 +269,9 @@ description: Dictionary
         $sorted[$firstLetter][] = $item;
     }
     ksort($sorted);
+
+
+    $count = 0;
     @endphp
 
     <div class="mw-dictionary bootstrap3ns">
@@ -281,18 +300,68 @@ description: Dictionary
 
                 <div class="glossary__results mb-6">
                     @foreach ($sorted as $key => $list)
+
                         <div class="glossary__results__row" data-term="{{ $key }}">
                             <h3 class="glossary__results__term title-style--three mb-3">{{ $key }}</h3>
                             <div class="row">
                                 @foreach ($list as $item)
+                                    @php
+                                        $itemData = content_data($item['id']);
+                                        $itemTags = content_tags($item['id']);
+                                        $count++;
+                                    @endphp
                                     <div class="glossary__results__item col-md-3 col-sm-6" data-item="{{ $item['title'] }}">
                                         <a class="card card__content" href="{{ $item['link'] }}">
+                                            @if (!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
+                                                <div class="thumbnail-image-holder">
+                                                    <img class="thumbnail" src="{{ thumbnail($item['image'], 535, 285) }}" alt="">
+                                                </div>
+                                            @endif
+
                                             @if (!isset($show_fields) || $show_fields == false || in_array('title', $show_fields))
                                                 <h4 itemprop="name" class="card__title">{{ character_limiter($item['title'], 20) }}</h4>
                                             @endif
                                             @if (!isset($show_fields) || $show_fields == false || in_array('description', $show_fields))
                                                 <p class="mb-0" itemprop="description">{{ character_limiter($item['description'], 100) }}</p>
                                             @endif
+
+                                                @if (is_array($item['prices']) && !empty($item['prices']))
+
+                                                    @php
+                                                        $prices =  $item['prices'];
+                                                        $val1 = array_shift($prices);
+                                                    @endphp
+
+
+                                                    <div class="post-price-holder d-flex align-items-center justify-content-between mt-3">
+                                                        @if (!$show_fields || in_array('price', $show_fields))
+                                                            @if (isset($item['prices']) && is_array($item['prices']))
+
+                                                                <h5 class="price">{{ currency_format($val1) }}</h5>
+
+                                                            @endif
+                                                        @endif
+
+                                                        @if (!$show_fields || in_array('add_to_cart', $show_fields))
+                                                            @php
+                                                                $add_cart_text = $add_to_cart_text ?? __('Add to cart');
+                                                            @endphp
+                                                            @if (is_array($item['prices']) && !empty($item['prices']))
+                                                                <button class="btn btn-primary" type="button" onclick="mw.cart.add_and_checkout('{{ $item['id'] }}');">
+                                                                    <i class="mdi mdi-cart icon-shopping-cart glyphicon glyphicon-shopping-cart"></i>&nbsp;{{ $add_cart_text }}
+                                                                </button>
+                                                            @endif
+                                                        @endif
+                                                    </div>
+
+                                                    @foreach ($item['prices'] as $k => $v)
+                                                        <div class="clear posts-list-proceholder mw-add-to-cart-{{ $item['id'].$count }}">
+                                                            <input type="hidden" name="price" value="{{ $v }}"/>
+                                                            <input type="hidden" name="content_id" value="{{ $item['id'] }}"/>
+                                                        </div>
+                                                        @break
+                                                    @endforeach
+                                                @endif
                                         </a>
                                     </div>
                                 @endforeach
