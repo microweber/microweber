@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignClickedLink;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignPixel;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList;
 use Throwable;
 use Illuminate\Console\Command;
 use MicroweberPackages\Modules\Newsletter\Jobs\ProcessCampaignSubscriber;
