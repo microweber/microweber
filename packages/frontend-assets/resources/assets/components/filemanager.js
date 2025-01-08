@@ -175,7 +175,7 @@
                 orderBy: 'filemtime',
                 path: '/'
             },
-            backgroundColor: 'var(--tblr-bg-surface)',
+            backgroundColor: 'transparent',
             stickyHeader: false,
             requestData: defaultRequest,
             addFile: defaultAddFile,
