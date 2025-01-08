@@ -1,0 +1,19 @@
+{
+    "name": "Berry Blues",
+    "mainColors": [
+        "#05e0e9",
+        "#ff2768",
+        "#cfeed1",
+        "#4e1a3d"
+    ],
+    "properties": {
+        "--tblr-primary": "#05e0e9",
+        "--tblr-secondary": "#ff2768",
+        "--tblr-body-color": "#4e1a3d",
+        "--tblr-heading-color": "#4e1a3d",
+        "--tblr-link-color": "#4e1a3d",
+        "--tblr-link-color-hover": "#4e1a3d",
+        "--tblr-bg-surface": "#cfeed1",
+        "--tblr-navbar-bg": "#ff2768"
+    }
+}

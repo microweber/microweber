@@ -1,0 +1,32 @@
+{
+  "name": "plumtex-store",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "@fancyapps/fancybox": "3.5.7",
+    "@fortawesome/fontawesome-free": "^5.7.2",
+    "aos": "^2.3.4",
+    "bootstrap": "^4.6.2",
+    "bootstrap-select": "1.13.12",
+    "grunt": "^1.6.1",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-qunit": "*",
+    "grunt-contrib-uglify": "*",
+    "ion-rangeslider": "2.3.1",
+    "jquery": "v.3.5.0",
+ "minimist": ">=1.2.6",
+    "lightbox2": "2.11.1",
+    "lightcase": "2.5.0",
+    "matchdep": "*",
+    "notifyjs-browser": "0.4.2",
+    "owl-carousel": "1.0.0",
+    "popper.js": "^1.14.7",
+    "slick-carousel": "^1.8.1"
+  },
+  "dependencies": {
+    "@mdi/font": "^5.0.45"
+  }
+}

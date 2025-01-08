@@ -1,0 +1,790 @@
+@import "_vars";
+@import "variables.scss";
+@import "../../plugins/ui/grunt/plugins/bootstrap/scss/mixins/_breakpoints.scss";
+
+/* *******************************************
+ **************** Bootstrap Extend *************** *
+ ******************************************* */
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 1365px) {
+    .container,
+    .container,
+    .container {
+        width: 90%;
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 991px) {
+    .container,
+    .container,
+    .container {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+.img-as-background {
+    position: relative;
+    overflow: hidden;
+
+    img {
+        object-fit: cover;
+        position: absolute;
+        left: -1px;
+
+        z-index: 0;
+        margin: 0 auto;
+        top: 0;
+        width: calc(100%  + 1px);
+        height: 100%;
+    }
+}
+
+
+
+.btn-xs {
+    font-size: 0.785rem;
+    padding: 5px;
+}
+
+
+.btn-rounded-sm{
+    border-radius: 30px;
+}
+
+.btn-link {
+    padding: 3px;
+    color: var(--mw-primary-color);
+}
+
+//.rounded-sm {
+//    border-radius: $rounded-sm;
+//}
+
+.border-left-2 {
+    border-left-width: 2px;
+}
+
+.border-left-3 {
+    border-left-width: 3px;
+}
+
+.border-left-4 {
+    border-left-width: 4px;
+}
+
+.border-left-5 {
+    border-left-width: 5px;
+}
+
+/* Spacings */
+// stylelint-disable declaration-no-important
+
+// Margin and Padding
+
+$spacer: 1rem;
+$spacers: (
+    0: 0,
+    1: ($spacer * .25),
+    2: ($spacer * .5),
+    3: ($spacer * .75),
+    4: ($spacer * 1),
+    5: ($spacer * 1.5),
+    6: ($spacer * 2),
+    7: ($spacer * 3),
+    8: ($spacer * 5),
+    9: ($spacer * 7),
+    10: ($spacer * 9),
+    11: ($spacer * 11),
+    12: ($spacer * 13),
+    13: ($spacer * 16)
+);
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @each $prop, $abbrev in (margin: m, padding: p) {
+            @each $size, $length in $spacers {
+                .#{$abbrev}#{$infix}-#{$size} {
+                    #{$prop}: $length;
+                }
+                .#{$abbrev}t#{$infix}-#{$size},
+                .#{$abbrev}y#{$infix}-#{$size} {
+                    #{$prop}-top: $length;
+                }
+                .#{$abbrev}r#{$infix}-#{$size},
+                .#{$abbrev}x#{$infix}-#{$size} {
+                    #{$prop}-right: $length;
+                }
+                .#{$abbrev}b#{$infix}-#{$size},
+                .#{$abbrev}y#{$infix}-#{$size} {
+                    #{$prop}-bottom: $length;
+                }
+                .#{$abbrev}l#{$infix}-#{$size},
+                .#{$abbrev}x#{$infix}-#{$size} {
+                    #{$prop}-left: $length;
+                }
+            }
+        }
+
+        // Negative margins (e.g., where `.mb-n1` is negative version of `.mb-1`)
+        @each $size, $length in $spacers {
+            @if $size != 0 {
+                .m#{$infix}-n#{$size} {
+                    margin: -$length;
+                }
+                .mt#{$infix}-n#{$size},
+                .my#{$infix}-n#{$size} {
+                    margin-top: -$length;
+                }
+                .mr#{$infix}-n#{$size},
+                .mx#{$infix}-n#{$size} {
+                    margin-right: -$length;
+                }
+                .mb#{$infix}-n#{$size},
+                .my#{$infix}-n#{$size} {
+                    margin-bottom: -$length;
+                }
+                .ml#{$infix}-n#{$size},
+                .mx#{$infix}-n#{$size} {
+                    margin-left: -$length;
+                }
+            }
+        }
+
+        // Some special margin utils
+        .m#{$infix}-auto {
+            margin: auto;
+        }
+        .mt#{$infix}-auto,
+        .my#{$infix}-auto {
+            margin-top: auto;
+        }
+        .mr#{$infix}-auto,
+        .mx#{$infix}-auto {
+            margin-right: auto;
+        }
+        .mb#{$infix}-auto,
+        .my#{$infix}-auto {
+            margin-bottom: auto;
+        }
+        .ml#{$infix}-auto,
+        .mx#{$infix}-auto {
+            margin-left: auto;
+        }
+    }
+}
+
+//----------------------------------------------------/
+// Element size
+//----------------------------------------------------/
+$element-sizes-list: 40 50 80 125 150 175 200 250 300 350 400 450 500 550 600 650 700 750 800 900;
+@each $value in $element-sizes-list {
+    .w-#{$value} {
+        width: #{$value}px;
+    }
+
+    .h-#{$value} {
+        height: #{$value}px;
+    }
+
+    .mw-#{$value} {
+        min-width: #{$value}px;
+    }
+    .maxw-#{$value} {
+        max-width: #{$value}px;
+    }
+
+    .mh-#{$value} {
+        min-height: #{$value}px;
+    }
+
+    .maxh-#{$value} {
+        max-height: #{$value}px;
+    }
+}
+
+@for $i from 1 through 20 {
+    .w-#{$i*5}px {
+        width: #{$i*5}px;
+    }
+
+    .h-#{$i*5}px {
+        height: #{$i*5}px;
+    }
+}
+
+//----------------------------------------------------/
+// Extra
+//----------------------------------------------------/
+.h-auto {
+    height: auto;
+}
+
+.w-auto {
+    width: auto;
+}
+
+.w-fullscreen, .w-100vw {
+    width: 100vw;
+}
+
+.h-fullscreen, .h-100vh {
+    height: 100vh;
+}
+
+.h-50vh {
+    height: 50vh;
+}
+
+.mw-fullscreen, .mw-100vw {
+    min-width: 100vw;
+}
+
+.mh-fullscreen,
+.mh-100vh {
+    &.element{
+        min-height: 100vh;
+    }
+    min-height: 100vh;
+}
+
+.mh-50vh {
+    min-height: 50vh;
+}
+
+// In small screen devices, 100vh might not be enough
+@media (max-height: 640px) {
+    .h-fullscreen {
+        height: auto;
+        //min-height: 100vh;
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+        // Common values
+        @each $position in $positions {
+            .position#{$infix}-#{$position} { position: $position; }
+        }
+    }
+}
+
+/* HR */
+hr {
+    border-color: rgba(red($dark), green($dark), blue($dark), .1);
+}
+
+.element-hr {
+    display: block;
+    content: '';
+    min-width: 65px;
+    width: 10%;
+    height: 4px;
+    background-color: var(--mw-primary-color);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.element-hr-underlined {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    width: 100%;
+    display: block;
+    clear: both;
+
+    &:before {
+        display: block;
+        content: '';
+        width: 65px;
+        height: 4px;
+        background-color: var(--mw-primary-color);
+        position: absolute;
+    }
+
+    &:after {
+        position: absolute;
+        display: block;
+        content: '';
+        width: 100%;
+        height: 1px;
+        background-color: rgba(red($dark), green($dark), blue($dark), .1);
+
+    }
+}
+
+/* Square */
+.square:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.square-75:after {
+    content: "";
+    display: block;
+    padding-bottom: 75%;
+}
+
+.square-50:after {
+    content: "";
+    display: block;
+    padding-bottom: 50%;
+}
+
+/* Overlay */
+
+/* Background */
+.background-image-holder {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: static;
+
+    > div {
+        z-index: 3;
+    }
+}
+
+.background-video-holder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+
+    > div {
+        z-index: 3;
+    }
+
+    .video {
+        padding: 56.34% 0 0 0;
+        position: relative;
+        height: 100%;
+        pointer-events: none;
+    }
+
+    .placeholder {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+}
+
+[data-bg-contain] .background-image-holder {
+    background-size: contain;
+}
+
+[data-parallax] .background-image-holder {
+    background-attachment: fixed;
+}
+
+@media screen and (max-width: 767px) {
+    [data-parallax] .background-image-holder {
+        background-attachment: scroll;
+    }
+}
+
+[data-background-position="center top"] .background-image-holder {
+    background-position: center top;
+}
+
+[data-background-position="center bottom"] .background-image-holder {
+    background-position: center bottom;
+}
+
+[background-position="center center"] .background-image-holder {
+    background-position: center center;
+}
+
+[background-position="right center"] .background-image-holder {
+    background-position: right center;
+}
+
+[background-position="left center"] .background-image-holder {
+    background-position: left center;
+}
+
+[data-overlay] {
+    position: relative;
+}
+
+[data-overlay] .background-image-holder:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom right, #464646, darken(#464646, 10%));
+    opacity: 0.5;
+    z-index: 2;
+    pointer-events: none;
+}
+
+[data-overlay] .background-image-holder.rounded-sm:after {
+    border-radius: $rounded-sm;
+}
+
+[data-overlay] .background-video-holder:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom right, #464646, darken(#464646, 10%));
+    opacity: 0.5;
+    z-index: 9;
+    pointer-events: none;
+}
+
+
+[data-overlay="1"] .background-image-holder:after,
+[data-overlay="1"] .background-video-holder:after {
+    opacity: 0.1;
+}
+
+[data-overlay="2"] .background-image-holder:after,
+[data-overlay="2"] .background-video-holder:after {
+    opacity: 0.2;
+}
+
+[data-overlay="3"] .background-image-holder:after,
+[data-overlay="3"] .background-video-holder:after {
+    opacity: 0.3;
+}
+
+[data-overlay="4"] .background-image-holder:after,
+[data-overlay="4"] .background-video-holder:after {
+    opacity: 0.4;
+}
+
+[data-overlay="5"] .background-image-holder:after,
+[data-overlay="5"] .background-video-holder:after {
+    opacity: 0.5;
+}
+
+[data-overlay="6"] .background-image-holder:after,
+[data-overlay="6"] .background-video-holder:after {
+    opacity: 0.6;
+}
+
+[data-overlay="7"] .background-image-holder:after,
+[data-overlay="7"] .background-video-holder:after {
+    opacity: 0.7;
+}
+
+[data-overlay="8"] .background-image-holder:after,
+[data-overlay="8"] .background-video-holder:after {
+    opacity: 0.8;
+}
+
+[data-overlay="9"] .background-image-holder:after,
+[data-overlay="9"] .background-video-holder:after {
+    opacity: 0.9;
+}
+
+[data-overlay="10"] .background-image-holder:after,
+[data-overlay="10"] .background-video-holder:after {
+    opacity: 1;
+}
+
+/* Lead */
+.lead-1 {
+    font-size: $h5-font-size;
+}
+
+.lead-2 {
+    font-size: $h4-font-size;
+}
+
+.lead-3 {
+    font-size: $h3-font-size;
+}
+
+.container-fluid-right-col-in-container {
+    padding-right: calc((100vw - 1140px) / 2);
+}
+
+.container-fluid-left-col-in-container {
+    padding-left: calc((100vw - 1140px) / 2);
+}
+
+//----------------------------------------------------/
+// Box shadow
+//----------------------------------------------------/
+.shadow-0, .hover-shadow-0:hover {
+    box-shadow: none;
+}
+
+.shadow-1, .hover-shadow-1:hover {
+    box-shadow: 0 0 4px rgba(#000, 0.06);
+}
+
+.shadow-2, .hover-shadow-2:hover {
+    box-shadow: 0 0 8px rgba(#000, 0.06);
+}
+
+.shadow-3, .hover-shadow-3:hover {
+    box-shadow: 0 0 12px rgba(#000, 0.06);
+}
+
+.shadow-4, .hover-shadow-4:hover {
+    box-shadow: 0 0 18px rgba(#000, 0.06);
+}
+
+.shadow-5, .hover-shadow-5:hover {
+    box-shadow: 0 0 26px rgba(#000, 0.06);
+}
+
+.shadow-6, .hover-shadow-6:hover {
+    box-shadow: 0 0 36px rgba(#000, 0.06);
+}
+
+.shadow-7, .hover-shadow-7:hover {
+    box-shadow: 0 0 48px rgba(#000, 0.06);
+}
+
+.shadow-8, .hover-shadow-8:hover {
+    box-shadow: 0 0 60px rgba(#000, 0.06);
+}
+
+.shadow-9, .hover-shadow-9:hover {
+    box-shadow: 0 0 74px rgba(#000, 0.06);
+}
+
+//----------------------------------------------------/
+// Background on hover
+//----------------------------------------------------/
+.hover-bg-primary {
+    &:hover {
+        background-color: var(--mw-primary-color);
+    }
+
+    &.hover-text-light {
+        &:hover {
+            .text-primary {
+                color: $light;
+            }
+        }
+    }
+
+    &.hover-text-dark {
+        &:hover {
+            .text-primary {
+                color: $dark;
+            }
+        }
+    }
+}
+
+.hover-bg-secondary:hover {
+    background-color: var(--secondary);
+
+    &.hover-text-light {
+        &:hover {
+            .text-primary {
+                color: $light;
+            }
+        }
+    }
+
+    &.hover-text-dark {
+        &:hover {
+            .text-primary {
+                color: var(--mw-primary-color);
+            }
+        }
+    }
+}
+
+.hover-bg-success:hover {
+    background-color: $success;
+}
+
+.hover-bg-danger:hover {
+    background-color: $danger;
+}
+
+.hover-bg-warning:hover {
+    background-color: $warning;
+}
+
+.hover-bg-info:hover {
+    background-color: $info;
+}
+
+.hover-bg-light:hover {
+    background-color: $light;
+}
+
+.hover-bg-white:hover {
+    background-color: $white;
+}
+
+.hover-bg-dark:hover {
+    background-color: $dark;
+}
+
+//----------------------------------------------------/
+// Background on hover
+//----------------------------------------------------/
+.hover-text-primary:hover {
+    color: var(--mw-primary-color);
+}
+
+.hover-text-secondary:hover {
+    color: var(--secondary);
+}
+
+.hover-text-success:hover {
+    color: $success;
+}
+
+.hover-text-danger:hover {
+    color: $danger;
+}
+
+.hover-text-warning:hover {
+    color: $warning;
+}
+
+.hover-text-info:hover {
+    color: $info;
+}
+
+.hover-text-light:hover {
+    color: $light;
+}
+
+.hover-text-dark:hover {
+    color: $dark;
+}
+
+//----------------------------------------------------/
+// Border color
+//----------------------------------------------------/
+.border-color-primary {
+    border-color: var(--mw-primary-color);
+}
+
+.border-color-secondary {
+    border-color: var(--secondary);
+}
+
+.border-color-success {
+    border-color: $success;
+}
+
+.border-color-danger {
+    border-color: $danger;
+}
+
+.border-color-warning {
+    border-color: $warning;
+}
+
+.border-color-info {
+    border-color: $info;
+}
+
+.border-color-light {
+    border-color: $light;
+}
+
+.border-color-dark {
+    border-color: $dark;
+}
+
+.hover-border-color-primary:hover {
+    border-color: var(--mw-primary-color);
+}
+
+.hover-border-color-secondary:hover {
+    border-color: var(--secondary);
+}
+
+.hover-border-color-success:hover {
+    border-color: $success;
+}
+
+.hover-border-color-danger:hover {
+    border-color: $danger;
+}
+
+.hover-border-color-warning:hover {
+    border-color: $warning;
+}
+
+.hover-border-color-info:hover {
+    border-color: $info;
+}
+
+.hover-border-color-light:hover {
+    border-color: $light;
+}
+
+.hover-border-color-dark:hover {
+    border-color: $dark;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.bottom-0 {
+    bottom: 0;
+}
+
+.left-0 {
+    left: 0;
+}
+
+.right-0 {
+    right: 0;
+}
+
+.border-width-2 {
+    border-width: 2px;
+}
+
+.border-width-3 {
+    border-width: 3px;
+}
+
+.border-width-4 {
+    border-width: 4px;
+}
+
+.text-decoration-no {
+    text-decoration: none;
+}
+
+//
+//#footer_menu {
+//
+//    .nav {
+//        flex-wrap: nowrap!important;
+//    }
+//
+//}
+
+
+

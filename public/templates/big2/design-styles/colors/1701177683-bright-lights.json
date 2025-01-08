@@ -1,0 +1,20 @@
+{
+    "name": "Bright Lights",
+    "mainColors": [
+        "#68bbe3",
+        "#0e86d4",
+        "#055c9d",
+        "#003060"
+    ],
+    "preset": "tabler",
+    "properties": {
+        "--tblr-primary": "#68bbe3",
+        "--tblr-secondary": "#0e86d4",
+        "--tblr-body-color": "#fff",
+        "--tblr-heading-color": "#fff",
+        "--tblr-link-color": "#055c9d",
+        "--tblr-link-color-hover": "#003060",
+        "--tblr-bg-surface": "#f4a261",
+        "--tblr-navbar-bg": "#003060"
+    }
+}

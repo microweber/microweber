@@ -1,0 +1,377 @@
+{
+    "settings": [
+        {
+            "title": "Font Pack",
+            "description": "Choose a font pack to use for your site.",
+            "selectors": [
+                ":root"
+            ],
+            "fieldType": "fontFamily",
+            "fieldSettings": {
+                "property": "--mw-font-family-sans-serif"
+            }
+        },
+        {
+            "title": "Spacing",
+            "description": "Pick a spacing style, and customize it to achieve the style you want.",
+            "settings": [
+                {
+                    "title": "Line Height",
+                    "description": "Choose a line height to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-line-height",
+                        "min": 0.5,
+                        "max": 3,
+                        "step": 0.1,
+                        "unit": "em"
+                    }
+                },
+                {
+                    "title": "Letter Spacing",
+                    "description": "Choose a letter spacing to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-letter-spacing",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Font Weight",
+                    "description": "Choose a Font weight to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-font-weight",
+                        "min": 200,
+                        "max": 900,
+                        "step": 100,
+                        "unit": ""
+                    }
+                },
+                {
+                    "title": "Text Transform",
+                    "description": "Choose a text transform to use for your site.",
+                    "fieldType": "dropdown",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-text-transform",
+                        "options": {
+                            "lowercase": "lowercase",
+                            "uppercase": "uppercase",
+                            "capitalize": "capitalize",
+                            "none": "none"
+                        }
+                    }
+                },
+                {
+                    "title": "Clear All",
+                    "description": "Clear all spacing styles.",
+                    "fieldType": "clearAll",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "properties": [
+                            "--mw-line-height",
+                            "--mw-letter-spacing",
+                            "--mw-font-weight",
+                            "--mw-text-transform",
+                            "--mw-text-align"
+
+                        ]
+                    }
+                }
+
+            ]
+        },
+        {
+            "title": "Headings",
+            "description": "Pick a element heading sizes, and customize it to achieve the style you want.",
+            "settings": [
+                {
+                    "title": "Heading 1",
+                    "description": "Heading 1 is typically used for page titles. Changes affect all Heading 1s.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-heading-one",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Heading 2",
+                    "description": "Heading 3 is typically used for page titles. Changes affect all Heading 1s.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-heading-two",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Heading 3",
+                    "description": "Heading 3 is typically used for page titles. Changes affect all Heading 1s.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-heading-three",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Heading 4",
+                    "description": "Heading 4 is typically used for page titles. Changes affect all Heading 1s.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-heading-four",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Heading 5",
+                    "description": "Heading 5 is typically used for page titles. Changes affect all Heading 1s.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-heading-five",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Heading 6",
+                    "description": "Heading 6 is typically used for page titles. Changes affect all Heading 1s.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-heading-six",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Clear All",
+                    "description": "Clear all heading styles.",
+                    "fieldType": "clearAll",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "properties": [
+                            "--mw-heading-one",
+                            "--mw-heading-two",
+                            "--mw-heading-three",
+                            "--mw-heading-for",
+                            "--mw-heading-five",
+                            "--mw-heading-six"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "title": "Paragraphs",
+            "description": "Paragraphs are typically used for body text. Changes affect all paragraphs.",
+            "settings": [
+                {
+                    "title": "Paragraph",
+                    "description": "Paragraphs are typically used for body text. Changes affect all paragraphs.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-paragraph-size",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Clear All",
+                    "description": "Clear all heading styles.",
+                    "fieldType": "clearAll",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "properties": [
+                            "--mw-paragraph-size"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "title": "Links",
+            "description": "Pick a link style, and customize it to achieve the style you want.",
+            "settings": [
+                {
+                    "title": "Font size",
+                    "description": "Pick a font size for your link, and customize it to achieve the style you want.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-links-font-size",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Text decoration",
+                    "description": "Pick a decoration style for your link, and customize it to achieve the style you want.",
+                    "fieldType": "dropdown",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-text-decoration",
+                        "options": {
+                            "none": "none",
+                            "underline": "underline",
+                            "underline dotted": "underline dotted",
+                            "wavy underline": "wavy underline",
+                            "overline": "overline"
+
+                        }
+                    }
+                },
+                {
+                    "title": "Text decoration thickness",
+                    "description": "Pick a decoration thickness style for your link, and customize it to achieve the style you want.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-text-decoration-thickness",
+                        "min": 1,
+                        "max": 15,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Text decoration offset",
+                    "description": "Pick a decoration offset for your link, and customize it to achieve the style you want.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-text-underline-offset",
+                        "min": 1,
+                        "max": 15,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Text decoration color",
+                    "description": "Pick a decoration color for your link, and customize it to achieve the style you want.",
+                    "fieldType": "colorPicker",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-text-decoration-color"
+                    }
+                },
+                {
+                    "title": "Clear All",
+                    "description": "Clear all heading styles.",
+                    "fieldType": "clearAll",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "properties": [
+                            "--mw-text-decoration",
+                            "--mw-text-decoration-thickness",
+                            "--mw-text-underline-offset",
+                            "--mw-text-decoration-color"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "title": "Clear All",
+            "description": "Clear all font styles.",
+            "fieldType": "clearAll",
+            "selectors": [
+                ":root"
+            ],
+            "fieldSettings": {
+                "properties": [
+                    "--mw-font-family-sans-serif",
+                    "--mw-heading-one",
+                    "--mw-heading-two",
+                    "--mw-heading-three",
+                    "--mw-heading-for",
+                    "--mw-heading-five",
+                    "--mw-heading-six",
+                    "--mw-paragraph-size",
+                    "--mw-text-decoration",
+                    "--mw-line-height",
+                    "--mw-letter-spacing",
+                    "--mw-font-weight",
+                    "--mw-text-transform",
+                    "--mw-text-align",
+                    "--mw-text-decoration",
+                    "--mw-text-decoration-thickness",
+                    "--mw-text-underline-offset",
+                    "--mw-text-decoration-color"
+                ]
+            }
+        }
+    ]
+}

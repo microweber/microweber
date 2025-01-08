@@ -1,0 +1,17 @@
+.main {
+  aside {
+    > ul {
+      > li.nav-item {
+        .dropdown-menu {
+          .dropdown-item {
+            color: $textGray !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.btn-hover-style-2 .btn-outline-secondary.active {
+  color: $textLight !important;
+}
