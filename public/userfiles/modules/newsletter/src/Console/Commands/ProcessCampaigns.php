@@ -110,11 +110,16 @@ class ProcessCampaigns extends Command
             return 0;
         }
 
-        $subscribers = NewsletterSubscriber::whereHas('lists', function ($query) use($campaign) {
+        $batches = [];
+        NewsletterSubscriber::whereHas('lists', function ($query) use ($campaign) {
             $query->where('list_id', $campaign->list_id);
-        })->get();
+        })->chunk(100, function ($subscribers) use (&$batches, $campaign) {
+            foreach ($subscribers as $subscriber) {
+                $batches[] = new ProcessCampaignSubscriber($subscriber->id, $campaign->id);
+            }
+        });
 
-        if (!$subscribers) {
+        if (empty($batches)) {
             $this->error('No subscribers found');
             $campaign->status = NewsletterCampaign::STATUS_FAILED;
             $campaign->status_log = 'No subscribers found';
@@ -125,11 +130,6 @@ class ProcessCampaigns extends Command
         $campaign->status = NewsletterCampaign::STATUS_QUEUED;
         $campaign->status_log = 'Campaign is queued';
         $campaign->save();
-
-        $batches = [];
-        foreach ($subscribers as $subscriber) {
-            $batches[] = new ProcessCampaignSubscriber($subscriber->id, $campaign->id);
-        }
 
         $batch = Bus::batch($batches)
             ->progress(function (Batch $batch) use($campaign) {
