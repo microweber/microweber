@@ -261,9 +261,9 @@ $limit = 40;
                        </div>
                     </div>
                 </div>
-                    <?php if ($item['client_picture']): ?>
+                    <?php if ($item['client_image']): ?>
                         <img class="testimonial-image-two" loading="lazy"
-                             src="<?php print thumbnail($item['client_picture'], 800); ?>"/>
+                             src="<?php print thumbnail($item['client_image'], 800); ?>"/>
                     <?php endif; ?>
             </div>
         <?php endforeach; ?>

@@ -57,10 +57,10 @@ $limit = 40;
                     <div class="col-12 col-md-9 offset-md-3 col-lg-7 offset-lg-4">
                         <div class="border testimonials-background-variable testimonialBorderVariable hover-border-color-primary   p-md-5">
                             <div class="d-block d-md-flex text-center text-md-start">
-                                <?php if ($item['client_picture']): ?>
+                                <?php if ($item['client_image']): ?>
                                     <div class="mw-300 w-300 avatar-holder mx-auto me-md-5">
                                         <div class="img-as-background   h-300">
-                                            <img loading="lazy" src="<?php print thumbnail($item['client_picture'], 300); ?>" class="d-block"/>
+                                            <img loading="lazy" src="<?php print thumbnail($item['client_image'], 300); ?>" class="d-block"/>
                                         </div>
                                     </div>
                                 <?php endif; ?>

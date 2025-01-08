@@ -49,10 +49,10 @@ $limit = 40;
         <div class="swiper-slide">
             <div class="row text-center">
                 <div class="col-12 col-lg-10 col-lg-8 mx-auto my-2">
-                    <?php if ($item['client_picture']): ?>
+                    <?php if ($item['client_image']): ?>
                         <div class="w-125 mx-auto my-4">
                             <div class="img-as-background rounded-circle square">
-                                 <img loading="lazy" src="<?php print thumbnail($item['client_picture'], 120); ?>" class="d-block"/>
+                                 <img loading="lazy" src="<?php print thumbnail($item['client_image'], 120); ?>" class="d-block"/>
                             </div>
                         </div>
                     <?php endif; ?>

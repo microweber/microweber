@@ -81,9 +81,9 @@ $limit = 40;
                 @php $count++; @endphp
                 <span class="mwt-face-holder" data-index="{{ $count }}">
                 @if (isset($item['client_website']))
-                    <a href="{{ $item['client_website'] }}" class="mwt-face" style="background-image: url({{ thumbnail($item['client_picture'], 250) }});"></a>
+                    <a href="{{ $item['client_website'] }}" class="mwt-face" style="background-image: url({{ thumbnail($item['client_image'], 250) }});"></a>
                 @else
-                    <span class="mwt-face" style="background-image: url({{ thumbnail($item['client_picture'], 250) }});"></span>
+                    <span class="mwt-face" style="background-image: url({{ thumbnail($item['client_image'], 250) }});"></span>
                 @endif
                 </span>
             @endforeach

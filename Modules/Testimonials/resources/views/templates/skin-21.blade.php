@@ -101,8 +101,8 @@ $limit = 40;
                 <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
 
                 <div class="testimonials-26-author">
-                    <?php if ($item['client_picture']): ?>
-                        <img loading="lazy" src="<?php print thumbnail($item['client_picture'], 800); ?>"/>
+                    <?php if ($item['client_image']): ?>
+                        <img loading="lazy" src="<?php print thumbnail($item['client_image'], 800); ?>"/>
                     <?php endif; ?>
 
                     <?php if ($item['client_role']): ?>

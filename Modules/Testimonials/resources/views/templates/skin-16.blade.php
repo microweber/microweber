@@ -113,11 +113,11 @@ $limit = 40;
                 <div class="text-center text-sm-start mb-3">
                     <div class="d-block d-sm-flex align-items-center justify-content-between">
                         <div class="d-block d-sm-flex align-items-center">
-                            <?php if ($item['client_picture']): ?>
+                            <?php if ($item['client_image']): ?>
                                 <div class="me-3">
                                     <div class="w-40 mx-auto">
                                         <div class="img-as-background rounded-circle square">
-                                            <img loading="lazy" src="<?php print thumbnail($item['client_picture'], 120); ?>" class="d-block"/>
+                                            <img loading="lazy" src="<?php print thumbnail($item['client_image'], 120); ?>" class="d-block"/>
                                         </div>
                                     </div>
                                 </div>

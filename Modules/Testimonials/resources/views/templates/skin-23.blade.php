@@ -170,9 +170,9 @@ $limit = 40;
 
                 <?php foreach ($testimonials as $item): ?>
                     <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
-                        <?php if ($item['client_picture']): ?>
+                        <?php if ($item['client_image']): ?>
                             <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy"
-                                 src="<?php print thumbnail($item['client_picture'], 800); ?>"/>
+                                 src="<?php print thumbnail($item['client_image'], 800); ?>"/>
                         <?php endif; ?>
 
                         <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
@@ -181,9 +181,9 @@ $limit = 40;
 
                 <?php foreach ($testimonials as $item): ?>
                     <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
-                        <?php if ($item['client_picture']): ?>
+                        <?php if ($item['client_image']): ?>
                             <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy"
-                                 src="<?php print thumbnail($item['client_picture'], 800); ?>"/>
+                                 src="<?php print thumbnail($item['client_image'], 800); ?>"/>
                         <?php endif; ?>
 
                         <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>

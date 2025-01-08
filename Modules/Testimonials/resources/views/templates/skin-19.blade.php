@@ -111,8 +111,8 @@ $limit = 40;
         <?php foreach ($testimonials as $item): ?>
             <div class="row text-center text-lg-start d-flex align-items-center pt-7">
 
-                <?php if ($item['client_picture']): ?>
-                    <div class="text-center mx-auto ziza-testimonials-image background-image-holder" style="background-image: url(<?php print thumbnail($item['client_picture'], 450); ?>);">
+                <?php if ($item['client_image']): ?>
+                    <div class="text-center mx-auto ziza-testimonials-image background-image-holder" style="background-image: url(<?php print thumbnail($item['client_image'], 450); ?>);">
 
                        <div>
                            <div class="mw-ziza-testimonials-item-eclipse">

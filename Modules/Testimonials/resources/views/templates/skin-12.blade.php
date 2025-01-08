@@ -58,10 +58,10 @@ $limit = 40;
             <div class="row text-center">
                 <div class="col-11 col-sm-10 col-lg-8 col-lg-5 mx-auto">
                     <div class="border testimonials-background-variable testimonialBorderVariable  hover-border-color-primary   mx-3 h-100 p-5">
-                        <?php if ($item['client_picture']): ?>
+                        <?php if ($item['client_image']): ?>
                             <div class="w-80 mx-auto my-4">
                                 <div class="img-as-background rounded-circle square">
-                                    <img loading="lazy" src="<?php print thumbnail($item['client_picture'], 120); ?>" class="d-block"/>
+                                    <img loading="lazy" src="<?php print thumbnail($item['client_image'], 120); ?>" class="d-block"/>
                                 </div>
                             </div>
                         <?php endif; ?>

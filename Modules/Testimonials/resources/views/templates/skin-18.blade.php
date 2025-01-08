@@ -204,9 +204,9 @@ $limit = 40;
                     foreach ($testimonials as $item): $count++; ?>
                         <span class="mwt-face-holder" data-index="<?php print $count; ?>">
                     <?php if (isset($item['client_website'])): ?>
-                        <a href="<?php print $item['client_website']; ?>" class="mwt-face" style="background-image: url(<?php print thumbnail($item['client_picture'], 650); ?>);"></a>
+                        <a href="<?php print $item['client_website']; ?>" class="mwt-face" style="background-image: url(<?php print thumbnail($item['client_image'], 650); ?>);"></a>
                     <?php else : ?>
-                        <span class="mwt-face" style="background-image: url(<?php print thumbnail($item['client_picture'], 650); ?>);"></span>
+                        <span class="mwt-face" style="background-image: url(<?php print thumbnail($item['client_image'], 650); ?>);"></span>
                     <?php endif; ?>
                 </span>
                     <?php endforeach; ?>

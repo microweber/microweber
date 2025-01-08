@@ -89,9 +89,9 @@ $limit = 40;
             <div class="row">
                 <div class=" d-flex justify-content-between flex-wrap mx-auto">
                    <div class="col-lg-6 col-11 pe-3 position-relative">
-                       <?php if ($item['client_picture']): ?>
+                       <?php if ($item['client_image']): ?>
                            <div class="img-as-background h-500">
-                               <img loading="lazy" src="<?php print thumbnail($item['client_picture'], 800); ?>" class="position-relative"/>
+                               <img loading="lazy" src="<?php print thumbnail($item['client_image'], 800); ?>" class="position-relative"/>
 
                            </div>
                            <img loading="lazy" src="<?php print asset('templates/big2/assets/img/layouts/action/action-blog-quote.png'); ?>" class="position-absolute action-blog-quote"/>

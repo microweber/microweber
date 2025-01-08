@@ -44,9 +44,10 @@ $limit = 40;
             <div class="row text-center">
                 <div class="col-12 col-lg-10 col-lg-8 mx-auto my-2">
 
-                    <div class="img-as-background mx-auto mt-3 rounded-circle" style="width:125px; height: 125px;">
-                        <?php if ($item['client_picture']): ?>
-                            <img loading="lazy" src="<?php print thumbnail($item['client_picture'], 750); ?>" class="d-inline"/>
+                    <div class="img-as-background mx-auto my-3 rounded-circle" style="width:125px; height: 125px;">
+
+                        <?php if ($item['client_image']): ?>
+                            <img loading="lazy" src="<?php print thumbnail($item['client_image'], 750); ?>" class="d-inline"/>
                         <?php endif; ?>
                     </div>
 

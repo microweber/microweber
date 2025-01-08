@@ -53,10 +53,10 @@ $limit = 40;
                 </div>
 
                 <div class="col-12 col-sm-8 col-lg-5 text-center">
-                    <?php if ($item['client_picture']): ?>
+                    <?php if ($item['client_image']): ?>
                         <div class="w-250 mx-auto mb-4">
                             <div class="img-as-background rounded-circle square">
-                                <img loading="lazy" src="<?php print thumbnail($item['client_picture'], 250); ?>">
+                                <img loading="lazy" src="<?php print thumbnail($item['client_image'], 250); ?>">
                             </div>
                         </div>
                     <?php endif; ?>
