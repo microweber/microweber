@@ -558,7 +558,7 @@ class AppServiceProvider extends ServiceProvider
        // $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Session\Middleware\StartSession::class);
         //   $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\MicroweberPackages\App\Http\Middleware\StartSessionExtended::class);
         $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class);
-        $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
+      $this->app->make('Illuminate\Contracts\Http\Kernel')->prependMiddleware(\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class);
 
       //  $router->pushMiddlewareToGroup('web', AuthenticateSessionForUser::class);
         $router->pushMiddlewareToGroup('web', \Illuminate\Session\Middleware\StartSession::class);
