@@ -38,9 +38,18 @@ return new class extends Migration {
         if (Schema::hasTable('cart_orders')) {
             if (!Schema::hasColumn('cart_orders', 'coupon_code')) {
                 Schema::table('cart_orders', function (Blueprint $table) {
-                    $table->string('coupon_code')->nullable();
-                    $table->string('discount_type')->nullable();
-                    $table->decimal('discount_value', 10, 2)->nullable();
+
+                    if (!Schema::hasColumn('cart_orders', 'coupon_code')) {
+                        $table->string('coupon_code')->nullable();
+                    }
+                    if (!Schema::hasColumn('cart_orders', 'discount_type')) {
+                        $table->string('discount_type')->nullable();
+                    }
+                    if (!Schema::hasColumn('cart_orders', 'discount_value')) {
+                        $table->decimal('discount_value', 10, 2)->nullable();
+                    }
+
+
                 });
             }
         }
