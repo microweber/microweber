@@ -1,0 +1,102 @@
+{
+    "settings": [
+        {
+            "title": "Button Sizes",
+            "description": "Pick different sizes for your buttons.",
+            "settings": [
+                {
+                    "title": "Border Radius",
+                    "description": "Choose a button border radius to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-btn-border-radius",
+                        "min": 1,
+                        "max": 100,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Border Size",
+                    "description": "Choose a button border size to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-btn-border-size",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Padding Vertical",
+                    "description": "Choose a button padding vertical to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-btn-padding-block",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Padding Horizontal",
+                    "description": "Choose a button padding horizontal to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-btn-padding-inline",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Font Size",
+                    "description": "Choose a button font size to use for your site.",
+                    "fieldType": "rangeSlider",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "property": "--mw-btn-font-size",
+                        "min": 1,
+                        "max": 120,
+                        "step": 1,
+                        "unit": "px"
+                    }
+                },
+                {
+                    "title": "Clear All",
+                    "description": "Clear all button styles you have set for your site.",
+                    "fieldType": "clearAll",
+                    "selectors": [
+                        ":root"
+                    ],
+                    "fieldSettings": {
+                        "properties": [
+                            "--mw-btn-border-radius",
+                            "--mw-btn-border-size",
+                            "--mw-btn-padding-block",
+                            "--mw-btn-padding-inline",
+                            "--mw-btn-font-size"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

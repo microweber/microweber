@@ -1,0 +1,19 @@
+{
+    "name": "Arts and Crafts",
+    "mainColors": [
+        "#d773a2",
+        "#07bb9c",
+        "#ffd743",
+        "#a06ab4"
+    ],
+    "properties": {
+        "--tblr-primary": "#d773a2",
+        "--tblr-secondary": "#07bb9c",
+        "--tblr-body-color": "#000000",
+        "--tblr-heading-color": "#000000",
+        "--tblr-link-color": "#000000",
+        "--tblr-link-color-hover": "#000000",
+        "--tblr-bg-surface": "#ffffff",
+        "--tblr-navbar-bg": "#a06ab4"
+    }
+}

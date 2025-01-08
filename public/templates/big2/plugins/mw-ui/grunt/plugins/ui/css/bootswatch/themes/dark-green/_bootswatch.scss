@@ -1,0 +1,13 @@
+.main {
+  aside {
+    > ul {
+      > li.nav-item {
+        .dropdown-menu {
+          .dropdown-item {
+            color: $textGray !important;
+          }
+        }
+      }
+    }
+  }
+}

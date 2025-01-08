@@ -1,0 +1,223 @@
+$mw-font-size: 16px;
+$mw-light-color:    #212529;
+$mw-white-color:    #ffffff;
+$mw-dark-color:     #212529;
+$mw-blue-color:     #0044de;
+$mw-gray-color:     #6c757d;
+$mw-black-color:    #000000;
+$mw-orange-color:   #f4a261;
+
+$mw-background-color:               $mw-white-color !default;
+$mw-section-background-color:       $mw-white-color !default;
+$mw-primary-color:                  $mw-orange-color !default;
+$mw-secondary:                      $mw-gray-color !default;
+$mw-textDark:                       $mw-dark-color !default;
+$mw-textLight:                      $mw-light-color !default;
+$mw-body-color:                     $mw-black-color !default;
+
+
+$mw-header-background:          $mw-white-color !default;
+$mw-header-links-color:         $mw-orange-color !default;
+$mw-header-links-hover-color:   $mw-orange-color !default;
+$mw-header-link-background-hover-color: transparent !default;
+$mw-header-padding-block:       10px !default;
+$mw-header-font-size:           16px !default;
+
+$mw-top-header-background:          $mw-black-color !default;
+$mw-top-header-primary-color:       $mw-orange-color !default;
+$mw-top-header-links-color:         $mw-orange-color !default;
+$mw-top-header-links-hover-color:   $mw-orange-color !default;
+$mw-top-header-button-background-color: $mw-orange-color !default;
+$mw-top-header-button-background-hover-color: $mw-orange-color !default;
+$mw-top-header-button-text-color:   $mw-white-color !default;
+$mw-top-header-button-text-hover-color: $mw-white-color !default;
+
+
+$mw-links-font-size :       16px !default;
+$mw-link-color:                     $mw-orange-color !default;
+$mw-heading-color:          $mw-black-color !default;
+$mw-paragraph-color:                $mw-black-color !default;
+
+$mw-line-height:            1.5 !default;
+$mw-letter-spacing:         0 !default;
+$mw-font-weight:            400 !default;
+$mw-text-transform:         none !default;
+$mw-paragraph-size:         16px !default;
+$mw-text-align:             center !default;
+$mw-text-decoration:        none !default;
+$mw-text-decoration-thickness: 1px !default;
+$mw-text-underline-offset:  2px !default;
+$mw-text-decoration-color:  $mw-orange-color !default;
+
+$mw-heading-one:            64px !default;
+$mw-heading-two:            52px !default;
+$mw-heading-three:          44px !default;
+$mw-heading-four:           32px !default;
+$mw-heading-five:           24px !default;
+$mw-heading-six:            20px !default;
+
+$mw-font-family-sans-serif:      'Jost', sans-serif !default;
+
+
+$text-on-dark-background: $mw-white-color !default;
+
+$mw-footer-background-color:       $mw-white-color !default;
+$mw-footer-button-background-color: $mw-orange-color !default;
+$mw-footer-button-background-hover-color: $mw-orange-color !default;
+$mw-footer-button-text-color:       $mw-white-color !default;
+$mw-footer-button-text-hover-color: $mw-white-color !default;
+$mw-footer-link-color:       $mw-orange-color !default;
+$mw-footer-hover-link-color: $mw-orange-color !default;
+$mw-footer-text-color:       $mw-black-color !default;
+$mw-footer-primary-color:    $mw-orange-color !default;
+$mw-footer-font-size:        16px !default;
+
+$mw-btn-border-radius: 33px !default;
+$mw-btn-border-size: 2px !default;
+$mw-btn-border-style: solid !default;
+$mw-btn-padding-block: 15px !default;
+$mw-btn-padding-inline: 24px !default;
+$mw-btn-font-size: 16px !default;
+
+$mw-btn-border-color: $mw-orange-color !default;
+$mw-btn-background-color: $mw-orange-color !default;
+$mw-btn-background-hover-color: #e76f51 !default;
+$mw-btn-text-color:            $mw-white-color !default;
+$mw-btn-text-hover-color: $mw-white-color !default;
+
+$mw-btn-secondary-background: #FF5E00 !default;
+$mw-btn-secondary-backgroundHover: $mw-orange-color !default;
+$mw-btn-secondary-text:            $mw-white-color !default;
+$mw-btn-secondary-textHoverColor: $mw-white-color !default;
+$mw-btn-secondary-border-color:     $mw-orange-color !default;
+
+$mw-btn-outline-background: transparent !default;
+$mw-btn-outline-background-hover: $mw-orange-color !default;
+$mw-btn-outline-text: $mw-orange-color !default;
+$mw-btn-outline-text-hover-color: $mw-white-color !default;
+$mw-btn-outline-border-color: $mw-orange-color !default;
+
+
+$mw-form-control-border-radius: 0px !default;
+$mw-form-control-border-size: 1px !default;
+$mw-form-control-border-style: solid !default;
+$mw-form-control-padding-block: 15px !default;
+$mw-form-control-padding-inline: 15px !default;
+$mw-form-label-font-size: 16px !default;
+$mw-form-control-placeholder-color: $mw-gray-color !default;
+$mw-form-control-background: $mw-white-color !default;
+$mw-form-control-background-hover: $mw-white-color !default;
+$mw-form-control-text-color: $mw-black-color !default;
+$mw-form-control-text-hover-color: $mw-black-color !default;
+$mw-form-label-color: $mw-black-color !default;
+
+$mw-text-on-dark-background-color: $mw-white-color !default;
+
+
+:root {
+    --mw-background-color: #{$mw-background-color};
+    --mw-section-background-color: #{$mw-section-background-color};
+    --mw-primary-color: #{$mw-primary-color};
+    --mw-secondary: #{$mw-secondary};
+    --mw-textDark: #{$mw-textDark};
+    --mw-textLight: #{$mw-textLight};
+    --mw-body-font-size: #{$mw-font-size};
+    --mw-body-color: #{$mw-body-color};
+
+    --mw-header-background-color: #{$mw-header-background};
+    --mw-header-link-color: #{$mw-header-links-color};
+    --mw-header-link-hover-color: #{$mw-header-links-hover-color};
+    --mw-header-link-background-hover-color: #{$mw-header-link-background-hover-color};
+    --mw-header-padding-block: #{$mw-header-padding-block};
+    --mw-header-font-size: #{$mw-header-font-size};
+
+    --mw-top-header-background-color: #{$mw-top-header-background};
+    --mw-top-header-primary-color: #{$mw-top-header-primary-color};
+    --mw-top-header-link-color: #{$mw-top-header-links-color};
+    --mw-top-header-link-hover-color: #{$mw-top-header-links-hover-color};
+    --mw-top-header-button-background-color: #{$mw-top-header-button-background-color};
+    --mw-top-header-button-background-hover-color: #{$mw-top-header-button-background-hover-color};
+    --mw-top-header-button-text-color: #{$mw-top-header-button-text-color};
+    --mw-top-header-button-text-hover-color: #{$mw-top-header-button-text-hover-color};
+
+    --mw-footer-background-color: #{$mw-footer-background-color};
+    --mw-footer-link-color: #{$mw-footer-link-color};
+    --mw-footer-hover-link-color: #{$mw-footer-hover-link-color};
+    --mw-footer-button-background-color: #{$mw-footer-button-background-color};
+    --mw-footer-button-background-hover-color: #{$mw-footer-button-background-hover-color};
+    --mw-footer-button-text-color: #{$mw-footer-button-text-color};
+    --mw-footer-button-text-hover-color: #{$mw-footer-button-text-hover-color};
+    --mw-footer-text-color: #{$mw-footer-text-color};
+    --mw-footer-primary-color: #{$mw-footer-primary-color};
+    --mw-footer-font-size: #{$mw-footer-font-size};
+
+
+    --mw-links-font-size: #{$mw-links-font-size};
+    --mw-link-color: #{$mw-link-color};
+    --mw-paragraph-color: #{$mw-paragraph-color};
+    --mw-heading-color: #{$mw-heading-color};
+
+    --mw-line-height: #{$mw-line-height};
+    --mw-letter-spacing: #{$mw-letter-spacing};
+    --mw-font-weight: #{$mw-font-weight};
+    --mw-text-transform: #{$mw-text-transform};
+    --mw-paragraph-size: #{$mw-paragraph-size};
+    --mw-text-align: #{$mw-text-align};
+    --mw-text-decoration: #{$mw-text-decoration};
+    --mw-text-decoration-thickness: #{$mw-text-decoration-thickness};
+    --mw-text-underline-offset: #{$mw-text-underline-offset};
+    --mw-text-decoration-color: #{$mw-text-decoration-color};
+
+    --mw-heading-one: #{$mw-heading-one};
+    --mw-heading-two: #{$mw-heading-two};
+    --mw-heading-three: #{$mw-heading-three};
+    --mw-heading-four: #{$mw-heading-four};
+    --mw-heading-five: #{$mw-heading-five};
+    --mw-heading-six: #{$mw-heading-six};
+
+    --mw-font-family-sans-serif: #{$mw-font-family-sans-serif};
+
+    --text-on-dark-background: #{$text-on-dark-background};
+
+
+    --mw-btn-border-radius: #{$mw-btn-border-radius};
+    --mw-btn-border-size: #{$mw-btn-border-size};
+    --mw-btn-border-style: #{$mw-btn-border-style};
+    --mw-btn-padding-block: #{$mw-btn-padding-block};
+    --mw-btn-padding-inline: #{$mw-btn-padding-inline};
+    --mw-btn-font-size: #{$mw-btn-font-size};
+
+    --mw-btn-background-color: #{$mw-btn-background-color};
+    --mw-btn-background-hover-color: #{$mw-btn-background-hover-color};
+    --mw-btn-text-color: #{$mw-btn-text-color};
+    --mw-btn-text-hover-color: #{$mw-btn-text-hover-color};
+    --mw-btn-border-color: #{$mw-btn-border-color};
+
+    --mw-btn-secondary-background-color: #{$mw-btn-secondary-background};
+    --mw-btn-secondary-background-hover-color: #{$mw-btn-secondary-backgroundHover};
+    --mw-btn-secondary-text-color: #{$mw-btn-secondary-text};
+    --mw-btn-secondary-text-hover-color: #{$mw-btn-secondary-textHoverColor};
+    --mw-btn-secondary-border-color: #{$mw-btn-secondary-border-color};
+
+    --mw-btn-outline-background-color: #{$mw-btn-outline-background};
+    --mw-btn-outline-background-hover-color: #{$mw-btn-outline-background-hover};
+    --mw-btn-outline-text-color: #{$mw-btn-outline-text};
+    --mw-btn-outline-text-hover-color: #{$mw-btn-outline-text-hover-color};
+    --mw-btn-outline-border-color: #{$mw-btn-outline-border-color};
+
+    --mw-form-control-border-radius: #{$mw-form-control-border-radius};
+    --mw-form-control-border-size: #{$mw-form-control-border-size};
+    --mw-form-control-border-style: #{$mw-form-control-border-style};
+    --mw-form-control-padding-block: #{$mw-form-control-padding-block};
+    --mw-form-control-padding-inline: #{$mw-form-control-padding-inline};
+    --mw-form-label-font-size: #{$mw-form-label-font-size};
+    --mw-form-control-placeholder-color: #{$mw-form-control-placeholder-color};
+    --mw-form-control-background: #{$mw-form-control-background};
+    --mw-form-control-background-hover: #{$mw-form-control-background-hover};
+    --mw-form-control-text-color: #{$mw-form-control-text-color};
+    --mw-form-control-text-hover-color: #{$mw-form-control-text-hover-color};
+    --mw-form-label-color: #{$mw-form-label-color};
+
+    --mw-text-on-dark-background-color: #{$mw-text-on-dark-background-color};
+
+}

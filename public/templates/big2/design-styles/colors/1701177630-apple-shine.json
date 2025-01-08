@@ -1,0 +1,15 @@
+{
+    "name": "Apple Shine",
+    "mainColors": [
+        "#ff8370",
+        "#00b1b0",
+        "#fec84d",
+        "#e42256"
+    ],
+    "properties": {
+        "--mw-header-background-color": "#ff8370",
+        "--mw-primary-color": "#ff8370",
+        "--mw-secondary": "#ff8370"
+
+    }
+}
