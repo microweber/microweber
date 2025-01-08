@@ -50,7 +50,7 @@
 
 
 .mw-live-edit-resolutions-wrapper, .mw-live-edit-right-sidebar-wrapper {
-    @apply !bg-gray-100 dark:!bg-slate-900 dark:text-white rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
+    @apply !bg-gray-100   dark:text-white rounded p-0.5 max-h-9 flex items-center justify-center gap-2;
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons {
