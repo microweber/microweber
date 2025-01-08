@@ -11,10 +11,10 @@ class DefaultOptionsInstaller
     public function run()
     {
 
-        $this->setDefault();
-        $this->setCommentsEnabled();
-        $this->setShippingEnabled();
-        $this->setPaymentsEnabled();
+//        $this->setDefault();
+//        $this->setCommentsEnabled();
+//        $this->setShippingEnabled();
+//        $this->setPaymentsEnabled();
 
         return true;
     }

@@ -47,7 +47,7 @@ $limit = 40;
 
     <?php echo '#' . $params['id'] . ' '; ?>
     .slick-slide {
-        height: inherit !important;
+        height: inherit !important; margin: 0 15px;
     }
 
 
