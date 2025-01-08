@@ -504,6 +504,10 @@ html.preview #preview-button {
     width: 1650px;
     background-color: #ececec;
 
+
+}
+html.dark .mw-le-layouts-dialog {
+    background-color:rgb(30 41 59 / var(--tw-bg-opacity));
 }
 
 .mw-le-layouts-dialog-row {
