@@ -31,6 +31,7 @@ $limit = 40;
     <?php echo '#' . $params['id'] . ' '; ?>
     .slick-track {
         display: flex !important;
+        
     }
 
     <?php echo '#' . $params['id'] . ' '; ?>
