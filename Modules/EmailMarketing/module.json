@@ -1,0 +1,11 @@
+{
+    "name": "EmailMarketing",
+    "alias": "emailmarketing",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\EmailMarketing\\Providers\\EmailMarketingServiceProvider"
+    ],
+    "files": []
+}
