@@ -100,7 +100,11 @@ description: Skin-18
                 <div class="mw-team-18-team-member">
                     <div class="photo-line-team">
                         @if ($member['file'])
-                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" style="    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    background-position: center center;
+}"/>
                         @else
                             <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
                         @endif

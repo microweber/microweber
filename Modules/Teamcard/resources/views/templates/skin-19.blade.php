@@ -13,7 +13,7 @@ description: Skin-19
 <script>mw.lib.require('slick');</script>
 <script>
     $(document).ready(function () {
-        $('.slickslider', '#{{ $params['id'] }}').slick({
+        $('.slickslider', '<?php print '#'.$params['id']; ?>').slick({
             fade: true
         });
     });
@@ -21,7 +21,8 @@ description: Skin-19
 </script>
 
 <style>
-    #{{ $params['id'] }} .slick-arrow {
+    <?php echo '#'.$params['id']; ?>
+    .slick-arrow {
         bottom: 45px;
         top: unset;
         z-index: 30;
@@ -29,39 +30,47 @@ description: Skin-19
     }
 
     @media screen and (max-width: 1350px) {
-        #{{ $params['id'] }} .slick-arrow {
+        <?php echo '#'.$params['id']; ?>
+        .slick-arrow {
             bottom: 25px !important;
         }
 
-        #{{ $params['id'] }} .slick-arrow:before {
+        <?php echo '#'.$params['id']; ?>
+        .slick-arrow:before {
             font-size: 30px !important;
         }
     }
 
-    #{{ $params['id'] }} .slick-arrow:before {
+    <?php echo '#'.$params['id']; ?>
+    .slick-arrow:before {
         font-size: 40px;
     }
 
-    #{{ $params['id'] }} .slick-prev {
+    <?php echo '#'.$params['id']; ?>
+    .slick-prev {
         right: 135px;
     }
 
-    #{{ $params['id'] }} .slick-next {
+    <?php echo '#'.$params['id']; ?>
+    .slick-next {
         right: 90px !important;
     }
 
-    #{{ $params['id'] }} .team-image {
+    <?php echo '#'.$params['id']; ?>
+    .team-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    #{{ $params['id'] }} .slick-initialized .slick-slide {
+    <?php echo '#'.$params['id']; ?>
+    .slick-initialized .slick-slide {
         max-height: 635px;
         min-height: 475px;
     }
 
-    #{{ $params['id'] }} .team-thumb {
+    <?php echo '#'.$params['id']; ?>
+    .team-thumb {
         background: var(--mw-primary-color);
         position: absolute;
         bottom: 0;
@@ -70,7 +79,10 @@ description: Skin-19
         padding: 22px 32px 32px 32px;
     }
 
-    #{{ $params['id'] }} .mw-team-19-text {
+
+
+    <?php echo '#'.$params['id']; ?>
+    .mw-team-19-text {
         color: var(--mw-text-on-dark-background-color);
     }
 
@@ -86,7 +98,7 @@ description: Skin-19
 @if (isset($teamcard) and $teamcard)
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
         @foreach ($teamcard as $member)
-            <div class="position-relative">
+            <div class="position-relative" style="max-height: 635px;">
                 @if ($member['file'])
                     <img class="transition-on-hover team-image" loading="lazy" src="{{ thumbnail($member['file'], 1350, 1350) }}"/>
                 @else
