@@ -9,6 +9,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaigns;
+use MicroweberPackages\Modules\Newsletter\Console\Commands\ProcessCampaignsPerformanceTest;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\CreateTemplate;
 use MicroweberPackages\Modules\Newsletter\Filament\Admin\Pages\TemplateEditor;
 use MicroweberPackages\Modules\Newsletter\Http\Livewire\Admin\Filament\NewsletterImportSubscribersActionButton;
@@ -88,6 +89,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
         if (is_cli()) {
             $this->commands(ProcessCampaigns::class);
+            $this->commands(ProcessCampaignsPerformanceTest::class);
         }
     }
 }

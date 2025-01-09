@@ -109,43 +109,53 @@ class ProcessCampaignSubscriber implements ShouldQueue
             return;
         }
 
-        try {
-            $newsletterMailSender = new NewsletterMailSender();
-            $newsletterMailSender->setCampaign($campaign->toArray());
-            $newsletterMailSender->setSubscriber($subscriber->toArray());
-            $newsletterMailSender->setSender($sender->toArray());
-            $newsletterMailSender->setTemplate($templateArray);
+//        try {
+//            $newsletterMailSender = new NewsletterMailSender();
+//            $newsletterMailSender->setCampaign($campaign->toArray());
+//            $newsletterMailSender->setSubscriber($subscriber->toArray());
+//            $newsletterMailSender->setSender($sender->toArray());
+//            $newsletterMailSender->setTemplate($templateArray);
+//
+//            $sendMailResponse = $newsletterMailSender->sendMail();
+//
+//            if ($sendMailResponse['success']) {
+//                $campaignSendLog = new NewsletterCampaignsSendLog();
+//                $campaignSendLog->campaign_id = $campaign->id;
+//                $campaignSendLog->subscriber_id = $subscriber->id;
+//                $campaignSendLog->is_sent = 1;
+//                $campaignSendLog->save();
+//
+//                $campaign->completed_jobs = $campaign->completed_jobs + 1;
+//                $campaign->save();
+//
+//            } else {
+//                $campaignSendLog = new NewsletterCampaignsSendLog();
+//                $campaignSendLog->campaign_id = $campaign->id;
+//                $campaignSendLog->subscriber_id = $subscriber->id;
+//                $campaignSendLog->is_sent = 0;
+//                $campaignSendLog->save();
+//            }
+//
+//        } catch (\Exception $e) {
+//
+//            $campaignSendLog = new NewsletterCampaignsSendLog();
+//            $campaignSendLog->campaign_id = $campaign->id;
+//            $campaignSendLog->subscriber_id = $subscriber->id;
+//            $campaignSendLog->is_sent = 0;
+//            $campaignSendLog->save();
+//
+////            $this->error($e->getMessage());
+//        }
 
-            $sendMailResponse = $newsletterMailSender->sendMail();
 
-            if ($sendMailResponse['success']) {
-                $campaignSendLog = new NewsletterCampaignsSendLog();
-                $campaignSendLog->campaign_id = $campaign->id;
-                $campaignSendLog->subscriber_id = $subscriber->id;
-                $campaignSendLog->is_sent = 1;
-                $campaignSendLog->save();
 
-                $campaign->completed_jobs = $campaign->completed_jobs + 1;
-                $campaign->save();
-
-            } else {
-                $campaignSendLog = new NewsletterCampaignsSendLog();
-                $campaignSendLog->campaign_id = $campaign->id;
-                $campaignSendLog->subscriber_id = $subscriber->id;
-                $campaignSendLog->is_sent = 0;
-                $campaignSendLog->save();
-            }
-
-        } catch (\Exception $e) {
-
-            $campaignSendLog = new NewsletterCampaignsSendLog();
-            $campaignSendLog->campaign_id = $campaign->id;
-            $campaignSendLog->subscriber_id = $subscriber->id;
-            $campaignSendLog->is_sent = 0;
-            $campaignSendLog->save();
-
-//            $this->error($e->getMessage());
-        }
+        ////////////////////////////
+        $campaignSendLog = new NewsletterCampaignsSendLog();
+        $campaignSendLog->campaign_id = $campaign->id;
+        $campaignSendLog->subscriber_id = $subscriber->id;
+        $campaignSendLog->is_sent = 0;
+        $campaignSendLog->save();
+        ////////////////////////////
 
         // Check if all jobs are completed
         if ($campaign->completed_jobs >= $campaign->total_jobs) {

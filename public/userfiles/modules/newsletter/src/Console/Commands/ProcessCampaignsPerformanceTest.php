@@ -54,20 +54,20 @@ class ProcessCampaignsPerformanceTest extends Command
     public function handle()
     {
 //
-//        $findList = NewsletterList::first();
-//
-//        for ($i = 0; $i < 100000; $i++) {
-//            $new = new NewsletterSubscriber();
-//            $new->email = 'test' . $i . '@test.com';
-//            $new->name = 'test' . $i;
-//            $new->is_subscribed = 1;
-//            $new->save();
-//
-//            $saveInList = new NewsletterSubscriberList();
-//            $saveInList->list_id = $findList->id;
-//            $saveInList->subscriber_id = $new->id;
-//            $saveInList->save();
-//        }
+        $findList = NewsletterList::first();
+
+        for ($i = 0; $i < 200000; $i++) {
+            $new = new NewsletterSubscriber();
+            $new->email = 'test' . $i . '@test.com';
+            $new->name = 'test' . $i;
+            $new->is_subscribed = 1;
+            $new->save();
+
+            $saveInList = new NewsletterSubscriberList();
+            $saveInList->list_id = $findList->id;
+            $saveInList->subscriber_id = $new->id;
+            $saveInList->save();
+        }
 
 
 

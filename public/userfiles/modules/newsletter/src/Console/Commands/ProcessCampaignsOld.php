@@ -20,14 +20,14 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
 
-class ProcessCampaigns extends Command
+class ProcessCampaignsOld extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'newsletter:process-campaigns';
+    protected $signature = 'newsletter:process-campaigns-old';
 
     /**
      * The console command description.
@@ -112,74 +112,71 @@ class ProcessCampaigns extends Command
             return 0;
         }
 
+        $batches = [];
 
-        dd('here');
+        NewsletterSubscriberList::where('list_id', $campaign->list_id)
+            ->chunk(100, function ($subscribers) use (&$batches, $campaign) {
+                foreach ($subscribers as $subscriber) {
+                    $batches[] = new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id);
+                }
+            });
 
-//        $batches = [];
-//
-//        NewsletterSubscriberList::where('list_id', $campaign->list_id)
-//            ->chunk(100, function ($subscribers) use (&$batches, $campaign) {
-//                foreach ($subscribers as $subscriber) {
-//                    $batches[] = new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id);
-//                }
-//            });
-//
-//        if (empty($batches)) {
-//            $this->error('No subscribers found');
-//            $campaign->status = NewsletterCampaign::STATUS_FAILED;
-//            $campaign->status_log = 'No subscribers found';
-//            $campaign->save();
-//            return 0;
-//        }
-//
-//        $campaign->status = NewsletterCampaign::STATUS_QUEUED;
-//        $campaign->status_log = 'Campaign is queued';
-//        $campaign->save();
-//
-//        $batch = Bus::batch($batches)
-//            ->progress(function (Batch $batch) use($campaign) {
-//
-//                $delaySeconds = 0;
-//                if ($campaign->delay_between_sending_emails > 0) {
-//                    if ($campaign->delay_between_sending_emails < 10) {
-//                        $delaySeconds = $campaign->delay_between_sending_emails;
-//                    }
-//                }
-//
-//                if ($delaySeconds) {
-//                    sleep($delaySeconds);
-//                }
-//                $campaign->jobs_progress = $batch->progress();
-//                $campaign->save();
-//
-//            })
-//            ->finally(function (Batch $batch) use($campaign) {
-//                if ($batch->finished()) {
-//                    $campaign->status = NewsletterCampaign::STATUS_FINISHED;
-//                    $campaign->status_log = 'Batch finished';
-//                } else {
-//                    $campaign->status = NewsletterCampaign::STATUS_FAILED;
-//                    $campaign->status_log = 'Batch failed';
-//                }
-//                $campaign->save();
-//            })
-//            ->allowFailures()
-//            ->dispatch();
-//
-//
-//        if (empty($batch->id)) {
-//            $campaign->status = NewsletterCampaign::STATUS_FAILED;
-//            $campaign->status_log = 'Batch not created';
-//            $campaign->save();
-//            $this->error('Batch not created');
-//            return 0;
-//        }
-//
-//        $campaign->total_jobs = count($batches);
-//        $campaign->jobs_batch_id = $batch->id;
-//        $campaign->status = NewsletterCampaign::STATUS_PROCESSING;
-//        $campaign->status_log = 'Batch created';
-//        $campaign->save();
+        if (empty($batches)) {
+            $this->error('No subscribers found');
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
+            $campaign->status_log = 'No subscribers found';
+            $campaign->save();
+            return 0;
+        }
+
+        $campaign->status = NewsletterCampaign::STATUS_QUEUED;
+        $campaign->status_log = 'Campaign is queued';
+        $campaign->save();
+
+        $batch = Bus::batch($batches)
+            ->progress(function (Batch $batch) use($campaign) {
+
+                $delaySeconds = 0;
+                if ($campaign->delay_between_sending_emails > 0) {
+                    if ($campaign->delay_between_sending_emails < 10) {
+                        $delaySeconds = $campaign->delay_between_sending_emails;
+                    }
+                }
+
+                if ($delaySeconds) {
+                    sleep($delaySeconds);
+                }
+                $campaign->jobs_progress = $batch->progress();
+                $campaign->save();
+
+            })
+            ->finally(function (Batch $batch) use($campaign) {
+                if ($batch->finished()) {
+                    $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+                    $campaign->status_log = 'Batch finished';
+                } else {
+                    $campaign->status = NewsletterCampaign::STATUS_FAILED;
+                    $campaign->status_log = 'Batch failed';
+                }
+                $campaign->save();
+            })
+            ->allowFailures()
+            ->dispatch();
+
+
+        if (empty($batch->id)) {
+            $campaign->status = NewsletterCampaign::STATUS_FAILED;
+            $campaign->status_log = 'Batch not created';
+            $campaign->save();
+            $this->error('Batch not created');
+            return 0;
+        }
+
+        $campaign->total_jobs = count($batches);
+        $campaign->jobs_batch_id = $batch->id;
+        $campaign->status = NewsletterCampaign::STATUS_PROCESSING;
+        $campaign->status_log = 'Batch created';
+        $campaign->save();
 
         return 0;
     }
