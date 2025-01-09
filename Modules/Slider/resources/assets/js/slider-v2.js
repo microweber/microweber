@@ -61,7 +61,7 @@ class SliderV2 {
         }
 
         if (this.config.delay) {
-        //    swiperConfig.delay = this.config.delay;
+
             swiperConfig.autoplay = {
                 delay: this.config.delay,
             };
@@ -77,9 +77,7 @@ class SliderV2 {
             swiperConfig.direction = this.config.direction;
         }
 
-        // if (this.config.initialSlide) {
-        //     swiperConfig.initialSlide = this.config.initialSlide;
-        // }
+
 
         swiperConfig.navigation = {};
         if (this.config.navigation.nextElement) {
@@ -95,44 +93,3 @@ class SliderV2 {
 
 
 
-/*<style>
-    #js-slider-<?php echo $params['id']; ?>{
-        max-width: 100vw !important;
-    }
-</style>
-<script>
-    mw.require('<?php print modules_url(); ?>slider_v2/slider-v2.js');
-    $(document).ready(function () {
-        if(typeof sliderV2<?php echo $moduleHash; ?>_initialSlide === 'undefined'){
-            window.sliderV2<?php echo $moduleHash; ?>_initialSlide = <?php echo $currentSlide; ?>;
-        }
-
-
-       window.sliderV2<?php echo $moduleHash; ?> = null;
-
-       window.sliderV2<?php echo $moduleHash; ?> = new SliderV2('#js-slider-<?php echo $params['id']; ?>', {
-            loop: true,
-
-           <?php if($isAutoSlideEnabled): ?>
-
-            autoplay:true,
-            <?php endif; ?>
-           <?php if($slideInterval): ?>
-
-           delay: <?php echo intval($slideInterval); ?>,
-
-           <?php endif; ?>
-
-            pagination: {
-                element: '#js-slide-pagination-<?php echo $params['id']; ?>',
-            },
-            navigation: {
-                nextElement: '#js-slide-pagination-next-<?php echo $params['id']; ?>',
-                previousElement: '#js-slide-pagination-previous-<?php echo $params['id']; ?>',
-            },
-            slidesIndexes: <?php echo json_encode($slidesIndexes); ?>,
-            initialSlide: window.sliderV2<?php echo $moduleHash; ?>_initialSlide,
-        });
-    });
-</script>
-*/
