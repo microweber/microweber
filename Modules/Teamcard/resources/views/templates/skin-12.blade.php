@@ -12,48 +12,44 @@ description: Skin-12
 
 <script>
     $(document).ready(function ()
-        { $(".mw-big-team-bio").each(function(i){
-            var len=$(this).text().trim().length;
-            if(len>100)
-            {
-                $(this).text($(this).text().substr(0,120)+'...');
-            }
-        });
+    { $(".mw-big-team-bio").each(function(i){
+        var len=$(this).text().trim().length;
+        if(len>100)
+        {
+            $(this).text($(this).text().substr(0,120)+'...');
+        }
+    });
     });
 </script>
 
-<?php if (isset($teamcard) and $teamcard): ?>
-
+@if (isset($teamcard) and $teamcard)
     <div class="row text-start text-sm-start d-flex justify-content-center justify-content-lg-between">
-        <?php foreach ($teamcard as  $member): ?>
-
-            <div class="col-sm-12 mx-auto ">
+        @foreach ($teamcard as $member)
+            <div class="col-sm-12 mx-auto">
                 <div class="d-block d-sm-flex align-items-center">
                     <div class="my-4 me-md-5 d-flex justify-content-center position-relative">
                         <div class="w-250">
-                            <?php if ($slide['file']) { ?>
+                            @if ($member['file'])
                                 <div class="img-as-background square rounded-circle">
-                                    <img loading="lazy" src="<?php print thumbnail($slide['file'], 800); ?>"/>
+                                    <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
                                 </div>
-                            <?php } else { ?>
+                            @else
                                 <div class="img-as-background square rounded-circle">
-                                    <img loading="lazy" src="<?php print template_url() ?>modules/teamcard/templates/default-image.svg"/>
+                                    <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
                                 </div>
-                            <?php } ?>
+                            @endif
                         </div>
                     </div>
 
-                    <div class="  position-relative ps-5 py-3">
-                        <div class="border-end position-absolute h-100 left-0 top-0 d-none d-sm-block  "></div>
+                    <div class="position-relative ps-5 py-3">
+                        <div class="border-end position-absolute h-100 left-0 top-0 d-none d-sm-block"></div>
 
-                        <h4><?php print array_get($slide, 'name'); ?></h4>
-                        <p><?php print array_get($slide, 'role'); ?></p>
-                        <p class="mw-big-team-bio"><?php print array_get($slide, 'bio'); ?></p>
-
+                        <h4>{{ $member['name'] }}</h4>
+                        <p>{{ $member['role'] }}</p>
+                        <p class="mw-big-team-bio">{{ $member['bio'] }}</p>
                     </div>
                 </div>
             </div>
-        <?php endforeach; ?>
-
+        @endforeach
     </div>
-<?php endif; ?>
+@endif

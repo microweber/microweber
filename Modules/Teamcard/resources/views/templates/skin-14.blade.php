@@ -12,40 +12,37 @@ description: Skin-14
 
 <script>
     $(document).ready(function ()
-        { $(".mw-big-team-bio").each(function(i){
-            var len=$(this).text().trim().length;
-            if(len>100)
-            {
-                $(this).text($(this).text().substr(0,120)+'...');
-            }
-        });
+    { $(".mw-big-team-bio").each(function(i){
+        var len=$(this).text().trim().length;
+        if(len>100)
+        {
+            $(this).text($(this).text().substr(0,120)+'...');
+        }
+    });
     });
 </script>
 
-<?php if (isset($teamcard) and $teamcard): ?>
-
-<div class="row d-flex justify-content-center justify-content-lg-between">
-    <?php foreach ($teamcard as  $member): ?>
-        <div class="col-sm-12 col-lg-6 mb-3">
-            <div class="d-block">
-                <?php if ($slide['file']) { ?>
-                    <div class="img-as-background square mb-3">
-                        <img loading="lazy" src="<?php print thumbnail($slide['file'], 800); ?>"/>
+@if (isset($teamcard) and $teamcard)
+    <div class="row d-flex justify-content-center justify-content-lg-between">
+        @foreach ($teamcard as $member)
+            <div class="col-sm-12 col-lg-6 mb-3">
+                <div class="d-block">
+                    @if ($member['file'])
+                        <div class="img-as-background square mb-3">
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+                        </div>
+                    @else
+                        <div class="img-as-background square mb-3">
+                            <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                        </div>
+                    @endif
+                    <div>
+                        <h3>{{ $member['name'] }}</h3>
+                        <p>{{ $member['role'] }}</p>
+                        <p class="mw-big-team-bio">{{ $member['bio'] }}</p>
                     </div>
-                <?php } else { ?>
-                    <div class="img-as-background square mb-3">
-                        <img loading="lazy" src="<?php print template_url() ?>modules/teamcard/templates/default-image.svg"/>
-                    </div>
-                <?php } ?>
-                <div>
-                    <h3><?php print array_get($slide, 'name'); ?></h3>
-                    <p><?php print array_get($slide, 'role'); ?></p>
-                    <p class="mw-big-team-bio"><?php print array_get($slide, 'bio'); ?></p>
                 </div>
             </div>
-        </div>
-    <?php endforeach; ?>
-</div>
-
-
-<?php endif; ?>
+        @endforeach
+    </div>
+@endif
