@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->integer('position')->nullable();
             $table->timestamps();
 
-            $table->index(['custom_field_id', 'value']);
+//            $table->index(['custom_field_id', 'value']);
         });
     }
 
