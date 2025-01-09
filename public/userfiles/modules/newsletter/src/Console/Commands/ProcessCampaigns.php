@@ -61,8 +61,7 @@ class ProcessCampaigns extends Command
         }
 
         // Check the scheduled campaigns
-        $getScheduledCampaigns = NewsletterCampaign::where('status',
-            NewsletterCampaign::STATUS_SCHEDULED)->get();
+        $getScheduledCampaigns = NewsletterCampaign::where('status', NewsletterCampaign::STATUS_SCHEDULED)->get();
         if ($getScheduledCampaigns->count() > 0) {
             foreach ($getScheduledCampaigns as $scheduledCampaign) {
                 $timeNowByTimezone
