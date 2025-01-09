@@ -4,6 +4,7 @@ const localScripts = [
     {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.js`},
     {target: `highlight-js`, path: `./resources/local-libs/highlight/highlight.min.js`},
     {target: `jquery-nested-sortable`, path: `./resources/local-libs/nested-sortable/jquery.mjs.nestedSortable.js`},
+    {target: `slick`, path: `./resources/local-libs/mw-slick.js`},
 
 ];
 
