@@ -10,9 +10,9 @@ description: Skin-3
 */
 ?>
 
-<?php if (isset($data) and $data): ?>
+
 <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center">
-        <?php foreach ($data as $key => $member): ?>
+    <?php foreach ($teamcard as $member): ?>
     <div class="col-sm-6 col-md-4 col-lg-4 mb-8">
         <div class="d-block position-relative show-on-hover-root">
                 <?php if ($member['file']) { ?>
@@ -29,7 +29,7 @@ description: Skin-3
                 <div class="text-center">
                     <h4 class="mb-2"><?php print array_get($member, 'name'); ?></h4>
                     <p class="mb-4"><?php print array_get($member, 'role'); ?></p>
-                    <p><?php print array_get($member, 'bio'); ?></p>
+                    <p><?php print str_limit(array_get($member, 'bio'), 100); ?></p>
                     <module type="social_links" template="skin-1"/>
                 </div>
             </div>
@@ -37,4 +37,3 @@ description: Skin-3
     </div>
     <?php endforeach; ?>
 </div>
-<?php endif; ?>
