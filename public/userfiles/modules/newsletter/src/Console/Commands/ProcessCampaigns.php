@@ -83,11 +83,12 @@ class ProcessCampaigns extends Command
         // We limit the number of campaigns that can be processed at once
         // You can call this command multiple times with cron job
 
-        $pendingCampaign = NewsletterCampaign::where('status',
-            NewsletterCampaign::STATUS_PENDING)->first();
+        $pendingCampaign = NewsletterCampaign::where('status', NewsletterCampaign::STATUS_PENDING)->first();
+        if ($pendingCampaign) {
+            return $this->_processCampaign($pendingCampaign);
+        }
 
-        $processingCampaign = NewsletterCampaign::where('status',
-            NewsletterCampaign::STATUS_PROCESSING)->first();
+        $processingCampaign = NewsletterCampaign::where('status', NewsletterCampaign::STATUS_PROCESSING)->first();
         if ($processingCampaign) {
             return $this->_processCampaign($processingCampaign);
         }
@@ -129,7 +130,7 @@ class ProcessCampaigns extends Command
             ->whereDoesntHave('campaignsSendLog', function ($query) use ($campaign) {
                 $query->where('campaign_id', $campaign->id);
             })
-            ->limit(500)
+            ->limit(1)
             ->get();
 
         $countSentLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->count();
