@@ -19,7 +19,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
 
     public $subscriberId;
     public $campaignId;
-    public $jobId;
 
     /**
      * Create a new job instance.
@@ -35,11 +34,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
      */
     public function handle(): void
     {
-//        $this->jobId = $this->job->getJobId();
-//        if ($this->jobId < 0) {
-//            // $this->error('Job ID not found');
-//            return;
-//        }
 
         $subscriber = NewsletterSubscriber::where('id', $this->subscriberId)->first();
         if (!$subscriber) {
@@ -116,49 +110,34 @@ class ProcessCampaignSubscriber implements ShouldQueue
         $campaignSendLog->is_sent = 0;
         $campaignSendLog->save();
 
+        try {
+            $newsletterMailSender = new NewsletterMailSender();
+            $newsletterMailSender->setCampaign($campaign->toArray());
+            $newsletterMailSender->setSubscriber($subscriber->toArray());
+            $newsletterMailSender->setSender($sender->toArray());
+            $newsletterMailSender->setTemplate($templateArray);
 
-//        try {
-//            $newsletterMailSender = new NewsletterMailSender();
-//            $newsletterMailSender->setCampaign($campaign->toArray());
-//            $newsletterMailSender->setSubscriber($subscriber->toArray());
-//            $newsletterMailSender->setSender($sender->toArray());
-//            $newsletterMailSender->setTemplate($templateArray);
-//
-//            $sendMailResponse = $newsletterMailSender->sendMail();
-//
-//            if ($sendMailResponse['success']) {
-//                $campaignSendLog->is_sent = 1;
-//                $campaignSendLog->save();
-//
-//                $campaign->completed_jobs = $campaign->completed_jobs + 1;
-//                $campaign->save();
-//
-//            } else {
-//                $campaignSendLog->is_sent = 0;
-//                $campaignSendLog->save();
-//            }
-//
-//        } catch (\Exception $e) {
-//
-//            $campaignSendLog->is_sent = 0;
-//            $campaignSendLog->save();
-//
-////            $this->error($e->getMessage());
-//        }
+            $sendMailResponse = $newsletterMailSender->sendMail();
 
+            if ($sendMailResponse['success']) {
+                $campaignSendLog->is_sent = 1;
+                $campaignSendLog->save();
 
-        sleep(0.1);
+                $campaign->completed_jobs = $campaign->completed_jobs + 1;
+                $campaign->save();
 
-        ////////////////////////////
-        $campaignSendLog->is_sent = 1;
-        $campaignSendLog->save();
-        ////////////////////////////
+            } else {
+                $campaignSendLog->is_sent = 0;
+                $campaignSendLog->save();
+            }
 
-//        // Check if all jobs are completed
-//        if ($campaign->completed_jobs >= $campaign->total_jobs) {
-//            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
-//            $campaign->save();
-//        }
+        } catch (\Exception $e) {
+
+            $campaignSendLog->is_sent = 0;
+            $campaignSendLog->save();
+
+//            $this->error($e->getMessage());
+        }
 
     }
 }
