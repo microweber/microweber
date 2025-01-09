@@ -129,7 +129,7 @@ class ProcessCampaigns extends Command
             ->whereDoesntHave('campaignsSendLog', function ($query) use ($campaign) {
                 $query->where('campaign_id', $campaign->id);
             })
-            ->limit(1000)
+            ->limit(500)
             ->get();
 
         $countSentLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->count();
