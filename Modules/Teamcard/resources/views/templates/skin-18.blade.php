@@ -93,34 +93,28 @@ description: Skin-18
     }
 </style>
 
-<?php if (isset($teamcard) and $teamcard): ?>
-
+@if (isset($teamcard) and $teamcard)
     <div class="mw-team-18-team-grid">
-        <?php foreach ($teamcard as  $member): ?>
+        @foreach ($teamcard as $member)
             <div class="mw-team-18-team-wrapper">
                 <div class="mw-team-18-team-member">
                     <div class="photo-line-team">
-
-                        <?php if ($slide['file']) { ?>
-                            <img loading="lazy" src="<?php print thumbnail($slide['file'], 800); ?>"/>
-                        <?php } else { ?>
-                            <img loading="lazy"
-                                 src="<?php print asset('templates/big2/modules/teamcard/templates/default-image.svg'); ?>"/>
-                        <?php } ?>
+                        @if ($member['file'])
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+                        @else
+                            <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                        @endif
                     </div>
 
                     <div class="team-name-center my-4">
-                        <h2 class="mw-team-18-team-title"> <?php print array_get($slide, 'name'); ?> </h2>
-                        <p class="mw-team-18-job-role my-3"><?php print array_get($slide, 'role'); ?></p>
-                        <p class="mw-big-team-bio col-xl-8 text-center"><?php print array_get($slide, 'bio'); ?></p>
+                        <h2 class="mw-team-18-team-title">{{ $member['name'] }}</h2>
+                        <p class="mw-team-18-job-role my-3">{{ $member['role'] }}</p>
+                        <p class="mw-big-team-bio col-xl-8 text-center">{{ $member['bio'] }}</p>
 
-                        <module class="d-flex justify-content-center" type="social_links" id="teamcard-socials-{{ $params['id'] }}"
-                                template="skin-6"/>
+                        <module class="d-flex justify-content-center" type="social_links" id="teamcard-socials-{{ $params['id'] }}" template="skin-6"/>
                     </div>
-
                 </div>
             </div>
-        <?php endforeach; ?>
+        @endforeach
     </div>
-
-<?php endif; ?>
+@endif

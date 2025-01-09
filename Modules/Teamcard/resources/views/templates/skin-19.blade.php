@@ -13,7 +13,7 @@ description: Skin-19
 <script>mw.lib.require('slick');</script>
 <script>
     $(document).ready(function () {
-        $('.slickslider', '#<?php echo $params['id']; ?>').slick({
+        $('.slickslider', '#{{ $params['id'] }}').slick({
             fade: true
         });
     });
@@ -21,8 +21,7 @@ description: Skin-19
 </script>
 
 <style>
-    <?php echo '#'.$params['id']; ?>
-    .slick-arrow {
+    #{{ $params['id'] }} .slick-arrow {
         bottom: 45px;
         top: unset;
         z-index: 30;
@@ -30,47 +29,39 @@ description: Skin-19
     }
 
     @media screen and (max-width: 1350px) {
-    <?php echo '#'.$params['id']; ?>
-        .slick-arrow {
+        #{{ $params['id'] }} .slick-arrow {
             bottom: 25px !important;
         }
 
-    <?php echo '#'.$params['id']; ?>
-        .slick-arrow:before {
+        #{{ $params['id'] }} .slick-arrow:before {
             font-size: 30px !important;
         }
     }
 
-    <?php echo '#'.$params['id']; ?>
-    .slick-arrow:before {
+    #{{ $params['id'] }} .slick-arrow:before {
         font-size: 40px;
     }
 
-    <?php echo '#'.$params['id']; ?>
-    .slick-prev {
+    #{{ $params['id'] }} .slick-prev {
         right: 135px;
     }
 
-    <?php echo '#'.$params['id']; ?>
-    .slick-next {
+    #{{ $params['id'] }} .slick-next {
         right: 90px !important;
     }
 
-    <?php echo '#'.$params['id']; ?>
-    .team-image {
+    #{{ $params['id'] }} .team-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    <?php echo '#'.$params['id']; ?>
-    .slick-initialized .slick-slide {
+    #{{ $params['id'] }} .slick-initialized .slick-slide {
         max-height: 635px;
         min-height: 475px;
     }
 
-    <?php echo '#'.$params['id']; ?>
-    .team-thumb {
+    #{{ $params['id'] }} .team-thumb {
         background: var(--mw-primary-color);
         position: absolute;
         bottom: 0;
@@ -79,8 +70,7 @@ description: Skin-19
         padding: 22px 32px 32px 32px;
     }
 
-    <?php echo '#'.$params['id']; ?>
-    .mw-team-19-text {
+    #{{ $params['id'] }} .mw-team-19-text {
         color: var(--mw-text-on-dark-background-color);
     }
 
@@ -93,22 +83,21 @@ description: Skin-19
     }
 </style>
 
-
-<?php if (isset($teamcard) and $teamcard): ?>
+@if (isset($teamcard) and $teamcard)
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
-        <?php foreach ($teamcard as  $member): ?>
+        @foreach ($teamcard as $member)
             <div class="position-relative">
-                <?php if ($slide['file']) { ?>
-                    <img class="transition-on-hover team-image" loading="lazy" src="<?php print thumbnail($slide['file'], 1350, 1350); ?>"/>
-                <?php } else { ?>
-                    <img class="transition-on-hover team-image" loading="lazy" src="<?php print asset('templates/big2/modules/teamcard/templates/default-image.svg'); ?>"/>
-                <?php } ?>
+                @if ($member['file'])
+                    <img class="transition-on-hover team-image" loading="lazy" src="{{ thumbnail($member['file'], 1350, 1350) }}"/>
+                @else
+                    <img class="transition-on-hover team-image" loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                @endif
 
                 <div class="team-thumb">
-                    <h5 class="mw-team-19-text my-1 font-weight-bold"><?php print array_get($slide, 'name'); ?></h5>
-                    <p class="mw-team-19-text mb-0"><?php print array_get($slide, 'role'); ?></p>
+                    <h5 class="mw-team-19-text my-1 font-weight-bold">{{ $member['name'] }}</h5>
+                    <p class="mw-team-19-text mb-0">{{ $member['role'] }}</p>
                 </div>
             </div>
-        <?php endforeach; ?>
+        @endforeach
     </div>
-<?php endif; ?>
+@endif

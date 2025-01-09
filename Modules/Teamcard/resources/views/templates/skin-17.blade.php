@@ -21,34 +21,26 @@ description: Skin-17
     });
 </script>
 
-
-<?php if (isset($teamcard) and $teamcard): ?>
-
+@if (isset($teamcard) and $teamcard)
     <div class="row">
-        <?php foreach ($teamcard as  $member): ?>
+        @foreach ($teamcard as $member)
             <div class="col-xxl-3 col-lg-4 col-lg-6 col-12">
                 <div class="team-member">
                     <div class="main-content">
-
-                        <?php if ($slide['file']) { ?>
-                            <img loading="lazy" src="<?php print thumbnail($slide['file'], 800); ?>"/>
-                        <?php } else { ?>
-                            <img loading="lazy"
-                                 src="<?php print template_url() ?>modules/teamcard/templates/default-image.svg"/>
-                        <?php } ?>
-                        <span class="category"><?php print array_get($slide, 'role'); ?></span>
-                        <h4><?php print array_get($slide, 'name'); ?></h4>
-                        <p class="mw-big-team-bio"><?php print array_get($slide, 'bio'); ?></p>
-
-
+                        @if ($member['file'])
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+                        @else
+                            <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                        @endif
+                        <span class="category">{{ $member['role'] }}</span>
+                        <h4>{{ $member['name'] }}</h4>
+                        <p class="mw-big-team-bio">{{ $member['bio'] }}</p>
                         <div class="social-icons">
-                            <module type="social_links" id="teamcard-socials-{{ $params['id'] }}"
-                                    template="skin-1"/>
+                            <module type="social_links" id="teamcard-socials-{{ $params['id'] }}" template="skin-1"/>
                         </div>
                     </div>
                 </div>
             </div>
-
-        <?php endforeach; ?>
+        @endforeach
     </div>
-<?php endif; ?>
+@endif
