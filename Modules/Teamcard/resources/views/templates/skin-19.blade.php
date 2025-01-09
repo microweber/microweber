@@ -94,9 +94,9 @@ description: Skin-19
 </style>
 
 
-<?php if (isset($data) and $data): ?>
+<?php if (isset($teamcard) and $teamcard): ?>
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
-        <?php foreach ($data as $key => $slide): ?>
+        <?php foreach ($teamcard as  $member): ?>
             <div class="position-relative">
                 <?php if ($slide['file']) { ?>
                     <img class="transition-on-hover team-image" loading="lazy" src="<?php print thumbnail($slide['file'], 1350, 1350); ?>"/>

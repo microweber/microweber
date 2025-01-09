@@ -22,10 +22,10 @@ description: Skin-9
     });
 </script>
 
-<?php if (isset($data) and $data): ?>
+<?php if (isset($teamcard) and $teamcard): ?>
 
     <div class="row pt-4 text-center text-sm-start d-flex justify-content-center justify-content-lg-between">
-        <?php foreach ($data as $key => $slide): ?>
+        <?php foreach ($teamcard as  $member): ?>
 
             <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                 <div class="d-block d-sm-flex align-items-center py-2 h-100">

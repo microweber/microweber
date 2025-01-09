@@ -22,10 +22,10 @@ description: Skin-15
     });
 </script>
 
-<?php if (isset($data) and $data): ?>
+<?php if (isset($teamcard) and $teamcard): ?>
 
     <div class="d-flex justify-content-center align-items-center mt-5 flex-wrap">
-        <?php foreach ($data as $key => $slide): ?>
+        <?php foreach ($teamcard as  $member): ?>
 
         <div class="col-xl-3 col-md-6 col-sm-8 col-12 mx-auto d-flex justify-content-center align-items-center py-4">
             <div class="flower-card card w-100" style="border-radius: 0 20px 0 20px;">

@@ -22,8 +22,8 @@ description: Skin-11
     });
 </script>
 
-<?php if (isset($data) and $data): ?>
-    <?php foreach ($data as $key => $slide): ?>
+<?php if (isset($teamcard) and $teamcard): ?>
+    <?php foreach ($teamcard as  $member): ?>
         <div class="col-12 col-sm-10 col-lg-6 col-lg-6 mx-auto">
             <div class="d-flex align-items-center position-relative">
                 <div class="w-175 mx-auto position-absolute left-0">

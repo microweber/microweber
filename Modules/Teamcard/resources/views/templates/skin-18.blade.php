@@ -93,10 +93,10 @@ description: Skin-18
     }
 </style>
 
-<?php if (isset($data) and $data): ?>
+<?php if (isset($teamcard) and $teamcard): ?>
 
     <div class="mw-team-18-team-grid">
-        <?php foreach ($data as $key => $slide): ?>
+        <?php foreach ($teamcard as  $member): ?>
             <div class="mw-team-18-team-wrapper">
                 <div class="mw-team-18-team-member">
                     <div class="photo-line-team">
