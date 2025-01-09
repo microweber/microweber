@@ -22,49 +22,47 @@ description: Skin-1
 
 <div class="row text-center text-md-start d-flex align-items-center justify-content-center justify-content-lg-between">
     <div class="col-sm-10 col-md-6 col-lg-5 col-lg-4 mb-5 mb-md-0">
-
-        <?php if (isset($data) and $data): ?>
-            <?php foreach ($data as $key => $slide): ?>
-                <div class="w-450 mx-auto js-member" data-id="<?php echo $key; ?>" style="<?php if ($key > 0): ?>display: none; <?php endif; ?>">
-
-                   <?php if ($slide['file']) { ?>
-                    <div class="img-as-background square">
-                        <img loading="lazy" src="<?php print thumbnail($slide['file'], 850); ?>"/>
-                    </div>
-                    <?php } else { ?>
+        @if ($teamcard->count() > 0)
+            @foreach ($teamcard as $key => $member)
+                <div class="w-450 mx-auto js-member" data-id="{{ $key }}" style="{{ $key > 0 ? 'display: none;' : '' }}">
+                    @if ($member['file'])
                         <div class="img-as-background square">
-                            <img loading="lazy" src="<?php print template_url() ?>modules/teamcard/templates/default-image.svg"/>
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 850) }}"/>
                         </div>
-                    <?php } ?>
+                    @else
+                        <div class="img-as-background square">
+                            <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
+                        </div>
+                    @endif
                 </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+            @endforeach
+        @endif
     </div>
 
     <div class="col-sm-10 col-md-6 col-lg-5 col-lg-4">
-        <?php if (isset($data) and $data): ?>
-            <?php foreach ($data as $key => $slide): ?>
-                <div class="js-member" data-id="<?php echo $key; ?>" style="<?php if ($key > 0): ?>display: none; <?php endif; ?>">
-                    <h1 class="mb-1"><?php print array_get($slide, 'name'); ?></h1>
-                    <p class="mb-3"><?php print array_get($slide, 'role'); ?></p>
-                    <p><?php print array_get($slide, 'bio'); ?></p>
+        @if ($teamcard->count() > 0)
+            @foreach ($teamcard as $key => $member)
+                <div class="js-member" data-id="{{ $key }}" style="{{ $key > 0 ? 'display: none;' : '' }}">
+                    <h1 class="mb-1">{{ $member['name'] }}</h1>
+                    <p class="mb-3">{{ $member['role'] }}</p>
+                    <p>{{ $member['bio'] }}</p>
                     <module type="social_links" template="skin-2"/>
                 </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
+            @endforeach
+        @endif
     </div>
 
     <div class="col-sm-10 col-md-12 col-lg-2">
         <div class="d-flex flex-lg-column align-items-center justify-content-center mt-7 mt-lg-0">
-            <?php if (isset($data) and $data): ?>
-                <?php foreach ($data as $key => $slide): ?>
-                    <div class="w-80 m-4 cursor-pointer js-show-team-member" data-id="<?php echo $key; ?>">
+            @if ($teamcard->count() > 0)
+                @foreach ($teamcard as $key => $member)
+                    <div class="w-80 m-4 cursor-pointer js-show-team-member" data-id="{{ $key }}">
                         <div class="img-as-background rounded-circle square">
-                            <img loading="lazy" src="<?php print thumbnail($slide['file'], 80); ?>"/>
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 80) }}"/>
                         </div>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                @endforeach
+            @endif
         </div>
     </div>
 </div>

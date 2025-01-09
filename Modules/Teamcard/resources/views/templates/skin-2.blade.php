@@ -18,6 +18,13 @@ description: Skin-2
 </script>
 
 <style>
+    .team-card-item-image {
+        padding-top: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
     <?php echo '#'.$params['id']; ?>
     .slick-dots {
         position: relative;
@@ -28,55 +35,55 @@ description: Skin-2
     }
 
     @media screen and (max-width: 991px) {
-    <?php echo '#'.$params['id']; ?>
+        <?php echo '#'.$params['id']; ?>
         .slick-dots {
             display: block;
         }
     }
 </style>
 
-<div class="row text-center text-md-start d-flex align-items-center justify-content-center justify-content-lg-between">
-    <div class="col-sm-10 col-md-12 col-lg-10 col-lg-10">
-        <?php if (isset($data) and $data): ?>
-            <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": true, "appendDots": ".slick-paging", "vertical" : true, "verticalSwiping" : true, "arrows": false}'>
-                <?php foreach ($data as $key => $slide): ?>
-                    <div>
-                        <div class="row d-flex align-items-center justify-content-center justify-content-lg-between">
-                            <div class="col-sm-12 col-md-6 mb-5 mb-md-0">
-                                <div class="w-450 mx-auto">
-                                    <?php if ($slide['file']) { ?>
-                                        <div class="img-as-background square">
-                                            <img loading="lazy" style="object-fit: contain !important;" src="<?php print thumbnail($slide['file'], 850); ?>"/>
-                                        </div>
-                                    <?php } else { ?>
-                                        <div class="img-as-background square">
-                                            <img loading="lazy" style="object-fit: contain !important;" src="<?php print asset('templates/big2/modules/teamcard/templates/default-image.svg'); ?>"/>
-                                        </div>
-                                    <?php } ?>
-                                </div>
-                            </div>
+<div class="team-card-holder d-flex flex-wrap">
+    @php
+        $count = 0;
+    @endphp
 
-                            <div class="col-sm-12 col-md-6">
-                                <div>
-                                    <h1 class="mb-1"><?php print array_get($slide, 'name'); ?></h1>
-                                    <p class="mb-3"><?php print array_get($slide, 'role'); ?></p>
-                                    <p><?php print array_get($slide, 'bio'); ?></p>
-                                    <module type="social_links" template="skin-3"/>
-                                </div>
+    @if ($teamcard->count() > 0)
+        <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": true, "appendDots": ".slick-paging", "vertical" : true, "verticalSwiping" : true, "arrows": false}'>
+            @foreach ($teamcard as $member)
+                @php
+                    $count++;
+                @endphp
+                <div class="team-card-item col-md-6 col-12 mb-3 overflow-hidden text-start my-5 d-flex flex-wrap">
+                    <div class="col-md-6 pe-2">
+                        @if ($member['file'])
+                            <div class="team-card-item-image" style="background-image: url('{{ thumbnail($member['file'], 800) }}');"></div>
+                        @else
+                            <div class="rounded-circle">
+                                <img width="300" height="300" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
                             </div>
-                        </div>
+                        @endif
                     </div>
 
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-    </div>
-
-    <div class="col-sm-10 col-md-12 col-lg-2">
-        <div class="d-flex flex-lg-column align-items-center justify-content-center">
-            <div class="slick-slider">
-                <div class="slick-paging"></div>
-            </div>
+                    <div class="col-md-6 ps-2">
+                        <h3 class="team-card-item-name">
+                            {{$member['name']}}
+                        </h3>
+                        <p class="team-card-item-position">
+                            {{$member['role']}}
+                        </p>
+                        <a class="d-block mb-3" href="{{ $member['website'] }}" target="_blank">
+                            {{$member['website']}}
+                        </a>
+                        <p class="team-card-item-bio italic">
+                            {{$member['bio']}}
+                        </p>
+                    </div>
+                </div>
+            @endforeach
         </div>
-    </div>
+    @else
+        <div>
+            Add your teamcard.
+        </div>
+    @endif
 </div>
