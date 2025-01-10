@@ -11,7 +11,7 @@ description: Skin-5
 */
 ?>
 
-<?php include('slick_options.php'); ?>
+@include('modules.product::templates.slick_options')
 <style>
     <?php echo '#'.$params['id']; ?>
     .slick-arrows-1 .slick-prev {
