@@ -67,7 +67,7 @@
         }
       },
       "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/unnamed.png",
+        "url": "modules/newsletter/img/unnamed.png",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -176,7 +176,7 @@
         }
       },
       "props": {
-        "url": "http://127.0.0.1:8000/userfiles/media/default/333.png",
+        "url": "modules/newsletter/img/333.png",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -293,7 +293,7 @@
       },
       "props": {
         "width": 130,
-        "url": "https://test.microweber.com/userfiles/media/default/599154bb89160-thumb900.webp",
+        "url": "modules/newsletter/img/599154bb89160-thumb900.webp",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
