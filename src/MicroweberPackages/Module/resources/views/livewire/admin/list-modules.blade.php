@@ -82,7 +82,7 @@
                @if($groupByCategories)
                    @foreach($modulesGroups as $categories=>$modules)
                        <div>
-                            <h2>{{ $categories }}</h2>
+                            <h2>{{ $categories }} - xxx</h2>
                        </div>
                        @foreach($modules as $module)
                            @include('module::livewire.admin.list-module-card', ['module' => $module])

@@ -78,8 +78,28 @@ class ListModules extends AdminComponent
         }
 
         $modules->where('installed', $this->installed);
-
         $modules = $modules->get();
+
+        $hideModules = [];
+        
+        if (is_link(base_path('vendor'))) {
+            $hideModules = [
+                'Standalone Updater',
+                'Microweber',
+                'White label',
+                'Backup',
+            ];
+        }
+
+        $modules = $modules->filter(function ($module) use($hideModules) {
+
+            if (in_array($module->name, $hideModules)) {
+                return null;
+            }
+
+            return $module;
+        });
+
 
         $modulesGroups = [
             "Content" => [],
