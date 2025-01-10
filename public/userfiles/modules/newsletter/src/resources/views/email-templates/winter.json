@@ -104,7 +104,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/unnamed.png",
+                "url": "/modules/newsletter/img/unnamed.png",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
@@ -176,7 +176,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/333.png",
+                "url": "/modules/newsletter/img/333.png",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
@@ -282,14 +282,14 @@
             },
             "props": {
                 "width": null,
-                "url": "modules/newsletter/img/bg-1.jpg",
+                "url": "/modules/newsletter/img/bg-1.jpg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
             }
         }
     },
-    "block-1719477659726": { 
+    "block-1719477659726": {
         "type": "Button",
         "data": {
             "style": {
@@ -403,7 +403,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/work-1.jpg",
+                "url": "/modules/newsletter/img/work-1.jpg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
@@ -639,7 +639,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/bg-2.jpg",
+                "url": "/modules/newsletter/img/bg-2.jpg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
@@ -760,7 +760,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/work-2.jpg",
+                "url": "/modules/newsletter/img/work-2.jpg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
@@ -779,7 +779,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/work-3.jpg",
+                "url": "/modules/newsletter/img/work-3.jpg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
@@ -798,7 +798,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/work-4.jpg",
+                "url": "/modules/newsletter/img/work-4.jpg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
@@ -817,7 +817,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/work-5.jpg",
+                "url": "/modules/newsletter/img/work-5.jpg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
@@ -836,7 +836,7 @@
                 }
             },
             "props": {
-                "url": "modules/newsletter/img/work-6.jpg",
+                "url": "/modules/newsletter/img/work-6.jpg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"
