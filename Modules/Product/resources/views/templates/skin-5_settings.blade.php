@@ -9,4 +9,4 @@
         </div>
     </div>
 
-<?php include('slick_options_ui.php'); ?>
+@include('modules.product::templates.slick_options_ui')
