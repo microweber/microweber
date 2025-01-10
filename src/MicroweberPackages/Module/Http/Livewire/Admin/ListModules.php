@@ -81,7 +81,7 @@ class ListModules extends AdminComponent
         $modules = $modules->get();
 
         $hideModules = [];
-        
+
         if (is_link(base_path('vendor'))) {
             $hideModules = [
                 'Standalone Updater',

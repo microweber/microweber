@@ -1,3 +1,8 @@
+<?php
+  if (is_link(base_path('vendor'))) {
+      return;
+  }
+ ?>
 <script>
     function openModalHelpReadmeMd(for_module = false) {
         var modal_title = '<?php _e('How to use this module?'); ?>';
