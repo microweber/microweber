@@ -64,7 +64,7 @@
       "props": {
         "width": 260,
         "height": null,
-        "url": "modules/newsletter/img/logo.svg",
+        "url": "/modules/newsletter/img/logo.svg",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -104,7 +104,7 @@
         }
       },
       "props": {
-        "url": "modules/newsletter/img/bg-1-1.jpg",
+        "url": "/modules/newsletter/img/bg-1-1.jpg",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -123,7 +123,7 @@
         }
       },
       "props": {
-        "url": "modules/newsletter/img/unnamed.png",
+        "url": "/modules/newsletter/img/unnamed.png",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -252,7 +252,7 @@
         }
       },
       "props": {
-        "url": "modules/newsletter/img/333.png",
+        "url": "/modules/newsletter/img/333.png",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -369,7 +369,7 @@
       },
       "props": {
         "width": 200,
-        "url": "modules/newsletter/img/599154bb89160-thumb900.webp",
+        "url": "/modules/newsletter/img/599154bb89160-thumb900.webp",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -587,7 +587,7 @@
         }
       },
       "props": {
-        "url": "modules/newsletter/img/product-1.jpg",
+        "url": "/modules/newsletter/img/product-1.jpg",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -726,7 +726,7 @@
         }
       },
       "props": {
-        "url": "modules/newsletter/img/product-2.jpg",
+        "url": "/modules/newsletter/img/product-2.jpg",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -745,7 +745,7 @@
         }
       },
       "props": {
-        "url": "modules/newsletter/img/product-3.jpg",
+        "url": "/modules/newsletter/img/product-3.jpg",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
@@ -764,7 +764,7 @@
         }
       },
       "props": {
-        "url": "modules/newsletter/img/product-4.jpg",
+        "url": "/modules/newsletter/img/product-4.jpg",
         "alt": "Sample product",
         "linkHref": null,
         "contentAlignment": "middle"
