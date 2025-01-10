@@ -55,7 +55,7 @@
             "props": {
                 "width": 260,
                 "height": null,
-                "url": "http://test.microweber.com/userfiles/media/default/logo.svg",
+                "url": "modules/newsletter/img/logo.svg",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "middle"

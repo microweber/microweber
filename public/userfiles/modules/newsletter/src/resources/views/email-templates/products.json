@@ -185,7 +185,7 @@
                 }
             },
             "props": {
-                "url": "http://test.microweber.com/userfiles/media/default/333.png",
+                "url": "modules/newsletter/img/333.png",
                 "alt": "Sample product",
                 "linkHref": null,
                 "contentAlignment": "top"
