@@ -1,3 +1,7 @@
+if(!window.SliderV2) {
+
+
+
 class SliderV2 {
 
     constructor(element, config) {
@@ -91,5 +95,7 @@ class SliderV2 {
     }
 }
 
+window.SliderV2 = SliderV2;
 
+}
 
