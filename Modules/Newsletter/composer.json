@@ -1,0 +1,30 @@
+{
+    "name": "modules/newsletter",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Newsletter\\": "",
+            "Modules\\Newsletter\\Database\\Factories\\": "database/factories/",
+            "Modules\\Newsletter\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Newsletter\\Tests\\": "Tests/"
+        }
+    }
+}
