@@ -1,0 +1,81 @@
+{
+    "schema": [
+        {
+            "type": "select",
+            "label": "Extra Small < 576px",
+            "name": "columns-xs",
+            "placeholder": "Select number of columns for extra small screens",
+            "help": "Number of columns for mobile phones",
+            "options": {
+                "col-12": "1 column",
+                "col-6": "2 columns",
+                "col-4": "3 columns",
+                "col-3": "4 columns",
+                "col-2": "6 columns"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Small ≥ 576px",
+            "name": "columns-sm",
+            "placeholder": "Select number of columns for small screens",
+            "help": "Number of columns for tablets",
+            "options": {
+                "col-sm-12": "1 column",
+                "col-sm-6": "2 columns",
+                "col-sm-4": "3 columns",
+                "col-sm-3": "4 columns",
+                "col-sm-2": "6 columns"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Medium ≥ 768px",
+            "name": "columns-md",
+            "placeholder": "Select number of columns for medium screens",
+            "help": "Number of columns for small desktops",
+            "options": {
+                "col-md-12": "1 column",
+                "col-md-6": "2 columns",
+                "col-md-4": "3 columns",
+                "col-md-3": "4 columns",
+                "col-md-2": "6 columns"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Large ≥ 992px",
+            "name": "columns-lg",
+            "placeholder": "Select number of columns for large screens",
+            "help": "Number of columns for desktops",
+            "options": {
+                "col-lg-12": "1 column",
+                "col-lg-6": "2 columns",
+                "col-lg-4": "3 columns",
+                "col-lg-3": "4 columns",
+                "col-lg-2": "6 columns"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Extra Large ≥ 1200px",
+            "name": "columns-xl",
+            "placeholder": "Select number of columns for extra large screens",
+            "help": "Number of columns for large desktops",
+            "options": {
+                "col-xl-12": "1 column",
+                "col-xl-6": "2 columns",
+                "col-xl-4": "3 columns",
+                "col-xl-3": "4 columns",
+                "col-xl-2": "6 columns"
+            }
+        },
+        {
+            "type": "text",
+            "label": "Custom Classes",
+            "name": "custom-classes",
+            "placeholder": "Add custom CSS classes",
+            "help": "Additional CSS classes to add to the grid"
+        }
+    ]
+}

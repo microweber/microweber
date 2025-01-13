@@ -1,0 +1,173 @@
+{
+    "schema": [
+        {
+            "type": "select",
+            "label": "Extra Small < 576px",
+            "name": "slides-xs",
+            "placeholder": "Select number of slides for extra small screens",
+            "help": "Number of slides for mobile phones",
+            "options": {
+                "1": "1 slide",
+                "2": "2 slides",
+                "3": "3 slides",
+                "4": "4 slides",
+                "5": "5 slides",
+                "6": "6 slides"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Small ≥ 576px",
+            "name": "slides-sm",
+            "placeholder": "Select number of slides for small screens",
+            "help": "Number of slides for tablets",
+            "options": {
+                "1": "1 slide",
+                "2": "2 slides",
+                "3": "3 slides",
+                "4": "4 slides",
+                "5": "5 slides",
+                "6": "6 slides"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Medium ≥ 768px",
+            "name": "slides-md",
+            "placeholder": "Select number of slides for medium screens",
+            "help": "Number of slides for small desktops",
+            "options": {
+                "1": "1 slide",
+                "2": "2 slides",
+                "3": "3 slides",
+                "4": "4 slides",
+                "5": "5 slides",
+                "6": "6 slides"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Large ≥ 992px",
+            "name": "slides-lg",
+            "placeholder": "Select number of slides for large screens",
+            "help": "Number of slides for desktops",
+            "options": {
+                "1": "1 slide",
+                "2": "2 slides",
+                "3": "3 slides",
+                "4": "4 slides",
+                "5": "5 slides",
+                "6": "6 slides"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Extra Large ≥ 1200px",
+            "name": "slides-xl",
+            "placeholder": "Select number of slides for extra large screens",
+            "help": "Number of slides for large desktops",
+            "options": {
+                "1": "1 slide",
+                "2": "2 slides",
+                "3": "3 slides",
+                "4": "4 slides",
+                "5": "5 slides",
+                "6": "6 slides"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Pager",
+            "name": "pager",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Controls",
+            "name": "controls",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Loop",
+            "name": "loop",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Adaptive Height",
+            "name": "adaptive_height",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "text",
+            "label": "Autoplay Speed",
+            "name": "speed",
+            "placeholder": "Enter autoplay speed in milliseconds"
+        },
+        {
+            "type": "select",
+            "label": "Pause on hover",
+            "name": "pause_on_hover",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Autoplay",
+            "name": "autoplay",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Draggable",
+            "name": "draggable",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Fade",
+            "name": "fade",
+            "help": "Works only for 1 slide",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Focus On Select",
+            "name": "focus_on_select",
+            "options": {
+                "false": "False",
+                "true": "True"
+            }
+        },
+        {
+            "type": "text",
+            "label": "Center Padding",
+            "name": "center_padding",
+            "placeholder": "40px"
+        }
+    ]
+}

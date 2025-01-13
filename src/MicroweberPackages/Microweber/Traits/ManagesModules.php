@@ -134,6 +134,7 @@ trait ManagesModules
         $foldersForScan = [];
         $ready = [];
         $moduleClass = $this->getModuleClass($moduleType);
+
         if ($moduleClass) {
             if (class_exists($moduleClass)) {
                 /** @var BaseModule $moduleClass */

@@ -137,10 +137,10 @@ abstract class LiveEditModuleSettings extends Page
         foreach ($schemaItemsArray as $schema) {
             $name = $schema['name'];
 
-            if(!isset($schema['type'])){
+            if (!isset($schema['type'])) {
                 continue;
             }
-            if(!isset($schema['label'])){
+            if (!isset($schema['label'])) {
                 $schema['label'] = titlelize($name);
             }
             // $name must  start with options.
@@ -213,9 +213,17 @@ abstract class LiveEditModuleSettings extends Page
 
 
         }
+        $moduleTemplates = module_templates($this->module);
+        $moduleTemplates = $moduleTemplates ?? [];
 
-        $moduleTemplates = module_templates($this->module, $template_name_from_website);
-        dump($this->module,$moduleTemplates);
+        if ($template_name_from_website) {
+            $moduleTemplatesFromSite = module_templates($this->module, $template_name_from_website);
+            if ($moduleTemplatesFromSite) {
+                $moduleTemplates = array_merge($moduleTemplates, $moduleTemplatesFromSite);
+            }
+
+        }
+
         $optionGroup = $this->getOptionGroup();
 
         $selectedSkin = get_module_option('template', $optionGroup);
@@ -267,16 +275,26 @@ abstract class LiveEditModuleSettings extends Page
 
                         $curretSkinSettingsFromJson = [];
                         $jsonContent = file_get_contents($moduleTemplate['skin_settings_json_file']);
-                      //  dump($jsonContent);
+                        //  dump($jsonContent);
                         if ($jsonContent) {
 
                             $moduleTemplateSettingsJson = @json_decode($jsonContent, true);
                             $mergeSchema = [];
+                            $mergeSchemasToFind = [];
                             if (is_array($moduleTemplateSettingsJson)
-                               // and isset($moduleTemplateSettingsJson['schema'])
+                                // and isset($moduleTemplateSettingsJson['schema'])
                                 and !empty($moduleTemplateSettingsJson['useSchemaFrom'])) {
-                                $mergeFile = dirname($moduleTemplate['skin_settings_json_file']) . '/' . $moduleTemplateSettingsJson['useSchemaFrom'];
 
+
+                                if(is_array($moduleTemplateSettingsJson['useSchemaFrom'])){
+                                    $mergeSchemasToFind = $moduleTemplateSettingsJson['useSchemaFrom'];
+                                } else {
+                                    $mergeSchemasToFind[] = $moduleTemplateSettingsJson['useSchemaFrom'];
+                                }
+                            }
+
+                            foreach ($mergeSchemasToFind as $mergeSchemaToFind) {
+                                $mergeFile = dirname($moduleTemplate['skin_settings_json_file']) . '/' . $mergeSchemaToFind;
                                 if ($mergeFile and !Str::endsWith($mergeFile, '.json')) {
                                     $mergeFile = $mergeFile . '.json';
 
@@ -289,8 +307,6 @@ abstract class LiveEditModuleSettings extends Page
                                                 and isset($mergeSchemaContent['schema'])
                                                 and !empty($mergeSchemaContent['schema'])) {
                                                 $mergeSchema = $mergeSchemaContent['schema'];
-
-
                                             }
                                         }
                                     }

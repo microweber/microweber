@@ -1086,9 +1086,9 @@ class ModuleManager
         if (app()->bound('microweber')) {
             $microweberModule = app()->microweber->hasModule($module_name);
             $templates = [];
-            if ($microweberModule) {
 
-                $templates = app()->microweber->getTemplates($module_name, $template_name);
+             if ($microweberModule) {
+                 $templates = app()->microweber->getTemplates($module_name, $template_name);
                 return $templates;
             }
 
