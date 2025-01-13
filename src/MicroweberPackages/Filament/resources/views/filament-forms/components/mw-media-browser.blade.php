@@ -49,10 +49,14 @@
                     class="w-full py-6 full flex flex-col items-center justify-center"
                     type="button" x-on:click="()=> {
 
-                mw.filePickerDialog((url) => {
-                      $wire.dispatchFormEvent('mwMediaBrowser::addMediaItem','{{ $statePath }}', {
-                            data: { url: url }
-                      })
+                mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => {
+                        if(!Array.isArray(url)) {
+                            url = [url];
+                        }
+                        $wire.dispatchFormEvent('mwMediaBrowser::addMediaItem','{{ $statePath }}', {
+                                data: { url: url }
+                            })
+
                 });
 
                 }">

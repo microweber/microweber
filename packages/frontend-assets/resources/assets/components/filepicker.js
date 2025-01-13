@@ -57,7 +57,10 @@ mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) 
                 dialog.remove();
                 return
             }
-            url = url.toString();
+            if(typeof url === "string" || url instanceof String) {
+                url = url.toString();
+            }
+
             result = url
             dialog.remove();
 
