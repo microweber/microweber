@@ -19,7 +19,7 @@ class CreateCountriesTable extends Migration
 
 
         Schema::create('countries', function (Blueprint $table) {
-           $table->increments('id')->index();
+           $table->increments('id');
            $table->string('code')->nullable();
            $table->string('name')->nullable();
            $table->integer('phonecode')->nullable();

@@ -20,6 +20,7 @@ use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\Misc\License;
 use MicroweberPackages\View\View;
 use MicroweberPackages\Install;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class InstallController extends Controller
 {
@@ -258,14 +259,14 @@ class InstallController extends Controller
                 }
 
                 //make parth relative
-                if(str_starts_with($input['db_name'], database_path())){
+                if (str_starts_with($input['db_name'], database_path())) {
                     $input['db_name_relative'] = str_replace(database_path(), '', $input['db_name']);
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '\\');
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '/');
                     //DB_DATABASE_FILENAME
                     $envToSave['DB_DATABASE_FILENAME'] = $input['db_name_relative'];
                     $sqlite_filename = database_path($input['db_name_relative']);
-                    if(!is_file($sqlite_filename)){
+                    if (!is_file($sqlite_filename)) {
                         touch($sqlite_filename);
                     }
 
@@ -290,7 +291,7 @@ class InstallController extends Controller
             $envToSave['DB_CONNECTION'] = $dbDriver;
             $envToSave['DB_HOST'] = $input['db_host'];
 
-            if($dbDriver != 'sqlite') {
+            if ($dbDriver != 'sqlite') {
                 if ($input['db_name'] != ':memory:'
                     and $input['db_name'] != database_path('database.sqlite')) {
                     $envToSave['DB_DATABASE'] = $input['db_name'];
@@ -306,9 +307,9 @@ class InstallController extends Controller
             Config::set("database.connections.$dbDriver.database", $input['db_name']);
             Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
 
-             DB::purge($dbDriver);
-               DB::reconnect();
-          // app('db')->purge($connection->getName());
+            DB::purge($dbDriver);
+            DB::reconnect();
+            // app('db')->purge($connection->getName());
 
 
 //            $start_connection = env('DB_CONNECTION');
@@ -316,9 +317,6 @@ class InstallController extends Controller
 //            Dotenv::create(Env::getRepository(), app()->environmentPath(), app()->environmentFile())->load();
 //            (new LoadConfiguration())->bootstrap(app());
 //            app('db')->purge($start_connection);
-
-
-
 
 
             if (defined('MW_VERSION')) {
@@ -402,7 +400,7 @@ class InstallController extends Controller
 //                    }
 //                }
 //
-              $this->saveEnvValues($envToSave);
+            $this->saveEnvValues($envToSave);
 //                try {
 //                    Artisan::call('optimize:clear');
 //                } catch (\Exception $e) {
@@ -448,11 +446,18 @@ class InstallController extends Controller
                 if (function_exists('set_time_limit')) {
                     @set_time_limit(0);
                 }
+                if (!defined('STDIN')) {
+                    define('STDIN', fopen("php://stdin", "r"));
+                }
 
 
                 if (!$install_step or $install_step == 1) {
                     app()->module_manager->logger = $this;
-
+                    $this->log('Running Laravel migrations');
+                    $output = new BufferedOutput();
+                    $output->setDecorated(false);
+                    Artisan::call('migrate',[ '--force' => true], $output);
+                    $this->log($output->fetch());
                     $this->log('Running install of laravel modules');
                     app()->module_manager->reload_laravel_modules();
                     $this->log('Running install of laravel templates');
@@ -516,7 +521,7 @@ class InstallController extends Controller
                 if (!$install_step or $install_step == 7) {
                     if (isset($input['site_lang'])) {
                         if ($dbDriver == 'sqlite') {
-                            \DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
+                            DB::connection('sqlite')->getPdo()->sqliteCreateFunction('md5', 'md5');
                         }
 
                         $selected_template = Config::get('microweber.install_default_template');
@@ -627,18 +632,15 @@ class InstallController extends Controller
             }
 
 
-
-
             if ($save_to_config) {
-            //    Config::save($allowed_configs);
+                //    Config::save($allowed_configs);
             }
-            if (!is_cli() and isset($admin_user_id)) {
-//                mw()->user_manager->make_logged($admin_user_id, true);
+           // if (!is_cli() and isset($admin_user_id)) {
+            if ( isset($admin_user_id) and $admin_user_id) {
+                mw()->user_manager->make_logged($admin_user_id, true);
             }
 
             event_trigger('mw.install.complete', $input);
-
-
 
 
             try {
@@ -715,7 +717,7 @@ class InstallController extends Controller
             $viewData['config']['prefix'] = $pre . '_';
         }
         if (extension_loaded('pdo_sqlite') and $domain) {
-           // $sqlite_path = normalize_path(storage_path() . DS . $domain . '.sqlite', false);
+            // $sqlite_path = normalize_path(storage_path() . DS . $domain . '.sqlite', false);
             $sqlite_path = database_path('database.sqlite');
             $viewData['config']['db_name_sqlite'] = $sqlite_path;
         }
@@ -794,7 +796,7 @@ class InstallController extends Controller
 //        Dotenv::load(app()->environmentPath(), app()->environmentFile());
 //        Dotenv::makeImmutable();
 
-       app()->terminating(function () use ($values,$envFile) {
+        app()->terminating(function () use ($values, $envFile) {
 
             $str = file_get_contents($envFile);
 
@@ -825,18 +827,14 @@ class InstallController extends Controller
             $str = trim($str);
             $envFile = trim($envFile);
 
-            if($envFile == $str){
+            if ($envFile == $str) {
                 return false;
             }
 
             if (!file_put_contents($envFile, $str)) return false;
 
 
-
-
-       });
-
-
+        });
 
 
         return true;

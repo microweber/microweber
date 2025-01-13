@@ -842,7 +842,7 @@
                                                             <div class="form-group">
                                                                 <label
                                                                     class="form-label"><?php _e('Admin email'); ?></label>
-                                                                <input type="text" class="form-control" tabindex="10"
+                                                                <input type="email" class="form-control" tabindex="10"
                                                                        name="admin_email" <?php if (isset($config['admin_email']) == true and isset($config['admin_email']) != ''): ?> value="<?php print $config['admin_email'] ?>" <?php endif; ?> />
                                                             </div>
 

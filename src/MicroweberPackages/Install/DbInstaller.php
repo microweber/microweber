@@ -15,7 +15,7 @@ class DbInstaller
 
     public function run()
     {
-        Cache::flush();
+      //  Cache::flush();
         try {
             $this->createSchema();
 
@@ -24,7 +24,7 @@ class DbInstaller
         }
 
         $this->seed();
-        Cache::flush();
+      //  Cache::flush();
 //        $this->log('Installing modules');
 //
 //        mw()->module_manager->install();
