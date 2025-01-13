@@ -1,17 +1,16 @@
 <?php
 
-namespace MicroweberPackages\App\Http\Controllers;
+namespace MicroweberPackages\Frontend\Http\Controllers;
 
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
 
 
 class ServeStaticFileContoller extends Controller
 {
-    public $skip_ext = ['php', 'phtml', 'php7'];
+    public $skip_ext = ['php', 'phtml', 'php7', '.htaccess', '.env'];
     public $inline_disposition = ['pdf', 'docx', 'doc', 'xls'];
 
     /**
@@ -30,10 +29,16 @@ class ServeStaticFileContoller extends Controller
 
     private function sendResponse($path, $request)
     {
+        $hasFile = false;
 
+        if ($path and is_file($path)) {
+            $hasFile = true;
+        }
 
-        abort_if(is_null($path), 404);
-        abort_if(!is_file($path), 404);
+        if (!$hasFile) {
+            return response('ServeStaticFileContoller: File not found', 404)
+                ->withoutCookie(config('session.cookie'));
+        }
 
 
         //$mime = File::mimeType($path);
@@ -42,6 +47,11 @@ class ServeStaticFileContoller extends Controller
         $mtime = filemtime($path);
 
         abort_if(in_array(strtolower($ext), $this->skip_ext), 403);
+
+        $filesUtils = new \MicroweberPackages\Utils\System\Files();
+        if ($filesUtils->is_allowed_file($path)) {
+            abort(403, 'File not allowed');
+        }
 
 
         $mimetype = \GuzzleHttp\Psr7\MimeType::fromExtension($ext);
@@ -64,13 +74,13 @@ class ServeStaticFileContoller extends Controller
             $server->get('HTTP_IF_NONE_MATCH') === $headerEtag) {
             return response(null, 304);
         }
-/*
-        $target = normalize_path(public_path().DS.userfiles_folder_name().DS.$request->path, false);
-        $target_dir = dirname($target);
-        mkdir_recursive($target_dir);
+        /*
+                $target = normalize_path(public_path().DS.userfiles_folder_name().DS.$request->path, false);
+                $target_dir = dirname($target);
+                mkdir_recursive($target_dir);
 
-      //  dd($target);
-        $copy = File::copy($path,$target );*/
+              //  dd($target);
+                $copy = File::copy($path,$target );*/
 
         return response(
             file_get_contents($path),

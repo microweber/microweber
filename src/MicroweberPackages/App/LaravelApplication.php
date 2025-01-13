@@ -11,6 +11,7 @@ use Illuminate\Foundation\Mix;
 use Illuminate\Foundation\PackageManifest;
 use Illuminate\Session\SessionServiceProvider;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\View\ViewServiceProvider;
 use MicroweberPackages\App\Repositories\ProviderRepository;
 use MicroweberPackages\Cache\TaggableFileCacheServiceProvider;
@@ -35,14 +36,15 @@ class LaravelApplication extends Application
     }
 
 
-
-
     public function boot()
     {
 
         $this->_check_new_config_files();
-        parent::boot();
+        if (!config('app.key') or config('app.key') == 'YourSecretKey!!!') {
 
+            $this->_ensure_app_key_is_set_in_dot_env_file();
+        }
+        parent::boot();
     }
 
     /**
@@ -53,7 +55,7 @@ class LaravelApplication extends Application
     public function getCachedServicesPath()
     {
 
-        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/cache_' . $this->getVersionPrefix(). '_services.php');
+        return $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/cache_' . $this->getVersionPrefix() . '_services.php');
     }
 
     /**
@@ -74,7 +76,7 @@ class LaravelApplication extends Application
     public function getCachedMicroweberServiceProvidersPath()
     {
 
-        return $this->normalizeCachePath('APP_MW_SERVICE_PROVIDERS_CACHE', 'cache/cache_' . $this->getVersionPrefix(). '_mw_loaded_providers.php');
+        return $this->normalizeCachePath('APP_MW_SERVICE_PROVIDERS_CACHE', 'cache/cache_' . $this->getVersionPrefix() . '_mw_loaded_providers.php');
     }
 
     /**
@@ -109,7 +111,7 @@ class LaravelApplication extends Application
     private function _check_new_config_files()
     {
         // we check if there is cached file for the current version and copy the missing config files if there is no cached file
-        $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/cache_' .$this->getVersionPrefix() . '_app_version.txt');
+        $mwVersionFile = $this->normalizeCachePath('APP_SERVICES_CACHE', 'cache/cache_' . $this->getVersionPrefix() . '_app_version.txt');
         $checkDir = dirname($mwVersionFile);
         if (!is_dir($checkDir)) {
             mkdir($checkDir);
@@ -178,6 +180,27 @@ class LaravelApplication extends Application
         if (!is_file($file) and !is_link($file)) {
             @touch($file);
         }
+
+    }
+
+    private function _ensure_app_key_is_set_in_dot_env_file()
+    {
+
+        /*
+        *
+        * fix of error:  ErrorException: file_get_contents(my_site/.env): failed to open stream: No such file or directory
+        * Illuminate\Foundation\Console\KeyGenerateCommand.php:95
+        *
+        */
+
+        $existingKey = env('APP_KEY');
+
+        if (!$existingKey) {
+            $key = 'base64:' . base64_encode(random_bytes(32))."\n";
+            @file_put_contents($this->base_path_local . DIRECTORY_SEPARATOR . '.env', PHP_EOL . 'APP_KEY=' . $key, FILE_APPEND);
+            Config::set('app.key', $key);
+        }
+
 
     }
 

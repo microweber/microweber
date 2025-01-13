@@ -121,9 +121,9 @@
 
 
 
-<div>
-        <?php //print mw_admin_footer_scripts(); ?>
-</div>
+        <div>
+            <?php //print mw_admin_footer_scripts(); ?>
+        </div>
         <script>
 
             mw.settings.adminUrl = '<?php print admin_url(); ?>';
@@ -133,7 +133,7 @@
 
         </script>
 
-         <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
+        <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
         <?php  print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
         <?php event_trigger('mw.live_edit.footer'); ?>
     </div>

@@ -83,6 +83,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
             ->default()
+          //  ->spa()
             ->login()
             ->registration()
             ->font('Inter')

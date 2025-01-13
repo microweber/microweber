@@ -21,8 +21,9 @@ use function Clue\StreamFilter\fun;
 
 class AdminLiveEditPage extends Page
 {
-    protected static bool $shouldRegisterNavigation = false;
+    protected static bool $shouldRegisterNavigation = true;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationLabel = 'Live Edit';
     protected static string $description = '';
     protected static ?string $slug = 'live-edit';
 
