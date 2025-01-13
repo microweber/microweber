@@ -196,7 +196,7 @@ class LaravelApplication extends Application
         $existingKey = env('APP_KEY');
 
         if (!$existingKey) {
-            $key = 'base64:' . base64_encode(random_bytes(32));
+            $key = 'base64:' . base64_encode(random_bytes(32))."\n";
             @file_put_contents($this->base_path_local . DIRECTORY_SEPARATOR . '.env', PHP_EOL . 'APP_KEY=' . $key, FILE_APPEND);
             Config::set('app.key', $key);
         }

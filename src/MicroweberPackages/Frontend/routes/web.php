@@ -20,7 +20,8 @@ Route::group(
         ->where('all', '.*');
 
     Route::fallback(function () {
-        return response('Page not found', 404)->withHeaders([
+        $url = url_string();
+        return response('Page not found at url: ' . $url, 404)->withHeaders([
             'Content-Type' => 'text/plain',
             'X-Fallback-Message' => 'true',
             'X-Powered-By' => 'Microweber'

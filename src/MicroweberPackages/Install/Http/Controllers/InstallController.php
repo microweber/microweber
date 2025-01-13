@@ -791,54 +791,87 @@ class InstallController extends Controller
     {
         $envFile = app()->environmentFilePath();
 
-
-//        Dotenv::makeMutable();
-//        Dotenv::load(app()->environmentPath(), app()->environmentFile());
-//        Dotenv::makeImmutable();
-
         app()->terminating(function () use ($values, $envFile) {
-
-            $str = file_get_contents($envFile);
-
-            if (count($values) > 0) {
-                foreach ($values as $envKey => $envValue) {
-
-
-                    $keyPosition = strpos($str, "{$envKey}=");
-                    $endOfLinePosition = strpos($str, "\n", $keyPosition);
-                    $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
-
-                    // Ensure only a single \n is appended
-                    if (substr($str, -1) !== "\n") {
-                        $str .= "\n";
-                    }
-                    // If key does not exist, add it
-                    if (!$keyPosition || !$endOfLinePosition || !$oldLine) {
-                        $str .= "{$envKey}={$envValue}" . "\n";
-                    } else {
-                        $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
-                    }
-
-                }
-            }
-
-            $str = substr($str, 0, -1);
-
-            $str = trim($str);
-            $envFile = trim($envFile);
-
-            if ($envFile == $str) {
+            // Read existing .env content
+            $content = file_get_contents($envFile);
+            if ($content === false) {
                 return false;
             }
 
-            if (!file_put_contents($envFile, $str)) return false;
+            // Split into lines
+            $lines = preg_split('/\r\n|\r|\n/', $content);
+            $newLines = [];
+            $existingKeys = [];
 
+            // Process existing lines
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (empty($line) || strpos($line, '#') === 0) {
+                    $newLines[] = $line;
+                    continue;
+                }
 
+                if (strpos($line, '=') !== false) {
+                    list($key) = explode('=', $line, 2);
+                    $key = trim($key);
+                    
+                    // Skip if this is a duplicate key that we're going to update
+                    if (isset($values[$key])) {
+                        if (isset($existingKeys[$key])) {
+                            continue; // Skip duplicate
+                        }
+                        $existingKeys[$key] = true;
+                        $value = $values[$key];
+                        
+                        // Handle special characters
+                        if (strpos($value, ' ') !== false || 
+                            strpos($value, '#') !== false || 
+                            strpos($value, '"') !== false ||
+                            strpos($value, "'") !== false) {
+                            $value = '"' . str_replace('"', '\\"', $value) . '"';
+                        }
+                        
+                        $newLines[] = "{$key}={$value}";
+                    } else {
+                        $newLines[] = $line;
+                    }
+                } else {
+                    $newLines[] = $line;
+                }
+            }
+
+            // Add any new values that weren't in the original file
+            foreach ($values as $key => $value) {
+                if (!isset($existingKeys[$key])) {
+                    // Handle special characters for new values
+                    if (strpos($value, ' ') !== false || 
+                        strpos($value, '#') !== false || 
+                        strpos($value, '"') !== false ||
+                        strpos($value, "'") !== false) {
+                        $value = '"' . str_replace('"', '\\"', $value) . '"';
+                    }
+                    
+                    $newLines[] = "{$key}={$value}";
+                }
+            }
+
+            // Remove empty lines at the end
+            while (!empty($newLines) && empty(trim(end($newLines)))) {
+                array_pop($newLines);
+            }
+
+            // Ensure single newline at the end
+            $newContent = implode("\n", $newLines) . "\n";
+
+            // Only write if content has changed
+            if ($content !== $newContent) {
+                if (!file_put_contents($envFile, $newContent)) {
+                    return false;
+                }
+            }
         });
 
-
         return true;
-
     }
 
 
