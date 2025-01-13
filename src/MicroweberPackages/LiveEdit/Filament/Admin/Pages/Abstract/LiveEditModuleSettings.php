@@ -35,7 +35,7 @@ abstract class LiveEditModuleSettings extends Page
 
     public function getLayout(): string
     {
-        return static::$layout ?? 'filament-panels::components.layout.live-edit';
+        return static::$layout ?? 'filament-panels::components.layout.live-edit-module-settings';
     }
 
     protected static string $view = 'filament-panels::components.layout.simple-form';
@@ -215,6 +215,7 @@ abstract class LiveEditModuleSettings extends Page
         }
 
         $moduleTemplates = module_templates($this->module, $template_name_from_website);
+        dump($this->module,$moduleTemplates);
         $optionGroup = $this->getOptionGroup();
 
         $selectedSkin = get_module_option('template', $optionGroup);
@@ -305,6 +306,8 @@ abstract class LiveEditModuleSettings extends Page
 
                             }
                         }
+
+
                         if (!empty($mergeSchema)) {
                             $curretSkinSettingsFromJson = array_merge($curretSkinSettingsFromJson, $mergeSchema);
                         }

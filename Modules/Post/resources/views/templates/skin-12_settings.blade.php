@@ -1,7 +1,7 @@
 <?php only_admin_access() ?>
 
 
-<?php include('slick_options.php'); ?>
+@include('modules.post::partials.slick_options')
 
     <div class="mw-flex-row m-t-30">
         <div class="mw-flex-col-xs-4 ">

@@ -10,7 +10,7 @@ description: Posts 12
 
 */
 ?>
-<?php include('slick_options.php'); ?>
+@include('modules.post::partials.slick_options')
 <div class="slick-arrows-1">
     <div class="blog-posts-12 slickslider slick-dots-relative">
         <?php if (!empty($data)): ?>

@@ -11,7 +11,7 @@ description: Posts Slider 4
 */
 ?>
 
-<?php include('slick_options.php'); ?>
+@include('modules.post::partials.slick_options')
 
 <div class="slick-arrows-1">
     <div class="py-4 blog-posts-4 slickslider slick-dots-relative">
