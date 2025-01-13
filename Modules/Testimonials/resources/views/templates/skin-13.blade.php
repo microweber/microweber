@@ -13,7 +13,8 @@ description: Skin-13
 ?>
 
 <script>
-    mw.require('<?php print modules_url() ?>slider_v2/slider-v2.js');
+    <?php print get_asset('/Modules/Slider/resources/assets/js/slider-v2.js'); ?>
+
     $(document).ready(function () {
         new SliderV2('#js-testimonials-slider-<?php echo $params['id']; ?>', {
             loop: true,

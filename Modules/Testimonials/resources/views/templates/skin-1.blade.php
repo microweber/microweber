@@ -24,15 +24,15 @@ $limit = 40;
 
 <script>
     $(document).ready(function () {
-        var items = $("#{{ $params['id'] }} .mwt-face-holder")
-        $("#{{ $params['id'] }} .mwt-faces").append(items.eq(0).clone(true))
-        $("#{{ $params['id'] }} .mwt-faces").prepend(items.eq(items.length - 1).clone(true))
+        var items = $("  .mwt-face-holder")
+        $("  .mwt-faces").append(items.eq(0).clone(true))
+        $("  .mwt-faces").prepend(items.eq(items.length - 1).clone(true))
         var configFaces = function (nextSlide) {
             nextSlide = nextSlide || 0;
-            var active = $("#{{ $params['id'] }} .mwt-face-holder")
+            var active = $("  .mwt-face-holder")
                 .removeClass('active subactive')
                 .one('click', function () {
-                    $("#{{ $params['id'] }} .mw-testimonials-faces").slick('slickGoTo', $(this).attr('data-index'))
+                    $("  .mw-testimonials-faces").slick('slickGoTo', $(this).attr('data-index'))
                     return false;
                 })
                 .eq(nextSlide + 1)
@@ -40,7 +40,7 @@ $limit = 40;
             active.prev('.mwt-face-holder').addClass('subactive')
             active.next('.mwt-face-holder').addClass('subactive')
         }
-        var el = $("#{{ $params['id'] }} .mw-testimonials-faces");
+        var el = $("  .mw-testimonials-faces");
         el.slick({
             infinite: true,
             dots: false,

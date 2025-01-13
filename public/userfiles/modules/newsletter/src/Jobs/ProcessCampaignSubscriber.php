@@ -11,6 +11,7 @@ use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriber;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
 use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
+use function Pest\Laravel\seed;
 
 class ProcessCampaignSubscriber implements ShouldQueue
 {
@@ -18,7 +19,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
 
     public $subscriberId;
     public $campaignId;
-    public $jobId;
 
     /**
      * Create a new job instance.
@@ -34,11 +34,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->jobId = $this->job->getJobId();
-        if ($this->jobId < 0) {
-            // $this->error('Job ID not found');
-            return;
-        }
 
         $subscriber = NewsletterSubscriber::where('id', $this->subscriberId)->first();
         if (!$subscriber) {
@@ -109,6 +104,12 @@ class ProcessCampaignSubscriber implements ShouldQueue
             return;
         }
 
+        $campaignSendLog = new NewsletterCampaignsSendLog();
+        $campaignSendLog->campaign_id = $campaign->id;
+        $campaignSendLog->subscriber_id = $subscriber->id;
+        $campaignSendLog->is_sent = 0;
+        $campaignSendLog->save();
+
         try {
             $newsletterMailSender = new NewsletterMailSender();
             $newsletterMailSender->setCampaign($campaign->toArray());
@@ -119,9 +120,6 @@ class ProcessCampaignSubscriber implements ShouldQueue
             $sendMailResponse = $newsletterMailSender->sendMail();
 
             if ($sendMailResponse['success']) {
-                $campaignSendLog = new NewsletterCampaignsSendLog();
-                $campaignSendLog->campaign_id = $campaign->id;
-                $campaignSendLog->subscriber_id = $subscriber->id;
                 $campaignSendLog->is_sent = 1;
                 $campaignSendLog->save();
 
@@ -129,28 +127,16 @@ class ProcessCampaignSubscriber implements ShouldQueue
                 $campaign->save();
 
             } else {
-                $campaignSendLog = new NewsletterCampaignsSendLog();
-                $campaignSendLog->campaign_id = $campaign->id;
-                $campaignSendLog->subscriber_id = $subscriber->id;
                 $campaignSendLog->is_sent = 0;
                 $campaignSendLog->save();
             }
 
         } catch (\Exception $e) {
 
-            $campaignSendLog = new NewsletterCampaignsSendLog();
-            $campaignSendLog->campaign_id = $campaign->id;
-            $campaignSendLog->subscriber_id = $subscriber->id;
             $campaignSendLog->is_sent = 0;
             $campaignSendLog->save();
 
 //            $this->error($e->getMessage());
-        }
-
-        // Check if all jobs are completed
-        if ($campaign->completed_jobs >= $campaign->total_jobs) {
-            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
-            $campaign->save();
         }
 
     }

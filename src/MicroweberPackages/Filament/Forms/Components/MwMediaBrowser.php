@@ -115,19 +115,7 @@ class MwMediaBrowser extends Field
 
     }
 
-    public function addMediaItem($data = [])
-    {
-        $url = false;
-
-        if(isset($data['url'])){
-            $url = $data['url'];
-        }
-
-        if (!$url) {
-            return;
-        }
-
-
+    public function addMediaItemSingle($url) {
         $itemsQuery = $this->getQueryBuilder();
         $itemsQuery = $itemsQuery->where('filename', $url);
         $mediaItem = $itemsQuery->first();
@@ -155,6 +143,33 @@ class MwMediaBrowser extends Field
 
             $mediaItem->save();
         }
+
+    }
+
+    public function addMediaItem($data = [])
+    {
+        $url = false;
+
+        if(isset($data['url'])){
+            $url = $data['url'];
+        }
+
+
+
+        if (!$url) {
+            return;
+        }
+
+        if(is_array($url)) {
+
+            foreach ($url as $u) {
+                $this->addMediaItemSingle($u);
+            }
+
+            return;
+        }
+
+        $this->addMediaItemSingle($url);
 
         $this->refreshMediaData();
 

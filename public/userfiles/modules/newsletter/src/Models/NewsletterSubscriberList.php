@@ -13,4 +13,9 @@ class NewsletterSubscriberList extends Model
         'list_id',
     ];
 
+
+    public function campaignsSendLog()
+    {
+        return $this->hasMany(NewsletterCampaignsSendLog::class, 'subscriber_id', 'subscriber_id');
+    }
 }

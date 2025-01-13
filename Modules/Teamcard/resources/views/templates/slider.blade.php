@@ -7,12 +7,13 @@ description slider
 @endphp
 
 <script>
-    mw.require('{{ modules_url() }}slider_v2/slider-v2.js');
+    <?php print get_asset('/Modules/Slider/resources/assets/js/slider-v2.js'); ?>
+
     $(document).ready(function () {
         new SliderV2('#js-teamcard-slider-{{ $params['id'] }}', {
             loop: true,
             autoplay:true,
-            direction: 'vertical', //horizontal or vertical
+            direction: 'vertical',
             pagination: {
                 element: '#js-teamcard-slider-pagination-{{ $params['id'] }}',
             },
@@ -32,10 +33,10 @@ description slider
     <div class="swiper-wrapper">
         @foreach($teamcard as $i => $member)
             <div class="swiper-slide">
-                <div class="mb-3 overflow-hidden text-start px-md-4 my-5 d-flex flex-wrap">
+                <div class="row overflow-hidden text-start p-md-4 p-2 d-flex flex-wrap">
                     <div class="col-md-6">
                         @if ($member['file'])
-                            <div class="m-auto rounded-circle" style="width:150px;height:150px;background-image: url('{{ thumbnail($member['file'], 200) }}');"></div>
+                            <div class="m-auto h-100 w-100" style="background-image: url('{{ thumbnail($member['file'], 900) }}'); background-repeat: no-repeat; background-size: cover;"></div>
                         @else
                             <div class="m-auto rounded-circle">
                                 <img width="185" height="185" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>

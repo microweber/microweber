@@ -29,9 +29,9 @@ return new class extends Migration {
             $table->string('rel_type')->nullable();
             $table->integer('rel_id')->nullable();
             $table->integer('position')->nullable();
-            $table->integer('is_deleted')->default(0);
-            $table->integer('is_hidden')->default(0);
-            $table->integer('is_active ')->default(1);
+            $table->integer('is_deleted')->default(0)->nullable();
+            $table->integer('is_hidden')->default(0)->nullable();
+            $table->integer('is_active')->default(1)->nullable();
             $table->integer('users_can_create_subcategories')->nullable();
             $table->integer('users_can_create_content')->nullable();
             $table->string('users_can_create_content_allowed_usergroups')->nullable();

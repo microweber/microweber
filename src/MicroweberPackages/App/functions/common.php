@@ -341,3 +341,15 @@ function set_cookie($key, $value, $time = false)
     \Cookie::queue($key, $value, $time);
 
 }
+
+function get_asset($path = null) {
+    if(!$path) {
+        return '';
+    }
+    $path =  base_path() . str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+
+    if(!file_exists($path)) {
+        return '';
+    }
+    return file_get_contents($path);
+}

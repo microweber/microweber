@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignClickedLink;
 use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignPixel;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterList;
+use MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList;
 use Throwable;
 use Illuminate\Console\Command;
 use MicroweberPackages\Modules\Newsletter\Jobs\ProcessCampaignSubscriber;
@@ -62,13 +64,15 @@ class ProcessCampaigns extends Command
         $getScheduledCampaigns = NewsletterCampaign::where('status', NewsletterCampaign::STATUS_SCHEDULED)->get();
         if ($getScheduledCampaigns->count() > 0) {
             foreach ($getScheduledCampaigns as $scheduledCampaign) {
-                $timeNowByTimezone = Carbon::now($scheduledCampaign->scheduled_timezone);
-                $scheduledAt = Carbon::parse($scheduledCampaign->scheduled_at, $scheduledCampaign->scheduled_timezone);
+                $timeNowByTimezone
+                    = Carbon::now($scheduledCampaign->scheduled_timezone);
+                $scheduledAt = Carbon::parse($scheduledCampaign->scheduled_at,
+                    $scheduledCampaign->scheduled_timezone);
                 if ($timeNowByTimezone->gte($scheduledAt)) {
-                    $this->info('Processing scheduled campaign: ' . $scheduledCampaign->name);
+                    $this->info('Processing scheduled campaign: ' .$scheduledCampaign->name);
                     $this->info('Marking campaign as pending');
                     $scheduledCampaign->status = NewsletterCampaign::STATUS_PENDING;
-                    $scheduledCampaign->status_log = 'Scheduled campaign is now pending';
+                    $scheduledCampaign->status_log  = 'Scheduled campaign is now pending';
                     $scheduledCampaign->save();
                 }
             }
@@ -78,12 +82,21 @@ class ProcessCampaigns extends Command
         // We limit the number of campaigns that can be processed at once
         // You can call this command multiple times with cron job
 
-        $campaign = NewsletterCampaign::where('status', NewsletterCampaign::STATUS_PENDING)->first();
-        if (!$campaign) {
-            $this->error('No campaigns to process');
-            return 0;
+        $pendingCampaign = NewsletterCampaign::where('status', NewsletterCampaign::STATUS_PENDING)->first();
+        if ($pendingCampaign) {
+            return $this->_processCampaign($pendingCampaign);
         }
 
+        $processingCampaign = NewsletterCampaign::where('status', NewsletterCampaign::STATUS_PROCESSING)->first();
+        if ($processingCampaign) {
+            return $this->_processCampaign($processingCampaign);
+        }
+    }
+
+
+
+    private function _processCampaign($campaign)
+    {
         $sender = NewsletterSenderAccount::where('id', $campaign->sender_account_id)->first();
         if (!$sender) {
             $this->error('Sender account not found');
@@ -110,70 +123,33 @@ class ProcessCampaigns extends Command
             return 0;
         }
 
-        $batches = [];
-        NewsletterSubscriber::whereHas('lists', function ($query) use ($campaign) {
-            $query->where('list_id', $campaign->list_id);
-        })->chunk(100, function ($subscribers) use (&$batches, $campaign) {
-            foreach ($subscribers as $subscriber) {
-                $batches[] = new ProcessCampaignSubscriber($subscriber->id, $campaign->id);
-            }
-        });
+        $allSubscribersCount = NewsletterSubscriberList::where('list_id', $campaign->list_id)->count();
 
-        if (empty($batches)) {
-            $this->error('No subscribers found');
-            $campaign->status = NewsletterCampaign::STATUS_FAILED;
-            $campaign->status_log = 'No subscribers found';
-            $campaign->save();
-            return 0;
+        $batchList = NewsletterSubscriberList::where('list_id', $campaign->list_id)
+            ->whereDoesntHave('campaignsSendLog', function ($query) use ($campaign) {
+                $query->where('campaign_id', $campaign->id);
+            })
+            ->limit(100)
+            ->get();
+
+        $countSentLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->count();
+        $remainingSubscribersCount = $allSubscribersCount - $countSentLog;
+
+        foreach ($batchList as $subscriber) {
+            dispatch(new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id));
         }
 
-        $campaign->status = NewsletterCampaign::STATUS_QUEUED;
-        $campaign->status_log = 'Campaign is queued';
-        $campaign->save();
+        $campaignProgress =  ($remainingSubscribersCount / $allSubscribersCount) * 100;
+        $campaign->jobs_progress = round((100 - $campaignProgress), 2);
 
-        $batch = Bus::batch($batches)
-            ->progress(function (Batch $batch) use($campaign) {
-
-                $delaySeconds = 0;
-                if ($campaign->delay_between_sending_emails > 0) {
-                    if ($campaign->delay_between_sending_emails < 10) {
-                        $delaySeconds = $campaign->delay_between_sending_emails;
-                    }
-                }
-
-                if ($delaySeconds) {
-                    sleep($delaySeconds);
-                }
-                $campaign->jobs_progress = $batch->progress();
-                $campaign->save();
-
-            })
-            ->finally(function (Batch $batch) use($campaign) {
-                if ($batch->finished()) {
-                    $campaign->status = NewsletterCampaign::STATUS_FINISHED;
-                    $campaign->status_log = 'Batch finished';
-                } else {
-                    $campaign->status = NewsletterCampaign::STATUS_FAILED;
-                    $campaign->status_log = 'Batch failed';
-                }
-                $campaign->save();
-            })
-            ->allowFailures()
-            ->dispatch();
-
-
-        if (empty($batch->id)) {
-            $campaign->status = NewsletterCampaign::STATUS_FAILED;
-            $campaign->status_log = 'Batch not created';
-            $campaign->save();
-            $this->error('Batch not created');
-            return 0;
+        if ($campaign->jobs_progress == 100) {
+            $campaign->status = NewsletterCampaign::STATUS_FINISHED;
+            $campaign->status_log = 'Campaign is finished';
+        } else {
+            $campaign->status = NewsletterCampaign::STATUS_PROCESSING;
+            $campaign->status_log = 'Campaign is processing';
         }
 
-        $campaign->total_jobs = count($batches);
-        $campaign->jobs_batch_id = $batch->id;
-        $campaign->status = NewsletterCampaign::STATUS_PROCESSING;
-        $campaign->status_log = 'Batch created';
         $campaign->save();
 
         return 0;
