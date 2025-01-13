@@ -154,9 +154,6 @@ Route::group([
 
 Route::get('login', '\MicroweberPackages\User\Http\Controllers\UserLoginController@loginForm')->name('login');
 
-Route::group(['middleware' => 'api.static', 'namespace' => '\MicroweberPackages\App\Http\Controllers'], function () {
-    Route::any('/userfiles/{path}', ['uses' => '\MicroweberPackages\App\Http\Controllers\ServeStaticFileContoller@serveFromUserfiles'])->where('path', '.*');
-});
 
 Route::post('/csrf-validate-token', function () {
     $headers = ['Cache-Control' => 'no-cache, no-store, must-revalidate'];
