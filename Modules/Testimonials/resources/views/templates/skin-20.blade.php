@@ -80,6 +80,7 @@ $limit = 40;
     .action-blog-quote {
         right: -13px;
         top: 211px;
+    }
 
 </style>
 
