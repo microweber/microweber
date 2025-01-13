@@ -82,7 +82,9 @@ class ListModules extends AdminComponent
 
         $hideModules = [];
 
-        if (is_link(base_path('vendor'))) {
+        $isWhiteLabel = (mw()->ui->brand_name() == 'Microweber') ? false : true;
+
+        if ($isWhiteLabel) {
             $hideModules = [
                 'Standalone Updater',
                 'Microweber',
