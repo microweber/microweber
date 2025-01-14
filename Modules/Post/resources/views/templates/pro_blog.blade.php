@@ -93,7 +93,7 @@ description: Posts pro-blog
                         <?php endif; ?>
 
                         <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                            <p style="color: #2b2b2b;" class="" itemprop="description"><?php print $item['description'] ?></p>
+                            <p style="color: #2b2b2b;" class="" itemprop="description"><?php print {{ \Illuminate\Support\Str::limit($item['description'], 250) }} ?></p>
                         <?php endif; ?>
 
                         <div class="d-flex">

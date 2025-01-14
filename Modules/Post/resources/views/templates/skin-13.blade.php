@@ -36,7 +36,7 @@ description: Posts 13
                         @endif
 
                         @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
-                            <p itemprop="description">{{ $item['description'] }}</p>
+                            <p itemprop="description">{{ \Illuminate\Support\Str::limit($item['description'], 250) }}</p>
                         @endif
                     </div>
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))

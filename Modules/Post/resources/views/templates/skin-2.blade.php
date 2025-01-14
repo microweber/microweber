@@ -33,7 +33,7 @@ description: Posts 2
                 <small class="my-2 d-block" itemprop="dateCreated">{{ date_system_format($item['created_at']) }}</small>
 
                 @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
-                    <p itemprop="description">{{ $item['description'] }}</p>
+                    <p itemprop="description">{{ \Illuminate\Support\Str::limit($item['description'], 250) }}</p>
                 @endif
 
             </div>

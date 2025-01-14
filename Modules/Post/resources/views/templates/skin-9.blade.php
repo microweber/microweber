@@ -44,7 +44,7 @@ description: Posts 9
                         @endif
 
                         @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
-                            <p class="" itemprop="description">{{ $item['description'] }}</p>
+                            <p class="" itemprop="description">{{ \Illuminate\Support\Str::limit($item['description'], 250) }}</p>
                         @endif
                     </div>
                 </div>

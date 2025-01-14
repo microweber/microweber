@@ -47,7 +47,7 @@ description: Posts Slider 1
                     <?php endif; ?>
 
                         <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                    <p itemprop="description"><?php print $item['description'] ?></p>
+                    <p itemprop="description"><?php print {{ \Illuminate\Support\Str::limit($item['description'], 250) }} ?></p>
                     <?php endif; ?>
 
                         <?php $text = 'text-text'; ?>

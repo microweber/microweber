@@ -61,7 +61,7 @@ description: Blog Pro
                         <?php endif; ?>
 
                         <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                            <p class="" itemprop="description"><?php print $item['description'] ?></p>
+                            <p class="" itemprop="description"><?php print {{ \Illuminate\Support\Str::limit($item['description'], 250) }} ?></p>
                         <?php endif; ?>
                     </div>
                 </div>

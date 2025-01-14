@@ -33,7 +33,7 @@ description: Posts 8
                             @endif
 
                             @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
-                                <p class="text-start mb-2" itemprop="description">{{ $item['description'] }}</p>
+                                <p class="text-start mb-2" itemprop="description">{{ \Illuminate\Support\Str::limit($item['description'], 250) }}</p>
                             @endif
                             <br/>
 
