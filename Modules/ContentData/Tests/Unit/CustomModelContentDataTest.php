@@ -3,12 +3,15 @@
 namespace Modules\ContentData\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\ContentData\Models\ContentData;
 
 
 class CustomModelContentDataTest extends TestCase
 {
     public function testContentDataToCustomModel()
     {
+
+        ContentData::truncate();
 
         $product = new TestModel();
         $product->title = 'Test car bmw';

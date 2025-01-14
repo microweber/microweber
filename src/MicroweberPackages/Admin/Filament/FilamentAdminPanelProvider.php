@@ -16,6 +16,7 @@ use Hydrat\TableLayoutToggle\TableLayoutTogglePlugin;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\Marketplace\Filament\MarketplaceFilamentPlugin;
 use MicroweberPackages\MicroweberFilamentTheme\MicroweberFilamentTheme;
 use MicroweberPackages\Multilanguage\MultilanguageFilamentPlugin;
@@ -83,7 +84,10 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
             ->default()
-          //  ->spa()
+          /*  ->spa()
+            ->spaUrlExceptions(fn (): array => [
+                 AdminLiveEditPage::getUrl(),
+            ])*/
             ->login()
             ->registration()
             ->font('Inter')

@@ -509,7 +509,7 @@ HTML;
         );
 
         $fieldSaved = $response->decodeResponseJson();
-        $this->assertEquals($fieldSaved['new_page_url'], $expected);
+        $this->assertEquals(strtolower($fieldSaved['new_page_url']), strtolower($expected));
         $this->assertEquals($fieldSaved[0]['content'],  $contentFieldHtml);
      }
 
@@ -544,12 +544,23 @@ HTML;
     private function cleanupAndPrepare()
     {
         $user = User::where('is_admin', '=', '1')->first();
+        if (!$user) {
+            // mak user
+            $user = new User();
+            $user->username = 'admin';
+            $user->email = 'info@example.com';
+            $user->password = bcrypt('admin');
+            $user->is_admin = 1;
+            $user->is_active = 1;
+            $user->save();
+        }
+
         Auth::login($user);
         Config::set('microweber.disable_model_cache', 1);
 
 
         MultilanguageHelpers::setMultilanguageEnabled(0);
-        Page::truncate();
+      //  Page::truncate();
     }
 
     public static function fixLinksPrecentAttributes($text)

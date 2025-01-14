@@ -6,8 +6,12 @@ use Content;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Modules\Content\Support\BreadcrumbLinks;
 use Modules\Content\Support\ContentManagerCrud;
 use Modules\Content\Support\ContentManagerHelpers;
+use Modules\Content\Support\PagesTree;
+use Modules\Content\Support\PagingLinks;
+use Modules\Content\Support\PagingNav;
 
 
 /**
@@ -46,6 +50,12 @@ class ContentManager
      * @var
      */
     public $no_cache = false;
+    public $contentRepository;
+    public $pagingLinks;
+    public $pagesTree;
+    public $breadcrumbLinks;
+    public $pagingNav;
+
 
     public function __construct($app = null)
     {
@@ -60,7 +70,11 @@ class ContentManager
 
         $this->crud = new ContentManagerCrud($this->app);
         $this->helpers = new ContentManagerHelpers($this->app);
-
+        $this->contentRepository = new ContentRepository();
+        $this->pagingLinks = new PagingLinks($this->app);
+        $this->pagesTree = new PagesTree($this->app);
+        $this->breadcrumbLinks = new BreadcrumbLinks($this->app);
+        $this->pagingNav = new PagingNav($this->app);
         //$this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
 
 
@@ -329,364 +343,15 @@ class ContentManager
     public function paging($params)
     {
 
-        $params = parse_params($params);
 
-        $pages_count = 1;
-        $base_url = false;
-        $paging_param = 'current_page';
-        $keyword_param = 'keyword_param';
-        $class = 'pagination';
-        $li_class = '';
-        if (isset($params['num'])) {
-            $pages_count = $params['num'];
-        }
+        return $this->pagingNav->get($params);
 
-        if (isset($params['num'])) {
-            $pages_count = $params['num'];
-        }
-        $limit = 10;
-        if (isset($params['limit'])) {
-            $limit = intval($params['limit']);
-        }
-
-        if (isset($params['class'])) {
-            $class = $params['class'];
-        }
-        if (isset($params['li_class'])) {
-            $li_class = $params['li_class'];
-        }
-
-        if (isset($params['paging_param'])) {
-            $paging_param = $params['paging_param'];
-        }
-
-        $current_page_from_url = $this->app->url_manager->param($paging_param);
-
-        if (isset($params['current_page'])) {
-            $current_page_from_url = $params['current_page'];
-        } elseif (isset($params['curent_page'])) {
-            $current_page_from_url = $params['curent_page'];
-        }
-        $no_wrap = false;
-        if (isset($params['no_wrap'])) {
-            $no_wrap = true;
-        }
-
-        // Laravel pagination
-        if (isset($params['laravel_pagination'])) {
-
-            if ($this->app->url_manager->is_ajax() == false) {
-                $base_url = $this->app->url_manager->current(1);
-            } else {
-                if ($_SERVER['HTTP_REFERER'] != false) {
-                    $base_url = $_SERVER['HTTP_REFERER'];
-                }
-            }
-
-            $current_page_from_url = $current_page_from_url ?: (Paginator::resolveCurrentPage() ?: 1);
-
-            $items = [];
-            for ($i = 0; $i <= $params['laravel_total']; $i++) {
-                $items[] = 1;
-            }
-            $items = Collection::make($items);
-
-            $paginate = new LengthAwarePaginator($items->forPage($current_page_from_url, $params['laravel_pagination_limit']), $items->count(), $params['laravel_pagination_limit'], $current_page_from_url, []);
-
-            $paginationPath = strtok($base_url, '?');
-            $paginate->setPath($paginationPath);
-
-            if (isset($params['return_as_array']) && $params['return_as_array']) {
-
-                $paginateArray = $paginate->toArray();
-
-                $pagination_links = [];
-
-                foreach ($paginateArray['links'] as $paginate) {
-
-                    $pagination_links[] = [
-                        'attributes' => [
-                            'class' => '',
-                            'current' => $paginate['active'],
-                            'data-page-number' => '',
-                            'href' => $paginate['url']
-                        ],
-                        'title' => $paginate['label']
-                    ];
-                }
-
-                return $pagination_links;
-            } else {
-                return $paginate->links();
-            }
-        }
-
-        // OLD pagiantion
-        $ready_paging_first_links = [];
-        $ready_paging_last_links = [];
-        $ready_paging_number_links = [];
-        $data = $this->paging_links($base_url, $pages_count, $paging_param, $keyword_param);
-        if (is_array($data)) {
-
-            if ($no_wrap) {
-                $to_print = "<ul class='{$class}'>";
-            } else {
-                $to_print = "<div class='{$class}-holder' ><ul class='{$class}'>";
-            }
-
-            if ($current_page_from_url > 1 && isset($params['show_first_last'])) {
-                $to_print = '<a data-page-number="' . $data[1] . '" href="' . $data[1] . '">' . _e('First', true) . '</a>';
-                $ready_paging_first_links[] = [
-                    'attributes' => [
-                        'class' => false,
-                        'current' => false,
-                        'data-page-number' => $data[1],
-                        'href' => $data[1]
-                    ],
-                    'title' => _e('First', true)
-                ];
-            }
-
-            $paging_items = array();
-            $active_item = 1;
-            foreach ($data as $key => $value) {
-                $skip = false;
-                $act_class = false;
-                if ($current_page_from_url != false) {
-                    if (intval($current_page_from_url) == intval($key)) {
-                        $act_class = ' active ';
-                        $active_item = $key;
-                    }
-                }
-
-                $item_to_print = '';
-                $item_to_print .= "";
-                $item_to_print .= "<li class=\"page-item\"><a class=\"{$act_class} page-link\" href=\"$value\" data-page-number=\"$key\">$key</a></li> ";
-                $item_to_print .= '';
-                $paging_items[$key] = $item_to_print;
-
-                /*
-                 * TODO: this will bug when we have many products
-                 *   if (count($ready_paging_number_links) > $limit) {
-                      continue;
-                  }*/
-
-                $ready_paging_number_links[] = [
-                    'attributes' => [
-                        'class' => $act_class,
-                        'current' => $act_class,
-                        'data-page-number' => $key,
-                        'href' => $value
-                    ],
-                    'title' => $key
-                ];
-            }
-
-            if ($limit != false and count($paging_items) > $limit) {
-                $limited_paging = array();
-
-                $limited_paging_begin = array();
-
-                foreach ($paging_items as $key => $paging_item) {
-                    if ($key == $active_item) {
-                        $steps = $steps2 = floor($limit / 2);
-                        for ($i = 1; $i <= $steps; ++$i) {
-                            if (isset($paging_items[$key - $i])) {
-                                $limited_paging_begin[$key - $i] = $paging_items[$key - $i];
-                                // $steps2--;
-                            } else {
-                                ++$steps2;
-                            }
-                        }
-
-                        $limited_paging[$key] = $paging_item;
-                        for ($i = 1; $i <= $steps2; ++$i) {
-                            if (isset($paging_items[$key + $i])) {
-                                $limited_paging[$key + $i] = $paging_items[$key + $i];
-                            }
-                        }
-                    }
-                }
-                $prev_link = '#';
-                $next_link = '#';
-                if (isset($data[$active_item - 1])) {
-                    $prev_link = $data[$active_item - 1];
-                    $limited_paging_begin[] = '<li class="page-item"><a data-page-number="' . ($active_item - 1) . '" href="' . $prev_link . '" class="page-link">&laquo;</a></li>';
-
-                    $ready_paging_first_links[] = [
-                        'attributes' => [
-                            'class' => false,
-                            'current' => false,
-                            'data-page-number' => ($active_item - 1),
-                            'href' => $prev_link
-                        ],
-                        'title' => 'Previous'
-                    ];
-
-                }
-
-                $limited_paging_begin = array_reverse($limited_paging_begin);
-                $limited_paging = array_merge($limited_paging_begin, $limited_paging);
-
-                if (isset($data[$active_item + 1])) {
-                    $next_link = $data[$active_item + 1];
-                    $limited_paging[] = '<li class="page-item"><a data-page-number="' . ($active_item + 1) . '" href="' . $next_link . '" class="page-link">&raquo;</a></li>';
-
-                    $ready_paging_last_links[] = [
-                        'attributes' => [
-                            'class' => false,
-                            'current' => false,
-                            'data-page-number' => ($active_item + 1),
-                            'href' => $next_link
-                        ],
-                        'title' => 'Next'
-                    ];
-
-                }
-
-                if (isset($params['show_first_last'])) {
-                    $limited_paging[] = '<li class="page-item"><a data-page-number="' . end($data) . '" href="' . end($data) . '" class="page-link">' . _e('Last', true) . '</a></li>';
-
-                    $ready_paging_last_links[] = [
-                        'attributes' => [
-                            'class' => false,
-                            'current' => false,
-                            'data-page-number' => end($data),
-                            'href' => end($data)
-                        ],
-                        'title' => _e('Last', true)
-                    ];
-
-                }
-
-                if (count($limited_paging) > 2) {
-                    $paging_items = $limited_paging;
-                }
-            }
-
-            if (isset($params['return_as_array']) && $params['return_as_array']) {
-
-                $ready_paging_links = array_merge($ready_paging_first_links, $ready_paging_number_links);
-                $ready_paging_links = array_merge($ready_paging_links, $ready_paging_last_links);
-
-                return $ready_paging_links;
-            }
-
-            $to_print .= implode("\n", $paging_items);
-
-            if ($no_wrap) {
-                $to_print .= '</ul>';
-            } else {
-                $to_print .= '</ul></div>';
-            }
-
-            return $to_print;
-        }
     }
 
     public function paging_links($base_url = false, $pages_count = false, $paging_param = 'current_page', $keyword_param = 'keyword')
     {
-        if ($base_url == false) {
-            if ($this->app->url_manager->is_ajax() == false) {
-                $base_url = $this->app->url_manager->current(1);
-            } else {
-                if ($_SERVER['HTTP_REFERER'] != false) {
-                    $base_url = $_SERVER['HTTP_REFERER'];
-                }
-            }
-        }
 
-        $page_links = array();
-        $the_url = $base_url;
-        $append_to_links = '';
-        if (strpos($the_url, '?')) {
-            $the_url = substr($the_url, 0, strpos($the_url, '?'));
-        }
-        $get_params = array();
-        $get_params_append = '';
-        if ($_GET) {
-            $get_params = array_merge($get_params, $_GET);
-        }
-
-        if (isset($get_params[$paging_param])) {
-            unset($get_params[$paging_param]);
-        }
-
-        if ($get_params and is_array($get_params)) {
-            $get_params = array_filter($get_params);
-
-            $get_params_append = implode('&', array_map(
-                function ($v, $k) {
-                    if ($k and $v and !is_array($v)) {
-                        return sprintf("%s=%s", $k, $v);
-                    }
-                },
-                $get_params,
-                array_keys($get_params)
-            ));
-
-        }
-
-        $in_empty_url = false;
-        if ($the_url == site_url()) {
-            $in_empty_url = 1;
-        }
-
-
-        if ($get_params_append) {
-            if (stristr($base_url, '?') == false) {
-                $append_to_links = '?' . $get_params_append;
-            } else {
-                $append_to_links = '&' . $get_params_append;
-
-            }
-        }
-
-        $the_url = explode('/', $the_url);
-        for ($x = 1; $x <= $pages_count; ++$x) {
-            $new = array();
-            foreach ($the_url as $itm) {
-
-                $itm = explode(':', $itm);
-                if ($itm[0] == $paging_param) {
-                    $itm[1] = $x;
-                }
-                $new[] = implode(':', $itm);
-            }
-            $new_url = implode('/', $new);
-
-
-            // $page_links[$x] = $new_url . $append_to_links;
-            $page_links[$x] = $new_url;
-        }
-
-
-        $count = count($page_links);
-        for ($x = 1; $x <= $count; ++$x) {
-            if (stristr($page_links[$x], $paging_param . ':') == false) {
-                if ($in_empty_url == false) {
-                    $l = reduce_double_slashes($page_links[$x] . '/' . $paging_param . ':' . $x);
-                    if ($get_params_append) {
-                        $l = $l . '?' . $get_params_append;
-                    }
-                } else {
-                    $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . '=' . $x);
-                    if ($get_params_append) {
-                        $l = $l . '&' . $get_params_append;
-                    }
-                }
-
-                $l = reduce_double_slashes($page_links[$x] . '?' . $paging_param . '=' . $x);
-                if ($get_params_append) {
-                    $l = $l . '&' . $get_params_append;
-                }
-                $l = str_ireplace('module/', '', $l);
-                $page_links[$x] = $l;
-                //$page_links[$x] = $l . $append_to_links;
-                //$page_links[$x] = $l . $append_to_links;
-            }
-        }
-        return $page_links;
+        return $this->pagingLinks->get($base_url, $pages_count, $paging_param, $keyword_param);
     }
 
     /**
@@ -1469,64 +1134,6 @@ class ContentManager
         return app()->content_repository->getInheritedParent($content_id);
     }
 
-    /***
-     * @param $id
-     * @param $params
-     * @return false|string
-     */
-    public function get_parents_as_links($id, $params = [])
-    {
-        $implodeSymbol = ' &rarr; ';
-
-        if (isset($params['implode_symbol'])) {
-            $implodeSymbol = $params['implode_symbol'];
-        }
-
-        $class = '';
-        if (isset($params['class'])) {
-            $class = $params['class'];
-        }
-
-        $parentTitles = [];
-        $parents = $this->get_parents($id);
-        if (!empty($parents)) {
-            foreach ($parents as $parentId) {
-                $editLink = content_edit_link($parentId);
-                $parentTitles[] = '<a href="' . $editLink . '" class="' . $class . '">' . $this->title($parentId) . '</a>';
-            }
-        }
-
-        $parentTitles = array_reverse($parentTitles);
-        if (!empty($parentTitles)) {
-            return implode($implodeSymbol, $parentTitles);
-        }
-
-        return false;
-    }
-
-    /**
-     * @param $id
-     * @param $implodeSymbol
-     * @return false|string
-     */
-    public function get_parents_as_text($id, $implodeSymbol = ' &rarr; ')
-    {
-        $parentTitles = [];
-        $parents = $this->get_parents($id);
-        if (!empty($parents)) {
-            foreach ($parents as $parentId) {
-                $parentTitles[] = $this->title($parentId);
-            }
-        }
-        $parentTitles = array_reverse($parentTitles);
-
-        if (!empty($parentTitles)) {
-            return implode($implodeSymbol, $parentTitles);
-        }
-
-        return false;
-    }
-
 
     public function get_parents($id = 0)
     {
@@ -1594,159 +1201,7 @@ class ContentManager
 
     public function breadcrumb($params = false)
     {
-        $result = array();
-        $cur_page = false;
-        $cur_content = false;
-        $cur_category = false;
-        if (defined('PAGE_ID') and PAGE_ID != false) {
-            $cur_page = PAGE_ID;
-        }
-        if (defined('POST_ID') and CONTENT_ID != false) {
-            $cur_content = CONTENT_ID;
-            if ($cur_content == $cur_page) {
-                $cur_content = false;
-            }
-        }
-        if (defined('CATEGORY_ID') and CATEGORY_ID != false) {
-            $cur_category = CATEGORY_ID;
-        }
-
-
-        $start_from = false;
-        if (isset($params['start_from'])) {
-            $start_from = trim($params['start_from']);
-        }
-
-        if ($cur_page != false) {
-            if ($start_from != 'category') {
-
-                $content = $this->get_by_id($cur_page);
-                if (isset($content['id'])) {
-                    $result_item = array();
-                    $result_item['title'] = $content['title'];
-                    $result_item['url'] = $this->link($content['id']);
-                    $result_item['description'] = $content['description'];
-                    $result_item['is_active'] = false;
-
-                    if ($cur_content == $content['id']) {
-                        $result_item['is_active'] = true;
-                    } elseif ($cur_content != false and $cur_page == $content['id']) {
-                        $result_item['is_active_as_parent'] = true;
-                        $result_item['is_active'] = false;
-                    } elseif ($cur_category == false and $cur_content == false and $cur_page == $content['id']) {
-                        $result_item['is_active'] = true;
-                    } else {
-                        $result_item['is_active'] = false;
-                    }
-                    $result_item['parent_content_id'] = $content['parent'];
-                    $result_item['content_type'] = $content['content_type'];
-                    $result_item['subtype'] = $content['subtype'];
-                    $result[] = $result_item;
-                }
-
-
-                $content_parents = $this->get_parents($cur_page);
-                if (!empty($content_parents)) {
-                    foreach (($content_parents) as $item) {
-                        $item = intval($item);
-                        if ($item > 0) {
-                            $content = $this->get_by_id($item);
-                            if (isset($content['id'])) {
-                                $result_item = array();
-                                $result_item['title'] = $content['title'];
-                                $result_item['url'] = $this->link($content['id']);
-                                $result_item['description'] = $content['description'];
-                                if ($cur_content == $content['id']) {
-                                    $result_item['is_active'] = true;
-                                } else {
-                                    $result_item['is_active'] = false;
-                                }
-                                $result_item['parent_content_id'] = $content['parent'];
-                                $result_item['content_type'] = $content['content_type'];
-                                $result_item['subtype'] = $content['subtype'];
-                                $result[] = $result_item;
-                            }
-                        }
-                    }
-                }
-
-                if ($result) {
-                    $result = array_reverse($result);
-                }
-            }
-        }
-
-        if ($cur_category != false) {
-            $cur_category_data = $this->app->category_manager->get_by_id($cur_category);
-            if ($cur_category_data != false and isset($cur_category_data['id'])) {
-                $cat_parents = $this->app->category_manager->get_parents($cur_category);
-
-                if (!empty($cat_parents)) {
-                    foreach (($cat_parents) as $item) {
-                        $item = intval($item);
-                        if ($item > 0) {
-                            $content = $this->app->category_manager->get_by_id($item);
-                            if (isset($content['id'])) {
-                                $result_item = array();
-                                $result_item['title'] = $content['title'];
-                                $result_item['description'] = $content['description'];
-
-                                if (isset($params['current-page-as-root']) and $params['current-page-as-root'] != false) {
-                                    $result_item['url'] = page_link() . '/category:' . $content['id'];
-                                } else {
-                                    $result_item['url'] = $this->app->category_manager->link($content['id']);
-                                }
-
-
-                                $result_item['content_type'] = 'category';
-                                if ($cur_content == false and $cur_category == $content['id']) {
-                                    $result_item['is_active'] = true;
-                                } else {
-                                    $result_item['is_active'] = false;
-                                }
-                                $result[] = $result_item;
-                            }
-                        }
-                    }
-                }
-            }
-            $content = $cur_category_data;
-            if (isset($content['id'])) {
-                $result_item = array();
-                $result_item['title'] = $content['title'];
-                $result_item['description'] = $content['description'];
-                $result_item['url'] = $this->app->category_manager->link($content['id']);
-                $result_item['content_type'] = 'category';
-                if ($cur_content == false and $cur_category == $content['id']) {
-                    $result_item['is_active'] = true;
-                } else {
-                    $result_item['is_active'] = false;
-                }
-                $result[] = $result_item;
-            }
-        }
-
-        if ($cur_content != false) {
-            $content = $this->get_by_id($cur_content);
-            if (isset($content['id'])) {
-                $result_item = array();
-                $result_item['title'] = $content['title'];
-                $result_item['url'] = $this->link($content['id']);
-                $result_item['description'] = $content['description'];
-                if ($cur_content == $content['id']) {
-                    $result_item['is_active'] = true;
-                } else {
-                    $result_item['is_active'] = false;
-                }
-                $result_item['parent_content_id'] = $content['parent'];
-                $result_item['content_type'] = $content['content_type'];
-                $result_item['subtype'] = $content['subtype'];
-                $result[] = $result_item;
-            }
-        }
-
-
-        return $result;
+        return $this->breadcrumbLinks->get($params);
     }
 
     /**
@@ -1877,113 +1332,6 @@ class ContentManager
         return $data;
     }
 
-// ------------------------------------------------------------------------
-
-    public function save_content_admin($data, $delete_the_cache = true)
-    {
-        if (is_string($data)) {
-            $data = parse_params($data);
-        }
-
-
-        $adm = $this->app->user_manager->is_admin();
-        $checks = mw_var('FORCE_SAVE_CONTENT');
-        $orig_data = $data;
-        $stop = false;
-        $data = $this->app->format->strip_unsafe($data);
-        if ($adm == false) {
-            $stop = true;
-            $author_id = user_id();
-
-            if (isset($data['created_at'])) {
-                unset($data['created_at']);
-            }
-
-            if (isset($data['updated_at'])) {
-                unset($data['updated_at']);
-            }
-            if (isset($data['id']) and $data['id'] != 0 and $author_id != 0) {
-                $page_data_to_check_author = $this->get_by_id($data['id']);
-
-                if (!isset($page_data_to_check_author['created_by']) or ($page_data_to_check_author['created_by'] != $author_id)) {
-                    $stop = true;
-
-                    return array('error' => "You don't have permission to edit this content");
-                } elseif (isset($page_data_to_check_author['created_by']) and ($page_data_to_check_author['created_by'] == $author_id)) {
-                    $stop = false;
-                }
-            } elseif ($author_id == false) {
-                return array('error' => 'You must be logged to save content');
-            }
-
-            if (isset($data['id']) and $data['id'] != 0) {
-                if (!is_admin()) {
-                    $check = get_content_by_id($data['id']);
-                    if ($check['created_by'] != user_id()) {
-                        return array('error' => 'Wrong content');
-                    }
-                }
-            }
-
-            if (isset($data['is_home'])) {
-                if (!is_admin()) {
-                    unset($data['is_home']);
-                }
-            }
-            if ($stop == true) {
-                if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
-                    if (!isset($data['captcha'])) {
-                        if (isset($data['error_msg'])) {
-                            return array('error' => $data['error_msg']);
-                        } else {
-                            return array('error' => 'Please enter a captcha answer!');
-                        }
-                    } else {
-                        // $cap = $this->app->user_manager->session_get('captcha');
-                        if (!$this->app->captcha_manager->validate($data['captcha'])) {
-                            return array('error' => 'You must load a captcha first!');
-                        }
-                    }
-                }
-            }
-
-            if (isset($data['categories'])) {
-                $data['category'] = $data['categories'];
-            }
-            //if (defined('MW_API_FUNCTION_CALL') and MW_API_FUNCTION_CALL == __FUNCTION__) {
-            if (isset($data['category'])) {
-                $cats_check = array();
-                if (is_array($data['category'])) {
-                    foreach ($data['category'] as $cat) {
-                        $cats_check[] = intval($cat);
-                    }
-                } else {
-                    $cats_check[] = intval($data['category']);
-                }
-                $check_if_user_can_publish = $this->app->category_manager->get('ids=' . implode(',', $cats_check));
-                if (!empty($check_if_user_can_publish)) {
-                    $user_cats = array();
-                    foreach ($check_if_user_can_publish as $item) {
-                        if (isset($item['users_can_create_content']) and $item['users_can_create_content'] == 1) {
-                            $user_cats[] = $item['id'];
-                            $cont_cat = $this->get('limit=1&content_type=page&subtype_value=' . $item['id']);
-                        }
-                    }
-
-                    if (!empty($user_cats)) {
-                        $stop = false;
-                        $data['categories'] = $user_cats;
-                    }
-                }
-            }
-        }
-        // }
-
-        if ($stop == true) {
-            return array('error' => 'You don\'t have permissions to save content here!');
-        }
-        return $this->save_content($data, $delete_the_cache);
-    }
 
     public function save_content($data, $delete_the_cache = true)
     {

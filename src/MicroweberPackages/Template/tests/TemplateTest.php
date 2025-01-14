@@ -12,19 +12,20 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 class TemplateTest extends TestCase
 {
-    public $template_name = 'new-world';
+    public $template_name = 'Bootstrap';
     protected function assertPreConditions(): void
     {
          parent::assertPreConditions();
 
 
-        if (is_dir(templates_dir() . 'big')) {
-            $templateName = 'big';
-        } else if (is_dir(templates_dir() . 'new-world')) {
-            $templateName = 'new-world';
+        if (is_dir(templates_dir() . 'Big2')) {
+            $templateName = 'Big2';
+        } else if (is_dir(templates_dir() . 'Bootstrap')) {
+            $templateName = 'Bootstrap';
         } else {
             $templateName = 'default';
         }
+        $templateName = app()->template_manager->templateAdapter->getTemplateFolderName();
 
         $this->template_name = $templateName;
 
@@ -313,7 +314,9 @@ class TemplateTest extends TestCase
         $content = get_content_by_id($newCleanPageId);
         $renderFile = app()->template_manager->get_layout($content);
 
-        $expectedRenderFile = templates_dir() . $templateName . DS . 'clean.php';
+        $expectedRenderFile = templates_dir() . $templateName . DS . 'resources/views/clean.blade.php';
+        $expectedRenderFile = normalize_path($expectedRenderFile, false);
+        $renderFile = normalize_path($renderFile, false);
         $this->assertEquals($expectedRenderFile, $renderFile);
 
         $newCleanPostId = save_content([
@@ -327,7 +330,13 @@ class TemplateTest extends TestCase
 
         $content = get_content_by_id($newCleanPostId);
         $renderFile = app()->template_manager->get_layout($content);
-        $expectedRenderFile = templates_dir() . $templateName . DS . 'post.php';
+        $expectedRenderFile = templates_dir() . $templateName . DS . 'resources/views/post.blade.php';
+
+        $expectedRenderFile = normalize_path($expectedRenderFile, false);
+        $renderFile = normalize_path($renderFile, false);
+        $this->assertEquals($expectedRenderFile, $renderFile);
+
+
         $this->assertEquals($expectedRenderFile, $renderFile);
 
 
@@ -353,7 +362,12 @@ class TemplateTest extends TestCase
         $content = get_content_by_id($newCleanPostSubId);
         $renderFile = app()->template_manager->get_layout($content);
 
-        $expectedRenderFile = templates_dir() . $templateName . DS . 'layouts' . DS . 'blog_inner.php';
+        $expectedRenderFile = templates_dir() . $templateName . DS .  'resources/views/post.blade.php';
+
+
+        $expectedRenderFile = normalize_path($expectedRenderFile, false);
+        $renderFile = normalize_path($renderFile, false);
+
         $this->assertEquals($expectedRenderFile, $renderFile);
 
     }

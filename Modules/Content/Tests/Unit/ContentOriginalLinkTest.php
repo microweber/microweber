@@ -17,7 +17,6 @@ class ContentOriginalLinkTest extends TestCase
         $params = array(
             'title' => 'My test page testContentOriginalLinkParentRedirect' . uniqid(),
             'content_type' => 'page',
-            'layout_file' => 'layouts/blog.php',
             'subtype' => 'dynamic',
             'is_active' => 1,);
 
@@ -45,6 +44,7 @@ class ContentOriginalLinkTest extends TestCase
 
         $frontendController = new FrontendController();
         $redirectResponse = $frontendController->index(['content_id' => $save_post_id]);
+
         $this->assertEquals($redirectResponse->getStatusCode(), 302);
         $this->assertEquals($redirectResponse->getTargetUrl(), $original_link);
 

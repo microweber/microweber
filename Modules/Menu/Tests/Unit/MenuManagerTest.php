@@ -6,6 +6,8 @@ namespace Modules\Menu\Tests\Unit;
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Content\Models\Content;
+use Modules\Menu\Models\Menu;
+use Modules\Menu\Models\MenuItem;
 
 class MenuManagerTest extends TestCase
 {
@@ -146,15 +148,14 @@ class MenuManagerTest extends TestCase
 
     public function testMenuManagerAddContentToMenuTwice()
     {
-
+        MenuItem::where('parent_id', $this->menu_id)->delete();
         $newCleanPageId = save_content([
             'subtype' => 'static',
             'content_type' => 'page',
-            'layout_file' => 'clean.php',
-            'title' => 'LiveEditPage',
-            'url' => 'liveedit',
-            'preview_layout_file' => 'clean.php',
-            'active_site_template' => 'default',
+
+            'title' => 'liveedittestMenuManagerAddContentToMenuTwice',
+            'url' => 'liveedittestMenuManagerAddContentToMenuTwice',
+
             'is_active' => 1,
             'add_content_to_menu' => [
                 $this->menu_id
@@ -175,7 +176,7 @@ class MenuManagerTest extends TestCase
         $testIsInMenu = is_in_menu($this->menu_id, $newCleanPageId);
         $this->assertTrue($testIsInMenu);
 
-        $menuItemOfPage = app()->menu_manager->get_menu_items('content_id=' . $newCleanPageId);
+        $menuItemOfPage = app()->menu_manager->get_menu_items('content_id=' . $newCleanPageId . '&parent_id=' . $this->menu_id);
         $this->assertIsArray($menuItemOfPage);
         $this->assertEquals(count($menuItemOfPage), 1);
 

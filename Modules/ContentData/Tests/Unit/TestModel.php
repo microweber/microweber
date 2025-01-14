@@ -13,5 +13,11 @@ class TestModel extends Model
     use ContentDataTrait;
 
     protected $table = 'content';
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
 
+        $this->attributes['content_type'] = 'test';
+        $this->attributes['subtype'] = 'test';
+    }
 }

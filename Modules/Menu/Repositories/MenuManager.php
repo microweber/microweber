@@ -141,7 +141,6 @@ class MenuManager
         $this->app->content_repository->clearCache();
         $this->app->category_repository->clearCache();
         $this->app->menu_repository->clearCache();
-        event(new MenuWasUpdated($saveMenu, $data_to_save));
 
         return $saveMenu->id;
     }

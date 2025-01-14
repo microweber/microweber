@@ -524,7 +524,6 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         self::$precached_links = [];
 
 
-
         $cats_modified = false;
 
         if (!empty($data)) {
@@ -1061,9 +1060,19 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         $this->app->permalink_manager->clearCache();
 
         $save = $this->app->database_manager->extended_save($table, $data_to_save);
-
+        if (isset($data['add_content_to_menu']) && is_array($data['add_content_to_menu'])) {
+            foreach ($data['add_content_to_menu'] as $menuId) {
+                if (!$this->app->menu_manager->is_in_menu($menuId, $save)) {
+                    $this->app->content_manager->helpers->add_content_to_menu($save, $menuId);
+                }
+            }
+        }
         /* SQLITE FIX */
         if ($adm == true) {
+
+
+
+
             if (isset($data_to_save['is_home'])) {
                 $q = Content::where('id', $save)
                     ->update(array(

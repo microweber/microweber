@@ -971,7 +971,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 }
 
 
-                                $page_id = $this->app->content_manager->save_content_admin($save_page);
+                                $page_id = $this->app->content_manager->save_content($save_page);
                                 $new_content_link = content_link($page_id);
                                 if ($should_redirect_to_new_url) {
                                     $json_print['new_page_url'] = $new_content_link;
@@ -1287,7 +1287,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     }
 
 
-                                    $saved = $this->app->content_manager->save_content_admin($to_save);
+                                    $saved = $this->app->content_manager->save_content($to_save);
 
                                 }
                             } elseif (isset($category_id)) {

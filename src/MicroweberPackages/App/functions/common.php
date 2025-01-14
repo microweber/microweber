@@ -338,7 +338,7 @@ function set_cookie($key, $value, $time = false)
 
     setcookie($key, $value, time() + $time, "/");
     $_COOKIE[$key] = $value;
-    \Cookie::queue($key, $value, $time);
+    \Illuminate\Support\Facades\Cookie::queue($key, $value, $time);
 
 }
 
