@@ -11,17 +11,14 @@
 */
 
 ?>
-<?php
-if ($json == false) {
-    print lnotif(_e('Click to edit accordion', true));
+@if ($json == false)
+    {!! lnotif(_e('Click to edit accordion', true)) !!}
+    @php return; @endphp
+@endif
 
-    return;
-}
-
-if (isset($json) == false or count($json) == 0) {
-    $json = array(0 => $defaults);
-}
-?>
+@if (!isset($json) || count($json) == 0)
+    @php $json = array(0 => $defaults); @endphp
+@endif
 
 <script>
     $(document).ready(function() {
@@ -78,30 +75,28 @@ if (isset($json) == false or count($json) == 0) {
 
 <div id="mw-accordion-module-{{ $params['id'] }}">
     <div class="accordion" id="accordion-sk1">
-        <?php foreach ($json as $key => $slide) : ?>
-            <?php
-            $edit_field_key = $key;
-            if (isset($slide['id'])) {
-                $edit_field_key = $slide['id'];
-            }
-
-            ?>
-            <div class="card sk1 card-collapse mb-3 <?php if ($key == 0) : ?> active_sk1 <?php endif; ?>" >
+        @foreach ($json as $key => $slide)
+            @php
+                $edit_field_key = $key;
+                if (isset($slide['id'])) {
+                    $edit_field_key = $slide['id'];
+                }
+            @endphp
+            <div class="card sk1 card-collapse mb-3 {{ $key == 0 ? 'active_sk1' : '' }}">
                 <div class="card-header p-0" id="header-item-{{ $edit_field_key }}">
                     <button class="btn w-100 rounded-0 btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" aria-expanded="true" aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
                         {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }}
                         <h4> {{ isset($slide['title']) ? $slide['title'] : '' }} </h4>
-                        <i class="mdi arrow sk1 rounded-circle <?php if ($key == 0) : ?>mdi-chevron-down<?php else : ?>mdi-chevron-down <?php endif; ?>"></i>
+                        <i class="mdi arrow sk1 rounded-circle {{ $key == 0 ? 'mdi-chevron-down' : 'mdi-chevron-down' }}"></i>
                     </button>
                 </div>
 
-                <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse <?php if ($key == 0) : ?> show <?php endif; ?>" aria-labelledby="header-item-{{ $edit_field_key }}" data-parent="#mw-accordion-module-{{ $params['id'] }}">
+                <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse {{ $key == 0 ? 'show' : '' }}" aria-labelledby="header-item-{{ $edit_field_key }}" data-parent="#mw-accordion-module-{{ $params['id'] }}">
                     <div class="card-body p-5">
                         @include('modules.accordion.templates.partials.render_accordion_item_content')
-
                     </div>
                 </div>
             </div>
-        <?php endforeach; ?>
+        @endforeach
     </div>
 </div>
