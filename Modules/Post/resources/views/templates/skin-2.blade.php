@@ -12,39 +12,36 @@ description: Posts 2
 ?>
 
 <div class="blog-posts-2">
-    <?php if (!empty($data)): ?>
-        <?php foreach ($data as $item): ?>
-            <?php $categories = content_categories($item['id']);
-
-            $itemCats = '';
-            if ($categories) {
-                foreach ($categories as $category) {
-                    $itemCats .= '<p class="text-dark font-weight-bold d-block mb-2" itemprop="category">' . $category['title'] . '</p> ';
+    @if (!empty($data))
+        @foreach ($data as $item)
+            @php
+                $categories = content_categories($item['id']);
+                $itemCats = '';
+                if ($categories) {
+                    foreach ($categories as $category) {
+                        $itemCats .= '<p class="text-dark font-weight-bold d-block mb-2" itemprop="category">' . $category['title'] . '</p> ';
+                    }
                 }
-            }
-            ?>
+            @endphp
             <hr class="thin"/>
-            <div class="row pt-3 mb-0" itemscope itemtype="<?php print $schema_org_item_type_tag ?>">
+            <div class="row pt-3 mb-0" itemscope itemtype="{{ $schema_org_item_type_tag }}">
 
+                @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
+                    <a href="{{ $item['link'] }}" class="text-dark"><h3 itemprop="name">{{ $item['title'] }}</h3></a>
+                @endif
 
-            <?php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): ?>
-                <a href="<?php print $item['link'] ?>" class="text-dark"><h3  itemprop="name"><?php print $item['title'] ?></h3></a>
-            <?php endif; ?>
+                <small class="my-2 d-block" itemprop="dateCreated">{{ date_system_format($item['created_at']) }}</small>
 
-            <small class="my-2 d-block" itemprop="dateCreated"><?php echo date_system_format($item['created_at']) ; ?></small>
-
-            <?php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): ?>
-                <p itemprop="description"><?php print $item['description'] ?></p>
-            <?php endif; ?>
+                @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
+                    <p itemprop="description">{{ $item['description'] }}</p>
+                @endif
 
             </div>
-        <?php endforeach; ?>
+        @endforeach
         <hr class="thin"/>
-    <?php endif; ?>
+    @endif
 </div>
 
-
-
-<?php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): ?>
-    <module type="pagination" template="default" pages_count="<?php echo $pages_count; ?>" paging_param="<?php echo $paging_param; ?>"/>
-<?php endif; ?>
+@if (isset($pages_count) and $pages_count > 1 and isset($paging_param))
+    <module type="pagination" template="default" pages_count="{{ $pages_count }}" paging_param="{{ $paging_param }}"/>
+@endif
