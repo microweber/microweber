@@ -18,7 +18,7 @@
 @endif
 
 @if (!isset($accordion) || count($accordion) == 0 AND isset($defaults))
-    @php $accordion = array(0 => $defaults); @endphp
+    @php $accordion = $defaults @endphp
 @endif
 
 <script>
@@ -111,6 +111,7 @@
 </style>
 
 <div class="accordion-section" id="mw-accordion-module-{{ $params['id'] }}">
+
     @foreach ($accordion as $key => $slide)
         @php
             $edit_field_key = $key;
@@ -125,7 +126,7 @@
                         data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
                         aria-expanded="true"
                         aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
-                    {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }}<h6
+                            {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }}<h6
                         class="font-weight-bold me-auto mb-0">{{ isset($slide['title']) ? $slide['title'] : '' }}</h6>
                 </button>
             </h2>

@@ -17,7 +17,7 @@
 @endif
 
 @if (!isset($accordion) || count($accordion) == 0 AND isset($defaults))
-    @php $accordion = array(0 => $defaults); @endphp
+    @php $accordion = $defaults @endphp
 @endif
 
 <script>
