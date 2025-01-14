@@ -21,123 +21,48 @@
     @php $accordion = $defaults @endphp
 @endif
 
-<script>
-    $(document).ready(function () {
-        var root = $("#mw-accordion-module-{{ $params['id'] }}");
-        $('.accordion__title', root).on('click', function () {
-            $(this).parent().toggleClass('active');
-            var isActive = $(this).parent().hasClass('active');
-            if (isActive) {
-                $('.plus-icon', this).addClass('rotate-icon');
-            } else {
-                $('.plus-icon', this).removeClass('rotate-icon');
-            }
-            $('li.active', root).not($(this).parent()).removeClass('active');
-        });
-
-        // Listen for the show.bs.collapse event
-        $('.acordion-content-wrapper', root).on('show.bs.collapse', function () {
-            $('.plus-icon', $(this).prev()).addClass('rotate-icon');
-        });
-
-        // Listen for the hide.bs.collapse event
-        $('.acordion-content-wrapper', root).on('hide.bs.collapse', function () {
-            $('.plus-icon', $(this).prev()).removeClass('rotate-icon');
-        });
-    });
-</script>
-
 <style>
-    .accordion-section {
+    .misc-skin-12 .tab-pane .element {
         display: flex;
-        flex-direction: column;
-    }
-
-    .accordion-section {
-        align-self: stretch;
-        column-gap: 12px;
-        row-gap: 12px;
-    }
-
-    .accordion-item, .accordion-title {
-        background-color: #f4f3f1;
-        border-radius: 10px;
-    }
-
-    .accordion-title {
         align-items: center;
-        column-gap: 24px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        padding: 18px;
-        row-gap: 24px;
-        transition: opacity .2s;
-        transition-behavior: normal;
-        border: none;
-        width: 100%;
     }
 
-    .accordion-content {
-        padding: 9px 18px 18px;
-    }
-
-    .accordion-text {
-        max-width: 671px;
-    }
-
-    .accordion-title:hover {
-        opacity: .5;
-    }
-
-    @media screen and (max-width: 479px) {
-        .accordion-item {
-            border-radius: 6px;
+    @media (max-width: 550px) {
+        .misc-skin-12 .tab-pane .element {
+            flex-wrap: wrap;
         }
-
-        .accordion-icon {
-            max-height: 20px;
-        }
-    }
-
-    .rotate-icon {
-        transform: rotate(45deg);
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .accordion-icon {
-        transition: transform 0.3s ease-in-out;
     }
 </style>
 
-<div class="accordion-section" id="mw-accordion-module-{{ $params['id'] }}">
-    @foreach ($accordion as $key => $slide)
-        @php
-            $edit_field_key = $key;
-            if (isset($slide['id'])) {
-                $edit_field_key = $slide['id'];
-            }
-        @endphp
+<div class="row" id="mw-accordion-module-{{ $params['id'] }}">
+    <div class="col-xl-2 col-lg-4">
+        <ul class="nav flex-column" id="accordion-{{ $params['id'] }}" role="tablist">
+            @foreach ($accordion as $key => $slide)
+                <li class="nav-item">
+                    <a class="nav-link {{ $key == 0 ? 'active' : '' }}" id="{{ $params['id'] . '-' . $key }}-tab" data-bs-toggle="tab" href="#tab-{{ $params['id'] . '-' . $key }}" role="tab" aria-controls="home" aria-selected="true">
+                        {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}{{ isset($slide['title']) ? $slide['title'] : '' }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
 
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="header-item-{{ $edit_field_key }}">
-                <button class="accordion-title" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
-                        aria-expanded="true"
-                        aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
-                    {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }}<h6 class="font-weight-bold me-auto mb-0">{{ isset($slide['title']) ? $slide['title'] : '' }}</h6>
-                </button>
-            </h2>
+    <div class="col-xl-10 col-lg-8">
+        <div class="tab-content misc-skin-12" id="accordion-{{ $params['id'] }}-content">
+            @foreach ($accordion as $key => $slide)
+                @php
+                    $edit_field_key = $key;
+                    if (isset($slide['id'])) {
+                        $edit_field_key = $slide['id'];
+                    }
+                @endphp
 
-            <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="acordion-content-wrapper accordion-collapse collapse"
-                 aria-labelledby="header-item-{{ $edit_field_key }}"
-                 data-parent="#mw-accordion-module-{{ $params['id'] }}">
-                <div class="accordion-content">
-                    <div class="accordion-text">
-                        @include('modules.accordion::partials.render_accordion_item_content')
-                    </div>
+                <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}" id="tab-{{ $params['id'] . '-' . $key }}" role="tabpanel" aria-labelledby="{{ $params['id'] . '-' . $key }}-tab">
+                    <h4>{{ isset($slide['title']) ? $slide['title'] : '' }}</h4>
+                    @include('modules.accordion::partials.render_accordion_item_content')
+
                 </div>
-            </div>
+            @endforeach
         </div>
-    @endforeach
+    </div>
 </div>
