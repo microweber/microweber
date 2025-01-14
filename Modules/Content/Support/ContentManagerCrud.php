@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Content\Support;
 
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class ContentManagerCrud extends Crud
     public static $skip_pages_starting_with_url = ['admin', 'api', 'module'];
 
     /** @var ContentRepository */
-   // public $content_repository;
+    // public $content_repository;
 
     /**
      *  Boolean that indicates the usage of cache while making queries.
@@ -41,8 +42,7 @@ class ContentManagerCrud extends Crud
         }
 
 
-      //  $this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
-
+        //  $this->content_repository = $this->app->repository_manager->driver(\MicroweberPackages\Content\Content::class);
 
 
     }
@@ -59,8 +59,6 @@ class ContentManagerCrud extends Crud
      *
      *
      * @desc     Get array of content items from the content DB table
-     *
-     * @uses     get() You can use all the options of get(), such as limit, order_by, count, etc...
      *
      * @param mixed|array|bool|string $params You can pass parameters as string or as array
      * @params
@@ -92,6 +90,8 @@ class ContentManagerCrud extends Crud
      *| is_shop             | flag for shop page        |  "n" or "y"
      *
      * @return array|bool|mixed Array of content or false if nothing is found
+     *
+     * @uses     get() You can use all the options of get(), such as limit, order_by, count, etc...
      *
      * @example
      * #### Get with parameters as array
@@ -206,29 +206,29 @@ class ContentManagerCrud extends Crud
             $extra_data = true;
         }
 
-         if (isset($params['filter-only-in-stock'])) {
+        if (isset($params['filter-only-in-stock'])) {
             $params['__query_get_only_in_stock'] = function ($query) use ($params) {
-                return $query->whereIn('content.id', function ($subQuery) use ($params)  {
+                return $query->whereIn('content.id', function ($subQuery) use ($params) {
                     $subQuery->select('content_data.content_id');
                     $subQuery->from('content_data');
                     $subQuery->where('content_data.field_name', '=', 'qty');
-                    $subQuery->where('content_data.field_value', '<>','0');
+                    $subQuery->where('content_data.field_value', '<>', '0');
 
-                    if(isset($params['category'])){
-                        $subQuery->whereIn('content_data.rel_id', function ($subQuery) use ($params)  {
+                    if (isset($params['category'])) {
+                        $subQuery->whereIn('content_data.rel_id', function ($subQuery) use ($params) {
                             $subQuery->select('categories_items.rel_id');
                             $subQuery->from('categories_items');
-                            if(is_array($params['category'])) {
+                            if (is_array($params['category'])) {
                                 $subQuery->whereIn('categories_items.parent_id', array_map('intval', $params['category']));
                             } else {
                                 $subQuery->where('categories_items.parent_id', intval($params['category']));
                             }
-                         });
+                        });
                     }
                 });
-              };
-             unset($params['filter-only-in-stock']);
-         }
+            };
+            unset($params['filter-only-in-stock']);
+        }
 //        if (isset($params['related'])) {
 //              \Config::set('microweber.disable_model_cache',1);
 //             $params['__query_try_to_get_related_content_from_table'] = function ($query){
@@ -249,26 +249,23 @@ class ContentManagerCrud extends Crud
 //
 //        }
 
-/*
-        if (isset($params['category']) || isset($params['categories'])) {
-            $findByCategoryIds = [];
+        /*
+                if (isset($params['category']) || isset($params['categories'])) {
+                    $findByCategoryIds = [];
 
-            $params['__query_get_with_categories'] = function ($query) {
-                return $query->whereIn('content.id', function ($subQuery)  {
-                     $subQuery->select('categories_items.id');
-                     $subQuery->from('categories_items');
-                     $subQuery->where('categories_items.rel_id', '=', 'content.id');
-                     $subQuery->where('categories_items.rel_type', '=', 'content');
-                 });
-            };
-        }*/
+                    $params['__query_get_with_categories'] = function ($query) {
+                        return $query->whereIn('content.id', function ($subQuery)  {
+                             $subQuery->select('categories_items.id');
+                             $subQuery->from('categories_items');
+                             $subQuery->where('categories_items.rel_id', '=', 'content.id');
+                             $subQuery->where('categories_items.rel_type', '=', 'content');
+                         });
+                    };
+                }*/
 
-    /*    if (isset($params['category-id'])) {
-            dump($params);
-        }*/
-
-
-
+        /*    if (isset($params['category-id'])) {
+                dump($params);
+            }*/
 
 
         if (!isset($params['fields']) and !isset($params['count']) and !isset($params['count_paging']) and !isset($params['page_count'])) {
@@ -277,26 +274,25 @@ class ContentManagerCrud extends Crud
             $getIds = app()->content_repository->getByParams($params);
 
 
-
             if ($getIds) {
-                if(isset($params['single']) or isset($params['one'])){
+                if (isset($params['single']) or isset($params['one'])) {
                     $getIds = array_values($getIds);
                     $getOne = app()->content_repository->getById(array_pop($getIds));
 
 
-                    if($getOne){
-                        if(!isset($getOne[0]) and !empty($getOne)){
+                    if ($getOne) {
+                        if (!isset($getOne[0]) and !empty($getOne)) {
                             $get = $getOne;
-                        } elseif(isset($getOne[0])) {
-                        $get = $getOne[0] ;
+                        } elseif (isset($getOne[0])) {
+                            $get = $getOne[0];
                         }
                         unset($getOne);
                     }
-                 } else {
-                    if(is_numeric($getIds)){
-                    $get = app()->content_repository->getById($getIds);
+                } else {
+                    if (is_numeric($getIds)) {
+                        $get = app()->content_repository->getById($getIds);
                     } else {
-                    $get = app()->content_repository->getById(array_values(array_flatten($getIds)));
+                        $get = app()->content_repository->getById(array_values(array_flatten($getIds)));
                     }
 
                 }
@@ -307,13 +303,11 @@ class ContentManagerCrud extends Crud
 
         }
 //
-        if(isset($params['page_count'])) {
+        if (isset($params['page_count'])) {
 //            dump($params);
 //            dump($get);
         }
-      //$get = app()->content_repository->getByParams($params);
-
-
+        //$get = app()->content_repository->getByParams($params);
 
 
         //$get = parent::get($params);
@@ -324,14 +318,14 @@ class ContentManagerCrud extends Crud
            }
        }*/
 
-       //  echo '<pre>' . print_r([$params], true) .'</pre>';
-$multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled();
+        //  echo '<pre>' . print_r([$params], true) .'</pre>';
+        $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::multilanguageIsEnabled();
         if (isset($params['count']) or isset($params['single']) or isset($params['one']) or isset($params['data-count']) or isset($params['page_count']) or isset($params['data-page-count'])) {
             if (isset($get['url'])) {
                 if (!$do_not_replace_site_url) {
                     $get['full_url'] = $this->app->url_manager->site($get['url']);
                     if ($multilangIsEnabled) {
-                        $get['url'] =content_link($get['id']);
+                        $get['url'] = content_link($get['id']);
                     }
                 }
             }
@@ -346,13 +340,13 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
                     if (!$do_not_replace_site_url) {
                         $item['url'] = $this->app->url_manager->site($item['url']);
                         if ($multilangIsEnabled) {
-                            $item['url'] =content_link($item['id']);
+                            $item['url'] = content_link($item['id']);
                         }
                     }
                 }
                 if ($extra_data) {
-                //    $item['picture'] = get_picture($item['id']);
-                 //   $item['content_data'] = content_data($item['id']);
+                    //    $item['picture'] = get_picture($item['id']);
+                    //   $item['content_data'] = content_data($item['id']);
                 }
 
                 $data2[] = $item;
@@ -507,9 +501,9 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
 
         $mw_global_content_memory = array();
         $adm = $this->app->user_manager->is_admin();
-        $table ='content';
+        $table = 'content';
 
-        $table_data ='content_data';
+        $table_data = 'content_data';
 
         $checks = mw_var('FORCE_SAVE_CONTENT');
         $orig_data = $data;
@@ -541,7 +535,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
                     $data['subtype'] = 'post';
                     $data['content_type'] = 'post';
                 }
-                if(isset($data['content_type']) and $data['content_type'] == 'page' and !isset($data['subtype'])){
+                if (isset($data['content_type']) and $data['content_type'] == 'page' and !isset($data['subtype'])) {
                     $data['subtype'] = 'static';
                 }
                 if (!isset($data['subtype'])) {
@@ -588,10 +582,10 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         $theurl = false;
         if (!isset($data['url']) and intval($data['id']) != 0) {
             $q = $this->get_by_id($data_to_save['id']);
-            if(isset($q['title'])){
+            if (isset($q['title'])) {
                 $thetitle = $q['title'];
             }
-            if(isset($q['url'])){
+            if (isset($q['url'])) {
                 $q = $q['url'];
                 $theurl = $q;
             }
@@ -690,7 +684,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
             unset($data['category_ids']);
         }
 
-            if (isset($data['category']) or isset($data['categories'])) {
+        if (isset($data['category']) or isset($data['categories'])) {
             $cats_modified = true;
         }
         $table_cats = 'categories';
@@ -719,7 +713,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
                 $data['url'] = $this->app->url_manager->slug($data['title']);
             }
 
-             $data['url'] = $this->app->database_manager->escape_string($data['url']);
+            $data['url'] = $this->app->database_manager->escape_string($data['url']);
 
 
             $date123 = date('YmdHis');
@@ -731,7 +725,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
 
 
             if (!empty($q)) {
-                if (!isset($data['id']) or !isset($q['id']) or  $data['id'] != $q['id']) {
+                if (!isset($data['id']) or !isset($q['id']) or $data['id'] != $q['id']) {
                     $orig_slug = $data['url'];
                     $slug = $data['url'];
                     $count = 1;
@@ -745,11 +739,10 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
 
             if (isset($data_to_save['url']) and strval($data_to_save['url']) != '') {
                 $check_cat_wth_slug = $this->app->category_manager->get_by_url($data_to_save['url']);
-                if($check_cat_wth_slug){
+                if ($check_cat_wth_slug) {
                     $data_to_save['url'] = $data_to_save['url'] . '-' . $date123;
                 }
             }
-
 
 
             if (isset($data_to_save['url']) and strval($data_to_save['url']) == '' and (isset($data_to_save['quick_save']) == false)) {
@@ -777,6 +770,9 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
 
         if (isset($data['updated_at'])) {
             $data_to_save['updated_at'] = ($data['updated_at']);
+        }
+        if (isset($data['original_link'])) {
+            $data_to_save['original_link'] = $data['original_link'];
         }
 
         $data_to_save_options = array();
@@ -1009,7 +1005,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
             unset($data_to_save['custom_field_is_active']);
         }
         if (isset($data_to_save['custom_field_width_size'])) {
-        	unset($data_to_save['custom_field_width_size']);
+            unset($data_to_save['custom_field_width_size']);
         }
         if (isset($data_to_save['name'])) {
             unset($data_to_save['name']);
@@ -1069,8 +1065,6 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         }
         /* SQLITE FIX */
         if ($adm == true) {
-
-
 
 
             if (isset($data_to_save['is_home'])) {
@@ -1158,7 +1152,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
             }
         }
 
-        $custom_field_table ='custom_fields';
+        $custom_field_table = 'custom_fields';
         $custom_field_table = $this->app->database_manager->real_table_name($custom_field_table);
 
         $sid = $this->app->user_manager->session_id();
@@ -1244,7 +1238,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         }
 
         $i = 1;
-        $ids_count= count($ids);
+        $ids_count = count($ids);
         if (($ids_count - $maxpos) < 0) {
             // if position will go to negative numbers
             $maxpos = $maxpos + $ids_count;
@@ -1389,10 +1383,7 @@ $multilangIsEnabled = \MicroweberPackages\Multilanguage\MultilanguageHelpers::mu
         }
 
 
-
-
         //getEditField
-
 
 
         if (!isset($data['full']) and isset($get['value'])) {

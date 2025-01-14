@@ -6,30 +6,34 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
+use Modules\Content\Models\Content;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-#[RunTestsInSeparateProcesses]
+
 class ContentOriginalLinkTest extends TestCase
 {
-
-
     public function testContentOriginalLinkRedirect()
     {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
         mw()->database_manager->extended_save_set_permission(true);
 
+        $title = 'My test page testContentOriginalLinkParentRedirect' . uniqid();
+        Content::where('title', $title)->delete();
         $params = array(
-            'title' => 'My test page testContentOriginalLinkParentRedirect' . uniqid(),
+            'title' => $title,
             'content_type' => 'page',
             'subtype' => 'dynamic',
-            'is_active' => 1,);
+            'is_active' => 1
+        );
 
         //saving
         $parent_page_id = save_content($params);
 
 
         $title = 'title for testContentOriginalLinkRedirect' . uniqid();
+        Content::where('title', $title)->delete();
+
         $description = 'description for testContentOriginalLinkRedirect' . uniqid() . '';
         $original_link = 'https://github.com/microweber/microweber/issues/963';
         $params = array(

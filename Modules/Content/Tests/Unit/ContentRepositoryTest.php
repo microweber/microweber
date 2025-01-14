@@ -10,7 +10,7 @@ class ContentRepositoryTest extends TestCase
 {
     public function testGetBlogsFromRepository()
     {
-        Content::truncate();
+         Content::where('subtype', 'dynamic')->delete();
 
         //saving
 
@@ -53,7 +53,7 @@ class ContentRepositoryTest extends TestCase
 
     public function testGetShopsFromRepository()
     {
-        Content::truncate();
+        Content::where('is_shop',1)->delete();
 
         //saving
         $title = 'Shop' . rand();
