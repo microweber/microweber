@@ -84,7 +84,7 @@ export const previewMode = function () {
 
     document.querySelector('#user-menu-wrapper').classList.remove('active');
 
-
+    mw.top().app.liveEditWidgets.closeAll();
 
     isEditMode(false)
 

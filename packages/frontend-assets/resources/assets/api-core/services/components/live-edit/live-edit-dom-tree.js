@@ -12,6 +12,8 @@ class LiveEditDOMTree extends MicroweberBaseClass {
     tree = null;
     box = null;
 
+    visible = false;
+
     config(options) {
         const defaults = {
             target: mw.top()
@@ -30,11 +32,9 @@ class LiveEditDOMTree extends MicroweberBaseClass {
         });
 
         this.box.on('show', () => {
-            mw.top().doc.documentElement.classList.add('mw-live-edit-sidebar-start')
             this.dispatch("show", this)
         });
         this.box.on('hide', () => {
-            mw.top().doc.documentElement.classList.remove('mw-live-edit-sidebar-start')
 
             this.dispatch("hide", this)
         });
@@ -42,10 +42,12 @@ class LiveEditDOMTree extends MicroweberBaseClass {
     }
     show() {
         this.box.show();
+        this.visible = true;
         this.dispatch("show", this)
     }
     hide() {
         this.box.hide();
+        this.visible = false;
         this.dispatch("hide", this)
     }
     buildTree() {
@@ -84,10 +86,7 @@ class LiveEditDOMTree extends MicroweberBaseClass {
     init() {
         this.buildBox();
         this.buildTree();
-        // this.show();
-        mw.top().app.on('mw.elementStyleEditor.selectNode', target => {
-            console.log(target)
-        });
+
         mw.top().app.canvas.on('liveEditCanvasLoaded', event => {
             this.buildTree();
         });

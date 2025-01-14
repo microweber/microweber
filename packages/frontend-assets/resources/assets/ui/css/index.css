@@ -62,7 +62,9 @@ a {
 
 #toolbar {
     height: var(--toolbar-height);
-    width: 100%;
+    left: 0;
+    right: 0;
+    max-width: 100%;
     align-items: center;
     justify-content: space-between;
     background: var(--tblr-bg-surface);
@@ -70,6 +72,11 @@ a {
     position: relative;
     z-index: 2;
     transition: var(--toolbar-height-animation-speed);
+}
+
+html.mw-live-edit-sidebar-start #toolbar {
+    left: 250px;
+    max-width: calc(100% - 250px);
 }
 
 @media (min-width: 1050px) {

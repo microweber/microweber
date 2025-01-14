@@ -79,7 +79,7 @@ export default {
         },
         handleLayers: function () {
             this.layers = !this.layers;
-            mw.top().app.domTree[this.layers ? 'show' : 'hide']();
+            mw.app.liveEditWidgets.toggleLayers();
 
         },
         openContentResetContent: function () {

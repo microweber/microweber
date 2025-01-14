@@ -10,6 +10,7 @@ import {LiveEditUndoRedoHandler} from   "./live-edit-undo-redo-handler.js";
 import LiveEditImageDialog from "./live-edit-image-dialog.js";
 import {LiveEditLayoutBackground} from "./live-edit-layout-background.js";
 import LiveEditFontManager from "./live-edit-font-manager.js";
+import LiveEditWidgetsService from "./live-edit-widgets-service.js";
 import { FreeDraggableElementManager } from '../api-core/core/handles-content/free-draggable-element-manager.js';
 
 
@@ -50,6 +51,8 @@ export const liveEditComponent = () => {
 
 
     mw.app.liveEdit = liveEdit;
+    mw.app.liveEditWidgets = new LiveEditWidgetsService();
+
     mw.app.editor = new EditorHandles();
     mw.app.moduleSettings = new ModuleSettings();
 

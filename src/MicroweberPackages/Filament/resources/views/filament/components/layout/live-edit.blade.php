@@ -4,6 +4,38 @@
     $navigation = filament()->getNavigation();
 @endphp
 
+
+<script>
+    addEventListener('DOMContentLoaded', () => {
+
+        const adminLink = document.getElementById('mw-live-edit-toolbar-back-to-admin-link');
+    if(adminLink) {
+       adminLink.addEventListener('click', e => {
+            e.preventDefault();
+             mw.app.liveEditWidgets.toggleAdminSidebar()
+
+        });
+    }
+
+    });
+</script>
+
+ <style>
+    .fi-sidebar{
+        position: absolute  !important;
+        top:0;
+        left:0;
+        transform: translateX(-100%) !important;
+        transition: var(--toolbar-height-animation-speed) !important;
+        z-index: 101 !important;
+    }
+     .fi-sidebar.active{
+
+        transform: translateX(0%) !important;
+
+    }
+ </style>
+
 <x-filament-panels::layout.base :livewire="$livewire">
     {{-- The sidebar is after the page content in the markup to fix issues with page content overlapping dropdown content from the sidebar. --}}
     <div
@@ -36,7 +68,7 @@
 
             <main
                 @class([
-                    'mw-admin-filament-live-edit-sidebar fi-main mx-auto h-full w-full px-4 md:px-6 lg:px-8',
+                    ' ',
                     match ($maxContentWidth ??= (filament()->getMaxContentWidth() ?? MaxWidth::SevenExtraLarge)) {
                         MaxWidth::ExtraSmall, 'xs' => 'max-w-xs',
                         MaxWidth::Small, 'sm' => 'max-w-sm',
@@ -58,7 +90,7 @@
                         MaxWidth::ScreenMedium, 'screen-md' => 'max-w-screen-md',
                         MaxWidth::ScreenLarge, 'screen-lg' => 'max-w-screen-lg',
                         MaxWidth::ScreenExtraLarge, 'screen-xl' => 'max-w-screen-xl',
-                        MaxWidth::ScreenTwoExtraLarge, 'screen-2xl' => 'max-w-screen-2xl',
+                        MaxWidth::ScreenTwoExtraLarge, 'screen-2xl' => 'xmax-w-screen-2xl',
                         default => $maxContentWidth,
                     },
                 ])

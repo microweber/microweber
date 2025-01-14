@@ -12,6 +12,7 @@ import {LiveEditLayoutBackground} from "./live-edit-layout-background.js";
 import LiveEditFontManager from "./live-edit-font-manager.js";
 import { FreeDraggableElementManager } from '../../../core/handles-content/free-draggable-element-manager.js';
 import   './live-edit-dom-tree.js';
+import { LiveEditWidgetsService } from '../../../../live-edit/live-edit-widgets-service.js';
 
 
 
@@ -53,6 +54,8 @@ export const liveEditComponent = () => {
 
 
     mw.app.liveEdit = liveEdit;
+        mw.app.liveEditWidgets = new LiveEditWidgetsService();
+
     mw.app.editor = new EditorHandles();
     mw.app.moduleSettings = new ModuleSettings();
 
