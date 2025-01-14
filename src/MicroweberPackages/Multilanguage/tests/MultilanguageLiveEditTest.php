@@ -43,10 +43,8 @@ class MultilanguageLiveEditTest extends MultilanguageTestBase
         $newCleanMlPage = save_content([
            'subtype' => 'static',
            'content_type' => 'page',
-           'layout_file' => 'clean.php',
            'title' => 'LiveEditMultilanguagePage'.$unique,
            'url' => 'liveeditmultilanguagepage'.$unique,
-           'preview_layout_file' => 'clean.php',
 
            'is_active' => 1,
         ]);

@@ -77,7 +77,7 @@ trait ManagesModules
         return $module->render();
     }
 
-    public function make($type, $params)
+    public function make($type, $params): BaseModule
     {
         /** @var BaseModule $module */
         $module = new $this->modules[$type]($params);
@@ -89,13 +89,29 @@ trait ManagesModules
      *
      * @return array The settings components for the modules.
      */
-    public function getSettingsComponents()
+    public function getSettingsComponents(): array
     {
         $modules = $this->getModules();
         $settings = [];
         foreach ($modules as $type => $module) {
             /** @var BaseModule $module */
             $settings[$type] = $module::getSettingsComponent();
+        }
+        return $settings;
+    }
+
+    /**
+     * Retrieve the settings components for all registered modules.
+     *
+     * @return array The settings components for the modules.
+     */
+    public function getTranslatableOptionKeys(): array
+    {
+        $modules = $this->getModules();
+        $settings = [];
+        foreach ($modules as $type => $module) {
+            /** @var BaseModule $module */
+            $settings[$type] = $module::getTranslatableOptionKeys();
         }
         return $settings;
     }

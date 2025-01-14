@@ -63,4 +63,12 @@ trait HasMicroweberModuleOptions
         return $default;
     }
 
+    public static function getTranslatableOptionKeys(): array
+    {
+        if (isset(static::$translatableOptions) and is_array(static::$translatableOptions)) {
+            return static::$translatableOptions;
+        }
+
+        return [];
+    }
 }
