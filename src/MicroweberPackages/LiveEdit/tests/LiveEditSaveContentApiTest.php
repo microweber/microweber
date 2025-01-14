@@ -14,8 +14,21 @@ class LiveEditSaveContentApiTest extends TestCase
 
     public function testIndex()
     {
-
         $user = User::where('is_admin', '=', '1')->first();
+        if (!$user) {
+            // mak user
+            $user = new User();
+            $user->username = 'admin';
+            $user->email = 'info@example.com';
+            $user->password = bcrypt('admin');
+            $user->is_admin = 1;
+            $user->is_active = 1;
+            $user->save();
+        }
+
+        Auth::login($user);
+        $user = User::where('is_admin', '=', '1')->first();
+
         Auth::login($user);
 
 
@@ -35,15 +48,13 @@ class LiveEditSaveContentApiTest extends TestCase
     {
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
-
+        Page::where('title', 'LiveEditPage')->delete();
         $newCleanPage = save_content([
             'subtype' => 'static',
             'content_type' => 'page',
-            'layout_file' => 'clean.php',
-            'title' => 'LiveEditPage',
-            'url' => 'liveedit',
-            'preview_layout_file' => 'clean.php',
-            'active_site_template' => 'default',
+             'title' => 'LiveEditPage',
+            'url' => 'liveedittestsavetest',
+
             'is_active' => 1,
         ]);
 
@@ -82,7 +93,7 @@ class LiveEditSaveContentApiTest extends TestCase
 
         $fieldSaved = $response->decodeResponseJson();
 
-    //    $this->assertEquals($fieldSaved[0]['table'], 'content');
+        //    $this->assertEquals($fieldSaved[0]['table'], 'content');
         $this->assertEquals($fieldSaved[0]['field'], 'content');
 
         $saved_id = $findPage->id;
@@ -90,14 +101,14 @@ class LiveEditSaveContentApiTest extends TestCase
 
         $params = [];
         $params['content_id'] = $saved_id;
+        $page = app()->content_manager->get_by_id($saved_id);
+        $this->assertNotEmpty($page);
 
         $frontRender = new FrontendController();
         $html = $frontRender->frontend($params);
         $contentFieldHtml = $saved_content;
 
         $this->assertTrue(str_contains($html, $contentFieldHtml));
-
-
 
 
         $response = $this->call(
@@ -112,7 +123,7 @@ class LiveEditSaveContentApiTest extends TestCase
             $_SERVER //server
         );
         $fieldSaved = $response->decodeResponseJson();
-        $this->assertArrayHasKey( 'error',$fieldSaved);
+        $this->assertArrayHasKey('error', $fieldSaved);
 
 
     }

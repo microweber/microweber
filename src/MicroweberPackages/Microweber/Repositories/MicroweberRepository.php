@@ -10,7 +10,7 @@ use MicroweberPackages\Microweber\Traits\ManagesUrl;
 
 class MicroweberRepository
 {
-    use ManagesUrl;
-    use ManagesContent;
+     use ManagesUrl;
+     use ManagesContent;
     use ManagesModules;
 }

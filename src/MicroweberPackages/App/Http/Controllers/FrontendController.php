@@ -922,11 +922,6 @@ class FrontendController extends Controller
         $the_active_site_template = app()->template_manager->templateAdapter->getTemplateFolderName();
 
 
-
-
-
-
-
         event_trigger('mw.front', $content);
 
         $overwrite = mw()->event_manager->trigger('mw.front.content_data', $content);
@@ -950,13 +945,12 @@ class FrontendController extends Controller
 
 
         $render_file = $this->app->template_manager->get_layout($content);
-
-       // $render_file = $this->app->template_manager->get_layout($content);
+        // $render_file = $this->app->template_manager->get_layout($content);
 
         $content['render_file'] = $render_file;
 
         if (defined('TEMPLATE_DIR')) {
-        //    app()->template_manager->boot_template();
+            //    app()->template_manager->boot_template();
         }
 
         if ($this->return_data != false) {
@@ -1036,8 +1030,7 @@ class FrontendController extends Controller
             $render_params['meta_tags'] = true;
 
 
-
-            if($is_laravel_template or str_ends_with($render_file, '.blade.php')){
+            if ($is_laravel_template or str_ends_with($render_file, '.blade.php')) {
                 $render_params['meta_tags'] = false;
 
                 $render_params['is_laravel_template'] = true;
@@ -1216,8 +1209,8 @@ class FrontendController extends Controller
 //                    $l = Str::replaceFirst('</body>', $template_footer_src . '</body>', $l);
 //                }
 
-                   // if(!$is_laravel_template) {
-                        $l = $this->app->template_manager->frontend_append_meta_tags($l,$is_laravel_template);
+                // if(!$is_laravel_template) {
+                $l = $this->app->template_manager->frontend_append_meta_tags($l, $is_laravel_template);
                 //    }
                 // @todo remove this and fix src/MicroweberPackages/MetaTags/Entities/LivewireHeadTags.php
                 //   $l = $this->app->template_manager->append_livewire_to_layout($l);

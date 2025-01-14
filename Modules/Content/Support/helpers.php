@@ -273,12 +273,7 @@ if (!function_exists('save_content')) {
     }
 }
 
-if (!function_exists('save_content_admin')) {
-    function save_content_admin($data, $delete_the_cache = true)
-    {
-        return app()->content_manager->save_content_admin($data, $delete_the_cache);
-    }
-}
+
 
 if (!function_exists('save_content_field')) {
     function save_content_field($data, $delete_the_cache = true)
