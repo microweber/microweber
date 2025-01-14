@@ -11,20 +11,16 @@
 */
 
 ?>
-<?php
-if ($json == false) {
-    print lnotif(_e('Click to edit accordion', true));
+@if ($json == false)
+    {!! lnotif(_e('Click to edit accordion', true)) !!}
+    @php return; @endphp
+@endif
 
-    return;
-}
-
-if (isset($json) == false or count($json) == 0) {
-    $json = array(0 => $defaults);
-}
-?>
+@if (!isset($json) || count($json) == 0)
+    @php $json = array(0 => $defaults); @endphp
+@endif
 
 <script>
-
     $(document).ready(function () {
         var root = $("#mw-accordion-module-{{ $params['id'] }}");
         $('.accordion__title', root).on('click', function () {
@@ -48,11 +44,9 @@ if (isset($json) == false or count($json) == 0) {
             $('.plus-icon', $(this).prev()).removeClass('rotate-icon');
         });
     });
-
 </script>
 
 <style>
-
     .accordion-section {
         display: flex;
         flex-direction: column;
@@ -110,21 +104,19 @@ if (isset($json) == false or count($json) == 0) {
         transition: transform 0.3s ease-in-out;
     }
 
-   .accordion-icon {
-       transition: transform 0.3s ease-in-out;
-
-   }
+    .accordion-icon {
+        transition: transform 0.3s ease-in-out;
+    }
 </style>
 
 <div class="accordion-section" id="mw-accordion-module-{{ $params['id'] }}">
-    <?php foreach ($json as $key => $slide): ?>
-        <?php
-        $edit_field_key = $key;
-        if (isset($slide['id'])) {
-            $edit_field_key = $slide['id'];
-        }
-
-        ?>
+    @foreach ($json as $key => $slide)
+        @php
+            $edit_field_key = $key;
+            if (isset($slide['id'])) {
+                $edit_field_key = $slide['id'];
+            }
+        @endphp
 
         <div class="accordion-item">
             <h2 class="accordion-header" id="header-item-{{ $edit_field_key }}">
@@ -146,6 +138,5 @@ if (isset($json) == false or count($json) == 0) {
                 </div>
             </div>
         </div>
-
-    <?php endforeach; ?>
+    @endforeach
 </div>

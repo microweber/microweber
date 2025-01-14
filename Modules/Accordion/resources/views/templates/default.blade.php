@@ -22,71 +22,122 @@
 @endif
 
 <script>
-    $(document).ready(function() {
-
-        function toggleChevron(e) {
-            $(e.target)
-                .prev('.mw-accordion-faq-skin-header')
-                .find("i.mdi")
-                .toggleClass('mdi-minus mdi-plus')
-                .toggleClass('active')
-        }
-        $('#accordion-sk3').on('hidden.bs.collapse', toggleChevron);
-        $('#accordion-sk3').on('shown.bs.collapse', toggleChevron);
-
-        $(".card.sk2").click(function() {
-            $(".card.sk2").removeClass("active");
-            $(this).addClass("active");
+    $(document).ready(function () {
+        var root = $("#mw-accordion-module-{{ $params['id'] }}");
+        $('.accordion__title', root).on('click', function () {
+            $(this).parent().toggleClass('active');
+            var isActive = $(this).parent().hasClass('active');
+            if (isActive) {
+                $('.plus-icon', this).addClass('rotate-icon');
+            } else {
+                $('.plus-icon', this).removeClass('rotate-icon');
+            }
+            $('li.active', root).not($(this).parent()).removeClass('active');
         });
 
-    })
+        // Listen for the show.bs.collapse event
+        $('.acordion-content-wrapper', root).on('show.bs.collapse', function () {
+            $('.plus-icon', $(this).prev()).addClass('rotate-icon');
+        });
+
+        // Listen for the hide.bs.collapse event
+        $('.acordion-content-wrapper', root).on('hide.bs.collapse', function () {
+            $('.plus-icon', $(this).prev()).removeClass('rotate-icon');
+        });
+    });
 </script>
 
 <style>
-    .mw-accordion-faq-skin-button {
-        background-color: #F9F9F9;
+    .accordion-section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .accordion-section {
+        align-self: stretch;
+        column-gap: 12px;
+        row-gap: 12px;
+    }
+
+    .accordion-item, .accordion-title {
+        background-color: #f4f3f1;
+        border-radius: 10px;
+    }
+
+    .accordion-title {
+        align-items: center;
+        column-gap: 24px;
+        cursor: pointer;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding: 20px;
+        padding: 18px;
+        row-gap: 24px;
+        transition: opacity .2s;
+        transition-behavior: normal;
+        border: none;
         width: 100%;
-        border: none;
-        border-radius: 0;
-        cursor: pointer;
-        outline: none;
     }
 
-    .mw-accordion-faq-skin-header:has(.active) {
-        border-bottom: none !important;
+    .accordion-content {
+        padding: 9px 18px 18px;
     }
 
-    .mw-accordion-faq-skin-card {
-        border: none;
+    .accordion-text {
+        max-width: 671px;
+    }
+
+    .accordion-title:hover {
+        opacity: .5;
+    }
+
+    @media screen and (max-width: 479px) {
+        .accordion-item {
+            border-radius: 6px;
+        }
+
+        .accordion-icon {
+            max-height: 20px;
+        }
+    }
+
+    .rotate-icon {
+        transform: rotate(45deg);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .accordion-icon {
+        transition: transform 0.3s ease-in-out;
     }
 </style>
 
-<div id="mw-accordion-module-{{ $params['id'] }}">
-    <div class="accordion" id="accordion-sk3">
-        @foreach ($json as $key => $slide)
-            @php
-                $edit_field_key = $key;
-                if (isset($slide['id'])) {
-                    $edit_field_key = $slide['id'];
-                }
-            @endphp
-            <div class="mw-accordion-faq-skin-card card mb-3 {{ $key == 0 ? 'active' : '' }}">
-                <div class="mw-accordion-faq-skin-header card-header p-0" id="header-item-{{ $edit_field_key }}">
-                    <button class="mw-accordion-faq-skin-button" data-bs-toggle="collapse" data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" aria-expanded="false" aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
-                        <h5 class="ps-2 mb-0"> {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }} {{ isset($slide['title']) ? $slide['title'] : '' }} </h5>
-                        <i class="mdi mdi-plus active" style="font-size: 24px;"></i>
-                    </button>
-                </div>
-                <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse" aria-labelledby="header-item-{{ $edit_field_key }}" data-parent="#mw-accordion-module-{{ $params['id'] }}">
-                    <div class="card-body py-3 px-4">
+<div class="accordion-section" id="mw-accordion-module-{{ $params['id'] }}">
+    @foreach ($json as $key => $slide)
+        @php
+            $edit_field_key = $key;
+            if (isset($slide['id'])) {
+                $edit_field_key = $slide['id'];
+            }
+        @endphp
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="header-item-{{ $edit_field_key }}">
+                <button class="accordion-title" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
+                        aria-expanded="true"
+                        aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
+                    {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }}<h6 class="font-weight-bold me-auto mb-0">{{ isset($slide['title']) ? $slide['title'] : '' }}</h6>
+                </button>
+            </h2>
+
+            <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="acordion-content-wrapper accordion-collapse collapse"
+                 aria-labelledby="header-item-{{ $edit_field_key }}"
+                 data-parent="#mw-accordion-module-{{ $params['id'] }}">
+                <div class="accordion-content">
+                    <div class="accordion-text">
                         @include('modules.accordion.templates.partials.render_accordion_item_content')
                     </div>
                 </div>
             </div>
-        @endforeach
-    </div>
+        </div>
+    @endforeach
 </div>

@@ -11,20 +11,16 @@
 */
 
 ?>
-<?php
-if ($json == false) {
-    print lnotif(_e('Click to edit accordion', true));
+@if ($json == false)
+    {!! lnotif(_e('Click to edit accordion', true)) !!}
+    @php return; @endphp
+@endif
 
-    return;
-}
-
-if (isset($json) == false or count($json) == 0) {
-    $json = array(0 => $defaults);
-}
-?>
+@if (!isset($json) || count($json) == 0)
+    @php $json = array(0 => $defaults); @endphp
+@endif
 
 <script>
-
     $(document).ready(function () {
         var root = $("#mw-accordion-module-{{ $params['id'] }}");
         $('.accordion__title', root).on('click', function () {
@@ -32,18 +28,16 @@ if (isset($json) == false or count($json) == 0) {
             $(this).parent().addClass('active');
         })
     })
-
 </script>
 
 <div class="accordion background-color-element element" id="mw-accordion-module-{{ $params['id'] }}">
-    <?php foreach ($json as $key => $slide): ?>
-        <?php
-        $edit_field_key = $key;
-        if (isset($slide['id'])) {
-            $edit_field_key = $slide['id'];
-        }
-
-        ?>
+    @foreach ($json as $key => $slide)
+        @php
+            $edit_field_key = $key;
+            if (isset($slide['id'])) {
+                $edit_field_key = $slide['id'];
+            }
+        @endphp
 
         <div class="accordion-item">
             <h2 class="accordion-header" id="header-item-{{ $edit_field_key }}">
@@ -56,7 +50,7 @@ if (isset($json) == false or count($json) == 0) {
             </h2>
 
             <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
-                 class="accordion-collapse collapse <?php if ($key == 0): ?>show<?php endif; ?>"
+                 class="accordion-collapse collapse {{ $key == 0 ? 'show' : '' }}"
                  aria-labelledby="header-item-{{ $edit_field_key }}"
                  data-parent="#mw-accordion-module-{{ $params['id'] }}">
                 <div class="accordion-body">
@@ -64,6 +58,5 @@ if (isset($json) == false or count($json) == 0) {
                 </div>
             </div>
         </div>
-
-    <?php endforeach; ?>
+    @endforeach
 </div>
