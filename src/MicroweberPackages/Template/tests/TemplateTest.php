@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 
 class TemplateTest extends TestCase
 {
-    public $template_name = 'new-world';
+    public $template_name = 'Bootstrap';
     protected function assertPreConditions(): void
     {
          parent::assertPreConditions();
@@ -25,6 +25,7 @@ class TemplateTest extends TestCase
         } else {
             $templateName = 'default';
         }
+        $templateName = app()->template_manager->templateAdapter->getTemplateFolderName();
 
         $this->template_name = $templateName;
 

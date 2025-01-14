@@ -157,7 +157,7 @@ class MicroweberTemplate
         }
 
         if (!$this->templateFolderName) {
-            $fallbackFromConfig = config('templates.fallback') ?? $this->fallbackTempleteFolderName;
+            $fallbackFromConfig = config('microweber.install_default_template') ?? $this->fallbackTempleteFolderName;
 
             $this->templateFolderName = $fallbackFromConfig;
         }
