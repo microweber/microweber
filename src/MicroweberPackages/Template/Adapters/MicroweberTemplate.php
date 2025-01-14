@@ -251,6 +251,10 @@ class MicroweberTemplate
     {
         return templates_dir() . $this->fallbackTempleteFolderName . DS;
     }
+    public function getFallbackTemplateFolderName(): string
+    {
+        return $this->fallbackTempleteFolderName;
+    }
 
     public function setVariablesFromContent($content = false)
     {
@@ -516,7 +520,7 @@ class MicroweberTemplate
 
 
         if (!isset($page['active_site_template'])) {
-            $page['active_site_template'] = 'default';
+            $page['active_site_template'] = $this->getFallbackTemplateFolderName();
         } elseif (isset($page['active_site_template']) and $page['active_site_template'] == '') {
             $page['active_site_template'] = $site_template_settings;
         }
@@ -524,8 +528,8 @@ class MicroweberTemplate
 
         if ($page['active_site_template'] and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default')) {
             if ($site_template_settings != 'default' and $page['active_site_template'] == 'mw_default') {
-                $page['active_site_template'] = 'default';
-                $site_template_settings = 'default';
+                $page['active_site_template'] = $this->getFallbackTemplateFolderName();
+                $site_template_settings = $this->getFallbackTemplateFolderName();
             }
             if ($site_template_settings != false) {
                 $site_template_settings = sanitize_path($site_template_settings);
@@ -609,7 +613,7 @@ class MicroweberTemplate
                 $layout_file_for_content_type = false;
                 if ((isset($page['content_type']) and ($page['content_type']) != '')) {
                     $layout_file_for_content_type = templates_dir() . $template_d . '/resources/views/' . $page['content_type'] . '.blade.php';
-                    $layout_file_for_content_type = normalize_path($laravel_template_view_clean, false);
+                    $layout_file_for_content_type = normalize_path($layout_file_for_content_type, false);
                 }
 
                 $legacy_filename_migration = $page['layout_file'];
