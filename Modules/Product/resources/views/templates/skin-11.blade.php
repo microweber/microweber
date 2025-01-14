@@ -82,7 +82,7 @@ description: skin-11
                                         </div>
                                     @endif
                                 @endif
-
+                                                        MODULE PICTURES FOR MAKING
 {{--                                <module type="pictures" template="skin-14" content-id="{{ $item['id'] }}"/>--}}
                             </div>
                         @endif
