@@ -93,7 +93,7 @@
 
                 <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="collapse {{ $key == 0 ? 'show' : '' }}" aria-labelledby="header-item-{{ $edit_field_key }}" data-parent="#mw-accordion-module-{{ $params['id'] }}">
                     <div class="card-body p-5">
-                        @include('modules.accordion.templates.partials.render_accordion_item_content')
+                        @include('modules.accordion::partials.render_accordion_item_content')
                     </div>
                 </div>
             </div>

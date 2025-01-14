@@ -125,16 +125,18 @@
                         data-bs-target="#collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
                         aria-expanded="true"
                         aria-controls="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}">
-                    {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }}<h6 class="font-weight-bold me-auto mb-0">{{ isset($slide['title']) ? $slide['title'] : '' }}</h6>
+                    {{ isset($slide['icon']) ? $slide['icon'] . ' ' : '' }}<h6
+                        class="font-weight-bold me-auto mb-0">{{ isset($slide['title']) ? $slide['title'] : '' }}</h6>
                 </button>
             </h2>
 
-            <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}" class="acordion-content-wrapper accordion-collapse collapse"
+            <div id="collapse-accordion-item-{{ $edit_field_key . '-' . $key }}"
+                 class="acordion-content-wrapper accordion-collapse collapse"
                  aria-labelledby="header-item-{{ $edit_field_key }}"
                  data-parent="#mw-accordion-module-{{ $params['id'] }}">
                 <div class="accordion-content">
                     <div class="accordion-text">
-                        @include('modules.accordion.templates.partials.render_accordion_item_content')
+                        @include('modules.accordion::partials.render_accordion_item_content')
                     </div>
                 </div>
             </div>

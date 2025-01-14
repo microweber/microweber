@@ -134,7 +134,7 @@
                  data-parent="#mw-accordion-module-{{ $params['id'] }}">
                 <div class="accordion-content">
                     <div class="accordion-text">
-                        @include('modules.accordion.templates.partials.render_accordion_item_content')
+                        @include('modules.accordion::partials.render_accordion_item_content')
                     </div>
                 </div>
             </div>
