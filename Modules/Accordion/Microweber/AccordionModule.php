@@ -22,6 +22,12 @@ class AccordionModule extends BaseModule
         $rel_type = $this->params['rel_type'] ?? 'module';
         $rel_id = $this->params['rel_id'] ?? $this->params['id'];
         $viewData['accordion'] = Accordion::where('rel_type', $rel_type)->where('rel_id', $rel_id)->orderBy('position', 'asc')->get();
+        $viewData['defaults'] = [
+            [
+                'title' => 'Title',
+                'content' => 'Content'
+            ]
+        ];
         $template = $viewData['template'] ?? 'default';
 
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
