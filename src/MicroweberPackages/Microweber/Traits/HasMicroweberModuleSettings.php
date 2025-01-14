@@ -18,7 +18,7 @@ trait HasMicroweberModuleSettings
      *
      * @return array The current settings for the module.
      */
-    public function getsettings()
+    public function getSettings()
     {
         return $this->settings;
     }
@@ -28,7 +28,7 @@ trait HasMicroweberModuleSettings
      *
      * @param array $settings The settings to set for the module.
      */
-    public function setsettings(array $settings = [])
+    public function setSettings(array $settings = [])
     {
         $this->settings = $settings;
     }

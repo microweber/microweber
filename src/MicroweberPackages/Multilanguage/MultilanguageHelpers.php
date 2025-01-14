@@ -29,7 +29,8 @@ class MultilanguageHelpers
     {
         return self::$isEnabled = $enabled;
     }
-    public static function getSupportedLanguages($onlyActive=true)
+
+    public static function getSupportedLanguages($onlyActive = true)
     {
 
         return get_supported_languages($onlyActive);
@@ -38,6 +39,8 @@ class MultilanguageHelpers
     public static function getTranslatableModuleOptions()
     {
         $translatableModuleOptions = [];
+
+        // legacy modules, will be removed in future
         $modules = mw()->module_manager->get_modules('ui=any&installed=1');
         if ($modules) {
             foreach ($modules as $module) {
@@ -46,6 +49,18 @@ class MultilanguageHelpers
                 }
             }
         }
+
+
+        // new way to get translatable options from laravel modules
+        $modulesFromRegistry = app()->microweber->getTranslatableOptionKeys();
+        if ($modulesFromRegistry) {
+            foreach ($modulesFromRegistry as $module => $keys) {
+                if (!empty($keys)) {
+                    $translatableModuleOptions[$module] = $keys;
+                }
+            }
+        }
+
         return $translatableModuleOptions;
     }
 

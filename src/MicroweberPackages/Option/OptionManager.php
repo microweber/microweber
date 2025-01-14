@@ -447,7 +447,7 @@ class OptionManager
                             // legacy save attribute
                          $findModuleOption->lang = $data['lang'];
 
-                          //  $findModuleOption->multilanguage = [$data['lang']['option_value'][$data['option_value']];
+                   // $findModuleOption->multilanguage = [$data['lang']['option_value'][$data['option_value']]];
 
                         }
                     } else {
@@ -471,7 +471,9 @@ class OptionManager
                     $save = $findModuleOption->save();
 
                     // Remove duplicates
-                    ModuleOption::where('id', '!=', $findModuleOption->id)->where('option_key', $data['option_key'])->where('option_group', $data['option_group'])->delete();
+                    ModuleOption::where('id', '!=', $findModuleOption->id)
+                        ->where('option_key', $data['option_key'])
+                        ->where('option_group', $data['option_group'])->delete();
 
                     $this->memoryModuleOptionGroup = [];
                 } else {

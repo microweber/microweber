@@ -15,6 +15,7 @@ class MarqueeModule extends BaseModule
     public static string $settingsComponent = MarqueeModuleSettings::class;
 
     public static string $templatesNamespace = 'modules.marquee::templates';
+    public static array $translatableOptions = ['text'];
 
     public function getViewData(): array
     {
@@ -28,7 +29,7 @@ class MarqueeModule extends BaseModule
         $viewData['textColor'] = $this->getOption('textColor', 'inherit');
         $viewData['id'] = $this->params['id'];
 
-        if(!is_numeric( $viewData['animationSpeed'])){
+        if (!is_numeric($viewData['animationSpeed'])) {
             $viewData['animationSpeed'] = 100;
         }
 

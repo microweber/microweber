@@ -29,6 +29,9 @@ abstract class BaseModule
 
     public array $params = []; // set in the constructor
 
+    public static array $translatableOptions = [];
+
+
     public function __construct($params = [])
     {
         $this->params = $params;
@@ -68,7 +71,7 @@ abstract class BaseModule
             return throw new \Exception('No templates namespace provided');
         }
         $moduleTemplatesNamespace = static::$templatesNamespace;
-        $viewName = $moduleTemplatesNamespace. '.' . 'default';
+        $viewName = $moduleTemplatesNamespace . '.' . 'default';
         if ($template) {
             $template = str_replace('.blade.php', '', $template);
             $template = str_replace('.php', '', $template);
@@ -92,7 +95,7 @@ abstract class BaseModule
             if ($checkIfActiveSiteTemplate) {
                 $checkIfActiveSiteTemplateLowerName = $checkIfActiveSiteTemplate->getLowerName();
                 $templatesNamespaceInActiveSiteTemplate = str_replace('::', '.', $moduleTemplatesNamespace);
-                $templatesNamespaceInActiveSiteTemplate = 'templates.' . $checkIfActiveSiteTemplateLowerName . '::' . $templatesNamespaceInActiveSiteTemplate.'.'.$template;
+                $templatesNamespaceInActiveSiteTemplate = 'templates.' . $checkIfActiveSiteTemplateLowerName . '::' . $templatesNamespaceInActiveSiteTemplate . '.' . $template;
 
                 if (view()->exists($templatesNamespaceInActiveSiteTemplate)) {
                     $viewName = $templatesNamespaceInActiveSiteTemplate;

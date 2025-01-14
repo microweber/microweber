@@ -15,9 +15,9 @@ class MultilanguageModuleOptionTest extends MultilanguageTestBase
         $defaultLang = app()->lang_helper->default_lang();
         $currentLang = app()->lang_helper->current_lang();
 
-        $optionKey = 'settings';
-        $module = 'slider';
-        $optionGroup = 'slider-20211014142244';
+        $optionKey = 'text';
+        $module = 'marquee';
+        $optionGroup = 'marquee-20211014142244';
 
         // Save the option on default lang
         $dataDefaultLang = [];
@@ -51,9 +51,8 @@ class MultilanguageModuleOptionTest extends MultilanguageTestBase
 
 
         $findTranslation = MultilanguageTranslations::where('locale', $data['lang'])
-            ->where('rel_type','options')
-            ->where('rel_id',$findModuleOption->id)
-
+            ->where('rel_type', 'options')
+            ->where('rel_id', $findModuleOption->id)
             ->where('field_name', 'option_value')->first();
 
 
@@ -76,8 +75,8 @@ class MultilanguageModuleOptionTest extends MultilanguageTestBase
 
 
         $findTranslation = MultilanguageTranslations::where('locale', $data['lang'])
-            ->where('rel_type','options')
-            ->where('rel_id',$findModuleOption->id)
+            ->where('rel_type', 'options')
+            ->where('rel_id', $findModuleOption->id)
             ->where('field_name', 'option_value')->first();
 
         $this->assertEquals($findTranslation->rel_id, $findModuleOption->id);
