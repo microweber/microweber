@@ -21,9 +21,21 @@ export class LiveEditWidgetsService extends BaseComponent{
         return false;
     }
 
+    #zIndex(target) {
+        const treeBox = mw.top().app.domTree.box.box;
+        const adminBox = mw.top().doc.querySelector('aside.fi-sidebar');
+        [treeBox, adminBox].forEach(box => {
+            box.style.setProperty('z-index', (box === target ? 101 : 99), 'important');
+
+
+        })
+
+    }
+
     closeAll() {
         this.closeAdminSidebar()
         this.closeLayers()
+        this.#zIndex()
     }
 
 
@@ -35,6 +47,7 @@ export class LiveEditWidgetsService extends BaseComponent{
         this.status.adminSidebarOpened = true;
         mw.top().doc.querySelector('aside.fi-sidebar').classList.add('active')
         mw.top().doc.documentElement.classList.add( 'mw-live-edit-sidebar-start');
+        this.#zIndex(mw.top().doc.querySelector('aside.fi-sidebar'));
         this.dispatch('adminSidebarOpen');
         return this;
 
@@ -57,6 +70,7 @@ export class LiveEditWidgetsService extends BaseComponent{
 
     openLayers() {
         this.status.layersOpened = true;
+        this.#zIndex(mw.top().app.domTree.box.box);
         mw.top().app.domTree.show();
         mw.top().doc.documentElement.classList.add( 'mw-live-edit-sidebar-start');
         this.dispatch('layersOpen');
