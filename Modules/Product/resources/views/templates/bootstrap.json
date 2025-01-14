@@ -1,0 +1,48 @@
+{
+    "schema": [
+        {
+            "type": "select",
+            "label": "Columns mobile",
+            "name": "columns-sm",
+            "placeholder": "Select on how much columns you want to split the content",
+            "help": "The number of columns",
+            "options": {
+                "col-sm-12": "1",
+                "col-sm-6": "2",
+                "col-sm-4": "3",
+                "col-sm-3": "4",
+                "col-sm-2": "6"
+            }
+        },
+
+        {
+            "type": "select",
+            "label": "Columns tablet",
+            "name": "columns-md",
+            "placeholder": "Select on how much columns you want to split the content",
+            "help": "The number of columns",
+            "options": {
+                "col-md-12": "1",
+                "col-md-6": "2",
+                "col-md-4": "3",
+                "col-md-3": "4",
+                "col-md-2": "6"
+            }
+        },
+
+        {
+            "type": "select",
+            "label": "Columns desktop",
+            "name": "columns-xl",
+            "placeholder": "Select on how much columns you want to split the content",
+            "help": "The number of columns",
+            "options": {
+                "col-xl-12": "1",
+                "col-xl-6": "2",
+                "col-xl-4": "3",
+                "col-xl-3": "4",
+                "col-xl-2": "6"
+            }
+        }
+    ]
+}
