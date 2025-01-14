@@ -12,13 +12,13 @@
 */
 
 ?>
-@if ($json == false)
+@if ($accordion == false)
     {!! lnotif(_e('Click to edit accordion', true)) !!}
     @php return; @endphp
 @endif
 
-@if (!isset($json) || count($json) == 0)
-    @php $json = array(0 => $defaults); @endphp
+@if (!isset($accordion) || count($accordion) == 0 AND isset($defaults))
+    @php $accordion = array(0 => $defaults); @endphp
 @endif
 
 <script>
@@ -111,7 +111,7 @@
 </style>
 
 <div class="accordion-section" id="mw-accordion-module-{{ $params['id'] }}">
-    @foreach ($json as $key => $slide)
+    @foreach ($accordion as $key => $slide)
         @php
             $edit_field_key = $key;
             if (isset($slide['id'])) {
