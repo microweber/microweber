@@ -13,23 +13,17 @@ use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 class TemplateTest extends TestCase
 {
     public $template_name = 'Bootstrap';
+
     protected function assertPreConditions(): void
     {
-         parent::assertPreConditions();
+        parent::assertPreConditions();
 
-
-        if (is_dir(templates_dir() . 'Big2')) {
-            $templateName = 'Big2';
-        } else if (is_dir(templates_dir() . 'Bootstrap')) {
-            $templateName = 'Bootstrap';
-        } else {
-            $templateName = 'default';
-        }
         $templateName = app()->template_manager->templateAdapter->getTemplateFolderName();
 
         $this->template_name = $templateName;
 
     }
+
     public function testGetTemplates()
     {
         $get = app()->template_manager->site_templates();
@@ -49,20 +43,17 @@ class TemplateTest extends TestCase
     public function testGetTemplateConfig()
     {
         $template_name = $this->template_name;
-        if(!is_dir(templates_dir() . $template_name)){
+        if (!is_dir(templates_dir() . $template_name)) {
             $this->markTestSkipped('Template not found: ' . $template_name);
         }
 
         app()->content_manager->define_constants(['active_site_template' => $template_name]);
 
 
-
         $config = app()->template_manager->get_config();
 
         $this->assertTrue(isset($config['name']));
-     //   $this->assertTrue('New World' == $config['name']);
-
-
+        //   $this->assertTrue('New World' == $config['name']);
 
 
     }
@@ -295,7 +286,7 @@ class TemplateTest extends TestCase
     #[RunInSeparateProcess]
     public function testTemplateGetLayoutFile()
     {
-        $templateName =  $this->template_name;
+        $templateName = $this->template_name;
 
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
@@ -362,7 +353,7 @@ class TemplateTest extends TestCase
         $content = get_content_by_id($newCleanPostSubId);
         $renderFile = app()->template_manager->get_layout($content);
 
-        $expectedRenderFile = templates_dir() . $templateName . DS .  'resources/views/post.blade.php';
+        $expectedRenderFile = templates_dir() . $templateName . DS . 'resources/views/post.blade.php';
 
 
         $expectedRenderFile = normalize_path($expectedRenderFile, false);

@@ -9,11 +9,9 @@ use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-#[RunTestsInSeparateProcesses]
-class MultilanguageLiveEditTest extends MultilanguageTestBase
+ class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
-    #[PreserveGlobalState(false)]
-    #[RunInSeparateProcess]
+
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);

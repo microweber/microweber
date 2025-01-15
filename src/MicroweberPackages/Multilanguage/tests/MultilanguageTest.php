@@ -5,13 +5,13 @@ namespace MicroweberPackages\Multilanguage\tests;
 use \MicroweberPackages\Multilanguage\MultilanguageApi;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
-#[RunTestsInSeparateProcesses]
+
 class MultilanguageTest extends MultilanguageTestBase
 {
 
     public function testSupportedLanguages()
     {
-       // \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
+      \MicroweberPackages\Multilanguage\MultilanguageHelpers::setMultilanguageEnabled(1);
         $lang = app()->getLocale();
 
         add_supported_language($lang, 'English');
