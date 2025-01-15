@@ -11,7 +11,7 @@ if (isset($item['rel_id']) AND !isset($is_order)) {
 
 $order_products_qty = 0;
 $order = get_order_by_id($item_id);
-$order_products = mw()->shop_manager->order_items($item_id);
+$order_products = app()->order_manager->order_items($item_id);
 if ($order_products) {
     foreach ($order_products as $order_product) {
         $order_products_qty = $order_products_qty + $order_product['qty'];

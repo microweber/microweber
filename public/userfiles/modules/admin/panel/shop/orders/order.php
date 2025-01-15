@@ -2,27 +2,27 @@
 
 must_have_access();
 
-$ord = mw()->shop_manager->get_order_by_id($params['order-id']);
+$ord = app()->order_manager->get_by_id($params['order-id']);
 
 $cart_items = array();
 if (is_array($ord)) {
     $cart_items = false;
     if (empty($cart_items)) {
-        $cart_items = mw()->shop_manager->order_items($ord['id']);
+        $cart_items = app()->order_manager->order_items($ord['id']);
     }
 }
 else {
     mw_error("Invalid order id");
 }
 
- 
+
 ?>
-<?php 
-			  
-$show_ord_id = $ord['id'];	
+<?php
+
+$show_ord_id = $ord['id'];
 if(isset($ord['order_id']) and $ord['order_id'] != false){
 	$show_ord_id = $ord['order_id'];
-} 
+}
 
 ?>
 <?php include(__DIR__.DS.'_partials'.DS.'order_inner_scripts.php'); ?>

@@ -174,7 +174,7 @@ class CheckoutTest extends TestCase
         $checkoutDetails['is_paid'] = 1;
         $checkoutDetails['order_completed'] = 1;
 
-         $checkoutStatus = app()->checkout_manager->checkout($checkoutDetails);
+        $checkoutStatus = app()->checkout_manager->checkout($checkoutDetails);
 
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(0, $content_data_after_order['qty']);
@@ -247,7 +247,7 @@ class CheckoutTest extends TestCase
         $checkoutDetails['order_completed'] = 1;
 
 
-        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+        $checkoutStatus = app()->checkout_manager->checkout($checkoutDetails);
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(10, $content_data_after_order['qty']);
 
@@ -301,7 +301,7 @@ class CheckoutTest extends TestCase
         $checkoutDetails['order_completed'] = 1;
 
 
-        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+        $checkoutStatus = app()->checkout_manager->checkout($checkoutDetails);
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(11, $content_data_after_order['qty']);
 

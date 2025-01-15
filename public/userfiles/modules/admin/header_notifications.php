@@ -14,7 +14,7 @@ $font_size = 11;
 $shop_disabled = get_option('shop_disabled', 'website') == 'y';
 
 if (!$shop_disabled) {
-    $new_orders_count = mw()->order_manager->get_count_of_new_orders();
+    $new_orders_count = app()->order_manager->get_count_of_new_orders();
     $font_size = 11;
 
     if($new_orders_count  and $new_orders_count > 100){

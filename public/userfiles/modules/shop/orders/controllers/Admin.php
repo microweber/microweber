@@ -196,7 +196,7 @@ class Admin
     {
 
 
-        $ord = mw()->shop_manager->get_order_by_id($params['order-id']);
+        $ord = app()->order_manager->get_by_id($params['order-id']);
 
         if (isset($ord['order_status']) and $ord['order_status'] == 'new') {
 
@@ -204,7 +204,7 @@ class Admin
             $s = array();
             $s['id'] = $ord['id'];
             $s['order_status'] = 'pending';
-            mw()->order_manager->save($s);
+            app()->order_manager->save($s);
 
 
         }
@@ -213,7 +213,7 @@ class Admin
         if (is_array($ord)) {
             $cart_items = false;
             if (empty($cart_items)) {
-                $cart_items = mw()->shop_manager->order_items($ord['id']);
+                $cart_items = app()->order_manager->order_items($ord['id']);
             }
         } else {
             mw_error("Invalid order id");

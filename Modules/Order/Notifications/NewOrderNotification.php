@@ -110,7 +110,7 @@ class NewOrderNotification extends Notification
     private function _getCartItemsTable($orderId)
     {
         $cartItemsInfo = array();
-        $cartItems = app()->shop_manager->get_cart('order_id=' . $orderId);
+        $cartItems = app()->cart_manager->get_cart('order_id=' . $orderId);
 
         if (!empty($cartItems)) {
             foreach ($cartItems as $cartItem) {
