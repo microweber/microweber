@@ -26,8 +26,6 @@ export class LiveEditWidgetsService extends BaseComponent{
         const adminBox = mw.top().doc.querySelector('aside.fi-sidebar');
         [treeBox, adminBox].forEach(box => {
             box.style.setProperty('z-index', (box === target ? 101 : 99), 'important');
-
-
         })
 
     }
@@ -44,6 +42,7 @@ export class LiveEditWidgetsService extends BaseComponent{
     }
 
     openAdminSidebar() {
+        this.closeAll();
         this.status.adminSidebarOpened = true;
         mw.top().doc.querySelector('aside.fi-sidebar').classList.add('active')
         mw.top().doc.documentElement.classList.add( 'mw-live-edit-sidebar-start');
@@ -69,6 +68,7 @@ export class LiveEditWidgetsService extends BaseComponent{
 
 
     openLayers() {
+        this.closeAll();
         this.status.layersOpened = true;
         this.#zIndex(mw.top().app.domTree.box.box);
         mw.top().app.domTree.show();

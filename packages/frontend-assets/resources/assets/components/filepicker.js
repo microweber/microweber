@@ -18,7 +18,7 @@ var fileUploadProgress = function (fileName, progress, target) {
 };
 
 
-mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) => {
+mw.filePickerDialog  = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) => {
 
 
 
@@ -59,6 +59,12 @@ mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) 
             }
             if(typeof url === "string" || url instanceof String) {
                 url = url.toString();
+            }
+
+            if(Array.isArray(url)) {
+                if(url.length === 1) {
+                    url = url[0];
+                }
             }
 
             result = url

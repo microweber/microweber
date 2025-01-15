@@ -881,7 +881,8 @@ html.dark .mw-le-layouts-dialog {
 /* gui editor */
 
 :root{
-    --sidebar-size: 28rem;
+    --sidebar-start-size: 250px;
+    --sidebar-end-size: 28rem;
 }
 
 
@@ -889,8 +890,8 @@ html.dark .mw-le-layouts-dialog {
     position: fixed;
     top: var(--toolbar-height);
     bottom: 0;
-    right: calc(var(--sidebar-size) + 10px);
-    width: var(--sidebar-size);
+    right: calc(var(--sidebar-end-size) + 10px);
+    width: var(--sidebar-end-size);
     z-index: 5;
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
@@ -898,7 +899,7 @@ html.dark .mw-le-layouts-dialog {
 }
 
 #css-editor-template.active + #live-edit-frame-holder {
-    right: var(--sidebar-size);
+    right: var(--sidebar-end-size);
 }
 
 #css-editor-template.active {
@@ -911,8 +912,8 @@ html.dark .mw-le-layouts-dialog {
     position: fixed;
     top: var(--toolbar-height);
     bottom: 0;
-    right: calc(-1 * var(--sidebar-size));
-    width: calc(var(--sidebar-size));
+    right: calc(-1 * var(--sidebar-end-size));
+    width: calc(var(--sidebar-end-size));
     transition: var(--toolbar-height-animation-speed);
     overflow: auto;
     background-color: var(--tblr-bg-surface);
@@ -951,7 +952,6 @@ html.dark .mw-le-layouts-dialog {
 html .mw-control-box-left,
 html .mw-control-box-right{
     top: var(--toolbar-height);
-    width: 250px;
     box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.2);
 
 }
@@ -966,4 +966,8 @@ html .mw-control-box-right .mw-control-box-content{
 
 html.mw-live-edit-sidebar-start #live-edit-frame-holder{
     left: 250px;
+}
+
+#mw-live-edit-domtree-box, aside.fi-sidebar{
+    width: var(--sidebar-start-size);
 }
