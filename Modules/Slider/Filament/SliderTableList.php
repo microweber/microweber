@@ -56,17 +56,14 @@ class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
                     'right' => 'Right',
                 ])
                 ->default('center'),
-            Toggle::make('settings.showButton')
-                ->label('Show button'),
+
             TextInput::make('button_text')
                 ->label('Button Text')
-                ->helperText('Enter text for the button')
-                ->visible(fn ($get) => $get('settings.showButton')),
+                ->helperText('Enter text for the button'),
             TextInput::make('link')
                 ->label('Button URL')
                 ->url()
-                ->helperText('Enter a URL for the button')
-                ->visible(fn ($get) => $get('settings.showButton')),
+                ->helperText('Enter a URL for the button'),
             ColorPicker::make('settings.buttonBackgroundColor')
                 ->label('Button Background Color')
                 ->visible(fn ($get) => $get('settings.showButton')),

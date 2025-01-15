@@ -114,7 +114,7 @@ filter: sepia(100%);
                             {{ $slide->description }}
                         </p>
 
-                        @if($slide->settings['showButton'] && $slide->button_text && $slide->link)
+                        @if($slide->button_text)
                             <a href="{{ $slide->link }}" class="slider-button js-slide-button-{{ $slide->id }}">
                                 {{ $slide->button_text }}
                             </a>
