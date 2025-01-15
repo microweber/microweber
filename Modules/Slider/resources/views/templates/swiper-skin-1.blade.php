@@ -28,6 +28,7 @@ description: Modern slider with rounded corners and left-aligned content
                         height: 100%;
                         position: absolute;
                         z-index: -1;
+
                         @if(isset($slide->settings['imageBackgroundFilter']))
                             @switch($slide->settings['imageBackgroundFilter'])
                                 @case('blur')
