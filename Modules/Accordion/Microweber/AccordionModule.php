@@ -24,8 +24,8 @@ class AccordionModule extends BaseModule
         $viewData['accordion'] = Accordion::where('rel_type', $rel_type)->where('rel_id', $rel_id)->orderBy('position', 'asc')->get();
         $viewData['defaults'] = [
             [
-                'title' => 'Title',
-                'content' => 'Content'
+                'title' => 'Open settings and type your title',
+                'content' => 'Open settings and type your content'
             ]
         ];
         $template = $viewData['template'] ?? 'default';

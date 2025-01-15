@@ -8,7 +8,7 @@
 <?php else: ?>
 
     <?php if (isset($useTextFromLiveEdit) and $useTextFromLiveEdit): ?>
-<div class="allow-drop edit" field="accordion-item-<?php print $edit_field_key ?>"
+    <div class="allow-drop edit" field="accordion-item-<?php print $edit_field_key ?>"
      rel="module-<?php print $params['id'] ?>">
     <div class="element">
         <p> <?php print isset($slide['content']) ? $slide['content'] : 'Type your text here' ?></p>
