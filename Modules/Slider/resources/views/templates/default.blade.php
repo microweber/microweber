@@ -44,13 +44,16 @@ description: Default Slider Layout
                     <img src="{{ asset('modules/slider/default-content/default-slide.jpg') }}" alt="Default Slide">
                 @endif
 
-                @if ($slide['name'] || $slide['description'])
+                @if ($slide['name'] || $slide['description'] || $slide['button_text'])
                     <div class="slider-description">
                         @if ($slide['name'])
                             <h3>{{ $slide['name'] }}</h3>
                         @endif
                         @if ($slide['description'])
                             <p>{{ $slide['description'] }}</p>
+                        @endif
+                        @if ($slide['link'] && $slide['button_text'])
+                            <a href="{{ $slide['link'] }}" class="btn btn-primary">{{ $slide['button_text'] }}</a>
                         @endif
                     </div>
                 @endif

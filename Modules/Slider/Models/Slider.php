@@ -13,6 +13,8 @@ class Slider extends Model
         'name',
         'description',
         'media',
+        'link',
+        'button_text',
         'settings',
         'rel_id',
         'rel_type',

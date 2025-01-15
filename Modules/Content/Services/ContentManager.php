@@ -1201,53 +1201,12 @@ class ContentManager
     }
 
 
-    /**
-     * Set content to be unpublished.
-     *
-     * Set is_active flag 'n'
-     *
-     * @param string|array|bool $params
-     *
-     * @return string The url of the content
-     *
-     * @uses       $this->save_content()
-     *
-     * @see        content_set_unpublished()
-     *
-     * @example
-     * <code>
-     * //set published the content with id 5
-     * content_set_unpublished(5);
-     *
-     * //alternative way
-     * content_set_unpublished(array('id' => 5));
-     * </code>
-     */
     public function set_unpublished($params)
     {
         return $this->setUnpublished($params);
     }
 
-    /**
-     * Set content to be published.
-     *
-     * Set is_active flag 'y'
-     *
-     * @param string|array|bool $params
-     *
-     * @return string The url of the content
-     *
-     * @uses       $this->save_content()
-     *
-     * @example
-     * <code>
-     * //set published the content with id 5
-     * api/content/set_published(5);
-     *
-     * //alternative way
-     * api/content/set_published(array('id' => 5));
-     * </code>
-     */
+
     public function set_published($params)
     {
         return $this->setPublished($params);

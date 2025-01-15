@@ -10,7 +10,7 @@ use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Filament\ContentModuleSettings;
 use Modules\Content\Filament\ContentTableList;
 use Modules\Content\Microweber\ContentModule;
-use Modules\Content\Repositories\ContentManager;
+use Modules\Content\Services\ContentManager;
 use Modules\Content\Repositories\ContentRepository;
 use Modules\Content\TranslateTables\TranslateContent;
 use Modules\Content\TranslateTables\TranslateContentFields;

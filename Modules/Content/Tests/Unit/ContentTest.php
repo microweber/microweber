@@ -138,7 +138,7 @@ class ContentTest extends TestCase
     {
         $params = array(
             'title' => 'My test post is here',
-            'content_type' => 'post',
+            'content_type' => 'product',
             'subtype' => 'product',
 
             'is_active' => 1,);
@@ -150,7 +150,7 @@ class ContentTest extends TestCase
             foreach ($get_pages as $page) {
                 if ($page['id'] == $new_page_id) {
                     $page_found = true;
-                    $this->assertEquals('post', $page['content_type']);
+                    $this->assertEquals('product', $page['content_type']);
                     $this->assertEquals('product', $page['subtype']);
                 }
                 //PHPUnit

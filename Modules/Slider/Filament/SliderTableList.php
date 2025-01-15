@@ -45,6 +45,13 @@ class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
             MwFileUpload::make('media')
                 ->label('Slide Media')
                 ->helperText('Upload media for this slide.'),
+            TextInput::make('link')
+                ->label('Slide Link')
+                ->url()
+                ->helperText('Enter a URL for this slide (optional).'),
+            TextInput::make('button_text')
+                ->label('Button Text')
+                ->helperText('Enter text for the button (optional).'),
         ];
     }
 
