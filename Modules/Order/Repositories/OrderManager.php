@@ -15,6 +15,7 @@ namespace Modules\Order\Repositories;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\User\Models\User;
+use Modules\ContentData\Models\ContentData;
 use Modules\Order\Events\OrderIsCreating;
 use Modules\Order\Events\OrderWasCreated;
 use Modules\Order\Events\OrderWasPaid;
@@ -128,7 +129,7 @@ class OrderManager
         }
     }
 
- 
+
     public function place_order($place_order = array())
     {
         $sid = mw()->user_manager->session_id();
@@ -338,7 +339,7 @@ class OrderManager
     public function update_quantities($order_id = false)
     {
 
-        // dd('update_quantities',123123123154555555,$order_id);
+        //  dd('update_quantities',123123123154555555,$order_id);
         $order_id = intval($order_id);
         if ($order_id == false) {
             return;
@@ -347,18 +348,25 @@ class OrderManager
         $ord_data = $this->get_by_id($order_id);
 
         $cart_data = $this->get_items($order_id);
+
         if (empty($cart_data)) {
             return $res;
         }
+
+        $contentReltype = morph_name(\Modules\Content\Models\Content::class);
         $res = array();
         foreach ($cart_data as $item) {
-            if (!isset($item['rel_type']) or !isset($item['rel_id']) or $item['rel_type'] !== morph_name(\Modules\Content\Models\Content::class)) {
+
+            if (!isset($item['rel_type']) or !isset($item['rel_id']) or $item['rel_type'] !== $contentReltype) {
                 continue;
             }
-            $data_fields = $this->app->content_manager->data($item['rel_id']);
+
+            $data_fields = content_data($item['rel_id']);
+
             if (!isset($item['qty']) or !isset($data_fields['qty']) or $data_fields['qty'] == 'nolimit') {
                 continue;
             }
+
             $old_qty = intval($data_fields['qty']);
             $new_qty = $old_qty - intval($item['qty']);
             $new_qty = intval($new_qty);
@@ -375,7 +383,12 @@ class OrderManager
 
             $res[] = $new_q;
 
-            $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
+            ContentData::where('rel_type', $contentReltype)
+                ->where('rel_id', $item['rel_id'])
+                ->where('field_name', 'qty')
+                ->update(['field_value' => $new_q['field_value']]);
+
+            // $upd_qty = $this->app->content_manager->save_content_data_field($new_q);
             if ($notify) {
                 $notifiables = User::whereIsAdmin(1)->get();
                 if ($notifiables) {

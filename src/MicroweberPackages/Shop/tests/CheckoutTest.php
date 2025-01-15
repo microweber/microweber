@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\Shop\tests;
 
+use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
 
@@ -18,7 +19,7 @@ class CheckoutTest extends TestCase
     {
         empty_cart();
 
-        \Config::set('mail.transport', 'array');
+        Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
@@ -141,11 +142,15 @@ class CheckoutTest extends TestCase
                 array('type' => 'price', 'name' => 'Price', 'value' => '9.99'),
 
             ),
-            'data_fields_qty' => 1,
+            'data_qty' => 1,
             'is_active' => 1,);
 
 
         $saved_id = save_content($params);
+        $content_data = content_data($saved_id);
+        $this->assertEquals(1, $content_data['qty']);
+
+
         $get = get_content_by_id($saved_id);
 
 
@@ -169,8 +174,7 @@ class CheckoutTest extends TestCase
         $checkoutDetails['is_paid'] = 1;
         $checkoutDetails['order_completed'] = 1;
 
-
-        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+         $checkoutStatus = app()->checkout_manager->checkout($checkoutDetails);
 
         $content_data_after_order = content_data($saved_id);
         $this->assertEquals(0, $content_data_after_order['qty']);

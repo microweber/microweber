@@ -95,11 +95,13 @@ class CheckoutService
             return array('error' => $orderData['error']);
         }
         // Place order
-        $order = $this->app->order_manager->place_order($orderData);
+     $order = $this->app->order_manager->place_order($orderData);
 
         if (isset($orderData['is_paid']) && $orderData['is_paid']) {
             $this->markOrderAsPaid($order);
         }
+
+        $this->updateQuantities($order);
         $this->confirmEmailSend($order);
         $return = [
             'success' => true,
@@ -398,11 +400,15 @@ class CheckoutService
         if (!$order->is_paid) {
             event(new OrderWasPaid($order));
             $this->app->event_manager->trigger('mw.cart.checkout.order_paid', $order->toArray());
-            $this->app->shop_manager->update_quantities($orderId);
 
             $order->is_paid = 1;
             $order->save();
         }
+    }
+    public function updateQuantities($orderId)
+    {
+        $this->app->shop_manager->update_quantities($orderId);
+
     }
 
     /**

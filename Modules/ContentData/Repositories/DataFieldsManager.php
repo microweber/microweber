@@ -85,6 +85,7 @@ class DataFieldsManager extends Crud
                 $data['content_id'] = $data['rel_id'];
             }
         }
+
         $save = parent::save($data);
 
         return $save;
