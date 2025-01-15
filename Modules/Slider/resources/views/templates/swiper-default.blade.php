@@ -6,14 +6,20 @@ description: Modern slider with Swiper.js integration
 */
 @endphp
 
+
 <style>
-    #slider-{{ $params['id'] }} .swiper-slide {
+     .swiper-slide {
         text-align: {{ $slide->settings['alignItems'] ?? 'center' }};
     }
 
-    #slider-{{ $params['id'] }} .js-slide-image {
-        background-size: cover;
-        background-position: center;
+     .js-slide-image {
+         background-size: cover;
+         background-repeat: no-repeat;
+         background-position: center center;
+         width: 100%;
+         height: 100%;
+         position: absolute;
+         z-index: -1;
         @if(isset($slide->settings['imageBackgroundFilter']))
             @switch($slide->settings['imageBackgroundFilter'])
                 @case('blur')
@@ -41,7 +47,7 @@ description: Modern slider with Swiper.js integration
         @endif
     }
 
-    #slider-{{ $params['id'] }} .header-section-title {
+     .header-section-title {
         color: {{ $slide->settings['titleColor'] ?? '#000000' }};
         font-size: {{ $slide->settings['titleFontSize'] ?? '24' }}px;
         @media screen and (max-width: 991px) {
@@ -56,12 +62,12 @@ description: Modern slider with Swiper.js integration
         overflow-wrap: break-word;
     }
 
-    #slider-{{ $params['id'] }} .header-section-p {
+     .header-section-p {
         color: {{ $slide->settings['descriptionColor'] ?? '#666666' }};
         font-size: {{ $slide->settings['descriptionFontSize'] ?? '16' }}px;
     }
 
-    #slider-{{ $params['id'] }} .slider-button {
+     .slider-button {
         display: inline-block;
         padding: 8px 20px;
         background-color: {{ $slide->settings['buttonBackgroundColor'] ?? '#007bff' }};
@@ -72,7 +78,7 @@ description: Modern slider with Swiper.js integration
         transition: all 0.3s ease;
     }
 
-    #slider-{{ $params['id'] }} .slider-button:hover {
+     .slider-button:hover {
         background-color: {{ $slide->settings['buttonBackgroundHoverColor'] ?? '#0056b3' }};
         color: {{ $slide->settings['buttonTextHoverColor'] ?? '#ffffff' }};
         text-decoration: none;
@@ -133,3 +139,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
