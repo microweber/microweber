@@ -90,6 +90,13 @@ filter: sepia(100%);
                         color: {{ $slide->settings['buttonTextHoverColor'] ?? '#ffffff' }};
                         text-decoration: none;
                     }
+
+                    .js-slide-elements-{{ $slide->id }} {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                    }
                 </style>
                 <div class="swiper-slide">
                     <div class="js-slide-image-swiper-module js-slide-image-{{ $slide->id }}"
