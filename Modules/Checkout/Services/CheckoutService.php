@@ -95,7 +95,7 @@ class CheckoutService
             return array('error' => $orderData['error']);
         }
         // Place order
-     $order = $this->app->order_manager->place_order($orderData);
+        $order = $this->app->order_manager->place_order($orderData);
 
         if (isset($orderData['is_paid']) && $orderData['is_paid']) {
             $this->markOrderAsPaid($order);
@@ -202,6 +202,7 @@ class CheckoutService
 
         return $ready;
     }
+
     public function confirmEmailSend($order_id, $to = false, $no_cache = true, $skip_enabled_check = false)
     {
         $ord_data = $this->app->shop_manager->get_order_by_id($order_id);
@@ -405,6 +406,7 @@ class CheckoutService
             $order->save();
         }
     }
+
     public function updateQuantities($orderId)
     {
         $this->app->shop_manager->update_quantities($orderId);

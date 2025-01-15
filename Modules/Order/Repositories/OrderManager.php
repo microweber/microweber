@@ -207,7 +207,7 @@ class OrderManager
                 }
 
                 if ($should_mark_as_paid) {
-                    $this->app->checkout_manager->mark_order_as_paid($ord);
+                     $this->app->checkout_manager->mark_order_as_paid($ord);
                 }
 
                 $this->app->checkout_manager->after_checkout($ord);

@@ -23,10 +23,11 @@ class ProductFilterTest extends TestCase
         $clean = CustomField::truncate();
         $clean = CustomFieldValue::truncate();
     }
+
     public function testProductFilter()
     {
 
-       $this->cleanUp();
+        $this->cleanUp();
 
         $newShopPage = new Page();
         $newShopPage->title = 'my-new-shop-page-for-filter-test-' . uniqid();
@@ -45,9 +46,9 @@ class ProductFilterTest extends TestCase
         $newProduct->parent = $newShopPage->id;
         $newProduct->setCustomField(
             [
-                'type'=>'price',
-                'name'=>'price',
-                'value'=>'1',
+                'type' => 'price',
+                'name' => 'price',
+                'value' => '1',
             ]
         );
         $newProduct->save();
@@ -61,9 +62,9 @@ class ProductFilterTest extends TestCase
         $newProduct2->parent = $newShopPage->id;
         $newProduct2->setCustomField(
             [
-                'type'=>'price',
-                'name'=>'price',
-                'value'=>'1000',
+                'type' => 'price',
+                'name' => 'price',
+                'value' => '1000',
             ]
         );
         $newProduct2->save();
@@ -109,9 +110,6 @@ class ProductFilterTest extends TestCase
         $this->assertEquals(0, count($results));
 
 
-
-
-
         $newProduct3 = new Product();
         $newProduct3->title = 'my-second-new-product-zero-for-filter-test-' . uniqid();
         $newProduct3->url = 'my-second-product-zero-for-filter-test';
@@ -120,13 +118,12 @@ class ProductFilterTest extends TestCase
         $newProduct3->parent = $newShopPage->id;
         $newProduct3->setCustomField(
             [
-                'type'=>'price',
-                'name'=>'price',
-                'value'=>'0',
+                'type' => 'price',
+                'name' => 'price',
+                'value' => '0',
             ]
         );
         $newProduct3->save();
-
 
 
         $model = \Modules\Product\Models\Product::query();
@@ -141,8 +138,6 @@ class ProductFilterTest extends TestCase
         $this->assertEquals($newProduct3->id, $results[1]->id);
 
 
-
-
         $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
@@ -153,7 +148,6 @@ class ProductFilterTest extends TestCase
         $this->assertEquals($newProduct2->id, $results[0]->id);
 
 
-
         $model = \Modules\Product\Models\Product::query();
 
         $model->filter([
@@ -162,7 +156,6 @@ class ProductFilterTest extends TestCase
         $results = $model->get();
 
         $this->assertEquals($newProduct3->id, $results[0]->id);
-
 
 
         $model = \Modules\Product\Models\Product::query();
@@ -178,7 +171,6 @@ class ProductFilterTest extends TestCase
     public function testProductFilterBySalesCount()
     {
         $this->cleanUp();
-
 
 
         // add product and order it
@@ -219,8 +211,6 @@ class ProductFilterTest extends TestCase
         $cart_add = update_cart($add_to_cart);
 
 
-
-
         $checkoutDetails = array();
         $checkoutDetails['email'] = 'test@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
@@ -235,52 +225,49 @@ class ProductFilterTest extends TestCase
         $checkoutDetails['order_completed'] = 1;
 
 
-        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+        $checkoutStatus = app()->checkout_manager->checkout($checkoutDetails);
 
         // order again to test
         $cart_add = update_cart($add_to_cart);
-        $checkoutStatus = app()->order_manager->place_order($checkoutDetails);
+        $checkoutStatus2 = app()->checkout_manager->checkout($checkoutDetails);
+
 
         $count_orders = 2;
 
         $productQuery = \Modules\Product\Models\Product::query();
         $productQuery->filter([
-            'orders'=>$count_orders
+            'orders' => $count_orders
         ]);
         $products = $productQuery->get();
 
         foreach ($products as $product) {
-          $this->assertEquals($product->orders()->count(), $count_orders);
+            $this->assertEquals($product->orders()->count(), $count_orders);
         }
-
-
-
 
 
         $productQuery = \Modules\Product\Models\Product::query();
         $productQuery->filter([
-            'sortOrders'=>'asc'
+            'sortOrders' => 'asc'
         ]);
         $products = $productQuery->get();
 
         $i = 1;
         foreach ($products as $product) {
-           // $this->assertEquals($i, $product->orders()->count());
+            $this->assertEquals($i, $product->orders()->count());
             $i++;
         }
 
 
         $productQuery = \Modules\Product\Models\Product::query();
         $productQuery->filter([
-            'sortOrders'=>'desc'
+            'sortOrders' => 'desc'
         ]);
         $products = $productQuery->get();
-        $i = 2;
+        $i = 1;
         foreach ($products as $product) {
-           // $this->assertEquals($i, $product->orders()->count());
-            $i--;
+            $this->assertEquals($i, $product->orders()->count());
+            $i++;
         }
-
 
 
     }
