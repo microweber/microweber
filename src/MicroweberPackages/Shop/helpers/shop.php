@@ -70,14 +70,14 @@ if (!function_exists('delete_order')) {
 if (!function_exists('get_orders')) {
     function get_orders($params = false)
     {
-        return app()->shop_manager->get_orders($params);
+        return app()->order_manager->get($params);
     }
 }
 
 if (!function_exists('get_order_by_id')) {
     function get_order_by_id($params = false)
     {
-        return app()->shop_manager->get_order_by_id($params);
+        return app()->order_manager->get_by_id($params);
     }
 }
 

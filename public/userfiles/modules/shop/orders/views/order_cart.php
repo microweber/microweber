@@ -1,13 +1,13 @@
 <?php
 
 must_have_access();
-$ord = mw()->shop_manager->get_order_by_id($params['order-id']);
+$ord = app()->order_manager->get_by_id($params['order-id']);
 
 $cart_items = array();
 if (is_array($ord)) {
     $cart_items = false;
     if (empty($cart_items)) {
-        $cart_items = mw()->shop_manager->order_items($ord['id']);
+        $cart_items = app()->order_manager->order_items($ord['id']);
     }
 } else {
     //   mw_error("Invalid order id");

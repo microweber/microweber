@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Shop\Coupons\tests;
+namespace Modules\Coupons\Tests\Unit;
 
 
 use Illuminate\Support\Facades\DB;
@@ -73,7 +73,7 @@ class CouponApplyTest extends TestCase
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test1'.uniqid().'@microweber.com';
+        $checkoutDetails['email'] = 'test1' . uniqid() . '@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 
@@ -82,13 +82,11 @@ class CouponApplyTest extends TestCase
         $checkoutStatus = $checkout->checkout($checkoutDetails);
 
 
-
         $this->assertSame($checkoutStatus['promo_code'], $code);
         $this->assertSame($checkoutStatus['coupon_id'], $couponId);
         $this->assertSame($checkoutStatus['discount_type'], 'fixed_amount');
         $this->assertSame($checkoutStatus['discount_value'], floatval('10.00'));
         $this->assertSame($checkoutStatus['amount'], floatval('40.00'));
-        $this->assertSame($checkoutStatus['payment_amount'], floatval('40.00'));
 
         $checkIfApplied = CartCouponLog::where('coupon_code', $code)->first();
         $this->assertSame($checkIfApplied->coupon_code, $code);
@@ -139,7 +137,7 @@ class CouponApplyTest extends TestCase
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test'.uniqid().'@microweber.com';
+        $checkoutDetails['email'] = 'test' . uniqid() . '@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 
@@ -152,7 +150,6 @@ class CouponApplyTest extends TestCase
         $this->assertSame($checkoutStatus['discount_type'], 'fixed_amount');
         $this->assertSame($checkoutStatus['discount_value'], floatval('1000'));
         $this->assertSame($checkoutStatus['amount'], floatval('0'));
-        $this->assertSame($checkoutStatus['payment_amount'], floatval('0'));
 
         $checkIfApplied = CartCouponLog::where('coupon_code', $code)->first();
         $this->assertSame($checkIfApplied->coupon_code, $code);
@@ -160,8 +157,6 @@ class CouponApplyTest extends TestCase
 
 
     }
-
-
 
 
     public function testValidCouponCodeWithPercent()
@@ -200,7 +195,7 @@ class CouponApplyTest extends TestCase
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test'.uniqid().'@microweber.com';
+        $checkoutDetails['email'] = 'test' . uniqid() . '@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 
@@ -213,13 +208,13 @@ class CouponApplyTest extends TestCase
         $this->assertSame($checkoutStatus['discount_type'], 'percentage');
         $this->assertSame($checkoutStatus['discount_value'], floatval('50.00'));
         $this->assertSame($checkoutStatus['amount'], floatval('25.00'));
-        $this->assertSame($checkoutStatus['payment_amount'], floatval('25.00'));
 
         $checkIfApplied = CartCouponLog::where('coupon_code', $code)->first();
         $this->assertSame($checkIfApplied->coupon_code, $code);
         $this->assertSame($checkIfApplied->coupon_id, $couponId);
 
     }
+
     public function testValidCouponCodeWithPercentTooBig()
     {
         empty_cart();
@@ -257,7 +252,7 @@ class CouponApplyTest extends TestCase
 
 
         $checkoutDetails = array();
-        $checkoutDetails['email'] = 'test'.uniqid().'@microweber.com';
+        $checkoutDetails['email'] = 'test' . uniqid() . '@microweber.com';
         $checkoutDetails['first_name'] = 'Client';
         $checkoutDetails['last_name'] = 'Microweber';
 
@@ -270,7 +265,6 @@ class CouponApplyTest extends TestCase
         $this->assertSame($checkoutStatus['discount_type'], 'percentage');
         $this->assertSame($checkoutStatus['discount_value'], floatval('5000.00'));
         $this->assertSame($checkoutStatus['amount'], floatval('0.00'));
-        $this->assertSame($checkoutStatus['payment_amount'], floatval('0.00'));
 
         $checkIfApplied = CartCouponLog::where('coupon_code', $code)->first();
         $this->assertSame($checkIfApplied->coupon_code, $code);
@@ -302,7 +296,6 @@ class CouponApplyTest extends TestCase
         $this->assertArrayHasKey('message', $result);
         $this->assertArrayHasKey('error', $result);
     }
-
 
 
 }

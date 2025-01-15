@@ -34,7 +34,7 @@
 //    $customer_ip = user_ip();
 //
 ////    $checkout = new Modules\Checkout\Repositories\CheckoutManager();
-////    $getCart = $checkout->app->shop_manager->get_cart(array(
+////    $getCart = $checkout->app->cart_manager->get_cart(array(
 ////        'session_id' => $checkout->app->user_manager->session_id()
 ////
 ////    ));

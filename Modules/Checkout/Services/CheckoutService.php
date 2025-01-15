@@ -95,19 +95,19 @@ class CheckoutService
             return array('error' => $orderData['error']);
         }
         // Place order
-        $order = $this->app->order_manager->place_order($orderData);
+        $orderId = $this->app->order_manager->place_order($orderData);
 
         if (isset($orderData['is_paid']) && $orderData['is_paid']) {
-            $this->markOrderAsPaid($order);
+            $this->markOrderAsPaid($orderId);
         }
 
-        $this->updateQuantities($order);
-        $this->confirmEmailSend($order);
+        $this->updateQuantities($orderId);
+        $this->confirmEmailSend($orderId);
         $return = [
             'success' => true,
             'message' => 'Order placed successfully',
-            'order_id' => $order,
-            'id' => $order,
+            'order_id' => $orderId,
+            'id' => $orderId,
         ];
 
         if (isset($orderData['redirect']) and $orderData['redirect']) {
@@ -133,11 +133,18 @@ class CheckoutService
             'shipping_provider_id',
             'payment_provider_id',
             'taxes_amount',
+            'discount_type',
+            'discount_type',
+            'discount_value',
+            'promo_code',
+            'coupon_id',
+            'taxes_amount',
+            'discount_type',
             'transaction_id'
         ];
 
         foreach ($orderKeys as $key) {
-            if (isset($orderData[$key]) and $orderData[$key]) {
+            if (isset($orderData[$key])) {
                 $return[$key] = $orderData[$key];
             }
         }
@@ -205,7 +212,7 @@ class CheckoutService
 
     public function confirmEmailSend($order_id, $to = false, $no_cache = true, $skip_enabled_check = false)
     {
-        $ord_data = $this->app->shop_manager->get_order_by_id($order_id);
+        $ord_data = $this->app->order_manager->get_by_id($order_id);
 
         if (is_array($ord_data)) {
 
@@ -284,7 +291,7 @@ class CheckoutService
                 if ($order_email_content != false and trim($order_email_subject) != '') {
                     $cart_items = array();
                     if (!empty($ord_data)) {
-                        $cart_items = $this->app->shop_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
+                        $cart_items = $this->app->cart_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
 
                         $cart_items_info = array();
                         $order_items_html = '';
@@ -409,7 +416,7 @@ class CheckoutService
 
     public function updateQuantities($orderId)
     {
-        $this->app->shop_manager->update_quantities($orderId);
+        $this->app->order_manager->update_quantities($orderId);
 
     }
 
@@ -471,7 +478,7 @@ class CheckoutService
      */
     protected function validateCart()
     {
-        $cart = $this->app->shop_manager->get_cart([
+        $cart = $this->app->cart_manager->get_cart([
             'session_id' => $this->app->user_manager->session_id(),
             'order_completed' => 0,
             'for_checkout' => true
@@ -532,16 +539,27 @@ class CheckoutService
         if ($check) {
             $order_reference_id = 'ORD-' . crc32(uniqid(time()) . rand());
         }
+        $discount_value = $this->app->cart_manager->get_discount_value();
+        $discount_type = $this->app->cart_manager->get_discount_type();
+        $tax_amount = $this->app->cart_manager->get_tax();
+        $couponCodeGetDataFromSession = $this->app->cart_manager->couponCodeGetDataFromSession();
 
+
+        //coupon_code
         $orderData = [
             'session_id' => $this->app->user_manager->session_id(),
             'order_status' => 'new',
             'order_completed' => 0,
             'is_paid' => 0,
             'currency' => $this->app->option_manager->get('currency', 'payments') ?: 'USD',
-            'amount' => $this->app->shop_manager->cart_total(),
-            'shipping_amount' => $this->getShippingCost($data),
-            'items_count' => $this->app->shop_manager->cart_sum(false),
+            'amount' => cart_total(),
+            'shipping_amount' => $this->getShippingCost($data) ?? 0,
+            'discount_type' => $discount_type ?? null,
+            'discount_value' => $discount_value ?? 0,
+            'taxes_amount' => $tax_amount ?? 0,
+            'promo_code' => $couponCodeGetDataFromSession['coupon_code'] ?? null,
+            'coupon_id' => $couponCodeGetDataFromSession['id'] ?? null,
+            'items_count' => $this->app->cart_manager->sum(false),
             'order_reference_id' => $order_reference_id,
             'payment_verify_token' => md5(uniqid(time())),
         ];

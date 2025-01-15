@@ -119,9 +119,9 @@ class shipping_to_country
             $total_shipping_weight = 0;
             $total_shipping_volume = 0;
 
-            $items_cart_count = $this->app->shop_manager->cart_sum(false);
+            $items_cart_count = $this->app->cart_manager->sum(false);
             if ($items_cart_count > 0) {
-                $items_items = $this->app->shop_manager->get_cart();
+                $items_items = $this->app->cart_manager->get_cart();
                 if (!empty($items_items)) {
                     foreach ($items_items as $item) {
                         if (!isset($item['content_data'])) {
@@ -191,9 +191,9 @@ class shipping_to_country
                 $calc = floatval($shipping_country['shipping_price_per_item']);
                 $calc2 = 0;
 
-                $items_cart_count = $this->app->shop_manager->cart_sum(false);
+                $items_cart_count = $this->app->cart_manager->sum(false);
                 if ($items_cart_count > 0) {
-                    $items_items = $this->app->shop_manager->get_cart();
+                    $items_items = $this->app->cart_manager->get_cart();
                     if (!empty($items_items)) {
                         foreach ($items_items as $item) {
                             if (isset($item['content_data'])) {
@@ -228,7 +228,7 @@ class shipping_to_country
 
         }
 
-        $items_cart_amount = $this->app->shop_manager->cart_sum();
+        $items_cart_amount = $this->app->cart_manager->sum();
 
         if (isset($shipping_country['shipping_cost_above']) and intval($shipping_country['shipping_cost_above']) > 0) {
             $shipping_cost_above = floatval($shipping_country['shipping_cost_above']);

@@ -36,7 +36,10 @@ class CartManager extends Crud
 
 
     }
-
+    public function get_cart($params)
+    {
+        return $this->get($params);
+    }
     /**
      * This will sum all cart items amount
      * @param bool $return_amount

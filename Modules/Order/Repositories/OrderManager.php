@@ -279,7 +279,7 @@ class OrderManager
         );
         $export = array();
         foreach ($data as $item) {
-            $cart_items = app()->shop_manager->order_items($item['id']);
+            $cart_items = app()->order_manager->order_items($item['id']);
             $cart_items_str = mw()->format->array_to_ul($cart_items, 'div', 'span');
             $cart_items_str = (strip_tags($cart_items_str, '<span>'));
             $cart_items_str = str_replace('</span>', "\r\n", $cart_items_str);

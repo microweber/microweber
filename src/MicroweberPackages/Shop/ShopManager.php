@@ -101,60 +101,7 @@ class ShopManager
 //        return $this->app->order_manager->place_order($place_order);
 //    }
 
-    public function get_order_by_id($id = false)
-    {
-        return $this->app->order_manager->get_by_id($id);
-    }
 
-    public function empty_cart()
-    {
-        return $this->app->cart_manager->empty_cart();
-    }
-
-    public function get_cart($params = false)
-    {
-        return $this->app->cart_manager->get($params);
-    }
-
-    public function remove_cart_item($data)
-    {
-        return $this->app->cart_manager->remove_item($data);
-    }
-
-    public function update_cart_item_qty($data)
-    {
-        return $this->app->cart_manager->update_item_qty($data);
-    }
-
-    public function update_cart($data)
-    {
-        return $this->app->cart_manager->update_cart($data);
-    }
-
-    public function payment_options($option_key = false)
-    {
-        return $this->app->checkout_manager->payment_options($option_key);
-    }
-
-    public function cart_total()
-    {
-        return $this->app->cart_manager->total();
-    }
-
-    public function update_quantities($order_id = false)
-    {
-        return $this->app->order_manager->update_quantities($order_id);
-    }
-
-    public function order_items($order_id = false)
-    {
-        return $this->app->order_manager->get_items($order_id);
-    }
-
-    public function get_orders($params = false)
-    {
-        return $this->app->order_manager->get($params);
-    }
 
     public function get_product_prices($product_id = false, $return_full_custom_fields_array = false)
     {

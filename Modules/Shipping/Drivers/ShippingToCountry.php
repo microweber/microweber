@@ -78,9 +78,9 @@ class ShippingToCountry extends AbstractShippingMethod
             $total_shipping_weight = 0;
             $total_shipping_volume = 0;
 
-            $items_cart_count = app()->shop_manager->cart_sum(false);
+            $items_cart_count = app()->cart_manager->sum(false);
             if ($items_cart_count > 0) {
-                $cart_items = app()->shop_manager->get_cart();
+                $cart_items = app()->cart_manager->get_cart();
                 if (!empty($cart_items)) {
                     foreach ($cart_items as $item) {
                         $content_data = $item['content_data'] ?? [];
@@ -121,9 +121,9 @@ class ShippingToCountry extends AbstractShippingMethod
             }
         } elseif ($shipping_country_record['shipping_type'] == 'per_item') {
             if (isset($shipping_country_record['shipping_price_per_item'])) {
-                $items_cart_count = app()->shop_manager->cart_sum(false);
+                $items_cart_count = app()->cart_manager->sum(false);
                 if ($items_cart_count > 0) {
-                    $cart_items = app()->shop_manager->get_cart();
+                    $cart_items = app()->cart_manager->get_cart();
                     if (!empty($cart_items)) {
                         foreach ($cart_items as $item) {
                             $content_data = $item['content_data'] ?? [];
@@ -142,7 +142,7 @@ class ShippingToCountry extends AbstractShippingMethod
         }
 
         // Check for cost threshold
-        $items_cart_amount = app()->shop_manager->cart_sum();
+        $items_cart_amount = app()->cart_manager->sum();
         if (isset($shipping_country_record['shipping_cost_above']) && isset($shipping_country_record['shipping_cost_max'])) {
             if ($items_cart_amount >= floatval($shipping_country_record['shipping_cost_above'])) {
                 $defined_cost = floatval($shipping_country_record['shipping_cost_max']);

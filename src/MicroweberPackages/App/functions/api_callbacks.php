@@ -116,7 +116,7 @@ api_expose_admin('shop/update_order', function ($data) {
 
 
 api_expose_admin('shop/export_orders', function ($data) {
-    return mw()->order_manager->export_orders($data);
+    return app()->order_manager->export_orders($data);
 });
 
 // media

@@ -23,22 +23,22 @@ class CouponService
 
         if (!$coupon) {
             return [
-                'success' => false,
-                'message' => __('The coupon code is not valid.')
+                'error' => true,
+                'message' => lang('The coupon code is not valid.')
             ];
         }
 
         if ($coupon->total_amount && $cartTotal < $coupon->total_amount) {
             return [
-                'success' => false,
-                'message' => __('The coupon can\'t be applied because the minimum total amount is ') . currency_format($coupon->total_amount)
+                'error' => true,
+                'message' => lang('The coupon can\'t be applied because the minimum total amount is ') . currency_format($coupon->total_amount)
             ];
         }
 
         if ($customerEmail && $customerIp && !$coupon->isValidForCustomer($customerEmail, $customerIp)) {
             return [
-                'success' => false,
-                'message' => __('The coupon cannot be applied cause maximum uses exceeded.')
+                'error' => true,
+                'message' => lang('The coupon cannot be applied cause maximum uses exceeded.')
             ];
         }
 
@@ -48,7 +48,7 @@ class CouponService
 
         return [
             'success' => true,
-            'message' => __('Coupon code applied.'),
+            'message' => lang('Coupon code applied.'),
             'discount_amount' => $discountAmount,
             'coupon' => $coupon
         ];
@@ -113,7 +113,7 @@ class CouponService
         if (!$couponData) {
             return null;
         }
-        
+
         return [
             'coupon_code' => $couponData['coupon_code'],
             'discount_value' => $couponData['discount_value'],
