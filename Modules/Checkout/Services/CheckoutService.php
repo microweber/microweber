@@ -565,7 +565,7 @@ class CheckoutService
         ];
 
         // Add customer fields
-        $fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zip', 'country'];
+        $fields = ['first_name', 'last_name', 'email', 'phone', 'address','address2', 'city', 'state', 'zip', 'country'];
         foreach ($fields as $field) {
             if (isset($data[$field])) {
                 $orderData[$field] = $data[$field];

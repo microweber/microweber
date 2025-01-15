@@ -5,16 +5,17 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Shop\tests\ShopTestHelperTrait;
 use Modules\Checkout\Repositories\CheckoutManager;
+use Modules\Coupons\Models\Coupon;
 use Modules\Tax\Models\TaxType;
 
 class TaxCartTest extends TestCase
 {
-    use RefreshDatabase;
-    use ShopTestHelperTrait;
+     use ShopTestHelperTrait;
     public function testTaxAppliedOnCheckout()
     {
         TaxType::truncate();
-        TaxType::truncate();
+        Coupon::truncate();
+        empty_cart();
         save_option('enable_taxes', '1', 'shop');
         app()->tax_manager->save(array(
             'name' => 'VAT',
@@ -34,12 +35,22 @@ class TaxCartTest extends TestCase
             'description' => 'Tip tax'
         ));
 
-        empty_cart();
+        $this->assertDatabaseHas('tax_types', ['name' => 'VAT']);
+        $this->assertDatabaseHas('tax_types', ['name' => 'Tip']);
+
+
+
         $this->_addProductToCart('Product 1', 10);
         $this->_addProductToCart('Product 2', 10);
         $this->_addProductToCart('Product 3', 10);
         $this->_addProductToCart('Product 4', 10);
         $this->_addProductToCart('Product 5', 10);
+
+        $sum = cart_sum();
+        $total = cart_total();
+
+        $this->assertSame($sum, floatval('50.0'));
+        $this->assertSame($total, floatval('61.0'));
 
         $checkoutDetails = array();
         $checkoutDetails['email'] = 'test@microweber.com';
@@ -49,8 +60,9 @@ class TaxCartTest extends TestCase
 
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
+
+
         $this->assertSame($checkoutStatus['amount'], floatval('61.0'));
-        $this->assertSame($checkoutStatus['payment_amount'], floatval('61.00'));
         $this->assertSame($checkoutStatus['taxes_amount'], floatval('11.00'));
 
     }

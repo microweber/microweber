@@ -2,6 +2,7 @@
 
 namespace Modules\Customer\Tests\Unit;
 
+use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Customer\Models\Address;
@@ -58,7 +59,7 @@ class CustomerCheckoutTest extends TestCase
     public function testCheckout()
     {
 
-        \Config::set('mail.transport', 'array');
+        Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');

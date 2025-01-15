@@ -109,6 +109,7 @@ class TaxManager
         if ($sum > 0) {
 
             $findTax = TaxType::all();
+
             if ($findTax) {
                 $taxes = $findTax->toArray();
             }
@@ -119,7 +120,7 @@ class TaxManager
                         $amt = floatval($tax['rate']);
                         if ($tax['type'] == 'fixed') {
                             $difference = $difference + $amt;
-                        } elseif ($tax['type'] == 'percentage') {
+                        } elseif ($tax['type'] == 'percent') {
                             if($is_gross) {
 								$difference_percent = $sum - (($sum / ($amt + 100)) * 100);
                             } else {
