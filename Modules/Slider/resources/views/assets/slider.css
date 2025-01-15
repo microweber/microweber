@@ -1,0 +1,88 @@
+/* Slick Slider Styles */
+.slickSlider-default img,
+.slickSlider-skin-2 img {
+    margin: 0 auto;
+}
+
+/* Swiper Slider Styles */
+.slider_v2-default {
+    position: relative;
+    width: 100%;
+}
+
+.slider_v2-default .swiper-slide {
+    position: relative;
+}
+
+.slider_v2-default [class*="js-slide-image-"] {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Navigation Buttons */
+.mw-slider-v2-buttons-slide {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mw-slider-v2-button-prev {
+    left: 20px;
+}
+
+.mw-slider-v2-button-next {
+    right: 20px;
+}
+
+/* Pagination */
+.swiper-pagination {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.swiper-pagination-bullet-active {
+    background: #fff;
+}
+
+/* Responsive Text */
+@media screen and (max-width: 991px) {
+    .header-section-title {
+        font-size: 3rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .header-section-title {
+        font-size: 2.5rem !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .header-section-title {
+        font-size: 2rem !important;
+    }
+}
