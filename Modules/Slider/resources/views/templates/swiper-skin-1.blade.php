@@ -6,42 +6,50 @@ description: Modern slider with rounded corners and left-aligned content
 */
 @endphp
 
+
 <style>
-    #slider-{{ $params['id'] }} .swiper-slide {
-        text-align: {{ $slide->settings['alignItems'] ?? 'left' }};
+    .swiper-slide {
+        text-align: {{ $slide->settings['alignItems'] ?? 'center' }};
     }
 
-    #slider-{{ $params['id'] }} .js-slide-image {
+    .js-slide-image-swiper-module {
         background-size: cover;
-        background-position: center;
+        background-repeat: no-repeat;
+        background-position: center center;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: -1;
         @if(isset($slide->settings['imageBackgroundFilter']))
             @switch($slide->settings['imageBackgroundFilter'])
                 @case('blur')
                     filter: blur(5px);
-                    @break
-                @case('mediumBlur')
-                    filter: blur(10px);
-                    @break
-                @case('maxBlur')
-                    filter: blur(20px);
-                    @break
-                @case('grayscale')
-                    filter: grayscale(100%);
-                    @break
-                @case('hue-rotate')
-                    filter: hue-rotate(180deg);
-                    @break
-                @case('invert')
-                    filter: invert(100%);
-                    @break
-                @case('sepia')
-                    filter: sepia(100%);
-                    @break
-            @endswitch
-        @endif
-    }
+        @break
+    @case('mediumBlur')
+filter: blur(10px);
+        @break
+    @case('maxBlur')
+filter: blur(20px);
+        @break
+    @case('grayscale')
+filter: grayscale(100%);
+        @break
+    @case('hue-rotate')
+filter: hue-rotate(180deg);
+        @break
+    @case('invert')
+filter: invert(100%);
+        @break
+    @case('sepia')
+filter: sepia(100%);
+    @break
+@endswitch
+@endif
+}
 
-    #slider-{{ $params['id'] }} .header-section-title {
+
+
+    .header-section-title {
         color: {{ $slide->settings['titleColor'] ?? '#000000' }};
         font-size: {{ $slide->settings['titleFontSize'] ?? '24' }}px;
         @media screen and (max-width: 991px) {
@@ -56,12 +64,12 @@ description: Modern slider with rounded corners and left-aligned content
         overflow-wrap: break-word;
     }
 
-    #slider-{{ $params['id'] }} .header-section-p {
+    .header-section-p {
         color: {{ $slide->settings['descriptionColor'] ?? '#666666' }};
         font-size: {{ $slide->settings['descriptionFontSize'] ?? '16' }}px;
     }
 
-    #slider-{{ $params['id'] }} .slider-button {
+    .slider-button {
         display: inline-block;
         padding: 8px 20px;
         background-color: {{ $slide->settings['buttonBackgroundColor'] ?? '#007bff' }};
@@ -70,27 +78,25 @@ description: Modern slider with rounded corners and left-aligned content
         font-size: {{ $slide->settings['buttonFontSize'] ?? '16' }}px;
         text-decoration: none;
         transition: all 0.3s ease;
-        border-radius: 15px;
     }
 
-    #slider-{{ $params['id'] }} .slider-button:hover {
+    .slider-button:hover {
         background-color: {{ $slide->settings['buttonBackgroundHoverColor'] ?? '#0056b3' }};
         color: {{ $slide->settings['buttonTextHoverColor'] ?? '#ffffff' }};
         text-decoration: none;
     }
-
-    #slider-{{ $params['id'] }} .slide-content {
-        background-color: {{ isset($slide->settings['imageBackgroundColor']) ? $slide->settings['imageBackgroundColor'] : 'transparent' }};
-        opacity: {{ $slide->settings['imageBackgroundOpacity'] ?? '1' }};
-    }
 </style>
+
 
 <div id="js-slider-{{ $params['id'] ?? 'default' }}" class="slider_v2-default swiper">
     <div class="swiper-wrapper">
         @if($slides && $slides->count() > 0)
             @foreach($slides as $slide)
+
+
                 <div class="swiper-slide">
-                    <div class="js-slide-image-{{ $slide->id }}"
+                
+                    <div class="js-slide-image-swiper-module js-slide-image-{{ $slide->id }}"
                          style="background-image: url('{{ thumbnail($slide->media, 1200) }}');
                                 border-radius: 30px;
                                 overflow: hidden;">
