@@ -51,5 +51,5 @@ Extend master layout
 Use Module view
 
 ```php
-view('modules.$LOWER_NAME$::index')
+view('modules.$LOWER_NAME$::example')
 ```

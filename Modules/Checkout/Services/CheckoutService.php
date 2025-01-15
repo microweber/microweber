@@ -84,6 +84,9 @@ class CheckoutService
             if (isset($gatewayResponse['transactionId']) and $gatewayResponse['transactionId']) {
                 $orderData['transaction_id'] = $gatewayResponse['transactionId'];
             }
+        } else {
+            $orderData['order_completed'] = 1;
+            $orderData['success'] = 'Your order has been placed successfully!';
         }
 
         if (isset($orderData['error'])) {
@@ -96,15 +99,25 @@ class CheckoutService
             $this->markOrderAsPaid($order);
         }
 
-
-
-
-        return [
+        $return = [
             'success' => true,
             'message' => 'Order placed successfully',
             'order_id' => $order,
-            'redirect' => $orderData['redirect'] ?? null
         ];
+
+        if (isset($orderData['redirect']) and $orderData['redirect']) {
+            $return['redirect'] = $orderData['redirect'];
+        }
+        $orderKeys = ['order_completed', 'order_status', 'currency', 'amount', 'shipping_amount', 'items_count', 'first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zip', 'country', 'shipping_provider_id', 'payment_provider_id', 'taxes_amount', 'transaction_id'];
+
+        foreach ($orderKeys as $key) {
+            if (isset($orderData[$key]) and $orderData[$key]) {
+                $return[$key] = $orderData[$key];
+            }
+        }
+
+
+        return $return;
     }
 
     public function setUserInfo($key, $value): void

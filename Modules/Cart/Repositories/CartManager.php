@@ -1032,8 +1032,7 @@ class CartManager extends Crud
             $cart_return['custom_fields_data'] = $add;
             $cart_return['price'] = $cart['price'];
 
-            $findCart = Cart::where('custom_fields_data', $cart['custom_fields_data'])
-                ->where('session_id', $cart['session_id'])
+            $findCart = Cart::where('session_id', $cart['session_id'])
                 ->where('order_completed', $cart['order_completed'])
                 ->where('rel_id', $cart['rel_id'])
                 ->where('rel_type', $cart['rel_type'])
@@ -1045,6 +1044,8 @@ class CartManager extends Crud
 
 
             if ($found_price and $check_cart != false and is_array($check_cart) and isset($check_cart['id'])) {
+
+
                 if ($check_cart and isset($check_cart['price']) and (doubleval($check_cart['price']) == doubleval($found_price))) {
                     $cart['id'] = $check_cart['id'];
                     if ($update_qty > 0) {

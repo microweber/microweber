@@ -68,9 +68,8 @@ class CheckoutClientTest extends TestCase
 
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
-
-        $this->assertArrayHasKey('success', $checkoutStatus);
-        $this->assertArrayHasKey('id', $checkoutStatus);
+         $this->assertArrayHasKey('success', $checkoutStatus);
+        $this->assertArrayHasKey('order_id', $checkoutStatus);
         $this->assertArrayHasKey('order_completed', $checkoutStatus);
         $this->assertArrayHasKey('amount', $checkoutStatus);
         $this->assertArrayHasKey('currency', $checkoutStatus);

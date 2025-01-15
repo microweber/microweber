@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Shop\tests;
+namespace Modules\Shop\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
 
@@ -48,6 +48,7 @@ class CartTest extends TestCase
 
         $cart_add = update_cart($add_to_cart);
         $cart_items = get_cart();
+
         $this->assertEquals($cart_items[0]['qty'], 2);
 
 
