@@ -1,0 +1,33 @@
+{
+    "name": "modules/mail_template",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\MailTemplate\\": "",
+            "Modules\\MailTemplate\\Database\\Factories\\": "database/factories/",
+            "Modules\\MailTemplate\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\MailTemplate\\Tests\\": "Tests/"
+        },
+        "files": [
+            "Support/helpers.php"
+        ]
+    }
+}

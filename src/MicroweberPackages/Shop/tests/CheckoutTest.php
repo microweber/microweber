@@ -17,6 +17,21 @@ class CheckoutTest extends TestCase
 
     public function testCheckout()
     {
+
+        $data = [];
+        $data['option_value'] = '1';
+        $data['option_key'] = 'order_email_enabled';
+        $data['option_group'] = 'orders';
+        $save = save_option($data);
+        $this->assertEquals(1, get_option('order_email_enabled', 'orders'));
+
+        $data = [];
+        $data['option_value'] = 'order_received';
+        $data['option_key'] = 'order_email_send_when';
+        $data['option_group'] = 'orders';
+        $save = save_option($data);
+
+
         empty_cart();
 
         Config::set('mail.transport', 'array');
@@ -25,17 +40,7 @@ class CheckoutTest extends TestCase
         $this->_addProductToCart('Product 2');
         $this->_addProductToCart('Product 3');
         $this->_addProductToCart('Product 4');
-        $data = [];
-        $data['option_value'] = 'y';
-        $data['option_key'] = 'order_email_enabled';
-        $data['option_group'] = 'orders';
-        $save = save_option($data);
 
-        $data = [];
-        $data['option_value'] = 'order_received';
-        $data['option_key'] = 'order_email_send_when';
-        $data['option_group'] = 'orders';
-        $save = save_option($data);
 
         $checkoutDetails = array();
         $checkoutDetails['email'] = 'client@microweber.com';

@@ -193,7 +193,7 @@ if (!empty($template_id)) {
              * @var \MicroweberPackages\FormBuilder\FormElementBuilder $formBuilder
              */
 
-            $mailTemplateModel = \MicroweberPackages\Notification\Models\MailTemplate::where('id', $template_id)->first();
+            $mailTemplateModel = \Modules\MailTemplate\Models\MailTemplate::where('id', $template_id)->first();
             $formBuilder = App::make(\MicroweberPackages\FormBuilder\FormElementBuilder::class);
             ?>
 

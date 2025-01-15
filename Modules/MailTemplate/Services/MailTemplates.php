@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Notification\Mail;
+namespace Modules\MailTemplate\Services;
 
 class MailTemplates
 {

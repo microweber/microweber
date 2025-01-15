@@ -217,14 +217,16 @@ class CheckoutService
         if (is_array($ord_data)) {
 
             if ($skip_enabled_check == false) {
-                $order_email_enabled = $this->app->option_manager->get('order_email_enabled', 'orders');
+                $order_email_enabled = get_option('order_email_enabled', 'orders');
             } else {
                 $order_email_enabled = $skip_enabled_check;
             }
 
             $send_to_client = true;
             $send_to_admins = true;
-            $send_to_client_option = $this->app->option_manager->get('send_email_on_new_order', 'orders');
+            $send_to_client_option = get_option('send_email_on_new_order', 'orders');
+
+
             if (!empty($send_to_client_option)) {
                 if ($send_to_client_option == 'admins') {
                     $send_to_admins = true;
@@ -250,6 +252,8 @@ class CheckoutService
                         }
                     }
                 }
+
+
 
                 if (!$mail_template) {
                     return;
