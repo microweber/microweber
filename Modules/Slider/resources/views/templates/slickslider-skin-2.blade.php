@@ -7,10 +7,10 @@ description: Simple centered slider with optional links and improved conditional
 @endphp
 
 <style>
-    #{{ $params['id'] }} .slick-slide-item-2 {
+    #slider-{{ $params['id'] }} .slick-slide-item-2 {
         text-align: {{ $slide['settings']['alignItems'] ?? 'center' }};
     }
-    #{{ $params['id'] }} .slick-slide-item-2 img {
+    #slider-{{ $params['id'] }} .slick-slide-item-2 img {
         @if(isset($slide['settings']['imageBackgroundFilter']))
             @switch($slide['settings']['imageBackgroundFilter'])
                 @case('blur')
@@ -37,14 +37,14 @@ description: Simple centered slider with optional links and improved conditional
             @endswitch
         @endif
     }
-    #{{ $params['id'] }} .slick-slide-link {
+    #slider-{{ $params['id'] }} .slick-slide-link {
         display: inline-block;
         background-color: {{ $slide['settings']['imageBackgroundColor'] ?? 'transparent' }};
         opacity: {{ $slide['settings']['imageBackgroundOpacity'] ?? '1' }};
     }
 </style>
 
-<div id="{{ $params['id'] }}" class="slick-slide-item-2">
+<div id="slider-{{ $params['id'] }}" class="slick-slide-item-2">
     @if(isset($slide['media']))
         @if($slide['settings']['showButton'] && $slide['link'])
             <a href="{{ $slide['link'] }}" class="slick-slide-link">

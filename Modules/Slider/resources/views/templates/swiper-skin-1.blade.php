@@ -7,11 +7,11 @@ description: Modern slider with rounded corners and left-aligned content
 @endphp
 
 <style>
-    #{{ $params['id'] }} .swiper-slide {
+    #slider-{{ $params['id'] }} .swiper-slide {
         text-align: {{ $slide->settings['alignItems'] ?? 'left' }};
     }
-    
-    #{{ $params['id'] }} .js-slide-image {
+
+    #slider-{{ $params['id'] }} .js-slide-image {
         background-size: cover;
         background-position: center;
         @if(isset($slide->settings['imageBackgroundFilter']))
@@ -41,7 +41,7 @@ description: Modern slider with rounded corners and left-aligned content
         @endif
     }
 
-    #{{ $params['id'] }} .header-section-title {
+    #slider-{{ $params['id'] }} .header-section-title {
         color: {{ $slide->settings['titleColor'] ?? '#000000' }};
         font-size: {{ $slide->settings['titleFontSize'] ?? '24' }}px;
         @media screen and (max-width: 991px) {
@@ -56,12 +56,12 @@ description: Modern slider with rounded corners and left-aligned content
         overflow-wrap: break-word;
     }
 
-    #{{ $params['id'] }} .header-section-p {
+    #slider-{{ $params['id'] }} .header-section-p {
         color: {{ $slide->settings['descriptionColor'] ?? '#666666' }};
         font-size: {{ $slide->settings['descriptionFontSize'] ?? '16' }}px;
     }
 
-    #{{ $params['id'] }} .slider-button {
+    #slider-{{ $params['id'] }} .slider-button {
         display: inline-block;
         padding: 8px 20px;
         background-color: {{ $slide->settings['buttonBackgroundColor'] ?? '#007bff' }};
@@ -73,13 +73,13 @@ description: Modern slider with rounded corners and left-aligned content
         border-radius: 15px;
     }
 
-    #{{ $params['id'] }} .slider-button:hover {
+    #slider-{{ $params['id'] }} .slider-button:hover {
         background-color: {{ $slide->settings['buttonBackgroundHoverColor'] ?? '#0056b3' }};
         color: {{ $slide->settings['buttonTextHoverColor'] ?? '#ffffff' }};
         text-decoration: none;
     }
 
-    #{{ $params['id'] }} .slide-content {
+    #slider-{{ $params['id'] }} .slide-content {
         background-color: {{ isset($slide->settings['imageBackgroundColor']) ? $slide->settings['imageBackgroundColor'] : 'transparent' }};
         opacity: {{ $slide->settings['imageBackgroundOpacity'] ?? '1' }};
     }

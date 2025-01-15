@@ -7,19 +7,19 @@ description: Default Slider Layout
 @endphp
 
 <style>
-    #{{ $params['id'] }} .slider-container {
+    #slider-{{ $params['id'] }} .slider-container {
         position: relative;
         overflow: hidden;
     }
-    #{{ $params['id'] }} .slider-item {
+    #slider-{{ $params['id'] }} .slider-item {
         display: none;
         width: 100%;
         text-align: {{ $slide['settings']['alignItems'] ?? 'center' }};
     }
-    #{{ $params['id'] }} .slider-item.active {
+    #slider-{{ $params['id'] }} .slider-item.active {
         display: block;
     }
-    #{{ $params['id'] }} .slider-item img {
+    #slider-{{ $params['id'] }} .slider-item img {
         width: 100%;
         height: auto;
         object-fit: cover;
@@ -49,7 +49,7 @@ description: Default Slider Layout
             @endswitch
         @endif
     }
-    #{{ $params['id'] }} .slider-description {
+    #slider-{{ $params['id'] }} .slider-description {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -58,17 +58,17 @@ description: Default Slider Layout
         opacity: {{ $slide['settings']['imageBackgroundOpacity'] ?? '1' }};
         padding: 15px;
     }
-    #{{ $params['id'] }} .slider-description h3 {
+    #slider-{{ $params['id'] }} .slider-description h3 {
         color: {{ $slide['settings']['titleColor'] ?? '#ffffff' }};
         font-size: {{ $slide['settings']['titleFontSize'] ?? '24' }}px;
         margin-bottom: 10px;
     }
-    #{{ $params['id'] }} .slider-description p {
+    #slider-{{ $params['id'] }} .slider-description p {
         color: {{ $slide['settings']['descriptionColor'] ?? '#ffffff' }};
         font-size: {{ $slide['settings']['descriptionFontSize'] ?? '16' }}px;
         margin-bottom: 15px;
     }
-    #{{ $params['id'] }} .slider-button {
+    #slider-{{ $params['id'] }} .slider-button {
         display: inline-block;
         padding: 8px 20px;
         background-color: {{ $slide['settings']['buttonBackgroundColor'] ?? '#007bff' }};
@@ -78,14 +78,17 @@ description: Default Slider Layout
         text-decoration: none;
         transition: all 0.3s ease;
     }
-    #{{ $params['id'] }} .slider-button:hover {
+    #slider-{{ $params['id'] }} .slider-button:hover {
         background-color: {{ $slide['settings']['buttonBackgroundHoverColor'] ?? '#0056b3' }};
         color: {{ $slide['settings']['buttonTextHoverColor'] ?? '#ffffff' }};
         text-decoration: none;
     }
 </style>
 
-<div id="{{ $params['id'] }}" class="slider-container">
+
+
+
+<div id="slider-{{ $params['id'] }}" class="slider-container">
     @if ($slides and $slides->count() > 0)
         @foreach ($slides as $slide)
             <div class="slider-item {{ $loop->first ? 'active' : '' }}">
@@ -119,7 +122,7 @@ description: Default Slider Layout
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let currentSlide = 0;
-    const slides = document.querySelectorAll('#{{ $params['id'] }} .slider-item');
+    const slides = document.querySelectorAll('#slider-{{ $params['id'] }} .slider-item');
 
     function showSlide(index) {
         slides.forEach(slide => slide.classList.remove('active'));

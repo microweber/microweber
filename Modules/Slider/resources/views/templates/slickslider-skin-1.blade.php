@@ -7,10 +7,10 @@ description: Simple centered slider with optional links
 @endphp
 
 <style>
-    #{{ $params['id'] }} .slick-slide-item {
+    #slider-{{ $params['id'] }} .slick-slide-item {
         text-align: {{ $slide['settings']['alignItems'] ?? 'center' }};
     }
-    #{{ $params['id'] }} .slick-slide-item img {
+    #slider-{{ $params['id'] }} .slick-slide-item img {
         @if(isset($slide['settings']['imageBackgroundFilter']))
             @switch($slide['settings']['imageBackgroundFilter'])
                 @case('blur')
@@ -39,7 +39,7 @@ description: Simple centered slider with optional links
     }
 </style>
 
-<div id="{{ $params['id'] }}" class="slick-slide-item">
+<div id="slider-{{ $params['id'] }}" class="slick-slide-item">
     @if(isset($slide['media']))
         @if($slide['settings']['showButton'] && $slide['link'])
             <a href="{{ $slide['link'] }}" style="
