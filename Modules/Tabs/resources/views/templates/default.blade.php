@@ -1,3 +1,17 @@
+<?php
+
+/*
+
+type: layout
+
+name: Default tabs
+
+description: Default
+
+*/
+?>
+
+
 <div>
 
     <div id="tabs-{{ $params['id'] }}">
@@ -24,3 +38,4 @@
         @endif
     </div>
 </div>
+
