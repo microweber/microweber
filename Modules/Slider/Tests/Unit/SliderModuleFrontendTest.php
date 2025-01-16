@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 class SliderModuleFrontendTest extends TestCase
 {
-    use RefreshDatabase;
 
     public function testDefaultViewRendering()
     {
