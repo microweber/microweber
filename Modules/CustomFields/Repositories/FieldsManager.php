@@ -484,6 +484,10 @@ class FieldsManager
             $customField->is_active = $fieldData['is_active'];
         }
 
+        if (!empty($fieldData['position'])) {
+            $customField->position = $fieldData['position'];
+        }
+
         if (isset($fieldData['set_copy_of']) and !empty($fieldData['set_copy_of'])) {
             $customField->copy_of_field = $fieldData['set_copy_of'];
             $customField->session_id = app()->user_manager->session_id();

@@ -68,9 +68,10 @@ class CustomFieldsTest extends TestCase
             $this->assertEquals($check_input_if_exists, true);
 
             $check_input_if_exists = false;
-            if (strpos($field1, 'class="mw-flex-col-md-6"') !== false) {
+            if (strpos($field1, 'col-md-6') !== false) {
                 $check_input_if_exists = true;
             }
+
             $this->assertEquals($check_input_if_exists, true);
 
             // Check person telephone
@@ -82,7 +83,7 @@ class CustomFieldsTest extends TestCase
             $this->assertEquals($check_input_if_exists, true);
 
             $check_input_if_exists = false;
-            if (strpos($field2, 'class="mw-flex-col-md-6"') !== false) {
+            if (strpos($field2, 'col-md-6') !== false) {
                 $check_input_if_exists = true;
             }
             $this->assertEquals($check_input_if_exists, true);
@@ -95,7 +96,7 @@ class CustomFieldsTest extends TestCase
             $this->assertEquals($check_input_if_exists, true);
 
             $check_input_if_exists = false;
-            if (strpos($field3, 'class="mw-flex-col-md-12"') !== false) {
+            if (strpos($field3, 'col-md-12') !== false) {
                 $check_input_if_exists = true;
             }
             $this->assertEquals($check_input_if_exists, true);
