@@ -5,9 +5,9 @@
         </a>
     @endif
 
-    @if($twitter_enabled)
-        <a href="{{ $twitter_url }}" target="_blank">
-            @svg('modules.social_links-twitter')
+    @if($x_enabled)
+        <a href="{{ $x_url }}" target="_blank">
+            @svg('modules.social_links-x')
         </a>
     @endif
 
@@ -77,7 +77,7 @@
         </a>
     @endif
 
-    @if(!$facebook_enabled && !$twitter_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled && !$telegram_enabled && !$youtube_enabled && !$instagram_enabled && !$github_enabled && !$soundcloud_enabled && !$discord_enabled && !$skype_enabled)
+    @if(!$facebook_enabled && !$x_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled && !$telegram_enabled && !$youtube_enabled && !$instagram_enabled && !$github_enabled && !$soundcloud_enabled && !$discord_enabled && !$skype_enabled)
         <p>No sharing options enabled. Please enable at least one sharing option in the settings.</p>
     @endif
 </div>

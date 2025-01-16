@@ -1,75 +1,125 @@
-<?php
-/*
+@php
+    /*
 
-type: layout
+    type: layout
 
-name: Skin-2
+    name: Skin-2
 
-description: Skin-2
+    description: Skin-2
 
-*/
-?>
+    */
+@endphp
 
 <ul class="list-inline no-style mb-0">
 
-    <?php if ($social_links_has_enabled == false) {
-        print lnotif('Social links');
-    } ?>
+    @if ($facebook_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $facebook_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-facebook')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($facebook_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $facebook_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-facebook mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($x_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $x_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-x')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($twitter_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $twitter_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-twitter mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($pinterest_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $pinterest_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-pinterest')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($googleplus_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $googleplus_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-google-plus mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($youtube_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $youtube_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-youtube')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($pinterest_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $pinterest_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-pinterest mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($instagram_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $instagram_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-instagram')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($youtube_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $youtube_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-youtube mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($linkedin_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $linkedin_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-linkedin')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($instagram_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $instagram_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-instagram mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($github_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $github_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-github')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($linkedin_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $linkedin_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-linkedin mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($soundcloud_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $soundcloud_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-soundcloud')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($github_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $github_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-github mdi-24px"></i></a></div></li>
-    <?php } ?>
 
-    <?php if ($soundcloud_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $soundcloud_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-soundcloud mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($discord_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $discord_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-discord')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($mixcloud_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $mixcloud_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="fab fa-mixcloud mdi-24px"></i></a></div></li>
-    <?php } ?>
+    @if ($skype_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $skype_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-skype')
+                </a>
+            </div>
+        </li>
+    @endif
 
-    <?php if ($medium_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $medium_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="fab fa-medium mdi-24px"></i></a></div></li>
-    <?php } ?>
-
-    <?php if ($discord_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $discord_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-discord mdi-24px"></i></a></div></li>
-
-    <?php } ?>
-
-    <?php if ($skype_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $skype_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-skype mdi-24px"></i></a></li>
-    <?php } ?>
-
-    <?php if ($telegram_enabled) { ?>
-        <li class="me-2 my-2"><div class="bg-body rounded-circle square w-45px d-flex align-items-center justify-content-center"><a href="<?php print $telegram_url; ?>" target="_blank" class="  text-opacity-5 position-absolute"><i class="mdi mdi-telegram mdi-24px"></i></a></li>
-    <?php } ?>
+    @if ($telegram_enabled)
+        <li class="me-2 my-2">
+            <div class="bg-body rounded-circle square w-60px d-flex align-items-center justify-content-center">
+                <a href="{{ $telegram_url }}" target="_blank" class="text-opacity-5 position-absolute">
+                    @svg('modules.social_links-telegram')
+                </a>
+            </div>
+        </li>
+    @endif
 </ul>
