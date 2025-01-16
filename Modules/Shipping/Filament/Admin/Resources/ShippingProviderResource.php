@@ -65,19 +65,26 @@ class ShippingProviderResource extends Resource
                             ->gap('gap-0')
                             ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, string $state) use ($shippingProviders) {
                                 if ($state) {
-                                    $set('name', $shippingProviders[$state] ?? null);
-                                    $set('is_active', 1);
-                                    $set('settings', [
-                                        'countries' => [
-                                            [
-                                                'shipping_country' => 'Worldwide',
-                                                'shipping_type' => 'fixed',
-                                                'shipping_cost' => 0,
-                                                'is_active' => true
-                                            ]
-                                        ],
-                                        'shipping_instructions' => 'Please select your shipping country to calculate shipping costs.'
-                                    ]);
+
+                                    if (!$get('name')) {
+                                        $set('name', $shippingProviders[$state] ?? null);
+                                    }
+                                    if (!$get('is_active')) {
+                                        $set('is_active', 1);
+                                    }
+                                    if (!$get('settings')) {
+                                        $set('settings', [
+                                            'countries' => [
+                                                [
+                                                    'shipping_country' => 'Worldwide',
+                                                    'shipping_type' => 'fixed',
+                                                    'shipping_cost' => 0,
+                                                    'is_active' => true
+                                                ]
+                                            ],
+                                            'shipping_instructions' => 'Please select your shipping country to calculate shipping costs.'
+                                        ]);
+                                    }
                                 }
                             })
                             ->extraCardsAttributes(['class' => 'rounded-xl'])

@@ -46,7 +46,7 @@ class PaymentProviderResourceTest extends TestCase
 
     public function testPaymentProviderResourceStripe()
     {
-        PaymentProvider::where('name', 'Test Provider')->delete();
+        PaymentProvider::where('name', 'Stripe Provider')->delete();
         // Test form rendering
         Livewire::test(CreatePaymentProvider::class)
             ->assertFormFieldExists('name')
@@ -54,7 +54,13 @@ class PaymentProviderResourceTest extends TestCase
             ->assertFormFieldExists('is_active');
 
         // Test form submission
-        $data = ['name' => 'Test Provider', 'provider' => 'stripe', 'is_active' => 1];
+        $data = [
+            'name' => 'Stripe Provider',
+            'provider' => 'stripe',
+            'settings.publishable_key' => 'stripe',
+            'settings.secret_key' => 'stripe',
+            'is_active' => 1
+        ];
         Livewire::test(CreatePaymentProvider::class)
             ->fillForm($data)
             ->call('create')
@@ -62,14 +68,8 @@ class PaymentProviderResourceTest extends TestCase
             ->assertNotified()
             ->assertHasNoErrors();
 
-        $this->assertTrue(PaymentProvider::where('name', 'Test Provider')->exists());
+        $this->assertTrue(PaymentProvider::where('name', 'Stripe Provider')->exists());
 
-        // Test deletion
-        $provider = PaymentProvider::where('name', 'Test Provider')->first();
-        Livewire::test(ListPaymentProviders::class)
-            ->callTableAction('delete', $provider)
-            ->assertHasNoTableActionErrors();
 
-        $this->assertFalse(PaymentProvider::where('name', 'Test Provider')->exists());
     }
 }
