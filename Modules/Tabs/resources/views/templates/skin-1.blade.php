@@ -1,4 +1,16 @@
 @php
+    /*
+
+    type: layout
+
+    name: skin-1
+
+    description: skin-1
+
+    */
+@endphp
+
+@php
     if ($tabs == false) {
         echo lnotif(_e('Click to edit tabs', true));
         return;

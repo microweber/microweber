@@ -3,27 +3,23 @@
 
     type: layout
 
-    name: Skin 1
+    name: Skin 2
 
-    description: Skin 1
+    description: Skin 2
 
     */
 @endphp
 
-<?php
+@php
+    if ($tabs == false) {
+        echo lnotif(_e('Click to edit tabs', true));
+        return;
+    }
 
-if ($tabs == false) {
-    print lnotif(_e('Click to edit tabs', true));
-
-    return;
-}
-
-if (isset($tabs) == false or count($tabs) == 0) {
-    $tabs = $defaults;
-}
-
-?>
-
+    if (!isset($tabs) || count($tabs) == 0) {
+        $tabs = $defaults;
+    }
+@endphp
 
 <script>
     $(document).ready(function () {
@@ -42,7 +38,6 @@ if (isset($tabs) == false or count($tabs) == 0) {
         });
     });
 </script>
-
 
 <style>
     .nav-tabs {
@@ -121,68 +116,53 @@ if (isset($tabs) == false or count($tabs) == 0) {
 <div id="mw-tabs-module-{{ $params['id'] }}">
     <nav>
         <div class="nav nav-tabs align-items-baseline mw-ui-btn-nav-tabs">
-            <?php
-            $count = 0;
-            foreach ($tabs as $slide) {
-                $count++;
-                ?>
-                <a class="nav-link <?php if($count == 1) echo 'active'; ?> col-lg-3 col-md-6 col-12"
-                   href="javascript:;"><?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?>
-                    <h4 class="header-section-title mb-0"><?php print isset($slide['title']) ? $slide['title'] : 'Tab title 1'; ?></h4>
+            @php $count = 0; @endphp
+            @foreach ($tabs as $slide)
+                @php $count++; @endphp
+                <a class="nav-link {{ $count == 1 ? 'active' : '' }} col-lg-3 col-md-6 col-12" href="javascript:;">
+                    {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}
+                    <h4 class="header-section-title mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</h4>
                 </a>
-            <?php } ?>
+            @endforeach
         </div>
     </nav>
 
-    <?php
-    $count = 0;
-    foreach ($tabs as $key => $slide) {
-        $count++;
-
-
-        $edit_field_key = $key;
-        if (isset($slide['id'])) {
-            $edit_field_key = $slide['id'];
-        }
-        ?>
-        <div class="tab-content mt-5 mw-ui-box-tab-content safe-mode" style="<?php if ($count != 1) { ?> display: none; <?php } else { ?>display: block; <?php } ?>">
-            <div class=" edit safe-mode" field="tab-item-<?php print $edit_field_key ?>"
-                 rel="module-{{ $params['id'] }}">
+    @php $count = 0; @endphp
+    @foreach ($tabs as $key => $slide)
+        @php
+            $count++;
+            $edit_field_key = $slide['id'] ?? $key;
+        @endphp
+        <div class="tab-content mt-5 mw-ui-box-tab-content safe-mode" style="{{ $count != 1 ? 'display: none;' : 'display: block;' }}">
+            <div class="edit safe-mode" field="tab-item-{{ $edit_field_key }}" rel="module-{{ $params['id'] }}">
                 <div class="row border-bottom safe-mode cloneable element pb-5 mb-5">
                     <div class="col-lg-4 col-12">
-                        <img src="<?php print asset('templates/big2/modules/tabs/templates/gallery-1-6.jpg'); ?>" class="schedule-image img-fluid" alt="">
+                        <img src="{{ asset('templates/big2/modules/tabs/templates/gallery-1-6.jpg') }}" class="schedule-image img-fluid" alt="">
                     </div>
 
-
                     <div class="col-lg-8 col-12 mt-3 mt-lg-0">
-
                         <h4 class="mb-2">Startup Development Ideas</h4>
-
-                        <div class="small-text"><?php print isset($slide['content']) ? $slide['content'] : 'Tab content ' . $count . '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p> ' ?></div>
-
+                        <div class="small-text">{!! $slide['content'] ?? 'Tab content ' . $count . '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>' !!}</div>
                         <div class="d-flex align-items-center mt-4">
                             <div class="avatar-group d-flex">
-                                <img loading="lazy" class="avatar-image" src="<?php print asset('templates/big2/modules/teamcard/templates/1.jpg'); ?>">
-
+                                <img loading="lazy" class="avatar-image" src="{{ asset('templates/big2/resources/assets/img/layouts/1.jpg') }}">
                                 <div class="ms-3">
                                     Logan Wilson
                                     <p class="speakers-text mb-0">CEO / Founder</p>
                                 </div>
                             </div>
-
                             <span class="mx-3 mx-lg-5">
-                            <i class="mw-micon-Clock-Forward me-2"></i>
-                            9:00 - 9:45 AM
-                        </span>
-
+                                <i class="mw-micon-Clock-Forward me-2"></i>
+                                9:00 - 9:45 AM
+                            </span>
                             <span class="mx-1 mx-lg-5">
-                            <i class="mw-micon-Calendar-4 me-2"></i>
-                            Conference Hall 3
-                        </span>
+                                <i class="mw-micon-Calendar-4 me-2"></i>
+                                Conference Hall 3
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    <?php } ?>
+    @endforeach
 </div>
