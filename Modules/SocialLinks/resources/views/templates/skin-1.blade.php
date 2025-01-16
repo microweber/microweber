@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,66 +9,123 @@ name: Skin-1
 description: Skin-1
 
 */
-?>
+
+@endphp
+
 <ul class="list-inline no-style mb-0">
+    @if (!$social_links_has_enabled)
+        {!! lnotif('Social links') !!}
+    @endif
 
-    <?php if ($social_links_has_enabled == false) {
-        print lnotif('Social links');
-    } ?>
+    @if ($facebook_enabled)
+        <li class="me-3">
+            <a href="{{ $facebook_url }}" target="_blank">
+                @svg('modules.social_links-facebook')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($facebook_enabled) { ?>
-        <li class="me-3"><a href="<?php print $facebook_url; ?>" target="_blank"  ><i class="mdi mdi-facebook mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($twitter_enabled)
+        <li class="me-3">
+            <a href="{{ $twitter_url }}" target="_blank">
+                @svg('modules.social_links-twitter')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($twitter_enabled) { ?>
-        <li class="me-3"><a href="<?php print $twitter_url; ?>" target="_blank"  ><i class="mdi mdi-twitter mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($googleplus_enabled)
+        <li class="me-3">
+            <a href="{{ $googleplus_url }}" target="_blank">
+                @svg('modules.social_links-googleplus')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($googleplus_enabled) { ?>
-        <li class="me-3"><a href="<?php print $googleplus_url; ?>" target="_blank"  ><i class="mdi mdi-google-plus mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($pinterest_enabled)
+        <li class="me-3">
+            <a href="{{ $pinterest_url }}" target="_blank">
+                @svg('modules.social_links-pinterest')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($pinterest_enabled) { ?>
-        <li class="me-3"><a href="<?php print $pinterest_url; ?>" target="_blank"  ><i class="mdi mdi-pinterest mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($youtube_enabled)
+        <li class="me-3">
+            <a href="{{ $youtube_url }}" target="_blank">
+                @svg('modules.social_links-youtube')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($youtube_enabled) { ?>
-        <li class="me-3"><a href="<?php print $youtube_url; ?>" target="_blank"  ><i class="mdi mdi-youtube mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($instagram_enabled)
+        <li class="me-3">
+            <a href="{{ $instagram_url }}" target="_blank">
+                @svg('modules.social_links-instagram')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($instagram_enabled) { ?>
-        <li class="me-3"><a href="<?php print $instagram_url; ?>" target="_blank"  ><i class="mdi mdi-instagram mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($linkedin_enabled)
+        <li class="me-3">
+            <a href="{{ $linkedin_url }}" target="_blank">
+                @svg('modules.social_links-linkedin')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($linkedin_enabled) { ?>
-        <li class="me-3"><a href="<?php print $linkedin_url; ?>" target="_blank"  ><i class="mdi mdi-linkedin mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($github_enabled)
+        <li class="me-3">
+            <a href="{{ $github_url }}" target="_blank">
+                @svg('modules.social_links-github')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($github_enabled) { ?>
-        <li class="me-3"><a href="<?php print $github_url; ?>" target="_blank"  ><i class="mdi mdi-github mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($soundcloud_enabled)
+        <li class="me-3">
+            <a href="{{ $soundcloud_url }}" target="_blank">
+                @svg('modules.social_links-soundcloud')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($soundcloud_enabled) { ?>
-        <li class="me-3"><a href="<?php print $soundcloud_url; ?>" target="_blank"  ><i class="mdi mdi-soundcloud mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($mixcloud_enabled)
+        <li class="me-3">
+            <a href="{{ $mixcloud_url }}" target="_blank">
+                @svg('modules.social_links-mixcloud')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($mixcloud_enabled) { ?>
-        <li class="me-3"><a href="<?php print $mixcloud_url; ?>" target="_blank"  ><i class="fab fa-mixcloud mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($medium_enabled)
+        <li class="me-3">
+            <a href="{{ $medium_url }}" target="_blank">
+                @svg('modules.social_links-medium')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($medium_enabled) { ?>
-        <li class="me-3"><a href="<?php print $medium_url; ?>" target="_blank"  ><i class="fab fa-medium mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($discord_enabled)
+        <li class="mx-1">
+            <a href="{{ $discord_url }}" target="_blank">
+                @svg('modules.social_links-discord')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($discord_enabled) { ?>
-        <li class="mx-1"><a href="<?php print $discord_url; ?>" target="_blank"><i class="mdi mdi-discord mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($skype_enabled)
+        <li class="mx-1">
+            <a href="{{ $skype_url }}" target="_blank">
+                @svg('modules.social_links-skype')
+            </a>
+        </li>
+    @endif
 
-    <?php if ($skype_enabled) { ?>
-        <li class="mx-1"><a href="<?php print $skype_url; ?>" target="_blank"><i class="mdi mdi-skype mdi-40px"></i></a></li>
-    <?php } ?>
-
-    <?php if ($telegram_enabled) { ?>
-        <li class="mx-1"><a href="<?php print $telegram_url; ?>" target="_blank"><i class="mdi mdi-telegram mdi-40px"></i></a></li>
-    <?php } ?>
+    @if ($telegram_enabled)
+        <li class="mx-1">
+            <a href="{{ $telegram_url }}" target="_blank">
+                @svg('modules.social_links-telegram')
+            </a>
+        </li>
+    @endif
 </ul>
