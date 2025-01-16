@@ -29,7 +29,7 @@ class CustomerCheckoutTest extends TestCase
         Config::set('queue.driver', 'sync');
         Config::set('mail.transport', 'array');
 
-//create mail templste
+        //create mail template
 
 
         $mailTemplate = new MailTemplate();
@@ -40,7 +40,7 @@ class CustomerCheckoutTest extends TestCase
 
 
         $mailTemplate->subject = 'New Order';
-        $mailTemplate->message = 'New Order';
+        $mailTemplate->message = 'Hello {first_name} {last_name}, Your order is placed.';
         $mailTemplate->is_active = 1;
         $mailTemplate->save();
 

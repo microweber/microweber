@@ -32,16 +32,18 @@ class UserCartTest extends TestCase
         $expectedFillable = [
             'rel_type',
             'rel_id',
+
             'price',
             'currency',
             'qty',
+
             'order_id',
             'order_completed',
+
             'description',
             'link',
             'other_info',
             'custom_fields_data',
-            'custom_fields_json',
         ];
 
         $this->assertEquals($expectedFillable, $userCart->getFillable());

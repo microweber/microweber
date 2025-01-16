@@ -3,7 +3,9 @@
 namespace Modules\Checkout\Services;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Modules\MailTemplate\Services\MailTemplateService;
 use Modules\Order\Events\OrderWasPaid;
 use Modules\Order\Models\Order;
 use MicroweberPackages\Utils\Mail\MailSender;
@@ -210,193 +212,80 @@ class CheckoutService
         return $ready;
     }
 
-    public function confirmEmailSend($order_id, $to = false, $no_cache = true, $skip_enabled_check = false)
+    public function confirmEmailSend($order_id, $to = false, $no_cache = true, $skip_enabled_check = false): bool
     {
         $ord_data = $this->app->order_manager->get_by_id($order_id);
 
-        if (is_array($ord_data)) {
-
-            if ($skip_enabled_check == false) {
-                $order_email_enabled = get_option('order_email_enabled', 'orders');
-            } else {
-                $order_email_enabled = $skip_enabled_check;
-            }
-
-            $send_to_client = true;
-            $send_to_admins = true;
-            $send_to_client_option = get_option('send_email_on_new_order', 'orders');
-
-
-            if (!empty($send_to_client_option)) {
-                if ($send_to_client_option == 'admins') {
-                    $send_to_admins = true;
-                    $send_to_client = false;
-                }
-                if ($send_to_client_option == 'client') {
-                    $send_to_admins = false;
-                    $send_to_client = true;
-                }
-            }
-
-            if ($order_email_enabled) {
-
-                //  $order_email_subject = $this->app->option_manager->get('order_email_subject', 'orders');
-                // $order_email_content = $this->app->option_manager->get('order_email_content', 'orders');
-
-                $mail_template = false;
-                $mail_template_binds = $this->app->event_manager->trigger('mw.cart.confirm_email_send', $order_id);
-                if (is_array($mail_template_binds)) {
-                    foreach ($mail_template_binds as $bind) {
-                        if (is_array($bind) && isset($bind['mail_template'])) {
-                            $mail_template = $bind['mail_template'];
-                        }
-                    }
-                }
-
-
-
-                if (!$mail_template) {
-                    return;
-                }
-
-                $order_email_cc_string = $mail_template['copy_to'];
-                $order_email_subject = $mail_template['subject'];
-                $order_email_content = $mail_template['message'];
-
-                $order_email_cc = array();
-                if (!empty($order_email_cc_string) && strpos($order_email_cc_string, ',')) {
-                    $order_email_cc = explode(',', $order_email_cc_string);
-                } else {
-                    $order_email_cc[] = $order_email_cc_string;
-                }
-
-                if (empty($order_email_cc)) {
-                    $admins = get_users('is_admin=1');
-                    foreach ($admins as $admin) {
-                        if (isset($admin['email']) && !empty($admin['email']) && filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
-                            $order_email_cc[] = $admin['email'];
-                        }
-                    }
-                }
-
-                $order_email_send_when = $this->app->option_manager->get('order_email_send_when', 'orders');
-                if ($order_email_send_when == 'order_paid' and !$skip_enabled_check) {
-                    if (isset($ord_data['is_paid']) and $ord_data['is_paid'] == false) {
-                        return;
-                    }
-                }
-
-                if ($order_email_subject == false or trim($order_email_subject) == '') {
-                    $order_email_subject = 'Thank you for your order!';
-                }
-                if ($to == false) {
-                    $to = $ord_data['email'];
-                }
-                if ($order_email_content != false and trim($order_email_subject) != '') {
-                    $cart_items = array();
-                    if (!empty($ord_data)) {
-                        $cart_items = $this->app->cart_manager->get_cart('order_id=' . $ord_data['id'] . '&no_session_id=' . $this->app->user_manager->session_id());
-
-                        $cart_items_info = array();
-                        $order_items_html = '';
-                        if (!empty($cart_items)) {
-                            foreach ($cart_items as $cart_item) {
-                                $arr = array();
-                                if (isset($cart_item['item_image']) and $cart_item['item_image']) {
-
-                                    $arr['item_image'] = $cart_item['item_image'];
-                                    $arr['item_image'] = '<img src="' . $arr['item_image'] . '" width="100" />';
-                                }
-                                if (isset($cart_item['link'])) {
-                                    $arr['link'] = $cart_item['link'];
-                                }
-                                if (isset($cart_item['title'])) {
-                                    $arr['title'] = $cart_item['title'];
-                                }
-                                if (isset($cart_item['custom_fields'])) {
-                                    $arr['custom_fields'] = $cart_item['custom_fields'];
-                                }
-                                $cart_items_info[] = $arr;
-                            }
-                            $order_items_html = $this->app->format->array_to_table($cart_items_info);
-
-                        }
-                        $order_email_content = str_replace('{{cart_items}}', $order_items_html, $order_email_content);
-                        $order_email_content = str_replace('{{date}}', date('F jS, Y', strtotime($ord_data['created_at'])), $order_email_content);
-                        foreach ($ord_data as $key => $value) {
-                            if (!is_array($value) and is_string($key)) {
-                                if (strtolower($key) == 'amount') {
-                                    $value = number_format($value, 2);
-                                    $order_email_content = str_ireplace('{{' . $key . '}}', $value, $order_email_content);
-                                    continue;
-                                }
-                            }
-                        }
-                    }
-
-                    if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y') {
-                        $order_email_content .= _e("Follow payment instructions", true);
-                        $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
-                    }
-
-                    $loader = new ArrayLoader([
-                        'checkout_mail.html' => $order_email_content,
-                    ]);
-                    $twig = new Environment($loader);
-                    $order_email_content = $twig->render(
-                        'checkout_mail.html', [
-                            'cart' => $cart_items,
-                            'order' => $ord_data,
-                            'order_id' => $ord_data['id'],
-                            'transaction_id' => $ord_data['transaction_id'],
-                            'currency' => $ord_data['currency'],
-                            'order_status' => $ord_data['order_status'],
-                            'first_name' => $ord_data['first_name'],
-                            'last_name' => $ord_data['last_name'],
-                            'email' => $ord_data['email'],
-                            'phone' => $ord_data['phone'],
-                            'address' => $ord_data['address'],
-                            'zip' => $ord_data['zip'],
-                            'state' => $ord_data['state'],
-                            'city' => $ord_data['city'],
-                            'country' => $ord_data['country']
-                        ]
-                    );
-
-                    $sender = new MailSender();
-
-                    // Send only to client
-                    if ($send_to_client && !$send_to_admins && filter_var($to, FILTER_VALIDATE_EMAIL)) {
-                        $sender->send($to, $order_email_subject, $order_email_content);
-                        // echo 'Send only to client.';
-                    }
-
-                    // Send only to admins
-                    if (!$send_to_client && $send_to_admins && is_array($order_email_cc)) {
-                        // echo 'Send only to admins.';
-                        foreach ($order_email_cc as $admin_email) {
-                            $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
-                        }
-                    }
-
-                    // Send to admins and client
-                    if ($send_to_client && $send_to_admins) {
-                        if (filter_var($to, FILTER_VALIDATE_EMAIL)) {
-                            $sender->send($to, $order_email_subject, $order_email_content);
-                            // echo 'Send to client.';
-                        }
-                        if (is_array($order_email_cc)) {
-                            // echo 'Send to admins.';
-                            foreach ($order_email_cc as $admin_email) {
-                                $sender->send($admin_email, $order_email_subject, $order_email_content, false, $no_cache);
-                            }
-                        }
-                    }
-
-                    return true;
-                }
-            }
+        if (!is_array($ord_data)) {
+            return false;
         }
+        if (!function_exists('get_mail_template_by_type')) {
+            return false;
+        }
+
+        if ($skip_enabled_check == false && !get_option('order_email_enabled', 'orders')) {
+            return false;
+        }
+
+        $template = get_mail_template_by_type('new_order');
+        if (!$template) {
+            return false;
+        }
+
+        if ($to == false) {
+            $to = $ord_data['email'];
+        }
+
+        $cart_items = get_cart('order_id=' . $ord_data['id']);
+
+        $cart_items_info = [];
+        foreach ($cart_items as $cart_item) {
+            $arr = [];
+            if (isset($cart_item['item_image']) && $cart_item['item_image']) {
+                $arr['item_image'] = '<img src="' . $cart_item['item_image'] . '" width="100" />';
+            }
+            if (isset($cart_item['link'])) {
+                $arr['link'] = $cart_item['link'];
+            }
+            if (isset($cart_item['title'])) {
+                $arr['title'] = $cart_item['title'];
+            }
+            if (isset($cart_item['custom_fields'])) {
+                $arr['custom_fields'] = $cart_item['custom_fields'];
+            }
+            $cart_items_info[] = $arr;
+        }
+
+        $variables = [
+            'cart_items' => $this->app->format->array_to_table($cart_items_info),
+            'date' => date('F jS, Y', strtotime($ord_data['created_at'])),
+            'order_id' => $ord_data['id'],
+            'transaction_id' => $ord_data['transaction_id'],
+            'currency' => $ord_data['currency'],
+            'order_status' => $ord_data['order_status'],
+            'first_name' => $ord_data['first_name'],
+            'last_name' => $ord_data['last_name'],
+            'email' => $ord_data['email'],
+            'phone' => $ord_data['phone'],
+            'address' => $ord_data['address'],
+            'zip' => $ord_data['zip'],
+            'state' => $ord_data['state'],
+            'city' => $ord_data['city'],
+            'country' => $ord_data['country'],
+            'amount' => number_format($ord_data['amount'], 2)
+        ];
+
+        // Create mailable instance and send
+        $mailable = app(MailTemplateService::class)->createMailable($template, $variables);
+
+        try {
+            Mail::to($to)->send($mailable);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+
+        return true;
     }
 
     /**
@@ -569,7 +458,7 @@ class CheckoutService
         ];
 
         // Add customer fields
-        $fields = ['first_name', 'last_name', 'email', 'phone', 'address','address2', 'city', 'state', 'zip', 'country'];
+        $fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'address2', 'city', 'state', 'zip', 'country'];
         foreach ($fields as $field) {
             if (isset($data[$field])) {
                 $orderData[$field] = $data[$field];
@@ -585,7 +474,7 @@ class CheckoutService
         }
 
         if (get_option('enable_taxes', 'shop') == 1) {
-            $orderData['taxes_amount'] = $this->app->cart_manager->get_tax();
+            $orderData['taxes_amount'] = cart_get_tax();
         }
 
         return $orderData;

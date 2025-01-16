@@ -1,4 +1,4 @@
-<div {{ $attributes->merge(['class' => 'card ' . ($theme === 'dark' ? 'bg-dark text-white' : '')]) }}>
+<div {{ $attributes->merge(['class' => 'card ' . ($theme === 'dark' ? 'bg-dark text-white' : ($theme === 'success' ? 'bg-success text-white' : ''))]) }}>
     @if(isset($image))
         <img src="{{ $image }}" class="card-img-top" alt="Card image">
     @endif
@@ -22,5 +22,3 @@
         </div>
     @endif
 </div>
-
-

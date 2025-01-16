@@ -21,6 +21,7 @@ class CustomField extends Model
         'name_key',
         'value',
         'session_id',
+        'position',
         // 'created_by'
     ];
 

@@ -1,11 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Modules\Shop\Coupons\Listeners;
+namespace Modules\Coupons\Listeners;
 
 class OrderWasCreatedCouponCodeLogger
 {
     public function handle($event)
     {
+
         $data = $event->getData();
         $model = $event->getModel();
 
@@ -14,7 +15,7 @@ class OrderWasCreatedCouponCodeLogger
                 $couponCode = $data['promo_code'];
                 $couponEmail = $data['email'];
 
-                if (!empty($couponCode) and is_module('shop/coupons')) {
+                if (!empty($couponCode)) {
                     coupon_consume($couponCode, $couponEmail);
                 }
             }

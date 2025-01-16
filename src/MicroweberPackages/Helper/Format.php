@@ -73,6 +73,7 @@ class Format
     function array_to_table($array, $table = true)
     {
         $out = '';
+        $tableHeader = '';
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 if (!isset($tableHeader)) {
