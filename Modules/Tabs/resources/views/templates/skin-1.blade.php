@@ -1,22 +1,28 @@
-<?php
+@php
+    /*
 
-if ($tabs == false) {
-    print lnotif(_e('Click to edit tabs', true));
+    type: layout
 
-    return;
-}
+    name: skin-1
 
-if (isset($tabs) == false or count($tabs) == 0) {
-    $tabs = $defaults;
-}
+    description: skin-1
 
-?>
+    */
+@endphp
 
+@php
+    if ($tabs == false) {
+        echo lnotif(_e('Click to edit tabs', true));
+        return;
+    }
+
+    if (!isset($tabs) || count($tabs) == 0) {
+        $tabs = $defaults;
+    }
+@endphp
 
 <style>
-
     .mw-tabs-1-wrapper {
-
         .w-tab-link, .w-tab-menu, .w-tabs {
             position: relative;
         }
@@ -450,61 +456,44 @@ if (isset($tabs) == false or count($tabs) == 0) {
 <div class="mw-tabs-1-wrapper">
     <div id="mw-tabs-module-{{ $params['id'] }}" class="tabs-section w-tabs">
         <div class="tabs-menu w-tab-menu mw-ui-btn-nav-tabs">
-            <?php
-            $count = 0;
-            foreach ($tabs as $slide) {
-                $count++;
-                ?>
-                <a class="tab-link w-inline-block w-tab-link w--current <?php if ($count == 1) { ?> active <?php } ?>"
-                   href="javascript:;"><?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?><span
-                        class="mb-0"><?php print isset($slide['title']) ? $slide['title'] : 'Tab title 1'; ?></span></a>
-            <?php } ?>
+            @php $count = 0; @endphp
+            @foreach ($tabs as $slide)
+                @php $count++; @endphp
+                <a class="tab-link w-inline-block w-tab-link w--current {{ $count == 1 ? 'active' : '' }}" href="javascript:;">
+                    {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}<span class="mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</span>
+                </a>
+            @endforeach
         </div>
 
-        <div class="tabs-content w-tab-content"
-        <div class="widget-body background-color-element element">
-            <div class="tab-box">
-
-                <?php
-                $count = 0;
-                foreach ($tabs as $key => $slide) {
-                    $count++;
-
-
-                    $edit_field_key = $key;
-                    if (isset($slide['id'])) {
-                        $edit_field_key = $slide['id'];
-                    }
-                    ?>
-                    <div class="tabs-content w-tab-content mw-ui-box-tab-content"
-                         style="<?php if ($count != 1) { ?> display: none; <?php } else { ?>display: block; <?php } ?>">
-
-                        <div class="tab-box-contents edit " field="tab-item-<?php print $edit_field_key ?>"
-                             rel="module-{{ $params['id'] }}">
-                            <img loading="lazy" class="rounded-image tab-image"
-                                 src="<?php print asset('templates/big2/modules/tabs/templates/gallery-1-6.jpg'); ?>"/>
-
-                            <div class="widget message tab-widget">
-                                <div class="widget-body">
-                                    <div class="widget-chat-top">
-                                        <div class="widget-person">
-                                            <img loading="lazy"
-                                                 src="https://assets-global.website-files.com/65cc2f9d76ead6a81505ea44/65cc3c1ab8ec74c43d57835d_photo-avatar-04_compressed.webp"
-                                                 alt="" class="widget-chat-avatar">
-                                            <div class="small-text text-bold">Lisa Stein</div>
+        <div class="tabs-content w-tab-content">
+            <div class="widget-body background-color-element element">
+                <div class="tab-box">
+                    @php $count = 0; @endphp
+                    @foreach ($tabs as $key => $slide)
+                        @php
+                            $count++;
+                            $edit_field_key = $slide['id'] ?? $key;
+                        @endphp
+                        <div class="tabs-content w-tab-content mw-ui-box-tab-content" style="{{ $count != 1 ? 'display: none;' : 'display: block;' }}">
+                            <div class="tab-box-contents edit" field="tab-item-{{ $edit_field_key }}" rel="module-{{ $params['id'] }}">
+                                <img loading="lazy" class="rounded-image tab-image" src="{{ asset('templates/big2/resources/assets/img/layouts/gallery-1-6.jpg') }}" />
+                                <div class="widget message tab-widget">
+                                    <div class="widget-body">
+                                        <div class="widget-chat-top">
+                                            <div class="widget-person">
+                                                <img loading="lazy" src="https://assets-global.website-files.com/65cc2f9d76ead6a81505ea44/65cc3c1ab8ec74c43d57835d_photo-avatar-04_compressed.webp" alt="" class="widget-chat-avatar">
+                                                <div class="small-text text-bold">Lisa Stein</div>
+                                            </div>
+                                            <div class="small-text">5 mins</div>
                                         </div>
-                                        <div class="small-text">5 mins</div>
+                                        <div class="small-text">{!! $slide['content'] ?? 'Tab content ' . $count . '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>' !!}</div>
+                                        <module type="btn" button_style="btn-link" button_text="Read more" />
                                     </div>
-                                    <div
-                                        class="small-text"><?php print isset($slide['content']) ? $slide['content'] : 'Tab content ' . $count . '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p> ' ?></div>
-
-                                    <module type="btn" button_style="btn-link" button_text="Read more"/>
-
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php } ?>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
