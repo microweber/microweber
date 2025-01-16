@@ -17,7 +17,7 @@ class Input extends Component
      * @param string|null $placeholder Input placeholder
      * @param bool $required Makes the input required
      * @param bool $disabled Disables the input
-     * @param string|null $helper Helper text below input
+     * @param string|null $help Helper text below input
      * @param array|null $errors Validation errors
      */
     public function __construct(
@@ -28,7 +28,7 @@ class Input extends Component
         public ?string $placeholder = null,
         public bool $required = false,
         public bool $disabled = false,
-        public ?string $helper = null,
+        public ?string $help = null,
         public ?array $errors = null
     ) {}
 

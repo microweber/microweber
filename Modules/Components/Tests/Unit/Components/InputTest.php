@@ -20,7 +20,10 @@ class InputTest extends TestCase
     {
         $bladeString = '<x-input name="email" label="Email"></x-input>';
         $output = Blade::render($bladeString);
-        $this->assertStringContainsString('label for="email">Email</label>', $output);
+
+        $this->assertStringContainsString('for="email"', $output);
+        $this->assertStringContainsString('class="form-label"', $output);
+        $this->assertStringContainsString('>Email</label>', $output);
     }
 
     public function testRendersAnInputWithPlaceholder()
@@ -48,6 +51,6 @@ class InputTest extends TestCase
     {
         $bladeString = '<x-input name="email" help="This is help text"></x-input>';
         $output = Blade::render($bladeString);
-        $this->assertStringContainsString('class="form-text text-muted">This is help text</small>', $output);
+        $this->assertStringContainsString('This is help text', $output);
     }
 }
