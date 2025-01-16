@@ -11,20 +11,13 @@ description: Skin-7
 */
 ?>
 <ul class="list-inline no-style">
-    <?php if ($social_links_has_enabled == false) {
-        print lnotif('Social links');
-    } ?>
 
     <?php if ($facebook_enabled) { ?>
         <li class="py-0 d-flex align-items-center"><a href="<?php print $facebook_url; ?>" target="_blank"><i class="mdi mdi-facebook mdi-36px"></i></a> <span class="ms-2">Facebook</span></li>
     <?php } ?>
 
-    <?php if ($twitter_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $twitter_url; ?>" target="_blank"><i class="mdi mdi-twitter mdi-36px"></i></a><span class="ms-2">Twitter</span></li>
-    <?php } ?>
-
-    <?php if ($googleplus_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $googleplus_url; ?>" target="_blank"><i class="mdi mdi-google-plus mdi-36px"></i></a><span class="ms-2">Google+</span></li>
+    <?php if ($x_enabled) { ?>
+        <li class="py-0 d-flex align-items-center"><a href="<?php print $x_url; ?>" target="_blank"><i class="mdi mdi-x mdi-36px"></i></a><span class="ms-2">x</span></li>
     <?php } ?>
 
     <?php if ($pinterest_enabled) { ?>
@@ -51,13 +44,6 @@ description: Skin-7
         <li class="py-0 d-flex align-items-center"><a href="<?php print $soundcloud_url; ?>" target="_blank"><i class="mdi mdi-soundcloud mdi-36px"></i></a><span class="ms-2">Soundcloud</span>/li>
     <?php } ?>
 
-    <?php if ($mixcloud_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $mixcloud_url; ?>" target="_blank"><i class="fab fa-mixcloud mdi-36px"></i></a><span class="ms-2">Mixcloud</span></li>
-    <?php } ?>
-
-    <?php if ($medium_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $medium_url; ?>" target="_blank"><i class="fab fa-medium mdi-36px"></i></a><span class="ms-2">Medium</span></li>
-    <?php } ?>
 
     <?php if ($discord_enabled) { ?>
         <li class="py-0 d-flex align-items-center"><a href="<?php print $discord_url; ?>" target="_blank"><i class="mdi mdi-discord mdi-36px"></i></a><span class="ms-2">Medium</span></li>
