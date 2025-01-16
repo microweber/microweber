@@ -14,14 +14,14 @@ description: skin-3
 
 <?php
 
-if ($json == false) {
+if ($tabs == false) {
     print lnotif(_e('Click to edit tabs', true));
 
     return;
 }
 
-if (isset($json) == false or count($json) == 0) {
-    $json = array(0 => $defaults);
+if (isset($tabs) == false or count($tabs) == 0) {
+    $tabs = $defaults;
 }
 
 ?>
@@ -39,7 +39,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs df">
         <?php
         $count = 0;
-        foreach ($json as $slide) {
+        foreach ($tabs as $slide) {
             $count++;
             ?>
         <a class="btn btn-primary df mb-3 <?php if ($count == 1) { ?> active <?php } ?>" href="javascript:;"><?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?><span class="mb-0"><?php print isset($slide['title']) ? $slide['title'] : 'Tab title 1'; ?></span></a>
@@ -48,7 +48,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="mw-ui-box">
         <?php
         $count = 0;
-        foreach ($json as $key => $slide) {
+        foreach ($tabs as $key => $slide) {
             $count++;
 
 

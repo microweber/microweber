@@ -14,14 +14,14 @@ description: Horizontal
 
 <?php
 
-if ($json == false) {
+if ($tabs == false) {
     print lnotif(_e('Click to edit tabs', true));
 
     return;
 }
 
-if (isset($json) == false or count($json) == 0) {
-    $json = array(0 => $defaults);
+if (isset($tabs) == false or count($tabs) == 0) {
+    $tabs = $defaults;
 }
 
 ?>
@@ -98,7 +98,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="mw-ui-btn-nav merry-navs-btn-pricing mw-ui-btn-nav-tabs d-flex flex-wrap mx-auto mt-5 gap-2">
         <?php
         $count = 0;
-        foreach ($json as $slide) {
+        foreach ($tabs as $slide) {
             $count++;
             ?>
             <ul class="ps-0">
@@ -111,7 +111,7 @@ if (isset($json) == false or count($json) == 0) {
     <div>
         <?php
         $count = 0;
-        foreach ($json as $key => $slide) {
+        foreach ($tabs as $key => $slide) {
             $count++;
             $edit_field_key = $key;
             if (isset($slide['id'])) {

@@ -1,13 +1,13 @@
 <?php
 
-if ($json == false) {
+if ($tabs == false) {
     print lnotif(_e('Click to edit tabs', true));
 
     return;
 }
 
-if (isset($json) == false or count($json) == 0) {
-    $json = array(0 => $defaults);
+if (isset($tabs) == false or count($tabs) == 0) {
+    $tabs = $defaults;
 }
 
 ?>
@@ -452,7 +452,7 @@ if (isset($json) == false or count($json) == 0) {
         <div class="tabs-menu w-tab-menu mw-ui-btn-nav-tabs">
             <?php
             $count = 0;
-            foreach ($json as $slide) {
+            foreach ($tabs as $slide) {
                 $count++;
                 ?>
                 <a class="tab-link w-inline-block w-tab-link w--current <?php if ($count == 1) { ?> active <?php } ?>"
@@ -467,7 +467,7 @@ if (isset($json) == false or count($json) == 0) {
 
                 <?php
                 $count = 0;
-                foreach ($json as $key => $slide) {
+                foreach ($tabs as $key => $slide) {
                     $count++;
 
 

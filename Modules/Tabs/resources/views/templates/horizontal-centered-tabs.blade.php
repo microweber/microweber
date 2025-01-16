@@ -14,14 +14,14 @@ description: Horizontal
 
 <?php
 
-if ($json == false) {
+if ($tabs == false) {
     print lnotif(_e('Click to edit tabs', true));
 
     return;
 }
 
-if (isset($json) == false or count($json) == 0) {
-    $json = array(0 => $defaults);
+if (isset($tabs) == false or count($tabs) == 0) {
+    $tabs = $defaults;
 }
 
 ?>
@@ -39,7 +39,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="mw-ui-btn-nav merry-navs-btn-pricing mw-ui-btn-nav-tabs d-flex flex-wrap mx-auto mt-5 justify-content-center gap-2">
         <?php
         $count = 0;
-        foreach ($json as $slide) {
+        foreach ($tabs as $slide) {
             $count++;
             ?>
             <a class="merry-tabs-button btn btn-outline-primary my-xl-0 my-3 <?php if ($count == 1) { ?> active <?php } ?> " href="javascript:;"><?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?><?php print isset($slide['title']) ? $slide['title'] : ''; ?></a>
@@ -48,7 +48,7 @@ if (isset($json) == false or count($json) == 0) {
     <div class="py-5">
         <?php
         $count = 0;
-        foreach ($json as $key => $slide) {
+        foreach ($tabs as $key => $slide) {
             $count++;
             $edit_field_key = $key;
             if (isset($slide['id'])) {
