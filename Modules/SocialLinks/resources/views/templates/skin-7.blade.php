@@ -1,59 +1,115 @@
-<?php
+@php
+    /*
 
-/*
+    type: layout
 
-type: layout
+    name: Skin-7
 
-name: Skin-7
+    description: Skin-7
 
-description: Skin-7
+    */
+@endphp
 
-*/
-?>
 <ul class="list-inline no-style">
 
-    <?php if ($facebook_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $facebook_url; ?>" target="_blank"><i class="mdi mdi-facebook mdi-36px"></i></a> <span class="ms-2">Facebook</span></li>
-    <?php } ?>
+    @if ($facebook_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $facebook_url }}" target="_blank">
+                @svg('modules.social_links-facebook')
+            </a>
+            <span class="ms-2">Facebook</span>
+        </li>
+    @endif
 
-    <?php if ($x_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $x_url; ?>" target="_blank"><i class="mdi mdi-x mdi-36px"></i></a><span class="ms-2">x</span></li>
-    <?php } ?>
+    @if ($x_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $x_url }}" target="_blank">
+                @svg('modules.social_links-x')
+            </a>
+            <span class="ms-2">x</span>
+        </li>
+    @endif
 
-    <?php if ($pinterest_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $pinterest_url; ?>" target="_blank"><i class="mdi mdi-pinterest mdi-36px"></i></a><span class="ms-2">Pinterest</span></li>
-    <?php } ?>
+    @if ($pinterest_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $pinterest_url }}" target="_blank">
+                @svg('modules.social_links-pinterest')
+            </a>
+            <span class="ms-2">Pinterest</span>
+        </li>
+    @endif
 
-    <?php if ($youtube_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $youtube_url; ?>" target="_blank"><i class="mdi mdi-youtube mdi-36px"></i></a><span class="ms-2">Youtube</span></li>
-    <?php } ?>
+    @if ($youtube_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $youtube_url }}" target="_blank">
+                @svg('modules.social_links-youtube')
+            </a>
+            <span class="ms-2">Youtube</span>
+        </li>
+    @endif
 
-    <?php if ($instagram_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $instagram_url; ?>" target="_blank"><i class="mdi mdi-instagram mdi-36px"></i></a><span class="ms-2">Instagram</span></li>
-    <?php } ?>
+    @if ($instagram_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $instagram_url }}" target="_blank">
+                @svg('modules.social_links-instagram')
+            </a>
+            <span class="ms-2">Instagram</span>
+        </li>
+    @endif
 
-    <?php if ($linkedin_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $linkedin_url; ?>" target="_blank"><i class="mdi mdi-linkedin mdi-36px"></i></a><span class="ms-2">LinkedIn</span></li>
-    <?php } ?>
+    @if ($linkedin_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $linkedin_url }}" target="_blank">
+                @svg('modules.social_links-linkedin')
+            </a>
+            <span class="ms-2">LinkedIn</span>
+        </li>
+    @endif
 
-    <?php if ($github_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $github_url; ?>" target="_blank"><i class="mdi mdi-github mdi-36px"></i></a><span class="ms-2">GitHub</span></li>
-    <?php } ?>
+    @if ($github_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $github_url }}" target="_blank">
+                @svg('modules.social_links-github')
+            </a>
+            <span class="ms-2">GitHub</span>
+        </li>
+    @endif
 
-    <?php if ($soundcloud_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $soundcloud_url; ?>" target="_blank"><i class="mdi mdi-soundcloud mdi-36px"></i></a><span class="ms-2">Soundcloud</span>/li>
-    <?php } ?>
+    @if ($soundcloud_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $soundcloud_url }}" target="_blank">
+                @svg('modules.social_links-soundcloud')
+            </a>
+            <span class="ms-2">Soundcloud</span>
+        </li>
+    @endif
 
+    @if ($discord_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $discord_url }}" target="_blank">
+                @svg('modules.social_links-discord')
+            </a>
+            <span class="ms-2">Discord</span>
+        </li>
+    @endif
 
-    <?php if ($discord_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $discord_url; ?>" target="_blank"><i class="mdi mdi-discord mdi-36px"></i></a><span class="ms-2">Medium</span></li>
-    <?php } ?>
+    @if ($skype_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $skype_url }}" target="_blank">
+                @svg('modules.social_links-skype')
+            </a>
+            <span class="ms-2">Skype</span>
 
-    <?php if ($skype_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $skype_url; ?>" target="_blank"><i class="mdi mdi-skype mdi-36px"></i></a></li>
-    <?php } ?>
+        </li>
+    @endif
 
-    <?php if ($telegram_enabled) { ?>
-        <li class="py-0 d-flex align-items-center"><a href="<?php print $telegram_url; ?>" target="_blank"><i class="mdi mdi-telegram mdi-36px"></i></a></li>
-    <?php } ?>
+    @if ($telegram_enabled)
+        <li class="py-0 d-flex align-items-center">
+            <a href="{{ $telegram_url }}" target="_blank">
+                @svg('modules.social_links-telegram')
+            </a>
+            <span class="ms-2">Telegram</span>
+
+        </li>
+    @endif
 </ul>
