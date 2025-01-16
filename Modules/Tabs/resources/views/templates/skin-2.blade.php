@@ -1,3 +1,15 @@
+@php
+    /*
+
+    type: layout
+
+    name: Skin 1
+
+    description: Skin 1
+
+    */
+@endphp
+
 <?php
 
 if ($tabs == false) {

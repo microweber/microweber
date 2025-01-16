@@ -1,15 +1,14 @@
-<?php
+@php
+    /*
 
-/*
+    type: layout
 
-type: layout
+    name: Skin 3
 
-name: skin-3
+    description: Skin 3
 
-description: skin-3
-
-*/
-?>
+    */
+@endphp
 
 
 <?php
