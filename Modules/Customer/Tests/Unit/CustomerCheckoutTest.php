@@ -3,10 +3,13 @@
 namespace Modules\Customer\Tests\Unit;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Mail;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Customer\Models\Address;
 use Modules\Customer\Models\Customer;
+use Modules\MailTemplate\Models\MailTemplate;
+use Modules\MailTemplate\Services\MailTemplateService;
 
 /**
  * Run test
@@ -16,6 +19,47 @@ use Modules\Customer\Models\Customer;
 class CustomerCheckoutTest extends TestCase
 {
     public static $content_id = 1;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        Mail::fake();
+        MailTemplate::where('type', 'new_order')->delete();
+        Config::set('mail.driver', 'array');
+        Config::set('queue.driver', 'sync');
+        Config::set('mail.transport', 'array');
+
+//create mail templste
+
+
+        $mailTemplate = new MailTemplate();
+        $mailTemplate->name = 'New Order';
+        $mailTemplate->type = 'new_order';
+        $mailTemplate->from_name = 'Microweber';
+        $mailTemplate->from_email = 'test@example.com';
+
+
+        $mailTemplate->subject = 'New Order';
+        $mailTemplate->message = 'New Order';
+        $mailTemplate->is_active = 1;
+        $mailTemplate->save();
+
+
+        $data = [];
+        $data['option_value'] = $mailTemplate->id;
+        $data['option_key'] = 'new_order_mail_template';
+        $data['option_group'] = 'orders';
+        $save = save_option($data);
+
+
+        $data = [];
+        $data['option_value'] = 'y';
+        $data['option_key'] = 'order_email_enabled';
+        $data['option_group'] = 'orders';
+        $save = save_option($data);
+
+
+    }
 
     private function _addProductToCart($title)
     {
@@ -59,17 +103,12 @@ class CustomerCheckoutTest extends TestCase
     public function testCheckout()
     {
 
-        Config::set('mail.transport', 'array');
 
         $this->_addProductToCart('Product 1');
         $this->_addProductToCart('Product 2');
         $this->_addProductToCart('Product 3');
         $this->_addProductToCart('Product 4');
 
-        $data['option_value'] = 'y';
-        $data['option_key'] = 'order_email_enabled';
-        $data['option_group'] = 'orders';
-        $save = save_option($data);
 
         $checkoutDetails = array();
         $checkoutDetails['email'] = 'client_' . uniqid() . '@microweber.com';
@@ -108,6 +147,10 @@ class CustomerCheckoutTest extends TestCase
         $this->assertEquals($address->zip, $checkoutDetails['zip']);
         $this->assertEquals($address->state, $checkoutDetails['state']);
 
+
+        Mail::assertSent(function (\Illuminate\Mail\Mailable $mail) use ($checkoutDetails) {
+            return $mail->hasTo($checkoutDetails['email']);
+        });
 
     }
 
