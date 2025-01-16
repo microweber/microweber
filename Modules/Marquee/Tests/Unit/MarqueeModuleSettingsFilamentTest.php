@@ -37,7 +37,7 @@ class MarqueeModuleSettingsFilamentTest extends TestCase
         $data = [
             'options.text' => 'Updated marquee text!',
             'options.fontSize' => '50',
-            'options.animationSpeed' => 'fast',
+            'options.animationSpeed' => '10',
             'options.textWeight' => 'bold',
             'options.textStyle' => 'italic',
             'options.textColor' => '#FF0000',

@@ -73,7 +73,7 @@ if (!function_exists('cart_get_discount_text')) {
 if (!function_exists('update_cart_item_qty')) {
     function update_cart_item_qty($data)
     {
-        return app()->cart_manager->update_cart_item_qty($data);
+        return app()->cart_manager->update_item_qty($data);
     }
 }
 

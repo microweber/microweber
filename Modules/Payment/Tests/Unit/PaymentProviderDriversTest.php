@@ -19,17 +19,24 @@ class PaymentProviderDriversTest extends TestCase
 
         // Test PayPal driver
         $data = ['name' => 'PayPal Provider', 'provider' => 'paypal', 'is_active' => 1];
-        Livewire::test(CreatePaymentProvider::class)
+        $test = Livewire::test(CreatePaymentProvider::class)
             ->fillForm($data)
             ->call('create')
             ->assertHasNoActionErrors()
             ->assertNotified()
             ->assertHasNoErrors();
 
+
         $this->assertTrue(PaymentProvider::where('name', 'PayPal Provider')->exists());
 
         // Test Stripe driver
-        $data = ['name' => 'Stripe Provider', 'provider' => 'stripe', 'is_active' => 1];
+        $data = [
+            'name' => 'Stripe Provider',
+            'provider' => 'stripe',
+            'settings.publishable_key' => 'stripe',
+            'settings.secret_key' => 'stripe',
+            'is_active' => 1
+        ];
         Livewire::test(CreatePaymentProvider::class)
             ->fillForm($data)
             ->call('create')
@@ -38,6 +45,11 @@ class PaymentProviderDriversTest extends TestCase
             ->assertHasNoErrors();
 
         $this->assertTrue(PaymentProvider::where('name', 'Stripe Provider')->exists());
+        //tesit if seetings are seved
+
+        $get = PaymentProvider::where('name', 'Stripe Provider')->first();
+        $this->assertEquals('stripe', $get->settings['publishable_key']);
+        $this->assertEquals('stripe', $get->settings['secret_key']);
 
         // Test PayOnDelivery driver
         $data = ['name' => 'PayOnDelivery Provider', 'provider' => 'pay_on_delivery', 'is_active' => 1];

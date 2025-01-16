@@ -17,7 +17,7 @@ class PaymentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'payments';
 
-    protected static ?string $recordTitleAttribute = 'payment_provider_reference_id';
+    protected static ?string $recordTitleAttribute = 'transaction_id';
 
     public function form(Form $form): Form
     {
