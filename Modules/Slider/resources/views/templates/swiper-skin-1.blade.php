@@ -133,6 +133,7 @@ filter: sepia(100%);
 document.addEventListener('DOMContentLoaded', function() {
     new SliderV2('#js-slider-{{ $params['id'] ?? 'default' }}', {
         loop: true,
+        navigation: {},
         pagination: {
             el: '#js-slide-pagination-{{ $params['id'] ?? 'default' }}',
             clickable: true
