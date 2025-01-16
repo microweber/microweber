@@ -19,7 +19,7 @@ class PaymentModelTest extends TestCase
     public function testPaymentProviderModel()
     {
         PaymentProvider::where('name', 'Test Provider')->delete();
-        Payment::where('payment_provider_reference_id', '12345')->delete();
+        Payment::where('transaction_id', '12345')->delete();
 
         // Fake events
         Event::fake();
@@ -41,14 +41,15 @@ class PaymentModelTest extends TestCase
             'rel_id' => '1',
             'rel_type' => 'order',
             'payment_provider_id' => $provider->id,
-            'payment_provider_reference_id' => '12345',
+            'transaction_id' => '12345',
             'amount' => 100.00,
             'currency' => 'USD',
             'status' => PaymentStatus::Pending,
             'payment_data' => ['transaction_id' => 'txn_12345'],
         ]);
+        $payment->save();
 
-        $this->assertTrue(Payment::where('payment_provider_reference_id', '12345')->exists());
+        $this->assertTrue(Payment::where('transaction_id', '12345')->exists());
 
         // Assert that the PaymentWasCreated event was dispatched
         Event::assertDispatched(PaymentWasCreated::class, function ($event) use ($payment) {
@@ -65,7 +66,7 @@ class PaymentModelTest extends TestCase
 
         // Delete the Payment
         $payment->delete();
-        $this->assertFalse(Payment::where('payment_provider_reference_id', '12345')->exists());
+        $this->assertFalse(Payment::where('transaction_id', '12345')->exists());
 
         // Assert that the PaymentWasDeleted event was dispatched
         Event::assertDispatched(PaymentWasDeleted::class, function ($event) use ($payment) {

@@ -12,7 +12,10 @@ class Stripe extends AbstractPaymentMethod
 {
     public string $provider = 'stripe';
     private $gateway;
-
+    public function logo(): string
+    {
+        return asset('modules/payment/img/stripe.png');
+    }
     public function __construct()
     {
         $this->gateway = Omnipay::create('Stripe\Checkout');

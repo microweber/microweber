@@ -73,8 +73,13 @@ class PaymentProviderResource extends Resource
                             ->gap('gap-0')
                             ->afterStateUpdated(function (Forms\Set $set, Forms\Get $get, string $state) use ($paymentProviders) {
                                 if ($state) {
-                                    $set('name', $paymentProviders[$state] ?? null);
-                                    $set('is_active', 1);
+
+                                    if(!$get('name')){
+                                        $set('name', $paymentProviders[$state] ?? null);
+                                    }
+                                    if(!$get('is_active')) {
+                                        $set('is_active', 1);
+                                    }
                                     $set('settings', []);
                                 }
                             })
