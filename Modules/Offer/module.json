@@ -7,5 +7,7 @@
     "providers": [
         "Modules\\Offer\\Providers\\OfferServiceProvider"
     ],
-    "files": []
+    "files": [
+        "Support/helpers.php.php"
+    ]
 }

@@ -13,10 +13,8 @@ class OffersControllerTest extends TestCase
 
     public function testSaveOfferFromController()
     {
+        $this->loginAsAdmin();
         $categoryIds = [];
-
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
 
 
         $title = 'Product with offer price test! - ' . rand();
@@ -33,8 +31,8 @@ class OffersControllerTest extends TestCase
                 'content_body' => $contentBody,
                 'content' => '',
                 'price' => $price,
-                'content_data'=>[
-                    'has_special_price'=>1
+                'content_data' => [
+                    'has_special_price' => 1
                 ]
             ]
         );
@@ -51,8 +49,9 @@ class OffersControllerTest extends TestCase
             'POST',
             route('api.offer.store'),
             [
-                'product_id_with_price_id' => $productDataSaved->id.'|'.$prices[0]['id'],
+                'product_id_with_price_id' => $productDataSaved->id . '|' . $prices[0]['id'],
                 'offer_price' => $price_discounted,
+                'is_active' => 1,
 
             ]
         );
@@ -60,12 +59,16 @@ class OffersControllerTest extends TestCase
         $offerDataSaved = $response->getData()->data;
         $this->assertEquals(isset($offerDataSaved->offer_id), true);
         $this->assertEquals(isset($offerDataSaved->success_edit), true);
+        $this->assertDatabaseHas('offers', ['id' => $offerDataSaved->offer_id]);
 
+        $offers = offers_get_by_product_id($productDataSaved->id);
+        $this->assertEquals(!empty($offers), true);
+
+        $offers_get_price = offers_get_price($productDataSaved->id, $prices[0]['id']);
         $prices = get_product_prices($productDataSaved->id, true);
-
-        $this->assertEquals(!empty($prices), true);
-        $this->assertEquals($prices[0]['value'], $price_discounted);
-
+        $this->assertEquals($offers_get_price['offer_price'], $price_discounted);
+        //  $this->assertEquals(!empty($prices), true);
+        // $this->assertEquals($prices[0]['value'], $price_discounted);
 //
 
 
