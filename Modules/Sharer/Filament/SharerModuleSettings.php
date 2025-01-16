@@ -19,8 +19,8 @@ class SharerModuleSettings extends LiveEditModuleSettings
                     ->live()
                     ->default(false),
 
-                Toggle::make('options.twitter_enabled')
-                    ->label('Enable Twitter Sharing')
+                Toggle::make('options.x_enabled')
+                    ->label('Enable x Sharing')
                     ->live()
                     ->default(false),
 

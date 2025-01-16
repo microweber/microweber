@@ -15,7 +15,7 @@ class SharerModuleFrontendTest extends TestCase
         $params = [
             'id' => 'test-sharer-id' . uniqid(),
             'facebook_enabled' => true,
-            'twitter_enabled' => true,
+            'x_enabled' => true,
             'pinterest_enabled' => true,
             'linkedin_enabled' => true,
             'viber_enabled' => true,
@@ -43,7 +43,7 @@ class SharerModuleFrontendTest extends TestCase
 
         $this->assertTrue(View::exists('modules.sharer::templates.default'));
         $this->assertStringContainsString('href="https://www.facebook.com/sharer/sharer.php?u=', $viewOutput);
-        $this->assertStringContainsString('href="https://twitter.com/intent/tweet?text=', $viewOutput);
+        $this->assertStringContainsString('href="https://x.com/intent/tweet?text=', $viewOutput);
         $this->assertStringContainsString('href="javascript:void(0);" onclick="mw.pinMarklet();"', $viewOutput);
         $this->assertStringContainsString('href="https://www.linkedin.com/shareArticle?mini=true&url=', $viewOutput);
         $this->assertStringContainsString('href="#" id="viber_share"', $viewOutput);
