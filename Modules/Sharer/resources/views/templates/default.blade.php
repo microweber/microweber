@@ -6,10 +6,10 @@
         </a>
     @endif
 
-    @if($twitter_enabled)
-        <a href="https://twitter.com/intent/tweet?text={{ urlencode(content_title()) }}&url={{ urlencode(mw()->url->current()) }}"
+    @if($x_enabled)
+        <a href="https://x.com/intent/tweet?text={{ urlencode(content_title()) }}&url={{ urlencode(mw()->url->current()) }}"
            target="_blank">
-            @svg('modules.social_links-twitter')
+            @svg('modules.social_links-x')
 
         </a>
     @endif
@@ -66,7 +66,7 @@
 
 
 
-    @if(!$facebook_enabled && !$twitter_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled)
+    @if(!$facebook_enabled && !$x_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled)
         {!! lnotif('No sharing options enabled. Please enable at least one sharing option in the settings.') !!}
     @endif
 </div>

@@ -28,7 +28,7 @@ class SharerSettingsFilamentTest extends TestCase
         Livewire::test(SharerModuleSettings::class)
             ->set($params)
             ->assertFormFieldExists('options.facebook_enabled')
-            ->assertFormFieldExists('options.twitter_enabled')
+            ->assertFormFieldExists('options.x_enabled')
             ->assertFormFieldExists('options.pinterest_enabled')
             ->assertFormFieldExists('options.linkedin_enabled')
             ->assertFormFieldExists('options.viber_enabled')
@@ -36,7 +36,7 @@ class SharerSettingsFilamentTest extends TestCase
 
         $data = [
             'options.facebook_enabled' => true,
-            'options.twitter_enabled' => true,
+            'options.x_enabled' => true,
             'options.pinterest_enabled' => false,
             'options.linkedin_enabled' => true,
             'options.viber_enabled' => false,

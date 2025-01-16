@@ -20,7 +20,7 @@ class SharerModule extends BaseModule
         $viewData = $this->getViewData();
 
         $viewData['facebook_enabled'] = $this->getOption('facebook_enabled') == '1';
-        $viewData['twitter_enabled'] = $this->getOption('twitter_enabled') == '1';
+        $viewData['x_enabled'] = $this->getOption('x_enabled') == '1';
         $viewData['pinterest_enabled'] = $this->getOption('pinterest_enabled') == '1';
         $viewData['linkedin_enabled'] = $this->getOption('linkedin_enabled') == '1';
         $viewData['viber_enabled'] = $this->getOption('viber_enabled') == '1';
