@@ -4,12 +4,14 @@ namespace MicroweberPackages\Core\tests;
 
 use Illuminate\Foundation\Testing\WithConsoleEvents;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\Install\DbInstaller;
+use MicroweberPackages\User\Models\User;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
@@ -405,6 +407,27 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 //        $installer = new DbInstaller();
 //        $installer->logger = $this;
 //        $installer->createSchema();
+    }
+
+    protected function loginAsAdmin()
+    {
+        if (app()->environment() != 'testing') {
+            return;
+        }
+
+        $user = User::where('is_admin', 1)->first();
+
+        if (!$user) {
+            $user = new User();
+            $user->username = 'test';
+            $user->password = 'test';
+            $user->email = 'bobi@microweber.com';
+            $user->is_admin = 1;
+            $user->save();
+        }
+        Auth::login($user);
+
+
     }
 
 }

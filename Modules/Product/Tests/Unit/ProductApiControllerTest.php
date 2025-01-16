@@ -14,10 +14,11 @@ class ProductApiControllerTest extends TestCase
 
     public function testAddProductFull()
     {
+
+        $this->loginAsAdmin();
         $categoryIds = [];
 
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+
 
 
         $category = new Category();
@@ -137,8 +138,7 @@ class ProductApiControllerTest extends TestCase
 
     public function testSaveProductFromController()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
 
         $title = 'Test add product from api ' . rand();
         $title2 = 'Test update product from api ' . rand();
@@ -254,8 +254,7 @@ class ProductApiControllerTest extends TestCase
 
     public function testProductDiscountLabelValues()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
 
         $title = 'Product with labels';
 
