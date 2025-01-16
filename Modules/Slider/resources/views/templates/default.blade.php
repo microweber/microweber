@@ -8,7 +8,6 @@ description: Modern slider with Swiper.js integration
 
 
 
-
 <div id="js-slider-{{ $params['id'] ?? 'default' }}" class="slider_v2-default swiper">
     <div class="swiper-wrapper">
         @if($slides && $slides->count() > 0)
