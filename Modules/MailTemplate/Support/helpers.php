@@ -31,11 +31,11 @@ if (!function_exists('send_mail_template')) {
     {
         $service = mail_template_service();
         $template = $service->getTemplateByType($type);
-        
+
         if (!$template) {
             throw new \RuntimeException("Mail template of type '{$type}' not found");
         }
-        
+
         $service->send($template, $to, $variables, $attachments);
     }
 }

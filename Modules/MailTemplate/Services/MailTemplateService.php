@@ -13,7 +13,8 @@ class MailTemplateService
 
     public function __construct()
     {
-        $defaultMailTemplatesPath = normalize_path(dirname(MW_PATH) . '/View/emails');
+        $defaultMailTemplatesPath = normalize_path(dirname(__DIR__) . '/resources/views/emails');
+
         $this->registerMailTemplatePath($defaultMailTemplatesPath);
     }
 
@@ -35,22 +36,22 @@ class MailTemplateService
     public function getMailTemplateFiles(): array
     {
         $templates = [];
-        
+
         foreach ($this->mailTemplatePaths as $path) {
             if (!File::exists($path)) {
                 continue;
             }
 
             $files = File::files($path);
-            
+
             foreach ($files as $file) {
                 if ($file->getExtension() === 'php' || str_contains($file->getFilename(), 'blade.php')) {
                     $name = $file->getBasename('.' . $file->getExtension());
                     $type = $this->getTemplateType($name);
-                    
+
                     $templateContent = File::get($file->getPathname());
                     $subject = $this->getSubjectFromTemplate($templateContent);
-                    
+
                     $templates[] = [
                         'file' => $name,
                         'type' => $type,
@@ -72,16 +73,16 @@ class MailTemplateService
     {
         foreach ($this->mailTemplatePaths as $path) {
             $fullPath = rtrim($path, '/') . '/' . $name;
-            
+
             if (File::exists($fullPath . '.blade.php')) {
                 return File::get($fullPath . '.blade.php');
             }
-            
+
             if (File::exists($fullPath . '.php')) {
                 return File::get($fullPath . '.php');
             }
         }
-        
+
         return null;
     }
 

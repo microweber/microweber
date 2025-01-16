@@ -3,6 +3,7 @@
 namespace Modules\MailTemplate\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\MailTemplate\Services\MailTemplateService;
 
 class MailTemplate extends Model
 {
@@ -23,6 +24,6 @@ class MailTemplate extends Model
 
     public static function getTypes(): array
     {
-        return app('mail_templates')->getTemplateTypes();
+        return app(MailTemplateService::class)->getTemplateTypes();
     }
 }
