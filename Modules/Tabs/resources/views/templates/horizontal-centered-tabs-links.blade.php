@@ -1,30 +1,26 @@
-<?php
+@php
+    /*
 
-/*
+    type: layout
 
-type: layout
+    name: horizontal centered tabs links
 
-name: horizontal centered tabs links
+    description: Horizontal
 
-description: Horizontal
+    */
+@endphp
 
-*/
-?>
+@php
+    if ($tabs == false) {
+        echo lnotif(_e('Click to edit tabs', true));
+        return;
+    }
 
+    if (!isset($tabs) || count($tabs) == 0) {
+        $tabs = $defaults;
+    }
+@endphp
 
-<?php
-
-if ($tabs == false) {
-    print lnotif(_e('Click to edit tabs', true));
-
-    return;
-}
-
-if (isset($tabs) == false or count($tabs) == 0) {
-    $tabs = $defaults;
-}
-
-?>
 <script>
     $(document).ready(function () {
         mw.tabs({
@@ -32,13 +28,9 @@ if (isset($tabs) == false or count($tabs) == 0) {
             tabs: '#mw-tabs-module-{{ $params['id'] }} .mw-ui-box-tab-content'
         });
     });
-
-
 </script>
 
-
 <style>
-
     .mw-module-tabs-skin-horizontal-links {
         position: sticky;
         top: 0;
@@ -87,44 +79,39 @@ if (isset($tabs) == false or count($tabs) == 0) {
     .mw-module-tabs-skin-horizontal-links ul > li > a {
         font-size: var(--mw-paragraph-size);
         font-weight: var(--mw-font-weight);
-
-
     }
-
 </style>
 
-<div id="mw-tabs-module-{{ $params['id'] }}"
-     class="row mw-tabs-box-wrapper mw-module-tabs-skin-horizontal-links">
-    <div class="mw-ui-btn-nav merry-navs-btn-pricing mw-ui-btn-nav-tabs d-flex flex-wrap mx-auto mt-5 gap-2">
-        <?php
-        $count = 0;
-        foreach ($tabs as $slide) {
-            $count++;
-            ?>
+<div id="mw-tabs-module-{{ $params['id'] }}" class="row mw-tabs-box-wrapper mw-module-tabs-skin-horizontal-links">
+    <div class="mw-ui-btn-nav merry-navs-btn-pricing mw-ui-btn-nav-tabs d-flex justify-content-center flex-wrap mx-auto mt-5 gap-2">
+        @php $count = 0; @endphp
+        @foreach ($tabs as $slide)
+            @php $count++; @endphp
             <ul class="ps-0">
                 <li>
-                     <a class="btn btn-link my-xl-0 my-3 <?php if ($count == 1) { ?> active <?php } ?> " href="javascript:;"><?php print isset($slide['icon']) ? $slide['icon'] . ' ' : ''; ?><span><?php print isset($slide['title']) ? $slide['title'] : ''; ?></span></a>
+                    <a class="btn btn-link my-xl-0 my-3 {{ $count == 1 ? 'active' : '' }}" href="javascript:;">
+                        {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}<span>{{ $slide['title'] ?? '' }}</span>
+                    </a>
                 </li>
             </ul>
-        <?php } ?>
+        @endforeach
     </div>
     <div>
-        <?php
-        $count = 0;
-        foreach ($tabs as $key => $slide) {
-            $count++;
-            $edit_field_key = $key;
-            if (isset($slide['id'])) {
-                $edit_field_key = $slide['id'];
-            }
-            ?>
-            <div class="column mw-ui-box-tab-content pt-3" style="<?php if ($count != 1) { ?> display: none; <?php } else { ?>display: block; <?php } ?>">
-                <div class="edit  " field="tab-item-<?php print $edit_field_key ?>" rel="module-{{ $params['id'] }}">
+        @php $count = 0; @endphp
+        @foreach ($tabs as $key => $slide)
+            @php
+                $count++;
+                $edit_field_key = $slide['id'] ?? $key;
+            @endphp
+            <div class="column mw-ui-box-tab-content pt-3" style="{{ $count != 1 ? 'display: none;' : 'display: block;' }}">
+                <div class="edit" field="tab-item-{{ $edit_field_key }}" rel="module-{{ $params['id'] }}">
                     <div class="element">
-                        <h6> <?php print isset($slide['content']) ? $slide['content'] : '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p> ' ?></h6>
+                        <h6>
+                            {!! $slide['content'] ?? '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>' !!}
+                        </h6>
                     </div>
                 </div>
             </div>
-        <?php } ?>
+        @endforeach
     </div>
 </div>
