@@ -4,14 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCartCouponsTable extends Migration
-{
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+return new class extends Migration {
+    public function up(): void
     {
         if (!Schema::hasTable('cart_coupons')) {
             Schema::create('cart_coupons', function (Blueprint $table) {
@@ -30,4 +24,4 @@ class CreateCartCouponsTable extends Migration
 
     }
 
-}
+};

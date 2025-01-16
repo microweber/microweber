@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Shop\Coupons\Models;
+namespace Modules\Coupons\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

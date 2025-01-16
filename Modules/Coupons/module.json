@@ -5,7 +5,8 @@
     "keywords": [],
     "priority": 0,
     "providers": [
-        "Modules\\Coupons\\Providers\\CouponsServiceProvider"
+        "Modules\\Coupons\\Providers\\CouponsServiceProvider",
+        "Modules\\Coupons\\Providers\\CouponOrderEventServiceProvider"
     ],
     "files": ["Support/helpers.php"]
 }

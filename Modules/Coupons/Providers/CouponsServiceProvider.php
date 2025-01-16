@@ -36,12 +36,11 @@ class CouponsServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
-
-        /**
-         * @property CouponService   $coupon_service
+         /**
+         * @property CouponService $coupon_service
          */
         $this->app->bind('coupon_service', function () {
-            return  new CouponService();
+            return new CouponService();
         });
 
 
