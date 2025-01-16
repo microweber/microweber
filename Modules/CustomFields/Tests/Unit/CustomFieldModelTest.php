@@ -3,12 +3,16 @@
 namespace Modules\CustomFields\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\CustomFields\Models\CustomField;
 use Modules\Product\Models\Product;
 
 class CustomFieldModelTest extends TestCase
 {
     public function testAddCustomFieldToModel()
     {
+        Product::where('title', 'Samo Levski3')->delete();
+        CustomField::truncate();
+
         $newProduct = new Product();
         $newProduct->title = 'Samo Levski3';
 
@@ -30,6 +34,8 @@ class CustomFieldModelTest extends TestCase
         );
 
         $newProduct->save();
+
+
 
         $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
         $this->assertEquals($newProduct->customField[1]->name, 'цена 2');

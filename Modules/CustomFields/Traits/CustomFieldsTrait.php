@@ -2,6 +2,7 @@
 
 namespace Modules\CustomFields\Traits;
 
+use Illuminate\Support\Str;
 use Modules\CustomFields\Models\CustomField;
 use Modules\CustomFields\Models\CustomFieldValue;
 
@@ -44,7 +45,7 @@ trait CustomFieldsTrait
 
             //$sessionId = app()->user_manager->session_id();
 
-            if(isset($model->attributes['session_id']) and $model->attributes['session_id']){
+            if (isset($model->attributes['session_id']) and $model->attributes['session_id']) {
                 $sessionId = $model->attributes['session_id'];
             } else {
                 $sessionId = app()->user_manager->session_id();
@@ -55,9 +56,8 @@ trait CustomFieldsTrait
             $relType = $model->getMorphClass();
 
 
-
             $appendByUserId = user_id();
-            if($appendByUserId){
+            if ($appendByUserId) {
                 CustomField::where('rel_id', 0)
                     ->where('rel_type', $relType)
                     ->where('created_by', $appendByUserId)
@@ -69,26 +69,29 @@ trait CustomFieldsTrait
                 ->where('session_id', $sessionId)//ERROR: Non-static method Illuminate\Contracts\Session\Session::getId() cannot be called statically
                 ->where('rel_type', $relType)
                 ->update(['rel_id' => $relId]);
-
+            $position = 0;
             if (!empty($model->_addCustomFields)) {
                 foreach ($model->_addCustomFields as $customField) {
 
                     if (empty($customField['name_key'])) {
-                        $customField['name_key'] = \Str::slug($customField['name'], '-');
+                        $customField['name_key'] = Str::slug($customField['name'], '-');
                     } else {
-                        $customField['name_key'] = \Str::slug($customField['name_key'], '-');
+                        $customField['name_key'] = Str::slug($customField['name_key'], '-');
                     }
 
                     $findCustomField = $model->customField()->where('name_key', $customField['name_key'])->first();
 
                     if ($findCustomField) {
                         $findCustomField->value = $customField['value'];
+                        $findCustomField->position = $position;
+
                         $findCustomField->save();
                     } else {
 
                         $createCustomField = [
                             'value' => $customField['value'],
                             'name' => $customField['name'],
+                            'position' => $position,
                             'name_key' => $customField['name_key']
                         ];
 
@@ -97,6 +100,8 @@ trait CustomFieldsTrait
                         }
 
                         $model->customField()->create($createCustomField);
+
+                        $position++;
                     }
                 }
                 $model->refresh();
@@ -116,7 +121,6 @@ trait CustomFieldsTrait
         }
         return false;
     }
-
 
 
     public function getCustomFieldValueByType($type)
@@ -162,7 +166,7 @@ trait CustomFieldsTrait
 
     public function scopeWhereCustomField($query, $whereArr)
     {
-         foreach ($whereArr as $fieldName => $fieldValue) {
+        foreach ($whereArr as $fieldName => $fieldValue) {
 
             $query->whereHas('customField', function ($query) use ($whereArr, $fieldName, $fieldValue) {
 
@@ -195,9 +199,9 @@ trait CustomFieldsTrait
 
     public function customField()
     {
-        return $this->morphMany(CustomField::class, 'rel' , 'rel_type', 'rel_id')
+        return $this->morphMany(CustomField::class, 'rel', 'rel_type', 'rel_id')
             ->where('custom_fields.rel_type', $this->getMorphClass())
-            ->orderBy('position','asc');
+            ->orderBy('custom_fields.position', 'asc');
     }
 
 }
