@@ -39,6 +39,8 @@ class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
                 ->default($this->rel_id),
             Hidden::make('rel_type')
                 ->default($this->rel_type),
+            Hidden::make('position')
+                ->default(0),
             MwFileUpload::make('media')
                 ->label('Image')
                 ->helperText('Upload image for this slide.'),
@@ -66,19 +68,19 @@ class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
                 ->helperText('Enter a URL for the button'),
             ColorPicker::make('settings.buttonBackgroundColor')
                 ->label('Button Background Color')
-                ->visible(fn ($get) => $get('settings.showButton')),
+                ->visible(fn($get) => $get('settings.showButton')),
             ColorPicker::make('settings.buttonBackgroundHoverColor')
                 ->label('Button Background Hover Color')
-                ->visible(fn ($get) => $get('settings.showButton')),
+                ->visible(fn($get) => $get('settings.showButton')),
             ColorPicker::make('settings.buttonBorderColor')
                 ->label('Button Border Color')
-                ->visible(fn ($get) => $get('settings.showButton')),
+                ->visible(fn($get) => $get('settings.showButton')),
             ColorPicker::make('settings.buttonTextColor')
                 ->label('Button Text Color')
-                ->visible(fn ($get) => $get('settings.showButton')),
+                ->visible(fn($get) => $get('settings.showButton')),
             ColorPicker::make('settings.buttonTextHoverColor')
                 ->label('Button Text Hover Color')
-                ->visible(fn ($get) => $get('settings.showButton')),
+                ->visible(fn($get) => $get('settings.showButton')),
             TextInput::make('settings.buttonFontSize')
                 ->label('Button Font Size')
                 ->suffix('px')
@@ -86,7 +88,7 @@ class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
                 ->minValue(8)
                 ->maxValue(64)
                 ->default(16)
-                ->visible(fn ($get) => $get('settings.showButton')),
+                ->visible(fn($get) => $get('settings.showButton')),
             ColorPicker::make('settings.titleColor')
                 ->label('Title Color'),
             TextInput::make('settings.titleFontSize')
