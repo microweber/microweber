@@ -74,9 +74,16 @@ a {
     transition: var(--toolbar-height-animation-speed);
 }
 
+ #live_edit_side_holder {
+    transition: .15s;
+ }
+html.mw-live-edit-sidebar-start #live_edit_side_holder {
+    left: var(--sidebar-start-size);
+    max-width: calc(100% - var(--sidebar-start-size));
+}
 html.mw-live-edit-sidebar-start #toolbar {
-    left: 250px;
-    max-width: calc(100% - 250px);
+    left: var(--sidebar-start-size);
+    max-width: calc(100% - var(--sidebar-start-size));
 }
 
 @media (min-width: 1050px) {
@@ -965,7 +972,7 @@ html .mw-control-box-right .mw-control-box-content{
 
 
 html.mw-live-edit-sidebar-start #live-edit-frame-holder{
-    left: 250px;
+    left: var(--sidebar-start-size);
 }
 
 #mw-live-edit-domtree-box, aside.fi-sidebar{
