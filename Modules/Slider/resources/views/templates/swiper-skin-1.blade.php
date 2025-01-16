@@ -129,8 +129,9 @@ filter: sepia(100%);
 </div>
 
 <script>
+<?php print get_asset('/Modules/Slider/resources/assets/js/slider-v2.js'); ?>
 document.addEventListener('DOMContentLoaded', function() {
-    new Swiper('#js-slider-{{ $params['id'] ?? 'default' }}', {
+    new SliderV2('#js-slider-{{ $params['id'] ?? 'default' }}', {
         loop: true,
         pagination: {
             el: '#js-slide-pagination-{{ $params['id'] ?? 'default' }}',
