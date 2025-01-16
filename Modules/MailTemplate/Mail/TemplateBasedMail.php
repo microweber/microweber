@@ -21,7 +21,7 @@ class TemplateBasedMail extends Mailable
         $this->attachments = $attachments;
         $this->from($template->from_email, $template->from_name)
              ->subject($template->subject);
-             
+
         if ($template->copy_to) {
             $this->cc($template->copy_to);
         }
@@ -39,4 +39,6 @@ class TemplateBasedMail extends Mailable
 
         return $mail;
     }
+
+
 }

@@ -119,12 +119,21 @@ class MailTemplateService
     }
 
     /**
+     * Create a mailable instance from a template
+     */
+    public function createMailable(MailTemplate $template, array $variables = [], array $attachments = []): TemplateBasedMail
+    {
+        $parsedMessage = $this->parseTemplate($template, $variables);
+        return new TemplateBasedMail($template, $parsedMessage, $attachments);
+    }
+
+    /**
      * Send an email using a template
      */
     public function send(MailTemplate $template, string $to, array $variables = [], array $attachments = []): void
     {
-        $parsedMessage = $this->parseTemplate($template, $variables);
-        Mail::to($to)->send(new TemplateBasedMail($template, $parsedMessage, $attachments));
+        $mailable = $this->createMailable($template, $variables, $attachments);
+        Mail::to($to)->send($mailable);
     }
 
     /**

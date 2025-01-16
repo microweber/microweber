@@ -3,8 +3,13 @@
 namespace MicroweberPackages\Shop\tests;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Mail;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Cart\Models\Cart;
 use Modules\Checkout\Repositories\CheckoutManager;
+use Modules\MailTemplate\Models\MailTemplate;
+use Modules\Order\Models\Order;
+use Modules\Product\Models\Product;
 
 /**
  * Run test
@@ -15,21 +20,54 @@ class CheckoutTest extends TestCase
 {
     use ShopTestHelperTrait;
 
-    public function testCheckout()
+    public function setUp(): void
     {
+        parent::setUp();
+        MailTemplate::where('type', 'new_order')->delete();
+        Config::set('mail.driver', 'array');
+        Config::set('queue.driver', 'sync');
+        Config::set('mail.transport', 'array');
+        Product::truncate();
+        Order::truncate();
+        Cart::truncate();
+
+//create mail templste
+
+
+        $mailTemplate = new MailTemplate();
+        $mailTemplate->name = 'New Order';
+        $mailTemplate->type = 'new_order';
+        $mailTemplate->from_name = 'Microweber';
+        $mailTemplate->from_email = 'test@example.com';
+
+
+        $mailTemplate->subject = 'New Order';
+        $mailTemplate->message = 'Order email test,
+        Hello {first_name} {last_name} {email} {phone},
+        Your order is placed.
+        Your address is {address}, {city}, {state}, {country}, {zip}';
+        $mailTemplate->is_active = 1;
+        $mailTemplate->save();
+
 
         $data = [];
-        $data['option_value'] = '1';
+        $data['option_value'] = $mailTemplate->id;
+        $data['option_key'] = 'new_order_mail_template';
+        $data['option_group'] = 'orders';
+        $save = save_option($data);
+
+
+        $data = [];
+        $data['option_value'] = 'y';
         $data['option_key'] = 'order_email_enabled';
         $data['option_group'] = 'orders';
         $save = save_option($data);
-        $this->assertEquals(1, get_option('order_email_enabled', 'orders'));
 
-        $data = [];
-        $data['option_value'] = 'order_received';
-        $data['option_key'] = 'order_email_send_when';
-        $data['option_group'] = 'orders';
-        $save = save_option($data);
+
+    }
+
+    public function testCheckout()
+    {
 
 
         empty_cart();
@@ -65,7 +103,6 @@ class CheckoutTest extends TestCase
 
         $checkEmailContent = '';
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
-
         foreach ($emails as $email) {
 
             $emailAsArray = $this->getEmailDataAsArrayFromObject($email);

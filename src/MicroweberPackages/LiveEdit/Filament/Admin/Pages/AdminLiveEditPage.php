@@ -84,7 +84,8 @@ class AdminLiveEditPage extends Page
             ])
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
-            ->slideOver();
+            ->modalWidth(MaxWidth::Medium);
+        //->slideOver() ;
     }
 
     public function addPageAction(): Action
@@ -105,7 +106,6 @@ class AdminLiveEditPage extends Page
     public function openModuleSettingsAction(): Action
     {
         return Action::make('openModuleAction')
-
             ->modalIcon(function (array $arguments) {
                 $data = $arguments['data'];
                 if (isset($data['moduleSettingsComponent'])) {
@@ -126,7 +126,7 @@ class AdminLiveEditPage extends Page
             })
             ->label(function (array $arguments) {
                 $data = $arguments['data'];
-                 if (isset($data['moduleSettingsComponent'])) {
+                if (isset($data['moduleSettingsComponent'])) {
                     if (isset($data['moduleSettingsComponent'])) {
                         $exists = class_exists($data['moduleSettingsComponent']);
                         if ($exists) {
@@ -239,7 +239,7 @@ class AdminLiveEditPage extends Page
                     ->send();
 
             })
-            ->modalSubmitActionLabel('Save')
-            ->slideOver();
+            ->modalSubmitActionLabel('Save');
+        //  ->slideOver();
     }
 }
