@@ -14,16 +14,18 @@ class CartModelTest extends TestCase
         $expectedFillable = [
             'rel_type',
             'rel_id',
+
             'price',
             'currency',
             'qty',
+
             'order_id',
             'order_completed',
+
             'description',
             'link',
             'other_info',
             'custom_fields_data',
-            'custom_fields_json',
         ];
 
         $this->assertEquals($expectedFillable, $cart->getFillable());
@@ -32,11 +34,14 @@ class CartModelTest extends TestCase
     public function testCustomFieldsJsonCasting()
     {
         $cart = new Cart();
-        $cart->custom_fields_json = ['color' => 'red', 'size' => 'large'];
+        $cart->fill(['custom_fields_data' => ['color' => 'red', 'size' => 'large']]);
+        $cart->save();
 
-        $this->assertIsArray($cart->custom_fields_json);
-        $this->assertEquals('red', $cart->custom_fields_json['color']);
-        $this->assertEquals('large', $cart->custom_fields_json['size']);
+        $find = Cart::find($cart->id);
+
+        $this->assertIsArray($find->custom_fields_data);
+        $this->assertEquals('red', $find->custom_fields_data['color']);
+        $this->assertEquals('large', $find->custom_fields_data['size']);
     }
 
     public function testOrderRelationship()

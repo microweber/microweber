@@ -36,10 +36,12 @@ class CartManager extends Crud
 
 
     }
+
     public function get_cart($params)
     {
         return $this->get($params);
     }
+
     /**
      * This will sum all cart items amount
      * @param bool $return_amount
@@ -1152,6 +1154,11 @@ class CartManager extends Crud
         } else {
             return array('error' => 'Invalid cart items');
         }
+    }
+
+    public function remove_cart_item($data)
+    {
+        return $this->remove_item($data);
     }
 
     public function recover_cart($ord_id = false)
