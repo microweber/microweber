@@ -4,53 +4,55 @@ namespace Modules\Slider\Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-use MicroweberPackages\Option\Models\ModuleOption;
+use Modules\Slider\Models\Slider;
 use Modules\Slider\Filament\SliderModuleSettings;
 use Tests\TestCase;
 
 class SliderSettingsFilamentTest extends TestCase
 {
+    use RefreshDatabase;
 
     public function testSliderModuleSettingsForm()
     {
         $moduleId = 'module-id-test-' . uniqid();
-        $moduleType = 'slider';
-
-        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
-        $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
 
         $params = [
             'params' => [
                 'id' => $moduleId,
-                'type' => $moduleType
+                'rel_id' => $moduleId,
+                'rel_type' => 'module'
             ]
         ];
 
         Livewire::test(SliderModuleSettings::class)
             ->set($params);
 
-
         $data = [
             'slides' => [
                 [
-                    'title' => 'Slide 1',
+                    'name' => 'Slide 1',
                     'description' => 'Description for slide 1',
-                    'image' => 'image-url-1',
-                    'buttonText' => 'Button 1',
-                    'url' => 'https://example.com/1',
-                    'alignItems' => 'center',
-                    'titleColor' => '#000000',
-                    'descriptionColor' => '#000000',
-                    'buttonColor' => '#ffffff',
-                    'buttonTextColor' => '#000000',
-                    'titleFontSize' => '24',
-                    'descriptionFontSize' => '16',
-                    'buttonFontSize' => '16',
-                    'titleFontFamily' => 'Arial',
-                    'descriptionFontFamily' => 'Arial',
-                    'imageBackgroundColor' => '#ffffff',
-                    'imageBackgroundOpacity' => '100',
-                    'showButton' => '1',
+                    'media' => 'image-url-1',
+                    'button_text' => 'Button 1',
+                    'link' => 'https://example.com/1',
+                    'settings' => [
+                        'alignItems' => 'center',
+                        'titleColor' => '#000000',
+                        'descriptionColor' => '#000000',
+                        'buttonColor' => '#ffffff',
+                        'buttonTextColor' => '#000000',
+                        'titleFontSize' => '24',
+                        'descriptionFontSize' => '16',
+                        'buttonFontSize' => '16',
+                        'titleFontFamily' => 'Arial',
+                        'descriptionFontFamily' => 'Arial',
+                        'imageBackgroundColor' => '#ffffff',
+                        'imageBackgroundOpacity' => '100',
+                        'showButton' => '1'
+                    ],
+                    'position' => 0,
+                    'rel_id' => $moduleId,
+                    'rel_type' => 'module'
                 ],
             ],
         ];
@@ -64,15 +66,20 @@ class SliderSettingsFilamentTest extends TestCase
             ->assertHasNoFormErrors()
             ->assertNotified();
 
-        $this->assertDatabaseHas('options', [
-            'option_group' => $moduleId,
-            'module' => $moduleType,
-            'option_key' => 'slides',
-            'option_value' => json_encode($data['slides'])
+        // Verify the slider was created in the database
+        $this->assertDatabaseHas('sliders', [
+            'name' => 'Slide 1',
+            'description' => 'Description for slide 1',
+            'media' => 'image-url-1',
+            'button_text' => 'Button 1',
+            'link' => 'https://example.com/1',
+            'rel_id' => $moduleId,
+            'rel_type' => 'module',
+            'position' => 0
         ]);
 
         // Clean up
-        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
-        $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
+        Slider::where('rel_id', $moduleId)->delete();
+        $this->assertDatabaseMissing('sliders', ['rel_id' => $moduleId]);
     }
 }
