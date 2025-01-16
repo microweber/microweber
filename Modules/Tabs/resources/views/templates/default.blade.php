@@ -22,12 +22,13 @@ description: Default
                 <div class="card">
                     <div class="card-header" id="heading-{{ $params['id'] }}-{{ $item->id }}">
                         <h5 class="mb-0">
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-{{ $params['id'] }}-{{ $item->id }}" aria-expanded="true" aria-controls="collapse-{{ $params['id'] }}-{{ $item->id }}">
+                            <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $params['id'] }}-{{ $item->id }}" aria-expanded="true" aria-controls="collapse-{{ $params['id'] }}-{{ $item->id }}">
                                 {{ $item->title }}
                             </button>
                         </h5>
                     </div>
 
+                    @dump($item);
                     <div id="collapse-{{ $params['id'] }}-{{ $item->id }}" class="collapse" aria-labelledby="heading-{{ $params['id'] }}-{{ $item->id }}" data-parent="#tabs-{{ $params['id'] }}">
                         <div class="card-body">
                             {!! $item->content !!}
