@@ -36,16 +36,16 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->placeholder('Enter Facebook URL')
                                     ->visible(fn($get) => $get('options.facebook_enabled')),
 
-                                Toggle::make('options.twitter_enabled')
-                                    ->label('Enable Twitter Sharing')
+                                Toggle::make('options.x_enabled')
+                                    ->label('Enable X Sharing')
                                     ->live()
                                     ->default(false),
 
-                                TextInput::make('options.twitter_url')
-                                    ->label('Twitter URL')
+                                TextInput::make('options.x_url')
+                                    ->label('X URL')
                                     ->live()
-                                    ->placeholder('Enter Twitter URL')
-                                    ->visible(fn($get) => $get('options.twitter_enabled')),
+                                    ->placeholder('Enter X URL')
+                                    ->visible(fn($get) => $get('options.x_enabled')),
 
                                 Toggle::make('options.pinterest_enabled')
                                     ->label('Enable Pinterest Sharing')
@@ -145,17 +145,6 @@ class SocialLinksModuleSettings extends LiveEditModuleSettings
                                     ->live()
                                     ->placeholder('Enter soundcloud URL')
                                     ->visible(fn($get) => $get('options.soundcloud_enabled')),
-
-                                Toggle::make('options.mixcloud_enabled')
-                                    ->label('Enable mixcloud Sharing')
-                                    ->live()
-                                    ->default(false),
-
-                                TextInput::make('options.mixcloud_url')
-                                    ->label('mixcloud URL')
-                                    ->live()
-                                    ->placeholder('Enter mixcloud URL')
-                                    ->visible(fn($get) => $get('options.mixcloud_enabled')),
 
                                 Toggle::make('options.discord_enabled')
                                     ->label('Enable discord Sharing')

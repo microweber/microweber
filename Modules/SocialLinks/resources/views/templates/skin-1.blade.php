@@ -21,10 +21,10 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($twitter_enabled)
+    @if ($x_enabled)
         <li class="me-3">
-            <a href="{{ $twitter_url }}" target="_blank">
-                @svg('modules.social_links-twitter')
+            <a href="{{ $x_url }}" target="_blank">
+                @svg('modules.social_links-x')
             </a>
         </li>
     @endif
@@ -77,13 +77,6 @@ description: Skin-1
         </li>
     @endif
 
-    @if ($mixcloud_enabled)
-        <li class="me-3">
-            <a href="{{ $mixcloud_url }}" target="_blank">
-                @svg('modules.social_links-mixcloud')
-            </a>
-        </li>
-    @endif
 
     @if ($discord_enabled)
         <li class="mx-1">

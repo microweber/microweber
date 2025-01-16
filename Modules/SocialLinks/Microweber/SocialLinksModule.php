@@ -20,7 +20,7 @@ class SocialLinksModule extends BaseModule
         $viewData = $this->getViewData();
 
         $viewData['facebook_enabled'] = $this->getOption('facebook_enabled') == '1';
-        $viewData['twitter_enabled'] = $this->getOption('twitter_enabled') == '1';
+        $viewData['x_enabled'] = $this->getOption('x_enabled') == '1';
         $viewData['pinterest_enabled'] = $this->getOption('pinterest_enabled') == '1';
         $viewData['linkedin_enabled'] = $this->getOption('linkedin_enabled') == '1';
         $viewData['viber_enabled'] = $this->getOption('viber_enabled') == '1';
@@ -30,13 +30,12 @@ class SocialLinksModule extends BaseModule
         $viewData['instagram_enabled'] = $this->getOption('instagram_enabled') == '1';
         $viewData['github_enabled'] = $this->getOption('github_enabled') == '1';
         $viewData['soundcloud_enabled'] = $this->getOption('soundcloud_enabled') == '1';
-        $viewData['mixcloud_enabled'] = $this->getOption('mixcloud_enabled') == '1';
         $viewData['discord_enabled'] = $this->getOption('discord_enabled') == '1';
         $viewData['skype_enabled'] = $this->getOption('skype_enabled') == '1';
 
 
         $viewData['facebook_url'] = $this->getOption('facebook_url');
-        $viewData['twitter_url'] = $this->getOption('twitter_url');
+        $viewData['x_url'] = $this->getOption('x_url');
         $viewData['pinterest_url'] = $this->getOption('pinterest_url');
         $viewData['linkedin_url'] = $this->getOption('linkedin_url');
         $viewData['viber_url'] = $this->getOption('viber_url');
@@ -46,7 +45,6 @@ class SocialLinksModule extends BaseModule
         $viewData['instagram_url'] = $this->getOption('instagram_url');
         $viewData['github_url'] = $this->getOption('github_url');
         $viewData['soundcloud_url'] = $this->getOption('soundcloud_url');
-        $viewData['mixcloud_url'] = $this->getOption('mixcloud_url');
         $viewData['discord_url'] = $this->getOption('discord_url');
         $viewData['skype_url'] = $this->getOption('skype_url');
 
