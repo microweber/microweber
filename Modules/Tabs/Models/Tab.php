@@ -15,6 +15,7 @@ class Tab extends Model
         'rel_id',
         'rel_type',
         'settings',
+        'content'
     ];
 
 }
