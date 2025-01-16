@@ -79,3 +79,16 @@ if (!function_exists('get_mail_template_content')) {
         return mail_template_service()->getTemplateContent($name);
     }
 }
+
+if (!function_exists('get_mail_template_by_id')) {
+    /**
+     * Get a mail template by ID
+     *
+     * @param int $id Template ID
+     * @return \Modules\MailTemplate\Models\MailTemplate|null
+     */
+    function get_mail_template_by_id(int $id): ?MailTemplate
+    {
+        return mail_template_service()->getTemplateById($id);
+    }
+}

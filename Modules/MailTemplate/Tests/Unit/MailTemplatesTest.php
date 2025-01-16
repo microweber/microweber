@@ -199,6 +199,17 @@ class MailTemplatesTest extends TestCase
         $this->assertNotNull($retrieved);
         $this->assertEquals($template->id, $retrieved->id);
 
+        // Test get_mail_template_by_id helper
+        $retrievedById = get_mail_template_by_id($template->id);
+        $this->assertNotNull($retrievedById);
+        $this->assertEquals($template->id, $retrievedById->id);
+        $this->assertEquals($template->type, $retrievedById->type);
+        $this->assertEquals($template->name, $retrievedById->name);
+
+        // Test get_mail_template_by_id with non-existent ID
+        $nonExistent = get_mail_template_by_id(99999);
+        $this->assertNull($nonExistent);
+
         // Test get_mail_template_types helper
         $types = get_mail_template_types();
         $this->assertIsArray($types);

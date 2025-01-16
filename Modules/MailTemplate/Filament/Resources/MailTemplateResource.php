@@ -12,9 +12,11 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\MailTemplate\Services\MailTemplateService;
 
 class MailTemplateResource extends Resource
 {
@@ -24,56 +26,97 @@ class MailTemplateResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $service = app(MailTemplateService::class);
+        
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Template Name'),
+                Section::make('Template Details')
+                    ->schema([
+                        TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Template Name')
+                            ->columnSpanFull(),
 
-                Select::make('type')
-                    ->options(array_combine(MailTemplate::getTypes(), MailTemplate::getTypes()))
-                    ->required(),
+                        Select::make('type')
+                            ->options($service->getTemplateTypes())
+                            ->required()
+                            ->reactive()
+                            ->columnSpanFull(),
 
-                TextInput::make('from_name')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('From Name'),
+                        TextInput::make('from_name')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('From Name')
+                            ->default($service->getDefaultFromName())
+                            ->columnSpanFull(),
 
-                TextInput::make('from_email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('From Email'),
+                        TextInput::make('from_email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('From Email')
+                            ->default($service->getDefaultFromEmail())
+                            ->columnSpanFull(),
 
-                TextInput::make('copy_to')
-                    ->email()
-                    ->maxLength(255)
-                    ->placeholder('Copy To Email (Optional)'),
+                        TextInput::make('copy_to')
+                            ->email()
+                            ->maxLength(255)
+                            ->placeholder('Copy To Email (Optional)')
+                            ->columnSpanFull(),
 
-                TextInput::make('subject')
-                    ->required()
-                    ->maxLength(255)
-                    ->placeholder('Email Subject'),
+                        TextInput::make('subject')
+                            ->required()
+                            ->maxLength(255)
+                            ->placeholder('Email Subject')
+                            ->columnSpanFull(),
+                    ]),
 
-                RichEditor::make('message')
-                    ->required()
-                    ->toolbarButtons([
-                        'bold',
-                        'italic',
-                        'underline',
-                        'strike',
-                        'link',
-                        'orderedList',
-                        'unorderedList',
-                        'undo',
-                        'redo',
+                Section::make('Template Content')
+                    ->schema([
+                        RichEditor::make('message')
+                            ->required()
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'strike',
+                                'link',
+                                'orderedList',
+                                'unorderedList',
+                                'undo',
+                                'redo',
+                            ])
+                            ->placeholder('Email Content')
+                            ->columnSpanFull(),
+
+                        Toggle::make('is_active')
+                            ->label('Active')
+                            ->default(true)
+                            ->columnSpanFull(),
+                    ]),
+
+                Section::make('Available Variables')
+                    ->schema([
+                        Forms\Components\Placeholder::make('variables')
+                            ->content(function ($get) use ($service) {
+                                $type = $get('type');
+                                if (!$type) {
+                                    return 'Select a template type to see available variables.';
+                                }
+
+                                $variables = $service->getAvailableVariables($type);
+                                $content = '<div class="space-y-2">';
+                                foreach ($variables as $var => $desc) {
+                                    $content .= "<div><code class='text-primary-600'>{$var}</code> - {$desc}</div>";
+                                }
+                                $content .= '</div>';
+                                
+                                return new \Illuminate\Support\HtmlString($content);
+                            })
+                            ->columnSpanFull(),
                     ])
-                    ->placeholder('Email Content'),
-
-                Toggle::make('is_active')
-                    ->label('Active')
-                    ->default(true),
+                    ->collapsible(),
             ]);
     }
 

@@ -97,6 +97,14 @@ class MailTemplateService
     }
 
     /**
+     * Get a mail template by ID
+     */
+    public function getTemplateById(int $id): ?MailTemplate
+    {
+        return MailTemplate::find($id);
+    }
+
+    /**
      * Parse a template with variables
      */
     public function parseTemplate(MailTemplate $template, array $variables = []): string
