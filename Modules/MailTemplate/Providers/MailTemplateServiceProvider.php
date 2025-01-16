@@ -10,7 +10,6 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\MailTemplate\Filament\Resources\MailTemplateResource;
 use Modules\MailTemplate\Filament\MailTemplateModuleSettings;
 use Modules\MailTemplate\Services\MailTemplateService;
-use Modules\MailTemplate\Services\MailTemplatesManager;
 
 class MailTemplateServiceProvider extends BaseModuleServiceProvider
 {
@@ -42,19 +41,9 @@ class MailTemplateServiceProvider extends BaseModuleServiceProvider
                 return new MailTemplateService();
             });
 
-            // Register the MailTemplateService as a singleton
-            $this->app->singleton(MailTemplateService::class, function ($app) {
-                return new MailTemplateService();
-            });
-
-            // Register the MailTemplatesManager as a singleton
-            $this->app->singleton(MailTemplatesManager::class, function ($app) {
-                return new MailTemplatesManager();
-            });
-
-            // Bind the manager to the container with a shorthand name
+            // Bind the service to the container with a shorthand name
             $this->app->bind('mail_templates', function ($app) {
-                return $app->make(MailTemplatesManager::class);
+                return $app->make(MailTemplateService::class);
             });
         }
 

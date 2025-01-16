@@ -21,15 +21,8 @@ class MailTemplate extends Model
         'is_active' => 'boolean'
     ];
 
-    public static function getTypes()
+    public static function getTypes(): array
     {
-        return [
-            'new_order',
-            'new_comment',
-            'forgot_password',
-            'new_registration',
-            'contact_form',
-            'newsletter_subscription'
-        ];
+        return app('mail_templates')->getTemplateTypes();
     }
 }
