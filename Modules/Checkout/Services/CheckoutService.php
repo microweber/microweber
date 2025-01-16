@@ -253,15 +253,21 @@ class CheckoutService
                     }
                 }
 
+                if (!$mail_template and function_exists('get_mail_template_by_id')) {
+                    $new_order_mail_template_id = $this->app->option_manager->get('new_order_mail_template', 'orders');
+                    if ($new_order_mail_template_id) {
+                        $mail_template = get_mail_template_by_id($new_order_mail_template_id);
+                     }
+                }
 
 
                 if (!$mail_template) {
                     return;
                 }
 
-                $order_email_cc_string = $mail_template['copy_to'];
-                $order_email_subject = $mail_template['subject'];
-                $order_email_content = $mail_template['message'];
+                $order_email_cc_string = $mail_template['copy_to'] ?? false;
+                $order_email_subject = $mail_template['subject'] ?? 'New Order';
+                $order_email_content = $mail_template['message'] ?? 'New Order';
 
                 $order_email_cc = array();
                 if (!empty($order_email_cc_string) && strpos($order_email_cc_string, ',')) {
@@ -292,6 +298,7 @@ class CheckoutService
                 if ($to == false) {
                     $to = $ord_data['email'];
                 }
+
                 if ($order_email_content != false and trim($order_email_subject) != '') {
                     $cart_items = array();
                     if (!empty($ord_data)) {
@@ -333,11 +340,11 @@ class CheckoutService
                             }
                         }
                     }
-
+/*
                     if (get_option('bank_transfer_send_email_instructions', 'payments') == 'y') {
                         $order_email_content .= _e("Follow payment instructions", true);
                         $order_email_content .= '<br />' . get_option('bank_transfer_instructions', 'payments');
-                    }
+                    }*/
 
                     $loader = new ArrayLoader([
                         'checkout_mail.html' => $order_email_content,
@@ -364,7 +371,6 @@ class CheckoutService
                     );
 
                     $sender = new MailSender();
-
                     // Send only to client
                     if ($send_to_client && !$send_to_admins && filter_var($to, FILTER_VALIDATE_EMAIL)) {
                         $sender->send($to, $order_email_subject, $order_email_content);
@@ -382,6 +388,7 @@ class CheckoutService
                     // Send to admins and client
                     if ($send_to_client && $send_to_admins) {
                         if (filter_var($to, FILTER_VALIDATE_EMAIL)) {
+
                             $sender->send($to, $order_email_subject, $order_email_content);
                             // echo 'Send to client.';
                         }
@@ -569,7 +576,7 @@ class CheckoutService
         ];
 
         // Add customer fields
-        $fields = ['first_name', 'last_name', 'email', 'phone', 'address','address2', 'city', 'state', 'zip', 'country'];
+        $fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'address2', 'city', 'state', 'zip', 'country'];
         foreach ($fields as $field) {
             if (isset($data[$field])) {
                 $orderData[$field] = $data[$field];

@@ -7,5 +7,5 @@
     "providers": [
         "Modules\\MailTemplate\\Providers\\MailTemplateServiceProvider"
     ],
-    "files": []
+    "files": ["Support/helpers.php"]
 }
