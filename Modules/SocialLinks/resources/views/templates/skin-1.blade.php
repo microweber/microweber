@@ -13,10 +13,6 @@ description: Skin-1
 @endphp
 
 <ul class="list-inline no-style mb-0">
-    @if (!$social_links_has_enabled)
-        {!! lnotif('Social links') !!}
-    @endif
-
     @if ($facebook_enabled)
         <li class="me-3">
             <a href="{{ $facebook_url }}" target="_blank">
@@ -29,14 +25,6 @@ description: Skin-1
         <li class="me-3">
             <a href="{{ $twitter_url }}" target="_blank">
                 @svg('modules.social_links-twitter')
-            </a>
-        </li>
-    @endif
-
-    @if ($googleplus_enabled)
-        <li class="me-3">
-            <a href="{{ $googleplus_url }}" target="_blank">
-                @svg('modules.social_links-googleplus')
             </a>
         </li>
     @endif
@@ -93,14 +81,6 @@ description: Skin-1
         <li class="me-3">
             <a href="{{ $mixcloud_url }}" target="_blank">
                 @svg('modules.social_links-mixcloud')
-            </a>
-        </li>
-    @endif
-
-    @if ($medium_enabled)
-        <li class="me-3">
-            <a href="{{ $medium_url }}" target="_blank">
-                @svg('modules.social_links-medium')
             </a>
         </li>
     @endif

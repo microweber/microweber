@@ -26,6 +26,14 @@ class SocialLinksModule extends BaseModule
         $viewData['viber_enabled'] = $this->getOption('viber_enabled') == '1';
         $viewData['whatsapp_enabled'] = $this->getOption('whatsapp_enabled') == '1';
         $viewData['telegram_enabled'] = $this->getOption('telegram_enabled') == '1';
+        $viewData['youtube_enabled'] = $this->getOption('youtube_enabled') == '1';
+        $viewData['instagram_enabled'] = $this->getOption('instagram_enabled') == '1';
+        $viewData['github_enabled'] = $this->getOption('github_enabled') == '1';
+        $viewData['soundcloud_enabled'] = $this->getOption('soundcloud_enabled') == '1';
+        $viewData['mixcloud_enabled'] = $this->getOption('mixcloud_enabled') == '1';
+        $viewData['discord_enabled'] = $this->getOption('discord_enabled') == '1';
+        $viewData['skype_enabled'] = $this->getOption('skype_enabled') == '1';
+
 
         $viewData['facebook_url'] = $this->getOption('facebook_url');
         $viewData['twitter_url'] = $this->getOption('twitter_url');
@@ -34,6 +42,13 @@ class SocialLinksModule extends BaseModule
         $viewData['viber_url'] = $this->getOption('viber_url');
         $viewData['whatsapp_url'] = $this->getOption('whatsapp_url');
         $viewData['telegram_url'] = $this->getOption('telegram_url');
+        $viewData['youtube_url'] = $this->getOption('youtube_url');
+        $viewData['instagram_url'] = $this->getOption('instagram_url');
+        $viewData['github_url'] = $this->getOption('github_url');
+        $viewData['soundcloud_url'] = $this->getOption('soundcloud_url');
+        $viewData['mixcloud_url'] = $this->getOption('mixcloud_url');
+        $viewData['discord_url'] = $this->getOption('discord_url');
+        $viewData['skype_url'] = $this->getOption('skype_url');
 
         $template = $viewData['template'] ?? 'default';
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
