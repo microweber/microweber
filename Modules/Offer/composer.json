@@ -22,7 +22,7 @@
             "Modules\\Offer\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "Support/offers_functions.php"
+            "Support/helpers.php.php"
         ]
     },
     "autoload-dev": {

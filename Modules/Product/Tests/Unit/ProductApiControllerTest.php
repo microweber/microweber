@@ -19,8 +19,6 @@ class ProductApiControllerTest extends TestCase
         $categoryIds = [];
 
 
-
-
         $category = new Category();
         $category->title = 'New cat for my custom model' . rand();
         $category->save();
