@@ -393,7 +393,8 @@ class SpreadsheetHelper
                 // Skip option
                 $posCol += $skip;
             } else {
-                $sheetObj->setCellValueByColumnAndRow($posCol, self::$_offsetRow, $cell);
+              //  $sheetObj->setCellValueByColumnAndRow($posCol, self::$_offsetRow, $cell);
+                $sheetObj->setCellValue([$posCol,self::$_offsetRow], $cell);
 
                 $posCol++;
             }

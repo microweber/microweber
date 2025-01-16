@@ -8,16 +8,11 @@ use MicroweberPackages\User\Models\User;
 
 class LegacyMediaTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-    }
-
     public function testSaveMedia()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+
+        $this->loginAsAdmin();
+
         $picture = array(
             'rel_type' => morph_name(\Modules\Content\Models\Content::class),
             'rel_id' => 3,
@@ -40,8 +35,7 @@ class LegacyMediaTest extends TestCase
 
     public function testDeleteMedia()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
         $picture = array(
             'rel_type' => morph_name(\Modules\Content\Models\Content::class),
             'rel_id' => 3,
@@ -64,8 +58,7 @@ class LegacyMediaTest extends TestCase
 
     public function testSaveMediaArrayInFilename()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
         $picture = array(
             'rel_type' => morph_name(\Modules\Content\Models\Content::class),
             'rel_id' => 3,
@@ -77,19 +70,19 @@ class LegacyMediaTest extends TestCase
 
         $this->assertFalse($saved_pic_id);
     }
+
     public function testSaveMediaXssFilename()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
         $xss = '<style>@keyframes x{}</style><xss style="animation-name:x" onanimationend="alert(document.cookie)"></xss>';
 
         $picture = array(
             'rel_type' => morph_name(\Modules\Content\Models\Content::class),
             'rel_id' => 3,
-            'title' => 'My new pic to xss'.$xss,
-            'description' => 'My new pic description xss'.$xss,
+            'title' => 'My new pic to xss' . $xss,
+            'description' => 'My new pic description xss' . $xss,
             'media_type' => 'picture',
-            'filename' => 'http://lorempixel.com/400/200/'.$xss,
+            'filename' => 'http://lorempixel.com/400/200/' . $xss,
         );
         $saved_pic_id = save_media($picture);
         $picture_data = get_media_by_id($saved_pic_id);
@@ -97,8 +90,6 @@ class LegacyMediaTest extends TestCase
         $this->assertNotEquals($picture_data['title'], $picture['title']);
         $this->assertNotEquals($picture_data['description'], $picture['description']);
         $this->assertNotEquals($picture_data['filename'], $picture['filename']);
-
-
 
 
     }
