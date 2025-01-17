@@ -1,13 +1,11 @@
-<?php
-/*
+{{--
 type: layout
 name: Default
 description: Default
-*/
-?>
+--}}
 
 <style>
-    #<?php echo $params['id']; ?> .mwembed-video {
+    #{{ $params['id'] ?? '' }} .mwembed-video {
         max-width: 100%;
         margin: 0 auto;
         padding: 0;
@@ -15,13 +13,13 @@ description: Default
 
     }
 
-    #<?php echo $params['id']; ?> .mwembed-video video {
+    #{{ $params['id'] ?? '' }} .mwembed-video video {
          aspect-ratio: 16 / 9;
          height: auto!important;
      }
 
 
-    #<?php echo $params['id']; ?> .mwembed-video:after {
+    #{{ $params['id'] ?? '' }} .mwembed-video:after {
          position: absolute;
          top: 50%;
          left: 50%;
@@ -42,7 +40,7 @@ description: Default
 
      }
 
-    #<?php echo $params['id']; ?> .mwembed-video:before {
+    #{{ $params['id'] ?? '' }} .mwembed-video:before {
          position: absolute;
          top: 0;
          left: 0;
@@ -55,18 +53,18 @@ description: Default
      }
 
 
-    #<?php echo $params['id']; ?> .playButton-d-none:before,  #<?php echo $params['id']; ?> .playButton-d-none:after {
-                                                                   display: none;
-                                                               }
+    #{{ $params['id'] ?? '' }} .playButton-d-none:before,  #{{ $params['id'] ?? '' }} .playButton-d-none:after {
+        display: none;
+    }
 </style>
 
-<?php if ($lazyload) { ?>
+@if(isset($lazyload) && $lazyload)
 <script>
     $(document).ready(function () {
-        $('.js-mw-embed-wrapper-<?php echo $params['id']; ?>').click(function () {
+        $('.js-mw-embed-wrapper-{{ $params['id'] ?? '' }}').click(function () {
 
-            var frame = $('.js-mw-embed-iframe-<?php echo $params['id']; ?>');
-            var htmlVideo = $('.js-mw-embed-htmlvideo-<?php echo $params['id']; ?>');
+            var frame = $('.js-mw-embed-iframe-{{ $params['id'] ?? '' }}');
+            var htmlVideo = $('.js-mw-embed-htmlvideo-{{ $params['id'] ?? '' }}');
 
             if (frame.length > 0) {
                 frame.attr('src', frame.attr('data-src'));
@@ -82,19 +80,16 @@ description: Default
         });
     });
 </script>
-<?php } ?>
+@endif
 
-
-<?php echo $code; ?>
+{!! $code ?? '' !!}
 
 <script>
     $(document).ready(function () {
-        $('#<?php echo $params['id']; ?> video').on('pause', function () {
+        $('#{{ $params['id'] ?? '' }} video').on('pause', function () {
             $(this).parent().removeClass('playButton-d-none');
         }).on('play', function () {
             $(this).parent().addClass('playButton-d-none');
         });
     });
-
-
 </script>

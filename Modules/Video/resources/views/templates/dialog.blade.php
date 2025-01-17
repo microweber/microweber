@@ -1,27 +1,23 @@
-<?php
-/*
+{{--
 type: layout
 name: Button dialog
 description: Opens video in a popup
-*/
-?>
+--}}
 
-<?php
-if(!isset($params['width'])) {
-    $params['width'] = 1200;
-}
-
-?>
+@php
+    if(!isset($params['width'])) {
+        $params['width'] = 1200;
+    }
+@endphp
 
 <script>
     $(document).ready(function () {
-
-        $('#video-dialog-button-<?php echo $params['id']; ?>').on('click', function (){
-            $('#video-dialog-template-<?php echo $params['id']; ?>').mwDialog({
+        $('#video-dialog-button-{{ $params['id'] ?? '' }}').on('click', function (){
+            $('#video-dialog-template-{{ $params['id'] ?? '' }}').mwDialog({
                 header: false,
                 skin: 'video',
                 closeButtonAppendTo: '.mw-dialog-holder',
-                width: <?php print $params['width']  ?>,
+                width: {{ $params['width'] ?? 1200 }},
                 height: '100%',
                 top: '50%'
             });
@@ -32,19 +28,14 @@ if(!isset($params['width'])) {
                 mw.spinner(({element: dialog.dialogContainer, size: 30})).remove();
             })
         })
-
     });
 </script>
+
 <style>
-
-
-
-
-    #video-dialog-button-<?php echo $params['id']; ?>{
+    #video-dialog-button-{{ $params['id'] ?? '' }}{
         font-size: 0;
-
     }
-    #video-dialog-button-<?php echo $params['id']; ?>:after{
+    #video-dialog-button-{{ $params['id'] ?? '' }}:after{
         content: "\eb86";
         font-family: 'icomoon-solid';
         speak: none;
@@ -59,8 +50,5 @@ if(!isset($params['width'])) {
     }
 </style>
 
-
-
-<template id="video-dialog-template-<?php echo $params['id']; ?>" style="display: none"><?php echo $code; ?></template>
-<span id="video-dialog-button-<?php echo $params['id']; ?>"></span>
-
+<template id="video-dialog-template-{{ $params['id'] ?? '' }}" style="display: none">{!! $code ?? '' !!}</template>
+<span id="video-dialog-button-{{ $params['id'] ?? '' }}"></span>
