@@ -135,7 +135,7 @@ class ShopManager
     public function get_product_price($content_id = false)
     {
         if (!$content_id) {
-            $content_id = CONTENT_ID;
+            $content_id = content_id();
         }
         $prices = $this->get_product_prices($content_id);
         if ($prices and is_array($prices) and !empty($prices)) {

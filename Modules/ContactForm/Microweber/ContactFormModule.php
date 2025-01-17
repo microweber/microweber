@@ -29,8 +29,15 @@ class ContactFormModule extends BaseModule
             $findForm->name = 'Contact Form (' . $this->params['id'] . ')';
             $findForm->save();
         }
-
+        $default_fields = [
+            'name' => 'Name',
+            'email' => 'Email',
+            'message' => 'Message',
+        ];
         $viewData['form'] = $findForm;
+        $viewData['form_id'] = 'contact_form_di_' . $findForm->id;
+        $viewData['default_fields'] = implode(',', array_keys($default_fields));
+        $viewData['button_text'] = 'Send Message';
 
         $template = $viewData['template'] ?? 'default';
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {

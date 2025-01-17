@@ -4,7 +4,7 @@ namespace Modules\Slider\Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\View;
-use MicroweberPackages\Option\Models\ModuleOption;
+use Modules\Slider\Models\Slider;
 use Modules\Slider\Microweber\SliderModule;
 use Tests\TestCase;
 
@@ -13,36 +13,33 @@ class SliderModuleFrontendTest extends TestCase
 
     public function testDefaultViewRendering()
     {
+        $moduleId = 'test-slider-id-' . uniqid();
+
+        // Create a slider in the database
+        $slider = Slider::create([
+            'name' => 'Test Slide',
+            'description' => 'This is a test slide description.',
+            'media' => 'https://example.com/image.jpg',
+            'button_text' => 'Learn More',
+            'link' => 'https://example.com',
+            'settings' => [
+                'alignItems' => 'center',
+                'showButton' => '1',
+                'titleColor' => '#000000',
+                'descriptionColor' => '#666666',
+                'buttonBackgroundColor' => '#007bff',
+                'buttonTextColor' => '#ffffff'
+            ],
+            'rel_id' => $moduleId,
+            'rel_type' => 'module',
+            'position' => 0
+        ]);
+
         $params = [
-            'id' => 'test-slider-id' . uniqid(),
-            'slides' => json_encode([
-                [
-                    'title' => 'Test Slide',
-                    'description' => 'This is a test slide description.',
-                    'image' => 'https://example.com/image.jpg',
-                    'buttonText' => 'Learn More',
-                    'url' => 'https://example.com',
-                    'alignItems' => 'center',
-                    'showButton' => '1',
-                ],
-            ]),
+            'id' => $moduleId,
+            'rel_id' => $moduleId,
+            'rel_type' => 'module'
         ];
-        $moduleId = $params['id'];
-        $moduleType = 'slider';
-
-        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
-        $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
-
-        // Save options to the database
-        foreach ($params as $key => $value) {
-            ModuleOption::create([
-                'option_group' => $params['id'],
-                'module' => $moduleType,
-                'option_key' => $key,
-                'option_value' => $value,
-            ]);
-        }
-        $this->assertDatabaseHas('options', ['option_group' => $moduleId, 'module' => $moduleType]);
 
         $sliderModule = new SliderModule($params);
         $viewOutput = $sliderModule->render();
@@ -54,7 +51,7 @@ class SliderModuleFrontendTest extends TestCase
         $this->assertStringContainsString('https://example.com', $viewOutput);
 
         // Clean up
-        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
-        $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
+        $slider->delete();
+        $this->assertDatabaseMissing('sliders', ['id' => $slider->id]);
     }
 }
