@@ -8,6 +8,6 @@
         "Modules\\Offer\\Providers\\OfferServiceProvider"
     ],
     "files": [
-        "Support/helpers.php.php"
+        "Support/helpers.php"
     ]
 }

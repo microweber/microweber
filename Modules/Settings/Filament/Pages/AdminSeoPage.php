@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
+use Modules\GoogleAnalytics\Filament\Pages\AdminGoogleAnalyticsSettingsPage;
 
 class AdminSeoPage extends AdminSettingsPage
 {
@@ -26,6 +27,13 @@ class AdminSeoPage extends AdminSettingsPage
 
     public function form(Form $form): Form
     {
+
+        $googleAnalyticsExists = false;
+        if(class_exists(AdminGoogleAnalyticsSettingsPage::class)){
+            $googleAnalyticsExists = true;
+        }
+
+
         return $form
             ->schema([
 
@@ -33,6 +41,8 @@ class AdminSeoPage extends AdminSettingsPage
                     ->view('filament-forms::sections.section')
                     ->description('Make these settings to get the best results when finding your website.')
                     ->schema([
+
+
 
                         TextInput::make('options.website.google-site-verification-code')
                             ->label('Google site verification code')
@@ -104,13 +114,7 @@ class AdminSeoPage extends AdminSettingsPage
                                                 return true;
                                             }),
 
-                                    TextInput::make('options.website.facebook-pixel-id')
-                                        ->label('Facebook pixel ID')
-                                        ->live()
-                                        ->helperText(function () {
-                                            return new HtmlString('<small class="text-muted d-block mb-2">You can find a tutorials in internet where and how to find the code.</small>');
-                                        })
-                                        ->placeholder('Enter your Facebook pixel ID'),
+
 
 
 
@@ -162,6 +166,16 @@ class AdminSeoPage extends AdminSettingsPage
                             }
                             return true;
                         }),
+
+
+
+                        TextInput::make('options.website.facebook-pixel-id')
+                            ->label('Facebook pixel ID')
+                            ->live()
+                            ->helperText(function () {
+                                return new HtmlString('<small class="text-muted d-block mb-2">You can find a tutorials in internet where and how to find the code.</small>');
+                            })
+                            ->placeholder('Enter your Facebook pixel ID'),
 
                     ]),
             ]);

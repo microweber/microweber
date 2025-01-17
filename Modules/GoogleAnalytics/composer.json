@@ -1,0 +1,33 @@
+{
+    "name": "microweber-modules/googleanalytics",
+    "description": "Google Analytics 4 integration for Microweber CMS",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\GoogleAnalytics\\": "",
+            "Modules\\GoogleAnalytics\\Database\\Factories\\": "database/factories/",
+            "Modules\\GoogleAnalytics\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\GoogleAnalytics\\Tests\\": "Tests/"
+        }
+    },
+    "require": {
+        "alexwestergaard/php-ga4": "^1.0"
+    }
+}

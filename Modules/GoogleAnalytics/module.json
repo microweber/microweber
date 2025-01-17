@@ -1,0 +1,11 @@
+{
+    "name": "GoogleAnalytics",
+    "alias": "googleanalytics",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GoogleAnalytics\\Providers\\GoogleAnalyticsServiceProvider"
+    ],
+    "files": []
+}
