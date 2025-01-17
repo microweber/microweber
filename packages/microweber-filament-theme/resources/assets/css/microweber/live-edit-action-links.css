@@ -38,6 +38,7 @@
     transition: .5s;
 }
 
+.modules-list-categories li,
 .mw-admin-action-links:hover,
 .mw-admin-action-links:active,
 .mw-admin-action-links:focus,

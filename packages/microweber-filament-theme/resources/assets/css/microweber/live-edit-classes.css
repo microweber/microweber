@@ -116,7 +116,7 @@ body {
 
 .mw-live-edit-resolutions-wrapper,
 .mw-live-edit-right-sidebar-wrapper {
-    @apply !bg-gray-100 !rounded-[5px] !p-[5px] !max-h-[35px] !flex !items-center !justify-center !gap-[2px];
+    @apply !bg-gray-100 dark:!bg-slate-800 !rounded-[5px] !p-[5px] !max-h-[35px] !flex !items-center !justify-center !gap-[2px];
 }
 
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons,

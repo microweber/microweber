@@ -1,6 +1,6 @@
 <!-- HTML -->
 <template>
-  <div id="container" ref="container" :class="`${containerClasses}`">
+  <div ref="container" :class="`${containerClasses}`">
     <!-- items rendering -->
     <template
       v-for="(item) in itemsToDisplay"
@@ -22,7 +22,7 @@
 
     <!-- list footer -->
     <div v-show="((page !== items.length - 1) || !loading)" id="end-of-list" ref="end-of-list">
-        
+
     </div>
 
   </div>
