@@ -1,0 +1,16 @@
+{
+    "schema": [
+        {
+            "type": "select",
+            "label": "Click on image event",
+            "name": "click_image_event",
+            "placeholder": "Select event",
+            "help": "The event triggered when clicking on the image",
+            "options": {
+                "fullscreen": "Open Image on Fullscreen",
+                "link": "Open Link",
+                "link_target_blank": "Open Link (On target blank)"
+            }
+        }
+    ]
+}
