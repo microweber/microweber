@@ -21,7 +21,7 @@
                 <div v-if=" layoutsList?.categories?.length" class="mw-le-layouts-dialog-col">
 
 
-                    <ul class="modules-list-categories py-5" style="margin-top: 30px;">
+                    <ul class="modules-list-categories py-5">
 
                         <li v-on:click="filterCategorySubmit('')"
                             :class="['' == filterCategory ? 'active animate__animated animate__pulse': '']">

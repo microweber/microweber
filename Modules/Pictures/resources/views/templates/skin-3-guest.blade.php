@@ -4,17 +4,42 @@ name: Skin-3-guest
 description: Skin-3-guest
 --}}
 
-<script>
-    var arrowsSize = function () {
-        var currentSliderWidth = $('.slick-gallery-2-holder .slick-slide.slick-current').outerWidth();
-        if (currentSliderWidth > $(window).width()) {
-            currentSliderWidth = $(window).width();
-        }
-        $('.slick-arrows').css({'width': currentSliderWidth + 'px'})
-    }
+ 
 
-    $(document).ready(function () {
-        if ($('#{{ $params['id'] ?? '' }} .slick-gallery-2').length > 0) {
+<style>
+
+#{{ $params['id'] ?? '' }} {
+    position: relative
+}
+#{{ $params['id'] ?? '' }} .slick-arrow:before{
+    font-size: 30px
+}
+#{{ $params['id'] ?? '' }} .slick-slide {
+
+    margin: 0 30px;
+}
+#{{ $params['id'] ?? '' }} .slick-prev{left: 50px;}
+#{{ $params['id'] ?? '' }} .slick-next{right: 50px;}
+#{{ $params['id'] ?? '' }} .slick-arrow{
+    position: absolute;
+    top:50%;
+    filter: contrast(0.5);
+}
+
+
+</style>
+<script>mw.lib.require('slick')</script>
+    <script>
+        var arrowsSize = function () {
+            var currentSliderWidth = $('.slick-gallery-2-holder .slick-slide.slick-current').outerWidth();
+            if (currentSliderWidth > $(window).width()) {
+                currentSliderWidth = $(window).width();
+            }
+            $('.slick-arrows').css({'width': currentSliderWidth + 'px'})
+        }
+        /* ###################### Slick   ###################### */
+        $(document).ready(function () {
+               if ($('#{{ $params['id'] ?? '' }} .slick-gallery-2').length > 0) {
             $('#{{ $params['id'] ?? '' }} .slick-gallery-2').each(function () {
                 var el = $(this);
 
@@ -25,55 +50,77 @@ description: Skin-3-guest
                     color: (getComputedStyle(document.documentElement).getPropertyValue('--textDark') || '#111111').trim()
                 })
 
-                mw.image.preloadAll(Array.from(this.querySelectorAll('img')).map(function (node){
-                    node.src = node.dataset.src || node.src;
-                    return node.src;
-                }), function (){
-                    setTimeout(function (){
-                        spn.remove()
-                        el.addClass('is-ready')
-                        el.slick({
-                            rtl: document.documentElement.dir === 'rtl',
-                            centerMode: true,
-                            slidesToShow: 1,
-                            variableWidth: true,
-                            dots: true,
-                            arrows: true,
-                            appendArrows: $("#{{ $params['id'] ?? '' }} .slick-arrows"),
-                            responsive: [
-                                {
-                                    breakpoint: 768,
-                                    settings: {
-                                        arrows: true,
-                                        slidesToShow: 1
-                                    }
-                                },
-                                {
-                                    breakpoint: 480,
-                                    settings: {
-                                        arrows: true,
-                                        slidesToShow: 1
-                                    }
-                                }
-                            ]
-                        });
-                        // On before slide change
-                        $('#{{ $params['id'] ?? '' }} .slick-gallery-2').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-                            $('#{{ $params['id'] ?? '' }} .slick-gallery-2-holder .slick-arrow').hide();
-                        });
-                        // On after slide change
-                        $('#{{ $params['id'] ?? '' }} .slick-gallery-2').on('afterChange', function (event, slick, currentSlide, nextSlide) {
-                            $('#{{ $params['id'] ?? '' }} .slick-gallery-2-holder .slick-arrow').show();
-                        });
+                    const images = Array.from(this.querySelectorAll('img'));
+
+                    const ready = () => {
+                        images.forEach(node => {
+                            node.src = node.dataset.src || node.src;
+
+                        })
                         setTimeout(function (){
-                            el.slick('refresh');
-                            arrowsSize()
+                            spn.remove()
+                            el.addClass('is-ready')
+
+                            el.slick({
+                                rtl: document.documentElement.dir === 'rtl',
+                                centerMode: true,
+                                slidesToShow: 1,
+                                variableWidth: true,
+
+                                dots: true,
+                                arrows: true,
+                                appendArrows: $("<?php print '#' . $params['id']; ?> .slick-arrows"),
+                                responsive: [
+                                    {
+                                        breakpoint: 768,
+                                        settings: {
+                                            arrows: true,
+                                            slidesToShow: 1
+                                        }
+                                    },
+                                    {
+                                        breakpoint: 480,
+                                        settings: {
+                                            arrows: true,
+                                            slidesToShow: 1
+                                        }
+                                    }
+                                ]
+                            });
+                            // On before slide change
+                            $('#{{ $params['id'] ?? '' }} .slick-gallery-2').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+                                $('#{{ $params['id'] ?? '' }} .slick-gallery-2-holder .slick-arrow').hide();
+                            });
+                            // On after slide change
+                            $('#{{ $params['id'] ?? '' }} .slick-gallery-2').on('afterChange', function (event, slick, currentSlide, nextSlide) {
+                                $('#{{ $params['id'] ?? '' }} .slick-gallery-2-holder .slick-arrow').show();
+                            });
+                            setTimeout(function (){
+                                el.slick('refresh');
+                                arrowsSize()
+                            },20)
                         },20)
-                    },20)
+                    }
+
+                    let _loaded = 0;
+
+                    images.forEach(node => {
+
+                        const handle = e => {
+                            _loaded++;
+                            if(_loaded === images.length) {
+                                ready()
+                            }
+                        }
+                        node.addEventListener('load', handle)
+                        node.addEventListener('error', handle)
+                        node.src = node.src || node.dataset.src;
+                    })
+
+
                 });
-            });
-        }
-    });
+            }
+        });
 
     $(window).on('resize', function () {
         arrowsSize()
