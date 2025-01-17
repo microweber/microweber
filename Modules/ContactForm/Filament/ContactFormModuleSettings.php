@@ -14,7 +14,10 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
 
     public function form(Form $form): Form
     {
-        dump($this->params);
+
+
+        $relId = $this->params['id'] ?? null;
+
         return $form
 //            ->model()
             ->schema([
@@ -38,12 +41,11 @@ class ContactFormModuleSettings extends LiveEditModuleSettings
                                         \LaraZeus\Accordion\Forms\Accordion::make('from_fields')
                                             ->columns()
                                             ->label('From Fields')
-                                            ->schema(function() {
+                                            ->schema(function () use ($relId) {
 
-                                                $relId = 0;
                                                 $customFieldParams = [
-                                                    'relId'   => $relId,
-                                                    'relType' => 'contact_form'//morph_name(),
+                                                    'relId' => $relId,
+                                                    'relType' => 'module'
                                                 ];
 
                                                 if ($relId == 0) {

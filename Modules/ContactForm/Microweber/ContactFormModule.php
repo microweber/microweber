@@ -35,7 +35,7 @@ class ContactFormModule extends BaseModule
             'message' => 'Message',
         ];
         $viewData['form'] = $findForm;
-        $viewData['form_id'] = 'contact_form_di_' . $findForm->id;
+        $viewData['form_id'] = 'contact_form_id' . $findForm->id;
         $viewData['default_fields'] = implode(',', array_keys($default_fields));
         $viewData['button_text'] = 'Send Message';
 
