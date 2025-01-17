@@ -118,6 +118,19 @@ class CustomField extends Model
         }
     }
 
+    public function getValuesAttribute()
+    {
+        if (isset($this->attributes['values']) and $this->attributes['values'] != '') {
+            return $this->attributes['values'];
+        }
+
+        $getValues = $this->fieldValue()->pluck('value');
+        if ($getValues and $getValues->count() != 0) {
+            return $getValues->toArray();
+        }
+    }
+
+
     public function fieldValuePrice()
     {
         return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')
@@ -129,6 +142,7 @@ class CustomField extends Model
     {
         $customFieldValueToSave = null;
         $setBackValueAttrbuteAfterSave = null;
+        $setBackMultileValuesAttrbuteAfterSave = null;
 
         if (isset($this->value) and !empty($this->value)) {
             $setBackValueAttrbuteAfterSave = $this->value;
@@ -140,6 +154,16 @@ class CustomField extends Model
 
 
             unset($this->value);
+        }
+
+        if (isset($this->values) and !empty($this->values)) {
+            if (is_collection($this->values)) {
+                $customFieldValueToSave = $this->values->toArray();
+            } else {
+                $customFieldValueToSave = $this->values;
+            }
+            $setBackMultileValuesAttrbuteAfterSave = $this->values;
+            unset($this->values);
         }
 
         if (isset($this->options) and is_string($this->options) and $this->options != '') {
@@ -170,8 +194,11 @@ class CustomField extends Model
             }
         }
 
-        if($setBackValueAttrbuteAfterSave){
+        if ($setBackValueAttrbuteAfterSave) {
             $this->value = $setBackValueAttrbuteAfterSave;
+        }
+        if ($setBackMultileValuesAttrbuteAfterSave) {
+            $this->values = $setBackMultileValuesAttrbuteAfterSave;
         }
 
         return $saved;
@@ -180,7 +207,7 @@ class CustomField extends Model
     private function createCustomFieldValue($customFieldId, $val)
     {
 
-        $findValue = CustomFieldValue::where('custom_field_id', $customFieldId)->first();
+        $findValue = CustomFieldValue::where('custom_field_id', $customFieldId)->where('value', $val)->first();
         if (!$findValue) {
             $findValue = new CustomFieldValue();
         }

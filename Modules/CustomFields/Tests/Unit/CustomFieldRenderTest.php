@@ -96,8 +96,7 @@ class CustomFieldRenderTest extends TestCase
         $customField = new CustomField();
         $customField->type = 'checkbox';
         $customField->name = 'Test Checkbox';
-        $customField->value = '1';
-        $customField->options = [
+        $customField->values = [
             'Yes'
         ];
         $customField->save();
@@ -118,8 +117,7 @@ class CustomFieldRenderTest extends TestCase
         $customField = new CustomField();
         $customField->type = 'dropdown';
         $customField->name = 'Test Dropdown';
-        $customField->value = 'option1';
-        $customField->options = [
+        $customField->values = [
 
             'option1' => 'Option 1',
             'option2' => 'Option 2'
@@ -129,7 +127,6 @@ class CustomFieldRenderTest extends TestCase
 
         $field = new \Modules\CustomFields\Fields\Dropdown();
         $field->setData($customField->toArray());
-
 
         ob_start();
         $field->render();

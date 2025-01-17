@@ -59,7 +59,7 @@ class CustomFieldModelTest extends TestCase
         $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
     }
 
-    public function testModelValueAttrbute()
+    public function testCustomFieldModelValueAttribute()
     {
         $customField = new CustomField();
         $customField->type = 'text';
@@ -69,6 +69,25 @@ class CustomFieldModelTest extends TestCase
 
         $customFieldFind = CustomField::find($customField->id);
         $this->assertEquals($customField->value, $customFieldFind->value);
+
+    }
+
+    public function testCustomFieldModelValuesAttribute()
+    {
+        $customField = new CustomField();
+        $customField->type = 'dropdown';
+        $customField->name = 'Test dropdown Field';
+        $customField->values = [
+            'Option 1',
+            'Option 2',
+
+        ];
+        $customField->save();
+
+        $customFieldFind = CustomField::find($customField->id);
+
+
+        $this->assertEquals($customField->values, $customFieldFind->values);
 
     }
 

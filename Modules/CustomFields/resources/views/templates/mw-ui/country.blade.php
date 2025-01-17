@@ -13,7 +13,7 @@
             <div class="form-group">
                 <select class="form-control">
                     <option><?php print ($data['placeholder']) ?></option>
-                    <option><?php foreach ($data['options'] as $country): ?>
+                    <option><?php foreach ($data['values'] as $country): ?>
                     <option value="<?php echo $country ?>"><?php echo $country ?></option>
                     <?php endforeach; ?></option>
                 </select>

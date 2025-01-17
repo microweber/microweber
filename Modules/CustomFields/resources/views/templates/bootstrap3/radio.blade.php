@@ -15,7 +15,7 @@
         <?php endif; ?>
         <?php
         $i = 0;
-        foreach ($data['options'] as $value):
+        foreach ($data['values'] as $value):
             $i++;
             ?>
             <label class="mw-ui-check">

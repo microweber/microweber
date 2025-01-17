@@ -12,7 +12,7 @@
 
         <?php
         $i = 0;
-        foreach ($data['options'] as $key => $value):
+        foreach ($data['values'] as $key => $value):
             $i++;
             ?>
             <div class="custom-control custom-radio my-2">

@@ -27,7 +27,7 @@
             <option disabled selected value><?php echo $data['placeholder']; ?></option>
         <?php endif; ?>
 
-        <?php foreach ($data['options'] as $key => $value): ?>
+        <?php foreach ($data['values'] as $key => $value): ?>
             <option data-custom-field-id="<?php print $data["id"]; ?>" value="<?php echo $value; ?>">
                 <?php echo $value; ?>
 

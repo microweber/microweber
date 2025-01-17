@@ -12,7 +12,7 @@
 
 
 
-        <?php foreach ($data['options'] as $key => $value): ?>
+        <?php foreach ($data['values'] as $key => $value): ?>
             <div class="form-group">
 
                 <?php if($settings['show_label']): ?>
