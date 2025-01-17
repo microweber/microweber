@@ -84,6 +84,9 @@ class DefaultField
 
     public function preparePreview()
     {
+
+
+
         // Render settings
         $renderSettings = [];
         if (!empty($this->settings)) {

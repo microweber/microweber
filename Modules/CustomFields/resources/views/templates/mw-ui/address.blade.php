@@ -18,7 +18,7 @@
     <?php endif; ?>
 	<div class="mw-ui-controls">
 
-			<?php foreach($data['values'] as $key=>$value): ?>
+			<?php foreach($data['options'] as $key=>$value): ?>
 
 			 <div class="mw-ui-field-holder control-group">
 

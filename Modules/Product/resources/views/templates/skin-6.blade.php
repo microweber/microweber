@@ -117,7 +117,7 @@ description: Skin-6
                                 </div>
 
                                 @php
-                                    $itemPrices = $item['prices'];
+                                    $itemPrices = $item['prices'] ?? [0];
                                     $firstPrice = reset($itemPrices);
                                 @endphp
                                 @if ($firstPrice !== false && $firstPrice > 0)

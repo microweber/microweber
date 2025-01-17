@@ -36,7 +36,6 @@ class CustomFieldModelTest extends TestCase
         $newProduct->save();
 
 
-
         $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
         $this->assertEquals($newProduct->customField[1]->name, 'цена 2');
     }
@@ -58,6 +57,19 @@ class CustomFieldModelTest extends TestCase
         $newProduct->save();
 
         $this->assertEquals($newProduct->customField[0]->name, 'цена на едро');
+    }
+
+    public function testModelValueAttrbute()
+    {
+        $customField = new CustomField();
+        $customField->type = 'text';
+        $customField->name = 'Test Text Field';
+        $customField->value = 'Test Value';
+        $customField->save();
+
+        $customFieldFind = CustomField::find($customField->id);
+        $this->assertEquals($customField->value, $customFieldFind->value);
+
     }
 
     public function testGetCustomFieldModel()
@@ -89,11 +101,11 @@ class CustomFieldModelTest extends TestCase
 
         $some_random = 'some-material-' . uniqid();
 
-$name = 'material-' . uniqid();
+        $name = 'material-' . uniqid();
         $newProduct->setCustomField(
             [
                 'type' => 'dropdown',
-                'name' =>$name,
+                'name' => $name,
                 'value' => ['jeans', 'cotton', $some_random],
                 'options' => [],
 

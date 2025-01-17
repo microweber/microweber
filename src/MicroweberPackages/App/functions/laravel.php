@@ -19,8 +19,18 @@ function livewire_component_exists($alias): bool
     return false;
 }
 
-
+if (!function_exists('morph_name')) {
 //from https://laracasts.com/discuss/channels/eloquent/getting-models-morph-class-without-an-instance
-function morph_name($morphableType){
-    return (new $morphableType)->getMorphClass();
+    function morph_name($morphableType)
+    {
+        return (new $morphableType)->getMorphClass();
+    }
+
+}
+if (!function_exists('is_collection')) {
+
+    function is_collection($var)
+    {
+        return is_object($var) && $var instanceof \Illuminate\Support\Collection;
+    }
 }

@@ -7,6 +7,6 @@
     "providers": [
         "Modules\\CustomFields\\Providers\\CustomFieldsServiceProvider"
     ],
-    "files": ["Support/custom_fields_functions.php"]
+    "files": ["Support/helpers.php"]
 
 }

@@ -35,7 +35,7 @@
     <?php endif; ?>
 
     <?php $i = 0;
-    foreach ($data['values'] as $key => $value): ?>
+    foreach ($data['options'] as $key => $value): ?>
         <?php $i++; ?>
         <div class="col-lg-3 col-6 form-selectgroup form-selectgroup-pills my-3">
 

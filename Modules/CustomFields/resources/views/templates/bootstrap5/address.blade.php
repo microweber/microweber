@@ -2,7 +2,7 @@
 // var_dump($data);var_dump($settings);die();
 ?>
 <div class="col-md-<?php echo $settings['field_size']; ?>">
-    <?php foreach($data['values'] as $key=>$value): ?>
+    <?php foreach($data['options'] as $key=>$value): ?>
         <?php if($settings['show_label']): ?>
             <label class="col-form-label" for="inputDefault"><?php _e($value); ?></label>
         <?php endif; ?>

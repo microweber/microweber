@@ -128,7 +128,7 @@ description: Skin-5
                         <?php endif; ?>
 
                             <?php
-                            $itemPrices = $item['prices'];
+                            $itemPrices = $item['prices'] ?? [0];
                             $firstPrice = reset($itemPrices);
                         if ($firstPrice !== false && $firstPrice > 0): ?>
                         <div class="row">

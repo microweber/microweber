@@ -21,7 +21,7 @@
             "Modules\\CustomFields\\Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "Support/custom_fields_functions.php"
+            "Support/helpers.php"
         ]
     },
     "autoload-dev": {

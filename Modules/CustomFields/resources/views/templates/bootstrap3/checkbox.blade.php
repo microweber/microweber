@@ -7,7 +7,7 @@
 
         <div class="mw-customfields-checkboxes">
             <?php $i = 0;
-            foreach ($data['values'] as $value): ?>
+            foreach ($data['options'] as $value): ?>
                 <?php $i++; ?>
                 <div class="checkbox">
                     <label>

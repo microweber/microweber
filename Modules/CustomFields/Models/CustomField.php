@@ -1,7 +1,9 @@
 <?php
+
 namespace Modules\CustomFields\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use MicroweberPackages\Database\Traits\HasCreatedByFieldsTrait;
 
@@ -10,7 +12,8 @@ class CustomField extends Model
     //use MaxPositionTrait;
     use CacheableQueryBuilderTrait;
     use HasCreatedByFieldsTrait;
-   /// use HasMultilanguageTrait;
+
+    /// use HasMultilanguageTrait;
 
     protected $fillable = [
         'rel_id',
@@ -22,15 +25,15 @@ class CustomField extends Model
         'value',
         'session_id',
         'position',
-        // 'created_by'
+        'created_by'
     ];
 
     protected $table = 'custom_fields';
     public $timestamps = true;
 
-    public $translatable = ['name', 'placeholder','error_text'];
+    public $translatable = ['name', 'placeholder', 'error_text'];
 
-    public $cacheTagsToClear = ['repositories','content'];
+    public $cacheTagsToClear = ['repositories', 'content'];
 
     /**
      * The attributes that should be cast.
@@ -104,20 +107,38 @@ class CustomField extends Model
         return implode(', ', $fieldValues->toArray());
     }
 
+    public function getValueAttribute()
+    {
+        if (isset($this->attributes['value']) and $this->attributes['value'] != '') {
+            return $this->attributes['value'];
+        }
+        $getValue = $this->fieldValue()->pluck('value');
+        if ($getValue and $getValue->count() != 0) {
+            return $getValue->first();
+        }
+    }
+
     public function fieldValuePrice()
     {
         return $this->hasMany(CustomFieldValue::class, 'custom_field_id', 'id')
-
-            ->where('type','price')
+            ->where('type', 'price')
             ->orderBy('position');
     }
 
     public function save(array $options = [])
     {
         $customFieldValueToSave = null;
+        $setBackValueAttrbuteAfterSave = null;
 
-        if (isset($this->value)) {
-            $customFieldValueToSave = $this->value;
+        if (isset($this->value) and !empty($this->value)) {
+            $setBackValueAttrbuteAfterSave = $this->value;
+            if (is_collection($this->value)) {
+                $customFieldValueToSave = $this->value->toArray();
+            } else {
+                $customFieldValueToSave = $this->value;
+            }
+
+
             unset($this->value);
         }
 
@@ -126,8 +147,8 @@ class CustomField extends Model
         }
 
 
-        if(isset($this->name)) {
-            $this->name_key = \Str::slug($this->name, '-');
+        if (isset($this->name)) {
+            $this->name_key = Str::slug($this->name, '-');
         }
 
         if ($this->rel_id == 0 and !isset($this->session_id)) {
@@ -136,9 +157,12 @@ class CustomField extends Model
 
         $saved = parent::save($options);
 
-        if (isset($customFieldValueToSave)) {
+        if (isset($customFieldValueToSave) and !empty($customFieldValueToSave)) {
+
+
             if (is_array($customFieldValueToSave)) {
                 foreach ($customFieldValueToSave as $val) {
+
                     $this->createCustomFieldValue($this->id, $val);
                 }
             } else {
@@ -146,10 +170,15 @@ class CustomField extends Model
             }
         }
 
-        return $saved;
-     }
+        if($setBackValueAttrbuteAfterSave){
+            $this->value = $setBackValueAttrbuteAfterSave;
+        }
 
-     private function createCustomFieldValue($customFieldId, $val){
+        return $saved;
+    }
+
+    private function createCustomFieldValue($customFieldId, $val)
+    {
 
         $findValue = CustomFieldValue::where('custom_field_id', $customFieldId)->first();
         if (!$findValue) {
@@ -159,5 +188,5 @@ class CustomField extends Model
         $findValue->custom_field_id = $customFieldId;
         $findValue->value = $val;
         $findValue->save();
-     }
+    }
 }

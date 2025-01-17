@@ -13,7 +13,7 @@ $rand = uniqid();
         </label>
         <?php endif; ?>
 
-        <input type="text" <?php if ($settings['required']): ?> required  <?php endif; ?>  data-date-format="<?php echo $settings['date_format'];?>"   data-custom-field-id="<?php echo $data["id"]; ?>" name="<?php print $data["name_key"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>"
+        <input type="date" <?php if ($settings['required']): ?> required  <?php endif; ?>  data-date-format="<?php echo $settings['date_format'];?>"   data-custom-field-id="<?php echo $data["id"]; ?>" name="<?php print $data["name_key"]; ?>" value="<?php echo $data['value']; ?>" id="date_<?php echo $rand; ?>" placeholder="<?php echo $data["placeholder"]; ?>"
                class="form-control js-bootstrap5-datepicker" autocomplete="off"/>
         <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
         <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>

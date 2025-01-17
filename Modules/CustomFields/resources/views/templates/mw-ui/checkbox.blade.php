@@ -6,7 +6,7 @@
     <?php endif; ?>
 
 	<div class="mw-customfields-checkboxes">
-		<?php $i = 0; foreach($data['values'] as $value):  ?>
+		<?php $i = 0; foreach($data['options'] as $value):  ?>
 		<?php $i++; ?>
 			<label class="mw-ui-check">
 				<input type="checkbox" name="<?php echo $data["name_key"]; ?>[]" id="field-<?php echo $data["id"]; ?>"  data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>" />

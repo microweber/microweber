@@ -26,8 +26,6 @@
         "psr-4": {
             "Modules\\GoogleAnalytics\\Tests\\": "Tests/"
         }
-    },
-    "require": {
-        "alexwestergaard/php-ga4": "^1.0"
     }
+  
 }
