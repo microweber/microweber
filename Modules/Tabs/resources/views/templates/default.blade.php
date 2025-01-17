@@ -4,7 +4,7 @@
 
 type: layout
 
-name: Default tabs
+name: Default
 
 description: Default
 
