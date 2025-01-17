@@ -1,16 +1,19 @@
 {
-    "private": true,
+    "name": "microweber-modules-contact-form",
+    "version": "1.0.0",
+    "description": "",
     "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microweber-modules/contact-form.git"
+    },
+    "private": true,
     "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+        "build": "cpy resources/assets/js ../../public/modules/contact_form/js --flat",
+        "dev": "chokidar resources/assets/js/contact-form-alpine.js -c \"npm run build\""
     },
     "devDependencies": {
-        "axios": "*",
-        "laravel-vite-plugin": "^1.0.5",
-        "postcss": "^8.3.7",
-        "sass": "^1.69.5",
-        "vite-plugin-copy-folder": "^1.0.0",
-        "vite": "^5.4.2"
+        "chokidar-cli": "^3.0.0",
+        "cpy-cli": "^5.0.0"
     }
 }
