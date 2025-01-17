@@ -1,10 +1,11 @@
 const localScripts = [
 
-    {target: `jseldom`, path: `./resources/local-libs/jseldom-jquery.js`, output: `../frontend-assets/resources/assets/libs`},
-    {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.js`},
-    {target: `highlight-js`, path: `./resources/local-libs/highlight/highlight.min.js`},
-    {target: `jquery-nested-sortable`, path: `./resources/local-libs/nested-sortable/jquery.mjs.nestedSortable.js`},
-    {target: `slick`, path: `./resources/local-libs/mw-slick.js`},
+    //x: {target: `jseldom`, path: `./resources/local-libs/jseldom-jquery.js`, output: `../frontend-assets/resources/assets/libs`},
+    //x: {target: `collapse-nav`, path: `./resources/local-libs/collapse-nav/collapse-nav.js`},
+     //x:{target: `highlight-js`, path: `./resources/local-libs/highlight/highlight.min.js`},
+
+     {target: `jquery-nested-sortable`, path: `./resources/local-libs/nested-sortable/jquery.mjs.nestedSortable.js`},
+     {target: `slick`, path: `./resources/local-libs/mw-slick.js`},
 
 ];
 
@@ -24,7 +25,6 @@ const nodeModulesScripts = [
     {target: `masonry`, path: `node_modules/masonry-layout/dist/masonry.pkgd.js`},
     {target: `codemirror`, path: `node_modules/codemirror/lib/codemirror.js`, process: false},
     {target: `easymde`, path: `node_modules/easymde/dist/easymde.min.js`, process: false},
-    {target: `async-alpine`, path: `node_modules/async-alpine/dist/async-alpine.script.js` },
 
     {
         target: `rangy`,
@@ -62,10 +62,10 @@ const css = [
 
     {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.css`},
     {target: `easymde`, path: `node_modules/easymde/dist/easymde.min.css` },
+    {target: `async-alpine`, path: `node_modules/async-alpine/dist/async-alpine.script.js` },
 
 
 ];
-
 
 const assets = [
     {target: `jquery-ui`, path: `node_modules/jquery-ui/dist/themes/base/images`},
@@ -73,7 +73,7 @@ const assets = [
     {target: `font-awesome`, path: `./resources/local-libs/font-awesome-4.7/fonts`},
     {target: `mw-icons-mind`, path: `./resources/local-libs/mw-icons-mind`},
     {target: `slick`, path: `node_modules/slick-carousel/slick/ajax-loader.gif`},
-
+    {target: `bxslider`, path: `node_modules/bxslider/dist/images`},
 
     {
         target: `tinymce`,
@@ -100,13 +100,14 @@ const copy = [
     {target: `flag-icons/flags`, path: `node_modules/flag-icons/flags`},
     {target: `flag-icons/country.json`, path: `node_modules/flag-icons/country.json`},
     {target: `api/`, path: `resources/local-libs/api`},
-    {target: `css/`, path: `resources/local-libs/css`}
+    {target: `css/`, path: `resources/local-libs/css`},
+    {target: `slick/fonts`, path: `node_modules/slick-carousel/slick/fonts`},
 ];
 
 
 const output = `./resources/dist`;
 
 
-export const config = {
+module.exports = {
     scripts, css, output, assets, copy
 }
