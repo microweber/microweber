@@ -6,14 +6,19 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use Modules\Comments\Models\Comment;
+use Modules\Comments\Services\CommentsManager;
 
 class UserCommentListComponent extends Component
 {
-
     use AuthorizesRequests;
     use WithPagination;
 
     public $relId;
+    public $relType;
+    public $showUserAvatar = true;
+    public $allowReplies = true;
+    public $commentsPerPage = 10;
+    public $sortOrder = 'newest';
     public $state = [];
 
     protected $listeners = [
@@ -29,42 +34,49 @@ class UserCommentListComponent extends Component
         'commentsPage'
     ];
 
-    public function mount($relId = null)
+    protected CommentsManager $commentsManager;
+
+    public function boot()
+    {
+        $this->commentsManager = app(CommentsManager::class);
+    }
+
+    public function mount($relId = null, $relType = null, $showUserAvatar = true, $allowReplies = true, $commentsPerPage = 10, $sortOrder = 'newest')
     {
         $this->relId = $relId;
+        $this->relType = $relType;
+        $this->showUserAvatar = $showUserAvatar;
+        $this->allowReplies = $allowReplies;
+        $this->commentsPerPage = $commentsPerPage;
+        $this->sortOrder = $sortOrder;
     }
 
     public function delete($commentId = false)
     {
         $getComment = Comment::where('id', $commentId)->first();
-        if ($getComment) {
-
-            if ($this->authorize('delete', $getComment)) {
-
-                $getComment->deleteWithReplies();
-
-                $this->dispatch('commentDeleted', $commentId);
-                $this->dispatch('$refresh')->self();
-            }
+        if ($getComment && $this->authorize('delete', $getComment)) {
+            $this->commentsManager->delete($commentId);
+            $this->dispatch('commentDeleted', $commentId);
+            $this->dispatch('$refresh')->self();
         }
     }
 
     public function render()
     {
-        $getComments = Comment::where(function ($query) {
-            $query->where('reply_to_comment_id', 0);
-            $query->orWhereNull('reply_to_comment_id');
-        })
-            ->where('rel_id', $this->relId)
-            ->where('rel_type', morph_name(\Modules\Content\Models\Content::class))
-            ->published()
-            ->orderBy('created_at', 'desc')
-            ->paginate(3, ['*'], 'commentsPage');
-
+         $comments = $this->commentsManager->get([
+            'rel_id' => $this->relId,
+            'rel_type' => $this->relType,
+            'comments_per_page' => $this->commentsPerPage,
+            'sort_order' => $this->sortOrder,
+            'page_name' => 'commentsPage',
+            'page' => $this->commentsPage,
+            'root_comments_only' => true
+        ]);
 
         return view('modules.comments::livewire.user-comment-list-component', [
-            'comments' => $getComments,
+            'comments' => $comments,
+            'showUserAvatar' => $this->showUserAvatar,
+            'allowReplies' => $this->allowReplies
         ]);
     }
-
 }

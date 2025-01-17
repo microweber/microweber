@@ -9,7 +9,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use Modules\Comments\Models\Comment;
-use Modules\Content\Models\Content;
+use Modules\Comments\Services\CommentsManager;
 
 class UserCommentReplyComponent extends Component
 {
@@ -17,6 +17,8 @@ class UserCommentReplyComponent extends Component
 
     public $view = 'modules.comments::livewire.user-comment-reply-component';
     public $successMessage = false;
+    public $allowReplies = true;
+    public $relType;
 
     public $state = [
         'comment_name' => '',
@@ -25,6 +27,12 @@ class UserCommentReplyComponent extends Component
     ];
 
     public $captcha = '';
+    protected CommentsManager $commentsManager;
+
+    public function boot()
+    {
+        $this->commentsManager = app(CommentsManager::class);
+    }
 
     public function getListeners()
     {
@@ -33,10 +41,12 @@ class UserCommentReplyComponent extends Component
         ];
     }
 
-    public function mount($relId = null, $replyToCommentId = null)
+    public function mount($relId = null, $relType = null, $replyToCommentId = null, $allowReplies = true)
     {
         $this->state['rel_id'] = $relId;
+        $this->state['rel_type'] = $relType;
         $this->state['reply_to_comment_id'] = $replyToCommentId;
+        $this->allowReplies = $allowReplies;
     }
 
     public function clearSuccessMessage()
@@ -46,34 +56,27 @@ class UserCommentReplyComponent extends Component
 
     public function isEnabledCaptcha()
     {
-        $enableCaptcha = true;
-        $enableCaptchaOption = get_option('enable_captcha', 'comments');
-        if ($enableCaptchaOption == 'n') {
-            $enableCaptcha = false;
-        }
-
-        return $enableCaptcha;
+        return module_option('comments', 'enable_captcha', true);
     }
 
     public function getViewData()
     {
-
-        $allowAnonymousComments = true;
-        $allowAnonymousCommentsOption = get_option('allow_anonymous_comments', 'comments');
-        if ($allowAnonymousCommentsOption == 'n') {
-            $allowAnonymousComments = false;
+        if (!$this->allowReplies && $this->state['reply_to_comment_id']) {
+            return ['allowToComment' => false];
         }
 
         $allowToComment = false;
-        if (user_id() || $allowAnonymousComments) {
+        if (!module_option('comments', 'require_login', false) || auth()->check()) {
             $allowToComment = true;
         }
 
-        $comment = Comment::where('id', $this->state['reply_to_comment_id'])->first();
+        $comment = null;
+        if ($this->state['reply_to_comment_id']) {
+            $comment = Comment::where('id', $this->state['reply_to_comment_id'])->first();
+        }
 
         return [
             'enableCaptcha' => $this->isEnabledCaptcha(),
-            'allowAnonymousComments' => $allowAnonymousComments,
             'allowToComment' => $allowToComment,
             'comment' => $comment,
         ];
@@ -82,7 +85,6 @@ class UserCommentReplyComponent extends Component
     public function render()
     {
         $data = $this->getViewData();
-
         return view($this->view, $data);
     }
 
@@ -90,11 +92,7 @@ class UserCommentReplyComponent extends Component
     public function validateCaptchaValueAndSave($value)
     {
         $this->captcha = $value;
-
-
         $this->save();
-
-
     }
 
     public function validateCaptcha()
@@ -105,19 +103,22 @@ class UserCommentReplyComponent extends Component
 
         if ($validateCaptcha->fails()) {
             $this->dispatch('openModal', 'captcha-confirm-modal', [
-                //   'action' => 'setCaptcha' . md5($this->getId())
                 'action' => 'validateCaptchaValueAndSave'
             ]);
             return false;
         }
 
         $this->dispatch('closeCaptchaConfirmModal');
-
         return true;
     }
 
     public function save()
     {
+        if (!$this->allowReplies && $this->state['reply_to_comment_id']) {
+            $this->addError('state.comment_body', 'Replies are not allowed.');
+            return;
+        }
+
         $hasRateLimiterId = $this->state['rel_id'] . $this->state['reply_to_comment_id'] . user_ip();
 
         if (RateLimiter::tooManyAttempts('save-comment:' . $hasRateLimiterId, $perMinute = 1)) {
@@ -132,82 +133,31 @@ class UserCommentReplyComponent extends Component
             }
         }
 
-        $validate = [
-            'state.rel_id' => 'required|min:1',
-            'state.comment_body' => 'required|min:3|max:1000',
-        ];
 
-        if (!user_id()) {
-            $validate['state.comment_name'] = 'required|min:3|max:300';
-            $validate['state.comment_email'] = 'required|email|min:3|max:300';
-        }
+            $comment = $this->commentsManager->create([
+                'rel_id' => $this->state['rel_id'],
+                'rel_type' => $this->state['rel_type'],
+                'reply_to' => $this->state['reply_to_comment_id'],
+                'body' => $this->state['comment_body'],
+                'name' => $this->state['comment_name'],
+                'email' => $this->state['comment_email'],
+            ]);
 
-        $this->validate($validate, array(
-            'required' => _e('The field is required.', true),
-        ));
+            RateLimiter::hit('save-comment:' . $hasRateLimiterId);
 
-        $countContent = Content::where('id', $this->state['rel_id'])->active()->count();
-        if ($countContent == 0) {
-            $this->addError('state.rel_id', 'Content not found');
-            return;
-        }
+            if (module_option('comments', 'enable_moderation', true) && !is_admin()) {
+                $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);
+            } else {
+                $this->successMessage = _e('Your comment has been added', true);
+            }
 
-        $comment = new Comment();
-        $comment->rel_id = $this->state['rel_id'];
-        $comment->rel_type = 'content';
+            $this->state['comment_body'] = '';
+            $this->state['comment_name'] = '';
+            $this->state['comment_email'] = '';
+            $this->captcha = '';
 
-        if (isset($this->state['reply_to_comment_id'])) {
-            $comment->reply_to_comment_id = $this->state['reply_to_comment_id'];
-        }
+            $this->dispatch('commentAdded', $comment->id);
 
-        $comment->user_ip = user_ip();
-        $comment->session_id = Session::getId();
-
-        if (user_id()) {
-            $comment->created_by = user_id();
-        } else {
-            $comment->comment_name = $this->state['comment_name'];
-            $comment->comment_email = $this->state['comment_email'];
-        }
-
-        $needsApproval = true;
-        $requiresApproval = get_option('requires_approval', 'comments');
-        if ($requiresApproval == 'n') {
-            $needsApproval = false;
-        }
-        if (is_admin()) {
-            $needsApproval = false;
-        }
-
-        if ($needsApproval) {
-            $comment->is_new = 1;
-            $comment->is_moderated = 0;
-        } else {
-            $comment->is_new = 0;
-            $comment->is_moderated = 1;
-        }
-
-        $comment->comment_body = $this->state['comment_body'];
-        $comment->save();
-
-        RateLimiter::hit('save-comment:' . $hasRateLimiterId);
-
-        // event(new NewComment($comment));
-        //  Notification::sendNow(User::whereIsAdmin(1)->get(), new NewCommentNotification($comment));
-
-        if ($needsApproval) {
-            $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);
-        } else {
-            $this->successMessage = _e('Your comment has been added', true);
-        }
-
-        $this->state['comment_body'] = '';
-        $this->state['comment_name'] = '';
-        $this->state['comment_email'] = '';
-        $this->captcha = '';
-
-        $this->dispatch('commentAdded', $comment->id);
 
     }
 }
-

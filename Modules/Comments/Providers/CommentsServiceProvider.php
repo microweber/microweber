@@ -53,7 +53,7 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         Livewire::component('comments::user-comment-reply', UserCommentReplyComponent::class);
         Livewire::component('comments::user-comment-list', UserCommentListComponent::class);
         Livewire::component('comments::user-comment-preview', UserCommentPreviewComponent::class);
-        
+
         // Register editor components
         Livewire::component('comments::editors.textarea', TextareaComponent::class);
         Livewire::component('comments::editors.easy-mde', EasyMdeComponent::class);
