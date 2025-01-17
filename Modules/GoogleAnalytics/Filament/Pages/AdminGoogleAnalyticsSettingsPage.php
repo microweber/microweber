@@ -14,7 +14,6 @@ class AdminGoogleAnalyticsSettingsPage extends AdminSettingsPage
 {
 
     protected static ?string $navigationGroup = 'Settings';
-    protected static bool $shouldRegisterNavigation = true;
 
     protected static string $view = 'modules.settings::filament.admin.pages.settings-form';
 
@@ -23,6 +22,9 @@ class AdminGoogleAnalyticsSettingsPage extends AdminSettingsPage
     protected static string $description = 'Configure google analytics settings';
 
     protected static ?string $slug = 'settings/google-analytics';
+
+    protected static ?int $navigationSort = 999;
+
 
     public function form(Form $form): Form
     {

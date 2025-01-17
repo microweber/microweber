@@ -10,8 +10,7 @@ use Modules\GoogleAnalytics\Filament\Pages\AdminGoogleAnalyticsSettingsPage;
 class GoogleAnalyticsServiceProvider extends BaseModuleServiceProvider
 {
     protected string $moduleName = 'GoogleAnalytics';
-    protected string $moduleNameLower = 'googleanalytics';
-
+    protected string $moduleNameLower = 'google_analytics';
 
 
     public function register(): void
@@ -25,12 +24,12 @@ class GoogleAnalyticsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AdminGoogleAnalyticsSettingsPage::class);
 
 
-
         $isGoogleMeasurementEnabled = get_option('google-measurement-enabled', 'website') == "y";
         if ($isGoogleMeasurementEnabled) {
-            event_bind('mw.pingstats.response', function() {
-                $dispatchGoogleEventsJs = new \Modules\GoogleAnalytics\Support\DispatchGoogleEventsJs();
-                return $dispatchGoogleEventsJs->convertEvents();
+            event_bind('mw.pingstats.response', function () {
+                //    @todo
+                //    $dispatchGoogleEventsJs = new \Modules\GoogleAnalytics\Support\DispatchGoogleEventsJs();
+                //   return $dispatchGoogleEventsJs->convertEvents();
             });
         }
     }

@@ -1,6 +1,6 @@
 {
     "name": "GoogleAnalytics",
-    "alias": "googleanalytics",
+    "alias": "google_analytics",
     "description": "",
     "keywords": [],
     "priority": 0,

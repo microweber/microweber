@@ -2,11 +2,14 @@
 
 namespace Modules\Settings\Filament\Pages;
 
+use Filament\Actions\Action;
+use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
+use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 use Modules\GoogleAnalytics\Filament\Pages\AdminGoogleAnalyticsSettingsPage;
@@ -29,7 +32,7 @@ class AdminSeoPage extends AdminSettingsPage
     {
 
         $googleAnalyticsExists = false;
-        if(class_exists(AdminGoogleAnalyticsSettingsPage::class)){
+        if (route_exists('filament.admin.pages.settings.google-analytics')) {
             $googleAnalyticsExists = true;
         }
 
@@ -41,7 +44,6 @@ class AdminSeoPage extends AdminSettingsPage
                     ->view('filament-forms::sections.section')
                     ->description('Make these settings to get the best results when finding your website.')
                     ->schema([
-
 
 
                         TextInput::make('options.website.google-site-verification-code')
@@ -60,71 +62,18 @@ class AdminSeoPage extends AdminSettingsPage
                             })
                             ->placeholder('UA- 12345678-9'),
 
+                        Actions::make([
 
-                        Toggle::make('options.website.google-measurement-enabled')
-                            ->label('Google Analytics Server Side Tracking')
-                            ->live()
-                            ->helperText(function () {
-                                return new HtmlString('<small class="mb-2 text-muted">Enable Google Analytics Server Side Tracking</small>');
-                                }),
-
-                                Section::make([
-                                    TextInput::make('options.website.google-measurement-api-secret')
-                                        ->label('Google Measurement Api Secret')
-                                        ->live()
-                                        ->helperText(function () {
-                                            return new HtmlString('<small class="text-muted d-block mb-2">Google measurement api secret.<a class="text-blue-500" href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">How to find it read here.</a>
-                                                            <a class="text-blue-500" href="https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/" target="_blank">Protocol reference</a>
-                                                            To create a new secret, navigate in the Google Analytics UI to:                <i>Admin &gt; Data Streams &gt; choose your stream &gt; Measurement Protocol &gt; Create</i>
-                                                       </small>');
-                                        })
-                                        ->placeholder('Enter your Google Measurement Api Secret'),
-
-                                    TextInput::make('options.website.google-measurement-id')
-                                        ->label('Google Measurement ID')
-                                        ->live()
-                                        ->helperText(function () {
-                                            return new HtmlString('<small class="text-muted d-block mb-2">Google measurement property ID is the identifier associated with your account and used by Google Analytics to collect the data. <a class="text-blue-500" href="https://support.google.com/analytics/answer/9539598?hl=en" target="_blank">How to find it read here.</a></small>');
-                                        })
-                                        ->placeholder('G-12345678'),
-
-                                    Toggle::make('options.website.google-enhanced-conversions-enabled')
-                                        ->label('Google Measurement Enhanced Conversion')
-                                        ->live()
-                                        ->helperText(function () {
-                                            return new HtmlString('<small class="mb-2 text-muted">Enable Google Measurement Enhanced Conversion</small>');
-                                        }),
-                                            Section::make([
-                                                TextInput::make('options.website.google-enhanced-conversion-id')
-                                                    ->label('Conversion ID')
-                                                    ->live()
-                                                    ->placeholder('Enter your Google Measurement Enhanced Conversion ID'),
-
-                                                TextInput::make('options.website.google-enhanced-conversion-label')
-                                                    ->label('Conversion Label')
-                                                    ->live()
-                                                    ->placeholder('Enter your Google Measurement Enhanced Conversion Label'),
+                            Actions\Action::make('Google Analytics')
+                                ->label('Google Analytics')
+                                ->icon('heroicon-m-cog')
+                                ->color('gray')
+                                ->tooltip('Google Analytics server side settings')
+                                ->url(route('filament.admin.pages.settings.google-analytics'))
 
 
-                                            ]) ->hidden(function (Get $get) {
+                        ])->visible($googleAnalyticsExists),
 
-                                                if ($get('options.website.google-enhanced-conversions-enabled')) {
-                                                    return false;
-                                                }
-                                                return true;
-                                            }),
-
-
-
-
-
-                                ]) ->hidden(function (Get $get) {
-
-                                    if ($get('options.website.google-measurement-enabled')) {
-                                        return false;
-                                    }
-                                    return true;
-                                }),
                         Toggle::make('options.website.other-search-engines-enabled')
                             ->label('Other search engines')
                             ->live(),
@@ -159,14 +108,13 @@ class AdminSeoPage extends AdminSettingsPage
                                     return new HtmlString('<small class="text-muted d-block mb-2">You can find a tutorials in internet where and how to find the code.</small>');
                                 }),
 
-                        ]) ->hidden(function (Get $get) {
+                        ])->hidden(function (Get $get) {
 
                             if ($get('options.website.other-search-engines-enabled')) {
                                 return false;
                             }
                             return true;
                         }),
-
 
 
                         TextInput::make('options.website.facebook-pixel-id')
