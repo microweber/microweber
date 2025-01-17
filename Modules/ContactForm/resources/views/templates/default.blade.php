@@ -17,7 +17,7 @@
             <h3 class="element contact-form-title">@lang('Leave a Message')</h3>
         </div>
         <form class="mw_form" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
-              @submit.prevent="submitForm">
+              x-on:submit="submitForm">
 
             <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module"
                     default-fields="{{ $default_fields }}"/>
@@ -57,7 +57,7 @@
                     <div class="control-group form-group">
                         <button type="submit" class="btn btn-primary" :disabled="$data.loading">
                             <span x-show="!$data.loading">{{ $button_text }}</span>
-                            <span x-show="$data.loading">@lang('Sending...')</span>
+                            <span x-cloak x-show="$data.loading">@lang('Sending...')</span>
                         </button>
                     </div>
                 </div>

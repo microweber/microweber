@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware;
 use Modules\ContactForm\Http\Controllers\ContactFormController;
 
 /*
@@ -14,6 +15,9 @@ use Modules\ContactForm\Http\Controllers\ContactFormController;
 |
 */
 
-//Route::group([], function () {
-//    Route::resource('ContactForm', ContactFormController::class)->names('ContactForm');
-//});
+Route::post('api/contact_form_submit', [ContactFormController::class, 'submit'])
+    ->middleware([
+        'web',
+        SameSiteRefererMiddleware::class,
+    ])
+    ->name('api.contact_form_submit');
