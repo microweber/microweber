@@ -1,25 +1,15 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Skin-9
-
 description: Skin-9
+--}}
 
-*/
-
-?>
-
-<?php $rand = uniqid(); ?>
-
+@php
+    $rand = uniqid();
+@endphp
 
 <script>
-
-
-
-    var gallery<?php $rand ?> = function (id) {
+    var gallery{{ $rand }} = function (id) {
         var el = mwd.getElementById(id);
         if(el && !el.__gallery) {
             el.__gallery = [];
@@ -36,30 +26,29 @@ description: Skin-9
     }
 
     $(window).on('load', function () {
-        gallery<?php $rand ?>('gallery-<?php print $rand; ?>');
+        gallery{{ $rand }}('gallery-{{ $rand }}');
     });
     $(document).ready(function () {
-        gallery<?php $rand ?>('gallery-<?php print $rand; ?>');
+        gallery{{ $rand }}('gallery-{{ $rand }}');
     });
 </script>
-<?php if (is_array($data)): ?>
 
-
-
-    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center" id="gallery-<?php print $rand; ?>">
-        <?php if (sizeof($data) > 1) { ?>
-            <?php $count = -1; foreach ($data as $item): $count++; ?>
+@if(isset($data) && is_array($data))
+    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center" 
+         id="gallery-{{ $rand }}">
+        @if(sizeof($data) > 1)
+            @php $count = -1; @endphp
+            @foreach($data as $item)
+                @php $count++; @endphp
                 <div class="col-sm-6 col-md-4 mb-4">
-                    <a
-                        data-index="<?php print $count; ?>"
-                        href="<?php print thumbnail($item['filename'], 1080, 1080); ?>">
-                        <img   class="w-100 h-100" src="<?php print thumbnail($item['filename'], 600, 600); ?>" alt=""/>
+                    <a data-index="{{ $count }}"
+                       href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
+                        <img class="w-100 h-100" 
+                             src="{{ thumbnail($item['filename'] ?? '', 600, 600) }}" 
+                             alt=""/>
                     </a>
                 </div>
-            <?php endforeach; ?>
-        <?php } ?>
+            @endforeach
+        @endif
     </div>
-
-
-<?php endif; ?>
-
+@endif

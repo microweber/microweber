@@ -1,38 +1,25 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Slick
-
 description: Slick Pictures List Template
+--}}
 
-*/
-
-?>
-<?php if (is_array($data) and $data): ?>
-
-
+@if(isset($data) && is_array($data) && $data)
     <script>
         mw.lib.require('slick');
     </script>
 
-    <script>mw.moduleCSS("<?php print asset('modules/pictures/css/slick.css'); ?>");</script>
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/slick.css') }}");</script>
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function () {
-
-            if ($('.slickSlider', '#<?php print $params['id'] ?>').hasClass('slick-initialized')) {
+            if ($('.slickSlider', '#{{ $params['id'] ?? '' }}').hasClass('slick-initialized')) {
                 console.log('initialized');
             } else {
                 console.log('not initialized');
             }
 
-//d($('.slickSlider', '#<?php print $params['id'] ?>').slick('unslick'))
-            //  d($('.slickSlider', '#<?php print $params['id'] ?>').slick('getSlick').slick('getSlick'));
-
-            $('.slickSlider', '#<?php print $params['id'] ?>').slick({
+            $('.slickSlider', '#{{ $params['id'] ?? '' }}').slick({
                 rtl: document.documentElement.dir === 'rtl',
                 dots: false,
                 arrows: false,
@@ -69,41 +56,28 @@ description: Slick Pictures List Template
                             slidesToScroll: 1
                         }
                     }
-                    // You can unslick at a given breakpoint now by adding:
-                    // settings: "unslick"
-                    // instead of a settings object
                 ]
             });
-
-
-//            $('.slickNext', '#<?php //print $params['id'] ?>//').on('click', function () {
-//                $('.slickSlider', '#<?php //print $params['id'] ?>//').slick('slickNext');
-//            });
-//
-//            $('.slickPrev', '#<?php //print $params['id'] ?>//').on('click', function () {
-//                $('.slickSlider', '#<?php //print $params['id'] ?>//').slick('slickPrev');
-//            });
-
         });
     </script>
 
-    <?php if (!$no_img): ?>
+    @if(!isset($no_img) || !$no_img)
         <div class="mw-module-images">
             <div class="slickSlider">
-                <?php $count = -1;
-                foreach ($data as $item): ?>
-                    <?php $count++; ?>
-                    <div class="slick-pictures-item slick-pictures-item-<?php print $item['id']; ?>">
+                @php $count = -1; @endphp
+                @foreach($data as $item)
+                    @php $count++; @endphp
+                    <div class="slick-pictures-item slick-pictures-item-{{ $item['id'] ?? '' }}">
                         <div class="thumbnail-wrapper">
                             <div class="thumbnail">
-                                <img src="<?php print thumbnail($item['filename'], 300); ?>"/>
+                                <img src="{{ thumbnail($item['filename'] ?? '', 300) }}"/>
                             </div>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                @endforeach
             </div>
         </div>
-    <?php endif; ?>
-    <?php else : ?>
-@include('modules.pictures::partials.no-pictures')
-<?php endif; ?>
+    @endif
+@else
+    @include('modules.pictures::partials.no-pictures')
+@endif

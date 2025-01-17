@@ -1,70 +1,75 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Skin-12
-
 description: Skin-12
+--}}
 
-*/
-
-?>
 <style>
-    <?php print '#'.$params['id']; ?>
-    .gallery-holder .col-holder {
+    #{{ $params['id'] ?? '' }} .gallery-holder .col-holder {
         padding-right: 4px;
         padding-left: 4px;
     }
 
-    <?php print '#'.$params['id']; ?>
-    .gallery-holder .row {
+    #{{ $params['id'] ?? '' }} .gallery-holder .row {
         margin-right: -4px;
         margin-left: -4px;
     }
 
-    <?php print '#'.$params['id']; ?>
-    .gallery-holder .item {
+    #{{ $params['id'] ?? '' }} .gallery-holder .item {
         margin-bottom: 8px;
     }
 </style>
-<?php if (is_array($data)): ?>
-    <?php $rand = uniqid(); ?>
+
+@if(isset($data) && is_array($data))
+    @php
+        $rand = uniqid();
+    @endphp
     <div class="gallery-holder">
         <div class="row">
-            <?php $count = -1; ?>
-                <?php foreach ($data as $item): ?>
-                    <?php $count++; ?>
-                    <?php if ($count == 0 || $count == 5): ?>
-                        <div class="col-holder col-8">
-                            <div class="item pictures picture-<?php print $item['id']; ?>" onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>);return false;">
-                                <img   class="w-100" src="<?php print thumbnail($item['filename'], 800, 800, true); ?>" alt="">
-                            </div>
+            @php $count = -1; @endphp
+            @foreach($data as $item)
+                @php $count++; @endphp
+                @if($count == 0 || $count == 5)
+                    <div class="col-holder col-8">
+                        <div class="item pictures picture-{{ $item['id'] ?? '' }}" 
+                             onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
+                            <img class="w-100" 
+                                 src="{{ thumbnail($item['filename'] ?? '', 800, 800, true) }}" 
+                                 alt="">
                         </div>
-                     <?php else : ?>
-                     <?php  if ($count == 1 || $count == 3 ):  ?>  <div class="col-holder col-4"> <?php endif; ?>
+                    </div>
+                @else
+                    @if($count == 1 || $count == 3)
+                        <div class="col-holder col-4">
+                    @endif
 
-                            <div class="item pictures picture-<?php print $item['id']; ?>" onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>);return false;">
-                                <img   class="w-100" src="<?php print thumbnail($item['filename'], 500, 500, true); ?>" alt="">
-                            </div>
+                    <div class="item pictures picture-{{ $item['id'] ?? '' }}" 
+                         onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
+                        <img class="w-100" 
+                             src="{{ thumbnail($item['filename'] ?? '', 500, 500, true) }}" 
+                             alt="">
+                    </div>
 
+                    @if($count == 2 || $count == 4)
+                        </div>
+                    @endif
+                @endif
 
-                    <?php  if ($count == 2 || $count == 4):  ?> </div>  <?php endif; ?>
-
-                    <?php endif; ?>
-                    <?php if ($count == 5):
-                        $count = -1;
-                    endif; ?>
-                <?php endforeach; ?>
-
-            </div>
+                @if($count == 5)
+                    @php $count = -1; @endphp
+                @endif
+            @endforeach
         </div>
     </div>
+
     <script>
-        gallery<?php print $rand; ?> = [
-                <?php foreach($data  as $item): ?>{image: "<?php print thumbnail($item['filename'], 1200); ?>", description: "<?php print $item['title']; ?>"},
-            <?php endforeach;  ?>
+        gallery{{ $rand }} = [
+            @foreach($data as $item)
+                {
+                    image: "{{ thumbnail($item['filename'] ?? '', 1200) }}", 
+                    description: "{{ $item['title'] ?? '' }}"
+                },
+            @endforeach
         ];
     </script>
-<?php endif; ?>
+@endif

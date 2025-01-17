@@ -1,23 +1,15 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Skin-17
-
 description: Skin-17
+--}}
 
-*/
-
-?>
-<?php $rand = uniqid(); ?>
+@php
+    $rand = uniqid();
+@endphp
 
 <script>
-
-
-
-    var gallery<?php $rand ?> = function (id) {
+    var gallery{{ $rand }} = function (id) {
         var el = mwd.getElementById(id);
         if(el && !el.__gallery) {
             el.__gallery = [];
@@ -34,10 +26,10 @@ description: Skin-17
     }
 
     $(window).on('load', function () {
-        gallery<?php $rand ?>('gallery-<?php print $rand; ?>');
+        gallery{{ $rand }}('gallery-{{ $rand }}');
     });
     $(document).ready(function () {
-        gallery<?php $rand ?>('gallery-<?php print $rand; ?>');
+        gallery{{ $rand }}('gallery-{{ $rand }}');
     });
 </script>
 
@@ -66,7 +58,6 @@ description: Skin-17
             transform: translateY(10px);
             transition: .5s ease-in-out;
             color: #fff;
-
         }
     }
 
@@ -79,56 +70,55 @@ description: Skin-17
             .mw-pictures-17-description {
                 opacity: 1;
                 transform: translateY(0);
-
             }
         }
-
     }
-
-
 </style>
 
-<?php if (is_array($data)): ?>
-    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center" id="gallery-<?php print $rand; ?>">
-        <?php if (sizeof($data) > 1) { ?>
-            <?php $count = -1; foreach ($data as $item): $count++; ?>
+@if(isset($data) && is_array($data))
+    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center" 
+         id="gallery-{{ $rand }}">
+        @if(sizeof($data) > 1)
+            @php $count = -1; @endphp
+            @foreach($data as $item)
+                @php
+                    $count++;
+                    $itemTitle = false;
+                    $itemDescription = false;
+                    $itemLink = false;
+                    $itemAltText = 'Open';
+                    if (isset($item['image_options']) && is_array($item['image_options'])) {
+                        if (isset($item['image_options']['title'])) {
+                            $itemTitle = $item['image_options']['title'];
+                        }
+                        if (isset($item['image_options']['caption'])) {
+                            $itemDescription = $item['image_options']['caption'];
+                        }
+                        if (isset($item['image_options']['link'])) {
+                            $itemLink = $item['image_options']['link'];
+                        }
+                        if (isset($item['image_options']['alt-text'])) {
+                            $itemAltText = $item['image_options']['alt-text'];
+                        }
+                    }
+                @endphp
 
-                <?php
-                $itemTitle = false;
-                $itemDescription = false;
-                $itemLink = false;
-                $itemAltText = 'Open';
-                if (isset($item['image_options']) and is_array($item['image_options'])) {
-                    if (isset($item['image_options']['title'])) {
-                        $itemTitle = $item['image_options']['title'];
-                    }
-                    if (isset($item['image_options']['caption'])) {
-                        $itemDescription = $item['image_options']['caption'];
-                    }
-                    if (isset($item['image_options']['link'])) {
-                        $itemLink = $item['image_options']['link'];
-                    }
-                    if (isset($item['image_options']['alt-text'])) {
-                        $itemAltText = $item['image_options']['alt-text'];
-                    }
-                }
-                ?>
                 <div class="col-sm-6 col-md-4 p-0 mw-pictures-17-wrapper position-relative">
-                    <a
-                        data-index="<?php print $count; ?>"
-                        href="<?php print $item['filename']; ?>">
+                    <a data-index="{{ $count }}"
+                       href="{{ $item['filename'] ?? '' }}">
+                        <img style="object-fit: cover; max-height: 500px; width: 100%; height: 100%;" 
+                             src="{{ $item['filename'] ?? '' }}" 
+                             alt=""/>
 
-                        <img   style="object-fit: cover; max-height: 500px; width: 100%; height: 100%;" src="<?php print $item['filename']; ?>" alt=""/>
-
-                       <div class="mw-pictures-17-text">
-                           <?php print $itemTitle ? '<h5 class="mw-pictures-17-title">'.$itemTitle.'</h5>' : '';  ?>
-                           <p class="mw-pictures-17-description"><?php print $itemDescription; ?></p>
-                       </div>
+                        <div class="mw-pictures-17-text">
+                            @if($itemTitle)
+                                <h5 class="mw-pictures-17-title">{{ $itemTitle }}</h5>
+                            @endif
+                            <p class="mw-pictures-17-description">{{ $itemDescription }}</p>
+                        </div>
                     </a>
                 </div>
-            <?php endforeach; ?>
-        <?php } ?>
+            @endforeach
+        @endif
     </div>
-
-
-<?php endif; ?>
+@endif
