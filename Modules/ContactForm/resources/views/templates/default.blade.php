@@ -7,13 +7,17 @@
     */
 @endphp
 
-
-<div class="contact-form-container contact-form-template-dream">
+<div class="contact-form-container contact-form-template-dream"
+     x-load="visible"
+     x-load-src="{{ asset('modules/contact_form/js/contact-form-alpine.js') }}"
+     x-data="contactForm('{{ $params['id'] }}')"
+>
     <div class="contact-form">
         <div class="edit" field="contact_form_title" rel="contact_form_module" data-id="{{ $params['id'] }}">
             <h3 class="element contact-form-title">@lang('Leave a Message')</h3>
         </div>
-        <form class="mw_form" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post">
+        <form class="mw_form" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
+              @submit.prevent="submitForm">
 
             <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module"
                     default-fields="{{ $default_fields }}"/>
@@ -34,7 +38,6 @@
                 </div>
             @endif
 
-
             <div class="mw-flex-row">
                 <div class="mw-flex-col-md-9 mw-flex-col-sm-12 mw-flex-col-xs-12">
                     <div class="control-group form-group">
@@ -52,13 +55,16 @@
                 <div class="mw-flex-col-md-3 mw-flex-col-sm-12 mw-flex-col-xs-12">
                     <label>&nbsp;</label>
                     <div class="control-group form-group">
-                        <module type="btn" button_action="submit" button_text="{{ $button_text }}"/>
+                        <button type="submit" class="btn btn-primary" :disabled="$data.loading">
+                            <span x-show="!$data.loading">{{ $button_text }}</span>
+                            <span x-show="$data.loading">@lang('Sending...')</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-    <div class="message-sent" id="msg{{ $form_id }}">
+    <div class="message-sent" id="msg{{ $form_id }}" x-show="success" x-cloak>
         <span class="message-sent-icon"></span>
         <p>@lang('Your Email was sent successfully')</p>
     </div>
