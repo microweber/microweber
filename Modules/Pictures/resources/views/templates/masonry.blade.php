@@ -1,24 +1,21 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Masonry
-
 description: Masonry
+--}}
 
-*/
-
-?>
-<?php if (is_array($data) and $data): ?>
-    <?php $rand = uniqid(); ?>
-    <script>mw.lib.require("masonry"); </script>
-    <script>mw.moduleCSS("<?php print asset('modules/pictures/css/style.css'); ?>"); </script>
+@if(isset($data) && is_array($data) && $data)
+    @php
+        $rand = uniqid();
+    @endphp
+    
+    <script>mw.lib.require("masonry");</script>
+    <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
+    
     <script>
         mw._masons = mw._masons || [];
         $(document).ready(function () {
-            var m = mw.$('#mw-gallery-<?php print $rand; ?>');
+            var m = mw.$('#mw-gallery-{{ $rand }}');
             m.masonry({
                 "itemSelector": '.masonry-item',
                 "gutter": 5
@@ -39,26 +36,32 @@ description: Masonry
                     }
                 }, 500);
             }
-
         });
     </script>
-    <div class="mw-images-template-masonry" id="mw-gallery-<?php print $rand; ?>"
-         style="position: relative;width: 100%;">
-        <?php $count = -1; foreach ($data as $item): ?>
-            <?php $count++; ?>
-            <div class="masonry-item"
-                 onclick="mw.gallery(gallery<?php print $rand; ?>, <?php print $count; ?>)">
-                <img src="<?php print thumbnail($item['filename'], 300); ?>" width="100%"/>
-                <?php if ($item['title'] != '') { ?>
-                    <div class="masonry-item-description"><?php print $item['title']; ?></div>
-                <?php } ?>
+
+    <div class="mw-images-template-masonry" id="mw-gallery-{{ $rand }}" style="position: relative;width: 100%;">
+        @php $count = -1; @endphp
+        @foreach($data as $item)
+            @php $count++; @endphp
+            <div class="masonry-item" onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
+                <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" width="100%"/>
+                @if(isset($item['title']) && $item['title'] != '')
+                    <div class="masonry-item-description">{{ $item['title'] }}</div>
+                @endif
             </div>
-        <?php endforeach;  ?>
+        @endforeach
     </div>
-    <script>gallery<?php print $rand; ?> = [
-                <?php foreach($data  as $item): ?>{image: "<?php print $item['filename']; ?>", description: "<?php print $item['title']; ?>"},
-            <?php endforeach;  ?>
-        ];</script>
-<?php else : ?>
-@include('modules.pictures::partials.no-pictures')
-<?php endif; ?>
+
+    <script>
+        gallery{{ $rand }} = [
+            @foreach($data as $item)
+                {
+                    image: "{{ isset($item['filename']) ? $item['filename'] : '' }}",
+                    description: "{{ isset($item['title']) ? $item['title'] : '' }}"
+                },
+            @endforeach
+        ];
+    </script>
+@else
+    @include('modules.pictures::partials.no-pictures')
+@endif

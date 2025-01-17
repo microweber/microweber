@@ -1,68 +1,62 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Shop Inner
-
 description: Skin 6
+--}}
 
-*/
+@php
+    $pictureElementId = 'module-image-' . ($params['id'] ?? '');
+@endphp
 
-?>
-
-<?php
-
-$pictureElementId = 'module-image-' . $params['id'];
-
-if (is_array($data)): ?>
+@if(isset($data) && is_array($data))
     <div class="shop-inner-gallery">
-        <?php if (sizeof($data) > 1) { ?>
+        @if(sizeof($data) > 1)
             <div class="shop-inner-gallery-thumbnails">
-                <?php $count = -1; foreach ($data as $item): $count++; ?>
+                @php $count = -1; @endphp
+                @foreach($data as $item)
+                    @php $count++; @endphp
                     <a class="mx-0"
-                        href="<?php print thumbnail($item['filename'], 1080, 1080); ?>"
-                        onclick="setProductImage('<?php print $pictureElementId; ?>', '<?php print thumbnail($item['filename'], 1920, 1920); ?>', <?php print $count; ?>);return false;"
-                        style="background-image: url('<?php print thumbnail ($item['filename'], 800, 800); ?>');">
+                       href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
+                       onclick="setProductImage('{{ $pictureElementId }}', '{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}', {{ $count }});return false;"
+                       style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}');">
                     </a>
-                <?php endforeach; ?>
+                @endforeach
             </div>
-        <?php } ?>
+        @endif
         <div class="shop-inner-big-image position-relative">
-            <?php $price = get_product_prices(content_id(), true);
+            @php
+                $price = get_product_prices(content_id(), true);
+            @endphp
 
-            if (isset($price[0]) and isset($price[0]['original_value'])): ?>
+            @if(isset($price[0]) && isset($price[0]['original_value']))
+                @php
+                    $oldFigure = floatval($price[0]['custom_value']);
+                    $newFigure = floatval($price[0]['original_value']);
+                    $percentChange = 0;
+                @endphp
 
-                <?php
-                $oldFigure = floatval($price[0]['custom_value']);
-                $newFigure = floatval($price[0]['original_value']);
-                $percentChange = 0;
+                @if($oldFigure < $newFigure)
+                    @php
+                        $percentChange = (1 - $oldFigure / $newFigure) * 100;
+                    @endphp
+                @endif
 
-                ?>
-
-                <?php if ($oldFigure < $newFigure): ?>
-                    <?php
-                    $percentChange = (1 - $oldFigure / $newFigure) * 100;
-                    ?>
-                <?php endif; ?>
-
-                <?php if ($percentChange > 0): ?>
+                @if($percentChange > 0)
                     <div class="discount-label">
                         <span class="discount-percentage">
-                                <?php echo number_format($percentChange, 2); ?>%
+                            {{ number_format($percentChange, 2) }}%
                         </span>
-                        <span class="discount-label-text"><?php _lang("Discount"); ?></span>
+                        <span class="discount-label-text">{{ _lang("Discount") }}</span>
                     </div>
-                <?php endif; ?>
-            <?php endif; ?>
-            <img   src="<?php print thumbnail($data[0]['filename'], 1080, 1080); ?>" id="<?php print $pictureElementId; ?>" />
+                @endif
+            @endif
+
+            <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}" 
+                 id="{{ $pictureElementId }}" />
         </div>
     </div>
 
-
     <script>
-
         var setProductImage = function (id, url, index) {
             var el = document.getElementById(id);
             el.dataset.index = index;
@@ -80,11 +74,10 @@ if (is_array($data)): ?>
             })
         }
 
-        var gallery = <?php print json_encode($data); ?>;
+        var gallery = {!! isset($data) ? json_encode($data) : '[]' !!};
 
-        document.getElementById('<?php print $pictureElementId; ?>').addEventListener('click', function(){
+        document.getElementById('{{ $pictureElementId }}').addEventListener('click', function(){
             mw.gallery(gallery, Number(this.dataset.index || 0));
         });
     </script>
-
-<?php endif; ?>
+@endif

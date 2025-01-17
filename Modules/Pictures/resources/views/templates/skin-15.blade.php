@@ -1,24 +1,15 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Skin-15
-
 description: Skin-15
+--}}
 
-*/
-
-?>
-<?php $rand = uniqid(); ?>
-
+@php
+    $rand = uniqid();
+@endphp
 
 <script>
-
-
-
-    var gallery<?php $rand ?> = function (id) {
+    var gallery{{ $rand }} = function (id) {
         var el = mwd.getElementById(id);
         if(el && !el.__gallery) {
             el.__gallery = [];
@@ -35,49 +26,40 @@ description: Skin-15
     }
 
     $(window).on('load', function () {
-        gallery<?php $rand ?>('gallery-<?php print $rand; ?>');
+        gallery{{ $rand }}('gallery-{{ $rand }}');
     });
     $(document).ready(function () {
-        gallery<?php $rand ?>('gallery-<?php print $rand; ?>');
+        gallery{{ $rand }}('gallery-{{ $rand }}');
     });
 </script>
 
 <style>
-    #gallery-<?php print $rand; ?> .background-image-holder {
+    #gallery-{{ $rand }} .background-image-holder {
         min-height: 500px;
         display: block;
-
     }
 
-    #gallery-<?php print $rand; ?> .selector:nth-child(odd) .background-image-holder {
+    #gallery-{{ $rand }} .selector:nth-child(odd) .background-image-holder {
         min-height: 400px;
         display: block;
     }
-
-
-
 </style>
 
-<?php if (is_array($data)): ?>
-
-
-
-    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center align-items-center" id="gallery-<?php print $rand; ?>">
-        <?php if (sizeof($data) > 1) { ?>
-            <?php $count = -1; foreach ($data as $item): $count++; ?>
+@if(isset($data) && is_array($data))
+    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center align-items-center" 
+         id="gallery-{{ $rand }}">
+        @if(sizeof($data) > 1)
+            @php $count = -1; @endphp
+            @foreach($data as $item)
+                @php $count++; @endphp
                 <div class="selector col-sm-6 col-lg-4 p-3">
-                    <a class="background-image-holder" style="background-image: url(<?php print thumbnail($item['filename'], 1080, 1080, true); ?>)"
-                        data-index="<?php print $count; ?>"
-                        href="<?php print thumbnail($item['filename'], 1080, 1080); ?>">
-
+                    <a class="background-image-holder" 
+                       style="background-image: url({{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }})"
+                       data-index="{{ $count }}"
+                       href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
                     </a>
-
                 </div>
-            <?php endforeach; ?>
-        <?php } ?>
+            @endforeach
+        @endif
     </div>
-
-
-<?php endif; ?>
-
-
+@endif

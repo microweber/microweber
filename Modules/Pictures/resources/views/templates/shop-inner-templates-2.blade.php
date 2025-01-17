@@ -1,16 +1,9 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Shop Inner For Templates 2
-
 description: Default skin for shop inner of the templates 2
+--}}
 
-*/
-
-?>
 <style>
     .mw-shop-inner-skin-discount-label-2 {
         border-radius: 20px;
@@ -28,78 +21,73 @@ description: Default skin for shop inner of the templates 2
         z-index: 1;
         background-color: white;
     }
-
 </style>
-<?php
 
-$pictureElementId = 'module-image-' . $params['id'];
-$itemData = content_data(content_id());
+@php
+    $pictureElementId = 'module-image-' . ($params['id'] ?? '');
+    $itemData = content_data(content_id());
 
+    if (!isset($itemData['label'])) {
+        $itemData['label'] = '';
+    }
+    if (!isset($itemData['label-color'])) {
+        $itemData['label-color'] = '';
+    }
+@endphp
 
-
-if (!isset($itemData['label'])) {
-    $itemData['label'] = '';
-}
-if (!isset($itemData['label-color'])) {
-    $itemData['label-color'] = '';
-}
-
-if (is_array($data)): ?>
+@if(isset($data) && is_array($data))
     <div class="shop-inner-gallery">
-        <?php if (sizeof($data) > 1) { ?>
+        @if(sizeof($data) > 1)
             <div class="shop-inner-gallery-thumbnails">
-                <?php $count = -1; foreach ($data as $item): $count++; ?>
+                @php $count = -1; @endphp
+                @foreach($data as $item)
+                    @php $count++; @endphp
                     <a class="mx-0"
-                       href="<?php print thumbnail($item['filename'], 1080, 1080); ?>"
-                       onclick="setProductImage('<?php print $pictureElementId; ?>', '<?php print thumbnail($item['filename'], 1920, 1920); ?>', <?php print $count; ?>);return false;"
-                       style="background-image: url('<?php print thumbnail ($item['filename'], 800, 800); ?>');">
+                       href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
+                       onclick="setProductImage('{{ $pictureElementId }}', '{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}', {{ $count }});return false;"
+                       style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}');">
                     </a>
-                <?php endforeach; ?>
+                @endforeach
             </div>
-        <?php } ?>
+        @endif
         <div class="shop-inner-big-image position-relative">
-            <?php $price = app()->shop_manager->get_product_prices(content_id(), true);
+            @php
+                $price = app()->shop_manager->get_product_prices(content_id(), true);
+            @endphp
 
-
-
-            if (isset($itemData['label-type']) && $itemData['label-type'] === 'text'): ?>
-                <div class="position-absolute  top-0 left-0 m-2" style="z-index: 3;">
-                    <div class="badge text-white px-3 pb-1 pt-2 rounded-0" style="background-color: <?php echo $itemData['label-color']; ?>;"><?php echo $itemData['label']; ?></div>
+            @if(isset($itemData['label-type']) && $itemData['label-type'] === 'text')
+                <div class="position-absolute top-0 left-0 m-2" style="z-index: 3;">
+                    <div class="badge text-white px-3 pb-1 pt-2 rounded-0" style="background-color: {{ $itemData['label-color'] }};">{{ $itemData['label'] }}</div>
                 </div>
-            <?php endif;
+            @endif
 
+            @if(isset($price[0]) && isset($price[0]['original_value']))
+                @php
+                    $oldFigure = floatval($price[0]['custom_value']);
+                    $newFigure = floatval($price[0]['original_value']);
+                    $percentChange = 0;
+                @endphp
 
-            if (isset($price[0]) and isset($price[0]['original_value'])): ?>
+                @if($oldFigure < $newFigure)
+                    @php
+                        $percentChange = (1 - $oldFigure / $newFigure) * 100;
+                    @endphp
+                @endif
 
-                <?php
-                $oldFigure = floatval($price[0]['custom_value']);
-                $newFigure = floatval($price[0]['original_value']);
-                $percentChange = 0;
-
-                ?>
-
-                <?php if ($oldFigure < $newFigure): ?>
-                    <?php
-                    $percentChange = (1 - $oldFigure / $newFigure) * 100;
-                    ?>
-                <?php endif; ?>
-
-                <?php if (isset($itemData['label-type']) && $itemData['label-type'] === 'percent' && $percentChange > 0): ?>
+                @if(isset($itemData['label-type']) && $itemData['label-type'] === 'percent' && $percentChange > 0)
                     <div class="mw-shop-inner-skin-discount-label-2">
                         <span class="">
-                                <?php echo number_format($percentChange); ?>%
+                            {{ number_format($percentChange) }}%
                         </span>
-
                     </div>
-                <?php endif; ?>
-            <?php endif; ?>
-            <img src="<?php print thumbnail($data[0]['filename'], 1080, 1080); ?>" id="<?php print $pictureElementId; ?>" />
+                @endif
+            @endif
+
+            <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}" id="{{ $pictureElementId }}" />
         </div>
     </div>
 
-
     <script>
-
         var setProductImage = function (id, url, index) {
             var el = document.getElementById(id);
             el.dataset.index = index;
@@ -117,13 +105,12 @@ if (is_array($data)): ?>
             })
         }
 
-        var gallery = <?php print json_encode($data); ?>;
+        var gallery = {!! isset($data) ? json_encode($data) : '[]' !!};
 
-        document.getElementById('<?php print $pictureElementId; ?>').addEventListener('click', function(){
+        document.getElementById('{{ $pictureElementId }}').addEventListener('click', function(){
             mw.gallery(gallery, Number(this.dataset.index || 0));
         });
     </script>
-
-<?php else : ?>
-@include('modules.pictures::partials.no-pictures')
-<?php endif; ?>
+@else
+    @include('modules.pictures::partials.no-pictures')
+@endif

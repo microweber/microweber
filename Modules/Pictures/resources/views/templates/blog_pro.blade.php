@@ -1,16 +1,8 @@
-<?php
-
-/*
-
+{{--
 type: layout
-
 name: Blog pro
-
 description: Blog pro
-
-*/
-
-?>
+--}}
 
 <style>
     .card-header-single img {
@@ -29,49 +21,42 @@ description: Blog pro
     }
 </style>
 
-<?php if (is_array($data)): ?>
-    <?php $rand = uniqid(); ?>
-
-    <?php
-    $click_image_event = 'fullscreen';
-    $get_click_image_event = get_option('click_image_event', $params['id']);
-    if ($get_click_image_event != false) {
-        $click_image_event = $get_click_image_event;
-    }
-    ?>
+@if(isset($data) && is_array($data))
+    @php
+        $rand = uniqid();
+        $click_image_event = 'fullscreen';
+        $get_click_image_event = get_option('click_image_event', $params['id'] ?? null);
+        if ($get_click_image_event != false) {
+            $click_image_event = $get_click_image_event;
+        }
+    @endphp
 
     <div class="">
-        <?php foreach ($data as $item): ?>
-            <?php
-            $itemTitle = false;
-            $itemDescription = false;
-            $itemLink = false;
-            $itemAltText = 'Open';
-            if (isset($item['image_options']) and is_array($item['image_options'])) {
-                if (isset($item['image_options']['title'])) {
-                    $itemTitle = $item['image_options']['title'];
+        @foreach($data as $item)
+            @php
+                $itemTitle = false;
+                $itemDescription = false;
+                $itemLink = false;
+                $itemAltText = 'Open';
+                if (isset($item['image_options']) && is_array($item['image_options'])) {
+                    if (isset($item['image_options']['title'])) {
+                        $itemTitle = $item['image_options']['title'];
+                    }
+                    if (isset($item['image_options']['caption'])) {
+                        $itemDescription = $item['image_options']['caption'];
+                    }
+                    if (isset($item['image_options']['link'])) {
+                        $itemLink = $item['image_options']['link'];
+                    }
+                    if (isset($item['image_options']['alt-text'])) {
+                        $itemAltText = $item['image_options']['alt-text'];
+                    }
                 }
-                if (isset($item['image_options']['caption'])) {
-                    $itemDescription = $item['image_options']['caption'];
-                }
-                if (isset($item['image_options']['link'])) {
-                    $itemLink = $item['image_options']['link'];
-                }
-                if (isset($item['image_options']['alt-text'])) {
-                    $itemAltText = $item['image_options']['alt-text'];
-                }
-            }
-            ?>
+            @endphp
 
-        <div class="card-header-single">
-
-            <img alt="<?php print $itemAltText; ?>" src="<?php print $item['filename'] ?>"/>
-        </div>
-
-
-
-
-        <?php endforeach; ?>
+            <div class="card-header-single">
+                <img alt="{{ $itemAltText }}" src="{{ isset($item['filename']) ? $item['filename'] : '' }}"/>
+            </div>
+        @endforeach
     </div>
-
-<?php endif; ?>
+@endif
