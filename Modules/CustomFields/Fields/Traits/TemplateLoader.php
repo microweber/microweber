@@ -19,17 +19,16 @@ trait TemplateLoader
         $template_name = $this->getTemplateName($data);
         $default_template_name = $this->getDefaultTemplateName();
 
-        $ovewrite_templates_path = app()->template_manager->dir() . 'modules' . DS . 'custom_fields' . DS . 'templates';
-        $original_tempaltes_path = modules_path() . 'custom_fields' . DS . 'templates';
-
-        // Try to open overwrite template files
-        $overwrite_template_file_preview = $ovewrite_templates_path . DS . $template_name . DS . $type . '.php';
+        $ovewrite_templates_path = app()->template_manager->dir() . 'modules/custom_fields/templates';
+        $original_tempaltes_path = module_path('custom_fields') .'/resources/views/templates';
+         // Try to open overwrite template files
+        $overwrite_template_file_preview = $ovewrite_templates_path . DS . $template_name . DS . $type . '.blade.php';
 
         // Try to open original template files
-        $original_template_file_preview = $original_tempaltes_path . DS . $template_name . DS . $type . '.php';
+        $original_template_file_preview = $original_tempaltes_path . DS . $template_name . DS . $type  . '.blade.php';
 
         // Get default tempalte files
-        $default_template_file_preview = $original_tempaltes_path . DS . $default_template_name . DS . $type . '.php';
+        $default_template_file_preview = $original_tempaltes_path . DS . $default_template_name . DS . $type . '.blade.php';
 
         // Try to get overwrite template file
         if (is_file($overwrite_template_file_preview)) {
@@ -60,15 +59,15 @@ trait TemplateLoader
             $preview_file = $this->getTemplateFilesByType($data, 'text');
         }
 
-        $settings_file = modules_path() . DS . 'microweber' . DS . 'custom_fields' . DS . $data['type'] . '_settings.php';
-        if (!is_file($settings_file)) {
-            $settings_file = modules_path() . DS . 'microweber' . DS . 'custom_fields' . DS . 'text_settings.php';
-        }
-
-        $settings_file = normalize_path($settings_file, FALSE);
+//        $settings_file = modules_path() . DS . 'microweber' . DS . 'custom_fields' . DS . $data['type'] . '_settings.php';
+//        if (!is_file($settings_file)) {
+//            $settings_file = modules_path() . DS . 'microweber' . DS . 'custom_fields' . DS . 'text_settings.php';
+//        }
+//
+//        $settings_file = normalize_path($settings_file, FALSE);
         $preview_file = normalize_path($preview_file, FALSE);
 
-        return array('preview_file' => $preview_file, 'settings_file' => $settings_file);
+        return array('preview_file' => $preview_file, 'settings_file' => false);
     }
 
     public function getTemplateName($data)
@@ -125,7 +124,7 @@ trait TemplateLoader
         }
 
         if (!$template_name) {
-            $template_name = 'mw-ui';
+            $template_name = 'bootstrap5';
         }
 
         return $template_name;

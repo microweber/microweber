@@ -38,7 +38,7 @@ class StringBlade
     {
         $bladePath = $this->generateBladePath($bladeString);
 
-        $content = \Blade::compileString($bladeString);
+        $content = Blade::compileString($bladeString);
 
         return $this->file->put($bladePath, $content)
             ? $bladePath

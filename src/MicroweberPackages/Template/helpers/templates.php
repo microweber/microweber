@@ -66,7 +66,9 @@ function template_default_css()
 function template_framework()
 {
 
+    //   $css_framework = 'mw-ui';
     $css_framework = 'mw-ui';
+    $css_framework = 'bootstrap5';
 
     if (isset(app()->template_manager->get_config()['framework'])) {
         $css_framework = app()->template_manager->get_config()['framework'];

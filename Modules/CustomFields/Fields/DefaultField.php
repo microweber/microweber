@@ -9,6 +9,7 @@
 namespace Modules\CustomFields\Fields;
 
 
+use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\View\View;
 use Modules\CustomFields\Fields\Traits\TemplateLoader;
 
@@ -23,36 +24,36 @@ class DefaultField
 
     public $data;
     public $defaultData = [
-        'id'=> '',
-        'help'=> '',
-        'error_text'=> '',
-        'name'=> 'Textfield',
-        'value'=> '',
-        'placeholder'=> '',
+        'id' => '',
+        'help' => '',
+        'error_text' => '',
+        'name' => 'Textfield',
+        'value' => '',
+        'placeholder' => '',
     ];
 
     public $settings;
     public $defaultSettings = [
-        'required'=>false,
-        'multiple'=>'',
-        'show_label'=>true,
-        'show_placeholder'=>false,
-        'field_size'=>12,
-        'field_size_desktop'=>12,
-        'field_size_tablet'=>12,
-        'field_size_mobile'=>12,
+        'required' => false,
+        'multiple' => '',
+        'show_label' => true,
+        'show_placeholder' => false,
+        'field_size' => 12,
+        'field_size_desktop' => 12,
+        'field_size_tablet' => 12,
+        'field_size_mobile' => 12,
     ];
 
     public $defaultSettingsAll = [
-        'required'=>false,
-        'multiple'=>'',
-        'show_label'=>true,
-        'show_placeholder'=>false,
-        'as_text_area'=>false,
-        'field_size'=>12,
-        'field_size_desktop'=>12,
-        'field_size_tablet'=>12,
-        'field_size_mobile'=>12,
+        'required' => false,
+        'multiple' => '',
+        'show_label' => true,
+        'show_placeholder' => false,
+        'as_text_area' => false,
+        'field_size' => 12,
+        'field_size_desktop' => 12,
+        'field_size_tablet' => 12,
+        'field_size_mobile' => 12,
     ];
 
     public $defaultDataOptions = [
@@ -64,17 +65,20 @@ class DefaultField
     public $renderData = false;
     public $renderSettings = false;
 
-    public function setData($data){
+    public function setData($data)
+    {
         $this->data = $data;
     }
 
-    public function setAdminView($adminView){
+    public function setAdminView($adminView)
+    {
         $this->adminView = $adminView;
     }
 
-    public function mergeRenderSettings($settings){
-        if(is_array($settings)){
-            $this->renderSettings = array_merge($this->renderSettings,$settings);
+    public function mergeRenderSettings($settings)
+    {
+        if (is_array($settings)) {
+            $this->renderSettings = array_merge($this->renderSettings, $settings);
         }
     }
 
@@ -98,7 +102,7 @@ class DefaultField
         }
 
         // Set default settings if not exists
-        foreach($this->defaultSettings as $defaultSettingsKey=>$defaultSettingsValue) {
+        foreach ($this->defaultSettings as $defaultSettingsKey => $defaultSettingsValue) {
             if (!isset($renderSettings[$defaultSettingsKey])) {
                 $renderSettings[$defaultSettingsKey] = $defaultSettingsValue;
             }
@@ -115,13 +119,13 @@ class DefaultField
         }
 
         // Set default data if not exists
-        foreach($this->defaultData as $defaultDataKey=>$defaultDataValue) {
+        foreach ($this->defaultData as $defaultDataKey => $defaultDataValue) {
             if (!isset($renderData[$defaultDataKey])) {
                 $renderData[$defaultDataKey] = $defaultDataValue;
             }
         }
         // Set default data options if not exists
-        foreach($this->defaultDataOptions as $defaultDataOptionKey=>$defaultDataOptionValue) {
+        foreach ($this->defaultDataOptions as $defaultDataOptionKey => $defaultDataOptionValue) {
             if (!isset($renderData['options'][$defaultDataOptionKey])) {
                 $renderData['options'][$defaultDataOptionKey] = $defaultDataOptionValue;
             }
@@ -130,7 +134,7 @@ class DefaultField
         if (!isset($renderSettings['show_placeholder'])
             || $renderSettings['show_placeholder'] == false
             || (strpos($renderSettings['show_placeholder'], 'false') !== false)
-            ){
+        ) {
             $renderData['placeholder'] = '';
         } else {
         }
@@ -142,13 +146,27 @@ class DefaultField
     {
         $this->preparePreview();
 
-        $parseView = new View($this->getTempalteFile());
+        $file = $this->getTempalteFile();
 
-        foreach ($this->defaultSettingsAll as $defaultSettingsKey => $defaultSettingsValue) {
-            if (!isset($this->renderSettings[$defaultSettingsKey])) {
-                $this->renderSettings[$defaultSettingsKey] = $defaultSettingsValue;
-            }
+
+        if (!$file) {
+
+            return '';
         }
+        if (!is_file($file)) {
+
+            return '';
+        }
+
+        $bladeString = file_get_contents($file);
+
+        // dump($this->getTempalteFile());
+//$bladeView = new Blade();
+
+        //  new View($this->getTempalteFile());
+        /*$parseView = new View($this->getTempalteFile());
+
+
 
 
         $parseView->assign('data', $this->renderData);
@@ -156,7 +174,17 @@ class DefaultField
 
         $customFieldHtml = $parseView->__toString();
 
-        return $customFieldHtml;
+        return $customFieldHtml;*/
+        foreach ($this->defaultSettingsAll as $defaultSettingsKey => $defaultSettingsValue) {
+            if (!isset($this->renderSettings[$defaultSettingsKey])) {
+                $this->renderSettings[$defaultSettingsKey] = $defaultSettingsValue;
+            }
+        }
+        $data = [];
+        $data['data'] = $this->renderData;
+        $data['settings'] = $this->renderSettings;
+
+        print Blade::render($bladeString, $data);
     }
 
     public function getTempalteFile()
