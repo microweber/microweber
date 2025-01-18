@@ -2,13 +2,13 @@
     <div class="card-body">
         <div class="d-flex align-items-start">
             @if($showUserAvatar)
-                <img src="{{ $comment->getAvatarUrl() }}" 
-                     alt="{{ $comment->comment_name }}" 
+                <img src="{{ $comment->getAvatarUrl() }}"
+                     alt="{{ $comment->comment_name }}"
                      class="rounded-circle me-3"
-                     width="40" 
+                     width="40"
                      height="40">
             @endif
-            
+
             <div class="flex-grow-1">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <div>
@@ -17,7 +17,7 @@
                             {{ $comment->created_at->diffForHumans() }}
                         </small>
                     </div>
-                    
+
                     @if(auth()->check() && auth()->id() == $comment->created_by)
                         <div class="dropdown">
                             <button class="btn btn-link text-dark p-0" type="button" data-bs-toggle="dropdown">
@@ -25,7 +25,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <button wire:click="dispatch('deleteComment', { commentId: {{ $comment->id }} })" 
+                                    <button wire:click="dispatch('deleteComment', { commentId: {{ $comment->id }} })"
                                             class="dropdown-item text-danger">
                                         {{ _e('Delete') }}
                                     </button>
@@ -41,12 +41,21 @@
 
                 @if($allowReplies)
                     <div class="d-flex align-items-center">
-                        <button wire:click="dispatch('showReplyForm', { commentId: {{ $comment->id }} })" 
-                                class="btn btn-sm btn-outline-primary">
-                            {{ _e('Reply') }}
-                        </button>
+                        <div class="btn-group" role="group">
+                            <button wire:click="showReplyModal"
+                                    class="btn btn-sm btn-outline-primary">
+                                {{ _e('Reply') }}
+                            </button>
+                            @if(auth()->check() && auth()->id() == $comment->created_by)
+                                <button wire:click="showEditModal"
+                                        class="btn btn-sm btn-outline-secondary">
+                                    {{ _e('Edit') }}
+                                </button>
+                            @endif
+                        </div>
                     </div>
                 @endif
+
 
                 @if(count($comment->replies) > 0)
                     <div class="mt-4 ms-4">

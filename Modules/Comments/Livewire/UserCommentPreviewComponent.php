@@ -31,17 +31,29 @@ class UserCommentPreviewComponent extends Component
         }
     }
 
-    #[On('showReplyForm')]
-    public function showReplyForm(int $commentId)
+    public function showReplyModal()
     {
-        if ($this->comment->id === $commentId) {
-            $this->dispatch('replyTo', [
-                'id' => $commentId,
-                'body' => $this->comment->comment_body
+        $this->dispatch('openModal', 'comments::modals.reply-modal', [
+            'relId' => $this->comment->rel_id,
+            'relType' => $this->comment->rel_type,
+            'replyToCommentId' => $this->comment->id
+        ]);
+    }
+
+    public function showEditModal()
+    {
+
+        if ($this->authorize('update', $this->comment)) {
+
+            $this->dispatch('openModal', 'comments::modals.edit-modal', [
+                'commentId' => $this->comment->id
             ]);
         }
     }
-
+    public function authorize($ability, $arguments = [])
+    {
+        return true;
+    }
     public function render()
     {
         return view('modules.comments::livewire.user-comment-preview');
