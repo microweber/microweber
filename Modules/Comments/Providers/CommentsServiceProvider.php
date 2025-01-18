@@ -39,8 +39,13 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        
         $this->app->singleton('comments_manager', function () {
             return new CommentsManager();
+        });
+
+        $this->app->singleton(\Modules\Comments\Services\AvatarProvider::class, function ($app) {
+            return new \Modules\Comments\Services\AvatarProvider();
         });
 
         Blade::componentNamespace('\\Modules\\Comments\\View\\Components', 'comments');

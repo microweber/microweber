@@ -127,6 +127,11 @@ class Comment extends Model
         }
     }
 
+    public function getAvatarUrl()
+    {
+        return app(\Modules\Comments\Services\AvatarProvider::class)->getAvatarUrl($this);
+    }
+
     public function getCommentBodyAttribute()
     {
         return app()->format->autolink($this->attributes['comment_body']);

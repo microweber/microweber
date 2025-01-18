@@ -3,89 +3,44 @@
 namespace Modules\Comments\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
+use Modules\Comments\Models\Comment;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 
 class UserCommentPreviewComponent extends Component
 {
-
     use AuthorizesRequests;
 
-    public $comment = [];
-    public $showReplies = false;
-    public $editForm = false;
-    public $editText = '';
+    public Comment $comment;
+    public bool $showUserAvatar = true;
+    public bool $allowReplies = true;
 
-    protected $listeners = [
-        'commentAdded' => 'refreshIfReplyIsToMe',
-        'commentDeleted' => 'refreshIfReplyIsToMe',
-        'commentUpdated' => 'refreshIfReplyIsToMe',
-    ];
-
-    public function edit()
+    public function mount(Comment $comment, bool $showUserAvatar = true, bool $allowReplies = true)
     {
-        if (!$this->authorize('update', $this->comment)) {
-            return;
-        }
-
-        $this->editText = $this->comment->comment_body;
-        $this->editForm = true;
+        $this->comment = $comment;
+        $this->showUserAvatar = $showUserAvatar;
+        $this->allowReplies = $allowReplies;
     }
 
-    public function save()
+    #[On('deleteComment')]
+    public function deleteComment($commentId)
     {
-        if (!$this->authorize('update', $this->comment)) {
-            return;
-        }
-
-        $this->validate(['editText' => 'required']);
-
-        $this->comment->update([
-            'comment_body' => $this->editText,
-        ]);
-
-        $this->editForm = false;
-    }
-
-    public function refreshIfReplyIsToMe($id)
-    {
-        if ($id == $this->comment->id) {
-            $this->showReplies = true;
-            $this->dispatch('$refresh')->self();
+        if ($this->comment->id === $commentId && $this->authorize('delete', $this->comment)) {
+            $this->comment->deleteWithReplies();
+            $this->dispatch('commentDeleted', $commentId);
         }
     }
 
-    public function delete()
+    #[On('showReplyForm')]
+    public function showReplyForm($commentId)
     {
-        if (!$this->authorize('delete', $this->comment)) {
-            return;
+        if ($this->comment->id === $commentId) {
+            $this->dispatch('replyTo', ['id' => $commentId, 'body' => $this->comment->comment_body]);
         }
-
-        $this->dispatch('deleteComment', $this->comment->id);
     }
 
     public function render()
     {
-        return view('modules.comments::livewire.user-comment-preview-component');
+        return view('modules.comments::livewire.user-comment-preview');
     }
-
-    public function authorize($ability, $arguments = [])
-    {
-        if ($ability == 'update') {
-            if ($arguments->created_by == user_id() || is_admin()) {
-                return true;
-            }
-        }
-        if ($ability == 'delete') {
-            if ($arguments->created_by == user_id() || is_admin()) {
-                return true;
-            }
-        }
-        if ($ability == 'create') {
-            return true;
-        }
-        if ($ability == 'view') {
-            return true;
-        }
-    }
-
 }

@@ -49,6 +49,13 @@ class UserCommentReplyComponent extends Component
         $this->allowReplies = $allowReplies;
     }
 
+    #[On('replyTo')]
+    public function handleReply($params)
+    {
+        $this->state['reply_to_comment_id'] = $params['id'];
+        $this->state['comment_body'] = $params['body'];
+    }
+
     public function clearSuccessMessage()
     {
         $this->successMessage = false;
