@@ -5,7 +5,8 @@ namespace Modules\Comments\Livewire;
 use Livewire\Component;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 
-class UserCommentPreviewComponent extends Component {
+class UserCommentPreviewComponent extends Component
+{
 
     use AuthorizesRequests;
 
@@ -22,7 +23,9 @@ class UserCommentPreviewComponent extends Component {
 
     public function edit()
     {
-        $this->authorize('update', $this->comment);
+        if (!$this->authorize('update', $this->comment)) {
+            return;
+        }
 
         $this->editText = $this->comment->comment_body;
         $this->editForm = true;
@@ -30,7 +33,9 @@ class UserCommentPreviewComponent extends Component {
 
     public function save()
     {
-        $this->authorize('update', $this->comment);
+        if (!$this->authorize('update', $this->comment)) {
+            return;
+        }
 
         $this->validate(['editText' => 'required']);
 
@@ -41,7 +46,8 @@ class UserCommentPreviewComponent extends Component {
         $this->editForm = false;
     }
 
-    public function refreshIfReplyIsToMe($id) {
+    public function refreshIfReplyIsToMe($id)
+    {
         if ($id == $this->comment->id) {
             $this->showReplies = true;
             $this->dispatch('$refresh')->self();
@@ -50,14 +56,36 @@ class UserCommentPreviewComponent extends Component {
 
     public function delete()
     {
-       $this->authorize('delete', $this->comment);
+        if (!$this->authorize('delete', $this->comment)) {
+            return;
+        }
 
-       $this->dispatch('deleteComment', $this->comment->id);
+        $this->dispatch('deleteComment', $this->comment->id);
     }
 
     public function render()
     {
         return view('modules.comments::livewire.user-comment-preview-component');
+    }
+
+    public function authorize($ability, $arguments = [])
+    {
+        if ($ability == 'update') {
+            if ($arguments->created_by == user_id() || is_admin()) {
+                return true;
+            }
+        }
+        if ($ability == 'delete') {
+            if ($arguments->created_by == user_id() || is_admin()) {
+                return true;
+            }
+        }
+        if ($ability == 'create') {
+            return true;
+        }
+        if ($ability == 'view') {
+            return true;
+        }
     }
 
 }

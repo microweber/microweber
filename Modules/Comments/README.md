@@ -16,17 +16,7 @@ php artisan module:migrate Comments
 php artisan module:publish Comments
 ```
 
-
-
-
-### Use module assets in your .blade.php file
-
-Using vite assets
-```blade
-{{ module_vite('modules/comments/dist', 'resources/assets/js/app.js') }}
-{{ module_vite('modules/comments/dist', 'resources/assets/sass/app.scss') }}
-```
-
+ 
 
 Using static assets
 ```blade

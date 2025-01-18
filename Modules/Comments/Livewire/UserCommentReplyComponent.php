@@ -56,7 +56,7 @@ class UserCommentReplyComponent extends Component
 
     public function isEnabledCaptcha()
     {
-        return module_option('comments', 'enable_captcha', true);
+        return module_option('comments', 'enable_captcha', config('modules.comments.enable_captcha'));
     }
 
     public function getViewData()
@@ -66,7 +66,7 @@ class UserCommentReplyComponent extends Component
         }
 
         $allowToComment = false;
-        if (!module_option('comments', 'require_login', false) || auth()->check()) {
+        if (!module_option('comments', 'require_login', config('modules.comments.require_login')) || auth()->check()) {
             $allowToComment = true;
         }
 
@@ -78,7 +78,7 @@ class UserCommentReplyComponent extends Component
         return [
             'enableCaptcha' => $this->isEnabledCaptcha(),
             'allowToComment' => $allowToComment,
-            'allowAnonymousComments' => module_option('comments', 'allow_guest_comments', true),
+            'allowAnonymousComments' => module_option('comments', 'allow_guest_comments', config('modules.comments.allow_guest_comments')),
             'comment' => $comment,
         ];
     }
@@ -146,7 +146,7 @@ class UserCommentReplyComponent extends Component
 
             RateLimiter::hit('save-comment:' . $hasRateLimiterId);
 
-            if (module_option('comments', 'enable_moderation', true) && !is_admin()) {
+            if (module_option('comments', 'enable_moderation', config('modules.comments.enable_moderation')) && !is_admin()) {
                 $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);
             } else {
                 $this->successMessage = _e('Your comment has been added', true);

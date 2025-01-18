@@ -25,12 +25,12 @@ class CommentsManager
         }
 
         // Apply moderation filter if enabled
-        if (module_option('comments', 'enable_moderation', true)) {
+        if (config('modules.comments.enable_moderation')) {
             $query->where('is_moderated', 1);
         }
 
         // Apply spam filter if enabled
-        if (module_option('comments', 'enable_spam_filter', true)) {
+        if (config('modules.comments.enable_spam_filter')) {
             $query->where(function($q) {
                 $q->whereNull('is_spam')
                   ->orWhere('is_spam', 0);
@@ -38,7 +38,7 @@ class CommentsManager
         }
 
         // Apply sorting
-        $sortOrder = module_option('comments', 'sort_order', 'newest');
+        $sortOrder = config('modules.comments.sort_order');
         switch ($sortOrder) {
             case 'oldest':
                 $query->oldest();
@@ -53,25 +53,25 @@ class CommentsManager
         }
 
         // Apply pagination
-        $perPage = module_option('comments', 'comments_per_page', 10);
+        $perPage = config('modules.comments.comments_per_page');
         return $query->paginate($perPage);
     }
 
     public function create($data)
     {
         // Check if comments are enabled globally
-        if (!module_option('comments', 'enable_comments', true)) {
+        if (!module_option('comments', 'enable_comments', config('modules.comments.enable_comments'))) {
             throw new \Exception('Comments are currently disabled');
         }
 
         // Check if guest comments are allowed
-        if (!module_option('comments', 'allow_guest_comments', true) && !Auth::check()) {
+        if (!module_option('comments', 'allow_guest_comments', config('modules.comments.allow_guest_comments')) && !Auth::check()) {
             throw new \Exception('Only registered users can post comments');
         }
 
         // Validate comment length
-        $minLength = module_option('comments', 'min_comment_length', 2);
-        $maxLength = module_option('comments', 'max_comment_length', 1000);
+        $minLength = module_option('comments', 'min_comment_length', config('modules.comments.min_comment_length'));
+        $maxLength = module_option('comments', 'max_comment_length', config('modules.comments.max_comment_length'));
         $commentLength = Str::length($data['body']);
 
         if ($commentLength < $minLength) {
@@ -82,13 +82,13 @@ class CommentsManager
         }
 
         // Check if replies are allowed
-        if (isset($data['reply_to']) && !module_option('comments', 'allow_replies', true)) {
+        if (isset($data['reply_to']) && !module_option('comments', 'allow_replies', config('modules.comments.allow_replies'))) {
             throw new \Exception('Replies are currently disabled');
         }
 
         // Check for spam keywords if enabled
-        if (module_option('comments', 'block_spam_keywords', true)) {
-            $spamKeywords = explode(',', module_option('comments', 'spam_keywords', ''));
+        if (module_option('comments', 'block_spam_keywords', config('modules.comments.block_spam_keywords'))) {
+            $spamKeywords = explode(',', module_option('comments', 'spam_keywords', config('modules.comments.spam_keywords')));
             $spamKeywords = array_map('trim', $spamKeywords);
             
             foreach ($spamKeywords as $keyword) {
@@ -99,7 +99,7 @@ class CommentsManager
         }
 
         // Check maximum links if enabled
-        $maxLinks = module_option('comments', 'max_links', 2);
+        $maxLinks = module_option('comments', 'max_links', config('modules.comments.max_links'));
         if ($maxLinks > 0) {
             $linkCount = substr_count(strtolower($data['body']), 'http');
             if ($linkCount > $maxLinks) {
@@ -122,7 +122,7 @@ class CommentsManager
         $comment->user_agent = request()->userAgent();
 
         // Set moderation status
-        if (module_option('comments', 'enable_moderation', true)) {
+        if (module_option('comments', 'enable_moderation', config('modules.comments.enable_moderation'))) {
             $comment->is_moderated = 0; // Requires moderation
         } else {
             $comment->is_moderated = 1; // Auto-approve
@@ -131,8 +131,8 @@ class CommentsManager
         $comment->save();
 
         // Send email notifications if enabled
-        if (module_option('comments', 'notify_admin', true)) {
-            $adminEmail = module_option('comments', 'admin_email');
+        if (module_option('comments', 'notify_admin', config('modules.comments.notify_admin'))) {
+            $adminEmail = module_option('comments', 'admin_email', config('modules.comments.admin_email'));
             if ($adminEmail) {
                 Notification::route('mail', $adminEmail)
                     ->notify(new NewCommentNotification($comment));
@@ -140,7 +140,7 @@ class CommentsManager
         }
 
         // Notify users of replies if enabled
-        if (isset($data['reply_to']) && module_option('comments', 'notify_users', true)) {
+        if (isset($data['reply_to']) && module_option('comments', 'notify_users', config('modules.comments.notify_users'))) {
             $parentComment = Comment::find($data['reply_to']);
             if ($parentComment && $parentComment->comment_email) {
                 Notification::route('mail', $parentComment->comment_email)
