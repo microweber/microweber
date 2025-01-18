@@ -25,7 +25,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <button wire:click="dispatch('deleteComment', { commentId: {{ $comment->id }} })"
+                                    <button wire:click="showDeleteModal"
                                             class="dropdown-item text-danger">
                                         {{ _e('Delete') }}
                                     </button>

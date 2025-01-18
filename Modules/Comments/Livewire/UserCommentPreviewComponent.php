@@ -22,12 +22,23 @@ class UserCommentPreviewComponent extends Component
         $this->allowReplies = $allowReplies;
     }
 
+    public function showDeleteModal()
+    {
+        if ($this->authorizeCheck('delete', $this->comment)) {
+            $this->dispatch('openModal', 'comments::modals.delete-modal', [
+                'commentId' => $this->comment->id
+            ]);
+        }
+    }
+
     #[On('deleteComment')]
     public function deleteComment(int $commentId)
     {
         if ($this->comment->id === $commentId && $this->authorizeCheck('delete', $this->comment)) {
             $this->comment->deleteWithReplies();
             $this->dispatch('commentDeleted', ['commentId' => $commentId]);
+            $this->dispatch('$refresh')->self();
+
         }
     }
 

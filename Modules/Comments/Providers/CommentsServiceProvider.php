@@ -17,6 +17,7 @@ use Modules\Comments\Livewire\UserCommentReplyComponent;
 use Modules\Comments\Livewire\Editors\TextareaComponent;
 use Modules\Comments\Livewire\Modals\ReplyModal;
 use Modules\Comments\Livewire\Modals\EditModal;
+use Modules\Comments\Livewire\Modals\DeleteModal;
 use Modules\Comments\Livewire\Editors\EasyMdeComponent;
 use Modules\Comments\Models\GatedComment;
 use Modules\Comments\Policies\CommentPolicy;
@@ -70,6 +71,7 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         // Register modal components
         Livewire::component('comments::modals.reply-modal', ReplyModal::class);
         Livewire::component('comments::modals.edit-modal', EditModal::class);
+        Livewire::component('comments::modals.delete-modal', DeleteModal::class);
 
         // Register Microweber module
         Microweber::module(\Modules\Comments\Microweber\CommentsModule::class);

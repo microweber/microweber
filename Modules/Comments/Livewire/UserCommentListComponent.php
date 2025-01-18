@@ -48,6 +48,7 @@ class UserCommentListComponent extends Component
         if ($comment && $this->authorizeCheck('delete', $comment)) {
             $this->commentsManager->delete($comment->id);
             $this->dispatch('commentDeleted', commentId: $commentId);
+            $this->dispatch('$refresh')->to('comments::user-comment-list');
 
 
         }
