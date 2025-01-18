@@ -12,7 +12,7 @@ function get_module_option($optionKey, $optionGroup = false, $returnFull = false
 function module_option($optionGroup = false, $optionKey = false, $default = false)
 {
     $get = get_module_option($optionKey, $optionGroup);
-    if(!$get){
+    if($get === null){
         return $default;
     }
     return $get;

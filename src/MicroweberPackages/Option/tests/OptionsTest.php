@@ -24,10 +24,11 @@ class OptionsTest extends TestCase
         $options = OptionFacade::getValue('a_test', 'test'); // static
         $this->assertEquals($now, $options);
 
-        $option  = new Option();
+        $option = new Option();
         $options = $option->getValue('a_test', 'test'); //instance
         $this->assertEquals($now, $options);
     }
+
     public function testOptionsWithNumericKey()
     {
         $data = array();
@@ -35,19 +36,19 @@ class OptionsTest extends TestCase
         $option_group = rand(1, 9999999);
         $option_key = rand(1, 9999999);
         $data['option_value'] = $now;
-        $data['option_key'] =  $option_key;
-        $data['option_group'] =  $option_group;
+        $data['option_key'] = $option_key;
+        $data['option_group'] = $option_group;
         $save = save_option($data);
 
-        $get = get_option( $option_key, $option_group); // if this broke maybe you dont destroy MEMORY variable in Class when save OPTION
+        $get = get_option($option_key, $option_group); // if this broke maybe you dont destroy MEMORY variable in Class when save OPTION
 
         $this->assertEquals($now, $get);
 
-        $options = OptionFacade::getValue( $option_key, $option_group); // static
+        $options = OptionFacade::getValue($option_key, $option_group); // static
         $this->assertEquals($now, $options);
 
-        $option  = new Option();
-        $options = $option->getValue( $option_key, $option_group); //instance
+        $option = new Option();
+        $options = $option->getValue($option_key, $option_group); //instance
         $this->assertEquals($now, $options);
 
     }
@@ -55,17 +56,17 @@ class OptionsTest extends TestCase
     public function testOptionsSaveWithParseString()
     {
         $now = date('YmdHis');
-        $str = "option_key=".$now."&option_group=test&option_value=test2";
+        $str = "option_key=" . $now . "&option_group=test&option_value=test2";
         $save = save_option($str);
-        $get =  get_option($now, 'test');
+        $get = get_option($now, 'test');
         $this->assertEquals('test2', $get);
 
 
         //test numeric key
         $now = rand(1, 9999999);
-        $str = "option_key=".$now."&option_group=test&option_value=test2";
+        $str = "option_key=" . $now . "&option_group=test&option_value=test2";
         $save = save_option($str);
-        $get =  get_option($now, 'test');
+        $get = get_option($now, 'test');
         $this->assertEquals('test2', $get);
     }
 
@@ -82,7 +83,6 @@ class OptionsTest extends TestCase
         $save = mw()->option_manager->save($data);
 
 
-
         // test get and save
         $data = array();
         $now = date('YmdHis');
@@ -95,7 +95,7 @@ class OptionsTest extends TestCase
 
 
         // test other functions
-      //  $groups = mw()->option_manager->get_groups(true);
+        //  $groups = mw()->option_manager->get_groups(true);
         $groups2 = mw()->option_manager->get_groups();
 
 
@@ -103,11 +103,35 @@ class OptionsTest extends TestCase
 
         $get = mw()->option_manager->get('z_test', 'ztest'); // if this broke maybe you dont destroy MEMORY variable in Class when delete OPTION
 
-      //  $this->assertTrue(in_array('website',$groups));
-        $this->assertTrue(in_array('ztest',$groups2));
+        //  $this->assertTrue(in_array('website',$groups));
+        $this->assertTrue(in_array('ztest', $groups2));
         $this->assertTrue($delete);
         $this->assertTrue(empty($get));
 
+
+    }
+
+
+    public function testModuleOptionDefaultReturn()
+    {
+
+        $optionKey = 'test_option_website_group_testModuleOptionDefaultReturn';
+        $optionGroup = 'website';
+        $optionGroupNonExistent = 'website' . rand(1, 9999999);
+        $data = array();
+        $now = date('YmdHis');
+        $data['option_value'] = $now;
+        $data['option_key'] = $optionKey;
+        $data['option_group'] = $optionGroup;
+        $save = mw()->option_manager->save($data);
+
+
+        $get = module_option($optionGroup, $optionKey);
+
+        $this->assertEquals($now, $get);
+
+        $get = module_option($optionGroupNonExistent, $optionKey, $now);
+        $this->assertEquals($now, $get);
 
     }
 }
