@@ -78,6 +78,7 @@ class UserCommentReplyComponent extends Component
         return [
             'enableCaptcha' => $this->isEnabledCaptcha(),
             'allowToComment' => $allowToComment,
+            'allowAnonymousComments' => module_option('comments', 'allow_guest_comments', true),
             'comment' => $comment,
         ];
     }

@@ -10,6 +10,7 @@ use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\Comments\Filament\Resources\CommentResource;
 use Modules\Comments\Livewire\UserCommentListComponent;
 use Modules\Comments\Livewire\UserCommentPreviewComponent;
 use Modules\Comments\Livewire\UserCommentReplyComponent;
@@ -45,7 +46,8 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         Blade::componentNamespace('\\Modules\\Comments\\View\\Components', 'comments');
 
         // Register filament page for Microweber module settings
-        FilamentRegistry::registerPage(CommentsModuleSettingsAdmin::class);
+       FilamentRegistry::registerResource(CommentResource::class);
+       FilamentRegistry::registerPage(CommentsModuleSettingsAdmin::class);
         FilamentRegistry::registerPage(CommentsModuleSettings::class);
 
         Gate::policy(GatedComment::class, CommentPolicy::class);

@@ -3,7 +3,12 @@
 namespace Modules\Comments\Services;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Modules\Comments\Models\Comment;
+use Modules\Comments\Notifications\NewCommentNotification;
+use Modules\Comments\Notifications\CommentReplyNotification;
 
 class CommentsManager
 {
@@ -54,9 +59,52 @@ class CommentsManager
 
     public function create($data)
     {
-        // Check if login is required
-        if (module_option('comments', 'require_login', false) && !Auth::check()) {
-            throw new \Exception('Login required to post comments');
+        // Check if comments are enabled globally
+        if (!module_option('comments', 'enable_comments', true)) {
+            throw new \Exception('Comments are currently disabled');
+        }
+
+        // Check if guest comments are allowed
+        if (!module_option('comments', 'allow_guest_comments', true) && !Auth::check()) {
+            throw new \Exception('Only registered users can post comments');
+        }
+
+        // Validate comment length
+        $minLength = module_option('comments', 'min_comment_length', 2);
+        $maxLength = module_option('comments', 'max_comment_length', 1000);
+        $commentLength = Str::length($data['body']);
+
+        if ($commentLength < $minLength) {
+            throw new \Exception("Comment must be at least {$minLength} characters long");
+        }
+        if ($commentLength > $maxLength) {
+            throw new \Exception("Comment cannot exceed {$maxLength} characters");
+        }
+
+        // Check if replies are allowed
+        if (isset($data['reply_to']) && !module_option('comments', 'allow_replies', true)) {
+            throw new \Exception('Replies are currently disabled');
+        }
+
+        // Check for spam keywords if enabled
+        if (module_option('comments', 'block_spam_keywords', true)) {
+            $spamKeywords = explode(',', module_option('comments', 'spam_keywords', ''));
+            $spamKeywords = array_map('trim', $spamKeywords);
+            
+            foreach ($spamKeywords as $keyword) {
+                if (!empty($keyword) && Str::contains(strtolower($data['body']), strtolower($keyword))) {
+                    throw new \Exception('This comment has been identified as potential spam');
+                }
+            }
+        }
+
+        // Check maximum links if enabled
+        $maxLinks = module_option('comments', 'max_links', 2);
+        if ($maxLinks > 0) {
+            $linkCount = substr_count(strtolower($data['body']), 'http');
+            if ($linkCount > $maxLinks) {
+                throw new \Exception("Maximum {$maxLinks} links allowed per comment");
+            }
         }
 
         $comment = new Comment();
@@ -81,6 +129,25 @@ class CommentsManager
         }
 
         $comment->save();
+
+        // Send email notifications if enabled
+        if (module_option('comments', 'notify_admin', true)) {
+            $adminEmail = module_option('comments', 'admin_email');
+            if ($adminEmail) {
+                Notification::route('mail', $adminEmail)
+                    ->notify(new NewCommentNotification($comment));
+            }
+        }
+
+        // Notify users of replies if enabled
+        if (isset($data['reply_to']) && module_option('comments', 'notify_users', true)) {
+            $parentComment = Comment::find($data['reply_to']);
+            if ($parentComment && $parentComment->comment_email) {
+                Notification::route('mail', $parentComment->comment_email)
+                    ->notify(new CommentReplyNotification($comment, $parentComment));
+            }
+        }
+
         return $comment;
     }
 

@@ -102,12 +102,7 @@ class Comment extends Model
 
     public function contentTitle()
     {
-        $content = $this->content()->select('title')->first();
-        if ($content) {
-            return $content->title;
-        } else {
-            return 'No post title';
-        }
+        return $this->content()->select('title');
     }
 
     public function getCommentNameAttribute()
