@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h5>{{$comment->comment_name}}</h5>
                     <p class="text-small">
-                        {{$comment->created_at->diffForHumans()}}
+                        {{$comment->created_at  ? $comment->created_at->diffForHumans() : ''}}
                     </p>
                     <div class="mt-3 mb-3">
 

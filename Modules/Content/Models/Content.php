@@ -37,7 +37,8 @@ class Content extends Model
     use Filterable;
     use HasCreatedByFieldsTrait;
     use CacheableQueryBuilderTrait;
- //   use PowerJoins;
+
+    //   use PowerJoins;
     use HasEvents;
     use HasMultilanguageTrait;
     use MaxPositionTrait;
@@ -47,9 +48,9 @@ class Content extends Model
     protected $content_type = 'content';
     public $additionalData = [];
 
-    public $cacheTagsToClear = ['repositories', 'content', 'content_fields_drafts', 'menu', 'content_fields', 'categories','custom_fields','custom_fields_values'];
+    public $cacheTagsToClear = ['repositories', 'content', 'content_fields_drafts', 'menu', 'content_fields', 'categories', 'custom_fields', 'custom_fields_values'];
 
-    public $translatable = ['title','url','description','content','content_body','content_meta_title','content_meta_keywords'];
+    public $translatable = ['title', 'url', 'description', 'content', 'content_body', 'content_meta_title', 'content_meta_keywords'];
 
     protected $attributes = [
         'is_active' => '1',
@@ -119,18 +120,18 @@ class Content extends Model
     {
         return $query
             ->where('is_active', 1)
-            ->where(function($subQuery) {
+            ->where(function ($subQuery) {
                 $subQuery
                     ->whereNull('is_deleted')
                     ->orWhere('is_deleted', 0);
             });
     }
 
-   public function scopeInactive($query)
+    public function scopeInactive($query)
     {
         return $query
             ->where('is_active', 0)
-            ->where(function($subQuery) {
+            ->where(function ($subQuery) {
                 $subQuery
                     ->whereNull('is_deleted')
                     ->orWhere('is_deleted', 0);
@@ -144,7 +145,7 @@ class Content extends Model
 
     public function related()
     {
-        return $this->hasMany(ContentRelated::class,'content_id','id')->orderBy('position', 'ASC');
+        return $this->hasMany(ContentRelated::class, 'content_id', 'id')->orderBy('position', 'ASC');
     }
 
     public function modelFilter()
@@ -157,18 +158,23 @@ class Content extends Model
         // TODO
         return Content::class;
     }
+
     public function getImageAttribute()
     {
-        return  content_picture($this->id);
+        return content_picture($this->id);
     }
+
     public function getLinkAttribute()
     {
         return $this->link();
     }
+
     public function link()
     {
         return content_link($this->id);
     }
+
+
 
     public function editLink()
     {
@@ -177,13 +183,13 @@ class Content extends Model
 
     public function liveEditLink()
     {
-        return content_link($this->id).'?editmode=y';
+        return content_link($this->id) . '?editmode=y';
     }
 
     public function getDescriptionAttribute($value)
     {
-        if(is_string($value) and $value){
-          return  strip_tags($value);
+        if (is_string($value) and $value) {
+            return strip_tags($value);
         }
     }
 

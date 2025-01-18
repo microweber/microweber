@@ -1,4 +1,4 @@
-<div class="card mb-4">
+ <div class="card mb-4">
     <div class="card-body">
         <div class="d-flex align-items-start">
             @if($showUserAvatar)
@@ -14,7 +14,7 @@
                     <div>
                         <h6 class="fw-bold mb-0">{{ $comment->comment_name }}</h6>
                         <small class="text-muted">
-                            {{ $comment->created_at->diffForHumans() }}
+                            {{$comment->created_at  ? $comment->created_at->diffForHumans() : ''}}
                         </small>
                     </div>
 
@@ -62,7 +62,7 @@
                         @foreach($comment->replies as $reply)
                             <livewire:comments::user-comment-preview
                                 wire:key="user-comment-preview-id-{{$reply->id}}"
-                                :comment="$reply" />
+                                :comment="$reply"/>
                         @endforeach
                     </div>
                 @endif

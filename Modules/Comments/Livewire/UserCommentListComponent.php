@@ -3,6 +3,7 @@
 namespace Modules\Comments\Livewire;
 
 use Livewire\Component;
+use Livewire\Features\SupportEvents\HandlesEvents;
 use Livewire\WithPagination;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use Modules\Comments\Models\Comment;
@@ -12,6 +13,7 @@ class UserCommentListComponent extends Component
 {
     use AuthorizesEditCommentsRequests;
     use WithPagination;
+    use HandlesEvents;
 
     public $relId;
     public $relType;
@@ -46,7 +48,8 @@ class UserCommentListComponent extends Component
         if ($comment && $this->authorizeCheck('delete', $comment)) {
             $this->commentsManager->delete($comment->id);
             $this->dispatch('commentDeleted', commentId: $commentId);
-            $this->dispatch('$refresh')->self();
+
+
         }
     }
 

@@ -107,7 +107,7 @@ class Comment extends Model
 
     public function getCommentNameAttribute()
     {
-        if ($this->attributes['created_by'] > 0) {
+        if (isset($this->attributes['created_by']) and $this->attributes['created_by'] > 0) {
             return user_name($this->attributes['created_by']);
         } else if (!empty($this->attributes['comment_name'])) {
             return $this->attributes['comment_name'];
