@@ -21,12 +21,34 @@ class UserCommentListComponent extends Component
     public $sortOrder = 'newest';
     public $state = [];
 
-    protected $listeners = [
-        'commentAdded' => '$refresh',
-        'commentDeleted' => '$refresh',
-        'commentUpdated' => '$refresh',
-        'deleteComment' => 'delete',
-    ];
+    #[On('commentAdded')]
+    public function refreshOnCommentAdded()
+    {
+        $this->dispatch('$refresh')->self();
+    }
+
+    #[On('commentDeleted')]
+    public function refreshOnCommentDeleted()
+    {
+        $this->dispatch('$refresh')->self();
+    }
+
+    #[On('commentUpdated')]
+    public function refreshOnCommentUpdated()
+    {
+        $this->dispatch('$refresh')->self();
+    }
+
+    #[On('deleteComment')]
+    public function delete(int $commentId)
+    {
+        $getComment = Comment::where('id', $commentId)->first();
+        if ($getComment && $this->authorize('delete', $getComment)) {
+            $this->commentsManager->delete($commentId);
+            $this->dispatch('commentDeleted', commentId: $commentId);
+            $this->dispatch('$refresh')->self();
+        }
+    }
 
     public $commentsPage = 0;
 
@@ -51,19 +73,10 @@ class UserCommentListComponent extends Component
         $this->sortOrder = $sortOrder;
     }
 
-    public function delete($commentId = false)
-    {
-        $getComment = Comment::where('id', $commentId)->first();
-        if ($getComment && $this->authorize('delete', $getComment)) {
-            $this->commentsManager->delete($commentId);
-            $this->dispatch('commentDeleted', $commentId);
-            $this->dispatch('$refresh')->self();
-        }
-    }
 
     public function render()
     {
-         $comments = $this->commentsManager->get([
+        $comments = $this->commentsManager->get([
             'rel_id' => $this->relId,
             'rel_type' => $this->relType,
             'comments_per_page' => $this->commentsPerPage,

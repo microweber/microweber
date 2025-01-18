@@ -23,19 +23,22 @@ class UserCommentPreviewComponent extends Component
     }
 
     #[On('deleteComment')]
-    public function deleteComment($commentId)
+    public function deleteComment(int $commentId)
     {
         if ($this->comment->id === $commentId && $this->authorize('delete', $this->comment)) {
             $this->comment->deleteWithReplies();
-            $this->dispatch('commentDeleted', $commentId);
+            $this->dispatch('commentDeleted', ['commentId' => $commentId]);
         }
     }
 
     #[On('showReplyForm')]
-    public function showReplyForm($commentId)
+    public function showReplyForm(int $commentId)
     {
         if ($this->comment->id === $commentId) {
-            $this->dispatch('replyTo', ['id' => $commentId, 'body' => $this->comment->comment_body]);
+            $this->dispatch('replyTo', [
+                'id' => $commentId,
+                'body' => $this->comment->comment_body
+            ]);
         }
     }
 

@@ -25,7 +25,7 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <button wire:click="dispatch('deleteComment', {{ $comment->id }})" 
+                                    <button wire:click="dispatch('deleteComment', { commentId: {{ $comment->id }} })" 
                                             class="dropdown-item text-danger">
                                         {{ _e('Delete') }}
                                     </button>
@@ -41,7 +41,7 @@
 
                 @if($allowReplies)
                     <div class="d-flex align-items-center">
-                        <button wire:click="dispatch('showReplyForm', {{ $comment->id }})" 
+                        <button wire:click="dispatch('showReplyForm', { commentId: {{ $comment->id }} })" 
                                 class="btn btn-sm btn-outline-primary">
                             {{ _e('Reply') }}
                         </button>

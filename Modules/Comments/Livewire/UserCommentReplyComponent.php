@@ -34,11 +34,10 @@ class UserCommentReplyComponent extends Component
         $this->commentsManager = app(CommentsManager::class);
     }
 
-    public function getListeners()
+    #[On('setCaptcha')]
+    public function setCaptcha(string $value)
     {
-        return [
-            "setCaptcha" . md5($this->getId()) => 'setCaptcha',
-        ];
+        $this->captcha = $value;
     }
 
     public function mount($relId = null, $relType = null, $replyToCommentId = null, $allowReplies = true)
@@ -47,13 +46,18 @@ class UserCommentReplyComponent extends Component
         $this->state['rel_type'] = $relType;
         $this->state['reply_to_comment_id'] = $replyToCommentId;
         $this->allowReplies = $allowReplies;
+
+        if (auth()->check()) {
+            $this->state['comment_name'] = auth()->user()->name;
+            $this->state['comment_email'] = auth()->user()->email;
+        }
     }
 
     #[On('replyTo')]
-    public function handleReply($params)
+    public function handleReply(array $params)
     {
-        $this->state['reply_to_comment_id'] = $params['id'];
-        $this->state['comment_body'] = $params['body'];
+        $this->state['reply_to_comment_id'] = (int)$params['id'];
+        $this->state['comment_body'] = (string)$params['body'];
     }
 
     public function clearSuccessMessage()
@@ -97,7 +101,7 @@ class UserCommentReplyComponent extends Component
     }
 
     #[On('validateCaptchaValueAndSave')]
-    public function validateCaptchaValueAndSave($value)
+    public function validateCaptchaValueAndSave(string $value)
     {
         $this->captcha = $value;
         $this->save();
@@ -142,29 +146,30 @@ class UserCommentReplyComponent extends Component
         }
 
 
-            $comment = $this->commentsManager->create([
-                'rel_id' => $this->state['rel_id'],
-                'rel_type' => $this->state['rel_type'],
-                'reply_to' => $this->state['reply_to_comment_id'],
-                'body' => $this->state['comment_body'],
-                'name' => $this->state['comment_name'],
-                'email' => $this->state['comment_email'],
-            ]);
+        $comment = $this->commentsManager->create([
+            'rel_id' => $this->state['rel_id'],
+            'rel_type' => $this->state['rel_type'],
+            'reply_to' => $this->state['reply_to_comment_id'],
+            'body' => $this->state['comment_body'],
+            'name' => $this->state['comment_name'],
+            'email' => $this->state['comment_email'],
+        ]);
 
-            RateLimiter::hit('save-comment:' . $hasRateLimiterId);
+        RateLimiter::hit('save-comment:' . $hasRateLimiterId);
 
-            if (module_option('comments', 'enable_moderation', config('modules.comments.enable_moderation')) && !is_admin()) {
-                $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);
-            } else {
-                $this->successMessage = _e('Your comment has been added', true);
-            }
+        if (module_option('comments', 'enable_moderation', config('modules.comments.enable_moderation')) && !is_admin()) {
+            $this->successMessage = _e('Your comment has been added, Waiting moderation.', true);
+        } else {
+            $this->successMessage = _e('Your comment has been added', true);
+        }
 
-            $this->state['comment_body'] = '';
-            $this->state['comment_name'] = '';
-            $this->state['comment_email'] = '';
-            $this->captcha = '';
+        $this->state['comment_body'] = '';
+        $this->state['comment_name'] = '';
+        $this->state['comment_email'] = '';
+        $this->captcha = '';
 
-            $this->dispatch('commentAdded', $comment->id);
+        $this->dispatch('commentAdded', commentId: $comment->id);
+        $this->dispatch('$refresh')->to('comments::user-comment-list');
 
 
     }
