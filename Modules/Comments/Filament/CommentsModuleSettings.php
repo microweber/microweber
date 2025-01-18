@@ -8,7 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 
-class CommentsModuleSettingsLiveEdit extends LiveEditModuleSettings
+class CommentsModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'comments';
 

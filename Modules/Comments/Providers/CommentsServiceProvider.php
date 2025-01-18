@@ -17,7 +17,7 @@ use Modules\Comments\Livewire\Editors\TextareaComponent;
 use Modules\Comments\Livewire\Editors\EasyMdeComponent;
 use Modules\Comments\Models\GatedComment;
 use Modules\Comments\Policies\CommentPolicy;
-use Modules\Comments\Filament\CommentsModuleSettingsLiveEdit;
+use Modules\Comments\Filament\CommentsModuleSettings;
 use Modules\Comments\Filament\Pages\CommentsModuleSettingsAdmin;
 use Modules\Comments\Models\Comment;
 use Modules\Comments\Services\CommentsManager;
@@ -46,7 +46,7 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
 
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(CommentsModuleSettingsAdmin::class);
-        FilamentRegistry::registerPage(CommentsModuleSettingsLiveEdit::class);
+        FilamentRegistry::registerPage(CommentsModuleSettings::class);
 
         Gate::policy(GatedComment::class, CommentPolicy::class);
 

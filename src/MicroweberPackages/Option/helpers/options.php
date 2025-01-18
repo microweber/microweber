@@ -1,10 +1,21 @@
 <?php
-function get_module_options($optionGroup,$module=false) {
-    return mw()->option_manager->getModuleOptions($optionGroup,$module=false);
+function get_module_options($optionGroup, $module = false)
+{
+    return mw()->option_manager->getModuleOptions($optionGroup, $module = false);
 }
 
-function get_module_option($optionKey, $optionGroup = false, $returnFull = false, $module = false){
+function get_module_option($optionKey, $optionGroup = false, $returnFull = false, $module = false)
+{
     return mw()->option_manager->getModuleOption($optionKey, $optionGroup, $returnFull, $module);
+}
+
+function module_option($optionGroup = false, $optionKey = false, $default = false)
+{
+    $get = get_module_option($optionKey, $optionGroup);
+    if(!$get){
+        return $default;
+    }
+    return $get;
 }
 
 /**
@@ -41,25 +52,25 @@ function get_option($key, $option_group = false, $return_full = false, $orderby 
  */
 function save_option($optionKey, $value = false, $group = false, $lang = false)
 {
-  //  $lang = false;
-    if(!$lang) {
+    //  $lang = false;
+    if (!$lang) {
         if (isset($_POST['lang'])) {
             $lang = $_POST['lang'];
         }
     }
     if ($optionKey &&
-        ( is_string($optionKey) || is_numeric($optionKey) )
+        (is_string($optionKey) || is_numeric($optionKey))
         && $group) {
 
         $option = array();
         $option['option_value'] = $value;
         $option['option_key'] = $optionKey;
         $option['option_group'] = $group;
-        if($lang){
-            if($lang != app()->lang_helper->default_lang()){
+        if ($lang) {
+            if ($lang != app()->lang_helper->default_lang()) {
                 $option['lang'] = $lang;
             }
-          //  $option['lang'] = $lang;
+            //  $option['lang'] = $lang;
         }
 
         return app()->option_manager->save($option);
@@ -68,7 +79,8 @@ function save_option($optionKey, $value = false, $group = false, $lang = false)
     }
 }
 
-function delete_option($key, $group = false, $module_id = false) {
+function delete_option($key, $group = false, $module_id = false)
+{
 
     return app()->option_manager->delete($key, $group, $module_id);
 }

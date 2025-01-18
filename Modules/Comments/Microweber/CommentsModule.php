@@ -4,7 +4,7 @@ namespace Modules\Comments\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use MicroweberPackages\Module\ModuleServiceProvider;
-use Modules\Comments\Filament\CommentsModuleSettingsLiveEdit;
+use Modules\Comments\Filament\CommentsModuleSettings;
 use Modules\Comments\Services\CommentsManager;
 
 class CommentsModule extends BaseModule
@@ -14,7 +14,7 @@ class CommentsModule extends BaseModule
     public static string $icon = 'modules.comments-icon';
     public static string $categories = 'comments';
     public static int $position = 1;
-    public static string $settingsComponent = CommentsModuleSettingsLiveEdit::class;
+    public static string $settingsComponent = CommentsModuleSettings::class;
     public static string $templatesNamespace = 'modules.comments::templates';
 
     protected CommentsManager $commentsManager;
@@ -67,7 +67,7 @@ class CommentsModule extends BaseModule
         return [
             'show_user_avatar' => $this->getOption('show_user_avatar', true),
             'show_on_current_content' => $this->getOption('show_on_current_content', true),
-             'allow_replies' => $this->getOption('allow_replies', true),
+            'allow_replies' => $this->getOption('allow_replies', true),
             'require_login' => $this->getOption('require_login', false),
             'comments_per_page' => $this->getOption('comments_per_page', 10),
             'sort_order' => $this->getOption('sort_order', 'newest'),
