@@ -5,6 +5,7 @@ namespace Modules\Comments\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use MicroweberPackages\Notification\Channels\AppMailChannel;
 use Modules\Comments\Models\Comment;
 
 class CommentReplyNotification extends Notification
@@ -22,13 +23,13 @@ class CommentReplyNotification extends Notification
 
     public function via($notifiable): array
     {
-        return ['mail'];
+        return ['database', AppMailChannel::class]; //return [AppMailChannel::class];
     }
 
     public function toMail($notifiable): MailMessage
     {
-        $contentTitle = $this->comment->contentTitle();
-        $commentUrl = $this->comment->content?->url() . '#comment-' . $this->comment->id;
+        $contentTitle = $this->comment->contentTitle()->title ?? 'Unknown Content';
+        $commentUrl = $this->comment->content?->link() . '#comment-' . $this->comment->id;
 
         return (new MailMessage)
             ->subject('New Reply to Your Comment')

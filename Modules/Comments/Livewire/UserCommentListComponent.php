@@ -10,7 +10,7 @@ use Modules\Comments\Services\CommentsManager;
 
 class UserCommentListComponent extends Component
 {
-    use AuthorizesRequests;
+    use AuthorizesEditCommentsRequests;
     use WithPagination;
 
     public $relId;
@@ -42,9 +42,9 @@ class UserCommentListComponent extends Component
     #[On('deleteComment')]
     public function delete(int $commentId)
     {
-        $getComment = Comment::where('id', $commentId)->first();
-        if ($getComment && $this->authorize('delete', $getComment)) {
-            $this->commentsManager->delete($commentId);
+        $comment = Comment::where('id', $commentId)->first();
+        if ($comment && $this->authorizeCheck('delete', $comment)) {
+            $this->commentsManager->delete($comment->id);
             $this->dispatch('commentDeleted', commentId: $commentId);
             $this->dispatch('$refresh')->self();
         }

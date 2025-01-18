@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Validator;
 use LivewireUI\Modal\Modal;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use MicroweberPackages\Livewire\MwModal;
+use Modules\Comments\Livewire\AuthorizesEditCommentsRequests;
 use Modules\Comments\Models\Comment;
 use Modules\Comments\Services\CommentsManager;
 
 class EditModal extends \LivewireUI\Modal\ModalComponent
 {
-    use AuthorizesRequests;
+    use AuthorizesEditCommentsRequests;
 
     public $commentId;
     public $captcha = '';
@@ -35,7 +36,7 @@ class EditModal extends \LivewireUI\Modal\ModalComponent
             $this->commentId = $commentId;
             $comment = Comment::find($commentId);
 
-            if ($comment && $this->authorize('update', $comment)) {
+            if ($comment && $this->authorizeCheck('update', $comment)) {
                 $this->state['comment_body'] = $comment->comment_body;
             }
         }
@@ -63,15 +64,12 @@ class EditModal extends \LivewireUI\Modal\ModalComponent
 
         return true;
     }
-    public function authorize($ability, $arguments = [])
-    {
-        return true;
-    }
+
     public function save()
     {
         $comment = Comment::find($this->commentId);
 
-        if (!$comment || !$this->authorize('update', $comment)) {
+        if (!$comment || !$this->authorizeCheck('update', $comment)) {
             return;
         }
 
@@ -100,6 +98,8 @@ class EditModal extends \LivewireUI\Modal\ModalComponent
 
     public function render(): \Illuminate\View\View
     {
+
+
         return view('modules.comments::livewire.modals.edit-modal', [
             'enableCaptcha' => $this->isEnabledCaptcha(),
         ]);

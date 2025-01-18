@@ -13,7 +13,7 @@ use Modules\Comments\Services\CommentsManager;
 
 class UserCommentReplyComponent extends Component
 {
-    use AuthorizesRequests;
+    use AuthorizesEditCommentsRequests;
 
     public $view = 'modules.comments::livewire.user-comment-reply-component';
     public $successMessage = false;

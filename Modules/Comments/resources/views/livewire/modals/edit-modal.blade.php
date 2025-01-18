@@ -1,4 +1,4 @@
-<div tabindex="-1" wire:ignore.self>
+<div tabindex="-1" id="comment-edit-modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

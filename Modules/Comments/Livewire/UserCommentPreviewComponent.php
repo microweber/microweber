@@ -9,7 +9,7 @@ use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 
 class UserCommentPreviewComponent extends Component
 {
-    use AuthorizesRequests;
+    use AuthorizesEditCommentsRequests;
 
     public Comment $comment;
     public bool $showUserAvatar = true;
@@ -25,7 +25,7 @@ class UserCommentPreviewComponent extends Component
     #[On('deleteComment')]
     public function deleteComment(int $commentId)
     {
-        if ($this->comment->id === $commentId && $this->authorize('delete', $this->comment)) {
+        if ($this->comment->id === $commentId && $this->authorizeCheck('delete', $this->comment)) {
             $this->comment->deleteWithReplies();
             $this->dispatch('commentDeleted', ['commentId' => $commentId]);
         }
@@ -40,19 +40,16 @@ class UserCommentPreviewComponent extends Component
         ]);
     }
 
+
     public function showEditModal()
     {
 
-        if ($this->authorize('update', $this->comment)) {
+        if ($this->authorizeCheck('update', $this->comment)) {
 
             $this->dispatch('openModal', 'comments::modals.edit-modal', [
                 'commentId' => $this->comment->id
             ]);
         }
-    }
-    public function authorize($ability, $arguments = [])
-    {
-        return true;
     }
     public function render()
     {

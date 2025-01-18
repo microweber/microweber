@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Validator;
 use LivewireUI\Modal\Modal;
 use MicroweberPackages\Livewire\Auth\Access\AuthorizesRequests;
 use MicroweberPackages\Livewire\MwModal;
+use Modules\Comments\Livewire\AuthorizesEditCommentsRequests;
 use Modules\Comments\Models\Comment;
 use Modules\Comments\Services\CommentsManager;
 
 class ReplyModal extends \LivewireUI\Modal\ModalComponent
 {
-    use AuthorizesRequests;
+    use AuthorizesEditCommentsRequests;
 
     public $relId;
     public $relType;
