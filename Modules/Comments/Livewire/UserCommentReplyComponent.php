@@ -169,8 +169,8 @@ class UserCommentReplyComponent extends Component
         $this->captcha = '';
 
         $this->dispatch('commentAdded', commentId: $comment->id);
-        $this->dispatch('$refresh')->to('comments::user-comment-list');
-
+        $this->dispatch('refreshCommentsList')->to('comments::user-comment-list');
+        $this->dispatch('closeModal');
 
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\Comments\Livewire;
 
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Features\SupportEvents\HandlesEvents;
 use Livewire\WithPagination;
@@ -23,21 +24,31 @@ class UserCommentListComponent extends Component
     public $sortOrder = 'newest';
     public $state = [];
 
+    #[On('refreshCommentsList')]
+    public function refreshCommentsList()
+    {
+
+         $this->dispatch('$refresh')->self();
+    }
+
     #[On('commentAdded')]
     public function refreshOnCommentAdded()
     {
+        $this->resetPage('commentsPage');
         $this->dispatch('$refresh')->self();
     }
 
     #[On('commentDeleted')]
     public function refreshOnCommentDeleted()
     {
+        $this->resetPage('commentsPage');
         $this->dispatch('$refresh')->self();
     }
 
     #[On('commentUpdated')]
     public function refreshOnCommentUpdated()
     {
+        $this->resetPage('commentsPage');
         $this->dispatch('$refresh')->self();
     }
 
@@ -48,7 +59,7 @@ class UserCommentListComponent extends Component
         if ($comment && $this->authorizeCheck('delete', $comment)) {
             $this->commentsManager->delete($comment->id);
             $this->dispatch('commentDeleted', commentId: $commentId);
-            $this->dispatch('$refresh')->to('comments::user-comment-list');
+            $this->dispatch('refreshCommentsList')->to('comments::user-comment-list');
 
 
         }

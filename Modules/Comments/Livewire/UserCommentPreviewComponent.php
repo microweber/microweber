@@ -36,9 +36,8 @@ class UserCommentPreviewComponent extends Component
     {
         if ($this->comment->id === $commentId && $this->authorizeCheck('delete', $this->comment)) {
             $this->comment->deleteWithReplies();
-            $this->dispatch('commentDeleted', ['commentId' => $commentId]);
-            $this->dispatch('$refresh')->self();
-
+            $this->dispatch('commentDeleted', commentId: $commentId);
+            $this->dispatch('refreshCommentsList')->to('comments::user-comment-list');
         }
     }
 

@@ -28,13 +28,5 @@ class DeleteModal extends ModalComponent
         }
     }
 
-    public static function modalMaxWidth(): string
-    {
-        return 'md';
-    }
 
-    public function render()
-    {
-        return view('modules.comments::livewire.modals.delete-modal');
-    }
 }

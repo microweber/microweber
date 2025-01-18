@@ -100,7 +100,7 @@ class ReplyModal extends \LivewireUI\Modal\ModalComponent
 
         $this->dispatch('commentAdded', commentId: $comment->id);
         $this->dispatch('closeModal');
-        $this->dispatch('$refresh')->to('comments::user-comment-list');
+        $this->dispatch('refreshCommentsList')->to('comments::user-comment-list');
     }
 
 

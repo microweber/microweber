@@ -42,7 +42,7 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
-        
+
         $this->app->singleton('comments_manager', function () {
             return new CommentsManager();
         });
@@ -54,8 +54,8 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         Blade::componentNamespace('\\Modules\\Comments\\View\\Components', 'comments');
 
         // Register filament page for Microweber module settings
-       FilamentRegistry::registerResource(CommentResource::class);
-       FilamentRegistry::registerPage(CommentsModuleSettingsAdmin::class);
+        FilamentRegistry::registerResource(CommentResource::class);
+        FilamentRegistry::registerPage(CommentsModuleSettingsAdmin::class);
         FilamentRegistry::registerPage(CommentsModuleSettings::class);
 
         Gate::policy(GatedComment::class, CommentPolicy::class);
@@ -67,7 +67,7 @@ class CommentsServiceProvider extends BaseModuleServiceProvider
         // Register editor components
         Livewire::component('comments::editors.textarea', TextareaComponent::class);
         Livewire::component('comments::editors.easy-mde', EasyMdeComponent::class);
-        
+
         // Register modal components
         Livewire::component('comments::modals.reply-modal', ReplyModal::class);
         Livewire::component('comments::modals.edit-modal', EditModal::class);
