@@ -20,9 +20,7 @@ class CaptchaEventServiceProvider extends EventServiceProvider
 {
 
     protected $listen = [
-        NewComment::class => [
-            NewCommentListener::class
-        ],
+
     ];
 }
 

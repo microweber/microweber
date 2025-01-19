@@ -45,6 +45,8 @@ class UserRegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
+
+
         $userData = [];
         $inputs = $request->all();
 

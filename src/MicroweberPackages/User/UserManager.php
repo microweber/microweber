@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\SocialiteManager;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Http\Controllers\UserRegisterController;
+use MicroweberPackages\User\Http\Requests\RegisterRequest;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Socialite\MicroweberProvider;
 
@@ -35,7 +37,6 @@ class UserManager
 
         $this->socialite = new SocialiteManager($this->app);
     }
-
 
 
     public function is_admin()
@@ -420,7 +421,8 @@ class UserManager
         return $get;
     }
 
-    public function has_picture($user_id = false) {
+    public function has_picture($user_id = false)
+    {
 
         if (!$user_id) {
             $user_id = $this->id();
@@ -594,7 +596,31 @@ class UserManager
 
     public function register($params)
     {
-        return RequestRoute::postJson(route('api.user.register'), $params);
+        $controller = new UserRegisterController();
+
+        $request = new RegisterRequest($params);
+        $request->merge($params);
+
+        $rules = $request->rules();
+
+
+        try {
+            $validate = $request->validate($rules, $params);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->validator->errors()->getMessages();
+
+            $response = [
+                'errors' => $errors
+            ];
+            return $response;
+        }
+
+        $response = $controller->register($request);
+
+        return $response;
+
+        //  return RequestRoute::postJson(route('api.user.register'), $params);
     }
 
     public function after_register($user_id, $suppress_output = true)
@@ -1399,12 +1425,12 @@ class UserManager
                 }
 
 
-              //  $user = new User();
-             //   $user->fill($save);
+                //  $user = new User();
+                //   $user->fill($save);
                 //  $user->save($save);
 
 
-             //   $new_user = $user->save($save);
+                //   $new_user = $user->save($save);
 
                 $new_user_id = $user->id;
 
@@ -1613,7 +1639,7 @@ class UserManager
     {
         $this->app->event_manager->trigger('mw.user.session_set', $name, $val);
 
-          Session::put($name, $val);
+        Session::put($name, $val);
     }
 
     public function csrf_form($unique_form_name = false)

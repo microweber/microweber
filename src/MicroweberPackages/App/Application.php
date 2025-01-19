@@ -30,9 +30,9 @@ use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\TemplateManager;
 use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
-use MicroweberPackages\Utils\Captcha\CaptchaManager;
 use MicroweberPackages\Utils\Http\Http;
 use Modules\Attributes\Repositories\AttributesManager;
+use Modules\Captcha\Services\CaptchaManager;
 use Modules\Cart\Repositories\CartManager;
 use Modules\Cart\Repositories\CartRepository;
 use Modules\Checkout\Repositories\CheckoutManager;
@@ -48,7 +48,6 @@ use Modules\Menu\Repositories\MenuRepository;
 use Modules\Order\Repositories\OrderManager;
 use Modules\Order\Repositories\OrderRepository;
 use Modules\Payment\Services\PaymentMethodManager;
-use Modules\Shipping\Services\ShippingMethodManager;
 use Modules\Shipping\ShippingManager;
 
 
@@ -98,7 +97,7 @@ use Modules\Shipping\ShippingManager;
  * @property Event $event_manager
  * @property ConfigurationManager $config_manager
  * @property TemplateManager $template_manager
- * @property CaptchaManager $captcha_manager
+ * @property \Modules\Captcha\Services\CaptchaManager $captcha_manager
  * @property Ui $ui
  * @property Http $http
  * @property \Modules\Form\FormsManager $forms_manager

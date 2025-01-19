@@ -162,7 +162,7 @@ class UserRegisterControllerTest extends TestCase
         $userData = $response->getData();
         $this->assertEquals(422, $response->status());
 
-        $fakeCaptcha = new \MicroweberPackages\Utils\Captcha\tests\Fakers\FakeCaptcha();
+        $fakeCaptcha = new \Modules\Captcha\Tests\Unit\Fakers\FakeCaptcha();
         $fakeCaptcha->setAnswer($captchaAnswer);
         app()->captcha_manager->setAdapter($fakeCaptcha);
 
