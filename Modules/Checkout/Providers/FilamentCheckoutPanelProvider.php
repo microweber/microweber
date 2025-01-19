@@ -46,18 +46,9 @@ class FilamentCheckoutPanelProvider extends PanelProvider
                 CheckoutResource::class,
             ])
             ->middleware([
-            // \Illuminate\Session\Middleware\StartSession::class,
-                // 'web',
+
                'web',
 
-//
-//
-              // StartSession::class,
-            //    EncryptCookies::class,
-               // AddQueuedCookiesToResponse::class,
-           //   AuthenticateSession::class,
-//              ShareErrorsFromSession::class,
-            //    VerifyCsrfToken::class, // aways givev error to refresh
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,

@@ -1,0 +1,30 @@
+{
+    "name": "modules/profile",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Profile\\": "",
+            "Modules\\Profile\\Database\\Factories\\": "database/factories/",
+            "Modules\\Profile\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Profile\\Tests\\": "Tests/"
+        }
+    }
+}
