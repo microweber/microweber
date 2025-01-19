@@ -1,0 +1,11 @@
+{
+    "name": "CookieNotice",
+    "alias": "cookie_notice",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\CookieNotice\\Providers\\CookieNoticeServiceProvider"
+    ],
+    "files": []
+}

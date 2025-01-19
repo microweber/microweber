@@ -1,0 +1,52 @@
+{
+    "name": "microweber-modules/cookie-notice",
+    "description": "Cookie notice and consent management module for Microweber CMS",
+    "keywords": [
+        "cookie notice",
+        "gdpr",
+        "cookie consent",
+        "microweber"
+    ],
+    "type": "laravel-module",
+    "license": "MIT",
+    "homepage": "https://microweber.org",
+    "authors": [
+        {
+            "name": "Microweber",
+            "email": "info@microweber.com"
+        }
+    ],
+    "support": {
+        "email": "support@microweber.com",
+        "issues": "https://github.com/microweber-modules/cookie-notice/issues",
+        "forum": "https://microweber.com/community",
+        "source": "https://github.com/microweber-modules/cookie-notice",
+        "docs": "https://microweber.com/docs"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\CookieNotice\\Providers\\CookieNoticeServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CookieNotice\\": "",
+            "Modules\\CookieNotice\\Database\\Factories\\": "database/factories/",
+            "Modules\\CookieNotice\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\CookieNotice\\Tests\\": "Tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0",
+        "filament/filament": "^3.0"
+    }
+}

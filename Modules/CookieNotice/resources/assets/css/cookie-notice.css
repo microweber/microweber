@@ -1,0 +1,203 @@
+.cookie-notice-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.cookie-notice-wrapper .cookie-notice-panel {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    max-width: 400px;
+    transition: all 0.3s ease;
+}
+
+.cookie-notice-wrapper .cookie-notice-content {
+    padding: 1.5rem;
+}
+
+.cookie-notice-wrapper .cookie-notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.cookie-notice-wrapper .cookie-notice-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.cookie-notice-wrapper .close-button {
+    background: transparent;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: inherit;
+}
+
+.cookie-notice-wrapper .close-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.cookie-notice-wrapper .cookie-notice-body {
+    margin-bottom: 1.5rem;
+}
+
+.cookie-notice-wrapper .cookie-policy-link {
+    color: #4F46E5;
+    text-decoration: none;
+}
+
+.cookie-notice-wrapper .cookie-policy-link:hover {
+    text-decoration: underline;
+}
+
+.cookie-notice-wrapper .cookie-options {
+    margin-top: 1rem;
+}
+
+.cookie-notice-wrapper .cookie-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.cookie-notice-wrapper .cookie-option span {
+    margin-left: 0.75rem;
+}
+
+.cookie-notice-wrapper .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+
+
+
+
+
+
+
+
+
+.cookie-notice-wrapper .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+
+
+}
+
+.cookie-notice-wrapper .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.cookie-notice-wrapper .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.cookie-notice-wrapper input:checked + .slider {
+    background-color: #4F46E5;
+}
+
+.cookie-notice-wrapper input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+.cookie-notice-wrapper .cookie-notice-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.cookie-notice-wrapper .accept-all-button,
+.cookie-notice-wrapper .save-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cookie-notice-wrapper .accept-all-button {
+    background-color: #4F46E5;
+    color: white;
+    border: none;
+}
+
+.cookie-notice-wrapper .accept-all-button:hover {
+    background-color: #4338CA;
+}
+
+.cookie-notice-wrapper .save-button {
+    background-color: transparent;
+    border: 1px solid currentColor;
+}
+
+.cookie-notice-wrapper .save-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.cookie-notice-wrapper .panel-toggle-button {
+    position: fixed;
+    bottom: 20px;
+    padding: 0.75rem;
+    background-color: #4F46E5;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.cookie-notice-wrapper .panel-toggle-button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: white;
+}
+
+.cookie-notice-wrapper .panel-toggle-button:hover {
+    background-color: #4338CA;
+}
+
+.cookie-notice-wrapper .panel-toggle-left {
+    left: 20px;
+}
+
+.cookie-notice-wrapper .panel-toggle-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cookie-notice-wrapper .panel-toggle-right {
+    right: 20px;
+}
+
+.cookie-notice-panel.hidden {
+    display: none;
+}
