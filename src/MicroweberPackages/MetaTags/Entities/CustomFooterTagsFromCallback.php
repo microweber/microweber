@@ -13,8 +13,14 @@ class CustomFooterTagsFromCallback implements TagInterface, \Stringable
         $template_headers_src = app()->template_manager->foot(true);
 
         $template_headers_src_callback = app()->template_manager->foot_callback();
+
         if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
             foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
+
+                if(is_object($template_headers_src_callback_str)){
+                    $template_headers_src_callback_str = (string)$template_headers_src_callback_str;
+                }
+
                 if (is_string($template_headers_src_callback_str)) {
                     $template_headers_src = $template_headers_src . "\n" . $template_headers_src_callback_str;
                 }

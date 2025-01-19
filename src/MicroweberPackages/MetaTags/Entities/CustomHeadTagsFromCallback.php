@@ -2,6 +2,7 @@
 
 namespace MicroweberPackages\MetaTags\Entities;
 
+use Arcanedev\Html\Elements\P;
 use Butschster\Head\Contracts\MetaTags\Entities\TagInterface;
 use Butschster\Head\MetaTags\Meta;
 use Illuminate\Support\Str;
@@ -15,9 +16,17 @@ class CustomHeadTagsFromCallback implements TagInterface, \Stringable
         $template_headers_src_callback = app()->template_manager->head_callback();
         if (is_array($template_headers_src_callback) and !empty($template_headers_src_callback)) {
             foreach ($template_headers_src_callback as $template_headers_src_callback_str) {
+
+                if(is_object($template_headers_src_callback_str)){
+                    $template_headers_src_callback_str = (string)$template_headers_src_callback_str;
+                }
+
+
                 if (is_string($template_headers_src_callback_str)) {
                     $template_headers_src = $template_headers_src . "\n" . $template_headers_src_callback_str;
                 }
+
+
             }
         }
         return $template_headers_src;

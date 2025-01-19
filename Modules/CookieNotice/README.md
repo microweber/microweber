@@ -6,16 +6,6 @@ A comprehensive cookie consent and notice management module for Microweber CMS, 
 
 - Modern, customizable cookie notice popup
 - Filament-based admin interface
-- GDPR compliant cookie management
-- Real-time cookie preference updates
-- Responsive design
-- Support for multiple tracking services:
-  - Google Analytics
-  - Facebook Pixel
-  - Mautic Tracking
-  - Tawk.to Live Chat
-  - Smartsupp Live Chat
-  - Hotjar Analytics
 
 ## Installation
 
@@ -31,8 +21,6 @@ Navigate to Admin Panel > Settings > Cookie Notice to configure:
 - Enable/disable cookie notice
 - Set cookie policy URL
 - Customize appearance (colors, position)
-- Configure tracking services
-- Set default cookie preferences
 
 ## Usage
 
