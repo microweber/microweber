@@ -2,9 +2,7 @@
 
 
 
-namespace MicroweberPackages\Utils\Captcha\Validators;
-
-use Illuminate\Validation\Validator;
+namespace Modules\Captcha\Validators;
 
 class CaptchaValidator
 {

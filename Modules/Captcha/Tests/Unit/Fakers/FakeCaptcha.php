@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Utils\Captcha\tests\Fakers;
+namespace Modules\Captcha\Tests\Unit\Fakers;
 
 class FakeCaptcha
 {

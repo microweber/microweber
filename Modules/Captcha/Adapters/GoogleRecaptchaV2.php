@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Utils\Captcha\Adapters;
+namespace Modules\Captcha\Adapters;
 
 use Illuminate\Support\Facades\Request;
 

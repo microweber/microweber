@@ -5,14 +5,19 @@ description: Default comments template
 --}}
 
 <div
+    wire:ignore
+    x-ignore
+    ax-load
+
+    ax-load-src="{{ asset('modules/captcha/js/captcha-alpine.js') }}"
+
     x-data="captchaAlpine"
     x-load="visible"
-    x-load-src="{{ asset('modules/captcha/js/captcha-alpine.js') }}"
     @callback.window="<?php isset($params['data-callback']) ? print $params['data-callback'] . '($event.detail)' : '' ?>"
 >
     <div class="mw-ui-row"  >
         <div class="mw-captcha" style="max-width: 400px; margin: 15px;">
-            <div class="form-group">
+            <div class="form-group" wire:ignore>
                 <div class="captcha-holder">
                     <div class="mw-ui-col" style="width: 100px;">
                         <a href="javascript:;" class="tip" data-tip="Refresh captcha" data-tipposition="top-center">

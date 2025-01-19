@@ -2,11 +2,14 @@
 
 namespace Modules\Captcha\Providers;
 
+use Illuminate\Support\Facades\Validator;
 use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Captcha\Livewire\CaptchaConfirmModalComponent;
 use Modules\Captcha\Microweber\CaptchaModule;
+use Modules\Captcha\Services\CaptchaManager;
+use Modules\Captcha\Validators\CaptchaValidator;
 
 class CaptchaServiceProvider extends BaseModuleServiceProvider
 {
@@ -37,6 +40,16 @@ class CaptchaServiceProvider extends BaseModuleServiceProvider
 
         // Register Microweber module
         Microweber::module(CaptchaModule::class);
+
+        /**
+         * @property \Modules\Captcha\Services\CaptchaManager $captcha_manager
+         */
+        $this->app->singleton('captcha_manager', function ($app) {
+            return new CaptchaManager();
+        });
+
+        Validator::extendImplicit('captcha', CaptchaValidator::class.'@validate', 'Invalid captcha answer!');
+
 
     }
 

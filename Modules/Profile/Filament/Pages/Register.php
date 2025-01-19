@@ -102,6 +102,7 @@ class Register extends BaseRegister
             'password_confirmation' => $this->data['passwordConfirmation'],
             'captcha' => $this->captcha,
         ];
+
         $registerRequest = new RegisterRequest();
 
         $registerRequest->merge($data);
@@ -116,7 +117,12 @@ class Register extends BaseRegister
                 if (is_array($value)) {
                     $value = implode(' ', $value);
                 }
-                $responseErrors['data.' . $key] = $value;
+                // Handle captcha error differently since it's not in data array
+                if ($key === 'captcha') {
+                    $responseErrors['captcha'] = $value;
+                } else {
+                    $responseErrors['data.' . $key] = $value;
+                }
             }
 
             throw ValidationException::withMessages($responseErrors);

@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Utils\Captcha\Adapters;
+namespace Modules\Captcha\Adapters;
 
 class MicroweberCaptcha
 {
@@ -78,7 +78,9 @@ class MicroweberCaptcha
         ob_get_clean();
 
         $roit1 = rand(1, 6);
-        $font = dirname(dirname(__FILE__)) . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.ttf';
+
+        $font = module_path('captcha'). DS . 'resources' . DS . 'fonts' . DS . 'font' . $roit1 . '.ttf';
+
         $font = normalize_path($font, 0);
 
         $x = 100;
@@ -242,7 +244,8 @@ class MicroweberCaptcha
             //imagettftext($image, $tsize, $roit, $x1, $y1, $black, $font, $text);
         } else {
             if (function_exists('imagestring')) {
-                $font = mw_includes_path() . DS . 'admin' . DS . 'catcha_fonts' . DS . 'font' . $roit1 . '.gdf';
+                 $font = module_path('captcha'). DS . 'resources' . DS . 'fonts' . DS . 'font' . $roit1 . '.gdf';
+
                 $font = normalize_path($font, 0);
                 $font = imageloadfont($font);
                 // imagestring($image, $font, $x1, $y1, $text, $black);
