@@ -259,7 +259,7 @@ class FieldsManager
                                 break;
                         }
                     }
-
+                    $field_type = strtolower($field_type);
                     if (isset($field['settings']['field_size'])) {
                         $field_size = $field['settings']['field_size'];
                     }

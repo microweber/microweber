@@ -5,12 +5,15 @@ namespace MicroweberPackages\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\SocialiteManager;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Http\Controllers\UserLoginController;
 use MicroweberPackages\User\Http\Controllers\UserRegisterController;
+use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Socialite\MicroweberProvider;
@@ -195,14 +198,43 @@ class UserManager
         }
 
 
-        $params['x-no-throttle'] = false; //allow throttle
-        return RequestRoute::postJson(route('api.user.login'), $params);
+        $controller = new UserLoginController();
+
+        $request = new LoginRequest($params);
+        $request->merge($params);
+
+        $rules = $request->rules();
+
+
+        try {
+            $validate = $request->validate($rules, $params);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $errors = $e->validator->errors()->getMessages();
+
+            $response = [
+                'errors' => $errors
+            ];
+            return $response;
+        }
+
+        $response = $controller->login($request);
+
+        if ($response) {
+            $response = $response->getData();
+        }
+
+        return $response;
+
+
+        /* $params['x-no-throttle'] = false; //allow throttle
+         return RequestRoute::postJson(route('api.user.login'), $params);*/
     }
 
     public function logout($params = false)
     {
         $cookie = [];
-        $cookie[] = \Cookie::forget('XSRF-TOKEN');
+        $cookie[] = Cookie::forget('XSRF-TOKEN');
 
 
         Auth::logout();

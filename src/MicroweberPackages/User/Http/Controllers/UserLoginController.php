@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Pipeline;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Laravel\Fortify\Actions\AttemptToAuthenticate;
 use Laravel\Fortify\Actions\EnsureLoginIsNotThrottled;
 use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
@@ -91,7 +92,7 @@ class UserLoginController extends Controller
 
 		if (!empty($requestLang)) {
             mw()->lang_helper->set_current_lang($requestLang);
-            \Cookie::queue('lang', $requestLang, 86400 * 30);
+            Cookie::queue('lang', $requestLang, 86400 * 30);
         }
         $is_logged_out = false;
         if (Auth::check()) {

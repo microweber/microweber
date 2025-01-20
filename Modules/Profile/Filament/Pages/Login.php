@@ -8,12 +8,15 @@ use Filament\Forms\Components\View;
 use Filament\Forms\Form;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Filament\Pages\Auth\Login as BaseLogin;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use MicroweberPackages\User\UserManager;
 
 class Login extends BaseLogin
 {
     public ?string $captcha = null;
+
+
     public $form_id;
 
     public function mount(): void
@@ -30,27 +33,10 @@ class Login extends BaseLogin
                 $this->getPasswordFormComponent(),
                 $this->getCaptchaFormComponent(),
                 $this->getRememberFormComponent(),
-            ])
-            ->statePath('data');
+            ])  ->statePath('data');
+
     }
 
-    protected function getEmailFormComponent(): Component
-    {
-        return TextInput::make('email')
-            ->label(__('Email'))
-            ->email()
-            ->required()
-            ->autocomplete()
-            ->autofocus();
-    }
-
-    protected function getPasswordFormComponent(): Component
-    {
-        return TextInput::make('password')
-            ->label(__('Password'))
-            ->password()
-            ->required();
-    }
 
     protected function getCaptchaFormComponent(): Component
     {
@@ -61,19 +47,28 @@ class Login extends BaseLogin
     public function authenticate(): ?LoginResponse
     {
         try {
-            $userManager = app(UserManager::class);
-            $data = [
+             $data = [
                 'email' => $this->data['email'],
-                'password' => $this->data['password'],
+                'password' =>  $this->data['password'],
                 'captcha' => $this->captcha,
             ];
-            
-            $response = $userManager->login($data);
-            
-            if (isset($response['error'])) {
-                throw ValidationException::withMessages([
-                    'data.email' => $response['error'],
-                ]);
+
+            $response = app()->user_manager->login($data);
+
+            dd($response);
+
+            $flatArr = Arr::flatten($response['errors']);
+
+
+            if (isset($response['errors'])) {
+                dd($response['errors']);
+               $errors = [];
+                foreach ($flatArr as $key =>$error) {
+                    $errors[$key] = $error;
+                }
+                if($errors) {
+                    throw ValidationException::withMessages($errors);
+                }
             }
 
             return $this->getLoginResponse();
