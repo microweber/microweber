@@ -6,32 +6,26 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Assert as PHPUnit;
-/**
- * @runTestsInSeparateProcesses
- */
+
 class ModuleListTest extends TestCase
 {
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+
     private function testModuleIndex()
     {
         ob_start();
         $getModules = app()->module_repository->getAllModules();
 
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
 
         // Test modules index
         foreach ($getModules as $module) {
-            $moduleSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
+            $moduleSettingsRegisteredAlias = \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
 
-            if($moduleSettingsRegisteredAlias){
+            if ($moduleSettingsRegisteredAlias) {
                 continue;
             }
 
-            if($module['module'] == 'multilanguage'){
+            if ($module['module'] == 'multilanguage') {
                 continue;
             }
 
@@ -59,18 +53,19 @@ class ModuleListTest extends TestCase
         ob_start();
         $getModules = app()->module_repository->getAllModules();
 
+
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);
 
         // Test modules admin
         foreach ($getModules as $module) {
             if (isset($module['ui_admin']) and $module['ui_admin']) {
-                $moduleSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
+                $moduleSettingsRegisteredAlias = \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
 
-                if($moduleSettingsRegisteredAlias){
+                if ($moduleSettingsRegisteredAlias) {
                     continue;
                 }
-                if($module['module'] == 'multilanguage'){
+                if ($module['module'] == 'multilanguage') {
                     continue;
                 }
 
@@ -83,7 +78,7 @@ class ModuleListTest extends TestCase
                     PHPUnit::assertFalse(str_contains($moduleOutput, $errorString));
                 }
 
-               $this->assertNotEmpty($moduleOutput);
+                $this->assertNotEmpty($moduleOutput);
                 ob_end_clean();
                 ob_flush();
             }
@@ -110,13 +105,13 @@ class ModuleListTest extends TestCase
         // Test modules
         foreach ($getModules as $i => $module) {
 
-            $moduleSettingsRegisteredAlias =  \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
+            $moduleSettingsRegisteredAlias = \MicroweberPackages\Module\Facades\ModuleAdmin::getSettings($module['module']);
 
-            if($moduleSettingsRegisteredAlias){
+            if ($moduleSettingsRegisteredAlias) {
                 continue;
             }
 
-            if($module['module'] == 'multilanguage'){
+            if ($module['module'] == 'multilanguage') {
                 continue;
             }
 
@@ -124,16 +119,16 @@ class ModuleListTest extends TestCase
             if (intval($module['installed']) == 1) {
                 if ($module['ui_admin']) {
 
-                    if(!is_file(modules_path() . $module['module'] . '/admin.php')){
+                    if (!is_file(modules_path() . $module['module'] . '/admin.php')) {
                         continue;
                     }
 
-                    $moduleOutput = app()->module_manager->load($module['module'] . '/admin', ['id' => 'mod-admin-' . $i ]);
+                    $moduleOutput = app()->module_manager->load($module['module'] . '/admin', ['id' => 'mod-admin-' . $i]);
 
                     // Looking for parser errors
                     foreach ($this->parserErrorStrings as $errorString) {
 
-                        PHPUnit::assertFalse(str_contains($moduleOutput, $errorString), 'Found module error: ' . $errorString. ' in module: ' . $module['module']);
+                        PHPUnit::assertFalse(str_contains($moduleOutput, $errorString), 'Found module error: ' . $errorString . ' in module: ' . $module['module']);
                     }
 
                     $this->assertNotEmpty($moduleOutput, 'Module output is empty: ' . $module['module']);

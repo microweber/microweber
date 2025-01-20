@@ -511,6 +511,7 @@ class OptionManager
                 $this->app->cache_manager->delete('repositories');
                 $this->clear_memory();
                 $this->app->database_manager->clearCache();
+                $this->app->option_repository->clearCache();
 
                 return $save;
             }

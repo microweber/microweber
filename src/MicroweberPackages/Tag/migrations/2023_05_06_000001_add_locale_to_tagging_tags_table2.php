@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Schema;
     public function up()
     {
 
+
+        if(!Schema::hasTable('tagging_tags')) {
+            return;
+        }
+
         Schema::table('tagging_tags', function (Blueprint $table) {
             if (!Schema::hasColumn('tagging_tags', 'locale')) {
                 $table->string('locale')->nullable();

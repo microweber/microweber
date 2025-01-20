@@ -3,8 +3,10 @@
 namespace MicroweberPackages\Core\tests;
 
 use Illuminate\Foundation\Testing\WithConsoleEvents;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use MicroweberPackages\User\Models\User;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
 use Tests\CreatesApplication;
@@ -363,6 +365,25 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         return $emailAsArray;
     }
+    protected function loginAsAdmin()
+    {
+        if (app()->environment() != 'testing') {
+            return;
+        }
 
+        $user = User::where('is_admin', 1)->first();
+
+        if (!$user) {
+            $user = new User();
+            $user->username = 'test'.uniqid();
+            $user->password = 'test'.uniqid();
+            $user->email = 'bobi@microweber.com';
+            $user->is_admin = 1;
+            $user->save();
+        }
+        Auth::login($user);
+
+
+    }
 }
 
