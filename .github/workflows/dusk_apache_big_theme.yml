@@ -62,25 +62,25 @@ jobs:
 #          php artisan dusk --testsuite MicroweberFlakyTests
       - name: Upload Screenshots
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: screenshots
           path: tests/Browser/screenshots
       - name: Upload Console Logs
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: console
           path: tests/Browser/console
       - name: Upload Laravel Storage Logs
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: storage-logs
           path: storage/logs
       - name: Upload Laravel config
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: config
           path: config
