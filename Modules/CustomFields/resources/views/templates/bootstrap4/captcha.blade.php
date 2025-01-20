@@ -1,14 +1,13 @@
-<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
+<div class="col-sm-{{ $settings['field_size_mobile'] }} col-md-{{ $settings['field_size_tablet'] }} col-lg-{{ $settings['field_size_desktop'] }}">
     <div class="form-group">
-
-        <?php if($settings['show_label']): ?>
-        <label class="form-label my-3"><?php echo $data["name"]; ?>
-            <?php if ($settings["required"]): ?>
-                <span style="color:red;">*</span>
-            <?php endif; ?>
-        </label>
-        <?php endif; ?>
-
+        @if($settings['show_label'])
+            <label class="form-label my-3">
+                {{ $data['name'] }}
+                @if($settings['required'])
+                    <span style="color:red;">*</span>
+                @endif
+            </label>
+        @endif
 
         <div class="mw-custom-field-form-controls">
             <module type="captcha"/>

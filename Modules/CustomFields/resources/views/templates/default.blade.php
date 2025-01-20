@@ -1,15 +1,11 @@
-<div class="<?php echo get_template_row_class(); ?>">
-	 <?php if (!empty($fields_group)): ?>
-		 <?php foreach ($fields_group as $fields): ?>
-		 
-		 <?php if (!empty($fields)): ?>
-		 
-		  	  <?php foreach ($fields as $field): ?>
-		       		<?php echo $field['html']; ?>
-		    <?php endforeach; ?>
-		 
-		 <?php endif; ?>
-		 
-		 <?php endforeach; ?>
-	 <?php endif; ?>
+<div class="{{ get_template_row_class() }}">
+    @if(!empty($fields_group))
+        @foreach($fields_group as $fields)
+            @if(!empty($fields))
+                @foreach($fields as $field)
+                    {!! $field['html'] !!}
+                @endforeach
+            @endif
+        @endforeach
+    @endif
 </div>

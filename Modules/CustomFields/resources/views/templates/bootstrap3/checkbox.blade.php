@@ -1,21 +1,21 @@
-<div class="col-md-<?php echo $settings['field_size']; ?>">
+<div class="col-md-{{ $settings['field_size'] }}">
     <div class="form-group">
-
-        <?php if($settings['show_label']): ?>
-        <label class="form-label"><?php echo $data["name"]; ?></label>
-        <?php endif; ?>
+        @if($settings['show_label'])
+            <label class="form-label">{{ $data['name'] }}</label>
+        @endif
 
         <div class="mw-customfields-checkboxes">
-            <?php $i = 0;
-            foreach ($data['values'] as $value): ?>
-                <?php $i++; ?>
+            @foreach($data['values'] as $value)
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="<?php echo $data["name_key"]; ?>[]" id="field-<?php echo $data["id"]; ?>" data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>"/> <?php echo $value; ?>
+                        <input type="checkbox" 
+                            name="{{ $data['name_key'] }}[]" 
+                            id="field-{{ $data['id'] }}" 
+                            data-custom-field-id="{{ $data['id'] }}" 
+                            value="{{ $value }}"/> {{ $value }}
                     </label>
                 </div>
-
-            <?php endforeach; ?>
+            @endforeach
         </div>
     </div>
 </div>

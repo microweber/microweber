@@ -21,35 +21,34 @@
         background-color: transparent;
     }
 
-
     .form-selectgroup-item:hover {
         border-color: var(--mw-primary-color);
         background-color: transparent;
     }
 </style>
 
+<div class="mb-3 row col-sm-{{ $settings['field_size_mobile'] }} col-md-{{ $settings['field_size_tablet'] }} col-lg-{{ $settings['field_size_desktop'] }}">
+    @if($settings['show_label'])
+        <label class="form-label my-3">{{ $data['name'] }}</label>
+    @endif
 
-<div class="mb-3 row col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
-    <?php if ($settings['show_label']): ?>
-        <label class="form-label my-3 "><?php echo $data["name"]; ?></label>
-    <?php endif; ?>
-
-    <?php $i = 0;
-    foreach ($data['values'] as $key => $value): ?>
-        <?php $i++; ?>
+    @foreach($data['values'] as $key => $value)
+        @php $i = $loop->iteration; @endphp
         <div class="col-lg-3 col-6 form-selectgroup form-selectgroup-pills my-3">
+            <label class="form-selectgroup-item" for="field-{{ $i }}-{{ $data['id'] }}">
+                <input class="form-selectgroup-input mb-3" 
+                    type="checkbox" 
+                    name="{{ $data['name_key'] }}[]" 
+                    id="field-{{ $i }}-{{ $data['id'] }}" 
+                    data-custom-field-id="{{ $data['id'] }}" 
+                    value="{{ $value }}"
+                />
+                <span class="form-selectgroup-label">{{ $value }}</span>
 
-                <label class="form-selectgroup-item" for="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>">
-                     <input class="form-selectgroup-input mb-3" type="checkbox" name="<?php echo $data["name_key"]; ?>[]" id="field-<?php echo $i; ?>-<?php echo $data["id"]; ?>" data-custom-field-id="<?php echo $data["id"]; ?>" value="<?php echo $value; ?>"/>
-                    <span class="form-selectgroup-label"><?php echo $value; ?></span>
-
-                    <?php if(isset($data['values_price_modifiers']) and !empty($data['values_price_modifiers']) and isset($data['values_price_modifiers'][$key]) and $data['values_price_modifiers'][$key]) : ?>
-                        (+<?php echo currency_format($data['values_price_modifiers'][$key]); ?>)
-                    <?php endif; ?>
-
-                </label>
+                @if(isset($data['values_price_modifiers']) && !empty($data['values_price_modifiers']) && isset($data['values_price_modifiers'][$key]) && $data['values_price_modifiers'][$key])
+                    (+{{ currency_format($data['values_price_modifiers'][$key]) }})
+                @endif
+            </label>
         </div>
-    <?php endforeach; ?>
-
+    @endforeach
 </div>
-

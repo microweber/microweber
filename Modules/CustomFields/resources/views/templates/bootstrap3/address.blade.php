@@ -1,53 +1,54 @@
-<div class="col-md-<?php echo $settings['field_size']; ?>">
+<div class="col-md-{{ $settings['field_size'] }}">
     <div class="mw-ui-field-holder">
+        @if($settings['show_label'])
+            <label class="form-label">
+                {{ $data['name'] }}
+                @if($settings['required'])
+                    <span style="color: red;">*</span>
+                @endif
+            </label>
+        @endif
 
-        <?php if($settings['show_label']): ?>
-        <label class="form-label">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
-                <span style="color: red;">*</span>
-            <?php endif; ?>
-        </label>
-        <?php endif; ?>
-
-
-
-        <?php foreach ($data['values'] as $key => $value): ?>
+        @foreach($data['values'] as $key => $value)
             <div class="form-group">
+                @if($settings['show_label'])
+                    <label class="form-label">
+                        {{ $value }}
+                        @if($settings['required'])
+                            <span style="color:red;">*</span>
+                        @endif
+                    </label>
+                @endif
 
-                <?php if($settings['show_label']): ?>
-                <label class="form-label"><?php print($value); ?>
-                    <?php if ($settings['required']): ?>
-                        <span style="color:red;">*</span>
-                    <?php endif; ?>
-                </label>
-                <?php endif; ?>
-
-                <?php if ($key == 'country')  : ?>
-                    <?php if ($data['countries']) { ?>
-
-                        <select name="<?php echo $data['name'] ?>[country]" class="form-control">
-                            <option value=""><?php _e('Choose country') ?></option>
-                            <?php foreach ($data['countries'] as $country): ?>
-                                <option value="<?php echo $country ?>"><?php echo $country ?></option>
-                            <?php endforeach; ?>
+                @if($key == 'country')
+                    @if($data['countries'])
+                        <select name="{{ $data['name'] }}[country]" class="form-control">
+                            <option value="">{{ __('Choose country') }}</option>
+                            @foreach($data['countries'] as $country)
+                                <option value="{{ $country }}">{{ $country }}</option>
+                            @endforeach
                         </select>
-                    <?php } else { ?>
-                        <input type="text" class="form-control"  <?php if(!$settings['show_label']): ?>placeholder="<?php print($value); ?>"<?php endif; ?> name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?> data-custom-field-id="<?php echo $data["id"]; ?>"/>
-                    <?php } ?>
-
-                <?php else: ?>
-                    <input type="text" class="form-control" <?php if(!$settings['show_label']): ?>placeholder="<?php print($value); ?>"<?php endif; ?> name="<?php echo $data['name'] ?>[<?php echo($key); ?>]" <?php if ($settings['required']) { ?> required <?php } ?>
-                           data-custom-field-id="<?php echo $data["id"]; ?>"/>
-                <?php endif; ?>
-
+                    @else
+                        <input type="text" 
+                            class="form-control" 
+                            @if(!$settings['show_label']) placeholder="{{ $value }}" @endif
+                            name="{{ $data['name'] }}[{{ $key }}]"
+                            @if($settings['required']) required @endif
+                            data-custom-field-id="{{ $data['id'] }}"/>
+                    @endif
+                @else
+                    <input type="text" 
+                        class="form-control" 
+                        @if(!$settings['show_label']) placeholder="{{ $value }}" @endif
+                        name="{{ $data['name'] }}[{{ $key }}]"
+                        @if($settings['required']) required @endif
+                        data-custom-field-id="{{ $data['id'] }}"/>
+                @endif
             </div>
+        @endforeach
 
-        <?php endforeach; ?>
-
-
-        <?php if ($data['help']): ?>
-            <span class="help-block"><?php echo $data['help']; ?></span>
-        <?php endif; ?>
+        @if($data['help'])
+            <span class="help-block">{{ $data['help'] }}</span>
+        @endif
     </div>
 </div>

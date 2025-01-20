@@ -1,23 +1,38 @@
-<div class="col-md-<?php echo $settings['field_size']; ?>">
+<div class="col-md-{{ $settings['field_size'] }}">
     <div class="form-group">
-
-        <?php if($settings['show_label']): ?>
+        @if($settings['show_label'])
         <label class="form-label">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
+            {{ $data['name'] }}
+            @if($settings['required'])
                 <span style="color: red;">*</span>
-            <?php endif; ?>
+            @endif
         </label>
-        <?php endif; ?>
+        @endif
 
-        <?php if ($settings['as_text_area']): ?>
-            <textarea type="text" class="form-control" rows="<?php echo $settings['rows']; ?>" cols="<?php echo $settings['cols']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>"><?php echo $data['value']; ?></textarea>
-        <?php else: ?>
-            <input type="text" class="form-control" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>"/>
-        <?php endif; ?>
+        @if($settings['as_text_area'])
+            <textarea type="text" 
+                class="form-control" 
+                rows="{{ $settings['rows'] }}" 
+                cols="{{ $settings['cols'] }}" 
+                @if($settings['required']) required @endif
+                data-custom-field-id="{{ $data['id'] }}" 
+                data-custom-field-error-text="{{ $data['error_text'] }}" 
+                name="{{ $data['name_key'] }}" 
+                value="{{ $data['value'] }}" 
+                placeholder="{{ $data['placeholder'] }}">{{ $data['value'] }}</textarea>
+        @else
+            <input type="text" 
+                class="form-control" 
+                @if($settings['required']) required @endif
+                data-custom-field-id="{{ $data['id'] }}" 
+                data-custom-field-error-text="{{ $data['error_text'] }}" 
+                name="{{ $data['name_key'] }}" 
+                value="{{ $data['value'] }}" 
+                placeholder="{{ $data['placeholder'] }}"/>
+        @endif
 
-        <?php if ($data['help']): ?>
-            <span class="help-block"><?php echo $data['help']; ?></span>
-        <?php endif; ?>
+        @if($data['help'])
+            <span class="help-block">{{ $data['help'] }}</span>
+        @endif
     </div>
 </div>

@@ -1,19 +1,26 @@
-<div class="col-md-<?php echo $settings['field_size']; ?>">
+<div class="col-md-{{ $settings['field_size'] }}">
     <div class="form-group">
+        @if($settings['show_label'])
+            <label class="form-label">
+                {{ $data['name'] }}
+                @if($settings['required'])
+                    <span style="color: red;">*</span>
+                @endif
+            </label>
+        @endif
 
-        <?php if($settings['show_label']): ?>
-        <label class="form-label">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
-                <span style="color: red;">*</span>
-            <?php endif; ?>
-        </label>
-        <?php endif; ?>
+        <textarea type="text" 
+            rows="{{ $settings['rows'] }}" 
+            cols="{{ $settings['cols'] }}" 
+            class="form-control" 
+            @if($settings['required']) required @endif
+            data-custom-field-id="{{ $data['id'] }}"
+            data-custom-field-error-text="{{ $data['error_text'] }}"
+            name="{{ $data['name_key'] }}"
+            placeholder="{{ $data['placeholder'] }}">{{ $data['value'] }}</textarea>
 
-        <textarea type="text" rows="<?php echo $settings['rows']; ?>" cols="<?php echo $settings['cols']; ?>" class="form-control" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name_key']; ?>" placeholder="<?php echo $data['placeholder']; ?>"><?php echo $data['value']; ?></textarea>
-
-        <?php if ($data['help']): ?>
-            <span class="help-block"><?php echo $data['help']; ?></span>
-        <?php endif; ?>
+        @if($data['help'])
+            <span class="help-block">{{ $data['help'] }}</span>
+        @endif
     </div>
 </div>
