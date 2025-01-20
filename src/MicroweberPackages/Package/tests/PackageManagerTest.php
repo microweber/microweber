@@ -20,7 +20,7 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
         }
 
         $params = [];
-        $params['require_name'] = 'microweber-templates/dream';
+        $params['require_name'] = 'microweber-templates/big-free';
 
         $runner = new \MicroweberPackages\Package\MicroweberComposerClient();
 
@@ -35,7 +35,7 @@ class PackageManagerTest extends \MicroweberPackages\Core\tests\TestCase
             $this->markTestSkipped('Skipping package manager test for this server configuration!');
         }
 
-        $require_name = "microweber-templates/new-world";
+        $require_name = "microweber-templates/big-free";
         $params['require_name'] = $require_name;
 
         $runner = new \MicroweberPackages\Package\MicroweberComposerClient();
