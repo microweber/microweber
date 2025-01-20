@@ -1,27 +1,20 @@
-<?php
+@php
+    /*
+    type: layout
+    name: Guesthouse
+    description: Guesthouse
+    */
+@endphp
 
-/*
-
-type: layout
-
-name: Guesthouse
-
-description: Guesthouse
-
-*/
-
-?>
-
-<div class="alert alert-success margin-bottom-30" id="msg<?php print $form_id; ?>" style="display:none;">
+<div class="alert alert-success margin-bottom-30" id="msg{{ $form_id }}" style="display:none;">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <strong><?php _lang("Thank You", "templates/guesthouse"); ?>!</strong> <?php _lang("Your message successfully sent", "templates/guesthouse"); ?>!
+    <strong>@lang('Thank You')!</strong> @lang('Your message successfully sent')!
 </div>
 
 <div class="section-42">
     <div class="form">
-        <form id="contactform" data-form-id="<?php print $form_id ?>" name="<?php print $form_id ?>" method="post">
-
-            <?php print csrf_form() ?>
+        <form id="contactform" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post">
+            @csrf
 
             <div class="row">
                 <div class="col-12">
@@ -33,11 +26,10 @@ description: Guesthouse
                 <div class="row">
                     <div class="col-12">
                         <br><br>
-                        <module type="btn"  button_action="submit" button_style="btn-default" button_size="btn-lg btn-block  w-100 justify-content-center" text="Send"/>
+                        <module type="btn" button_action="submit" button_style="btn-default" button_size="btn-lg btn-block w-100 justify-content-center" text="Send"/>
                     </div>
                 </div>
             </div>
-
         </form>
     </div>
 </div>
