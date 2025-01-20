@@ -31,6 +31,8 @@ jobs:
           cache-dependency-path: ./package-lock.json
       - run: npm install
       - run: npm run build
+      - run: php artisan dusk:install
+      - run: php artisan dusk:chrome-driver
       - name: Remove screenshot layout test
         run: |
           rm -f userfiles/templates/big/src/tests/Browser/BigScreenshotLayoutsTest.php

@@ -4,6 +4,7 @@ namespace MicroweberPackages\Template\tests;
 
 
 use Illuminate\Support\Facades\Auth;
+use MicroweberPackages\Content\Models\Content;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 
@@ -15,6 +16,9 @@ class LegacyConstantsTest extends TestCase
 
     public function testConstantsAreDefined()
     {
+        Content::truncate();
+
+
         $this->setPreserveGlobalState(false);
         $templateName = 'my-test-template-for-constants';
 
