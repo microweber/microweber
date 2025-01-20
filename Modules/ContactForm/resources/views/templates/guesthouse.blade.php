@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Default
+name: Guesthouse
 
-description: Default
+description: Guesthouse
 
 */
 
