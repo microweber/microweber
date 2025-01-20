@@ -4,6 +4,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 
 
+## [2.0.18] - 2025-01-20
+- Maintenance release
+- Fixed branding in the admin panel
+- Fixed branding in emails
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.17...2.0.18 "")
+
+
+
 ## [2.0.17] - 2024-11-26
 - Maintenance release
 - Fixed various issues in live edit
