@@ -16,6 +16,7 @@ class RssControllerTest extends TestCase
         $tag->save();
 
         $response = $this->call('GET', route('rss.index'),[]);
+
         $this->assertEquals(200, $response->status());
 
         $rssXmlContent = $response->getContent();

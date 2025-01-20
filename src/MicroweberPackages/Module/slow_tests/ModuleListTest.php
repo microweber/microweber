@@ -12,10 +12,11 @@ class ModuleListTest extends TestCase
 
     private function testModuleIndex()
     {
+        $this->loginAsAdmin();
+
         ob_start();
         $getModules = app()->module_repository->getAllModules();
 
-        $this->loginAsAdmin();
 
         // Test modules index
         foreach ($getModules as $module) {
