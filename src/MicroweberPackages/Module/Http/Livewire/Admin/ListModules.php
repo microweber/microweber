@@ -86,10 +86,11 @@ class ListModules extends AdminComponent
 
         if ($isWhiteLabel) {
             $hideModules = [
-                'Standalone Updater', 
+                'Standalone Updater',
                 'Microweber',
                 'White label',
                 'Backup',
+                'Updates'
             ];
         }
 
