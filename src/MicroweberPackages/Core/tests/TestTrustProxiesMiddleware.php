@@ -3,9 +3,6 @@
 namespace MicroweberPackages\Core\tests;
 
 
-/**
- * @runTestsInSeparateProcesses
- */
 class TestTrustProxiesMiddleware extends TestCase
 {
     public function testIfThrottleMiddlewareWorks()

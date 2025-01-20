@@ -16,14 +16,10 @@ use Tests\Browser\Components\AdminLogin;
 use Tests\Browser\Components\ChekForJavascriptErrors;
 use Tests\DuskTestCase;
 use Tests\DuskTestCaseMultilanguage;
-/**
- * @runTestsInSeparateProcesses
- */
+
 class AdminMultilanguageAddPageTest extends DuskTestCaseMultilanguage
 {
-    /**
-     * @runInSeparateProcess
-     */
+
     public function testAddPost()
     {
         $this->browse(function (Browser $browser) {

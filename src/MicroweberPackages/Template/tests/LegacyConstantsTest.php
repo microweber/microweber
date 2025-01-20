@@ -7,17 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 
-/**
- * @runTestsInSeparateProcesses
- */
+
 class LegacyConstantsTest extends TestCase
 {
 
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+
     public function testConstantsAreDefined()
     {
         $this->setPreserveGlobalState(false);

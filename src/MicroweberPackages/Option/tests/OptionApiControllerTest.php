@@ -5,15 +5,12 @@ namespace MicroweberPackages\Option\tests;
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
-/**
- * @runTestsInSeparateProcesses
- */
+
 class OptionApiControllerTest extends TestCase
 {
     public function testSaveOption()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
 
         $response = $this->call(
             'POST',

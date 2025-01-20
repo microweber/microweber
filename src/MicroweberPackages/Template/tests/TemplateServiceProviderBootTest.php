@@ -10,9 +10,7 @@ use MicroweberPackages\Install\DbInstaller;
 use MicroweberPackages\Template\Adapters\MicroweberTemplate;
 use MicroweberPackages\User\Models\User;
 
-/**
- * @runTestsInSeparateProcesses
- */
+
 class TemplateServiceProviderBootTest extends TestCase
 {
     public $template_name = 'big';

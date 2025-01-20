@@ -3,9 +3,7 @@
 namespace MicroweberPackages\Core\tests;
 
 
-/**
- * @runTestsInSeparateProcesses
- */
+
 class TestArtisanCommand extends TestCase
 {
     public function testIfArtisanCommandReturnErrors()

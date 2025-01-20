@@ -10,9 +10,7 @@ use Tests\Browser\Components\LiveEditModuleAdd;
 use Tests\Browser\Components\LiveEditSaveButton;
 use Tests\DuskTestCase;
 
-/**
- * @runTestsInSeparateProcesses
- */
+
 class LiveEditTest extends DuskTestCase
 {
 

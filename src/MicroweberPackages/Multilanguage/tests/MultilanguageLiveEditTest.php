@@ -7,15 +7,10 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\User\Models\User;
 
-/**
- * @runTestsInSeparateProcesses
- */
+
 class MultilanguageLiveEditTest extends MultilanguageTestBase
 {
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+
     public function testSaveContentOnPage()
     {
         MultilanguageHelpers::setMultilanguageEnabled(1);
