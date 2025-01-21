@@ -6,7 +6,7 @@ namespace MicroweberPackages\Filament\Http\Middleware;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Support\Facades\Auth;
 
-class Authenticate extends Middleware
+class AuthenticateAdmin extends Middleware
 {
     protected function authenticate($request, array $guards)
     {

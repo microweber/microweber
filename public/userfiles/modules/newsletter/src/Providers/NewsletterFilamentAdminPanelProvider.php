@@ -66,7 +66,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->authGuard('web')
             ->authMiddleware([
                 //  Authenticate::class,
-                \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
+                \MicroweberPackages\Filament\Http\Middleware\AuthenticateAdmin::class,
                 //  Admin::class,
             ]);
 

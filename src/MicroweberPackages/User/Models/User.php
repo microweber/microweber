@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -240,14 +241,14 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
             $this->rules['email'] = [
                 'min:0',
                 'max:500',
-                'unique:users,email,'.$data['id'].',id'
+                'unique:users,email,' . $data['id'] . ',id'
             ];
 
         } else if (isset($data['email']) && !empty($data['email'])) {
             $this->rules['email'] = 'min:0|max:500|unique:users';
         }
 
-        $this->validator = \Validator::make($data, $this->rules);
+        $this->validator = Validator::make($data, $this->rules);
         if ($this->validator->fails()) {
             return false;
         }

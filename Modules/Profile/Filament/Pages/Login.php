@@ -2,11 +2,14 @@
 
 namespace Modules\Profile\Filament\Pages;
 
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View;
 use Filament\Forms\Form;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
+use Filament\Models\Contracts\FilamentUser;
 use Filament\Pages\Auth\Login as BaseLogin;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
@@ -33,7 +36,7 @@ class Login extends BaseLogin
                 $this->getPasswordFormComponent(),
                 $this->getCaptchaFormComponent(),
                 $this->getRememberFormComponent(),
-            ])  ->statePath('data');
+            ])->statePath('data');
 
     }
 
@@ -46,32 +49,47 @@ class Login extends BaseLogin
 
     public function authenticate(): ?LoginResponse
     {
+
         try {
-             $data = [
+            $this->rateLimit(5);
+        } catch (TooManyRequestsException $exception) {
+            $this->getRateLimitedNotification($exception)?->send();
+
+            return null;
+        }
+
+
+        try {
+            $data = [
                 'email' => $this->data['email'],
-                'password' =>  $this->data['password'],
+                'password' => $this->data['password'],
                 'captcha' => $this->captcha,
             ];
 
             $response = app()->user_manager->login($data);
 
-            dd($response);
 
-            $flatArr = Arr::flatten($response['errors']);
+            if (isset($response['error']) and is_string($response['error'])) {
+                throw ValidationException::withMessages([
+                    'data.email' => $response['error'],
+                ]);
+            }
+            if (isset($response['success']) and ($response['success'])) {
 
+                $user = auth()->user();
+                if ($user) {
 
-            if (isset($response['errors'])) {
-                dd($response['errors']);
-               $errors = [];
-                foreach ($flatArr as $key =>$error) {
-                    $errors[$key] = $error;
+                    return app(LoginResponse::class);
+
+                } else {
+                    throw ValidationException::withMessages([
+                        'data.email' => 'Invalid email or password.',
+                    ]);
                 }
-                if($errors) {
-                    throw ValidationException::withMessages($errors);
-                }
+
+
             }
 
-            return $this->getLoginResponse();
         } catch (ValidationException $e) {
             throw $e;
         }

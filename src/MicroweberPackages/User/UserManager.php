@@ -220,8 +220,8 @@ class UserManager
 
         $response = $controller->login($request);
 
-        if ($response) {
-            $response = $response->getData();
+        if ($response and is_object($response)) {
+            $response = collect($response->getData())->toArray();
         }
 
         return $response;

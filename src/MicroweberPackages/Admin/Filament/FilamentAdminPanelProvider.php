@@ -152,7 +152,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->authGuard('web')
             ->authMiddleware([
                 //  Authenticate::class,
-                \MicroweberPackages\Filament\Http\Middleware\Authenticate::class,
+                \MicroweberPackages\Filament\Http\Middleware\AuthenticateAdmin::class,
                 //  Admin::class,
             ])->bootUsing(function (Panel $panel) {
                 //  dd($panel);

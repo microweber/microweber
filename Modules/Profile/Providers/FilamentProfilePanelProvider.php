@@ -17,6 +17,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use MicroweberPackages\Filament\Http\Middleware\AuthenticateUser;
 use Modules\Profile\Filament\Pages\EditProfile;
 use Modules\Profile\Filament\Pages\ForgotPassword;
 use Modules\Profile\Filament\Pages\Login;
@@ -56,7 +57,7 @@ class FilamentProfilePanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+                AuthenticateUser::class,
             ]);
         //    ->viteTheme('resources/css/filament/profile/theme.css');
     }

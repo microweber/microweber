@@ -419,8 +419,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         if (!$user) {
             $user = new User();
-            $user->username = 'test';
-            $user->password = 'test';
+            $user->username = 'test'.uniqid();
+            $user->password = 'test'.uniqid();
             $user->email = 'bobi@microweber.com';
             $user->is_admin = 1;
             $user->save();
