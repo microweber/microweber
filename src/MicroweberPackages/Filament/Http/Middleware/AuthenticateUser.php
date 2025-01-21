@@ -13,11 +13,11 @@ class AuthenticateUser extends Middleware
 {
     protected function authenticate($request, array $guards): void
     {
-        $auth = Filament::auth();
-        $user = $auth->user();
-        $panel = Filament::getCurrentPanel();
+      //  $auth = Filament::auth();
+       // $user = $auth->user();
+      //  $panel = Filament::getCurrentPanel();
 
-        if (!($auth->check()
+        if (!(auth()->check()
           //  && $user instanceof FilamentUser
            // && $user->canAccessPanel($panel)
         )

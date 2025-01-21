@@ -107,7 +107,6 @@ class Register extends BaseRegister
 
         $registerRequest->merge($data);
         $response = $userManager->register($data);
-
         if (isset($response['errors']) and !empty($response['errors'])) {
 
             //add .data to kte heys
@@ -134,13 +133,16 @@ class Register extends BaseRegister
             ]);
         }
 
-        if (isset($response['id'])) {
-            event(new Registered($response));
+        if (isset($response['success']) and $response['success']) {
 
             // Login the user after registration
-            $userManager->make_logged($response['id']);
 
-            return $this->getRegistrationResponse();
+            if (auth()->check()) {
+                return app(RegistrationResponse::class);
+
+            }
+
+
         }
 
         throw ValidationException::withMessages([

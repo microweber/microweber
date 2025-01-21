@@ -650,6 +650,10 @@ class UserManager
 
         $response = $controller->register($request);
 
+        if(is_object($response)){
+            $response = collect($response->getData())->toArray();
+        }
+
         return $response;
 
         //  return RequestRoute::postJson(route('api.user.register'), $params);
