@@ -33,7 +33,7 @@
 
             </div>
 
-            <div class="cookie-notice-footer">
+            <div class="cookie-notice-footer align-items-center justify-content-between">
 
                 <a href="{{ $settings['cookiePolicyURL'] ?? 'privacy-policy' }}" class="cookie-policy-link">
                     {{ _e('Learn more') }}
