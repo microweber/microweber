@@ -34,18 +34,13 @@ class Login extends BaseLogin
             ->schema([
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
-                $this->getCaptchaFormComponent(),
                 $this->getRememberFormComponent(),
             ])->statePath('data');
 
     }
 
 
-    protected function getCaptchaFormComponent(): Component
-    {
-        return View::make('modules.profile::components.captcha')
-            ->label('Security Code');
-    }
+
 
     public function authenticate(): ?LoginResponse
     {
@@ -63,7 +58,6 @@ class Login extends BaseLogin
             $data = [
                 'email' => $this->data['email'],
                 'password' => $this->data['password'],
-                'captcha' => $this->captcha,
             ];
 
             $response = app()->user_manager->login($data);

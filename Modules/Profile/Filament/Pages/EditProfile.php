@@ -6,10 +6,10 @@ use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use MicroweberPackages\User\UserManager;
 
 class EditProfile extends Page
 {
@@ -38,10 +38,13 @@ class EditProfile extends Page
                 $this->getLastNameFormComponent(),
                 $this->getEmailFormComponent(),
                 $this->getPhoneFormComponent(),
-                $this->getPasswordFormComponent(),
-                $this->getPasswordConfirmationFormComponent(),
             ])
             ->statePath('data');
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Profile');
     }
 
     protected function getAvatarFormComponent(): Component
@@ -95,49 +98,25 @@ class EditProfile extends Page
             ->maxLength(255);
     }
 
-    protected function getPasswordFormComponent(): Component
-    {
-        return TextInput::make('password')
-            ->label(__('New Password'))
-            ->password()
-            ->minLength(8)
-            ->same('password_confirmation');
-    }
-
-    protected function getPasswordConfirmationFormComponent(): Component
-    {
-        return TextInput::make('password_confirmation')
-            ->label(__('Confirm New Password'))
-            ->password()
-            ->minLength(8)
-            ->dehydrated(false);
-    }
-
     public function save(): void
     {
         try {
-            $userManager = app(UserManager::class);
-            
             $data = $this->form->getState();
-            
-            // Only include password if it's being changed
-            if (empty($data['password'])) {
-                unset($data['password']);
-                unset($data['password_confirmation']);
-            }
-            
-            $data['id'] = Auth::id();
-            
-            $response = $userManager->save($data);
-            
-            if (is_array($response) && isset($response['error'])) {
-                throw ValidationException::withMessages([
-                    'data.email' => $response['error'],
-                ]);
+            $user = Auth::user();
+
+
+            if (isset($data['is_admin']) && !is_admin()) {
+                unset($data['is_admin']);
             }
 
-            $this->notify('success', __('Profile updated successfully.'));
-            
+            $user->update($data);
+
+            Notification::make()
+                ->title(lang('Success'))
+                ->body(lang('Your profile has been updated.'))
+                ->success()
+                ->send();
+
         } catch (ValidationException $e) {
             throw $e;
         }

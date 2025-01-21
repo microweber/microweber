@@ -26,7 +26,6 @@ class ForgotPassword extends RequestPasswordReset
         return $form
             ->schema([
                 $this->getEmailFormComponent(),
-                $this->getCaptchaFormComponent(),
             ])
             ->statePath('data');
     }
@@ -40,35 +39,11 @@ class ForgotPassword extends RequestPasswordReset
             ->maxLength(255);
     }
 
-    protected function getCaptchaFormComponent(): Component
-    {
-        return View::make('modules.profile::components.captcha')
-            ->label('Security Code');
-    }
 
     public function request(): void
     {
 
           parent::request();
 
-      /*  try {
-            $resetPasswordAction = app(ResetPasswordAction::class);
-
-            $data = [
-                'email' => $this->data['email'],
-                'captcha' => $this->captcha,
-            ];
-
-            $response = $resetPasswordAction->execute($data);
-
-            if (isset($response['success']) && $response['success']) {
-                $this->notify('success', $response['message']);
-                $this->redirect($this->getLoginUrl());
-            }
-
-        } catch (ValidationException $e) {
-            $this->addError('data.email', $e->getMessage());
-            throw $e;
-        }*/
     }
 }
