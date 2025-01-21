@@ -1,19 +1,33 @@
-<?php $rand = rand(); ?>
+@php
+    $rand = rand();
+@endphp
 
-<div class="mw-flex-col-md-<?php echo $settings['field_size']; ?>">
-<?php if ($settings['make_select']) : ?>
-<option type="url" class="form-select  <?php echo $settings['class']; ?>" id="custom_field_help_text<?php echo $rand; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>"></option>
-<?php else: ?>
-<div class="mw-custom-field-group mw-custom-field-price">
-  <label class="mw-custom-field-label" ><?php echo $data["name"]; ?></label>
-  <div class="mw-custom-field-form-controls">
+<div class="mw-flex-col-md-{{ $settings['field_size'] }}">
+    @if($settings['make_select'])
+        <option type="url" 
+            class="form-select {{ $settings['class'] }}" 
+            id="custom_field_help_text{{ $rand }}" 
+            @if($settings['required']) required @endif
+            data-custom-field-id="{{ $data['id'] }}" 
+            name="{{ $data['name_key'] }}" 
+            value="{{ $data['value'] }}">
+        </option>
+    @else
+        <div class="mw-custom-field-group mw-custom-field-price">
+            <label class="mw-custom-field-label">{{ $data['name'] }}</label>
+            <div class="mw-custom-field-form-controls">
+                {{ $data['value'] }}
+                <input type="hidden" 
+                    @if($settings['required']) required @endif
+                    data-custom-field-id="{{ $data['id'] }}"
+                    name="{{ $data['name_key'] }}"
+                    id="custom_field_help_text{{ $rand }}"
+                    value="{{ $data['value'] }}">
 
-  <?php echo $data["value"]; ?>
-    <input type="hidden" <?php if ($settings['required']): ?> required  <?php endif; ?>  data-custom-field-id="<?php echo $data["id"]; ?>"  name="<?php echo $data["name_key"]; ?>" id="custom_field_help_text<?php echo $rand; ?>" value="<?php echo $data["value"]; ?>">
-
-    <?php if ($data['options']["old_price"]): ?> <span style="text-decoration: line-through"><?php echo $data['options']["old_price"][0]; ?></span>  <?php endif; ?>
-
-  </div>
-</div>
-<?php endif; ?>
+                @if($data['options']['old_price'])
+                    <span style="text-decoration: line-through">{{ $data['options']['old_price'][0] }}</span>
+                @endif
+            </div>
+        </div>
+    @endif
 </div>

@@ -1,23 +1,26 @@
-<div class="col-md-<?php echo $settings['field_size']; ?>">
+<div class="col-md-{{ $settings['field_size'] }}">
     <div class="form-group">
+        @if($settings['show_label'])
+            <label class="form-label">
+                {{ $data['name'] }}
+                @if($settings['required'])
+                    <span style="color: red;">*</span>
+                @endif
+            </label>
+        @endif
 
-        <?php if($settings['show_label']): ?>
-        <label class="form-label">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
-                <span style="color: red;">*</span>
-            <?php endif; ?>
-        </label>
-        <?php endif; ?>
+        <input type="hidden" 
+            class="form-control" 
+            data-custom-field-id="{{ $data['id'] }}" 
+            name="{{ $data['name_key'] }}" 
+            value="{{ $data['value'] }}"/>
 
-        <input type="hidden" class="form-control" data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>"/>
-
-        <?php if ($data['help']): ?>
-            <span class="help-block"><?php echo $data['help']; ?></span>
-        <?php endif; ?>
+        @if($data['help'])
+            <span class="help-block">{{ $data['help'] }}</span>
+        @endif
 
         <div class="controls">
-            <?php echo $data["value"]; ?>
+            {{ $data['value'] }}
         </div>
     </div>
 </div>

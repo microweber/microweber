@@ -1,30 +1,30 @@
-<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
+<div class="col-sm-{{ $settings['field_size_mobile'] }} col-md-{{ $settings['field_size_tablet'] }} col-lg-{{ $settings['field_size_desktop'] }}">
     <div class="form-group">
-
-        <?php if ($settings['show_label']): ?>
+        @if($settings['show_label'])
             <label class="form-label my-3">
-                <?php echo $data['name']; ?>
-                <?php if ($settings['required']): ?>
+                {{ $data['name'] }}
+                @if($settings['required'])
                     <span style="color: red;">*</span>
-                <?php endif; ?>
+                @endif
             </label>
-        <?php endif; ?>
+        @endif
 
-        <?php
-        $i = 0;
-        foreach ($data['values'] as $key => $value):
-            $i++;
-            ?>
+        @foreach($data['values'] as $key => $value)
             <div class="custom-control custom-radio my-2">
-                <input type="radio" id="custom-radio-<?php echo $data['id'] . '-' . $key; ?>" class="form-check-input" <?php if ($settings['required'] && $i == 1): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" value="<?php echo $value; ?>"
-                       name="<?php echo $data['name_key']; ?>">
-                <label class="custom-control-label ms-2" for="custom-radio-<?php echo $data['id'] . '-' . $key; ?>"><?php echo $value; ?></label>
+                <input type="radio" 
+                    id="custom-radio-{{ $data['id'] }}-{{ $key }}" 
+                    class="form-check-input" 
+                    @if($settings['required'] && $loop->first) required @endif
+                    data-custom-field-id="{{ $data['id'] }}" 
+                    value="{{ $value }}"
+                    name="{{ $data['name_key'] }}">
+                <label class="custom-control-label ms-2" 
+                    for="custom-radio-{{ $data['id'] }}-{{ $key }}">{{ $value }}</label>
             </div>
-        <?php endforeach; ?>
+        @endforeach
 
-        <?php if ($data['help']): ?>
-            <small class="form-text text-muted"><?php echo $data['help']; ?></small>
-        <?php endif; ?>
-
+        @if($data['help'])
+            <small class="form-text text-muted">{{ $data['help'] }}</small>
+        @endif
     </div>
 </div>

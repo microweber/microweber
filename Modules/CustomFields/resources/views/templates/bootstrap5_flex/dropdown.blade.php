@@ -1,47 +1,46 @@
-<?php if ($settings['multiple']): ?>
+@if($settings['multiple'])
     <script type="text/javascript">
         mw.lib.require('chosen');
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $(".js-mw-select-<?php echo $data['id']; ?>").chosen({width: '100%'});
+            $(".js-mw-select-{{ $data['id'] }}").chosen({width: '100%'});
         });
     </script>
-<?php endif; ?>
+@endif
 
-<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
+<div class="col-sm-{{ $settings['field_size_mobile'] }} col-md-{{ $settings['field_size_tablet'] }} col-lg-{{ $settings['field_size_desktop'] }}">
     <div class="mb-3 d-flex gap-3 flex-wrap">
 
-        <?php if($settings['show_label']): ?>
+        @if($settings['show_label'])
         <label class="form-label me-2 align-self-center mb-0 col-xl-4 col-auto">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
+            {{ $data['name'] }}
+            @if($settings['required'])
                 <span style="color: red;">*</span>
-            <?php endif; ?>
+            @endif
         </label>
-        <?php endif; ?>
+        @endif
 
-        <select <?php if ($settings['multiple']): ?>multiple="multiple"<?php endif; ?> class="form-control col js-mw-select-<?php echo $data['id']; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" name="<?php echo $data['name_key']; ?>"/>
+        <select @if($settings['multiple']) multiple="multiple" @endif class="form-control col js-mw-select-{{ $data['id'] }}" @if($settings['required']) required @endif data-custom-field-id="{{ $data['id'] }}" name="{{ $data['name_key'] }}">
 
-        <?php if (!empty($data['placeholder'])): ?>
-            <option disabled selected value><?php echo $data['placeholder']; ?></option>
-        <?php endif; ?>
+        @if(!empty($data['placeholder']))
+            <option disabled selected value>{{ $data['placeholder'] }}</option>
+        @endif
 
-        <?php foreach ($data['values'] as $key => $value): ?>
-            <option data-custom-field-id="<?php print $data["id"]; ?>" value="<?php echo $value; ?>">
-                <?php echo $value; ?>
+        @foreach($data['values'] as $key => $value)
+            <option data-custom-field-id="{{ $data['id'] }}" value="{{ $value }}">
+                {{ $value }}
 
-
-                <?php if(isset($data['values_price_modifiers']) and !empty($data['values_price_modifiers']) and isset($data['values_price_modifiers'][$key]) and $data['values_price_modifiers'][$key]) : ?>
-                    (+<?php echo currency_format($data['values_price_modifiers'][$key]); ?>)
-                <?php endif; ?>
+                @if(isset($data['values_price_modifiers']) && !empty($data['values_price_modifiers']) && isset($data['values_price_modifiers'][$key]) && $data['values_price_modifiers'][$key])
+                    (+{{ currency_format($data['values_price_modifiers'][$key]) }})
+                @endif
 
             </option>
-        <?php endforeach; ?>
+        @endforeach
         </select>
 
-        <?php if ($data['help']): ?>
-            <small class="form-text text-muted"><?php echo $data['help']; ?></small>
-        <?php endif; ?>
+        @if($data['help'])
+            <small class="form-text text-muted">{{ $data['help'] }}</small>
+        @endif
     </div>
 </div>

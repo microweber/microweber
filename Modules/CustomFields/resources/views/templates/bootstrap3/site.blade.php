@@ -1,22 +1,30 @@
-<?php
-$rand = uniqid();
-?>
-<div class="col-md-<?php echo $settings['field_size']; ?>">
+@php
+    $rand = uniqid();
+@endphp
+
+<div class="col-md-{{ $settings['field_size'] }}">
     <div class="form-group">
+        @if($settings['show_label'])
+            <label class="form-label">
+                {{ $data['name'] }}
+                @if($settings['required'])
+                    <span style="color: red;">*</span>
+                @endif
+            </label>
+        @endif
 
-        <?php if($settings['show_label']): ?>
-        <label class="form-label">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
-                <span style="color: red;">*</span>
-            <?php endif; ?>
-        </label>
-        <?php endif; ?>
+        @if($data['help'])
+            <small class="mw-custom-field-help">{{ $data['help'] }}</small>
+        @endif
 
-        <?php if ($data['help']): ?>
-            <small class="mw-custom-field-help"><?php echo $data['help']; ?></small>
-        <?php endif; ?>
-        <input type="url" class="form-select  form-control" id="custom_field_help_text<?php print $rand; ?>" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" value="<?php echo $data['value']; ?>" name="<?php echo $data['name_key']; ?>"
-               placeholder="<?php echo $data['placeholder']; ?>"/>
+        <input type="url" 
+            class="form-select form-control" 
+            id="custom_field_help_text{{ $rand }}" 
+            @if($settings['required']) required @endif
+            data-custom-field-id="{{ $data['id'] }}"
+            data-custom-field-error-text="{{ $data['error_text'] }}"
+            value="{{ $data['value'] }}"
+            name="{{ $data['name_key'] }}"
+            placeholder="{{ $data['placeholder'] }}"/>
     </div>
 </div>

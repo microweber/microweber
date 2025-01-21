@@ -1,21 +1,28 @@
-<div class="col-sm-<?php echo $settings['field_size_mobile']; ?> col-md-<?php echo $settings['field_size_tablet']; ?> col-lg-<?php echo $settings['field_size_desktop']; ?>">
+<div class="col-sm-{{ $settings['field_size_mobile'] }} col-md-{{ $settings['field_size_tablet'] }} col-lg-{{ $settings['field_size_desktop'] }}">
     <div class="mb-3 d-flex gap-3 flex-wrap">
+        @if($settings['show_label'])
+            <label class="form-label me-2 align-self-center mb-0 col-xl-4 col-auto">
+                {{ $data['name'] }}
+                @if($settings['required'])
+                    <span style="color: red;">*</span>
+                @endif
+            </label>
+        @endif
 
-        <?php if($settings['show_label']): ?>
-        <label class="form-label me-2 align-self-center mb-0 col-xl-4 col-auto">
-            <?php echo $data['name']; ?>
-            <?php if ($settings['required']): ?>
-                <span style="color: red;">*</span>
-            <?php endif; ?>
-        </label>
-        <?php endif; ?>
+        <input type="password" 
+            class="form-control" 
+            @if($settings['required']) required @endif 
+            data-custom-field-id="{{ $data['id'] }}" 
+            data-custom-field-error-text="{{ $data['error_text'] }}" 
+            name="{{ $data['name_key'] }}" 
+            value="{{ $data['value'] }}" 
+            placeholder="{{ $data['placeholder'] }}" 
+        />
+        <div class="valid-feedback">{{ __("Success! You've done it.") }}</div>
+        <div class="invalid-feedback">{{ __('Error! The value is not valid.') }}</div>
 
-        <input type="password" class="form-control" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
-        <div class="valid-feedback"><?php _e('Success! You\'ve done it.'); ?></div>
-        <div class="invalid-feedback"><?php _e('Error! The value is not valid.'); ?></div>
-
-        <?php if ($data['help']): ?>
-            <small class="form-text text-muted"><?php echo $data['help']; ?></small>
-        <?php endif; ?>
+        @if($data['help'])
+            <small class="form-text text-muted">{{ $data['help'] }}</small>
+        @endif
     </div>
 </div>

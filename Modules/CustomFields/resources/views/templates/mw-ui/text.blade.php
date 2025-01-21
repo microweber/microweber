@@ -1,24 +1,37 @@
-<div class="mw-flex-col-md-<?php echo $settings['field_size']; ?>">
-<div class="mw-ui-field-holder">
+<div class="mw-flex-col-md-{{ $settings['field_size'] }}">
+    <div class="mw-ui-field-holder">
+        @if($settings['show_label'])
+            <label class="mw-ui-label">
+                {{ $data['name'] }}
+                @if($settings['required'])
+                    <span style="color: red;">*</span>
+                @endif
+            </label>
+        @endif
 
-    <?php if($settings['show_label']): ?>
-	<label class="mw-ui-label">
-	<?php echo $data['name']; ?>
-	<?php if ($settings['required']): ?>
-	<span style="color: red;">*</span>
-	<?php endif; ?>
-	</label>
-    <?php endif; ?>
+        @if($data['help'])
+            <small class="mw-custom-field-help">{{ $data['help'] }}</small>
+        @endif
 
-	 <?php if ($data['help']): ?>
-        <small class="mw-custom-field-help"><?php echo $data['help']; ?></small>
-    <?php endif; ?>
-	<div class="mw-ui-controls">
-		<?php if ($settings['as_text_area']): ?>
-			<textarea type="text" class="mw-ui-field" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name_key']; ?>" placeholder="<?php echo $data['placeholder']; ?>"><?php echo $data['value']; ?></textarea>
-		<?php else: ?>
-			<input type="text" class="mw-ui-field" <?php if ($settings['required']): ?>required<?php endif; ?> data-custom-field-id="<?php echo $data['id']; ?>" data-custom-field-error-text="<?php echo $data['error_text']; ?>" name="<?php echo $data['name_key']; ?>" value="<?php echo $data['value']; ?>" placeholder="<?php echo $data['placeholder']; ?>" />
-		<?php endif; ?>
-	</div>
-</div>
+        <div class="mw-ui-controls">
+            @if($settings['as_text_area'])
+                <textarea type="text" 
+                    class="mw-ui-field" 
+                    @if($settings['required']) required @endif
+                    data-custom-field-id="{{ $data['id'] }}" 
+                    data-custom-field-error-text="{{ $data['error_text'] }}" 
+                    name="{{ $data['name_key'] }}" 
+                    placeholder="{{ $data['placeholder'] }}">{{ $data['value'] }}</textarea>
+            @else
+                <input type="text" 
+                    class="mw-ui-field" 
+                    @if($settings['required']) required @endif
+                    data-custom-field-id="{{ $data['id'] }}" 
+                    data-custom-field-error-text="{{ $data['error_text'] }}" 
+                    name="{{ $data['name_key'] }}" 
+                    value="{{ $data['value'] }}" 
+                    placeholder="{{ $data['placeholder'] }}"/>
+            @endif
+        </div>
+    </div>
 </div>

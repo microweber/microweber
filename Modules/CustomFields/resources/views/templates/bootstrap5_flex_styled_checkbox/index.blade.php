@@ -1,6 +1,4 @@
-<?php
-
-/*
+{{--
  *
  * type: layout
  *
@@ -8,8 +6,8 @@
  *
  * description: Bootstrap 5 Flex
  *
- */
-?>
+--}}
+
 <script type="text/javascript">
     (function() {
         'use strict';
@@ -28,21 +26,16 @@
             });
         }, false);
     })();
-
 </script>
 
 <div class="row">
-	 <?php if (!empty($fields_group)): ?>
-		 <?php foreach ($fields_group as $fields): ?>
-
-		 <?php if (!empty($fields)): ?>
-
-		  	  <?php foreach ($fields as $field): ?>
-		       		<?php echo $field['html']; ?>
-		    <?php endforeach; ?>
-
-		 <?php endif; ?>
-
-		 <?php endforeach; ?>
-	 <?php endif; ?>
+    @if(!empty($fields_group))
+        @foreach($fields_group as $fields)
+            @if(!empty($fields))
+                @foreach($fields as $field)
+                    {!! $field['html'] !!}
+                @endforeach
+            @endif
+        @endforeach
+    @endif
 </div>
