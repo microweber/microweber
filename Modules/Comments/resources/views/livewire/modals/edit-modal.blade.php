@@ -1,8 +1,8 @@
 <div tabindex="-1" id="comment-edit-modal">
-    <div class="modal-dialog">
+    <div class="modal-dialog p-3">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">{{ _e('Edit comment') }}</h5>
+            <div class="modal-header justify-content-between d-flex align-items-center">
+                <h5 class="modal-title mb-2">{{ _e('Edit comment') }}</h5>
                 <button type="button" class="btn-close" @click="$dispatch('closeModal')" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -23,14 +23,14 @@
                         </div>
                     @endif
 
-                    <div class="d-flex justify-content-end gap-2">
+                    <div class="d-flex justify-content-end gap-3">
                         <button type="button"
-                                class="btn btn-secondary"
+                                class="btn btn-secondary btn-sm"
                                 @click="$dispatch('closeModal')">
                             {{ _e('Cancel') }}
                         </button>
                         <button type="submit"
-                                class="btn btn-primary">
+                                class="btn btn-primary btn-sm">
                             {{ _e('Save') }}
                         </button>
                     </div>
