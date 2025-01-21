@@ -39,6 +39,7 @@ class MenuServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
         $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
             $repositoryManager->extend(Menu::class, function () {
                 return new MenuRepository();
@@ -57,7 +58,6 @@ class MenuServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('menu_manager', function ($app) {
             return new MenuManager();
         });
-
 
 
         // Register filament page for Microweber module settings

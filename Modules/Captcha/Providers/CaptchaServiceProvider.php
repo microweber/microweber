@@ -36,6 +36,7 @@ class CaptchaServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         //$this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
         Livewire::component('captcha-confirm-modal', CaptchaConfirmModalComponent::class);
 
         // Register Microweber module

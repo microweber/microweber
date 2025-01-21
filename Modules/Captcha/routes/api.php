@@ -14,3 +14,7 @@ use Modules\Captcha\Http\Controllers\CaptchaController;
  *
 */
 
+Route::middleware('web')->get('api/captcha', function () {
+    $params = request()->all();
+    return mw()->captcha_manager->render($params);
+});

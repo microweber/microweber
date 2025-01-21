@@ -33,7 +33,6 @@ export default function sortableMenu() {
                     result = {'items': result};
 
 
-
                     $.post(route('api.menu.item.reorder'), result, function () {
                         if (mw.notification) {
                             mw.notification.success('Menu changes are saved');
@@ -48,52 +47,46 @@ export default function sortableMenu() {
             var sortableLists = $(document.querySelector('.admin-menu-items-holder ul'));
 
 
+            sortableLists.nestedSortable({
+                items: "li",
+                listType: 'ul',
+                handle: ".cursor-move",
+                update: async function () {
+                    var obj = {ids: [], ids_parents: {}};
+                    $(this).find('.menu_element').each(function () {
 
-                console.log(sortableLists);
-
-                sortableLists.nestedSortable({
-                    items: "li",
-                    listType: 'ul',
-                    handle: ".cursor-move",
-                    update: async function () {
-                        var obj = {ids: [], ids_parents: {}};
-                        $(this).find('.menu_element').each(function () {
-
-                            var id = this.attributes['data-item-id'].nodeValue;
-                            obj.ids.push(id);
-                            var $has_p = $(this).parents('.menu_element:first').attr('data-item-id');
-                            if ($has_p != undefined) {
-                                obj.ids_parents[id] = $has_p;
-                            } else {
-                                var $has_p1 = $('#ed_menu_holder').find('[name="parent_id"]').first().val();
-                                if ($has_p1 != undefined) {
-                                    obj.ids_parents[id] = $has_p1;
-                                }
-                            }
-                        });
-
-                        const  save = async () => {
-                            console.log('api.menu.item.reorder', obj);
-
-                            // return await $.post("<?php echo route('api.menu.item.reorder'); ?>", obj);
-                        }
-
-                        const  afterSave = () => {
-                            if (mw.notification) {
-                                mw.notification.success('<?php _ejs("Menu changes are saved"); ?>');
+                        var id = this.attributes['data-item-id'].nodeValue;
+                        obj.ids.push(id);
+                        var $has_p = $(this).parents('.menu_element:first').attr('data-item-id');
+                        if ($has_p != undefined) {
+                            obj.ids_parents[id] = $has_p;
+                        } else {
+                            var $has_p1 = $('#ed_menu_holder').find('[name="parent_id"]').first().val();
+                            if ($has_p1 != undefined) {
+                                obj.ids_parents[id] = $has_p1;
                             }
                         }
+                    });
+
+                    const save = async () => {
+                        //   console.log('api.menu.item.reorder', obj);
+
+                        return await $.post(route('api.menu.item.reorder'), obj);
+                    }
+
+                    const afterSave = () => {
+                        if (mw.notification) {
+                            mw.notification.success('Menu changes are saved"');
+                        }
+                    }
 
 
-                        await save();
-                        afterSave();
-                    },
+                    await save();
+                    afterSave();
+                },
 
 
-                });
-
-
-
+            });
 
 
             // //onclick on .menu_element

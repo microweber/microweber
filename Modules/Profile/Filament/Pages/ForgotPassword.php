@@ -8,7 +8,7 @@ use Filament\Forms\Components\View;
 use Filament\Forms\Form;
 use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
 use Illuminate\Validation\ValidationException;
-use MicroweberPackages\User\UserManager;
+use Modules\Profile\Actions\ResetPasswordAction;
 
 class ForgotPassword extends RequestPasswordReset
 {
@@ -48,27 +48,27 @@ class ForgotPassword extends RequestPasswordReset
 
     public function request(): void
     {
-        try {
-            $userManager = app(UserManager::class);
+
+          parent::request();
+
+      /*  try {
+            $resetPasswordAction = app(ResetPasswordAction::class);
 
             $data = [
                 'email' => $this->data['email'],
                 'captcha' => $this->captcha,
             ];
 
-            $response = $userManager->send_forgot_password($data);
+            $response = $resetPasswordAction->execute($data);
 
-            if (isset($response['error'])) {
-                throw ValidationException::withMessages([
-                    'data.email' => $response['error'],
-                ]);
+            if (isset($response['success']) && $response['success']) {
+                $this->notify('success', $response['message']);
+                $this->redirect($this->getLoginUrl());
             }
 
-            $this->notify('success', __('We have emailed your password reset link.'));
-
-            $this->redirect($this->getLoginUrl());
         } catch (ValidationException $e) {
+            $this->addError('data.email', $e->getMessage());
             throw $e;
-        }
+        }*/
     }
 }

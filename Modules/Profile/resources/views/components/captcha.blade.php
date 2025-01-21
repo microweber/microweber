@@ -7,7 +7,7 @@
     <div class="fi-input-wrapper" wire:ignore>
         <div class="flex items-center space-x-4">
             <div class="w-32">
-                <module type="captcha" id="captcha-{{ uniqid() }}" data-callback="captchaCallback"/>
+                <module type="captcha" id="captcha-{{ uniqid() }}" data-callback="captchaCallbackProfilePage"/>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
 
 
     <script>
-        window.captchaCallback = function (value) {
+        window.captchaCallbackProfilePage = function (value) {
         @this.set('captcha', value)
         }
     </script>

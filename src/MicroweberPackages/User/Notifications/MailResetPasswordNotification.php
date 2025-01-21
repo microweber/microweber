@@ -46,10 +46,12 @@ class MailResetPasswordNotification extends ResetPassword {
         $mail = new MailMessage();
 
         $templateId = Option::getValue('forgot_password_mail_template', 'users');
-        $template = get_mail_template_by_id($templateId, 'forgot_password');
-
+        $template = false;
+        if($templateId) {
+            $template = get_mail_template_by_id($templateId, 'forgot_password');
+        }
         if (empty($template)) {
-            $template = get_mail_template_by_name('forgot_password');
+            $template = get_mail_template_by_type('forgot_password');
             $template['subject'] = _e('Reset Password Notification', true);
         }
 

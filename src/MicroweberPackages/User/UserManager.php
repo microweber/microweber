@@ -3,6 +3,7 @@
 namespace MicroweberPackages\User;
 
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cookie;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\SocialiteManager;
 use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
+use MicroweberPackages\User\Http\Controllers\UserForgotPasswordController;
 use MicroweberPackages\User\Http\Controllers\UserLoginController;
 use MicroweberPackages\User\Http\Controllers\UserRegisterController;
 use MicroweberPackages\User\Http\Requests\LoginRequest;
@@ -650,7 +652,7 @@ class UserManager
 
         $response = $controller->register($request);
 
-        if(is_object($response)){
+        if (is_object($response)) {
             $response = collect($response->getData())->toArray();
         }
 
@@ -1217,13 +1219,32 @@ class UserManager
 
     public function session_end()
     {
-        \Session::flush();
-        \Session::regenerate();
+        Session::flush();
+        Session::regenerate();
     }
 
     public function send_forgot_password($params)
     {
-        return RequestRoute::postJson(route('api.user.password.email'), $params);
+
+
+        $request = new Request();
+
+        $request->merge($params);
+
+        $controller = new UserForgotPasswordController();
+
+
+        $response = $controller->send($request);
+
+        if (is_object($response) and method_exists($response, 'getData')) {
+            $response = collect($response->getData())->toArray();
+            return $response;
+
+        }
+        return [];
+
+
+        //  return RequestRoute::postJson(route('api.user.password.email'), $params);
     }
 
     public function social_login($params)
