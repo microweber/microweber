@@ -37,14 +37,19 @@ class FilamentProfilePanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Purple,
             ])
-            ->discoverResources(in: __DIR__ . '/../Filament/Resources', for: 'Modules\\Profile\\Filament\\Resources')
-            ->discoverPages(in: __DIR__ . '/../Filament/Pages', for: 'Modules\\Profile\\Filament\\Pages')
+            ->discoverResources(
+                in: __DIR__ . '/../Filament/Resources',
+                for: 'Modules\\Profile\\Filament\\Resources')
+            ->discoverPages(
+                in: __DIR__ . '/../Filament/Pages',
+                for: 'Modules\\Profile\\Filament\\Pages')
             ->pages([
                 Pages\Dashboard::class,
                 EditProfile::class,
                 TwoFactorAuth::class,
             ])
-            ->discoverWidgets(in: __DIR__ . '/../Filament/Widgets', for: 'Modules\\Profile\\Filament\\Widgets')
+            ->discoverWidgets(in: __DIR__ . '/../Filament/Widgets',
+                for: 'Modules\\Profile\\Filament\\Widgets')
             ->widgets([
                 //     Widgets\AccountWidget::class,
             ])
