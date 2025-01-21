@@ -410,7 +410,7 @@ body.mw-vhmbgr-menu-active .mw-vhmbgr-active-overlay{
     document.querySelectorAll('.mw-vhmbgr--navigation').forEach(function(node){
         var mobileMenu = document.createElement('span');
         mobileMenu.className = 'mw-vhmbgr-wrapper';
-        mobileMenu.innerHTML = hamburgers[hamburger];
+        mobileMenu.innerHTML = hamburgers[hamburger] || hamburgers[5];
         node.after(mobileMenu);
     });
 
