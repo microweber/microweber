@@ -39,11 +39,4 @@ class ForgotPassword extends RequestPasswordReset
             ->maxLength(255);
     }
 
-
-    public function request(): void
-    {
-
-          parent::request();
-
-    }
 }
