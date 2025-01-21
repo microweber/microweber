@@ -54,7 +54,40 @@ export default function sortableMenu() {
                 sortableLists.nestedSortable({
                     items: "li",
                     listType: 'ul',
-                    handle: ".cursor-move"
+                    handle: ".cursor-move",
+                    update: async function () {
+                        var obj = {ids: [], ids_parents: {}};
+                        $(this).find('.menu_element').each(function () {
+
+                            var id = this.attributes['data-item-id'].nodeValue;
+                            obj.ids.push(id);
+                            var $has_p = $(this).parents('.menu_element:first').attr('data-item-id');
+                            if ($has_p != undefined) {
+                                obj.ids_parents[id] = $has_p;
+                            } else {
+                                var $has_p1 = $('#ed_menu_holder').find('[name="parent_id"]').first().val();
+                                if ($has_p1 != undefined) {
+                                    obj.ids_parents[id] = $has_p1;
+                                }
+                            }
+                        });
+
+                        const  save = async () => {
+                            console.log('api.menu.item.reorder', obj);
+
+                            // return await $.post("<?php echo route('api.menu.item.reorder'); ?>", obj);
+                        }
+
+                        const  afterSave = () => {
+                            if (mw.notification) {
+                                mw.notification.success('<?php _ejs("Menu changes are saved"); ?>');
+                            }
+                        }
+
+
+                        await save();
+                        afterSave();
+                    },
 
 
                 });

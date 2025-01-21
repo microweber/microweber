@@ -636,7 +636,36 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
 
     }
 
+     _hoverAndSelectExceptionsForStrictMode = (target) => {
+
+        if(!target) {
+            return false;
+        }
+
+        const isInRichText = DomService.firstParentOrCurrentWithAnyOfClasses(target, ['mw-richtext']);
+
+        return isInRichText
+
+     }
+
      _hoverAndSelectExceptions = (target) => {
+
+        const strictMode = true;
+
+
+
+
+
+        if(strictMode) {
+            const strictException = this._hoverAndSelectExceptionsForStrictMode(target);
+            if(strictException) {
+                return strictException;
+            }
+
+        }
+
+
+
 
         if(target) {
             if (target && target.classList && target.classList.contains('module-custom-fields')) {

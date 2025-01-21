@@ -198,16 +198,13 @@ export const Draggable = function (options, rootSettings) {
              scope.action = null;
              const file = getFile(e);
              e.preventDefault();
-
+console.log(e)
 
              let canDrag = true;
 
              if(!canDrag) {
                 return;
              }
-
-
-
 
              if(DomService.firstParentOrCurrentWithAnyOfClasses(e.target, ['mw-free-layout-container'])) {
                  return;

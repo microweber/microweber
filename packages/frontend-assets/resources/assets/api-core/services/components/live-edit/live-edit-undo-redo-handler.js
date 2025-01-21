@@ -91,6 +91,8 @@ export class LiveEditUndoRedoHandler extends BaseComponent {
                     ]
                 });
 
+
+
                 if(this.startTarget) {
                     mw.app.state.record({
                         target: "$multistate",

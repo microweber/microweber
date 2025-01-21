@@ -83,13 +83,55 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         ]);
     }
 
+    getStrictModeTarget(target) {
+        if(!target || !target.classList) {
+            return false;
+        }
+        const res = {
+            target,
+            canInsert: false,
+            beforeAfter: false
+        }
+
+
+        const strictClass = 'mw-dropable';
+        if(target.classList.contains(strictClass)){
+            res.canInsert = true;
+            return res
+        }
+
+        const parent = this.tools.firstParentWithAnyOfClasses(target, [
+            strictClass,
+        ]);
+        if(parent){
+            res.target = parent;
+            res.canInsert = false;
+            res.beforeAfter = true;
+        }
+        return res;
+    }
+
     getTarget (node, draggedElement) {
 
+
+        const strictMode = true;
+
+        if(strictMode) {
+            console.log( this.settings)
+            this.settings.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
+            return this.getStrictModeTarget(node)
+        }
+
+
         const target = this.getIteractionTarget(node);
+
+
 
         if(!target) {
             return;
         }
+
+
 
         if( !this.isEditOrInEdit(target) || !this.allowDrop(target)) {
             return null;
