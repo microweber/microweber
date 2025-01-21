@@ -21,7 +21,7 @@
                     @if(auth()->check() && auth()->id() == $comment->created_by)
                         <div class="dropdown">
                             <button class="btn btn-link text-dark p-0" type="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
