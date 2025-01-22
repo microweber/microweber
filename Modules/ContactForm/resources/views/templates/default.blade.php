@@ -7,6 +7,9 @@
     */
 @endphp
 
+@include('modules.contact_form::resources.assets.css.app.css')
+
+
 <div class="contact-form-container contact-form-template-dream"
      x-load="visible"
      x-load-src="{{ asset('modules/contact_form/js/contact-form-alpine.js') }}"

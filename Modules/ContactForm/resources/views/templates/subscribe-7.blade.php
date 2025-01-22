@@ -6,7 +6,7 @@
     */
 @endphp
 
-<form class="mw_form" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post">
+<form class="contact-form-container mw_form" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post">
     <div class="message-sent alert alert-success" id="msg{{ $form_id }}" style="display: none;">
         <span class="message-sent-icon"></span>
         <p class="text-success">{{ $thank_you_message ?? __('Your Email was sent successfully') }}</p>
