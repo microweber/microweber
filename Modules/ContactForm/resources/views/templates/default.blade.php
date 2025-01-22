@@ -7,8 +7,7 @@
     */
 @endphp
 
-@include('modules.contact_form::resources.assets.css.app.css')
-
+<link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
 <div class="contact-form-container contact-form-template-dream"
      x-load="visible"

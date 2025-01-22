@@ -9,8 +9,8 @@
     },
     "private": true,
     "scripts": {
-        "build": "cpy resources/assets/js ../../public/modules/contact_form/js --flat",
-        "dev": "chokidar resources/assets/js/contact-form-alpine.js -c \"npm run build\""
+        "build": "cpy resources/assets/js ../../public/modules/contact_form/js --flat && cpy  resources/assets/css ../../public/modules/contact_form/css --flat && cpy  resources/assets/img ../../public/modules/contact_form/img --flat",
+        "dev": "chokidar resources/assets/ -c \"npm run build\""
     },
     "devDependencies": {
         "chokidar-cli": "^3.0.0",
