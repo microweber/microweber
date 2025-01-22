@@ -20,6 +20,24 @@ function digital_download_get($params) {
             'option_value' => 'y'
         ));
 
+        $isListFinded = false;
+        $getLists = mw()->forms_manager->get_lists([]);
+        if ($getLists) {
+            foreach ($getLists as $list) {
+                if ($list['module_name'] == 'digital_download_'.'_'.$params['id']) {
+                    $isListFinded = true;
+                    break;
+                }
+            }
+        }
+        if (!$isListFinded) {
+            mw()->forms_manager->save_list([
+                'for_module_id' => $optionGroup,
+                'for_module'    => 'digital_download_'.'_'.$params['id'],
+                'title'         => 'Digital Downloads',
+            ]);
+        }
+
         $save = mw()->forms_manager->post([
             'for_id' => $optionGroup,
             'for' => 'digital_download_'.'_'.$params['id'],
