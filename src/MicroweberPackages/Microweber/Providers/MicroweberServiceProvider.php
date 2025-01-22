@@ -48,8 +48,7 @@ use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
 use MicroweberPackages\Update\Providers\UpdateMigratorServiceProvider;
 use MicroweberPackages\User\Providers\UserEventServiceProvider;
 use MicroweberPackages\User\Providers\UserServiceProvider;
-use MicroweberPackages\Utils\Captcha\Providers\CaptchaEventServiceProvider;
-use MicroweberPackages\Utils\Captcha\Providers\CaptchaServiceProvider;
+
 use MicroweberPackages\View\ViewServiceProvider;
 use Spatie\Permission\PermissionServiceProvider;
 
@@ -159,8 +158,8 @@ class MicroweberServiceProvider extends ServiceProvider
 
         // Others
         $this->app->register(MarketplaceServiceProvider::class);
-        $this->app->register(CaptchaServiceProvider::class);
-        $this->app->register(CaptchaEventServiceProvider::class);
+        //$this->app->register(CaptchaServiceProvider::class);
+        //$this->app->register(CaptchaEventServiceProvider::class);
         //.$this->app->register(BackupServiceProvider::class);
         //  $this->app->register(ImportServiceProvider::class);
       //  $this->app->register(CustomerServiceProvider::class);

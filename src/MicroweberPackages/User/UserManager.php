@@ -225,12 +225,8 @@ class UserManager
         if ($response and is_object($response)) {
             $response = collect($response->getData())->toArray();
         }
-
         return $response;
 
-
-        /* $params['x-no-throttle'] = false; //allow throttle
-         return RequestRoute::postJson(route('api.user.login'), $params);*/
     }
 
     public function logout($params = false)

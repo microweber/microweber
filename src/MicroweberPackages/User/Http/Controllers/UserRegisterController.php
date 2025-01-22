@@ -31,7 +31,7 @@ class UserRegisterController extends Controller
         'thumbnail',
         'parent_id',
         'user_information',
-      //  'subscr_id',
+        //  'subscr_id',
         'profile_url',
         'website_url',
         'phone'
@@ -68,9 +68,8 @@ class UserRegisterController extends Controller
         }
 
 
-
         if (!isset($userData['username'])) {
-            $userData['username'] ='user_'.md5($inputs['email']).uniqid();
+            $userData['username'] = 'user_' . md5($inputs['email']) . uniqid();
         }
 
         // $registration_approval_required = get_option('registration_approval_required', 'users');
@@ -111,13 +110,13 @@ class UserRegisterController extends Controller
             }
             // event(new UserWasRegistered($created, $request->all()));
         }
-        if($should_login){
+        if ($should_login) {
             $created['success'] = 'Registration is completed.';
             $created['status'] = 'success';
-        }else{
-            if($registration_approval_required == true and !$isVerfiedEmailRequired){
+        } else {
+            if ($registration_approval_required == true and !$isVerfiedEmailRequired) {
                 $created['success'] = 'Registration done. Wait for Approval by Admin!';
-            }else{
+            } else {
                 $created['success'] = 'Verification email sent. Please verify your email first!';
             }
         }
