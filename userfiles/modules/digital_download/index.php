@@ -43,7 +43,7 @@ $download_on_click = 'digitalDownloadClick'.md5($params['id']).'()';
             url: '<?php print api_url('digital_download_get') . '?id=' . $params['id']; ?>&email=' + email,
             type: 'GET',
             success: function (data) {
-                window.open(data.download_url, '_blank');
+                window.location.href = data.download_url;
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(XMLHttpRequest);
