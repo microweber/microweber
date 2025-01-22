@@ -1,2 +1,7 @@
-@import 'index.css';
-@import 'admin.scss';
+@tailwind base;
+ 
+
+ 
+ 
+@import './index.css';
+@import './admin.scss';

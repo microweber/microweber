@@ -1,10 +1,11 @@
 @import '../../../../../vendor/filament/filament/resources/css/theme.css';
 @import 'filament/actions';
 @import 'filament/forms';
+ 
 @import 'filament/infolists/index.css';
 @import 'filament/notifications/index.css';
 @import 'filament/panels';
-@import 'filament/support';
+ 
 @import 'filament/tables';
 @import 'filament/widgets';
 @import 'microweber/filepicker.css';
@@ -29,7 +30,7 @@
 @import 'microweber/live-edit-components.css';
 @import "tabler-vars.scss";
 @import "global.css";
-@config '../../../tailwind.config.js';
+@config './tailwind.config.js';
 
 
 
