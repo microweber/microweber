@@ -1,6 +1,6 @@
 <?php
 
-api_expose_admin('digital_download_get');
+api_expose('digital_download_get');
 function digital_download_get($params) {
 
 
