@@ -35,16 +35,23 @@
             </div>
 
             <div class="modal-body">
-                <div class="form-group download_url">
-                    <label for="<?php print md5($params['id']); ?>-email" class="form-label font-weight-bold mb-3"><?php _e("Please type your email to download Microweber"); ?></label>
-                    <input class="form-control" type="email" value="" id="<?php print md5($params['id']); ?>-email" />
+
+                <div style="display:none" id="<?php print md5($params['id']); ?>-thank-you-message">
+                    Thank you for downloading Microweber!
                 </div>
 
-                <br />
+                <div id="<?php print md5($params['id']); ?>-download-form">
+                    <div class="form-group download_url">
+                        <label for="<?php print md5($params['id']); ?>-email" class="form-label font-weight-bold mb-3"><?php _e("Please type your email to download Microweber"); ?></label>
+                        <input class="form-control" placeholder="Enter your email..." type="email" value="" id="<?php print md5($params['id']); ?>-email" />
+                    </div>
 
-                <button type="button" onclick="<?php print $download_on_click; ?>" class="btn btn-secondary text-end d-flex ms-auto">
-                    Download
-                </button>
+                    <br />
+
+                    <button type="button" onclick="<?php print $download_on_click; ?>" class="btn btn-secondary text-end d-flex ms-auto">
+                        Download
+                    </button>
+                </div>
             </div>
 
         </div>

@@ -44,6 +44,15 @@ $download_on_click = 'digitalDownloadClick'.md5($params['id']).'()';
             type: 'GET',
             success: function (data) {
                 window.location.href = data.download_url;
+
+                let downloadForm = document.getElementById('<?php print md5($params['id']); ?>-download-form');
+                if (downloadForm) {
+                    downloadForm.style.display = 'none';
+                }
+                let thankYouMessage = document.getElementById('<?php print md5($params['id']); ?>-thank-you-message');
+                if (thankYouMessage) {
+                    thankYouMessage.style.display = 'block';
+                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 console.log(XMLHttpRequest);
