@@ -53,7 +53,7 @@ filter: sepia(100%);
         @endif
     }
 
-                    .header-section-title {
+                    .module-slider-header-section-title {
                         color: {{ $slide->settings['titleColor'] ?? '#000000' }};
                         font-size: {{ $slide->settings['titleFontSize'] ?? '24' }}px;
                         @media screen and (max-width: 991px) {
@@ -68,7 +68,7 @@ filter: sepia(100%);
                         overflow-wrap: break-word;
                     }
 
-                    .header-section-p {
+                    .module-slider-header-section-p {
                         color: {{ $slide->settings['descriptionColor'] ?? '#666666' }};
                         font-size: {{ $slide->settings['descriptionFontSize'] ?? '16' }}px;
                     }
@@ -104,12 +104,12 @@ filter: sepia(100%);
 
                     <div class="js-slide-elements-{{ $slide->id }}" style="height: calc(100vh - 100px);">
                         <div class="mb-2">
-                            <h3 class="header-section-title js-slide-title-{{ $slide->id }}">
+                            <h3 class="module-slider-header-section-title js-slide-title-{{ $slide->id }}">
                                 {{ $slide->name }}
                             </h3>
                         </div>
                         <div>
-                            <p class="header-section-p js-slide-description-{{ $slide->id }}">
+                            <p class="module-slider-header-section-p js-slide-description-{{ $slide->id }}">
                                 {{ $slide->description }}
                             </p>
                         </div>
