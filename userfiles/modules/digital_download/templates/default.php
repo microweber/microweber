@@ -1,8 +1,8 @@
 <div
     style="
-    display:flex;
-    justify-content:<?php print $button_alignment; ?>;
-"
+        display:flex;
+        justify-content:<?php print $button_alignment; ?>;
+        "
 >
     <a class="btn btn-default" data-bs-toggle="modal" href="#digital-download-<?php print $params['id']; ?>"
        data-backdrop="false">
@@ -36,13 +36,13 @@
 
             <div class="modal-body">
                 <div class="form-group download_url">
-                    <label for="<?php print md5($params['id']); ?>-email" class="form-label font-weight-bold mb-3"><?php _e("Your Email"); ?></label>
+                    <label for="<?php print md5($params['id']); ?>-email" class="form-label font-weight-bold mb-3"><?php _e("Please type your email to download Microweber"); ?></label>
                     <input class="form-control" type="email" value="" id="<?php print md5($params['id']); ?>-email" />
                 </div>
 
                 <br />
 
-                <button type="button" onclick="<?php print $download_on_click; ?>" class="btn btn-secondary">
+                <button type="button" onclick="<?php print $download_on_click; ?>" class="btn btn-secondary text-end d-flex ms-auto">
                     Download
                 </button>
             </div>
