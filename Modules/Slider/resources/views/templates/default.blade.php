@@ -68,7 +68,7 @@ filter: sepia(100%);
                         overflow-wrap: break-word;
                     }
 
-                    .header-section-p {
+                    .module-slider-header-section-p {
                         color: {{ $slide->settings['descriptionColor'] ?? '#666666' }};
                         font-size: {{ $slide->settings['descriptionFontSize'] ?? '16' }}px;
                     }
@@ -109,7 +109,7 @@ filter: sepia(100%);
                             </h3>
                         </div>
                         <div>
-                            <p class="header-section-p js-slide-description-{{ $slide->id }}">
+                            <p class="module-slider-header-section-p js-slide-description-{{ $slide->id }}">
                                 {{ $slide->description }}
                             </p>
                         </div>
