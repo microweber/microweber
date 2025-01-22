@@ -5,6 +5,7 @@
     description: Skin-6
     */
 @endphp
+<link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
 <style>
     input:hover, label:hover, input:focus, label:focus, textarea:focus, textarea:hover, select:hover, select:focus {
@@ -13,7 +14,7 @@
     }
 </style>
 
-<form class="mw_form mw-form-6 ps-3" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post">
+<form class="contact-form-container mw_form mw-form-6 ps-3" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post">
     <div class="mw-message-form-wrapper message-sent" id="msg{{ $form_id }}" style="display: none;">
         <span class="message-sent-icon"></span>
         <p class="text-success">@lang('Your Email was sent successfully')</p>

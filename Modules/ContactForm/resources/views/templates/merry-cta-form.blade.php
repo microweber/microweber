@@ -5,10 +5,11 @@
     description: merry-cta
     */
 @endphp
+<link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
-<form class="col-xl-10 mw_form d-flex flex-wrap align-items-center justify-content-center mx-auto merry-cta-div-form" 
-      data-form-id="{{ $form_id }}" 
-      name="{{ $form_id }}" 
+<form class="contact-form-container col-xl-10 mw_form d-flex flex-wrap align-items-center justify-content-center mx-auto merry-cta-div-form"
+      data-form-id="{{ $form_id }}"
+      name="{{ $form_id }}"
       method="post">
 
     <div class="mw-message-form-wrapper message-sent" id="msg{{ $form_id }}" style="display: none;">

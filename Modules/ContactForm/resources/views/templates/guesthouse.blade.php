@@ -5,8 +5,9 @@
     description: Guesthouse
     */
 @endphp
+<link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
-<div class="alert alert-success margin-bottom-30" id="msg{{ $form_id }}" style="display:none;">
+<div class="contact-form-container alert alert-success margin-bottom-30" id="msg{{ $form_id }}" style="display:none;">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     <strong>@lang('Thank You')!</strong> @lang('Your message successfully sent')!
 </div>

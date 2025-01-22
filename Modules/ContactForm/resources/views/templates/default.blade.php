@@ -7,6 +7,8 @@
     */
 @endphp
 
+<link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
+
 <div class="contact-form-container contact-form-template-dream"
      x-load="visible"
      x-load-src="{{ asset('modules/contact_form/js/contact-form-alpine.js') }}"
@@ -64,7 +66,7 @@
             </div>
         </form>
     </div>
-    <div class="message-sent" id="msg{{ $form_id }}" x-show="success" x-cloak>
+    <div class="mw-message-form-wrapper message-sent" id="msg{{ $form_id }}" x-show="success" x-cloak>
         <span class="message-sent-icon"></span>
         <p>@lang('Your Email was sent successfully')</p>
     </div>
