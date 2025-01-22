@@ -16,6 +16,10 @@ if (!$download_url) {
     $download_url = '';
 }
 
+$require_email = get_option('require_email', $params['id']);
+if (!$require_email) {
+    $require_email = 'n';
+}
 
 $module_template = get_option('data-template', $params['id']);
 if ($module_template == false and isset($params['template'])) {

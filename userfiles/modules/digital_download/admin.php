@@ -26,6 +26,7 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     $button_text = get_option('button_text', $params['id']);
     $button_alignment = get_option('button_alignment', $params['id']);
     $download_url = get_option('download_url', $params['id']);
+    $require_email = get_option('require_email', $params['id']);
     ?>
     <div>
 
@@ -49,6 +50,16 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         </div>
 
 
+        <div class="form-group">
+            <div class="checkbox">
+                <label class="mw-ui-check">
+                    <input type="checkbox" class="mw_option_field" name="require_email"
+                           value="yes" <?php if ($require_email == 'yes') {
+                        echo 'checked';
+                    } ?> /> <span></span><span><?php _e("Require email for downloading"); ?></span>
+                </label>
+            </div>
+        </div>
 
     </div>
 
