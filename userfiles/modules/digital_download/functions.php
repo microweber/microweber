@@ -28,14 +28,10 @@ function digital_download_get($params) {
             'module_name' => 'digital_download',
         ]);
 
-        if ($save) {
-            return [
-                'success' => 'Thank you for downloading the file. Check your email for the download link.',
-                'download_url' => $download_url
-            ];
-        }
     }
 
-    return [];
+    return [
+        'download_url' => $download_url
+    ];
 
 }
