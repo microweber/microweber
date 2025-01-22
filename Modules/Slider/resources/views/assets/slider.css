@@ -70,19 +70,19 @@
 
 /* Responsive Text */
 @media screen and (max-width: 991px) {
-    .header-section-title {
+    .module-slider-header-section-title {
         font-size: 3rem;
     }
 }
 
 @media screen and (max-width: 600px) {
-    .header-section-title {
+    .module-slider-header-section-title {
         font-size: 2.5rem !important;
     }
 }
 
 @media screen and (max-width: 400px) {
-    .header-section-title {
+    .module-slider-header-section-title {
         font-size: 2rem !important;
     }
 }

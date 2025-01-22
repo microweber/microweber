@@ -58,7 +58,7 @@ filter: sepia(100%);
 
 
 
-                    .header-section-title {
+                    .module-slider-header-section-title {
                         color: {{ $slide->settings['titleColor'] ?? '#000000' }};
                         font-size: {{ $slide->settings['titleFontSize'] ?? '24' }}px;
                         @media screen and (max-width: 991px) {
@@ -106,7 +106,7 @@ filter: sepia(100%);
 
                     <div style="height: 650px; border-radius: 30px; padding-inline-start: 100px;"
                          class="d-flex flex-column justify-content-center align-items-start text-start gap-4 slide-content">
-                        <h3 class="header-section-title js-slide-title-{{ $slide->id }}">
+                        <h3 class="module-slider-header-section-title js-slide-title-{{ $slide->id }}">
                             {{ $slide->name }}
                         </h3>
 
