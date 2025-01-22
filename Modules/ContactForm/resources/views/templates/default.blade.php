@@ -66,7 +66,7 @@
             </div>
         </form>
     </div>
-    <div class="message-sent" id="msg{{ $form_id }}" x-show="success" x-cloak>
+    <div class="mw-message-form-wrapper message-sent" id="msg{{ $form_id }}" x-show="success" x-cloak>
         <span class="message-sent-icon"></span>
         <p>@lang('Your Email was sent successfully')</p>
     </div>
