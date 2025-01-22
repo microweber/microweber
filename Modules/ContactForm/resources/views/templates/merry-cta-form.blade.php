@@ -5,6 +5,7 @@
     description: merry-cta
     */
 @endphp
+<link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
 <form class="contact-form-container col-xl-10 mw_form d-flex flex-wrap align-items-center justify-content-center mx-auto merry-cta-div-form"
       data-form-id="{{ $form_id }}"

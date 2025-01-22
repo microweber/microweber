@@ -5,6 +5,7 @@
     description: Skin-6
     */
 @endphp
+<link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
 <style>
     input:hover, label:hover, input:focus, label:focus, textarea:focus, textarea:hover, select:hover, select:focus {

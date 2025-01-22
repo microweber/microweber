@@ -5,6 +5,7 @@
     description: Skin-1
     */
 @endphp
+<link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
 <form class="contact-form-container mw_form" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post">
     <div class="mw-message-form-wrapper message-sent" id="msg{{ $form_id }}" style="display: none">
