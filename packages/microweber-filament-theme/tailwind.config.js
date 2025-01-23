@@ -10,11 +10,11 @@ module.exports = {
         relativeContentPathsByDefault: true,
     },
     presets: [preset],
-   // mode: 'jit',
-   //  purge: [
-   //      // Your CSS will rebuild any time *any* file in `src` changes
-   //      './resources/assets/**/*.*',
-   //  ],
+    // mode: 'jit',
+    //  purge: [
+    //      // Your CSS will rebuild any time *any* file in `src` changes
+    //      './resources/assets/**/*.*',
+    //  ],
     theme: {
         extend: {
             colors: {
@@ -55,7 +55,7 @@ module.exports = {
         require('@tailwindcss/container-queries'),
 
     ],
-   //  safelist: [{ pattern: /./ }],
+    //  safelist: [{ pattern: /./ }],
 
 
     content: {
