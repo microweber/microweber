@@ -130,6 +130,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
             );
 
         });
+
         PackageManager::create('title_head_tags', function (Package $package) {
             $package->addTag(
                 'title_head_tags',
