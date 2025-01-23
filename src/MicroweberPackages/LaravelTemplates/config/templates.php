@@ -114,7 +114,7 @@ return [
         */
         'generator' => [
 
-            'provider' => ['path' => 'app/Providers', 'generate' => true],
+            'provider' => ['path' => 'Providers', 'generate' => true],
             'config' => ['path' => 'config', 'generate' => true],
             'assets' => ['path' => 'resources/assets', 'generate' => true],
             'views' => ['path' => 'resources/views', 'generate' => true],
@@ -165,10 +165,10 @@ return [
     |
     */
     'composer' => [
-        'vendor' => env('MODULE_VENDOR', 'nwidart'),
+        'vendor' => env('MODULE_VENDOR', 'microweber'),
         'author' => [
-            'name' => env('MODULE_AUTHOR_NAME', 'Nicolas Widart'),
-            'email' => env('MODULE_AUTHOR_EMAIL', 'n.widart@gmail.com'),
+            'name' => env('MODULE_AUTHOR_NAME', 'Microweber'),
+            'email' => env('MODULE_AUTHOR_EMAIL', 'info@microweber.com'),
         ],
         'composer-output' => false,
     ],
