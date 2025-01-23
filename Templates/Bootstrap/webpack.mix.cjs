@@ -8,7 +8,7 @@ mix.webpackConfig({
         new webpack.optimize.LimitChunkCountPlugin({
             maxChunks:1,
         }),
-      ],
+      ]
 });
 
 

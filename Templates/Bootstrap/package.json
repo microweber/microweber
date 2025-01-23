@@ -9,6 +9,7 @@
         "axios": "^1.7.7",
         "copy-webpack-plugin": "^12.0.2",
         "css-loader": "^7.1.2",
+        "esbuild": "^0.24.2",
         "fs-extra": "^11.2.0",
         "laravel-mix": "^6.0.49",
         "laravel-vite-plugin": "^0.7.8",
