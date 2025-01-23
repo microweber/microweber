@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts Slider 4
 description: Posts Slider 4
 
 */
-?>
+@endphp
 
 @include('modules.post::partials.slick_options')
 

@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 6
 description: Posts 6
 
 */
-?>
+@endphp
 
 <div class="row py-4 blog-posts-6">
     @if (!empty($data))
