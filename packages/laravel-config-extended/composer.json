@@ -29,14 +29,10 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "microweber-packages/laravel-helper-functions": "*",
-    "illuminate/collections": "^11.0",
-    "illuminate/contracts": "^11.0",
-    "illuminate/database": "^11.0"
+  
   },
   "require-dev": {
-    "phpunit/phpunit": "*",
-    "orchestra/testbench": "^9.0"
+    
   },
   "config": {
     "preferred-install": "dist",

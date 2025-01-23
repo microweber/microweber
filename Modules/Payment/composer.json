@@ -7,10 +7,7 @@
             "email": "info@microweber.com"
         }
     ],
-    "require": {
-        "omnipay/common": "^3.0",
-        "omnipay/stripe": "^3.0"
-    },
+
     "extra": {
         "laravel": {
             "providers": [],

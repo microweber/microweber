@@ -13,9 +13,7 @@
     "version": "1.0.0",
     "author": "Microweber",
     "official": true,
-    "require": {
-        "microweber/microweber": ">=1.0.0"
-    },
+
     "target-dir": "Profile",
     "autoload": {
         "psr-4": {
