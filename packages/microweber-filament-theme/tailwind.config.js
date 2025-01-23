@@ -1,7 +1,11 @@
-const preset = require('./tailwind.config.js')
+//const preset = require('./tailwind.config.js')
+//const preset = require('./../../vendor/filament/filament/tailwind.config.preset')
+const preset = require('./tailwind.config.preset')
+
 const colors = require('tailwindcss/colors')
 
 module.exports = {
+    darkMode: 'class',
     future: {
         relativeContentPathsByDefault: true,
     },
@@ -51,7 +55,7 @@ module.exports = {
         require('@tailwindcss/container-queries'),
 
     ],
-   // safelist: [{ pattern: /./ }],
+   //  safelist: [{ pattern: /./ }],
 
 
     content: {
