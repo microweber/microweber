@@ -19,8 +19,8 @@ return new class extends Migration {
             $table->id();
             $table->string('content_type')->nullable();
             $table->string('subtype')->nullable();
-            $table->text('url')->nullable();
-            $table->text('title')->nullable();
+            $table->string('url',500)->nullable();
+            $table->string('title',1000)->nullable();
             $table->integer('parent')->nullable();
             $table->text('description')->nullable();
             $table->integer('position')->nullable();
