@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -13,8 +12,6 @@ description: Posts Slider 4
 
 @include('modules.post::partials.slick_options')
 
-
-
 <div class="slick-arrows-1">
     <div class="py-4 blog-posts-4 slickslider slick-dots-relative">
         @if (!empty($data))
@@ -22,20 +19,22 @@ description: Posts Slider 4
                 @php
                     $categories = content_categories($item['id']);
                     $itemCats = '';
-                    if ($categories) {
-                        foreach ($categories as $category) {
-                            $itemCats .= '<small class="text-outline-primary font-weight-bold d-block mb-2" itemprop="category">' . $category['title'] . '</small> ';
-                        }
-                    }
                 @endphp
+                @if($categories)
+                    @foreach($categories as $category)
+                        @php
+                            $itemCats .= '<small class="text-outline-primary font-weight-bold d-block mb-2" itemprop="category">' . $category['title'] . '</small> ';
+                        @endphp
+                    @endforeach
+                @endif
 
                 <div class="mb-5 pe-5" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                     <div class="row">
                         @if (!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields))
                             <div class="col-auto text-center">
-                                <p itemprop="dateCreated" mb-0>{{ date('M', strtotime($item['created_at'])) }}</p>
+                                <p itemprop="dateCreated" class="mb-0">{{ date('M', strtotime($item['created_at'])) }}</p>
                                 <hr class="thin my-2" style="min-width: 65px;"/>
-                                <p itemprop="dateCreated" -2>{{ date('d', strtotime($item['created_at'])) }}</p>
+                                <p itemprop="dateCreated" class="mb-2">{{ date('d', strtotime($item['created_at'])) }}</p>
                             </div>
                         @endif
 
@@ -88,4 +87,3 @@ description: Posts Slider 4
 @if (isset($pages_count) and $pages_count > 1 and isset($paging_param))
     <module type="pagination" pages_count="{{ $pages_count }}" paging_param="{{ $paging_param }}"/>
 @endif
-

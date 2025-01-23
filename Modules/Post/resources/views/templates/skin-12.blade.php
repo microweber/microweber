@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -18,18 +17,24 @@ description: Posts 12
                 @php
                     $categories = content_categories($item['id']);
                     $itemCats = '';
-                    if ($categories) {
-                        foreach ($categories as $category) {
-                            $itemCats .= '<small class="text-dark font-weight-bold d-inline-block mb-2" itemprop="name">' . $category['title'] . '</small> ';
-                        }
-                    }
                 @endphp
+                @if($categories)
+                    @foreach($categories as $category)
+                        @php
+                            $itemCats .= '<small class="text-dark font-weight-bold d-inline-block mb-2" itemprop="category">' . $category['title'] . '</small> ';
+                        @endphp
+                    @endforeach
+                @endif
                 <div class="px-1" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                     <div class="mb-5">
                         <div class="h-100 d-flex flex-column">
                             @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
-                                <a href="{{ $item['link'] }}" class="d-block position-relative overflow-hidden h-350">
-                                    <img loading="lazy" alt="post-img" src="{{ $item['image'] }}" style="min-height: 100%;" itemprop="image">
+                                <a href="{{ $item['link'] }}" class="d-block position-relative overflow-hidden h-350" itemprop="url">
+                                    <div itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                                        <img loading="lazy" alt="{{ $item['title'] }}" src="{{ $item['image'] }}" style="min-height: 100%;" itemprop="url"/>
+                                        <meta itemprop="width" content="350">
+                                        <meta itemprop="height" content="350">
+                                    </div>
                                 </a>
                             @endif
 
@@ -39,7 +44,9 @@ description: Posts 12
                                 @endif
 
                                 @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                                    <a href="{{ $item['link'] }}" class="text-dark text-decoration-none mb-2"><h4 itemprop="name">{{ $item['title'] }}</h4></a>
+                                    <a href="{{ $item['link'] }}" class="text-dark text-decoration-none mb-2" itemprop="url">
+                                        <h4 itemprop="name">{{ $item['title'] }}</h4>
+                                    </a>
                                 @endif
 
                                 @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))

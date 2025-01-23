@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -16,7 +15,7 @@ description: Posts 16
         display: none;
     }
 
-    .merry-blog-posts .img-as-background:hover .merry-on-hover-button  {
+    .merry-blog-posts .img-as-background:hover .merry-on-hover-button {
         display: flex!important;
         position: relative;
         z-index: 2;
@@ -44,27 +43,33 @@ description: Posts 16
             @php
                 $categories = content_categories($item['id']);
                 $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        $itemCats .= '<small class="text-dark font-weight-bold d-inline-block mb-2" itemprop="category">' . $category['title'] . '</small> ';
-                    }
-                }
             @endphp
+            @if($categories)
+                @foreach($categories as $category)
+                    @php
+                        $itemCats .= '<small class="text-dark font-weight-bold d-inline-block mb-2" itemprop="category">' . $category['title'] . '</small> ';
+                    @endphp
+                @endforeach
+            @endif
             <div class="mx-auto mx-md-0 col-sm-10 col-md-6 col-xl-3 mb-5" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                 <div class="h-100 d-flex flex-column">
-                    <a href="{{ $item['link'] }}" class="d-block" itemprop="url">
-                        @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
-                            <div class="img-as-background h-350" itemprop="image">
-                                <a class="merry-on-hover-button" href=""><i class="mw-micon-Google-Play"></i></a>
-                                <img loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="image" alt="{{ $item['title'] }}" />
+                    @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
+                        <div class="img-as-background h-350" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                            <div class="merry-on-hover-button">
+                                <a href="{{ $item['link'] }}" itemprop="url">
+                                    <i class="mw-micon-Google-Play"></i>
+                                </a>
                             </div>
-                        @endif
-                    </a>
+                            <img loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="url" alt="{{ $item['title'] }}"/>
+                            <meta itemprop="width" content="350">
+                            <meta itemprop="height" content="350">
+                        </div>
+                    @endif
 
                     <div class="pt-4 pb-3">
                         @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
                             <a href="{{ $item['link'] }}" class="" itemprop="url">
-                                <h6 class="text-start text-left" itemprop="name">{{ $item['title'] }}</h6>
+                                <h6 class="text-start" itemprop="name">{{ $item['title'] }}</h6>
                             </a>
                         @endif
 

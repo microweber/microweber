@@ -10,8 +10,6 @@
  */
 @endphp
 
-
-
 <div class="row py-4 blog-posts-5">
     @if (!empty($data))
         @foreach ($data as $key => $item)
@@ -26,7 +24,7 @@
                         @endif
 
                         @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                            <a href="{{ $item['link'] }}"><h3 itemprop="name">{{ $item['title'] }}</h3></a>
+                            <a href="{{ $item['link'] }}" itemprop="url"><h3 itemprop="name">{{ $item['title'] }}</h3></a>
                         @endif
 
                         @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
@@ -76,7 +74,7 @@
                         @endif
 
                         @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                            <a href="{{ $item['link'] }}" class="text-dark"><h3 itemprop="name">{{ $item['title'] }}</h3></a>
+                            <a href="{{ $item['link'] }}" class="text-dark" itemprop="url"><h3 itemprop="name">{{ $item['title'] }}</h3></a>
                         @endif
 
                         @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
@@ -117,4 +115,3 @@
 @if (isset($pages_count) and $pages_count > 1 and isset($paging_param))
     <module type="pagination" pages_count="{{ $pages_count }}" paging_param="{{ $paging_param }}"/>
 @endif
-

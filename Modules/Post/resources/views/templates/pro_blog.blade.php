@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -49,80 +48,70 @@ description: Posts pro-blog
 </style>
 
 <div class="row blog-posts-pro-blog">
-
-
-    @php if (!empty($data)): @endphp
-
-         @php $item = reset($data); @endphp
+    @if (!empty($data))
+        @php
+            $item = reset($data);
+            $categories = content_categories($item['id']);
+        @endphp
         <div class="d-flex align-items-center justify-content-between">
-            <h2 data-mwplaceholder="@php _e('Enter title here'); @endphp" class="mb-3">Our Latest Blog</h2>
-
+            <h2 data-mwplaceholder="{{ _e('Enter title here') }}" class="mb-3">Our Latest Blog</h2>
 
             <div class="mw-post-22-post-badge">
-                @php $categories = content_categories($item['id']);
-
-
-
-                $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) { @endphp
-                        <a class="btn btn-secondary @php if ($category['id'] == category_id()): @endphp active @php endif; @endphp" href="@php print category_link($category['id']) @endphp"> @php print $category['title']; @endphp </a>
-                    @php }
-                }
-                @endphp
+                @if($categories)
+                    @foreach($categories as $category)
+                        <a class="btn btn-secondary {{ $category['id'] == category_id() ? 'active' : '' }}" 
+                           href="{{ category_link($category['id']) }}">{{ $category['title'] }}</a>
+                    @endforeach
+                @endif
             </div>
-
         </div>
 
-        @php foreach ($data as $item): @endphp
-            @php $categories = content_categories($item['id']);
-
-            $itemCats = '';
-            if ($categories) {
-                foreach ($categories as $category) {
-                    $itemCats .= '<small class="text-dark font-weight-bold d-inline-block mb-2" itemprop="name">' . $category['title'] . '</small> ';
+        @foreach($data as $item)
+            @php
+                $categories = content_categories($item['id']);
+                $itemCats = '';
+                if ($categories) {
+                    foreach ($categories as $category) {
+                        $itemCats .= '<small class="text-dark font-weight-bold d-inline-block mb-2" itemprop="name">' . $category['title'] . '</small> ';
+                    }
                 }
-            }
             @endphp
-            <div class="mx-auto mx-md-0 col-12 mb-5" itemscope itemtype="@php print $schema_org_item_type_tag @endphp">
-                <div class="h-100 d-flex flex-wrap align-items-center ">
+            <div class="mx-auto mx-md-0 col-12 mb-5" itemscope itemtype="{{ $schema_org_item_type_tag }}">
+                <div class="h-100 d-flex flex-wrap align-items-center">
                     <div class="col-lg-8 col-12 pt-4 pb-3 order-lg-1 order-2">
-                        <small style="color: #2b2b2b;" class="mb-4 d-block" itemprop="dateCreated">@php echo date_system_format($item['created_at']) ; @endphp</small>
-                        @php if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields)): @endphp
-                            <a href="@php print $item['link'] @endphp" class="" itemprop="url"><h4 class="text-start text-left" itemprop="name">@php print $item['title'] @endphp</h4></a>
-                        @php endif; @endphp
+                        <small style="color: #2b2b2b;" class="mb-4 d-block" itemprop="dateCreated">{{ date_system_format($item['created_at']) }}</small>
+                        @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
+                            <a href="{{ $item['link'] }}" class="" itemprop="url">
+                                <h4 class="text-start text-left" itemprop="name">{{ $item['title'] }}</h4>
+                            </a>
+                        @endif
 
-                        @php if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields)): @endphp
-                            <p style="color: #2b2b2b;" class="" itemprop="description">@php print {{ \Illuminate\Support\Str::limit($item['description'], 250) }} @endphp</p>
-                        @php endif; @endphp
+                        @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
+                            <p style="color: #2b2b2b;" class="" itemprop="description">{{ \Illuminate\Support\Str::limit($item['description'], 250) }}</p>
+                        @endif
 
                         <div class="d-flex">
-
-                            <a href="@php print $item['link'] @endphp" class=" d-flex align-items-center action-blog-arrow skin-18--read-more-link" itemprop="url">
-                                @php echo $read_more_text;@endphp
+                            <a href="{{ $item['link'] }}" class="d-flex align-items-center action-blog-arrow skin-18--read-more-link" itemprop="url">
+                                {!! $read_more_text !!}
                             </a>
                         </div>
-
                     </div>
 
                     <div class="col-lg-3 col-12 justify-content-end ms-auto order-lg-2 order-1">
-                        @php if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields)): @endphp
-
-                            <a href="@php print $item['link'] @endphp" class="d-block" itemprop="url">
+                        @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
+                            <a href="{{ $item['link'] }}" class="d-block" itemprop="url">
                                 <div class="img-as-background">
-                                    <img loading="lazy" src="@php print $item['image']; @endphp" style="position: relative !important;" itemprop="image"/>
+                                    <img loading="lazy" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="image"/>
                                 </div>
                             </a>
-                        @php endif; @endphp
+                        @endif
                     </div>
-
-
                 </div>
             </div>
-        @php endforeach; @endphp
-    @php endif; @endphp
+        @endforeach
+    @endif
 </div>
 
-@php if (isset($pages_count) and $pages_count > 1 and isset($paging_param)): @endphp
-    <module type="pagination" pages_count="@php echo $pages_count; @endphp" paging_param="@php echo $paging_param; @endphp"/>
-@php endif; @endphp
+@if (isset($pages_count) and $pages_count > 1 and isset($paging_param))
+    <module type="pagination" pages_count="{{ $pages_count }}" paging_param="{{ $paging_param }}"/>
+@endif

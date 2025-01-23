@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -17,19 +16,23 @@ description: Posts 9
             @php
                 $categories = content_categories($item['id']);
                 $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        $itemCats .= '<small class="text-dark bg-body px-2 py-1 font-weight-bold d-inline-block mb-2 me-2">' . $category['title'] . '</small> ';
-                    }
-                }
             @endphp
+            @if($categories)
+                @foreach($categories as $category)
+                    @php
+                        $itemCats .= '<small class="text-dark bg-body px-2 py-1 font-weight-bold d-inline-block mb-2 me-2" itemprop="category">' . $category['title'] . '</small> ';
+                    @endphp
+                @endforeach
+            @endif
 
             <div class="mx-auto col-sm-10 mx-md-0 col-md-6 col-lg-4 mb-5" itemscope itemtype="{{ $schema_org_item_type_tag }}">
-                <div class="overflow-hidden h-100 d-flex flex-column bg-body hover-" itemprop="url">
+                <div class="overflow-hidden h-100 d-flex flex-column bg-body hover-">
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
-                        <a href="{{ $item['link'] }}" class="d-block position-relative">
-                            <div class="img-as-background square-75" itemprop="image">
-                                <img loading="lazy" style="object-fit: cover;" src="{{ $item['image'] }}" alt="{{ $item['title'] }}"/>
+                        <a href="{{ $item['link'] }}" class="d-block position-relative" itemprop="url">
+                            <div class="img-as-background square-75" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                                <img loading="lazy" style="object-fit: cover;" src="{{ $item['image'] }}" alt="{{ $item['title'] }}" itemprop="url"/>
+                                <meta itemprop="width" content="450">
+                                <meta itemprop="height" content="450">
                             </div>
                         </a>
                     @endif
@@ -40,7 +43,9 @@ description: Posts 9
                         @endif
 
                         @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                            <a href="{{ $item['link'] }}" class="text-dark text-decoration-none" itemprop="url"><h5 class="mb-2" itemprop="name">{{ $item['title'] }}</h5></a>
+                            <a href="{{ $item['link'] }}" class="text-dark text-decoration-none" itemprop="url">
+                                <h5 class="mb-2" itemprop="name">{{ $item['title'] }}</h5>
+                            </a>
                         @endif
 
                         @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))

@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -11,19 +10,20 @@ description: Posts 3
 */
 @endphp
 
-
 <div class="row blog-posts-3">
     @if (!empty($data))
         @foreach ($data as $item)
             @php
                 $categories = content_categories($item['id']);
                 $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        $itemCats .= '<small class="text-dark font-weight-bold d-inline-block mb-2" itemprop="category">' . $category['title'] . '</small> ';
-                    }
-                }
             @endphp
+            @if($categories)
+                @foreach($categories as $category)
+                    @php
+                        $itemCats .= '<small class="text-dark font-weight-bold d-inline-block mb-2" itemprop="category">' . $category['title'] . '</small> ';
+                    @endphp
+                @endforeach
+            @endif
             <div class="mx-auto mx-md-0 col-sm-10 col-md-6 col-lg-4 mb-5" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                 <div class="h-100 d-flex flex-column">
                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
@@ -58,4 +58,3 @@ description: Posts 3
 @if (isset($pages_count) and $pages_count > 1 and isset($paging_param))
     <module type="pagination" pages_count="{{ $pages_count }}" paging_param="{{ $paging_param }}"/>
 @endif
-

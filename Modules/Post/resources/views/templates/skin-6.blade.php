@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -17,24 +16,28 @@ description: Posts 6
             @php
                 $categories = content_categories($item['id']);
                 $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        $itemCats .= '<small class="text-outline-primary font-weight-bold d-inline-block mb-2 me-2" itemprop="category">' . $category['title'] . '</small> ';
-                    }
-                }
             @endphp
+            @if($categories)
+                @foreach($categories as $category)
+                    @php
+                        $itemCats .= '<small class="text-outline-primary font-weight-bold d-inline-block mb-2 me-2" itemprop="category">' . $category['title'] . '</small> ';
+                    @endphp
+                @endforeach
+            @endif
 
             <div class="mx-auto col-sm-10 mx-md-0 col-md-4 mb-5" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                 <div class="px-5 h-100">
                     <div class="d-flex flex-column h-100">
                         <div>
                             @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                                <a href="{{ $item['link'] }}" class="text-dark text-decoration-none"><h4 class="mb-2">{{ $item['title'] }}</h4></a>
+                                <a href="{{ $item['link'] }}" class="text-dark text-decoration-none" itemprop="url">
+                                    <h4 class="mb-2" itemprop="name">{{ $item['title'] }}</h4>
+                                </a>
                             @endif
 
                             @if (!isset($show_fields) or $show_fields == false or in_array('created_at', $show_fields))
                                 <div class="mb-3">
-                                    <small>{{ date_system_format($item['created_at']) }}</small>
+                                    <small itemprop="dateCreated">{{ date_system_format($item['created_at']) }}</small>
                                 </div>
                             @endif
 
@@ -54,7 +57,7 @@ description: Posts 6
                                         @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                                             <div class="w-40">
                                                 <div class="img-as-background rounded-circle square">
-                                                    <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" />
+                                                    <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="image"/>
                                                 </div>
                                             </div>
                                         @endif
@@ -62,7 +65,7 @@ description: Posts 6
                                 @endif
 
                                 <div>
-                                    <small class="mb-1 font-weight-bold d-block">
+                                    <small class="mb-1 font-weight-bold d-block" itemprop="author">
                                         @if (isset($user['first_name'])){{ $user['first_name'] }}@endif&nbsp;
                                         @if (isset($user['last_name'])){{ $user['last_name'] }}@endif
                                     </small>
