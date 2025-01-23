@@ -251,6 +251,7 @@ class MicroweberTemplate
     {
         return templates_dir() . $this->fallbackTempleteFolderName . DS;
     }
+
     public function getFallbackTemplateFolderName(): string
     {
         return $this->fallbackTempleteFolderName;
@@ -519,12 +520,13 @@ class MicroweberTemplate
         $site_template_settings = app()->option_manager->get('current_template', 'template') ?? $this->fallbackTempleteFolderName;
 
 
-        if (!isset($page['active_site_template'])) {
+        if (!isset($page['active_site_template']) and !$site_template_settings) {
             $page['active_site_template'] = $this->getFallbackTemplateFolderName();
         } elseif (isset($page['active_site_template']) and $page['active_site_template'] == '') {
             $page['active_site_template'] = $site_template_settings;
+        } elseif (!isset($page['active_site_template'])) {
+            $page['active_site_template'] = $site_template_settings;
         }
-
 
         if ($page['active_site_template'] and ($page['active_site_template'] == 'default' or $page['active_site_template'] == 'mw_default')) {
             if ($site_template_settings != 'default' and $page['active_site_template'] == 'mw_default') {
@@ -632,9 +634,9 @@ class MicroweberTemplate
                     $render_file = $render_file_temp;
                 } elseif (is_file($render_file_module_temp)) {
                     $render_file = $render_file_module_temp;
-                }elseif ($layout_file_for_content_type and is_file($layout_file_for_content_type)) {
+                } elseif ($layout_file_for_content_type and is_file($layout_file_for_content_type)) {
                     $render_file = $layout_file_for_content_type;
-                }elseif (is_file($laravel_template_view_clean)) {
+                } elseif (is_file($laravel_template_view_clean)) {
                     $render_file = $laravel_template_view_clean;
                 } elseif (is_file($render_use_default)) {
                     $render_file_temp = $this->getFallbackTemplateDir() . $page['layout_file'];
@@ -644,7 +646,7 @@ class MicroweberTemplate
                 }
             }
 
-         }
+        }
 
         if ($render_file == false and isset($page['content_type']) and isset($page['parent']) and ($page['content_type']) != 'page') {
             $get_layout_from_parent = false;
