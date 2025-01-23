@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -17,15 +16,16 @@ description: Posts 2
             @php
                 $categories = content_categories($item['id']);
                 $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        $itemCats .= '<p class="text-dark font-weight-bold d-block mb-2" itemprop="category">' . $category['title'] . '</p> ';
-                    }
-                }
             @endphp
+            @if($categories)
+                @foreach($categories as $category)
+                    @php
+                        $itemCats .= '<p class="text-dark font-weight-bold d-block mb-2" itemprop="category">' . $category['title'] . '</p> ';
+                    @endphp
+                @endforeach
+            @endif
             <hr class="thin"/>
             <div class="row pt-3 mb-0" itemscope itemtype="{{ $schema_org_item_type_tag }}">
-
                 @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
                     <a href="{{ $item['link'] }}" class="text-dark"><h3 itemprop="name">{{ $item['title'] }}</h3></a>
                 @endif
@@ -35,7 +35,6 @@ description: Posts 2
                 @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
                     <p itemprop="description">{{ \Illuminate\Support\Str::limit($item['description'], 250) }}</p>
                 @endif
-
             </div>
         @endforeach
         <hr class="thin"/>

@@ -1,5 +1,4 @@
 @php
-
 /*
 
 type: layout
@@ -17,12 +16,14 @@ description: Posts 11
             @php
                 $categories = content_categories($item['id']);
                 $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        $itemCats .= '<small class="text-outline-primary font-weight-bold d-inline-block mb-2 me-2" itemprop="category">' . $category['title'] . '</small> ';
-                    }
-                }
             @endphp
+            @if($categories)
+                @foreach($categories as $category)
+                    @php
+                        $itemCats .= '<small class="text-outline-primary font-weight-bold d-inline-block mb-2 me-2" itemprop="category">' . $category['title'] . '</small> ';
+                    @endphp
+                @endforeach
+            @endif
 
             <div class="mx-auto col-sm-10 col-md-10 col-lg-8 mb-7" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                 <div class="text-center">
@@ -33,7 +34,9 @@ description: Posts 11
                     @endif
 
                     @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                        <a href="{{ $item['link'] }}" class="text-dark"><h3 class="mb-2" itemprop="name">{{ $item['title'] }}</h3></a>
+                        <a href="{{ $item['link'] }}" class="text-dark" itemprop="url">
+                            <h3 class="mb-2" itemprop="name">{{ $item['title'] }}</h3>
+                        </a>
                     @endif
 
                     @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
@@ -50,8 +53,10 @@ description: Posts 11
                                 <div class="me-2">
                                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
                                         <div class="w-40">
-                                            <div class="img-as-background rounded-circle square">
-                                                <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="image" />
+                                            <div class="img-as-background rounded-circle square" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                                                <img loading="lazy" src="{{ thumbnail($user['thumbnail'], 1200, 1200) }}" itemprop="url" />
+                                                <meta itemprop="width" content="1200">
+                                                <meta itemprop="height" content="1200">
                                             </div>
                                         </div>
                                     @endif
@@ -59,9 +64,11 @@ description: Posts 11
                             @endif
 
                             <div>
-                                <small class="mb-1 font-weight-bold d-block" itemprop="author">
-                                    @if (isset($user['first_name'])){{ $user['first_name'] }}@endif&nbsp;
-                                    @if (isset($user['last_name'])){{ $user['last_name'] }}@endif
+                                <small class="mb-1 font-weight-bold d-block" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name">
+                                        @if (isset($user['first_name'])){{ $user['first_name'] }}@endif&nbsp;
+                                        @if (isset($user['last_name'])){{ $user['last_name'] }}@endif
+                                    </span>
                                 </small>
                                 @if (isset($user['user_information']))<small class="mb-0 text-dark">{{ $user['user_information'] }}</small>@endif
                             </div>

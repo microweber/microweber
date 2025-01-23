@@ -16,28 +16,33 @@
             @php
                 $categories = content_categories($item['id']);
                 $itemCats = '';
-                if ($categories) {
-                    foreach ($categories as $category) {
-                        $itemCats .= '<small class="text-dark bg-body font-weight-bold d-inline-block mb-2">' . $category['title'] . '</small> ';
-                    }
-                }
-                $itemData = content_data($item['id']);
             @endphp
+            @if($categories)
+                @foreach($categories as $category)
+                    @php
+                        $itemCats .= '<small class="text-dark bg-body font-weight-bold d-inline-block mb-2" itemprop="category">' . $category['title'] . '</small> ';
+                    @endphp
+                @endforeach
+            @endif
             @if ($key == 0)
-                <div class="col-lg-6 col-lg-6" itemscope itemtype="{{ $schema_org_item_type_tag }}">
+                <div class="col-lg-6" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                     <div class="post-holder mb-4">
                         <div class="d-flex flex-column">
                             <a href="{{ $item['link'] }}" class="d-block position-relative" itemprop="url">
                                 @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                                    <div class="img-as-background">
-                                        <img loading="lazy" style="max-height: 750px; width: auto; position: relative !important;" src="{{ $item['image'] }}" itemprop="image"/>
+                                    <div class="img-as-background" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                                        <img loading="lazy" style="max-height: 750px; width: auto; position: relative !important;" src="{{ $item['image'] }}" itemprop="url"/>
+                                        <meta itemprop="width" content="750">
+                                        <meta itemprop="height" content="750">
                                     </div>
                                 @endif
                             </a>
 
                             <small class="mt-2 d-block" itemprop="dateCreated">{{ date_system_format($item['created_at']) }}</small>
                             @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                                <a href="{{ $item['link'] }}" class="text-dark text-decoration-none mb-2"><h3 itemprop="name">{{ $item['title'] }}</h3></a>
+                                <a href="{{ $item['link'] }}" class="text-dark text-decoration-none mb-2" itemprop="url">
+                                    <h3 itemprop="name">{{ $item['title'] }}</h3>
+                                </a>
                             @endif
 
                             @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
@@ -49,20 +54,19 @@
             @endif
         @endforeach
 
-        <div class="col-lg-6 col-lg-6">
+        <div class="col-lg-6">
             <div class="row">
                 @foreach ($data as $key => $item)
-                    @php
-                        $itemData = content_data($item['id']);
-                    @endphp
                     @if ($key == 1 or $key == 2 or $key == 3 or $key == 4)
-                        <div class="col-md-6 post-holder">
+                        <div class="col-md-6 post-holder" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                             <div class="d-flex flex-column">
                                 <a href="{{ $item['link'] }}" class="d-block position-relative" itemprop="url">
                                     <div class="position-absolute">{!! $itemCats !!}</div>
                                     @if (!isset($show_fields) or $show_fields == false or in_array('thumbnail', $show_fields))
-                                        <div class="img-as-background">
-                                            <img loading="lazy" height="150" width="250" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="image"/>
+                                        <div class="img-as-background" itemprop="image" itemscope itemtype="http://schema.org/ImageObject">
+                                            <img loading="lazy" height="150" width="250" src="{{ $item['image'] }}" style="position: relative !important;" itemprop="url"/>
+                                            <meta itemprop="width" content="250">
+                                            <meta itemprop="height" content="150">
                                         </div>
                                     @endif
                                 </a>
@@ -72,7 +76,9 @@
                                 @endif
 
                                 @if (!isset($show_fields) or $show_fields == false or in_array('title', $show_fields))
-                                    <a href="{{ $item['link'] }}" class="text-dark"><h4 class="text-start text-left" itemprop="name">{{ $item['title'] }}</h4></a>
+                                    <a href="{{ $item['link'] }}" class="text-dark" itemprop="url">
+                                        <h4 class="text-start text-left" itemprop="name">{{ $item['title'] }}</h4>
+                                    </a>
                                 @endif
 
                                 @if (!isset($show_fields) or $show_fields == false or in_array('description', $show_fields))
