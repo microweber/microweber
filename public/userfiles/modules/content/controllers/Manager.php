@@ -28,6 +28,11 @@ class Manager
 
     function index($params)
     {
+
+
+        if (!app()->bound('content_manager')) {
+            return '';
+        }
         $this->provider = $this->app->content_manager;
         $this->category_provider = $this->app->category_manager;
         $this->event_manager = $this->app->event_manager;

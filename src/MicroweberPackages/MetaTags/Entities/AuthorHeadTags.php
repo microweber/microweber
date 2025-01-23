@@ -12,7 +12,9 @@ class AuthorHeadTags implements TagInterface, \Stringable
 {
     public function toHtml(): string
     {
-
+        if (!app()->bound('content_manager')) {
+            return '';
+        }
         $contentId = content_id();
         if (!$contentId) {
             return '';

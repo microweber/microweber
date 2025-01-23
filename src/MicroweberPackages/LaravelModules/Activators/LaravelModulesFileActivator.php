@@ -159,6 +159,8 @@ class LaravelModulesFileActivator extends FileActivator
      */
     private function writeJson(): void
     {
+
+
         $this->files->put($this->statusesFile, json_encode($this->modulesStatuses, JSON_PRETTY_PRINT));
     }
 
