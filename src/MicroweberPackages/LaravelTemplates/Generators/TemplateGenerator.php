@@ -21,70 +21,70 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
      *
      * @var string
      */
-    protected $name;
+    protected ?string $name;
 
     /**
      * The laravel config instance.
      *
      * @var Config
      */
-    protected $config;
+    protected ?Config $config;
 
     /**
      * The laravel filesystem instance.
      *
      * @var Filesystem
      */
-    protected $filesystem;
+    protected ?Filesystem $filesystem;
 
     /**
      * The laravel console instance.
      *
      * @var Console
      */
-    protected $console;
+    protected ?Console $console;
 
     /**
      * The laravel component Factory instance.
      *
      * @var \Illuminate\Console\View\Components\Factory
      */
-    protected $component;
+    protected ?\Illuminate\Console\View\Components\Factory $component;
 
     /**
      * The activator instance
      *
      * @var TemplateActivatorInterface
      */
-    protected $activator;
+    protected ?\Nwidart\Modules\Contracts\ActivatorInterface $activator;
 
     /**
      * The module instance.
      *
      * @var \Nwidart\Modules\Module
      */
-    protected $module;
+    protected mixed $module;
 
     /**
      * Force status.
      *
      * @var bool
      */
-    protected $force = false;
+    protected bool $force = false;
 
     /**
      * set default module type.
      *
      * @var string
      */
-    protected $type = 'web';
+    protected string $type = 'web';
 
     /**
      * Enables the module.
      *
      * @var bool
      */
-    protected $isActive = false;
+    protected bool $isActive = false;
 
     /**
      * Module author
@@ -193,7 +193,7 @@ class TemplateGenerator extends \Nwidart\Modules\Generators\ModuleGenerator
         return 0;
     }
 
-    protected function getStubContents($stub)
+    protected function getStubContents($stub): string
     {
 
         $stubPathBase = config('templates.stubs.path') ?? __DIR__ . '/../stubs/';
