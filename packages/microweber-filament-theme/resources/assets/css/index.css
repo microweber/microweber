@@ -36,7 +36,9 @@
 @import 'microweber/live-edit-components.css';
 @import "tabler-vars.scss";
 @import "global.css";
-@config '../../../tailwind.config.js';
+
+/*
+@config './../../../tailwind.config.js';*/
 
 
 
