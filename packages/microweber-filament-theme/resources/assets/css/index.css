@@ -37,8 +37,8 @@
 @import "tabler-vars.scss";
 @import "global.css";
 
-/*
-@config './../../../tailwind.config.js';*/
+
+@config './../../../tailwind.config.js';
 
 
 

@@ -21,7 +21,7 @@ return new class extends Migration {
         Schema::create('media_thumbnails', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
-            $table->text('filename')->index()->nullable();
+            $table->string('filename',500)->index()->nullable();
             $table->longText('image_options')->nullable();
             $table->timestamps();
         });
