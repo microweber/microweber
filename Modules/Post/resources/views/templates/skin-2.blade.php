@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 2
 description: Posts 2
 
 */
-?>
+@endphp
 
 <div class="blog-posts-2">
     @if (!empty($data))

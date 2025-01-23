@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 12
 description: Posts 12
 
 */
-?>
+@endphp
 @include('modules.post::partials.slick_options')
 <div class="slick-arrows-1">
     <div class="blog-posts-12 slickslider slick-dots-relative">

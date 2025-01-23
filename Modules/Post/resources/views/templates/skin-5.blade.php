@@ -1,4 +1,4 @@
-<?php
+@php
 /*
 
   type: layout
@@ -8,7 +8,7 @@
   description: Posts 5
 
  */
-?>
+@endphp
 
 
 

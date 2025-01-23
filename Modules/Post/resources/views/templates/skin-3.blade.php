@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 3
 description: Posts 3
 
 */
-?>
+@endphp
 
 
 <div class="row blog-posts-3">

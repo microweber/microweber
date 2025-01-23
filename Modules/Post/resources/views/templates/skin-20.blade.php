@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 20
 description: Posts 20
 
 */
-?>
+@endphp
 
 <style>
     .blog-posts-19 .post-19::after {

@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 17
 description: Posts 17
 
 */
-?>
+@endphp
 
 <style>
     .blog-16-merry-card {

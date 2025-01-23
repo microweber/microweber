@@ -1,4 +1,4 @@
-<?php
+@php
 /*
 
   type: layout
@@ -8,7 +8,7 @@
   description: Posts 24
 
  */
-?>
+@endphp
 
 <style>
     .zoom-on-hover {

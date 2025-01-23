@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 1
 description: Posts 1 - with Hover
 
 */
-?>
+@endphp
 <script>
     mw.require('shop.js');
 </script>

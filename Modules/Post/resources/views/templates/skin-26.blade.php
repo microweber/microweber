@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 26
 description: Posts 26
 
 */
-?>
+@endphp
 
 
 <style>

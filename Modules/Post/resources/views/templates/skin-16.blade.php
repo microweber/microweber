@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 16
 description: Posts 16
 
 */
-?>
+@endphp
 
 <style>
     .merry-blog-posts .merry-on-hover-button {

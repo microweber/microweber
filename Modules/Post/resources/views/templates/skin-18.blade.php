@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Posts 18
 description: Posts 18
 
 */
-?>
+@endphp
 
 <style>
     .action-blog-arrow {

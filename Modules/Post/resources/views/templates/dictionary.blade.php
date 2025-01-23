@@ -1,4 +1,4 @@
-<?php
+@php
 
 /*
 
@@ -9,7 +9,7 @@ name: Dictionary
 description: Dictionary
 
 */
-?>
+@endphp
 <script>
     mw.require('shop.js');
 </script>
