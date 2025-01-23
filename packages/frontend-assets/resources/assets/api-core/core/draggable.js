@@ -198,7 +198,7 @@ export const Draggable = function (options, rootSettings) {
              scope.action = null;
              const file = getFile(e);
              e.preventDefault();
-console.log(e)
+
 
              let canDrag = true;
 

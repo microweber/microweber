@@ -104,10 +104,12 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
             strictClass,
         ]);
         if(parent){
-            res.target = parent;
-            res.canInsert = false;
-            res.beforeAfter = true;
+            target = this.tools.firstParentOrCurrentWithAnyOfClasses(target, ['mw-richtext', 'element', 'module']) || parent;
+            res.target = target || parent;
+            res.canInsert =  !target.classList.contains(strictClass) ? false : true;
+            res.beforeAfter = target.classList.contains(strictClass) ? false : true;
         }
+
         return res;
     }
 
@@ -117,7 +119,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
         const strictMode = true;
 
         if(strictMode) {
-            console.log( this.settings)
+
             this.settings.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
             return this.getStrictModeTarget(node)
         }
