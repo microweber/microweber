@@ -19,8 +19,8 @@ return new class extends Migration {
             $table->id();
             $table->string('content_type')->nullable();
             $table->string('subtype')->nullable();
-            $table->string('url',500)->nullable();
-            $table->string('title',1000)->nullable();
+            $table->string('url',500)->nullable()->index();
+            $table->string('title',1000)->nullable()->index();
             $table->integer('parent')->nullable();
             $table->text('description')->nullable();
             $table->integer('position')->nullable();
@@ -54,7 +54,7 @@ return new class extends Migration {
             $table->integer('draft_of')->nullable();
             $table->integer('copy_of')->nullable();
 
-            $table->index(['url', 'title']);
+
         });
     }
 
