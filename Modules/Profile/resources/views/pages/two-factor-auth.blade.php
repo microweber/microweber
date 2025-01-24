@@ -15,8 +15,10 @@
                         <x-filament::button
                             wire:click="enableTwoFactorAuthentication"
                             wire:loading.attr="disabled"
+                            color="primary"
                         >
-                            {{ __('Enable') }}
+                            <span wire:loading.remove>{{ __('Enable') }}</span>
+                            <span wire:loading>{{ __('Enabling...') }}</span>
                         </x-filament::button>
                     </div>
             </div>
@@ -59,7 +61,7 @@
 
                     @if ($showingConfirmation)
                         <div class="mt-4">
-                            <x-filament-panels::form wire:submit="confirmTwoFactorAuthentication">
+                            <x-filament-panels::form wire:submit.prevent="confirmTwoFactorAuthentication">
                                 {{ $this->form }}
 
                                 <div class="mt-4">
@@ -100,28 +102,23 @@
         @endif
 
         @if ($this->confirmingPassword)
-            <x-filament::modal id="confirm-password" wire:model="confirmingPassword">
-                <x-slot name="heading">
-                    {{ __('Confirm Password') }}
-                </x-slot>
-
+            <x-filament::modal
+                id="confirm-password"
+                wire:model="confirmingPassword"
+                :heading="__('Confirm Password')"
+                :description="__('For your security, please confirm your password to continue.')"
+            >
                 <form wire:submit.prevent="confirmPassword">
                     <div class="space-y-4">
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            {{ __('For your security, please confirm your password to continue.') }}
-                        </p>
-
-                        <div class="space-y-4">
-                            <x-filament::input.wrapper>
-                                <x-filament::input
-                                    type="password"
-                                    wire:model.defer="data.confirmablePassword"
-                                    required
-                                    autocomplete="current-password"
-                                    placeholder="{{ __('Password') }}"
-                                />
-                            </x-filament::input.wrapper>
-                        </div>
+                        <x-filament::input.wrapper>
+                            <x-filament::input
+                                type="password"
+                                wire:model.defer="data.confirmablePassword"
+                                required
+                                autocomplete="current-password"
+                                placeholder="{{ __('Password') }}"
+                            />
+                        </x-filament::input.wrapper>
                     </div>
 
                     <x-slot name="footer">
@@ -131,7 +128,8 @@
                             </x-filament::button>
 
                             <x-filament::button type="submit" color="primary">
-                                {{ __('Confirm') }}
+                                <span wire:loading.remove wire:target="confirmPassword">{{ __('Confirm') }}</span>
+                                <span wire:loading wire:target="confirmPassword">{{ __('Confirming...') }}</span>
                             </x-filament::button>
                         </div>
                     </x-slot>

@@ -15,6 +15,8 @@ use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Hash;
 use Modules\Profile\Models\User;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class TwoFactorAuth extends Page
 {
@@ -60,6 +62,11 @@ class TwoFactorAuth extends Page
                     ->numeric()
                     ->maxLength(6)
                     ->minLength(6),
+                TextInput::make('confirmablePassword')
+                    ->label(__('Password'))
+                    ->password()
+                    ->required()
+                    ->visible(fn() => $this->confirmingPassword),
             ])
             ->statePath('data');
     }
@@ -83,7 +90,7 @@ class TwoFactorAuth extends Page
                 ->visible(fn() => $this->showingConfirmation),
             Action::make('enable')
                 ->label(__('Enable'))
-                ->action(fn() => $this->enableTwoFactorAuthentication(app(EnableTwoFactorAuthentication::class)))
+                ->action('enableTwoFactorAuthentication')
                 ->visible(fn() => !Auth::user()->two_factor_secret),
             Action::make('disable')
                 ->label(__('Disable'))
@@ -101,57 +108,132 @@ class TwoFactorAuth extends Page
         ];
     }
 
-    protected $pendingAction = null;
+    public $pendingAction = null;
 
-    public function enableTwoFactorAuthentication(EnableTwoFactorAuthentication $enable): void
+    public function enableTwoFactorAuthentication(): void
     {
         if (!$this->confirmingPassword) {
             $this->pendingAction = 'enable';
             $this->startConfirmingPassword();
             return;
         }
-
-        $user = Auth::user();
-        $enable($user);
-        
-        if ($user instanceof User) {
-            $this->recoveryCodes = $user->recoveryCodes();
-        }
-        
-        $this->showingQrCode = true;
-        $this->showingConfirmation = true;
-        $this->showingRecoveryCodes = true;
     }
 
     public function confirmTwoFactorAuthentication(ConfirmTwoFactorAuthentication $confirm): void
     {
-        if (RateLimiter::tooManyAttempts($this->getRateLimiterKey(), config('profile.twofactor.rate_limit.max_attempts'))) {
-            Notification::make()
-                ->danger()
-                ->title(__('Too many attempts'))
-                ->body(__('Please try again in :seconds seconds.', [
-                    'seconds' => RateLimiter::availableIn($this->getRateLimiterKey())
-                ]))
-                ->send();
-            return;
-        }
+        try {
+            $this->validate([
+                'data.code' => ['required', 'string', 'size:6', 'regex:/^[0-9]+$/'],
+            ]);
 
-        if (!$this->code || !preg_match('/^\d{6}$/', $this->code)) {
-            RateLimiter::hit($this->getRateLimiterKey());
-            Notification::make()
-                ->danger()
-                ->title(__('Invalid code'))
-                ->body(__('Please enter a valid 6-digit code.'))
-                ->send();
-            return;
-        }
+            if (RateLimiter::tooManyAttempts($this->getRateLimiterKey(), config('profile.twofactor.rate_limit.max_attempts'))) {
+                Notification::make()
+                    ->danger()
+                    ->title(__('Too many attempts'))
+                    ->body(__('Please try again in :seconds seconds.', [
+                        'seconds' => RateLimiter::availableIn($this->getRateLimiterKey())
+                    ]))
+                    ->send();
+                return;
+            }
 
-        if (!$confirm(Auth::user(), $this->code)) {
-            RateLimiter::hit($this->getRateLimiterKey());
+            $code = $this->data['code'] ?? null;
+            
+            // Clean and format the code
+            $code = str_pad(
+                preg_replace('/[^0-9]/', '', $code),
+                6,
+                '0',
+                STR_PAD_LEFT
+            );
+
+            $user = Auth::user();
+
+            if (!$user->two_factor_secret) {
+                logger()->error('2FA secret not found for user', ['user_id' => $user->id]);
+                Notification::make()
+                    ->danger()
+                    ->title(__('Error'))
+                    ->body(__('Two-factor authentication is not properly set up. Please try enabling it again.'))
+                    ->send();
+                return;
+            }
+
+            logger()->debug('2FA confirmation attempt:', [
+                'formatted_code' => $code,
+                'code_length' => strlen($code),
+                'has_secret' => !empty($user->two_factor_secret),
+            ]);
+
+            try {
+                // Use Fortify's confirmation
+                $result = $confirm($user, $code);
+
+                if (!$result) {
+                    RateLimiter::hit($this->getRateLimiterKey());
+                    $this->data['code'] = null;
+                    Notification::make()
+                        ->danger()
+                        ->title(__('Invalid code'))
+                        ->body(__('The code you entered is invalid. Please make sure you\'re using the correct code from your authenticator app.'))
+                        ->send();
+                    return;
+                }
+
+                logger()->info('2FA confirmation successful', [
+                    'user_id' => $user->id,
+                ]);
+
+                RateLimiter::clear($this->getRateLimiterKey());
+                $this->showingQrCode = false;
+                $this->showingConfirmation = false;
+                $this->data['code'] = null;
+
+                Notification::make()
+                    ->success()
+                    ->title(__('Success'))
+                    ->body(__('Two factor authentication has been enabled.'))
+                    ->send();
+
+            } catch (\Exception $e) {
+                logger()->error('2FA confirmation error:', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+
+                RateLimiter::hit($this->getRateLimiterKey());
+                $this->data['code'] = null;
+                Notification::make()
+                    ->danger()
+                    ->title(__('Error'))
+                    ->body(__('An error occurred while confirming two-factor authentication.'))
+                    ->send();
+                return;
+            }
+
+            if (!$result) {
+                RateLimiter::hit($this->getRateLimiterKey());
+                $this->data['code'] = null;
+                Notification::make()
+                    ->danger()
+                    ->title(__('Invalid code'))
+                    ->body(__('The code you entered is invalid. Please make sure you\'re using the correct code from your authenticator app and try again.'))
+                    ->send();
+                return;
+            }
+
+            logger()->info('2FA confirmed successfully', [
+                'user_id' => $user->id,
+            ]);
+        } catch (\Exception $e) {
+            logger()->error('2FA Confirmation error:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             Notification::make()
                 ->danger()
-                ->title(__('Invalid code'))
-                ->body(__('The code you entered is invalid.'))
+                ->title(__('Error'))
+                ->body(__('An error occurred while confirming two-factor authentication.'))
                 ->send();
             return;
         }
@@ -160,6 +242,7 @@ class TwoFactorAuth extends Page
         
         $this->showingQrCode = false;
         $this->showingConfirmation = false;
+        $this->data['code'] = null;
         Notification::make()
             ->success()
             ->title(__('Success'))

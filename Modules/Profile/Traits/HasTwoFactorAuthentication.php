@@ -38,8 +38,21 @@ trait HasTwoFactorAuthentication
      */
     public function twoFactorQrCodeSvg(): string
     {
-        return app(\Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider::class)->qrCodeSvg(
-            $this->two_factor_secret
+        $provider = app(\Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider::class);
+        $secret = decrypt($this->two_factor_secret);
+        
+        logger()->debug('2FA QR Code generation:', [
+            'has_secret' => !empty($this->two_factor_secret),
+            'secret_length' => strlen($secret),
+        ]);
+
+        $appName = config('app.name', 'Laravel');
+        $companyName = config('app.name', 'Laravel');
+
+        return $provider->qrCodeSvg(
+            $secret,
+            200,
+            "otpauth://totp/{$appName}:{$this->email}?secret={$secret}&issuer={$companyName}"
         );
     }
 
