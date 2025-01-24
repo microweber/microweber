@@ -226,130 +226,9 @@ export default {
 
 
 
-
-                async function richtext (isRichtext) {
-                    if (isRichtext.classList.contains('mce-content-body')) {
-                        isRichtext.contentEditable = true;
-                    }
-                    if (!isRichtext.classList.contains('mce-content-body')) {
+                const isStrictMode = mw.settings.strictMode;
 
 
-
-                        if(isRichtext.firstChild && isRichtext.firstChild.nodeType === 3) {
-                            isRichtext.firstChild.textContent = isRichtext.firstChild.textContent.replace(/(\r\n|\n|\r)/gm, '').trim();
-                        }
-                        if(isRichtext.lastChild && isRichtext.lastChild.nodeType === 3) {
-                            isRichtext.lastChild.textContent = isRichtext.lastChild.textContent.replace(/(\r\n|\n|\r)/gm, '').trim()
-                        }
-
-                        isRichtext.contentEditable = true;
-
-                        _currentRichtextTarget = isRichtext;
-
-
-                        isRichtext.querySelectorAll('.module').forEach(node => {
-                            node.contentEditable = false;
-                        })
-
-
-
-                        mw.app.richTextEditor.smallEditor.hide()
-
-
-
-
-
-                    _currentRichtextTargetditor = await mw.top().app.canvas.getWindow().tinymce.init({
-                        target: isRichtext,
-
-                        forced_root_block : 'mw-element',
-                        newline_behavior: 'block',
-                        inline: true,
-                        promotion: false,
-                        statusbar: false,
-                        menubar:false,
-                        //menubar: 'edit insert view format table tools',
-                        noneditable_class: 'module',
-                        toolbar_sticky: true,
-                        remove_linebreaks : false,
-                        /*force_br_newlines : false,
-                        force_p_newlines : false,
-
-                        newline_behavior: 'linebreak',
-                        newline_behavior: '',*/
-                        plugins: [
-
-                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                            'insertdatetime', 'media', 'table', 'help',
-                          //  'image', 'editimage'
-                            'image'
-                        ],
-
-                        toolbar: ' blocks | ' +
-                        'bold italic forecolor backcolor | mwLink unlink | alignleft aligncenter  ' +
-                        'alignright alignjustify | fontfamily fontsizeinput | bullist numlist outdent indent | ' +
-                        'table quicktable ' +
-                        'removeformat ',
-                        // table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
-
-                        init_instance_callback: (editor) => {
-
-                            isRichtext.querySelectorAll('p:empty').forEach(node => node.remove())
-
-                            isRichtext.querySelectorAll('.module').forEach(node => {
-                                node.contentEditable = false;
-                            })
-
-                            editor.on('Change  ', (e) => {
-
-                                isRichtext.__mceEditor = _currentRichtextTargetditor;
-
-                                mw.app.registerChangedState(isRichtext, true);
-
-
-                            });
-
-                            editor.focus()
-                        },
-                        setup: (editor) => {
-
-                        editor.ui.registry.addButton('mwLink', {
-                        icon: '<svg viewBox="0 0 24 24"> <path fill="currentColor" d="M3.9,12C3.9,10.29 5.29,8.9 7,8.9H11V7H7A5,5 0 0,0 2,12A5,5 0 0,0 7,17H11V15.1H7C5.29,15.1 3.9,13.71 3.9,12M8,13H16V11H8V13M17,7H13V8.9H17C18.71,8.9 20.1,10.29 20.1,12C20.1,13.71 18.71,15.1 17,15.1H13V17H17A5,5 0 0,0 22,12A5,5 0 0,0 17,7Z" /></svg>',
-                        icon: 'link',
-                        onAction: (_) =>  {
-
-
-                        var linkEditor = new mw.LinkEditor({
-                            mode: 'dialog',
-                            hideTextFied: true
-                        });
-
-
-
-                        linkEditor.promise().then(function (data){
-                            var modal = linkEditor.dialog;
-                            if(data) {
-
-                                editor.execCommand('CreateLink', false, data.url);
-                                modal.remove();
-                            } else {
-                                modal.remove();
-                            }
-                        });
-                        }
-                        });
-
-
-                        },
-
-                    });
-
-
-
-
-                }
-                }
 
                 const isRichtext = mw.tools.firstParentOrCurrentWithAnyOfClasses(element, ['mw-richtext']);
 
@@ -359,7 +238,22 @@ export default {
 
                 if (isRichtext) {
 
-                    await richtext(isRichtext);
+                    isRichtext.contentEditable = true;
+
+                    isRichtext.focus();
+
+                    isRichtext.contentEditable = true;
+
+
+
+
+
+                    mw.app.liveEdit.pause();
+
+                    mw.app.richTextEditor?.smallEditorInteract(isRichtext);
+                       mw.app.richTextEditor?.positionSmallEditor(isRichtext);
+
+                       mw.app.richTextEditor?.observe();
 
 
             } else if (liveEditHelpers.targetIsIcon(element)) {

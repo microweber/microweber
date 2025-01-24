@@ -650,7 +650,7 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
 
      _hoverAndSelectExceptions = (target) => {
 
-        const strictMode = true;
+        const strictMode = mw.settings.strictMode;
 
 
 
@@ -658,9 +658,9 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
 
         if(strictMode) {
             const strictException = this._hoverAndSelectExceptionsForStrictMode(target);
-            if(strictException) {
-                return strictException;
-            }
+
+            return strictException;
+
 
         }
 

@@ -116,7 +116,7 @@ export class DroppableElementAnalyzerService extends ElementAnalyzerServiceBase 
     getTarget (node, draggedElement) {
 
 
-        const strictMode = true;
+        const strictMode = mw.settings.strictMode;
 
         if(strictMode) {
 
