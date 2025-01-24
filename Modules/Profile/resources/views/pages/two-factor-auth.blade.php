@@ -105,33 +105,37 @@
                     {{ __('Confirm Password') }}
                 </x-slot>
 
-                <div class="space-y-4">
-                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                        {{ __('For your security, please confirm your password to continue.') }}
-                    </p>
+                <form wire:submit.prevent="confirmPassword">
+                    <div class="space-y-4">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            {{ __('For your security, please confirm your password to continue.') }}
+                        </p>
 
-                    <x-filament::input.wrapper>
-                        <x-filament::input
-                            type="password"
-                            wire:model="confirmablePassword"
-                            wire:keydown.enter="confirmPassword"
-                            autocomplete="current-password"
-                            placeholder="{{ __('Password') }}"
-                        />
-                    </x-filament::input.wrapper>
-                </div>
-
-                <x-slot name="footer">
-                    <div class="flex justify-end gap-x-4">
-                        <x-filament::button wire:click="stopConfirmingPassword">
-                            {{ __('Cancel') }}
-                        </x-filament::button>
-
-                        <x-filament::button wire:click="confirmPassword" color="primary">
-                            {{ __('Confirm') }}
-                        </x-filament::button>
+                        <div class="space-y-4">
+                            <x-filament::input.wrapper>
+                                <x-filament::input
+                                    type="password"
+                                    wire:model.defer="data.confirmablePassword"
+                                    required
+                                    autocomplete="current-password"
+                                    placeholder="{{ __('Password') }}"
+                                />
+                            </x-filament::input.wrapper>
+                        </div>
                     </div>
-                </x-slot>
+
+                    <x-slot name="footer">
+                        <div class="flex justify-end gap-x-4">
+                            <x-filament::button wire:click="stopConfirmingPassword">
+                                {{ __('Cancel') }}
+                            </x-filament::button>
+
+                            <x-filament::button type="submit" color="primary">
+                                {{ __('Confirm') }}
+                            </x-filament::button>
+                        </div>
+                    </x-slot>
+                </form>
             </x-filament::modal>
         @endif
     </div>

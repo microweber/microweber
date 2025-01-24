@@ -62,7 +62,7 @@ class FilamentProfilePanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                AuthenticateUser::class,
+                Authenticate::class,
             ]);
         //    ->viteTheme('resources/css/filament/profile/theme.css');
     }

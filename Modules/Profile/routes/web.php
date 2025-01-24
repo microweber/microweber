@@ -1,19 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Profile\Http\Controllers\ProfileController;
+use Modules\Profile\Filament\Pages\TwoFactorAuth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-//Route::group([], function () {
-//    Route::resource('profile', ProfileController::class)->names('profile');
-//});
+Route::middleware(['web', 'auth'])->group(function() {
+    // Two-Factor Authentication Routes
+    Route::prefix('2fa')->middleware('2fa.rate_limit')->group(function() {
+        Route::get('/enable', [TwoFactorAuth::class, 'enableTwoFactorAuthentication'])
+            ->name('profile.2fa.enable');
+            
+        Route::post('/confirm', [TwoFactorAuth::class, 'confirmTwoFactorAuthentication'])
+            ->name('profile.2fa.confirm');
+            
+        Route::post('/disable', [TwoFactorAuth::class, 'disableTwoFactorAuthentication'])
+            ->name('profile.2fa.disable');
+            
+        Route::get('/recovery-codes', [TwoFactorAuth::class, 'showRecoveryCodes'])
+            ->name('profile.2fa.recovery-codes');
+            
+        Route::post('/regenerate-recovery-codes', [TwoFactorAuth::class, 'regenerateRecoveryCodes'])
+            ->name('profile.2fa.regenerate-recovery-codes');
+    });
+});
