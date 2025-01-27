@@ -46,7 +46,10 @@ $limit = 40;
 
 <div id="js-testimonials-slider-<?php echo $params['id']; ?>" class="slider_v2-default swiper">
     <div class="swiper-wrapper pb-4">
-        <?php foreach ($testimonials as $item): ?>
+        @if($testimonials->isEmpty())
+            <p>No testimonials available.</p>
+        @else
+            <?php foreach ($testimonials as $item): ?>
         <div class="swiper-slide">
             <div class="row text-center">
                 <div class="col-12 col-lg-10 col-lg-8 mx-auto my-2">
@@ -81,6 +84,8 @@ $limit = 40;
             </div>
         </div>
         <?php endforeach; ?>
+        @endif
+
     </div>
     <div id="js-testimonials-slider-pagination-<?php echo $params['id']; ?>" class="swiper-pagination mt-4"></div>
 

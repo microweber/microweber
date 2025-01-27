@@ -95,9 +95,10 @@ $limit = 40;
 
 <div class="slick-arrows-1">
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
-        <?php foreach ($testimonials as $item): ?>
-
-
+        @if($testimonials->isEmpty())
+            <p>No testimonials available.</p>
+        @else
+            <?php foreach ($testimonials as $item): ?>
             <div class="testimonials-26-item p-5">
                 <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
 
@@ -126,5 +127,7 @@ $limit = 40;
                 </div>
             </div>
         <?php endforeach; ?>
+        @endif
+
     </div>
 </div>

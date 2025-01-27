@@ -102,7 +102,10 @@ $limit = 40;
 
 <div class="slick-arrows-1">
     <div class="slickslider" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "dots": false, "arrows": true}'>
-        <?php foreach ($testimonials as $item): ?>
+        @if($testimonials->isEmpty())
+            <p>No testimonials available.</p>
+        @else
+            <?php foreach ($testimonials as $item): ?>
             <div class="tony-template-testimonial testimonials-background-variable testimonialBorderVariable mx-3 p-5">
 
                 <div class="py-3 mb-4">
@@ -144,5 +147,7 @@ $limit = 40;
                 </div>
             </div>
         <?php endforeach; ?>
+        @endif
+
     </div>
 </div>

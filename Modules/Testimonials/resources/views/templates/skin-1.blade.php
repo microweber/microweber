@@ -58,19 +58,23 @@ $limit = 40;
 <div class="testimonials-faces-wrapper overflow-hidden">
     <div class="testimonials-wrapper mx-auto">
         <div class="mw-testimonials mw-testimonials-faces">
-            @foreach ($testimonials as $item)
-                <div class="mw-testimonials-item-faces">
-                    <div class="mw-testimonials-item-faces-content">
-                        <div class="row text-center">
-                            <div class="col-12 col-lg-10 col-lg-8 mx-auto">
-                                <i class="mdi mdi-format-quote-close icon-size-46px d-block mb-5"></i>
-                                <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
+            @if($testimonials->isEmpty())
+                <p>No testimonials available.</p>
+            @else
+                @foreach ($testimonials as $item)
+                    <div class="mw-testimonials-item-faces">
+                        <div class="mw-testimonials-item-faces-content">
+                            <div class="row text-center">
+                                <div class="col-12 col-lg-10 col-lg-8 mx-auto">
+                                    <i class="mdi mdi-format-quote-close icon-size-46px d-block mb-5"></i>
+                                    <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @endif
         </div>
     </div>
 

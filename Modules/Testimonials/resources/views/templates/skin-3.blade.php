@@ -46,42 +46,47 @@ $limit = 40;
 
 <div id="js-testimonials-slider-<?php echo $params['id']; ?>" class="slider_v2-default swiper">
     <div class="swiper-wrapper pb-4">
-        <?php foreach ($testimonials as $item): ?>
-        <div class="swiper-slide">
-            <div class="row text-center">
+        @if($testimonials->isEmpty())
+            <p>No testimonials available.</p>
+        @else
+            <?php foreach ($testimonials as $item): ?>
+            <div class="swiper-slide">
+                <div class="row text-center">
 
-                <div class="my-3">
-                    <?php if ($item['name']): ?>
-                        <h5 class=" mb-0"><?php print $item['name']; ?></h5>
-                    <?php endif; ?>
-                    <?php if ($item['client_image']): ?>
-                        <div class="w-125 mx-auto my-2">
-                            <div class="img-as-background rounded-circle square">
-                                <img loading="lazy" src="<?php print thumbnail($item['client_image'], 120); ?>" class="d-block"/>
+                    <div class="my-3">
+                        <?php if ($item['name']): ?>
+                            <h5 class=" mb-0"><?php print $item['name']; ?></h5>
+                        <?php endif; ?>
+                        <?php if ($item['client_image']): ?>
+                            <div class="w-125 mx-auto my-2">
+                                <div class="img-as-background rounded-circle square">
+                                    <img loading="lazy" src="<?php print thumbnail($item['client_image'], 120); ?>" class="d-block"/>
+                                </div>
                             </div>
+                        <?php endif; ?>
+
+                        <div class="col-md-6 mx-auto">
+                            <p class="py-3"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
                         </div>
-                    <?php endif; ?>
 
-                    <div class="col-md-6 mx-auto">
-                        <p class="py-3"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
+                        <?php if ($item['client_company']): ?>
+                            <p class="mb-0"><?php print $item['client_company']; ?></p>
+                        <?php endif; ?>
+
+                        <?php if ($item['client_website']): ?>
+                            <a class="my-1 d-block" href="<?php print $item['client_website']; ?>"><?php print $item['client_website'] ?></a>
+                        <?php endif; ?>
+
+                        <?php if ($item['client_role']): ?>
+                            <p><?php print $item['client_role']; ?></p>
+                        <?php endif; ?>
+
                     </div>
-
-                    <?php if ($item['client_company']): ?>
-                        <p class="mb-0"><?php print $item['client_company']; ?></p>
-                    <?php endif; ?>
-
-                    <?php if ($item['client_website']): ?>
-                        <a class="my-1 d-block" href="<?php print $item['client_website']; ?>"><?php print $item['client_website'] ?></a>
-                    <?php endif; ?>
-
-                    <?php if ($item['client_role']): ?>
-                        <p><?php print $item['client_role']; ?></p>
-                    <?php endif; ?>
-
                 </div>
             </div>
-        </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        @endif
+
     </div>
     <div id="js-testimonials-pagination-previous-<?php echo $params['id']; ?>" class="mw-slider-v2-buttons-slide mw-slider-v2-button-prev"></div>
     <div id="js-testimonials-pagination-next-<?php echo $params['id']; ?>" class="mw-slider-v2-buttons-slide mw-slider-v2-button-next"></div>

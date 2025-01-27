@@ -179,7 +179,10 @@ $limit = 40;
             <img loading="lazy" class="mw-testimonials-item-faces-img-group41" src="<?php print asset('templates/big2/assets/img/layouts/testimonials-Group-41.png'); ?>"/>
             <div class="testimonials-wrapper mx-auto">
                 <div class="mw-testimonials mw-testimonials-faces slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
-                    <?php foreach ($testimonials as $item): ?>
+                    @if($testimonials->isEmpty())
+                        <p>No testimonials available.</p>
+                    @else
+                        <?php foreach ($testimonials as $item): ?>
                         <div class="mw-testimonials-item-faces">
 
                             <div class="mw-testimonials-item-faces-content position-relative col-md-8 mx-auto">
@@ -195,6 +198,8 @@ $limit = 40;
                             </div>
                         </div>
                     <?php endforeach; ?>
+                    @endif
+
                 </div>
             </div>
 

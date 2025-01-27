@@ -86,43 +86,48 @@ $limit = 40;
 
 <div class="slick-arrows-1">
     <div class="slickslider" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "dots": false, "arrows": true}'>
-        <?php foreach ($testimonials as $item): ?>
-            <div class="border testimonials-background-variable testimonialBorderVariable   mx-3 h-100 p-5">
-                <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
+        @if($testimonials->isEmpty())
+            <p>No testimonials available.</p>
+        @else
+            <?php foreach ($testimonials as $item): ?>
+                <div class="border testimonials-background-variable testimonialBorderVariable   mx-3 h-100 p-5">
+                    <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
 
-                <div class="text-center text-sm-start mb-3">
-                    <div class="d-block d-sm-flex align-items-center justify-content-between">
-                        <div class="d-block d-sm-flex align-items-center">
-                            <?php if ($item['client_image']): ?>
-                                <div class="me-3">
-                                    <div class="w-40 mx-auto">
-                                        <div class="img-as-background rounded-circle square">
-                                            <img loading="lazy" src="<?php print thumbnail($item['client_image'], 120); ?>" class="d-block"/>
+                    <div class="text-center text-sm-start mb-3">
+                        <div class="d-block d-sm-flex align-items-center justify-content-between">
+                            <div class="d-block d-sm-flex align-items-center">
+                                <?php if ($item['client_image']): ?>
+                                    <div class="me-3">
+                                        <div class="w-40 mx-auto">
+                                            <div class="img-as-background rounded-circle square">
+                                                <img loading="lazy" src="<?php print thumbnail($item['client_image'], 120); ?>" class="d-block"/>
+                                            </div>
                                         </div>
                                     </div>
+                                <?php endif; ?>
+
+                                <div>
+                                    <?php if ($item['name']): ?>
+                                        <h5 class=" mb-0"><?php print $item['name']; ?></h5>
+                                    <?php endif; ?>
+                                    <?php if ($item['client_company']): ?>
+                                        <p class="mb-0"><?php print $item['client_company']; ?></p>
+                                    <?php endif; ?>
+
+                                    <?php if ($item['client_website']): ?>
+                                        <a class="my-1 d-block" href="<?php print $item['client_website']; ?>"><?php print $item['client_website'] ?></a>
+                                    <?php endif; ?>
+
+                                    <?php if ($item['client_role']): ?>
+                                        <p><?php print $item['client_role']; ?></p>
+                                    <?php endif; ?>
                                 </div>
-                            <?php endif; ?>
-
-                            <div>
-                                <?php if ($item['name']): ?>
-                                    <h5 class=" mb-0"><?php print $item['name']; ?></h5>
-                                <?php endif; ?>
-                                <?php if ($item['client_company']): ?>
-                                    <p class="mb-0"><?php print $item['client_company']; ?></p>
-                                <?php endif; ?>
-
-                                <?php if ($item['client_website']): ?>
-                                    <a class="my-1 d-block" href="<?php print $item['client_website']; ?>"><?php print $item['client_website'] ?></a>
-                                <?php endif; ?>
-
-                                <?php if ($item['client_role']): ?>
-                                    <p><?php print $item['client_role']; ?></p>
-                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        @endif
+
     </div>
 </div>

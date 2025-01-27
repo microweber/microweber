@@ -69,7 +69,10 @@ $limit = 40;
 
 <div class="slick-arrows-1">
     <div class="slickslider" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "dots": true, "arrows": false}'>
-        <?php foreach ($testimonials as $item): ?>
+        @if($testimonials->isEmpty())
+            <p>No testimonials available.</p>
+        @else
+            <?php foreach ($testimonials as $item): ?>
             <div class="row text-center mb-5">
                 <div class="col-12 col-lg-11 mx-auto">
                     <?php if ($item['client_image']): ?>
@@ -99,5 +102,7 @@ $limit = 40;
                 </div>
             </div>
         <?php endforeach; ?>
+        @endif
+
     </div>
 </div>

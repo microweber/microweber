@@ -31,7 +31,7 @@ $limit = 40;
     <?php echo '#' . $params['id'] . ' '; ?>
     .slick-track {
         display: flex !important;
-        
+
     }
 
     <?php echo '#' . $params['id'] . ' '; ?>
@@ -55,7 +55,10 @@ $limit = 40;
 
 <div class="slick-arrows-1">
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
-        <?php foreach ($testimonials as $item): ?>
+        @if($testimonials->isEmpty())
+            <p>No testimonials available.</p>
+        @else
+            <?php foreach ($testimonials as $item): ?>
             <div class="row text-center">
                 <div class="col-11 col-sm-10 col-lg-8 col-lg-5 mx-auto">
                     <div class="border testimonials-background-variable testimonialBorderVariable  hover-border-color-primary   mx-3 h-100 p-5">
@@ -90,5 +93,6 @@ $limit = 40;
                 </div>
             </div>
         <?php endforeach; ?>
+        @endif
     </div>
 </div>
