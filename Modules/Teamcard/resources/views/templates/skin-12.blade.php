@@ -24,6 +24,7 @@ description: Skin-12
 
 @if (isset($teamcard) and $teamcard)
     <div class="row text-start text-sm-start d-flex justify-content-center justify-content-lg-between">
+        @if ($teamcard->count() > 0)
         @foreach ($teamcard as $member)
             <div class="col-sm-12 mx-auto">
                 <div class="d-block d-sm-flex align-items-center">
@@ -51,5 +52,10 @@ description: Skin-12
                 </div>
             </div>
         @endforeach
+        @else
+            <div>
+                Add your teamcard.
+            </div>
+        @endif
     </div>
 @endif

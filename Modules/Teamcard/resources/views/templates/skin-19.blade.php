@@ -97,7 +97,8 @@ description: Skin-19
 
 @if (isset($teamcard) and $teamcard)
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
-        @foreach ($teamcard as $member)
+        @if ($teamcard->count() > 0)
+            @foreach ($teamcard as $member)
             <div class="position-relative" style="max-height: 635px;">
                 @if ($member['file'])
                     <img class="transition-on-hover team-image" loading="lazy" src="{{ thumbnail($member['file'], 1350, 1350) }}"/>
@@ -111,5 +112,10 @@ description: Skin-19
                 </div>
             </div>
         @endforeach
+        @else
+            <div>
+                Add your teamcard.
+            </div>
+        @endif
     </div>
 @endif

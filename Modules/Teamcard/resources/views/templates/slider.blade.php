@@ -31,7 +31,8 @@ description slider
 
 <div id="js-teamcard-slider-{{ $params['id'] }}" class="slider_v2-default swiper">
     <div class="swiper-wrapper">
-        @foreach($teamcard as $i => $member)
+        @if ($teamcard->count() > 0)
+            @foreach($teamcard as $i => $member)
             <div class="swiper-slide">
                 <div class="row overflow-hidden text-start p-md-4 p-2 d-flex flex-wrap">
                     <div class="col-md-6">
@@ -61,6 +62,11 @@ description slider
                 </div>
             </div>
         @endforeach
+        @else
+            <div>
+                Add your teamcard.
+            </div>
+        @endif
     </div>
     <div id="js-teamcard-slider-pagination-{{ $params['id'] }}" class="swiper-pagination"></div>
 </div>

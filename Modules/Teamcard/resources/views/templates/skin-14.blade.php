@@ -24,25 +24,31 @@ description: Skin-14
 
 @if (isset($teamcard) and $teamcard)
     <div class="row d-flex justify-content-center justify-content-lg-between">
-        @foreach ($teamcard as $member)
-            <div class="col-sm-12 col-lg-6 mb-3">
-                <div class="d-block">
-                    @if ($member['file'])
-                        <div class="img-as-background square mb-3">
-                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+        @if ($teamcard->count() > 0)
+            @foreach ($teamcard as $member)
+                <div class="col-sm-12 col-lg-6 mb-3">
+                    <div class="d-block">
+                        @if ($member['file'])
+                            <div class="img-as-background square mb-3">
+                                <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}"/>
+                            </div>
+                        @else
+                            <div class="img-as-background square mb-3">
+                                <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                            </div>
+                        @endif
+                        <div>
+                            <h3>{{ $member['name'] }}</h3>
+                            <p>{{ $member['role'] }}</p>
+                            <p class="mw-big-team-bio">{{ $member['bio'] }}</p>
                         </div>
-                    @else
-                        <div class="img-as-background square mb-3">
-                            <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
-                        </div>
-                    @endif
-                    <div>
-                        <h3>{{ $member['name'] }}</h3>
-                        <p>{{ $member['role'] }}</p>
-                        <p class="mw-big-team-bio">{{ $member['bio'] }}</p>
                     </div>
                 </div>
+            @endforeach
+        @else
+            <div>
+                Add your teamcard.
             </div>
-        @endforeach
+        @endif
     </div>
 @endif

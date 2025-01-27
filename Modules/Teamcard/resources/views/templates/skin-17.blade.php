@@ -23,7 +23,8 @@ description: Skin-17
 
 @if (isset($teamcard) and $teamcard)
     <div class="row">
-        @foreach ($teamcard as $member)
+        @if ($teamcard->count() > 0)
+            @foreach ($teamcard as $member)
             <div class="col-xxl-3 col-lg-4 col-lg-6 col-12">
                 <div class="team-member">
                     <div class="main-content">
@@ -43,5 +44,10 @@ description: Skin-17
                 </div>
             </div>
         @endforeach
+        @else
+            <div>
+                Add your teamcard.
+            </div>
+        @endif
     </div>
 @endif

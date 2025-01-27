@@ -25,7 +25,8 @@ description: Skin-6
 <?php if (isset($teamcard) and $teamcard): ?>
 
 <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-between">
-    @foreach ($teamcard as $member)
+    @if ($teamcard->count() > 0)
+        @foreach ($teamcard as $member)
         <div class="col-sm-12 col-md-6 col-lg-6">
             <div class="d-block d-sm-flex align-items-center h-100">
                 <div class="me-sm-4 mb-5 mb-sm-0 mx-auto mx-sm-0">
@@ -51,5 +52,10 @@ description: Skin-6
             </div>
         </div>
     @endforeach
+    @else
+        <div>
+            Add your teamcard.
+        </div>
+    @endif
 </div>
 <?php endif; ?>

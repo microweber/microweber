@@ -24,7 +24,8 @@ description: Skin-15
 
 @if (isset($teamcard) and $teamcard)
     <div class="d-flex justify-content-center align-items-center mt-5 flex-wrap">
-        @foreach ($teamcard as $member)
+        @if ($teamcard->count() > 0)
+            @foreach ($teamcard as $member)
             <div class="col-xl-3 col-md-6 col-sm-8 col-12 mx-auto d-flex justify-content-center align-items-center py-4">
                 <div class="flower-card card w-100 mx-2" style="border-radius: 0 20px 0 20px;">
                     @if ($member['file'])
@@ -41,5 +42,10 @@ description: Skin-15
                 </div>
             </div>
         @endforeach
+        @else
+            <div>
+                Add your teamcard.
+            </div>
+        @endif
     </div>
 @endif

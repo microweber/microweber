@@ -49,6 +49,7 @@ description: Skin-2
 
     @if ($teamcard->count() > 0)
         <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": true, "appendDots": ".slick-paging", "vertical" : true, "verticalSwiping" : true, "arrows": false}'>
+
             @foreach ($teamcard as $member)
                 @php
                     $count++;
