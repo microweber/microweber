@@ -96,3 +96,4 @@ docs/.vitepress/cache
 Templates/Big2/
 /public/modules
 /public/js/
+/public/vendor/
