@@ -34,7 +34,7 @@
 
 
      mw.settings = {
-         strictMode: true,
+         strictMode: false,
          regions: false,
          liveEdit: false,
          debug: true,

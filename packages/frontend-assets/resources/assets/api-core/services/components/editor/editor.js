@@ -120,7 +120,7 @@ export const EditorComponent = function () {
         smallEditor: editorControls,
 
         smallEditorPositionX: 'left',
-        smallEditorSkin: 'lite',
+        smallEditorSkin: 'light',
 
         interactionControls: ['tableManager', 'linkTooltip'],
 
@@ -194,6 +194,16 @@ export const EditorComponent = function () {
     mw.app.register('richTextEditor', liveEditor);
 
     mw.app.register('richTextEditorAPI', liveEditor.api);
+
+
+    mw.app.theme.on('change', () => {
+
+        const theme = mw.app.theme.getTheme();
+
+        mw.app.richTextEditor.setSmallEditorSkin(theme)
+
+    });
+
 };
 
 

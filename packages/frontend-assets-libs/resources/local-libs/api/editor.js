@@ -947,7 +947,7 @@ var MWEditor = function (options) {
             bar = 'bar';
         }
         if(this.controllers[name]){
-            var ctrl = new this.controllers[name](scope, scope.api, scope);
+            var ctrl = new this.controllers[name](scope, scope.api, scope, bar);
             if (!ctrl.element) {
                 ctrl.element = ctrl.render();
             }
@@ -1023,6 +1023,13 @@ var MWEditor = function (options) {
             api.isPinned() ? api.pin() : api.unPin();
         }
     };
+
+    this.setSmallEditorSkin = function (skin) {
+        this.smallEditor.removeClass('mw-small-editor-skin-' + (this.settings.smallEditorSkin));
+        this.settings.smallEditorSkin = skin;
+        this.smallEditor.addClass('mw-small-editor-skin-' + (this.settings.smallEditorSkin));
+        this.dispatch('smallEditorSkinChangedm', this.settings.smallEditorSkin)
+    }
 
     this.createSmallEditor = function () {
 
