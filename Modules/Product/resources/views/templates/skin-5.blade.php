@@ -12,7 +12,6 @@ description: Skin-5
 */
 ?>
 
-@include('modules.product::templates.slick_options')
 
 <style>
     <?php echo '#'.$params['id']; ?>
