@@ -1,0 +1,9 @@
+{
+  "settings": {
+    "title": "Products Slider Settings",
+    "options": {
+      "slick_options": "modules.product::templates.slick_options",
+      "slick_options_ui": "modules.product::templates.slick_options_ui"
+    }
+  }
+}

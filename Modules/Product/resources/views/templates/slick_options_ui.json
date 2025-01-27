@@ -1,0 +1,11 @@
+{
+  "settings": {
+    "slides": {
+      "xs": ["1 slide", "2 slides", "3 slides", "4 slides", "5 slides", "6 slides"],
+      "sm": ["1 slide", "2 slides", "3 slides", "4 slides", "5 slides", "6 slides"],
+      "md": ["1 slide", "2 slides", "3 slides", "4 slides", "5 slides", "6 slides"],
+      "lg": ["1 slide", "2 slides", "3 slides", "4 slides", "5 slides", "6 slides"],
+      "xl": ["1 slide", "2 slides", "3 slides", "4 slides", "5 slides", "6 slides"]
+    }
+  }
+}
