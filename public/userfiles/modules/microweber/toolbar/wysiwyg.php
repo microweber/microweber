@@ -129,7 +129,7 @@
                     ]
                 ],
                 smallEditorPositionX: 'left',
-                smallEditorSkin: 'lite',
+                smallEditorSkin: 'light',
 
                 interactionControls: [
 

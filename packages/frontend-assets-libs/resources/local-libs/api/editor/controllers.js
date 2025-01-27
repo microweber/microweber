@@ -333,20 +333,20 @@ MWEditor.controllers = {
                     </div>
                     <div class="mt-2" id="ai-text-generator-options">
                         <div class="list-group">
-                        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3" role="tablist">
+                        <nav class="d-flex" role="tablist">
                             <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs" role="tab" tabindex="-1">${mw.lang('Rewrite')}</a>
                             <a class="btn btn-link justify-content-center mw-admin-action-links mw-adm-liveedit-tabs" role="tab" tabindex="-1">${mw.lang('Tone')}</a>
                         </nav>
 
                         <div class="mw-aiwriter-tab">
                         ${buttonsRewrite.map(obj => `
-                            ${ `<button type="button" data-instruction="${obj.instruction}" class="list-group-item list-group-item-action">${obj.text}</button>`}
+                            ${ `<button type="button" data-instruction="${obj.instruction}" class="py-2 px-4">${obj.text}</button>`}
                         `)
                         .join('')}
                         </div>
                         <div class="mw-aiwriter-tab">
                         ${buttonsTone.map(obj => `
-                            ${ `<button type="button" data-instruction="${obj.instruction}" class="list-group-item list-group-item-action">${obj.text}</button>`}
+                            ${ `<button type="button" data-instruction="${obj.instruction}" class="py-2 px-4">${obj.text}</button>`}
                         `)
                         .join('')}
                         </div>
@@ -911,7 +911,9 @@ MWEditor.controllers = {
         this.element = this.render();
     },
 
-    fontSize: function (scope, api, rootScope) {
+    fontSize: function (scope, api, rootScope, bar) {
+
+
         this.checkSelection = function (opt) {
             var css = opt.css;
             var font = css.font();
@@ -967,6 +969,12 @@ MWEditor.controllers = {
                     api.fontSize(val.value);
                 }
             });
+            console.log(dropdown)
+            scope.on('smallEditorSkinChanged', (skin, min) => {
+                console.log(dropdown)
+                console.log (skin, min)
+            })
+
             return dropdown.root;
         };
         this.element = this.render();

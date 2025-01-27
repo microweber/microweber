@@ -241,6 +241,6 @@ if (isset($params['pager_custom'])) {
             ]
         };
 
-        $('.slickslider', '#{{ $params['id'] }}').slick(config);
+        $('.slickslider', '#<?php print $params['id']; ?>').slick(config);
     });
 </script>

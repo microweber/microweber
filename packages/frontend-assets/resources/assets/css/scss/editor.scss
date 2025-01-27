@@ -52,8 +52,12 @@ $editorSpacing: 5px;
     }
 }
 
-.mw-small-editor.mw-small-editor-skin-lite,
+.mw-small-editor.mw-small-editor-skin-light,
 .mw-small-editor.mw-small-editor-skin-dark{
+    padding: 5px 0;
+    svg{
+        fill: currentColor;
+    }
 
     -webkit-user-select: none;
     user-select: none;
@@ -235,14 +239,7 @@ $editorSpacing: 5px;
             width: 24px;
         }
     }
-    .mw-bar-control-item-group,
-    .mw-editor-controller-button{
-        &.active,
-        &:hover,
-        &:focus{
-            color: #404040;
-        }
-    }
+
     .mw-editor-controller-button{
 
         height: 35px;
@@ -275,17 +272,19 @@ $editorSpacing: 5px;
     }
 }
 
+
 .mw-small-editor.mw-small-editor-skin-dark{
-    background-color: #404040;
-    color: white;
-    .mw-editor-controller-button{
-        color: white;
+    .mw-editor-controller-component-select-values-holder{
+        background-color: rgb(24 36 51 / 1);
     }
-    .mw-bar-control-item-group-contents{background-color: #404040;}
 }
-.mw-small-editor.mw-small-editor-skin-lite{
+.mw-small-editor.mw-small-editor-skin-light{
     background-color: white;
-    padding: 5px 0;
+
+    .mw-editor-controller-component-select-values-holder{
+        background-color: white;
+    }
+
      color: #2b2b2b;
     .mw-editor-group-button{
         margin-inline: 0;
@@ -293,6 +292,8 @@ $editorSpacing: 5px;
     .mw-bar-control-item-group-contents{
         background-color: white;
     }
+
+
     mw-editor-button.mw-editor-controller-button{
         color:  #2b2b2b;
 
@@ -316,6 +317,17 @@ $editorSpacing: 5px;
             background-color: #eee;
         }
     }
+}
+
+
+html[data-mw-theme="dark"] .mw-small-editor,
+.mw-small-editor.mw-small-editor-skin-dark{
+    background-color: rgb(24 36 51 / 1);
+    color: white;
+    .mw-editor-controller-button{
+        color: white;
+    }
+    .mw-bar-control-item-group-contents{background-color: rgb(24, 36, 51);}
 }
 
 
@@ -382,6 +394,7 @@ $editorSpacing: 5px;
     .mw-bar-control-item{
         display: inline-block;
         position: relative;
+
     }
 
     .mw-editor-dropdown-option{
@@ -661,6 +674,7 @@ $editorSpacing: 5px;
             vertical-align: middle;
             font-size: 20px;
             color: #2b2b2b;
+            color: inherit;
             svg{
                 width: 20px;
                 fill: currentColor;
@@ -702,7 +716,7 @@ $editorSpacing: 5px;
         position: absolute;
         top: 100%;
         left: 0;
-        background-color: #fff;
+
         opacity: 0;
         visibility: hidden;
         transition: .3s;

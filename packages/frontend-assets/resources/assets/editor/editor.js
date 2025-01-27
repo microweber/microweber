@@ -121,7 +121,7 @@ return;
         smallEditor: editorControls,
 
         smallEditorPositionX: 'left',
-        smallEditorSkin: 'lite',
+        smallEditorSkin: 'light',
 
         interactionControls: ['tableManager', 'linkTooltip'],
 

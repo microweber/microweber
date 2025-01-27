@@ -93,4 +93,15 @@ docs/.vitepress/cache
 .aider*
 /packages/frontend-assets/resources/dist/
 /packages/frontend-assets-libs/resources/dist/
-Templates/Big2/
+Templates/*/
+/public/modules
+/public/js/
+/public/vendor/
+/public/css/
+/public/templates/
+/packages/frontend-assets-libs/resources/local-libs/
+/packages/frontend-assets/resources/dist/
+Modules/*/mix-manifest.json
+Modules/*/package-lock.json
+Modules/*/resources/assets/dist/*
+packages/*/mix-manifest.json

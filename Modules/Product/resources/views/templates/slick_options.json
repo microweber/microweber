@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "slides": {
+      "xs": "1",
+      "sm": "1",
+      "md": "2",
+      "lg": "2",
+      "xl": "2"
+    },
+    "pager": "true",
+    "controls": "true",
+    "loop": "true",
+    "adaptiveHeight": "true",
+    "speed": "5000",
+    "pauseOnHover": "true",
+    "autoplay": "true",
+    "draggable": "true",
+    "fade": "false",
+    "focusOnSelect": "true",
+    "centerPadding": "0px"
+  }
+}
