@@ -16,9 +16,9 @@
         return;
     }
 
-    if (!isset($tabs) || count($tabs) == 0) {
-        $tabs = $defaults;
-    }
+//    if (!isset($tabs) || count($tabs) == 0) {
+//        $tabs = $defaults;
+//    }
 @endphp
 
 <script>
@@ -33,25 +33,33 @@
 <div id="mw-tabs-module-{{ $params['id'] }}" class="mw-tabs-box-wrapper mw-module-tabs-skin-default">
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs df">
         @php $count = 0; @endphp
-        @foreach ($tabs as $slide)
-            @php $count++; @endphp
-            <a class="btn btn-primary df mb-3 {{ $count == 1 ? 'active' : '' }}" href="javascript:;">
-                {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}<span class="mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</span>
-            </a>
-        @endforeach
+        @if($tabs->isEmpty())
+            <p>No tab items available.</p>
+        @else
+            @foreach ($tabs as $slide)
+                @php $count++; @endphp
+                <a class="btn btn-primary df mb-3 {{ $count == 1 ? 'active' : '' }}" href="javascript:;">
+                    {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}<span class="mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</span>
+                </a>
+            @endforeach
+        @endif
     </div>
     <div class="mw-ui-box">
         @php $count = 0; @endphp
-        @foreach ($tabs as $key => $slide)
-            @php
-                $count++;
-                $edit_field_key = $slide['id'] ?? $key;
-            @endphp
-            <div class="mw-ui-box-content mw-ui-box-tab-content" style="{{ $count != 1 ? 'display: none;' : 'display: block;' }}">
-                <div class="edit" field="tab-item-{{ $edit_field_key }}" rel="module-{{ $params['id'] }}">
-                    <h6>{!! $slide['content'] ?? 'Tab content ' . $count . '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>' !!}</h6>
+        @if($tabs->isEmpty())
+            <p>No tab items available.</p>
+        @else
+            @foreach ($tabs as $key => $slide)
+                @php
+                    $count++;
+                    $edit_field_key = $slide['id'] ?? $key;
+                @endphp
+                <div class="mw-ui-box-content mw-ui-box-tab-content" style="{{ $count != 1 ? 'display: none;' : 'display: block;' }}">
+                    <div class="edit" field="tab-item-{{ $edit_field_key }}" rel="module-{{ $params['id'] }}">
+                        <h6>{!! $slide['content'] ?? 'Tab content ' . $count . '<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>' !!}</h6>
+                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        @endif
     </div>
 </div>

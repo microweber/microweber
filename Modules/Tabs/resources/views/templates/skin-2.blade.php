@@ -16,9 +16,9 @@
         return;
     }
 
-    if (!isset($tabs) || count($tabs) == 0) {
-        $tabs = $defaults;
-    }
+//    if (!isset($tabs) || count($tabs) == 0) {
+//        $tabs = $defaults;
+//    }
 @endphp
 
 <script>
@@ -117,18 +117,25 @@
     <nav>
         <div class="nav nav-tabs align-items-baseline mw-ui-btn-nav-tabs">
             @php $count = 0; @endphp
-            @foreach ($tabs as $slide)
-                @php $count++; @endphp
-                <a class="nav-link {{ $count == 1 ? 'active' : '' }} col-lg-3 col-md-6 col-12" href="javascript:;">
-                    {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}
-                    <h4 class="header-section-title mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</h4>
-                </a>
-            @endforeach
+            @if($tabs->isEmpty())
+                <p>No tab items available.</p>
+            @else
+                @foreach ($tabs as $slide)
+                    @php $count++; @endphp
+                    <a class="nav-link {{ $count == 1 ? 'active' : '' }} col-lg-3 col-md-6 col-12" href="javascript:;">
+                        {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}
+                        <h4 class="header-section-title mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</h4>
+                    </a>
+                @endforeach
+            @endif
         </div>
     </nav>
 
     @php $count = 0; @endphp
-    @foreach ($tabs as $key => $slide)
+    @if($tabs->isEmpty())
+        <p>No tab items available.</p>
+    @else
+        @foreach ($tabs as $key => $slide)
         @php
             $count++;
             $edit_field_key = $slide['id'] ?? $key;
@@ -165,4 +172,5 @@
             </div>
         </div>
     @endforeach
+    @endif
 </div>

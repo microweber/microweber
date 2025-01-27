@@ -16,9 +16,9 @@
         return;
     }
 
-    if (!isset($tabs) || count($tabs) == 0) {
-        $tabs = $defaults;
-    }
+//    if (!isset($tabs) || count($tabs) == 0) {
+//        $tabs = $defaults;
+//    }
 @endphp
 
 <style>
@@ -457,19 +457,26 @@
     <div id="mw-tabs-module-{{ $params['id'] }}" class="tabs-section w-tabs">
         <div class="tabs-menu w-tab-menu mw-ui-btn-nav-tabs">
             @php $count = 0; @endphp
-            @foreach ($tabs as $slide)
-                @php $count++; @endphp
-                <a class="tab-link w-inline-block w-tab-link w--current {{ $count == 1 ? 'active' : '' }}" href="javascript:;">
-                    {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}<span class="mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</span>
-                </a>
-            @endforeach
+            @if($tabs->isEmpty())
+                <p>No tab items available.</p>
+            @else
+                @foreach ($tabs as $slide)
+                    @php $count++; @endphp
+                    <a class="tab-link w-inline-block w-tab-link w--current {{ $count == 1 ? 'active' : '' }}" href="javascript:;">
+                        {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}<span class="mb-0">{{ $slide['title'] ?? 'Tab title 1' }}</span>
+                    </a>
+                @endforeach
+            @endif
         </div>
 
         <div class="tabs-content w-tab-content">
             <div class="widget-body background-color-element element">
                 <div class="tab-box">
                     @php $count = 0; @endphp
-                    @foreach ($tabs as $key => $slide)
+                    @if($tabs->isEmpty())
+                        <p>No tab items available.</p>
+                    @else
+                         @foreach ($tabs as $key => $slide)
                         @php
                             $count++;
                             $edit_field_key = $slide['id'] ?? $key;
@@ -493,6 +500,7 @@
                             </div>
                         </div>
                     @endforeach
+                    @endif
                 </div>
             </div>
         </div>

@@ -16,9 +16,9 @@
         return;
     }
 
-    if (!isset($tabs) || count($tabs) == 0) {
-        $tabs = $defaults;
-    }
+//    if (!isset($tabs) || count($tabs) == 0) {
+//        $tabs = $defaults;
+//    }
 @endphp
 
 <script>
@@ -33,16 +33,23 @@
 <div id="mw-tabs-module-{{ $params['id'] }}" class="row mw-tabs-box-wrapper mw-module-tabs-skin-default">
     <div class="mw-ui-btn-nav merry-navs-btn-pricing mw-ui-btn-nav-tabs d-flex flex-wrap mx-auto mt-5 justify-content-center gap-2">
         @php $count = 0; @endphp
-        @foreach ($tabs as $slide)
-            @php $count++; @endphp
-            <a class="merry-tabs-button btn btn-outline-primary my-xl-0 my-3 {{ $count == 1 ? 'active' : '' }}" href="javascript:;">
-                {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}{{ $slide['title'] ?? '' }}
-            </a>
-        @endforeach
+        @if($tabs->isEmpty())
+            <p>No tab items available.</p>
+        @else
+            @foreach ($tabs as $slide)
+                @php $count++; @endphp
+                <a class="merry-tabs-button btn btn-outline-primary my-xl-0 my-3 {{ $count == 1 ? 'active' : '' }}" href="javascript:;">
+                    {!! isset($slide['icon']) ? $slide['icon'] . ' ' : '' !!}{{ $slide['title'] ?? '' }}
+                </a>
+            @endforeach
+        @endif
     </div>
     <div class="py-5">
         @php $count = 0; @endphp
-        @foreach ($tabs as $key => $slide)
+        @if($tabs->isEmpty())
+            <p>No tab items available.</p>
+        @else
+            @foreach ($tabs as $key => $slide)
             @php
                 $count++;
                 $edit_field_key = $slide['id'] ?? $key;
@@ -57,5 +64,6 @@
                 </div>
             </div>
         @endforeach
+        @endif
     </div>
 </div>
