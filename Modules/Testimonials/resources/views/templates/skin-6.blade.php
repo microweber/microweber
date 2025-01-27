@@ -1,29 +1,24 @@
-<?php
-
+@php
 /*
-
+ 
 type: layout
-
+ 
 name: Skin-6
-
+ 
 description: Skin-6
-
+ 
 */
+@endphp
 
-?>
-
-<?php
-
+@php
 $rand = uniqid();
 $limit = 40;
-
-?>
-
+@endphp
 
 <script>mw.lib.require('slick')</script>
 <script>
     $(document).ready(function () {
-        $('.slickslider', '#<?php echo $params['id']; ?>').slick({
+        $('.slickslider', '#{{ $params['id'] }}').slick({
             rtl: document.documentElement.dir === 'rtl',
             responsive: [
                 {
@@ -44,25 +39,21 @@ $limit = 40;
 </script>
 
 <style>
-    <?php echo '#' . $params['id'] . ' '; ?>
-    .slick-dots {
+    #{{ $params['id'] }} .slick-dots {
         position: relative;
     }
 
     @media screen and (min-width: 992px) {
-    <?php echo '#' . $params['id'] . ' '; ?>
-        .slick-arrow.slick-prev {
+        #{{ $params['id'] }} .slick-arrow.slick-prev {
             left: -60px;
         }
 
-    <?php echo '#' . $params['id'] . ' '; ?>
-        .slick-arrow.slick-next {
+        #{{ $params['id'] }} .slick-arrow.slick-next {
             right: -60px;
         }
     }
 
-    <?php echo '#' . $params['id'] . ' '; ?>
-    .slick-list {
+    #{{ $params['id'] }} .slick-list {
         overflow: hidden;
     }
 </style>
@@ -72,37 +63,36 @@ $limit = 40;
         @if($testimonials->isEmpty())
             <p>No testimonials available.</p>
         @else
-            <?php foreach ($testimonials as $item): ?>
-            <div class="row text-center mb-5">
-                <div class="col-12 col-lg-11 mx-auto">
-                    <?php if ($item['client_image']): ?>
-                        <div class="w-80 mx-auto mb-4">
-                            <div class="img-as-background rounded-circle square">
-                                <img loading="lazy" src="<?php print thumbnail($item['client_image'], 120); ?>">
+            @foreach ($testimonials as $item)
+                <div class="row text-center mb-5">
+                    <div class="col-12 col-lg-11 mx-auto">
+                        @if (isset($item['client_image']))
+                            <div class="w-80 mx-auto mb-4">
+                                <div class="img-as-background rounded-circle square">
+                                    <img loading="lazy" src="{{ thumbnail($item['client_image'], 120) }}">
+                                </div>
                             </div>
-                        </div>
-                    <?php endif; ?>
+                        @endif
 
-                    <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
-                    <br/>
-                    <?php if ($item['name']): ?>
-                        <h5 class=" mb-0"><?php print $item['name']; ?></h5>
-                    <?php endif; ?>
-                    <?php if ($item['client_company']): ?>
-                        <p class="mb-0"><?php print $item['client_company']; ?></p>
-                    <?php endif; ?>
+                        <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
+                        <br/>
+                        @if (isset($item['name']))
+                            <h5 class="mb-0">{{ $item['name'] }}</h5>
+                        @endif
+                        @if (isset($item['client_company']))
+                            <p class="mb-0">{{ $item['client_company'] }}</p>
+                        @endif
 
-                    <?php if ($item['client_website']): ?>
-                        <a class="my-1 d-block" href="<?php print $item['client_website']; ?>"><?php print $item['client_website'] ?></a>
-                    <?php endif; ?>
+                        @if (isset($item['client_website']))
+                            <a class="my-1 d-block" href="{{ $item['client_website'] }}">{{ $item['client_website'] }}</a>
+                        @endif
 
-                    <?php if ($item['client_role']): ?>
-                        <p><?php print $item['client_role']; ?></p>
-                    <?php endif; ?>
+                        @if (isset($item['client_role']))
+                            <p>{{ $item['client_role'] }}</p>
+                        @endif
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            @endforeach
         @endif
-
     </div>
 </div>

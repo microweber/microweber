@@ -1,46 +1,41 @@
-<?php
-
+@php
 /*
-
+ 
 type: layout
-
+ 
 name: Skin-1
-
+ 
 description: Skin-1
-
+ 
 */
+@endphp
 
-?>
-
-<?php
-
+@php
 $rand = uniqid();
 $limit = 40;
-
-?>
-
+@endphp
 
 <script>mw.lib.require('slick');</script>
 
 <script>
     $(document).ready(function () {
-        var items = $("  .mwt-face-holder")
-        $("  .mwt-faces").append(items.eq(0).clone(true))
-        $("  .mwt-faces").prepend(items.eq(items.length - 1).clone(true))
+        var items = $(".mwt-face-holder");
+        $(".mwt-faces").append(items.eq(0).clone(true));
+        $(".mwt-faces").prepend(items.eq(items.length - 1).clone(true));
         var configFaces = function (nextSlide) {
             nextSlide = nextSlide || 0;
-            var active = $("  .mwt-face-holder")
+            var active = $(".mwt-face-holder")
                 .removeClass('active subactive')
                 .one('click', function () {
-                    $("  .mw-testimonials-faces").slick('slickGoTo', $(this).attr('data-index'))
+                    $(".mw-testimonials-faces").slick('slickGoTo', $(this).attr('data-index'));
                     return false;
                 })
                 .eq(nextSlide + 1)
                 .addClass('active');
-            active.prev('.mwt-face-holder').addClass('subactive')
-            active.next('.mwt-face-holder').addClass('subactive')
+            active.prev('.mwt-face-holder').addClass('subactive');
+            active.next('.mwt-face-holder').addClass('subactive');
         }
-        var el = $("  .mw-testimonials-faces");
+        var el = $(".mw-testimonials-faces");
         el.slick({
             infinite: true,
             dots: false,
@@ -49,10 +44,10 @@ $limit = 40;
             rtl: document.documentElement.dir === 'rtl',
         })
             .on('beforeChange init reInit', function (event, slick, currentSlide, nextSlide) {
-                configFaces(nextSlide)
+                configFaces(nextSlide);
             });
-        configFaces()
-    })
+        configFaces();
+    });
 </script>
 
 <div class="testimonials-faces-wrapper overflow-hidden">
@@ -68,7 +63,6 @@ $limit = 40;
                                 <div class="col-12 col-lg-10 col-lg-8 mx-auto">
                                     <i class="mdi mdi-format-quote-close icon-size-46px d-block mb-5"></i>
                                     <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
-
                                 </div>
                             </div>
                         </div>
@@ -115,18 +109,18 @@ $limit = 40;
                     <div class="mw-testimonials-item-faces-content mt-2">
                         <div class="row text-center">
                             <div class="col-12 col-lg-10 col-lg-8 mx-auto">
-                                @if ($item['name'])
+                                @if (isset($item['name']))
                                     <h5 class="mb-0">{{ $item['name'] }}</h5>
                                 @endif
-                                @if ($item['client_company'])
+                                @if (isset($item['client_company']))
                                     <p class="mb-0">{{ $item['client_company'] }}</p>
                                 @endif
 
-                                @if ($item['client_website'])
+                                @if (isset($item['client_website']))
                                     <a class="my-1 d-block" href="{{ $item['client_website'] }}">{{ $item['client_website'] }}</a>
                                 @endif
 
-                                @if ($item['client_role'])
+                                @if (isset($item['client_role']))
                                     <p>{{ $item['client_role'] }}</p>
                                 @endif
                             </div>

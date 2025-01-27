@@ -1,35 +1,29 @@
-<?php
-
+@php
 /*
-
+ 
 type: layout
-
+ 
 name: Skin-19
-
+ 
 description: Skin-19
-
+ 
 */
+@endphp
 
-?>
-
-<?php
-
+@php
 $rand = uniqid();
 $limit = 40;
-
-?>
-
+@endphp
 
 <script>mw.lib.require('slick')</script>
 <script>
     $(document).ready(function () {
-        $('.slickslider', '#<?php echo $params['id']; ?>').slick();
+        $('.slickslider', '#{{ $params['id'] }}').slick();
     });
 </script>
 
 <style>
-    <?php echo '#' . $params['id'] . ' '; ?>
-    .slick-dots {
+    #{{ $params['id'] }} .slick-dots {
         position: relative;
         bottom: 0px;
     }
@@ -47,20 +41,15 @@ $limit = 40;
         overflow: hidden;
     }
 
-
     @media screen and (min-width: 992px) {
-    <?php echo '#' . $params['id'] . ' '; ?>
-        .slick-arrow.slick-prev {
+        #{{ $params['id'] }} .slick-arrow.slick-prev {
             left: -60px;
         }
 
-    <?php echo '#' . $params['id'] . ' '; ?>
-        .slick-arrow.slick-next {
+        #{{ $params['id'] }} .slick-arrow.slick-next {
             right: -60px;
         }
     }
-
-
 
     .mw-ziza-testimonials-item-eclipse {
         position: absolute;
@@ -71,7 +60,6 @@ $limit = 40;
         width: 120px;
         overflow: hidden;
         transform: rotate(48deg);
-
     }
 
     .mw-ziza-testimonials-item-eclipse div {
@@ -91,10 +79,6 @@ $limit = 40;
         right: -40px;
     }
 
-    /*.ziza-slick-testimonials .slick-list {*/
-    /*    overflow: unset;*/
-    /*}*/
-
     .ziza-testimonials-image {
         width: 450px;
         height: 450px;
@@ -103,7 +87,6 @@ $limit = 40;
         border-radius: 250px 0 250px 250px;
         left: 20px;
     }
-
 </style>
 
 <div class="slick-arrows-1 ziza-slick-testimonials mt-5">
@@ -111,33 +94,28 @@ $limit = 40;
         @if($testimonials->isEmpty())
             <p>No testimonials available.</p>
         @else
-            <?php foreach ($testimonials as $item): ?>
-            <div class="row text-center text-lg-start d-flex align-items-center pt-7">
+            @foreach ($testimonials as $item)
+                <div class="row text-center text-lg-start d-flex align-items-center pt-7">
+                    @if (isset($item['client_image']))
+                        <div class="text-center mx-auto ziza-testimonials-image background-image-holder" style="background-image: url({{ thumbnail($item['client_image'], 450) }});">
+                            <div>
+                                <div class="mw-ziza-testimonials-item-eclipse">
+                                    <div></div>
+                                </div>
+                                <img loading="lazy" class="mw-ziza-testimonials-item-dots" src="{{ asset('templates/big2/assets/img/layouts/ziza/ziza-dots-94.png') }}"/>
+                            </div>
+                        </div>
+                    @endif
 
-                <?php if ($item['client_image']): ?>
-                    <div class="text-center mx-auto ziza-testimonials-image background-image-holder" style="background-image: url(<?php print thumbnail($item['client_image'], 450); ?>);">
-
-                       <div>
-                           <div class="mw-ziza-testimonials-item-eclipse">
-                               <div></div>
-                           </div>
-
-
-                           <img loading="lazy" class="mw-ziza-testimonials-item-dots" src="<?php print asset('templates/big2/assets/img/layouts/ziza/ziza-dots-94.png'); ?>"/>
-                       </div>
+                    <div class="col-xl-6 col-md-10 col-12 me-xl-auto mx-auto text-xl-start text-center ">
+                        @if (isset($item['name']))
+                            <h4 class="mb-1">{{ $item['name'] }}</h4>
+                        @endif
+                        <p>{{ isset($item['client_role']) ? $item['client_role'] : '' }}</p>
+                        <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
                     </div>
-                <?php endif; ?>
-
-
-                <div class="col-xl-6 col-md-10 col-12 me-xl-auto mx-auto text-xl-start text-center ">
-                    <h4 class="mb-1"><?php print $item['name']; ?></h4>
-                    <p><?php print $item['client_role']; ?></p> &nbsp;
-                    <p> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
                 </div>
-
-            </div>
-        <?php endforeach; ?>
+            @endforeach
         @endif
-
     </div>
 </div>

@@ -1,23 +1,19 @@
-<?php
-
+@php
 /*
-
+ 
 type: layout
-
+ 
 name: Skin-23
-
+ 
 description: Skin-23
-
+ 
 */
+@endphp
 
-?>
-<?php
-
+@php
 $rand = uniqid();
 $limit = 40;
-
-?>
-
+@endphp
 
 <style>
     .mw-testimonials-23-large-text {
@@ -140,97 +136,86 @@ $limit = 40;
         position: relative;
         row-gap: 18px;
     }
-
-    <?php
-   $testimonials_id = 'testimonials-' . $rand;
-   $selector_prefix = '#' . $testimonials_id . ' ';
-?>
-
-    <?php print $selector_prefix ?> {
-        --items-per-page: 4;
-    }
-
-    <?php print $selector_prefix ?>{
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-    }
-
-    <?php print $selector_prefix ?>.lg-carousel-container {
-        white-space: nowrap;
-    }
 </style>
 
+@php
+$testimonials_id = 'testimonials-' . $rand;
+$selector_prefix = '#' . $testimonials_id . ' ';
+@endphp
 
+{{ $selector_prefix }} {
+    --items-per-page: 4;
+}
 
-    <?php $size = sizeof($testimonials); ?>
-        <div class="mw-testimonials-23-quote-pill-rows lg-carousel" id="<?php print $testimonials_id; ?>" role="region">
-            <div class="mw-testimonials-23-quote-pill-row lg-carousel-container" id="<?php print $testimonials_id; ?>container" role="list">
-                <?php if ($size > 1) { ?>
-                    <?php foreach ($testimonials as $item): ?>
-                        <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
-                            <?php if ($item['client_image']): ?>
-                                <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy"
-                                     src="<?php print thumbnail($item['client_image'], 800); ?>"/>
-                            <?php endif; ?>
+{{ $selector_prefix }} {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
 
-                            <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
-                        </div>
-                    <?php endforeach; ?>
+{{ $selector_prefix }}.lg-carousel-container {
+    white-space: nowrap;
+}
 
-                @if($testimonials->isEmpty())
-                    <p>No testimonials available.</p>
-                @else
-                    <?php foreach ($testimonials as $item): ?>
-                        <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
-                            <?php if ($item['client_image']): ?>
-                                <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy"
-                                     src="<?php print thumbnail($item['client_image'], 800); ?>"/>
-                            <?php endif; ?>
+@php
+$size = sizeof($testimonials);
+@endphp
 
-                            <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
-                        </div>
-                    <?php endforeach; ?>
-                @endif
+<div class="mw-testimonials-23-quote-pill-rows lg-carousel" id="{{ $testimonials_id }}" role="region">
+    <div class="mw-testimonials-23-quote-pill-row lg-carousel-container" id="{{ $testimonials_id }}container" role="list">
+        @if ($size > 1)
+            @foreach ($testimonials as $item)
+                <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
+                    @if (isset($item['client_image']))
+                        <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}"/>
+                    @endif
 
-            </div>
-            <div class="mw-testimonials-23-gradient-scrim"></div>
-        </div>
-    <script>
+                    <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
+                </div>
+            @endforeach
+        @else
+            <p>No testimonials available.</p>
+            @foreach ($testimonials as $item)
+                <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
+                    @if (isset($item['client_image']))
+                        <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}"/>
+                    @endif
 
-        ;(function(containerId){
+                    <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
+                </div>
+            @endforeach
+        @endif
+    </div>
+    <div class="mw-testimonials-23-gradient-scrim"></div>
+</div>
 
-            const carouselContainer = document.getElementById(containerId);
+<script>
+    ;(function(containerId){
+        const carouselContainer = document.getElementById(containerId);
+        const carouselItems = carouselContainer.innerHTML;
+        carouselContainer.innerHTML += carouselItems;
 
-            const carouselItems = carouselContainer.innerHTML;
-            carouselContainer.innerHTML += carouselItems;
+        let scrollLeft = 0;
+        const scrollSpeed = 7;
 
-            let scrollLeft = 0;
-            const scrollSpeed = 7;
-
-            function animateCarousel(timestamp) {
-                if (!lastTimestamp) {
-                    lastTimestamp = timestamp;
-                }
-
-                const deltaTime = timestamp - lastTimestamp;
+        function animateCarousel(timestamp) {
+            if (!lastTimestamp) {
                 lastTimestamp = timestamp;
-
-                scrollLeft += scrollSpeed * deltaTime / 60;
-                if (scrollLeft >= carouselContainer.scrollWidth / 2) {
-                    scrollLeft = 0;
-                }
-                carouselContainer.style.transform = `translateX(-${scrollLeft}px)`;
-
-                requestAnimationFrame(animateCarousel);
             }
 
-            let lastTimestamp = null;
+            const deltaTime = timestamp - lastTimestamp;
+            lastTimestamp = timestamp;
+
+            scrollLeft += scrollSpeed * deltaTime / 60;
+            if (scrollLeft >= carouselContainer.scrollWidth / 2) {
+                scrollLeft = 0;
+            }
+            carouselContainer.style.transform = `translateX(-${scrollLeft}px)`;
+
             requestAnimationFrame(animateCarousel);
+        }
 
-        })('<?php print $testimonials_id; ?>container');
-
-    </script>
-
-<?php } ?>
-
+        let lastTimestamp = null;
+        requestAnimationFrame(animateCarousel);
+    })('{{ $testimonials_id }}container');
+</script>
