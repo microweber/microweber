@@ -1,12 +1,12 @@
 @php
 /*
- 
+
 type: layout
- 
+
 name: Skin-23
- 
+
 description: Skin-23
- 
+
 */
 @endphp
 
@@ -143,19 +143,21 @@ $testimonials_id = 'testimonials-' . $rand;
 $selector_prefix = '#' . $testimonials_id . ' ';
 @endphp
 
-{{ $selector_prefix }} {
-    --items-per-page: 4;
-}
+<style>
+    {{ $selector_prefix }} {
+        --items-per-page: 4;
+    }
 
-{{ $selector_prefix }} {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-}
+    {{ $selector_prefix }} {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
 
-{{ $selector_prefix }}.lg-carousel-container {
-    white-space: nowrap;
-}
+    {{ $selector_prefix }}.lg-carousel-container {
+        white-space: nowrap;
+    }
+</style>
 
 @php
 $size = sizeof($testimonials);
@@ -163,28 +165,33 @@ $size = sizeof($testimonials);
 
 <div class="mw-testimonials-23-quote-pill-rows lg-carousel" id="{{ $testimonials_id }}" role="region">
     <div class="mw-testimonials-23-quote-pill-row lg-carousel-container" id="{{ $testimonials_id }}container" role="list">
-        @if ($size > 1)
-            @foreach ($testimonials as $item)
-                <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
-                    @if (isset($item['client_image']))
-                        <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}"/>
-                    @endif
-
-                    <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
-                </div>
-            @endforeach
-        @else
+        @if($testimonials->isEmpty())
             <p>No testimonials available.</p>
-            @foreach ($testimonials as $item)
-                <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
-                    @if (isset($item['client_image']))
-                        <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}"/>
-                    @endif
+        @else
+            @if ($size > 1)
+                @foreach ($testimonials as $item)
+                    <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
+                        @if (isset($item['client_image']))
+                            <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}"/>
+                        @endif
 
-                    <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
-                </div>
-            @endforeach
+                        <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
+                    </div>
+                @endforeach
+            @else
+
+                @foreach ($testimonials as $item)
+                    <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
+                        @if (isset($item['client_image']))
+                            <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}"/>
+                        @endif
+
+                        <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
+                    </div>
+                @endforeach
+            @endif
         @endif
+
     </div>
     <div class="mw-testimonials-23-gradient-scrim"></div>
 </div>
