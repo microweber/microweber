@@ -8,6 +8,7 @@
 
 namespace MicroweberPackages\Multilanguage;
 
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateCategory;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateContent;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateContentFields;
@@ -57,7 +58,7 @@ class TranslateManager
                         event_bind($providerInstance->getRepositoryClass() . '\\' . $repositoryMethod, function ($data) use ($providerInstance) {
 
                             if (isset($data['getEditField'])) {
-                              //  dump($data);
+                                //  dump($data);
                             }
 
                             if (isset($data['data']) && !empty($data['data']) && isset($data['hook_overwrite_type'])) {
@@ -193,6 +194,37 @@ class TranslateManager
                         }
                     }
 
+                    if ($currentLocale == $defaultLocale) {
+
+                        if ($providerInstance->getRelType() == 'content') {
+
+                            if (isset($saveData['id']) and $saveData['id']) {
+                                if (isset($saveData['content'])) {
+                                    // delete multilang on the default locale
+                                     MultilanguageTranslations::where('rel_id', $saveData['id'])
+                                        ->where('rel_type', 'content')
+                                        ->where('locale', $currentLocale)
+                                        ->where('field_name',  'content')
+                                        ->delete();
+                                }
+                            }
+                        }
+                        if ($providerInstance->getRelType() == 'content_fields') {
+                            if (isset($saveData['id']) and $saveData['id']) {
+                                if (isset($saveData['value'])) {
+                                    // delete multilang on the default locale
+                                    MultilanguageTranslations::where('rel_id', $saveData['id'])
+                                        ->where('rel_type', 'content_fields')
+                                        ->where('locale', $currentLocale)
+                                        ->where('field_name',  'value')
+                                        ->delete();
+                                }
+                            }
+                        }
+                        return $saveData;
+
+                    }
+
                     if ($currentLocale != $defaultLocale) {
                         if ($providerInstance->getRelType() == 'options') {
                             $saveData['__option_value'] = $saveData['option_value'];
@@ -201,24 +233,22 @@ class TranslateManager
                         }
 
 
-
                         if ($providerInstance->getRelType() == 'content_fields') {
                             $skip = false;
-                            if(isset($saveData['field']) and $saveData['field']) {
+                            if (isset($saveData['field']) and $saveData['field']) {
                                 $is_native_fld_all = app()->database_manager->get_fields('content');
                                 if (in_array($saveData['field'], $is_native_fld_all)) {
                                     //return $saveData;
                                     $skip = true;
                                 }
                             }
-                            if(!isset($saveData['value'])){
+                            if (!isset($saveData['value'])) {
                                 $skip = true;
 
 
                             }
 
                             if (!$skip) {
-
 
 
                                 $saveData['__value'] = $saveData['value'];
