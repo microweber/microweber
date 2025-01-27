@@ -4,9 +4,9 @@
 
 type: layout
 
-name: Skin-22
+name: Skin-23
 
-description: Skin-22
+description: Skin-23
 
 */
 
@@ -161,12 +161,22 @@ $limit = 40;
     }
 </style>
 
-<?php if (is_array($data)): ?>
 
-    <?php $size = sizeof($data); ?>
+
+    <?php $size = sizeof($testimonials); ?>
         <div class="mw-testimonials-23-quote-pill-rows lg-carousel" id="<?php print $testimonials_id; ?>" role="region">
             <div class="mw-testimonials-23-quote-pill-row lg-carousel-container" id="<?php print $testimonials_id; ?>container" role="list">
                 <?php if ($size > 1) { ?>
+                    <?php foreach ($testimonials as $item): ?>
+                        <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
+                            <?php if ($item['client_image']): ?>
+                                <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy"
+                                     src="<?php print thumbnail($item['client_image'], 800); ?>"/>
+                            <?php endif; ?>
+
+                            <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
+                        </div>
+                    <?php endforeach; ?>
 
                 @if($testimonials->isEmpty())
                     <p>No testimonials available.</p>
@@ -183,16 +193,6 @@ $limit = 40;
                     <?php endforeach; ?>
                 @endif
 
-                <?php foreach ($testimonials as $item): ?>
-                    <div class="mw-testimonials-23-quote-pill lg-carousel-item" role="listitem">
-                        <?php if ($item['client_image']): ?>
-                            <img class="mw-testimonials-23-quote-pill-avatar" loading="lazy"
-                                 src="<?php print thumbnail($item['client_image'], 800); ?>"/>
-                        <?php endif; ?>
-
-                        <div class="mw-testimonials-23-large-text mw-testimonials-23-quote-pill-text"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</div>
-                    </div>
-                <?php endforeach; ?>
             </div>
             <div class="mw-testimonials-23-gradient-scrim"></div>
         </div>
@@ -234,4 +234,3 @@ $limit = 40;
 
 <?php } ?>
 
-<?php endif; ?>
