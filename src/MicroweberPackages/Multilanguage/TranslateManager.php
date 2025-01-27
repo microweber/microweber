@@ -8,6 +8,7 @@
 
 namespace MicroweberPackages\Multilanguage;
 
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateCategory;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateContent;
 use MicroweberPackages\Multilanguage\TranslateTables\TranslateContentFields;
@@ -191,6 +192,37 @@ class TranslateManager
                         if ($saveModuleOption == false) {
                             return false;
                         }
+                    }
+
+                    if ($currentLocale == $defaultLocale) {
+
+                        if ($providerInstance->getRelType() == 'content') {
+
+                            if (isset($saveData['id']) and $saveData['id']) {
+                                if (isset($saveData['content'])) {
+                                    // delete multilang on the default locale
+                                    MultilanguageTranslations::where('rel_id', $saveData['id'])
+                                        ->where('rel_type', 'content')
+                                        ->where('locale', $currentLocale)
+                                        ->where('field_name',  'content')
+                                        ->delete();
+                                }
+                            }
+                        }
+                        if ($providerInstance->getRelType() == 'content_fields') {
+                            if (isset($saveData['id']) and $saveData['id']) {
+                                if (isset($saveData['value'])) {
+                                    // delete multilang on the default locale
+                                    MultilanguageTranslations::where('rel_id', $saveData['id'])
+                                        ->where('rel_type', 'content_fields')
+                                        ->where('locale', $currentLocale)
+                                        ->where('field_name',  'value')
+                                        ->delete();
+                                }
+                            }
+                        }
+                        return $saveData;
+
                     }
 
                     if ($currentLocale != $defaultLocale) {
