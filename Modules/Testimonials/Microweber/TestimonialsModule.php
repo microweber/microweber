@@ -30,18 +30,15 @@ class TestimonialsModule extends BaseModule
                                             ->orderBy('position', 'asc')
                                             ->get();
 
+        // Check if there are testimonials for this module and if not, add default ones
         if ($testimonials->count() == 0) {
             $defaultContent = file_get_contents(module_path(self::$module) . '/default_content.json');
             $defaultContent = json_decode($defaultContent, true);
             if (isset($defaultContent['testimonials'])) {
-//                foreach ($defaultContent['testimonials'] as $testimonial) {
-//                    $newTestimonial = new Testimonial();
-//                    $newTestimonial->fill($testimonial);
-//                    $newTestimonial->rel_id = $relId;
-//                    $newTestimonial->rel_type = $relType;
-//                    $newTestimonial->save();
-//                }
                 $testimonials = $defaultContent['testimonials'];
+                foreach ($testimonials as &$testimonial) {
+                    $testimonial['client_image'] = app()->url_manager->replace_site_url_back($testimonial['client_image']);
+                }
             }
         }
 

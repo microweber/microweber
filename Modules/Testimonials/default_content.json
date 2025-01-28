@@ -1,7 +1,7 @@
 {
     "testimonials": [
         {
-            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/4.jpg",
+            "client_image": "{SITE_URL}modules/testimonials/default-content/4.jpg",
             "name": "Wilma Hover",
             "client_role": "Creator",
             "client_company": "Example Inc.",
@@ -11,7 +11,7 @@
             "project_name": "Default"
         },
         {
-            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/1.jpg",
+            "client_image": "{SITE_URL}modules/testimonials/default-content/1.jpg",
             "name": "Hattie Nelson",
             "client_role": "Game Designer",
             "client_company": "Example Inc.",
@@ -21,7 +21,7 @@
             "project_name": "Default"
         },
         {
-            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/2.jpg",
+            "client_image": "{SITE_URL}modules/testimonials/default-content/2.jpg",
             "name": "John Doe",
             "client_role": "Social Media Ninja",
             "client_company": "Example Inc.",
@@ -31,7 +31,7 @@
             "project": "Default"
         },
         {
-            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/3.jpg",
+            "client_image": "{SITE_URL}modules/testimonials/default-content/3.jpg",
             "name": "Mark Brown",
             "client_role": "Social Media Ninja",
             "client_company": "Example Inc.",

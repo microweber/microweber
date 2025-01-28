@@ -54,10 +54,28 @@ class TestimonialsTableList extends LiveEditModuleTable
     public function table(Table $table): Table
     {
 
+        $query = Testimonial::query()
+            ->where('rel_id', $this->rel_id)
+            ->where('rel_type', $this->rel_type);
+
+        // Check if there are testimonials for this module and if not, add default ones
+        $testimonialsCount = $query->count();
+        if ($testimonialsCount == 0) {
+            $defaultContent = file_get_contents(module_path('testimonials') . '/default_content.json');
+            $defaultContent = json_decode($defaultContent, true);
+            if (isset($defaultContent['testimonials'])) {
+                foreach ($defaultContent['testimonials'] as $testimonial) {
+                    $newTestimonial = new Testimonial();
+                    $newTestimonial->fill($testimonial);
+                    $newTestimonial->rel_id = $this->rel_id;
+                    $newTestimonial->rel_type = $this->rel_type;
+                    $newTestimonial->save();
+                }
+            }
+        }
+
         return $table
-            ->query(Testimonial::query()
-                ->where('rel_id', $this->rel_id)
-                ->where('rel_type', $this->rel_type))
+            ->query($query)
             ->defaultSort('position', 'asc')
             ->columns([
                 TextColumn::make('name')
