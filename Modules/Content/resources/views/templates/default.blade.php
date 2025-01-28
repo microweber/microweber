@@ -87,7 +87,10 @@
 <div class="row" id="posts-{{ $params['id'] }}">
     <div class="col-lg-12 mx-auto">
         <div class="row big-news">
-            @foreach ($data as $key => $item)
+            @if(empty($data))
+                <p class="mw-pictures-clean">No content added. Please add content to the gallery.</p>
+            @else
+                @foreach ($data as $key => $item)
                 @php
                     $itemData = content_data($item['id']);
                     $itemTags = content_tags($item['id']);
@@ -176,6 +179,7 @@
                     </div>
                 </div>
             @endforeach
+           @endif
         </div>
     </div>
 </div>

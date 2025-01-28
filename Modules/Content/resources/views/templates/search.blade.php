@@ -56,7 +56,10 @@ if(!isset($tn[1])){
 <div class="module-posts-template-search">
     @if (!empty($data))
         <ul>
-            @foreach ($data as $item)
+            @if(empty($data))
+                <p class="mw-pictures-clean">No content added. Please add content to the gallery.</p>
+            @else
+                @foreach ($data as $item)
                 <li>
                     <div class="row">
                         @if(!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
@@ -90,6 +93,7 @@ if(!isset($tn[1])){
                     </div>
                 </li>
             @endforeach
+        @endif
         </ul>
     @endif
 

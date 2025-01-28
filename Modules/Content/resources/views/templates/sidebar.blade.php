@@ -34,7 +34,10 @@ if(!isset($tn[1])){
 <div class="module-posts-template-sidebar">
     @if (!empty($data))
         <ul>
-            @foreach ($data as $item)
+            @if(empty($data))
+                <p class="mw-pictures-clean">No content added. Please add content to the gallery.</p>
+            @else
+                @foreach ($data as $item)
                 <li>
                     <div class="mw-ui-row-nodrop">
                         <div class="mw-ui-col module-posts-template-sidebar-image-column">
@@ -65,6 +68,7 @@ if(!isset($tn[1])){
                     </div>
                 </li>
             @endforeach
+            @endif
         </ul>
     @endif
 </div>

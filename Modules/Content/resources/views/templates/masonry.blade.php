@@ -90,7 +90,10 @@ $rand = uniqid();
             });
         </script>
 
-        @foreach ($data as $item)
+        @if(empty($data))
+            <p class="mw-pictures-clean">No content added. Please add content to the gallery.</p>
+        @else
+            @foreach ($data as $item)
             <div class="masonry-item" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                 @if(!isset($show_fields) || $show_fields == false || in_array('thumbnail', $show_fields))
                     <a class="" itemprop="url" href="{{ $item['link'] }}">
@@ -121,6 +124,7 @@ $rand = uniqid();
                 </div>
             </div>
         @endforeach
+        @endif
     @endif
 </div>
 

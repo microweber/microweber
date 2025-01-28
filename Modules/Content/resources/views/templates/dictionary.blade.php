@@ -304,7 +304,10 @@ description: Dictionary
                         <div class="glossary__results__row" data-term="{{ $key }}">
                             <h3 class="glossary__results__term title-style--three mb-3">{{ $key }}</h3>
                             <div class="row">
-                                @foreach ($list as $item)
+                                @if(empty($data))
+                                    <p class="mw-pictures-clean">No content added. Please add content to the gallery.</p>
+                                @else
+                                    @foreach ($list as $item)
                                     @php
                                         $itemData = content_data($item['id']);
                                         $itemTags = content_tags($item['id']);
@@ -365,6 +368,7 @@ description: Dictionary
                                         </a>
                                     </div>
                                 @endforeach
+                               @endif
                             </div>
                         </div>
                     @endforeach
