@@ -43,7 +43,7 @@
     #posts-{{ $params['id'] }} .thumbnail-image-holder {
         position: relative;
         overflow: hidden;
-        height: 200px;
+        height: 300px;
     }
 
 
