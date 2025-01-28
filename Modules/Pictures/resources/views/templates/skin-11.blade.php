@@ -33,8 +33,8 @@ description: Skin-11
     });
 </script>
 
-@if(isset($data) && is_array($data))
-    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center" 
+@if(isset($data))
+    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center"
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
@@ -43,8 +43,8 @@ description: Skin-11
                 <div class="col-sm-6 col-md-4 col-lg-3 p-0">
                     <a data-index="{{ $count }}"
                        href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
-                        <img class="w-100 h-100" 
-                             src="{{ thumbnail($item['filename'] ?? '', 600, 600) }}" 
+                        <img class="w-100 h-100"
+                             src="{{ thumbnail($item['filename'] ?? '', 600, 600) }}"
                              alt=""/>
                     </a>
                 </div>

@@ -8,11 +8,11 @@ description: Skin 14
     $pictureElementId = 'module-image-' . ($params['id'] ?? '');
 @endphp
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     <div class="new-skin-shop">
         <div class="shop-inner-gallery row">
             <div class="shop-inner-big-image position-relative ps-lg-0">
-                <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}" 
+                <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
                      id="{{ $pictureElementId }}" />
             </div>
 

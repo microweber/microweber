@@ -45,8 +45,8 @@ description: Skin-16 for Logos
     }
 </style>
 
-@if(isset($data) && is_array($data))
-    <div class="row text-center text-sm-start col-xl-10 mx-auto d-flex justify-content-center justify-content-lg-center pictures-16" 
+@if(isset($data))
+    <div class="row text-center text-sm-start col-xl-10 mx-auto d-flex justify-content-center justify-content-lg-center pictures-16"
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
@@ -55,7 +55,7 @@ description: Skin-16 for Logos
                 <div class="col-sm-6 col-md-4 col-lg-3 pb-3 px-2">
                     <a data-index="{{ $count }}"
                        href="{{ $item['filename'] ?? '' }}">
-                        <div class="background-image-holder mh-200" 
+                        <div class="background-image-holder mh-200"
                              style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}'); background-size: contain;">
                         </div>
                     </a>

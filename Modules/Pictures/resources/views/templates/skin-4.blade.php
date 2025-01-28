@@ -39,7 +39,7 @@ description: Skin-4
     })()
 </script>
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php
         $rand = uniqid();
         $click_image_event = 'fullscreen';
@@ -76,7 +76,7 @@ description: Skin-4
                 <div class="px-3 text-center d-flex align-items-center justify-content-center slick-slide-item-x">
                     <div>
                         <img data-large-image="{{ thumbnail($item['filename'] ?? '', 2000, 2000, false) }}"
-                             src="{{ thumbnail($item['filename'] ?? '', 1200, 1200, false) }}" 
+                             src="{{ thumbnail($item['filename'] ?? '', 1200, 1200, false) }}"
                              class="m-auto"/>
                         @if($itemTitle)
                             <h5 class="pt-3">{{ $itemTitle }}</h5>

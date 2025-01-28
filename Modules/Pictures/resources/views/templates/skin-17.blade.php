@@ -75,8 +75,8 @@ description: Skin-17
     }
 </style>
 
-@if(isset($data) && is_array($data))
-    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center" 
+@if(isset($data))
+    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center"
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
@@ -106,8 +106,8 @@ description: Skin-17
                 <div class="col-sm-6 col-md-4 p-0 mw-pictures-17-wrapper position-relative">
                     <a data-index="{{ $count }}"
                        href="{{ $item['filename'] ?? '' }}">
-                        <img style="object-fit: cover; max-height: 500px; width: 100%; height: 100%;" 
-                             src="{{ $item['filename'] ?? '' }}" 
+                        <img style="object-fit: cover; max-height: 500px; width: 100%; height: 100%;"
+                             src="{{ $item['filename'] ?? '' }}"
                              alt=""/>
 
                         <div class="mw-pictures-17-text">

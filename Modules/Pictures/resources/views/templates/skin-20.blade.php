@@ -124,7 +124,7 @@ description: Pictures Skin 20 - Masonry
     }
 </style>
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     <div class="grid" id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
@@ -151,7 +151,7 @@ description: Pictures Skin 20 - Masonry
                     }
                 @endphp
 
-                <a class="mw-pictures-18-wrapper grid-item" 
+                <a class="mw-pictures-18-wrapper grid-item"
                    data-index="{{ $count }}"
                    href="{{ $item['filename'] ?? '' }}">
                     <img src="{{ $item['filename'] ?? '' }}" alt=""/>

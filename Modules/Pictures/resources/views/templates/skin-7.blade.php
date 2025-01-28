@@ -51,8 +51,8 @@ description: Pictures Skin 7 - Justify
     });
 </script>
 
-@if(isset($data) && is_array($data))
-    <div class="module-posts-template-justified module-posts-template-justifiedfull" 
+@if(isset($data))
+    <div class="module-posts-template-justified module-posts-template-justifiedfull"
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp

@@ -39,7 +39,7 @@ description: Skin for sliding Logos
     }
 </style>
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php $size = sizeof($data); @endphp
 
     <div class="lg-carousel" id="{{ $gallery_id }}" role="region">
@@ -67,11 +67,11 @@ description: Skin for sliding Logos
                         }
                     @endphp
 
-                    <a class="lg-carousel-item" 
-                       role="listitem" 
+                    <a class="lg-carousel-item"
+                       role="listitem"
                        href="{{ $itemLink ?? '#' }}">
                         <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
-                             alt="{{ $item['title'] ?? '' }}" 
+                             alt="{{ $item['title'] ?? '' }}"
                              title="{{ $item['title'] ?? '' }}">
                     </a>
                 @endforeach
@@ -98,11 +98,11 @@ description: Skin for sliding Logos
                         }
                     @endphp
 
-                    <a class="lg-carousel-item" 
-                       role="listitem" 
+                    <a class="lg-carousel-item"
+                       role="listitem"
                        href="{{ $itemLink ?? '#' }}">
                         <img src="{{ thumbnail($item['filename'] ?? '', 800, 800) }}"
-                             alt="{{ $item['title'] ?? '' }}" 
+                             alt="{{ $item['title'] ?? '' }}"
                              title="{{ $item['title'] ?? '' }}">
                     </a>
                 @endforeach

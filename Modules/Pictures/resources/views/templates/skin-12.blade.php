@@ -20,7 +20,7 @@ description: Skin-12
     }
 </style>
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php
         $rand = uniqid();
     @endphp
@@ -31,10 +31,10 @@ description: Skin-12
                 @php $count++; @endphp
                 @if($count == 0 || $count == 5)
                     <div class="col-holder col-8">
-                        <div class="item pictures picture-{{ $item['id'] ?? '' }}" 
+                        <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                              onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                            <img class="w-100" 
-                                 src="{{ thumbnail($item['filename'] ?? '', 800, 800, true) }}" 
+                            <img class="w-100"
+                                 src="{{ thumbnail($item['filename'] ?? '', 800, 800, true) }}"
                                  alt="">
                         </div>
                     </div>
@@ -43,10 +43,10 @@ description: Skin-12
                         <div class="col-holder col-4">
                     @endif
 
-                    <div class="item pictures picture-{{ $item['id'] ?? '' }}" 
+                    <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                          onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                        <img class="w-100" 
-                             src="{{ thumbnail($item['filename'] ?? '', 500, 500, true) }}" 
+                        <img class="w-100"
+                             src="{{ thumbnail($item['filename'] ?? '', 500, 500, true) }}"
                              alt="">
                     </div>
 
@@ -66,7 +66,7 @@ description: Skin-12
         gallery{{ $rand }} = [
             @foreach($data as $item)
                 {
-                    image: "{{ thumbnail($item['filename'] ?? '', 1200) }}", 
+                    image: "{{ thumbnail($item['filename'] ?? '', 1200) }}",
                     description: "{{ $item['title'] ?? '' }}"
                 },
             @endforeach

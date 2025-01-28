@@ -4,17 +4,17 @@ name: Slider
 description: Pictures slider
 --}}
 
-@if(isset($data) && is_array($data) && $data)
+@if(isset($data))
     @php
         $id = "slider-" . uniqid();
     @endphp
-    
+
     <div class="well mw-module-images slider">
         <div class="mw-rotator mw-rotator-template-slider" id="{{ $id }}">
             <div class="mw-gallery-holder">
                 @foreach($data as $item)
                     <div class="mw-gallery-item mw-gallery-item-{{ $item['id'] ?? '' }}">
-                        <img src="{{ thumbnail($item['filename'] ?? '', 1200) }}" 
+                        <img src="{{ thumbnail($item['filename'] ?? '', 1200) }}"
                              alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}"/>
                         @if(isset($item['title']) && $item['title'] != '')
                             <i class="mw-rotator-description mw-rotator-description-content">{{ $item['title'] }}</i>
@@ -30,7 +30,7 @@ description: Pictures slider
         mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");
         mw.require("{{ asset('modules/pictures/js/api.js') }}", true);
     </script>
-    
+
     <script>
         Rotator = null;
         $(document).ready(function () {

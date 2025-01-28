@@ -20,7 +20,7 @@ description: Skin-3 beauty
     }
 </style>
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php
         $rand = uniqid();
     @endphp
@@ -29,7 +29,7 @@ description: Skin-3 beauty
             <div class="col-holder col-md-6">
                 @foreach($data as $count => $item)
                     @if($count == 0)
-                        <div class="item pictures picture-{{ $item['id'] ?? '' }}" 
+                        <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                              onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
                             <img src="{{ thumbnail($item['filename'] ?? '', 1400, 1400, true) }}" alt="">
                         </div>
@@ -39,7 +39,7 @@ description: Skin-3 beauty
             <div class="col-holder col-md-6">
                 @foreach($data as $count => $item)
                     @if($count == 1 || $count == 2)
-                        <div class="item pictures picture-{{ $item['id'] ?? '' }}" 
+                        <div class="item pictures picture-{{ $item['id'] ?? '' }}"
                              onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
                             <img src="{{ thumbnail($item['filename'] ?? '', 1400, 695, true) }}" alt="">
                         </div>
@@ -53,7 +53,7 @@ description: Skin-3 beauty
         gallery{{ $rand }} = [
             @foreach($data as $item)
                 {
-                    image: "{{ thumbnail($item['filename'] ?? '', 1200) }}", 
+                    image: "{{ thumbnail($item['filename'] ?? '', 1200) }}",
                     description: "{{ $item['title'] ?? '' }}"
                 },
             @endforeach

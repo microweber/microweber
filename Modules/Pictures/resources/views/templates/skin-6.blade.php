@@ -8,7 +8,7 @@ description: Skin 6
     $pictureElementId = 'module-image-' . ($params['id'] ?? '');
 @endphp
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     <div class="shop-inner-gallery">
         @if(sizeof($data) > 1)
             <div class="shop-inner-gallery-thumbnails">
@@ -51,7 +51,7 @@ description: Skin 6
                 @endif
             @endif
 
-            <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}" 
+            <img src="{{ isset($data[0]['filename']) ? thumbnail($data[0]['filename'], 1080, 1080) : '' }}"
                  id="{{ $pictureElementId }}" />
         </div>
     </div>

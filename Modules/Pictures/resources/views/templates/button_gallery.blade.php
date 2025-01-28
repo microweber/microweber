@@ -4,7 +4,7 @@ name: Button gallery
 description: Button gallery
 --}}
 
-@if(isset($data) && is_array($data) && $data)
+@if(isset($data))
     @php
         $rand = uniqid();
     @endphp

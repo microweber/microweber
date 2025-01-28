@@ -33,8 +33,8 @@ description: Skin-8
     });
 </script>
 
-@if(isset($data) && is_array($data))
-    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center" 
+@if(isset($data))
+    <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center"
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp

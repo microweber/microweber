@@ -4,7 +4,7 @@ name: Skin-2
 description: Skin-2
 --}}
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php
         $rand = uniqid();
         $click_image_event = 'fullscreen';
@@ -54,7 +54,7 @@ description: Skin-2
 
                             @if($itemLink)
                                 <a @if($click_image_event == 'link_target_blank') target="_blank" @endif
-                                   href="{{ $itemLink }}" 
+                                   href="{{ $itemLink }}"
                                    class="btn btn-link">{{ $itemAltText }}</a>
                             @endif
                         </div>

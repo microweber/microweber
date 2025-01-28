@@ -4,7 +4,7 @@ name: Skin-3-guest
 description: Skin-3-guest
 --}}
 
- 
+
 
 <style>
 
@@ -131,7 +131,7 @@ description: Skin-3-guest
     });
 </script>
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php
         $rand = uniqid();
         $nodeId = 'gallery' . $rand;

@@ -13,7 +13,7 @@ description: Skin-13
         }
         $('.slick-arrows').css({'width': currentSliderWidth + 'px'})
     }
-    
+
     $(document).ready(function () {
         if ($('#{{ $params['id'] ?? '' }} .slick-gallery-2').length > 0) {
             $('#{{ $params['id'] ?? '' }} .slick-gallery-2').each(function () {
@@ -65,7 +65,7 @@ description: Skin-13
     });
 </script>
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php
         $rand = uniqid();
     @endphp

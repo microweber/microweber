@@ -4,7 +4,7 @@ name: Slick
 description: Slick Pictures List Template
 --}}
 
-@if(isset($data) && is_array($data) && $data)
+@if(isset($data))
     <script>
         mw.lib.require('slick');
     </script>

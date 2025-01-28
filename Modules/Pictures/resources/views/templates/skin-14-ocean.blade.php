@@ -21,7 +21,7 @@ description: Skin 14 - ocean
     $pictureElementId = 'module-image-' . ($params['id'] ?? '');
 @endphp
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     <div class="new-skin-shop">
         <div class="shop-inner-gallery ocean-14 row">
             <div class="shop-inner-big-image position-relative ps-lg-0">

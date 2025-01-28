@@ -35,7 +35,7 @@ description: Default skin for shop inner of the templates 2
     }
 @endphp
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     <div class="shop-inner-gallery">
         @if(sizeof($data) > 1)
             <div class="shop-inner-gallery-thumbnails">

@@ -4,7 +4,7 @@ name: Skin-1
 description: Skin-1
 --}}
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php
         $rand = uniqid();
         $click_image_event = 'fullscreen';
@@ -36,11 +36,11 @@ description: Skin-1
                     }
                 }
             @endphp
-            
+
             <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
                 <div class="d-block position-relative show-on-hover-root">
                     <div class="img-as-background mh-400 mb-3">
-                        <img alt="{{ $itemAltText }}" 
+                        <img alt="{{ $itemAltText }}"
                              src="{{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }}"/>
                     </div>
 
@@ -54,7 +54,7 @@ description: Skin-1
                             @endif
                             @if($itemLink)
                                 <a @if($click_image_event == 'link_target_blank') target="_blank" @endif
-                                   href="{{ $itemLink }}" 
+                                   href="{{ $itemLink }}"
                                    class="btn btn-link">{{ $itemAltText }}</a>
                             @endif
                         </div>

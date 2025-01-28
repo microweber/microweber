@@ -52,7 +52,7 @@ description: Skin-5
     });
 </script>
 
-@if(isset($data) && is_array($data))
+@if(isset($data))
     @php
         $rand = uniqid();
         $click_image_event = 'fullscreen';

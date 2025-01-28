@@ -4,14 +4,14 @@ name: Masonry
 description: Masonry
 --}}
 
-@if(isset($data) && is_array($data) && $data)
+@if(isset($data))
     @php
         $rand = uniqid();
     @endphp
-    
+
     <script>mw.lib.require("masonry");</script>
     <script>mw.moduleCSS("{{ asset('modules/pictures/css/style.css') }}");</script>
-    
+
     <script>
         mw._masons = mw._masons || [];
         $(document).ready(function () {
