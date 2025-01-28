@@ -1,14 +1,14 @@
 <div>
 
+
     @include('admin::layouts.partials.loads-user-custom-fonts')
 
 
 
     <div wire:ignore>
         <style>
-            body {
-                padding-left: 15px;
-                padding-top: 10px;
+            .fi-main-ctn {
+                background: transparent !important;
             }
         </style>
 
@@ -156,6 +156,7 @@
         @if(isset($styleSettings))
 
             <div
+                class="px-8"
                 x-data="{styleEditorData:{}, showStyleSettings: '/'}"
 
                 x-init="()=>{
@@ -207,7 +208,7 @@
                             >
                                 @if (isset($styleSetting['title']))
                                     <a x-on:click="showStyleSettings = '{{ $styleSetting['url'] }}'"
-                                       class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
+                                       class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer">
                                         {{ $styleSetting['title'] }}
                                     </a>
                                 @endif
