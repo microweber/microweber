@@ -9,6 +9,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Jenssegers\Agent\Agent;
@@ -243,7 +244,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (is_https() or (Config::get('microweber.force_https') && !is_cli())) {
-            //     URL::forceScheme("https");
+             URL::forceScheme("https");
         }
 
         //  URL::forceRootUrl( site_url());
