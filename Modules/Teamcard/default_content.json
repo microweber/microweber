@@ -1,7 +1,7 @@
 {
-    "settings": [
+    "teamcard": [
         {
-            "file": "{SITE_URL}userfiles/modules/teamcard/default-content/1.jpg",
+            "file": "{SITE_URL}modules/teamcard/default-content/1.jpg",
             "name": "Beverly A Richardson",
             "role": "Creator",
             "website": "https://www.example.com",
@@ -9,7 +9,7 @@
             "id": 1
         },
         {
-            "file": "{SITE_URL}userfiles/modules/teamcard/default-content/2.jpg",
+            "file": "{SITE_URL}modules/teamcard/default-content/2.jpg",
             "name": "Margaret J Otero",
             "role": "Game Designer",
             "website": "https://www.example.com",
@@ -17,7 +17,7 @@
             "id":2
         },
         {
-            "file": "{SITE_URL}userfiles/modules/teamcard/default-content/3.jpg",
+            "file": "{SITE_URL}modules/teamcard/default-content/3.jpg",
             "name": "Maryln E Walker",
             "role": "Social Media Ninja",
             "website": "https://www.example.com",
@@ -25,7 +25,7 @@
             "id": 3
         },
         {
-            "file": "{SITE_URL}userfiles/modules/teamcard/default-content/4.jpg",
+            "file": "{SITE_URL}modules/teamcard/default-content/4.jpg",
             "name": "Maryln E Walker",
             "role": "Social Media Ninja",
             "website": "https://www.example.com",

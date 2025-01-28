@@ -21,7 +21,14 @@ class TeamcardModule extends BaseModule
         $viewData = $this->getViewData();
         $rel_type = $this->params['rel_type'] ?? 'module';
         $rel_id = $this->params['rel_id'] ?? $this->params['id'];
-        $viewData['teamcard'] = Teamcard::where('rel_type', $rel_type)->where('rel_id', $rel_id)->get();
+        $teamcard = Teamcard::where('rel_type', $rel_type)->where('rel_id', $rel_id)->get();
+
+        if ($teamcard->isEmpty()) {
+            return collect($this->getDefaultTeamcard());
+        }
+
+        $viewData['teamcard'] = $teamcard;
+
 
         $template = $viewData['template'] ?? 'default';
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
@@ -29,6 +36,24 @@ class TeamcardModule extends BaseModule
         }
 
         return view(static::$templatesNamespace . '.' . $template, $viewData);
+    }
+
+    /**
+     * Get default testimonials from JSON file
+     */
+    protected function getDefaultTeamcard(): array
+    {
+        $defaultContent = file_get_contents(module_path(self::$module) . '/default_content.json');
+        $defaultContent = json_decode($defaultContent, true);
+
+        if (!isset($defaultContent['teamcard'])) {
+            return [];
+        }
+
+        return array_map(function($teamcard) {
+            $teamcard['file'] = app()->url_manager->replace_site_url_back($teamcard['file']);
+            return $teamcard;
+        }, $defaultContent['teamcard']);
     }
 
 }
