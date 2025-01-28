@@ -1028,7 +1028,8 @@ var MWEditor = function (options) {
         this.smallEditor.removeClass('mw-small-editor-skin-' + (this.settings.smallEditorSkin));
         this.settings.smallEditorSkin = skin;
         this.smallEditor.addClass('mw-small-editor-skin-' + (this.settings.smallEditorSkin));
-        this.dispatch('smallEditorSkinChangedm', this.settings.smallEditorSkin)
+
+        this.dispatch('smallEditorSkinChanged', this.settings.smallEditorSkin)
     }
 
     this.createSmallEditor = function () {

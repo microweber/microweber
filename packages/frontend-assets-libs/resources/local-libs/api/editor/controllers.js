@@ -969,10 +969,13 @@ MWEditor.controllers = {
                     api.fontSize(val.value);
                 }
             });
-            console.log(dropdown)
-            scope.on('smallEditorSkinChanged', (skin, min) => {
-                console.log(dropdown)
-                console.log (skin, min)
+
+            scope.on('smallEditorSkinChanged', skin => {
+                const field = dropdown.root.find('iframe').get(0).contentWindow.document.querySelector('input');
+                if(field) {
+                    field.style.color = skin === 'dark' ? 'white' : 'black'
+                }
+
             })
 
             return dropdown.root;
