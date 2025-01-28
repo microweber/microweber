@@ -170,7 +170,7 @@ $limit = 40;
             <div class="testimonials-wrapper mx-auto">
                 <div class="mw-testimonials mw-testimonials-faces slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
                     @if($testimonials->isEmpty())
-                        <p class="mw-pictures-clean">No testimonials available.</p>
+                        <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>
                     @else
                         @foreach ($testimonials as $item)
                             <div class="mw-testimonials-item-faces">

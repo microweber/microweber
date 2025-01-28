@@ -67,8 +67,6 @@ description: Skin-1
             </div>
         </div>
     @else
-        <div>
-            Add your teamcard.
-        </div>
+        <p class="mw-pictures-clean">No team members added in the module. Please add your teammates</p>
     @endif
 </div>

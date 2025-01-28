@@ -63,9 +63,7 @@ description slider
             </div>
         @endforeach
         @else
-            <div>
-                Add your teamcard.
-            </div>
+            <p class="mw-pictures-clean">No team members added in the module. Please add your teammates</p>
         @endif
     </div>
     <div id="js-teamcard-slider-pagination-{{ $params['id'] }}" class="swiper-pagination"></div>

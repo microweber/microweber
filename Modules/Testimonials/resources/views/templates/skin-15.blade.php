@@ -44,7 +44,7 @@ $limit = 40;
 <div id="js-testimonials-slider-{{ $params['id'] }}" class="slider_v2-default swiper">
     <div class="swiper-wrapper pb-4">
         @if($testimonials->isEmpty())
-            <p class="mw-pictures-clean">No testimonials available.</p>
+            <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>
         @else
             @foreach ($testimonials as $item)
                 <div class="swiper-slide">
