@@ -16,7 +16,7 @@ description: Default
 
     <div id="tabs-{{ $params['id'] }}">
         @if($tabs->isEmpty())
-            <p class="mw-pictures-clean">No tab items available.</p>
+            <p class="mw-pictures-clean">No tabs added to the module. Please add your tabs to see the content.</p>
         @else
             @foreach($tabs as $item)
                 <div class="card mb-2">

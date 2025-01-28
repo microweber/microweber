@@ -12,8 +12,6 @@
             <p class="mw-pictures-clean">No FAQs available.</p>
         @endif
     </div>
-
-    @print_r($faqs)
 </div>
 
 <style>

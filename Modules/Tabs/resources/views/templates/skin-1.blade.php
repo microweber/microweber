@@ -458,7 +458,7 @@
         <div class="tabs-menu w-tab-menu mw-ui-btn-nav-tabs">
             @php $count = 0; @endphp
             @if($tabs->isEmpty())
-                <p class="mw-pictures-clean">No tab items available.</p>
+                <p class="mw-pictures-clean">No tabs added to the module. Please add your tabs to see the content.</p>
             @else
                 @foreach ($tabs as $slide)
                     @php $count++; @endphp
@@ -474,7 +474,7 @@
                 <div class="tab-box">
                     @php $count = 0; @endphp
                     @if($tabs->isEmpty())
-                        <p class="mw-pictures-clean">No tab items available.</p>
+                        <p class="mw-pictures-clean">No tabs added to the module. Please add your tabs to see the content.</p>
                     @else
                          @foreach ($tabs as $key => $slide)
                         @php
