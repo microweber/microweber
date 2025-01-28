@@ -446,8 +446,8 @@ class ModulesApiLiveEdit extends Controller
                         }
                         if (!isset($dynamic_layout['screenshot'])) {
                             if (isset($dynamic_layout['screenshot_file']) and ($dynamic_layout['screenshot_file']) and is_file($dynamic_layout['screenshot_file'])) {
-                                $dynamic_layout['screenshot'] = thumbnail($dynamic_layout['screenshot_file'], 1024);
-
+//                                $dynamic_layout['screenshot'] = thumbnail($dynamic_layout['screenshot_file'], 1024);
+                                $dynamic_layout['screenshot'] = $dynamic_layout['screenshot_public_url'];
                             }
                         }
                         $moduleListJson['layouts'][] = [
