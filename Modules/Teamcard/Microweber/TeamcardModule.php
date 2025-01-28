@@ -2,12 +2,22 @@
 
 namespace Modules\Teamcard\Microweber;
 
+use Illuminate\Support\Collection;
+use Illuminate\View\View;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Teamcard\Filament\TeamcardModuleSettings;
 use Modules\Teamcard\Models\Teamcard;
 
+/**
+ * Team Card Module
+ *
+ * Displays team member cards with their information and images
+ */
 class TeamcardModule extends BaseModule
 {
+    /**
+     * Module configuration
+     */
     public static string $name = 'Team Card';
     public static string $module = 'teamcard';
     public static string $icon = 'modules.teamcard-icon';
@@ -16,30 +26,40 @@ class TeamcardModule extends BaseModule
     public static string $settingsComponent = TeamcardModuleSettings::class;
     public static string $templatesNamespace = 'modules.teamcard::templates';
 
-    public function render()
+    /**
+     * Render the team card module
+     */
+    public function render(): View
     {
         $viewData = $this->getViewData();
-        $rel_type = $this->params['rel_type'] ?? 'module';
-        $rel_id = $this->params['rel_id'] ?? $this->params['id'];
-        $teamcard = Teamcard::where('rel_type', $rel_type)->where('rel_id', $rel_id)->get();
+        $viewData['teamcard'] = $this->getTeamCards();
 
-        if ($teamcard->isEmpty()) {
-            return collect($this->getDefaultTeamcard());
-        }
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
-        $viewData['teamcard'] = $teamcard;
-
-
-        $template = $viewData['template'] ?? 'default';
-        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
-            $template = 'default';
-        }
-
-        return view(static::$templatesNamespace . '.' . $template, $viewData);
+        return view($viewName, $viewData);
     }
 
     /**
-     * Get default testimonials from JSON file
+     * Get team cards for the current context
+     */
+    protected function getTeamCards(): Collection
+    {
+        $relId = $this->getRelId();
+        $relType = $this->getRelType();
+
+        $teamCards = Teamcard::where('rel_type', $relType)
+            ->where('rel_id', $relId)
+            ->get();
+
+        if ($teamCards->isEmpty()) {
+            return collect($this->getDefaultTeamcard());
+        }
+
+        return $teamCards;
+    }
+
+    /**
+     * Get default team cards from JSON file
      */
     protected function getDefaultTeamcard(): array
     {
@@ -56,4 +76,24 @@ class TeamcardModule extends BaseModule
         }, $defaultContent['teamcard']);
     }
 
+    /**
+     * Get relation ID from options or parameters
+     */
+    protected function getRelId(): ?string
+    {
+        return $this->getOption('rel_id')
+            ?? $this->params['rel_id']
+            ?? $this->params['id']
+            ?? null;
+    }
+
+    /**
+     * Get relation type from options or parameters
+     */
+    protected function getRelType(): string
+    {
+        return $this->getOption('rel_type')
+            ?? $this->params['rel_type']
+            ?? 'module';
+    }
 }
