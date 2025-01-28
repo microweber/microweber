@@ -1,0 +1,44 @@
+{
+    "testimonials": [
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/4.jpg",
+            "name": "Wilma Hover",
+            "client_role": "Creator",
+            "client_company": "Example Inc.",
+            "client_website": "",
+            "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+
+            "project_name": "Default"
+        },
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/1.jpg",
+            "name": "Hattie Nelson",
+            "client_role": "Game Designer",
+            "client_company": "Example Inc.",
+            "client_website": "",
+            "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+
+            "project_name": "Default"
+        },
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/2.jpg",
+            "name": "John Doe",
+            "client_role": "Social Media Ninja",
+            "client_company": "Example Inc.",
+            "client_website": "",
+            "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+
+            "project": "Default"
+        },
+        {
+            "client_picture": "{SITE_URL}userfiles/modules/teamcard/default-content/3.jpg",
+            "name": "Mark Brown",
+            "client_role": "Social Media Ninja",
+            "client_company": "Example Inc.",
+            "client_website": "",
+            "content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+
+            "project_name": "Default"
+        }
+    ]
+}

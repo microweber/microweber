@@ -23,10 +23,29 @@ class TestimonialsModule extends BaseModule
         $relId = $this->getOption('rel_id') ??  $this->params['rel_id'] ?? $this->params['id'] ?? null;
         $relType = $this->getOption('rel_type') ?? $this->params['rel_type'] ?? 'module';
 
-        $viewData['testimonials'] = Testimonial::where('rel_type', $relType)
+
+
+        $testimonials = Testimonial::where('rel_type', $relType)
                                             ->where('rel_id', $relId)
                                             ->orderBy('position', 'asc')
                                             ->get();
+
+        if ($testimonials->count() == 0) {
+            $defaultContent = file_get_contents(module_path(self::$module) . '/default_content.json');
+            $defaultContent = json_decode($defaultContent, true);
+            if (isset($defaultContent['testimonials'])) {
+//                foreach ($defaultContent['testimonials'] as $testimonial) {
+//                    $newTestimonial = new Testimonial();
+//                    $newTestimonial->fill($testimonial);
+//                    $newTestimonial->rel_id = $relId;
+//                    $newTestimonial->rel_type = $relType;
+//                    $newTestimonial->save();
+//                }
+                $testimonials = $defaultContent['testimonials'];
+            }
+        }
+
+        $viewData['testimonials'] = collect($testimonials);
 
         $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
