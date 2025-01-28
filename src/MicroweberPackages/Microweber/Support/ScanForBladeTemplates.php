@@ -30,7 +30,7 @@ class ScanForBladeTemplates
                         $folder = $hint . '/' . $templatesNamespaceSubfolder;
                     }
 
-                    $scanTemplatesResult = $this->scanFolder($folder);
+                    $scanTemplatesResult = $this->scanFolder($folder, $templatesNamespace);
 
                     if ($scanTemplatesResult) {
                         $templatesForModule = array_merge($templatesForModule, $scanTemplatesResult);
@@ -42,7 +42,7 @@ class ScanForBladeTemplates
         return $templatesForModule;
     }
 
-    public function scanFolder($folder)
+    public function scanFolder($folder, $templatesNamespace)
     {
 
         //legacy code from the old function, must be refactored
@@ -266,6 +266,19 @@ class ScanForBladeTemplates
                 $screen_jpg2 = str_ireplace('.php', '.jpg', $filename);
                 $skin_settings_json = str_ireplace('.blade.php', '.json', $filename);
                 $skin_settings_json = str_ireplace('.php', '.json', $skin_settings_json);
+
+                $screenshotType = 'modules';
+                if (isset($to_return_temp['type']) && $to_return_temp['type'] == 'layout') {
+                    $screenshotType = 'layouts';
+                }
+
+                $screenshotPublic = asset(str_replace('.', '/', $templatesNamespace))
+                                        . '/screenshots/modules/' .$screenshotType.'/templates/'. $to_return_temp['layout_file'].'.jpg';
+
+                $screen2 = url2dir($screenshotPublic);
+
+                $to_return_temp['screenshot_public_url'] = $screenshotPublic;
+
 
                 if (is_file($skin_settings_json)) {
 
