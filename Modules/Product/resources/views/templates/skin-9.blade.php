@@ -38,7 +38,9 @@ description: skin-9
 
 </style>
 
-@if (!empty($data))
+   @if(empty($data))
+       <p class="mw-pictures-clean">No products added. Please add products to the gallery.</p>
+   @else
     <div class="row shop-products pt-7">
         @foreach ($data as $key => $item)
             @php

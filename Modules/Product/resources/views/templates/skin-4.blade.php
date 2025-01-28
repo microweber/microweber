@@ -23,7 +23,9 @@
 </style>
 
 <div class="slick-arrows-1">
-    @if (!empty($data))
+       @if(empty($data))
+       <p class="mw-pictures-clean">No products added. Please add products to the gallery.</p>
+   @else
         <div class="slickslider slick-dots-relative shop-products">
             @foreach ($data as $item)
                 @php
