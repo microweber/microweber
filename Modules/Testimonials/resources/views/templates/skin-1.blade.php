@@ -1,12 +1,12 @@
 @php
 /*
- 
+
 type: layout
- 
+
 name: Skin-1
- 
+
 description: Skin-1
- 
+
 */
 @endphp
 
@@ -54,7 +54,7 @@ $limit = 40;
     <div class="testimonials-wrapper mx-auto">
         <div class="mw-testimonials mw-testimonials-faces">
             @if($testimonials->isEmpty())
-                <p>No testimonials available.</p>
+                <p class="mw-pictures-clean">No testimonials available.</p>
             @else
                 @foreach ($testimonials as $item)
                     <div class="mw-testimonials-item-faces">

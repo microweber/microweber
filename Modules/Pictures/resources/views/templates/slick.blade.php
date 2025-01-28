@@ -66,7 +66,7 @@ description: Slick Pictures List Template
             <div class="slickSlider">
                 @php $count = -1; @endphp
                 @if(empty($data))
-                    <p>No pictures added. Please add pictures to the gallery.</p>
+                    <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
                 @else
                     @foreach($data as $item)
                     @php $count++; @endphp

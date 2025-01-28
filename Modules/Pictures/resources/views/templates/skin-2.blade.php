@@ -16,7 +16,7 @@ description: Skin-2
 
     <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center">
         @if(empty($data))
-            <p>No pictures added. Please add pictures to the gallery.</p>
+            <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
         @else
             @foreach($data as $item)
             @php

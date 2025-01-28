@@ -1,12 +1,12 @@
 @php
 /*
- 
+
 type: layout
- 
+
 name: Skin-6
- 
+
 description: Skin-6
- 
+
 */
 @endphp
 
@@ -61,7 +61,7 @@ $limit = 40;
 <div class="slick-arrows-1">
     <div class="slickslider" data-slick='{"slidesToShow": 3, "slidesToScroll": 1, "dots": true, "arrows": false}'>
         @if($testimonials->isEmpty())
-            <p>No testimonials available.</p>
+            <p class="mw-pictures-clean">No testimonials available.</p>
         @else
             @foreach ($testimonials as $item)
                 <div class="row text-center mb-5">

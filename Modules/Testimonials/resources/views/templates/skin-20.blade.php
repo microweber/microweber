@@ -1,12 +1,12 @@
 @php
 /*
- 
+
 type: layout
- 
+
 name: Skin-20
- 
+
 description: Skin-20
- 
+
 */
 @endphp
 
@@ -39,7 +39,7 @@ $limit = 40;
     }
 
     #{{ $params['id'] }} .slick-slide {
-        height: inherit !important; 
+        height: inherit !important;
         margin: 0 15px;
     }
 
@@ -71,7 +71,7 @@ $limit = 40;
 <div class="slick-arrows-1">
     <div class="slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
         @if($testimonials->isEmpty())
-            <p>No testimonials available.</p>
+            <p class="mw-pictures-clean">No testimonials available.</p>
         @else
             @foreach ($testimonials as $item)
                 <div class="row">

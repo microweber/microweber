@@ -34,7 +34,7 @@
     <div class="mw-ui-btn-nav mw-ui-btn-nav-tabs justify-content-center float-none">
         @php $count = 0; @endphp
         @if($tabs->isEmpty())
-            <p>No tab items available.</p>
+            <p class="mw-pictures-clean">No tab items available.</p>
         @else
             @foreach ($tabs as $slide)
                 @php $count++; @endphp
@@ -47,7 +47,7 @@
     <div class="py-5">
         @php $count = 0; @endphp
         @if($tabs->isEmpty())
-            <p>No tab items available.</p>
+            <p class="mw-pictures-clean">No tab items available.</p>
         @else
             @foreach ($tabs as $key => $slide)
                 @php

@@ -46,7 +46,7 @@ description: Skin for sliding Logos
         <div class="lg-carousel-container" id="{{ $gallery_id }}container" role="list">
             @if($size > 1)
                 @if(empty($data))
-                    <p>No pictures added. Please add pictures to the gallery.</p>
+                    <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
                 @else
                      @foreach($data as $item)
                     @php

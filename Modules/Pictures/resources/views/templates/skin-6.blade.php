@@ -14,7 +14,7 @@ description: Skin 6
             <div class="shop-inner-gallery-thumbnails">
                 @php $count = -1; @endphp
                 @if(empty($data))
-                    <p>No pictures added. Please add pictures to the gallery.</p>
+                    <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
                         @foreach($data as $item)
                     @php $count++; @endphp
                     <a class="mx-0"

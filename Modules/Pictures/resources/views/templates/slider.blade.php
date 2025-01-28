@@ -13,7 +13,7 @@ description: Pictures slider
         <div class="mw-rotator mw-rotator-template-slider" id="{{ $id }}">
             <div class="mw-gallery-holder">
                 @if(empty($data))
-                    <p>No pictures added. Please add pictures to the gallery.</p>
+                    <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
                 @else
                     @foreach($data as $item)
                         <div class="mw-gallery-item mw-gallery-item-{{ $item['id'] ?? '' }}">

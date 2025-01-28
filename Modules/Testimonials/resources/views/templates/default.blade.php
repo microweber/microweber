@@ -34,7 +34,7 @@
 
     <div class="mw-testimonials-module-default-skin" id="testimonials-{{ $params['id'] }}">
         @if($testimonials->isEmpty())
-            <p>No testimonials available.</p>
+            <p class="mw-pictures-clean">No testimonials available.</p>
         @else
             @foreach($testimonials as $item)
 

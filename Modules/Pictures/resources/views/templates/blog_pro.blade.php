@@ -33,7 +33,7 @@ description: Blog pro
 
     <div class="">
         @if(empty($data))
-            <p>No pictures added. Please add pictures to the gallery.</p>
+            <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
         @else
             @foreach($data as $item)
             @php

@@ -166,7 +166,7 @@ $size = sizeof($testimonials);
 <div class="mw-testimonials-23-quote-pill-rows lg-carousel" id="{{ $testimonials_id }}" role="region">
     <div class="mw-testimonials-23-quote-pill-row lg-carousel-container" id="{{ $testimonials_id }}container" role="list">
         @if($testimonials->isEmpty())
-            <p>No testimonials available.</p>
+            <p class="mw-pictures-clean">No testimonials available.</p>
         @else
             @if ($size > 1)
                 @foreach ($testimonials as $item)

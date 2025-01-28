@@ -21,7 +21,7 @@ description: Shop inner
 
         <div id="elevatezoom-gallery" class="js-popup-gallery justify-content-center text-center">
             @if(empty($data))
-                <p>No pictures added. Please add pictures to the gallery.</p>
+                <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
             @else
                 @foreach($data as $item)
                     <a href="{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}"

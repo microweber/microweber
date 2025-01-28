@@ -78,6 +78,6 @@
     @endif
 
     @if(!$facebook_enabled && !$x_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled && !$telegram_enabled && !$youtube_enabled && !$instagram_enabled && !$github_enabled && !$soundcloud_enabled && !$discord_enabled && !$skype_enabled)
-        <p>No sharing options enabled. Please enable at least one sharing option in the settings.</p>
+        <p class="mw-pictures-clean">No sharing options enabled. Please enable at least one sharing option in the settings.</p>
     @endif
 </div>

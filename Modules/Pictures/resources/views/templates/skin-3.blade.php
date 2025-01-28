@@ -85,7 +85,7 @@ description: Skin-3
     <div class="slick-arrows-1">
         <div class="slick-gallery">
             @if(empty($data))
-                <p>No pictures added. Please add pictures to the gallery.</p>
+                <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
             @else
                 @foreach($data as $item)
                 @php

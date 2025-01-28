@@ -1,12 +1,12 @@
 @php
 /*
- 
+
 type: layout
- 
+
 name: Skin-18
- 
+
 description: Skin-18
- 
+
 */
 @endphp
 
@@ -170,7 +170,7 @@ $limit = 40;
             <div class="testimonials-wrapper mx-auto">
                 <div class="mw-testimonials mw-testimonials-faces slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
                     @if($testimonials->isEmpty())
-                        <p>No testimonials available.</p>
+                        <p class="mw-pictures-clean">No testimonials available.</p>
                     @else
                         @foreach ($testimonials as $item)
                             <div class="mw-testimonials-item-faces">

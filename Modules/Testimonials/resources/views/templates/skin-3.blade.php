@@ -1,12 +1,12 @@
 @php
 /*
- 
+
 type: layout
- 
+
 name: Skin-3
- 
+
 description: Skin-3
- 
+
 */
 @endphp
 
@@ -44,7 +44,7 @@ $limit = 40;
 <div id="js-testimonials-slider-{{ $params['id'] }}" class="slider_v2-default swiper">
     <div class="swiper-wrapper pb-4">
         @if($testimonials->isEmpty())
-            <p>No testimonials available.</p>
+            <p class="mw-pictures-clean">No testimonials available.</p>
         @else
             @foreach ($testimonials as $item)
                 <div class="swiper-slide">

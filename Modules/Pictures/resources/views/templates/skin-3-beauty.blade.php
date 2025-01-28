@@ -28,7 +28,7 @@ description: Skin-3 beauty
         <div class="row">
             <div class="col-holder col-md-6">
                 @if(empty($data))
-                    <p>No pictures added. Please add pictures to the gallery.</p>
+                    <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
                 @else
                     @foreach($data as $count => $item)
                         @if($count == 0)

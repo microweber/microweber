@@ -86,7 +86,7 @@
     <div class="mw-ui-btn-nav merry-navs-btn-pricing mw-ui-btn-nav-tabs d-flex justify-content-center flex-wrap mx-auto mt-5 gap-2">
         @php $count = 0; @endphp
         @if($tabs->isEmpty())
-            <p>No tab items available.</p>
+            <p class="mw-pictures-clean">No tab items available.</p>
         @else
             @foreach ($tabs as $slide)
                 @php $count++; @endphp
@@ -103,7 +103,7 @@
     <div>
         @php $count = 0; @endphp
         @if($tabs->isEmpty())
-            <p>No tab items available.</p>
+            <p class="mw-pictures-clean">No tab items available.</p>
         @else
             @foreach ($tabs as $key => $slide)
             @php

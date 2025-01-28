@@ -9,7 +9,7 @@
                 </div>
             @endforeach
         @else
-            <p>No FAQs available.</p>
+            <p class="mw-pictures-clean">No FAQs available.</p>
         @endif
     </div>
 

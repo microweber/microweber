@@ -20,7 +20,7 @@ description: Skin 14
                 <div class="shop-inner-gallery-thumbnails mt-4 d-flex">
                     @php $count = -1; @endphp
                     @if(empty($data))
-                        <p>No pictures added. Please add pictures to the gallery.</p>
+                        <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
                     @else
                         @foreach($data as $item)
                             @php $count++; @endphp

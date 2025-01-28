@@ -39,7 +39,7 @@ description: Skin-11
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
             @if(empty($data))
-                <p>No pictures added. Please add pictures to the gallery.</p>
+                <p class="mw-pictures-clean">No pictures added. Please add pictures to the gallery.</p>
                 @foreach($data as $item)
                     @php $count++; @endphp
                     <div class="col-sm-6 col-md-4 col-lg-3 p-0">
