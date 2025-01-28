@@ -1165,6 +1165,8 @@
                 </div>
             `);
 
+            multiSelectMenuTemplate.find('.mw-file-manager--multiselect--selected-actions button').hide()
+
 
             const _actions = {};
 

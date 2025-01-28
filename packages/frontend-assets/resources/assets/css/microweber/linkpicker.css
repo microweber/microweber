@@ -38,7 +38,7 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav {
-    @apply bg-gray-100 !p-7 flex flex-col text-center;
+    @apply bg-gray-100 dark:bg-gray-900 !p-7 flex flex-col text-center;
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root {

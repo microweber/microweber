@@ -252,7 +252,14 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
             scope.handles.set('layout', null);
             scope.handles.get('layout').hide();
             scope.handles.get('interactionHandle').hide();
-            mw.top().app.richTextEditor?.smallEditor.hide()
+            mw.top().app.richTextEditor?.smallEditor.hide();
+            target.ownerDocument.querySelectorAll('font[color]').forEach(node => {
+                node.style.color = node.color;
+                node.removeAttribute('color');
+                node.removeAttribute('contenteditable');
+                mw.tools.setTag(node, 'span');
+
+            })
             mw.app.liveEdit.play();
 
             //mw.app.domTreeSelect(target)
