@@ -34,7 +34,9 @@ description: Posts 19
 </style>
 
 <div class="row blog-posts-19">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         @foreach ($data as $item)
             @php
                 $categories = content_categories($item['id']);

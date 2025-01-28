@@ -68,7 +68,9 @@ description: Posts 26
 </style>
 
 <div class="row blog-posts-26 gap-4 justify-content-center">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         @foreach ($data as $item)
             <div class="item col-xl-5 col-md-6 px-0" itemscope itemtype="{{ $schema_org_item_type_tag }}">
                 <div class="col-lg-6">

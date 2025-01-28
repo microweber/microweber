@@ -11,7 +11,9 @@
 @endphp
 
 <div class="blog-posts-2 section content-module-wrapper">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         <div class="container-fluid">
             <div class="row">
                 @foreach ($data as $item)

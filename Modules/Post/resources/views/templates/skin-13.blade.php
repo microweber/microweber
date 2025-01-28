@@ -11,7 +11,9 @@ description: Posts 13
 @endphp
 
 <div class="row py-4 blog-posts-13">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         @foreach ($data as $item)
             @php
                 $categories = content_categories($item['id']);

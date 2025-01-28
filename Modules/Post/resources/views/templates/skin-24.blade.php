@@ -75,7 +75,9 @@ description: Posts 24
 </style>
 
 <div class="row py-4 blog-posts-24">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         @foreach ($data as $key => $item)
             @if ($key == 0)
                 <div class="col-lg-6" itemscope itemtype="{{ $schema_org_item_type_tag }}">

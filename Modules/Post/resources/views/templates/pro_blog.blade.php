@@ -48,7 +48,9 @@ description: Posts pro-blog
 </style>
 
 <div class="row blog-posts-pro-blog">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         @php
             $item = reset($data);
             $categories = content_categories($item['id']);
@@ -59,7 +61,7 @@ description: Posts pro-blog
             <div class="mw-post-22-post-badge">
                 @if($categories)
                     @foreach($categories as $category)
-                        <a class="btn btn-secondary {{ $category['id'] == category_id() ? 'active' : '' }}" 
+                        <a class="btn btn-secondary {{ $category['id'] == category_id() ? 'active' : '' }}"
                            href="{{ category_link($category['id']) }}">{{ $category['title'] }}</a>
                     @endforeach
                 @endif

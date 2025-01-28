@@ -12,7 +12,9 @@ description: Posts 12
 @include('modules.post::partials.slick_options')
 <div class="slick-arrows-1">
     <div class="blog-posts-12 slickslider slick-dots-relative">
-        @if (!empty($data))
+        @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
             @foreach ($data as $item)
                 @php
                     $categories = content_categories($item['id']);

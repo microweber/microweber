@@ -23,7 +23,9 @@ description: Posts 17
 </style>
 
 <div class="row blog-posts-3 merry-blog-posts-2 justify-content-center">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         <div class="col-12 d-flex flex-wrap justify-content-center">
             @foreach ($data as $item)
                 @php

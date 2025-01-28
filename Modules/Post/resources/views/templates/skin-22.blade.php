@@ -125,8 +125,8 @@ description: Posts 22
         margin: 0;
     }
 
-    a:not([href]):not([tabindex]), 
-    a:not([href]):not([tabindex]):focus, 
+    a:not([href]):not([tabindex]),
+    a:not([href]):not([tabindex]):focus,
     a:not([href]):not([tabindex]):hover {
         color: inherit;
         text-decoration: none;
@@ -256,7 +256,9 @@ description: Posts 22
 </style>
 
 <div class="blog-posts-22">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         <div class="mw-post-22-element mw-post-22-card-shadow-yes mw-post-22-widget">
             <div class="row mw-post-22-posts mw-post-22-widget-container">
                 @foreach ($data as $item)

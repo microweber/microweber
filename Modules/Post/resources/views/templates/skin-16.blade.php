@@ -38,7 +38,9 @@ description: Posts 16
 </style>
 
 <div class="row merry-blog-posts blog-posts-3">
-    @if (!empty($data))
+    @if(empty($data))
+       <p class="mw-pictures-clean">No posts added. Please add posts to the gallery.</p>
+   @else
         @foreach ($data as $item)
             @php
                 $categories = content_categories($item['id']);
