@@ -32,7 +32,10 @@ description: Blog pro
     @endphp
 
     <div class="">
-        @foreach($data as $item)
+        @if(empty($data))
+            <p>No pictures added. Please add pictures to the gallery.</p>
+        @else
+            @foreach($data as $item)
             @php
                 $itemTitle = false;
                 $itemDescription = false;
@@ -58,5 +61,6 @@ description: Blog pro
                 <img alt="{{ $itemAltText }}" src="{{ isset($item['filename']) ? $item['filename'] : '' }}"/>
             </div>
         @endforeach
+    @endif
     </div>
 @endif

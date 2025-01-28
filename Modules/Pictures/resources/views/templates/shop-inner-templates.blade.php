@@ -21,14 +21,18 @@ description: Default skin for shop inner of the templates
         @if(sizeof($data) > 1)
             <div class="shop-inner-gallery-thumbnails">
                 @php $count = -1; @endphp
-                @foreach($data as $item)
-                    @php $count++; @endphp
-                    <a class="mx-0"
-                       href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
-                       onclick="setProductImage('{{ $pictureElementId }}', '{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}', {{ $count }});return false;"
-                       style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}');">
-                    </a>
-                @endforeach
+                @if(empty($data))
+                    <p>No pictures added. Please add pictures to the gallery.</p>
+                @else
+                    @foreach($data as $item)
+                        @php $count++; @endphp
+                        <a class="mx-0"
+                           href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
+                           onclick="setProductImage('{{ $pictureElementId }}', '{{ thumbnail($item['filename'] ?? '', 1920, 1920) }}', {{ $count }});return false;"
+                           style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}');">
+                        </a>
+                    @endforeach
+                @endif
             </div>
         @endif
         <div class="shop-inner-big-image position-relative">

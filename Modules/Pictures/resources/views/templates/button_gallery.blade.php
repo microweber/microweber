@@ -12,12 +12,16 @@ description: Button gallery
     <div class="mw-module-images{{ isset($no_img) && $no_img ? ' no-image' : '' }}">
         <div class="mw-pictures-clean" id="mw-gallery-{{ $rand }}">
             @php $count = -1; @endphp
-            @foreach($data as $item)
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
+            @else
+                @foreach($data as $item)
                 @php $count++; @endphp
                 @if($count == 1)
                     <a href="{{ isset($item['filename']) ? $item['filename'] : '' }}" onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;" class="btn btn-default">{{ _e("View photos") }}</a>
                 @endif
             @endforeach
+            @endif
 
             <script>
                 gallery{{ $rand }} = [

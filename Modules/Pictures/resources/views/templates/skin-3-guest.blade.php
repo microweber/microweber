@@ -153,12 +153,16 @@ description: Skin-3-guest
         <div class="slick-gallery-2-holder">
             <div class="slick-gallery-2">
                 @php $count = -1; @endphp
-                @foreach($data as $item)
-                    @php $count++; @endphp
-                    <div class="slide item pictures picture-{{ $item['id'] ?? '' }}">
-                        <img data-src="{{ thumbnail($item['filename'] ?? '', 880, 550, true) }}" alt="">
-                    </div>
-                @endforeach
+                @if(empty($data))
+                    <p>No pictures added. Please add pictures to the gallery.</p>
+                @else
+                    @foreach($data as $item)
+                        @php $count++; @endphp
+                        <div class="slide item pictures picture-{{ $item['id'] ?? '' }}">
+                            <img data-src="{{ thumbnail($item['filename'] ?? '', 880, 550, true) }}" alt="">
+                        </div>
+                    @endforeach
+                @endif
             </div>
             <div class="slick-arrows"></div>
         </div>

@@ -14,20 +14,24 @@ description: Simple Pictures List Template
     <div class="mw-module-images{{ isset($no_img) && $no_img ? ' no-image' : '' }}">
         <div class="mw-pictures-list mw-images-template-default-grid" id="mw-gallery-{{ $rand }}">
             @php $count = -1; @endphp
-            @foreach($data as $item)
-                @php $count++; @endphp
-                <div class="mw-pictures-item mw-pictures-item-{{ $item['id'] ?? '' }}">
-                    <div class="thumbnail"
-                         onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
-                        <span class="pic-valign">
-                            <span class="pic-valign-cell">
-                                <img src="{{ thumbnail($item['filename'] ?? '', 300) }}"
-                                     alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}"/>
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
+            @else
+                @foreach($data as $item)
+                    @php $count++; @endphp
+                    <div class="mw-pictures-item mw-pictures-item-{{ $item['id'] ?? '' }}">
+                        <div class="thumbnail"
+                             onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
+                            <span class="pic-valign">
+                                <span class="pic-valign-cell">
+                                    <img src="{{ thumbnail($item['filename'] ?? '', 300) }}"
+                                         alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}"/>
+                                </span>
                             </span>
-                        </span>
+                        </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            @endif
 
             <script>
                 gallery{{ $rand }} = [

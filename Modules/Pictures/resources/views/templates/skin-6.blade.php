@@ -13,7 +13,9 @@ description: Skin 6
         @if(sizeof($data) > 1)
             <div class="shop-inner-gallery-thumbnails">
                 @php $count = -1; @endphp
-                @foreach($data as $item)
+                @if(empty($data))
+                    <p>No pictures added. Please add pictures to the gallery.</p>
+                        @foreach($data as $item)
                     @php $count++; @endphp
                     <a class="mx-0"
                        href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}"
@@ -21,6 +23,7 @@ description: Skin 6
                        style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}');">
                     </a>
                 @endforeach
+                @endif
             </div>
         @endif
         <div class="shop-inner-big-image position-relative">

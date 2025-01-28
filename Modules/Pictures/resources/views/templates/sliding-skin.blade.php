@@ -45,7 +45,10 @@ description: Skin for sliding Logos
     <div class="lg-carousel" id="{{ $gallery_id }}" role="region">
         <div class="lg-carousel-container" id="{{ $gallery_id }}container" role="list">
             @if($size > 1)
-                @foreach($data as $item)
+                @if(empty($data))
+                    <p>No pictures added. Please add pictures to the gallery.</p>
+                @else
+                     @foreach($data as $item)
                     @php
                         $itemTitle = false;
                         $itemDescription = false;
@@ -75,6 +78,7 @@ description: Skin for sliding Logos
                              title="{{ $item['title'] ?? '' }}">
                     </a>
                 @endforeach
+                @endif
 
                 @foreach($data as $item)
                     @php

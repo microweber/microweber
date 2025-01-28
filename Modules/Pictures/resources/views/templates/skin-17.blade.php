@@ -80,7 +80,10 @@ description: Skin-17
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
-            @foreach($data as $item)
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
+            @else
+                 @foreach($data as $item)
                 @php
                     $count++;
                     $itemTitle = false;
@@ -119,6 +122,7 @@ description: Skin-17
                     </a>
                 </div>
             @endforeach
+            @endif
         @endif
     </div>
 @endif

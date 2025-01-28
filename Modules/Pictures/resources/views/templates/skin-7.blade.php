@@ -56,13 +56,17 @@ description: Pictures Skin 7 - Justify
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
-            @foreach($data as $item)
-                @php $count++; @endphp
-                <a data-index="{{ $count }}"
-                   href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
-                    <img src="{{ thumbnail($item['filename'] ?? '', 600, 600) }}" alt=""/>
-                </a>
-            @endforeach
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
+            @else
+                @foreach($data as $item)
+                    @php $count++; @endphp
+                    <a data-index="{{ $count }}"
+                       href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
+                        <img src="{{ thumbnail($item['filename'] ?? '', 600, 600) }}" alt=""/>
+                    </a>
+                @endforeach
+            @endif
         @endif
     </div>
 @endif

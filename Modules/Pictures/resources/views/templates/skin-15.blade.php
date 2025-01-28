@@ -50,16 +50,20 @@ description: Skin-15
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
-            @foreach($data as $item)
-                @php $count++; @endphp
-                <div class="selector col-sm-6 col-lg-4 p-3">
-                    <a class="background-image-holder"
-                       style="background-image: url({{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }})"
-                       data-index="{{ $count }}"
-                       href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
-                    </a>
-                </div>
-            @endforeach
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
+            @else
+                @foreach($data as $item)
+                    @php $count++; @endphp
+                    <div class="selector col-sm-6 col-lg-4 p-3">
+                        <a class="background-image-holder"
+                           style="background-image: url({{ thumbnail($item['filename'] ?? '', 1080, 1080, true) }})"
+                           data-index="{{ $count }}"
+                           href="{{ thumbnail($item['filename'] ?? '', 1080, 1080) }}">
+                        </a>
+                    </div>
+                @endforeach
+            @endif
         @endif
     </div>
 @endif

@@ -64,7 +64,9 @@ description: Skin-5
 
     <div class="slick-arrows-1">
         <div class="slick-gallery" style="margin: 0 -15px;">
-            @foreach($data as $item)
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
+             @foreach($data as $item)
                 @php
                     $itemTitle = false;
                     $itemDescription = false;
@@ -100,6 +102,7 @@ description: Skin-5
                     </div>
                 </div>
             @endforeach
+            @endif
         </div>
     </div>
 @endif

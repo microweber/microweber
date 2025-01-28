@@ -15,7 +15,10 @@ description: Skin-2
     @endphp
 
     <div class="row text-center text-sm-start d-flex justify-content-center justify-content-lg-center">
-        @foreach($data as $item)
+        @if(empty($data))
+            <p>No pictures added. Please add pictures to the gallery.</p>
+        @else
+            @foreach($data as $item)
             @php
                 $itemTitle = false;
                 $itemDescription = false;
@@ -62,5 +65,6 @@ description: Skin-2
                 </div>
             </div>
         @endforeach
+       @endif
     </div>
 @endif

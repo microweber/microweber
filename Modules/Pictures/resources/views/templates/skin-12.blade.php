@@ -27,7 +27,11 @@ description: Skin-12
     <div class="gallery-holder">
         <div class="row">
             @php $count = -1; @endphp
-            @foreach($data as $item)
+
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
+            @else
+                @foreach($data as $item)
                 @php $count++; @endphp
                 @if($count == 0 || $count == 5)
                     <div class="col-holder col-8">
@@ -59,6 +63,7 @@ description: Skin-12
                     @php $count = -1; @endphp
                 @endif
             @endforeach
+            @endif
         </div>
     </div>
 

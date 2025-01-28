@@ -15,9 +15,8 @@ description: Default Picture List
         <div class="mw-pictures-clean" id="mw-gallery-{{ $rand }}">
             @php $count = -1; @endphp
 
-            @dd($data);
-            @if($data->isEmpty())
-                <p>No pictures available.</p>
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
             @else
                 @foreach($data as $item)
                     @php $count++; @endphp

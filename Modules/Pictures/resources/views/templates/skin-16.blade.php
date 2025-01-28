@@ -50,17 +50,21 @@ description: Skin-16 for Logos
          id="gallery-{{ $rand }}">
         @if(sizeof($data) > 1)
             @php $count = -1; @endphp
-            @foreach($data as $item)
-                @php $count++; @endphp
-                <div class="col-sm-6 col-md-4 col-lg-3 pb-3 px-2">
-                    <a data-index="{{ $count }}"
-                       href="{{ $item['filename'] ?? '' }}">
-                        <div class="background-image-holder mh-200"
-                             style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}'); background-size: contain;">
-                        </div>
-                    </a>
-                </div>
-            @endforeach
+            @if(empty($data))
+                <p>No pictures added. Please add pictures to the gallery.</p>
+            @else
+                @foreach($data as $item)
+                    @php $count++; @endphp
+                    <div class="col-sm-6 col-md-4 col-lg-3 pb-3 px-2">
+                        <a data-index="{{ $count }}"
+                           href="{{ $item['filename'] ?? '' }}">
+                            <div class="background-image-holder mh-200"
+                                 style="background-image: url('{{ thumbnail($item['filename'] ?? '', 800, 800) }}'); background-size: contain;">
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            @endif
         @endif
     </div>
 @endif

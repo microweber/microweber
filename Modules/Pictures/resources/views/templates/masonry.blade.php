@@ -41,15 +41,19 @@ description: Masonry
 
     <div class="mw-images-template-masonry" id="mw-gallery-{{ $rand }}" style="position: relative;width: 100%;">
         @php $count = -1; @endphp
-        @foreach($data as $item)
-            @php $count++; @endphp
-            <div class="masonry-item" onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
-                <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" width="100%"/>
-                @if(isset($item['title']) && $item['title'] != '')
-                    <div class="masonry-item-description">{{ $item['title'] }}</div>
-                @endif
-            </div>
-        @endforeach
+        @if(empty($data))
+            <p>No pictures added. Please add pictures to the gallery.</p>
+        @else
+            @foreach($data as $item)
+                @php $count++; @endphp
+                <div class="masonry-item" onclick="mw.gallery(gallery{{ $rand }}, {{ $count }})">
+                    <img src="{{ thumbnail($item['filename'] ?? '', 300) }}" width="100%"/>
+                    @if(isset($item['title']) && $item['title'] != '')
+                        <div class="masonry-item-description">{{ $item['title'] }}</div>
+                    @endif
+                </div>
+            @endforeach
+        @endif
     </div>
 
     <script>

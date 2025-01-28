@@ -12,15 +12,19 @@ description: Pictures slider
     <div class="well mw-module-images slider">
         <div class="mw-rotator mw-rotator-template-slider" id="{{ $id }}">
             <div class="mw-gallery-holder">
-                @foreach($data as $item)
-                    <div class="mw-gallery-item mw-gallery-item-{{ $item['id'] ?? '' }}">
-                        <img src="{{ thumbnail($item['filename'] ?? '', 1200) }}"
-                             alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}"/>
-                        @if(isset($item['title']) && $item['title'] != '')
-                            <i class="mw-rotator-description mw-rotator-description-content">{{ $item['title'] }}</i>
-                        @endif
-                    </div>
-                @endforeach
+                @if(empty($data))
+                    <p>No pictures added. Please add pictures to the gallery.</p>
+                @else
+                    @foreach($data as $item)
+                        <div class="mw-gallery-item mw-gallery-item-{{ $item['id'] ?? '' }}">
+                            <img src="{{ thumbnail($item['filename'] ?? '', 1200) }}"
+                                 alt="{{ isset($item['title']) ? addslashes($item['title']) : '' }}"/>
+                            @if(isset($item['title']) && $item['title'] != '')
+                                <i class="mw-rotator-description mw-rotator-description-content">{{ $item['title'] }}</i>
+                            @endif
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

@@ -27,14 +27,18 @@ description: Skin-3 beauty
     <div class="gallery-holder">
         <div class="row">
             <div class="col-holder col-md-6">
-                @foreach($data as $count => $item)
-                    @if($count == 0)
-                        <div class="item pictures picture-{{ $item['id'] ?? '' }}"
-                             onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
-                            <img src="{{ thumbnail($item['filename'] ?? '', 1400, 1400, true) }}" alt="">
-                        </div>
-                    @endif
-                @endforeach
+                @if(empty($data))
+                    <p>No pictures added. Please add pictures to the gallery.</p>
+                @else
+                    @foreach($data as $count => $item)
+                        @if($count == 0)
+                            <div class="item pictures picture-{{ $item['id'] ?? '' }}"
+                                 onclick="mw.gallery(gallery{{ $rand }}, {{ $count }});return false;">
+                                <img src="{{ thumbnail($item['filename'] ?? '', 1400, 1400, true) }}" alt="">
+                            </div>
+                        @endif
+                    @endforeach
+                @endif
             </div>
             <div class="col-holder col-md-6">
                 @foreach($data as $count => $item)
