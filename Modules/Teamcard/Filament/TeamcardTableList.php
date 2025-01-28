@@ -24,6 +24,7 @@ use Filament\Tables\Contracts\HasTable;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Teamcard\Models\Teamcard;
 use MicroweberPackages\LiveEdit\Filament\Admin\Tables\LiveEditModuleTable;
+use Modules\Testimonials\Models\Testimonial;
 
 class TeamcardTableList extends LiveEditModuleTable implements HasForms, HasTable
 {
@@ -61,8 +62,27 @@ class TeamcardTableList extends LiveEditModuleTable implements HasForms, HasTabl
 
     public function table(Table $table): Table
     {
+
+        $query = Teamcard::query()->where('rel_id', $this->rel_id)->where('rel_type', $this->rel_type);
+
+        // Check if there are testimonials for this module and if not, add default ones
+        $teamcardCount = $query->count();
+        if ($teamcardCount == 0) {
+            $defaultContent = file_get_contents(module_path('teamcard') . '/default_content.json');
+            $defaultContent = json_decode($defaultContent, true);
+            if (isset($defaultContent['teamcard'])) {
+                foreach ($defaultContent['teamcard'] as $testimonial) {
+                    $newTestimonial = new Teamcard();
+                    $newTestimonial->fill($testimonial);
+                    $newTestimonial->rel_id = $this->rel_id;
+                    $newTestimonial->rel_type = $this->rel_type;
+                    $newTestimonial->save();
+                }
+            }
+        }
+
         return $table
-            ->query(Teamcard::query()->where('rel_id', $this->rel_id)->where('rel_type', $this->rel_type))
+            ->query($query)
             ->defaultSort('position', 'asc')
             ->columns([
                 ImageColumn::make('file')
