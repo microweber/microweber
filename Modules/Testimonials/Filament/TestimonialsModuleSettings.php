@@ -19,9 +19,9 @@ class TestimonialsModuleSettings extends LiveEditModuleSettingsTable
 
     public function form(Form $form): Form
     {
-        $module_id = $this->params['id'] ?? null;
-        $rel_id = $this->getOption('rel_id') ?? $this->params['rel_id'] ?? $this->params['id'] ?? null;
-        $rel_type = $this->getOption('rel_type') ?? $this->params['rel_type'] ?? 'module';
+        $moduleId = $this->params['id'] ?? null;
+        $relId = $this->getOption('rel_id') ?? $this->params['rel_id'] ?? $this->params['id'] ?? null;
+        $relType = $this->getOption('rel_type') ?? $this->params['rel_type'] ?? 'module';
 
         return $form
             ->schema([
@@ -29,18 +29,19 @@ class TestimonialsModuleSettings extends LiveEditModuleSettingsTable
                     ->tabs([
                         Tabs\Tab::make('Main settings')
                             ->schema([
-                                Livewire::make($this->tableComponentName, [
-                                    'rel_id' => $rel_id,
-                                    'rel_type' => $rel_type,
-                                    'module_id' => $module_id,
-                                ])->reactive()->live(),
+                                    Livewire::make($this->tableComponentName, [
+                                        'rel_id' => $relId,
+                                        'rel_type' => $relType,
+                                        'module_id' => $moduleId,
+                                    ])
+                                    ->reactive()
+                                    ->live(),
                             ]),
                         Tabs\Tab::make('Design')
                             ->schema($this->getTemplatesFormSchema()),
 
                         Tabs\Tab::make('Advanced')
                             ->schema($this->getDataSourceFormSchema()),
-
 
                     ]),
             ]);
