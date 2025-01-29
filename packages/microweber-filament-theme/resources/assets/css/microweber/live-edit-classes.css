@@ -793,17 +793,16 @@ h1,h2,h3,h4,h5,h6 {
     position: relative !important;
 }
 
-
+.noUi-target {
+    @apply !border-0 !bg-transparent !shadow-none;
+}
 .card, .dropdown-menu, .noUi-target {
-    @apply !bg-white dark:!bg-gray-800 !text-black dark:!text-white;
+    @apply !bg-transparent dark:!bg-transparent !text-black dark:!text-white;
 }
 
 .mw-liveedit-button-actions-component {
     @apply bg-transparent;
 }
-
-
-
 
 #select_edit_field{
     @apply p-[20px];
