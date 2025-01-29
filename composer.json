@@ -150,7 +150,8 @@
         "microweber-packages/frontend-assets-libs": "dev-filament",
         "microweber-packages/laravel-config-extended": "dev-filament",
         "microweber-packages/laravel-helper-functions": "dev-filament",
-        "microweber-packages/microweber-filament-theme": "dev-filament"
+        "microweber-packages/microweber-filament-theme": "dev-filament",
+        "rupadana/filament-slider": "*"
 
     },
     "require-dev": {
@@ -159,7 +160,8 @@
 
         "phpunit/phpunit": "^11.0.1",
         "spatie/ignition": "1.15.0",
-        "mockery/mockery": "^1.6"
+        "mockery/mockery": "^1.6",
+        "staudenmeir/dusk-updater": "^1.5"
     },
     "autoload": {
         "psr-4": {

@@ -31,7 +31,11 @@
         </testsuite>
 
         <testsuite name="Modules">
-            <directory>Modules/*/tests</directory>
+            <directory>Modules/*/Tests</directory>
+        </testsuite>
+
+        <testsuite name="Templates">
+            <directory>Templates/*/Tests</directory>
         </testsuite>
 
 

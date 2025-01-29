@@ -34,6 +34,9 @@ use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use Modules\Components\View\Components\Section;
+use Rupadana\FilamentSlider\Components\Concerns\InputSliderBehaviour;
+use Rupadana\FilamentSlider\Components\InputSlider;
+use Rupadana\FilamentSlider\Components\InputSliderGroup;
 
 class KitchenSink extends Page
 {
@@ -76,6 +79,55 @@ class KitchenSink extends Page
 
         return $form
             ->schema([
+
+                InputSliderGroup::make()
+                    ->sliders([
+                        InputSlider::make('min')
+                    ])
+                    ->label('Limit'),
+
+                InputSliderGroup::make()
+                    ->sliders([
+                        InputSlider::make('min'),
+                        InputSlider::make('max')
+                    ])
+                    ->label('Limit'),
+
+                InputSliderGroup::make()
+                    ->sliders([
+                        InputSlider::make('min'),
+                        InputSlider::make('max')
+                    ])
+                    ->connect([
+                            false,
+                            true,
+                            false
+                        ])
+                            ->max(100)
+                            ->min(0)
+                            ->label('Limit'),
+
+                InputSliderGroup::make()
+                    ->sliders([
+                        InputSlider::make('min'),
+                        InputSlider::make('max')->default(50),
+                    ])
+                    ->connect([
+                        true,
+                        false,
+                        true
+                    ]) // array length must be sliders length + 1
+                    ->range([
+                        "min" => 30,
+                        "max" => 100
+                    ])
+                    ->step(10)
+                    ->behaviour([
+                        InputSliderBehaviour::DRAG,
+                        InputSliderBehaviour::TAP
+                    ])
+                    ->enableTooltips()
+                    ->label("Limit"),
 
                 \LaraZeus\Accordion\Forms\Accordions::make('OptionsOriginal')
                     ->activeAccordion(0)
