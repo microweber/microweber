@@ -23,8 +23,8 @@ export default {
 
             this.previewMode = mode;
             this.emulatorSet(mode);
-            this.emitter.emit('live-edit-ui-show', 'style-editor');
-            CSSGUIService.show()
+
+
         },
         emulatorSet(mode) {
 

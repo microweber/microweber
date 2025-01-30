@@ -339,8 +339,8 @@
 
             setTimeout(function () {
                 const iframe = frame.element.querySelector("iframe");
-                iframe.style.width = 'calc(100% - 50px)';
                 if(iframe) {
+                    iframe.style.width = 'calc(100% - 50px)';
                     const wrap = $('<div class="a-color-picker-row"></div>');
                     $frameEl.before(wrap);
                     wrap

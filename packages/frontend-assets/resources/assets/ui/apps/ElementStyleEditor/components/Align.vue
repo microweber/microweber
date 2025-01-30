@@ -9,7 +9,7 @@
             @click="setTextAlignment('left')"
             data-value="left"
         >
-          <span class="mdi mdi-format-align-left"></span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,3H21V5H3V3M3,7H15V9H3V7M3,11H21V13H3V11M3,15H15V17H3V15M3,19H21V21H3V19Z" /></svg>
         </span>
                 <span
                     class="ta-center"
@@ -17,7 +17,7 @@
                     @click="setTextAlignment('center')"
                     data-value="center"
                 >
-          <span class="mdi mdi-format-align-center"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,3H21V5H3V3M7,7H17V9H7V7M3,11H21V13H3V11M7,15H17V17H7V15M3,19H21V21H3V19Z" /></svg>
         </span>
                 <span
                     class="ta-right"
@@ -25,7 +25,7 @@
                     @click="setTextAlignment('right')"
                     data-value="right"
                 >
-          <span class="mdi mdi-format-align-right"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,3H21V5H3V3M9,7H21V9H9V7M3,11H21V13H3V11M9,15H21V17H9V15M3,19H21V21H3V19Z" /></svg>
         </span>
                 <span
                     class="ta-justify"
@@ -33,12 +33,20 @@
                     @click="setTextAlignment('justify')"
                     data-value="justify"
                 >
-          <span class="mdi mdi-format-align-justify"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,3H21V5H3V3M3,7H21V9H3V7M3,11H21V13H3V11M3,15H21V17H3V15M3,19H21V21H3V19Z" /></svg>
         </span>
             </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+    svg {
+        width: 20px;
+        margin: auto;
+        fill: currentColor;
+    }
+</style>
 
 <script>
 export default {

@@ -1,0 +1,5 @@
+@media screen, print {
+	:root {
+		--mw-font-family-sans-serif: Jost,sans-serif;
+	}
+}

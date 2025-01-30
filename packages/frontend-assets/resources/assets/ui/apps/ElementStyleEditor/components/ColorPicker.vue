@@ -60,6 +60,9 @@ export default {
     },
     methods: {
         getHexColorDisplayValueText(newColor) {
+            if(!newColor) {
+                return 'transparent';
+            }
             if (newColor == 'revert-layer') {
                 return '';
             }
@@ -72,7 +75,7 @@ export default {
             if (newColor == 'rgb(0 0 0 / 0%)') {
                 return 'transparent';
             }
-            //check fi string lie green, etc
+
             if (newColor.includes('rgb') || newColor.includes('rgba')) {
                 var colorHex = mw.color.rgbOrRgbaToHex(newColor)
                 if (colorHex == '#00000000') {

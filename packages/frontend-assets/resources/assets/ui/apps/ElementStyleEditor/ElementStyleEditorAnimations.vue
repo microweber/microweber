@@ -14,10 +14,22 @@
 
       <div v-if="showAnimations">
 
-      <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/>
+      <!-- <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/> -->
+
+        <div class="animations-selector">
+            <div
+                v-for="animation in animations"
+                class="animation-item"
+                @click="selectAnimation(animation.key)"
+                :class="{active: selectedAnimation === animation.key}">
+                <span class="animation-title">{{ animation.value }}</span>
+            </div>
+        </div>
 
     <div v-if="selectedAnimation">
       <DropdownSmall v-model="selectedAnimationWhenAppear" :options="animationsAppear" :label="'When'"/>
+
+
 
       <SliderSmall v-model="selectedAnimationSpeed" :label="'Speed'" :min="0.1" :max="5" :step="0.1" :unit="'s'"/>
 
@@ -28,11 +40,61 @@
   </div>
 </template>
 
+<style scoped>
+
+.animations-selector {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px 20px;
+    margin: 0 7px;
+    padding-inline-end: 10px;
+    max-height: calc(var(--top100vh) / 2);
+    min-height: 200px;
+    overflow: auto;
+    scrollbar-width: thin;
+}
+
+.animation-item{
+    position: relative;
+    border-radius: 0.25rem;
+    width: calc(25% - 20px);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: calc(100% - 15px) auto;
+    cursor: pointer;
+    background-color: rgba(122, 122, 122, 0.377);
+    border: 4px solid transparent;
+
+}
+.animation-item.active {
+    border-color: currentColor;
+}
+
+.animation-title {
+    position: absolute;
+    inset-inline: 0;
+    top: calc(100% + 5px);
+    font-size: 12px;
+    text-align: center;
+}
+
+</style>
+
 <script>
 
 import DropdownSmall from "./components/DropdownSmall.vue";
 import SliderSmall from "./components/SliderSmall.vue";
 import ElementStyleAnimationsApplier from "./ElementStyleAnimationsApplier";
+
+
+const viewSize = () => {
+    document.querySelector(':root').style.setProperty('--top100vh', mw.top().win.innerHeight + 'px')
+}
 
 export default {
   components: {DropdownSmall, SliderSmall},
@@ -147,7 +209,12 @@ export default {
         this.selectedAnimationWhenAppear = null;
       }
     },
+    selectAnimation(animation) {
+
+        this.selectedAnimation = animation;
+    },
     setAnimation: function () {
+
       if (this.activeNode) {
 
         var speed = this.selectedAnimationSpeed ? this.selectedAnimationSpeed : 1;
@@ -180,7 +247,12 @@ export default {
     },
   },
 
+  beforeUnmount() {
+    mw.top().win.removeEventListener('resize', viewSize);
+  },
   mounted() {
+        mw.top().win.addEventListener('resize', viewSize);
+        viewSize()
 
       this.emitter.on("element-style-editor-show", elementStyleEditorShow => {
           if (elementStyleEditorShow !== 'animations') {
@@ -216,6 +288,7 @@ export default {
 
 
     selectedAnimation: function (val) {
+
       if (!this.isReady) {
         return;
       }

@@ -1,4 +1,4 @@
-<style>
+<style  >
 
 .mw-ese-holder {
     background-color: #f5f5f5;
@@ -90,6 +90,31 @@
     padding: 0  5px;
 }
 
+.btn svg {
+    width: 19px;
+    fill: currentColor;
+}
+
+
+.mw-live-edit-spacing-wrapper a.btn {
+    @apply hover:bg-gray-900 hover:text-white text-[12px] font-bold cursor-pointer;
+
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    min-height: 0 !important;
+    padding: 0;
+
+    &:before {
+        font-size: 18px;
+     }
+
+    &.active {
+        @apply bg-gray-900 dark:bg-slate-900 text-white;
+     }
+}
+
 </style>
 
 
@@ -119,8 +144,10 @@
                     <a class="btn btn-icon" :class="{ active: activePadding === 40 }" @click="setPaddingOnAllSides(40)">M</a>
                     <a class="btn btn-icon" :class="{ active: activePadding === 50 }" @click="setPaddingOnAllSides(50)">L</a>
                     <a class="btn btn-icon" :class="{ active: activePadding === 100 }" @click="setPaddingOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon mdi mdi-trash-can-outline" :class="{ active: activePadding === 0 }" @click="setPaddingOnAllSides(0)"></a>
-                    <a class="btn btn-icon mdi mdi-dots-horizontal" @click="toggleMarginAndPaddingControlls()"></a>
+                    <a class="btn btn-icon" :class="{ active: activePadding === 0 }" @click="setPaddingOnAllSides(0)" v-html="iconResolver('trash')">
+
+                    </a>
+                    <a class="btn btn-icon" @click="toggleMarginAndPaddingControlls()"  v-html="iconResolver('settings')"></a>
                 </div>
             </div>
         </div>
@@ -134,8 +161,10 @@
                     <a class="btn btn-icon" :class="{ active: activeMargin === 40 }" @click="setMarginOnAllSides(40)">M</a>
                     <a class="btn btn-icon" :class="{ active: activeMargin === 50 }" @click="setMarginOnAllSides(50)">L</a>
                     <a class="btn btn-icon" :class="{ active: activeMargin === 100 }" @click="setMarginOnAllSides(100)">XL</a>
-                    <a class="btn btn-icon mdi mdi-trash-can-outline" :class="{ active: activeMargin === 0 }" @click="setMarginOnAllSides(0)"></a>
-                    <a class="btn btn-icon mdi mdi-dots-horizontal" @click="toggleMarginAndPaddingControlls()"></a>
+                    <a class="btn btn-icon  " :class="{ active: activeMargin === 0 }" @click="setMarginOnAllSides(0)" v-html="iconResolver('trash')">
+
+                </a>
+                    <a class="btn btn-icon " @click="toggleMarginAndPaddingControlls()"   v-html="iconResolver('settings')"></a>
                 </div>
             </div>
         </div>
@@ -188,6 +217,9 @@ export default {
     },
 
     methods: {
+        iconResolver: function (icon) {
+            return mw.iconResolver(icon)
+        },
         toggleSpacing: function () {
             this.showSpacing = !this.showSpacing;
             this.emitter.emit('element-style-editor-show', 'spacing');
