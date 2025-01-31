@@ -3,45 +3,94 @@
 namespace Modules\Video\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
-use Modules\Audio\Filament\AudioModuleSettings;
 use Modules\Video\Filament\VideoModuleSettings;
 
+/**
+ * Class VideoModule
+ *
+ * Handles video embedding and rendering functionality for the Video module
+ */
 class VideoModule extends BaseModule
 {
+    /**
+     * Module configuration
+     */
     public static string $name = 'Video module';
     public static string $module = 'video';
-    public static string $icon = 'heroicon-o-rectangle-stack';
+    public static string $icon = 'heroicon-o-video-camera';
     public static string $categories = 'media, video';
     public static int $position = 2;
     public static string $settingsComponent = VideoModuleSettings::class;
     public static string $templatesNamespace = 'modules.video::templates';
 
-    public $randomEmbedVideoUrls = [
-        'https://youtu.be/3PZ65s2qLTE',
-        'https://www.youtube.com/watch?v=UV0mhY2Dxr0',
-        'https://www.youtube.com/watch?v=H4tyzzP33Cw',
-        'https://www.youtube.com/watch?v=HwGgXZI1J-o'
+    /**
+     * Sample video URLs for demo/placeholder content organized by category
+     */
+    private array $demoVideoUrls = [
+        'Nature' => [
+            'https://youtu.be/3PZ65s2qLTE' => 'Wildlife Documentary',
+            'https://www.youtube.com/watch?v=UV0mhY2Dxr0' => 'Ocean Life',
+            'https://www.youtube.com/watch?v=H4tyzzP33Cw' => 'Science Relax'
+        ]
     ];
 
+    /**
+     * Render the video module
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function render()
     {
-        $checkForEmbedUrl = $this->getOption('embed_url', $this->params['id']);
-        if ($checkForEmbedUrl) {
-            $randomUrl = $this->randomEmbedVideoUrls[array_rand($this->randomEmbedVideoUrls)];
-            save_option('embed_url', $randomUrl, $this->params['id']);
-        }
+        $this->handleEmbedUrl();
 
-        $viewData = $this->getViewData();
-        $renderData = renderVideoModule($this->params);
-        $viewData = array_merge($viewData, $renderData);
-
-        $template = $viewData['template'] ?? 'default';
-        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
-            $template = 'default';
-        }
+        $viewData = $this->prepareViewData();
+        $template = $this->resolveTemplate($viewData);
 
         return view(static::$templatesNamespace . '.' . $template, $viewData);
-
     }
 
+    /**
+     * Handle embed URL initialization
+     */
+    private function handleEmbedUrl(): void
+    {
+        $embedUrl = $this->getOption('embed_url', $this->params['id']);
+        if ($embedUrl) {
+            // Select random category
+            $randomCategory = array_rand($this->demoVideoUrls);
+            // Select random video from category
+            $randomVideo = array_rand($this->demoVideoUrls[$randomCategory]);
+            save_option('embed_url', $randomVideo, $this->params['id']);
+        }
+    }
+
+    /**
+     * Prepare view data for rendering
+     *
+     * @return array
+     */
+    private function prepareViewData(): array
+    {
+        $viewData = $this->getViewData();
+        $renderData = renderVideoModule($this->params);
+
+        return array_merge($viewData, $renderData);
+    }
+
+    /**
+     * Resolve the template to use
+     *
+     * @param array $viewData
+     * @return string
+     */
+    private function resolveTemplate(array $viewData): string
+    {
+        $template = $viewData['template'] ?? 'default';
+
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            return 'default';
+        }
+
+        return $template;
+    }
 }
