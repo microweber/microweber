@@ -37,7 +37,7 @@ class NewsletterFilamentAdminPanelProvider extends FilamentAdminPanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->font('Inter')
             ->brandLogoHeight('34px')
-            ->brandLogo(fn () => view('microweber-module-newsletter::livewire.filament.admin.logo'))
+            ->brandLogo(fn () => mw()->ui->admin_logo())
             ->unsavedChangesAlerts()
             ->sidebarWidth('15rem')
             ->databaseNotifications(true)

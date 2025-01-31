@@ -27,6 +27,43 @@ class Ui
     {
         $this->admin_logo_login = asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
         $this->logo_live_edit = asset('vendor/microweber-packages/frontend-assets-libs/img/logo-mobile.svg');
+
+        $whitelabel = storage_path('branding.json');
+        if (is_file($whitelabel)) {
+            $whitelabel = file_get_contents($whitelabel);
+            $whitelabel = json_decode($whitelabel, true);
+            if (isset($whitelabel['brand_name'])) {
+                $this->brand_name = $whitelabel['brand_name'];
+            }
+            if (isset($whitelabel['logo_admin'])) {
+                $this->admin_logo = $whitelabel['logo_admin'];
+            }
+            if (isset($whitelabel['admin_logo_login'])) {
+                $this->admin_logo_login = $whitelabel['admin_logo_login'];
+            }
+            if (isset($whitelabel['logo_live_edit'])) {
+                $this->logo_live_edit = $whitelabel['logo_live_edit'];
+            }
+            if (isset($whitelabel['brand_favicon'])) {
+                $this->brand_favicon = $whitelabel['brand_favicon'];
+            }
+            if (isset($whitelabel['powered_by_link'])) {
+                $this->powered_by_link = $whitelabel['powered_by_link'];
+            }
+            if (isset($whitelabel['disable_powered_by_link'])) {
+                $this->disable_powered_by_link = $whitelabel['disable_powered_by_link'];
+            }
+            if (isset($whitelabel['disable_marketplace'])) {
+                $this->disable_marketplace = $whitelabel['disable_marketplace'];
+            }
+            if (isset($whitelabel['package_manager_urls'])) {
+                $this->package_manager_urls = $whitelabel['package_manager_urls'];
+            }
+            if (isset($whitelabel['marketplace_provider_id'])) {
+                $this->marketplace_provider_id = $whitelabel['marketplace_provider_id'];
+            }
+        }
+
         if (mw_is_installed()) {
             $this->defaults();
         }

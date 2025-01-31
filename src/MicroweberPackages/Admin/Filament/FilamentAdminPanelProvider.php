@@ -93,7 +93,7 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->font('Inter')
             ->brandLogoHeight('34px')
             ->brandLogo(function () {
-                return asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
+                return mw()->ui->admin_logo();
             })
             ->sidebarWidth('15rem')
             ->colors([

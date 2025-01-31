@@ -32,7 +32,7 @@ class FilamentCheckoutPanelProvider extends PanelProvider
             ->path($this->filamentPath)
             ->navigation(false)
             ->brandLogo(function () {
-                return view('modules.checkout::logo');
+                return mw()->ui->admin_logo();
             })
             ->colors([
                 'primary' => Color::Blue,
