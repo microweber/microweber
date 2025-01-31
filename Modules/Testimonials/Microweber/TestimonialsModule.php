@@ -28,9 +28,9 @@ class TestimonialsModule extends BaseModule
     {
         $viewData = $this->getViewData();
         $viewData['testimonials'] = $this->getTestimonials();
-        
+
         $viewName = $this->getViewName($viewData['template'] ?? 'default');
-        
+
         return view($viewName, $viewData);
     }
 
@@ -61,14 +61,14 @@ class TestimonialsModule extends BaseModule
     {
         $defaultContent = file_get_contents(module_path(self::$module) . '/default_content.json');
         $defaultContent = json_decode($defaultContent, true);
-        
+
         if (!isset($defaultContent['testimonials'])) {
             return [];
         }
 
         return array_map(function($testimonial) {
             $testimonial['client_image'] = app()->url_manager->replace_site_url_back($testimonial['client_image']);
-            return $testimonial;
+            return new Testimonial($testimonial);
         }, $defaultContent['testimonials']);
     }
 
@@ -77,9 +77,9 @@ class TestimonialsModule extends BaseModule
      */
     protected function getRelId(): ?string
     {
-        return $this->getOption('rel_id') 
-            ?? $this->params['rel_id'] 
-            ?? $this->params['id'] 
+        return $this->getOption('rel_id')
+            ?? $this->params['rel_id']
+            ?? $this->params['id']
             ?? null;
     }
 
@@ -88,8 +88,8 @@ class TestimonialsModule extends BaseModule
      */
     protected function getRelType(): string
     {
-        return $this->getOption('rel_type') 
-            ?? $this->params['rel_type'] 
+        return $this->getOption('rel_type')
+            ?? $this->params['rel_type']
             ?? 'module';
     }
 }
