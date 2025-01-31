@@ -55,7 +55,7 @@ class VideoModule extends BaseModule
     private function handleEmbedUrl(): void
     {
         $embedUrl = $this->getOption('embed_url', $this->params['id']);
-        if ($embedUrl) {
+        if (empty($embedUrl)) {
             // Select random category
             $randomCategory = array_rand($this->demoVideoUrls);
             // Select random video from category
