@@ -20,6 +20,11 @@ class VideoModule extends BaseModule
     {
         $viewData = $this->getViewData();
 
+        if (!isset($params['url'])) {
+            $params['url'] = 'https://youtu.be/3PZ65s2qLTE';
+            $params['data-url'] = 'https://youtu.be/3PZ65s2qLTE';
+        }
+
         $renderData = render_video_module($this->params);
         $viewData = array_merge($viewData, $renderData);
 
