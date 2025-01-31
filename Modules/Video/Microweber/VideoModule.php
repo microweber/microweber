@@ -16,16 +16,23 @@ class VideoModule extends BaseModule
     public static string $settingsComponent = VideoModuleSettings::class;
     public static string $templatesNamespace = 'modules.video::templates';
 
+    public $randomEmbedVideoUrls = [
+        'https://youtu.be/3PZ65s2qLTE',
+        'https://www.youtube.com/watch?v=UV0mhY2Dxr0',
+        'https://www.youtube.com/watch?v=H4tyzzP33Cw',
+        'https://www.youtube.com/watch?v=HwGgXZI1J-o'
+    ];
+
     public function render()
     {
-        $viewData = $this->getViewData();
-
-        if (!isset($params['url'])) {
-            $params['url'] = 'https://youtu.be/3PZ65s2qLTE';
-            $params['data-url'] = 'https://youtu.be/3PZ65s2qLTE';
+        $checkForEmbedUrl = $this->getOption('embed_url', $this->params['id']);
+        if ($checkForEmbedUrl) {
+            $randomUrl = $this->randomEmbedVideoUrls[array_rand($this->randomEmbedVideoUrls)];
+            save_option('embed_url', $randomUrl, $this->params['id']);
         }
 
-        $renderData = render_video_module($this->params);
+        $viewData = $this->getViewData();
+        $renderData = renderVideoModule($this->params);
         $viewData = array_merge($viewData, $renderData);
 
         $template = $viewData['template'] ?? 'default';

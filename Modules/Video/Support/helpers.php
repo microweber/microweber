@@ -1,6 +1,6 @@
 <?php
-if (!function_exists('video_module_url2embed')) {
-    function video_module_url2embed($u, $w, $h, $autoplay)
+if (!function_exists('videoModuleUrlToEmbed')) {
+    function videoModuleUrlToEmbed($u, $w, $h, $autoplay)
     {
         $protocol = "http://";
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
@@ -73,8 +73,8 @@ if (!function_exists('video_module_url2embed')) {
     }
 }
 
-if (!function_exists('video_module_is_embed')) {
-    function video_module_is_embed($str)
+if (!function_exists('videoModuleIsEmbed')) {
+    function videoModuleIsEmbed($str)
     {
         $s = strtolower($str);
         if (stristr($s, '<iframe') != false or stristr($s, '<object') != false or stristr($s, '<embed') != false) {
@@ -85,8 +85,8 @@ if (!function_exists('video_module_is_embed')) {
     }
 }
 
-if (!function_exists('render_video_module')) {
-    function render_video_module($params)
+if (!function_exists('renderVideoModule')) {
+    function renderVideoModule($params)
     {
         $upload = false;
         $getUpload = get_option('upload', $params['id']);
