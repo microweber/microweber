@@ -5,7 +5,7 @@
 
 /* Basic Button Styles */
 .btn {
-    @apply flex items-center justify-center font-normal text-center whitespace-nowrap align-middle select-none border px-3 py-1.5 text-base leading-6 rounded transition-colors duration-150 ease-in-out;
+    @apply min-h-35 flex items-center justify-center font-normal text-center whitespace-nowrap align-middle select-none border px-3 py-1.5 text-base leading-6 rounded transition-colors duration-150 ease-in-out;
 }
 
 .btn-sm {

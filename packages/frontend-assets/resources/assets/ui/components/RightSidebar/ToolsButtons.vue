@@ -22,6 +22,14 @@
 
         </li>
         <li>
+
+<a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="handleQuickEdit()">
+
+    Quick Ai edit
+</a>
+
+</li>
+        <li>
             <a class="mw-admin-action-links mw-adm-liveedit-tabs" v-on:click="openContentResetContent()">
                 <svg class="mb-1 me-1" xmlns="http://www.w3.org/2000/svg"
                      height="18" viewBox="0 -960 960 960" width="18">
@@ -76,6 +84,9 @@ export default {
                     location.reload();
                 });
             });
+        },
+        handleQuickEdit: function () {
+            mw.app.liveEditWidgets.toggleQuickEditComponent()
         },
         handleLayers: function () {
             this.layers = !this.layers;
