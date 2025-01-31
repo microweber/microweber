@@ -28,6 +28,35 @@ class Ui
         $this->admin_logo_login = asset('vendor/microweber-packages/frontend-assets-libs/img/logo.svg');
         $this->logo_live_edit = asset('vendor/microweber-packages/frontend-assets-libs/img/logo-mobile.svg');
 
+        $this->__checkForWhiteLabel();
+
+        if (mw_is_installed()) {
+            $this->defaults();
+        }
+    }
+
+
+    public function clear_cache()
+    {
+        $whiteLabel = $this->__checkForWhiteLabel();
+        if ($whiteLabel) {
+            $faviconUrl = $this->brand_favicon();
+            if (str_finish($faviconUrl, '.ico')) {
+                try {
+                    $faviconContent = mw()->url_manager->download($faviconUrl);
+                    if (!empty($faviconContent)) {
+                        $faviconPublic = public_path('favicon.ico');
+                        file_put_contents($faviconPublic, $faviconContent);
+                    }
+                } catch (\Exception $e) {
+                    // do nothing
+                }
+            }
+        }
+    }
+
+    private function __checkForWhiteLabel()
+    {
         $whitelabel = storage_path('branding.json');
         if (is_file($whitelabel)) {
             $whitelabel = file_get_contents($whitelabel);
@@ -62,11 +91,10 @@ class Ui
             if (isset($whitelabel['marketplace_provider_id'])) {
                 $this->marketplace_provider_id = $whitelabel['marketplace_provider_id'];
             }
-        }
 
-        if (mw_is_installed()) {
-            $this->defaults();
+            return true;
         }
+        return false;
     }
 
     public function defaults()

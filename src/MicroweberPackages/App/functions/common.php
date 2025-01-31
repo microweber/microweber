@@ -184,6 +184,8 @@ function clearcache()
 {
     mw()->cache_manager->clear();
     app()->template_manager->clear_cache();
+    mw()->ui->clear_cache();
+
     $empty_folder = userfiles_path() . 'cache' . DS;
 
     if (is_dir($empty_folder)) {
