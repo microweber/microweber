@@ -128,8 +128,7 @@ class CreateBackup extends Page
                         ])->afterValidation(function () {
                             rmdir_recursive(backup_cache_location());
                             $this->sessionId = SessionStepper::generateSessionId(20);
-                            // backupIsStarted
-                            $this->dispatch('backupIsStarted', sessionId: $this->sessionId);
+                            $this->dispatch('backupIsStarted');
                         }),
 
                     Wizard\Step::make('Creating backup')
@@ -144,7 +143,8 @@ class CreateBackup extends Page
 
                 ])
                     ->persistStepInQueryString()
-                    ->submitAction(new HtmlString(Blade::render(<<<BLADE
+                    ->submitAction(
+                        new HtmlString(Blade::render(<<<BLADE
                     <x-filament::button
                         type="submit"
                         size="sm"

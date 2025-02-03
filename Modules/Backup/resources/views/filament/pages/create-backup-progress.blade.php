@@ -14,17 +14,17 @@
                 while (!this.isCompleted && this.currentStep < this.totalSteps) {
                     try {
                         const response = await $wire.runBackupStep();
-                        console.log('Backup response:', response);
+                        // console.log('Backup response:', response);
                         if (response && response.success) {
                             this.isCompleted = true;
-
+                            this.currentStep = this.totalSteps;
+                            this.downloadUrl = response.download_url;
+                            this.exportType = response.export_type;
+                            this.filename = response.filename;
                         } else if (response && response.current_step) {
                             this.currentStep = response.current_step;
                             this.totalSteps = response.total_steps;
                             this.percentage = response.percentage;
-                            this.downloadUrl = response.download_url;
-                            this.exportType = response.export_type;
-                            this.filename = response.filename;
                         }
                     } catch (error) {
                         console.error('Backup error:', error);
@@ -35,16 +35,12 @@
             },
 
             init() {
-                Livewire.on('backupIsStarted', () => {
-                    alert('Backup started!');
+                this.$wire.on('backupIsStarted', () => {
+                    console.log('Backup started event received');
                     this.startBackup();
                 });
             }
         }));
-
-        Livewire.on('backupIsStarted', () => {
-            alert('wooooo');
-        });
     </script>
     @endscript
 
@@ -71,13 +67,15 @@
                     <span class="text-2xl text-green-500 font-medium">Backup completed successfully!</span>
                     <div>
                         You can download the backup file from the link below:
-                        <a
-                            x-bind:href="downloadUrl"
-                            class="block mt-2 text-blue-500 underline"
-                            x-text="filename"
+                    </div>
+                    <div>
+                        <x-filament::button
+                            tag="a"
+                            href=""
                         >
-                                Download
-                        </a>
+                            Download
+                        </x-filament::button>
+
                     </div>
                 </div>
             </div>
