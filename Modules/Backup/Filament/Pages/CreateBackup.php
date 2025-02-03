@@ -22,6 +22,18 @@ class CreateBackup extends Page
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'modules.backup::filament.pages.create-backup';
 
+    protected function getHeaderActions(): array
+    {
+        return [];
+    }
+
+    protected function getScripts(): array
+    {
+        return [
+            'backup-progress' => module_path('Backup', 'resources/js/backup-progress.js'),
+        ];
+    }
+
     #[Url]
     public ?string $backup_type = 'content_backup';
     #[Url]
@@ -184,18 +196,7 @@ class CreateBackup extends Page
             $backup->setExportFileName($backup_filename);
         }
 
-        $start = $backup->start();
+        return $backup->start();
 
-
-        dd([
-            'start' => $start,
-            'session_id' => $this->sessionId,
-            'backup_type' => $this->backup_type,
-            'include_tables' => $this->include_tables,
-            'include_modules' => $this->include_modules,
-            'include_templates' => $this->include_templates,
-            'include_media' => $this->include_media,
-            'backup_filename' => $this->backup_filename,
-        ]);
     }
 }
