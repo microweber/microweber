@@ -49,8 +49,8 @@
         x-init="init"
 
     >
-        <div class="flex items-center justify-center py-12">
-            <div class="w-1/2 bg-white p-8 rounded-lg shadow-lg">
+        <div class="flex items-center justify-center px-12 py-12">
+            <div class="w-full bg-white p-8 rounded-lg shadow-lg">
                 <div class="flex items-center justify-between mb-4">
                     <h1 class="text-2xl font-bold">Creating Backup</h1>
                     <span x-text="currentStep + 1 + ' / ' + totalSteps"></span>
