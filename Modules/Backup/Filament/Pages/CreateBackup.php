@@ -2,26 +2,42 @@
 
 namespace Modules\Backup\Filament\Pages;
 
+use Livewire\Attributes\Url;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
+use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\GenerateBackup;
 
 class CreateBackup extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'modules.backup::filament.pages.create-backup';
 
+    #[Url]
     public ?string $backup_type = 'content_backup';
+    #[Url]
     public array $include_tables = [];
+    #[Url]
     public array $include_modules = [];
+    #[Url]
     public array $include_templates = [];
+    #[Url]
     public bool $include_media = false;
+
+    #[Url]
     public ?string $backup_filename = null;
+
+    #[Url]
+    public $sessionId = null;
 
     public function form(Form $form): Form
     {
@@ -89,21 +105,97 @@ class CreateBackup extends Page
                         ])
                         ->visible(fn (callable $get) => $get('backup_type') === 'custom_backup'),
 
-                    Wizard\Step::make('Generate Backup')
+                    Wizard\Step::make('Backup details')
                         ->description('Configure and generate your backup')
                         ->schema([
                             TextInput::make('backup_filename')
                                 ->label('Backup Filename')
                                 ->placeholder('Enter backup filename (optional)')
                                 ->helperText('Leave empty for auto-generated filename'),
+                        ])->afterValidation(function () {
+                            rmdir_recursive(backup_cache_location());
+                            $this->sessionId = SessionStepper::generateSessionId(20);
+                        }),
+
+                    Wizard\Step::make('Creating backup')
+                        ->description('Your backup is being created')
+                        ->schema([
+                            View::make('backup_progress')
+                                ->view('modules.backup::filament.pages.create-backup-progress')
+                                ->viewData([
+                                    'sessionId' => $this->sessionId,
+                                ]),
                         ]),
-                ])->submitAction('Generate Backup')
+
+                ])
+                    ->persistStepInQueryString()
+                    ->submitAction(new HtmlString(Blade::render(<<<BLADE
+                    <x-filament::button
+                        type="submit"
+                        size="sm"
+                    >
+                        Generate Backup
+                    </x-filament::button>
+                BLADE)))
             ]);
     }
 
     public function submit(): void
     {
-        // Handle the backup generation here
-        // You can access the form data through the public properties
+
+    }
+
+    public function runBackupStep() {
+
+        // START BACKUP
+        $backup = new GenerateBackup();
+        $backup->setSessionId($this->sessionId);
+        $backup_by_type = 'full';
+        $backup_filename = 'backup_' . date('Y-m-d_H-i-s');
+
+        if ($backup_by_type == 'custom') {
+
+//            $includeMedia = false;
+//            if ($request->get('include_media', false) == 1) {
+//                $includeMedia = true;
+//            }
+//
+//            $backup->setAllowSkipTables(false);
+//            $backup->setExportTables($request->get('include_tables', []));
+//            $backup->setExportMedia($includeMedia);
+//            $backup->setExportModules($request->get('include_modules', []));
+//            $backup->setExportTemplates($request->get('include_templates', []));
+        } else if ($backup_by_type == 'full') {
+
+            $backup->setAllowSkipTables(false); // skip sensitive tables
+            $backup->setExportAllData(true);
+            $backup->setExportMedia(true);
+            $backup->setExportWithZip(true);
+
+        } else {
+            $backup->setType('json');
+            $backup->setAllowSkipTables(true); // skip sensitive tables
+            $backup->setExportAllData(true);
+            $backup->setExportMedia(true);
+            $backup->setExportWithZip(true);
+        }
+
+        if (!empty($backup_filename)) {
+            $backup->setExportFileName($backup_filename);
+        }
+
+        $start = $backup->start();
+
+
+        dd([
+            'start' => $start,
+            'session_id' => $this->sessionId,
+            'backup_type' => $this->backup_type,
+            'include_tables' => $this->include_tables,
+            'include_modules' => $this->include_modules,
+            'include_templates' => $this->include_templates,
+            'include_media' => $this->include_media,
+            'backup_filename' => $this->backup_filename,
+        ]);
     }
 }

@@ -187,6 +187,9 @@ class BackupController
 
     public function start(Request $request)
     {
+        /**
+         * THIS PART IS MIGRATED
+         */
         $backup = new GenerateBackup();
         $backup->setSessionId($request->get('session_id'));
         $backup_by_type = $request->get('type');
@@ -230,6 +233,9 @@ class BackupController
 
     public function generateSessionId()
     {
+        /**
+         * THIS PART IS MIGRATED
+         */
         rmdir_recursive(backup_cache_location());
         clearcache();
 

@@ -2,9 +2,8 @@
 
 namespace Modules\Backup;
 
+use MicroweberPackages\Export\Export;
 use Modules\Backup\Loggers\BackupLogger;
-use Modules\Export\Export;
-use Modules\Export\SessionStepper;
 
 class GenerateBackup extends Export
 {
