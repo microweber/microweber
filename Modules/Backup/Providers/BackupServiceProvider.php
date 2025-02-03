@@ -43,7 +43,7 @@ class BackupServiceProvider extends BaseModuleServiceProvider
 
         // Register filament page for Microweber module settings
 //        FilamentRegistry::registerResource(BackupResource::class);
- 
+
         // Register Microweber module
         // Microweber::module(\Modules\Backup\Microweber\BackupModule::class);
 
