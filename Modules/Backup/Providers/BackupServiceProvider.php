@@ -52,7 +52,7 @@ class BackupServiceProvider extends BaseModuleServiceProvider
         );
 
         FilamentRegistry::registerResource(BackupResource::class);
-        FilamentRegistry::registerPage(CreateBackup::class);
+//        FilamentRegistry::registerPage(CreateBackup::class);
     }
 
     /**
