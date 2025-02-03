@@ -65,17 +65,24 @@
 
                 <div class="mt-4 text-center" x-show="isCompleted">
                     <span class="text-2xl text-green-500 font-medium">Backup completed successfully!</span>
-                    <div>
+                    <div class="mt-2 mb-4">
                         You can download the backup file from the link below:
                     </div>
                     <div>
-                        <x-filament::button
-                            tag="a"
-                            href=""
-                        >
-                            Download
-                        </x-filament::button>
-
+                        <div x-if="downloadUrl">
+                            <a
+                                :href="downloadUrl"
+                                class="mt-4 inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-500 text-white rounded-lg transition-colors"
+                                download
+                            >
+                                <span class="mr-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                    </svg>
+                                </span>
+                                <span x-text="filename ? 'Download ' + filename : 'Download Backup'"></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

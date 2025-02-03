@@ -31,17 +31,48 @@ class BackupResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('filename')
+                    ->label('Filename')
+                    ->searchable()
+                    ->sortable(), 
+
+                Tables\Columns\TextColumn::make('date')
+                    ->label('Date')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('time')
+                    ->label('Time')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('size')
+                    ->label('Size')
+                    ->formatStateUsing(fn (string $state): string => format_bytes($state))
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('download')
+                    ->label('Download')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn ($record) => route('admin.backup.download', ['file' => $record->filename]))
+                    ->openUrlInNewTab(),
+
+                Tables\Actions\Action::make('delete')
+                    ->label('Delete')
+                    ->icon('heroicon-o-trash')
+                    ->requiresConfirmation()
+                    ->action(fn ($record) => unlink(backup_location() . $record->filename)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->action(function ($records) {
+                            foreach ($records as $record) {
+                                unlink(backup_location() . $record->filename);
+                            }
+                        }),
                 ]),
             ]);
     }
