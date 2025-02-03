@@ -12,10 +12,10 @@
 namespace Modules\Backup\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use Modules\Backup\BackupManager;
 use Illuminate\Contracts\Support\DeferrableProvider;
-
-
+use Modules\Backup\Filament\Resources\BackupResource;
 
 
 class BackupServiceProvider extends ServiceProvider implements DeferrableProvider
@@ -41,6 +41,8 @@ class BackupServiceProvider extends ServiceProvider implements DeferrableProvide
         $this->mergeConfigFrom(
             __DIR__.'/../config/backup.php', 'backup'
         );
+
+        FilamentRegistry::registerResource(BackupResource::class);
     }
 
     /**

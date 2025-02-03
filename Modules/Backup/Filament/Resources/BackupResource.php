@@ -56,9 +56,7 @@ class BackupResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBackups::route('/'),
-            'create' => Pages\CreateBackup::route('/create'),
-            'edit' => Pages\EditBackup::route('/{record}/edit'),
+            'index' => Pages\ListBackups::route('/')
         ];
     }
 }

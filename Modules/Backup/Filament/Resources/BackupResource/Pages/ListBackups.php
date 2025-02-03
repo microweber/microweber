@@ -4,16 +4,16 @@ namespace Modules\Backup\Filament\Resources\BackupResource\Pages;
 
 use Modules\Backup\Filament\Resources\BackupResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ListRecords;
 
-class EditBackup extends EditRecord
+class ListBackups extends ListRecords
 {
     protected static string $resource = BackupResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+
         ];
     }
 }
