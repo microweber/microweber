@@ -41,6 +41,10 @@
                 });
             }
         }));
+
+        Livewire.on('backupIsStarted', () => {
+            alert('wooooo');
+        });
     </script>
     @endscript
 
