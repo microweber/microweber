@@ -13,13 +13,18 @@ namespace Modules\Backup\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use Modules\Backup\BackupManager;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Modules\Backup\Filament\Pages\CreateBackup;
 use Modules\Backup\Filament\Resources\BackupResource;
 
 
-class BackupServiceProvider extends ServiceProvider implements DeferrableProvider
+class BackupServiceProvider extends BaseModuleServiceProvider
 {
+    protected string $moduleName = 'Backup';
+
+    protected string $moduleNameLower = 'backup';
     /**
      * Bootstrap the application services.
      *
@@ -38,11 +43,16 @@ class BackupServiceProvider extends ServiceProvider implements DeferrableProvide
      */
     public function register()
     {
+//        $this->registerTranslations();
+        $this->registerConfig();
+        $this->registerViews();
+
         $this->mergeConfigFrom(
             __DIR__.'/../config/backup.php', 'backup'
         );
 
         FilamentRegistry::registerResource(BackupResource::class);
+        FilamentRegistry::registerPage(CreateBackup::class);
     }
 
     /**
