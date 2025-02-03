@@ -18,7 +18,7 @@
                         if (response && response.success) {
                             this.isCompleted = true;
                             this.currentStep = this.totalSteps;
-                            this.downloadUrl = response.download_url;
+                            this.downloadUrl = response.downloadUrl;
                             this.exportType = response.export_type;
                             this.filename = response.filename;
                         } else if (response && response.current_step) {
@@ -69,9 +69,9 @@
                         You can download the backup file from the link below:
                     </div>
                     <div>
-                        <div x-if="downloadUrl">
+                        <div x-show="downloadUrl">
                             <a
-                                :href="downloadUrl"
+                                x-bind:href="downloadUrl"
                                 class="mt-4 inline-flex items-center px-4 py-2 bg-primary-600 hover:bg-primary-500 text-white rounded-lg transition-colors"
                                 download
                             >

@@ -34,7 +34,7 @@ class BackupResource extends Resource
                 Tables\Columns\TextColumn::make('filename')
                     ->label('Filename')
                     ->searchable()
-                    ->sortable(), 
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('date')
                     ->label('Date')
