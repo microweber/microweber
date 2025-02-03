@@ -1,18 +1,2 @@
-# Backup
-
-
-
-## Run module migrations
-
-```sh
-php artisan module:migrate Backup
-```
-
-
-
-## Publish module assets
-
-```sh
-php artisan module:publish Backup
-```
-
+# Microweber Backup Manager ![Build Status](https://api.travis-ci.org/microweber-packages/microweber-backup-manager.svg?branch=master)
+https://travis-ci.org/microweber-packages/microweber-backup-manager

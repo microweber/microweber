@@ -1,52 +1,56 @@
 <?php
+/*
+ * This file is part of the Microweber framework.
+ *
+ * (c) Microweber CMS LTD
+ *
+ * For full license information see
+ * https://github.com/microweber/microweber/blob/master/LICENSE
+ *
+ */
 
-namespace Modules\Backup\Providers;
+namespace MicroweberPackages\Backup\Providers;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
-use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
-use Modules\Backup\Filament\Admin\BackupResource;
-use Modules\Backup\Support\GenerateBackup;
+use MicroweberPackages\Backup\BackupManager;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
 
-class BackupServiceProvider extends BaseModuleServiceProvider
+
+
+class BackupServiceProvider extends ServiceProvider implements DeferrableProvider
 {
-    protected string $moduleName = 'Backup';
-
-    protected string $moduleNameLower = 'backup';
-
     /**
-     * Boot the application events.
+     * Bootstrap the application services.
+     *
+     * @return void
      */
-    public function boot(): void
+    public function boot()
     {
-
-
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadMigrationsFrom(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'migrations/');
     }
 
     /**
-     * Register the service provider.
+     * Register any application services.
+     *
+     * @return void
      */
-    public function register(): void
+    public function register()
     {
-        $this->registerTranslations();
-        $this->registerConfig();
-        $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
-//        $this->app->bind('backup', function () {
-//            return new GenerateBackup();
-//        });
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/backup.php', 'backup'
+        );
+    }
 
-        // Register filament page for Microweber module settings
-//        FilamentRegistry::registerResource(BackupResource::class);
-
-        // Register Microweber module
-        // Microweber::module(\Modules\Backup\Microweber\BackupModule::class);
-
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['backup_manager'];
     }
 
 }
