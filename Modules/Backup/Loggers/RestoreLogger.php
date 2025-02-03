@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Backup\Loggers;
+namespace Modules\Backup\Loggers;
 
 final class RestoreLogger extends DefaultLogger
 {

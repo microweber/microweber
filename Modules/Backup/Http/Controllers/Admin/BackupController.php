@@ -1,14 +1,14 @@
 <?php
 
-namespace MicroweberPackages\Backup\Http\Controllers\Admin;
+namespace Modules\Backup\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use MicroweberPackages\Backup\Backup;
-use MicroweberPackages\Backup\Export;
-use MicroweberPackages\Backup\GenerateBackup;
-use MicroweberPackages\Backup\Restore;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\Backup;
+use Modules\Backup\Export;
+use Modules\Backup\GenerateBackup;
+use Modules\Backup\Restore;
+use Modules\Export\SessionStepper;
 
 class BackupController
 {

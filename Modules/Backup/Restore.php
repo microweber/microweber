@@ -1,9 +1,9 @@
 <?php
 
-namespace MicroweberPackages\Backup;
+namespace Modules\Backup;
 
-use MicroweberPackages\Backup\Loggers\BackupLogger;
-use MicroweberPackages\Import\Import;
+use Modules\Backup\Loggers\BackupLogger;
+use Modules\Import\Import;
 
 class Restore extends Import
 {

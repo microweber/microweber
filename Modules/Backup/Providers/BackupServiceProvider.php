@@ -9,10 +9,10 @@
  *
  */
 
-namespace MicroweberPackages\Backup\Providers;
+namespace Modules\Backup\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Backup\BackupManager;
+use Modules\Backup\BackupManager;
 use Illuminate\Contracts\Support\DeferrableProvider;
 
 

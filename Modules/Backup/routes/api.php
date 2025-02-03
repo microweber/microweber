@@ -11,7 +11,7 @@
 Route::name('admin.backup.')
     ->prefix(mw_admin_prefix_url() .'/backup')
     ->middleware(['admin'])
-    ->namespace('\MicroweberPackages\Backup\Http\Controllers\Admin')
+    ->namespace('\Modules\Backup\Http\Controllers\Admin')
     ->group(function () {
 
         Route::get('restore', 'BackupController@restore')->name('restore');

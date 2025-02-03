@@ -1,12 +1,12 @@
 <?php
-namespace MicroweberPackages\Backup\tests;
+namespace Modules\Backup\tests;
 
-use MicroweberPackages\Backup\GenerateBackup;
-use MicroweberPackages\Content\Models\Content;
-use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Multilanguage\tests\MultilanguageTest;
-use MicroweberPackages\Post\Models\Post;
+use Modules\Backup\GenerateBackup;
+use Modules\Content\Models\Content;
+use Modules\Core\tests\TestCase;
+use Modules\Export\SessionStepper;
+use Modules\Multilanguage\tests\MultilanguageTest;
+use Modules\Post\Models\Post;
 
 
 /**

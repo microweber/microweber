@@ -1,10 +1,10 @@
 <?php
-namespace MicroweberPackages\Backup;
+namespace Modules\Backup;
 
 /**
  * Microweber - Backup Module Database Save
  *
- * @namespace MicroweberPackages\Backup
+ * @namespace Modules\Backup
  * @package DatabaseWriter
  * @author Bozhidar Slaveykov
  */

@@ -15,7 +15,7 @@
 
     "autoload": {
         "psr-4": {
-            "MicroweberPackages\\Backup\\": ""
+            "Modules\\Backup\\": ""
         },
         "files": [
             "functions/helpers.php"
