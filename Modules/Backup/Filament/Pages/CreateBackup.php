@@ -14,6 +14,7 @@ use Filament\Pages\Page;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
+use Livewire\Livewire;
 use MicroweberPackages\Export\SessionStepper;
 use Modules\Backup\GenerateBackup;
 
@@ -127,6 +128,8 @@ class CreateBackup extends Page
                         ])->afterValidation(function () {
                             rmdir_recursive(backup_cache_location());
                             $this->sessionId = SessionStepper::generateSessionId(20);
+                            // backupIsStarted
+                            $this->dispatch('backupIsStarted', sessionId: $this->sessionId);
                         }),
 
                     Wizard\Step::make('Creating backup')

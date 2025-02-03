@@ -35,8 +35,10 @@
             },
 
             init() {
-                alert('Backup started!');
-                this.startBackup();
+                Livewire.on('backupIsStarted', () => {
+                    alert('Backup started!');
+                    this.startBackup();
+                });
             }
         }));
     </script>
