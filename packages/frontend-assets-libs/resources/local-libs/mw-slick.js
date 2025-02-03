@@ -2,6 +2,9 @@ if( $.fn.slick ) {
     $.fn._slick =  $.fn.slick;
     $.fn.slick = function(options = {}) {
         return this.each(function() {
+            if(typeof options == "string") {
+                return $.fn._slick.call(this, options);
+            }
             const attr = $(this).attr('data-slick');
             let attrOptions = {};
             if(attr) {

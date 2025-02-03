@@ -1,15 +1,19 @@
 
+import { QuickEditComponent } from "../components/quick-ai-edit.js";
 import BaseComponent from "../containers/base-class.js";
+
 
 
 export class LiveEditWidgetsService extends BaseComponent{
     constructor(){
         super();
+        this.quickEditComponent = new QuickEditComponent();
     }
 
     status = {
        adminSidebarOpened: false,
        layersOpened: false,
+       quickEditComponent: false,
     }
 
     #hasOpened() {
@@ -33,9 +37,41 @@ export class LiveEditWidgetsService extends BaseComponent{
     closeAll() {
         this.closeAdminSidebar()
         this.closeLayers()
+        this.closeQuickEditComponent()
         this.#zIndex()
     }
 
+    #closeQuickEditComponentBox = null
+
+
+    closeQuickEditComponent() {
+        this.#closeQuickEditComponentBox?.remove()
+    }
+
+    openQuickEditComponent() {
+        this.closeAll();
+        this.status.quickEditComponent = true;
+
+        const box = new (mw.top()).controlBox({
+            content:``,
+            position:  'ригхт',
+            id: 'mw-live-edit-quickEditComponent-box',
+            closeButton: true,
+            title: mw.lang('Quick Edit')
+        });
+
+        this.#closeQuickEditComponentBox = box;
+
+        box.boxContent.appendChild(this.quickEditComponent.editor());
+
+        this.dispatch('openQuickEditComponent');
+        return this;
+
+    }
+
+    toggleQuickEditComponent() {
+        return this[this.status.quickEditComponent ? 'closeQuickEditComponent' : 'openQuickEditComponent']();
+    }
 
     toggleAdminSidebar() {
         return this[this.status.adminSidebarOpened ? 'closeAdminSidebar' : 'openAdminSidebar']();
