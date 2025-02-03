@@ -22,6 +22,8 @@ use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
 use MicroweberPackages\Helper\HelpersServiceProvider;
 use MicroweberPackages\Install\InstallServiceProvider;
 use MicroweberPackages\LaravelModules\LaravelModulesServiceProvider;
+use MicroweberPackages\LaravelModulesFilament\LaravelModulesFilamentServiceProvider;
+use MicroweberPackages\LaravelModulesLivewire\LaravelModulesLivewireServiceProvider;
 use MicroweberPackages\LaravelTemplates\LaravelTemplatesServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
@@ -185,9 +187,16 @@ class MicroweberServiceProvider extends ServiceProvider
       //   Debugbar::startMeasure('modules_load_service_providers', 'Loading modules');
 
         $this->app->register(LaravelModulesServiceProvider::class);
-      //  $this->app->register(LaravelModulesLivewireServiceProvider::class);
 
-      //  $this->app->register(LaravelModulesFilamentServiceProvider::class);
+//        $this->app->register(LaravelModulesLivewireServiceProvider::class);
+
+
+
+        if (is_cli()) {
+            $this->app->register(LaravelModulesFilamentServiceProvider::class);
+        }
+
+
         $this->app->register(LaravelTemplatesServiceProvider::class);
 
        //  Debugbar::stopMeasure('modules_load_service_providers');
