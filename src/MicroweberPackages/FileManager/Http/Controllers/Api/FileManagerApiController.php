@@ -64,6 +64,7 @@ class FileManagerApiController extends Controller {
         $fileFilter['sort_order'] = $order;
         $fileFilter['sort_by'] = $orderBy;
 
+
         $data = [];
 //        $getData = app()->make(\MicroweberPackages\Utils\System\Files::class)->get($fileFilter);
 
@@ -103,6 +104,8 @@ class FileManagerApiController extends Controller {
         if ($appendDirs) {
             if (isset($getData['dirs']) && is_array($getData['dirs'])) {
                 foreach ($getData['dirs'] as $dir) {
+
+//                    Storage::deleteDirectory($dir);
 
                     $relativeDir = str_ireplace(media_base_path(), '', $dir);
 
@@ -305,7 +308,7 @@ class FileManagerApiController extends Controller {
             $fnPath = normalize_path($fnNewFolderPath_new, false);
 
             if (!Storage::directoryExists($fnPath)) {
-                Storage::makeDirectory($fnPath);
+                Storage::createDirectory($fnPath);
                 $resp = array('success' => 'Folder ' . $fnPath . ' is created');
             } else {
                 $resp = array('error' => 'Folder ' . $fnNewFolderPath . ' already exists');
@@ -317,6 +320,10 @@ class FileManagerApiController extends Controller {
 
     private function pathAutoCleanString($string)
     {
+        // THIS FUNCTION IS BROKEN WHEN YOU HAVE MORE THAN 3 LEVELS OF FOLDERS
+        // TODO
+        return $string;
+
         $url = $string;
         $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url); // substitutes anything but letters, numbers and '_' with separator
         $url = trim($url, "-");
