@@ -3,6 +3,7 @@
 namespace MicroweberPackages\FileManager\Http\Controllers;
 
 
+use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\App\Http\Controllers\Controller;
 
 class PluploadController extends Controller
@@ -715,7 +716,19 @@ class PluploadController extends Controller
         $f_name = explode(DS, $filePath);
         $f_name = end($f_name);
 
-        $filePath = mw()->url_manager->link_to_file($filePath);
+        $moveToStorage = Storage::putFile($filePath);
+        if (!$moveToStorage) {
+            $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File can\'t be uploaded."}, "id" : "id"}');
+            $error_json = json_decode($error_json, true);
+
+            return response()->json($error_json, 422);;
+        }
+
+        // remove local file
+        unlink($filePath);
+
+        // GET url from cloud or local storage
+        $filePath = Storage::url($moveToStorage);
 
         $jsonResponse['name'] = $f_name;
 

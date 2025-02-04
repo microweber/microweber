@@ -2,6 +2,7 @@
 namespace MicroweberPackages\FileManager\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\Controller;
 use MicroweberPackages\Helper\HTMLClean;
@@ -13,8 +14,8 @@ class FileManagerApiController extends Controller {
 
     public function list(Request $request) {
 
-        $path = media_uploads_path();
-        $pathRestirct = media_uploads_path();
+        $path = '';///media_uploads_path();
+        $pathRestirct = '';//media_uploads_path();
 
         if (!empty($request->get('path'))) {
             $path = $request->get('path');
@@ -64,7 +65,17 @@ class FileManagerApiController extends Controller {
         $fileFilter['sort_by'] = $orderBy;
 
         $data = [];
-        $getData = app()->make(\MicroweberPackages\Utils\System\Files::class)->get($fileFilter);
+//        $getData = app()->make(\MicroweberPackages\Utils\System\Files::class)->get($fileFilter);
+
+        $getData = [];
+        $storageFiles = Storage::files($fileFilter['directory']);
+        if (!empty($storageFiles)) {
+            $getData['files'] = $storageFiles;
+        }
+        $storageDirectories = Storage::directories($fileFilter['directory']);
+        if (!empty($storageDirectories)) {
+            $getData['dirs'] = $storageDirectories;
+        }
 
         $paginationOutput = [];
         if ($limit > 0) {
@@ -95,16 +106,17 @@ class FileManagerApiController extends Controller {
 
                     $relativeDir = str_ireplace(media_base_path(), '', $dir);
 
-                    if(!is_dir($dir)){
-                        continue;
-                    }
+//                    if(!is_dir($dir)){
+//                        continue;
+//                    }
+                    $lastModified =  date('Y-m-d H:i:s');//Storage::lastModified($dir);
                     $data[] = [
                         'type' => 'folder',
-                        'mimeType' => mime_content_type($dir),
-                        'name' => basename($dir),
+                        'mimeType' => Storage::mimeType($dir),
+                        'name' => basename(Storage::path($dir)),
                         'path' => $relativeDir,
-                        'created' => date('Y-m-d H:i:s', filectime($dir)),
-                        'modified' => date('Y-m-d H:i:s', filemtime($dir))
+                        'created' => $lastModified,
+                        'modified' => $lastModified
                     ];
                 }
             }
@@ -119,23 +131,28 @@ class FileManagerApiController extends Controller {
                     continue;
                 }
 
-                $ext = strtolower(get_file_extension($file));
-                if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp' or $ext == 'webp' or $ext == 'svg') {
-                    $thumbnail = thumbnail(mw()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, false);
-                }
+//                $ext = strtolower(get_file_extension($file));
+//                if ($ext == 'jpg' or $ext == 'png' or $ext == 'gif' or $ext == 'jpeg' or $ext == 'bmp' or $ext == 'webp' or $ext == 'svg') {
+//                    $thumbnail = thumbnail(mw()->url_manager->link_to_file($file), $thumbnailSize, $thumbnailSize, false);
+//                }
+
+                $thumbnail = Storage::url($file);
 
                 $relative_path = str_ireplace(media_base_path(), '', $file);
 
+                $created = date('Y-m-d H:i:s', Storage::lastModified($file));
+                $lastModified = date('Y-m-d H:i:s', Storage::lastModified($file));
+
                 $data[] = [
                     'type'=>'file',
-                    'mimeType'=> mime_content_type($file),
+                    'mimeType'=> Storage::mimeType($file),
                     'name'=> basename($file),
                     'path'=> $relative_path,
-                    'created'=> date('Y-m-d H:i:s',filectime($file)),
-                    'modified'=> date('Y-m-d H:i:s',filemtime($file)),
+                    'created'=> $created,
+                    'modified'=> $lastModified,
                     'thumbnail'=> $thumbnail,
-                    'url'=> dir2url($file),
-                    'size'=> filesize($file),
+                    'url'=> Storage::url($file),
+                    'size'=> Storage::size($file)
                 ];
             }
         }
@@ -252,7 +269,9 @@ class FileManagerApiController extends Controller {
         $folderName = $clean->clean($folderName);
         $folderPath = $clean->clean($folderPath);
 
-        $targetPath = media_uploads_path();
+       // $targetPath = media_uploads_path();
+        $targetPath = '';
+
 
         if (trim($folderPath) != '') {
 
@@ -285,8 +304,8 @@ class FileManagerApiController extends Controller {
             $fnNewFolderPath_new = $targetPath . DS . $fnNewFolderPath;
             $fnPath = normalize_path($fnNewFolderPath_new, false);
 
-            if (!is_dir($fnPath)) {
-                mkdir_recursive($fnPath);
+            if (!Storage::directoryExists($fnPath)) {
+                Storage::makeDirectory($fnPath);
                 $resp = array('success' => 'Folder ' . $fnPath . ' is created');
             } else {
                 $resp = array('error' => 'Folder ' . $fnNewFolderPath . ' already exists');
