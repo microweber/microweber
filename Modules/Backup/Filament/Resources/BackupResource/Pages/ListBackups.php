@@ -26,7 +26,8 @@ class ListBackups extends ListRecords
     {
         return [
             Actions\Action::make('create_backup')
-                ->modalFooterActions([])
+                ->modalSubmitAction(false)
+                ->modalCancelAction(false)
                 ->form($this->backupFormArray())
         ];
     }
