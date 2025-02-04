@@ -716,7 +716,8 @@ class PluploadController extends Controller
         $f_name = explode(DS, $filePath);
         $f_name = end($f_name);
 
-        $checkDirIsValidOnStorage = Storage::exists($path);
+
+        $checkDirIsValidOnStorage = Storage::directoryExists($path);
         if (!$checkDirIsValidOnStorage) {
             $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "Invalid path!"}, "id" : "id"}');
             $error_json = json_decode($error_json, true);
