@@ -7,6 +7,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
+use Filament\Support\Enums\MaxWidth;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Livewire\Attributes\Url;
 use MicroweberPackages\Export\SessionStepper;
@@ -28,6 +29,7 @@ class ListBackups extends ListRecords
             Actions\Action::make('create_backup')
                 ->modalSubmitAction(false)
                 ->modalCancelAction(false)
+                ->modalWidth(MaxWidth::MaxContent)
                 ->form($this->backupFormArray())
         ];
     }
