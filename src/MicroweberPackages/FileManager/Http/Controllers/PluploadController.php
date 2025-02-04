@@ -716,6 +716,9 @@ class PluploadController extends Controller
         $f_name = explode(DS, $filePath);
         $f_name = end($f_name);
 
+        if (!isset($path)) {
+            $path = '/';
+        }
 
         $checkDirIsValidOnStorage = Storage::directoryExists($path);
         if (!$checkDirIsValidOnStorage) {

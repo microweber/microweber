@@ -226,7 +226,7 @@ class FileManagerApiController extends Controller {
 
         if (!empty($deletePaths) && is_array($deletePaths)) {
 
-            $pathRestirct = media_base_path();
+            $pathRestirct = '';//media_base_path();
 
             foreach ($deletePaths as $deletePath) {
 
@@ -240,22 +240,19 @@ class FileManagerApiController extends Controller {
                     $path = sanitize_path($path);
                     $path = str_replace($pathRestirct, '', $path);
 
-                    $targetPath = media_base_path() . DS . $path;
+//                    $targetPath = media_base_path() . DS . $path;
+                    $targetPath = '' . DS . $path;
                     $targetPath = normalize_path($targetPath, false);
 
-                    if (stristr($targetPath, media_uploads_path())) {
-                        if (is_dir($targetPath)) {
-                            mw('MicroweberPackages\Utils\System\Files')->rmdir($targetPath, false);
-                            $resp = array('success' => 'Directory ' . basename($targetPath) . ' is deleted');
-                        } elseif (is_file($targetPath)) {
-                            unlink($targetPath);
-                            $resp = array('success' => 'File ' . basename($targetPath) . ' is deleted');
-                        } else {
-                            $resp = array('error' => 'Not valid file or folder ' . basename($targetPath) . ' ');
-                        }
+                    $isDir = Storage::directoryExists($targetPath);
+                    if ($isDir) {
+                        Storage::deleteDirectory($targetPath);
+                        $resp = array('success' => 'Directory ' . basename($targetPath) . ' is deleted');
                     } else {
-                        $resp = array('error' => 'Not allowed to delete on ' . basename($targetPath) . ' ');
+                        Storage::delete($targetPath);
+                        $resp = array('success' => 'File ' . basename($targetPath) . ' is deleted');
                     }
+
                 }
             }
         }
