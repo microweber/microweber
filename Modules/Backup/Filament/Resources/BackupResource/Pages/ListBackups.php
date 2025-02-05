@@ -26,9 +26,19 @@ class ListBackups extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('upload_backup')
+                ->label('Upload Backup')
+                ->icon('heroicon-o-arrow-up-tray')
+                ->form([
+                    TextInput::make('backup_file')
+                        ->label('Backup File')
+                        ->placeholder('Select backup file')
+                        ->type('file'),
+                ]),
             Actions\Action::make('create_backup')
                 ->modalSubmitAction(false)
                 ->modalCancelAction(false)
+                ->icon('heroicon-o-inbox-arrow-down')
                 ->modalWidth(MaxWidth::MaxContent)
                 ->form($this->backupFormArray())
         ];
@@ -49,7 +59,11 @@ class ListBackups extends ListRecords
                             'custom_backup' => 'Create backup with custom selected tables, users, api_keys, media, modules, templates...',
                             'full_backup' => 'Create full backup of your sites with all data. This will create a zip with all data from your database. Include sensitive information like users, passwords, api keys, settings.',
                         ])
-
+                        ->icons([
+                            'content_backup'=>'heroicon-o-newspaper',
+                            'custom_backup'=>'heroicon-o-cog',
+                            'full_backup'=>'heroicon-o-inbox-arrow-down',
+                        ])
                         ->options([
                             'content_backup' => 'Content Backup',
                             'custom_backup' => 'Custom Backup',

@@ -51,10 +51,14 @@
     >
         <div class="flex items-center justify-center px-12 py-12">
             <div class="w-full bg-white p-8 rounded-lg shadow-lg">
-                <div class="flex items-center justify-between mb-4">
+
+                <div class="flex gap-2 items-center mb-4">
+                    <div>
+                        @svg('heroicon-o-cog', 'w-12 h-12 text-gray-400 animate-spin')
+                    </div>
                     <h1 class="text-2xl font-bold">Creating Backup</h1>
-                    <span x-text="currentStep + 1 + ' / ' + totalSteps"></span>
                 </div>
+                <div x-text="currentStep + ' / ' + totalSteps"></div>
 
                 <div class="relative w-full h-4 bg-gray-200 rounded-full">
                     <div
