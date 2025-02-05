@@ -796,7 +796,7 @@ h1,h2,h3,h4,h5,h6 {
 .noUi-target {
     @apply !border-0 !bg-transparent !shadow-none;
 }
-.card, .dropdown-menu, .noUi-target {
+.card, .noUi-target {
     @apply !bg-transparent dark:!bg-transparent !text-black dark:!text-white;
 }
 

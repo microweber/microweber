@@ -581,7 +581,8 @@ mw.top().app.canvas.on('canvasDocumentClickStart', e => {
 
         this.document.querySelectorAll('[contenteditable]').forEach(node => {
 
-            node.contentEditable = false
+            // node.contentEditable = false
+            node.removeAttribute("contenteditable");
         });
         this.document.querySelectorAll('[data-mw-live-edithover]').forEach(node => delete node.dataset.mwLiveEdithover);
 

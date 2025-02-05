@@ -379,7 +379,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
 
         this.#currentEditor = null;
         if(this.#observer) {
-            this.observer.disconnect();
+            this.#observer.disconnect();
         }
 
         this.#observer = null;

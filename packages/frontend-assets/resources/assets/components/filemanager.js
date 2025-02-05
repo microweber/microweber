@@ -94,7 +94,8 @@
                         fileAdded: function () {
                             scope.progress(5);
                         },
-                        fileUploaded: function (a,b) {
+                        fileUploaded: function (file) {
+
                             const fileData = Object.assign({}, file, {
                                 modified: Date.now(),
                                 created: Date.now(),
@@ -107,10 +108,12 @@
                             rows.push({data: fileData, row: row});
                             tableBody.prepend(row);
 
+
+
                         },
                         filesUploaded: function (a,b) {
 
-                            //scope.refresh(true);
+                            scope.refresh(true);
                         },
                         progress: function (val) {
                             scope.progress(val.percent);
@@ -222,12 +225,20 @@
         var globalcheck, _pathNode, _backNode;
 
         var _check = function (name) {
-            var input = document.createElement('input');
-            input.type = (scope.settings.multiselect ? 'checkbox' : 'radio');
-            input.name = name || _checkName;
-            input.className = 'form-check-input';
-            var root = mw.element('<label class="form-check"><span></span></label>');
-            root.prepend(input);
+
+
+            var root = mw.element(
+                `<label class="form-check">
+                    <span></span>
+                    <input
+                        type="${(scope.settings.multiselect ? 'checkbox' : 'radio')}"
+                        name="${name || _checkName}"
+                        class="form-check-input">
+                </label>
+            `);
+
+            var input = root.find('input').get(0);
+
 
             ['click', 'mousedown', 'mouseup', 'touchstart', 'touchend'].forEach(function (ev){
                 root.get(0).addEventListener(ev, function (e){
