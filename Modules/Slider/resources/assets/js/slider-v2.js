@@ -86,11 +86,13 @@ if(!window.SliderV2) {
             swiperConfig.navigation = {};
 
             if (this.config.navigation) {
-                if (this.config.navigation.nextElement || this.config.navigation.nextEl) {
-                    swiperConfig.navigation.nextEl = this.config.navigation.nextElement || this.config.navigation.nextEl;
+                const next = this.config.navigation.nextElement || this.config.navigation.nextEl;
+                const prev = this.config.navigation.prevElement || this.config.navigation.prevEl || this.config.navigation.previousElement || this.config.navigation.previousEl;
+                if (next) {
+                    swiperConfig.navigation.nextEl = next;
                 }
-                if (this.config.navigation.prevElement || this.config.navigation.prevEl) {
-                    swiperConfig.navigation.prevEl = this.config.navigation.prevElement || this.config.navigation.prevEl;
+                if (prev) {
+                    swiperConfig.navigation.prevEl = prev;
                 }
             }
 
