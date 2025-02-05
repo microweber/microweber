@@ -29,8 +29,7 @@ description: Skin-17
                 <div class="team-member">
                     <div class="main-content">
                         @if ($member['file'])
-                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" style="height: 300px;
-    object-fit: cover;"/>
+                            <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" />
                         @else
                             <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
                         @endif
