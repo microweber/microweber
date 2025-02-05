@@ -56,7 +56,7 @@
                     <div>
                         @svg('heroicon-o-cog', 'w-12 h-12 text-gray-400 animate-spin')
                     </div>
-                    <h1 class="text-2xl font-bold">Creating Backup</h1>
+                    <div class="text-2xl font-bold">Creating Backup</div>
                 </div>
                 <div x-text="currentStep + ' / ' + totalSteps"></div>
 
