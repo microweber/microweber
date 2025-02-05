@@ -42,19 +42,19 @@ description slider
                         @endif
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="py-4 fs-4">
+                    <div class="col-md-6 my-auto">
+                        <h2 class="py-4 fs-1 font-weight-bold">
                             {{$member['name']}}
-                        </div>
-                        <div class="pb-3">
+                        </h2>
+                        <p class="pb-3">
                             {{$member['role']}}
-                        </div>
+                        </p>
                         <a href="{{ $member['website'] }}" target="_blank">
                             {{$member['website']}}
                         </a>
-                        <div class="pt-3 italic">
+                        <p class="pt-3 italic">
                             {{$member['bio']}}
-                        </div>
+                        </p>
                     </div>
                 </div>
             </div>
