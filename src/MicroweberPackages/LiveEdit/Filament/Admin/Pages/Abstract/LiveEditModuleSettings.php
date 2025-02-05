@@ -162,9 +162,7 @@ abstract class LiveEditModuleSettings extends Page
                     }
                 }
             }
-//            if (!$showField) {
-//                continue;
-//            }
+
             // $name must  start with options.
             if ($appendSettingsKey and strpos($name, $settingsKey . '.') !== 0) {
                 // $name = $settingsKey.'.' . $name;

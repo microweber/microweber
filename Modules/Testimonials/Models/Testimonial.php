@@ -4,6 +4,7 @@ namespace Modules\Testimonials\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use MicroweberPackages\Database\Casts\ReplaceSiteUrlCast;
 
 class Testimonial extends Model
 {
@@ -20,4 +21,9 @@ class Testimonial extends Model
         'rel_id',
         'rel_type',
     ];
+
+    protected $casts = [
+        'client_image' => ReplaceSiteUrlCast::class, //Casts like that: http://lorempixel.com/400/200/ =>  {SITE_URL}400/200/
+    ];
+
 }
