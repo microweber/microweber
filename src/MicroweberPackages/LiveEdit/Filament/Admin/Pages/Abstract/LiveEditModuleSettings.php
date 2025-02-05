@@ -143,8 +143,29 @@ abstract class LiveEditModuleSettings extends Page
             if (!isset($schema['label'])) {
                 $schema['label'] = titlelize($name);
             }
-            // $name must  start with options.
+            $showField = true;
 
+
+
+            // Check if show_when condition exists and if any of the conditions are met
+            if (isset($schema['show_when']) && is_array($schema['show_when'])) {
+                $showField = false;
+                foreach ($schema['show_when'] as $condition) {
+
+
+                    // Check if the condition exists in the current schema or options
+                    if (isset($this->options[$condition]) and $this->options[$condition]) {
+                        $showField = true;
+                        break;
+                    } else {
+                        $showField = false;
+                    }
+                }
+            }
+//            if (!$showField) {
+//                continue;
+//            }
+            // $name must  start with options.
             if ($appendSettingsKey and strpos($name, $settingsKey . '.') !== 0) {
                 // $name = $settingsKey.'.' . $name;
                 $name = $settingsKey . '.' . $name;
@@ -154,6 +175,7 @@ abstract class LiveEditModuleSettings extends Page
             if ($schema['type'] == 'text') {
                 $formFields[] = TextInput::make($name)
                     ->label($schema['label'])
+                    ->visible($showField)
                     ->live()
                     ->placeholder($schema['placeholder'] ?? '');
 
@@ -161,30 +183,35 @@ abstract class LiveEditModuleSettings extends Page
             if ($schema['type'] == 'textarea') {
                 $formFields[] = Textarea::make($name)
                     ->label($schema['label'])
+                    ->visible($showField)
                     ->live()
                     ->placeholder($schema['placeholder'] ?? '');
             }
             if ($schema['type'] == 'image') {
                 $formFields[] = MwFileUpload::make($name)
                     ->label($schema['label'])
+                    ->visible($showField)
                     ->live()
                     ->placeholder($schema['placeholder'] ?? '');
             }
             if ($schema['type'] == 'color') {
                 $formFields[] = ColorPicker::make($name)
                     ->label($schema['label'])
+                    ->visible($showField)
                     ->live()
                     ->placeholder($schema['placeholder'] ?? '');
             }
             if ($schema['type'] == 'select') {
                 $formFields[] = Select::make($name)
                     ->label($schema['label'])
+                    ->visible($showField)
                     ->options($schema['options'])
                     ->live()
                     ->placeholder($schema['placeholder'] ?? '');
             }
             if ($schema['type'] == 'toggle') {
                 $formFields[] = Toggle::make($name)
+                    ->visible($showField)
                     ->live()
                     ->label($schema['label'] ?? '');
             }
@@ -286,7 +313,7 @@ abstract class LiveEditModuleSettings extends Page
                                 and !empty($moduleTemplateSettingsJson['useSchemaFrom'])) {
 
 
-                                if(is_array($moduleTemplateSettingsJson['useSchemaFrom'])){
+                                if (is_array($moduleTemplateSettingsJson['useSchemaFrom'])) {
                                     $mergeSchemasToFind = $moduleTemplateSettingsJson['useSchemaFrom'];
                                 } else {
                                     $mergeSchemasToFind[] = $moduleTemplateSettingsJson['useSchemaFrom'];
