@@ -25,7 +25,6 @@ class BackgroundModule extends BaseModule
         $background_size = $background_size_option ?? $this->params['data-background-size'] ?? $this->params['background-size'] ?? '';
         $background_color = $background_color_option ?? $this->params['data-background-color'] ?? $this->params['background-color'] ?? '';
         $background_video = $background_video_option ?? $this->params['data-background-video'] ?? $this->params['background-video'] ?? '';
-
         $style_attributes_overlay = [];
         $style_attributes = [];
 
