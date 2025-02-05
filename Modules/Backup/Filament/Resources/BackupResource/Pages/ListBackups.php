@@ -2,6 +2,7 @@
 
 namespace Modules\Backup\Filament\Resources\BackupResource\Pages;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -11,6 +12,7 @@ use Filament\Support\Enums\MaxWidth;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Livewire\Attributes\Url;
 use MicroweberPackages\Export\SessionStepper;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Backup\Filament\Pages\CreateBackup;
 use Modules\Backup\Filament\Resources\BackupResource;
 use Filament\Actions;
@@ -22,6 +24,7 @@ class ListBackups extends ListRecords
     protected static string $resource = BackupResource::class;
 
     public $sessionId = null;
+    public $backupFile = null;
 
     protected function getHeaderActions(): array
     {
@@ -30,11 +33,12 @@ class ListBackups extends ListRecords
                 ->label('Upload Backup')
                 ->icon('heroicon-o-arrow-up-tray')
                 ->form([
-                    TextInput::make('backup_file')
+                    FileUpload::make('backupFile')
                         ->label('Backup File')
-                        ->placeholder('Select backup file')
-                        ->type('file'),
-                ]),
+                        ->placeholder('Select backup file'),
+                ])->afterFormValidated(function () {
+                    dd($this->backupFile);
+                }),
             Actions\Action::make('create_backup')
                 ->modalSubmitAction(false)
                 ->modalCancelAction(false)
