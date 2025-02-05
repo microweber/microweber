@@ -25,7 +25,6 @@ description slider
 <style>
     #js-teamcard-slider-{{ $params['id'] }}{
         max-height: 500px;
-        background-color: #f5f5f5;
     }
 </style>
 
