@@ -34,14 +34,12 @@ description slider
         @if ($teamcard->count() > 0)
             @foreach($teamcard as $i => $member)
             <div class="swiper-slide">
-                <div class="row overflow-hidden text-start p-md-4 p-2 d-flex flex-wrap">
+                <div class="row overflow-hidden text-start p-md-4 p-2 d-flex flex-wrap h-100">
                     <div class="col-md-6">
                         @if ($member['file'])
                             <div class="m-auto h-100 w-100" style="background-image: url('{{ thumbnail($member['file'], 900) }}'); background-repeat: no-repeat; background-size: cover;"></div>
                         @else
-                            <div class="m-auto rounded-circle">
-                                <img width="185" height="185" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
-                            </div>
+                            <div class="m-auto h-100 w-100" style="background-image: url('{{ asset('modules/teamcard/default-content/default-image.svg') }}'); background-repeat: no-repeat; background-size: cover;"></div>
                         @endif
                     </div>
 
