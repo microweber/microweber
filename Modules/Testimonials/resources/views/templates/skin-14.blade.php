@@ -11,7 +11,7 @@ description: Skin-14
 @endphp
 
 <script>
-    @php print get_asset('/Modules/Slider/resources/assets/js/slider-v2.js'); ?>
+    @php print get_asset('/Modules/Slider/resources/assets/js/slider-v2.js'); @endphp
 </script>
 <script>
     $(document).ready(function () {
