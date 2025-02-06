@@ -63,7 +63,7 @@ class SocialLinksModule extends BaseModule
 
         // If no networks are enabled, add default ones
         if (!$hasEnabledNetworks) {
-            $defaultNetworks = ['facebook', 'instagram', 'linkedin'];
+            $defaultNetworks = ['facebook', 'x', 'instagram', 'linkedin'];
             foreach ($defaultNetworks as $network) {
                 $data["{$network}_enabled"] = true;
                 $data["{$network}_url"] = '';
