@@ -684,6 +684,23 @@ class MenuManager
                 $menu_link = str_replace('{li_submenu_a_class}', $class_for_li_submenu_a, $menu_link);
                 $to_print .= $menu_link;
 
+                if (isset($item['enable_mega_menu']) && $item['enable_mega_menu'] == 1) {
+                    $to_print .= '<div class="mega-menu-content">';
+
+                    $viewName = 'modules.menu::mega_menu_templates.menu_item.'.$item['menu_item_template'];
+                    $checkIfActiveSiteTemplate = app()->templates->find(template_name());
+                    if ($checkIfActiveSiteTemplate) {
+                        $siteTemplateLowerName = $checkIfActiveSiteTemplate->getLowerName();
+                        $siteTemplateNamespace = 'templates.' . $siteTemplateLowerName . '::modules.menu.mega_menu_templates.menu_item.' . $item['menu_item_template'];
+                        if (view()->exists($siteTemplateNamespace)) {
+                            $viewName = $siteTemplateNamespace;
+                        }
+
+                    }
+
+                    $to_print .=  view($viewName);
+                    $to_print .= '</div>';
+                }
                 $ext_classes = '';
                 //  if ($orig_depth > 0) {
 
