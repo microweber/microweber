@@ -156,7 +156,6 @@
         @if(isset($styleSettings))
 
             <div
-                class="px-8"
                 x-data="{styleEditorData:{}, showStyleSettings: '/'}"
 
                 x-init="()=>{
@@ -164,8 +163,8 @@
                 if (value.selectors) {
                     mw.top().app.dispatch('mw.rte.css.editor2.open', value);
                 }
-            });
-        }"
+                });
+            }"
             >
 
                     <?php if (!empty($styleSettings)): ?>
