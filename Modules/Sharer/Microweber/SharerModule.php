@@ -4,29 +4,63 @@ namespace Modules\Sharer\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Sharer\Filament\SharerModuleSettings;
+use Illuminate\View\View;
 
 class SharerModule extends BaseModule
 {
+    // Module configuration
     public static string $name = 'Sharer';
     public static string $module = 'sharer';
     public static string $icon = 'modules.sharer-icon';
     public static string $categories = 'social';
     public static int $position = 210;
-    public static string $settingsComponent =  SharerModuleSettings::class;
+    public static string $settingsComponent = SharerModuleSettings::class;
     public static string $templatesNamespace = 'modules.sharer::templates';
 
-    public function render()
+    // Social networks configuration
+    private const SOCIAL_NETWORKS = [
+        'facebook',
+        'x',
+        'pinterest',
+        'linkedin',
+        'viber',
+        'whatsapp',
+        'telegram'
+    ];
+
+    public function render(): View
     {
         $viewData = $this->getViewData();
-
-        $viewData['facebook_enabled'] = $this->getOption('facebook_enabled') == '1';
-        $viewData['x_enabled'] = $this->getOption('x_enabled') == '1';
-        $viewData['pinterest_enabled'] = $this->getOption('pinterest_enabled') == '1';
-        $viewData['linkedin_enabled'] = $this->getOption('linkedin_enabled') == '1';
-        $viewData['viber_enabled'] = $this->getOption('viber_enabled') == '1';
-        $viewData['whatsapp_enabled'] = $this->getOption('whatsapp_enabled') == '1';
-        $viewData['telegram_enabled'] = $this->getOption('telegram_enabled') == '1';
+        $viewData = array_merge($viewData, $this->getSocialNetworksData());
 
         return view(static::$templatesNamespace . '.default', $viewData);
+    }
+
+    public function getSocialNetworksData(): array
+    {
+        $data = [];
+        foreach (self::SOCIAL_NETWORKS as $network) {
+            $data["{$network}_enabled"] = $this->getOption("{$network}_enabled") == '1';
+        }
+
+        // Check if any social network is enabled
+        $hasEnabledNetworks = false;
+        foreach (self::SOCIAL_NETWORKS as $network) {
+            if ($data["{$network}_enabled"]) {
+                $hasEnabledNetworks = true;
+                break;
+            }
+        }
+
+        // If no networks are enabled, add default ones
+        if (!$hasEnabledNetworks) {
+            $defaultNetworks = ['facebook', 'x', 'linkedin','whatsapp'];
+            foreach ($defaultNetworks as $network) {
+                $data["{$network}_enabled"] = true;
+                save_option("{$network}_enabled", '1', $this->params['id']);
+            }
+        }
+
+        return $data;
     }
 }

@@ -8,9 +8,9 @@
                 d="M21,7V3h-4v1H7V3H3v4h1v10H3v4h4v-1h10v1h4v-4h-1V7H21 M18,4h2v2h-2V4 M4,4h2v2H4V4 M6,20H4v-2h2V20 M20,20h-2v-2h2V20   M18,17h-1v1H7v-1H6V7h1V6h10v1h1V17 M16,8v2h-3v6h-2v-6H8V8H16z"></path>
         </svg>
 
-        <b class="mw-admin-action-links ms-3" :class="{'active': showTypography }" v-on:click="toggleTypography">
+        <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3" :class="{'active': showTypography }" v-on:click="toggleTypography">
             Typography
-        </b>
+        </span>
     </div>
     <div v-if="showTypography">
         <div>

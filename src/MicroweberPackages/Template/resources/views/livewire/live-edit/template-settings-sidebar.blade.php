@@ -156,7 +156,6 @@
         @if(isset($styleSettings))
 
             <div
-                class="px-8"
                 x-data="{styleEditorData:{}, showStyleSettings: '/'}"
 
                 x-init="()=>{
@@ -164,8 +163,8 @@
                 if (value.selectors) {
                     mw.top().app.dispatch('mw.rte.css.editor2.open', value);
                 }
-            });
-        }"
+                });
+            }"
             >
 
                     <?php if (!empty($styleSettings)): ?>
@@ -208,7 +207,7 @@
                             >
                                 @if (isset($styleSetting['title']))
                                     <a x-on:click="showStyleSettings = '{{ $styleSetting['url'] }}'"
-                                       class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer">
+                                       class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-4">
                                         {{ $styleSetting['title'] }}
                                     </a>
                                 @endif
@@ -380,7 +379,7 @@
                                         </button>
                                     </div>
 
-                                    <div x-show="showStyleSettings == '/'" class="my-3">
+                                    <div x-show="showStyleSettings == '/'" class="my-4">
                                         <a x-on:click="showStyleSettings = 'setting-values-key-{{md5($settingName)}}'"
                                            class="mw-admin-action-links">
                                             <b>{{$settingName}}</b>

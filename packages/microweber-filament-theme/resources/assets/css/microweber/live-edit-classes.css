@@ -230,11 +230,15 @@ body {
 }
 
 .mw-live-edit-tools-dropdown-menu {
-    @apply !min-w-[175px];
+    @apply !min-w-[175px] !bg-white dark:!bg-slate-800;
 }
 
 .mw-live-edit-tools-dropdown-menu ul li a {
     @apply flex items-center;
+}
+
+.fi-layout .fi-main-ctn {
+    @apply bg-white dark:bg-slate-900;
 }
 
 
