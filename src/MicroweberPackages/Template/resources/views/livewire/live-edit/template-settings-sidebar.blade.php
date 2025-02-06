@@ -207,7 +207,7 @@
                             >
                                 @if (isset($styleSetting['title']))
                                     <a x-on:click="showStyleSettings = '{{ $styleSetting['url'] }}'"
-                                       class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer">
+                                       class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group cursor-pointer mb-4">
                                         {{ $styleSetting['title'] }}
                                     </a>
                                 @endif
