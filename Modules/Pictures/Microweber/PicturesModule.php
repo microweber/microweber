@@ -30,7 +30,39 @@ class PicturesModule extends BaseModule
         $viewData = $this->prepareViewData();
         $relationData = $this->determineRelationData();
         $pictures = $this->fetchPictures($relationData);
-        
+
+        if (empty($pictures)) {
+
+
+            $pictures[] = new Media([
+                'id' => 1,
+                'filename' => 'modules/pictures/default-images/gallery-1-1.jpg',
+                'media_type' => 'picture',
+                'rel_type' => $relationData['type'],
+                'rel_id' => $relationData['id'],
+                'position' => 0,
+            ]);
+
+            $pictures[] = new Media([
+                'id' => 2,
+                'filename' => 'modules/pictures/default-images/gallery-1-2.jpg',
+                'media_type' => 'picture',
+                'rel_type' => $relationData['type'],
+                'rel_id' => $relationData['id'],
+                'position' => 1,
+            ]);
+
+            $pictures[] = new Media([
+                'id' => 3,
+                'filename' => 'modules/pictures/default-images/gallery-1-3.jpg',
+                'media_type' => 'picture',
+                'rel_type' => $relationData['type'],
+                'rel_id' => $relationData['id'],
+                'position' => 2,
+            ]);
+        }
+
+
         return $this->buildView($viewData, $pictures);
     }
 
@@ -43,7 +75,7 @@ class PicturesModule extends BaseModule
     {
         $viewData = $this->getViewData();
         $viewData['template'] = $viewData['template'] ?? 'default';
-        
+
         return $viewData;
     }
 
