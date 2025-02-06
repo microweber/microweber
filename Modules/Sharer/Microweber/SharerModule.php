@@ -54,7 +54,7 @@ class SharerModule extends BaseModule
 
         // If no networks are enabled, add default ones
         if (!$hasEnabledNetworks) {
-            $defaultNetworks = ['facebook', 'x', 'whatsapp'];
+            $defaultNetworks = ['facebook', 'x', 'linkedin','whatsapp'];
             foreach ($defaultNetworks as $network) {
                 $data["{$network}_enabled"] = true;
                 save_option("{$network}_enabled", '1', $this->params['id']);
