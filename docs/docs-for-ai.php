@@ -18,7 +18,7 @@ foreach ($modules as $modulePath) {
     if (file_exists($readmePath)) {
         // Get module name from directory
         $moduleName = basename($modulePath);
-
+        $combinedContent .= "<chunk>\n\n";
         // Add module header
         $combinedContent .= "## {$moduleName} Module\n\n";
 
@@ -29,6 +29,8 @@ foreach ($modules as $modulePath) {
         $readmeContent = preg_replace('/^#\s.*?\n/m', '', $readmeContent, 1);
 
         $combinedContent .= $readmeContent . "\n\n---\n\n";
+        $combinedContent .= "</chunk>\n\n";
+
     }
 }
 

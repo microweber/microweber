@@ -1,5 +1,7 @@
 # Microweber Modules Documentation
 
+<chunk>
+
 ## Accordion Module
 
 
@@ -22,6 +24,10 @@ php artisan module:publish Accordion
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Attributes Module
 
@@ -65,6 +71,10 @@ This module is licensed under the MIT License.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Audio Module
 
 
@@ -103,6 +113,10 @@ Microweber Team - [info@microweber.com](mailto:info@microweber.com)
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Background Module
 
 
@@ -111,12 +125,20 @@ The Background module allows users to set a background image or video for their 
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Backup Module
 
 https://travis-ci.org/microweber-packages/microweber-backup-manager
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## BeforeAfter Module
 
@@ -143,6 +165,10 @@ php artisan module:publish BeforeAfter
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Btn Module
 
 
@@ -157,6 +183,10 @@ php artisan module:publish Btn
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Captcha Module
 
@@ -218,6 +248,10 @@ view('modules.captcha::index')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Cart Module
 
 
@@ -244,6 +278,10 @@ php artisan module:publish Cart
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Category Module
 
 
@@ -267,6 +305,10 @@ php artisan module:publish Category
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Checkout Module
 
@@ -306,6 +348,10 @@ php artisan test Modules/Checkout/Tests/Unit
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Cloudflare Module
 
@@ -367,6 +413,10 @@ view('modules.cloudflare::index')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Comments Module
 
 
@@ -416,6 +466,10 @@ view('modules.comments::index')
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Components Module
 
@@ -817,6 +871,10 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## ContactForm Module
 
 
@@ -865,6 +923,10 @@ view('modules.contact_form::index')
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Content Module
 
@@ -1188,6 +1250,10 @@ $pagination = paging([
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## ContentData Module
 
 
@@ -1256,6 +1322,10 @@ This module is licensed under the MIT License. See the [LICENSE](https://github.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## ContentDataVariant Module
 
 
@@ -1282,6 +1352,10 @@ php artisan module:publish ContentDataVariant
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## ContentField Module
 
 
@@ -1305,6 +1379,10 @@ php artisan module:publish ContentField
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## CookieNotice Module
 
@@ -1363,6 +1441,10 @@ The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Country Module
 
 
@@ -1413,6 +1495,10 @@ This module is licensed under the MIT License. See the LICENSE file for more inf
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Coupons Module
 
 
@@ -1433,6 +1519,10 @@ php artisan module:publish Coupons
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Currency Module
 
@@ -1494,6 +1584,10 @@ view('modules.currency::index')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## CustomFields Module
 
 
@@ -1515,6 +1609,10 @@ php artisan module:publish CustomFields
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Customer Module
 
@@ -1621,6 +1719,10 @@ This module is licensed under the MIT License. See the [LICENSE](https://github.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Embed Module
 
 
@@ -1643,6 +1745,10 @@ php artisan module:publish Embed
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## FacebookLike Module
 
@@ -1704,6 +1810,10 @@ view('modules.facebook_like::index')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## FacebookPage Module
 
 
@@ -1728,6 +1838,10 @@ php artisan module:publish FacebookPage
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Faq Module
 
 
@@ -1741,6 +1855,10 @@ php artisan module:publish Faq
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Form Module
 
@@ -1800,6 +1918,10 @@ php artisan test --filter Form
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## GoogleAnalytics Module
 
@@ -1874,6 +1996,10 @@ This module is licensed under the MIT License.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## GoogleMaps Module
 
 
@@ -1915,6 +2041,10 @@ Microweber Team - [info@microweber.com](mailto:info@microweber.com)
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## HighlightCode Module
 
 
@@ -1929,6 +2059,10 @@ php artisan module:publish HighlightCode
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Invoice Module
 
@@ -1953,6 +2087,10 @@ php artisan module:publish Invoice
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Layouts Module
 
 
@@ -1964,6 +2102,10 @@ php artisan module:publish Layouts
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Logo Module
 
@@ -2029,6 +2171,10 @@ See the `2rows.blade.php` and `default.blade.php` templates in the resources/vie
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## MailTemplate Module
 
@@ -2187,6 +2333,10 @@ This module is open-sourced software licensed under the [MIT license](https://op
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Marketplace Module
 
 
@@ -2194,6 +2344,10 @@ This module is open-sourced software licensed under the [MIT license](https://op
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Marquee Module
 
@@ -2229,6 +2383,10 @@ This module is licensed under the MIT License.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Media Module
 
 
@@ -2251,6 +2409,10 @@ php artisan module:publish Media
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Menu Module
 
@@ -2312,6 +2474,10 @@ view('modules.menu::index')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Newsletter Module
 
 
@@ -2372,6 +2538,10 @@ view('modules.newsletter::index')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Offer Module
 
 
@@ -2395,6 +2565,10 @@ php artisan module:publish Offer
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## OpenApi Module
 
@@ -2440,6 +2614,10 @@ php artisan test --filter OpenApi
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Order Module
 
 
@@ -2462,6 +2640,10 @@ php artisan module:publish Order
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Page Module
 
@@ -2487,6 +2669,10 @@ php artisan module:publish Page
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Payment Module
 
@@ -2532,6 +2718,10 @@ This module is licensed under the MIT License.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Pdf Module
 
 
@@ -2553,6 +2743,10 @@ php artisan module:publish Pdf
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Pictures Module
 
@@ -2591,6 +2785,10 @@ This module is licensed under the MIT License.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Post Module
 
 
@@ -2608,6 +2806,10 @@ php artisan module:publish Post
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Product Module
 
@@ -2633,6 +2835,10 @@ php artisan module:publish Product
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Profile Module
 
@@ -2686,6 +2892,10 @@ view('modules.profile::example')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## RssFeed Module
 
 
@@ -2718,6 +2928,10 @@ php artisan test --filter RssFeed
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Settings Module
 
@@ -2779,6 +2993,10 @@ view('modules.settings::index')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Sharer Module
 
 
@@ -2794,6 +3012,10 @@ php artisan module:publish Sharer
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Shipping Module
 
@@ -2855,6 +3077,10 @@ view('modules.shipping::index')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Shop Module
 
 
@@ -2915,6 +3141,10 @@ view('modules.shop::example')
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## SiteStats Module
 
 
@@ -2937,6 +3167,10 @@ php artisan module:publish SiteStats
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Sitemap Module
 
@@ -2972,6 +3206,10 @@ php artisan test --filter Sitemap
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Skills Module
 
 
@@ -2986,6 +3224,10 @@ php artisan module:publish Skills
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Slider Module
 
@@ -3021,6 +3263,10 @@ This module is licensed under the MIT License.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## SocialLinks Module
 
 
@@ -3034,6 +3280,10 @@ php artisan module:publish SocialLinks
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Tabs Module
 
@@ -3081,6 +3331,10 @@ This module is licensed under the MIT License.
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Tag Module
 
@@ -3158,6 +3412,10 @@ You can customize the Tag module's behavior by modifying the configuration file 
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## Tax Module
 
 
@@ -3196,6 +3454,10 @@ This module is part of the Microweber framework and is subject to the same licen
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Teamcard Module
 
@@ -3256,6 +3518,10 @@ view('modules.teamcard::index')
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Testimonials Module
 
@@ -3380,6 +3646,10 @@ This module is licensed under the MIT License.
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## TextType Module
 
 
@@ -3403,6 +3673,10 @@ Include the TextType module in your views and configure the text and settings as
 
 ---
 
+</chunk>
+
+<chunk>
+
 ## TweetEmbed Module
 
 
@@ -3425,6 +3699,10 @@ php artisan module:publish TweetEmbed
 
 
 ---
+
+</chunk>
+
+<chunk>
 
 ## Video Module
 
@@ -3485,4 +3763,6 @@ view('modules.video::index')
 
 
 ---
+
+</chunk>
 
