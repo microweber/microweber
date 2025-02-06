@@ -22,10 +22,10 @@ class DeleteOldBackupModule extends Migration
         }
 
         if (Schema::hasTable('modules')) {
-            $findModule = \Modules\Module\Models\Module::where('module', 'admin/backup_v2')->first();
-            if ($findModule != null) {
-                $findModule->delete();
-            }
+//            $findModule = \Modules\Module\Models\Module::where('module', 'admin/backup_v2')->first();
+//            if ($findModule != null) {
+//                $findModule->delete();
+//            } 
         }
 
 
