@@ -379,7 +379,7 @@
                                         </button>
                                     </div>
 
-                                    <div x-show="showStyleSettings == '/'" class="my-3">
+                                    <div x-show="showStyleSettings == '/'" class="my-4">
                                         <a x-on:click="showStyleSettings = 'setting-values-key-{{md5($settingName)}}'"
                                            class="mw-admin-action-links">
                                             <b>{{$settingName}}</b>
