@@ -504,7 +504,11 @@ if (!function_exists('params_stripslashes_array')) {
 if (!function_exists('powered_by_link')) {
     function powered_by_link()
     {
-        return mw('ui')->powered_by_link();
+        $link = mw('ui')->powered_by_link();
+        if (trim(empty($link))) {
+            return "Your Company";
+        }
+        return $link;
     }
 }
 
