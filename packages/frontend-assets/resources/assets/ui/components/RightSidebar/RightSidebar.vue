@@ -4,7 +4,7 @@
 
         <div id="general-theme-settings" :class="[showSidebar == true ? 'active' : '']">
             <div>
-                <div class="d-flex align-items-center justify-content-between px-3 pt-4 pb-0 position-relative">
+                <div class="d-flex align-items-center justify-content-between position-relative">
                     <h3 v-show="showTemplateSettings" class="fs-2 font-weight-bold">Template Style Editor</h3>
 
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
