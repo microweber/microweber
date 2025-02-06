@@ -698,7 +698,9 @@ class MenuManager
 
                     }
 
-                    $to_print .=  view($viewName);
+                    $to_print .=  view($viewName, [
+                        'menu_item_id'=>$item['id'],
+                    ]);
                     $to_print .= '</div>';
                 }
                 $ext_classes = '';
