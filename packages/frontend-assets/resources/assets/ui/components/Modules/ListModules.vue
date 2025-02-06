@@ -18,10 +18,11 @@
             <div class="modules-list modules-list-defaultModules py-3">
 
                 <div class="modules-list-search-block input-icon px-3 mx-md-3 position-relative">
-<!--                    <span class="input-icon-addon ms-3 " style="z-index: 10; right: 10px;">-->
+                    <span class="input-icon-addon me-5 " style="position: absolute; z-index: 10; left: 10px; margin-right: auto; justify-content: start;">
 
-<!--                      <svg fill="none" xmlns="http://www.w3.org/2000/svg" class="icon" width="28" height="28" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>-->
-<!--                    </span>-->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+
+                    </span>
 
                     <input type="text"
                         autofocus
@@ -29,7 +30,7 @@
                            v-bind:placeholder="$lang('Type to Search') + '...'"
                            class="js-modules-list-search-input form-control mw-modules-list-search-block rounded-0 w-100">
 
-                         <span v-show="filterKeyword.length > 0" style="position: absolute; cursor: pointer;color: #aeaeae;top: 15px;right: 23px;padding: 3px;" v-on:click="filterClearKeyword()">
+                         <span v-show="filterKeyword.length > 0" style="position: absolute; cursor: pointer;color: #aeaeae;top: 25px;right: 23px;padding: 3px;" v-on:click="filterClearKeyword()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"></path>
                             </svg>
