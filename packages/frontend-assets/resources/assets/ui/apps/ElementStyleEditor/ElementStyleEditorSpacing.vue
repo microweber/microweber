@@ -128,9 +128,9 @@
                 d="M10.6,12l4-4H11V6h7v7h-2V9.4l-4,4V16h8V4H8v8H10.6 M22,2v16H12v4H2V12h4V2H22 M10,14H4v6h6V14z"></path>
         </svg>
 
-        <b class="mw-admin-action-links ms-3" :class="{'active': showSpacing }" v-on:click="toggleSpacing">
+        <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3" :class="{'active': showSpacing }" v-on:click="toggleSpacing">
             Spacing
-        </b>
+        </span>
     </div>
 
     <div v-if="showSpacing">

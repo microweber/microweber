@@ -6,9 +6,9 @@
              style="enable-background:new 0 0 24 24;" xml:space="preserve">
             <path d="M12.2,3.9c4.5,0,8.1,3.6,8.1,8.1s-3.6,8.1-8.1,8.1S4.1,16.5,4.1,12S7.7,3.9,12.2,3.9"></path>
         </svg>
-        <b class="mw-admin-action-links ms-3" :class="{'active': showBackground }" v-on:click="toggleBackground">
+        <span class="mw-admin-action-links mw-adm-liveedit-tabs ms-3" :class="{'active': showBackground }" v-on:click="toggleBackground">
             Background
-        </b>
+        </span>
     </div>
 
     <div v-if="showBackground">
