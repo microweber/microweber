@@ -128,7 +128,7 @@ class PicturesModule extends BaseModule
 
     /**
      * Build default pictures for the module
-     * 
+     *
      * @param  string  $relType
      * @param $relId
      *
