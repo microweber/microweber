@@ -39,9 +39,9 @@ class SocialLinksModule extends BaseModule
         $viewData = $this->getViewData();
         $viewData = array_merge($viewData, $this->getSocialNetworksData());
 
-        $template = $this->getBladeTemplate($viewData['template'] ?? 'default');
+        $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
-        return view(static::$templatesNamespace . '.' . $template, $viewData);
+        return view($viewName, $viewData);
     }
 
     private function getSocialNetworksData(): array
@@ -73,12 +73,5 @@ class SocialLinksModule extends BaseModule
         }
 
         return $data;
-    }
-
-    public function getBladeTemplate(string $template): string
-    {
-        return view()->exists(static::$templatesNamespace . '.' . $template)
-            ? $template
-            : 'default';
     }
 }
