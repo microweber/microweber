@@ -126,13 +126,13 @@ if (!function_exists('change_language_by_locale')) {
 
                     if ($localeSettings != null and isset($localeSettings['locale'])) {
 
-                        setcookie('lang', $locale, time() + (86400 * 30), "/");
-                        $_COOKIE['lang'] = $locale;
+//                        setcookie('lang', $locale, time() + (86400 * 30), "/");
+//                        $_COOKIE['lang'] = $locale;
                         \Cookie::queue('lang', $locale, 86400 * 30);
 
                         if (isset($localeSettings['display_locale']) and $localeSettings['display_locale']) {
-                            setcookie('lang_display', $localeSettings['display_locale'], time() + (86400 * 30), "/");
-                            $_COOKIE['lang_display'] = $localeSettings['display_locale'];
+//                            setcookie('lang_display', $localeSettings['display_locale'], time() + (86400 * 30), "/");
+//                            $_COOKIE['lang_display'] = $localeSettings['display_locale'];
                             \Cookie::queue('lang_display', $localeSettings['display_locale'], 86400 * 30);
                         }
 
