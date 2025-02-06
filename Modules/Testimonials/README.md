@@ -42,5 +42,77 @@ The module uses the `testimonials` table with the following fields:
 | `created_at`     | Timestamp | Timestamp for when the testimonial was created |
 | `updated_at`     | Timestamp | Timestamp for when the testimonial was last updated |
 
+## Templates
+The Testimonials module comes with multiple pre-built templates located in `resources/views/templates/`. These templates provide different styles and layouts for displaying testimonials.
+
+### Available Templates
+- `default.blade.php`: Default grid layout with client image, name, content, company, and role
+- Multiple skin variations (skin-1 through skin-23) offering different styling options
+
+### Creating Custom Templates
+To create a custom template:
+
+1. Create a new Blade file in `resources/views/templates/` directory
+2. Add the required template metadata at the top of the file:
+```php
+@php
+/*
+type: layout
+name: Your Template Name
+description: Your Template Description
+*/
+@endphp
+```
+
+3. Structure your template using HTML and Blade syntax. Available variables:
+   - `$testimonials`: Collection of testimonial items
+   - `$params['id']`: Unique module instance ID
+
+Example template structure:
+```blade
+<div class="your-template-class">
+    @if($testimonials->isEmpty())
+        <p>No testimonials found</p>
+    @else
+        @foreach($testimonials as $item)
+            <div class="testimonial-item">
+                @if(isset($item->client_image))
+                    <img src="{{ $item->client_image }}" alt="{{ $item->name }}">
+                @endif
+                
+                @if(isset($item->name))
+                    <h3>{{ $item->name }}</h3>
+                @endif
+                
+                @if(isset($item->content))
+                    <div class="content">{!! $item->content !!}</div>
+                @endif
+                
+                @if(isset($item->client_company))
+                    <div class="company">{{ $item->client_company }}</div>
+                @endif
+                
+                @if(isset($item->client_role))
+                    <div class="role">{{ $item->client_role }}</div>
+                @endif
+                
+                @if(isset($item->client_website))
+                    <a href="{{ $item->client_website }}" target="_blank">{{ $item->client_website }}</a>
+                @endif
+            </div>
+        @endforeach
+    @endif
+</div>
+```
+
+### Available Fields
+Each testimonial item (`$item`) has the following fields:
+- `name`: Client name
+- `content`: Testimonial content
+- `client_company`: Company name
+- `client_role`: Client's role/position
+- `client_website`: Client's website URL
+- `client_image`: Path to client's image
+
 ## License
 This module is licensed under the MIT License.
