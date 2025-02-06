@@ -222,7 +222,7 @@ body {
 }
 
 #user-menu-wrapper.active #user-menu {
-    @apply bg-gray-100;
+    @apply !bg-white dark:!bg-slate-800;
 }
 
 .active>.mw-le-hamburger>span:nth-child(2) {
