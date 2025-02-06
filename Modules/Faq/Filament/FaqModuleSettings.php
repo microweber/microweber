@@ -2,64 +2,52 @@
 
 namespace Modules\Faq\Filament;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
-use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
-use Filament\Forms;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettingsTable;
+use Modules\Faq\Models\Faq;
 
-class FaqModuleSettings extends LiveEditModuleSettings
+/**
+ * FAQ Module Settings
+ *
+ * Manages the settings and configuration for the FAQ module
+ */
+class FaqModuleSettings extends LiveEditModuleSettingsTable
 {
+    /**
+     * Module configuration
+     */
     public string $module = 'faq';
-    public array $faqs;
+    public string $modelName = Faq::class;
+    public string $tableComponentName = FaqTableList::class;
 
-    public function mount(): void
-    {
-        parent::mount();
-        $this->faqs = @json_decode($this->getOption('faqs'), true) ?? [];
-    }
-
+    /**
+     * Form configuration
+     */
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('options.title')
-                    ->label('FAQ Title')
-                    ->placeholder('Enter FAQ title')
-                    ->live(debounce: 500)
-                    ->default('Frequently Asked Questions'),
+                TextInput::make('settings.title')
+                    ->label('Title')
+                    ->placeholder('FAQ Section Title'),
 
-                Repeater::make('faqs')
-                    ->addActionLabel('Add FAQ')
-                    ->label('FAQs')
-                    ->reorderableWithButtons()
-                    ->schema([
-                        TextInput::make('question')
-                            ->label('Question')
-                            ->placeholder('Enter question')
-                            ->live(debounce: 500),
-
-                        Textarea::make('answer')
-                            ->label('Answer')
-                            ->placeholder('Enter answer')
-                            ->live(debounce: 500),
+                Select::make('settings.template')
+                    ->label('Template')
+                    ->options([
+                        'default' => 'Default',
+                        'accordion' => 'Accordion',
+                        'tabs' => 'Tabs'
                     ])
-                    ->minItems(0)
-                    ->live(debounce: 500),
+                    ->default('default'),
+
+                TextInput::make('settings.items_per_page')
+                    ->label('Items per page')
+                    ->numeric()
+                    ->default(10)
+                    ->minValue(1)
+                    ->maxValue(100),
             ]);
-    }
-
-
-    public function updated($propertyName, $value): void
-    {
-        parent::updated($propertyName, $value);
-        $this->saveOption('faqs', json_encode($this->faqs));
-    }
-
-    public function save(): void
-    {
-        parent::save();
-        $this->saveOption('faqs', json_encode($this->faqs));
     }
 }

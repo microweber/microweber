@@ -5,65 +5,80 @@ namespace Modules\Faq\Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use MicroweberPackages\Option\Models\ModuleOption;
-use Modules\Faq\Filament\FaqModuleSettings;
+use Modules\Faq\Models\Faq;
+use Modules\Faq\Filament\Resources\FaqModuleResource;
 use Tests\TestCase;
 
 class FaqSettingsFilamentTest extends TestCase
 {
 
-    public function testFaqModuleSettingsForm()
+
+    public function testFaqModuleResourceForm()
     {
-        $moduleId = 'module-id-test-' . uniqid();
-        $moduleType = 'faq';
+        Faq::where('rel_type', 'some_rel_for_faq')->delete();
 
-        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
-        $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
-
-        $params = [
-            'params' => [
-                'id' => $moduleId,
-                'type' => $moduleType
-            ]
-        ];
-
-        Livewire::test(FaqModuleSettings::class)
-            ->set($params)
-            ->assertFormFieldExists('options.title');
-
+        // Test creating a FAQ
         $data = [
-            'options.title' => 'Custom FAQ Title',
-            'faqs' => [
-                [
-                    'question' => 'What is this?',
-                    'answer' => 'This is a test answer.',
-                ],
-            ],
+            'question' => 'Test Question',
+            'answer' => 'Test Answer',
+            'position' => 1,
+            'is_active' => true,
+            'rel_type' => 'some_rel_for_faq',
+            'rel_id' => 1
         ];
 
-        Livewire::test(FaqModuleSettings::class)
-            ->set($params)
-            ->fillForm($data)
-            ->assertFormSet($data)
-            ->call('save')
-            ->assertHasNoActionErrors()
-            ->assertHasNoFormErrors()
-            ->assertNotified();
+        $faq = Faq::create($data);
 
-        $this->assertDatabaseHas('options', [
-            'option_group' => $moduleId,
-            'module' => $moduleType,
-            'option_key' => 'title',
-            'option_value' => 'Custom FAQ Title'
-        ]);
-        $this->assertDatabaseHas('options', [
-            'option_group' => $moduleId,
-            'module' => $moduleType,
-            'option_key' => 'faqs',
-            'option_value' => json_encode($data['faqs'])
+        $this->assertDatabaseHas('faqs', $data);
+
+        // Test updating a FAQ
+        $updatedData = [
+            'question' => 'Updated Question',
+            'answer' => 'Updated Answer',
+            'position' => 2,
+            'is_active' => false,
+            'rel_id' => 2
+        ];
+
+        $faq->update($updatedData);
+
+        $this->assertDatabaseHas('faqs', $updatedData);
+
+        // Test deleting a FAQ
+        $faq->delete();
+
+        $this->assertDatabaseMissing('faqs', $updatedData);
+    }
+
+    public function testFaqModuleResourceRelations()
+    {
+        //cleanup
+        Faq::where('rel_type', 'some_rel_for_faq')->delete();
+
+
+        // Create FAQs with different relations
+        $generalFaq = Faq::create([
+            'question' => 'General FAQ',
+            'answer' => 'General answer',
+            'position' => 0,
+            'is_active' => true
         ]);
 
-        // Clean up
-        ModuleOption::where('option_group', $moduleId)->where('module', $moduleType)->delete();
-        $this->assertDatabaseMissing('options', ['option_group' => $moduleId, 'module' => $moduleType]);
+        $productFaq = Faq::create([
+            'question' => 'Product FAQ',
+            'answer' => 'Product answer',
+            'position' => 1,
+            'is_active' => true,
+            'rel_type' => 'some_rel_for_faq',
+            'rel_id' => 1
+        ]);
+
+        // Test querying by relation
+        $this->assertEquals(1, Faq::where('rel_type', 'some_rel_for_faq')->count());
+        $this->assertEquals(1, Faq::where('rel_id', 1)->count());
+
+        // Test position ordering
+        $this->assertEquals('General FAQ', Faq::orderBy('position')->first()->question);
+        $this->assertEquals('Product FAQ', Faq::orderBy('position', 'desc')->first()->question);
     }
 }

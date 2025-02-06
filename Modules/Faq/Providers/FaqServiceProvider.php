@@ -2,29 +2,23 @@
 
 namespace Modules\Faq\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
-use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
-use Modules\Faq\Filament\FaqModuleSettings;
+use Modules\Faq\Filament\Resources\FaqModuleResource;
 use Modules\Faq\Microweber\FaqModule;
 
 class FaqServiceProvider extends BaseModuleServiceProvider
 {
-    protected string $moduleName = 'Faq';
-
-    protected string $moduleNameLower = 'faq';
+    /**
+     * @var string $moduleName
+     */
+    protected $moduleName = 'Faq';
 
     /**
-     * Boot the application events.
+     * @var string $moduleNameLower
      */
-    public function boot(): void
-    {
-
-
-    }
+    protected $moduleNameLower = 'faq';
 
     /**
      * Register the service provider.
@@ -34,13 +28,11 @@ class FaqServiceProvider extends BaseModuleServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
+        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
 
-        // Register filament page for Microweber module settings
-        FilamentRegistry::registerPage(FaqModuleSettings::class);
+        FilamentRegistry::registerResource(FaqModuleResource::class);
 
         // Register Microweber module
-        Microweber::module(\Modules\Faq\Microweber\FaqModule::class);
-
+        Microweber::module(FaqModule::class);
     }
-
 }
