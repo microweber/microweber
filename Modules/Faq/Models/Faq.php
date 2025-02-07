@@ -8,6 +8,7 @@ class Faq extends Model
 {
 
     protected $fillable = [
+        'id',
         'question',
         'answer',
         'position',
@@ -21,14 +22,4 @@ class Faq extends Model
         'position' => 'integer'
     ];
 
-    public function scopeByRelation($query, $relType = null, $relId = null)
-    {
-        if ($relType && $relId) {
-            return $query->where('rel_type', $relType)
-                ->where('rel_id', $relId);
-        }
-
-        return $query->whereNull('rel_type')
-            ->whereNull('rel_id');
-    }
 }

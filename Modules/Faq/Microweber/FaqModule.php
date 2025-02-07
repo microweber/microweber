@@ -3,6 +3,7 @@
 namespace Modules\Faq\Microweber;
 
 use MicroweberPackages\Microweber\Abstract\BaseModule;
+use Modules\Accordion\Models\Accordion;
 use Modules\Faq\Filament\FaqModuleSettings;
 use Modules\Faq\Models\Faq;
 
@@ -20,47 +21,23 @@ class FaqModule extends BaseModule
     public function render()
     {
         $viewData = $this->getViewData();
+        $rel_type = $this->params['rel_type'] ?? 'module';
+        $rel_id = $this->params['rel_id'] ?? $this->params['id'];
+        $viewData['faqs'] = Faq::where('rel_type', $rel_type)->where('rel_id', $rel_id)->orderBy('position', 'asc')->get();
+        $viewData['defaults'] = [
+            [
+                'question' => 'Open settings and type your question',
+                'answer' => 'Open settings and type your answer'
+            ]
+        ];
+        $template = $viewData['template'] ?? 'default';
 
-        $relType = $this->getRelType();
-        $relId = $this->getRelId();
-
-        $faqs = Faq::where('is_active', true)
-            ->byRelation($relType, $relId)
-            ->orderBy('position')
-            ->get();
-
-        if ($faqs->isEmpty() && !$relType && !$relId) {
-            $faqs = collect($this->getDefaultFaqs());
+        if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
+            $template = 'default';
         }
 
-        $viewData = array_merge($viewData, [
-            'faqs' => $faqs,
-            'rel_type' => $relType,
-            'rel_id' => $relId
-        ]);
-
-        return view(static::$templatesNamespace . '.default', $viewData);
+        return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
 
-    protected function getRelType()
-    {
-        return $this->getOption('rel_type') ?: $this->params['rel_type'] ?: request()->get('rel_type');
-    }
 
-    protected function getRelId()
-    {
-        return $this->getOption('rel_id') ?: $this->params['rel_id'] ?: request()->get('rel_id');
-    }
-
-    public function getDefaultFaqs()
-    {
-        return [
-            [
-                'question' => 'What is this?',
-                'answer' => 'This is a default FAQ answer.',
-                'position' => 0,
-                'is_active' => true
-            ],
-        ];
-    }
 }
