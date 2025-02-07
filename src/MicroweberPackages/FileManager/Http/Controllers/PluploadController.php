@@ -566,22 +566,22 @@ class PluploadController extends Controller
                         // This will clear exif data - security issue
                         $imgCreatedFromJpeg = @imagecreatefromjpeg($filePath);
                         if ($imgCreatedFromJpeg) {
-                            $imgCreatedFromJpeg = $this->autoRotateImageIfPossible($imgCreatedFromJpeg,$exifData);
+                            $imgCreatedFromJpeg = $this->autoRotateImageIfPossible($imgCreatedFromJpeg, $exifData);
 
-                            imagejpeg($imgCreatedFromJpeg, $filePath,100);  // this will create fresh new image without exif sensitive data
+                            imagejpeg($imgCreatedFromJpeg, $filePath, 100);  // this will create fresh new image without exif sensitive data
                             $valid = true;
                         }
                     } else if ($ext === 'png') {
 
                         $imgCreatedFromPng = @imagecreatefrompng($filePath);
                         if ($imgCreatedFromPng) {
-                            $imgCreatedFromPng = $this->autoRotateImageIfPossible($imgCreatedFromPng,$exifData);
+                            $imgCreatedFromPng = $this->autoRotateImageIfPossible($imgCreatedFromPng, $exifData);
 
                             // keep bg color transparent
                             imagealphablending($imgCreatedFromPng, false);
                             imagesavealpha($imgCreatedFromPng, true);
 
-                            imagepng($imgCreatedFromPng, $filePath,9);  // this will create fresh new image without exif sensitive data
+                            imagepng($imgCreatedFromPng, $filePath, 9);  // this will create fresh new image without exif sensitive data
                             $valid = true;
                         }
 
@@ -592,7 +592,7 @@ class PluploadController extends Controller
                         $imgCreatedFromGif = @imagecreatefromgif($filePath);
 
                         if ($imgCreatedFromGif) {
-                            $imgCreatedFromGif =  $this->autoRotateImageIfPossible($imgCreatedFromGif,$exifData);
+                            $imgCreatedFromGif = $this->autoRotateImageIfPossible($imgCreatedFromGif, $exifData);
 
                             $filePathOld = stream_get_meta_data(tmpfile())['uri'];
                             copy($filePath, $filePathOld);
@@ -684,10 +684,10 @@ class PluploadController extends Controller
                                 imagedestroy($src);
 
                                 if ($is_ext == 'png') {
-                                    imagepng($dst, $target_filename,9); // adjust format as needed
+                                    imagepng($dst, $target_filename, 9); // adjust format as needed
 
                                 } else if ($is_ext == 'jpg' || $is_ext == 'jpeg') {
-                                    imagejpeg($dst, $target_filename,100); // adjust format as needed
+                                    imagejpeg($dst, $target_filename, 100); // adjust format as needed
                                 }
 
                                 $rerturn['image_was_auto_resized'] = 1;
@@ -699,7 +699,7 @@ class PluploadController extends Controller
                     }
 
 
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     @unlink($filePath);
 
                     $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File is not an image"}, "id" : "id"}');
@@ -731,7 +731,7 @@ class PluploadController extends Controller
                 return response()->json($error_json, 422);
             }
 
-            $moveToStorage = Storage::put($path.DS.$f_name,
+            $moveToStorage = Storage::put($path . DS . $f_name,
                 file_get_contents($filePath));
             if (!$moveToStorage) {
                 $error_json
@@ -745,7 +745,9 @@ class PluploadController extends Controller
             unlink($filePath);
 
             // GET url from cloud or local storage
-            $filePath = Storage::url($path.DS.$f_name);
+            $filePath = Storage::url($path . DS . $f_name);
+        } else {
+            $filePath =Storage::url($path . DS . $f_name);
         }
 
         $jsonResponse['name'] = $f_name;

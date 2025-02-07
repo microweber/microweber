@@ -456,7 +456,7 @@ class InstallController extends Controller
                     $this->log('Running Laravel migrations');
                     $output = new BufferedOutput();
                     $output->setDecorated(false);
-                    Artisan::call('migrate',[ '--force' => true], $output);
+                    Artisan::call('migrate', ['--force' => true], $output);
                     $this->log($output->fetch());
                     $this->log('Running install of laravel modules');
                     app()->module_manager->reload_laravel_modules();
@@ -465,6 +465,16 @@ class InstallController extends Controller
 
                     $this->log('Publishing vendor assets');
                     app()->module_manager->publish_vendor_assets();
+
+
+                    //make sure the storage is linked
+                    $checkIfExistsStoragePublic = is_dir(storage_path('public'));
+                    if (!$checkIfExistsStoragePublic) {
+                        mkdir(public_path('public'));
+                    }
+
+                    $this->log('Linking storage');
+                    Artisan::call('storage', ['link']);
 
                 }
 
@@ -635,8 +645,8 @@ class InstallController extends Controller
             if ($save_to_config) {
                 //    Config::save($allowed_configs);
             }
-           // if (!is_cli() and isset($admin_user_id)) {
-            if ( isset($admin_user_id) and $admin_user_id) {
+            // if (!is_cli() and isset($admin_user_id)) {
+            if (isset($admin_user_id) and $admin_user_id) {
                 mw()->user_manager->make_logged($admin_user_id, true);
             }
 
@@ -814,7 +824,7 @@ class InstallController extends Controller
                 if (strpos($line, '=') !== false) {
                     list($key) = explode('=', $line, 2);
                     $key = trim($key);
-                    
+
                     // Skip if this is a duplicate key that we're going to update
                     if (isset($values[$key])) {
                         if (isset($existingKeys[$key])) {
@@ -822,15 +832,15 @@ class InstallController extends Controller
                         }
                         $existingKeys[$key] = true;
                         $value = $values[$key];
-                        
+
                         // Handle special characters
-                        if (strpos($value, ' ') !== false || 
-                            strpos($value, '#') !== false || 
+                        if (strpos($value, ' ') !== false ||
+                            strpos($value, '#') !== false ||
                             strpos($value, '"') !== false ||
                             strpos($value, "'") !== false) {
                             $value = '"' . str_replace('"', '\\"', $value) . '"';
                         }
-                        
+
                         $newLines[] = "{$key}={$value}";
                     } else {
                         $newLines[] = $line;
@@ -844,13 +854,13 @@ class InstallController extends Controller
             foreach ($values as $key => $value) {
                 if (!isset($existingKeys[$key])) {
                     // Handle special characters for new values
-                    if (strpos($value, ' ') !== false || 
-                        strpos($value, '#') !== false || 
+                    if (strpos($value, ' ') !== false ||
+                        strpos($value, '#') !== false ||
                         strpos($value, '"') !== false ||
                         strpos($value, "'") !== false) {
                         $value = '"' . str_replace('"', '\\"', $value) . '"';
                     }
-                    
+
                     $newLines[] = "{$key}={$value}";
                 }
             }
