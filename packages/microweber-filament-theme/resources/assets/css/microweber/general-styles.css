@@ -805,3 +805,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     box-shadow: none !important;
     border: none !important;
 }
+
+.mw-dialog-skin-default.active .mw-dialog-overlay {
+
+}
