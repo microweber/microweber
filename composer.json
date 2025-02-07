@@ -27,9 +27,6 @@
         "ext-pdo": "*",
         "ext-zip": "*",
         "composer-runtime-api": "^2.1",
-
-
-
         "laravel/framework": "^11",
         "filament/actions": "^3.2",
         "filament/filament": "^3.2",
@@ -40,7 +37,6 @@
         "filament/support": "^3.2",
         "microweber-deps/eloquent-serialize": "^1.2",
         "microweber-deps/wire-elements-modal": "^1.0",
-
         "microweber-deps/l5-swagger": "v1.0.0",
         "akaunting/laravel-money": "*",
         "alexwestergaard/php-ga4": "dev-master",
@@ -61,7 +57,6 @@
         "enshrined/svg-sanitize": "0.16.0",
         "erusev/parsedown": "1.7.4",
         "ezyang/htmlpurifier": "*",
-
         "finlet/flexmail": "dev-master",
         "florianv/swap": "^4.3",
         "flowframe/laravel-trend": "^0.2.0",
@@ -84,7 +79,6 @@
         "lcobucci/jwt": "*",
         "league/omnipay": "^3.2",
         "livewire/livewire": "*",
-
         "mtrajano/laravel-swagger": "0.6.4",
         "nunomaduro/collision": "^8.0",
         "nwidart/laravel-modules": "v11.1.4",
@@ -134,30 +128,21 @@
         "whitecube/lingua": "1.1.0",
         "wikimedia/composer-merge-plugin": "dev-master",
         "wikimedia/less.php": "3.1.",
-
         "microweber-packages/composer-client": "2.2",
-
-
         "mailerlite/mailerlite-api-v2-php-sdk": "*",
         "microweber-deps/image-comparator": "dev-master",
         "microweber-deps/seo-helper": "dev-master",
         "microweber-deps/ziggy": "1.0",
-         "microweber-dev/omnipay-przelewy24": "0.2",
-
-
-
+        "microweber-dev/omnipay-przelewy24": "0.2",
         "microweber-packages/frontend-assets": "dev-filament",
         "microweber-packages/frontend-assets-libs": "dev-filament",
         "microweber-packages/laravel-config-extended": "dev-filament",
         "microweber-packages/laravel-helper-functions": "dev-filament",
         "microweber-packages/microweber-filament-theme": "dev-filament",
         "rupadana/filament-slider": "*"
-
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
-
-
         "phpunit/phpunit": "^11.0.1",
         "spatie/ignition": "1.15.0",
         "mockery/mockery": "^1.6",
@@ -182,7 +167,6 @@
         }
     },
     "scripts": {
-
         "publish-assets": [
             "@php artisan livewire:publish --assets",
             "@php artisan filament:assets",
@@ -205,7 +189,8 @@
             "@php artisan vendor:publish --tag=public --force --ansi"
         ],
         "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan storage:link"
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",

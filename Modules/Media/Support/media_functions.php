@@ -4,10 +4,10 @@ if (!function_exists('media_uploads_url')) {
     function media_uploads_url()
     {
         $environment = app()->environment();
-        $folder = media_base_url() . ('default/');
+        $folder = media_base_url() . ('/default/');
 
         if (mw_is_multisite()) {
-            $folder = media_base_url() . ($environment . '/');
+            $folder = media_base_url() . ('/' . $environment . '/');
         }
 
 
@@ -33,7 +33,8 @@ if (!function_exists('media_base_url')) {
         static $folder;
 
         if (!$folder) {
-            $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
+            //    $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
+            $folder = asset('storage/' . MW_MEDIA_FOLDER_NAME);
         }
 
         return $folder;
@@ -45,7 +46,8 @@ if (!function_exists('media_base_path')) {
     {
         static $folder;
         if (!$folder) {
-            $folder = userfiles_path() . (MW_MEDIA_FOLDER_NAME . DIRECTORY_SEPARATOR);
+            // $folder = userfiles_path() . (MW_MEDIA_FOLDER_NAME . DIRECTORY_SEPARATOR);
+            $folder = storage_path('app/public/' . MW_MEDIA_FOLDER_NAME . '/');
         }
 
         return $folder;

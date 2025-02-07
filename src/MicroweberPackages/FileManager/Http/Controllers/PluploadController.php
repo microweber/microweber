@@ -748,8 +748,12 @@ class PluploadController extends Controller
 
             $filePath = Storage::url($path . $f_name);
         } else {
+
+
+
             $filenameUrl = normalize_path($path . DS . $f_name, false);
-            $filePath = Storage::url($filenameUrl);
+            $filenameUrl = str_replace(DS, '/', $filenameUrl);
+            $filePath = media_uploads_url().$filenameUrl;
         }
 
         $jsonResponse['name'] = $f_name;
