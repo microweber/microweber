@@ -63,6 +63,7 @@ $formHasUpload = false;
 $formHasPriceModifierValues = false;
 $fields_group = array();
 $group_i = 0;
+
 if (!empty($data)){
     foreach ($data as $field) {
 

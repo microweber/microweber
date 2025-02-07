@@ -42,7 +42,7 @@ use Modules\ContentData\Repositories\DataFieldsManager;
 use Modules\Country\Repositories\CountryManager;
 use Modules\Coupons\Services\CouponService;
 use Modules\CustomFields\Repositories\CustomFieldRepository;
-use Modules\CustomFields\Repositories\FieldsManager;
+use Modules\CustomFields\Services\FieldsManager;
 use Modules\Invoice\Services\InvoiceService;
 use Modules\Menu\Repositories\MenuRepository;
 use Modules\Order\Repositories\OrderManager;

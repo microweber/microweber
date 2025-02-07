@@ -10,8 +10,9 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\CustomFields\Filament\Admin\ListCustomFields;
+use Modules\CustomFields\Filament\CustomFieldsModuleSettings;
 use Modules\CustomFields\Repositories\CustomFieldRepository;
-use Modules\CustomFields\Repositories\FieldsManager;
+use Modules\CustomFields\Services\FieldsManager;
 use Modules\CustomFields\TranslateTables\TranslateCustomFields;
 use Modules\CustomFields\TranslateTables\TranslateCustomFieldsValues;
 
@@ -59,12 +60,11 @@ class CustomFieldsServiceProvider extends BaseModuleServiceProvider
         Livewire::component('admin-list-custom-fields', ListCustomFields::class);
 
 
-
         // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(CustomFieldsModuleSettings::class);
+        FilamentRegistry::registerPage(CustomFieldsModuleSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\CustomFields\Microweber\CustomFieldsModule::class);
+        Microweber::module(\Modules\CustomFields\Microweber\CustomFieldsModule::class);
 
     }
 
