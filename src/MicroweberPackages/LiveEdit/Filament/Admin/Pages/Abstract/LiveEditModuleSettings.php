@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Option\Models\Option;
+use Rupadana\FilamentSlider\Components\Concerns\InputSliderBehaviour;
+use Rupadana\FilamentSlider\Components\InputSlider;
+use Rupadana\FilamentSlider\Components\InputSliderGroup;
 
 abstract class LiveEditModuleSettings extends Page
 {
@@ -146,7 +149,6 @@ abstract class LiveEditModuleSettings extends Page
             $showField = true;
 
 
-
             // Check if show_when condition exists and if any of the conditions are met
             if (isset($schema['show_when']) && is_array($schema['show_when'])) {
                 $showField = false;
@@ -173,6 +175,21 @@ abstract class LiveEditModuleSettings extends Page
             if ($schema['type'] == 'text') {
                 $formFields[] = TextInput::make($name)
                     ->label($schema['label'])
+                    ->visible($showField)
+                    ->live()
+                    ->placeholder($schema['placeholder'] ?? '');
+
+            }
+            if ($schema['type'] == 'number') {
+                $min = $schema['options']['min'] ?? 0;
+                $max = $schema['options']['max'] ?? 100;
+                $step = $schema['options']['step'] ?? 1;
+                $formFields[] = TextInput::make($name)
+                    ->label($schema['label'])
+                    ->numeric()
+                    ->minValue($min)
+                    ->maxValue($max)
+                    ->step($step)
                     ->visible($showField)
                     ->live()
                     ->placeholder($schema['placeholder'] ?? '');
@@ -213,6 +230,32 @@ abstract class LiveEditModuleSettings extends Page
                     ->live()
                     ->label($schema['label'] ?? '');
             }
+            if ($schema['type'] == 'slider') {
+                $min = $schema['options']['min'] ?? 0;
+                $max = $schema['options']['max'] ?? 100;
+                $step = $schema['options']['step'] ?? 1;
+                $formFields[] = InputSliderGroup::make()
+                    ->visible($showField)
+                    ->live()
+                    ->sliders([
+                        InputSlider::make($name)
+                            ->live(),
+
+                    ])
+                    ->range([
+                        "min" => $min,
+                        "max" => $max
+                    ])
+                    ->step($step)
+                    ->behaviour([
+                        InputSliderBehaviour::DRAG,
+                        InputSliderBehaviour::TAP
+                    ])
+                    ->live()
+                    ->label($schema['label'] ?? '');
+
+
+            }
 
         }
         return $formFields;
@@ -246,7 +289,7 @@ abstract class LiveEditModuleSettings extends Page
             if ($moduleTemplatesFromSite) {
                 $moduleTemplates = array_merge($moduleTemplates, $moduleTemplatesFromSite);
             }
-
+            $moduleTemplates = array_unique($moduleTemplates, SORT_REGULAR);
         }
 
         $optionGroup = $this->getOptionGroup();
@@ -290,6 +333,7 @@ abstract class LiveEditModuleSettings extends Page
         if ($moduleTemplates) {
 
             foreach ($moduleTemplates as $moduleTemplate) {
+
                 $moduleTemplatesForForm[$moduleTemplate['layout_file']] = $moduleTemplate['name'];
 
                 if ($selectedSkin == $moduleTemplate['layout_file']) {
@@ -300,7 +344,7 @@ abstract class LiveEditModuleSettings extends Page
 
                         $curretSkinSettingsFromJson = [];
                         $jsonContent = file_get_contents($moduleTemplate['skin_settings_json_file']);
-                        //  dump($jsonContent);
+
                         if ($jsonContent) {
 
                             $moduleTemplateSettingsJson = @json_decode($jsonContent, true);
