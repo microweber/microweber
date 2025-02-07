@@ -1,3 +1,5 @@
+@include('modules.social_links::components.custom-css')
+
 @php
     /*
 
@@ -11,7 +13,7 @@
 @endphp
 
 <style>
-    .social-links-rounded {
+    .socialLinks-rounded {
 
         ul {
             margin: 0;
@@ -55,8 +57,8 @@
         }
     }
 </style>
-<div class="social-links-rounded">
-    <ul class="list-inline no-style">
+<div class="socialLinks-rounded">
+    <ul class="mw-socialLinks list-inline no-style">
 
         @if ($facebook_enabled)
             <li class="me-3"><a href="{{ $facebook_url }}" target="_blank">@svg('modules.social_links-facebook')</a></li>

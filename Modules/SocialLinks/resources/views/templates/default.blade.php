@@ -1,26 +1,7 @@
-@php
-
-    if (isset($iconSize)  and $iconSize) {
-        $iconSize = (intval($iconSize)) . 'px!important;';
-    }
-
-    if (isset($iconColor) and $iconColor) {
-        $iconColor = $iconColor . '!important;';
-    }
-
-@endphp
-
-<style>
-    .mw-social-links a svg {
-        width: {{$iconSize}};
-        height: {{$iconSize}};
-        color: {{$iconColor}};
-    }
-
-</style>
+@include('modules.social_links::components.custom-css')
 
 
-<div class="mw-social-links">
+<div class="mw-socialLinks">
     @if($facebook_enabled)
         <a href="{{ $facebook_url }}" target="_blank">
             @svg('modules.social_links-facebook')

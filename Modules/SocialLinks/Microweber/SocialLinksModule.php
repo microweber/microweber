@@ -11,7 +11,7 @@ class SocialLinksModule extends BaseModule
     // Module configuration
     public static string $name = 'Social Links';
     public static string $module = 'social_links';
-    public static string $icon = 'modules.social-links-icon';
+    public static string $icon = 'modules.socialLinks-icon';
     public static string $categories = 'social';
     public static int $position = 9;
     public static string $settingsComponent = SocialLinksModuleSettings::class;

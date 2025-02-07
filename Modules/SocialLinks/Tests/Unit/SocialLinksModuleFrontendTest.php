@@ -13,7 +13,7 @@ class SocialLinksModuleFrontendTest extends TestCase
     public function testDefaultViewRendering()
     {
         $params = [
-            'id' => 'test-social-links-id' . uniqid(),
+            'id' => 'test-socialLinks-id' . uniqid(),
             'facebook_enabled' => true,
             'facebook_url' => 'https://facebook.com/example',
             'twitter_enabled' => true,

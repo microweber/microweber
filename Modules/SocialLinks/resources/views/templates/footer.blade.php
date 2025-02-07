@@ -1,4 +1,7 @@
- <ul class="list-inline no-style mb-0">
+@include('modules.social_links::components.custom-css')
+
+
+<ul class="mw-socialLinks list-inline no-style mb-0">
     @if ($facebook_enabled)
         <li class="me-3">
             <a href="{{ $facebook_url }}" target="_blank">

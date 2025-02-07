@@ -1,3 +1,5 @@
+@include('modules.social_links::components.custom-css')
+
 @php
     /*
 
@@ -10,7 +12,7 @@
     */
 @endphp
 
-<ul class="list-inline no-style">
+<ul class="mw-socialLinks list-inline no-style">
 
     @if ($facebook_enabled)
         <li class="py-0 d-flex align-items-center">
