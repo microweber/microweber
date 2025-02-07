@@ -187,9 +187,9 @@ body.mw-admin-live-edit-page{
   .mw-dialog-overlay {
     opacity: 0;
     visibility: hidden;
-    -webkit-backdrop-filter: blur(4px);
-    backdrop-filter: blur(4px);
-    background-color: rgba(29,39,59,.24);
+    //-webkit-backdrop-filter: blur(4px);
+    //backdrop-filter: blur(4px);
+    background-color: transparent;
   }
 
   &.active {

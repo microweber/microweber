@@ -8,7 +8,7 @@
                 </div>
             @endforeach
         @else
-            <p>No FAQs available.</p>
+            <p class="mw-pictures-clean">No FAQs added to the module. Please add your FAQ to see the content..</p>
         @endif
     </div>
 </div>

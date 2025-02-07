@@ -9,7 +9,10 @@
 
                     <span v-show="!showElementStyleEditor" v-on:click="closeSidebar"
                           :class="[buttonIsActive?'live-edit-right-sidebar-active':'']"
-                          class="mdi mdi-close x-close-modal-link" style="top: 17px;"></span>
+                          class="x-close-modal-link" style="top: 7px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+
+                    </span>
 
 <!--                    <div id="rightSidebarTabStyleEditorNav" role="tablist">-->
 <!--                        <a class="mw-admin-action-links mw-adm-liveedit-tabs active me-3" data-bs-toggle="tab"-->
