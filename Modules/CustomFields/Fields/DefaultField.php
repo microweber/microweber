@@ -187,7 +187,7 @@ class DefaultField
         $data['data'] = $this->renderData;
         $data['settings'] = $this->renderSettings;
 
-        print Blade::render($bladeString, $data);
+        return Blade::render($bladeString, $data);
     }
 
     public function getTempalteFile()

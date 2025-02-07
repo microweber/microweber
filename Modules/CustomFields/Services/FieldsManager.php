@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\CustomFields\Repositories;
+namespace Modules\CustomFields\Services;
 
 use MicroweberPackages\Helper\HTMLClean;
 use Modules\CustomFields\Events\CustomFieldWasDeleted;

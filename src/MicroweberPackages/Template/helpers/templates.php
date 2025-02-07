@@ -86,6 +86,9 @@ function template_row_class()
         return 'mw-flex-row';
     }
 
+    if ($css_framework == 'tailwind') {
+        return 'flex flex-wrap';
+    }
     if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
         return 'row';
     }
@@ -99,8 +102,12 @@ function template_form_row_class()
         return 'mw-flex-row';
     }
 
+    if ($css_framework == 'tailwind') {
+        return 'grid';
+    }
+
     if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
-        return 'form-row';
+        return 'row';
     }
 }
 
@@ -111,7 +118,7 @@ function template_form_group_class()
     if ($css_framework == 'mw-ui') {
         return '';
     }
-
+ 
     if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
         return 'form-group';
     }
