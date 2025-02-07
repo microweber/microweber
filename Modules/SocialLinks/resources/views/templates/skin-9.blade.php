@@ -3,9 +3,9 @@
 
     type: layout
 
-    name: Skin-7
+    name: Skin-9
 
-    description: Skin-7
+    description: Skin-9
 
     */
 @endphp
