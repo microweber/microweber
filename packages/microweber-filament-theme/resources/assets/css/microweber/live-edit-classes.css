@@ -222,7 +222,7 @@ body {
 }
 
 #user-menu-wrapper.active #user-menu {
-    @apply bg-gray-100;
+    @apply !bg-white dark:!bg-slate-800;
 }
 
 .active>.mw-le-hamburger>span:nth-child(2) {
@@ -861,3 +861,11 @@ h1,h2,h3,h4,h5,h6 {
     top: 0 !important;
 }
 
+.js-modules-list-search-input {
+    &:focus{
+
+        @apply !bg-[#f5f5f5];
+    }
+
+    @apply pl-[40px];
+}

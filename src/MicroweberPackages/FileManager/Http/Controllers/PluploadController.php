@@ -720,27 +720,33 @@ class PluploadController extends Controller
             $path = '/';
         }
 
-        $checkDirIsValidOnStorage = Storage::directoryExists($path);
-        if (!$checkDirIsValidOnStorage) {
-            $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "Invalid path!"}, "id" : "id"}');
-            $error_json = json_decode($error_json, true);
+        if (config('filesystems.default') !== 'local') {
 
-            return response()->json($error_json, 422);
+            $checkDirIsValidOnStorage = Storage::directoryExists($path);
+            if (!$checkDirIsValidOnStorage) {
+                $error_json
+                    = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "Invalid path!"}, "id" : "id"}');
+                $error_json = json_decode($error_json, true);
+
+                return response()->json($error_json, 422);
+            }
+
+            $moveToStorage = Storage::put($path.DS.$f_name,
+                file_get_contents($filePath));
+            if (!$moveToStorage) {
+                $error_json
+                    = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File can\'t be uploaded."}, "id" : "id"}');
+                $error_json = json_decode($error_json, true);
+
+                return response()->json($error_json, 422);
+            }
+
+            // remove local file
+            unlink($filePath);
+
+            // GET url from cloud or local storage
+            $filePath = Storage::url($path.DS.$f_name);
         }
-
-        $moveToStorage = Storage::put($path .DS. $f_name, file_get_contents($filePath));
-        if (!$moveToStorage) {
-            $error_json = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File can\'t be uploaded."}, "id" : "id"}');
-            $error_json = json_decode($error_json, true);
-
-            return response()->json($error_json, 422);
-        }
-
-        // remove local file
-        unlink($filePath);
-
-        // GET url from cloud or local storage
-        $filePath = Storage::url($path .DS. $f_name);
 
         $jsonResponse['name'] = $f_name;
 

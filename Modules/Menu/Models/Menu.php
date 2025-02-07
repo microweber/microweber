@@ -17,6 +17,7 @@ class Menu extends Model
          'url' => ReplaceSiteUrlCast::class,
          'default_image' => ReplaceSiteUrlCast::class,
          'rollover_image' => ReplaceSiteUrlCast::class,
+         'mega_menu_settings' => 'array',
     ];
 
     public $fillable = [
@@ -34,7 +35,10 @@ class Menu extends Model
         "url_target",
         "size",
         "default_image",
-        "rollover_image"
+        "rollover_image",
+        "enable_mega_menu",
+        "menu_item_template",
+        "mega_menu_settings",
     ];
 
     public $translatable = ['title','url'];
