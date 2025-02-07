@@ -9,7 +9,7 @@
     }
 
     if (isset($iconSpacing) and $iconSpacing) {
-        $iconSpacing = $iconSpacing . '!important;';
+        $iconSpacing = $iconSpacing . 'px!important;';
     }
 
 @endphp
@@ -19,7 +19,7 @@
         width: {{$iconSize}};
         height: {{$iconSize}};
         color: {{$iconColor}};
-        padding-inline: {{$iconSpacing}};
+        margin-inline: {{$iconSpacing}};
     }
 
 </style>
