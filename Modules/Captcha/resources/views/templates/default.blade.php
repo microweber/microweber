@@ -9,7 +9,7 @@ description: Default comments template
     x-ignore
     ax-load
 
-    ax-load-src="{{ asset('modules/captcha/js/captcha-alpine.js') }}"
+    x-load-src="{{ asset('modules/captcha/js/captcha-alpine.js') }}"
 
     x-data="captchaAlpine"
     x-load="visible"

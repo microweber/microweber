@@ -118,7 +118,7 @@ function template_form_group_class()
     if ($css_framework == 'mw-ui') {
         return '';
     }
- 
+
     if ($css_framework == 'bootstrap3' || $css_framework == 'bootstrap4' || $css_framework == 'bootstrap5') {
         return 'form-group';
     }

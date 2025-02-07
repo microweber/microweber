@@ -11,13 +11,13 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSett
 class ContactFormModuleSettings extends LiveEditModuleSettings
 {
     public string $module = 'contact_form';
+    public string $name = '';
+    public string $email = '';
 
     public function form(Form $form): Form
     {
 
-
         $relId = $this->params['id'] ?? null;
-
         return $form
 //            ->model()
             ->schema([
