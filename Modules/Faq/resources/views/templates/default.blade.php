@@ -8,7 +8,7 @@
                 </div>
             @endforeach
         @else
-            <p class="mw-pictures-clean">No FAQs added to the module. Please add your FAQ to see the content..</p>
+            <p>No FAQs added to the module. Please add your FAQ to see the content...</p>
         @endif
     </div>
 </div>
@@ -17,17 +17,20 @@
     .faq-holder {
         margin: 20px;
     }
+
     .faq-item {
         border: 1px solid #efefef;
         padding: 15px;
         margin-bottom: 10px;
         border-radius: 5px;
     }
+
     .faq-item h4 {
         margin: 0 0 10px;
         font-size: 18px;
         color: #1157c1;
     }
+
     .faq-item p {
         margin: 0;
         font-size: 14px;
