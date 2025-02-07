@@ -2,7 +2,7 @@
     <div class="mb-3 d-flex gap-3 flex-wrap">
 
         @if($settings['show_label'])
-            <label class="form-label me-2 align-self-center mb-0 col-xl-4 col-auto">
+            <label class="form-label">
                 {{ $data['name'] }}
                 @if($settings['required'])
                     <span style="color: red;">*</span>
@@ -12,11 +12,11 @@
 
         @foreach($data['values'] as $key => $value)
             <div class="custom-control custom-radio my-2">
-                <input type="radio" 
-                    id="custom-radio-{{ $data['id'] }}-{{ $key }}" 
-                    class="form-check-input" 
-                    @if($settings['required'] && $loop->first) required @endif 
-                    data-custom-field-id="{{ $data['id'] }}" 
+                <input type="radio"
+                    id="custom-radio-{{ $data['id'] }}-{{ $key }}"
+                    class="form-check-input"
+                    @if($settings['required'] && $loop->first) required @endif
+                    data-custom-field-id="{{ $data['id'] }}"
                     value="{{ $value }}"
                     name="{{ $data['name_key'] }}">
                 <label class="custom-control-label ms-2" for="custom-radio-{{ $data['id'] }}-{{ $key }}">
