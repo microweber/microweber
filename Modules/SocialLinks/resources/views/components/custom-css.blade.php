@@ -8,13 +8,18 @@
         $iconColor = $iconColor . '!important;';
     }
 
+    if (isset($iconSpacing) and $iconSpacing) {
+        $iconSpacing = $iconSpacing . '!important;';
+    }
+
 @endphp
 
 <style>
-    .mw-socialLinks a svg {
+    #{{ $params['id'] }} .mw-socialLinks a svg {
         width: {{$iconSize}};
         height: {{$iconSize}};
         color: {{$iconColor}};
+        padding-inline: {{$iconSpacing}};
     }
 
 </style>
