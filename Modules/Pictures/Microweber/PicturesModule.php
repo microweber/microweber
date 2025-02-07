@@ -30,7 +30,11 @@ class PicturesModule extends BaseModule
         $viewData = $this->prepareViewData();
         $relationData = $this->determineRelationData();
         $pictures = $this->fetchPictures($relationData);
-        
+
+        if (empty($pictures)) {
+            $pictures = $this->getDefaultPictures($relationData['type'], $relationData['id']);
+        }
+
         return $this->buildView($viewData, $pictures);
     }
 
@@ -43,7 +47,7 @@ class PicturesModule extends BaseModule
     {
         $viewData = $this->getViewData();
         $viewData['template'] = $viewData['template'] ?? 'default';
-        
+
         return $viewData;
     }
 
@@ -120,5 +124,29 @@ class PicturesModule extends BaseModule
         $viewData['no_img'] = empty($pictures);
 
         return view($viewName, $viewData);
+    }
+
+    /**
+     * Build default pictures for the module
+     *
+     * @param  string  $relType
+     * @param $relId
+     *
+     * @return array
+     */
+    private function getDefaultPictures(string $relType, $relId): array
+    {
+        $defaults = [];
+        for ($i = 1; $i <= 3; $i++) {
+            $defaults[] = new Media([
+                'id' => $i,
+                'filename' => "modules/pictures/default-images/gallery-1-{$i}.jpg",
+                'media_type' => 'picture',
+                'rel_type' => $relType,
+                'rel_id' => $relId,
+                'position' => $i - 1,
+            ]);
+        }
+        return $defaults;
     }
 }

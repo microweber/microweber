@@ -1,5 +1,4 @@
 <div class="faq-holder">
-    <h2>{{ isset($options['title']) && !empty($options['title']) ? $options['title'] : 'Frequently Asked Questions' }}</h2>
     <div class="faq-list">
         @if(isset($faqs) && !empty($faqs))
             @foreach($faqs as $faq)
@@ -9,7 +8,7 @@
                 </div>
             @endforeach
         @else
-            <p class="mw-pictures-clean">No FAQs available.</p>
+            <p>No FAQs available.</p>
         @endif
     </div>
 </div>
