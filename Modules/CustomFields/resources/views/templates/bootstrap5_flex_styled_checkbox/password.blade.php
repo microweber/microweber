@@ -2,7 +2,7 @@
     <div class="mb-3 d-flex gap-3 flex-wrap">
 
         <?php if($settings['show_label']): ?>
-        <label class="form-label me-2 align-self-center mb-0 col-xl-4 col-auto">
+        <label class="form-label">
             <?php echo $data['name']; ?>
             <?php if ($settings['required']): ?>
                 <span style="color: red;">*</span>

@@ -3,7 +3,7 @@
 <div class="col-sm-{{ $settings['field_size_mobile'] }} col-md-{{ $settings['field_size_tablet'] }} col-lg-{{ $settings['field_size_desktop'] }}">
     <div class="mb-3 d-flex gap-3 flex-wrap">
         @if($settings['show_label'])
-            <label class="form-label me-2 align-self-center mb-0 col-xl-4 col-auto">
+            <label class="form-label">
                 {{ $data['name'] }}
                 @if($settings['required'])
                     <span style="color: red;">*</span>
@@ -11,15 +11,15 @@
             </label>
         @endif
 
-        <input type="number" 
-            onKeyup="mw.form.typeNumber(this);" 
-            class="form-control" 
-            @if($settings['required']) required @endif 
-            data-custom-field-id="{{ $data['id'] }}" 
-            data-custom-field-error-text="{{ $data['error_text'] }}" 
-            name="{{ $data['name_key'] }}" 
-            value="{{ $data['value'] }}" 
-            placeholder="{{ $data['placeholder'] }}" 
+        <input type="number"
+            onKeyup="mw.form.typeNumber(this);"
+            class="form-control"
+            @if($settings['required']) required @endif
+            data-custom-field-id="{{ $data['id'] }}"
+            data-custom-field-error-text="{{ $data['error_text'] }}"
+            name="{{ $data['name_key'] }}"
+            value="{{ $data['value'] }}"
+            placeholder="{{ $data['placeholder'] }}"
         />
         <div class="valid-feedback">{{ __("Success! You've done it.") }}</div>
         <div class="invalid-feedback">{{ __('Error! The value is not valid.') }}</div>
