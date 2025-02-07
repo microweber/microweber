@@ -2,9 +2,11 @@
 
 namespace Modules\Faq\Providers;
 
+use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\Faq\Filament\FaqTableList;
 use Modules\Faq\Filament\Resources\FaqModuleResource;
 use Modules\Faq\Microweber\FaqModule;
 
@@ -29,6 +31,11 @@ class FaqServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+
+
+        Livewire::component('modules.faq.filament.faq-table-list', FaqTableList::class);
+
+
 
         FilamentRegistry::registerResource(FaqModuleResource::class);
 

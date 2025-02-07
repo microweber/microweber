@@ -23,13 +23,18 @@ class FaqModule extends BaseModule
         $viewData = $this->getViewData();
         $rel_type = $this->params['rel_type'] ?? 'module';
         $rel_id = $this->params['rel_id'] ?? $this->params['id'];
-        $viewData['faqs'] = Faq::where('rel_type', $rel_type)->where('rel_id', $rel_id)->orderBy('position', 'asc')->get();
-        $viewData['defaults'] = [
+        $faqs = Faq::where('rel_type', $rel_type)->where('rel_id', $rel_id)
+            ->where('is_active', 1)
+            ->orderBy('position', 'asc')->get();
+        $default = [
             [
                 'question' => 'Open settings and type your question',
                 'answer' => 'Open settings and type your answer'
             ]
         ];
+
+        $viewData['faqs'] = $faqs->isEmpty() ? $default : $faqs;
+
         $template = $viewData['template'] ?? 'default';
 
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
