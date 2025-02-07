@@ -468,9 +468,9 @@ class InstallController extends Controller
 
 
                     //make sure the storage is linked
-                    $checkIfExistsStoragePublic = is_dir(storage_path('public'));
+                    $checkIfExistsStoragePublic = is_dir(storage_path('app/public'));
                     if (!$checkIfExistsStoragePublic) {
-                        mkdir(public_path('public'));
+                        mkdir(public_path('app/public'));
                     }
 
                     $this->log('Linking storage');

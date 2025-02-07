@@ -745,9 +745,11 @@ class PluploadController extends Controller
             unlink($filePath);
 
             // GET url from cloud or local storage
-            $filePath = Storage::url($path . DS . $f_name);
+
+            $filePath = Storage::url($path . $f_name);
         } else {
-            $filePath =Storage::url($path . DS . $f_name);
+            $filenameUrl = normalize_path($path . DS . $f_name, false);
+            $filePath = Storage::url($filenameUrl);
         }
 
         $jsonResponse['name'] = $f_name;
