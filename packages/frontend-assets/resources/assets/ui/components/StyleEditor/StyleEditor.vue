@@ -2,7 +2,10 @@
     <div v-if="isOpened">
         <div class="d-flex align-items-center justify-content-between mb-3">
             <h3 class="fs-2 font-weight-bold">Element Style Editor</h3>
-            <span v-on:click="closeStyleEditor" class="mdi mdi-close x-close-modal-link" style="top: 30px;"></span>
+            <span v-on:click="closeStyleEditor" class="x-close-modal-link" style="top: 30px;">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+
+            </span>
         </div>
             <iframe @load="load" ref="styleEditorIframe" :src="buildIframeUrlStyleEditor()" style="width:100%;height:100vh;"
                 frameborder="0"
@@ -19,7 +22,7 @@ export default {
 
 
             var styleEditorSettings = {
-                fieldSettings: {} 
+                fieldSettings: {}
             };
             styleEditorSettings.fieldSettings.components = [
                 'elementSelector',
