@@ -278,9 +278,12 @@ abstract class LiveEditModuleSettings extends Page
                     $template_name_from_website = $liveEditIframeData['template_name'];
                 }
             }
-
-
         }
+
+        $template_filter = $this->params['template-filter'] ?? $this->params['template_filter'] ?? null;
+
+
+
         $moduleTemplates = module_templates($this->module);
         $moduleTemplates = $moduleTemplates ?? [];
 
@@ -296,7 +299,7 @@ abstract class LiveEditModuleSettings extends Page
 
         $selectedSkin = get_module_option('template', $optionGroup);
 
-        $filter = request()->get('template-filter') ?? null;
+        $filter = $template_filter ?? null;
 
         if (!$selectedSkin) {
             $selectedSkin = request()->get('template') ?? $this->params['template'] ?? null;
