@@ -1,0 +1,24 @@
+
+{
+    "schema": [
+        {
+            "type": "color",
+            "label": "Icon style",
+            "name": "iconColor",
+            "placeholder": "Select icon style",
+            "help": "The style of the icon",
+            "options": {
+            }
+        },
+        {
+            "type": "text",
+            "label": "Icon font size",
+            "name": "iconSize",
+            "placeholder": "Select icon size",
+            "help": "The size of the icon",
+            "options": {
+
+            }
+        }
+    ]
+}

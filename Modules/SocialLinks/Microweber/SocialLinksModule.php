@@ -41,6 +41,12 @@ class SocialLinksModule extends BaseModule
 
         $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
+
+
+        $viewData['iconColor'] = $viewData['options']['iconColor'] ?? '';
+        $viewData['iconSize'] = $viewData['options']['iconSize'] ?? '';
+
+
         return view($viewName, $viewData);
     }
 
