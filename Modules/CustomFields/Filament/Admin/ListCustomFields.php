@@ -2,9 +2,12 @@
 
 namespace Modules\CustomFields\Filament\Admin;
 
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -136,71 +139,78 @@ class ListCustomFields extends AdminComponent implements HasForms, HasTable
             })
             ->columns(1);
 
-//            Toggle::make('options.show_placeholder')
-//                ->helperText('Toggle to turn on the placeholder and write your text below')
-//                ->label('Show placeholder')
-//                ->columnSpanFull(),
-//            Toggle::make('options.required')
-//                ->helperText('Toggle to make this field required for the user')
-//                ->label('Required'),
-//            Toggle::make('options.show_label')
-//                ->helperText('Toggle to turn on the label and write your text below')
-//                ->label('Show label'),
-//            Section::make([
-//                Grid::make(3)
-//                    ->schema([
-//                        Select::make('options.field_size_desktop')
-//                            ->label('Grid Desktop')
-//                            ->options([
-//                                'col-1' => 'col-1',
-//                                'col-2' => 'col-2',
-//                                'col-3' => 'col-3',
-//                                'col-4' => 'col-4',
-//                                'col-5' => 'col-5',
-//                                'col-6' => 'col-6',
-//                                'col-7' => 'col-7',
-//                                'col-8' => 'col-8',
-//                                'col-9' => 'col-9',
-//                                'col-10' => 'col-10',
-//                                'col-11' => 'col-11',
-//                                'col-12' => 'col-12',
-//                            ]),
-//                        Select::make('options.field_size_tablet')
-//                            ->label('Grid Tablet')
-//                            ->options([
-//                                'col-1' => 'col-1',
-//                                'col-2' => 'col-2',
-//                                'col-3' => 'col-3',
-//                                'col-4' => 'col-4',
-//                                'col-5' => 'col-5',
-//                                'col-6' => 'col-6',
-//                                'col-7' => 'col-7',
-//                                'col-8' => 'col-8',
-//                                'col-9' => 'col-9',
-//                                'col-10' => 'col-10',
-//                                'col-11' => 'col-11',
-//                                'col-12' => 'col-12',
-//                            ]),
-//                        Select::make('options.field_size_mobile')
-//                            ->label('Grid Mobile')
-//                            ->options([
-//                                'col-1' => 'col-1',
-//                                'col-2' => 'col-2',
-//                                'col-3' => 'col-3',
-//                                'col-4' => 'col-4',
-//                                'col-5' => 'col-5',
-//                                'col-6' => 'col-6',
-//                                'col-7' => 'col-7',
-//                                'col-8' => 'col-8',
-//                                'col-9' => 'col-9',
-//                                'col-10' => 'col-10',
-//                                'col-11' => 'col-11',
-//                                'col-12' => 'col-12',
-//                            ])
-//                    ])
-//
-//                ]),
-//        ];
+
+        $editForm[] = Section::make('Advanced')
+            ->collapsible()
+            ->collapsed()
+            ->compact()
+            ->schema([
+                Toggle::make('options.show_placeholder')
+                    ->helperText('Toggle to turn on the placeholder and write your text below')
+                    ->label('Show placeholder')
+                    ->columnSpanFull(),
+                Toggle::make('options.required')
+                    ->helperText('Toggle to make this field required for the user')
+                    ->label('Required'),
+                Toggle::make('options.show_label')
+                    ->helperText('Toggle to turn on the label and write your text below')
+                    ->label('Show label'),
+                Section::make([
+                    Grid::make(3)
+                        ->schema([
+                            Select::make('options.field_size_desktop')
+                                ->label('Grid Desktop')
+                                ->options([
+                                    'col-1' => 'col-1',
+                                    'col-2' => 'col-2',
+                                    'col-3' => 'col-3',
+                                    'col-4' => 'col-4',
+                                    'col-5' => 'col-5',
+                                    'col-6' => 'col-6',
+                                    'col-7' => 'col-7',
+                                    'col-8' => 'col-8',
+                                    'col-9' => 'col-9',
+                                    'col-10' => 'col-10',
+                                    'col-11' => 'col-11',
+                                    'col-12' => 'col-12',
+                                ]),
+                            Select::make('options.field_size_tablet')
+                                ->label('Grid Tablet')
+                                ->options([
+                                    'col-1' => 'col-1',
+                                    'col-2' => 'col-2',
+                                    'col-3' => 'col-3',
+                                    'col-4' => 'col-4',
+                                    'col-5' => 'col-5',
+                                    'col-6' => 'col-6',
+                                    'col-7' => 'col-7',
+                                    'col-8' => 'col-8',
+                                    'col-9' => 'col-9',
+                                    'col-10' => 'col-10',
+                                    'col-11' => 'col-11',
+                                    'col-12' => 'col-12',
+                                ]),
+                            Select::make('options.field_size_mobile')
+                                ->label('Grid Mobile')
+                                ->options([
+                                    'col-1' => 'col-1',
+                                    'col-2' => 'col-2',
+                                    'col-3' => 'col-3',
+                                    'col-4' => 'col-4',
+                                    'col-5' => 'col-5',
+                                    'col-6' => 'col-6',
+                                    'col-7' => 'col-7',
+                                    'col-8' => 'col-8',
+                                    'col-9' => 'col-9',
+                                    'col-10' => 'col-10',
+                                    'col-11' => 'col-11',
+                                    'col-12' => 'col-12',
+                                ])
+                        ])
+
+                ]),
+            ]);
+
 
         return $table
             ->paginated(false)

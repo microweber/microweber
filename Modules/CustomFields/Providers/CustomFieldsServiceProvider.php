@@ -59,7 +59,6 @@ class CustomFieldsServiceProvider extends BaseModuleServiceProvider
         Livewire::component('admin-list-custom-fields', ListCustomFields::class);
 
 
-
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(CustomFieldsModuleSettings::class);
 
