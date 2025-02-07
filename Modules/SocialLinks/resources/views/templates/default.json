@@ -10,13 +10,15 @@
             }
         },
         {
-            "type": "text",
+            "type": "slider",
             "label": "Icon font size",
             "name": "iconSize",
             "placeholder": "Select icon size",
             "help": "The size of the icon",
             "options": {
-
+                "min": 0,
+                "max": 100,
+                "step": 1
             }
         },
         {
@@ -27,7 +29,8 @@
             "help": "The spacing of the icon",
             "options": {
                 "min": 0,
-                "max": 50
+                "max": 200,
+                "step": 0.5
             }
         }
 
