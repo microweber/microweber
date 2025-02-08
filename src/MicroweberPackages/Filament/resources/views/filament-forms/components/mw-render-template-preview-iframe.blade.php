@@ -1,4 +1,4 @@
-@props([ 'lazyLoad' => false,'activeSiteTemplateInputName'=> 'active_site_template','layoutFileInputName'=> 'layout_file'])
+@props([ 'url' => '','lazyLoad' => false,'activeSiteTemplateInputName'=> 'active_site_template','layoutFileInputName'=> 'layout_file'])
 
 <div>
     @php
@@ -40,8 +40,10 @@
             $layout_options['no_folder_sort'] = true;
 
             $layout = mw()->layouts_manager->get_layout_details($layout_options);
-            $url = '';
 
+            if(!isset($url)){
+            $url = '';
+            }
 
             if(isset($layout['content_type']) and $layout['content_type'] == 'dynamic'){
                 $isDynamic = true;
@@ -59,9 +61,8 @@
     <div>
 
         <div class="preview_frame_wrapper preview_frame_wrapper_holder loading left" wire:ignore>
-            <div class="preview_frame_container preview_frame_container_holder">
-
-
+            <div class="preview_frame_container preview_frame_container_holder" id="preview_frame_container_holder">
+                Preview Frame Container
             </div>
 
             <div class="card placeholder-glow mw-add-post-placeholder-loading">
@@ -80,14 +81,11 @@
     </div>
 
 
-    @script
-
-
     <script>
+        document.addEventListener('livewire:initialized', () => {
 
-        Livewire.on('dynamicPreviewLayoutChange', (data) => {
-            const tplPreview = new mw.templatePreview({
-                element: '.preview_frame_container_holder'
+            let tplPreview = new mw.templatePreview({
+                element: '#preview_frame_container_holder'
             });
             Livewire.on('dynamicPreviewLayoutChange', (data) => {
                 if (data && data.iframePreviewUrl) {
@@ -95,12 +93,16 @@
                 }
 
             });
-            @if($url)
+
+
+            @if($url != '')
+
             tplPreview.rend('{!! $url !!}')
+
             @endif
+
         });
     </script>
 
 
-    @endscript
 </div>
