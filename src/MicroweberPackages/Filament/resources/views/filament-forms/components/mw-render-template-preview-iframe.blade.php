@@ -93,6 +93,9 @@
                 }
 
             });
+            Livewire.on('reloadIframePreview', (data) => {
+                tplPreview.rend('{!! $url !!}')
+            });
 
 
             @if($url != '')

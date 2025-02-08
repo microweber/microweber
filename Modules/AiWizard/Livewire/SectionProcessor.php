@@ -92,6 +92,10 @@ class SectionProcessor extends Component
             $this->sections[$index]['status'] = 'completed';
             $this->processingStatus[$index] = 100;
 
+            //emit reloadIframePreview
+
+            $this->dispatch('reloadIframePreview');
+
             // Update overall progress
             $this->updateOverallProgress();
 

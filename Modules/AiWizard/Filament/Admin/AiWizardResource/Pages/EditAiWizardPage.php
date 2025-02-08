@@ -51,7 +51,7 @@ class EditAiWizardPage extends EditRecord
 
                     // Update the record with new content
                     $this->record->update([
-                        'content' => $generatedContent,
+                       # 'content' => $generatedContent,
                         'content_data' => [
                             'ai_generated' => true,
                             'ai_model' => $data['ai_model'],

@@ -3,7 +3,7 @@
         <div class="prose max-w-none">
             <h2>Page Design</h2>
         </div>
-        <div class="grid grid-cols-2 gap-4">
+
             <div>
                 <form wire:submit.prevent="submit">
                     {{ $this->form }}
@@ -14,7 +14,7 @@
                 <livewire:modules.aiwizard::section-processor :record="$record"/>
             </div>
 
-        </div>
+
 
 
     </div>

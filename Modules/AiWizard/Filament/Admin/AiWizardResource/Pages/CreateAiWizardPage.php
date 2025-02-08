@@ -46,7 +46,7 @@ class CreateAiWizardPage extends CreateRecord
             'title' => $data['title'],
             'content_type' => 'page',
             'description' => $data['description'],
-            'content' => $generatedContent,
+            #'content' => $generatedContent,
             'is_active' => $data['is_active'] ?? 1,
             // Store AI generation details in content_data
             'content_data' => [

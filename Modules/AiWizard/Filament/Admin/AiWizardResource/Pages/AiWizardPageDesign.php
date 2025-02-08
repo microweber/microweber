@@ -12,25 +12,29 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Content\Models\Content;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+
 class AiWizardPageDesign extends Page implements HasForms
 {
     use InteractsWithRecord;
     use InteractsWithForms;
+
     protected static string $resource = AiWizardResource::class;
-    public $site_name;
 
     protected static string $view = 'modules.aiwizard::filament.pages.ai-wizard-page-design';
-    protected function getFormSchema() : array
+
+    protected function getFormSchema(): array
     {
+
+        $content_link = content_link($this->record->id);
+
         return [
             View::make('filament-forms::components.mw-render-template-preview-iframe')
                 ->viewData([
-                    'url' => site_url(),
-//                    'layoutFileInputName' => $layoutFileInputName,
-                  //  'activeSiteTemplateInputName' => $activeSiteTemplateInputName
+                    'url' => $content_link,
+
                 ])
-              //  ->live()
-             //   ->key('dynamicPreviewLayout')
+                //  ->live()
+                //   ->key('dynamicPreviewLayout')
                 ->columnSpanFull()
         ];
     }
