@@ -1,4 +1,32 @@
 <div>
+    @if($showSectionSelector)
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-medium mb-4">Select Page Sections</h2>
+            <div class="space-y-4">
+                <x-filament::grid :default="2">
+                    @foreach($availableSections as $value => $label)
+                        <label class="flex items-center space-x-3">
+                            <x-filament::input.checkbox
+                                wire:model.live="selectedSections"
+                                :value="$value"
+                            />
+                            <span class="text-sm">{{ $label }}</span>
+                        </label>
+                    @endforeach
+                </x-filament::grid>
+
+                <div class="flex justify-end mt-6">
+                    <x-filament::button
+                        wire:click="confirmSectionSelection"
+                        color="primary"
+                    >
+                        Generate Content
+                    </x-filament::button>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="space-y-6">
         <!-- Overall Progress -->
         <div class="bg-white rounded-lg p-4 shadow">

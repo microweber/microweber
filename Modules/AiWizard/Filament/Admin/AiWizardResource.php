@@ -12,7 +12,7 @@ use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\CreateAiWizardPage;
 use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\EditAiWizardPage;
 use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\ListAiWizardPages;
 use Modules\Content\Models\Content;
-use Modules\AiWizard\Services\Contracts\AiServiceInterface;
+use Modules\Ai\Services\Contracts\AiServiceInterface;
 
 class AiWizardResource extends Resource
 {
@@ -32,8 +32,8 @@ class AiWizardResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Create Page with AI')
-                    ->description('Enter details about the page you want to create')
+                Forms\Components\Section::make('Page Details')
+                    ->description('Enter the basic details for your page')
                     ->schema([
                         Forms\Components\TextInput::make('title')
                             ->required()
@@ -45,23 +45,6 @@ class AiWizardResource extends Resource
                             ->maxLength(1000)
                             ->helperText('Describe what kind of page you want to create'),
 
-                        Forms\Components\CheckboxList::make('sections')
-                            ->label('Page Sections')
-                            ->options([
-                                'header' => 'Header Section',
-                                'content' => 'Main Content',
-                                'features' => 'Features Section',
-                                'pricing' => 'Pricing Section',
-                                'about' => 'About Section',
-                                'call_to_action' => 'Call to Action Section',
-                                'faq' => 'FAQ Section',
-                                'testimonials' => 'Testimonials Section',
-                                'contact' => 'Contact Section',
-                            ])
-                            ->columns(2)
-                            ->default(['header', 'content'])
-                            ->required(),
-
                         Forms\Components\Hidden::make('content_type')
                             ->default('page'),
 
@@ -69,30 +52,6 @@ class AiWizardResource extends Resource
                             ->default(1),
                     ])
                     ->columns(1),
-
-                Forms\Components\Section::make('AI Generation Settings')
-                    ->schema([
-                        Forms\Components\Select::make('ai_model')
-                            ->label('AI Model')
-                            ->options([
-                                'gpt-3.5-turbo' => 'GPT-3.5 Turbo',
-                                'gpt-4' => 'GPT-4',
-                            ])
-                            ->default('gpt-3.5-turbo')
-                            ->required(),
-
-                        Forms\Components\Select::make('tone')
-                            ->label('Content Tone')
-                            ->options([
-                                'professional' => 'Professional',
-                                'casual' => 'Casual',
-                                'friendly' => 'Friendly',
-                                'formal' => 'Formal',
-                            ])
-                            ->default('professional')
-                            ->required(),
-                    ])
-                    ->columns(2),
             ]);
     }
 

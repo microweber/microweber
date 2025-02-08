@@ -14,10 +14,92 @@ class SectionProcessor extends Component
     public $currentSection = null;
     public $processingStatus = [];
     public $overallProgress = 0;
+    public $showSectionSelector = false;
+    public $selectedSections = [];
+    public $availableSections = [
+        'header' => 'Header Section',
+        'content' => 'Main Content',
+        'features' => 'Features Section',
+        'pricing' => 'Pricing Section',
+        'about' => 'About Section',
+        'call_to_action' => 'Call to Action Section',
+        'faq' => 'FAQ Section',
+        'testimonials' => 'Testimonials Section',
+        'contact' => 'Contact Section',
+    ];
 
     public function mount($record)
     {
         $this->record = $record;
+        
+        // Check if sections are passed via URL parameters
+        $urlSections = request()->query('sections', []);
+        if (!empty($urlSections)) {
+            $this->selectedSections = is_array($urlSections) ? $urlSections : explode(',', $urlSections);
+            $this->generateInitialContent();
+        } else {
+            // Check if we have existing sections
+            $this->initializeSections();
+            
+            // If no sections, show the selector
+            if (empty($this->sections)) {
+                $this->showSectionSelector = true;
+                $this->selectedSections = ['header', 'content']; // Default selections
+            }
+        }
+    }
+
+    public function confirmSectionSelection()
+    {
+        if (empty($this->selectedSections)) {
+            Notification::make()
+                ->title('Please select at least one section')
+                ->warning()
+                ->send();
+            return;
+        }
+
+        $this->generateInitialContent();
+        $this->showSectionSelector = false;
+    }
+
+    protected function generateInitialContent()
+    {
+        $aiService = app(AiServiceInterface::class);
+        
+        // Prepare the prompt for AI
+        $prompt = "Create website content for a page with the following details:\n";
+        $prompt .= "Title: {$this->record->title}\n";
+        $prompt .= "Description: {$this->record->description}\n";
+        $prompt .= "Sections to include: " . implode(', ', $this->selectedSections) . "\n";
+
+        $messages = [
+            [
+                'role' => 'system',
+                'content' => 'You are a professional website content creator that generates well-structured content for web pages.'
+            ],
+            [
+                'role' => 'user',
+                'content' => $prompt
+            ]
+        ];
+
+        $response = $aiService->sendToChat($messages, [
+            'model' => $this->record->content_data['ai_model'] ?? 'gpt-3.5-turbo',
+            'temperature' => 0.7,
+        ]);
+
+        $generatedContent = is_string($response) ? $response : $response['content'];
+        
+        // Store the generated content
+        $this->record->update([
+            'content_data' => array_merge($this->record->content_data ?? [], [
+                'ai_content' => $generatedContent,
+                'sections' => $this->selectedSections,
+            ]),
+        ]);
+
+        // Initialize sections with the generated content
         $this->initializeSections();
     }
 
