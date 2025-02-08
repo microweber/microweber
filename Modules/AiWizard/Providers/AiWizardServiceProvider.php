@@ -5,9 +5,11 @@ namespace Modules\AiWizard\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\AiWizard\Livewire\SectionProcessor;
 use Modules\AiWizard\Services\AiService;
 use Modules\AiWizard\Services\Contracts\AiServiceInterface;
 
@@ -46,6 +48,7 @@ class AiWizardServiceProvider extends BaseModuleServiceProvider
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(AiWizardModuleSettings::class);
          FilamentRegistry::registerResource(  \Modules\AiWizard\Filament\Admin\AiWizardResource::class);
+        Livewire::component('modules.aiwizard::section-processor', SectionProcessor::class);
 
         // Register Microweber module
         // Microweber::module(\Modules\AiWizard\Microweber\AiWizardModule::class);

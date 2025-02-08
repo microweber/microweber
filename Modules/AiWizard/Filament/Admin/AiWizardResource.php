@@ -51,6 +51,10 @@ class AiWizardResource extends Resource
                                 'header' => 'Header Section',
                                 'content' => 'Main Content',
                                 'features' => 'Features Section',
+                                'pricing' => 'Pricing Section',
+                                'about' => 'About Section',
+                                'call_to_action' => 'Call to Action Section',
+                                'faq' => 'FAQ Section',
                                 'testimonials' => 'Testimonials Section',
                                 'contact' => 'Contact Section',
                             ])
