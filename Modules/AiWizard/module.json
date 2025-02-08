@@ -1,0 +1,11 @@
+{
+    "name": "AiWizard",
+    "alias": "aiwizard",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AiWizard\\Providers\\AiWizardServiceProvider"
+    ],
+    "files": []
+}

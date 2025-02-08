@@ -1,0 +1,30 @@
+{
+    "name": "modules/aiwizard",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\AiWizard\\": "",
+            "Modules\\AiWizard\\Database\\Factories\\": "database/factories/",
+            "Modules\\AiWizard\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\AiWizard\\Tests\\": "Tests/"
+        }
+    }
+}
