@@ -44,6 +44,11 @@ trait ContentDataTrait
 
                     }
 
+                    if(is_array($fieldValue)){
+                        $fieldValue = json_encode($fieldValue);
+                    }
+
+
                     $findContentData = ContentData::where('rel_id', $model->id)
                         ->where('rel_type', $model->getMorphClass())
                         ->where('field_name', $fieldName)
