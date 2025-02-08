@@ -57,15 +57,27 @@ class AiService implements AiServiceInterface
     }
 
     /**
-     * Generate content using AI based on the provided prompt.
+     * Send messages to chat and get a response.
      *
-     * @param string $prompt
-     * @param array $options
-     * @return string
+     * @param array $messages Array of messages in the format:
+     *                       [
+     *                           ['role' => 'system', 'content' => 'System message'],
+     *                           ['role' => 'user', 'content' => 'User message'],
+     *                           ['role' => 'assistant', 'content' => 'Assistant response'],
+     *                           ['role' => 'function', 'name' => 'function_name', 'content' => 'Function response']
+     *                       ]
+     * @param array $options Additional options including:
+     *                      - functions: Array of function definitions for the AI to call
+     *                      - function_call: Optional specific function to call
+     *                      - model: AI model to use
+     *                      - temperature: Sampling temperature
+     *                      - max_tokens: Maximum tokens in response
+     * @return string|array The generated content or function call response array containing:
+     *                      ['function_call' => object, 'content' => ?string]
      */
-    public function generateContent(string $prompt, array $options = []): string
+    public function sendToChat(array $messages, array $options = []): string|array
     {
-        return $this->driver->generateContent($prompt, $options);
+        return $this->driver->sendToChat($messages, $options);
     }
 
     /**

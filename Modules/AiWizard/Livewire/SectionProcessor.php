@@ -63,13 +63,24 @@ class SectionProcessor extends Component
 
             // Generate markdown
             $this->processingStatus[$index] = 50;
-            $prompt = "Convert this content into well-formatted markdown with proper headings, lists, and formatting:\n\n" .
-                $this->sections[$index]['content'];
+            $messages = [
+                [
+                    'role' => 'system',
+                    'content' => 'You are a professional content formatter that converts text into well-formatted markdown.'
+                ],
+                [
+                    'role' => 'user',
+                    'content' => "Convert this content into well-formatted markdown with proper headings, lists, and formatting:\n\n" .
+                        $this->sections[$index]['content']
+                ]
+            ];
 
-            $markdown = $aiService->generateContent($prompt, [
+            $response = $aiService->sendToChat($messages, [
                 'model' => $this->record->content_data['ai_model'] ?? 'gpt-3.5-turbo',
                 'temperature' => 0.7,
             ]);
+
+            $markdown = is_string($response) ? $response : $response['content'];
 
             $this->sections[$index]['markdown'] = $markdown;
             $this->processingStatus[$index] = 75;

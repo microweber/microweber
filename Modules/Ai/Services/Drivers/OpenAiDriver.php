@@ -29,23 +29,51 @@ class OpenAiDriver extends BaseDriver
     }
 
     /**
-     * Generate content using OpenAI's API.
+     * Send messages to chat and get a response.
      *
-     * @param string $prompt
-     * @param array $options
-     * @return string
+     * @param array $messages Array of messages in the format:
+     *                       [
+     *                           ['role' => 'system', 'content' => 'System message'],
+     *                           ['role' => 'user', 'content' => 'User message'],
+     *                           ['role' => 'assistant', 'content' => 'Assistant response'],
+     *                           ['role' => 'function', 'name' => 'function_name', 'content' => 'Function response']
+     *                       ]
+     * @param array $options Additional options including:
+     *                      - functions: Array of function definitions for the AI to call
+     *                      - function_call: Optional specific function to call
+     *                      - model: AI model to use
+     *                      - temperature: Sampling temperature
+     *                      - max_tokens: Maximum tokens in response
+     * @return string|array The generated content or function call response array containing:
+     *                      ['function_call' => object, 'content' => ?string]
      */
-    public function generateContent(string $prompt, array $options = []): string
+    public function sendToChat(array $messages, array $options = []): string|array
     {
-        $response = $this->client->chat()->create([
+        $params = [
             'model' => $options['model'] ?? 'gpt-3.5-turbo',
-            'messages' => [
-                ['role' => 'system', 'content' => 'You are a professional content creator.'],
-                ['role' => 'user', 'content' => $prompt],
-            ],
+            'messages' => $messages,
             'temperature' => $options['temperature'] ?? 0.7,
             'max_tokens' => $options['max_tokens'] ?? 1000,
-        ]);
+        ];
+
+        // Add functions if provided
+        if (!empty($options['functions'])) {
+            $params['functions'] = $options['functions'];
+
+            if (isset($options['function_call'])) {
+                $params['function_call'] = $options['function_call'];
+            }
+        }
+
+        $response = $this->client->chat()->create($params);
+
+        // Handle function calls in the response
+        if (isset($response->choices[0]->message->function_call)) {
+            return [
+                'function_call' => $response->choices[0]->message->function_call,
+                'content' => null
+            ];
+        }
 
         return $response->choices[0]->message->content;
     }

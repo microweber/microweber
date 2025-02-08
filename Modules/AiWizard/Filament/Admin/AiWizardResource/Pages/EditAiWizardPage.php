@@ -31,10 +31,23 @@ class EditAiWizardPage extends EditRecord
                     $prompt .= "Tone: {$data['tone']}\n";
 
                     // Generate new content using AI
-                    $generatedContent = $aiService->generateContent($prompt, [
+                    $messages = [
+                        [
+                            'role' => 'system',
+                            'content' => 'You are a professional website content creator that generates well-structured content for web pages.'
+                        ],
+                        [
+                            'role' => 'user',
+                            'content' => $prompt
+                        ]
+                    ];
+
+                    $response = $aiService->sendToChat($messages, [
                         'model' => $data['ai_model'] ?? 'gpt-3.5-turbo',
                         'temperature' => 0.7,
                     ]);
+
+                    $generatedContent = is_string($response) ? $response : $response['content'];
 
                     // Update the record with new content
                     $this->record->update([
