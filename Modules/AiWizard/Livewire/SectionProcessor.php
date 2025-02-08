@@ -3,7 +3,7 @@
 namespace Modules\AiWizard\Livewire;
 
 use Livewire\Component;
-use Modules\AiWizard\Services\Contracts\AiServiceInterface;
+use Modules\Ai\Services\Contracts\AiServiceInterface;
 use League\CommonMark\CommonMarkConverter;
 use Filament\Notifications\Notification;
 

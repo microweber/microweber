@@ -1,0 +1,30 @@
+{
+    "name": "modules/ai",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Ai\\": "",
+            "Modules\\Ai\\Database\\Factories\\": "database/factories/",
+            "Modules\\Ai\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Ai\\Tests\\": "Tests/"
+        }
+    }
+}

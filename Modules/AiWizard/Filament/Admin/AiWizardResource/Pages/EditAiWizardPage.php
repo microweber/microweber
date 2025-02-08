@@ -6,7 +6,7 @@ use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Modules\AiWizard\Filament\Admin\AiWizardResource;
-use Modules\AiWizard\Services\Contracts\AiServiceInterface;
+use Modules\Ai\Services\Contracts\AiServiceInterface;
 
 class EditAiWizardPage extends EditRecord
 {

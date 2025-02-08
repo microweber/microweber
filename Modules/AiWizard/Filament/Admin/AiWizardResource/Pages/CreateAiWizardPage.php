@@ -4,7 +4,7 @@ namespace Modules\AiWizard\Filament\Admin\AiWizardResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Modules\AiWizard\Filament\Admin\AiWizardResource;
-use Modules\AiWizard\Services\Contracts\AiServiceInterface;
+use Modules\Ai\Services\Contracts\AiServiceInterface;
 
 class CreateAiWizardPage extends CreateRecord
 {

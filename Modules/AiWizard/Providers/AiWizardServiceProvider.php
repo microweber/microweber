@@ -10,8 +10,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\AiWizard\Livewire\SectionProcessor;
-use Modules\AiWizard\Services\AiService;
-use Modules\AiWizard\Services\Contracts\AiServiceInterface;
+
 
 
 class AiWizardServiceProvider extends BaseModuleServiceProvider
@@ -39,15 +38,10 @@ class AiWizardServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
-        $this->app->singleton(AiServiceInterface::class, function ($app) {
-            return new AiService($app);
-        });
-
-        $this->app->alias(AiServiceInterface::class, 'ai.service');
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(AiWizardModuleSettings::class);
-         FilamentRegistry::registerResource(  \Modules\AiWizard\Filament\Admin\AiWizardResource::class);
+        FilamentRegistry::registerResource(\Modules\AiWizard\Filament\Admin\AiWizardResource::class);
         Livewire::component('modules.aiwizard::section-processor', SectionProcessor::class);
 
         // Register Microweber module
