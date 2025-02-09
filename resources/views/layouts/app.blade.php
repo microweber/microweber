@@ -3,4 +3,6 @@
 
 @livewireStyles
 
-{{$slot}}
+@if(isset($slot))
+    {{$slot}}
+@endif
