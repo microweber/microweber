@@ -7,6 +7,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\AiWizardPageDesign;
 use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\CreateAiWizardPage;
 use Modules\AiWizard\Filament\Admin\AiWizardResource\Pages\EditAiWizardPage;
@@ -29,12 +30,25 @@ class AiWizardResource extends Resource
     protected static ?string $pluralModelLabel = 'AI Pages';
 
 
-
     public static function form(Form $form): Form
     {
 
-       $layouts = module_templates('layouts');
-dd($layouts);
+        $layouts = module_templates('layouts');
+
+        $uniqueId = 'layout_' . uniqid();
+        $iterator = 0;
+        // Group layouts by category
+        $groupedLayouts = collect($layouts)->groupBy('category')->map(function ($items) use (&$iterator, $uniqueId) {
+            return $items->map(function ($item) use (&$iterator, $uniqueId) {
+                return [
+                    'id' => $uniqueId . '_' . $iterator++,
+                    'layout_file' => $item['layout_file'],
+                    'name' => $item['name'],
+                    'screenshot' => $item['screenshot_public_url'] ?? null,
+                ];
+            });
+        })->toArray();
+
         return $form
             ->schema([
                 Forms\Components\Section::make('Page Details')
@@ -57,6 +71,24 @@ dd($layouts);
                             ->default(1),
                     ])
                     ->columns(1),
+
+                Forms\Components\Section::make('Select Layouts')
+                    ->description('Choose the layouts you want to use for your page')
+                    ->schema(
+                        collect($groupedLayouts)->map(function ($layouts, $category) {
+                            return Forms\Components\Group::make()
+                                ->label(ucfirst($category))
+                                ->schema([
+                                    Forms\Components\CheckboxList::make("layouts.{$category}")
+                                        ->label('')
+                                        ->options(collect($layouts)->pluck('name', 'layout_file')->toArray())
+                                        ->descriptions(collect($layouts)->mapWithKeys(function ($layout) {
+                                            return [$layout['layout_file'] => new HtmlString("<img loading='lazy' src='{$layout['screenshot']}' style='display:none;max-width: 200px; margin-top: 10px;' />")];
+                                        })->toArray())
+                                        ->columns(3)
+                                ]);
+                        })->values()->toArray()
+                    ),
             ]);
     }
 
@@ -113,10 +145,10 @@ dd($layouts);
     public static function getPages(): array
     {
         return [
-            'index' =>  ListAiWizardPages::route('/'),
-            'create' =>  CreateAiWizardPage::route('/create'),
+            'index' => ListAiWizardPages::route('/'),
+            'create' => CreateAiWizardPage::route('/create'),
             'edit' => EditAiWizardPage::route('/{record}/edit'),
-            'design' =>  AiWizardPageDesign::route('/{record}/design'),
+            'design' => AiWizardPageDesign::route('/{record}/design'),
         ];
     }
 }
