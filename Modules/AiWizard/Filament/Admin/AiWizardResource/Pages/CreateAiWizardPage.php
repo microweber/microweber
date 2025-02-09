@@ -10,6 +10,8 @@ class CreateAiWizardPage extends CreateRecord
 {
     protected static string $resource = AiWizardResource::class;
 
+
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         return [

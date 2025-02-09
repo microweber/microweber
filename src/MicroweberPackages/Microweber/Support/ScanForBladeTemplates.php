@@ -137,6 +137,7 @@ class ScanForBladeTemplates
                     $result = $regs[0];
                     $result = str_ireplace('categories:', '', $result);
                     $to_return_temp['categories'] = trim($result);
+                    $to_return_temp['category'] = explode(',', $to_return_temp['categories'])[0];
                 }
 
                 if (preg_match('/position:.+/', $fin, $regs)) {

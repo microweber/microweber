@@ -151,6 +151,10 @@ trait ManagesModules
         $ready = [];
         $moduleClass = $this->getModuleClass($moduleType);
 
+        if(!$activeSiteTemplate){
+            $activeSiteTemplate = template_name();
+        }
+
         if ($moduleClass) {
             if (class_exists($moduleClass)) {
                 /** @var BaseModule $moduleClass */

@@ -31,7 +31,7 @@ class SectionProcessor extends Component
     public function mount($record)
     {
         $this->record = $record;
-        
+
         // Check if sections are passed via URL parameters
         $urlSections = request()->query('sections', []);
         if (!empty($urlSections)) {
@@ -40,11 +40,11 @@ class SectionProcessor extends Component
         } else {
             // Check if we have existing sections
             $this->initializeSections();
-            
+            $this->showSectionSelector = true;
             // If no sections, show the selector
             if (empty($this->sections)) {
                 $this->showSectionSelector = true;
-                $this->selectedSections = ['header', 'content']; // Default selections
+                $this->selectedSections = ['content']; // Default selections
             }
         }
     }
@@ -66,7 +66,7 @@ class SectionProcessor extends Component
     protected function generateInitialContent()
     {
         $aiService = app(AiServiceInterface::class);
-        
+
         // Prepare the prompt for AI
         $prompt = "Create website content for a page with the following details:\n";
         $prompt .= "Title: {$this->record->title}\n";
@@ -90,7 +90,7 @@ class SectionProcessor extends Component
         ]);
 
         $generatedContent = is_string($response) ? $response : $response['content'];
-        
+
         // Store the generated content
         $this->record->update([
             'content_data' => array_merge($this->record->content_data ?? [], [
@@ -111,13 +111,18 @@ class SectionProcessor extends Component
         foreach ($rawSections as $index => $content) {
             if (empty(trim($content))) continue;
 
+            $uniqueId = 'section_' . uniqid();
+            $sectionName = $this->guessSectionName($content);
+
             $this->sections[] = [
                 'id' => $index + 1,
-                'name' => $this->guessSectionName($content),
+                'unique_id' => $uniqueId,
+                'name' => $sectionName,
                 'content' => $content,
                 'markdown' => '',
                 'html' => '',
-                'status' => 'pending' // pending, processing, completed, error
+                'status' => 'pending', // pending, processing, completed, error
+                'field_name' => 'layout-skin-1-' . $uniqueId
             ];
 
             $this->processingStatus[$index] = 0;
@@ -211,13 +216,33 @@ class SectionProcessor extends Component
     protected function saveProgress()
     {
         $processedSections = array_map(function ($section) {
+            if ($section['status'] !== 'completed') {
+                return null;
+            }
+
+            // Create the module wrapper
+            $moduleHtml = '<module type="layouts" skin="content/skin-1" id="' . $section['unique_id'] . '" />';
+
+            // Save the section content using ContentManager
+            app()->content_manager->save_content_field([
+                'field' => $section['field_name'],
+                'value' => $section['html'],
+                'rel_type' => 'module',
+                'rel_id' => 0
+            ]);
+
             return [
                 'name' => $section['name'],
                 'original' => $section['content'],
                 'markdown' => $section['markdown'],
-                'html' => $section['html'],
+                'html' => $moduleHtml,
+                'field_name' => $section['field_name'],
+                'unique_id' => $section['unique_id']
             ];
-        }, array_filter($this->sections, fn($s) => $s['status'] === 'completed'));
+        }, $this->sections);
+
+        // Filter out null values from unprocessed sections
+        $processedSections = array_filter($processedSections);
 
         $this->record->update([
             'content_data' => array_merge($this->record->content_data ?? [], [

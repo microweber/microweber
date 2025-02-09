@@ -1500,13 +1500,10 @@ class ContentManagerHelpers extends ContentManagerCrud
 
     public function save_content_field($data, $delete_the_cache = true)
     {
-        $adm = $this->app->user_manager->is_admin();
         $table = 'content_fields';
         $table_drafts = 'content_revisions_history';
 
-        if ($adm == false) {
-            return false;
-        }
+
 
         if (!is_array($data)) {
             $data = array();
@@ -1552,7 +1549,9 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
         }
         if (!isset($data['rel_type']) or !isset($data['rel_id'])) {
-            mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+          //  mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+
+            return false;
         }
         /*
                 if (isset($data['field']) and !isset($data['is_draft'])) {

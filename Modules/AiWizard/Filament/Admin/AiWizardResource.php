@@ -28,8 +28,13 @@ class AiWizardResource extends Resource
 
     protected static ?string $pluralModelLabel = 'AI Pages';
 
+
+
     public static function form(Form $form): Form
     {
+
+       $layouts = module_templates('layouts');
+dd($layouts);
         return $form
             ->schema([
                 Forms\Components\Section::make('Page Details')
