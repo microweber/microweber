@@ -21,13 +21,25 @@ class LayoutContentModule extends BaseModule
     public static string $settingsComponent = LayoutContentModuleSettings::class;
     public static string $templatesNamespace = 'modules.layout_content::templates';
 
+    public $defaultSettings = [
+        'title' => '',
+        'description' => '',
+        'align' => 'center',
+        'maxColumns' => '3',
+        'maxColumnsTablet' => '2',
+        'maxColumnsMobile' => '1',
+        'buttonLink' => '#',
+        'buttonText' => '',
+    ];
+
     /**
      * Render the testimonials module
      */
     public function render(): View
     {
         $viewData = $this->getViewData();
-        $viewData['items'] = $this->getContents();
+        $viewData['contents'] = $this->getContents();
+        $viewData['defaultSettings'] = $this->defaultSettings;
 
         $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
