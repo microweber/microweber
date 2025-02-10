@@ -34,6 +34,22 @@ class LayoutContentTableList extends LiveEditModuleTable
                 ->label('Title')
                 ->required(),
 
+            Textarea::make('description')
+                ->label('Description')
+                ->rows(3),
+
+            MwFileUpload::make('image')
+                ->label('Image'),
+
+            TextInput::make('image_alt_text')
+                ->label('Image Alt Text'),
+
+            TextInput::make('button_text')
+                ->label('Button Text'),
+
+            TextInput::make('button_link')
+                ->label('Button Link')
+                ->url(),
 
             Hidden::make('rel_id')
                 ->default($this->rel_id),
