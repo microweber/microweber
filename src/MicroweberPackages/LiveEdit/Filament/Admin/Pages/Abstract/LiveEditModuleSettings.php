@@ -238,6 +238,7 @@ abstract class LiveEditModuleSettings extends Page
                 $formFields[] = InputSliderGroup::make()
                     ->visible($showField)
                     ->live()
+                    ->enableTooltips()
                     ->sliders([
                         InputSlider::make($name)
                             ->live(),
@@ -252,7 +253,6 @@ abstract class LiveEditModuleSettings extends Page
                         InputSliderBehaviour::DRAG,
                         InputSliderBehaviour::TAP
                     ])
-                    ->live()
                     ->label($schema['label'] ?? '');
 
 

@@ -139,7 +139,6 @@
         "microweber-packages/laravel-config-extended": "dev-filament",
         "microweber-packages/laravel-helper-functions": "dev-filament",
         "microweber-packages/microweber-filament-theme": "dev-filament",
-        "rupadana/filament-slider": "*",
         "openai-php/laravel": "^0.10.2"
     },
     "require-dev": {
