@@ -15,14 +15,75 @@
     $suffixIcon = $getSuffixIcon();
     $suffixLabel = $getSuffixLabel();
     $statePath = $getStatePath();
-@endphp
 
+    $rand = $getId();
+    $rangeMin = $rangeMin ?? 0;
+    $rangeMax = $rangeMax ?? 100;
+    $rangeStep = $rangeStep ?? 1;
+@endphp
 
 <x-dynamic-component
     :component="$getFieldWrapperView()"
     :field="$field"
     :has-inline-label="$hasInlineLabel"
 >
+
+
+
+awfwa
+    <script>
+
+        document.addEventListener('alpine:init', () => {
+            loadSlider{{$rand}}();
+        });
+
+        alert(44);
+
+        function loadSlider{{$rand}}() {
+
+            alert(33);
+
+            let slider{{$rand}} = document.getElementById('range-slider-{{$rand}}');
+            let customRangeValueField{{$rand}} = document.getElementById('js-custom-range-value-{{$rand}}');
+
+            customRangeValueField{{$rand}}.dispatchEvent(new Event('loaded'));
+
+            setTimeout(() => {
+                noUiSlider.create(slider{{$rand}}, {
+                    start: customRangeValueField{{$rand}}.value,
+                    step: {{$rangeStep}},
+                    connect: [true, false],
+                    range: {
+                        'min': {{$rangeMin}},
+                        'max': {{$rangeMax}}
+                    }
+                });
+
+                slider{{$rand}}.noUiSlider.on('change', function(values, handle) {
+                    let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+                    customRangeValueField.value = parseFloat(values[handle]).toString();
+                    customRangeValueField.dispatchEvent(new Event('input'));
+                });
+
+                slider{{$rand}}.noUiSlider.on('slide', function(values, handle) {
+                    let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+                    customRangeValueField.value = parseFloat(values[handle]).toString();
+                    customRangeValueField.dispatchEvent(new Event('slide'));
+                });
+
+                customRangeValueField{{$rand}}.addEventListener('input', function() {
+                    slider{{$rand}}.noUiSlider.set(parseFloat(this.value).toString());
+
+                    let customRangeValueField = document.getElementById('js-custom-range-value-{{$rand}}');
+                    customRangeValueField.dispatchEvent(new Event('slide'));
+                });
+            }, 100);
+        }
+    </script>
+
+
+
+
     <x-slot
         name="label"
         @class([
@@ -31,7 +92,6 @@
     >
         {{ $getLabel() }}
     </x-slot>
-
 
     <div
 
@@ -44,10 +104,11 @@
     >
         <input
 
+            id="js-custom-range-value-{{$rand}}"
+
             {{
                $getExtraInputAttributeBag()->merge(
                    [
-                       'id' => $getId() . 'json',
                        $applyStateBindingModifiers('wire:model') => $statePath,
                    ], escape: false)
                 }}
@@ -56,25 +117,11 @@
             type="text">
 
 
-
-
         <div>
-            ddd-xxxxxwooooo
 
-            <div id="slider"></div>
-            <script>
-                var slider = document.getElementById('slider');
+            <div class="form-range mt-1" id="range-slider-{{$rand}}"></div>
 
-                noUiSlider.create(slider, {
-                    start: [4000],
-                    step: 1000,
-                    range: {
-                        'min': [2000],
-                        'max': [10000]
-                    }
-                });
 
-            </script>
         </div>
 
 
