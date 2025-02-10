@@ -37,6 +37,7 @@ use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
+use MicroweberPackages\Filament\Forms\Components\MwRangeSlider;
 use Modules\Components\View\Components\Section;
 use Rupadana\FilamentSlider\Components\Concerns\InputSliderBehaviour;
 use Rupadana\FilamentSlider\Components\InputSlider;
@@ -83,6 +84,14 @@ class KitchenSink extends Page
 
         return $form
             ->schema([
+
+
+                MwRangeSlider::make('mw_range_slider')
+                    ->live()
+                    ->afterStateUpdated(function ($state) {
+                        dump($state);
+                    })->columnSpanFull(),
+
 
                 RadioDeck::make('name')
                     ->options([
@@ -134,54 +143,6 @@ class KitchenSink extends Page
 //                    ->multiple() // Select multiple card (it will also returns an array of selected card values)
                     ->columns(3),
 
-                InputSliderGroup::make()
-                    ->sliders([
-                        InputSlider::make('min')
-                    ])
-                    ->label('Limit'),
-
-                InputSliderGroup::make()
-                    ->sliders([
-                        InputSlider::make('min'),
-                        InputSlider::make('max')
-                    ])
-                    ->label('Limit'),
-
-                InputSliderGroup::make()
-                    ->sliders([
-                        InputSlider::make('min'),
-                        InputSlider::make('max')
-                    ])
-                    ->connect([
-                            false,
-                            true,
-                            false
-                        ])
-                            ->max(100)
-                            ->min(0)
-                            ->label('Limit'),
-
-                InputSliderGroup::make()
-                    ->sliders([
-                        InputSlider::make('min'),
-                        InputSlider::make('max')->default(50),
-                    ])
-                    ->connect([
-                        true,
-                        false,
-                        true
-                    ]) // array length must be sliders length + 1
-                    ->range([
-                        "min" => 30,
-                        "max" => 100
-                    ])
-                    ->step(10)
-                    ->behaviour([
-                        InputSliderBehaviour::DRAG,
-                        InputSliderBehaviour::TAP
-                    ])
-                    ->enableTooltips()
-                    ->label("Limit"),
 
                 \LaraZeus\Accordion\Forms\Accordions::make('OptionsOriginal')
                     ->activeAccordion(0)
