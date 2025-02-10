@@ -5,9 +5,12 @@ namespace Modules\LayoutContent\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\LayoutContent\Filament\LayoutContentModuleSettings;
+use Modules\LayoutContent\Filament\LayoutContentTableList;
 use Modules\LayoutContent\Microweber\LayoutContentModule;
 
 
@@ -38,8 +41,9 @@ class LayoutContentServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
-        // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(LayoutContentModuleSettings::class);
+
+        Livewire::component('modules.layout-content.filament.layout-content-table-list', LayoutContentTableList::class);
+        FilamentRegistry::registerPage(LayoutContentModuleSettings::class);
 
         // Register Microweber module
          Microweber::module(LayoutContentModule::class);

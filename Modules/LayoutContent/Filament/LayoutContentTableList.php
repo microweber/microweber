@@ -27,7 +27,6 @@ use Modules\Testimonials\Models\Testimonial;
 
 class LayoutContentTableList extends LiveEditModuleTable
 {
-
     public function editFormArray()
     {
         return [
