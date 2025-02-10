@@ -33,7 +33,7 @@ class BtnModule extends BaseModule
         $viewData['text'] = $this->params['button_text'] ?? $this->params['text'] ?? $this->params['data-text'] ?? 'Button';
         $viewData['icon'] = $this->params['icon'] ?? '';
         $viewData['iconPosition'] = '';
-        $viewData['action'] = '';
+        $viewData['action'] = $this->params['button_action'] ?? $this->params['button-action'] ?? $this->params['action'] ?? '';
         $viewData['attributes'] = '';
         $viewData['align'] = '';
 

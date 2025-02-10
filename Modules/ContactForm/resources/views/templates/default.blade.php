@@ -18,7 +18,7 @@
         <div class="edit" field="contact_form_title" rel="contact_form_module" data-id="{{ $params['id'] }}">
             <h3 class="element contact-form-title">@lang('Leave a Message')</h3>
         </div>
-        <form class="mw_form" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
+        <form data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
               x-on:submit="submitForm">
 
             <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module"
@@ -39,35 +39,8 @@
                     </div>
                 </div>
             @endif
-
-            <div class="mw-flex-row">
-                <div class="mw-flex-col-md-9 mw-flex-col-sm-12 mw-flex-col-xs-12">
-                    <div class="control-group form-group">
-                        @if(get_option('disable_captcha', $params['id']) != 'y')
-                            <label class="custom-field-title">@lang('Enter Security code')</label>
-                            <div class="mw-ui-row captcha-holder" style="width: 262px;">
-                                <div class="mw-ui-col">
-                                    <module type="captcha" id="captcha_contact_form-{{ $form_id }}"/>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-
-                <div class="mw-flex-col-md-3 mw-flex-col-sm-12 mw-flex-col-xs-12">
-                    <label>&nbsp;</label>
-                    <div class="control-group form-group">
-                        <button type="submit" class="btn btn-primary" :disabled="$data.loading">
-                            <span x-show="!$data.loading">{{ $button_text }}</span>
-                            <span x-cloak x-show="$data.loading">@lang('Sending...')</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            @include('modules.contact_form::partials.formSubmit')
         </form>
     </div>
-    <div class="mw-message-form-wrapper message-sent" id="msg{{ $form_id }}" x-show="success" x-cloak>
-        <span class="message-sent-icon"></span>
-        <p>@lang('Your Email was sent successfully')</p>
-    </div>
+    @include('modules.contact_form::partials.successMessage')
 </div>

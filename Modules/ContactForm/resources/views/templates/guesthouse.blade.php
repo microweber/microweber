@@ -7,13 +7,11 @@
 @endphp
 <link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
-<div class="contact-form-container alert alert-success margin-bottom-30" id="msg{{ $form_id }}" style="display:none;">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <strong>@lang('Thank You')!</strong> @lang('Your message successfully sent')!
-</div>
-
-<div class="section-42">
-    <div class="form">
+<div
+    x-load="visible"
+    x-load-src="{{ asset('modules/contact_form/js/contact-form-alpine.js') }}"
+    x-data="contactForm('{{ $params['id'] }}')">
+    <div class="contact-form-container section-42">
         <form id="contactform" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
               x-on:submit="submitForm">
             @csrf
@@ -28,10 +26,11 @@
                 <div class="row">
                     <div class="col-12">
                         <br><br>
-                        <module type="btn" button_action="submit" button_style="btn-default" button_size="btn-lg btn-block w-100 justify-content-center" text="Send"/>
+                        @include('modules.contact_form::partials.formSubmit')
                     </div>
                 </div>
             </div>
         </form>
     </div>
+    @include('modules.contact_form::partials.successMessage')
 </div>

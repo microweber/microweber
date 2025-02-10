@@ -16,18 +16,13 @@
               data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
               x-on:submit="submitForm">
 
-            <div class="mw-message-form-wrapper message-sent" id="msg{{ $form_id }}" style="display: none;">
-                <span class="message-sent-icon"></span>
-                <p class="text-success">@lang('Your Email was sent successfully')</p>
-            </div>
-
             <div class="col-sm-8 col-12 my-md-0 my-2">
                 <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module" template="bootstrap5_flex"
                         default-fields="[type=email,field_size=12,show_placeholder=true]" input_class=""/>
             </div>
 
             <div class="col-sm-4 col-12 my-md-0 my-2 text-end">
-                <module type="btn" button_action="submit" button_style="btn-primary" button_size="justify-content-center text-end" button_text="Contact Now"/>
+                @include('modules.contact_form::partials.formSubmit')
             </div>
 
             @if(isset($show_newsletter_subscription) && $show_newsletter_subscription == 'y' && !$newsletter_subscribed)
@@ -46,4 +41,5 @@
             @endif
         </form>
     </div>
+    @include('modules.contact_form::partials.successMessage')
 </div>
