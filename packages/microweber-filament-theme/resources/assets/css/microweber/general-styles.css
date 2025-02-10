@@ -806,6 +806,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     border: none !important;
 }
 
-.mw-dialog-skin-default.active .mw-dialog-overlay {
 
+.fi-body {
+    @apply !bg-white dark:!bg-gray-900;
+}
+
+.fi-simple-main {
+    @apply mx-4 max-w-sm bg-transparent !px-0 py-0 shadow-none ring-0 dark:!bg-transparent sm:!max-w-sm sm:!rounded-none;
 }

@@ -10,9 +10,9 @@
     height: calc(4rem + 1px);
 }
 
-.fi-sidebar-nav {
-    @apply gap-y-0 !p-0 !border-0;
-}
+/*.fi-sidebar-nav {*/
+/*    @apply gap-y-0 !p-0 !border-0;*/
+/*}*/
 
 .fi-sidebar-nav-tenant-menu-ctn {
     @apply !mx-6;
