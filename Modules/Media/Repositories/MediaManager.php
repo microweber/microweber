@@ -824,7 +824,7 @@ class MediaManager
         $src = htmlspecialchars_decode($src);
 
         $surl = $this->app->url_manager->site();
-      //  $surl = $this->app->url_manager->site();
+        //  $surl = $this->app->url_manager->site();
         $src = str_replace('{SITE_URL}', $surl, $src);
         $src = str_replace('%7BSITE_URL%7D', $surl, $src);
         $base_src = str_replace($surl, '', $src);
@@ -935,7 +935,6 @@ class MediaManager
             $check = app()->media_repository->getThumbnailCachedItem($cache_id_without_ext);
 
 
-
             if (!$check) {
                 $media_tn_temp = new MediaThumbnail();
                 $media_tn_temp->filename = $cache_id_without_ext;
@@ -994,6 +993,8 @@ class MediaManager
         }
 
         $src = strtok($src, '?');
+        $src_orig = $src;
+
 
         $surl = $this->app->url_manager->site();
         $local = false;
@@ -1012,18 +1013,21 @@ class MediaManager
             $src = ltrim($src, '/');
             $src = rtrim($src, DS);
             $src = rtrim($src, '/');
-            $src = public_path('/') . $src;
+            // $src = public_path('/') . $src;
+            $src = media_uploads_path('/') . $src;
+            // $src = base_path('/') . $src;
             //$src = MW_ROOTPATH . $src;
             //$src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
-
         } else {
             $src = $this->app->url_manager->clean_url_wrappers($src);
 
             $src1 = media_base_path() . $src;
             $src1 = normalize_path($src1, false);
 
-           // $src2 = MW_ROOTPATH . $src;
+            // $src2 = MW_ROOTPATH . $src;
+
+
             $src2 = public_path('/') . $src;
             $src2 = normalize_path($src2, false);
             $src3 = strtolower($src2);
@@ -1034,7 +1038,7 @@ class MediaManager
                 $src = $src2;
             } elseif (is_file($src3)) {
                 $src = $src3;
-            }  elseif (is_file($src)) {
+            } elseif (is_file($src)) {
 
             } else {
                 $no_img = true;
@@ -1045,6 +1049,7 @@ class MediaManager
             }
         }
         $media_root = media_base_path();
+
 
         $cd = $this->_thumbnails_path() . $width . DS;
 
@@ -1065,7 +1070,6 @@ class MediaManager
 
             }
         }
-
         // $cache = md5(serialize($params)) . '.' . $ext;
         $cache = $this->tn_cache_id($params) . '.' . $ext;
 
@@ -1088,6 +1092,7 @@ class MediaManager
 //                $cache_path = $cd . $cache;
 //                }
 //        }
+
 
         if (file_exists($cache_path)) {
 
@@ -1113,14 +1118,16 @@ class MediaManager
             }
 
         } else {
-            $src = $this->app->url_manager->clean_url_wrappers($src);
+              $src = $this->app->url_manager->clean_url_wrappers($src);
+            $ext = strtolower(get_file_extension($src));
 
-            if (file_exists($src)) {
+            if (is_file($src)) {
                 if (($ext) == 'svg') {
                     $res1 = file_get_contents($src);
                     $res1 = $this->svgScaleHack($res1, $width, $height);
                     file_put_contents($cache_path, $res1);
                 } else {
+
                     if ($ext == 'jpg' || $ext == 'jpeg' || $ext == 'gif' || $ext == 'png' || $ext == 'bmp' || $ext == 'webp') {
 
                         if (!$height) {
@@ -1137,6 +1144,7 @@ class MediaManager
                             mkdir_recursive($cache_path_dir);
                         }
                         $tn->createThumb($thumbOptions, $cache_path);
+
 
 //                        if (!isset($return_cache_path) and isset($params['cache_id'])) {
 //                       delete_option($params['cache_id'], 'media_tn_temp');
@@ -1157,8 +1165,9 @@ class MediaManager
             }
         }
 
-
         if (isset($return_cache_path) and $return_cache_path) {
+
+         //  $cache_path = dir2url($cache_path);
 
             return $cache_path;
         }
@@ -1166,7 +1175,7 @@ class MediaManager
         if (is_file($cache_path)) {
 
             return $this->outputImageFile($cache_path);
-         } else {
+        } else {
 
             return $this->pixum_img();
         }
@@ -1184,7 +1193,7 @@ class MediaManager
         $fileSize = filesize($cache_path);
 
         $imageLib = new ImageLib($cache_path);
-        if(!$imageLib->testIsImage()){
+        if (!$imageLib->testIsImage()) {
             return $this->pixum_img();
         }
 
@@ -1211,7 +1220,7 @@ class MediaManager
             $rotator->rotateAndSave(90);
 
             $this->app->cache_manager->delete('media');
-         }
+        }
     }
 
     public function tn_cache_id($params)
