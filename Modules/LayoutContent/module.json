@@ -1,0 +1,11 @@
+{
+    "name": "LayoutContent",
+    "alias": "layout_content",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\LayoutContent\\Providers\\LayoutContentServiceProvider"
+    ],
+    "files": []
+}
