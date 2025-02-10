@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
-use Modules\Testimonials\Microweber\LayoutContentModule;
+use Modules\LayoutContent\Microweber\LayoutContentModule;
 
 
 class LayoutContentServiceProvider extends BaseModuleServiceProvider
@@ -31,12 +31,12 @@ class LayoutContentServiceProvider extends BaseModuleServiceProvider
      */
     public function register(): void
     {
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
-
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(LayoutContentModuleSettings::class);

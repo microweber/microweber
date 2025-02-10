@@ -1,13 +1,12 @@
 <?php
 
-namespace Modules\Testimonials\Microweber;
+namespace Modules\LayoutContent\Microweber;
 
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
+use Modules\LayoutContent\Filament\LayoutContentModuleSettings;
 use Modules\LayoutContent\Models\LayoutContentItem;
-use Modules\Testimonials\Filament\TestimonialsModuleSettings;
-use Modules\Testimonials\Models\Testimonial;
 
 class LayoutContentModule extends BaseModule
 {
@@ -19,7 +18,7 @@ class LayoutContentModule extends BaseModule
     public static string $icon = 'modules.layout_content-icon';
     public static string $categories = 'content';
     public static int $position = 30;
-//    public static string $settingsComponent = LayoutContentModuleSettings::class;
+    public static string $settingsComponent = LayoutContentModuleSettings::class;
     public static string $templatesNamespace = 'modules.layout_content::templates';
 
     /**
@@ -31,6 +30,8 @@ class LayoutContentModule extends BaseModule
         $viewData['items'] = $this->getContents();
 
         $viewName = $this->getViewName($viewData['template'] ?? 'default');
+
+        dd($viewName);
 
         return view($viewName, $viewData);
     }
@@ -69,7 +70,7 @@ class LayoutContentModule extends BaseModule
 
         return array_map(function($testimonial) {
             $testimonial['contents'] = app()->url_manager->replace_site_url_back($testimonial['image']);
-            return new Testimonial($testimonial);
+            return new LayoutContentItem($testimonial);
         }, $defaultContent['contents']);
     }
 
