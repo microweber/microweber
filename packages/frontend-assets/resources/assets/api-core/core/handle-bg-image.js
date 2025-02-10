@@ -32,6 +32,7 @@ export class BGImageHandles {
                         autoSelect: false,
                         footer: true,
                         _frameMaxHeight: true,
+                        okLabel: mw.lang('Update image'),
                         onResult: function(res) {
                             var url = res.src ? res.src : res;
                             if(!url) {

@@ -797,6 +797,7 @@ MWEditor.controllers = {
                     multiple: true,
                     footer: true,
                     _frameMaxHeight: true,
+                    okLabel: mw.lang('Insert image'),
                     cancel: function () {
                         dialog.remove()
                     },

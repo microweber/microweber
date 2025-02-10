@@ -1,5 +1,37 @@
 <x-filament-panels::page>
 
+<div id="filepick1"></div>
+
+<script>
+                      var fm = mw.FileManager({
+                         element: '#filepick1',
+                         canSelectFolder: false,
+
+                         stickyHeader: true,
+
+                         type: '*',
+
+
+        selectable: true,
+        multiselect: true,
+        stickyHeader: false,
+        options: true,
+        selectableRow: false,
+
+                     });
+                     fm.on('insert', function (val){
+                        console.log(val)
+                     });
+                     fm.on('insertByValue', function (val){
+                        console.log(val)
+                     });
+                     fm.on('selectionChanged', function (val){
+
+                         console.log(val)
+                     });
+</script>
+
+
     <div x-data="{ activeTab: 'form' }">
 
     <x-filament::tabs >
