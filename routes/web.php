@@ -18,8 +18,5 @@ use MicroweberPackages\Content\Models\Content;
 
 Route::get('xx', function () {
 
-    $find = Content::where('id', 3)->first();
-
-    dd($find->belongsToMenus()->get());
 
 });
