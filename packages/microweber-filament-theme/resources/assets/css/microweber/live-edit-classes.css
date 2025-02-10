@@ -451,7 +451,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .noUi-target {
-    @apply relative;
+    @apply relative px-3;
 }
 
 .noUi-base,
