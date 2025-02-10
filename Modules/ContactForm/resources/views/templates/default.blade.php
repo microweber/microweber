@@ -9,7 +9,7 @@
 
 <link href="{{ asset('modules/contact_form/css/app.css') }}" rel="stylesheet" type="text/css"/>
 
-<div class="contact-form-container contact-form-template-dream"
+<div class="contact-form-container"
      x-load="visible"
      x-load-src="{{ asset('modules/contact_form/js/contact-form-alpine.js') }}"
      x-data="contactForm('{{ $params['id'] }}')"

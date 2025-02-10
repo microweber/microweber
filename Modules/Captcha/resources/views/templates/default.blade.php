@@ -15,11 +15,11 @@ description: Default comments template
     x-load="visible"
     @callback.window="<?php isset($params['data-callback']) ? print $params['data-callback'] . '($event.detail)' : '' ?>"
 >
-    <div class="mw-ui-row"  >
-        <div class="mw-captcha" style="max-width: 400px; margin: 15px;">
+    <div class="row"  >
+        <div class="mw-captcha my-2">
             <div class="form-group" wire:ignore>
                 <div class="captcha-holder">
-                    <div class="mw-ui-col" style="width: 100px;">
+                    <div class="col" style="width: 100px;">
                         <a href="javascript:;" class="tip" data-tip="Refresh captcha" data-tipposition="top-center">
                             <img
                                 @click="refreshCaptcha($el)"
@@ -30,7 +30,7 @@ description: Default comments template
                             />
                         </a>
                     </div>
-                    <div class="mw-ui-col">
+                    <div class="col">
                         <input
                             x-model="captchaValue"
                             name="captcha"
