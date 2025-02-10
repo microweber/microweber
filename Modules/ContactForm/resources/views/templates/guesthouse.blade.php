@@ -14,7 +14,8 @@
 
 <div class="section-42">
     <div class="form">
-        <form id="contactform" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post">
+        <form id="contactform" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
+              x-on:submit="submitForm">
             @csrf
 
             <div class="row">

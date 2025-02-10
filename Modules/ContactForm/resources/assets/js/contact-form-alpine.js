@@ -29,7 +29,6 @@ export default function contactForm(formId) {
                 const action = route('api.contact_form_submit');
 
 
-
                 // Get CSRF token from meta tag
                 const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
