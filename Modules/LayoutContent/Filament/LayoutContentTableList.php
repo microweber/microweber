@@ -21,6 +21,7 @@ use Livewire\Component;
 
 
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\LiveEdit\Filament\Admin\Tables\LiveEditModuleTable;
 use Modules\LayoutContent\Models\LayoutContentItem;
 use Modules\Testimonials\Models\Testimonial;
@@ -47,7 +48,7 @@ class LayoutContentTableList extends LiveEditModuleTable
             TextInput::make('button_text')
                 ->label('Button Text'),
 
-            TextInput::make('button_link')
+            MwLinkPicker::make('button_link')
                 ->label('Button Link')
                 ->url(),
 
