@@ -18,7 +18,7 @@
         <div class="edit" field="contact_form_title" rel="contact_form_module" data-id="{{ $params['id'] }}">
             <h3 class="element contact-form-title">@lang('Leave a Message')</h3>
         </div>
-        <form class="mw_form" data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
+        <form data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
               x-on:submit="submitForm">
 
             <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module"
@@ -39,7 +39,9 @@
                     </div>
                 </div>
             @endif
+
             @include('modules.contact_form::partials.formSubmit')
+
         </form>
     </div>
     @include('modules.contact_form::partials.successMessage')
