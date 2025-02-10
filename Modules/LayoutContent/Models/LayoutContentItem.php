@@ -13,6 +13,15 @@ class LayoutContentItem extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'title',
+        'description',
+        'image',
+        'image_alt_text',
+        'button_text',
+        'button_link',
+        'rel_type',
+        'rel_id',
+    ];
 
 }

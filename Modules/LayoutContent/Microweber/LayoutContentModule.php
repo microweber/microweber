@@ -59,17 +59,17 @@ class LayoutContentModule extends BaseModule
      */
     protected function getDefaultContents(): array
     {
-        $defaultContent = file_get_contents(module_path(self::$module) . '/default_content.json');
-        $defaultContent = json_decode($defaultContent, true);
+        $defaultSettings = file_get_contents(module_path(self::$module) . '/default_settings.json');
+        $defaultSettings = json_decode($defaultSettings, true);
 
-        if (!isset($defaultContent['contents'])) {
+        if (!isset($defaultSettings['contents'])) {
             return [];
         }
 
-        return array_map(function($testimonial) {
-            $testimonial['contents'] = app()->url_manager->replace_site_url_back($testimonial['image']);
-            return new LayoutContentItem($testimonial);
-        }, $defaultContent['contents']);
+        return array_map(function($layoutContent) {
+            $layoutContent['contents'] = app()->url_manager->replace_site_url_back($layoutContent['image']);
+            return new LayoutContentItem($layoutContent);
+        }, $defaultSettings['contents']);
     }
 
     /**
