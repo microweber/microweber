@@ -3,7 +3,6 @@
 use \Illuminate\Support\Facades\Route;
 
 
-
 Route::post('media/upload', function (\Illuminate\Http\Request $request) {
 
     return mw()->media_manager->upload($_POST);
@@ -25,41 +24,6 @@ Route::get('thumbnail_img', function (\Illuminate\Http\Request $request) {
 
 })->middleware('web')->name('api.pixum_img');
 
-
-
-
-
-
-
-Route::any('/api/media_library/search', function (\Illuminate\Http\Request $request) {
-    $data = $request->all();
-    $search = array();
-    $unsplash = new \Modules\Media\Support\Unsplash();
-
-    $page = 1;
-
-    if (isset($data['page'])) {
-        $page = $data['page'];
-    }
-
-    if (isset($data['keyword'])) {
-        $search = $unsplash->search($data['keyword'], $page);
-    }
-
-    $response = \Illuminate\Http\Response::make($search);
-    $response->header('Content-Type', 'text/json');
-
-    return $response;
-})->middleware(['api', 'admin', 'xss'])->name('api.media_library.search');
-
-Route::post('/api/media_library/download', function (\Illuminate\Http\Request $request) {
-    $data = $request->all();
-    $unsplash = new \Modules\Media\Support\Unsplash();
-    if (isset($data['photo_id'])) {
-        $image = $unsplash->download($data['photo_id']);
-    }
-    return $image;
-})->middleware(['api', 'admin', 'xss'])->name('api.media_library.download');
 
 Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
 

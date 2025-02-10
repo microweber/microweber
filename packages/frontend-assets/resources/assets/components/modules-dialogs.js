@@ -1,5 +1,8 @@
 export const  SystemDialogsService = {
         moduleFrame: function(type, params, autoHeight){
+            console.log('moduleFrame: The function is deprecated. Use another method to open module settings');
+
+
             if(typeof autoHeight === 'undefined') {
                 autoHeight = true;
             }
