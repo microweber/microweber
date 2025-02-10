@@ -31,8 +31,6 @@ class LayoutContentModule extends BaseModule
 
         $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
-        dd($viewName);
-
         return view($viewName, $viewData);
     }
 
