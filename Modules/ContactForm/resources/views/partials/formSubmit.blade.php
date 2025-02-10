@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row my-2">
     <div class="col-md-9 col-12">
         <div class="form-group">
             @if(get_option('disable_captcha', $params['id']) != 'y')

@@ -39,7 +39,9 @@
                     </div>
                 </div>
             @endif
+
             @include('modules.contact_form::partials.formSubmit')
+
         </form>
     </div>
     @include('modules.contact_form::partials.successMessage')
