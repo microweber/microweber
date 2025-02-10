@@ -61,6 +61,7 @@
     top: -1px;
     @apply transition-transform ease-out duration-300; /* Transitions */
     transform: rotate(180deg); /* Rotate */
+    @apply dark:text-white; /* Dark mode text color */
 }
 
 .mw-live-edit-toolbar-link--arrowed g {
@@ -238,7 +239,7 @@ body {
 }
 
 .fi-layout .fi-main-ctn {
-    @apply bg-white dark:bg-slate-900;
+    @apply !bg-white dark:!bg-slate-800;
 }
 
 
