@@ -23,6 +23,10 @@ class AiWizardResource extends Resource
 
     protected static ?string $navigationGroup = 'Other';
 
+    protected static bool $shouldRegisterNavigation = false;
+
+
+
     protected static ?string $navigationLabel = 'AI Page Wizard';
 
     protected static ?string $modelLabel = 'AI Page';
@@ -42,7 +46,7 @@ class AiWizardResource extends Resource
             return $items->map(function ($item) use (&$iterator, $uniqueId) {
                 return [
                     'id' => $uniqueId . '_' . $iterator++,
-                    'layout_file' => $item['layout_file'],
+                    'layout_file' => str_replace('.', '/', $item['layout_file']),
                     'name' => $item['name'],
                     'screenshot' => $item['screenshot_public_url'] ?? null,
                 ];

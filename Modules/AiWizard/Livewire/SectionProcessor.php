@@ -10,146 +10,90 @@ use Filament\Notifications\Notification;
 class SectionProcessor extends Component
 {
     public $record;
-    public $sections = [];
-    public $currentSection = null;
+    public $layouts = [];
+    public $currentLayout = null;
     public $processingStatus = [];
     public $overallProgress = 0;
-    public $showSectionSelector = false;
-    public $selectedSections = [];
-    public $availableSections = [
-        'header' => 'Header Section',
-        'content' => 'Main Content',
-        'features' => 'Features Section',
-        'pricing' => 'Pricing Section',
-        'about' => 'About Section',
-        'call_to_action' => 'Call to Action Section',
-        'faq' => 'FAQ Section',
-        'testimonials' => 'Testimonials Section',
-        'contact' => 'Contact Section',
-    ];
+    public $selectedLayouts = [];
 
     public function mount($record)
     {
         $this->record = $record;
 
-        // Check if sections are passed via URL parameters
-        $urlSections = request()->query('sections', []);
-        if (!empty($urlSections)) {
-            $this->selectedSections = is_array($urlSections) ? $urlSections : explode(',', $urlSections);
-            $this->generateInitialContent();
-        } else {
-            // Check if we have existing sections
-            $this->initializeSections();
-            $this->showSectionSelector = true;
-            // If no sections, show the selector
-            if (empty($this->sections)) {
-                $this->showSectionSelector = true;
-                $this->selectedSections = ['content']; // Default selections
-            }
-        }
-    }
-
-    public function confirmSectionSelection()
-    {
-        if (empty($this->selectedSections)) {
-            Notification::make()
-                ->title('Please select at least one section')
-                ->warning()
-                ->send();
-            return;
+        // Initialize layouts from content_data if available
+        if (!empty($this->record->content_data['layouts'])) {
+            $this->selectedLayouts = $this->record->content_data['layouts'];
         }
 
-        $this->generateInitialContent();
-        $this->showSectionSelector = false;
+        $this->initializeLayouts();
     }
 
-    protected function generateInitialContent()
+    protected function initializeLayouts()
     {
-        $aiService = app(AiServiceInterface::class);
+        // Get all available layouts
+        $allLayouts = module_templates('layouts');
 
-        // Prepare the prompt for AI
-        $prompt = "Create website content for a page with the following details:\n";
-        $prompt .= "Title: {$this->record->title}\n";
-        $prompt .= "Description: {$this->record->description}\n";
-        $prompt .= "Sections to include: " . implode(', ', $this->selectedSections) . "\n";
+        foreach ($this->selectedLayouts as $index => $layoutFile) {
+            $layout = collect($allLayouts)->first(function ($item) use ($layoutFile) {
+                return $item['layout_file'] === $layoutFile;
+            });
 
-        $messages = [
-            [
-                'role' => 'system',
-                'content' => 'You are a professional website content creator that generates well-structured content for web pages.'
-            ],
-            [
-                'role' => 'user',
-                'content' => $prompt
-            ]
-        ];
+            if (!$layout) continue;
 
-        $response = $aiService->sendToChat($messages, [
-            'model' => $this->record->content_data['ai_model'] ?? 'gpt-3.5-turbo',
-            'temperature' => 0.7,
-        ]);
+            $uniqueId = 'layout_' . uniqid();
 
-        $generatedContent = is_string($response) ? $response : $response['content'];
-
-        // Store the generated content
-        $this->record->update([
-            'content_data' => array_merge($this->record->content_data ?? [], [
-                'ai_content' => $generatedContent,
-                'sections' => $this->selectedSections,
-            ]),
-        ]);
-
-        // Initialize sections with the generated content
-        $this->initializeSections();
-    }
-
-    protected function initializeSections()
-    {
-        $content = $this->record->content_data['ai_content'] ?? '';
-        $rawSections = explode("\n\n", $content);
-
-        foreach ($rawSections as $index => $content) {
-            if (empty(trim($content))) continue;
-
-            $uniqueId = 'section_' . uniqid();
-            $sectionName = $this->guessSectionName($content);
-
-            $this->sections[] = [
+            $this->layouts[] = [
                 'id' => $index + 1,
                 'unique_id' => $uniqueId,
-                'name' => $sectionName,
-                'content' => $content,
+                'name' => $layout['name'],
+                'layout_file' => $layout['layout_file'],
+                'category' => $layout['category'] ?? 'Other',
+                'content' => '',
                 'markdown' => '',
                 'html' => '',
-                'status' => 'pending', // pending, processing, completed, error
-                'field_name' => 'layout-skin-1-' . $uniqueId
+                'status' => 'pending',
+                'field_name' => 'layout-' . $layout['layout_file'] . '-' . $uniqueId
             ];
 
             $this->processingStatus[$index] = 0;
         }
     }
 
-    protected function guessSectionName($content)
+    public function processLayout($index)
     {
-        $firstLine = strtok($content, "\n");
-        $name = preg_match('/^(header|content|features|testimonials|contact)/i', $firstLine, $matches)
-            ? ucfirst($matches[1])
-            : 'Section ' . (count($this->sections) + 1);
-        return $name;
-    }
-
-    public function processSection($index)
-    {
-        $this->currentSection = $index;
-        $this->sections[$index]['status'] = 'processing';
+        $this->currentLayout = $index;
+        $this->layouts[$index]['status'] = 'processing';
         $this->processingStatus[$index] = 25;
 
         try {
             $aiService = app(AiServiceInterface::class);
             $converter = new CommonMarkConverter();
 
-            // Generate markdown
+            // Generate content for the layout
             $this->processingStatus[$index] = 50;
+            $messages = [
+                [
+                    'role' => 'system',
+                    'content' => 'You are a professional content creator that generates content suitable for website layouts.'
+                ],
+                [
+                    'role' => 'user',
+                    'content' => "Create content for a {$this->layouts[$index]['name']} layout section for a page with the following details:\n" .
+                        "Title: {$this->record->title}\n" .
+                        "Description: {$this->record->description}\n" .
+                        "Layout Category: {$this->layouts[$index]['category']}"
+                ]
+            ];
+
+            $response = $aiService->sendToChat($messages, [
+                'model' => $this->record->content_data['ai_model'] ?? 'gpt-3.5-turbo',
+                'temperature' => 0.7,
+            ]);
+
+            $generatedContent = is_string($response) ? $response : $response['content'];
+            $this->layouts[$index]['content'] = $generatedContent;
+
+            // Convert to markdown
             $messages = [
                 [
                     'role' => 'system',
@@ -157,8 +101,7 @@ class SectionProcessor extends Component
                 ],
                 [
                     'role' => 'user',
-                    'content' => "Convert this content into well-formatted markdown with proper headings, lists, and formatting:\n\n" .
-                        $this->sections[$index]['content']
+                    'content' => "Convert this content into well-formatted markdown:\n\n" . $generatedContent
                 ]
             ];
 
@@ -168,15 +111,14 @@ class SectionProcessor extends Component
             ]);
 
             $markdown = is_string($response) ? $response : $response['content'];
-
-            $this->sections[$index]['markdown'] = $markdown;
+            $this->layouts[$index]['markdown'] = $markdown;
             $this->processingStatus[$index] = 75;
 
             // Convert to HTML
             $html = $converter->convert($markdown)->getContent();
-            $this->sections[$index]['html'] = $html;
+            $this->layouts[$index]['html'] = $html;
 
-            $this->sections[$index]['status'] = 'completed';
+            $this->layouts[$index]['status'] = 'completed';
             $this->processingStatus[$index] = 100;
 
             //emit reloadIframePreview
@@ -190,74 +132,76 @@ class SectionProcessor extends Component
             $this->saveProgress();
 
             Notification::make()
-                ->title("Section {$this->sections[$index]['name']} processed successfully")
+                ->title("Layout {$this->layouts[$index]['name']} processed successfully")
                 ->success()
                 ->send();
 
         } catch (\Exception $e) {
-            $this->sections[$index]['status'] = 'error';
+            $this->layouts[$index]['status'] = 'error';
             Notification::make()
-                ->title("Error processing section {$this->sections[$index]['name']}")
+                ->title("Error processing layout {$this->layouts[$index]['name']}")
                 ->danger()
                 ->body($e->getMessage())
                 ->send();
         }
 
-        $this->currentSection = null;
+        $this->currentLayout = null;
     }
 
     protected function updateOverallProgress()
     {
-        $total = count($this->sections);
-        $completed = count(array_filter($this->sections, fn($s) => $s['status'] === 'completed'));
+        $total = count($this->layouts);
+        $completed = count(array_filter($this->layouts, fn($l) => $l['status'] === 'completed'));
         $this->overallProgress = $total > 0 ? round(($completed / $total) * 100) : 0;
     }
 
     protected function saveProgress()
     {
-        $processedSections = array_map(function ($section) {
-            if ($section['status'] !== 'completed') {
+        $processedLayouts = array_map(function ($layout) {
+            if ($layout['status'] !== 'completed') {
                 return null;
             }
 
             // Create the module wrapper
-            $moduleHtml = '<module type="layouts" skin="content/skin-1" id="' . $section['unique_id'] . '" />';
+            $moduleHtml = '<module type="layouts" template="' . $layout['layout_file'] . '" id="' . $layout['unique_id'] . '" />';
 
-            // Save the section content using ContentManager
+            // Save the layout content using ContentManager
             app()->content_manager->save_content_field([
-                'field' => $section['field_name'],
-                'value' => $section['html'],
+                'field' => $layout['field_name'],
+                'value' => $layout['html'],
                 'rel_type' => 'module',
                 'rel_id' => 0
             ]);
 
             return [
-                'name' => $section['name'],
-                'original' => $section['content'],
-                'markdown' => $section['markdown'],
+                'name' => $layout['name'],
+                'layout_file' => $layout['layout_file'],
+                'category' => $layout['category'],
+                'original' => $layout['content'],
+                'markdown' => $layout['markdown'],
                 'html' => $moduleHtml,
-                'field_name' => $section['field_name'],
-                'unique_id' => $section['unique_id']
+                'field_name' => $layout['field_name'],
+                'unique_id' => $layout['unique_id']
             ];
-        }, $this->sections);
+        }, $this->layouts);
 
-        // Filter out null values from unprocessed sections
-        $processedSections = array_filter($processedSections);
+        // Filter out null values from unprocessed layouts
+        $processedLayouts = array_filter($processedLayouts);
 
         $this->record->update([
             'content_data' => array_merge($this->record->content_data ?? [], [
-                'processed_sections' => $processedSections,
+                'processed_layouts' => $processedLayouts,
                 'processed_at' => now(),
             ]),
-            'content' => collect($processedSections)->pluck('html')->join("\n\n"),
+            'content' => collect($processedLayouts)->pluck('html')->join("\n\n"),
         ]);
     }
 
     public function processAll()
     {
-        foreach ($this->sections as $index => $section) {
-            if ($section['status'] !== 'completed') {
-                $this->processSection($index);
+        foreach ($this->layouts as $index => $layout) {
+            if ($layout['status'] !== 'completed') {
+                $this->processLayout($index);
             }
         }
     }

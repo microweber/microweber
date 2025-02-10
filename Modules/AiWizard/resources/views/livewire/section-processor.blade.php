@@ -1,32 +1,4 @@
 <div>
-    @if($showSectionSelector)
-        <div class="bg-white rounded-lg shadow p-6 mb-6">
-            <h2 class="text-lg font-medium mb-4">Select Page Sections</h2>
-            <div class="space-y-4">
-                <x-filament::grid :default="2">
-                    @foreach($availableSections as $value => $label)
-                        <label class="flex items-center space-x-3">
-                            <x-filament::input.checkbox
-                                wire:model.live="selectedSections"
-                                :value="$value"
-                            />
-                            <span class="text-sm">{{ $label }}</span>
-                        </label>
-                    @endforeach
-                </x-filament::grid>
-
-                <div class="flex justify-end mt-6">
-                    <x-filament::button
-                        wire:click="confirmSectionSelection"
-                        color="primary"
-                    >
-                        Generate Content
-                    </x-filament::button>
-                </div>
-            </div>
-        </div>
-    @endif
-
     <div class="space-y-6">
         <!-- Overall Progress -->
         <div class="bg-white rounded-lg p-4 shadow">
@@ -43,21 +15,24 @@
         <div class="flex justify-end">
             <x-filament::button
                 wire:click="processAll"
-                :disabled="$currentSection !== null"
+                :disabled="$currentLayout !== null"
                 color="primary"
             >
-                Process All Sections
+                Process All Layouts
             </x-filament::button>
         </div>
 
-        <!-- Sections -->
+        <!-- Layouts -->
         <div class="space-y-4">
-            @foreach($sections as $index => $section)
+            @foreach($layouts as $index => $layout)
                 <div class="bg-white rounded-lg shadow p-4">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-lg font-medium">{{ $section['name'] }}</h4>
+                        <div>
+                            <h4 class="text-lg font-medium">{{ $layout['name'] }}</h4>
+                            <p class="text-sm text-gray-500">Category: {{ $layout['category'] }}</p>
+                        </div>
                         <div class="flex items-center space-x-2">
-                            @switch($section['status'])
+                            @switch($layout['status'])
                                 @case('pending')
                                     <x-filament::badge color="gray">Pending</x-filament::badge>
                                     @break
@@ -73,18 +48,18 @@
                             @endswitch
                             
                             <x-filament::button
-                                wire:click="processSection({{ $index }})"
-                                :disabled="$currentSection !== null || $section['status'] === 'processing'"
+                                wire:click="processLayout({{ $index }})"
+                                :disabled="$currentLayout !== null || $layout['status'] === 'processing'"
                                 size="sm"
                                 color="primary"
                             >
-                                {{ $section['status'] === 'completed' ? 'Reprocess' : 'Process' }}
+                                {{ $layout['status'] === 'completed' ? 'Reprocess' : 'Process' }}
                             </x-filament::button>
                         </div>
                     </div>
 
                     <!-- Section Progress -->
-                    @if($section['status'] === 'processing')
+                    @if($layout['status'] === 'processing')
                         <div class="mb-4">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="text-sm font-medium">Processing...</span>
@@ -102,22 +77,22 @@
                         <div>
                             <h5 class="text-sm font-medium text-gray-500 mb-2">Original Content</h5>
                             <div class="bg-gray-50 rounded p-3 text-sm">
-                                {!! nl2br(e($section['content'])) !!}
+                                {!! nl2br(e($layout['content'])) !!}
                             </div>
                         </div>
 
-                        @if($section['status'] === 'completed')
+                        @if($layout['status'] === 'completed')
                             <div>
                                 <h5 class="text-sm font-medium text-gray-500 mb-2">Markdown</h5>
                                 <div class="bg-gray-50 rounded p-3">
-                                    <pre class="text-sm">{{ $section['markdown'] }}</pre>
+                                    <pre class="text-sm">{{ $layout['markdown'] }}</pre>
                                 </div>
                             </div>
 
                             <div>
                                 <h5 class="text-sm font-medium text-gray-500 mb-2">HTML Preview</h5>
                                 <div class="prose max-w-none bg-white border rounded p-4">
-                                    {!! $section['html'] !!}
+                                    {!! $layout['html'] !!}
                                 </div>
                             </div>
                         @endif
