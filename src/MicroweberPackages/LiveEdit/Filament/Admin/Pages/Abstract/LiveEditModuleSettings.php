@@ -213,6 +213,7 @@ abstract class LiveEditModuleSettings extends Page
                 $formFields[] = ColorPicker::make($name)
                     ->label($schema['label'])
                     ->visible($showField)
+                    ->hex()
                     ->live()
                     ->placeholder($schema['placeholder'] ?? '');
             }
