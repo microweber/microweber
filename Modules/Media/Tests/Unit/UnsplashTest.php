@@ -3,7 +3,7 @@
 namespace Modules\Media\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
-use Modules\Media\Support\Unsplash;
+use Modules\MediaLibrary\Support\Unsplash;
 
 class UnsplashTest extends TestCase
 {
