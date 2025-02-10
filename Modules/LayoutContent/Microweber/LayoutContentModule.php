@@ -38,8 +38,10 @@ class LayoutContentModule extends BaseModule
     public function render(): View
     {
         $viewData = $this->getViewData();
+        foreach ($this->defaultSettings as $key => $value) {
+            $viewData[$key] = $this->getOption($key, $value);
+        }
         $viewData['contents'] = $this->getContents();
-        $viewData['defaultSettings'] = $this->defaultSettings;
 
         $viewName = $this->getViewName($viewData['template'] ?? 'default');
 
