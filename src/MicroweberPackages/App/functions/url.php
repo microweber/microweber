@@ -37,16 +37,18 @@ if (!function_exists('url2dir')) {
 if (!function_exists('dir2url')) {
     function dir2url($path)
     {
+
         $path1 = normalize_path($path, false);
         $path2 = normalize_path(public_path(), false);
-        $path_media = normalize_path(media_base_path(), false);
-        $path_media2 = normalize_path(media_base_path(), false);
+        $path_media = normalize_path(media_base_path(), true);
+        $path_media2 = normalize_path(media_base_path(), true);
         $url_media = media_base_url();
 
         $path = str_ireplace($path2, '', $path1);
 
         if (str_starts_with($path, $path_media)) {
             $path = str_ireplace($path_media, $url_media, $path);
+
             return $path;
         } elseif (str_starts_with($path, $path_media2)) {
             $path = str_ireplace($path_media2, $url_media, $path);

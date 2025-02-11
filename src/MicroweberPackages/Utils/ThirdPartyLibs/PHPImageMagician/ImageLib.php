@@ -123,6 +123,11 @@ namespace MicroweberPackages\Utils\ThirdPartyLibs\PHPImageMagician;
 #
 #
 # ========================================================================#
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Image;
+use Nette\Utils\ImageType;
+
 class ImageLib
 {
     private $fileName;
@@ -279,7 +284,7 @@ class ImageLib
         // *** Make sure the file passed in is valid
         if (!$this->image) {
             if ($this->debug) {
-                die('file ' . basename( $this->getFileName() ). ' is missing or invalid');
+                die('file ' . basename($this->getFileName()) . ' is missing or invalid');
             } else {
                 die();
             }
@@ -2071,10 +2076,10 @@ class ImageLib
             $img = @imagecreatefromwebp($file);
         } else {
             $info = @getimagesize($file);
-            if(!is_array($info)){
+            if (!is_array($info)) {
                 return false;
             }
-            if(!isset($info[2])){
+            if (!isset($info[2])) {
                 return false;
             }
             switch ($info[2]) {
@@ -2151,7 +2156,7 @@ class ImageLib
     {
 
         // *** Perform a check or two.
-        if (!is_resource($this->imageResized) and !$this->imageResized instanceof \GdImage ) {
+        if (!is_resource($this->imageResized) and !$this->imageResized instanceof \GdImage) {
 
             if ($this->debug) {
                 die('saveImage: This is not a resource.');
@@ -2246,8 +2251,24 @@ class ImageLib
         #
     {
 
-        if(is_object($this->imageResized) and $this->imageResized instanceof \GdImage){
+        if (is_object($this->imageResized) and $this->imageResized instanceof \GdImage) {
 
+
+            $headers = ['Content-Type' => 'image/' . $fileType];
+
+            // $response = \Illuminate\Support\Facades\Response::make( file_get_contents($this->fileName), 200,$headers);
+            //  $response->header('Content-Type', 'image/'.$fileType);
+
+            //$response = response()->file($this->fileName,$headers);
+          //  $fileContent = file_get_contents($this->fileName);
+
+            $image = \Intervention\Image\Laravel\Facades\Image::read($this->fileName);
+            ob_end_clean();
+
+            return response()->make($image->encode(), 200, $headers);
+
+
+            //return $response;
         } else if (!is_resource($this->imageResized)) {
             if ($this->debug) {
                 die('saveImage: This is not a resource.');
@@ -2259,17 +2280,17 @@ class ImageLib
             case 'jpg':
             case 'jpeg':
                 header('Content-type: image/jpeg');
-                imagejpeg($this->imageResized, null, $imageQuality);
+                imagejpeg($this->image, null, $imageQuality);
                 break;
             case 'gif':
                 header('Content-type: image/gif');
-                imagegif($this->imageResized);
+                imagegif($this->image);
                 break;
 
 
             case 'webp':
                 header('Content-type: image/webp');
-                imagewebp($this->imageResized);
+                imagewebp($this->image);
                 break;
             case 'png':
                 header('Content-type: image/png');
@@ -2277,7 +2298,7 @@ class ImageLib
                 $scaleQuality = round(($imageQuality / 100) * 9);
                 // *** Invert qualit setting as 0 is best, not 9
                 $invertScaleQuality = 9 - $scaleQuality;
-                imagepng($this->imageResized, null, $invertScaleQuality);
+                imagepng($this->image, null, $invertScaleQuality);
                 break;
             case 'bmp':
                 echo 'bmp file format is not supported.';

@@ -1013,9 +1013,10 @@ class MediaManager
             $src = ltrim($src, '/');
             $src = rtrim($src, DS);
             $src = rtrim($src, '/');
-            // $src = public_path('/') . $src;
-            $src = media_uploads_path('/') . $src;
+            $src = public_path('/') . $src;
+            //  $src = media_uploads_path('/') . $src;
             // $src = base_path('/') . $src;
+            //  dd($src);
             //$src = MW_ROOTPATH . $src;
             //$src = MW_ROOTPATH . $src;
             $src = normalize_path($src, false);
@@ -1085,7 +1086,7 @@ class MediaManager
 //        }
         $cache_path = $cd . $cache;
         if (isset($cache_path_relative)) {
-            $cache_path = normalize_path(userfiles_path() . $cache_path_relative, false);
+            $cache_path = normalize_path(media_base_path() . $cache_path_relative, false);
         }
 //        if (!file_exists($cache_path)) {
 //                if(!isset($cache_path)){
@@ -1118,7 +1119,7 @@ class MediaManager
             }
 
         } else {
-              $src = $this->app->url_manager->clean_url_wrappers($src);
+            $src = $this->app->url_manager->clean_url_wrappers($src);
             $ext = strtolower(get_file_extension($src));
 
             if (is_file($src)) {
@@ -1167,14 +1168,15 @@ class MediaManager
 
         if (isset($return_cache_path) and $return_cache_path) {
 
-         //  $cache_path = dir2url($cache_path);
+            //  $cache_path = dir2url($cache_path);
 
             return $cache_path;
         }
 
         if (is_file($cache_path)) {
+            $mg = $this->outputImageFile($cache_path);
 
-            return $this->outputImageFile($cache_path);
+            return $mg;
         } else {
 
             return $this->pixum_img();
@@ -1194,12 +1196,13 @@ class MediaManager
 
         $imageLib = new ImageLib($cache_path);
         if (!$imageLib->testIsImage()) {
+
+
             return $this->pixum_img();
         }
 
-        $imageLib->displayImage($ext);
 
-        exit;
+        return $imageLib->displayImage($ext);
 
 
     }
@@ -1262,8 +1265,8 @@ class MediaManager
 
     private function _thumbnails_path()
     {
-        $userfiles_dir = userfiles_path();
-        // $userfiles_dir = media_base_path();
+
+        $userfiles_dir = media_base_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . $this->thumbnails_path_in_userfiles);
 
         // media_base_path() . 'thumbnail' . DS;

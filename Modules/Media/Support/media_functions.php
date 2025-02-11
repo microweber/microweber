@@ -34,7 +34,7 @@ if (!function_exists('media_base_url')) {
 
         if (!$folder) {
             //    $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
-            $folder = asset('storage/' . MW_MEDIA_FOLDER_NAME. '/');
+            $folder = asset('storage/' . MW_MEDIA_FOLDER_NAME). '/';
         }
 
         return $folder;
