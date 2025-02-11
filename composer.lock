@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff693c21722683e20080c82266d75d58",
+    "content-hash": "130de77b60580a692e5bd92b22cc298c",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -12957,78 +12957,6 @@
                 "source": "https://github.com/rtconner/laravel-tagging/tree/4.1.4"
             },
             "time": "2022-04-25T22:18:50+00:00"
-        },
-        {
-            "name": "rupadana/filament-slider",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rupadana/filament-slider.git",
-                "reference": "86737f89aeeab2bfd01451be83435ddd2933d994"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rupadana/filament-slider/zipball/86737f89aeeab2bfd01451be83435ddd2933d994",
-                "reference": "86737f89aeeab2bfd01451be83435ddd2933d994",
-                "shasum": ""
-            },
-            "require": {
-                "filament/forms": "^3.0",
-                "illuminate/contracts": "^10.0|^11.0",
-                "php": "^8.1",
-                "spatie/laravel-package-tools": "^1.15.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.0",
-                "nunomaduro/collision": "^7.9",
-                "phpstan/extension-installer": "^1.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "FilamentSlider": "Rupadana\\FilamentSlider\\Facades\\FilamentSlider"
-                    },
-                    "providers": [
-                        "Rupadana\\FilamentSlider\\FilamentSliderServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Rupadana\\FilamentSlider\\": "src/",
-                    "Rupadana\\FilamentSlider\\Database\\Factories\\": "database/factories/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rupadana",
-                    "email": "rupadanawayan@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Slide into Precision – Customizable Control at Your Fingertips.",
-            "homepage": "https://github.com/rupadana/filament-slider",
-            "keywords": [
-                "filament-slider",
-                "laravel",
-                "rupadana"
-            ],
-            "support": {
-                "issues": "https://github.com/rupadana/filament-slider/issues",
-                "source": "https://github.com/rupadana/filament-slider"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/rupadana",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-09-05T05:15:33+00:00"
         },
         {
             "name": "ryangjchandler/blade-capture-directive",

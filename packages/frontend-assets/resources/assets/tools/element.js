@@ -20,9 +20,7 @@
             return this.getDocument().defaultView;;
         }
 
-        this.get = function(selector, scope){
-            this.nodes = (scope || document).querySelectorAll(selector);
-        };
+
 
         this.each = function(cb){
             if(this.nodes) {
@@ -336,6 +334,12 @@
 
         this._asdom = function (obj) {
             if (typeof obj === 'string') {
+                obj = obj.trim();
+                if(obj.indexOf('<tr') === 0 || obj.indexOf('<td') === 0) {
+                    var template = document.createElement( 'template' )
+                    template.innerHTML = obj;
+                    return  template.content;
+                }
                 return this.document.createRange().createContextualFragment(obj);
             } else if (obj.node){
                 return obj.node;
@@ -469,6 +473,9 @@
         this.get = function (i) {
             return this.nodes[i];
         };
+        this.eq = function (i) {
+            return mw.element(this.get(i) || 'none');
+        }
 
         this._on = {};
         this.on = function(events, cb){
@@ -497,6 +504,7 @@
 
             options = options || {};
 
+
             if(options.nodeName && options.nodeType) {
                 this.nodes.push(options);
                 this.node = (options);
@@ -509,6 +517,7 @@
                     this._asElement = true;
                 } else {
                     var el = this._asdom(options);
+
 
                     this.nodes = [].slice.call(el.children);
                     this._asElement = true;

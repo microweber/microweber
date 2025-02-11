@@ -14,6 +14,7 @@ use Filament\Support\Commands\Concerns\CanReadModelSchemas;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwRangeSlider;
 use MicroweberPackages\Option\Models\Option;
 use Rupadana\FilamentSlider\Components\Concerns\InputSliderBehaviour;
 use Rupadana\FilamentSlider\Components\InputSlider;
@@ -213,6 +214,7 @@ abstract class LiveEditModuleSettings extends Page
                 $formFields[] = ColorPicker::make($name)
                     ->label($schema['label'])
                     ->visible($showField)
+                    ->hex()
                     ->live()
                     ->placeholder($schema['placeholder'] ?? '');
             }
@@ -234,24 +236,14 @@ abstract class LiveEditModuleSettings extends Page
                 $min = $schema['options']['min'] ?? 0;
                 $max = $schema['options']['max'] ?? 100;
                 $step = $schema['options']['step'] ?? 1;
-                $formFields[] = InputSliderGroup::make()
+                $formFields[] = MwRangeSlider::make($name)
                     ->visible($showField)
                     ->live()
-                    ->sliders([
-                        InputSlider::make($name)
-                            ->live(),
-
-                    ])
-                    ->range([
-                        "min" => $min,
-                        "max" => $max
-                    ])
-                    ->step($step)
-                    ->behaviour([
-                        InputSliderBehaviour::DRAG,
-                        InputSliderBehaviour::TAP
-                    ])
-                    ->live()
+//                    ->range([
+//                        "min" => $min,
+//                        "max" => $max
+//                    ])
+//                    ->step($step)
                     ->label($schema['label'] ?? '');
 
 

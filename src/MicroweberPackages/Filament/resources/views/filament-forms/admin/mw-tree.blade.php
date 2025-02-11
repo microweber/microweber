@@ -75,7 +75,7 @@
                         options.skip = skip;
                     }
 
-                    console.log(options);
+
 
 
                     var opts = {
@@ -86,7 +86,7 @@
                     pagesTree.tree.on('selectionChange', e => {
 
 
-                        console.log('selectionChange');
+
 
                         let items = pagesTree.tree.getSelected();
                         // console.log(this.state)

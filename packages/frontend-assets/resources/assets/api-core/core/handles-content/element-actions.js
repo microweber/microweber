@@ -513,7 +513,8 @@ export class ElementActions extends MicroweberBaseClass {
             autoSelect: false,
             footer: true,
             _frameMaxHeight: true,
-            onResult: onResult
+            onResult: onResult,
+            okLabel: mw.lang('Select image'),
         });
         dialog = mw.top().dialog({
             content: picker.root,

@@ -3,9 +3,11 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    background-color: rgba(0,0,0,.1);
     align-items: center;
     justify-content: center;
     font-size: 12px;
+    border-radius: .5rem;
 
 }
 .mw-file-manager-no-results{
@@ -23,15 +25,11 @@
     padding-bottom: 20px;
 }
 .mw-dialog-container .mw-file-manager-view-table-wrap{
-    max-height: calc(100vh - 510px);
-    min-height: 290px;
+    max-height: calc(100vh - 370px);
+
     overflow: auto;
 }
-@media screen and (min-width: 768px) {
-    .mw-dialog-container .mw-file-manager-view-table-wrap{
-        max-height: calc(100vh - 400px);
-    }
-}
+
 .mw-file-manager-root.no-results .mw-file-manager-view-table-wrap{
     display: none;
 }
@@ -47,8 +45,20 @@
 }
 
 .mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb{
-    width: 46px;
-    height: 43px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #ffffff80;
+
+    border-radius: .5rem;
+
+}
+
+html.dark {
+    .mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb{
+
+        background-color: rgba(var(--gray-800));
+
+    }
 }
 
 .mw-file-manager-root[data-view="list"] td.mw-file-manager-list-item-modified-cell{
@@ -89,10 +99,7 @@
 .mw-file-manager-view-table tbody tr.selected {
     background-color: var(--tblr-active-bg);
 }
-.mw-file-manager-view-table tr > *{
-    padding: 10px;
 
-}
 .mw-file-manager-view-table .mw-file-manager-options-cell{
     width: 40px;
     text-align: right;
@@ -133,6 +140,12 @@
     opacity: .5;
 }
 
+.mw-file-manager-list-item-type--file {
+      .form-check{
+       gap:0 !important;
+    }
+}
+
 
 
 
@@ -141,8 +154,12 @@
     word-break: normal;
 }
 
-.mw-file-manager-list-item-options-list > *{
+.mw-file-manager-list-item-options-button{
+    border-radius: 6px;
+}
 
+.mw-file-manager-list-item-options-list > *{
+    cursor: pointer;
     white-space: nowrap;
     max-width: 200px;
     overflow: hidden;
@@ -154,14 +171,23 @@
     top: 0;
     right: 0;
     display: block;
-    border-radius: 3px;
+    border-radius: 6px;
     opacity: 0;
     visibility: hidden;
     transition: .2s;
     transform: scale(.8);
     transform-origin: center top;
     text-align: left;
+    background-color: white;
+    z-index: 10;
 
+}
+
+html.dark .mw-file-manager-list-item-options-list .dropdown-item:not(:hover){
+    color: white;
+}
+html.dark .mw-file-manager-list-item-options-list{
+    background-color:rgba(9, 9, 11, 1) !important;
 }
 
 .mw-file-manager-list-item-options.active {
@@ -227,8 +253,7 @@ html.dark {
 .mw-file-manager-root[data-view="grid"] tr{
     border: 1px solid transparent;
     border-top-width: 0;
-    z-index: 1;
-    width: 180px;
+    width: 130px !important;
 }
 
 
@@ -261,9 +286,7 @@ html.dark {
   }
 
   @container mwfilemanagergrid (max-width: 1000px) {
-    .mw-file-manager-root[data-view="grid"] tbody tr > td[class]{
-        padding: 0 10px;
-    }
+
     .mw-file-manager-root[data-view="grid"] tbody tr{
         width: calc(20.2% - var(--mw-file-manager-root-grid-space));
     }
@@ -303,11 +326,6 @@ html.dark {
 
 
 
-.mw-file-manager-root[data-view="grid"] tr:hover {
-    transition: box-shadow .3s;
-    box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
-
-}
 
 
 
@@ -320,9 +338,7 @@ html.dark {
     bottom: 0;
     left: 0;
 }
-.mw-file-manager-root[data-view="grid"] tbody tr  > td{
-    padding: 20px;
-}
+
 .mw-file-manager-root[data-view="grid"] tbody .mw-file-manager-list-item-type--types-delimitter{
 
     display: block;
@@ -343,15 +359,16 @@ html.dark {
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-options{
     position: absolute;
-    bottom: 10px;
+    top: 10px;
     right: 10px;
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-name-cell{
-    padding-block: 0 10px;
-    max-width: 200px;
+    padding-block: 0 0;
+    max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: 14px;
 }
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-modified-cell{
     color: #999;
@@ -362,13 +379,13 @@ html.dark {
 .mw-file-manager-root[data-view="grid"] tr .mw-file-manager-list-item-size-cell{
     color: #555;
     font-size: 12px;
-    padding-block: 0 10px;
+    padding-block: 0 0;
 }
 
 .mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-options-list{
-    top: auto;
-    bottom: 0;
-    transform-origin: center bottom;
+    top: 0;
+    bottom: auto;
+    transform-origin: center top;
 }
 .mw-file-manager-root[data-view="grid"] tr{
 
@@ -418,6 +435,9 @@ html.dark {
     text-align: left;
     flex: 1;
     padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
 }
 .mw-file-manager-bar-path{
 
@@ -430,7 +450,7 @@ html.dark {
 
 
 .mw-file-manager-root[data-view="grid"]  .mw-file-manager-list-item-thumb{
-    background-size: cover;
+    background-size: contain;
 }
 .mw-file-manager-root[data-view="grid"]  .mw-file-manager-list-item-thumb-image-cell{
     padding-bottom: 0;
@@ -451,7 +471,7 @@ html.dark {
 
 .mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-thumb{
     width: 100%;
-    height: 140px;
+    aspect-ratio: 1 / 1;
 }
 
 .mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-thumb-folder{
@@ -489,7 +509,7 @@ html.dark {
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: var(--tblr-bg-surface);
+    background-color: white;
     box-shadow: rgba(41, 41, 46, 0.2) 0px 7px 29px 0px;
     z-index: 10;
     transition: .3s;
@@ -497,6 +517,9 @@ html.dark {
     visibility: hidden;
     transform: scale(.7);
     transform-origin: left top;
+}
+html.dark .mw-file-manager-top-bar-actions-content{
+    background-color: rgba(var(--gray-900), 1);
 }
 .mw-file-manager-top-bar{
     padding-bottom: 0px;
@@ -553,11 +576,20 @@ html.dark {
 }
 
 
+.mw-file-manager-search .mw-file-manager-search-button{
+    border-radius: 0 6px 6px 0;
+}
+.mw-file-manager-search .form-control-live-edit-input{
+    width: 190px;
+    border-radius: 6px 0 0 6px;
+}
 .mw-file-manager-search{
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 
-    min-width: 200px;
-    width: 50%;
 
 }
 
@@ -574,6 +606,17 @@ html.dark {
 
 
 
+.mw-file-manager-paging li:first-child a{
+    border-radius: 4px 0 0 4px;
+}
+
+
+.mw-file-manager-paging li:last-child a{
+    border-radius: 0 4px 4px 0;
+}
+.mw-file-manager-paging a{
+    border-radius: 0px;
+}
 .mw-file-manager-paging{
     display: flex;
     align-items: center;
@@ -581,7 +624,7 @@ html.dark {
     padding: 16px;
 }
 .mw-file-manager-paging-bottom {
-    border-top: 1px solid #dbdcdd;
+    border-top: 1px solid #dbdcdd79;
     padding-bottom: 0;
     position: sticky;
     z-index: 2;
@@ -614,3 +657,50 @@ html.dark {
     }
 }
 
+
+.mw-file-manager-list-item-check {
+    position: relative;
+
+}
+
+.mw-file-manager-list-item-check input{
+    pointer-events: none;
+}
+.mw-file-manager-list-item-check span{
+    position: absolute;
+    inset: 0;
+}
+
+html.dark .mw-file-manager-paging .active a{
+    background-color: rgba(var(--primary-400), var(--tw-text-opacity, 1)) !important;
+}
+html.dark .mw-file-manager-paging a{
+    color: white !important;
+}
+.mw-file-manager-paging a{
+    display: block;
+    min-width: 30px;
+    text-align: center;
+
+    cursor: pointer;
+}
+
+.mw-file-manager-bar-path li + li:before{
+    content: "/";
+    margin: 0 4px;
+    font-size: 12px;
+}
+.mw-file-manager-bar-path li.active{
+    opacity: .7;
+    pointer-events: none;
+}
+.mw-file-manager-bar-path li:not(.active){
+    text-decoration: underline;
+    cursor: pointer;
+}
+.mw-file-manager-bar-path{
+    display: flex;
+    flex-wrap: nowrap;
+    list-style: none;
+    font-size: 14px;
+}

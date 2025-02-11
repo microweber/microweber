@@ -83,7 +83,7 @@ mw.controlFields = {
             // this._description(conf),
             '<div class="form-control-live-edit-label-wrapper">' +
                 '<input type="'+conf.type+'" '+placeholder + '  ' + id + ' ' + name + ' ' + required + ' class="form-control-live-edit-input">'
-                + '<span class="form-control-live-edit-bottom-effect"></span>'
+                // + '<span class="form-control-live-edit-bottom-effect"></span>'
             + '</div>'
         );
     },

@@ -169,7 +169,7 @@
             multiselect: true,
             selectable: true,
             selectableRow: false,
-            canSelectFolder: false,
+            canSelectFolder: true,
             selectableFilter: null,
             options: false,
             element: null,
@@ -211,6 +211,9 @@
             return '*';
         };
 
+
+
+
         this.settings = mw.object.extend({}, defaults, options);
         if(this.settings.accept) {
             this.settings.accept = normalizeAccept(this.settings.accept);
@@ -228,7 +231,7 @@
 
 
             var root = mw.element(
-                `<label class="form-check">
+                `<label class="form-check mw-file-manager-list-item-check">
                     <span></span>
                     <input
                         type="${(scope.settings.multiselect ? 'checkbox' : 'radio')}"
@@ -272,7 +275,11 @@
             if(!label) {
                 label = i;
             }
-            var lnk = mw.element('<li class="page-item"><a class="page-link">' + label + '</a></li>');
+            var lnk = mw.element(`
+                <li class="page-item">
+                    <a class="page-link">${label}</a>
+                </li>
+            `);
 
             lnk.find('a').on('click', function () {
                 scope.setPage(i);
@@ -286,7 +293,7 @@
 
 
         var _createPaginationNav = function (array, curr, totalPages) {
-            var wrapper = mw.element('<div class="pagination" />');
+            var wrapper = mw.element('<ul class="pagination" />');
             if(curr > 1){
                 wrapper.append(_createPaginationNavLink(1, '&laquo;', curr));
                 wrapper.append(_createPaginationNavLink(curr-1, '&lsaquo;', curr));
@@ -383,8 +390,9 @@
             }
             items = items.map(itm => {
                 return itm.path ? itm.path : itm;
-            })
-            mw.confirm(mw.lang('Are you sure') + '?', function (){
+            });
+            const message = `${mw.lang('You are about to delete')} ${items.length} ${ mw.lang(items.length > 1 ? 'items' : 'item')}`;
+            mw.confirm(message, function (){
                 var xhr = new XMLHttpRequest();
                 scope.loading(true);
                 xhr.onreadystatechange = function(e) {
@@ -451,11 +459,10 @@
                 globalcheck.input.prop('indeterminate', true);
 
                 var selectedItemsCount = scope.getSelected().length;
+                scope.selectedActionInfo = '';
                 if (selectedItemsCount > 0) {
-                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--selected-actions').classList.add('active');
-                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--count').innerHTML = `${selectedItemsCount} ${selectedItemsCount > 1 ? mw.lang('files are selected') : mw.lang('file is selected')}`;
-                } else {
-                    scope.root.get(0).querySelector('.mw-file-manager--multiselect--selected-actions').classList.add('remove');
+
+                    scope.selectedActionInfo = `${selectedItemsCount} ${selectedItemsCount > 1 ? mw.lang('files are selected') : mw.lang('file is selected')}`;
                 }
             }
         };
@@ -463,13 +470,22 @@
 
         var createOptions = function (item) {
             var options = [
-             //   { label: 'Rename', action: _renameHandle, match: function (item) { return true } },
+                { label: 'Rename', action: _renameHandle, match: function (item) { return true } },
                 { label: 'Download', action: _downloadHandle, match: function (item) { return item.type === 'file'; } },
                 { label: 'Copy url', action: _copyUrlHandle, match: function (item) { return true } },
                 { label: 'Delete', action: _deleteHandle, match: function (item) { return true } },
             ];
-            var el = mw.element().addClass('mw-file-manager-list-item-options');
-            el.append(mw.element({tag: 'span', content: ' <svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960" width="22" fill="currentColor"><path d="M207.858 624Q188 624 174 609.858q-14-14.141-14-34Q160 556 174.142 542q14.141-14 34-14Q228 528 242 542.142q14 14.141 14 34Q256 596 241.858 610q-14.141 14-34 14Zm272 0Q460 624 446 609.858q-14-14.141-14-34Q432 556 446.142 542q14.141-14 34-14Q500 528 514 542.142q14 14.141 14 34Q528 596 513.858 610q-14.141 14-34 14Zm272 0Q732 624 718 609.858q-14-14.141-14-34Q704 556 718.142 542q14.141-14 34-14Q772 528 786 542.142q14 14.141 14 34Q800 596 785.858 610q-14.141 14-34 14Z"/></svg>', props: {tooltip:'options'}}).addClass('btn btn-sm mw-file-manager-list-item-options-button'));
+
+            var el = mw.element(`
+                    <div class="mw-file-manager-list-item-options">
+                        <span data-tooltip="${mw.lang('Options')}" class="mw-file-manager-list-item-options-button">
+                             <svg xmlns="http://www.w3.org/2000/svg" height="22" viewBox="0 96 960 960" width="22" fill="currentColor"><path d="M207.858 624Q188 624 174 609.858q-14-14.141-14-34Q160 556 174.142 542q14.141-14 34-14Q228 528 242 542.142q14 14.141 14 34Q256 596 241.858 610q-14.141 14-34 14Zm272 0Q460 624 446 609.858q-14-14.141-14-34Q432 556 446.142 542q14.141-14 34-14Q500 528 514 542.142q14 14.141 14 34Q528 596 513.858 610q-14.141 14-34 14Zm272 0Q732 624 718 609.858q-14-14.141-14-34Q704 556 718.142 542q14.141-14 34-14Q772 528 786 542.142q14 14.141 14 34Q800 596 785.858 610q-14.141 14-34 14Z"/></svg>
+                        </span>
+                    </div>
+            `);
+
+
+
             var optsHolder = mw.element().addClass('dropdown-menu mw-file-manager-list-item-options-list');
             el.on('click', function (e){
                 e.stopPropagation()
@@ -484,8 +500,8 @@
             options.forEach(function (options){
                 optsHolder.append(createOption(item, options));
             });
-            if(!this.__bodyOptionsClick) {
-                this.__bodyOptionsClick = true;
+            if(!scope.__bodyOptionsClick) {
+                scope.__bodyOptionsClick = true;
                 var bch = function (e) {
                     var curr = e.target;
                     var clicksOption = false;
@@ -602,14 +618,18 @@
                 createPagination(data)
                 if(!data.data || data.data.length === 0) {
                     scope.root.addClass('no-results');
+                    console.log("1", data.data);
                     if(scope.isSearch()) {
+                        console.log("2", data.data);
                         _noResultsLabel(mw.lang('Nothing found'));
                         scope. root.addClass('no-results-search');
                     } else {
+                        console.log("3", data.data);
                         _noResultsLabel(mw.lang('This folder is empty'));
                         scope.root.removeClass('no-results-search');
                     }
                 } else {
+                    console.log("4", data.data);
                     scope.root.removeClass('no-results');
                     scope.root.removeClass('no-results-search');
                 }
@@ -633,6 +653,7 @@
 
         var _noResultsLabel = function (label) {
             noResultsContentLabel.html(label);
+            console.log(noResultsContentLabel, (label));
         };
 
 
@@ -651,13 +672,18 @@
                 },
                 content: noResultsContentLabel
             });
-            var block = mw.element({
-                props: {
-                    className: 'mw-file-manager-no-results'
-                },
-                content: noResultsContent
-            });
-            scope.creteMethodsNode(noResultsContent.get(0), plusIcon('white', 10) + ' '  + mw.lang('Add'));
+
+
+
+            const block = mw.element(`
+                <div class="mw-file-manager-no-results">
+                    <div class="mw-file-manager-no-results-content">
+                        <h2 class="mw-file-manager-no-results-label"></h2>
+                    </div>
+                </div>
+            `);
+
+            scope.creteMethodsNode(block.find('.mw-file-manager-no-results-content').get(0), plusIcon('white', 10) + ' '  + mw.lang('Add'));
             return block;
         };
 
@@ -785,12 +811,24 @@
 
         this.singleListView = function (item) {
 
-            var row = mw.element({ tag: 'tr', props: {className: `mw-file-manager-list-item-type--${item.type} mw-file-manager-list-item-matches--${this.acceptMatches(item)}` } });
-            var cellImage = mw.element({ tag: 'td', content: _image(item), props: {className: 'mw-file-manager-list-item-thumb-image-cell'}  });
-            var cellName = mw.element({ tag: 'td', content: item.name , props: {className: 'mw-file-manager-list-item-name-cell', title: item.name} });
-            var cellSize = mw.element({ tag: 'td', content: _size(item), props: {className: 'mw-file-manager-list-item-size-cell'} });
 
-            var cellmodified = mw.element({ tag: 'td', content: userDate(item.modified), props: {className: 'mw-file-manager-list-item-modified-cell'} });
+            var row = mw.element(`
+                <tr class="mw-file-manager-list-item-type--${item.type} mw-file-manager-list-item-matches--${this.acceptMatches(item)}">
+                    <td class="mw-file-manager-list-item-thumb-image-cell">${_image(item)}</td>
+                    <td class="mw-file-manager-list-item-name-cell" title="${item.name}">${item.name}</td>
+                    <td class="mw-file-manager-list-item-size-cell"  >${_size(item)}</td>
+                    <td class="mw-file-manager-list-item-modified-cell"  >${userDate(item.modified)}</td>
+                </tr>
+            `);
+
+
+            const _cells = row.find('td');
+            var cellImage = _cells.eq(0);
+            var cellName =  _cells.eq(1)
+            var cellSize =  _cells.eq(2)
+
+            var cellmodified =  _cells.eq(3);
+
             if(item.type === 'folder') {
                 row.on('click', function (){
                     scope.path(scope.path() + '/' + item.name);
@@ -808,13 +846,13 @@
                             _selectedUI();
                             scope.dispatch('selectionChanged', scope.getSelected());
                         });
-                        row.on('dblclick', function(e){
+                        /*row.on('dblclick', function(e){
                             scope['select'](item);
                             var val = scope.getSelected();
                             scope.dispatch('insertByValue', scope.getSelected());
                             e.stopPropagation();
                             e.preventDefault();
-                        });
+                        });*/
                     }
                     check.input.on('change', function () {
                          scope[!this.checked ? 'unselect' : 'select'](item);
@@ -826,11 +864,7 @@
                     row.append( mw.element({ tag: 'td'  }));
                 }
             }
-             row
-                .append(cellImage)
-                .append(cellName)
-                .append(cellSize)
-                .append(cellmodified);
+
             if(this.settings.options) {
                 var cellOptions = mw.element({ tag: 'td', content: createOptions(item) }).addClass('mw-file-manager-options-cell');
                 row.append(cellOptions);
@@ -971,26 +1005,14 @@
 
         this.creteSearchNode = function (target) {
 
-
-
-
-
-
-
-
-              var html = `<div class="row g-2 mw-file-manager-search form-control-live-edit-label-wrapper">
-              <div class="col">
-                <input type="text" class="form-control-live-edit-input form-select" placeholder="Search">
-              </div>
-              <div class="col-auto">
-                <button class="btn-icon mw-file-manager-search-button" aria-label="Button">
-
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
-                </button>
-              </div>
-            </div>`;
-
-            var el = mw.element(html);
+            var el = mw.element(`
+                <div class=" mw-file-manager-search form-control-live-edit-label-wrapper">
+                    <input type="search" class="form-control-live-edit-input" placeholder="${mw.lang('Search')}">
+                    <button class="btn-icon mw-file-manager-search-button" aria-label="Button">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>
+                    </button>
+                </div>
+            `);
             if(target) {
                 target.appendChild(el.get(0));
             }
@@ -1019,17 +1041,16 @@
             }
             target = target || document.createElement('div');
 
-            var root = mw.element({
-                props: {
-                    className: 'mw-file-manager-create-methods-dropdown'
-                }
-            });
-            var addButton = mw.element({
-                props: {
-                    className: 'btn btn-success mw-file-manager-create-methods-dropdown-add',
-                    innerHTML: label || plusIcon('white')
-                }
-            });
+
+
+            var root = mw.element(`
+                <div class="mw-file-manager-create-methods-dropdown">
+                    <div class="btn btn-success mw-file-manager-create-methods-dropdown-add">
+                        ${label || plusIcon('white')}
+                    </div>
+                </div>
+            `);
+            var addButton = root.find('.mw-file-manager-create-methods-dropdown-add').eq(0);
 
             addButton.on('click', function (){
                 this.parentElement.classList.toggle('active');
@@ -1056,7 +1077,9 @@
                 selectElContent.append(node);
             });
             target.appendChild(root.get(0));
-            root.append(addButton);
+
+
+
             root.append(selectElContent);
             return target;
         };
@@ -1064,91 +1087,84 @@
 
 
         var createTopBar = function (){
-            var topBar = mw.element({
-                props: {
-                    className: 'mw-file-manager-top-bar'
-                }
-            });
+            var topBar = mw.element(`
+                <div class="mw-file-manager-top-bar">
+                    <div class="mw-file-manager-top-bar-actions"></div>
+                    <div class="mw-file-manager-bar-view-type-selector">
+                        <div class="btn-group">
 
-            var selectEl = mw.element({
-                props: {
-                    className: 'mw-file-manager-top-bar-actions'
-                }
-            });
+                        </div>
+                    </div>
+                </div>
+            `);
+
+            var selectEl = topBar.find('.mw-file-manager-top-bar-actions');
+            var viewTypeSelectorRoot = topBar.find('.mw-file-manager-bar-view-type-selector');
 
 
-            scope.creteMethodsNode(selectEl.get(0));
+
+            // topBar.prepend(createBackNodeh());
+
+            const methodsNode = scope.creteMethodsNode(selectEl.get(0));
+
+            methodsNode.append( createPath().get(0));
+
+
             scope.creteSearchNode(selectEl.get(0));
 
 
-            var viewTypeSelectorRoot = mw.element({
-                props: {
-                    className: 'mw-file-manager-bar-view-type-selector'
-                }
-            });
-
-            var viewTypeSelector = mw.element(`
-            <div class="btn-group">
-                <span class="btn  btn-icon" data-view-type="grid" data-bs-toggle="tooltip" data-bs-placement="top" title="Grid">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor" class="icon icon-tabler"><path d="M120 536V216h320v320H120Zm0 400V616h320v320H120Zm400-400V216h320v320H520Zm0 400V616h320v320H520ZM200 456h160V296H200v160Zm400 0h160V296H600v160Zm0 400h160V696H600v160Zm-400 0h160V696H200v160Zm400-400Zm0 240Zm-240 0Zm0-240Z"/></svg>
-                </span>
-
-                <span class="btn btn-icon " data-view-type="list" data-bs-toggle="tooltip" data-bs-placement="top" title="List">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor" class="icon icon-tabler"><path d="M360 856v-80h480v80H360Zm0-240v-80h480v80H360Zm0-240v-80h480v80H360ZM200 896q-33 0-56.5-23.5T120 816q0-33 23.5-56.5T200 736q33 0 56.5 23.5T280 816q0 33-23.5 56.5T200 896Zm0-240q-33 0-56.5-23.5T120 576q0-33 23.5-56.5T200 496q33 0 56.5 23.5T280 576q0 33-23.5 56.5T200 656Zm0-240q-33 0-56.5-23.5T120 336q0-33 23.5-56.5T200 256q33 0 56.5 23.5T280 336q0 33-23.5 56.5T200 416Z"/></svg>
-                </span>
-            </div>`);
 
 
-
-          viewTypeSelectorRoot.append(viewTypeSelector);
-
-
-            viewTypeSelector.find('.btn').on('click', function (val){
+            viewTypeSelectorRoot.find('.btn').on('click', function (val){
                 scope.viewType( this.dataset.viewType );
                 mw.storage.set('mw-file-manager-view-type', this.dataset.viewType);
             });
 
-            topBar.append(selectEl);
-            selectEl.append(viewTypeSelectorRoot);
+
+
             return topBar.get(0);
 
         };
 
-        var createMainBar = function (){
-
-
-            _backNode = mw.element({
-                tag: 'button',
-
-                props: {
-                    className: 'btn btn-link btn-sm',
-                    innerHTML: `
+        const createBackNodeh = function (){
+            _backNode = mw.element(`
+                <button class="btn btn-link btn-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 12l14 0"></path>
-   <path d="M5 12l6 6"></path>
-   <path d="M5 12l6 -6"></path>
-</svg>
-                    ${mw.lang('Back')}`
-                }
-            });
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M5 12l14 0"></path>
+                        <path d="M5 12l6 6"></path>
+                        <path d="M5 12l6 -6"></path>
+                    </svg>
+                    ${mw.lang('Back')}
+                </button>
+            `)
+
             _backNode.on('click', function (){
                 scope.back();
             });
 
+            return _backNode
+        }
+        const createPath = function (){
+            const _pathNodeRoot = mw.element(`
+                <div class="mw-file-manager-bar-path-root">
+                    <ol class="breadcrumb mw-file-manager-bar-path"></ol>
+                </div>
+            `);
 
-            _pathNode = mw.element({
-                tag: 'ol',
-                props: {
-                    className: 'breadcrumb mw-file-manager-bar-path'
-                }
-            });
-            var _pathNodeRoot = mw.element({
-                props: {
-                    className: 'mw-file-manager-bar-path-root'
-                }
-            });
-            _pathNodeRoot.append(_pathNode)
+
+            _pathNode = _pathNodeRoot.find('ol');
+
+            return _pathNodeRoot;
+        }
+
+        var createMainBar = function (){
+
+
+
+
+
+
 
             var bar = mw.element({
                 props: {
@@ -1160,19 +1176,14 @@
             var multiSelectMenuTemplate = mw.element(`
                 <div class="mw-file-manager--multiselect--context-actions">
                     <div class="mw-file-manager--multiselect--context-actions">
-                        <button type="button" class="btn btn-icon btn-sm" data-action="multiSelectDownloadAll" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
-    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M240 896q-33 0-56.5-23.5T160 816V696h80v120h480V696h80v120q0 33-23.5 56.5T720 896H240Zm240-160L280 536l56-58 104 104V256h80v326l104-104 56 58-200 200Z"/></svg>
+                        <button type="button" class="btn btn-icon btn-sm" data-action="multiSelectDownloadAll" title="${mw.lang('Download')}">
+                             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M240 896q-33 0-56.5-23.5T160 816V696h80v120h480V696h80v120q0 33-23.5 56.5T720 896H240Zm240-160L280 536l56-58 104 104V256h80v326l104-104 56 58-200 200Z"/></svg>
                         </button>
-                        <button type="button" class="btn btn-icon btn-danger btn-sm" data-action="multiSelectDeleteAll"  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                        <button type="button" class="btn btn-icon btn-danger btn-sm" data-action="multiSelectDeleteAll"  data-bs-toggle="tooltip" data-bs-placement="top" title="${mw.lang('Delete')}">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z"/></svg>
                         </button>
                     </div>
 
-                    <div class="mw-file-manager--multiselect--selected-actions">
-                        <span class="mw-file-manager--multiselect--count">0</span>.
-                        <button type="button" class="btn btn-outline-info btn-sm" data-action="selectNone">Cancel</button>
-                        <button type="button" class="btn btn-outline-success btn-sm" data-action="multiSelectInsert">Insert</button>
-                    </div>
                 </div>
             `);
 
@@ -1203,8 +1214,6 @@
 
             bar
                 .append(multiSelectMenuTemplate)
-                .append(_backNode)
-                .append(_pathNodeRoot)
 
                 multiSelectMenuTemplate.get(0).querySelectorAll('.btn').forEach(node => {
                     node.addEventListener('click', e => {

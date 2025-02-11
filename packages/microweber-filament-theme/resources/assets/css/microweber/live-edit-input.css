@@ -8,6 +8,7 @@
     appearance: none !important;
     border-radius: 0 !important;
     margin: 3px 7px; /* Margin with custom values */
+
 }
 
 .form-control-live-edit-label-wrapper textarea.form-control-live-edit-input,
@@ -46,6 +47,7 @@
 .js-modules-list-search-input .text-align .active,
 .mw-file-manager-search .form-control .text-align .active {
     @apply bg-black dark:bg-slate-900 border-black;
+
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input,
@@ -77,8 +79,6 @@ a {
 .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible,
 .js-modules-list-search-input .form-select:focus,
 .js-modules-list-search-input .form-select:focus-visible,
-.js-modules-list-search-input:focus,
-.js-modules-list-search-input:focus-visible,
 .mw-file-manager-search .form-control .form-select:focus,
 .mw-file-manager-search .form-control .form-select:focus-visible,
 .mw-file-manager-search .form-control:focus,
