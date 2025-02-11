@@ -5,6 +5,7 @@ namespace Modules\Sharer\Microweber;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Sharer\Filament\SharerModuleSettings;
 use Illuminate\View\View;
+use Modules\SocialLinks\Filament\SocialLinksModuleSettings;
 
 class SharerModule extends BaseModule
 {
@@ -15,6 +16,7 @@ class SharerModule extends BaseModule
     public static string $categories = 'social';
     public static int $position = 210;
     public static string $settingsComponent = SharerModuleSettings::class;
+    
     public static string $templatesNamespace = 'modules.sharer::templates';
 
     // Social networks configuration
