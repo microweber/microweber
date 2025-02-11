@@ -220,6 +220,8 @@ class AdminController extends Controller
             Config::set('microweber.has_admin', 1);
             Config::save(array('microweber'));
             Auth::login($adminUser);
+
+            header('Location: ' . admin_url());
         }
     }
 }
