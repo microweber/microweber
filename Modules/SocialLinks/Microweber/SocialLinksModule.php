@@ -44,6 +44,7 @@ class SocialLinksModule extends BaseModule
 
 
         $viewData['iconColor'] = $viewData['options']['iconColor'] ?? '';
+        $viewData['iconHoverColor'] = $viewData['options']['iconHoverColor'] ?? '';
         $viewData['iconSize'] = $viewData['options']['iconSize'] ?? '';
         $viewData['iconSpacing'] = $viewData['options']['iconSpacing'] ?? '';
 

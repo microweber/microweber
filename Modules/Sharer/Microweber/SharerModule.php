@@ -16,7 +16,7 @@ class SharerModule extends BaseModule
     public static string $categories = 'social';
     public static int $position = 210;
     public static string $settingsComponent = SharerModuleSettings::class;
-    
+
     public static string $templatesNamespace = 'modules.sharer::templates';
 
     // Social networks configuration
@@ -36,6 +36,7 @@ class SharerModule extends BaseModule
         $viewData = array_merge($viewData, $this->getSocialNetworksData());
 
         $viewData['iconColor'] = $viewData['options']['iconColor'] ?? '';
+        $viewData['iconHoverColor'] = $viewData['options']['iconHoverColor'] ?? '';
         $viewData['iconSize'] = $viewData['options']['iconSize'] ?? '';
         $viewData['iconSpacing'] = $viewData['options']['iconSpacing'] ?? '';
 

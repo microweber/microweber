@@ -8,6 +8,10 @@
         $iconColor = $iconColor . '!important;';
     }
 
+    if (isset($iconHoverColor) and $iconHoverColor) {
+            $iconHoverColor = $iconHoverColor . '!important;';
+        }
+
     if (isset($iconSpacing) and $iconSpacing) {
         $iconSpacing = $iconSpacing . 'px!important;';
     }
@@ -20,6 +24,10 @@
         height: {{$iconSize}};
         color: {{$iconColor}};
         margin-inline: {{$iconSpacing}};
+
+        &:hover {
+            color: {{$iconHoverColor}};
+        }
     }
 
 </style>

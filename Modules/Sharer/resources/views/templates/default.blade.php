@@ -1,10 +1,9 @@
-@include('modules.social_links::components.custom-css')
+@include('modules.sharer::components.custom-css')
 
 <div class="mw-social-share-links">
     @if($facebook_enabled)
         <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(mw()->url->current()) }}">
             @svg('modules.social_links-facebook')
-
         </a>
     @endif
 
@@ -12,14 +11,12 @@
         <a href="https://x.com/intent/tweet?text={{ urlencode(content_title()) }}&url={{ urlencode(mw()->url->current()) }}"
            target="_blank">
             @svg('modules.social_links-x')
-
         </a>
     @endif
 
     @if($pinterest_enabled)
         <a href="javascript:void(0);" onclick="mw.pinMarklet();" target="_self">
             @svg('modules.social_links-pinterest')
-
         </a>
         <script type="text/javascript">
             if (!mw.pinMarklet) {
@@ -36,14 +33,12 @@
         <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(mw()->url->current()) }}&title={{ urlencode(page_title()) }}"
            target="_blank">
             @svg('modules.social_links-linkedin')
-
         </a>
     @endif
 
     @if($viber_enabled)
         <a target="_blank" href="#" id="viber_share">
             @svg('modules.social_links-viber')
-
         </a>
         <script>
             var buttonID = "viber_share";
@@ -65,8 +60,6 @@
             @svg('modules.social_links-telegram')
         </a>
     @endif
-
-
 
     @if(!$facebook_enabled && !$x_enabled && !$pinterest_enabled && !$linkedin_enabled && !$viber_enabled && !$whatsapp_enabled)
         {!! lnotif('No sharing options enabled. Please enable at least one sharing option in the settings.') !!}
