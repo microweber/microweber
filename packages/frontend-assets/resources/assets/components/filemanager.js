@@ -212,9 +212,17 @@
         };
 
 
+        const mandatory = {
+            canSelectFolder: true,
+            selectable: true,
+            selectableRow: false,
+            canSelectFolder: false,
+            options: true,
+            viewType: 'grid' ,
+        }
 
 
-        this.settings = mw.object.extend({}, defaults, options);
+        this.settings = mw.object.extend({}, defaults, options, mandatory);
         if(this.settings.accept) {
             this.settings.accept = normalizeAccept(this.settings.accept);
         } else if(this.settings.type) {
@@ -398,10 +406,11 @@
                 xhr.onreadystatechange = function(e) {
                     if (this.readyState === 4 && this.status === 200) {
                         scope.refresh(true);
+                        scope.loading(false)
                     } else if(this.status !== 200) {
 
                     }
-                    scope.loading(false)
+                    
                 };
                 xhr.addEventListener('error', function (e){
                     scope.loading(false)
@@ -601,6 +610,8 @@
         };
 
 
+
+
         this.isSearch = function () {
             return !!this.settings.query.keyword;
         };
@@ -618,23 +629,25 @@
                 createPagination(data)
                 if(!data.data || data.data.length === 0) {
                     scope.root.addClass('no-results');
-                    console.log("1", data.data);
+
                     if(scope.isSearch()) {
-                        console.log("2", data.data);
+
                         _noResultsLabel(mw.lang('Nothing found'));
                         scope. root.addClass('no-results-search');
                     } else {
-                        console.log("3", data.data);
+
                         _noResultsLabel(mw.lang('This folder is empty'));
                         scope.root.removeClass('no-results-search');
                     }
                 } else {
-                    console.log("4", data.data);
+
                     scope.root.removeClass('no-results');
                     scope.root.removeClass('no-results-search');
                 }
                 scope.loading(false, 1);
             };
+
+            this.selectNone()
 
             scope.loading(true);
             var err = function (er) {
@@ -719,7 +732,7 @@
             }
         };
 
-        this.sort = function (by, order, _request) {
+        this.sort = async function (by, order, _request) {
             if(typeof _request === 'undefined') {
                 _request = true;
             }
@@ -746,12 +759,19 @@
                 }
             });
 
-            if(_request) {
-                this.requestData(this.settings.query, function (res){
-                    scope.setData(res);
-                    scope.renderData();
-                });
-            }
+            return new Promise((resolve, reject) => {
+                if(_request) {
+                    this.requestData(this.settings.query, function (res){
+                        scope.setData(res);
+                        scope.renderData();
+                        resolve(res);
+                    });
+                } else {
+                    resolve()
+                }
+            })
+
+
         };
 
         this.search = function (keyword, _request) {
@@ -1003,6 +1023,31 @@
 
 
 
+        this.creteDropdownSortNode = function (target) {
+
+
+            const select = mw.element(`
+                <select class="mw-file-manager--sort-select">
+                    <option selected disabled>${mw.lang('Sort by')}</option>
+                    <option value="basename" data-sort="asc">${mw.lang('Name [A-Z]')}</option>
+                    <option value="basename" data-sort="desc">${mw.lang('Name [Z-A]')}</option>
+
+                    <option value="filesize" data-sort="asc">${mw.lang('File size ascending')}</option>
+                    <option value="filesize" data-sort="desc">${mw.lang('File size descending')}</option>
+
+                    <option value="filemtime" data-sort="asc">${mw.lang('Newest')}</option>
+                    <option value="filemtime" data-sort="desc">${mw.lang('Oldest')}</option>
+                </select>
+            `).on('input', e => {
+                const option = e.target.selectedOptions[0];
+                    this.sort(option.value, option.dataset.sort, true);
+            }).get(0);
+
+            mw.element(target).append(select);
+            return select;
+
+        }
+
         this.creteSearchNode = function (target) {
 
             var el = mw.element(`
@@ -1111,6 +1156,7 @@
 
 
             scope.creteSearchNode(selectEl.get(0));
+            scope.creteDropdownSortNode(selectEl.get(0));
 
 
 
@@ -1399,6 +1445,8 @@
                 scope.sort(scope.settings.query.orderBy, scope.settings.query.order, false);
                 scope.viewType(viewType, true);
                 scope.dispatch('ready');
+
+
             });
             if (this.settings.element) {
                 mw.element(this.settings.element).empty().append(this.root);
