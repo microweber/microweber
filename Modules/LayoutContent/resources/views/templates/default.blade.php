@@ -35,6 +35,12 @@ description: default
             $contentImage = isset($content['image']) ? $content['image'] : '';
             $contentButtonLink = isset($content['buttonLink']) ? $content['buttonLink'] : '';
             $contentButtonText = isset($content['buttonText']) ? $content['buttonText'] : '';
+
+         //   dump($contentImage);
+
+
+
+
             ?>
         <div class="col-md-<?php echo $colMdCalculate; ?> py-md-0 py-3 text-<?php echo $align; ?>">
                 <?php if ($contentImage) { ?>

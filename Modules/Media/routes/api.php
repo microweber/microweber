@@ -1,7 +1,8 @@
 <?php
 
 use \Illuminate\Support\Facades\Route;
-
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 Route::post('media/upload', function (\Illuminate\Http\Request $request) {
 
@@ -37,7 +38,6 @@ Route::get('/api/image-generate-tn-request/{cache_id}', function ($mediaId) {
         $cache_id_data_json['cache_id'] = $check->rel_id ?? $mediaId;
 
         $tn = mw()->media_manager->thumbnail_img($cache_id_data_json);
-
         return $tn;
     }
 

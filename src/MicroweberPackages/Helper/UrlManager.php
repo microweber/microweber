@@ -40,6 +40,16 @@ class UrlManager
 
     public function link_to_file($path)
     {
+
+
+        $path = dir2url($path);
+
+        $path = str_replace('\\/', '/', $path);
+        $path = str_replace('\\', '/', $path);
+
+
+        return $path;
+
         $public_path = public_path();
         $path = str_ireplace($public_path, '', $path);
         $path = str_replace('\\', '/', $path);
