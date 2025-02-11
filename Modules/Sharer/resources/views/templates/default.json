@@ -1,0 +1,38 @@
+{
+    "schema": [
+        {
+            "type": "color",
+            "label": "Icon style",
+            "name": "iconColor",
+            "placeholder": "Select icon style",
+            "help": "The style of the icon",
+            "options": {
+            }
+        },
+        {
+            "type": "slider",
+            "label": "Icon font size",
+            "name": "iconSize",
+            "placeholder": "Select icon size",
+            "help": "The size of the icon",
+            "options": {
+                "min": 0,
+                "max": 100,
+                "step": 1
+            }
+        },
+        {
+            "type": "slider",
+            "label": "Icon spacing",
+            "name": "iconSpacing",
+            "placeholder": "Select icon spacing",
+            "help": "The spacing of the icon",
+            "options": {
+                "min": 0,
+                "max": 200,
+                "step": 0.5
+            }
+        }
+
+    ]
+}

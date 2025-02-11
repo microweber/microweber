@@ -33,6 +33,10 @@ class SharerModule extends BaseModule
         $viewData = $this->getViewData();
         $viewData = array_merge($viewData, $this->getSocialNetworksData());
 
+        $viewData['iconColor'] = $viewData['options']['iconColor'] ?? '';
+        $viewData['iconSize'] = $viewData['options']['iconSize'] ?? '';
+        $viewData['iconSpacing'] = $viewData['options']['iconSpacing'] ?? '';
+
         return view(static::$templatesNamespace . '.default', $viewData);
     }
 

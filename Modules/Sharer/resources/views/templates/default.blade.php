@@ -1,3 +1,5 @@
+@include('modules.social_links::components.custom-css')
+
 <div class="mw-social-share-links">
     @if($facebook_enabled)
         <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(mw()->url->current()) }}">
