@@ -169,6 +169,7 @@ html.dark {
 .mw-file-manager-list-item-options-list{
     position: absolute;
     top: 0;
+    left: auto;
     right: 0;
     display: block;
     border-radius: 6px;
@@ -384,6 +385,7 @@ html.dark {
 
 .mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-options-list{
     top: 0;
+    left: auto;
     bottom: auto;
     transform-origin: center top;
 }
@@ -490,13 +492,14 @@ html.dark {
 }
 
 
-.mw-file-manager-spinner {
-    height: 0;
-    text-align: center;
-    width: 100%;
-    position: sticky;
-    top: 100px;
+.mw-file-manager-spinner.has-mw-spinner {
+    display: flex;
+    position: absolute;
     z-index: 10;
+    inset: 0;
+    background: #0000000d;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -582,6 +585,9 @@ html.dark .mw-file-manager-top-bar-actions-content{
 .mw-file-manager-search .form-control-live-edit-input{
     width: 190px;
     border-radius: 6px 0 0 6px;
+}
+.mw-file-manager-search .form-control-live-edit-bottom-effect{
+    display: none    !important;
 }
 .mw-file-manager-search{
     position: relative;
@@ -703,4 +709,16 @@ html.dark .mw-file-manager-paging a{
     flex-wrap: nowrap;
     list-style: none;
     font-size: 14px;
+}
+
+
+.mw-file-manager--sort-select{
+
+        border-radius: 5px;
+        min-height: 0px;
+        width: 100px;
+        font-size: 14px;
+        height: 42px;
+        margin: 3px 7px;
+
 }

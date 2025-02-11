@@ -37,11 +37,11 @@ awfwa
             loadSlider{{$rand}}();
         });
 
-        alert(44);
+
 
         function loadSlider{{$rand}}() {
 
-            alert(33);
+
 
             let slider{{$rand}} = document.getElementById('range-slider-{{$rand}}');
             let customRangeValueField{{$rand}} = document.getElementById('js-custom-range-value-{{$rand}}');
