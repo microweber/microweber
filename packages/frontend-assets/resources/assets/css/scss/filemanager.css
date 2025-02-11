@@ -93,12 +93,7 @@ html.dark {
     z-index: 2;
 }
 
-.mw-file-manager-view-table tbody tr.selected td{
-    background-color: transparent;
-}
-.mw-file-manager-view-table tbody tr.selected {
-    background-color: var(--tblr-active-bg);
-}
+
 
 .mw-file-manager-view-table .mw-file-manager-options-cell{
     width: 40px;

@@ -410,7 +410,7 @@
                     } else if(this.status !== 200) {
 
                     }
-                    
+
                 };
                 xhr.addEventListener('error', function (e){
                     scope.loading(false)

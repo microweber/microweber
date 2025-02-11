@@ -790,6 +790,8 @@ MWEditor.controllers = {
                 api.saveSelection();
                 var dialog;
 
+
+
                 var picker = new mw.filePicker({
                     accept: 'images',
                     label: false,
@@ -797,7 +799,10 @@ MWEditor.controllers = {
                     multiple: true,
                     footer: true,
                     _frameMaxHeight: true,
-                    okLabel: mw.lang('Insert image'),
+                    okLabel: (val) => {
+                        const number = val && val.length !== undefined ? val.length : 0;
+                        return number <= 1 ? mw.lang('Insert image') : mw.lang(`Insert images`);
+                    },
                     cancel: function () {
                         dialog.remove()
                     },

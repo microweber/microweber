@@ -153,6 +153,14 @@ mw.filePicker = function (options) {
     });
 
 
+    const _okLabel = (val) => {
+        val =  typeof scope.settings.okLabel === 'function' ? scope.settings.okLabel(val, scope) : scope.settings.okLabel;
+        if(this.$ok ) {
+            this.$ok.html(val)
+        }
+        return val
+    }
+
     this.components = {
         _$inputWrapper: function (label) {
             var html = '<div class="form-control-live-edit-label-wrapper">' +
@@ -396,7 +404,7 @@ mw.filePicker = function (options) {
                     var footer = false;
                     if (scope._getComponentObject('url').index === index ) {
                         footer =  document.createElement('div');
-                        var footerok = $('<button type="button" class=" btn btn-primary">' + scope.settings.okLabel + '</button>');
+                        var footerok = $('<button type="button" class=" btn btn-primary">' + _okLabel() + '</button>');
                         var footercancel = $('<button type="button" class=" btn">' + scope.settings.cancelLabel + '</button>');
                         footerok.disabled = true;
                         footer.appendChild(footercancel[0]);
@@ -453,7 +461,7 @@ mw.filePicker = function (options) {
         if(!this.settings.footer || this.settings.autoSelect) return;
         this._navigationFooter = document.createElement('div');
         this._navigationFooter.className = 'modal-footer mw-ui-form-controllers-footer mw-filepicker-footer ' + (this.settings.boxed ? 'card-footer' : '');
-        this.$ok = $('<button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">' + this.settings.okLabel + '</button>');
+        this.$ok = $('<button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">' + _okLabel() + '</button>');
         this.$cancel = $('<button type="button" class="mw-admin-action-links mw-adm-liveedit-tabs mw-liveedit-button-animation-component">' + this.settings.cancelLabel + '</button>');
         this._navigationFooter.appendChild(this.$cancel[0]);
         this._navigationFooter.appendChild(this.$ok[0]);
@@ -558,7 +566,9 @@ mw.filePicker = function (options) {
         var activeSection = this.activeSection();
         if (this.$ok && this.$ok[0]) {
             this.$ok[0].disabled = !(activeSection && activeSection._filePickerValue);
+
         }
+        _okLabel(activeSection?._filePickerValue)
     };
 
     this.init();
