@@ -874,3 +874,7 @@ h1,h2,h3,h4,h5,h6 {
 #user-menu nav {
     @apply shadow-lg;
 }
+
+[type='text'] {
+    @apply dark:bg-slate-800;
+}
