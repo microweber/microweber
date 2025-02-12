@@ -13,6 +13,7 @@ use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
@@ -463,11 +464,17 @@ class EditCampaign extends Page
                                     ->enableTime()
                                     ->live(),
 
-                                TimezoneSelect::make('state.scheduled_timezone')
-                                    ->searchable()
-                                    ->timezoneType('GMT')
-                                    ->default(date_default_timezone_get())
-                                    ->required(),
+                                Select::make('state.scheduled_timezone')
+                                ->options([
+                                    'GMT'=>'GMT',
+                                    'UTC'=>'UTC'
+                                ])
+
+//                                TimezoneSelect::make('state.scheduled_timezone')
+//                                    ->searchable()
+//                                    ->timezoneType('GMT')
+//                                    ->default(date_default_timezone_get())
+//                                    ->required(),
 
                             ])
                                 ->columns(2)
