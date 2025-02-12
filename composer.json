@@ -140,7 +140,8 @@
         "microweber-packages/laravel-helper-functions": "dev-filament",
         "microweber-packages/microweber-filament-theme": "dev-filament",
         "openai-php/laravel": "^0.10.2",
-        "intervention/image-laravel": "^1.4"
+        "intervention/image-laravel": "^1.4",
+        "tapp/filament-timezone-field": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
