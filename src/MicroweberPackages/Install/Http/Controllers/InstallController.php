@@ -473,9 +473,12 @@ class InstallController extends Controller
                         mkdir(storage_path('app/public'));
                     }
                    // $isPublicStorageExists = is_dir(public_path('storage'));
+                    if (is_dir(public_path('storage')) && !is_link(public_path('storage'))) {
+                        rename(public_path('storage'), public_path('storage_backup'));
+                    }
                     if (!is_link(public_path('storage'))) {
                         $this->log('Linking storage');
-                        Artisan::call('storage', ['link']);
+                        symlink(storage_path('app/public'), public_path('storage'));
                     }
                 }
 
