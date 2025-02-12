@@ -33,9 +33,12 @@ use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\IconPosition;
 use Filament\Support\Enums\IconSize;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
+use MicroweberPackages\Filament\Forms\Components\Concerns\MwInputSliderBehaviour;
 use MicroweberPackages\Filament\Forms\Components\MwColorPicker;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use MicroweberPackages\Filament\Forms\Components\MwIconPicker;
+use MicroweberPackages\Filament\Forms\Components\MwInputSlider;
+use MicroweberPackages\Filament\Forms\Components\MwInputSliderGroup;
 use MicroweberPackages\Filament\Forms\Components\MwLinkPicker;
 use MicroweberPackages\Filament\Forms\Components\MwRangeSlider;
 use Modules\Components\View\Components\Section;
@@ -85,12 +88,70 @@ class KitchenSink extends Page
         return $form
             ->schema([
 
-
-                MwRangeSlider::make('mw_range_slider')
+                MwInputSliderGroup::make()
                     ->live()
                     ->afterStateUpdated(function ($state) {
                         dump($state);
-                    })->columnSpanFull(),
+                    })
+                    ->sliders([
+                        MwInputSlider::make('min')
+                    ])
+                    ->label('Limit'),
+
+                 MwInputSliderGroup::make()
+                    ->sliders([
+                        MwInputSlider::make('min'),
+                        MwInputSlider::make('max')
+                    ])
+                    ->label('Limit'),
+
+                MwInputSliderGroup::make()
+                    ->sliders([
+                    MwInputSlider::make('min'),
+                    MwInputSlider::make('max')
+                ])
+                ->connect([
+                        false,
+                        true,
+                        false
+                ])->label('Limit'),
+
+                MwInputSliderGroup::make()
+                    ->sliders([
+                        MwInputSlider::make('min'),
+                         MwInputSlider::make('max')
+                    ])
+                    ->connect([
+                            false,
+                            true,
+                            false
+                        ])
+                    ->max(100)
+                    ->min(0)
+                    ->label('Limit'),
+
+
+                MwInputSliderGroup::make()
+                    ->sliders([
+                        MwInputSlider::make('min'),
+                        MwInputSlider::make('max')->default(50),
+                    ])
+                    ->connect([
+                        true,
+                        false,
+                        true
+                    ]) // array length must be sliders length + 1
+                    ->range([
+                        "min" => 30,
+                        "max" => 100
+                    ])
+                    ->step(10)
+                    ->behaviour([
+                        MwInputSliderBehaviour::DRAG,
+                        MwInputSliderBehaviour::TAP
+                    ])
+                    ->enableTooltips()
+                    ->label("Limit"),
 
 
                 RadioDeck::make('name')
