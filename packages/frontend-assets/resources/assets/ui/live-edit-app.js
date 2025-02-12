@@ -32,13 +32,12 @@ const vfm = createVfm();
 
 
 
-// const canvas = new LiveEditCanvas();
-// mw.app.register('canvas', canvas);
+
 const canvasHolder = document.getElementById('live-edit-frame-holder');
 mw.app.canvas.mount(canvasHolder);
 
 
-//mw.app.canvas = canvas;
+
 
 mw.app.canvas.on('iframeKeyDown', function (data) {
     const event = data.event;
@@ -56,7 +55,7 @@ mw.app.canvas.on('liveEditBeforeLoaded', function () {
 
 mw.app.register('broadcast', MWBroadcast);
 
-const a = mw.app;
+
 
 mw.app.canvas.on('liveEditCanvasLoaded', (data) => {
 

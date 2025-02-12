@@ -184,6 +184,8 @@ export class StylesheetEditor extends MicroweberBaseClass {
 
     setPropertyForSelector(sel, prop, val, record = true, skipMedia = false) {
 
+
+
         let media = 'screen, print';
 
         if (mw.top().app.resolutionMode === 'phone' && !skipMedia) {

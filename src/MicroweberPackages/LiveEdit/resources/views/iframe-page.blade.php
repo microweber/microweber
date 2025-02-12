@@ -28,22 +28,7 @@
 
         <div>
 
-            <script>
 
-                // mw.lib.require('nouislider');
-                // mw.require('components.css')
-                //
-                //
-
-                // mw.lib.require('flag_icons');
-                /*mw.iconLoader()
-
-                    .addIconSet('iconsMindLine')
-                    .addIconSet('iconsMindSolid')
-                    .addIconSet('fontAwesome')
-                    .addIconSet('materialDesignIcons')*/
-
-            </script>
 
             <?php
 
@@ -78,34 +63,13 @@
                     }
 
                 });
+                mw.require('{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}')
             });
 
             <?php
 
 
-            /*
 
-             @php
-                     $templateColors = [];
-                     $getTemplateConfig = app()->template_manager->get_config();
-                     if($getTemplateConfig){
-                     $templateColors = get_template_colors_settings();
-                     }
-                     if(empty($templateColors)){
-                     $templateColors =[['value' => '#000000']];
-                     }
-
-             @endphp
-             @if(!empty($templateColors))
-                 mw.tools.colorPickerColors = mw.tools.colorPickerColors || [];
-                 mw.tools.colorPickerColors = [
-                     @foreach($templateColors as $color)
-                     '{{ $color['value'] }}',
-                     @endforeach
-                 ];
-             @endif
-
-             * */
 
 
             ?>
@@ -114,6 +78,66 @@
         <div id="live-edit-app">
             Loading...
         </div>
+
+            <style>
+                #mw-element-style-editor-app-container{
+
+
+
+                    display: none;
+
+
+                    position:fixed;
+
+                    top: calc(var(--toolbar-height) + 2px);
+                    bottom:0;
+                    background:white;
+                    z-index:100;
+                    right:0;
+                    overflow:auto;
+                    padding:0.5rem;
+                    box-shadow: -2px 2px 2px #b1b1b14a;
+                    width: calc(var(--sidebar-end-size));
+                }
+
+
+                #mw-live-edit-gui-editor-box{
+                    width: var(--sidebar-end-size)
+                }
+            </style>
+
+            <script>
+
+            addEventListener('load', () => {
+                const guiEditor = new (mw.top()).controlBox({
+                    content:``,
+                    position:  'right',
+                    id: 'mw-live-edit-gui-editor-box',
+                    closeButton: true,
+                    title: mw.lang('Element Style Editor')
+                });
+                guiEditor.boxContent.appendChild(document.getElementById('mw-element-style-editor-app'));
+                mw.top().app.guiEditorBox = guiEditor
+            })
+
+            </script>
+
+        <div id="mw-element-style-editor-app-container">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h3 class="fs-2 font-weight-bold">Element Style Editor</h3>
+                <span class="x-close-modal-link" style="top: 27px; right: 32px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+                        <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"></path>
+                    </svg>
+                </span>
+            </div>
+            <div id="mw-element-style-editor-app"  >
+
+
+
+            </div>
+        </div>
+
 
         <div id="live-edit-frame-holder">
 
@@ -134,6 +158,7 @@
         </script>
 
         <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
+
         <?php  print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
         <?php event_trigger('mw.live_edit.footer'); ?>
     </div>
@@ -141,5 +166,7 @@
 
 
     <x-filament-actions::modals />
+
+    <script x-src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}" defer></script>
 
 </div>
