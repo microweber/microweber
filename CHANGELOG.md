@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [2.0.19] - 2025-02-12
+- Maintenance release
+- Fixed multilanguage save issue  
+- Fixed redirect issue after admin creation
+- [See all changes...](https://github.com/microweber/microweber/compare/2.0.18...2.0.19 "")
+
+
+
+
 
 ## [2.0.18] - 2025-01-20
 - Maintenance release
