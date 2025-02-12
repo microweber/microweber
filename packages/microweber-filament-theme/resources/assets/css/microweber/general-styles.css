@@ -816,3 +816,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .a-color-picker-row input {
     @apply !bg-transparent dark:!bg-transparent;
 }
+
+.mw-accordion-component-header {
+    @apply bg-gray-100 dark:bg-slate-800;
+}
