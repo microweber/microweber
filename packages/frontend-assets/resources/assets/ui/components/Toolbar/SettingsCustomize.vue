@@ -81,6 +81,11 @@ export default {
                 }
 
             } else if(name === 'style-editor') {
+
+                CSSGUIService.toggle()
+
+                return;
+
               if(this.buttonIsActiveStyleEditor){
 
                   this.emitter.emit("live-edit-ui-show", 'close-element-style-editor')
