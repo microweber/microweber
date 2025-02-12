@@ -11,17 +11,17 @@
      x-load="visible"
      x-load-src="{{ asset('modules/contact_form/js/contact-form-alpine.js') }}"
      x-data="contactForm('{{ $params['id'] }}')">
-    <div class="contact-form-container col-xl-10 mw_form d-flex flex-wrap align-items-center justify-content-center mx-auto flower-cta-div-form">
+    <div class="contact-form-container flower-cta-div-form">
         <form
               data-form-id="{{ $form_id }}" name="{{ $form_id }}" method="post"
               x-on:submit="submitForm">
 
-            <div class="col-sm-8 col-12 my-md-0 my-2">
+            <div class="my-md-0 my-2">
                 <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module" template="bootstrap5_flex"
                         default-fields="[type=email,field_size=12,show_placeholder=true]" input_class=""/>
             </div>
 
-            <div class="col-sm-4 col-12 my-md-0 my-2 text-end">
+            <div class="">
                 @include('modules.contact_form::partials.formSubmit')
             </div>
 
