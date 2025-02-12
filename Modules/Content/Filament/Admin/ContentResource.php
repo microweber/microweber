@@ -18,6 +18,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use MicroweberPackages\Filament\Forms\Components\MwInputSlider;
+use MicroweberPackages\Filament\Forms\Components\MwInputSliderGroup;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwSelectTemplateForPage;
 use MicroweberPackages\Filament\Forms\Components\MwTitleWithSlugInput;

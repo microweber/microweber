@@ -14,6 +14,8 @@ use Filament\Support\Commands\Concerns\CanReadModelSchemas;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
+use MicroweberPackages\Filament\Forms\Components\MwInputSlider;
+use MicroweberPackages\Filament\Forms\Components\MwInputSliderGroup;
 use MicroweberPackages\Filament\Forms\Components\MwRangeSlider;
 use MicroweberPackages\Option\Models\Option;
 use Rupadana\FilamentSlider\Components\Concerns\InputSliderBehaviour;
@@ -233,18 +235,31 @@ abstract class LiveEditModuleSettings extends Page
                     ->label($schema['label'] ?? '');
             }
             if ($schema['type'] == 'slider') {
+
                 $min = $schema['options']['min'] ?? 0;
                 $max = $schema['options']['max'] ?? 100;
                 $step = $schema['options']['step'] ?? 1;
-                $formFields[] = MwRangeSlider::make($name)
-                    ->visible($showField)
+
+                $formFields[] = MwInputSliderGroup::make()
                     ->live()
-//                    ->range([
-//                        "min" => $min,
-//                        "max" => $max
-//                    ])
-//                    ->step($step)
-                    ->label($schema['label'] ?? '');
+                    ->label($schema['label'] ?? '')
+                    ->visible($showField)
+                    ->sliders([
+                        MwInputSlider::make('min')
+                    ])->range([
+                        "min" => $min,
+                        "max" => $max
+                    ])->step($step);
+//
+//                $formFields[] = MwRangeSlider::make($name)
+//                    ->visible($showField)
+//                    ->live()
+////                    ->range([
+////                        "min" => $min,
+////                        "max" => $max
+////                    ])
+////                    ->step($step)
+//                    ->label($schema['label'] ?? '');
 
 
             }
