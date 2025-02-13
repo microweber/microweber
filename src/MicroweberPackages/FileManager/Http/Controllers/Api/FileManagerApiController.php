@@ -12,6 +12,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class FileManagerApiController extends Controller {
 
+    public $publicDir = 'public';
+
     public function list(Request $request) {
 
         $path = '';///media_uploads_path();
@@ -69,11 +71,11 @@ class FileManagerApiController extends Controller {
 //        $getData = app()->make(\MicroweberPackages\Utils\System\Files::class)->get($fileFilter);
 
         $getData = [];
-        $storageFiles = Storage::files('/public/'. $fileFilter['directory']);
+        $storageFiles = Storage::files('/'.$this->publicDir.'/'. $fileFilter['directory']);
         if (!empty($storageFiles)) {
             $getData['files'] = $storageFiles;
         }
-        $storageDirectories = Storage::directories('/public/'.$fileFilter['directory']);
+        $storageDirectories = Storage::directories('/'.$this->publicDir.'/'.$fileFilter['directory']);
         if (!empty($storageDirectories)) {
             $getData['dirs'] = $storageDirectories;
         }
@@ -244,12 +246,12 @@ class FileManagerApiController extends Controller {
                     $targetPath = '' . DS . $path;
                     $targetPath = normalize_path($targetPath, false);
 
-                    $isDir = Storage::directoryExists($targetPath);
+                    $isDir = Storage::directoryExists($this->publicDir.'/' .$targetPath);
                     if ($isDir) {
-                        Storage::deleteDirectory($targetPath);
+                        Storage::deleteDirectory($this->publicDir.'/' . $targetPath);
                         $resp = array('success' => 'Directory ' . basename($targetPath) . ' is deleted');
                     } else {
-                        Storage::delete($targetPath);
+                        Storage::delete($this->publicDir.'/' .$targetPath);
                         $resp = array('success' => 'File ' . basename($targetPath) . ' is deleted');
                     }
 
@@ -302,7 +304,7 @@ class FileManagerApiController extends Controller {
 
             $fnNewFolderPath = sanitize_path($fnNewFolderPath);
             $fnNewFolderPath_new = $targetPath . DS . $fnNewFolderPath;
-            $fnPath = normalize_path($fnNewFolderPath_new, false);
+            $fnPath = $this->publicDir.'/' . normalize_path($fnNewFolderPath_new, false);
 
             if (!Storage::directoryExists($fnPath)) {
                 Storage::createDirectory($fnPath);
