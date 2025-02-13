@@ -30,7 +30,7 @@
 }
 
 .mw-le-layouts-dialog-col:first-child, .modules-list-search-field {
-    @apply bg-white;
+    @apply bg-white z-[120];
 }
 
 
@@ -878,3 +878,4 @@ h1,h2,h3,h4,h5,h6 {
 [type='text'] {
     @apply dark:bg-slate-800;
 }
+
