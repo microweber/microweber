@@ -374,7 +374,37 @@
         };
 
         var _renameHandle = function (item) {
-            mw.prompt(mw.lang('Enter new name'), function(){
+            mw.prompt(mw.lang('Enter new name'), function(val){
+
+                var xhr = new XMLHttpRequest();
+                scope.loading(true);
+                xhr.onreadystatechange = function(e) {
+                    if (this.readyState === 4 && this.status === 200) {
+                         scope.refresh(true);
+                    } else if(this.status !== 200) {
+
+                    }
+                    scope.loading(false);
+                };
+                xhr.addEventListener('error', function (e){
+                    scope.loading(false);
+                });
+
+                let path = item.path.split('/');
+                path.pop();
+                path = path.join("/");
+
+                var params = {
+                    path:  `${item.path}`,
+                    newPath:  `${path}/${val}`,
+                };
+
+                console.log(item)
+                console.log(params)
+                var url =  route('api.file-manager.rename') + '?' + new URLSearchParams(params).toString();
+
+                xhr.open("POST", url, true);
+                xhr.send();
 
             }, item.name);
 
