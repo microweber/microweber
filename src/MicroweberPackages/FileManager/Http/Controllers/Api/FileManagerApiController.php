@@ -214,6 +214,21 @@ class FileManagerApiController extends Controller {
             return array('error' => 'Please set new file path');
         }
 
+        $fileType = \Storage::mimeType($path);
+        if ($fileType) {
+            if (\Storage::fileExists($newPath)) {
+                return array('error' => 'File Exists');
+            }
+        } else {
+            if (\Storage::directoryExists($newPath)) {
+                return array('error' => 'Directory Exists');
+            }
+        }
+
+        \Storage::move($path, $newPath);
+
+
+        return array('success'=>'Renamed');
     }
 
     public function delete(Request $request)
@@ -307,7 +322,7 @@ class FileManagerApiController extends Controller {
             $fnPath = $this->publicDir.'/' . normalize_path($fnNewFolderPath_new, false);
 
             if (!Storage::directoryExists($fnPath)) {
-                Storage::createDirectory($fnPath); 
+                Storage::createDirectory($fnPath);
                 $resp = array('success' => 'Folder ' . $fnPath . ' is created');
             } else {
                 $resp = array('error' => 'Folder ' . $fnNewFolderPath . ' already exists');
