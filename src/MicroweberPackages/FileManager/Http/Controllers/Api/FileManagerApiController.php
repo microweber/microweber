@@ -69,11 +69,11 @@ class FileManagerApiController extends Controller {
 //        $getData = app()->make(\MicroweberPackages\Utils\System\Files::class)->get($fileFilter);
 
         $getData = [];
-        $storageFiles = Storage::files($fileFilter['directory']);
+        $storageFiles = Storage::files('/public/'. $fileFilter['directory']);
         if (!empty($storageFiles)) {
             $getData['files'] = $storageFiles;
         }
-        $storageDirectories = Storage::directories($fileFilter['directory']);
+        $storageDirectories = Storage::directories('/public/'.$fileFilter['directory']);
         if (!empty($storageDirectories)) {
             $getData['dirs'] = $storageDirectories;
         }
