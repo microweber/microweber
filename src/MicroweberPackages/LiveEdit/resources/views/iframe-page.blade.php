@@ -117,6 +117,10 @@
                     title: mw.lang('Element Style Editor')
                 });
                 guiEditor.boxContent.appendChild(document.getElementById('mw-element-style-editor-app'));
+                guiEditor.on('hide', () => {
+                        document.documentElement.classList.remove('live-edit-gui-editor-opened');
+                        document.querySelector('#general-theme-settings').classList.remove('active');
+                })
                 mw.top().app.guiEditorBox = guiEditor
             })
 

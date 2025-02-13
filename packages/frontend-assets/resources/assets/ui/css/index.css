@@ -70,7 +70,7 @@ a {
     background: var(--tblr-bg-surface);
     display: flex;
     position: relative;
-    z-index: 2;
+    z-index: 104;
     transition: var(--toolbar-height-animation-speed);
 }
 

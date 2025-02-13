@@ -67,17 +67,21 @@ export default {
         },
         toggle: function (name) {
 
+
             this.$refs.moreSettingsDropdown.classList.remove('show');
 
+            if(name !== 'style-editor') {
+                CSSGUIService.hide()
+            }
             if(name === 'template-settings') {
                 if(!this.buttonIsActive){
                     this.buttonIsActive = true;
                     this.buttonIsActiveStyleEditor = false;
                     this.emitter.emit('live-edit-ui-show', name);
-                    CSSGUIService.show()
+
                 } else {
                     this.buttonIsActive = false;
-                    CSSGUIService.hide()
+
                 }
 
             } else if(name === 'style-editor') {

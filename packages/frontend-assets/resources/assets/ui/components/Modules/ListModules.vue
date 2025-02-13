@@ -171,7 +171,7 @@ export default {
         filterModules() {
 
             let filterKeyword = this.filterKeyword.trim();
-            let modulesFiltered = this.modulesList;
+            let modulesFiltered = this.modulesList || [];
 
             let notAllowedModules = [];
 

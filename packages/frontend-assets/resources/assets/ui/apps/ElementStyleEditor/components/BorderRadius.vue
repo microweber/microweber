@@ -55,6 +55,7 @@
               <input
                   class="regular text-center"
                   type="number"
+                  min="0"
                   name="borderBottomRightRadius"
                   autocomplete="off"
                   v-model="selectedBorderRadius.borderBottomRightRadius"
