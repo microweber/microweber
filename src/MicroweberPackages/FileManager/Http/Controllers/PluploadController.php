@@ -3,6 +3,7 @@
 namespace MicroweberPackages\FileManager\Http\Controllers;
 
 
+use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\App\Http\Controllers\Controller;
 
@@ -720,64 +721,55 @@ class PluploadController extends Controller
             $path = '/';
         }
 
-        if (config('filesystems.default') !== 'local') {
+        $filenameUrl = normalize_path($path . DS . $f_name, false);
+        $filenameUrl = str_replace(DS, '/', $filenameUrl);
+        $filePathUrl = media_uploads_url().$filenameUrl;
+
+
+        $isFileFullyUploaded = false;
+        $chunk = request()->input('chunk');
+        $chunks = request()->input('chunks');
+        if ($chunks && $chunk == $chunks - 1) {
+            $isFileFullyUploaded = true;
+        }
+
+        if ($isFileFullyUploaded) {
+
+            $fileRealPath = $filePath;
+            $fileBaseName = basename($fileRealPath);
 
             $checkDirIsValidOnStorage = Storage::directoryExists($path);
             if (!$checkDirIsValidOnStorage) {
-                $error_json
-                    = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "Invalid path!"}, "id" : "id"}');
-                $error_json = json_decode($error_json, true);
-
-                return response()->json($error_json, 422);
+                $errorJson = [
+                    'jsonrpc' => '2.0',
+                    'error' => [
+                        'code' => 107,
+                        'message' => 'Invalid path!'
+                    ],
+                    'id' => 'id'
+                ];
+                return response()->json($errorJson, 422);
             }
 
-            $moveToStorage = Storage::put($path . DS . $f_name,
-                file_get_contents($filePath));
-            if (!$moveToStorage) {
-                $error_json
-                    = ('{"jsonrpc" : "2.0", "error" : {"code": 107, "message": "File can\'t be uploaded."}, "id" : "id"}');
-                $error_json = json_decode($error_json, true);
+            $path = Storage::putFileAs($path, new File($fileRealPath), $fileBaseName);
+            // Remove local file
+            unlink($fileRealPath);
+            $filePathUrl = Storage::url($path);
 
-                return response()->json($error_json, 422);
-            }
-
-            // remove local file
-            unlink($filePath);
-
-            // GET url from cloud or local storage
-
-            $filePath = Storage::url($path . $f_name);
-        } else {
-
-
-
-            $filenameUrl = normalize_path($path . DS . $f_name, false);
-            $filenameUrl = str_replace(DS, '/', $filenameUrl);
-            $filePath = media_uploads_url().$filenameUrl;
         }
 
+        $jsonResponse['file_is_uploaded'] = $isFileFullyUploaded;
         $jsonResponse['name'] = $f_name;
 
         if ($this->returnPathResponse) {
-            $jsonResponse['src'] = $filePath;
+            $jsonResponse['src'] = $filePathUrl;
             if (isset($upl_size_log) and $upl_size_log > 0) {
                 $jsonResponse['bytes_uploaded'] = $upl_size_log;
             }
         }
 
+        return response()->json($jsonResponse, 200);
 
-//        print json_encode($jsonResponse);
-//        exit;
-
-        $response = response()->json($jsonResponse, 200);
-
-        return $response;
-        $request = request();
-        $middleware = app()->make(\MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class);
-        return $middleware->forceAddAddXsrfTokenCookie($request, $response);
-
-
-        // return response()->json($jsonResponse, 200)->withCookie($cookie);;
     }
 
     private function readExifData($file)
