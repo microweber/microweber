@@ -307,7 +307,7 @@ class FileManagerApiController extends Controller {
             $fnPath = $this->publicDir.'/' . normalize_path($fnNewFolderPath_new, false);
 
             if (!Storage::directoryExists($fnPath)) {
-                Storage::createDirectory($fnPath);
+                Storage::createDirectory($fnPath); 
                 $resp = array('success' => 'Folder ' . $fnPath . ' is created');
             } else {
                 $resp = array('error' => 'Folder ' . $fnNewFolderPath . ' already exists');
