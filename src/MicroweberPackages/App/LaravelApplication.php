@@ -130,7 +130,7 @@ class LaravelApplication extends Application
         $this->__ensure_bootstrap_cache_dir();
         $this->__ensure_storage_dir();
         $this->__ensure_dot_env_file_exists();
-        $this->_ensure_strorage_public_symlink();
+        //$this->_ensure_strorage_public_symlink();
     }
 
     private function __ensure_bootstrap_cache_dir()
