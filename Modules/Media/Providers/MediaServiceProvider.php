@@ -35,26 +35,6 @@ class MediaServiceProvider extends BaseModuleServiceProvider
 
 
         /**
-         * use default disk!
-         * when you want to use S3 or other driver, you can change it in the config
-         */
-        $defaultDisk = config('filesystems.default');
-
-        config(['filesystems.disks.media' => [
-            'driver' => $defaultDisk,
-            'root' => media_uploads_path(),
-            'url' => media_uploads_url(),
-            'visibility' => 'public',
-        ]]);
-        config(['filesystems.disks.public' => [
-            'driver' => $defaultDisk,
-            'root' => public_path(),
-            'url' => public_asset(),
-            'visibility' => 'public',
-        ]]);
-
-
-        /**
          * @property MediaRepository $media_repository
          */
         $this->app->bind('media_repository', function () {

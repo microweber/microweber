@@ -739,28 +739,25 @@ class PluploadController extends Controller
             $fileRealPath = $filePath;
             $fileBaseName = basename($fileRealPath);
 
-            $defaultDriverName = Storage::getDefaultDriver();
+            $storageInstance = Storage::disk('public');
 
-            if ($defaultDriverName !== 'local') {
-                $checkDirIsValidOnStorage = Storage::directoryExists('/public/'.$path);
-                if (!$checkDirIsValidOnStorage) {
-                    $errorJson = [
-                        'jsonrpc' => '2.0',
-                        'error' => [
-                            'code' => 107,
-                            'message' => 'Invalid path!'
-                        ],
-                        'id' => 'id'
-                    ];
-                    return response()->json($errorJson, 422);
-                }
-
-                $path = Storage::putFileAs('/public/'.$path, new File($fileRealPath), $fileBaseName);
-                // Remove local file
-                unlink($fileRealPath);
-                $filePathUrl = Storage::url($path);
-
+            $checkDirIsValidOnStorage = $storageInstance->directoryExists($path);
+            if (!$checkDirIsValidOnStorage) {
+                $errorJson = [
+                    'jsonrpc' => '2.0',
+                    'error' => [
+                        'code' => 107,
+                        'message' => 'Invalid path!'
+                    ],
+                    'id' => 'id'
+                ];
+                return response()->json($errorJson, 422);
             }
+
+            $path = $storageInstance->putFileAs($path, new File($fileRealPath), $fileBaseName);
+            // Remove local file
+            unlink($fileRealPath);
+            $filePathUrl = $storageInstance->url($path);
 
         }
 

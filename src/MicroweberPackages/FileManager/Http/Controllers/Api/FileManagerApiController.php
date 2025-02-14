@@ -12,7 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class FileManagerApiController extends Controller {
 
-    public $onDisk = 'media';
+    public $onDisk = 'public';
 
     public function list(Request $request) {
 
@@ -204,8 +204,10 @@ class FileManagerApiController extends Controller {
             }
         }
 
-        $storageInstance->move($path, $newPath);
-
+        $move = $storageInstance->move($path, $newPath);
+        if (!$move) {
+            return array('error' => 'Error on rename');
+        }
 
         return array('success'=>'Renamed');
     }
