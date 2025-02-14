@@ -2,11 +2,8 @@
     <div class="form-group my-2">
         @if(get_option('disable_captcha', $params['id']) != 'y')
             <label class="custom-field-title">@lang('Enter Security code')</label>
-            <div class="row captcha-holder" style="width: 262px;">
-                <div class="col">
-                    <module type="captcha" id="captcha_contact_form-{{ $form_id }}"/>
-                </div>
-            </div>
+            <module type="captcha" id="captcha_contact_form-{{ $form_id }}"/>
+
         @endif
     </div>
 
