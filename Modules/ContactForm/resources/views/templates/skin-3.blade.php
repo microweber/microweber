@@ -16,7 +16,7 @@
 
             <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module"
                     default-fields="Your Name[type=text,field_size=12,show_placeholder=true],Phone[type=text,field_size=12,show_placeholder=true],Email[type=email,field_size=12,show_placeholder=true],Message[type=textarea,field_size=12,show_placeholder=true]" input_class="form-control"/>
-            <br><br>
+
             @include('modules.contact_form::partials.formSubmit')
 
             @if(isset($show_newsletter_subscription) && $show_newsletter_subscription == 'y' && !$newsletter_subscribed)

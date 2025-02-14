@@ -18,7 +18,7 @@
                 <div class="form-group d-flex">
                     <module type="custom_fields" for-id="{{ $params['id'] }}" data-for="module"
                             default-fields="Email[type=email,field_size=12,show_placeholder=true]" input_class="form-control-lg"/>
-                    <br><br>
+
                     @include('modules.contact_form::partials.formSubmit')
                 </div>
             </div>

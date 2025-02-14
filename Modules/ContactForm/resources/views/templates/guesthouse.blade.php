@@ -25,7 +25,7 @@
             <div class="module-custom-fields">
                 <div class="row">
                     <div class="col-12">
-                        <br><br>
+
                         @include('modules.contact_form::partials.formSubmit')
                     </div>
                 </div>

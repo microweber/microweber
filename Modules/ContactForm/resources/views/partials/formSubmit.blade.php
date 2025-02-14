@@ -1,24 +1,19 @@
-<div class="row my-2 justify-content-between">
-    <div class="col-md-4 col-12">
-        <div class="form-group">
-            @if(get_option('disable_captcha', $params['id']) != 'y')
-                <label class="custom-field-title">@lang('Enter Security code')</label>
-                <div class="row captcha-holder" style="width: 262px;">
-                    <div class="col">
-                        <module type="captcha" id="captcha_contact_form-{{ $form_id }}"/>
-                    </div>
+<div class="row">
+    <div class="form-group my-2">
+        @if(get_option('disable_captcha', $params['id']) != 'y')
+            <label class="custom-field-title">@lang('Enter Security code')</label>
+            <div class="row captcha-holder" style="width: 262px;">
+                <div class="col">
+                    <module type="captcha" id="captcha_contact_form-{{ $form_id }}"/>
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
     </div>
 
-    <div class="col-md-9 col-12">
-        <label>&nbsp;</label>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" :disabled="$data.loading">
-                <span x-show="!$data.loading">{{ $button_text }}</span>
-                <span x-cloak x-show="$data.loading">@lang('Sending...')</span>
-            </button>
-        </div>
+    <div class="form-group my-2">
+        <button type="submit" class="btn btn-primary w-100" :disabled="$data.loading">
+            <span x-show="!$data.loading">{{ $button_text }}</span>
+            <span x-cloak x-show="$data.loading">@lang('Sending...')</span>
+        </button>
     </div>
 </div>

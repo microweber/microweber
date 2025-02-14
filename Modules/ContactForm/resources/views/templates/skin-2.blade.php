@@ -21,7 +21,7 @@
                 <module type="users/terms" data-for="contact_form_default"/>
             @endif
 
-            <br><br>
+
             @include('modules.contact_form::partials.formSubmit')
         </form>
         @include('modules.contact_form::partials.successMessage')
