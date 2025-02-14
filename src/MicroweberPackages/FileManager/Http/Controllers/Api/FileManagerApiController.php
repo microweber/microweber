@@ -24,6 +24,7 @@ class FileManagerApiController extends Controller {
         $keyword = false;
         if (!empty($request->get('keyword'))) {
             $keyword = $request->get('keyword');
+            $keyword = trim($keyword);
         }
 
         $limit = intval($request->get('limit', false));
@@ -41,7 +42,7 @@ class FileManagerApiController extends Controller {
 
         $fileDetails = collect($storageFilesInDirectory)->map(function ($file) use($storageInstance) {
             return [
-                'name' => basename($file),
+                'basename' => basename($file),
                 'path' => $file,
                 'filesize' => $storageInstance->size($file),
                 'filemtime' => $storageInstance->lastModified($file),
@@ -51,6 +52,12 @@ class FileManagerApiController extends Controller {
         });
         $sortedFiles = $fileDetails->sortBy($orderBy, SORT_REGULAR, $order === 'desc');
         $storageFiles = $sortedFiles->values()->all();
+
+        if (!empty($keyword)) {
+            $storageFiles = array_filter($storageFiles, function ($file) use ($keyword) {
+                return strpos($file['basename'], $keyword) !== false;
+            });
+        }
 
         if (!empty($storageFiles)) {
             $getData['files'] = $storageFiles;
@@ -128,7 +135,7 @@ class FileManagerApiController extends Controller {
                 $data[] = [
                     'type'=>'file',
                     'mimeType'=> $file['mimeType'],
-                    'name'=> $file['name'],
+                    'name'=> $file['basename'],
                     'path'=> $file['path'],
                     'created'=> $created,
                     'modified'=> $lastModified,
