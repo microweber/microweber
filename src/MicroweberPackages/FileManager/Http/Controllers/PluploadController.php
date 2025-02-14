@@ -31,6 +31,7 @@ class PluploadController extends Controller
 
     public function upload()
     {
+        @ini_set('memory_limit', '256M');
 
         $files_utils = new \MicroweberPackages\Utils\System\Files();
         $dangerous = $files_utils->get_dangerous_files_extentions();

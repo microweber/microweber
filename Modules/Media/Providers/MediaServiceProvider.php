@@ -34,15 +34,20 @@ class MediaServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
 
 
-        // add disk to config
+        /**
+         * use default disk!
+         * when you want to use S3 or other driver, you can change it in the config
+         */
+        $defaultDisk = config('filesystems.default');
+
         config(['filesystems.disks.media' => [
-            'driver' => 'local',
+            'driver' => $defaultDisk,
             'root' => media_uploads_path(),
             'url' => media_uploads_url(),
             'visibility' => 'public',
         ]]);
         config(['filesystems.disks.public' => [
-            'driver' => 'local',
+            'driver' => $defaultDisk,
             'root' => public_path(),
             'url' => public_asset(),
             'visibility' => 'public',
