@@ -44,12 +44,15 @@
 
 }
 
+
 .mw-file-manager-root[data-view="list"] .mw-file-manager-list-item-thumb{
     width: 100%;
     aspect-ratio: 1 / 1;
     background-color: #ffffff80;
 
     border-radius: .5rem;
+
+
 
 }
 
@@ -405,12 +408,12 @@ html.dark {
     z-index: 5;
     background-color: white;
 }
-.mw-fm-part-selected {
-    .mw-file-manager-bar{
+.mw-fm-all-selected  .mw-file-manager-bar,
+.mw-fm-part-selected  .mw-file-manager-bar{
 
         opacity: 1;
 
-    }
+
 }
 
 
@@ -469,6 +472,17 @@ html.dark {
 .mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-thumb{
     width: 100%;
     aspect-ratio: 1 / 1;
+
+
+
+        outline: 3px solid transparent;
+        transition: outline .2s;
+
+}
+
+.mw-file-manager-root[data-view="grid"] .selected .mw-file-manager-list-item-thumb{
+    outline-color:    #47a5eb;
+
 }
 
 .mw-file-manager-root[data-view="grid"] .mw-file-manager-list-item-thumb-folder{
@@ -641,11 +655,27 @@ html.dark .mw-file-manager-top-bar-actions-content{
     display: block;
 }
 
+.mw-file-manager--multiselect--context-actions .btn {
+    background-color: transparent;
+    border-color: transparent;
+}
+.mw-file-manager--multiselect--context-actions .btn svg{
+
+        height: 22px !important;
+        width: auto !important;
+        fill: currentColor;
+
+}
 .mw-file-manager--multiselect--context-actions{
     display: none;
+
+
+    padding: 6px;
+    border-bottom: 1px solid #eee;
+
 }
 .mw-fm-part-selected .mw-file-manager--multiselect--context-actions,
-.mw-fm-all-selected .mw-file-manager--multiselect--context-actions{
+.mw-fm-all-selected  .mw-file-manager--multiselect--context-actions{
     display: flex;
     width: 100%;
     gap: 12px;
@@ -707,6 +737,9 @@ html.dark .mw-file-manager-paging a{
 }
 
 
+html.dark .mw-file-manager--sort-select{
+    background-color: transparent;
+}
 .mw-file-manager--sort-select{
 
         border-radius: 5px;

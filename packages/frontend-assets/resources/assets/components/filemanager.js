@@ -215,10 +215,11 @@
         const mandatory = {
             canSelectFolder: true,
             selectable: true,
-            selectableRow: false,
+            selectableRow: true,
             canSelectFolder: false,
             options: true,
             viewType: 'grid' ,
+            visibleCheckboxOrRadio: false ,
         }
 
 
@@ -239,10 +240,13 @@
 
 
             var root = mw.element(
-                `<label class="form-check mw-file-manager-list-item-check">
+                `<label
+                    class="form-check mw-file-manager-list-item-check"
+                    style="${(scope.settings.visibleCheckboxOrRadio ? '' : 'display:none;')}">
                     <span></span>
                     <input
                         type="${(scope.settings.multiselect ? 'checkbox' : 'radio')}"
+
                         name="${name || _checkName}"
                         class="form-check-input">
                 </label>
@@ -755,6 +759,7 @@
         }
 
         this.refresh = function (full){
+            this.selectNone();
             if(full) {
                 this.requestRender(this.settings.query)
             } else {
@@ -1251,14 +1256,13 @@
 
             var multiSelectMenuTemplate = mw.element(`
                 <div class="mw-file-manager--multiselect--context-actions">
-                    <div class="mw-file-manager--multiselect--context-actions">
+
                         <button type="button" class="btn btn-icon btn-sm" data-action="multiSelectDownloadAll" title="${mw.lang('Download')}">
                              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M240 896q-33 0-56.5-23.5T160 816V696h80v120h480V696h80v120q0 33-23.5 56.5T720 896H240Zm240-160L280 536l56-58 104 104V256h80v326l104-104 56 58-200 200Z"/></svg>
                         </button>
-                        <button type="button" class="btn btn-icon btn-danger btn-sm" data-action="multiSelectDeleteAll"  data-bs-toggle="tooltip" data-bs-placement="top" title="${mw.lang('Delete')}">
+                        <button type="button" class="btn btn-icon   btn-sm" data-action="multiSelectDeleteAll"  data-bs-toggle="tooltip" data-bs-placement="top" title="${mw.lang('Delete')}">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor"><path d="M280 936q-33 0-56.5-23.5T200 856V336h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680 936H280Zm400-600H280v520h400V336ZM360 776h80V416h-80v360Zm160 0h80V416h-80v360ZM280 336v520-520Z"/></svg>
                         </button>
-                    </div>
 
                 </div>
             `);

@@ -23,13 +23,16 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
         $getTemplateConfig = app()->template_manager->get_config();
 
+
+
+
         $optionGroup = 'mw-template-' . $getTemplateConfig['dir_name'] . '-settings';
         $optionGroupLess = 'mw-template-' . $getTemplateConfig['dir_name'];
 
         $options = [];
         $settingGroups = [];
 
-        if (isset($getTemplateConfig['stylesheet_compiler']['settings'])) {
+        if (isset($getTemplateConfig['stylesheet_compiler']) and isset($getTemplateConfig['stylesheet_compiler']['settings'])) {
 
             $mainGroup = 'Styles';
             $valuesGroup = 'Other';
