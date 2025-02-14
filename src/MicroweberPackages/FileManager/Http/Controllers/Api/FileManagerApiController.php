@@ -16,6 +16,7 @@ class FileManagerApiController extends Controller {
 
     public function list(Request $request) {
 
+        $path = '';
         if (!empty($request->get('path'))) {
             $path = $request->get('path');
         }
