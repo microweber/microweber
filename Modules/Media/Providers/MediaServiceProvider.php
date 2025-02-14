@@ -34,21 +34,6 @@ class MediaServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
 
 
-        // add disk to config
-        config(['filesystems.disks.media' => [
-            'driver' => 'local',
-            'root' => media_uploads_path(),
-            'url' => media_uploads_url(),
-            'visibility' => 'public',
-        ]]);
-        config(['filesystems.disks.public' => [
-            'driver' => 'local',
-            'root' => public_path(),
-            'url' => public_asset(),
-            'visibility' => 'public',
-        ]]);
-
-
         /**
          * @property MediaRepository $media_repository
          */

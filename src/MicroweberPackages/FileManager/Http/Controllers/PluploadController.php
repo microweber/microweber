@@ -31,6 +31,7 @@ class PluploadController extends Controller
 
     public function upload()
     {
+        @ini_set('memory_limit', '256M');
 
         $files_utils = new \MicroweberPackages\Utils\System\Files();
         $dangerous = $files_utils->get_dangerous_files_extentions();
@@ -738,7 +739,9 @@ class PluploadController extends Controller
             $fileRealPath = $filePath;
             $fileBaseName = basename($fileRealPath);
 
-            $checkDirIsValidOnStorage = Storage::directoryExists('/public/'.$path);
+            $storageInstance = Storage::disk('public');
+
+            $checkDirIsValidOnStorage = $storageInstance->directoryExists($path);
             if (!$checkDirIsValidOnStorage) {
                 $errorJson = [
                     'jsonrpc' => '2.0',
@@ -751,10 +754,10 @@ class PluploadController extends Controller
                 return response()->json($errorJson, 422);
             }
 
-            $path = Storage::putFileAs('/public/'.$path, new File($fileRealPath), $fileBaseName);
+            $path = $storageInstance->putFileAs($path, new File($fileRealPath), $fileBaseName);
             // Remove local file
             unlink($fileRealPath);
-            $filePathUrl = Storage::url($path);
+            $filePathUrl = $storageInstance->url($path);
 
         }
 

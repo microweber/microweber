@@ -130,6 +130,7 @@ class LaravelApplication extends Application
         $this->__ensure_bootstrap_cache_dir();
         $this->__ensure_storage_dir();
         $this->__ensure_dot_env_file_exists();
+        //$this->_ensure_strorage_public_symlink();
     }
 
     private function __ensure_bootstrap_cache_dir()
@@ -183,6 +184,18 @@ class LaravelApplication extends Application
 
     }
 
+    private function _ensure_strorage_public_symlink()
+    {
+        if (is_link(public_path('storage'))) {
+            return;
+        }
+
+        if (!is_dir(public_path('storage'))) {
+            @symlink(storage_path('app/public'), public_path('storage'));
+        }
+
+    }
+
     private function _ensure_app_key_is_set_in_dot_env_file()
     {
 
@@ -196,7 +209,7 @@ class LaravelApplication extends Application
         $existingKey = env('APP_KEY');
 
         if (!$existingKey) {
-            $key = 'base64:' . base64_encode(random_bytes(32))."\n";
+            $key = 'base64:' . base64_encode(random_bytes(32)) . "\n";
             @file_put_contents($this->base_path_local . DIRECTORY_SEPARATOR . '.env', PHP_EOL . 'APP_KEY=' . $key, FILE_APPEND);
             Config::set('app.key', $key);
         }
