@@ -466,19 +466,20 @@ class InstallController extends Controller
                     $this->log('Publishing vendor assets');
                     app()->module_manager->publish_vendor_assets();
 
-
-                    //make sure the storage is linked
-                    $checkIfExistsStoragePublic = is_dir(storage_path('app/public'));
-                    if (!$checkIfExistsStoragePublic) {
-                        mkdir(storage_path('app/public'));
-                    }
-                   // $isPublicStorageExists = is_dir(public_path('storage'));
-                    if (is_dir(public_path('storage')) && !is_link(public_path('storage'))) {
-                        rename(public_path('storage'), public_path('storage_backup'));
-                    }
                     if (!is_link(public_path('storage'))) {
-                        $this->log('Linking storage');
-                        symlink(storage_path('app/public'), public_path('storage'));
+                        //make sure the storage is linked
+                        $checkIfExistsStoragePublic = is_dir(storage_path('app/public'));
+                        if (!$checkIfExistsStoragePublic) {
+                            mkdir(storage_path('app/public'));
+                        }
+                        // $isPublicStorageExists = is_dir(public_path('storage'));
+                        if (is_dir(public_path('storage')) && !is_link(public_path('storage'))) {
+                            rename(public_path('storage'), public_path('storage_backup'));
+                        }
+                        if (!is_link(public_path('storage'))) {
+                            $this->log('Linking storage');
+                            symlink(storage_path('app/public'), public_path('storage'));
+                        }
                     }
                 }
 
