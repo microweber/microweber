@@ -13,8 +13,8 @@ description: Default comments template
     x-load="visible"
     @callback.window="<?php isset($params['data-callback']) ? print $params['data-callback'] . '($event.detail)' : '' ?>"
 >
-    <div class="form-group d-flex align-items-center justify-content-between" wire:ignore>
-        <div class="col">
+    <div class="d-flex align-items-center justify-content-end ms-auto" wire:ignore>
+        <div class="col-auto">
             <a href="javascript:;" class="tip" data-tip="Refresh captcha" data-tipposition="top-center">
                 <img
                     @click="refreshCaptcha($el)"
@@ -25,7 +25,7 @@ description: Default comments template
                 />
             </a>
         </div>
-        <div class="col">
+        <div class="col-5">
             <input
                 x-model="captchaValue"
                 name="captcha"
