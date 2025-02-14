@@ -43,13 +43,13 @@ class FileManagerApiController extends Controller {
             return [
                 'name' => basename($file),
                 'path' => $file,
-                'size' => $storageInstance->size($file),
+                'filesize' => $storageInstance->size($file),
                 'filemtime' => $storageInstance->lastModified($file),
                 'url' => $storageInstance->url($file),
                 'mimeType' => $storageInstance->mimeType($file),
             ];
         });
-        $sortedFiles = $fileDetails->sortBy($order, SORT_REGULAR, $order === 'desc');
+        $sortedFiles = $fileDetails->sortBy($orderBy, SORT_REGULAR, $order === 'desc');
         $storageFiles = $sortedFiles->values()->all();
 
         if (!empty($storageFiles)) {
@@ -134,7 +134,7 @@ class FileManagerApiController extends Controller {
                     'modified'=> $lastModified,
                     'thumbnail'=> $thumbnail,
                     'url'=> $file['url'],
-                    'size'=> $file['size']
+                    'size'=> $file['filesize']
                 ];
             }
         }
