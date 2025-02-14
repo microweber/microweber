@@ -738,7 +738,7 @@ class PluploadController extends Controller
             $fileRealPath = $filePath;
             $fileBaseName = basename($fileRealPath);
 
-            $checkDirIsValidOnStorage = Storage::directoryExists($path);
+            $checkDirIsValidOnStorage = Storage::directoryExists('/public/'.$path);
             if (!$checkDirIsValidOnStorage) {
                 $errorJson = [
                     'jsonrpc' => '2.0',
@@ -751,7 +751,7 @@ class PluploadController extends Controller
                 return response()->json($errorJson, 422);
             }
 
-            $path = Storage::putFileAs($path, new File($fileRealPath), $fileBaseName);
+            $path = Storage::putFileAs('/public/'.$path, new File($fileRealPath), $fileBaseName);
             // Remove local file
             unlink($fileRealPath);
             $filePathUrl = Storage::url($path);
