@@ -1,5 +1,5 @@
-<div class="row my-2">
-    <div class="col-md-3 col-12">
+<div class="row my-2 justify-content-between">
+    <div class="col-md-4 col-12">
         <div class="form-group">
             @if(get_option('disable_captcha', $params['id']) != 'y')
                 <label class="custom-field-title">@lang('Enter Security code')</label>
