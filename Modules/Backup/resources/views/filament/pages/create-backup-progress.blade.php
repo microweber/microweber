@@ -21,6 +21,9 @@
                             this.downloadUrl = response.downloadUrl;
                             this.exportType = response.export_type;
                             this.filename = response.filename;
+
+                            console.log('Backup completed:', response);
+
                         } else if (response && response.current_step) {
                             this.currentStep = response.current_step;
                             this.totalSteps = response.total_steps;
@@ -53,8 +56,11 @@
             <div class="w-full bg-white p-8 rounded-lg shadow-lg">
 
                 <div class="flex gap-2 items-center mb-4">
-                    <div>
+                    <div x-show="!isCompleted">
                         @svg('heroicon-o-cog', 'w-12 h-12 text-gray-400 animate-spin')
+                    </div>
+                    <div x-show="isCompleted">
+                        @svg('heroicon-o-cog', 'w-12 h-12 text-gray-400')
                     </div>
                     <div class="text-2xl font-bold">Creating Backup</div>
                 </div>
