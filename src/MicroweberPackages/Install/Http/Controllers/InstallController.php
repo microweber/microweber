@@ -478,7 +478,7 @@ class InstallController extends Controller
                         }
                         if (!is_link(public_path('storage'))) {
                             $this->log('Linking storage');
-                            symlink(storage_path('app/public'), public_path('storage'));
+                            @symlink(storage_path('app/public'), public_path('storage'));
                         }
                     }
                 }

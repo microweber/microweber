@@ -210,6 +210,9 @@
 
 
                             if (data == 'done') {
+
+
+
                                 setTimeout(function () {
                                     var redirect_after_install_url = "<?php print admin_url(); ?>?install_done=1";
                                     var adminurlval = $('#admin_url').val().trim();
@@ -218,7 +221,7 @@
                                     }
 
                                     window.location.href = redirect_after_install_url;
-                                }, 3000);
+                                },7000);
 
                                 //location.reload();
                             } else {
