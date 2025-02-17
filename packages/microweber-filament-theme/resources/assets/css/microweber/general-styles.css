@@ -827,5 +827,6 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 
 #save-toolbar {
-    @apply fixed bottom-0 w-100 d-flex justify-center p-5 shadow z-10 bg-white dark:bg-slate-800 dark:text-white;
+    @apply fixed bottom-0 w-100 d-flex justify-center py-5 z-10 bg-white dark:bg-slate-800 dark:text-white;
 }
+

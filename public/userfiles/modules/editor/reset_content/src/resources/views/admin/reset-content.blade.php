@@ -44,8 +44,8 @@
         </div>
     </div>
 
-  <div class="card p-3">
-      <div class="card-header p-3 shadow">
+  <div class="card p-3 border">
+      <div class="card-header p-3">
           <label class="mw-ui-check">
               <input type="checkbox" id="also_reset_modules" name="also_reset_modules" value="1" checked>
               <span></span>
@@ -53,16 +53,16 @@
           </label>
       </div>
 
-      <div class="card-body p-3 shadow">
+      <div class="card-body p-3">
           <div id="select_edit_field_container">
               <div id="select_edit_field_wrap"></div>
           </div>
       </div>
-
-      <div id="save-toolbar">
-          <button onclick="reset();" class="btn btn-danger">@lang('Reset content')</button>
-      </div>
   </div>
+
+    <div id="save-toolbar">
+        <button onclick="reset();" class="btn btn-danger">@lang('Reset content')</button>
+    </div>
 
 
 </div>
