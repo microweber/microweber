@@ -49,7 +49,11 @@ class FileManagerApiController extends Controller {
                 'url' => $storageInstance->url($file),
                 'mimeType' => $storageInstance->mimeType($file),
             ];
+
         });
+
+
+
         $sortedFiles = $fileDetails->sortBy($orderBy, SORT_REGULAR, $order === 'desc');
         $storageFiles = $sortedFiles->values()->all();
 
@@ -58,6 +62,12 @@ class FileManagerApiController extends Controller {
                 return strpos($file['basename'], $keyword) !== false;
             });
         }
+        $storageFiles = array_filter($storageFiles, function ($file) use ($keyword) {
+            //.env and other dotfiles
+            return strpos($file['basename'], '.') !== 0;
+        });
+
+
 
         if (!empty($storageFiles)) {
             $getData['files'] = $storageFiles;
@@ -128,6 +138,7 @@ class FileManagerApiController extends Controller {
 //                }
 
                 $thumbnail = $file['url'];
+
 
                 $created = date('Y-m-d H:i:s', $file['filemtime']);
                 $lastModified = date('Y-m-d H:i:s', $file['filemtime']);

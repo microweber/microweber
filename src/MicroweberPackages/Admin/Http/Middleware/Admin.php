@@ -80,7 +80,8 @@ class Admin
         // must not redirect to admin because it will reveal the admin url if its custom
       //   return redirect(site_url());
 
-         return redirect()->guest(route('admin.login'));
+       //  return redirect()->guest(route('admin.login'));
+         return redirect()->guest($adminUrl . 'login');
     }
     private function requestIsInIframe($request)
     {
