@@ -23,6 +23,10 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
         $getTemplateConfig = app()->template_manager->get_config();
 
+        if(!$getTemplateConfig){
+            return;
+        }
+
 
 
 
