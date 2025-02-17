@@ -1,4 +1,35 @@
 export const  SystemDialogsService = {
+
+
+    moduleFrameRoute: function(routeName, params, autoHeight){
+        console.log('moduleFrame: The function is deprecated. Use another method to open module settings');
+
+
+        if(typeof autoHeight === 'undefined') {
+            autoHeight = true;
+        }
+        params = params || {};
+        if(!routeName) return;
+
+        var frame = document.createElement('iframe');
+        frame.className = 'mw-editor-frame';
+        frame.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+        frame.allowFullscreen = true;
+        frame.scrolling = "auto";
+        frame.width = "100%";
+        frame.frameBorder = "0";
+
+
+        frame.src = route(routeName) + '?params=' + $.param(params).split('&').join(',');
+
+
+        if(autoHeight) {
+            mw.tools.iframeAutoHeight(frame)
+        }
+        return frame;
+    },
+
+
         moduleFrame: function(type, params, autoHeight){
             console.log('moduleFrame: The function is deprecated. Use another method to open module settings');
 
@@ -17,7 +48,10 @@ export const  SystemDialogsService = {
             frame.width = "100%";
             frame.frameBorder = "0";
 
-             frame.src = route('live_edit.module_settings') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
+
+            frame.src = route('live_edit.module_settings') + '?type=' + type + '&params=' + $.param(params).split('&').join(',');
+
+
             if(autoHeight) {
                 mw.tools.iframeAutoHeight(frame)
             }
