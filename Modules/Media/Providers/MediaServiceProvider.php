@@ -20,6 +20,13 @@ class MediaServiceProvider extends BaseModuleServiceProvider
     {
 
 
+        if (!is_link(public_path('storage'))) {
+            if (!is_dir(public_path('storage'))) {
+                @symlink(storage_path('app/public'), public_path('storage'));
+            }
+        }
+
+
     }
 
     /**

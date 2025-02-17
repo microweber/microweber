@@ -324,6 +324,12 @@ abstract class LiveEditModuleSettings extends Page
 
         }
 
+        if(!$selectedSkin){
+            $selectedSkin = 'default';
+        }
+
+
+
 
         $curretSkinSettingsFromJson = [];
 
