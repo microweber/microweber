@@ -120,6 +120,14 @@
                 class="fi-main-sidebar"
             />
 
+
+        <div id="live-edit-global-template-settings-component-wrapper">
+
+            <livewire:live-edit-template-settings-sidebar />
+        </div>
+
+
+
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {

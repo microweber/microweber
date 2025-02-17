@@ -102,6 +102,7 @@ filter: sepia(100%);
                          style="background-image: url('{{ thumbnail($slide->media, 1200) }}');">
                     </div>
 
+@dump($slide->media)
                     <div class="js-slide-elements-{{ $slide->id }}" style="height: calc(100vh - 100px);">
                         <div class="mb-2">
                             <h3 class="module-slider-header-section-title js-slide-title-{{ $slide->id }}">

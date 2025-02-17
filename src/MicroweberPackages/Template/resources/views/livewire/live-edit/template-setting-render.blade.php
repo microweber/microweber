@@ -36,7 +36,7 @@
 @if(isset($setting['title']))
         <div>
             @if(isset($setting['settings']))
-                <a href="#" x-on:click="showStyleSettings = '{{$setting['url']}}'"
+                <a href="javascript:void(0)" x-on:click="showStyleSettings = '{{$setting['url']}}'"
                    class="mw-admin-action-links mw-adm-liveedit-tabs settings-main-group">
                     {{$setting['title']}}
                 </a>
