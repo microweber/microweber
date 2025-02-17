@@ -78,6 +78,10 @@ class TestimonialsTableList extends LiveEditModuleTable
             ->query($query)
             ->defaultSort('position', 'asc')
             ->columns([
+
+                ImageColumn::make('client_image')
+                    ->label('Picture')
+                    ->circular(),
                 TextColumn::make('name')
                     ->label('Name'),
                 TextColumn::make('rel_id')

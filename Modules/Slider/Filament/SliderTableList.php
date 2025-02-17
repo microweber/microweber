@@ -139,6 +139,7 @@ class SliderTableList extends LiveEditModuleTable implements HasForms, HasTable
             ->defaultSort('position', 'asc')
             ->columns([
                 ImageColumn::make('media')
+                    ->circular()
                     ->label('Media'),
                 TextColumn::make('name')
                     ->label('Name'),
