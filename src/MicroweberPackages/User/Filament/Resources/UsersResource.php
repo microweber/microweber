@@ -19,7 +19,7 @@ class UsersResource extends Resource
 
     protected static ?string $navigationIcon = 'mw-users';
 
-    protected static ?string $navigationGroup = 'Other';
+    protected static ?string $navigationGroup = 'Users';
 
     protected static ?int $navigationSort = 98;
 
