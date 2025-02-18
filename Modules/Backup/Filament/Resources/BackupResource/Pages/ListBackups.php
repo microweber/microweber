@@ -128,7 +128,7 @@ class ListBackups extends ListRecords
                 ])->afterValidation(function () {
                     rmdir_recursive(backup_cache_location());
                     $this->sessionId = SessionStepper::generateSessionId(20);
-                    $this->dispatch('backupIsStarted');
+                    $this->dispatch('backupIsStarted', sessionId: $this->sessionId);
                 }),
 
             Wizard\Step::make('Creating backup')
@@ -145,11 +145,12 @@ class ListBackups extends ListRecords
     ];
     }
 
-    public function runBackupStep() {
+    public function runBackupStep($sessionId) {
 
         // START BACKUP
         $backup = new GenerateBackup();
-        $backup->setSessionId($this->sessionId);
+        $backup->setSessionId($sessionId);
+
         $backup_by_type = 'full';
         $backup_filename = 'backup_' . date('Y-m-d_H-i-s');
 
@@ -184,7 +185,7 @@ class ListBackups extends ListRecords
             $backup->setExportFileName($backup_filename);
         }
 
-        return $backup->start();
+     return $backup->start();
 
     }
 }

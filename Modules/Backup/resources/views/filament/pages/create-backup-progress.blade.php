@@ -1,4 +1,6 @@
 <div>
+
+
     @script
     <script>
         Alpine.data('backupProgress', () => ({
@@ -9,21 +11,19 @@
             downloadUrl: null,
             exportType: null,
             filename: null,
+            sessionId: null,
 
             async startBackup() {
-                while (!this.isCompleted && this.currentStep < this.totalSteps) {
+                while (!this.isCompleted) {
                     try {
-                        const response = await $wire.runBackupStep();
-                        // console.log('Backup response:', response);
+                        const response = await $wire.runBackupStep(this.sessionId);
+                        console.log('Backup response:', response);
                         if (response && response.success) {
                             this.isCompleted = true;
                             this.currentStep = this.totalSteps;
                             this.downloadUrl = response.downloadUrl;
                             this.exportType = response.export_type;
                             this.filename = response.filename;
-
-                            console.log('Backup completed:', response);
-
                         } else if (response && response.current_step) {
                             this.currentStep = response.current_step;
                             this.totalSteps = response.total_steps;
@@ -38,7 +38,8 @@
             },
 
             init() {
-                this.$wire.on('backupIsStarted', () => {
+                this.$wire.on('backupIsStarted', (data) => {
+                    this.sessionId = data.sessionId;
                     console.log('Backup started event received');
                     this.startBackup();
                 });
@@ -48,8 +49,8 @@
     @endscript
 
     <div
-        x-data="backupProgress"
-        x-init="init"
+        x-data="backupProgress()"
+        x-init="init()"
 
     >
         <div class="flex items-center justify-center px-12 py-12">
