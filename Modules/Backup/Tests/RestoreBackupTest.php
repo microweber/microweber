@@ -2,9 +2,9 @@
 
 namespace Modules\Backup\tests;
 
+use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\GenerateBackup;
 use Modules\Content\Models\Content;
-use Modules\Core\tests\TestCase;
 use Modules\Export\Export;
 use Modules\Export\SessionStepper;
 use Modules\Import\DatabaseSave;

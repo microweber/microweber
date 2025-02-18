@@ -183,10 +183,6 @@ class Export
                 $zipExport->setExportMedia(true);
             }
 
-            if ($this->exportMedia == false) {
-                $zipExport->setExportMedia(false);
-            }
-
             if ($this->exportModules) {
             //    $zipExport->setExportModules($this->exportModules);
             }

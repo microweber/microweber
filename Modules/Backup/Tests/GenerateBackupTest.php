@@ -1,9 +1,9 @@
 <?php
 namespace Modules\Backup\tests;
 
+use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\GenerateBackup;
 use Modules\Content\Models\Content;
-use Modules\Core\tests\TestCase;
 use Modules\Export\SessionStepper;
 use Modules\Multilanguage\tests\MultilanguageTest;
 use Modules\Post\Models\Post;

@@ -14,7 +14,7 @@ use Modules\Post\Models\Post;
  * @command php phpunit.phar --filter BackupV2Test
  */
 
-class ExportTest extends TestCase
+class ZExportTest extends TestCase
 {
 	private static $_titles = array();
 	private static $_exportedFile = '';
@@ -49,11 +49,26 @@ class ExportTest extends TestCase
 	public function testFullExport() {
 
 		clearcache();
-        $sessionId = SessionStepper::generateSessionId(20);
+        $sessionId = SessionStepper::generateSessionId(3);
 
         $manager = new \MicroweberPackages\Export\Export();
         $manager->setSessionId($sessionId);
 		$manager->setExportAllData(true);
+        $step = $manager->start();
+        dump($step);
+
+        $manager = new \MicroweberPackages\Export\Export();
+        $manager->setSessionId($sessionId);
+        $manager->setExportAllData(true);
+        $step = $manager->start();
+        dump($step);
+
+
+        $manager = new \MicroweberPackages\Export\Export();
+        $manager->setSessionId($sessionId);
+        $manager->setExportAllData(true);
+
+        dd($manager->start());
 
 		$i = 0;
 		while (true) {

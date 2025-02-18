@@ -88,18 +88,22 @@ class ZipBatchExport extends DefaultExport
 
         $this->logger->setLogInfo('Archiving files batch: ' . $currentStep . '/' . $totalSteps);
 
+        dump($currentStep);
+        dump($zipFileName['filepath']);
+
         // Generate zip file
         $zip = new \ZipArchive();
-        $zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
-        $zip->setArchiveComment("Microweber backup of the userfiles folder and db.
+
+        if ($currentStep == 1) {
+            $zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
+            $zip->setArchiveComment("Microweber backup of the userfiles folder and db.
                 \nThe Microweber version at the time of backup was " . MW_VERSION . "
                 \nCreated on " . date('l jS \of F Y h:i:s A'));
+        } else {
+            $zip->open($zipFileName['filepath']);
+        }
 
         if (!empty($this->files)) {
-            /* foreach($this->files as $file) {
-             BackupExportLogger::setLogInfo('Archiving file <b>'. $file['filename'] . '</b>');
-             $zip->addFile($file['filepath'], $file['filename']);
-             } */
             $filesForZip = array_merge($filesForZip, $this->files);
         }
 
@@ -302,40 +306,14 @@ class ZipBatchExport extends DefaultExport
 
     protected function _getUserFilesPaths()
     {
+        $userFilesPath = storage_path() . DS . 'app' . DS . 'public';
+        $userFilesScanned = $this->_getDirContents($userFilesPath);
 
         $userFilesReady = array();
 
-        $userFilesPathCss = userfiles_path() . 'css';
-        $userFilesPathMedia = userfiles_path() . 'media';
-        $userFilesPathFonts = userfiles_path() . 'fonts';
-
-        if (!is_dir($userFilesPathCss)) {
-            mkdir_recursive($userFilesPathCss);
-        }
-
-        if (!is_dir($userFilesPathMedia)) {
-            mkdir_recursive($userFilesPathMedia);
-        }
-        if (!is_dir($userFilesPathFonts)) {
-            mkdir_recursive($userFilesPathFonts);
-        }
-
-        $css = $this->_getDirContents($userFilesPathCss);
-        $media = $this->_getDirContents($userFilesPathMedia);
-        $fonts = $this->_getDirContents($userFilesPathFonts);
-
-        $userFiles = array_merge($css, $media);
-        $userFiles = array_merge($userFiles, $fonts);
-
-        foreach ($userFiles as $filePath) {
-
-            $dataFile = str_replace(userfiles_path(), '', $filePath);
-
-            $dataFile = normalize_path($dataFile, false);
-            $filePath = normalize_path($filePath, false);
-
+        foreach ($userFilesScanned as $filePath) {
             $userFilesReady[] = array(
-                'filename' => $dataFile,
+                'filename' => basename($filePath),
                 'filepath' => $filePath
             );
         }
