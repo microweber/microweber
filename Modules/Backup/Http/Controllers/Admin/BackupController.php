@@ -3,6 +3,7 @@
 namespace Modules\Backup\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Modules\Backup\Backup;
 use Modules\Backup\Export;
@@ -125,15 +126,9 @@ class BackupController
 
         // Check if the file exist.
         if (file_exists($filename)) {
-
-            // Add headers
-            header('Cache-Control: public');
-            header('Content-Description: File Transfer');
-            header('Content-Disposition: attachment; filename=' . basename($filename));
-            header('Content-Length: ' . filesize($filename));
-
             // Read file
-            $this->_readfileChunked($filename);
+            return response()->download($filename, basename($filename));
+
         } else {
             return array(
                 'error' => 'File does not exist.'
@@ -274,37 +269,6 @@ class BackupController
                 );
             }
         }
-    }
-
-    private function _readfileChunked($filename, $retbytes = true)
-    {
-        $filename = sanitize_path($filename);
-
-        $chunkSize = 1024 * 1024;
-        $buffer = '';
-        $cnt = 0;
-        $handle = fopen($filename, 'rb');
-        if ($handle === false) {
-            return false;
-        }
-
-        while (!feof($handle)) {
-            $buffer = fread($handle, $chunkSize);
-            echo $buffer;
-            if (ob_get_level() > 0) {
-                ob_flush();
-                flush();
-            }
-            if ($retbytes) {
-                $cnt += strlen($buffer);
-            }
-        }
-        $status = fclose($handle);
-        if ($retbytes && $status) {
-            return $cnt; // return num. bytes delivered like readfile() does.
-        }
-
-        return $status;
     }
 
 }
