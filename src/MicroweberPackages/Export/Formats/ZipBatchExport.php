@@ -150,6 +150,14 @@ class ZipBatchExport extends DefaultExport
 
             $zip->close();
 
+            // VALIDATE ZIP
+            $validateZip = new \ZipArchive();
+            $validateZipOpen = $validateZip->open($zipFileName['filepath'], \ZipArchive::CHECKCONS);
+            if ($validateZipOpen !== true) {
+                $this->logger->setLogError('Error validating zip file.');
+                return $this->getExportLog();
+            }
+
             return $zipFileName;
         }
 
