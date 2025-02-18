@@ -31,7 +31,7 @@ class SessionStepper
 
     public static function cachePath()
     {
-        $cacheDir = userfiles_path() . self::$cachePath;
+        $cacheDir = storage_path() .'/backup/' . self::$cachePath;
         if (!is_dir($cacheDir)) {
             mkdir_recursive($cacheDir);
         }
@@ -44,13 +44,14 @@ class SessionStepper
         $sessionId = uniqid(time());
         self::$sessionId = $sessionId;
 
-        $saveSessionFile = file_put_contents(self::sessionFilepath(), json_encode([
+
+       file_put_contents(self::sessionFilepath(), json_encode([
             'started_at' => date('Y-m-d H:i:s'),
             'session_id' => $sessionId,
             'total_steps' => $totalSteps,
             'step' => 0
         ]));
-
+        $saveSessionFile = is_file(self::sessionFilepath());
         if (!$saveSessionFile) {
             throw new \Exception('Can\'t generate session id.');
         }
@@ -83,9 +84,6 @@ class SessionStepper
 
         file_put_contents(self::sessionFilepath(), json_encode($cacheFile));
     }
-
-
-
 
 
     public static function totalSteps()
