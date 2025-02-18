@@ -196,7 +196,7 @@ if ($file and is_file($file)) {
 ?>
 
 <div class="d-flex" id="codeEditorTabStyleEditorCssEditorNavTabs">
-    <div class="navbar navbar-expand-md navbar-transparent ">
+    <div class="navbar navbar-expand-md navbar-transparent px-5">
         <ul class="navbar-nav flex-column" id="codeEditorTabStyleEditorCssEditorNav" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="mw-admin-action-links mw-adm-liveedit-tabs  active" data-bs-toggle="tab"

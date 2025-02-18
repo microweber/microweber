@@ -465,9 +465,13 @@ class MicroweberTemplate
         if ($is_laravel_template) {
             // $config = app()->templates->find($template);
             $config = config()->get('templates.' . strtolower($template));
+
         } else if (is_file($file)) {
             include $file;
         }
+
+
+
 
         if (isset($config)) {
 

@@ -128,12 +128,12 @@
 
                 <x-microweber-ui::color-picker
                         x-on:loaded="(colorPickerEvent) => {
-                    let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{ $selectorToApply }}', '{{$setting['fieldSettings']['property']}}');
+                    let propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector('{{ $selectorToApply }}', '{{$setting['fieldSettings']['property']}}');
                     colorPickerEvent.target.value = propertyValue;
                     mw.top().app.on('setPropertyForSelector', (propertyChangeEvent) => {
                          if (propertyChangeEvent.selector == '{{ $selectorToApply }}' && propertyChangeEvent.property == '{{$setting['fieldSettings']['property']}}') {
                              if(propertyChangeEvent && propertyChangeEvent.value === ''){
-                               let newPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{ $selectorToApply }}', '{{$setting['fieldSettings']['property']}}');
+                               let newPropertyValue = mw.top().app?.cssEditor?.getPropertyForSelector('{{ $selectorToApply }}', '{{$setting['fieldSettings']['property']}}');
                                propertyChangeEvent.value = newPropertyValue;
                              }
 
@@ -152,14 +152,14 @@
             @if ($setting['fieldType'] == 'rangeSlider')
                 <x-microweber-ui::range-slider
                         x-on:loaded="(e) => {
-                    let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
+                    let propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
                     if(propertyValue && typeof propertyValue !== 'undefined'){
                         propertyValue = propertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
                         e.target.value = propertyValue;
                     }
 
                    mw.top().app.on('setPropertyForSelector', (propertyChangeEvent) => {
-                       let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
+                       let propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
                        if(propertyValue){
                             propertyValue = propertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
                             e.target.value = propertyValue;
@@ -168,7 +168,7 @@
 
                 }"
                         x-on:slide="(e) => {
-                    let currentPropertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
+                    let currentPropertyValue = mw.top().app?.cssEditor?.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
                     if(currentPropertyValue && typeof currentPropertyValue !== 'undefined'){
                         currentPropertyValue = currentPropertyValue.replace('{{$setting['fieldSettings']['unit']}}', '');
                         if (currentPropertyValue == event.target.value) {
@@ -215,7 +215,7 @@
                 <x-microweber-ui::font-picker
                         x-on:loaded="(e) => {
                     setTimeout((et)=> {
-                        let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
+                        let propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
                         e.target.value = propertyValue;
                         e.target.dispatchEvent(new Event('input'));
                     }, 200);
@@ -232,7 +232,7 @@
 
              <x-microweber-ui::select :options="$setting['fieldSettings']['options']"
                x-on:loaded="(e) => {
-                    let propertyValue = mw.top().app.cssEditor.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
+                    let propertyValue = mw.top().app?.cssEditor?.getPropertyForSelector('{{$selectorToApply}}', '{{$setting['fieldSettings']['property']}}');
                     e.target.value = propertyValue;
                     e.target.dispatchEvent(new Event('input'));
                 }"

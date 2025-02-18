@@ -80,6 +80,8 @@ export class ControlBox extends BaseComponent {
         this.init();
     }
 
+    #active = false;
+
     config(options) {
         this.options = options;
         this.defaults = {
@@ -91,7 +93,7 @@ export class ControlBox extends BaseComponent {
         };
         this.id = this.options.id;
         this.settings = Object.assign({}, this.defaults, this.options);
-        this.active = false;
+
         this.css('mwControlBox', css, false);
     }
 
@@ -149,10 +151,18 @@ export class ControlBox extends BaseComponent {
         this.boxContent.innerHTML = cont;
     }
 
+    visible() {
+        return this.#active;
+    }
+
+    hidden() {
+        return !this.visible();
+    }
+
     show() {
-        this.active = true;
+        this.#active = true;
         mw.$(this.box).addClass('active');
-       this.dispatch('show');
+        this.dispatch('show');
     }
 
     init() {
@@ -161,7 +171,7 @@ export class ControlBox extends BaseComponent {
     }
 
     hide() {
-        this.active = false;
+        this.#active = false;
         mw.$(this.box).removeClass('active');
         this.dispatch('hide');
     }
@@ -173,6 +183,6 @@ export class ControlBox extends BaseComponent {
     }
 
     toggle() {
-        this[this.active ? 'hide' : 'show']();
+        this[this.#active ? 'hide' : 'show']();
     }
 }

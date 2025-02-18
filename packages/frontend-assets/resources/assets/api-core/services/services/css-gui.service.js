@@ -6,8 +6,7 @@ let _show = state => {
     const action = state ? 'add' : 'remove';
     mw.top().app.guiEditorBox[state ? 'show' : 'hide']();
 
-    document.documentElement.classList[action]('live-edit-gui-editor-opened');
-     document.querySelector('#general-theme-settings').classList[action]('active');
+
 }
 
 const CSSGUIService = {
@@ -33,6 +32,10 @@ addEventListener('load', function(){
         if(e.key === "Escape") {
             CSSGUIService.hide()
         }
+    });
+
+    mw.top().app.guiEditorBox.on('hide', () => {
+        // CSSGUIService.hide()
     })
     mw.app.canvas.on('canvasDocumentKeydown',function(e){
 

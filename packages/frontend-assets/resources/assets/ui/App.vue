@@ -4,7 +4,7 @@
     <div>
         <Toolbar></Toolbar>
         <LeftSidebar></LeftSidebar>
-        <RightSidebar></RightSidebar>
+        <!--<RightSidebar></RightSidebar>-->
         <ListLayouts></ListLayouts>
         <ListModules></ListModules>
        <ElementSettingsModal></ElementSettingsModal>

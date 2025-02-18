@@ -2,6 +2,8 @@
 
 window.json2url = function(obj){ var t=[];for(var x in obj)t.push(x+"="+encodeURIComponent(obj[x]));return t.join("&").replace(/undefined/g, 'false') };
 
+mw.hash = function(b){ return b === undefined ? window.location.hash : window.location.hash = b; };
+
 
 mw.url = {
     hashStart: '',

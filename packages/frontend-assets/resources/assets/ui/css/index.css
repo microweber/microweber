@@ -74,8 +74,10 @@ a {
     transition: var(--toolbar-height-animation-speed);
 }
 
- #live_edit_side_holder {
-    transition: .15s;
+
+
+ html.live-edit-gui-editor-opened  #live_edit_side_holder {
+    width: calc(100% - var(--sidebar-end-size));
  }
 html.mw-live-edit-sidebar-start #live_edit_side_holder {
     left: var(--sidebar-start-size);

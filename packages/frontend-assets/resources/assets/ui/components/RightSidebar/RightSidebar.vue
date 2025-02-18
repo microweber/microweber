@@ -34,7 +34,7 @@
                          role="tabpanel">
                         <div>
 
-                            <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
+                            <iframe :x-src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
                                     frameborder="0"
                                     allowfullscreen></iframe>
 
@@ -159,8 +159,7 @@ export default {
 
         this.emitter.on("live-edit-ui-show", show => {
 
-            //   rightSidebarInstance.showTemplateSettings = false;
-            //  rightSidebarInstance.showElementStyleEditor = false;
+
 
             if (show === 'template-settings') {
                 rightSidebarInstance.buttonIsActive = true;

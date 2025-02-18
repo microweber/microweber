@@ -120,11 +120,59 @@
                 class="fi-main-sidebar"
             />
 
-
-        <div id="live-edit-global-template-settings-component-wrapper">
+    <style>
+    #mw-live-edit-templateSettings-editor-box{
+                    width: var(--sidebar-end-size)
+                }
+    </style>
+        <div id="live-edit-global-template-settings-component-wrapper" style="display:none;">
 
             <livewire:live-edit-template-settings-sidebar />
         </div>
+
+        <template>
+              window.addEventListener('load', () => {
+                const stylesBox = document.getElementById('style-edit-global-template-settings-holder');
+                const templateSettings = document.getElementById('live-edit-global-template-settings-component-wrapper');
+                stylesBox.innerHTML = '';
+                stylesBox.appendChild(templateSettings);
+                templateSettings.style.display = '';
+              })
+
+
+            </template>
+            <script>
+
+            addEventListener('load', () => {
+
+                const templateSettings = document.getElementById('live-edit-global-template-settings-component-wrapper');
+                const tsEditor = new (mw.top()).controlBox({
+                    content:``,
+                    position:  'right',
+                    id: 'mw-live-edit-templateSettings-editor-box',
+                    closeButton: true,
+                    title: mw.lang('Template Style Editor')
+                });
+                tsEditor.boxContent.appendChild(templateSettings);
+
+                templateSettings.style.display = '';
+
+
+
+                tsEditor.on('show', () => {
+                    document.documentElement.classList['add']('live-edit-gui-editor-opened');
+                });
+                tsEditor.on('hide', () => {
+                    document.documentElement.classList['remove']('live-edit-gui-editor-opened');
+                })
+
+                mw.top().app.templateSettingsBox = tsEditor;
+            })
+
+
+
+
+        </script>
 
 
 

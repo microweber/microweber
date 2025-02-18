@@ -46,7 +46,7 @@ export class ThemeCssVarsEditor extends MicroweberBaseClass {
         if (cssVariables && cssVariables.length > 0) {
             cssVariables.forEach(function (variableOriginal) {
                 var variableName = variableOriginal.replace('--', '');
-                var variableValue = mw.top().app.cssEditor.getPropertyForSelector(':root', variableOriginal);
+                var variableValue = mw.top().app?.cssEditor?.getPropertyForSelector(':root', variableOriginal);
                 formattedText += variableOriginal + ': ' + variableValue + ';\n';
             });
         }

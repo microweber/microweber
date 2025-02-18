@@ -31,7 +31,7 @@ class TemplateIconFonts
          [
                 'name' => 'Material Design Icons',
                 'font_family' => 'materialDesignIcons',
-                'url' =>  $basePath . '/mdi/css/materialdesignicons.min.css',
+                'url' =>  $basePath . '/mdi/materialdesignicons.min.css',
                 'icon_class' => 'material-design-icons',
             ],
 

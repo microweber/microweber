@@ -70,10 +70,19 @@ export default {
 
             this.$refs.moreSettingsDropdown.classList.remove('show');
 
+            console.log(name)
+
             if(name !== 'style-editor') {
                 CSSGUIService.hide()
             }
             if(name === 'template-settings') {
+                mw.top().app.templateSettingsBox.toggle();
+
+
+
+
+
+return;
                 if(!this.buttonIsActive){
                     this.buttonIsActive = true;
                     this.buttonIsActiveStyleEditor = false;
@@ -85,7 +94,7 @@ export default {
                 }
 
             } else if(name === 'style-editor') {
-
+                mw.top().app.templateSettingsBox.hide()
                 CSSGUIService.toggle()
 
                 return;

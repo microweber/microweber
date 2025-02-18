@@ -149,7 +149,7 @@ this.showRadioButtons = false;
             if (this.selectedClass && this.predefinedClassesVariables[this.selectedClass]) {
                 if (this.activeNode) {
                     Object.keys(this.predefinedClassesVariables[this.selectedClass]).forEach(key => {
-                        var variableValue = mw.top().app.cssEditor.getPropertyForSelector( this.activeNode, key);
+                        var variableValue = mw.top().app?.cssEditor?.getPropertyForSelector( this.activeNode, key);
 
 
                         if(variableValue){
