@@ -2,6 +2,7 @@
 
 namespace Modules\Backup\Http\Controllers\Admin;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -126,9 +127,7 @@ class BackupController
 
         // Check if the file exist.
         if (file_exists($filename)) {
-            // Read file
-            return response()->download($filename, basename($filename));
-
+            return response()->download($filename, $fileId);
         } else {
             return array(
                 'error' => 'File does not exist.'

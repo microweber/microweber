@@ -93,9 +93,12 @@ class ZipBatchExport extends DefaultExport
 
         if ($currentStep == 1) {
             $zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
-            $zip->setArchiveComment("Microweber backup of the userfiles folder and db.
-                \nThe Microweber version at the time of backup was " . MW_VERSION . "
-                \nCreated on " . date('l jS \of F Y h:i:s A'));
+            /**
+             * THIS COMMENTS BROKE THE ZIP FILE WHEN YOU TRY TO DOWNLOAD WITH LARAVEL RESPONSE
+             */
+//            $zip->setArchiveComment("Microweber backup of the userfiles folder and db.
+//                \nThe Microweber version at the time of backup was " . MW_VERSION . "
+//                \nCreated on " . date('l jS \of F Y h:i:s A'));
         } else {
             $zip->open($zipFileName['filepath']);
         }
