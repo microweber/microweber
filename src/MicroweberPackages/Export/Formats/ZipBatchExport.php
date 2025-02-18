@@ -88,9 +88,6 @@ class ZipBatchExport extends DefaultExport
 
         $this->logger->setLogInfo('Archiving files batch: ' . $currentStep . '/' . $totalSteps);
 
-        dump($currentStep);
-        dump($zipFileName['filepath']);
-
         // Generate zip file
         $zip = new \ZipArchive();
 
@@ -146,6 +143,12 @@ class ZipBatchExport extends DefaultExport
         if (SessionStepper::isFinished()) {
             $this->logger->setLogInfo('No files in batch for current step.');
             $this->_finishUp();
+
+            if (method_exists($zip, 'setCompressionIndex')) {
+                $zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
+            }
+
+            $zip->close();
 
             return $zipFileName;
         }
