@@ -10,10 +10,7 @@ description: Bootstrap button
 */
 @endphp
 
-
-@if(isset($hasCustomStyles) && $hasCustomStyles)
-    @include('modules.btn::components.custom-css')
-@endif
+@include('modules.btn::components.custom-css')
 
 
 @if($action == 'submit')
