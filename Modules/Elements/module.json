@@ -1,0 +1,11 @@
+{
+    "name": "Elements",
+    "alias": "elements",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Elements\\Providers\\ElementsServiceProvider"
+    ],
+    "files": []
+}

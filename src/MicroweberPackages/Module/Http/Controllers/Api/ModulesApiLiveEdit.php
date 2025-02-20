@@ -111,6 +111,7 @@ class ModulesApiLiveEdit extends Controller
 
 
             $modulesFromRegistry = app()->microweber->getModulesDetails();
+
             $modules = mw()->module_manager->get('installed=1&ui=1');
             $module_layouts = mw()->module_manager->get('installed=1&module=layouts');
             $hide_from_display_list = array('layouts', 'template_settings');
@@ -150,7 +151,7 @@ class ModulesApiLiveEdit extends Controller
 
             if (!empty($modules)) {
                 foreach ($modules as $mod) {
-                     if (isset($mod['as_element']) and intval($mod['as_element']) == 1) {
+                    if (isset($mod['as_element']) and $mod['as_element']) {
                         $sortout_el[] = $mod;
                     } else {
                         $sortout_mod[] = $mod;

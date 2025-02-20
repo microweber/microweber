@@ -24,6 +24,7 @@ trait HasMicroweberModule
 
         return '';
     }
+
     /**
      * Get the type of the module.
      *
@@ -64,6 +65,7 @@ trait HasMicroweberModule
         }
         return 0;
     }
+
     /**
      * Get the settings component of the module.
      *
@@ -77,4 +79,12 @@ trait HasMicroweberModule
         return '';
     }
 
+
+    public static function isStaticElement(): bool
+    {
+        if (isset(static::$isStaticElement)) {
+            return static::$isStaticElement;
+        }
+        return false;
+    }
 }

@@ -32,6 +32,8 @@ abstract class BaseModule
     public static array $translatableOptions = [];
 
 
+    protected static bool $isStaticElement = false;
+
     public function __construct($params = [])
     {
         $this->params = $params;

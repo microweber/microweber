@@ -132,6 +132,7 @@ trait ManagesModules
                 'name' => $module::getName(),
                 'icon' => $module::getIcon(),
                 'position' => $module::getPosition() ?? 0,
+                'as_element' => $module::isStaticElement() ?? null,
             ];
         }
         //sort by position
