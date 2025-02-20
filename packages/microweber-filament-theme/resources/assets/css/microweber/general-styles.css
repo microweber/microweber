@@ -839,3 +839,19 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .module-editor-css-editor .navbar {
     @apply p-3;
 }
+
+.mw-defaults .mw-domtree-item > span {
+    @apply p-1;
+}
+
+.mw-domtree li.selected > span {
+    @apply text-black bg-gray-100 dark:bg-slate-800;
+}
+
+.mw-domtree li.selectable-true.hover > span {
+    @apply text-black bg-gray-100 dark:bg-slate-800;
+}
+
+.mw-domtree-item-opener {
+
+}

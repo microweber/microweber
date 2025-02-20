@@ -29,15 +29,9 @@
     min-height: calc(100% - 30px);
     min-height: -webkit-calc(100% - 30px);
 }
-.mw-domtree li.selectable-true.hover > span {
-    background-color: #000;
-    color: #fff;
-}
 
 .mw-domtree li.selected > span {
-    background-color: #000;
     padding-inline-start: 5px;
-    color: #fff
 }
 
 .mw-domtree li.selectable-true{
@@ -99,7 +93,7 @@
     cursor: pointer;
     vertical-align: top;
     position: relative;
-    top: 3px;
+    top: 10px;
     margin-inline-end: 5px;
 }
 
