@@ -1,4 +1,0 @@
-admin.php
-edit.php
-list.php
-project_select.php
