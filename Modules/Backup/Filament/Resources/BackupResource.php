@@ -22,7 +22,9 @@ class BackupResource extends Resource
 {
     protected static ?string $model = Backup::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-uturn-left';
+
+    protected static ?int $navigationSort = 9999;
 
     public static $sessionId = null;
     private static $restoreFile = null;
