@@ -1,16 +1,12 @@
 <?php
-
 /*
-
 type: layout
-
 name: Images
-
 description: Category Images Layout
-
 */
-
 ?>
+
+@include('modules.category::partials.categories_data')
 
 <style>
 .module-categories-template-images:after {
@@ -71,9 +67,9 @@ description: Category Images Layout
                 @if($picture)
                     <span class="category-image" style="background-image: url('{{ $picture }}');"></span>
                 @else
-                    <span class="category-image" style="background-image: url('{{ module_url('category') }}/category_images.svg');"></span>
+                    <span class="category-image" style="background-image: url('{{ asset('modules/category/img/category_images.svg') }}');"></span>
                 @endif
-                
+
                 <strong>{{ $title }}</strong>
                 @if($itemsCount)
                     <span class="items-count">({{ $itemsCount }})</span>
