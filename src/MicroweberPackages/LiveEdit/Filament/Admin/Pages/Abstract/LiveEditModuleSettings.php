@@ -299,7 +299,9 @@ abstract class LiveEditModuleSettings extends Page
             if ($moduleTemplatesFromSite) {
                 $moduleTemplates = array_merge($moduleTemplates, $moduleTemplatesFromSite);
             }
-            $moduleTemplates = array_unique($moduleTemplates, SORT_REGULAR);
+            if($moduleTemplates) {
+                $moduleTemplates = array_unique($moduleTemplates, SORT_REGULAR);
+            }
         }
 
         $optionGroup = $this->getOptionGroup();

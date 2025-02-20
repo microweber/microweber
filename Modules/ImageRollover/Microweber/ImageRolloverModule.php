@@ -10,7 +10,7 @@ class ImageRolloverModule extends BaseModule
 {
 
     public static string $name = 'Image Rollover';
-    public static string $module = 'before_after';
+    public static string $module = 'image_rollover';
     public static string $icon = 'modules.image_rollover-icon';
     public static string $categories = 'media';
     public static int $position = 3;
@@ -30,7 +30,7 @@ class ImageRolloverModule extends BaseModule
         $size = get_option('size', $this->params['id'] ?? $this->params['size'] ?? '');
 
 
-        if(!$default_image){
+        if (!$default_image) {
             $default_image = asset('modules/image_rollover/img/default_image.jpg');
         }
 
