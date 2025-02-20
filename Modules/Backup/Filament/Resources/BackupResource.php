@@ -27,6 +27,8 @@ class BackupResource extends Resource
     public static $sessionId = null;
     private static $restoreFile = null;
 
+    public static $restoreType = null;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -74,25 +76,30 @@ class BackupResource extends Resource
                                         ->label('Restore Type')
                                         ->descriptions([
                                             'delete_all' => 'Delete all website content & restore',
-                                            'overwrite' => 'Overwrite the website content from backup',
-                                            'overwrite_by_names' => 'Try to overwrite content by Names & Titles',
+                                            'overwrite_by_id' => 'Overwrite the website content from backup',
+                                            'overwrite_by_titles' => 'Try to overwrite content by Names & Titles',
                                         ])
                                         ->icons([
                                             'delete_all' => 'heroicon-o-trash',
-                                            'overwrite' => 'heroicon-o-arrow-path',
-                                            'overwrite_by_names' => 'heroicon-o-arrow-down-on-square-stack',
+                                            'overwrite_by_id' => 'heroicon-o-arrow-path',
+                                            'overwrite_by_titles' => 'heroicon-o-arrow-down-on-square-stack',
                                         ])
                                         ->options([
                                             'delete_all' => 'Delete & Restore',
-                                            'overwrite' => 'Overwrite',
-                                            'overwrite_by_names' => 'Overwrite by Names & Titles',
+                                            'overwrite_by_id' => 'Overwrite',
+                                            'overwrite_by_titles' => 'Overwrite by Names & Titles',
                                         ])
                                         ->default('content_backup')
                                         ->required()
-                                ])->afterValidation(function ($livewire, $record) {
+                                ])->afterValidation(function ($livewire, $record, $state) {
                                     self::$restoreFile = $record->filename;
                                     self::$sessionId = SessionStepper::generateSessionId(20);
-                                    $livewire->dispatch('restoreIsStarted', sessionId: self::$sessionId, restoreFile: self::$restoreFile);
+                                    self::$restoreType = $state['restore_type'];
+                                    $livewire->dispatch('restoreIsStarted',
+                                        sessionId: self::$sessionId,
+                                        restoreFile: self::$restoreFile,
+                                        restoreType: self::$restoreType
+                                    );
                                 }),
 
                             Wizard\Step::make('Restore')

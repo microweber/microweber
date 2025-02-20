@@ -148,17 +148,35 @@ class ListBackups extends ListRecords
 
     public function runRestoreStep($params) {
 
+        if (!isset($params['sessionId'])) {
+            return false;
+        }
+        if (!isset($params['restoreFile'])) {
+            return false;
+        }
+        if (!isset($params['restoreType'])) {
+            return false;
+        }
+
         $restoreFile = backup_location() . $params['restoreFile'];
 
         // START RESTORE
         $restore = new Restore();
         $restore->setSessionId($params['sessionId']);
         $restore->setFile($restoreFile);
-        $restore->setOvewriteById(true);
+
+        if ($params['restoreType'] == 'delete_all') {
+            $restore->setToDeleteOldContent(true);
+            $restore->setToDeleteOldCssFiles(true);
+        } else if ($params['restoreType'] == 'overwrite_by_id') {
+            $restore->setOvewriteById(true);
+            $restore->setWriteOnDatabase(true);
+        } else if ($params['restoreType'] == 'overwrite_by_titles') {
+            $restore->setOvewriteById(false);
+            $restore->setWriteOnDatabase(true);
+        }
+
         $restore->setBatchImporting(true);
-        $restore->setWriteOnDatabase(true);
-        $restore->setToDeleteOldContent(true);
-        $restore->setToDeleteOldCssFiles(true);
 
         return $restore->start();
 
