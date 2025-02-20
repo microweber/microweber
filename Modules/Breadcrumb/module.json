@@ -1,0 +1,11 @@
+{
+    "name": "Breadcrumb",
+    "alias": "breadcrumb",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Breadcrumb\\Providers\\BreadcrumbServiceProvider"
+    ],
+    "files": []
+}
