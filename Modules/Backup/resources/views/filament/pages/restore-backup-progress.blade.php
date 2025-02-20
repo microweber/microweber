@@ -10,6 +10,7 @@
             percentage: 0,
             sessionId: null,
             restoreFile: null,
+            log: null,
 
             async restoreBackup() {
                 while (!this.isCompleted) {
@@ -26,6 +27,9 @@
                             this.currentStep = response.current_step;
                             this.totalSteps = response.total_steps;
                             this.percentage = response.percentage;
+                            if (response.log) {
+                                this.log = response.log;
+                            }
                         } else if (response && response.error) {
                             alert('Restore error: ' + response.error);
                             break;
@@ -74,6 +78,10 @@
                         class="absolute h-full bg-blue-500 rounded-full"
                         :style="'width: ' + ((currentStep / totalSteps) * 100) + '%'"
                     ></div>
+                </div>
+
+                <div x-show="!isCompleted" class="mt-2 text-sm text-gray-500 overflow-hidden" style="height: 150px">
+                    <span x-html="log"></span>
                 </div>
 
                 <div class="mt-4 text-center" x-show="isCompleted">
