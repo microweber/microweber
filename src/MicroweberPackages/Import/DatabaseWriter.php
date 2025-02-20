@@ -426,14 +426,16 @@ class DatabaseWriter
 
     public function getImportLog()
     {
+        $logContent = $this->logger->getLog();
+        $logContent = str_replace("\n", "<br>", $logContent);
 
         $log = array();
         $log['current_step'] = SessionStepper::currentStep();
         $log['total_steps'] = SessionStepper::totalSteps();
         $log['percentage'] = SessionStepper::percentage();
         $log['session_id'] = SessionStepper::$sessionId;
-
         $log['data'] = false;
+        $log['log'] = $logContent;
 
         if (SessionStepper::isFirstStep()) {
             $log['started'] = true;

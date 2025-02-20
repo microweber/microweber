@@ -2,8 +2,8 @@
 
 namespace Modules\Backup;
 
+use MicroweberPackages\Import\Import;
 use Modules\Backup\Loggers\BackupLogger;
-use Modules\Import\Import;
 
 class Restore extends Import
 {
