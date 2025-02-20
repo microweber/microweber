@@ -43,11 +43,11 @@ class BreadcrumbLinks
         if ($cur_page != false) {
             if ($start_from != 'category') {
 
-                $content = $this->get_by_id($cur_page);
+                $content = get_content_by_id($cur_page);
                 if (isset($content['id'])) {
                     $result_item = array();
                     $result_item['title'] = $content['title'];
-                    $result_item['url'] = $this->link($content['id']);
+                    $result_item['url'] = content_link($content['id']);
                     $result_item['description'] = $content['description'];
                     $result_item['is_active'] = false;
 
@@ -68,16 +68,16 @@ class BreadcrumbLinks
                 }
 
 
-                $content_parents = $this->get_parents($cur_page);
+                $content_parents = content_parents($cur_page);
                 if (!empty($content_parents)) {
                     foreach (($content_parents) as $item) {
                         $item = intval($item);
                         if ($item > 0) {
-                            $content = $this->get_by_id($item);
+                            $content = get_content_by_id($item);
                             if (isset($content['id'])) {
                                 $result_item = array();
                                 $result_item['title'] = $content['title'];
-                                $result_item['url'] = $this->link($content['id']);
+                                $result_item['url'] = content_link($content['id']);
                                 $result_item['description'] = $content['description'];
                                 if ($cur_content == $content['id']) {
                                     $result_item['is_active'] = true;
@@ -100,7 +100,7 @@ class BreadcrumbLinks
         }
 
         if ($cur_category != false) {
-            $cur_category_data = $this->app->category_manager->get_by_id($cur_category);
+            $cur_category_data = get_category_by_id($cur_category);
             if ($cur_category_data != false and isset($cur_category_data['id'])) {
                 $cat_parents = $this->app->category_manager->get_parents($cur_category);
 
@@ -108,7 +108,7 @@ class BreadcrumbLinks
                     foreach (($cat_parents) as $item) {
                         $item = intval($item);
                         if ($item > 0) {
-                            $content = $this->app->category_manager->get_by_id($item);
+                            $content = get_category_by_id($item);
                             if (isset($content['id'])) {
                                 $result_item = array();
                                 $result_item['title'] = $content['title'];
@@ -117,7 +117,7 @@ class BreadcrumbLinks
                                 if (isset($params['current-page-as-root']) and $params['current-page-as-root'] != false) {
                                     $result_item['url'] = page_link() . '/category:' . $content['id'];
                                 } else {
-                                    $result_item['url'] = $this->app->category_manager->link($content['id']);
+                                    $result_item['url'] = category_link($content['id']);
                                 }
 
 
@@ -138,7 +138,7 @@ class BreadcrumbLinks
                 $result_item = array();
                 $result_item['title'] = $content['title'];
                 $result_item['description'] = $content['description'];
-                $result_item['url'] = $this->app->category_manager->link($content['id']);
+                $result_item['url'] = category_link($content['id']);
                 $result_item['content_type'] = 'category';
                 if ($cur_content == false and $cur_category == $content['id']) {
                     $result_item['is_active'] = true;
@@ -150,11 +150,11 @@ class BreadcrumbLinks
         }
 
         if ($cur_content != false) {
-            $content = $this->get_by_id($cur_content);
+            $content = get_content_by_id($cur_content);
             if (isset($content['id'])) {
                 $result_item = array();
                 $result_item['title'] = $content['title'];
-                $result_item['url'] = $this->link($content['id']);
+                $result_item['url'] = content_link($content['id']);
                 $result_item['description'] = $content['description'];
                 if ($cur_content == $content['id']) {
                     $result_item['is_active'] = true;
