@@ -1,0 +1,12 @@
+{
+    "name": "ImageRollover",
+    "alias": "image_rollover",
+    "description": "Create interactive image rollovers where one image changes to another when hovered over.",
+    "keywords": ["microweber", "image", "rollover", "hover", "effect"],
+    "priority": 0,
+    "providers": [
+        "Modules\\ImageRollover\\Providers\\ImageRolloverServiceProvider"
+    ],
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,30 @@
+{
+    "name": "modules/imagerollover",
+    "description": "Create interactive image rollovers where one image changes to another when hovered over.",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ImageRollover\\": "",
+            "Modules\\ImageRollover\\Database\\Factories\\": "database/factories/",
+            "Modules\\ImageRollover\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\ImageRollover\\Tests\\": "Tests/"
+        }
+    }
+}
