@@ -39,20 +39,20 @@ class CategoryTreeData
         //asort($params);
         $function_cache_id = false;
         //$function_cache_id = __FUNCTION__ . crc32(serializeClosure($params));
-         $active_cat = false;
+        $active_cat = false;
         if (defined('CATEGORY_ID')) {
-        //    $function_cache_id .= CATEGORY_ID;
+            //    $function_cache_id .= CATEGORY_ID;
             $active_cat = CATEGORY_ID;
         }
 
         $cat_url = $this->app->category_manager->get_category_id_from_url();
         if ($cat_url != false) {
-          //  $function_cache_id .= $cat_url;
+            //  $function_cache_id .= $cat_url;
             $active_cat = $cat_url;
         } else {
             $cat_url = $this->app->url_manager->param('categories', true);
             if ($cat_url != false) {
-          //      $function_cache_id .= $cat_url;
+                //      $function_cache_id .= $cat_url;
             } else {
                 $cat_url = category_id();
             }
@@ -131,7 +131,7 @@ class CategoryTreeData
         if (isset($params['subtype_value']) and $params['subtype_value'] != false) {
             $parent = $params['subtype_value'];
         }
-         $skip123 = false;
+        $skip123 = false;
         $fors = array();
         if (isset($params['parent']) and $params['parent'] != false) {
             $parent = intval($params['parent']);
@@ -142,9 +142,6 @@ class CategoryTreeData
             }
 
             if (!isset($params['content_id']) and isset($params['for']) and $params['for'] != false) {
-                $table_assoc_name = $this->app->database_manager->assoc_table_name($params['for']);
-                $skip123 = true;
-                $str0 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&data_type=category&what=categories&' . 'parent_id=0&rel_type=' . $table_assoc_name;
                 $cat_get_params = array();
                 $cat_get_params['is_deleted'] = 0;
                 $cat_get_params['order_by'] = 'position asc';
@@ -153,9 +150,9 @@ class CategoryTreeData
                 $cat_get_params['no_cache'] = 1;
                 $cat_get_params['parent_id'] = 0;
                 $cat_get_params['table'] = $table;
-                $cat_get_params['rel_type'] = $table_assoc_name;
-                if(isset($params['filter'])){
-                $cat_get_params['filter'] = $params['filter'];
+                $cat_get_params['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
+                if (isset($params['filter'])) {
+                    $cat_get_params['filter'] = $params['filter'];
 
                 }
                 if ($users_can_create_content != false) {
@@ -168,8 +165,21 @@ class CategoryTreeData
 
             if (!isset($params['content_id']) and isset($params['try_rel_id']) and intval($params['try_rel_id']) != 0) {
                 $skip123 = true;
-                $str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_type=content&rel_id=' . $params['try_rel_id'];
-                $fors1 = $this->app->database_manager->get($str1);
+                //$str1 = 'no_cache=true&is_deleted=0&orderby=position asc&table=' . $table . '&limit=1000&parent_id=0&rel_type=content&rel_id=' . $params['try_rel_id'];
+
+                $cat_get_params = array();
+                $cat_get_params['is_deleted'] = 0;
+                $cat_get_params['order_by'] = 'position asc';
+                $cat_get_params['limit'] = '1000';
+                $cat_get_params['data_type'] = 'category';
+                $cat_get_params['no_cache'] = 1;
+                $cat_get_params['parent_id'] = 0;
+                $cat_get_params['table'] = $table;
+                $cat_get_params['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
+                $cat_get_params['rel_id'] = $params['try_rel_id'];
+
+
+                $fors1 = $this->app->database_manager->get($cat_get_params);
                 if (is_array($fors1)) {
                     $fors = array_merge($fors, $fors1);
                 }
@@ -230,10 +240,11 @@ class CategoryTreeData
             $cat_get_params['parent_id'] = 0;
             $cat_get_params['rel_id'] = ($params['rel_id']);
             $cat_get_params['table'] = $table;
-            $cat_get_params['rel_type'] = $table_assoc_name;
-            if(isset($params['filter'])){
+            $cat_get_params['rel_type'] = morph_name($params['rel_type']);
+            if (isset($params['filter'])) {
                 $cat_get_params['filter'] = $params['filter'];
             }
+
             if (isset($parent) and $parent != false) {
                 $page_for_parent = $this->app->category_manager->get_page($parent);
                 $cats_for_content = $this->app->category_manager->get_for_content($params['rel_id']);
@@ -265,10 +276,10 @@ class CategoryTreeData
 
                 if (isset($cat['id'])) {
 
-                    if(isset($params['only_cats_with_active_products']) && $params['only_cats_with_active_products'] == true) {
+                    if (isset($params['only_cats_with_active_products']) && $params['only_cats_with_active_products'] == true) {
                         //Skip those without products in them or their children
                         $hasActiveProducts = $this->hasActiveProductsInItsTree($cat['id']);
-                        if($hasActiveProducts == false) {
+                        if ($hasActiveProducts == false) {
                             continue;
                         }
                     }
@@ -288,7 +299,7 @@ class CategoryTreeData
                         $visible_on_frontend,
                         $depth_level_counter = 0,
                         $max_level,
-                        $only_ids= false,
+                        $only_ids = false,
                         $params
                     );
 
@@ -296,11 +307,11 @@ class CategoryTreeData
 //                        unset($tree[0]);
 //                    }
 
-                    if(in_array($cat['id'], $knownChildren)) {
+                    if (in_array($cat['id'], $knownChildren)) {
                         continue;
                     }
 
-                    if(in_array($cat['id'], $knownParents)) {
+                    if (in_array($cat['id'], $knownParents)) {
                         continue;
                     }
 
@@ -311,21 +322,21 @@ class CategoryTreeData
 
                         $cat['children'] = $tree;
                     }
-                    if(!in_array($cat['id'], $knownChildren)) {
+                    if (!in_array($cat['id'], $knownChildren)) {
                         $tree_data[] = $cat;
-                     }
-   if(!in_array($cat['id'], $knownParents)) {
-       $knownParents[] = $cat['id'];
+                    }
+                    if (!in_array($cat['id'], $knownParents)) {
+                        $knownParents[] = $cat['id'];
                         $tree_data[] = $cat;
-                     }
+                    }
 
-                   // $tree_data[] = $cat;
+                    // $tree_data[] = $cat;
                 }
             }
 
         }
 
-        if(isset($params['in_stock'])){
+        if (isset($params['in_stock'])) {
             $tree_data = $this->inStock($tree_data, $params['in_stock']);
         }
 
@@ -336,24 +347,24 @@ class CategoryTreeData
     {
         $originalTree = $treeData;
 
-        foreach($treeData as $key => $category) {
+        foreach ($treeData as $key => $category) {
 
-            $check  = app()->category_repository->hasProductsInStock($category['id']);
+            $check = app()->category_repository->hasProductsInStock($category['id']);
 
-           if($check && empty($category['children'])) {
-             unset($originalTree[$key]);
-           } else if(!empty($category['children'])) {
-                foreach($category['children'] as $index => $cat) {
+            if ($check && empty($category['children'])) {
+                unset($originalTree[$key]);
+            } else if (!empty($category['children'])) {
+                foreach ($category['children'] as $index => $cat) {
                     $childrenHasAviableProds = $this->childCategoriesHasAviableProducts($cat);
-                    if($childrenHasAviableProds == false) {
+                    if ($childrenHasAviableProds == false) {
                         unset($originalTree[$key]);
                         break;
                     }
                 }
-           }
+            }
         }
 
-        if($onlyCategoriesWithAviableProducts) {
+        if ($onlyCategoriesWithAviableProducts) {
             return $originalTree;
         } else {
             return array_recursive_diff($treeData, $originalTree);
@@ -362,19 +373,17 @@ class CategoryTreeData
 
     private function childCategoriesHasAviableProducts($categoryData)
     {
-        $check  = app()->category_repository->hasProductsInStock($categoryData['id']);
-        if($check) {
+        $check = app()->category_repository->hasProductsInStock($categoryData['id']);
+        if ($check) {
             return true;
-        } else if(!empty($categoryData['children'])) {
-             foreach($categoryData['children'] as $index => $cat) {
+        } else if (!empty($categoryData['children'])) {
+            foreach ($categoryData['children'] as $index => $cat) {
                 return $this->childCategoriesHasAviableProducts($cat);
-             }
+            }
         } else {
             return false;
         }
     }
-
-
 
 
     private function _build_children_array($parent,
@@ -398,7 +407,7 @@ class CategoryTreeData
             }
         }
 
-         $db_t_content = 'content';
+        $db_t_content = 'content';
 
         $table = $db_categories = 'categories';
         $parent = intval($parent);
@@ -444,7 +453,7 @@ class CategoryTreeData
         $cat_get_params['table'] = $table;
 
         $cat_get_params['parent_id'] = $parent;
-        if(isset($params['filter'])){
+        if (isset($params['filter'])) {
             $cat_get_params['filter'] = $params['filter'];
 
         }
@@ -491,10 +500,10 @@ class CategoryTreeData
             $i = 0;
             foreach ($result as $item) {
 
-                if(isset($params['only_cats_with_active_products']) && $params['only_cats_with_active_products'] == true) {
+                if (isset($params['only_cats_with_active_products']) && $params['only_cats_with_active_products'] == true) {
                     //Skip those without products in them or their children
                     $hasActiveProducts = $this->hasActiveProductsInItsTree($item['id']);
-                    if($hasActiveProducts == false) {
+                    if ($hasActiveProducts == false) {
                         continue;
                     }
                 }
@@ -507,7 +516,7 @@ class CategoryTreeData
                 $id = intval($item['id']);
                 $remove_ids[] = $id;
 
-                $item['children'] = $this->_build_children_array($id, $remove_ids, $add_ids, $include_first = false, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids,$params);
+                $item['children'] = $this->_build_children_array($id, $remove_ids, $add_ids, $include_first = false, $content_type, $orderby, $only_with_content, $visible_on_frontend, $depth_level_counter, $max_level, $only_ids, $params);
                 $return[] = $item;
             }
             return $return;
