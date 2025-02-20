@@ -5,10 +5,12 @@ namespace Modules\Rating\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Rating\Filament\RatingModuleSettings;
+use Modules\Rating\Filament\RatingTableList;
 use Modules\Rating\Filament\Resources\RatingModuleResource;
 use Modules\Rating\Microweber\RatingModule;
 
@@ -38,6 +40,7 @@ class RatingServiceProvider extends BaseModuleServiceProvider
 
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(RatingModuleSettings::class);
+        Livewire::component('modules.rating.filament.rating-table-list', RatingTableList::class);
 
         // Register Filament resource
         FilamentRegistry::registerResource(RatingModuleResource::class);

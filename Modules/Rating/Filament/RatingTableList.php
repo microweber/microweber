@@ -86,6 +86,6 @@ class RatingTableList extends Component implements HasForms, HasTable
 
     public function render()
     {
-        return view('modules.rating::rating-table-list');
+        return view('modules.rating::filament.rating-table-list');
     }
 }

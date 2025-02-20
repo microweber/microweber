@@ -16,15 +16,15 @@ class RatingModuleSettings extends LiveEditModuleSettingsTable
 
     public function form(Form $form): Form
     {
-        return $form
+         return $form
             ->schema([
                 Tabs::make('Rating')
                     ->tabs([
                         Tabs\Tab::make('Main settings')
                             ->schema([
                                 Livewire::make(RatingTableList::class, [
-                                    'rel_id' => $this->params['id'] ?? null,
-                                    'rel_type' => 'module',
+                                    'rel_id' => $this->params['rel_id'] ?? $this->params['rel-id'] ?? $this->params['id'] ?? null,
+                                    'rel_type' => $this->params['rel_type'] ?? $this->params['rel-type'] ?? 'module',
                                 ])
                             ]),
                         Tabs\Tab::make('Design')

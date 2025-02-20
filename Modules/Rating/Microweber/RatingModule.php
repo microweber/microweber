@@ -22,13 +22,17 @@ class RatingModule extends BaseModule
         $viewData = $this->getViewData();
 
         $require_comment = false;
-        $rel_type = morph_name(\Modules\Content\Models\Content::class);
-        $rel_id = content_id();
+        //  $rel_type = morph_name(\Modules\Content\Models\Content::class);
+        $rel_type = 'module';
+        //  $rel_id = content_id();
+        $rel_id = $this->params['id'];
 
         if (isset($this->params['content_id'])) {
             $rel_id = $this->params['content_id'];
+            $rel_type = morph_name(\Modules\Content\Models\Content::class);
         } elseif (isset($this->params['content-id'])) {
             $rel_id = $this->params['content-id'];
+            $rel_type = morph_name(\Modules\Content\Models\Content::class);
         } else if (isset($this->params['rel_id'])) {
             $rel_id = $this->params['rel_id'];
         } elseif (isset($this->params['rel-id'])) {
@@ -39,6 +43,10 @@ class RatingModule extends BaseModule
             $rel_type = $this->params['rel_type'];
         } elseif (isset($this->params['rel-type'])) {
             $rel_type = $this->params['rel-type'];
+        }
+
+        if (isset($this->params['rel_type']) && $this->params['rel_type'] == 'content') {
+            $rel_type = morph_name(\Modules\Content\Models\Content::class);
         }
 
         if (isset($this->params['comment'])) {
@@ -67,7 +75,7 @@ class RatingModule extends BaseModule
             $rating = $rating_cache;
         }
 
-        $rating = (int) $rating;
+        $rating = (int)$rating;
 
         $template = isset($viewData['template']) ? $viewData['template'] : 'default';
         if (!view()->exists(static::$templatesNamespace . '.' . $template)) {
