@@ -12,6 +12,7 @@ use MicroweberPackages\Database\Traits\HasSlugTrait;
 use MicroweberPackages\Database\Traits\MaxPositionTrait;
 use MicroweberPackages\Multilanguage\Models\Traits\HasMultilanguageTrait;
 use Modules\Category\Models\ModelFilters\CategoryFilter;
+use Modules\Category\Traits\SetParentIdToCategoryTrait;
 use Modules\ContentData\Traits\ContentDataTrait;
 use Modules\ContentField\Concerns\HasContentFieldTrait;
 use Modules\Media\Traits\MediaTrait;
@@ -30,6 +31,7 @@ class Category extends Model
     use MediaTrait;
     use HasSlugTrait;
     use HasMultilanguageTrait;
+    use SetParentIdToCategoryTrait;
 
     protected $table = 'categories';
 
@@ -78,6 +80,9 @@ class Category extends Model
         'category_subtype_settings' => 'array',
         'position' => 'integer',
         'parent_id' => 'integer',
+        'is_active' => 'integer',
+        'is_hidden' => 'integer',
+        'is_deleted' => 'integer',
     ];
 
     protected $searchable = [
@@ -104,6 +109,7 @@ class Category extends Model
     public $cacheTagsToClear = ['content', 'content_fields_drafts', 'menu', 'content_fields', 'content_data', 'categories'];
 
     public $translatable = ['title', 'url', 'description', 'content', 'category_meta_keywords', 'category_meta_description', 'category_meta_title'];
+
 
     public function modelFilter()
     {
