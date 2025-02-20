@@ -18,13 +18,13 @@ use Modules\Backup\Filament\Resources\BackupResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Modules\Backup\GenerateBackup;
+use Modules\Backup\Restore;
 
 class ListBackups extends ListRecords
 {
     protected static string $resource = BackupResource::class;
 
     public $sessionId = null;
-    public $backupFile = null;
 
     protected function getHeaderActions(): array
     {
@@ -37,7 +37,7 @@ class ListBackups extends ListRecords
                         ->label('Backup File')
                         ->placeholder('Select backup file'),
                 ])->afterFormValidated(function () {
-                    dd($this->backupFile);
+
                 }),
             Actions\Action::make('create_backup')
                 ->modalSubmitAction(false)
@@ -143,6 +143,23 @@ class ListBackups extends ListRecords
 
           ])
     ];
+    }
+
+
+    public function runRestoreStep($params) {
+
+        // START RESTORE
+        $restore = new Restore();
+        $restore->setSessionId($params['sessionId']);
+        $restore->setFile($params['restoreFile']);
+        $restore->setOvewriteById(true);
+        $restore->setBatchImporting(true);
+        $restore->setWriteOnDatabase(true);
+        $restore->setToDeleteOldContent(true);
+        $restore->setToDeleteOldCssFiles(true);
+
+        return $restore->start();
+
     }
 
     public function runBackupStep($sessionId) {
