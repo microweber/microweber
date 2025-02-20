@@ -148,10 +148,12 @@ class ListBackups extends ListRecords
 
     public function runRestoreStep($params) {
 
+        $restoreFile = backup_location() . $params['restoreFile'];
+
         // START RESTORE
         $restore = new Restore();
         $restore->setSessionId($params['sessionId']);
-        $restore->setFile($params['restoreFile']);
+        $restore->setFile($restoreFile);
         $restore->setOvewriteById(true);
         $restore->setBatchImporting(true);
         $restore->setWriteOnDatabase(true);
