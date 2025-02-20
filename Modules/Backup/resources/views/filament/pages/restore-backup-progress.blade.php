@@ -19,8 +19,8 @@
                             sessionId: this.sessionId,
                             restoreFile: this.restoreFile,
                         });
-                        console.log('Restore response:', response);
-                        if (response && response.success) {
+                        // console.log('Restore response:', response);
+                        if (response && response.done) {
                             this.isCompleted = true;
                             this.currentStep = this.totalSteps;
                         } else if (response && response.current_step) {
