@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\FileManager\Http\Controllers;
+namespace Modules\FileManager\Http\Controllers;
 
 
 use Illuminate\Http\File;

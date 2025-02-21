@@ -1,14 +1,14 @@
 <?php
-namespace MicroweberPackages\FileManager\Http\Controllers\Api;
+namespace Modules\FileManager\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Http\Controllers\Controller;
 use MicroweberPackages\Helper\HTMLClean;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class FileManagerApiController extends Controller {
 

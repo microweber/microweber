@@ -1,10 +1,9 @@
 <?php
 
-namespace MicroweberPackages\FileManager\Http\Controllers\Exceptions;
+namespace Modules\FileManager\Http\Controllers\Exceptions;
 
-use MicroweberPackages\App\Http\Controllers\Exceptions\Exception;
 
-class UploadException extends Exception
+class UploadException extends \Exception
 {
     public function __construct($code)
     {

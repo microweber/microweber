@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Controllers\Admin;
 
-use MicroweberPackages\FileManager\Http\Controllers\PluploadController;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ImportFeed;
+use Modules\FileManager\Http\Controllers\PluploadController;
 
 class UploadFeedController extends PluploadController
 {

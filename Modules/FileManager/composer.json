@@ -1,0 +1,30 @@
+{
+    "name": "modules/filemanager",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\FileManager\\": "",
+            "Modules\\FileManager\\Database\\Factories\\": "database/factories/",
+            "Modules\\FileManager\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\FileManager\\Tests\\": "Tests/"
+        }
+    }
+}

@@ -14,6 +14,8 @@ if (!function_exists('media_uploads_url')) {
         return $folder;
     }
 }
+
+
 if (!function_exists('media_uploads_path')) {
     function media_uploads_path()
     {
@@ -27,6 +29,23 @@ if (!function_exists('media_uploads_path')) {
         return $folder;
     }
 }
+
+
+if (!function_exists('media_uploads_path_relative')) {
+    function media_uploads_path_relative()
+    {
+        $environment = app()->environment();
+        $folder = MW_MEDIA_FOLDER_NAME . ('default' . DIRECTORY_SEPARATOR);
+
+        if (mw_is_multisite()) {
+            $folder = MW_MEDIA_FOLDER_NAME . ($environment . DIRECTORY_SEPARATOR);
+        }
+
+        return $folder;
+    }
+}
+
+
 if (!function_exists('media_base_url')) {
     function media_base_url()
     {
@@ -34,7 +53,7 @@ if (!function_exists('media_base_url')) {
 
         if (!$folder) {
             //    $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
-            $folder = asset('storage/' . MW_MEDIA_FOLDER_NAME). '/';
+            $folder = asset('storage/' . MW_MEDIA_FOLDER_NAME) . '/';
         }
 
         return $folder;

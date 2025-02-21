@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\FileManager\tests;
+namespace Modules\FileManager\Tests\Unit;
 
 use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
@@ -15,15 +15,15 @@ class FileManagerTest extends TestCase
         Auth::login($user);
 
         // Create new folder
-        $lastCreatedFolderName = rand(111,999).'folder';
-        $response = $this->call('POST', route('api.file-manager.create-folder'),[
-            'name'=>$lastCreatedFolderName
+        $lastCreatedFolderName = rand(111, 999) . 'folder';
+        $response = $this->call('POST', route('api.file-manager.create-folder'), [
+            'name' => $lastCreatedFolderName
         ]);
         $this->assertEquals(200, $response->status());
         $createFolder = $response->getContent();
 
         // List files
-        $response = $this->call('GET', route('api.file-manager.list'),[]);
+        $response = $this->call('GET', route('api.file-manager.list'), []);
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
@@ -66,7 +66,7 @@ class FileManagerTest extends TestCase
         }
 
         // List files
-        $response = $this->call('GET', route('api.file-manager.list'),[]);
+        $response = $this->call('GET', route('api.file-manager.list'), []);
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
@@ -98,17 +98,22 @@ class FileManagerTest extends TestCase
         for ($i = 1; $i <= 50; $i++) {
             $randFileName = rand(111, 999) . 'randFileName.txt';
             $path = media_uploads_path();
+
+            if(!is_dir($path)){
+                mkdir_recursive($path);
+            }
+
             file_put_contents($path . $randFileName, time());
         }
 
         // List files
-        $response = $this->call('GET', route('api.file-manager.list'),['limit'=>10]);
+        $response = $this->call('GET', route('api.file-manager.list'), ['limit' => 10]);
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
         $listedFiles = json_decode($content, true);
 
-        $this->assertEquals( 10,$listedFiles['pagination']['limit']);
+        $this->assertEquals(10, $listedFiles['pagination']['limit']);
 
         $this->assertIsInt($listedFiles['pagination']['limit']);
         $this->assertIsInt($listedFiles['pagination']['total']);
@@ -127,10 +132,15 @@ class FileManagerTest extends TestCase
         // Create new file
         $randFileName = rand(111, 999) . 'randFileName.txt';
         $path = media_uploads_path();
+        if(!is_dir($path)){
+            mkdir_recursive($path);
+        }
+
         file_put_contents($path . $randFileName, time());
+        $fileManagerParams = ['path' => media_uploads_path_relative()];
 
         // List files
-        $response = $this->call('GET', route('api.file-manager.list'));
+        $response = $this->call('GET', route('api.file-manager.list',$fileManagerParams));
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
@@ -145,12 +155,13 @@ class FileManagerTest extends TestCase
                 }
             }
         }
+        dd($listedFiles['data']);
         $this->assertTrue($findCreatedFile);
 
         $envMediaPath = str_replace(media_base_path(), '', media_uploads_path());
         // Delete created file
         $response = $this->call('DELETE', route('api.file-manager.delete', [
-            'paths'=>[
+            'paths' => [
                 $envMediaPath . $randFileName
             ]
         ]));
@@ -161,7 +172,7 @@ class FileManagerTest extends TestCase
 
 
         // List files after delete
-        $response = $this->call('GET', route('api.file-manager.list'));
+        $response = $this->call('GET', route('api.file-manager.list'),$fileManagerParams);
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
@@ -188,12 +199,15 @@ class FileManagerTest extends TestCase
         $path = media_uploads_path();
         rmdir_recursive($path, false);
 
+        $fileManagerParams = ['path' => media_uploads_path_relative()];
+
         // List files
-        $response = $this->call('GET', route('api.file-manager.list'));
+        $response = $this->call('GET', route('api.file-manager.list',$fileManagerParams));
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
         $listedFiles = json_decode($content, true);
+
         $this->assertEmpty($listedFiles['data']);
 
     }
