@@ -71,8 +71,7 @@ Route::post('api/current_template_save_custom_css', function (Request $request) 
     app()->template_manager->defineConstants($data);
 
     return mw()->layouts_manager->template_save_css($data);
-})->name('current_template_save_custom_css')
-    ->middleware(['admin']);
+})->name('current_template_save_custom_css')->middleware(['api', 'admin']);
 
 Route::post('api/layouts/template_remove_custom_css', function (Request $request) {
     $data = $request->all();
@@ -80,7 +79,7 @@ Route::post('api/layouts/template_remove_custom_css', function (Request $request
 
     return mw()->layouts_manager->template_remove_custom_css($data);
 })->name('template_remove_custom_css')
-    ->middleware(['admin']);
+    ->middleware(['api', 'admin']);
 
 
 //\Route::post('api/template/delete_compiled_css', function (Request  $request) {
@@ -105,7 +104,7 @@ Route::get('api/template/delete_compiled_css', function (Request $request) {
     $response->header('Content-Type', 'text/css');
     return $response;
 })->name('delete_compiled_css')
-    ->middleware(['admin']);
+    ->middleware(['api', 'admin']);
 
 
 Route::get('api/template/compile_css', function (Request $request) {
@@ -119,7 +118,7 @@ Route::get('api/template/compile_css', function (Request $request) {
     $response = Response::make($compiled);
     $response->header('Content-Type', 'text/css');
     return $response;
-})->name('template_compile_css')->middleware(['admin']);
+})->name('template_compile_css')->middleware(['api','admin']);
 
 
 Route::any('api/template/print_custom_css_fonts', function (Request $request) {
