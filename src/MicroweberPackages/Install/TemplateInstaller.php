@@ -6,10 +6,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Restore\Restore;
 use MicroweberPackages\Option\Models\Option;
 use Modules\Content\Models\Content;
 use Modules\Menu\Models\Menu;
+use Modules\Restore\Restore;
 
 class TemplateInstaller
 {

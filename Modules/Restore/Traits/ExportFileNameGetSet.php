@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Restore\Traits;
+namespace Modules\Restore\Traits;
 
 trait ExportFileNameGetSet
 {

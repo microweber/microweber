@@ -1,19 +1,19 @@
 <?php
-namespace MicroweberPackages\Restore\tests;
+namespace Modules\Restore\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Restore\Restore;
+use Modules\Restore\Restore;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 
 /**
  * Run test
  * @author Bobi Microweber
- * @command php phpunit.phar --filter ImportTest
+ * @command php phpunit.phar --filter RestoreTest
  */
 #[RunTestsInSeparateProcesses]
-class ImportTest extends TestCase
+class RestoreTest extends TestCase
 {
 
     public function testImportSampleCsvFile() {

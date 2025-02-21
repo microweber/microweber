@@ -1,11 +1,11 @@
 <?php
-namespace MicroweberPackages\Restore\Formats;
+namespace Modules\Restore\Formats;
 
 $dir = __DIR__;
 $dir = str_replace('Restore\Formats', '', $dir);
 $dir = str_replace('Restore/Formats', '', $dir);
 
-use MicroweberPackages\Restore\EncodingFix;
+use Modules\Restore\EncodingFix;
 
 class JsonReader extends DefaultReader
 {

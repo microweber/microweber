@@ -3,8 +3,8 @@
 namespace MicroweberPackages\Export\Formats;
 
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Restore\Traits\ExportFileNameGetSet;
-use MicroweberPackages\Restore\Traits\ExportGetSet;
+use Modules\Restore\Traits\ExportFileNameGetSet;
+use Modules\Restore\Traits\ExportGetSet;
 
 class ZipBatchExport extends DefaultExport
 {

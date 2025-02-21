@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Export\Formats;
 
 use MicroweberPackages\Export\Formats\Interfaces\ExportInterface;
-use MicroweberPackages\Restore\Traits\ExportFileNameGetSet;
+use Modules\Restore\Traits\ExportFileNameGetSet;
 use function backup_location;
 use function route;
 

@@ -1,10 +1,10 @@
 <?php
-namespace MicroweberPackages\Restore\tests;
+namespace Modules\Restore\tests;
 
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Restore\Formats\ZipReader;
-use MicroweberPackages\Restore\Loggers\RestoreLogger;
+use Modules\Restore\Formats\ZipReader;
+use Modules\Restore\Loggers\RestoreLogger;
 
 
 /**

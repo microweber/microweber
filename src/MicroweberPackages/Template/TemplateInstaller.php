@@ -2,8 +2,8 @@
 
 namespace MicroweberPackages\Template;
 
-use MicroweberPackages\Restore\Restore;
 use Modules\Backup\Loggers\BackupLogger;
+use Modules\Restore\Restore;
 
 class TemplateInstaller extends Restore
 {

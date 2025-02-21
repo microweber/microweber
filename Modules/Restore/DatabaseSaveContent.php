@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Restore;
+namespace Modules\Restore;
 
 use function get_content;
 use function save_content;
