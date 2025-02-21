@@ -47,7 +47,7 @@ class CategoryResource extends Resource
                             ->schema([
 
                                 Forms\Components\Hidden::make('id'),
-                                Forms\Components\Hidden::make('parent_id'),
+                                Forms\Components\Hidden::make('parent_id')->default(0),
                                 Forms\Components\Hidden::make('rel_type'),
                                 Forms\Components\Hidden::make('rel_id'),
 

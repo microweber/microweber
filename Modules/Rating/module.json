@@ -1,0 +1,11 @@
+{
+    "name": "Rating",
+    "alias": "rating",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Rating\\Providers\\RatingServiceProvider"
+    ],
+    "files": []
+}

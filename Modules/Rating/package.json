@@ -1,0 +1,19 @@
+{
+    "name": "microweber-modules-rating",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microweber-modules/rating.git"
+    },
+    "private": true,
+    "scripts": {
+        "build": "cpy resources/assets/js ../../public/modules/rating/js --flat && cpy resources/assets/css ../../public/modules/rating/css --flat && cpy resources/assets/img ../../public/modules/rating/img --flat",
+        "dev": "chokidar resources/assets/ -c \"npm run build\""
+    },
+    "devDependencies": {
+        "chokidar-cli": "^3.0.0",
+        "cpy-cli": "^5.0.0"
+    }
+}

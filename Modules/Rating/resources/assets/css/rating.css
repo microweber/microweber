@@ -1,0 +1,16 @@
+.module-rating {
+    padding: 10px;
+}
+.starrr {
+    display: inline-block;
+}
+.starrr i {
+    font-size: 20px;
+    padding: 0 2px;
+    cursor: pointer;
+}
+.rating-value {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+}
