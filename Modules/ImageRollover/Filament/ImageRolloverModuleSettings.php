@@ -29,7 +29,7 @@ class ImageRolloverModuleSettings extends LiveEditModuleSettings
                 TextInput::make('options.size')
                     ->label('Image Size')
                     ->helperText('Enter image size in pixels or "auto"')
-                    ->default('60')
+                    ->default('350')
                     ->live(),
 
                 TextInput::make('options.text')

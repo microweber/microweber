@@ -46,10 +46,8 @@
 
 <div>
     <div class="mw-rollover">
-        @if(!$rollover_image)
-            <p class="mw-pictures-clean">No images added to the module. Please add your images to see the effect of the module..</p>
-            <img src="{{ $default_image }}" class="mw-rollover-default_image" width="50%" height="100%" alt="{{ $text ?? '' }}"/>
-        @endif
+        <img src="{{ $default_image }}" class="mw-rollover-default_image" {!! $sizeAttr !!} alt="{{ $text ?? '' }}"/>
+
         @if($rollover_image)
             <div class="mw-rollover-overlay">
                 <img src="{{ $rollover_image }}" {!! $sizeAttr !!} alt="{{ $text ?? '' }}"/>
@@ -67,6 +65,7 @@
         </div>
     @endif
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
