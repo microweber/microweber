@@ -44,11 +44,10 @@
     $sizeAttr = $size != 'auto' ? 'width="' . $size . '"' : '';
 @endphp
 
-<div> 
+<div>
     <div class="mw-rollover">
         @if(!$rollover_image)
-            <h2>This is Image Rollover Module.</h2>
-            <p>Please add images to feel the experience of it.</p>
+            <p class="mw-pictures-clean">No images added to the module. Please add your images to see the effect of the module..</p>
             <img src="{{ $default_image }}" class="mw-rollover-default_image" width="50%" height="100%" alt="{{ $text ?? '' }}"/>
         @endif
         @if($rollover_image)
