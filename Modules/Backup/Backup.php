@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Export;
+namespace Modules\Backup;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -22,8 +22,8 @@ class Backup
     use BackupFileNameGetSet;
 
     public $type = 'json';
-    public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
-    public $exportAllData = false;
+    public $backupData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
+    public $backupAllData = false;
     public $logger;
     public $sessionId;
 
@@ -44,18 +44,18 @@ class Backup
      * Set wich data want to export
      * @param array $data
      */
-    public function setExportData($dataType, $dataIds): void
+    public function setBackupData($dataType, $dataIds): void
     {
-        $this->exportData[$dataType] = $dataIds;
+        $this->backupData[$dataType] = $dataIds;
     }
 
     /**
      * Set export full
      * @param string $type
      */
-    public function setExportAllData($exportAllData = true): void
+    public function setBackupAllData($all = true): void
     {
-        $this->exportAllData = $exportAllData;
+        $this->backupAllData = $all;
     }
 
     /**
@@ -91,7 +91,7 @@ class Backup
         $isFirstStep = SessionStepper::isFirstStep();
 
         $readyDataCacheId = 'readyData' . $this->sessionId;
-        $readyDataCacheGroup = 'mwExport';
+        $readyDataCacheGroup = 'mwBackup';
 
         $exportCacheLocation = backup_cache_location();
 
