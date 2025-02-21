@@ -2,7 +2,7 @@
 
 namespace Modules\Backup\Formats;
 
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 use Modules\Backup\Traits\BackupFileNameGetSet;
 use Modules\Backup\Traits\BackupGetSet;
 
@@ -42,18 +42,18 @@ class ZipBatchBackup extends DefaultBackup
 
     protected function _getZipFileName()
     {
-        $cacheKey = 'export_zipfilename_' . SessionStepper::$sessionId;
+        $cacheKey = 'backup_zipfilename_' . SessionStepper::$sessionId;
         $zipFileName = cache_get($cacheKey, $this->_cacheGroupName);
 
         if (empty($zipFileName)) {
 
             $customZipFileName = false;
-            if ($this->exportOnlyTemplate) {
-                $customZipFileName = 'export_' . str_slug($this->exportOnlyTemplate) . date("Y-m-d-his");
+            if ($this->backupOnlyTemplate) {
+                $customZipFileName = 'backup_' . str_slug($this->backupOnlyTemplate) . date("Y-m-d-his");
             }
 
-            if (!empty($this->exportFileName)) {
-                $customZipFileName = $this->exportFileName;
+            if (!empty($this->backupFileName)) {
+                $customZipFileName = $this->backupFileName;
             }
 
             $generateFileName = $this->_generateFilename($customZipFileName);
@@ -104,22 +104,22 @@ class ZipBatchBackup extends DefaultBackup
             $filesForZip = array_merge($filesForZip, $this->files);
         }
 
-        if ($this->exportMedia) {
+        if ($this->backupMedia) {
             $userFiles = $this->_getUserFilesPaths();
             $filesForZip = array_merge($filesForZip, $userFiles);
         }
 
-        if ($this->exportModules) {
+        if ($this->backupModules) {
             $userFilesModules = $this->_getUserFilesModulesPaths();
             $filesForZip = array_merge($filesForZip, $userFilesModules);
         }
 
-        if ($this->exportTemplates) {
+        if ($this->backupTemplates) {
             $userFilesTemplates = $this->_getUserFilesTemplatesPaths();
             $filesForZip = array_merge($filesForZip, $userFilesTemplates);
         }
 
-        if ($this->exportOnlyTemplate) {
+        if ($this->backupOnlyTemplate) {
             $currentTemplateFiles = $this->_getTempalteFilesPaths();
             $filesForZip = array_merge($filesForZip, $currentTemplateFiles);
         }
@@ -214,7 +214,7 @@ class ZipBatchBackup extends DefaultBackup
         $templatesFilesReady = array();
 
         $userFilesPathTemplates = userfiles_path() . DIRECTORY_SEPARATOR . 'templates';
-        $templateDir = $userFilesPathTemplates . DIRECTORY_SEPARATOR . $this->exportOnlyTemplate;
+        $templateDir = $userFilesPathTemplates . DIRECTORY_SEPARATOR . $this->backupOnlyTemplate;
         if (!is_dir($templateDir)) {
             return [];
         }
@@ -239,7 +239,7 @@ class ZipBatchBackup extends DefaultBackup
             $filePath = normalize_path($filePath, false);
 
             // make files from template to the index on zip
-            $dataFile = str_replace('templates\\' . $this->exportOnlyTemplate . '\\', '', $dataFile);
+            $dataFile = str_replace('templates\\' . $this->backupOnlyTemplate . '\\', '', $dataFile);
 
             $templatesFilesReady[] = array(
                 'filename' => $dataFile,
@@ -257,7 +257,7 @@ class ZipBatchBackup extends DefaultBackup
 
         $userFilesPathTemplates = userfiles_path() . DIRECTORY_SEPARATOR . 'templates';
 
-        foreach ($this->exportTemplates as $template) {
+        foreach ($this->backupTemplates as $template) {
             $templateDir = $userFilesPathTemplates . DIRECTORY_SEPARATOR . $template;
             $templateFiles = $this->_getDirContents($templateDir);
 
@@ -292,7 +292,7 @@ class ZipBatchBackup extends DefaultBackup
 
         $userFilesPathModules = userfiles_path() . DIRECTORY_SEPARATOR . 'modules';
 
-        foreach ($this->exportModules as $module) {
+        foreach ($this->backupModules as $module) {
             $moduleDir = $userFilesPathModules . DIRECTORY_SEPARATOR . $module;
             $moduleFiles = $this->_getDirContents($moduleDir);
 
@@ -356,6 +356,7 @@ class ZipBatchBackup extends DefaultBackup
     protected function _finishUp()
     {
         SessionStepper::clearSteps();
+        
         $this->logger->setLogInfo('Done!');
     }
 
