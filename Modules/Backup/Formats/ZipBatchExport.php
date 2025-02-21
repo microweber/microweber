@@ -3,13 +3,13 @@
 namespace MicroweberPackages\Export\Formats;
 
 use MicroweberPackages\Export\SessionStepper;
-use Modules\Restore\Traits\ExportFileNameGetSet;
-use Modules\Restore\Traits\ExportGetSet;
+use Modules\Backup\Traits\BackupFileNameGetSet;
+use Modules\Backup\Traits\BackupGetSet;
 
 class ZipBatchExport extends DefaultExport
 {
-    use ExportGetSet;
-    use ExportFileNameGetSet;
+    use BackupGetSet;
+    use BackupFileNameGetSet;
 
     /**
      * The type of export

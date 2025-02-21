@@ -1,24 +1,24 @@
 <?php
-namespace Modules\Restore\Traits;
+namespace Modules\Backup\Traits;
 
-trait ExportFileNameGetSet
+trait BackupFileNameGetSet
 {
     /**
      * @var array
      */
-    public $exportFileName;
+    public $backupFileName;
 
     /**
      * @param $filename
      * @return void
      */
-    public function setExportFileName($filename)
+    public function setBackupFileName($filename)
     {
         $filename = trim($filename);
         $filename = str_slug($filename);
         $filename = str_replace('-', '_', $filename);
 
-        $this->exportFileName = $filename;
+        $this->backupFileName = $filename;
     }
 
 }

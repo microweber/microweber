@@ -1,86 +1,86 @@
 <?php
-namespace Modules\Restore\Traits;
+namespace Modules\Backup\Traits;
 
-trait ExportGetSet
+trait BackupGetSet
 {
     /**
      * @var bool
      */
-    public $exportWithZip = false;
+    public $backupWithZip = false;
 
     /**
      * @param bool $bool
      * @return void
      */
-    public function setExportWithZip(bool $bool) {
-        $this->exportWithZip = $bool;
+    public function setBackupWithZip(bool $bool) {
+        $this->backupWithZip = $bool;
     }
 
     /**
-     * Export media
+     * Backup media
      * @var string
      */
-    public $exportMedia = false;
+    public $backupMedia = false;
 
     /**
      * @param bool $bool
      * @return void
      */
-    public function setExportMedia(bool $bool)
+    public function setBackupMedia(bool $bool)
     {
-        $this->exportMedia = $bool;
+        $this->backupMedia = $bool;
     }
 
     /**
      * Export modules
      * @var bool
      */
-    public $exportModules = false;
+    public $backupModules = false;
 
     /**
      * @param array $modules
      * @return void
      */
-    public function setExportModules(array $modules)
+    public function setBackupModules(array $modules)
     {
-        $this->exportModules = $modules;
+        $this->backupModules = $modules;
     }
 
     /**
      * Export templates
      * @var bool
      */
-    public $exportTemplates = false;
+    public $backupTemplates = false;
 
     /**
      * @param array $templates
      * @return void
      */
-    public function setExportTemplates(array $templates)
+    public function setBackupTemplates(array $templates)
     {
-        $this->exportTemplates = $templates;
+        $this->backupTemplates = $templates;
     }
 
     /**
      * Export only current template
      */
-    public $exportOnlyTemplate = false;
+    public $backupOnlyTemplate = false;
 
     /**
      * @param string $template
      * @return void
      */
-    public function setExportOnlyTemplate(string $template)
+    public function setBackupOnlyTemplate(string $template)
     {
-        $this->exportOnlyTemplate = $template;
+        $this->backupOnlyTemplate = $template;
     }
 
     /**
      * @param $tables
      * @return void
      */
-    public function setExportTables(array $tables) {
-        $this->setExportData('tables', $tables);
+    public function setBackupTables(array $tables) {
+        $this->setBackupData('tables', $tables);
     }
 
     public $allowSkipTables = true;

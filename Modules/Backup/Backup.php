@@ -12,13 +12,14 @@ use MicroweberPackages\Export\Formats\XmlExport;
 use MicroweberPackages\Export\Formats\ZipBatchExport;
 use MicroweberPackages\Export\Loggers\ExportLogger;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use Modules\Restore\Traits\ExportFileNameGetSet;
-use Modules\Restore\Traits\ExportGetSet;
+use Modules\Backup\Loggers\BackupLogger;
+use Modules\Backup\Traits\BackupFileNameGetSet;
+use Modules\Backup\Traits\BackupGetSet;
 
 class Backup
 {
-    use ExportGetSet;
-    use ExportFileNameGetSet;
+    use BackupGetSet;
+    use BackupFileNameGetSet;
 
     public $type = 'json';
     public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
@@ -27,7 +28,7 @@ class Backup
     public $sessionId;
 
     public function __construct() {
-        $this->logger = new ExportLogger();
+        $this->logger = new BackupLogger();
     }
 
     /**
