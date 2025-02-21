@@ -2,11 +2,9 @@
 
 namespace Modules\Restore;
 
-use MicroweberPackages\Export\SessionStepper;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use MicroweberPackages\Restore\class;
-use MicroweberPackages\Restore\RestoreLogger;
 use Modules\Restore\Formats\ZipReader;
+use Modules\Restore\Loggers\RestoreLogger;
 
 class Restore
 {
