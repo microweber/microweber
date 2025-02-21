@@ -1,10 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Restore;
+namespace Modules\Restore;
 
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Restore\Formats\ZipReader;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Restore\class;
+use MicroweberPackages\Restore\RestoreLogger;
+use Modules\Restore\Formats\ZipReader;
 
 class Restore
 {

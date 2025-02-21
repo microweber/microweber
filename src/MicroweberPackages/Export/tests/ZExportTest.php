@@ -4,8 +4,8 @@ namespace MicroweberPackages\Export\tests;
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Restore\Restore;
 use Modules\Post\Models\Post;
+use Modules\Restore\Restore;
 
 
 /**

@@ -1,8 +1,8 @@
 <?php
-namespace MicroweberPackages\Restore\Traits;
+namespace Modules\Restore\Traits;
 
 use MicroweberPackages\Backup\Traits\unknown;
-use MicroweberPackages\Restore\DatabaseSave;
+use Modules\Restore\DatabaseSave;
 use function db_get;
 
 trait DatabaseCustomFieldsWriter {

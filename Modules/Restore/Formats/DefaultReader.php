@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Restore\Formats;
+namespace Modules\Restore\Formats;
 
 class DefaultReader
 {

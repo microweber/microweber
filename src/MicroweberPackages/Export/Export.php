@@ -5,15 +5,15 @@ namespace MicroweberPackages\Export;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Export\Loggers\ExportLogger;
 use MicroweberPackages\Export\Formats\CsvExport;
 use MicroweberPackages\Export\Formats\JsonExport;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Export\Formats\XmlExport;
 use MicroweberPackages\Export\Formats\ZipBatchExport;
-use MicroweberPackages\Restore\Traits\ExportFileNameGetSet;
-use MicroweberPackages\Restore\Traits\ExportGetSet;
+use MicroweberPackages\Export\Loggers\ExportLogger;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Restore\Traits\ExportFileNameGetSet;
+use Modules\Restore\Traits\ExportGetSet;
 
 class Export
 {

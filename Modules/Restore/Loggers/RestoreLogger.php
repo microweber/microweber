@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Restore\Loggers;
+namespace Modules\Restore\Loggers;
 
 use Modules\Backup\Loggers\DefaultLogger;
 

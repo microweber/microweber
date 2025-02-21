@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Restore;
+namespace Modules\Restore;
 
 use Modules\Category\Models\Category;
 use Modules\Page\Models\Page;

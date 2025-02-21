@@ -2,8 +2,8 @@
 
 namespace Modules\Backup;
 
-use MicroweberPackages\Restore\Restore;
 use Modules\Backup\Loggers\BackupLogger;
+use Modules\Restore\Restore;
 
 class Restore extends Restore
 {

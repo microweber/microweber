@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Restore;
+namespace Modules\Restore;
 
 /**
  * Microweber - Backup Module Database Duplicate Checker
