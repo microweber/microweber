@@ -1,12 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Export\Formats;
+namespace Modules\Backup\Formats;
 
 use MicroweberPackages\Export\SessionStepper;
 use Modules\Backup\Traits\BackupFileNameGetSet;
 use Modules\Backup\Traits\BackupGetSet;
 
-class ZipBatchExport extends DefaultExport
+class ZipBatchBackup extends DefaultBackup
 {
     use BackupGetSet;
     use BackupFileNameGetSet;

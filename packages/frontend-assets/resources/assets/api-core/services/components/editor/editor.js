@@ -195,6 +195,11 @@ export const EditorComponent = function () {
 
     mw.app.register('richTextEditorAPI', liveEditor.api);
 
+    const theme = mw.app.theme.getTheme();
+
+    mw.app.richTextEditor.setSmallEditorSkin(theme)
+
+
 
     mw.app.theme.on('change', () => {
 

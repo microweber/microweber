@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Shop\tests;
+namespace Modules\Shop\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Shipping\Models\ShippingProvider;

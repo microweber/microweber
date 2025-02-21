@@ -158,14 +158,11 @@ export class LiveEditFontManager extends BaseComponent {
             url: src,
             autoHeight: true,
             width: 800,
-            skin: 'square_clean',
+
+            title: mw.lang('Select font')
         });
-        dialog.dialogHeader.style.display = 'none';
-        dialog.iframe.addEventListener('load', () => {
-            dialog.iframe.contentWindow.document.getElementById('js-modal-livewire-ui-close').addEventListener('click', () => {
-                dialog.remove();
-            });
-        });
+
+
         mw.top().app.on('fontsManagerSelectedFont', (newFont) => {
             dialog.remove();
         });

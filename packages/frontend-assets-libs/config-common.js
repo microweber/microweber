@@ -85,10 +85,19 @@ const assets = [
         ]
     },
     {
-        target: `mdi`,
+        target: `mdi/css`,
         path: [
             `node_modules/@mdi/font/css`,
+
+
+        ]
+    },
+
+    {
+        target: `mdi/font`,
+        path: [
             `node_modules/@mdi/font/fonts`,
+
 
         ]
     },
