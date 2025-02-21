@@ -15,13 +15,6 @@
 
 <style>
     ul.mw-big2-breadcrumb-skin-3 {
-        .breadcrumbs {
-            border: 1px solid #ececec;
-            border-radius: 0.3rem;
-            display: inline-flex;
-            overflow: hidden;
-        }
-
         .breadcrumbs__item {
             background: #fff;
             color: #333;
