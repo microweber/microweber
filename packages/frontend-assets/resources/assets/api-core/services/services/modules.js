@@ -3,6 +3,7 @@ import axios from 'axios';
 export const Modules = {
 
     modulesListData: null,
+    modulesListDataCalledFinished: true,
 
     list: async function () {
 
@@ -13,6 +14,7 @@ export const Modules = {
         await axios.get(route('api.module.list') + '?layout_type=module')
             .then((response) => {
                 this.modulesListData = response.data;
+                this.modulesListDataCalledFinished = false;
             });
 
         return this.modulesListData;
@@ -38,11 +40,11 @@ export const Modules = {
     getModuleInfo: function (module) {
         var moduleData = null;
 
-        if(!this.modulesListData){
+        if (!this.modulesListData && !this.modulesListDataCalledFinished) {
             this.list();
         }
 
-        if(this.modulesListData && this.modulesListData.modules) {
+        if (this.modulesListDataCalledFinished && this.modulesListData && this.modulesListData.modules) {
             var foundModule = this.modulesListData.modules.find(function (element) {
                 return element.module == module;
             });
