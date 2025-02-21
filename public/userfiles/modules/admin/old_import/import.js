@@ -62,7 +62,7 @@ mw.admin_import = {
 
 
 
-		mw.notification.success("FULL Import is started...");
+		mw.notification.success("FULL Restore is started...");
 
 		$.post(mw.settings.api_url+'Microweber/Utils/Import/create_full', false ,
 			function(msg) {

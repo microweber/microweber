@@ -50,7 +50,7 @@ class TemplateApiController
                 $installTemplate->setToDeleteOldCssFiles(true);
             }
 
-            // Import all and dont delete old content
+            // Restore all and dont delete old content
             if ($importType == 'full') {
                 $installTemplate->setOvewriteById(true);
             }

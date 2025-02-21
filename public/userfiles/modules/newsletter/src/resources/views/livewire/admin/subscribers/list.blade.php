@@ -42,7 +42,7 @@
             </a>
             <a href="javascript:;" class="btn btn-outline-success mb-3"
                onclick="Livewire.dispatch('openModal', 'admin-newsletter-import-subscribers-modal')" >
-                <?php _e('Import Subscribers'); ?>
+                <?php _e('Restore Subscribers'); ?>
             </a>
         </div>
     </div>

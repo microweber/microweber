@@ -19,7 +19,7 @@ class NewsletterImportSubscribersActionButton extends Component implements HasFo
     public function importAction(): ImportAction
     {
         return ImportAction::make('import')
-            ->label('Import Subscribers')
+            ->label('Restore Subscribers')
             ->icon('heroicon-m-cloud-arrow-up')
             ->size('xl')
             ->afterImport(function ($action, $data) {

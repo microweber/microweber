@@ -2,10 +2,10 @@
 
 namespace Modules\Backup;
 
-use MicroweberPackages\Import\Import;
+use MicroweberPackages\Restore\Restore;
 use Modules\Backup\Loggers\BackupLogger;
 
-class Restore extends Import
+class Restore extends Restore
 {
     public $batchImporting = true;
     public $ovewriteById = true;

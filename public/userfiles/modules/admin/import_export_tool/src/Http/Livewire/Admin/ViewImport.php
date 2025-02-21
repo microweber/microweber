@@ -37,7 +37,7 @@ class ViewImport extends AdminComponent
         $feed->parent_page = $this->import_feed['parent_page'];
         $feed->save();
 
-        session()->flash('message', 'Import feed is saved successfully.');
+        session()->flash('message', 'Restore feed is saved successfully.');
 
         return redirect(route('admin.import-export-tool.import', $this->import_feed_id));
     }

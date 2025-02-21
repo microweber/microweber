@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Import\Formats\XlsxReader;
+use MicroweberPackages\Restore\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ExportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ImportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\Install;
