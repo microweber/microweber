@@ -8,7 +8,7 @@
 
 namespace MicroweberPackages\Translation;
 
-use MicroweberPackages\Import\Formats\XlsxReader;
+use MicroweberPackages\Restore\Formats\XlsxReader;
 use MicroweberPackages\Translation\Locale\IntlLocale;
 use Symfony\Component\Intl\Exception\MissingResourceException;
 

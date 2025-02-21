@@ -65,8 +65,8 @@
                <label class="form-check py-2 active" id="js-template-import-type-full">
                    <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="full" />
 
-                   <span class="form-label font-weight-bold"><?php _e("Import default content, media and css files") ?></span>
-                   <small class="text-muted"><?php _e("Import the default content, media and css files from template") ?></small>
+                   <span class="form-label font-weight-bold"><?php _e("Restore default content, media and css files") ?></span>
+                   <small class="text-muted"><?php _e("Restore the default content, media and css files from template") ?></small>
                </label>
            </div>
         </div>
@@ -77,7 +77,7 @@
                 <label class="form-check py-2" id="js-template-import-type-only-media">
                     <input class="form-check-input mt-3 me-3" type="radio" name="import_type" value="only_media" />
 
-                    <span class="form-label font-weight-bold"><?php _e("Import only media and css") ?></span>
+                    <span class="form-label font-weight-bold"><?php _e("Restore only media and css") ?></span>
                     <small class="text-muted"><?php _e("This option will import only the media and css files") ?></small>
                 </label>
             </div>

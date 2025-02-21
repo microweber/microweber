@@ -83,7 +83,7 @@ mw.ok_import_file = function(){
 
 <div class="mw-ui-row admin-section-bar">
     <div class="mw-ui-col">
-        <h2><?php _e("Import Content"); ?></h2>
+        <h2><?php _e("Restore Content"); ?></h2>
     </div>
 </div>
 <div class="admin-side-content">
@@ -120,7 +120,7 @@ mw.ok_import_file = function(){
 
   <div id="import-progress-log-holder" style="display:none">
   <?php _e('Progress:'); ?> <span id="import-progress-log-holder-values"></span>
-<meter value="" optimum="100" high="90" low="40" max="100" min="0" id="import-progress-log-meter"><?php _e('Import progress'); ?></meter>
+<meter value="" optimum="100" high="90" low="40" max="100" min="0" id="import-progress-log-meter"><?php _e('Restore progress'); ?></meter>
 
 <span data-tip="Cancel" class="mw-icon-close show-on-hover tip" onclick="mw.admin_import.cancel_batch_process();"></span>
 

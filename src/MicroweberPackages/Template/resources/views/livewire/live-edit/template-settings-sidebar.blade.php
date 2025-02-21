@@ -315,7 +315,7 @@
                             @if($settingGroup['type'] == 'stylesheet')
 
                                 <button type="button" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        title="Import Export template settings"
+                                        title="Restore Export template settings"
                                         class="import-export-template-settings-and-stylesheet-button" x-on:click="()=> {
                                             importExportTemplateStylesheetSettings();
                                      }">

@@ -787,7 +787,7 @@
                                                                    id="with_default_content" name="with_default_content"
                                                                    value="1" tabindex="7" checked="">
                                                             <label class="custom-control-label"
-                                                                   for="with_default_content"><?php _e('Import default content'); ?></label>
+                                                                   for="with_default_content"><?php _e('Restore default content'); ?></label>
                                                         </div>
                                                         <small
                                                             class="text-muted d-block mb-2"><?php _e('If checked, some default content will be added.'); ?></small>

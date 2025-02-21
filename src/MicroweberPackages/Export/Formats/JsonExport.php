@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Export\Formats;
 
-use MicroweberPackages\Import\EncodingFix;
+use MicroweberPackages\Restore\EncodingFix;
 
 class JsonExport extends DefaultExport
 {

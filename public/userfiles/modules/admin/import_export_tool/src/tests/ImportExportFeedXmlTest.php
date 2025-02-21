@@ -5,7 +5,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Livewire;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Import\Formats\XmlReader;
+use MicroweberPackages\Restore\Formats\XmlReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ExportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\ImportWizard;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin\Install;

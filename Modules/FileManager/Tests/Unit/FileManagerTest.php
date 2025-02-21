@@ -99,7 +99,7 @@ class FileManagerTest extends TestCase
             $randFileName = rand(111, 999) . 'randFileName.txt';
             $path = media_uploads_path();
 
-            if(!is_dir($path)){
+            if (!is_dir($path)) {
                 mkdir_recursive($path);
             }
 
@@ -132,7 +132,7 @@ class FileManagerTest extends TestCase
         // Create new file
         $randFileName = rand(111, 999) . 'randFileName.txt';
         $path = media_uploads_path();
-        if(!is_dir($path)){
+        if (!is_dir($path)) {
             mkdir_recursive($path);
         }
 
@@ -140,7 +140,7 @@ class FileManagerTest extends TestCase
         $fileManagerParams = ['path' => media_uploads_path_relative()];
 
         // List files
-        $response = $this->call('GET', route('api.file-manager.list',$fileManagerParams));
+        $response = $this->call('GET', route('api.file-manager.list', $fileManagerParams));
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
@@ -155,10 +155,14 @@ class FileManagerTest extends TestCase
                 }
             }
         }
-        dd($listedFiles['data']);
+
+
         $this->assertTrue($findCreatedFile);
 
-        $envMediaPath = str_replace(media_base_path(), '', media_uploads_path());
+        //     $envMediaPath = str_replace(media_base_path(), '', media_uploads_path());
+        $envMediaPath = media_uploads_path_relative();
+
+
         // Delete created file
         $response = $this->call('DELETE', route('api.file-manager.delete', [
             'paths' => [
@@ -172,7 +176,7 @@ class FileManagerTest extends TestCase
 
 
         // List files after delete
-        $response = $this->call('GET', route('api.file-manager.list'),$fileManagerParams);
+        $response = $this->call('GET', route('api.file-manager.list'), $fileManagerParams);
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
@@ -202,7 +206,7 @@ class FileManagerTest extends TestCase
         $fileManagerParams = ['path' => media_uploads_path_relative()];
 
         // List files
-        $response = $this->call('GET', route('api.file-manager.list',$fileManagerParams));
+        $response = $this->call('GET', route('api.file-manager.list', $fileManagerParams));
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();

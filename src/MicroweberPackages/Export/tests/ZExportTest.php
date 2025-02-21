@@ -4,7 +4,7 @@ namespace MicroweberPackages\Export\tests;
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Export\SessionStepper;
-use MicroweberPackages\Import\Import;
+use MicroweberPackages\Restore\Restore;
 use Modules\Post\Models\Post;
 
 
@@ -141,7 +141,7 @@ class ZExportTest extends TestCase
 		}
 
         $sessionId = SessionStepper::generateSessionId(1);
-		$manager = new Import();
+		$manager = new Restore();
         $manager->setSessionId($sessionId);
 		$manager->setFile(self::$_exportedFile);
 		$manager->setBatchImporting(false);
