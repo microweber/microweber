@@ -1,4 +1,4 @@
-<style  >
+<style scoped >
 
 .mw-ese-holder {
     background-color: #f5f5f5;

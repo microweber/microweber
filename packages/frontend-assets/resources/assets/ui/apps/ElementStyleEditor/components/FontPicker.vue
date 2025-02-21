@@ -28,9 +28,9 @@
             v-for="(fontFamilyItem, index) in supportedFonts"
             :key="index"
             :class="{ 'active': fontFamilyItem === fontFamily }">
-          <a class="dropdown-item" href="#" @click="selectFont(fontFamilyItem)" :style="{ fontFamily: fontFamilyItem }">
+          <span class="dropdown-item"  @click="selectFont(fontFamilyItem)" :style="{ fontFamily: fontFamilyItem }">
             {{ fontFamilyItem }}
-          </a>
+          </span>
         </li>
       </ul>
         <small class="cursor-pointer d-flex ms-auto justify-content-end" v-on:click="loadMoreFonts()">Add more fonts</small>

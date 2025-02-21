@@ -142,7 +142,7 @@ export default {
     methods: {
 
         applyPropertyToActiveNode(activeNode, prop, val) {
-            console.log('oo', activeNode, prop, val)
+
 
             mw.top().app.dispatch('mw.elementStyleEditor.applyCssPropertyToNode', {
                 node: activeNode,
