@@ -1,12 +1,12 @@
 <?php
-namespace MicroweberPackages\Export\Formats;
+namespace Modules\Backup\Formats;
 
 use MicroweberPackages\Export\Formats\Interfaces\ExportInterface;
 use Modules\Backup\Traits\BackupFileNameGetSet;
 use function backup_location;
 use function route;
 
-class DefaultExport implements ExportInterface
+class DefaultBackup implements ExportInterface
 {
     use BackupFileNameGetSet;
 	public $type = 'json';

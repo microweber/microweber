@@ -1,10 +1,10 @@
 <?php
 
-namespace MicroweberPackages\Export\Formats;
+namespace Modules\Backup\Formats;
 
 use Modules\Restore\EncodingFix;
 
-class JsonExport extends DefaultExport
+class JsonBackup extends DefaultBackup
 {
     /**
      * The type of export

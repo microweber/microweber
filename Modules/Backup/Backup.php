@@ -5,13 +5,9 @@ namespace Modules\Backup;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Export\Formats\CsvExport;
-use MicroweberPackages\Export\Formats\JsonExport;
-use MicroweberPackages\Export\Formats\XlsxExport;
-use MicroweberPackages\Export\Formats\XmlExport;
-use MicroweberPackages\Export\Formats\ZipBatchExport;
-use MicroweberPackages\Export\Loggers\ExportLogger;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Backup\Formats\JsonBackup;
+use Modules\Backup\Formats\ZipBatchBackup;
 use Modules\Backup\Loggers\BackupLogger;
 use Modules\Backup\Traits\BackupFileNameGetSet;
 use Modules\Backup\Traits\BackupGetSet;
@@ -107,7 +103,7 @@ class Backup
         }
 
         if (empty($data)) {
-            return array("error" => "Session export is broken. Data is not cached.");
+            return array("error" => "Session backup is broken. Data is not cached.");
         }
 
         $backupWithZip = ($this->backupAllData ? true : false);
@@ -127,19 +123,19 @@ class Backup
         $exportedDataCacheId = 'exportedData' . $this->sessionId;
 
         if ($isFirstStep) {
-            $export = new JsonExport($data);
-            $export->setType($this->type);
-            $export = $export->start();
-            cache_save($export, $exportedDataCacheId,$readyDataCacheGroup);
+            $backup = new JsonBackup($data);
+            $backup->setType($this->type);
+            $backup = $backup->start();
+            cache_save($backup, $exportedDataCacheId,$readyDataCacheGroup);
         } else {
-            $export = cache_get($exportedDataCacheId, $readyDataCacheGroup);
+            $backup = cache_get($exportedDataCacheId, $readyDataCacheGroup);
         }
 
-        if (empty($export)) {
-            return array("error" => "Session export is broken. Exported data is not cached.");
+        if (empty($backup)) {
+            return array("error" => "Backup session is broken. Exported data is not cached.");
         }
 
-        if (isset($export['files']) && count($export['files']) > 1) {
+        if (isset($backup['files']) && count($backup['files']) > 1) {
             $backupWithZip = true;
         }
 
@@ -156,7 +152,7 @@ class Backup
 
         if ($this->backupOnlyTemplate) {
             $backupWithZip = true;
-            unset($export['files']);
+            unset($backup['files']);
         }
         if($backupMediaUserFiles){
             $backupWithZip = true;
@@ -165,12 +161,12 @@ class Backup
         if ($backupWithZip) {
 
             // Make Zip
-            $zipExport = new ZipBatchExport();
+            $zipExport = new ZipBatchBackup();
             $zipExport->setLogger($this->logger);
 
             // Move files to zip temp
-            if (isset($export['files'])) {
-                foreach ($export['files'] as $file) {
+            if (isset($backup['files'])) {
+                foreach ($backup['files'] as $file) {
 
                     $newFilePath = $exportCacheLocation . $file['filename'];
                     if ($isFirstStep) {
@@ -183,23 +179,23 @@ class Backup
             }
 
             if ($backupMediaUserFiles) {
-                $zipExport->setbackupMedia(true);
+                $zipExport->setBackupMedia(true);
             }
 
             if ($this->backupModules) {
-            //    $zipExport->setbackupModules($this->backupModules);
+            //    $zipExport->setBackupModules($this->backupModules);
             }
 
             if ($this->backupTemplates) {
-             //   $zipExport->setbackupTemplates($this->backupTemplates);
+             //   $zipExport->setBackupTemplates($this->backupTemplates);
             }
 
             if ($this->backupOnlyTemplate) {
-                $zipExport->setbackupOnlyTemplate($this->backupOnlyTemplate);
+                $zipExport->setBackupOnlyTemplate($this->backupOnlyTemplate);
             }
 
-            if ($this->exportFileName) {
-                $zipExport->setExportFileName($this->exportFileName);
+            if ($this->backupFileName) {
+                $zipExport->setBackupFileName($this->backupFileName);
             }
 
             $zipExportReady = $zipExport->start();
@@ -223,22 +219,22 @@ class Backup
             }
         }
 
-        if (isset($export['files'])) {
+        if (isset($backup['files'])) {
 
             $exportSingleFile = false;
 
-            if (count($export['files']) == 1) {
+            if (count($backup['files']) == 1) {
                 $exportSingleFile = true;
             }
 
-            if ($exportSingleFile && isset($export['files']) && !empty($export['files'])) {
+            if ($exportSingleFile && isset($backup['files']) && !empty($backup['files'])) {
                 return array(
                     'success' => 'Items are exported',
                     'export_type' => $this->type,
-                    'data' => $export['files'][0]
+                    'data' => $backup['files'][0]
                 );
             } else {
-                return $export;
+                return $backup;
             }
 
         }
@@ -252,13 +248,13 @@ class Backup
 
     private function _getReadyData()
     {
-        $exportTables = new ExportTables();
+        $backupTables = new BackupTables();
 
         $tablesStructures = array();
 
-        foreach ($this->_getTablesForExport() as $table) {
+        foreach ($this->_getTablesForBackup() as $table) {
 
-            $this->logger->setLogInfo('Exporting table: <b>' . $table . '</b>');
+            $this->logger->setLogInfo('Backup table: <b>' . $table . '</b>');
 
             $tableFields = app()->database_manager->get_fields($table, false, true);
 
@@ -275,7 +271,7 @@ class Backup
             if ($this->backupAllData) {
                 $tableContent = $this->_getTableContent($table);
                 if (!empty($tableContent)) {
-                    $exportTables->addItemsToTable($table, $tableContent);
+                    $backupTables->addItemsToTable($table, $tableContent);
                 }
                 continue;
             }
@@ -296,7 +292,7 @@ class Backup
                 ));
 
                 if (is_array($contentForCategories) && !empty($contentForCategories)) {
-                    $exportTables->addItemsToTable('content', $contentForCategories);
+                    $backupTables->addItemsToTable('content', $contentForCategories);
                 }
             }
 
@@ -309,7 +305,7 @@ class Backup
             $tableContent = $this->_getTableContent($table, $ids);
             if (!empty($tableContent)) {
 
-                $exportTables->addItemsToTable($table, $tableContent);
+                $backupTables->addItemsToTable($table, $tableContent);
 
                 $relations = array();
                 foreach ($tableContent as $content) {
@@ -328,14 +324,14 @@ class Backup
 
                         $relationTableContent = $this->_getTableContent($relationTable, $relationIds);
 
-                        $exportTables->addItemsToTable($relationTable, $relationTableContent);
+                        $backupTables->addItemsToTable($relationTable, $relationTableContent);
                     }
                 }
 
             }
         }
 
-        $exportTablesReady = $exportTables->getAllTableItems();
+        $exportTablesReady = $backupTables->getAllTableItems();
         $exportTablesReady['__table_structures'] = $tablesStructures;
 
         // Show only requried content ids
@@ -493,7 +489,7 @@ class Backup
         return $skipTables;
     }
 
-    private function _getTablesForExport()
+    private function _getTablesForBackup()
     {
         $skipTables = $this->_prepareSkipTables();
 

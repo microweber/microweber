@@ -11,7 +11,7 @@ namespace MicroweberPackages\Translation\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Restore\Formats\XlsxReader;
-use MicroweberPackages\Export\Formats\JsonExport;
+use MicroweberPackages\Export\Formats\JsonBackup;
 use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\Translation\Models\TranslationKey;
 use MicroweberPackages\Translation\Models\TranslationText;
@@ -109,7 +109,7 @@ class TranslationController {
 
         if ($format == 'json') {
 
-            $export = new JsonExport($readyTranslations);
+            $export = new JsonBackup($readyTranslations);
             $export->setFilename($exportFileName);
             $export->useEncodeFix = false;
 
