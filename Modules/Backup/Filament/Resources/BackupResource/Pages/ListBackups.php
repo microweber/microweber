@@ -10,8 +10,6 @@ use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Support\Enums\MaxWidth;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
-use Livewire\Attributes\Url;
-use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Backup\Backup;
 use Modules\Backup\Filament\Resources\BackupResource;
 use Filament\Actions;
@@ -28,15 +26,16 @@ class ListBackups extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('upload_backup')
+            Actions\Action::make('uploadBackup')
                 ->label('Upload Backup')
                 ->icon('heroicon-o-arrow-up-tray')
                 ->form([
                     FileUpload::make('backupFile')
+                        ->live(true)
                         ->label('Backup File')
                         ->placeholder('Select backup file'),
                 ])->afterFormValidated(function () {
-
+                    /// TODO: upload backup file
                 }),
             Actions\Action::make('create_backup')
                 ->modalSubmitAction(false)

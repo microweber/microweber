@@ -356,7 +356,7 @@ class ZipBatchBackup extends DefaultBackup
     protected function _finishUp()
     {
         SessionStepper::clearSteps();
-        
+
         $this->logger->setLogInfo('Done!');
     }
 
