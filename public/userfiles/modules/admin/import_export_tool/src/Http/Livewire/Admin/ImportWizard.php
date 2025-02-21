@@ -66,7 +66,7 @@ class ImportWizard extends AdminComponent
         }
 
         $findImportFeed->resetFeed();
-        $findImportFeed->name = 'Import ' . ucfirst($importTo);
+        $findImportFeed->name = 'Restore ' . ucfirst($importTo);
         $findImportFeed->import_to = $importTo;
         $findImportFeed->save();
 

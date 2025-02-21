@@ -18,7 +18,7 @@ use Modules\Backup\Filament\Resources\BackupResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Modules\Backup\GenerateBackup;
-use Modules\Backup\Restore;
+use Modules\Restore\Restore;
 
 class ListBackups extends ListRecords
 {
@@ -176,7 +176,7 @@ class ListBackups extends ListRecords
             $restore->setWriteOnDatabase(true);
         }
 
-        $restore->setBatchImporting(true);
+        $restore->setBatchRestoring(true);
 
         return $restore->start();
 

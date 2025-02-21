@@ -1,6 +1,6 @@
 <?php
 $config = array();
-$config['name'] = "Import Export Tool";
+$config['name'] = "Restore Export Tool";
 $config['author'] = "Microweber";
 
 $config['categories'] = "admin";

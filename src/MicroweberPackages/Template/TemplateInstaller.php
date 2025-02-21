@@ -2,10 +2,10 @@
 
 namespace MicroweberPackages\Template;
 
-use MicroweberPackages\Import\Import;
 use Modules\Backup\Loggers\BackupLogger;
+use Modules\Restore\Restore;
 
-class TemplateInstaller extends Import
+class TemplateInstaller extends Restore
 {
     public $batchImporting = true;
     public $ovewriteById = true;

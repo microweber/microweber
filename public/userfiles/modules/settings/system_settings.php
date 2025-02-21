@@ -3,7 +3,7 @@
 
 
    <?php if( $params['option_group'] == 'admin__import'){  ?>
-      <h2><?php _e("Import"); ?></h2>
+      <h2><?php _e("Restore"); ?></h2>
    <?php } ?>
 
 <div class="mw-settings-list<?php if(isset($params['option_group'])): ?> mw-settings-list-<?php print strtolower(trim($params['option_group'])) ?><?php endif; ?>">

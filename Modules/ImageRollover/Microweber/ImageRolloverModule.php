@@ -44,7 +44,7 @@ class ImageRolloverModule extends BaseModule
             if (isset($this->params['size'])) {
                 $size = $this->params['size'];
             } else {
-                $size = 60;
+                $size = 350;
             }
         }
 

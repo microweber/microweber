@@ -39,7 +39,7 @@ class NewsletterSubscriberImporter extends Importer
                 ->default('import_to_new_list')
                 ->options([
                     'import_to_new_list' => 'Create new list and import subscribers',
-                    'import_to_existing_list' => 'Import subscribers to existing list',
+                    'import_to_existing_list' => 'Restore subscribers to existing list',
                 ]),
 
             TextInput::make('new_list_name')
@@ -57,7 +57,7 @@ class NewsletterSubscriberImporter extends Importer
                     }
                     return true;
                 })
-                ->label('Import subscribers to list')
+                ->label('Restore subscribers to list')
                 ->options(NewsletterList::all()->pluck('name', 'id')->toArray()),
         ];
     }

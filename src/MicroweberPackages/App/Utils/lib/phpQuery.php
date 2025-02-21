@@ -5151,14 +5151,14 @@ abstract class phpQuery
      *
      * In below examples, $pq is any result of pq(); function.
      *
-     * 1. Import markup into existing document (without any attaching):
-     * - Import into selected document:
+     * 1. Restore markup into existing document (without any attaching):
+     * - Restore into selected document:
      *   pq('<div/>')				// DOESNT accept text nodes at beginning of input string !
-     * - Import into document with ID from $pq->getDocumentID():
+     * - Restore into document with ID from $pq->getDocumentID():
      *   pq('<div/>', $pq->getDocumentID())
-     * - Import into same document as DOMNode belongs to:
+     * - Restore into same document as DOMNode belongs to:
      *   pq('<div/>', DOMNode)
-     * - Import into document from phpQuery object:
+     * - Restore into document from phpQuery object:
      *   pq('<div/>', $pq)
      *
      * 2. Run query:
@@ -5253,7 +5253,7 @@ abstract class phpQuery
             return $phpQuery;
         } elseif (self::isMarkup($arg1)) {
             /*
-             * Import HTML:
+             * Restore HTML:
              * pq('<div/>')
              */
             $phpQuery = new phpQueryObject($domId);

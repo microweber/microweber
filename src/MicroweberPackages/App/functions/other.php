@@ -243,7 +243,7 @@ function mw_print_admin_backup_settings_link()
         }
         $notif_html = '';
         $url = admin_url('module/view?type=' . $mname);
-        echo '<li><a class="item-' . $mname . '" href="?group=' . $mname . '">Import</a></li>';
+        echo '<li><a class="item-' . $mname . '" href="?group=' . $mname . '">Restore</a></li>';
         //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
     }
 }

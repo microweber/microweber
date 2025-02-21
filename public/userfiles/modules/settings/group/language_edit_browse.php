@@ -82,7 +82,7 @@ if (\MicroweberPackages\Translation\Models\TranslationText::where('translation_l
 <div class="col-xxl-8 col-xl-10 col-12 mx-auto alert alert-warning mb-3">
 <?php _e('Translations not found in database. Do you wish to import translations? '); ?>
     <br /><br />
-    <button type="button" class="js-import-language-translations btn btn-outline-primary btn-sm"><?php _e('Import'); ?></button>
+    <button type="button" class="js-import-language-translations btn btn-outline-primary btn-sm"><?php _e('Restore'); ?></button>
 </div>
 <?php
 endif;

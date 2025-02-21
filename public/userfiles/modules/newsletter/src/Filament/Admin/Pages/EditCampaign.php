@@ -166,7 +166,7 @@ class EditCampaign extends Page
             $recipientsOptions['all_subscribers'] = 'All subscribers';
         }
 
-     //   $recipientsOptions['import_new_list'] = 'Import new list';
+     //   $recipientsOptions['import_new_list'] = 'Restore new list';
 
         if (!empty($lists)) {
             $recipientsOptions['specific_list'] = 'Specific lists';
@@ -213,7 +213,7 @@ class EditCampaign extends Page
                                 ->live()
                                 ->required()
                                 ->hintActions([
-                                    Action::make('Import new subscribers')
+                                    Action::make('Restore new subscribers')
                                         ->view('microweber-module-newsletter::livewire.filament.admin.render-import-subscribers-action')
                                 ])
                                 ->label('Select subscribers')

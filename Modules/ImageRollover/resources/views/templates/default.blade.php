@@ -46,8 +46,7 @@
 
 <div>
     <div class="mw-rollover">
-
-        <img src="{{ $default_image }}" class="mw-rollover-default_image" width="300px" height="300px" alt="{{ $text ?? '' }}"/>
+        <img src="{{ $default_image }}" class="mw-rollover-default_image" {!! $sizeAttr !!} alt="{{ $text ?? '' }}"/>
 
         @if($rollover_image)
             <div class="mw-rollover-overlay">
@@ -66,6 +65,7 @@
         </div>
     @endif
 </div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
