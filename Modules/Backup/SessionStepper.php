@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Export;
+namespace Modules\Backup;
 
 class SessionStepper
 {

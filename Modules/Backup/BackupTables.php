@@ -1,7 +1,7 @@
 <?php
-namespace MicroweberPackages\Export;
+namespace Modules\Backup;
 
-class ExportTables
+class BackupTables
 {
 
 	public $tables;

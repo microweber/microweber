@@ -51,20 +51,20 @@ class ZExportTest extends TestCase
 		clearcache();
         $sessionId = SessionStepper::generateSessionId(3);
 
-        $manager = new \MicroweberPackages\Export\Export();
+        $manager = new \MicroweberPackages\Export\Backup();
         $manager->setSessionId($sessionId);
 		$manager->setExportAllData(true);
         $step = $manager->start();
         dump($step);
 
-        $manager = new \MicroweberPackages\Export\Export();
+        $manager = new \MicroweberPackages\Export\Backup();
         $manager->setSessionId($sessionId);
         $manager->setExportAllData(true);
         $step = $manager->start();
         dump($step);
 
 
-        $manager = new \MicroweberPackages\Export\Export();
+        $manager = new \MicroweberPackages\Export\Backup();
         $manager->setSessionId($sessionId);
         $manager->setExportAllData(true);
 

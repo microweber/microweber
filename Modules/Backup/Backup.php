@@ -15,7 +15,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Restore\Traits\ExportFileNameGetSet;
 use Modules\Restore\Traits\ExportGetSet;
 
-class Export
+class Backup
 {
     use ExportGetSet;
     use ExportFileNameGetSet;
