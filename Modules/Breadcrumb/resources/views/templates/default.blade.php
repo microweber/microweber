@@ -1,17 +1,19 @@
-@php
-    $breacrumb_params = [];
+<?php
 
-    if (isset($params['current-page-as-root'])) {
-        $breacrumb_params['current-page-as-root'] = $params['current-page-as-root'];
-    }
+/*
 
-    $selected_start_depth = get_option('data-start-from', $params['id']);
-    if ($selected_start_depth) {
-        $breacrumb_params['start_from'] = $selected_start_depth;
-    }
+  type: layout
 
-    $data = breadcrumb($breacrumb_params);
-@endphp
+  name: Default
+
+  description: Default template
+
+*/
+
+?>
+
+@include('modules.breadcrumb::partials.breadcrumb_params')
+
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
