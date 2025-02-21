@@ -17,25 +17,6 @@ class ShippingServiceProvider extends BaseModuleServiceProvider
 
     protected string $moduleNameLower = 'shipping';
 
-    /**
-     * Boot the application events.
-     */
-    public function boot(): void
-    {
-
-        /**
-         * @property \Modules\Shipping\ShippingManager $shipping_manager
-         * @deprecated do not use this, use shipping_method_manager instead
-         */
-
-        $this->app->singleton('shipping_manager', function ($app) {
-            /**
-             * @var Application $app
-             */
-            return new ShippingManager($app->make(Container::class));
-        });
-
-    }
 
     /**
      * Register the service provider.

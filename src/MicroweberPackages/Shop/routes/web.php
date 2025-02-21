@@ -2,7 +2,7 @@
 
 use  \Illuminate\Support\Facades\Route;
 
-Route::name('admin.')
+/*Route::name('admin.')
     ->prefix(mw_admin_prefix_url_legacy())
     ->middleware(['admin'])
     ->namespace('\MicroweberPackages\Shop\Http\Controllers\Admin')
@@ -20,4 +20,4 @@ Route::name('admin.shop.filter.')
 
     });
 
-
+*/

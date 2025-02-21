@@ -2,7 +2,6 @@
 
 namespace Modules\Product\Models;
 
-use MicroweberPackages\Shop\FrontendFilter\ShopFilter;
 use Modules\Cart\Models\Cart;
 use Modules\Content\Models\Content;
 use Modules\Content\Scopes\ProductScope;
@@ -10,6 +9,7 @@ use Modules\ContentDataVariant\Models\ContentDataVariant;
 use Modules\CustomFields\Models\CustomFieldValue;
 use Modules\Offer\Models\Offer;
 use Modules\Order\Models\Order;
+use Modules\Product\FrontendFilter\ShopFilter;
 use Modules\Product\Models\ModelFilters\ProductFilter;
 use Modules\Product\Support\CartesianProduct;
 use Modules\Product\Traits\CustomFieldPriceTrait;

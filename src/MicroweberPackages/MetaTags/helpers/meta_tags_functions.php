@@ -104,22 +104,3 @@ if (!function_exists('template_headers_src')) {
     }
 }
 
-/**
- * @deprecated
- */
-if (!function_exists('template_stack_add')) {
-    function template_stack_add($src, $group = 'default')
-    {
-        return app()->template_manager->stack_add($src, $group);
-    }
-}
-
-/**
- * @deprecated
- */
-if (!function_exists('template_stack_display')) {
-    function template_stack_display($group = 'default')
-    {
-        return app()->template_manager->stack_display($group);
-    }
-}

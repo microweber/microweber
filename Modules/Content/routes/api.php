@@ -13,20 +13,19 @@ use  \Illuminate\Support\Facades\Route;
 Route::name('api.')
     ->prefix('api')
     ->middleware(['api', 'admin'])
-
     ->group(function () {
         Route::get('content/get_admin_js_tree_json', function (\Illuminate\Http\Request $request) {
             return mw()->category_manager->get_admin_js_tree_json($request->all());
         })->name('content.get_admin_js_tree_json');
 
         Route::apiResource('content', \Modules\Content\Http\Controllers\Api\ContentApiController::class)->only([
-            'update','destroy','index','show','store'
+            'update', 'destroy', 'index', 'show', 'store'
         ]);
     });
 
 Route::name('api.')
     ->prefix('api')
-    ->middleware([ 'web','api', 'admin'])
+    ->middleware(['web', 'api', 'admin'])
     ->namespace('\Modules\Content\Http\Controllers\Api')
     ->group(function () {
 
@@ -134,6 +133,70 @@ Route::name('api.')
 
             return false;
         })->name('content.get_link_admin');
+
+
+        Route::any('api/get_content', function (\Illuminate\Http\Request $request) {
+            return get_content($request->all());
+        })->name('content.get_content');
+
+        Route::any('api/get_posts', function (\Illuminate\Http\Request $request) {
+            return get_posts($request->all());
+        })->name('content.get_posts');
+
+        Route::any('api/content_title', function (\Illuminate\Http\Request $request) {
+            return content_title($request->all());
+        })->name('content.content_title');
+
+        Route::any('api/content_title', function (\Illuminate\Http\Request $request) {
+            return content_title($request->all());
+        })->name('content.content_title');
+
+        Route::any('api/get_pages', function (\Illuminate\Http\Request $request) {
+            return content_title($request->all());
+        })->name('content.get_pages');
+
+        Route::any('api/content_link', function (\Illuminate\Http\Request $request) {
+            return content_link($request->all());
+        })->name('content.content_link');
+
+        Route::any('api/get_content_by_id', function (\Illuminate\Http\Request $request) {
+            return get_content_by_id($request->all());
+        })->name('content.get_content_by_id');
+
+        Route::any('api/get_products', function (\Illuminate\Http\Request $request) {
+            return get_products($request->all());
+        })->name('content.get_products');
+
+        Route::any('api/delete_content', function (\Illuminate\Http\Request $request) {
+            return delete_content($request->all());
+        })->name('content.delete_content');
+
+
+        Route::any('api/content_parents', function (\Illuminate\Http\Request $request) {
+            return content_parents($request->all());
+        })->name('content.content_parents');
+        Route::any('api/get_content_children', function (\Illuminate\Http\Request $request) {
+            return get_content_children($request->all());
+        })->name('content.get_content_children');
+        Route::any('api/page_link', function (\Illuminate\Http\Request $request) {
+            return page_link($request->all());
+        })->name('content.page_link');
+        Route::any('api/post_link', function (\Illuminate\Http\Request $request) {
+            return post_link($request->all());
+        })->name('content.post_link');
+        Route::any('api/pages_tree', function (\Illuminate\Http\Request $request) {
+            return pages_tree($request->all());
+        })->name('content.pages_tree');
+        Route::any('api/save_content', function (\Illuminate\Http\Request $request) {
+            return save_content($request->all());
+        })->name('content.save_content');
+        Route::any('api/get_content_field_draft', function (\Illuminate\Http\Request $request) {
+            return get_content_field_draft($request->all());
+        })->name('content.get_content_field_draft');
+
+        Route::any('api/get_content_field', function (\Illuminate\Http\Request $request) {
+            return get_content_field($request->all());
+        })->name('content.get_content_field');
 
 
     });

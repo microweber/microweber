@@ -185,7 +185,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $tableToggle = new TableLayoutTogglePlugin();
         $tableToggle->defaultLayout('grid');
-        $tableToggle->persistLayoutInLocalStorage(true);
+       // $tableToggle->persistLayoutInLocalStorage(true);
         $tableToggle->shareLayoutBetweenPages(false);
         $tableToggle->displayToggleAction();
         $tableToggle->toggleActionHook('tables::toolbar.search.after');
@@ -195,7 +195,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $panel->plugin(new MicroweberFilamentTheme());
         $panel->plugin(new UsersFilamentPlugin());
-        // $panel->plugin(new MarketplaceFilamentPlugin());
+      //    $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
 
         if ($registeredPlugins) {

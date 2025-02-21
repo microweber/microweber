@@ -1,7 +1,9 @@
 <?php
+
 namespace Modules\Shop\Tests\Unit;
 
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Payment\Models\PaymentProvider;
 
 class CartTest extends TestCase
 {
@@ -31,10 +33,10 @@ class CartTest extends TestCase
         self::$content_id = $saved_id;
 
         $add_to_cart = array(
-           'content_id' => self::$content_id,
-           'color' => 'Purple',
-           'non_existing' => 'must_not_be_added'
-           // 'price' => 30,
+            'content_id' => self::$content_id,
+            'color' => 'Purple',
+            'non_existing' => 'must_not_be_added'
+            // 'price' => 30,
         );
         $cart_add = update_cart($add_to_cart);
         $this->assertEquals(isset($cart_add['success']), true);
@@ -52,11 +54,11 @@ class CartTest extends TestCase
         $this->assertEquals($cart_items[0]['qty'], 2);
 
 
-
     }
+
     public function testAddToCartNotAProduct()
     {
-      //  empty_cart();
+        //  empty_cart();
         app()->database_manager->extended_save_set_permission(true);
 
         $params = array(
@@ -73,7 +75,7 @@ class CartTest extends TestCase
         $this->assertEquals($saved_id, ($get['id']));
 
         $add_to_cart = array(
-           'content_id' => $saved_id,
+            'content_id' => $saved_id,
 
         );
         $cart_add = update_cart($add_to_cart);
@@ -116,22 +118,35 @@ class CartTest extends TestCase
 
     public function testPaymentMethodsGet()
     {
-    //  $get = payment_options();
-        $get = app()->payment_manager->getPaymentModules(false);
+        // Create a PaymentProvider
 
-        if (is_module('shop')) {
-
-            $this->assertEquals(!empty($get), true);
-
-            foreach ($get as $item) {
-             //   $this->assertEquals(isset($item['module']), true);
-                $this->assertEquals(isset($item['name']), true);
-               //  $this->assertEquals(isset($item['id']), true);
-                 $this->assertEquals(isset($item['gw_file']), true);
-                 $this->assertEquals(isset($item['id']), true);
-                // $this->assertEquals(isset($item['icon']), true);
-            }
-
+        //check if exists
+        $provider = PaymentProvider::where('provider', 'paypal')->where('name', 'Test Provider')->first();
+        if (!$provider) {
+            $provider = PaymentProvider::create([
+                'name' => 'Test Provider',
+                'provider' => 'paypal',
+                'is_active' => 1,
+                'is_default' => 0,
+                'settings' => ['paypal_email' => 'test@example.com'],
+                'position' => 1,
+            ]);
         }
+
+        //  $get = payment_options();
+        $get = payment_options();
+
+        $this->assertTrue(is_module('shop'));
+
+
+        $this->assertEquals(!empty($get), true);
+
+        foreach ($get as $item) {
+            $this->assertEquals(isset($item['name']), true);
+            $this->assertEquals(isset($item['provider']), true);
+            $this->assertEquals(isset($item['id']), true);
+        }
+
+
     }
 }

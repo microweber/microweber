@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Shop;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Shop\Services\ShopManager;
 
 class ShopManagerServiceProvider extends ServiceProvider
 {
@@ -25,9 +26,7 @@ class ShopManagerServiceProvider extends ServiceProvider
         /**
          * @property \MicroweberPackages\Shop    $shop_manager
          */
-        $this->app->singleton('shop_manager', function ($app) {
-            return new ShopManager();
-        });
+
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }

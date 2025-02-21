@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\Shop\Services\ShopManager;
 
 
 class ShopServiceProvider extends BaseModuleServiceProvider
@@ -16,14 +17,6 @@ class ShopServiceProvider extends BaseModuleServiceProvider
 
     protected string $moduleNameLower = 'shop';
 
-    /**
-     * Boot the application events.
-     */
-    public function boot(): void
-    {
-
-
-    }
 
     /**
      * Register the service provider.
@@ -34,8 +27,16 @@ class ShopServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
+        $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
+
+
+        $this->app->singleton('shop_manager', function ($app) {
+            return new ShopManager();
+        });
+
+
+       //
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(ShopModuleSettings::class);

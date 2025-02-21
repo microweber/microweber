@@ -9,7 +9,7 @@ Route::name('api.template.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 
-        Route::get('template-settings-sidebar', function() {
+        Route::get('template-settings-sidebar', function () {
 
             return view('template::template-settings-sidebar-render-component');
         });
@@ -24,24 +24,23 @@ Route::name('api.template.')
         });
 
         Route::get('compile_admin_css', function () {
-           $compile = app()->template_manager->admin->compileAdminCss();
+            $compile = app()->template_manager->admin->compileAdminCss();
 
             $response = Response::make($compile);
             $response->header('Content-Type', 'text/css');
             return $response;
 
-        })->name('compile_admin_css')->withoutMiddleware(['api','admin']);
+        })->name('compile_admin_css')->withoutMiddleware(['api', 'admin']);
 
 
         Route::get('compile_admin_live_edit_css', function () {
-           $compile = app()->template_manager->admin->compileLiveEditCss();
+            $compile = app()->template_manager->admin->compileLiveEditCss();
 
             $response = Response::make($compile);
             $response->header('Content-Type', 'text/css');
             return $response;
 
-        })->name('compile_admin_live_edit_css')->withoutMiddleware(['api','admin']);
-
+        })->name('compile_admin_live_edit_css')->withoutMiddleware(['api', 'admin']);
 
 
         Route::get('get_admin_css_url', function () {
@@ -59,9 +58,9 @@ Route::name('api.template.')
 
         })->name('reset_admin_stylesheet');
 
-      Route::get('reset_admin_stylesheet_colors', function () {
+        Route::get('reset_admin_stylesheet_colors', function () {
             app()->template_manager->admin->cleanCompiledStylesheets();
-             return app()->template_manager->admin->resetSelectedStyleVariables();
+            return app()->template_manager->admin->resetSelectedStyleVariables();
 
         })->name('reset_admin_stylesheet_colors');
 
@@ -73,7 +72,7 @@ Route::post('api/current_template_save_custom_css', function (Request $request) 
 
     return mw()->layouts_manager->template_save_css($data);
 })->name('current_template_save_custom_css')
-->middleware(['admin']);
+    ->middleware(['admin']);
 
 Route::post('api/layouts/template_remove_custom_css', function (Request $request) {
     $data = $request->all();
@@ -81,7 +80,7 @@ Route::post('api/layouts/template_remove_custom_css', function (Request $request
 
     return mw()->layouts_manager->template_remove_custom_css($data);
 })->name('template_remove_custom_css')
-->middleware(['admin']);
+    ->middleware(['admin']);
 
 
 //\Route::post('api/template/delete_compiled_css', function (Request  $request) {
@@ -96,34 +95,54 @@ Route::get('api/template/delete_compiled_css', function (Request $request) {
     $data = $request->all();
     app()->template_manager->defineConstants($data);
 
-    $compiled =  app()->template_manager->delete_compiled_css($data);
+    $compiled = app()->template_manager->delete_compiled_css($data);
 
-   // $compiled =  app()->template_manager->compile_css($data);
+    // $compiled =  app()->template_manager->compile_css($data);
 
-    $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
+    $compiled = str_replace('../../../../../../', userfiles_url(), $compiled);
 
     $response = Response::make($compiled);
     $response->header('Content-Type', 'text/css');
     return $response;
 })->name('delete_compiled_css')
-->middleware(['admin']);
+    ->middleware(['admin']);
 
 
 Route::get('api/template/compile_css', function (Request $request) {
     $data = $request->all();
     app()->template_manager->defineConstants($data);
 
-    $compiled =  app()->template_manager->compile_css($data);
+    $compiled = app()->template_manager->compile_css($data);
 
-    $compiled = str_replace( '../../../../../../',userfiles_url(), $compiled);
+    $compiled = str_replace('../../../../../../', userfiles_url(), $compiled);
 
     $response = Response::make($compiled);
     $response->header('Content-Type', 'text/css');
     return $response;
-})->name('template_compile_css');
+})->name('template_compile_css')->middleware(['admin']);
 
 
+Route::any('api/template/print_custom_css_fonts', function (Request $request) {
 
+    $contents = app()->template_manager->get_custom_fonts_css_content();
+
+    $response = Response::make($contents);
+    $response->header('Content-Type', 'text/css');
+
+    return $response;
+})->name('print_custom_css_fonts');
+
+
+Route::any('api/template/print_custom_css', function (Request $request) {
+
+    $data = $request->all();
+    $contents = app()->template_manager->get_custom_css($data);
+
+    $response = Response::make($contents);
+    $response->header('Content-Type', 'text/css');
+
+    return $response;
+})->name('print_custom_css');
 
 
 

@@ -13,7 +13,10 @@ use \Illuminate\Support\Facades\Route;
 //        ->middleware(['live_edit', 'admin']);
 //
 //});
-Route::group(['middleware' => 'admin', 'namespace' => '\MicroweberPackages\LiveEdit\Http\Controllers'], function () {
+
+/*
+Route::group(['middleware' => 'admin', 'namespace' =>
+    '\MicroweberPackages\LiveEdit\Http\Controllers'], function () {
 
     $admin_url = mw_admin_prefix_url();
 
@@ -24,4 +27,4 @@ Route::group(['middleware' => 'admin', 'namespace' => '\MicroweberPackages\LiveE
     });
 
 
-});
+});*/

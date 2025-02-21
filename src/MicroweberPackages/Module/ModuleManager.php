@@ -1357,7 +1357,6 @@ class ModuleManager
         return $checked[$module_name];
     }
 
-    /* @deprecated */
     public function is_installed($module_name)
     {
 
@@ -1370,6 +1369,34 @@ class ModuleManager
             $module_namei = str_ireplace('\\admin', '', $module_namei);
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
+
+
+
+        if (app()->bound('microweber')) {
+            if (app()->microweber->hasModule($module_name)) {
+                return true;
+            }
+        }
+
+
+        if (app()->bound('modules')) {
+            if (app()->modules->find($module_name)) {
+                return true;
+            }
+        }
+
+
+
+
+        // code bellow is deprecated and should be removed
+        // code bellow is deprecated and should be removed
+        // code bellow is deprecated and should be removed
+        // code bellow is deprecated and should be removed
+        // code bellow is deprecated and should be removed
+
+
+
+
         //$uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
         $uninstall_lock = app()->module_repository->getModule($module_namei);
 

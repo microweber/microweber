@@ -25,14 +25,12 @@ use MicroweberPackages\Multilanguage\TranslateManager;
 use MicroweberPackages\Option\OptionManager;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Repository\RepositoryManager;
-use MicroweberPackages\Shop\ShopManager;
 use MicroweberPackages\Template\LayoutsManager;
 use MicroweberPackages\Template\TemplateManager;
 use MicroweberPackages\Translation\Translator;
 use MicroweberPackages\User\UserManager;
 use MicroweberPackages\Utils\Http\Http;
 use Modules\Attributes\Repositories\AttributesManager;
-use Modules\Captcha\Services\CaptchaManager;
 use Modules\Cart\Repositories\CartManager;
 use Modules\Cart\Repositories\CartRepository;
 use Modules\Checkout\Repositories\CheckoutManager;
@@ -48,7 +46,9 @@ use Modules\Menu\Repositories\MenuRepository;
 use Modules\Order\Repositories\OrderManager;
 use Modules\Order\Repositories\OrderRepository;
 use Modules\Payment\Services\PaymentMethodManager;
+use Modules\Shipping\Services\ShippingMethodManager;
 use Modules\Shipping\ShippingManager;
+use Modules\Shop\Services\ShopManager;
 
 
 /**
@@ -84,7 +84,7 @@ use Modules\Shipping\ShippingManager;
  * @property \Modules\Tax\Services\TaxManager $tax_manager
  * @property CheckoutManager $checkout_manager
  * @property CountryManager $country_manager
- * @property ShippingManager $shipping_manager
+ * @property ShippingMethodManager $shipping_method_manager
  * @property OptionManager $option_manager
  * @property OptionRepository $option_repository
  * @property CacheManager $cache_manager

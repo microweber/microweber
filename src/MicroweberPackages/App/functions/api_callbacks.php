@@ -18,7 +18,7 @@ api_expose('api_index', function ($data = false) {
 });
 
 // content
-
+/*
 //api_expose_admin('get_content_admin');
 api_expose_admin('get_content');
 api_expose_admin('get_posts');
@@ -35,8 +35,8 @@ api_expose_admin('post_link');
 api_expose_admin('pages_tree');
 api_expose_admin('save_content');
 api_expose_admin('get_content_field_draft');
-api_expose_admin('get_content_field');
-
+api_expose_admin('get_content_field');*/
+/*
 api_expose_admin('notifications_manager/delete', function ($data) {
     return mw()->notifications_manager->delete($data);
 });
@@ -63,164 +63,60 @@ api_expose_admin('notifications_manager/read_selected', function ($data) {
 
 api_expose_admin('notifications_manager/mark_all_as_read', function ($data) {
     return mw()->notifications_manager->mark_all_as_read($data);
-});
+});*/
 
-api_expose('template/print_custom_css', function ($data) {
+//api_expose('template/print_custom_css', function ($data) {
+//
+//
+//    $contents = app()->template_manager->get_custom_css($data);
+//
+//    $response = Response::make($contents);
+//    $response->header('Content-Type', 'text/css');
+//
+//    return $response;
+//
+//});
+//api_expose('template/print_custom_css_fonts', function ($data) {
+//
+//
+//    $contents = app()->template_manager->get_custom_fonts_css_content();
+//
+//    $response = Response::make($contents);
+//    $response->header('Content-Type', 'text/css');
+//
+//    return $response;
+//
+//});
 
-
-    $contents = app()->template_manager->get_custom_css($data);
-
-    $response = Response::make($contents);
-    $response->header('Content-Type', 'text/css');
-
-    return $response;
-
-});
-api_expose('template/print_custom_css_fonts', function ($data) {
-
-
-    $contents = app()->template_manager->get_custom_fonts_css_content();
-
-    $response = Response::make($contents);
-    $response->header('Content-Type', 'text/css');
-
-    return $response;
-
-});
-
-api_expose_admin('current_template_save_custom_css', function ($data) {
-    return mw()->layouts_manager->template_save_css($data);
-});
+//api_expose_admin('current_template_save_custom_css', function ($data) {
+//    return mw()->layouts_manager->template_save_css($data);
+//});
 
 // SHOP
-api_expose('cart_sum');
-api_expose('checkout');
-api_expose('checkout_ipn');
-api_expose('currency_format');
-api_expose('empty_cart');
-api_expose('payment_options');
+//api_expose('cart_sum');
+//api_expose('checkout');
+//api_expose('checkout_ipn');
+//api_expose('currency_format');
+//('empty_cart');
+//api_expose('payment_options');
 
 
 
-api_expose_admin('get_cart');
+/*api_expose_admin('get_cart');
 api_expose_admin('get_orders');
 api_expose_admin('get_order_by_id');
 api_expose_admin('checkout_confirm_email_test');
 api_expose_admin('delete_client');
 api_expose_admin('delete_order');
-api_expose_admin('update_order');
+api_expose_admin('update_order');*/
 
-api_expose_admin('shop/update_order', function ($data) {
+/*api_expose_admin('shop/update_order', function ($data) {
     return app()->shop_manager->update_order($data);
-});
+});*/
 
 
-api_expose_admin('shop/export_orders', function ($data) {
+/*api_expose_admin('shop/export_orders', function ($data) {
     return app()->order_manager->export_orders($data);
-});
-
-// media
-
-
-
-
-
-// queue
-api_expose('queue_dispatch', function () {
-    return;
-    mw()->event_manager->trigger('mw.queue.dispatch');
-
-    $all_queue = Jobs::whereNull('mw_processed')->get();
-
-    if ($all_queue) {
-        foreach ($all_queue as $queue_item) {
-            $payload = $queue_item->payload;
-            if ($payload) {
-                $payload = @json_decode($payload, true);
-                $command = @unserialize($payload['data']['command']);
-                //  $queue_item->mw_processed=1;
-                // $queue_item->save();
-                //     $queue_item->delete();
-
-
-                if (is_object($command)) {
-
-                    $app = app();
-                    //    $command = (clone $command);
-                    $app->make('queue');
-
-                    //    $app->register(get_class($command));
-                    //  $app->bind('Illuminate\Contracts\Queue\Job',get_class($command));
-
-                    //  $command::dispatch($command);
-                    //  dd($command);
-                    $dispatcher = $app->make('Illuminate\Contracts\Bus\Dispatcher');
-                    $h = $app->make('Illuminate\Queue\CallQueuedHandler');
-
-                    // $job = app('Illuminate\Contracts\Queue\Job');
-
-                    //    $handler = new \Illuminate\Queue\CallQueuedHandler($dispatcher);
-
-                    $dispatcher->dispatchNow($command);
-
-
-                    //   $handler->call($command,$payload['data']);
-
-
-                    //  $dis =  dispatch($command);
-//dd($dis );
-                }
-
-            }
-        }
-    }
-    // dd($all_queue);
-    // php artisan queue:work
-
-
-    // $queue = new Illuminate\Queue\QueueManager(app());
-    //  $queue->pushRaw();
-
-    //  dd($queue);
-
-//
-//    foreach (Stores::all() as $store) {
-//        ParseFeedJob::dispatch($store);
-//    }
-//
-//
-//    Queue::before(function (JobProcessing $event) {
-//        // $event->connectionName
-//        // $event->job
-//        // $event->job->payload()
-//    });
-//
-//    Queue::after(function (JobProcessed $event) {
-//        // $event->connectionName
-//        //    print  $event->job;
-//        // $event->job->payload()
-//    });
-//    Queue::looping(function () {
-//
-//
-//    });
-
-});
-api_expose('queue_dispatch1', function () {
-
-    //   $job = \Queue::push('App\Jobs\CheckTopic', ['url' => $url]);
-
-    $job = Queue::push('\MicroweberPackages\Utils\Import', ['export' => '']);
-    //dispatch($job)->onQueue('high');
-    //dd($job);
-
-    // \Illuminate\Queue\Worker;
-
-
-    $job = mw('\MicroweberPackages\Utils\Import', ['export' => '']);
-    dispatch($job)->onQueue('high');
-
-    //dispatch($job);
-});
+});*/
 
 

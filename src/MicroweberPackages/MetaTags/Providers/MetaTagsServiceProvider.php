@@ -17,7 +17,7 @@ class MetaTagsServiceProvider extends \Butschster\Head\Providers\MetaTagsApplica
         $this->app->singleton(\MicroweberPackages\MetaTags\AdminMetaTagsRenderer::class);
 
 
-        if (app()->environment() === 'testing') {
+        if (app()->runningUnitTests() and is_cli()) {
             $this->app->register(MetaTagsUnitTestServiceProvider::class);
         }
 

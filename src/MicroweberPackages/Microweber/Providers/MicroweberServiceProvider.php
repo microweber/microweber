@@ -15,7 +15,6 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
 use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
-use MicroweberPackages\FileManager\FileManagerServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
 use MicroweberPackages\Frontend\Providers\FrontendServiceProvider;
@@ -28,13 +27,11 @@ use MicroweberPackages\LaravelTemplates\LaravelTemplatesServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditRouteServiceProvider;
 use MicroweberPackages\LiveEdit\Providers\LiveEditServiceProvider;
 use MicroweberPackages\Livewire\LivewireServiceProvider;
-use MicroweberPackages\Marketplace\MarketplaceServiceProvider;
 use MicroweberPackages\MetaTags\Providers\MetaTagsServiceProvider;
 use MicroweberPackages\Microweber\Repositories\MicroweberRepository;
 use MicroweberPackages\MicroweberUI\Providers\MicroweberUIServiceProvider;
 use MicroweberPackages\Module\ModuleServiceProvider;
 use MicroweberPackages\Multilanguage\MultilanguageServiceProvider;
-use MicroweberPackages\Notification\Providers\MailTemplatesServiceProvider;
 use MicroweberPackages\Notification\Providers\NotificationServiceProvider;
 use MicroweberPackages\Option\Providers\OptionServiceProvider;
 use MicroweberPackages\Pagination\PaginationServiceProvider;
@@ -151,7 +148,7 @@ class MicroweberServiceProvider extends ServiceProvider
        // $this->app->register(CartManagerServiceProvider::class);
         //$this->app->register(ShippingManagerServiceProvider::class);
         //$this->app->register(OfferServiceProvider::class);
-        $this->app->register(FileManagerServiceProvider::class);
+       // $this->app->register(FileManagerServiceProvider::class);
       //  $this->app->register(FormServiceProvider::class);
         $this->app->register(FormBuilderServiceProvider::class);
         $this->app->register(UserEventServiceProvider::class);
@@ -159,7 +156,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
 
         // Others
-        $this->app->register(MarketplaceServiceProvider::class);
+       // $this->app->register(MarketplaceServiceProvider::class);
         //$this->app->register(CaptchaServiceProvider::class);
         //$this->app->register(CaptchaEventServiceProvider::class);
         //.$this->app->register(BackupServiceProvider::class);
@@ -175,7 +172,7 @@ class MicroweberServiceProvider extends ServiceProvider
         //   $this->app->register(  \Laravel\Sanctum\SanctumServiceProvider::class);
        // $this->app->register(CountryServiceProvider::class);
         // $this->app->register(\EloquentFilter\ServiceProvider::class);
-        $this->app->register(MailTemplatesServiceProvider::class);
+     //   $this->app->register(MailTemplatesServiceProvider::class);
         $this->app->register(NotificationServiceProvider::class);
         $this->app->register(QueueServiceProvider::class);
         $this->app->register(QueueEventServiceProvider::class);

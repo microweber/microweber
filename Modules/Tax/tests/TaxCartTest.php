@@ -1,11 +1,10 @@
 <?php
 namespace Modules\Tax\Tests;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Shop\tests\ShopTestHelperTrait;
 use Modules\Checkout\Repositories\CheckoutManager;
 use Modules\Coupons\Models\Coupon;
+use Modules\Shop\Tests\Unit\ShopTestHelperTrait;
 use Modules\Tax\Models\TaxType;
 
 class TaxCartTest extends TestCase

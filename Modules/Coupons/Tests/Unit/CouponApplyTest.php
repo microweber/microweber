@@ -5,9 +5,9 @@ namespace Modules\Coupons\Tests\Unit;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
-use Modules\Coupons\Models\CartCouponLog;
-use MicroweberPackages\Shop\tests\ShopTestHelperTrait;
 use Modules\Checkout\Repositories\CheckoutManager;
+use Modules\Coupons\Models\CartCouponLog;
+use Modules\Shop\Tests\Unit\ShopTestHelperTrait;
 use Modules\Tax\Models\TaxType;
 
 class CouponApplyTest extends TestCase

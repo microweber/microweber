@@ -10,10 +10,10 @@ class ShippingToCountryServiceProvider extends ServiceProvider
 {
     public function register()
     {
-         app()->resolving(\Modules\Shipping\ShippingManager::class, function (\Modules\Shipping\ShippingManager $shippingManager) {
+       /*  app()->resolving(\Modules\Shipping\ShippingManager::class, function (\Modules\Shipping\ShippingManager $shippingManager) {
             $shippingManager->extend('shop/shipping/gateways/country', function () {
                 return new ShippingToCountry();
             });
-        });
+        });*/
     }
 }

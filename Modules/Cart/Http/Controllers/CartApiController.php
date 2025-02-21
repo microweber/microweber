@@ -11,12 +11,24 @@ class CartApiController extends Controller
     {
 
 
-         return update_cart($request->all());
+        return update_cart($request->all());
+    }
+
+    public function emptyCart(Request $request)
+    {
+
+
+        return empty_cart();
     }
 
     public function removeCartItem(Request $request)
     {
         return remove_cart_item($request->all());
+    }
+
+    public function sumCart(Request $request)
+    {
+        return cart_sum();
     }
 
     public function updateCartItemQty(Request $request)
