@@ -96,6 +96,7 @@ docs/.vitepress/cache
 Templates/*/
 /public/modules
 /public/js/
+/public/storage
 /public/vendor/
 /public/css/
 /public/templates/
