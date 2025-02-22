@@ -5,7 +5,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\LiveEdit\Models\Scopes\HasOptionGroupScope;
 use Sushi\Sushi;
-
+/**
+ * @deprecated
+ */
 class ModuleItemSushi extends Model
 {
     // Add the trait

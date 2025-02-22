@@ -7,7 +7,9 @@ namespace MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor;
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Renderless;
-
+/**
+ * @deprecated
+ */
 abstract class AbstractModuleSettingsEditorComponent extends AdminComponent
 {
     public string $view = '';

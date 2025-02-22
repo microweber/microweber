@@ -14,7 +14,9 @@ use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\Abstract\LiveEditModuleSettings;
 use MicroweberPackages\LiveEdit\Models\ModuleItemSushi;
 
-
+/**
+ * @deprecated
+ */
 class ModuleSettingsItemsEditorComponent extends LiveEditModuleSettings implements HasTable
 {
 

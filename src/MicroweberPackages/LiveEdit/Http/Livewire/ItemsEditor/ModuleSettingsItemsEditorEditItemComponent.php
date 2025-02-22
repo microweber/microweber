@@ -4,7 +4,9 @@
  */
 namespace MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor;
 use Livewire\Attributes\Isolate;
-
+/**
+ * @deprecated
+ */
 #[Isolate]
 class ModuleSettingsItemsEditorEditItemComponent extends AbstractModuleSettingsEditorComponent
 {

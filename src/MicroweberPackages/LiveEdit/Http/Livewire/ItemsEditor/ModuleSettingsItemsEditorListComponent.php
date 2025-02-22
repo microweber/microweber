@@ -1,10 +1,16 @@
 <?php
+
 /**
  * DEPRECATED
  */
+
+
+
 namespace MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor;
 use Livewire\Attributes\Isolate;
-
+/**
+ * @deprecated
+ */
 #[Isolate]
 class ModuleSettingsItemsEditorListComponent extends AbstractModuleSettingsEditorComponent
 {
