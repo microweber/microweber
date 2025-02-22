@@ -1,17 +1,13 @@
 <?php
 
-namespace MicroweberPackages\Export;
+namespace Modules\Backup;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Export\Formats\CsvExport;
-use MicroweberPackages\Export\Formats\JsonExport;
-use MicroweberPackages\Export\Formats\XlsxExport;
-use MicroweberPackages\Export\Formats\XmlExport;
-use MicroweberPackages\Export\Formats\ZipBatchExport;
-use MicroweberPackages\Export\Loggers\ExportLogger;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use Modules\Backup\Formats\JsonBackup;
+use Modules\Backup\Formats\ZipBatchBackup;
 use Modules\Backup\Loggers\BackupLogger;
 use Modules\Backup\Traits\BackupFileNameGetSet;
 use Modules\Backup\Traits\BackupGetSet;
@@ -22,8 +18,8 @@ class Backup
     use BackupFileNameGetSet;
 
     public $type = 'json';
-    public $exportData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
-    public $exportAllData = false;
+    public $backupData = ['categoryIds' => [], 'contentIds' => [], 'tables' => []];
+    public $backupAllData = false;
     public $logger;
     public $sessionId;
 
@@ -44,18 +40,18 @@ class Backup
      * Set wich data want to export
      * @param array $data
      */
-    public function setExportData($dataType, $dataIds): void
+    public function setBackupData($dataType, $dataIds): void
     {
-        $this->exportData[$dataType] = $dataIds;
+        $this->backupData[$dataType] = $dataIds;
     }
 
     /**
      * Set export full
      * @param string $type
      */
-    public function setExportAllData($exportAllData = true): void
+    public function setBackupAllData($all = true): void
     {
-        $this->exportAllData = $exportAllData;
+        $this->backupAllData = $all;
     }
 
     /**
@@ -91,7 +87,7 @@ class Backup
         $isFirstStep = SessionStepper::isFirstStep();
 
         $readyDataCacheId = 'readyData' . $this->sessionId;
-        $readyDataCacheGroup = 'mwExport';
+        $readyDataCacheGroup = 'mwBackup';
 
         $exportCacheLocation = backup_cache_location();
 
@@ -107,68 +103,70 @@ class Backup
         }
 
         if (empty($data)) {
-            return array("error" => "Session export is broken. Data is not cached.");
+            return array("error" => "Session backup is broken. Data is not cached.");
         }
 
-        $exportWithZip = ($this->exportAllData ? true : false);
-        $exportMediaUserFiles = ($this->exportAllData ? true : false);
+        $backupWithZip = ($this->backupAllData ? true : false);
+        $backupMediaUserFiles = ($this->backupAllData ? true : false);
 
      /*   if (array_key_exists('media', $data)) {
-            $exportMediaUserFiles = true;
-            $this->exportMedia = true;
+            $backupMediaUserFiles = true;
+            $this->backupMedia = true;
         }*/
 
-        if (!empty($this->exportData['contentIds'])) {
-            $this->exportMedia = true;
-			$exportMediaUserFiles = true;
-			$exportWithZip = true;
+        if (!empty($this->backupData['contentIds'])) {
+            $this->backupMedia = true;
+			$backupMediaUserFiles = true;
+			$backupWithZip = true;
         }
 
         $exportedDataCacheId = 'exportedData' . $this->sessionId;
 
         if ($isFirstStep) {
-            $export = $this->_getExporter($data);
-            cache_save($export, $exportedDataCacheId,$readyDataCacheGroup);
+            $backup = new JsonBackup($data);
+            $backup->setType($this->type);
+            $backup = $backup->start();
+            cache_save($backup, $exportedDataCacheId,$readyDataCacheGroup);
         } else {
-            $export = cache_get($exportedDataCacheId, $readyDataCacheGroup);
+            $backup = cache_get($exportedDataCacheId, $readyDataCacheGroup);
         }
 
-        if (empty($export)) {
-            return array("error" => "Session export is broken. Exported data is not cached.");
+        if (empty($backup)) {
+            return array("error" => "Backup session is broken. Exported data is not cached.");
         }
 
-        if (isset($export['files']) && count($export['files']) > 1) {
-            $exportWithZip = true;
+        if (isset($backup['files']) && count($backup['files']) > 1) {
+            $backupWithZip = true;
         }
 
-        if ($this->exportModules) {
-            $exportWithZip = true;
+        if ($this->backupModules) {
+            $backupWithZip = true;
         }
 
-        if ($this->exportTemplates) {
-            $exportWithZip = true;
+        if ($this->backupTemplates) {
+            $backupWithZip = true;
         }
-        if ($this->exportWithZip) {
-            $exportWithZip = true;
-        }
-
-        if ($this->exportOnlyTemplate) {
-            $exportWithZip = true;
-            unset($export['files']);
-        }
-        if($exportMediaUserFiles){
-            $exportWithZip = true;
+        if ($this->backupWithZip) {
+            $backupWithZip = true;
         }
 
-        if ($exportWithZip) {
+        if ($this->backupOnlyTemplate) {
+            $backupWithZip = true;
+            unset($backup['files']);
+        }
+        if($backupMediaUserFiles){
+            $backupWithZip = true;
+        }
+
+        if ($backupWithZip) {
 
             // Make Zip
-            $zipExport = new ZipBatchExport();
+            $zipExport = new ZipBatchBackup();
             $zipExport->setLogger($this->logger);
 
             // Move files to zip temp
-            if (isset($export['files'])) {
-                foreach ($export['files'] as $file) {
+            if (isset($backup['files'])) {
+                foreach ($backup['files'] as $file) {
 
                     $newFilePath = $exportCacheLocation . $file['filename'];
                     if ($isFirstStep) {
@@ -180,24 +178,24 @@ class Backup
                 }
             }
 
-            if ($exportMediaUserFiles) {
-                $zipExport->setExportMedia(true);
+            if ($backupMediaUserFiles) {
+                $zipExport->setBackupMedia(true);
             }
 
-            if ($this->exportModules) {
-            //    $zipExport->setExportModules($this->exportModules);
+            if ($this->backupModules) {
+            //    $zipExport->setBackupModules($this->backupModules);
             }
 
-            if ($this->exportTemplates) {
-             //   $zipExport->setExportTemplates($this->exportTemplates);
+            if ($this->backupTemplates) {
+             //   $zipExport->setBackupTemplates($this->backupTemplates);
             }
 
-            if ($this->exportOnlyTemplate) {
-                $zipExport->setExportOnlyTemplate($this->exportOnlyTemplate);
+            if ($this->backupOnlyTemplate) {
+                $zipExport->setBackupOnlyTemplate($this->backupOnlyTemplate);
             }
 
-            if ($this->exportFileName) {
-                $zipExport->setExportFileName($this->exportFileName);
+            if ($this->backupFileName) {
+                $zipExport->setBackupFileName($this->backupFileName);
             }
 
             $zipExportReady = $zipExport->start();
@@ -221,42 +219,42 @@ class Backup
             }
         }
 
-        if (isset($export['files'])) {
+        if (isset($backup['files'])) {
 
             $exportSingleFile = false;
 
-            if (count($export['files']) == 1) {
+            if (count($backup['files']) == 1) {
                 $exportSingleFile = true;
             }
 
-            if ($exportSingleFile && isset($export['files']) && !empty($export['files'])) {
+            if ($exportSingleFile && isset($backup['files']) && !empty($backup['files'])) {
                 return array(
                     'success' => 'Items are exported',
                     'export_type' => $this->type,
-                    'data' => $export['files'][0]
+                    'data' => $backup['files'][0]
                 );
             } else {
-                return $export;
+                return $backup;
             }
 
         }
 
     }
 
-    private function _getExportDataHash()
+    private function _getbackupDataHash()
     {
-        return md5(json_encode($this->exportData));
+        return md5(json_encode($this->backupData));
     }
 
     private function _getReadyData()
     {
-        $exportTables = new ExportTables();
+        $backupTables = new BackupTables();
 
         $tablesStructures = array();
 
-        foreach ($this->_getTablesForExport() as $table) {
+        foreach ($this->_getTablesForBackup() as $table) {
 
-            $this->logger->setLogInfo('Exporting table: <b>' . $table . '</b>');
+            $this->logger->setLogInfo('Backup table: <b>' . $table . '</b>');
 
             $tableFields = app()->database_manager->get_fields($table, false, true);
 
@@ -270,10 +268,10 @@ class Backup
                 $tablesStructures[$table] = $tableFieldsStructure;
             }
 
-            if ($this->exportAllData) {
+            if ($this->backupAllData) {
                 $tableContent = $this->_getTableContent($table);
                 if (!empty($tableContent)) {
-                    $exportTables->addItemsToTable($table, $tableContent);
+                    $backupTables->addItemsToTable($table, $tableContent);
                 }
                 continue;
             }
@@ -282,8 +280,8 @@ class Backup
 
             if ($table == 'categories') {
 
-                if (!empty($this->exportData['categoryIds'])) {
-                    $ids = $this->exportData['categoryIds'];
+                if (!empty($this->backupData['categoryIds'])) {
+                    $ids = $this->backupData['categoryIds'];
                 }
 
                 // Get all posts for this category
@@ -294,20 +292,20 @@ class Backup
                 ));
 
                 if (is_array($contentForCategories) && !empty($contentForCategories)) {
-                    $exportTables->addItemsToTable('content', $contentForCategories);
+                    $backupTables->addItemsToTable('content', $contentForCategories);
                 }
             }
 
             if ($table == 'content') {
-                if (!empty($this->exportData['contentIds'])) {
-                    $ids = $this->exportData['contentIds'];
+                if (!empty($this->backupData['contentIds'])) {
+                    $ids = $this->backupData['contentIds'];
                 }
             }
 
             $tableContent = $this->_getTableContent($table, $ids);
             if (!empty($tableContent)) {
 
-                $exportTables->addItemsToTable($table, $tableContent);
+                $backupTables->addItemsToTable($table, $tableContent);
 
                 $relations = array();
                 foreach ($tableContent as $content) {
@@ -326,21 +324,21 @@ class Backup
 
                         $relationTableContent = $this->_getTableContent($relationTable, $relationIds);
 
-                        $exportTables->addItemsToTable($relationTable, $relationTableContent);
+                        $backupTables->addItemsToTable($relationTable, $relationTableContent);
                     }
                 }
 
             }
         }
 
-        $exportTablesReady = $exportTables->getAllTableItems();
+        $exportTablesReady = $backupTables->getAllTableItems();
         $exportTablesReady['__table_structures'] = $tablesStructures;
 
         // Show only requried content ids
         if (isset($exportTablesReady['content'])) {
             $contentTableData = [];
             foreach ($exportTablesReady['content'] as $tableData) {
-                if (in_array($tableData['id'], $this->exportData['contentIds'])) {
+                if (in_array($tableData['id'], $this->backupData['contentIds'])) {
                     $contentTableData[] = $tableData;
                 } else {
                     $contentTableData = $this->_getTableContent('content');
@@ -451,36 +449,36 @@ class Backup
         $skipTables = $this->_skipTables();
 
         // Add table categories if we have category ids
-        if (!empty($this->exportData['categoryIds'])) {
-            if (!in_array('categories', $this->exportData['tables'])) {
-                $this->exportData['tables'][] = 'categories';
+        if (!empty($this->backupData['categoryIds'])) {
+            if (!in_array('categories', $this->backupData['tables'])) {
+                $this->backupData['tables'][] = 'categories';
             }
         }
 
         // Add table categories if we have content ids
-        if (!empty($this->exportData['contentIds'])) {
-            if (!in_array('content', $this->exportData['tables'])) {
-                $this->exportData['tables'][] = 'content';
-                $this->exportData['tables'][] = 'categories';
-                $this->exportData['tables'][] = 'categories_items';
-                $this->exportData['tables'][] = 'content_data';
-                $this->exportData['tables'][] = 'content_fields';
-                $this->exportData['tables'][] = 'content_related';
-                $this->exportData['tables'][] = 'custom_fields';
-                $this->exportData['tables'][] = 'custom_fields_values';
-                $this->exportData['tables'][] = 'elements';
-                $this->exportData['tables'][] = 'media';
-                $this->exportData['tables'][] = 'menus';
-                $this->exportData['tables'][] = 'testimonials';
-                $this->exportData['tables'][] = 'tagging_tagged';
-                $this->exportData['tables'][] = 'tagging_tags';
-                $this->exportData['tables'][] = 'tagging_tag_groups';
-                $this->exportData['tables'][] = 'options';
+        if (!empty($this->backupData['contentIds'])) {
+            if (!in_array('content', $this->backupData['tables'])) {
+                $this->backupData['tables'][] = 'content';
+                $this->backupData['tables'][] = 'categories';
+                $this->backupData['tables'][] = 'categories_items';
+                $this->backupData['tables'][] = 'content_data';
+                $this->backupData['tables'][] = 'content_fields';
+                $this->backupData['tables'][] = 'content_related';
+                $this->backupData['tables'][] = 'custom_fields';
+                $this->backupData['tables'][] = 'custom_fields_values';
+                $this->backupData['tables'][] = 'elements';
+                $this->backupData['tables'][] = 'media';
+                $this->backupData['tables'][] = 'menus';
+                $this->backupData['tables'][] = 'testimonials';
+                $this->backupData['tables'][] = 'tagging_tagged';
+                $this->backupData['tables'][] = 'tagging_tags';
+                $this->backupData['tables'][] = 'tagging_tag_groups';
+                $this->backupData['tables'][] = 'options';
             }
         }
 
-        if (!empty($this->exportData['tables'])) {
-            if (in_array('users', $this->exportData['tables'])) {
+        if (!empty($this->backupData['tables'])) {
+            if (in_array('users', $this->backupData['tables'])) {
                 $keyOfSkipTable = array_search('users', $skipTables);
                 if ($keyOfSkipTable) {
                     unset($skipTables[$keyOfSkipTable]);
@@ -491,7 +489,7 @@ class Backup
         return $skipTables;
     }
 
-    private function _getTablesForExport()
+    private function _getTablesForBackup()
     {
         $skipTables = $this->_prepareSkipTables();
 
@@ -512,9 +510,9 @@ class Backup
                 }
             }
 
-            if (!empty($this->exportData) && $this->exportAllData == false) {
-                if (isset($this->exportData['tables'])) {
-                    if (!in_array($tableName, $this->exportData['tables'])) {
+            if (!empty($this->backupData) && $this->backupAllData == false) {
+                if (isset($this->backupData['tables'])) {
+                    if (!in_array($tableName, $this->backupData['tables'])) {
                         continue;
                     }
                 }
@@ -526,32 +524,5 @@ class Backup
         return $readyTableList;
     }
 
-    private function _getExporter($data)
-    {
-        switch ($this->type) {
-            case 'json':
-                $export = new JsonExport($data);
-                break;
-
-            case 'csv':
-                $export = new CsvExport($data);
-                break;
-
-            case 'xml':
-                $export = new XmlExport($data);
-                break;
-
-            case 'xlsx':
-                $export = new XlsxExport($data);
-                break;
-
-            default:
-                throw new \Exception('Format not supported for exporting.');
-        }
-
-        $export->setType($this->type);
-
-        return $export->start();
-    }
 
 }
