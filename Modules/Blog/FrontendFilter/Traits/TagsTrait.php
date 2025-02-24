@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Blog\FrontendFilter\Traits;
+namespace Modules\Blog\FrontendFilter\Traits;
 
 use Illuminate\Support\Facades\URL;
 use Modules\Tag\Model\Tag;

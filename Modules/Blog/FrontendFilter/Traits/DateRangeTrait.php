@@ -1,8 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Blog\FrontendFilter\Traits;
-
-use Illuminate\Support\Facades\URL;
+namespace Modules\Blog\FrontendFilter\Traits;
 
 trait DateRangeTrait
 {

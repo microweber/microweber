@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Blog\tests;
+namespace Modules\Blog\Tests\Unit;
 
 use Illuminate\Support\Facades\App;
 use MicroweberPackages\Blog\Http\Controllers\BlogController;
