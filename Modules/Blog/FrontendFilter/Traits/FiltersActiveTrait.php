@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Blog\FrontendFilter\Traits;
+namespace Modules\Blog\FrontendFilter\Traits;
 
 trait FiltersActiveTrait {
 

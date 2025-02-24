@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Blog\Http\Controllers\Traits;
 
-use MicroweberPackages\Blog\FrontendFilter\FilterHelper;
+use Modules\Blog\FrontendFilter\FilterHelper;
 use Modules\Content\Models\Content;
 
 trait CustomFieldsRenderTrait

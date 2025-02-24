@@ -2,8 +2,8 @@
 
 namespace Modules\Product\FrontendFilter;
 
-use MicroweberPackages\Blog\FrontendFilter\BaseFilter;
-use MicroweberPackages\Blog\FrontendFilter\Traits\CustomFieldsTrait;
+use Modules\Blog\FrontendFilter\BaseFilter;
+use Modules\Blog\FrontendFilter\Traits\CustomFieldsTrait;
 use Modules\Page\Models\Page;
 use Modules\Product\FrontendFilter\Traits\PriceFilter;
 

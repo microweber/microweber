@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Post\Models;
 
-use MicroweberPackages\Blog\FrontendFilter\BlogFilter;
+use Modules\Blog\FrontendFilter\BlogFilter;
 use Modules\Content\Scopes\PostScope;
 
 class Post extends \Modules\Content\Models\Content

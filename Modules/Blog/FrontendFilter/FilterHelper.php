@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Blog\FrontendFilter;
+namespace Modules\Blog\FrontendFilter;
 
 
 class FilterHelper

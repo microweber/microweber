@@ -1,15 +1,15 @@
 <?php
-namespace MicroweberPackages\Blog\FrontendFilter;
+namespace Modules\Blog\FrontendFilter;
 
 use Illuminate\Support\Facades\Cache;
-use MicroweberPackages\Blog\FrontendFilter\Traits\CategoriesTrait;
-use MicroweberPackages\Blog\FrontendFilter\Traits\DateRangeTrait;
-use MicroweberPackages\Blog\FrontendFilter\Traits\FiltersActiveTrait;
-use MicroweberPackages\Blog\FrontendFilter\Traits\LimitTrait;
-use MicroweberPackages\Blog\FrontendFilter\Traits\PaginationTrait;
-use MicroweberPackages\Blog\FrontendFilter\Traits\SearchTrait;
-use MicroweberPackages\Blog\FrontendFilter\Traits\SortTrait;
-use MicroweberPackages\Blog\FrontendFilter\Traits\TagsTrait;
+use Modules\Blog\FrontendFilter\Traits\CategoriesTrait;
+use Modules\Blog\FrontendFilter\Traits\DateRangeTrait;
+use Modules\Blog\FrontendFilter\Traits\FiltersActiveTrait;
+use Modules\Blog\FrontendFilter\Traits\LimitTrait;
+use Modules\Blog\FrontendFilter\Traits\PaginationTrait;
+use Modules\Blog\FrontendFilter\Traits\SearchTrait;
+use Modules\Blog\FrontendFilter\Traits\SortTrait;
+use Modules\Blog\FrontendFilter\Traits\TagsTrait;
 use Modules\Page\Models\Page;
 
 abstract class BaseFilter
