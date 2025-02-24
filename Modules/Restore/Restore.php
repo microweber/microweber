@@ -134,45 +134,45 @@ class Restore
             SessionStepper::nextStep();
         }
 
-        try {
-            $content = $this->readContent();
-
-            if (isset($content['error'])) {
-                return $content;
+        $readContent = $this->readContent();
+        $content = [];
+        if (isset($readContent['data'])) {
+            $readContentKey = key($readContent['data']);
+            if (isset($readContent['data'][$readContentKey])) {
+                $content = $readContent['data'][$readContentKey];
             }
-
-            if (isset($content['must_choice_language']) && $content['must_choice_language']) {
-                return $content;
-            }
-
-            $log = [];
-            $log['data'] = [];
-
-            if ($this->writeOnDatabase) {
-                $writer = new DatabaseWriter();
-                $writer->setContent($content['data']);
-                $writer->setOverwriteById($this->ovewriteById);
-                $writer->setDeleteOldContent($this->deleteOldContent);
-                $writer->setDeleteOldCssFiles($this->deleteOldCssFiles);
-                $writer->setLogger($this->logger);
-
-                if ($this->batchRestoring) {
-                    $data = $writer->runWriterWithBatch();
-                } else {
-                    $data = $writer->runWriter();
-                }
-
-                $log = $writer->getRestoreLog();
-                $log['data'] = $data;
-            }
-
-            return $log;
-
-        } catch (\Exception $e) {
-            $errorMessage = array("file" => $e->getFile(), "line" => $e->getLine(), "error" => $e->getMessage());
-          //  Log::error($errorMessage);
-            return $errorMessage;
         }
+
+        if (isset($content['error'])) {
+            return $content;
+        }
+
+        if (isset($content['must_choice_language']) && $content['must_choice_language']) {
+            return $content;
+        }
+
+        $log = [];
+        $log['data'] = [];
+
+        if ($this->writeOnDatabase) {
+            $writer = new DatabaseWriter();
+            $writer->setContent($content);
+            $writer->setOverwriteById($this->ovewriteById);
+            $writer->setDeleteOldContent($this->deleteOldContent);
+            $writer->setDeleteOldCssFiles($this->deleteOldCssFiles);
+            $writer->setLogger($this->logger);
+
+            if ($this->batchRestoring) {
+                $data = $writer->runWriterWithBatch();
+            } else {
+                $data = $writer->runWriter();
+            }
+
+            $log = $writer->getRestoreLog();
+            $log['data'] = $data;
+        }
+
+        return $log;
     }
 
     /**

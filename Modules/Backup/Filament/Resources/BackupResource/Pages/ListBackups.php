@@ -189,8 +189,10 @@ class ListBackups extends ListRecords
         $restore->setFile($restoreFile);
 
         if ($params['restoreType'] == 'delete_all') {
+            $restore->setWriteOnDatabase(true);
             $restore->setToDeleteOldContent(true);
             $restore->setToDeleteOldCssFiles(true);
+            $restore->setOvewriteById(true);
         } else if ($params['restoreType'] == 'overwrite_by_id') {
             $restore->setOvewriteById(true);
             $restore->setWriteOnDatabase(true);
