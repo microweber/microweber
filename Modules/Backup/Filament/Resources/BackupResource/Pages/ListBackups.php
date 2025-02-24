@@ -12,6 +12,8 @@ use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Facades\Storage;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
+use Livewire\Livewire;
+use MicroweberPackages\Filament\Forms\Components\MwFileUpload;
 use Modules\Backup\Backup;
 use Modules\Backup\Filament\Resources\BackupResource;
 use Filament\Actions;
@@ -32,21 +34,34 @@ class ListBackups extends ListRecords
             Actions\Action::make('uploadBackup')
                 ->label('Upload Backup')
                 ->icon('heroicon-o-arrow-up-tray')
+                ->modalSubmitAction(false)
+                ->modalCancelAction(false)
                 ->form([
-                    FileUpload::make('backupFile')
-                        ->disk('backup')
-                        ->maxSize(500 * 1024) // 500MB
-                        ->visibility('private')
-                        ->acceptedFileTypes(["application/zip"])
+                    MwFileUpload::make('backupFile')
+                        ->live()
                         ->label('Backup File')
+                        ->afterStateUpdated(function ($state, $livewire) {
+                            if (empty($state)) {
+                                return;
+                            }
+                            $filePath = url2dir($state);
+                            $filePath = basename($filePath);
+                            $realPath = storage_path('app/public/') . $filePath;
+
+                            // Move file to backup location
+                            $backupLocation = backup_location();
+                            rename($realPath, $backupLocation . $filePath);
+
+                            $this->closeActionModal();
+                            $this->dispatch('refreshTable');
+
+                            Notification::make()
+                                ->success()
+                                ->title('Backup Uploaded Successfully')
+                                ->send();
+                        })
                         ->placeholder('Select backup file'),
-                ])->action(function ($data) {
-                    // Show a success notification
-                    Notification::make()
-                        ->success()
-                        ->title('Backup Uploaded Successfully')
-                        ->send();
-                }),
+                ]),
             Actions\Action::make('create_backup')
                 ->modalSubmitAction(false)
                 ->modalCancelAction(false)
