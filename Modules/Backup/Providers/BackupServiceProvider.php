@@ -11,6 +11,7 @@
 
 namespace Modules\Backup\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
@@ -25,6 +26,15 @@ class BackupServiceProvider extends BaseModuleServiceProvider
     protected string $moduleName = 'Backup';
 
     protected string $moduleNameLower = 'backup';
+
+    public function boot()
+    {
+        Config::set('filesystems.disks.backup', [
+            'driver' => 'local',
+            'root'   => storage_path() . '/backup_content/' . \App::environment() . '/',
+            'visibility' => 'private',
+        ]);
+    }
 
 
     /**
