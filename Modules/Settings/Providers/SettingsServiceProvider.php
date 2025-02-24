@@ -2,32 +2,39 @@
 
 namespace Modules\Settings\Providers;
 
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
+
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use MicroweberPackages\Microweber\Facades\Microweber;
-use Modules\Settings\Filament\Pages\AdminAdvancedPage;
-use Modules\Settings\Filament\Pages\AdminEmailPage;
-use Modules\Settings\Filament\Pages\AdminFilesPage;
-use Modules\Settings\Filament\Pages\AdminGeneralPage;
-use Modules\Settings\Filament\Pages\AdminLanguagePage;
-use Modules\Settings\Filament\Pages\AdminLoginRegisterPage;
-use Modules\Settings\Filament\Pages\AdminPrivacyPolicyPage;
-use Modules\Settings\Filament\Pages\AdminSeoPage;
-use Modules\Settings\Filament\Pages\AdminShopAutoRespondEmailPage;
-use Modules\Settings\Filament\Pages\AdminShopCouponsPage;
-use Modules\Settings\Filament\Pages\AdminShopInvoicesPage;
-use Modules\Settings\Filament\Pages\AdminShopOffersPage;
-use Modules\Settings\Filament\Pages\AdminShopOtherPage;
-use Modules\Settings\Filament\Pages\AdminShopPaymentsPage;
-use Modules\Settings\Filament\Pages\AdminShopShippingPage;
-use Modules\Settings\Filament\Pages\AdminShopTaxesPage;
-use Modules\Settings\Filament\Pages\AdminTemplatePage;
-use Modules\Settings\Filament\Pages\AdminUpdatesPage;
-use Modules\Settings\Filament\Pages\AdminShopGeneralPage;
-use Modules\Settings\Filament\Pages\Settings;
+use Modules\Settings\Filament\Pages\{
+    AdminAdvancedPage,
+    AdminCustomTagsPage,
+    AdminEmailPage,
+    AdminExperimentalPage,
+    AdminFilesPage,
+    AdminGeneralPage,
+    AdminLanguagePage,
+    AdminLoginRegisterPage,
+    AdminMaintenanceModePage,
+    AdminPoweredByPage,
+    AdminPrivacyPolicyPage,
+    AdminRobotsPage,
+    AdminSeoPage,
+    AdminShopAutoRespondEmailPage,
+    AdminShopCouponsPage,
+    AdminShopGeneralPage,
+    AdminShopInvoicesPage,
+    AdminShopOffersPage,
+    AdminShopOtherPage,
+    AdminShopPaymentsPage,
+    AdminShopShippingPage,
+    AdminShopTaxesPage,
+    AdminTemplatePage,
+    AdminTrustProxiesPage,
+    AdminUiColorsPage,
+    AdminUpdatesPage,
+    AdminWebManifestPage,
+    Settings
+};
 
 class SettingsServiceProvider extends BaseModuleServiceProvider
 {
@@ -55,15 +62,30 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
+        // Register main settings page
         FilamentRegistry::registerPage(Settings::class);
+
+        // Register website settings pages
         FilamentRegistry::registerPage(AdminAdvancedPage::class);
+        FilamentRegistry::registerPage(AdminCustomTagsPage::class);
         FilamentRegistry::registerPage(AdminEmailPage::class);
+        FilamentRegistry::registerPage(AdminExperimentalPage::class);
         FilamentRegistry::registerPage(AdminFilesPage::class);
         FilamentRegistry::registerPage(AdminGeneralPage::class);
         FilamentRegistry::registerPage(AdminLanguagePage::class);
         FilamentRegistry::registerPage(AdminLoginRegisterPage::class);
+        FilamentRegistry::registerPage(AdminMaintenanceModePage::class);
+        FilamentRegistry::registerPage(AdminPoweredByPage::class);
         FilamentRegistry::registerPage(AdminPrivacyPolicyPage::class);
+        FilamentRegistry::registerPage(AdminRobotsPage::class);
         FilamentRegistry::registerPage(AdminSeoPage::class);
+        FilamentRegistry::registerPage(AdminTemplatePage::class);
+        FilamentRegistry::registerPage(AdminTrustProxiesPage::class);
+        FilamentRegistry::registerPage(AdminUiColorsPage::class);
+        FilamentRegistry::registerPage(AdminUpdatesPage::class);
+        FilamentRegistry::registerPage(AdminWebManifestPage::class);
+
+        // Register shop settings pages
         FilamentRegistry::registerPage(AdminShopAutoRespondEmailPage::class);
         FilamentRegistry::registerPage(AdminShopCouponsPage::class);
         FilamentRegistry::registerPage(AdminShopGeneralPage::class);
@@ -73,9 +95,6 @@ class SettingsServiceProvider extends BaseModuleServiceProvider
         FilamentRegistry::registerPage(AdminShopPaymentsPage::class);
         FilamentRegistry::registerPage(AdminShopShippingPage::class);
         FilamentRegistry::registerPage(AdminShopTaxesPage::class);
-        FilamentRegistry::registerPage(AdminTemplatePage::class);
-        FilamentRegistry::registerPage(AdminUpdatesPage::class);
-
 
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(SettingsModuleSettings::class);

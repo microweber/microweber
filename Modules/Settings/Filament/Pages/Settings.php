@@ -14,7 +14,7 @@ class Settings extends Page
 
     protected static string $view = 'modules.settings::filament.admin.pages.settings-main';
 
-    protected static ?string $navigationGroup = 'Other';
+    protected static ?string $navigationGroup = 'Settings';
 
     protected static ?int $navigationSort = 97;
 
@@ -42,6 +42,14 @@ class Settings extends Page
         $settingsPages[] = new AdminLanguagePage();
         $settingsPages[] = new AdminPrivacyPolicyPage();
         $settingsPages[] = new AdminUpdatesPage();
+        $settingsPages[] = new AdminWebManifestPage();
+        $settingsPages[] = new AdminExperimentalPage();
+        $settingsPages[] = new AdminMaintenanceModePage();
+        $settingsPages[] = new AdminUiColorsPage();
+        $settingsPages[] = new AdminPoweredByPage();
+        $settingsPages[] = new AdminRobotsPage();
+        $settingsPages[] = new AdminTrustProxiesPage();
+        $settingsPages[] = new AdminCustomTagsPage();
 
         $settingsPages[] = new AdminShopGeneralPage();
         $settingsPages[] = new AdminShopShippingPage();
