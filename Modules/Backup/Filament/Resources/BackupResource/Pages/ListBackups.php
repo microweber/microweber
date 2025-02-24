@@ -35,7 +35,7 @@ class ListBackups extends ListRecords
                 ->form([
                     FileUpload::make('backupFile')
                         ->disk('backup')
-                        ->maxSize(500000)
+                        ->maxSize(500 * 1024) // 500MB
                         ->visibility('private')
                         ->label('Backup File')
                         ->placeholder('Select backup file'),
