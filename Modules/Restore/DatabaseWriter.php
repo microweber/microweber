@@ -103,7 +103,6 @@ class DatabaseWriter
 
     private function _saveItemDatabase($item)
     {
-
         if ($this->overwriteById) {
             if (isset($item['price'])) {
                 $itemIdDatabase = DatabaseSave::saveProduct($item);
