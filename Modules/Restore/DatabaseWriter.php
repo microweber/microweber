@@ -5,7 +5,7 @@ namespace Modules\Restore;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 use Modules\Restore\Formats\ZipReader;
 use Modules\Restore\Traits\DatabaseCategoriesWriter;
 use Modules\Restore\Traits\DatabaseCategoryItemsWriter;
@@ -424,7 +424,7 @@ class DatabaseWriter
 
     }
 
-    public function getImportLog()
+    public function getRestoreLog()
     {
         $logContent = $this->logger->getLog();
         $logContent = str_replace("\n", "<br>", $logContent);
@@ -444,7 +444,7 @@ class DatabaseWriter
         if (SessionStepper::isFinished()) {
             $log['done'] = true;
             // Finish up
-            $this->_finishUp('getImportLog');
+            $this->_finishUp('getRestoreLog');
             // Clear log file
             $this->logger->clearLog();
         }

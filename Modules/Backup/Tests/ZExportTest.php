@@ -3,7 +3,7 @@ namespace MicroweberPackages\Export\tests;
 
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 use Modules\Post\Models\Post;
 use Modules\Restore\Restore;
 

@@ -2,7 +2,7 @@
 namespace Modules\Restore\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 use Modules\Restore\Restore;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 

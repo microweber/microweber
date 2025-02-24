@@ -4,7 +4,7 @@ namespace MicroweberPackages\Modules\Newsletter;
 
 use Illuminate\Support\Facades\App;
 use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 use MicroweberPackages\Restore\Formats\CsvReader;
 
 class ImportSubscribersFileReader

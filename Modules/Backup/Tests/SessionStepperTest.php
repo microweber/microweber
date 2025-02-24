@@ -3,7 +3,7 @@
 namespace MicroweberPackages\Export\tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 
 class SessionStepperTest extends TestCase
 {

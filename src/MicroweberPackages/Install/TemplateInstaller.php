@@ -5,7 +5,7 @@ namespace MicroweberPackages\Install;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 use MicroweberPackages\Option\Models\Option;
 use Modules\Content\Models\Content;
 use Modules\Menu\Models\Menu;
