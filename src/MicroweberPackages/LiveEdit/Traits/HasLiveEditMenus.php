@@ -4,7 +4,7 @@ namespace MicroweberPackages\LiveEdit\Traits;
 
 
 use Knp\Menu\ItemInterface;
-use MicroweberPackages\Admin\MenuBuilder\Menu;
+use MicroweberPackages\LiveEdit\MenuBuilder\LiveEditMenu;
 
 trait HasLiveEditMenus
 {
@@ -50,7 +50,7 @@ trait HasLiveEditMenus
     public function getOrCreateMenuInstance($menuName)
     {
         if (!isset($this->menus[$menuName])) {
-            $this->menus[$menuName] = new Menu($menuName);
+            $this->menus[$menuName] = new LiveEditMenu($menuName);
         }
         return $this->menus[$menuName];
 

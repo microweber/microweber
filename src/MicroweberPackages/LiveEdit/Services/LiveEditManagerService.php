@@ -4,7 +4,7 @@
 namespace MicroweberPackages\LiveEdit\Services;
 
 
-use MicroweberPackages\Admin\MenuBuilder\Menu;
+use MicroweberPackages\LiveEdit\MenuBuilder\LiveEditMenu;
 use MicroweberPackages\LiveEdit\Traits\HasLiveEditMenus;
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
@@ -21,7 +21,7 @@ class LiveEditManagerService
 
     public function initMenus()
     {
-        $this->menus['top_right_menu'] = new Menu();
+        $this->menus['top_right_menu'] = new LiveEditMenu();
     }
 
     public function headTags()

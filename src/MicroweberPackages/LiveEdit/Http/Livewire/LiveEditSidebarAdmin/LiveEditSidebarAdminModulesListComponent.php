@@ -3,6 +3,7 @@
 namespace MicroweberPackages\LiveEdit\Http\Livewire\LiveEditSidebarAdmin;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
+
 /**
  * @deprecated
  */
@@ -51,7 +52,7 @@ class LiveEditSidebarAdminModulesListComponent extends AdminComponent
                 'allow_safe_labels' => true,
             ];
 
-        $mwMenu = new \MicroweberPackages\Admin\MenuBuilder\Menu('SIDEBAR_ADMIN_MODULES_TREE', $options);
+        $mwMenu = new \MicroweberPackages\LiveEdit\MenuBuilder\LiveEditMenu('SIDEBAR_ADMIN_MODULES_TREE', $options);
         $mwMenu->setRendererOptions($options);
 
         // Recursively add child items to the menu

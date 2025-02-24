@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Admin\MenuBuilder;
+namespace MicroweberPackages\LiveEdit\MenuBuilder;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 
-class Menu
+class LiveEditMenu
 {
 
     public ItemInterface $menuItems;
