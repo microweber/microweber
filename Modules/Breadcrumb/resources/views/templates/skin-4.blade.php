@@ -17,14 +17,7 @@
    .mw-big2-breadcrumb-skin-4 {
         text-align: center;
         padding: 20px;
-        h2 {
-            padding:0 0 30px;
-            text-transform:uppercase;
-            font-size:.9rem;
-            font-weight:600;
-            letter-spacing:.01rem;
-            color: var(--mw-heading-color);
-        }
+
         ul {
             list-style: none;
             display: inline-table;
@@ -102,8 +95,6 @@
 
 
 <div class="mw-big2-breadcrumb-skin-4">
-    <h2>Breadcrumbs</h2>
-
     <ul>
         <li>
             <a href="{{ $homepage['url'] }}">
