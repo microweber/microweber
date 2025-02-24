@@ -216,19 +216,7 @@ class ModuleNameSettings extends LiveEditModuleSettings
     {
         return Section::make('Advanced settings')
             ->schema([
-                Select::make('options.size')
-                    ->label('Size')
-                    ->live()
-                    ->options([
-                        'small' => 'Small',
-                        'medium' => 'Medium',
-                        'large' => 'Large',
-                    ])
-                    ->default('medium'),
-
-                TextInput::make('options.customClass')
-                    ->label('Custom CSS Class')
-                    ->live(),
+                //   ....
             ])
             ->collapsed();
     }
