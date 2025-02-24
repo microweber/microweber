@@ -1,12 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Template\Traits;
+namespace MicroweberPackages\LiveEdit\Traits;
 
 
 use Knp\Menu\ItemInterface;
 use MicroweberPackages\Admin\MenuBuilder\Menu;
 
-trait HasMenus
+trait HasLiveEditMenus
 {
     /**
      * @var array $menus An array of menu instances.
@@ -19,7 +19,7 @@ trait HasMenus
      * @param string $menu The name of the menu.
      * @return array The menu items.
      */
-    public function getMenu(string $menu) : array
+    public function getMenu(string $menu): array
     {
         $this->reorderMenuItems($this->menus[$menu]->menuItems);
         $item = $this->menus[$menu]->menuItems;
@@ -55,6 +55,7 @@ trait HasMenus
         return $this->menus[$menuName];
 
     }
+
     /**
      * Reorder the menu items according to their order number.
      *

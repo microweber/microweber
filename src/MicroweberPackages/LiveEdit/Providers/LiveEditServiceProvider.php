@@ -29,7 +29,7 @@ use MicroweberPackages\LiveEdit\Http\Livewire\ModuleTemplateSelectComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\Presets\ModulePresetsManager;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingLiveEdit;
 use MicroweberPackages\LiveEdit\Http\Middleware\DispatchServingModuleSettings;
-use MicroweberPackages\LiveEdit\Repository\LiveEditManagerRepository;
+use MicroweberPackages\LiveEdit\Services\LiveEditManagerService;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -50,7 +50,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
         View::addNamespace('microweber-live-edit', __DIR__ . '/resources/views');
 
         app()->singleton('live_edit_manager', function () {
-            return new LiveEditManagerRepository();
+            return new LiveEditManagerService();
         });
 
         Livewire::component('microweber-live-edit::module-select-template', ModuleTemplateSelectComponent::class);
@@ -64,10 +64,10 @@ class LiveEditServiceProvider extends PackageServiceProvider
         Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
 
 
-       // Event::listen(ServingFilament::class, function () {
-            FilamentRegistry::registerPage(AdminLiveEditPage::class);
-            FilamentRegistry::registerPage(AdminLiveEditSidebarTemplateSettingsPage::class);
-            FilamentRegistry::registerPage(AdminLiveEditSidebarElementStyleEditorPage::class);
+        // Event::listen(ServingFilament::class, function () {
+        FilamentRegistry::registerPage(AdminLiveEditPage::class);
+        FilamentRegistry::registerPage(AdminLiveEditSidebarTemplateSettingsPage::class);
+        FilamentRegistry::registerPage(AdminLiveEditSidebarElementStyleEditorPage::class);
 
         //  });
 
@@ -166,7 +166,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
             ->getChild('Users')
             ->setExtra('orderNumber', 12);
 
-        /*        \MicroweberPackages\LiveEdit\Facades\LiveEditManagerRepository::getMenuInstance('top_right_menu')
+        /*        \MicroweberPackages\LiveEdit\Facades\LiveEditManagerService::getMenuInstance('top_right_menu')
                     ->addChild('Plans and Payments', [
                         'attributes' => [
                             'route' => 'admin.settings.index',

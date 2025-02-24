@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static string scripts()
  * @method static string customHeadTags()
  * @method static void initMenus()
- * @see \MicroweberPackages\LiveEdit\Repository\LiveEditManagerRepository
- * @mixin \MicroweberPackages\LiveEdit\Repository\LiveEditManagerRepository
+ * @see \MicroweberPackages\LiveEdit\Services\LiveEditManagerService
+ * @mixin \MicroweberPackages\LiveEdit\Services\LiveEditManagerService
  */
 class LiveEditManager extends Facade
 {

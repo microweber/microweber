@@ -8,17 +8,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta name="google" content="notranslate">
 
-    <?php print mw_admin_header_scripts() ;    ?>
+    <?php print mw_admin_header_scripts(); ?>
 
 
     <script>
 
 
-
         mw.lib.require('jqueryui');
         mw.lib.require('nouislider');
         mw.require('components.css')
-
 
 
         mw.lib.require('flag_icons');
@@ -35,13 +33,13 @@
 
     $bodyDarkClass = '';
 
-    if(isset($_COOKIE['admin_theme_dark'])){
+    if (isset($_COOKIE['admin_theme_dark'])) {
         $bodyDarkClass = 'theme-dark';
     }
     ?>
-     <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
+    <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
 
-     <?php event_trigger('mw.live_edit.header'); ?>
+    <?php event_trigger('mw.live_edit.header'); ?>
 </head>
 <body class="{{ $bodyDarkClass }} mw-admin-live-edit-page">
 
@@ -50,7 +48,7 @@
     mw.layoutQuickSettings = [];
 
     window.addEventListener('load', function () {
-        if(mw.top() && mw.top().app && mw.top().app.liveEdit && mw.top().app.fontManager){
+        if (mw.top() && mw.top().app && mw.top().app.liveEdit && mw.top().app.fontManager) {
             mw.top().app.fontManager.addFonts({!! json_encode(\MicroweberPackages\Utils\Misc\GoogleFonts::getEnabledFonts()) !!});
         }
 
@@ -58,7 +56,7 @@
         const frame = scrollContainer.querySelector("iframe");
 
         scrollContainer.addEventListener("wheel", (e) => {
-            if(e.target === scrollContainer) {
+            if (e.target === scrollContainer) {
                 e.preventDefault();
                 const win = mw.top().app.canvas.getWindow();
                 win.scrollTo(0, (win.scrollY + e.deltaY) + (e.deltaY < 0 ? -10 : 10));
@@ -67,40 +65,35 @@
         });
     });
 
-   <?php
+    <?php
 
 
+    /*
+
+     @php
+             $templateColors = [];
+             $getTemplateConfig = app()->template_manager->get_config();
+             if($getTemplateConfig){
+             $templateColors = get_template_colors_settings();
+             }
+             if(empty($templateColors)){
+             $templateColors =[['value' => '#000000']];
+             }
+
+     @endphp
+     @if(!empty($templateColors))
+         mw.tools.colorPickerColors = mw.tools.colorPickerColors || [];
+         mw.tools.colorPickerColors = [
+             @foreach($templateColors as $color)
+             '{{ $color['value'] }}',
+             @endforeach
+         ];
+     @endif
+
+     * */
 
 
-
-   /*
-
-    @php
-            $templateColors = [];
-            $getTemplateConfig = app()->template_manager->get_config();
-            if($getTemplateConfig){
-            $templateColors = get_template_colors_settings();
-            }
-            if(empty($templateColors)){
-            $templateColors =[['value' => '#000000']];
-            }
-
-    @endphp
-    @if(!empty($templateColors))
-        mw.tools.colorPickerColors = mw.tools.colorPickerColors || [];
-        mw.tools.colorPickerColors = [
-            @foreach($templateColors as $color)
-            '{{ $color['value'] }}',
-            @endforeach
-        ];
-    @endif
-
-    * */
-
-
-
-
-   ?>
+    ?>
 </script>
 
 <div id="live-edit-app">
@@ -115,15 +108,14 @@
 <?php event_trigger('mw.live_edit.footer'); ?>
 
 
-<?php print mw_admin_footer_scripts();    ?>
+<?php print mw_admin_footer_scripts(); ?>
 
 <script>
 
-mw.settings.adminUrl = '<?php print admin_url(); ?>';
-mw.settings.liveEditModuleSettingsUrls =  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::getLiveEditSettingsUrls()); ?>;
+    mw.settings.adminUrl = '<?php print admin_url(); ?>';
+    mw.settings.liveEditModuleSettingsUrls =  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::;
 
 </script>
-
 
 
 </body>

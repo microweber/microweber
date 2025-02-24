@@ -4,15 +4,13 @@ namespace MicroweberPackages\Admin\Services;
 
 use Illuminate\Support\Facades\Event;
 use MicroweberPackages\Admin\Events\ServingAdmin;
-use MicroweberPackages\Admin\MenuBuilder\Menu;
-use MicroweberPackages\Template\Traits\HasMenus;
 use MicroweberPackages\Template\Traits\HasScriptsAndStylesTrait;
 
 
 
 class AdminManager
 {
-    use HasMenus;
+   // use HasLiveEditMenus;
     use HasScriptsAndStylesTrait;
 
     public function __construct()
@@ -21,9 +19,9 @@ class AdminManager
      //   $this->addDefaultStyles();
         $this->addDefaultCustomTags();
 
-        $this->initMenus();
+    //    $this->initMenus();
     }
-
+/*
     public function initMenus()
     {
         $this->menus['left_menu_top'] = new Menu();
@@ -158,7 +156,7 @@ class AdminManager
             ]
         ]);
     }
-
+*/
 
     public function addDefaultScripts(): void
     {

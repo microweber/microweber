@@ -17,10 +17,6 @@ function mw_admin_prefix_url()
     return config('microweber.admin_url', 'admin');
 }
 
-function mw_admin_prefix_url_live_edit()
-{
-    return config('microweber.admin_url_live_edit', 'admin-live-edit');
-}
 
 function mw_admin_prefix_url_legacy()
 {
@@ -597,18 +593,6 @@ function mw_logo_svg()
 ';
 }
 
-function load_web_component_file($filename)
-{
-    $components_dir = mw_includes_path() . 'components' . DS;
-    $load_file = false;
-    $file = normalize_path($components_dir . $filename, false);
-    if (is_file($file)) {
-        $load_file = $file;
-    }
-    if ($load_file != false) {
-        return file_get_contents($load_file);
-    }
-}
 
 api_expose_admin('system_log_reset');
 
@@ -708,23 +692,6 @@ if (!function_exists('titlelize')) {
 }
 
 
-function load_layout_block($block_name)
-{
-    $block_name = sanitize_path($block_name);
-    $inc = false;
-    $file = template_dir() . DS . 'modules/layouts/blocks/' . $block_name . '.php';
-    $file2 = modules_path() . DS . 'layouts/blocks/' . $block_name . '.php';
-    if (is_file($file)) {
-        $inc = $file;
-    } else if (is_file($file2)) {
-        $inc = $file2;
-    }
-    if ($inc) {
-        return include($inc);
-    }
-}
-
-
 /**
  * Shows a section of the help file.
  *
@@ -808,7 +775,7 @@ function mw_save_framework_config_file($params)
                     }
 
                     if (in_array($config_k, $saveOnlyKeys)) {
-                        \Config::set($k . '.' . $config_k, $config);
+                        \Illuminate\Support\Facades\Config::set($k . '.' . $config_k, $config);
                         $save_configs[] = $k;
                     }
                 }
@@ -816,14 +783,15 @@ function mw_save_framework_config_file($params)
         }
     }
     if (!empty($save_configs)) {
-        \Config::save($save_configs);
+        \Illuminate\Support\Facades\Config::save($save_configs);
         return array('success' => 'Config is changed!');
     }
 }
 
 
 if (!function_exists('format_bytes')) {
-    function format_bytes($bytes, $precision = 2) {
+    function format_bytes($bytes, $precision = 2)
+    {
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 
         $bytes = max($bytes, 0);

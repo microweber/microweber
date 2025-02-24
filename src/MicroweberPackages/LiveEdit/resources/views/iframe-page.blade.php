@@ -1,7 +1,6 @@
 <div class="mw-admin-live-edit-page">
 
 
-
     <div
         x-data="{}"
         x-init="() => {
@@ -19,22 +18,17 @@
     </div>
 
 
-
-
-
-
     <div wire:ignore>
 
 
         <div>
 
 
-
             <?php
 
             $bodyDarkClass = '';
 
-            if(isset($_COOKIE['admin_theme_dark'])){
+            if (isset($_COOKIE['admin_theme_dark'])) {
                 $bodyDarkClass = 'theme-dark';
             }
             ?>
@@ -69,9 +63,6 @@
             <?php
 
 
-
-
-
             ?>
         </script>
 
@@ -79,39 +70,38 @@
             Loading...
         </div>
 
-            <style>
-                #mw-element-style-editor-app-container{
+        <style>
+            #mw-element-style-editor-app-container {
 
 
-
-                    display: none;
-
-
-                    position:fixed;
-
-                    top: calc(var(--toolbar-height) + 2px);
-                    bottom:0;
-                    background:white;
-                    z-index:100;
-                    right:0;
-                    overflow:auto;
-                    padding:0.5rem;
-                    box-shadow: -2px 2px 2px #b1b1b14a;
-                    width: calc(var(--sidebar-end-size));
-                }
+                display: none;
 
 
-                #mw-live-edit-gui-editor-box{
-                    width: var(--sidebar-end-size)
-                }
-            </style>
+                position: fixed;
 
-            <script>
+                top: calc(var(--toolbar-height) + 2px);
+                bottom: 0;
+                background: white;
+                z-index: 100;
+                right: 0;
+                overflow: auto;
+                padding: 0.5rem;
+                box-shadow: -2px 2px 2px #b1b1b14a;
+                width: calc(var(--sidebar-end-size));
+            }
+
+
+            #mw-live-edit-gui-editor-box {
+                width: var(--sidebar-end-size)
+            }
+        </style>
+
+        <script>
 
             addEventListener('load', () => {
                 const guiEditor = new (mw.top()).controlBox({
-                    content:``,
-                    position:  'right',
+                    content: ``,
+                    position: 'right',
                     id: 'mw-live-edit-gui-editor-box',
                     closeButton: true,
                     title: mw.lang('Element Style Editor')
@@ -128,19 +118,20 @@
                 mw.top().app.guiEditorBox = guiEditor
             })
 
-            </script>
+        </script>
 
         <div id="mw-element-style-editor-app-container">
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <h3 class="fs-2 font-weight-bold">Element Style Editor</h3>
                 <span class="x-close-modal-link" style="top: 27px; right: 32px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-                        <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                         fill="currentColor">
+                        <path
+                            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"></path>
                     </svg>
                 </span>
             </div>
-            <div id="mw-element-style-editor-app"  >
-
+            <div id="mw-element-style-editor-app">
 
 
             </div>
@@ -152,7 +143,6 @@
         </div>
 
 
-
         <div>
             <?php //print mw_admin_footer_scripts(); ?>
         </div>
@@ -160,21 +150,21 @@
 
             mw.settings.adminUrl = '<?php print admin_url(); ?>';
             mw.settings.liveEditModuleSettingsUrls =  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::getLiveEditSettingsUrls()); ?>;
-            mw.settings.liveEditModuleSettingsComponents=  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::getSettingsComponents()); ?>;
-            mw.settings.liveEditModuleSettingsComponentsFromModuleRepository=  <?php print json_encode(\MicroweberPackages\Microweber\Facades\Microweber::getSettingsComponents()); ?>;
+            mw.settings.liveEditModuleSettingsComponents =  <?php print json_encode(\MicroweberPackages\Module\Facades\ModuleAdmin::getSettingsComponents()); ?>;
+            mw.settings.liveEditModuleSettingsComponentsFromModuleRepository =  <?php print json_encode(\MicroweberPackages\Microweber\Facades\Microweber::getSettingsComponents()); ?>;
 
         </script>
 
         <script src="{{ asset('vendor/microweber-packages/frontend-assets/build/live-edit-app.js') }}"></script>
 
-        <?php  print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
+        <?php print \MicroweberPackages\LiveEdit\Facades\LiveEditManager::headTags(); ?>
         <?php event_trigger('mw.live_edit.footer'); ?>
     </div>
 
 
+    <x-filament-actions::modals/>
 
-    <x-filament-actions::modals />
-
-    <script x-src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}" defer></script>
+    <script x-src="{{ asset('vendor/microweber-packages/frontend-assets/build/element-style-editor-app.js') }}"
+            defer></script>
 
 </div>
