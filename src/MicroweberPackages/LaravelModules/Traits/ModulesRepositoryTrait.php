@@ -289,6 +289,8 @@ trait ModulesRepositoryTrait
 
     public function scan()
     {
+//dd(debug_backtrace(1));
+
         if ($this->scanMemory) {
 
             //    return $this->scanMemory;

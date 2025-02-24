@@ -22,8 +22,9 @@ class StaticTemplateCreator extends StaticModuleCreator
 
 
         $cacheKey = $name;
-        $cacheKey = 'module_' . $name . '_' . $path;
+        $cacheKey = 'template_' . $name . '_' . $path;
 //        if (isset(self::$modulesCache[$cacheKey])) {
+//
 //            return self::$modulesCache[$cacheKey];
 //        }
 
@@ -48,7 +49,9 @@ class StaticTemplateCreator extends StaticModuleCreator
 
         //$module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
         $module = new LaravelTemplate($app, $name, $path);
-        //    self::$modulesCache[$cacheKey] = $module;
+        //  self::$modulesCache[$cacheKey] = $module;
+
+
 
         if ($moduleJson and !empty($moduleJson) and method_exists($module, 'setJsonCacheData')) {
             $module->setJsonCacheData($moduleJson);

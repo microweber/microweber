@@ -12,7 +12,8 @@ class ReplaceSiteUrlCast implements CastsAttributes
         if (is_string($value)) {
             $site = site_url();
             if (substr($value, 0, 1) == '/') {
-                $value = ltrim($value, '/');
+                // this makes bug in some cases
+           //     $value = ltrim($value, '/');
             }
 
             $value = str_replace('{SITE_URL}', $site, $value);
@@ -25,7 +26,8 @@ class ReplaceSiteUrlCast implements CastsAttributes
     {
         if (is_string($value)) {
             if (substr($value, 0, 1) == '/') {
-                $value = ltrim($value, '/');
+                // this makes bug in some cases
+              //  $value = ltrim($value, '/');
             }
             $site = site_url();
             $value = str_replace($site, '{SITE_URL}', $value);

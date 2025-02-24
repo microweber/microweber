@@ -181,7 +181,7 @@ class UpdateManager
             $websiteOptions = array();
             if (!Schema::hasTable('options')) {
 
-return;
+                return;
 
             }
             $websiteOptions = app()->option_repository->getWebsiteOptions();
@@ -265,6 +265,9 @@ return;
             $option['option_key'] = 'app_base_path';
             $option['option_group'] = 'website';
             save_option($option);
+            $get = get_option('app_base_path', 'website');
+
+
 
 
             mw()->cache_manager->delete('db');
