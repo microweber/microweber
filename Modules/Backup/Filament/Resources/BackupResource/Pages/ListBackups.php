@@ -8,7 +8,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
+use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
+use Illuminate\Support\Facades\Storage;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Modules\Backup\Backup;
 use Modules\Backup\Filament\Resources\BackupResource;
@@ -22,6 +24,7 @@ class ListBackups extends ListRecords
     protected static string $resource = BackupResource::class;
 
     public $sessionId = null;
+    public $backupFile = null;
 
     protected function getHeaderActions(): array
     {
@@ -31,11 +34,16 @@ class ListBackups extends ListRecords
                 ->icon('heroicon-o-arrow-up-tray')
                 ->form([
                     FileUpload::make('backupFile')
-                        ->live(true)
+                        ->disk('backup')
+                        ->visibility('private')
                         ->label('Backup File')
                         ->placeholder('Select backup file'),
-                ])->afterFormValidated(function () {
-                    /// TODO: upload backup file
+                ])->action(function ($data) {
+                    // Show a success notification
+                    Notification::make()
+                        ->success()
+                        ->title('Backup Uploaded Successfully')
+                        ->send();
                 }),
             Actions\Action::make('create_backup')
                 ->modalSubmitAction(false)
