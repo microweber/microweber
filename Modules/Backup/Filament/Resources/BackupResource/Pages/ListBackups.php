@@ -37,6 +37,7 @@ class ListBackups extends ListRecords
                         ->disk('backup')
                         ->maxSize(500 * 1024) // 500MB
                         ->visibility('private')
+                        ->acceptedFileTypes(["application/zip"])
                         ->label('Backup File')
                         ->placeholder('Select backup file'),
                 ])->action(function ($data) {
