@@ -40,7 +40,7 @@ use MicroweberPackages\Queue\Providers\QueueServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryEventServiceProvider;
 use MicroweberPackages\Repository\Providers\RepositoryServiceProvider;
 use MicroweberPackages\Role\RoleServiceProvider;
-use MicroweberPackages\Shop\ShopManagerServiceProvider;
+
 use MicroweberPackages\Template\TemplateEventServiceProvider;
 use MicroweberPackages\Template\TemplateManagerServiceProvider;
 use MicroweberPackages\Translation\Providers\TranslationServiceProvider;
@@ -138,7 +138,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(MetaTagsServiceProvider::class);
 
         // Shop
-        $this->app->register(ShopManagerServiceProvider::class);
+       // $this->app->register(ShopManagerServiceProvider::class);
       //  $this->app->register(TaxManagerServiceProvider::class);
       //  $this->app->register(PaymentManagerServiceProvider::class);
 //        $this->app->register(OrderServiceProvider::class);

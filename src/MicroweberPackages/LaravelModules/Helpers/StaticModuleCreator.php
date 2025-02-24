@@ -30,9 +30,9 @@ class StaticModuleCreator
 
         $cacheKey = $name;
         $cacheKey = 'module_' . $name . '_' . $path;
-//        if (isset(self::$modulesCache[$cacheKey])) {
+//      if (isset(self::$modulesCache[$cacheKey])) {
 //            return self::$modulesCache[$cacheKey];
-//        }
+//         }
 
 
         start_measure('module_create_' . $name, 'Create module ' . $name);
@@ -56,7 +56,7 @@ class StaticModuleCreator
 
         //$module = new \Nwidart\Modules\Laravel\Module ($app, $name, $path);
         $module = new LaravelModule($app, $name, $path);
-        //    self::$modulesCache[$cacheKey] = $module;
+         //  self::$modulesCache[$cacheKey] = $module;
 
         if ($moduleJson and !empty($moduleJson) and method_exists($module, 'setJsonCacheData')) {
             $module->setJsonCacheData($moduleJson);
