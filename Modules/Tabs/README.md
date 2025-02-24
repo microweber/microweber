@@ -16,7 +16,7 @@ To install the Tabs module, follow these steps:
    php artisan module:publish Tabs
    ```
 
-## Model Information
+## Models Information
 The main model used in this module is `Tab`, which interacts with the `tabs` database table.
 
 ### Database Table: `tabs`

@@ -21,7 +21,7 @@ Access the Testimonials module from the admin panel to manage testimonials.
 ## Configuration
 Configure module settings in the admin panel under the Testimonials settings section.
 
-## Model
+## Models
 The `Testimonial` model represents a testimonial entry in the database.
 
 ### Database Table

@@ -13,7 +13,7 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 class ModuleRepository extends AbstractRepository
 {
     /**
-     * Specify Model class name
+     * Specify Models class name
      *
      * @return string
      */

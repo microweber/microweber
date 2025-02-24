@@ -121,7 +121,7 @@ trait CacheableRepository
             } else {
                 $hashArgs[$k] = $a;
             }
-//            if ($a instanceof Model) {
+//            if ($a instanceof Models) {
 //                $a = $a->getTable() . '|' . $a->getKey();
 //                //$a = get_class($a) . '|' . $a->getKey();
 //            }

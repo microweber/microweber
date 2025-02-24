@@ -41,7 +41,7 @@
 
                                 <optgroup label="Content Data">
                                     <option value="content_data.model"
-                                            @if($primaryKeyIsMapped) disabled="disabled" @endif>Model
+                                            @if($primaryKeyIsMapped) disabled="disabled" @endif>Models
                                     </option>
                                     <option value="content_data.sku"
                                             @if($primaryKeyIsMapped) disabled="disabled" @endif>SKU

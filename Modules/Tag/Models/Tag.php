@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Tag\Model;
+namespace Modules\Tag\Models;
 
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 /**
- * @package Conner\Tagging\Model
+ * @package Conner\Tagging\Models
  * @property string id
  * @property string name
  * @property string slug

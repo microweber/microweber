@@ -2,7 +2,7 @@
 
 namespace MicroweberPackages\Admin\Http\Livewire;
 
-use Modules\Tag\Model\Tag;
+use Modules\Tag\Models\Tag;
 
 class TagsAutoComplete extends AutoCompleteMultipleSelectComponent
 {

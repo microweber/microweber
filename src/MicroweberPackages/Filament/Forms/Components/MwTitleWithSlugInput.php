@@ -16,7 +16,7 @@ class MwTitleWithSlugInput
 {
     public static function make(
 
-        // Model fields
+        // Models fields
         string $fieldTitle = null,
         string $fieldSlug = null,
 

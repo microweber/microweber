@@ -13,7 +13,6 @@ namespace MicroweberPackages\Microweber\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\Providers\AdminServiceProvider;
-use MicroweberPackages\Blog\BlogServiceProvider;
 use MicroweberPackages\Event\EventManagerServiceProvider;
 use MicroweberPackages\FormBuilder\Providers\FormBuilderServiceProvider;
 use MicroweberPackages\Fortify\FortifyServiceProvider;
@@ -177,7 +176,7 @@ class MicroweberServiceProvider extends ServiceProvider
         $this->app->register(QueueServiceProvider::class);
         $this->app->register(QueueEventServiceProvider::class);
        // $this->app->register(ContentFilterServiceProvider::class);
-        $this->app->register(BlogServiceProvider::class);
+     //   $this->app->register(BlogServiceProvider::class);
 
         $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(LiveEditServiceProvider::class);

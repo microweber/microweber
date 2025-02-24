@@ -1,8 +1,8 @@
 <?php
 
-use Modules\Tag\Model\Tag;
-use Modules\Tag\Model\Tagged;
-use Modules\Tag\Model\TagGroup;
+use Modules\Tag\Models\Tag;
+use Modules\Tag\Models\Tagged;
+use Modules\Tag\Models\TagGroup;
 
 return [
     // Datatype for primary keys of your models.
@@ -29,7 +29,7 @@ return [
     // Delimiter used within tags
     'delimiter' => '-',
 
-    // Model to use to store the tags in the database
+    // Models to use to store the tags in the database
     'tag_model' => Tag::class,
 
     'tagged_model' => Tagged::class,

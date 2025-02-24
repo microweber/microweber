@@ -33,7 +33,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Disable Model Cache
+    | Disable Models Cache
     |--------------------------------------------------------------------------
     |
     | This value determines whether to disable the model cache.

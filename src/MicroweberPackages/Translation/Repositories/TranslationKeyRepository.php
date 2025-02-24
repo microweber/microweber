@@ -13,7 +13,7 @@ use MicroweberPackages\Translation\Models\TranslationKeyCached;
 class TranslationKeyRepository extends AbstractRepository
 {
     /**
-     * Specify Model class name
+     * Specify Models class name
      *
      * @return string
      */

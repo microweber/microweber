@@ -365,7 +365,7 @@ class ContentResource extends Resource
 
 
 //            Forms\Components\Section::make('Parent page')
-//                ->schema(function(?Model $record) {
+//                ->schema(function(?Models $record) {
 //                    $parent = null;
 //                    $categoryIds = [];
 //                    if ($record) {

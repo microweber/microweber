@@ -21,7 +21,7 @@ class MwSelectTemplateForPage
 {
     public static function make(
 
-        // Model fields
+        // Models fields
         string $activeSiteTemplateInputName = null,
         string $layoutFileInputName = null,
 

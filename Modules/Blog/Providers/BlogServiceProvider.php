@@ -3,27 +3,18 @@
 namespace Modules\Blog\Providers;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
-
+use Modules\Blog\Filament\BlogSettings;
+use Modules\Blog\Livewire\BlogComponent;
+use Modules\Blog\Microweber\BlogModule;
 
 class BlogServiceProvider extends BaseModuleServiceProvider
 {
     protected string $moduleName = 'Blog';
-
     protected string $moduleNameLower = 'blog';
-
-    /**
-     * Boot the application events.
-     */
-    public function boot(): void
-    {
-
-
-    }
 
     /**
      * Register the service provider.
@@ -34,15 +25,16 @@ class BlogServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-       // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
+        // Register Livewire component
+        Livewire::component('module-blog', BlogComponent::class);
 
         // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(BlogModuleSettings::class);
+        FilamentRegistry::registerPage(BlogSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\Blog\Microweber\BlogModule::class);
-
+        Microweber::module(BlogModule::class);
     }
+
 
 }

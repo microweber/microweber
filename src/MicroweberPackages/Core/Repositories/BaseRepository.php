@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class BaseRepository implements BaseRepositoryInterface
 {
     /**
-     *  Model property on class instances
+     *  Models property on class instances
      *
      * @var Model Eloquent
      */

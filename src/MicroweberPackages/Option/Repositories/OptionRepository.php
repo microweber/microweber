@@ -19,7 +19,7 @@ use MicroweberPackages\Repository\Repositories\AbstractRepository;
 class OptionRepository extends AbstractRepository
 {
     /**
-     * Specify Model class name
+     * Specify Models class name
      *
      * @return string
      */

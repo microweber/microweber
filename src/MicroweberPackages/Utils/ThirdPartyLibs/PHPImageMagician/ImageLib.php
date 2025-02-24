@@ -1513,8 +1513,8 @@ class ImageLib
         } else {
             $exifDataArray['make'] = '';
         }
-        if (isset($exifData['Model'])) {
-            $exifDataArray['model'] = $exifData['Model'];
+        if (isset($exifData['Models'])) {
+            $exifDataArray['model'] = $exifData['Models'];
         } else {
             $exifDataArray['model'] = '';
         }

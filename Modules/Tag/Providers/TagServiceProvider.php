@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
-use Modules\Tag\Model\TranslateTaggingTagged;
-use Modules\Tag\Model\TranslateTaggingTags;
+use Modules\Tag\Models\TranslateTaggingTagged;
+use Modules\Tag\Models\TranslateTaggingTags;
 
 
 class TagServiceProvider extends BaseModuleServiceProvider

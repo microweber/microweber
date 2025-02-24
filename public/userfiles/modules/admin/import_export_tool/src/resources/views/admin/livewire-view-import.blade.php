@@ -299,7 +299,7 @@
                                         <b>Primary key</b>
                                     </label>
                                     <br>
-                                    <small>Unique Content ID or Content Model</small>
+                                    <small>Unique Content ID or Content Models</small>
                                 </td>
                                 <td>
                                     <select class="form-control" wire:model.live="import_feed.primary_key" id="feed_primary_key">

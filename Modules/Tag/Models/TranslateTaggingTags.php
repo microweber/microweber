@@ -5,7 +5,7 @@
  * Date: 2/27/2020
  * Time: 1:13 PM
  */
-namespace Modules\Tag\Model;
+namespace Modules\Tag\Models;
 
 use MicroweberPackages\Multilanguage\TranslateTable;
 

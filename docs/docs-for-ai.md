@@ -1293,7 +1293,7 @@ To use the ContentData functionality, you can include the `ContentDataTrait` in 
 ```php
 use Modules\ContentData\Traits\ContentDataTrait;
 
-class Product extends Model
+class Product extends Models
 {
     use ContentDataTrait;
 
@@ -3304,7 +3304,7 @@ To install the Tabs module, follow these steps:
    php artisan module:publish Tabs
    ```
 
-## Model Information
+## Models Information
 The main model used in this module is `Tab`, which interacts with the `tabs` database table.
 
 ### Database Table: `tabs`
@@ -3547,7 +3547,7 @@ Access the Testimonials module from the admin panel to manage testimonials.
 ## Configuration
 Configure module settings in the admin panel under the Testimonials settings section.
 
-## Model
+## Models
 The `Testimonial` model represents a testimonial entry in the database.
 
 ### Database Table

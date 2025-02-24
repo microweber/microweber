@@ -36,7 +36,7 @@ To use the ContentData functionality, you can include the `ContentDataTrait` in 
 ```php
 use Modules\ContentData\Traits\ContentDataTrait;
 
-class Product extends Model
+class Product extends Models
 {
     use ContentDataTrait;
 

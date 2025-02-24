@@ -1,7 +1,7 @@
 <?php
 /**
  * phpQuery is a server-side, chainable, CSS3 selector driven
- * Document Object Model (DOM) API based on jQuery JavaScript Library.
+ * Document Object Models (DOM) API based on jQuery JavaScript Library.
  *
  * @version 0.9.5
  *

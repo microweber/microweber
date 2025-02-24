@@ -13,7 +13,7 @@ class CustomFieldRepository extends AbstractRepository
 {
 
     /**
-     * Specify Model class name
+     * Specify Models class name
      *
      * @return string
      */

@@ -295,7 +295,7 @@ abstract class AbstractRepository implements Repository
 //     *
 //     * @param mixed $id
 //     *
-//     * @return Model|Collection
+//     * @return Models|Collection
 //     */
 
 
