@@ -6,7 +6,6 @@ use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use JaOcero\RadioDeck\Forms\Components\RadioDeck;
 use Livewire\Livewire;
-use MicroweberPackages\Export\SessionStepper;
 use Modules\Backup\Filament\Resources\BackupResource\Pages;
 use Modules\Backup\Filament\Resources\BackupResource\RelationManagers;
 use Modules\Backup\Models\Backup;
@@ -17,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Modules\Backup\SessionStepper;
 
 class BackupResource extends Resource
 {

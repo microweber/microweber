@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
 use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 use MicroweberPackages\Restore\Formats\CsvReader;
 use MicroweberPackages\Restore\Formats\XlsxReader;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ImportMapping\Readers\XmlToArray;

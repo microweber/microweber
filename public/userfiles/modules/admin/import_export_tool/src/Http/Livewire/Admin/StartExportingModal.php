@@ -4,7 +4,7 @@ namespace MicroweberPackages\Modules\Admin\ImportExportTool\Http\Livewire\Admin;
 
 use LivewireUI\Modal\ModalComponent;
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\Export\SessionStepper;
+use Modules\Backup\SessionStepper;
 use MicroweberPackages\Modules\Admin\ImportExportTool\ExportFeedFromDatabase;
 use MicroweberPackages\Modules\Admin\ImportExportTool\Models\ExportFeed;
 

@@ -187,8 +187,6 @@ class Restore
         $reader->setLanguage($this->language);
         $data = $reader->readData();
 
-        dd($data);
-
         $readedData = $this->_recognizeDataTableName($data);
 
         if ($readedData) {
@@ -222,7 +220,7 @@ class Restore
             $this->logger->setLogInfo('Start importing session..');
         }
 
-        return $this->importAsType($this->file);
+        return $this->restoreAsType($this->file);
     }
 
     private function _recognizeDataTableName($data)
