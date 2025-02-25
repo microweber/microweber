@@ -8,10 +8,10 @@ Route::name('api.module.')
     ->middleware(['api', 'admin'])
     ->group(function () {
 // modules/list
-        Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
+
             Route::get('list', \MicroweberPackages\Module\Http\Controllers\Api\ModulesApiLiveEdit::class . '@index')->name('list');  //api.module.list
             Route::get('getSkins', \MicroweberPackages\Module\Http\Controllers\Api\ModulesApiLiveEdit::class . '@getSkins')->name('getSkins'); //api.module.getSkins
-        });
+
 //        if (config('microweber.allow_php_files_upload')) {
 //            Route::namespace('MicroweberPackages\Module\Http\Controllers\Api')->group(function () {
 //                Route::post('upload', 'ModuleUploadController@upload')->name('upload');
@@ -22,7 +22,7 @@ Route::name('api.module.')
 
 Route::name('api.')
     ->prefix('api/')
-    ->middleware(['api', 'admin'])
+    ->middleware(['admin'])
     ->group(function () {
 
         Route::any('clearcache', function () {

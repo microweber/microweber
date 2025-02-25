@@ -6,6 +6,7 @@ import { ModulesList } from "./../../core/le2/modules-list.js";
 import { CommandDialog } from "./commands-dialog.js";
 
 var _layotsCache;
+var _layotsIsLoading;
 
 /**
  * @deprecated The method should not be used
@@ -63,15 +64,19 @@ export const layoutSelector = () => {
         _layoutsDataLoader(layOutsDialog);
         return;
     }
+    if(_layotsIsLoading) {
+        return;
+    }
 
     mw.spinner({
         element: layOutsDialog.get(0),
         decorate: true
     })
-
+    _layotsIsLoading = true;
 
     fetch(`${mw.settings.site_url}api/module/list?layout_type=layout&elements_mode=true&group_layouts_by_category=true`)
         .then(function (data) {
+            _layotsIsLoading = false;
             return data.json();
         }).then(function (data) {
         _layotsCache = data;

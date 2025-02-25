@@ -1610,8 +1610,14 @@ class UserManager
         } else if (is_file($file)) {
             return site_url('logout');
         } else {
+            if(route_exists('logout')) {
+                return route('logout');
+            } else {
+                return site_url('logout');
+            }
+
             //return route('api.user.logout');
-            return route('logout');
+          //  return route('logout');
         }
 
     }

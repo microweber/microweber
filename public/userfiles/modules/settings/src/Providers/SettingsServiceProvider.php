@@ -24,7 +24,7 @@ class SettingsServiceProvider extends PackageServiceProvider
     {
 
 
-        AdminManager::getMenuInstance('left_menu_top')->addChild('Settings', [
+    /*    AdminManager::getMenuInstance('left_menu_top')->addChild('Settings', [
             'uri' => route('admin.settings.index'),
 
             'attributes'=>[
@@ -36,7 +36,7 @@ class SettingsServiceProvider extends PackageServiceProvider
         AdminManager::getMenuInstance('left_menu_top')
             ->menuItems
             ->getChild('Settings')
-            ->setExtra('orderNumber', 5);
+            ->setExtra('orderNumber', 5);*/
     }
 
     public function register(): void

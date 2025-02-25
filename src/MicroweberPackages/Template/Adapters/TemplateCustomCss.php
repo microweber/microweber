@@ -15,7 +15,7 @@ class TemplateCustomCss
             return false;
         }
 
-        $url = api_nosession_url('template/print_custom_css');
+        $url = api_url('template/print_custom_css');
         if (in_live_edit() and is_admin()) {
             return $url;
         }

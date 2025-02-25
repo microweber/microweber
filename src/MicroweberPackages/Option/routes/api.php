@@ -4,7 +4,7 @@ use  \Illuminate\Support\Facades\Route;
 
 Route::name('api.')
     ->prefix('api')
-    ->middleware(['admin'])
+    ->middleware(['admin','api'])
     ->namespace('\MicroweberPackages\Option\Http\Controllers\Api')
     ->group(function () {
 

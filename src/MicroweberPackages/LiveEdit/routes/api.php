@@ -5,7 +5,7 @@ use \Illuminate\Support\Facades\Route;
 
 Route::name('api.live-edit.')
     ->prefix('api/live-edit')
-    ->middleware(['web', 'admin', 'live_edit'])
+    ->middleware([  'admin' ])
     ->group(function () {
 
 

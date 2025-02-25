@@ -20,7 +20,8 @@ use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarElementStyleEditorPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarTemplateSettingsPage;
-use MicroweberPackages\LiveEdit\Filament\Admin\Pages\ResetContentModuleSettingsPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\CodeEditorModuleSettingsPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ResetContentModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorListComponent;
@@ -62,7 +63,10 @@ class LiveEditServiceProvider extends PackageServiceProvider
         Livewire::component('microweber-live-edit::sidebar-admin-modules-list', LiveEditSidebarAdminModulesListComponent::class);
         Livewire::component('microweber-live-edit::module-presets-manager', ModulePresetsManager::class);
 
-        Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
+      //  Event::listen(ServingLiveEdit::class, [$this, 'registerMenu']);
+
+
+
 
 
         // Event::listen(ServingFilament::class, function () {
@@ -72,6 +76,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
 
 
         FilamentRegistry::registerPage(ResetContentModuleSettingsPage::class);
+        FilamentRegistry::registerPage(CodeEditorModuleSettingsPage::class);
 
 
         //  });
@@ -91,7 +96,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
     {
         parent::boot();
         $router = $this->app['router'];
-
+//
         $router->middlewareGroup('live_edit', [
             DispatchServingLiveEdit::class,
         ]);
@@ -100,11 +105,14 @@ class LiveEditServiceProvider extends PackageServiceProvider
             DispatchServingModuleSettings::class,
         ]);
 
+        $this->registerMenu();
+
 
         Filament::serving(function () {
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/reset_content', ResetContentModuleSettingsPage::getUrl());
+                ModuleAdmin::registerLiveEditSettingsUrl('editor/code_editor', CodeEditorModuleSettingsPage::getUrl());
 
 
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/sidebar_template_settings', AdminLiveEditSidebarTemplateSettingsPage::getUrl());

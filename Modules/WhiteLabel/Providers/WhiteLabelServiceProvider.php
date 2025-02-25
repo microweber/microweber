@@ -22,13 +22,13 @@ class WhiteLabelServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
 
-        if (mw_is_installed()) {
+     /*   if (mw_is_installed()) {
 
             // Bind event for applying white label settings
             event_bind('mw.after.boot', function () {
                 app(WhiteLabelService::class)->applyWhiteLabelSettings();
             });
-        }
+        }*/
     }
 
     /**

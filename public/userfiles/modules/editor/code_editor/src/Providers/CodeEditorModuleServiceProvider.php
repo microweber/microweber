@@ -5,7 +5,6 @@ namespace MicroweberPackages\Modules\Editor\CodeEditor\Providers;
 use Filament\Facades\Filament;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
-use MicroweberPackages\Modules\Editor\CodeEditor\Filament\CodeEditorModuleSettingsPage;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -22,18 +21,18 @@ class CodeEditorModuleServiceProvider extends PackageServiceProvider
 
         parent::register();
 
-        FilamentRegistry::registerPage(CodeEditorModuleSettingsPage::class);
+       // FilamentRegistry::registerPage(CodeEditorModuleSettingsPage::class);
     }
 
     public function boot(): void
     {
-        parent::boot();
-        Filament::serving(function () {
-            $panelId = Filament::getCurrentPanel()->getId();
-            if ($panelId == 'admin') {
-                ModuleAdmin::registerLiveEditSettingsUrl('editor/code_editor', CodeEditorModuleSettingsPage::getUrl());
-            }
-        });
+//        parent::boot();
+//        Filament::serving(function () {
+//            $panelId = Filament::getCurrentPanel()->getId();
+//            if ($panelId == 'admin') {
+//            //    ModuleAdmin::registerLiveEditSettingsUrl('editor/code_editor', CodeEditorModuleSettingsPage::getUrl());
+//            }
+//        });
 
     }
 

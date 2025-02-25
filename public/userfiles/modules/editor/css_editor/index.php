@@ -112,7 +112,7 @@
             if (typeof (window.mw.parent().wysiwyg) != 'undefined') {
                 var custom_fonts_stylesheet = window.parent.document.getElementById("mw-custom-user-css");
                 if (custom_fonts_stylesheet != null) {
-                    var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
+                    var custom_fonts_stylesheet_restyled = '<?php print api_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
                     custom_fonts_stylesheet.href = custom_fonts_stylesheet_restyled;
 
                 }
@@ -153,7 +153,7 @@
 
                 if (el) {
 
-                    var custom_fonts_stylesheet_restyled = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
+                    var custom_fonts_stylesheet_restyled = '<?php print api_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
                     el.href = custom_fonts_stylesheet_restyled;
                     mw.tools.refresh(el)
                     mw.notification.success('Custom CSS is saved')

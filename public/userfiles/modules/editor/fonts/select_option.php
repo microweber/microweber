@@ -43,7 +43,7 @@ if (is_string($enabled_custom_fonts) and $enabled_custom_fonts) {
         mw.options.form('#<?php print $params['id'] ?>', function () {
             var el = mw.top().$('#mw-custom-user-css')[0];
             if(el){
-                el.href = '<?php print api_nosession_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
+                el.href = '<?php print api_url('template/print_custom_css') ?>?v=' + Math.random(0, 10000);
             }
         });
         mw.$("[name=<?php print $name ?>] option").each(function () {

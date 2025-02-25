@@ -73,6 +73,10 @@ class Admin
         $adminUrl = admin_url();
         $urlToCompare = site_url('admin');
 
+        if(is_ajax()){
+            return response()->json(['error' => 'Please as admin login to continue'], 401);
+        }
+
 //        if($adminUrl == $urlToCompare){
 //           // return redirect()->guest(route('admin.login'));
 //            return redirect(site_url());

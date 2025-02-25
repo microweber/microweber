@@ -141,8 +141,9 @@ class ModuleServiceProvider extends ServiceProvider
         Livewire::component('microweber-option::select-tags', SelectTagsOption::class);
     }
 
-    public function registerMenu()
-    {
+    public function registerMenu(){
+
+    /*{
         AdminManager::getMenuInstance('left_menu_top')->addChild('Modules', [
             'uri' => route('admin.module.index'),
             'attributes' => [
@@ -153,7 +154,7 @@ class ModuleServiceProvider extends ServiceProvider
         AdminManager::getMenuInstance('left_menu_top')
             ->menuItems
             ->getChild('Modules')
-            ->setExtra('orderNumber', 4);
+            ->setExtra('orderNumber', 4);*/
 
     }
 }

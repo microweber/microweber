@@ -520,7 +520,7 @@ class TemplateManager
 
     public function clear_cached_custom_css()
     {
-        $url = api_nosession_url('template/print_custom_css');
+        $url = api_url('template/print_custom_css');
         $compile_assets = Config::get('microweber.compile_assets');
         $userfiles_dir = userfiles_path();
         $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS);
