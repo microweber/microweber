@@ -22,22 +22,13 @@ class WhiteLabelServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
 
-     /*   // Bind event for white label settings in admin
-        app('events')->listen('mw.admin.settings.website', function ($params = false) {
-            if (app('ui')->powered_by_link_enabled() && app('ui')->service_links_enabled()) {
-                return '<div type="modules.white_label::settings_card" class="mw-lazy-load-module" id="white_label_settings"></div>';
-            }
-        });
+        if (mw_is_installed()) {
 
-        // Bind event for applying white label settings
-        app('events')->listen('mw.after.boot', function () {
-            app(WhiteLabelService::class)->applyWhiteLabelSettings();
-        });
-
-        // Register API endpoints
-        app('api')->register('save_white_label_config', function ($params) {
-            return app(WhiteLabelService::class)->saveWhiteLabelConfig($params);
-        });*/
+            // Bind event for applying white label settings
+            event_bind('mw.after.boot', function () {
+                app(WhiteLabelService::class)->applyWhiteLabelSettings();
+            });
+        }
     }
 
     /**

@@ -41,7 +41,6 @@ class WhiteLabelSettingsAdminSettingsPage extends AdminSettingsPage
     public function form(Form $form): Form
     {
 
-
         return $form
             ->schema([
                 Tabs::make('Settings')

@@ -168,6 +168,18 @@ class WhiteLabelService
             return $saasFileJson;
         }
 
+
+        $options = get_module_options('white_label');
+
+        if ($options) {
+            $params = [];
+            foreach ($options as $option) {
+                $params[$option['option_key']] = $option['option_value'];
+            }
+            return $params;
+        }
+
+
         return [];
     }
 }
