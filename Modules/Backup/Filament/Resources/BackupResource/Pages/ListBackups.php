@@ -228,15 +228,15 @@ class ListBackups extends ListRecords
         $restore->setSessionId($sessionId);
         $restore->setFile($restoreFile);
 
-        if ($getSession['data']['restoreType']['restoreType'] == 'deleteAll') {
+        if ($getSession['data']['restoreType'] == 'deleteAll') {
             $restore->setWriteOnDatabase(true);
             $restore->setToDeleteOldContent(true);
             $restore->setToDeleteOldCssFiles(true);
             $restore->setOvewriteById(true);
-        } else if ($getSession['data']['restoreType']['restoreType'] == 'overwriteById') {
+        } else if ($getSession['data']['restoreType'] == 'overwriteById') {
             $restore->setOvewriteById(true);
             $restore->setWriteOnDatabase(true);
-        } else if ($getSession['data']['restoreType']['restoreType'] == 'overwriteByTitles') {
+        } else if ($getSession['data']['restoreType'] == 'overwriteByTitles') {
             $restore->setOvewriteById(false);
             $restore->setWriteOnDatabase(true);
         }
