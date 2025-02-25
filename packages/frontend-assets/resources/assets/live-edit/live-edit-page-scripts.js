@@ -320,7 +320,7 @@ if(window.self !== window.top) {
             mw.trigger('saveStart', data);
 
             var xhr = mw.liveEditSaveService.coreSave(data);
-            console.log(xhr, xhr.fail)
+
             if (!xhr) {
                 return false;
             }

@@ -503,7 +503,7 @@ if (mw.top().app.canvas) {
                     wroot.mw.drag.fix_placeholders(true);
                     wroot.mw.on.DOMChangePause = false;
                     var saved =  wroot.mw.drag.save();
-                     if (saved) {
+                     if (saved && saved.success) {
                         saved.success(function (saved_data) {
 
                             if (typeof saved_data[0] == 'undefined') {
