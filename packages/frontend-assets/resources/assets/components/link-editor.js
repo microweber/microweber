@@ -1,5 +1,6 @@
 
 mw.require('widgets.css');
+mw.require('xss.js');
 mw.require('form-controls.js');
 
 
