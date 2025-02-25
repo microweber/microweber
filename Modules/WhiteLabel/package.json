@@ -1,0 +1,19 @@
+{
+    "name": "microweber-modules-white_label",
+    "version": "1.0.0",
+    "description": "Whitelabel module Microweber CMS",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microweber-modules/search.git"
+    },
+    "private": true,
+    "scripts": {
+        "build": "cpy resources/assets/js ../../public/modules/white_label/js --flat && cpy resources/assets/css ../../public/modules/white_label/css --flat",
+        "dev": "chokidar resources/assets/ -c \"npm run build\""
+    },
+    "devDependencies": {
+        "chokidar-cli": "^3.0.0",
+        "cpy-cli": "^5.0.0"
+    }
+}
