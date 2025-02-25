@@ -34,7 +34,7 @@
            position: absolute;
            display: inline-block;
            right: 0;
-           width: 2.2em;
+           width: 2em;
            text-align: center;
        }
        li:last-child {
@@ -47,7 +47,7 @@
        a {
            text-decoration: none;
            display: inline-block;
-           color: #333;
+           color: var(--mw-primary-color);
            white-space: nowrap;
        }
        a:hover {
