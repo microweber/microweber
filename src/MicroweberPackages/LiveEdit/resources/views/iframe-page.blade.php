@@ -101,7 +101,9 @@
             addEventListener('load', () => {
                 const guiEditor = new (mw.top()).controlBox({
                     content: ``,
-                    position: 'right',
+                })
+
+                position: 'right',
                     id: 'mw-live-edit-gui-editor-box',
                     closeButton: true,
                     title: mw.lang('Element Style Editor')
@@ -113,8 +115,6 @@
                 });
                 guiEditor.on('hide', () => {
                     document.documentElement.classList['remove']('live-edit-gui-editor-opened');
-                })
-
                 mw.top().app.guiEditorBox = guiEditor
             })
 
