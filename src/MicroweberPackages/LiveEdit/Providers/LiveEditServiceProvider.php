@@ -20,6 +20,7 @@ use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarElementStyleEditorPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarTemplateSettingsPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\AddContentModalPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\CodeEditorModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\FontsManagerModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ResetContentModuleSettingsPage;
@@ -80,6 +81,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
         FilamentRegistry::registerPage(ResetContentModuleSettingsPage::class);
         FilamentRegistry::registerPage(CodeEditorModuleSettingsPage::class);
         FilamentRegistry::registerPage(FontsManagerModuleSettingsPage::class);
+        FilamentRegistry::registerPage(AddContentModalPage::class);
 
 
         //  });
@@ -120,6 +122,8 @@ class LiveEditServiceProvider extends PackageServiceProvider
 
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/sidebar_template_settings', AdminLiveEditSidebarTemplateSettingsPage::getUrl());
                 ModuleAdmin::registerLiveEditSettingsUrl('microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue', AdminLiveEditSidebarElementStyleEditorPage::getUrl());
+                ModuleAdmin::registerLiveEditSettingsUrl('editor/add_content_modal', AddContentModalPage::getUrl());
+
             }
         });
 
