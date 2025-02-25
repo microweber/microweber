@@ -91,7 +91,6 @@ class BackupResource extends Resource
                                             'overwrite_by_id' => 'Overwrite',
                                             'overwrite_by_titles' => 'Overwrite by Names & Titles',
                                         ])
-                                        ->default('content_backup')
                                         ->required()
                                 ])->afterValidation(function ($livewire, $record, $state) {
                                     self::$restoreFile = $record->filename;

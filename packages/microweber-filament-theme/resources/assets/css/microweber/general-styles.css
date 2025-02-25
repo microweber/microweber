@@ -860,3 +860,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .mw-domtree-item-opener {
 
 }
+
+.fi-section-header-description {
+    @apply ps-5;
+}

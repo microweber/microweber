@@ -16,26 +16,79 @@
 <style>
    .mw-big2-breadcrumb-skin-5 {
 
+       ul {
+           list-style-type: none;
+           margin: 0;
+           padding: 2em;
+           color: #333;
+       }
 
+       li {
+           display: inline-block;
+           position: relative;
+           padding-right: 2em;
+           margin: 0;
+       }
+       li:after {
+           content: '>';
+           position: absolute;
+           display: inline-block;
+           right: 0;
+           width: 2em;
+           text-align: center;
+       }
+       li:last-child {
+           font-weight: bold;
+       }
+       li:last-child:after {
+           content: '';
+       }
+
+       a {
+           text-decoration: none;
+           display: inline-block;
+           color: var(--mw-primary-color);
+           white-space: nowrap;
+       }
+       a:hover {
+           text-decoration: underline;
+       }
+
+
+       /* Collapsed breadcrumbs */
+
+       .collapsed li {
+           overflow: hidden;
+       }
+       .collapsed li:after {
+           background: rgb(245, 245, 245);
+           background: linear-gradient(90deg, rgba(255, 255, 255, 0.84) 0%, rgb(255, 255, 255) 35%);
+           padding-left: 1em;
+       }
+
+       .collapsed a {
+           max-width: 2em;
+           transition: max-width 300ms ease-in-out;
+       }
+       .collapsed a:hover,
+       .collapsed a:focus,
+       .collapsed li:hover a {
+           max-width: 1000px;
+       }
+       .collapsed li:hover:after {
+           padding-left: 0em;
+           background: transparent;
+       }
 
     }
 </style>
 
 
-<ul class="collapsed">
-    <li><a href="#">Home</a></li><!--
-  --><li><a href="#">First link</a></li><!--
-  --><li><a href="#">Second link</a></li><!--
-  --><li><a href="#">Another lengthier link</a></li><!--
-  --><li><a href="#">Final link in the hierarchy</a></li><!--
-  --><li>Current page</li>
-</ul>
-
 <div class="mw-big2-breadcrumb-skin-5">
-    <ul>
+    <ul class="collapsed">
         <li>
             <a href="{{ $homepage['url'] }}">
-                <i class="fa fa-home" aria-hidden="true"></i>
+                {{ $homepage['title'] }}
             </a>
         </li>
 
@@ -43,10 +96,11 @@
             @foreach($data as $item)
                 @if($loop->last)
                     <li>
-                        <a class=" active">
+                        <a class="active">
                             {{ $item['title'] }}
                         </a>
                     </li>
+                    <li>Current page</li>
                 @else
                    <li>
                        <a href="{{ $item['url'] }}">
