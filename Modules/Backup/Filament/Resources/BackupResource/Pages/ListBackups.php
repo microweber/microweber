@@ -209,35 +209,36 @@ class ListBackups extends ListRecords
     }
 
 
-    public function runRestoreStep($params)
+    public function runRestoreStep($sessionId)
     {
+        SessionStepper::setSessionId($sessionId);
+        $getSession = SessionStepper::getSessionFileData();
 
-        if (!isset($params['sessionId'])) {
+        dd($getSession);
+
+        if (!isset($getSession['data']['restoreFile'])) {
             return false;
         }
-        if (!isset($params['restoreFile'])) {
-            return false;
-        }
-        if (!isset($params['restoreType'])) {
+        if (!isset($getSession['data']['restoreType'])) {
             return false;
         }
 
-        $restoreFile = backup_location() . $params['restoreFile'];
+        $restoreFile = backup_location() . $getSession['data']['restoreFile'];
 
         // START RESTORE
         $restore = new Restore();
-        $restore->setSessionId($params['sessionId']);
+        $restore->setSessionId($sessionId);
         $restore->setFile($restoreFile);
 
-        if ($params['restoreType'] == 'deleteAll') {
+        if ($getSession['data']['restoreType']['restoreType'] == 'deleteAll') {
             $restore->setWriteOnDatabase(true);
             $restore->setToDeleteOldContent(true);
             $restore->setToDeleteOldCssFiles(true);
             $restore->setOvewriteById(true);
-        } else if ($params['restoreType'] == 'overwriteById') {
+        } else if ($getSession['data']['restoreType']['restoreType'] == 'overwriteById') {
             $restore->setOvewriteById(true);
             $restore->setWriteOnDatabase(true);
-        } else if ($params['restoreType'] == 'overwriteByTitles') {
+        } else if ($getSession['data']['restoreType']['restoreType'] == 'overwriteByTitles') {
             $restore->setOvewriteById(false);
             $restore->setWriteOnDatabase(true);
         }

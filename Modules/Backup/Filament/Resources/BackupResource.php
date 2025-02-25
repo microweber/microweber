@@ -92,14 +92,15 @@ class BackupResource extends Resource
                                             'overwrite_by_titles' => 'Overwrite by Names & Titles',
                                         ])
                                         ->required()
-                                ])->afterValidation(function ($livewire, $record, $state) {
-                                    self::$restoreFile = $record->filename;
-                                    self::$sessionId = SessionStepper::generateSessionId(20);
-                                    self::$restoreType = $state['restore_type'];
+                                ])->afterValidation(function ($livewire, Forms\Get $get) {
+
+                                    $this->sessionId = SessionStepper::generateSessionId(20, [
+                                        'restoreFile' => $get('restoreFile'),
+                                        'restoreType' => $get('restoreType'),
+                                    ]);
+
                                     $livewire->dispatch('restoreIsStarted',
-                                        sessionId: self::$sessionId,
-                                        restoreFile: self::$restoreFile,
-                                        restoreType: self::$restoreType
+                                        sessionId: self::$sessionId
                                     );
                                 }),
 
