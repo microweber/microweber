@@ -115,8 +115,9 @@
                 });
                 guiEditor.on('hide', () => {
                     document.documentElement.classList['remove']('live-edit-gui-editor-opened');
-                mw.top().app.guiEditorBox = guiEditor
-            })
+                      mw.top().app.guiEditorBox = guiEditor
+                });
+            });
 
         </script>
 
