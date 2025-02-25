@@ -249,9 +249,17 @@ export class ModuleSettings extends MicroweberBaseClass {
         attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
 
         if(!settingsUrl){
+            // legacy route, must be removed
             settingsUrl = route('live_edit.module_settings');
         }
-
+        if (typeof attrsForSettings['type'] === 'undefined') {
+           var  moduleType = attrsForSettings['type'];
+            if (typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+                if (typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
+                    settingsUrl = mw.settings.liveEditModuleSettingsUrls[moduleType];
+                }
+            }
+        }
 
         var src = settingsUrl + "?" + json2url(attrsForSettings);
 
