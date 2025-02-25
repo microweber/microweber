@@ -864,3 +864,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 .fi-section-header-description {
     @apply ps-5;
 }
+
+.fi-resource-products .fi-header {
+    @apply sticky top-[60px] bg-white py-[30px] z-10;
+}
