@@ -30,6 +30,24 @@ class ListBackups extends ListRecords
 
     public $sessionId = null;
     public $backupFile = null;
+    public $backupType = null;
+
+    public $includeTables = false;
+
+    public $includeAllTables = false;
+
+    public $tables = [];
+
+    public $includeMedia = false;
+
+    public $includeModules = false;
+
+    public $includeTemplates = false;
+
+    public $backupFilename = null;
+
+    public $restoreFile = null;
+
 
     protected function getHeaderActions(): array
     {
@@ -89,8 +107,9 @@ class ListBackups extends ListRecords
             Wizard\Step::make('Backup Type')
                 ->description('Choose the type of backup you want to create')
                 ->schema([
-                    RadioDeck::make('backup_type')
+                    RadioDeck::make('backupType')
                         ->label('Backup Type')
+                        ->live()
                         ->descriptions([
                             'content_backup' => 'Create backup of your sites without sensitive information. This will create a zip with live-edit css, media, post categories & pages.',
                             'custom_backup' => 'Create backup with custom selected tables, users, api_keys, media, modules, templates...',
@@ -114,12 +133,12 @@ class ListBackups extends ListRecords
                 ->schema([
                     Section::make('Database Tables')
                         ->schema([
-                            Toggle::make('include_tables')
+                            Toggle::make('includeTables')
                                 ->label('Include Tables')
                                 ->onIcon('heroicon-m-check')
                                 ->live()
                                 ->offIcon('heroicon-m-x-mark'),
-                            Checkbox::make('include_all_tables')
+                            Checkbox::make('includeAllTables')
                                 ->label('Include All Tables')
                                 ->live()
                                 ->afterStateUpdated(function ($state, Set $set) use ($databaseTables) {
@@ -129,49 +148,54 @@ class ListBackups extends ListRecords
                                         $set('tables', []);
                                     }
                                 })
-                                ->hidden(fn (callable $get) => !$get('include_tables')),
+                                ->hidden(fn (callable $get) => !$get('includeTables')),
                             CheckboxList::make('tables')
                                 ->label('Tables')
                                 ->options($databaseTables)
+                                ->live()
                                 ->columns(4)
                                 ->required()
-                                ->hidden(fn (callable $get) => !$get('include_tables')),
+                                ->hidden(fn (callable $get) => !$get('includeTables')),
                         ])
-                        ->visible(fn (callable $get) => $get('backup_type') === 'custom_backup'),
+                        ->visible(fn (callable $get) => $get('backupType') === 'customBackup'),
 
                     Section::make('Media Files')
                         ->schema([
-                            Toggle::make('include_media')
+                            Toggle::make('includeMedia')
+                                ->live()
                                 ->label('Include Media Files')
                                 ->onIcon('heroicon-m-check')
                                 ->offIcon('heroicon-m-x-mark'),
                         ])
-                        ->visible(fn (callable $get) => $get('backup_type') === 'custom_backup'),
+                        ->visible(fn (callable $get) => $get('backupType') === 'customBackup'),
 
                     Section::make('Modules')
                         ->schema([
-                            Toggle::make('include_modules')
+                            Toggle::make('includeModules')
+                                ->live()
                                 ->label('Include Modules')
                                 ->onIcon('heroicon-m-check')
                                 ->offIcon('heroicon-m-x-mark'),
                         ])
-                        ->visible(fn (callable $get) => $get('backup_type') === 'custom_backup'),
+                        ->visible(fn (callable $get) => $get('backupType') === 'customBackup'),
 
                     Section::make('Templates')
                         ->schema([
-                            Toggle::make('include_templates')
+                            Toggle::make('includeTemplates')
+                                ->live()
                                 ->label('Include Templates')
                                 ->onIcon('heroicon-m-check')
                                 ->offIcon('heroicon-m-x-mark'),
                         ])
-                        ->visible(fn (callable $get) => $get('backup_type') === 'custom_backup'),
+                        ->visible(fn (callable $get) => $get('backup_type') === 'customBackup'),
                 ])
-                ->visible(fn (callable $get) => $get('backup_type') === 'custom_backup'),
+                ->visible(fn (callable $get) => $get('backup_type') === 'customBackup'),
 
             Wizard\Step::make('Backup details')
                 ->description('Configure and generate your backup')
                 ->schema([
-                    TextInput::make('backup_filename')
+                    TextInput::make('backupFilename')
+                        ->live()
                         ->label('Backup Filename')
                         ->placeholder('Enter backup filename (optional)')
                         ->helperText('Leave empty for auto-generated filename'),
@@ -188,6 +212,15 @@ class ListBackups extends ListRecords
                         ->view('modules.backup::filament.pages.create-backup-progress')
                         ->viewData([
                             'sessionId' => $this->sessionId,
+                            'backupFilename' => $this->backupFilename,
+                            'includeTables' => $this->includeTables,
+                            'tables' => $this->tables,
+                            'includeMedia' => $this->includeMedia,
+                            'includeModules' => $this->includeModules,
+                            'includeTemplates' => $this->includeTemplates,
+                            'includeAllTables' => $this->includeAllTables,
+                            'backupFile' => $this->backupFile,
+                            'backupType' => $this->backupType,
                         ]),
                 ])
 

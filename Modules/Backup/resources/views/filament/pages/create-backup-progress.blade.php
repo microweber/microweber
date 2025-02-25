@@ -1,5 +1,11 @@
 <div>
 
+    <div>
+        backup_type: {{$backupType}} <br>
+        include_tables: {{$includeTables}} <br>
+        include_all_tables: {{$includeAllTables}} <br>
+        backup_filename: {{$backupFilename}} <br>
+    </div>
 
     @script
     <script>
@@ -14,6 +20,7 @@
             sessionId: null,
 
             async startBackup() {
+                return;
                 while (!this.isCompleted) {
                     try {
                         const response = await $wire.runBackupStep(this.sessionId);
