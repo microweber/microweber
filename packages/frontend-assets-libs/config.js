@@ -20,7 +20,7 @@ const nodeModulesScripts = [
     {target: `bxslider`, path: `node_modules/bxslider/dist/jquery.bxslider.min.js`},
     {target: `slick`, path: `node_modules/slick-carousel/slick/slick.js`},
     //{target: `swiper`, path: `node_modules/swiper/swiper.js`},
-    {target: `xss`, path: `node_modules/xss/dist/xss.js`},
+    {target: `api`, path: `node_modules/xss/dist/xss.js`},
     {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.js`},
     {target: `masonry`, path: `node_modules/masonry-layout/dist/masonry.pkgd.js`},
     {target: `codemirror`, path: `node_modules/codemirror/lib/codemirror.js`, process: false},

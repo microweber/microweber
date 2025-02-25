@@ -45,13 +45,14 @@ const js = async (target, path) => {
 
 
 
-[
+;[
     ...config.scripts,
     ...config.css,
     ...config.copy,
     ...config.assets,
 
 ].forEach((conf) => {
+
     let action = 'copy';
     if(conf.process) {
         action = 'js';
