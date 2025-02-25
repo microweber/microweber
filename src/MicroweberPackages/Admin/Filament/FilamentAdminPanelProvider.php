@@ -98,6 +98,11 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->sidebarWidth('15rem')
             ->colors([
                 'primary' => Color::Blue,
+                'danger' => Color::Red,
+                'gray' => Color::Zinc,
+                'info' => Color::Blue,
+                'success' => Color::Green,
+                'warning' => Color::Amber,
             ])
             ->maxContentWidth(MaxWidth::ScreenTwoExtraLarge)
             ->unsavedChangesAlerts();
