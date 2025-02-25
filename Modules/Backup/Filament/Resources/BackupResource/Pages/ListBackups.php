@@ -96,7 +96,6 @@ class ListBackups extends ListRecords
                             'custom_backup' => 'Custom Backup',
                             'full_backup' => 'Full Backup',
                         ])
-                        ->default('content_backup')
                         ->required()
                 ]),
 
