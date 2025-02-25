@@ -170,25 +170,25 @@ class ListBackups extends ListRecords
                             ])
                             ->visible(fn(callable $get) => $get('backupType') === 'customBackup'),
 
-                        Section::make('Modules')
-                            ->schema([
-                                Toggle::make('includeModules')
-                                    ->live()
-                                    ->label('Include Modules')
-                                    ->onIcon('heroicon-m-check')
-                                    ->offIcon('heroicon-m-x-mark'),
-                            ])
-                            ->visible(fn(callable $get) => $get('backupType') === 'customBackup'),
+//                        Section::make('Modules')
+//                            ->schema([
+//                                Toggle::make('includeModules')
+//                                    ->live()
+//                                    ->label('Include Modules')
+//                                    ->onIcon('heroicon-m-check')
+//                                    ->offIcon('heroicon-m-x-mark'),
+//                            ])
+//                            ->visible(fn(callable $get) => $get('backupType') === 'customBackup'),
 
-                        Section::make('Templates')
-                            ->schema([
-                                Toggle::make('includeTemplates')
-                                    ->live()
-                                    ->label('Include Templates')
-                                    ->onIcon('heroicon-m-check')
-                                    ->offIcon('heroicon-m-x-mark'),
-                            ])
-                            ->visible(fn(callable $get) => $get('backup_type') === 'customBackup'),
+//                        Section::make('Templates')
+//                            ->schema([
+//                                Toggle::make('includeTemplates')
+//                                    ->live()
+//                                    ->label('Include Templates')
+//                                    ->onIcon('heroicon-m-check')
+//                                    ->offIcon('heroicon-m-x-mark'),
+//                            ])
+//                            ->visible(fn(callable $get) => $get('backup_type') === 'customBackup'),
                     ])
                     ->visible(fn(callable $get) => $get('backup_type') === 'customBackup'),
 
@@ -208,8 +208,8 @@ class ListBackups extends ListRecords
                             'includeAllTables' => $get('includeAllTables'),
                             'tables' => $get('tables'),
                             'includeMedia' => $get('includeMedia'),
-                            'includeModules' => $get('includeModules'),
-                            'includeTemplates' => $get('includeTemplates'),
+//                            'includeModules' => $get('includeModules'),
+//                            'includeTemplates' => $get('includeTemplates'),
                         ]);
                         $this->dispatch('backupIsStarted', sessionId: $this->sessionId);
                     }),
@@ -285,19 +285,19 @@ class ListBackups extends ListRecords
         }
 
         if ($backupByType == 'customBackup') {
-            
+
             if (isset($getSession['data']['includeMedia'])) {
                 $backup->setBackupMedia($getSession['data']['includeMedia']);
             }
             if (isset($getSession['data']['includeTables'])) {
                 $backup->setBackupTables($getSession['data']['tables']);
             }
-            if (isset($getSession['data']['includeModules'])) {
-                $backup->setBackupModules($getSession['data']['includeModules']);
-            }
-            if (isset($getSession['data']['includeTemplates'])) {
-                $backup->setBackupTemplates($getSession['data']['includeTemplates']);
-            }
+//            if (isset($getSession['data']['includeModules'])) {
+//                $backup->setBackupModules($getSession['data']['includeModules']);
+//            }
+//            if (isset($getSession['data']['includeTemplates'])) {
+//                $backup->setBackupTemplates($getSession['data']['includeTemplates']);
+//            }
 
             $backup->setAllowSkipTables(false);
 
