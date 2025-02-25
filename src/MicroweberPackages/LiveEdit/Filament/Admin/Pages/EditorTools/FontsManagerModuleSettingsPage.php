@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Editor\Fonts\FontsSettings\Filament;
+namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools;
 
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\View;
@@ -17,7 +17,7 @@ class FontsManagerModuleSettingsPage extends LiveEditModuleSettings
     {
         return $form
             ->schema([
-                View::make('microweber-module-editor-fonts::admin.render-font-manager-component')
+                View::make('microweber-live-edit::editor-tools.render-font-manager-component')
 
             ]);
     }
