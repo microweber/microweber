@@ -101,13 +101,13 @@
             addEventListener('load', () => {
                 const guiEditor = new (mw.top()).controlBox({
                     content: ``,
-                })
-
-                position: 'right',
+                    position: 'right',
                     id: 'mw-live-edit-gui-editor-box',
                     closeButton: true,
                     title: mw.lang('Element Style Editor')
-                });
+                })
+
+
                 guiEditor.boxContent.appendChild(document.getElementById('mw-element-style-editor-app'));
 
                 guiEditor.on('show', () => {
