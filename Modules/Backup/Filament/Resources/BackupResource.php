@@ -74,28 +74,29 @@ class BackupResource extends Resource
                             Wizard\Step::make('Restore type')
                                 ->description('How do you like to restore your content?')
                                 ->schema([
-                                    RadioDeck::make('restore_type')
+                                    RadioDeck::make('restoreType')
+                                        ->live()
                                         ->label('Restore Type')
                                         ->descriptions([
-                                            'delete_all' => 'Delete all website content & restore',
-                                            'overwrite_by_id' => 'Overwrite the website content from backup',
-                                            'overwrite_by_titles' => 'Try to overwrite content by Names & Titles',
+                                            'deleteAll' => 'Delete all website content & restore',
+                                            'overwriteById' => 'Overwrite the website content from backup',
+                                            'overwriteByTitles' => 'Try to overwrite content by Names & Titles',
                                         ])
                                         ->icons([
-                                            'delete_all' => 'heroicon-o-trash',
-                                            'overwrite_by_id' => 'heroicon-o-arrow-path',
-                                            'overwrite_by_titles' => 'heroicon-o-arrow-down-on-square-stack',
+                                            'deleteAll' => 'heroicon-o-trash',
+                                            'overwriteById' => 'heroicon-o-arrow-path',
+                                            'overwriteByTitles' => 'heroicon-o-arrow-down-on-square-stack',
                                         ])
                                         ->options([
-                                            'delete_all' => 'Delete & Restore',
-                                            'overwrite_by_id' => 'Overwrite',
-                                            'overwrite_by_titles' => 'Overwrite by Names & Titles',
+                                            'deleteAll' => 'Delete & Restore',
+                                            'overwriteById' => 'Overwrite',
+                                            'overwriteByTitles' => 'Overwrite by Names & Titles',
                                         ])
                                         ->required()
-                                ])->afterValidation(function ($livewire, Forms\Get $get) {
+                                ])->afterValidation(function ($livewire, $record, Forms\Get $get) {
 
-                                    $this->sessionId = SessionStepper::generateSessionId(20, [
-                                        'restoreFile' => $get('restoreFile'),
+                                    self::$sessionId = SessionStepper::generateSessionId(20, [
+                                        'restoreFile' => $record->filename,
                                         'restoreType' => $get('restoreType'),
                                     ]);
 

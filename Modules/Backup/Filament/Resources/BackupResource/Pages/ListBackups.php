@@ -214,8 +214,6 @@ class ListBackups extends ListRecords
         SessionStepper::setSessionId($sessionId);
         $getSession = SessionStepper::getSessionFileData();
 
-        dd($getSession);
-
         if (!isset($getSession['data']['restoreFile'])) {
             return false;
         }
