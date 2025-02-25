@@ -39,6 +39,14 @@ class MwFileUpload extends Field
     {
         return (array) $this->evaluate($this->fileTypes);
     }
+    public function image(): static
+    {
+
+        $this->fileTypes = ['image/*'];
+
+        return $this;
+    }
+
 
     public function multiple(bool | Closure $condition = true): static
     {
