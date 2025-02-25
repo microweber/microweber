@@ -21,6 +21,7 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarElementStyleEditorPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarTemplateSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\CodeEditorModuleSettingsPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\FontsManagerModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ResetContentModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
@@ -75,8 +76,10 @@ class LiveEditServiceProvider extends PackageServiceProvider
         FilamentRegistry::registerPage(AdminLiveEditSidebarElementStyleEditorPage::class);
 
 
+        //editor tools
         FilamentRegistry::registerPage(ResetContentModuleSettingsPage::class);
         FilamentRegistry::registerPage(CodeEditorModuleSettingsPage::class);
+        FilamentRegistry::registerPage(FontsManagerModuleSettingsPage::class);
 
 
         //  });
@@ -113,7 +116,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
             if ($panelId == 'admin') {
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/reset_content', ResetContentModuleSettingsPage::getUrl());
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/code_editor', CodeEditorModuleSettingsPage::getUrl());
-
+                ModuleAdmin::registerLiveEditSettingsUrl('editor/fonts/font-manager-modal', FontsManagerModuleSettingsPage::getUrl());
 
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/sidebar_template_settings', AdminLiveEditSidebarTemplateSettingsPage::getUrl());
                 ModuleAdmin::registerLiveEditSettingsUrl('microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue', AdminLiveEditSidebarElementStyleEditorPage::getUrl());
