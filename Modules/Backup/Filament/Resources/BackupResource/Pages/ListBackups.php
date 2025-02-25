@@ -2,12 +2,15 @@
 
 namespace Modules\Backup\Filament\Resources\BackupResource\Pages;
 
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Support\Facades\Storage;
@@ -74,6 +77,13 @@ class ListBackups extends ListRecords
 
     public function backupFormArray()
     {
+
+        $databaseTables = [];
+        $databaseTablesList = mw()->database_manager->get_tables_list();
+        foreach ($databaseTablesList as $table) {
+            $databaseTables[$table] = str_replace(mw()->database_manager->get_prefix(), '', $table);
+        }
+
         return [
             Wizard::make([
             Wizard\Step::make('Backup Type')
@@ -82,7 +92,7 @@ class ListBackups extends ListRecords
                     RadioDeck::make('backup_type')
                         ->label('Backup Type')
                         ->descriptions([
-                            'content_backup' => 'Create backup of your sites without sensitive information. This will create a zip with live-edit css, media, post categories &amp; pages.',
+                            'content_backup' => 'Create backup of your sites without sensitive information. This will create a zip with live-edit css, media, post categories & pages.',
                             'custom_backup' => 'Create backup with custom selected tables, users, api_keys, media, modules, templates...',
                             'full_backup' => 'Create full backup of your sites with all data. This will create a zip with all data from your database. Include sensitive information like users, passwords, api keys, settings.',
                         ])
@@ -107,7 +117,25 @@ class ListBackups extends ListRecords
                             Toggle::make('include_tables')
                                 ->label('Include Tables')
                                 ->onIcon('heroicon-m-check')
+                                ->live()
                                 ->offIcon('heroicon-m-x-mark'),
+                            Checkbox::make('include_all_tables')
+                                ->label('Include All Tables')
+                                ->live()
+                                ->afterStateUpdated(function ($state, Set $set) use ($databaseTables) {
+                                    if ($state) {
+                                        $set('tables', array_keys($databaseTables));
+                                    } else {
+                                        $set('tables', []);
+                                    }
+                                })
+                                ->hidden(fn (callable $get) => !$get('include_tables')),
+                            CheckboxList::make('tables')
+                                ->label('Tables')
+                                ->options($databaseTables)
+                                ->columns(4)
+                                ->required()
+                                ->hidden(fn (callable $get) => !$get('include_tables')),
                         ])
                         ->visible(fn (callable $get) => $get('backup_type') === 'custom_backup'),
 
