@@ -186,6 +186,7 @@ class ListBackups extends ListRecords
                         rmdir_recursive(backup_cache_location());
                         $this->sessionId = SessionStepper::generateSessionId(20, [
                             'backupType' => $get('backupType'),
+                            'backupFilename' => $get('backupFilename'),
                             'includeTables' => $get('includeTables'),
                             'includeAllTables' => $get('includeAllTables'),
                             'tables' => $get('tables'),
@@ -228,15 +229,15 @@ class ListBackups extends ListRecords
         $restore->setSessionId($params['sessionId']);
         $restore->setFile($restoreFile);
 
-        if ($params['restoreType'] == 'delete_all') {
+        if ($params['restoreType'] == 'deleteAll') {
             $restore->setWriteOnDatabase(true);
             $restore->setToDeleteOldContent(true);
             $restore->setToDeleteOldCssFiles(true);
             $restore->setOvewriteById(true);
-        } else if ($params['restoreType'] == 'overwrite_by_id') {
+        } else if ($params['restoreType'] == 'overwriteById') {
             $restore->setOvewriteById(true);
             $restore->setWriteOnDatabase(true);
-        } else if ($params['restoreType'] == 'overwrite_by_titles') {
+        } else if ($params['restoreType'] == 'overwriteByTitles') {
             $restore->setOvewriteById(false);
             $restore->setWriteOnDatabase(true);
         }
