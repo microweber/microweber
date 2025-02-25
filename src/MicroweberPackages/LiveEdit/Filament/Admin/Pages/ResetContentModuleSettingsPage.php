@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Editor\ResetContent\Filament;
+namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages;
 
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\View;
@@ -17,7 +17,7 @@ class ResetContentModuleSettingsPage extends LiveEditModuleSettings
     {
         return $form
             ->schema([
-                View::make('microweber-module-reset-content::admin.reset-content')
+                View::make('microweber-live-edit::reset-content')
 
             ]);
     }

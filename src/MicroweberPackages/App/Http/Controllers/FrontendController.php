@@ -1446,14 +1446,7 @@ class FrontendController extends Controller
                     }
                 }
             }
-            if (isset($request_params['debug'])) {
-                if ($this->app->make('config')->get('app.debug')) {
-                    $is_admin = app()->user_manager->is_admin();
-                    if ($is_admin == true) {
-                        include mw_includes_path() . 'debug.php';
-                    }
-                }
-            }
+
 
 
             if ($show_404_to_non_admin and !$is_admin) {

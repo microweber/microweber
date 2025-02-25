@@ -20,6 +20,7 @@ use MicroweberPackages\LiveEdit\Events\ServingLiveEdit;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarElementStyleEditorPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\AdminLiveEditSidebarTemplateSettingsPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\ResetContentModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorListComponent;
@@ -69,6 +70,10 @@ class LiveEditServiceProvider extends PackageServiceProvider
         FilamentRegistry::registerPage(AdminLiveEditSidebarTemplateSettingsPage::class);
         FilamentRegistry::registerPage(AdminLiveEditSidebarElementStyleEditorPage::class);
 
+
+        FilamentRegistry::registerPage(ResetContentModuleSettingsPage::class);
+
+
         //  });
 
 
@@ -99,6 +104,8 @@ class LiveEditServiceProvider extends PackageServiceProvider
         Filament::serving(function () {
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
+                ModuleAdmin::registerLiveEditSettingsUrl('editor/reset_content', ResetContentModuleSettingsPage::getUrl());
+
 
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/sidebar_template_settings', AdminLiveEditSidebarTemplateSettingsPage::getUrl());
                 ModuleAdmin::registerLiveEditSettingsUrl('microweber/toolbar/editor_tools/rte_css_editor2/rte_editor_vue', AdminLiveEditSidebarElementStyleEditorPage::getUrl());

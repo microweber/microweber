@@ -136,49 +136,6 @@ trait LiveEditTrait
     }
 
 
-    /**
-     * @deprecated This method is deprecated and should not be used anymore.
-     *
-     */
-    public function liveEditToolbar($html)
-    {
-        $toolbar = mw_includes_path() . DS . 'toolbar' . DS . 'toolbar.php';
-
-        $layoutToolbar = new View($toolbar);
-        $isEditModeBasic = false;
-        $userData = app()->user_manager->get();
-        if (isset($userData['basic_mode']) and trim($userData['basic_mode'] == 'y')) {
-            $isEditModeBasic = true;
-        }
-
-        if (isset($isEditModeBasic) and $isEditModeBasic == true) {
-            $layoutToolbar->assign('basic_mode', true);
-        } else {
-            $layoutToolbar->assign('basic_mode', false);
-        }
-
-        event_trigger('mw.live_edit');
-
-        $layoutToolbar = $layoutToolbar->__toString();
-        if ($layoutToolbar != '') {
-            $layoutToolbar = app()->parser->process($layoutToolbar, $options = array('no_apc' => 1));
-            $c = 1;
-            $html = str_ireplace('</body>', $layoutToolbar . '</body>', $html, $c);
-        }
-
-        $customLiveEdit = TEMPLATES_DIR . DS . TEMPLATE_NAME . DS . 'live_edit.php';
-        $customLiveEdit = normalize_path($customLiveEdit, false);
-        if (is_file($customLiveEdit)) {
-            $layoutLiveEdit = new View($customLiveEdit);
-            $layoutLiveEdit = $layoutLiveEdit->__toString();
-            if ($layoutLiveEdit != '') {
-                $html = str_ireplace('</body>', $layoutLiveEdit . '</body>', $html, $c);
-            }
-        }
-
-        return $html;
-    }
-
 
     public function liveEditToolbarBack($html)
     {
