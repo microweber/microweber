@@ -39,7 +39,7 @@ class SessionStepper
         return $cacheDir;
     }
 
-    public static function generateSessionId(int $totalSteps = 5)
+    public static function generateSessionId(int $totalSteps = 5, $data = [])
     {
         $sessionId = uniqid(time());
         self::$sessionId = $sessionId;
@@ -49,7 +49,8 @@ class SessionStepper
             'started_at' => date('Y-m-d H:i:s'),
             'session_id' => $sessionId,
             'total_steps' => $totalSteps,
-            'step' => 0
+            'step' => 0,
+            'data' => $data,
         ]));
         $saveSessionFile = is_file(self::sessionFilepath());
         if (!$saveSessionFile) {

@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Support\Enums\MaxWidth;
@@ -199,29 +200,25 @@ class ListBackups extends ListRecords
                         ->label('Backup Filename')
                         ->placeholder('Enter backup filename (optional)')
                         ->helperText('Leave empty for auto-generated filename'),
-                ])->afterValidation(function () {
+                ])->afterValidation(function (Get $get) {
                     rmdir_recursive(backup_cache_location());
-                    $this->sessionId = SessionStepper::generateSessionId(20);
+                    $this->sessionId = SessionStepper::generateSessionId(20, [
+                        'backupType' => $get('backupType'),
+                        'includeTables' => $get('includeTables'),
+                        'includeAllTables' => $get('includeAllTables'),
+                        'tables' => $get('tables'),
+                        'includeMedia' => $get('includeMedia'),
+                        'includeModules' => $get('includeModules'),
+                        'includeTemplates' => $get('includeTemplates'),
+                    ]);
                     $this->dispatch('backupIsStarted', sessionId: $this->sessionId);
                 }),
 
             Wizard\Step::make('Creating backup')
                 ->description('Your backup is being created')
-                ->schema([ 
+                ->schema([
                     View::make('backup_progress')
-                        ->view('modules.backup::filament.pages.create-backup-progress')
-                        ->viewData([
-                            'sessionId' => $this->sessionId,
-                            'backupFilename' => $this->backupFilename,
-                            'includeTables' => $this->includeTables,
-                            'tables' => $this->tables,
-                            'includeMedia' => $this->includeMedia,
-                            'includeModules' => $this->includeModules,
-                            'includeTemplates' => $this->includeTemplates,
-                            'includeAllTables' => $this->includeAllTables,
-                            'backupFile' => $this->backupFile,
-                            'backupType' => $this->backupType,
-                        ]),
+                        ->view('modules.backup::filament.pages.create-backup-progress'),
                 ])
 
           ])
@@ -269,26 +266,45 @@ class ListBackups extends ListRecords
 
     public function runBackupStep($sessionId) {
 
-        // START BACKUP
+        SessionStepper::setSessionId($sessionId);
+        $getSession = SessionStepper::getSessionFileData();
+
+        if (!isset($getSession['data']['backupType'])) {
+            return false;
+        }
+
         $backup = new Backup();
         $backup->setSessionId($sessionId);
 
-        $backupByType = 'full';
-        $backupFilename = 'backup_' . date('Y-m-d_H-i-s');
+        $backupByType = $getSession['data']['backupType'];
+        $backupFilename = $getSession['data']['backupFilename'];
 
-        if ($backupByType == 'custom') {
+        if ($backupByType == 'customBackup') {
 
-//            $includeMedia = false;
-//            if ($request->get('include_media', false) == 1) {
-//                $includeMedia = true;
-//            }
-//
-//            $backup->setAllowSkipTables(false);
-//            $backup->setExportTables($request->get('include_tables', []));
-//            $backup->setExportMedia($includeMedia);
-//            $backup->setExportModules($request->get('include_modules', []));
-//            $backup->setExportTemplates($request->get('include_templates', []));
-        } else if ($backupByType == 'full') {
+            $includeMedia = false;
+            $includeTables = [];
+            $includeModules = [];
+            $includeTemplates = [];
+            if (isset($getSession['data']['includeMedia'])) {
+                $includeMedia = $getSession['data']['includeMedia'];
+            }
+            if (isset($getSession['data']['includeTables'])) {
+                $includeTables = $getSession['data']['tables'];
+            }
+            if (isset($getSession['data']['includeModules'])) {
+                $includeModules = $getSession['data']['includeModules'];
+            }
+            if (isset($getSession['data']['includeTemplates'])) {
+                $includeTemplates = $getSession['data']['includeTemplates'];
+            }
+
+            $backup->setAllowSkipTables(false);
+            $backup->setBackupTables($includeTables);
+            $backup->setBackupMedia($includeMedia);
+            $backup->setBackupModules($includeModules);
+            $backup->setBackupTemplates($includeTemplates);
+
+        } else if ($backupByType == 'fullBackup') {
 
             $backup->setAllowSkipTables(false); // skip sensitive tables
             $backup->setBackupAllData(true);
