@@ -1,0 +1,30 @@
+{
+    "name": "modules/white-label",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\WhiteLabel\\": "",
+            "Modules\\WhiteLabel\\Database\\Factories\\": "database/factories/",
+            "Modules\\WhiteLabel\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\WhiteLabel\\Tests\\": "Tests/"
+        }
+    }
+}

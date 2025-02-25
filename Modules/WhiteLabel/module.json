@@ -1,0 +1,11 @@
+{
+    "name": "WhiteLabel",
+    "alias": "white_label",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\WhiteLabel\\Providers\\WhiteLabelServiceProvider"
+    ],
+    "files": []
+}

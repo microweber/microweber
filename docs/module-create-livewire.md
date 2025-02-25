@@ -1,6 +1,6 @@
 # Creating a Microweber Module
 
-This guide explains how to create a new module for Microweber using Laravel 11 and Filament v3.
+This guide explains how to create a new module for Microweber using Laravel 11, Filament v3, and Livewire v3.
 
 ## Module Structure
 
@@ -78,10 +78,12 @@ Create a service provider that extends `BaseModuleServiceProvider`. This provide
 namespace Modules\ModuleName\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\ModuleName\Filament\ModuleNameSettings;
+use Modules\ModuleName\Livewire\ModuleNameComponent;
 use Modules\ModuleName\Microweber\ModuleNameModule;
 
 class ModuleNameServiceProvider extends BaseModuleServiceProvider
@@ -98,6 +100,9 @@ class ModuleNameServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+
+        // Register Livewire component
+        Livewire::component('module-' . $this->moduleNameLower, ModuleNameComponent::class);
 
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(ModuleNameSettings::class);
@@ -220,7 +225,29 @@ class ModuleNameSettings extends LiveEditModuleSettings
 
 ### 2. Module Implementation
 
-You can implement your module using BaseModule:
+You can implement your module in one of two ways:
+
+#### Option 1: Using Livewire (Dynamic Interactivity)
+
+If your module needs dynamic frontend interactivity, create a Livewire component:
+
+```php
+<?php
+
+namespace Modules\ModuleName\Http\Livewire;
+
+use Livewire\Component;
+
+class ModuleNameViewComponent extends Component
+{
+    public function render()
+    {
+        return view('module-name::livewire.index');
+    }
+}
+```
+
+#### Option 2: Using BaseModule (Standard Rendering)
 
 For simpler modules without dynamic frontend needs, extend BaseModule:
 
@@ -275,9 +302,24 @@ When using BaseModule:
 
 Templates should be placed in `resources/views/templates/` directory of your module. You can have multiple templates (default.blade.php, bootstrap.blade.php, etc.).
 
-#### Template Example
+#### 1. Livewire Template Example
 
-Templates directly handle the rendering:
+When using Livewire, your template must include the Livewire component:
+
+```php
+{{-- resources/views/templates/default.blade.php --}}
+@php
+    $moduleId = $id ?? null;
+@endphp
+
+<div class="module-shop">
+    <livewire:module-shop :module-id="$moduleId" />
+</div>
+```
+
+#### 2. Standard Template Example
+
+For modules without Livewire, templates directly handle the rendering:
 
 ```php
 {{-- resources/views/templates/bootstrap.blade.php --}}
@@ -308,7 +350,8 @@ description: Bootstrap template
 1. Place your views in:
    - `resources/views/templates/` for module templates
    - `resources/views/components/` for reusable components
-2. Use the registered namespace for your views (e.g., `modules.module-name::view-name`)
+   - `resources/views/livewire/` for Livewire component views
+2. Use the registered namespace for your views (e.g., `module-name::view-name`)
 3. Store assets in `resources/assets/`
 
 ## Installation Commands
@@ -323,7 +366,8 @@ php artisan module:migrate ModuleName
 ## Best Practices
 
 1. Follow Laravel and Filament naming conventions
-2. Implement proper service provider registration
-3. Organize views and assets in the resources directory
-4. Include comprehensive documentation in README.md
-5. Write tests in the Tests directory
+2. Use Livewire components for dynamic frontend functionality
+3. Implement proper service provider registration
+4. Organize views and assets in the resources directory
+5. Include comprehensive documentation in README.md
+6. Write tests in the Tests directory
