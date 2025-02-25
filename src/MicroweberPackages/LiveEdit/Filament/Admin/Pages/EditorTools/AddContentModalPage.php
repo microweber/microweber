@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Modules\Editor\AddContentModal\Filament;
+namespace MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools;
 
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\View;
@@ -18,6 +18,7 @@ class AddContentModalPage extends LiveEditModuleSettings
         return $form
             ->schema([
                 View::make('admin::layouts.partials.add-content-buttons')
+
 
             ]);
     }
