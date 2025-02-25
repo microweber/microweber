@@ -33,11 +33,7 @@ addEventListener('load', function(){
             CSSGUIService.hide()
         }
     });
-    if(mw.top().app.guiEditorBox) {
-        mw.top().app.guiEditorBox.on('hide', () => {
-            // CSSGUIService.hide()
-        })
-    }
+
     mw.app.canvas.on('canvasDocumentKeydown',function(e){
 
         if(e.key === "Escape") {
