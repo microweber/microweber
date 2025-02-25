@@ -46,7 +46,7 @@ class DefaultBackup
         $exportFilename = normalize_path($exportFilename, false);
 
 		return array(
-			'download' => route('admin.backup.download').'?file=' . $exportFilename,
+			'downloadUrl' => route('admin.backup.download').'?file=' . $exportFilename,
 			'filepath' => backup_location() . $exportFilename,
 			'filename' => $exportFilename
 		);

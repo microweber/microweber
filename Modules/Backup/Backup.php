@@ -228,11 +228,11 @@ class Backup
             }
 
             if ($exportSingleFile && isset($backup['files']) && !empty($backup['files'])) {
-                return array(
-                    'success' => 'Items are exported',
-                    'export_type' => $this->type,
-                    'data' => $backup['files'][0]
-                );
+                $response = $backup['files'][0];
+                $response['success'] = 'Items are exported';
+                $response['export_type'] = $this->type;
+
+                return $response;
             } else {
                 return $backup;
             }

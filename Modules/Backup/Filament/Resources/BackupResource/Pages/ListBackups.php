@@ -30,25 +30,6 @@ class ListBackups extends ListRecords
     protected static string $resource = BackupResource::class;
 
     public $sessionId = null;
-    public $backupFile = null;
-    public $backupType = null;
-
-    public $includeTables = false;
-
-    public $includeAllTables = false;
-
-    public $tables = [];
-
-    public $includeMedia = false;
-
-    public $includeModules = false;
-
-    public $includeTemplates = false;
-
-    public $backupFilename = null;
-
-    public $restoreFile = null;
-
 
     protected function getHeaderActions(): array
     {
@@ -62,7 +43,7 @@ class ListBackups extends ListRecords
                     MwFileUpload::make('backupFile')
                         ->live()
                         ->label('Backup File')
-                        ->afterStateUpdated(function ($state, $livewire) {
+                        ->afterStateUpdated(function ($state) {
                             if (empty($state)) {
                                 return;
                             }

@@ -16,7 +16,7 @@
                 while (!this.isCompleted) {
                     try {
                         const response = await $wire.runBackupStep(this.sessionId);
-                        console.log('Backup response:', response);
+                        // console.log('Backup response:', response);
                         if (response && response.success) {
                             this.isCompleted = true;
                             this.currentStep = this.totalSteps;
@@ -39,7 +39,7 @@
             init() {
                 this.$wire.on('backupIsStarted', (data) => {
                     this.sessionId = data.sessionId;
-                    console.log('Backup started event received');
+                    // console.log('Backup started event received');
                     this.startBackup();
                 });
             }
