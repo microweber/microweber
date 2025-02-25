@@ -82,7 +82,7 @@ class TemplateFonts
     public function getFontsStylesheetCssUrl()
     {
 
-        $url = api_nosession_url('template/print_custom_css_fonts');
+        $url = api_url('template/print_custom_css_fonts');
         if (in_live_edit() and is_admin()) {
             return $url;
         }

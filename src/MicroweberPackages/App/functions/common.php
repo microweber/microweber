@@ -51,13 +51,13 @@ function api_url($str = '')
 
     return site_url('api/' . $str);
 }
-
+/*
 function api_nosession_url($str = '')
 {
     $str = ltrim($str, '/');
 
     return site_url('api_nosession/' . $str);
-}
+}*/
 
 function auto_link($text)
 {

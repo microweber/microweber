@@ -1,4 +1,5 @@
 <?php
+
 namespace MicroweberPackages\MicroweberUI\Http\Livewire;
 
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -11,18 +12,19 @@ use MicroweberPackages\Utils\Misc\GoogleFonts;
 class FontPickerModalComponent extends ModalComponent
 {
     use WithPagination;
+
     public array $numberOfPaginatorsRendered;
     public $modalSettings = [
-        'skin'=>'black',
-        'size'=>'large',
-        'padding'=> '0px',
+        'skin' => 'black',
+        'size' => 'large',
+        'padding' => '0px',
         'background' => 'white',
         'width' => '700px',
         'height' => '700px',
         'overlay' => true,
         'overlayClose' => true,
-        'closeHandleSelector'=>'#js-modal-livewire-ui-close',
-        'draggableHandleSelector'=>'#js-modal-livewire-ui-draggable-handle',
+        'closeHandleSelector' => '#js-modal-livewire-ui-close',
+        'draggableHandleSelector' => '#js-modal-livewire-ui-draggable-handle',
     ];
 
     public $search = '';
@@ -94,15 +96,38 @@ class FontPickerModalComponent extends ModalComponent
 
         save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
 
-        $this->dispatch('fontAddedToFavorites',[
+        $this->dispatch('fontAddedToFavorites', [
             'fontFamily' => $fontFamily
         ]);
 
     }
 
+    function getFonts()
+    {
+
+
+        $fonts = json_decode(file_get_contents(__DIR__ . DS . 'fonts.json'), true);
+        $fontsMore = json_decode(file_get_contents(__DIR__ . DS . 'fonts-more.json'), true);
+
+        $readyFonts = [];
+        if (!empty($fonts) && isset($fonts['items'])) {
+            foreach ($fonts['items'] as $font) {
+                $readyFonts[] = $font;
+            }
+        }
+        if (!empty($fontsMore) && isset($fontsMore['items'])) {
+            foreach ($fontsMore['items'] as $font) {
+                $readyFonts[] = $font;
+            }
+        }
+
+        return $readyFonts;
+
+    }
+
     public function render()
     {
-        $fonts = get_editor_fonts();
+        $fonts = $this->getFonts();
         $filteredFonts = [];
 
         $filterCategory = '';
@@ -131,25 +156,25 @@ class FontPickerModalComponent extends ModalComponent
                     }
                 }
                 if (!empty($filterCategory)) {
-                   if (isset($font['category']) && $font['category'] == $filterCategory) {
-                       $appendFont = true;
-                   }
-                   if ($filterCategory == 'favorites') {
-                       if (isset($font['favorite']) && $font['favorite'] == true) {
-                           $appendFont = true;
-                       }
-                   }
-                   if (isset($font['subsets'])
-                       && !empty($font['subsets'])
-                       && is_array($font['subsets'])
-                       && in_array($filterCategory, $font['subsets'])) {
-                       $appendFont = true;
-                   }
+                    if (isset($font['category']) && $font['category'] == $filterCategory) {
+                        $appendFont = true;
+                    }
+                    if ($filterCategory == 'favorites') {
+                        if (isset($font['favorite']) && $font['favorite'] == true) {
+                            $appendFont = true;
+                        }
+                    }
+                    if (isset($font['subsets'])
+                        && !empty($font['subsets'])
+                        && is_array($font['subsets'])
+                        && in_array($filterCategory, $font['subsets'])) {
+                        $appendFont = true;
+                    }
                 }
 
-               if ($appendFont) {
+                if ($appendFont) {
                     $filteredFonts[] = $font;
-               }
+                }
 
             }
         } else {
@@ -158,7 +183,7 @@ class FontPickerModalComponent extends ModalComponent
 
         $fonts = $this->paginate($filteredFonts, 10);
 
-        $this->dispatch('font-picker-load-fonts',[
+        $this->dispatch('font-picker-load-fonts', [
             'fonts' => $fonts->items()
         ]);
 
@@ -167,7 +192,8 @@ class FontPickerModalComponent extends ModalComponent
         ]);
     }
 
-    public function category($category) {
+    public function category($category)
+    {
         $this->category = $category;
         $this->gotoPage(1);
     }
@@ -177,10 +203,10 @@ class FontPickerModalComponent extends ModalComponent
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $total = count($items);
         $currentPage = $page;
-        $offset = ($currentPage * $perPage) - $perPage ;
-        $itemsToShow = array_slice($items , $offset , $perPage);
+        $offset = ($currentPage * $perPage) - $perPage;
+        $itemsToShow = array_slice($items, $offset, $perPage);
 
-        return new LengthAwarePaginator($itemsToShow ,$total   ,$perPage);
+        return new LengthAwarePaginator($itemsToShow, $total, $perPage);
     }
 
 }
