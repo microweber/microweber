@@ -111,19 +111,19 @@ class ListBackups extends ListRecords
                         ->label('Backup Type')
                         ->live()
                         ->descriptions([
-                            'content_backup' => 'Create backup of your sites without sensitive information. This will create a zip with live-edit css, media, post categories & pages.',
-                            'custom_backup' => 'Create backup with custom selected tables, users, api_keys, media, modules, templates...',
-                            'full_backup' => 'Create full backup of your sites with all data. This will create a zip with all data from your database. Include sensitive information like users, passwords, api keys, settings.',
+                            'contentBackup' => 'Create backup of your sites without sensitive information. This will create a zip with live-edit css, media, post categories & pages.',
+                            'customBackup' => 'Create backup with custom selected tables, users, api_keys, media, modules, templates...',
+                            'fullBackup' => 'Create full backup of your sites with all data. This will create a zip with all data from your database. Include sensitive information like users, passwords, api keys, settings.',
                         ])
                         ->icons([
-                            'content_backup'=>'heroicon-o-newspaper',
-                            'custom_backup'=>'heroicon-o-cog',
-                            'full_backup'=>'heroicon-o-inbox-arrow-down',
+                            'contentBackup'=>'heroicon-o-newspaper',
+                            'customBackup'=>'heroicon-o-cog',
+                            'fullBackup'=>'heroicon-o-inbox-arrow-down',
                         ])
                         ->options([
-                            'content_backup' => 'Content Backup',
-                            'custom_backup' => 'Custom Backup',
-                            'full_backup' => 'Full Backup',
+                            'contentBackup' => 'Content Backup',
+                            'customBackup' => 'Custom Backup',
+                            'fullBackup' => 'Full Backup',
                         ])
                         ->required()
                 ]),
@@ -207,7 +207,7 @@ class ListBackups extends ListRecords
 
             Wizard\Step::make('Creating backup')
                 ->description('Your backup is being created')
-                ->schema([
+                ->schema([ 
                     View::make('backup_progress')
                         ->view('modules.backup::filament.pages.create-backup-progress')
                         ->viewData([
