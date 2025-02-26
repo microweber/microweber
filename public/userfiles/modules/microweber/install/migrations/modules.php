@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 
 class Init extends Migration {
 
@@ -52,6 +53,7 @@ class Init extends Migration {
                 'module_id' => 'longText',
                 'name' => 'longText',
                 'module' => 'longText',
+                'module_attrs' => 'longText',
                 'position' => 'integer',
 
 

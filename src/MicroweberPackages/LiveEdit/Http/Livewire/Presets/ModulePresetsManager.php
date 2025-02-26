@@ -4,9 +4,6 @@ namespace MicroweberPackages\LiveEdit\Http\Livewire\Presets;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
-/**
- * @deprecated
- */
 class ModulePresetsManager extends AdminComponent
 {
     public $view = "microweber-live-edit::presets.module-presets-manager";
@@ -15,7 +12,6 @@ class ModulePresetsManager extends AdminComponent
     public $moduleType;
 
     public $items = [];
-    public $editorSettings = [];
     public array $itemState = [];
     public array $selectedPreset = [];
     public $moduleIdFromPreset = '';
@@ -23,31 +19,35 @@ class ModulePresetsManager extends AdminComponent
     public $areYouSureDeleteModalOpened = false;
     public $isAlreadySavedAsPreset = false;
 
-    public $listeners = [
-        'onItemChanged' => '$refresh',
-        'refreshComponent' => '$refresh',
-        'onReorderListItems' => 'reorderListItems',
+    protected $listeners = [
         'onShowConfirmDeleteItemById' => 'showConfirmDeleteItemById',
         'onEditItemById' => 'showItemById',
         'onSaveAsNewPreset' => 'saveAsNewPreset',
         'onSelectPresetForModule' => 'selectPresetForModule',
         'onRemoveSelectedPresetForModule' => 'removeSelectedPresetForModule',
+        'switchToMainTab' => 'resetItemState',
     ];
 
+    public function mount()
+    {
+        $this->resetItemState();
+    }
+
+    public function resetItemState()
+    {
+        $this->itemState = [];
+    }
 
     public function render()
     {
-        // $this->itemState['module_id'] = $this->moduleId;
-        //  $this->itemState['module'] = $this->moduleType;
-        // $this->itemState['module_attrs'] = [];
-
         $this->items = $this->getPresets();
-        $this->editorSettings = $this->getEditorSettings();
         $this->isAlreadySavedAsPreset = false;
-        if ($this->items) {
+        
+        if (is_array($this->items) && !empty($this->items)) {
             foreach ($this->items as $item) {
-                if (isset($item['module_id']) and $item['module_id'] == $this->moduleId) {
+                if (isset($item['module_id']) && $item['module_id'] == $this->moduleId) {
                     $this->isAlreadySavedAsPreset = true;
+                    break;
                 }
             }
         }
@@ -57,200 +57,126 @@ class ModulePresetsManager extends AdminComponent
 
     public function showItemById($id)
     {
+        // Handle both direct ID and object with ID property
+        $itemId = is_array($id) && isset($id['id']) ? $id['id'] : $id;
+        
         $presets = $this->getPresets();
-        if ($presets) {
+        if (is_array($presets) && !empty($presets)) {
             foreach ($presets as $preset) {
-                if ($preset['id'] == $id) {
-                    // $preset['module_attrs'] = json_encode($preset['module_attrs']);
+                if (isset($preset['id']) && $preset['id'] == $itemId) {
                     $this->itemState = $preset;
+                    break;
                 }
             }
         }
-
-
     }
 
     public function submit()
     {
-        $rules = [];
-        $schema = $this->getEditorSettings()['schema'];
+        $this->validate([
+            'itemState.name' => 'required|min:2|max:255',
+        ]);
 
-        foreach ($schema as $field) {
-            if (isset($field['name']) && isset($field['rules'])) {
-                $rules['itemState.' . $field['name']] = $field['rules'];
-            }
-        }
-        $this->validate($rules);
-
-        $savePreset = [];
-        $savePreset['name'] = $this->itemState['name'];
-        $savePreset['module'] = $this->itemState['module'];
+        $savePreset = [
+            'name' => $this->itemState['name'],
+            'module' => $this->itemState['module'],
+            'module_id' => $this->itemState['module_id'],
+        ];
+        
         if (isset($this->itemState['module_attrs'])) {
             $savePreset['module_attrs'] = $this->itemState['module_attrs'];
         }
-        $savePreset['module_id'] = $this->itemState['module_id'];
+        
         if (isset($this->itemState['id'])) {
             $savePreset['id'] = $this->itemState['id'];
         }
+        
         $save = save_module_as_template($savePreset);
-
-        $this->dispatch('switchToMainTab');
-        $this->dispatch('settingsChanged', moduleId: $this->moduleId, moduleType: $this->moduleType, settings: $this->itemState['module_attrs']);
-
+        $this->resetItemState();
+        
+        $this->dispatch('settingsChanged', [
+            'moduleId' => $this->moduleId, 
+            'moduleType' => $this->moduleType, 
+            'settings' => $savePreset['module_attrs'] ?? null
+        ]);
+        
         return $this->render();
-
     }
 
     public function getPresets()
     {
         $presets = get_saved_modules_as_template("module={$this->moduleType}");
-
-        return $presets;
+        return is_array($presets) ? $presets : [];
     }
 
     public function showConfirmDeleteItemById($itemId)
     {
-
         $this->areYouSureDeleteModalOpened = true;
-        $this->selectedItemsIds = [$itemId];
-
-
+        $this->selectedItemsIds = is_array($itemId) ? [$itemId['itemId']] : [$itemId];
     }
 
     public function confirmDeleteSelectedItems()
     {
-
-        if ($this->selectedItemsIds and !empty($this->selectedItemsIds)) {
+        if (!empty($this->selectedItemsIds)) {
             foreach ($this->selectedItemsIds as $itemId) {
-                $delete = delete_module_as_template(['id' => $itemId]);
+                delete_module_as_template(['id' => $itemId]);
             }
         }
+        
         $this->areYouSureDeleteModalOpened = false;
         $this->selectedItemsIds = [];
-        $this->render();
-
+        
+        return $this->render();
     }
 
     public function saveAsNewPreset($module_attrs = [])
     {
         $name = titlelize($this->moduleType);
 
-        $this->itemState['id'] = 0;
-        $this->itemState['name'] = $name . ' ' . time();
-        $this->itemState['module'] = $this->moduleType;
-        $this->itemState['module_id'] = $this->moduleId;
-        if ($module_attrs and is_array($module_attrs) and !empty($module_attrs)) {
-            $this->itemState['module_attrs'] = json_encode($module_attrs);
+        $this->itemState = [
+            'id' => 0,
+            'name' => $name . ' ' . time(),
+            'module' => $this->moduleType,
+            'module_id' => $this->moduleId,
+        ];
+        
+        if (!empty($module_attrs)) {
+            $this->itemState['module_attrs'] = is_string($module_attrs) ? $module_attrs : json_encode($module_attrs);
         }
 
-        $this->submit();
+        return $this->submit();
     }
 
     public function removeSelectedPresetForModule($applyToModuleId)
     {
-        $this->moduleIdFromPreset = false;
+        // Handle both direct ID and object with moduleId property
+        $moduleId = is_array($applyToModuleId) && isset($applyToModuleId['moduleId']) ? $applyToModuleId['moduleId'] : $applyToModuleId;
+        
+        $this->moduleIdFromPreset = '';
         $this->selectedPreset = [];
-        $this->dispatch('removeSelectedPresetForModule', $applyToModuleId);
-
+        $this->dispatch('removeSelectedPresetForModule', ['moduleId' => $moduleId]);
     }
-
 
     public function selectPresetForModule($id)
     {
-
+        // Handle both direct ID and object with ID property
+        $presetId = is_array($id) && isset($id['id']) ? $id['id'] : $id;
+        
         $applyToModuleId = $this->moduleId;
         $presets = $this->getPresets();
-        if ($presets) {
+        
+        if (is_array($presets) && !empty($presets)) {
             foreach ($presets as $preset) {
-
-                if ($preset['id'] == $id) {
+                if (isset($preset['id']) && $preset['id'] == $presetId) {
                     $this->selectedPreset = $preset;
                     $this->moduleIdFromPreset = $preset['module_id'];
-                    $this->dispatch('applyPreset', $applyToModuleId, $preset);
+                    $this->dispatch('applyPreset', [
+                        'moduleId' => $applyToModuleId,
+                        'preset' => $preset
+                    ]);
+                    break;
                 }
             }
         }
-
-    }
-
-    public function getEditorSettings()
-    {
-
-        $editorSettings = [
-            'config' => [
-                'title' => '',
-                'addButtonText' => 'Add Item',
-                'editButtonText' => 'Edit',
-                'deleteButtonText' => 'Delete',
-                'sortItems' => true,
-                'settingsKey' => 'settings',
-                'additionalButtonsView' => 'microweber-live-edit::presets.select-preset-button',
-                'listColumns' => [
-                    'name' => 'name',
-                ],
-            ],
-            'schema' => [
-                [
-                    'type' => 'text',
-                    'rules' => 'required|min:2|max:255',
-                    'label' => 'Preset name',
-                    'name' => 'name',
-                    'placeholder' => 'Preset name',
-                    'help' => 'Preset name is required'
-                ],
-                [
-                    'type' => 'textarea',
-                    'rules' => 'required|string',
-                    'name' => 'module',
-                    'label' => 'module',
-                    'hidden' => true,
-                ],
-                [
-                    'type' => 'textarea',
-                    // 'rules' => 'required|string',
-                    'name' => 'module_attrs',
-                    'label' => 'module_attrs',
-                    'hidden' => true,
-                ],
-                [
-                    'type' => 'textarea',
-                    'rules' => 'required|string',
-                    'name' => 'module_id',
-                    'label' => 'module_id',
-                    'hidden' => true,
-                ],
-                [
-                    'type' => 'textarea',
-                    'name' => 'position',
-                    'label' => 'position',
-                    'hidden' => true,
-                ]
-
-            ]
-        ];
-        return $editorSettings;
-    }
-
-
-    public function reorderListItems($items)
-    {
-        if (!isset($items['itemIds'])) {
-            return false;
-        }
-        $table = 'module_templates';
-        $res = array();
-        $indx = array();
-        $i = 0;
-        foreach ($items['itemIds'] as $value) {
-
-
-            $indx[$i] = $value;
-            ++$i;
-
-
-        }
-        $res[] =app()->database_manager->update_position_field($table, $indx);
-
-        return true;
     }
 }

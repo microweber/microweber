@@ -14,9 +14,18 @@ class ModulePresetsModuleSettingsPage extends LiveEditModuleSettings
 
     public function form(Form $form): Form
     {
+
+
+        $request = request()->all();
+        $params = $this->params ?? [];
+        if ($request) {
+            $params = array_merge($params, $request);
+        }
+
         return $form
             ->schema([
                 View::make('microweber-live-edit::editor-tools.render-module-presets')
+                    ->viewData(['params' => $params])
 
             ]);
     }

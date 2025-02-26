@@ -84,6 +84,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
         FilamentRegistry::registerPage(FontsManagerModuleSettingsPage::class);
         FilamentRegistry::registerPage(AddContentModalPage::class);
         FilamentRegistry::registerPage(ModulePresetsModuleSettingsPage::class);
+      //  FilamentRegistry::registerResource(ModulePresetsResource::class);
 
 
         //  });
@@ -119,6 +120,11 @@ class LiveEditServiceProvider extends PackageServiceProvider
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/module_presets', ModulePresetsModuleSettingsPage::getUrl());
+
+               // ModuleAdmin::registerSettingsComponent('editor/module_presets', 'microweber-live-edit::module-presets-manager');
+               // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsResource::class);
+               // ModuleAdmin::registerSettingsComponent('editor/module_presets','microweber-live-edit::module-presets-manager');
+                // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsModuleSettingsPage::class);
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/reset_content', ResetContentModuleSettingsPage::getUrl());
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/code_editor', CodeEditorModuleSettingsPage::getUrl());
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/fonts/font-manager-modal', FontsManagerModuleSettingsPage::getUrl());
