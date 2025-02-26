@@ -48,6 +48,8 @@ class CreateContent extends CreateRecord
     protected function getHeaderActions(): array
     {
 
+        $actions = [];
+
         $editAction =  Actions\EditAction::make()->action('saveContentAndGoLiveEdit');
         if (request()->header('Sec-Fetch-Dest') === 'iframe') {
             $editAction =  Actions\EditAction::make()->action('saveContentAndGoLiveEditIframe');
@@ -58,24 +60,23 @@ class CreateContent extends CreateRecord
             ->size('xl')
             ->color('info');
 
+        $actions[] = $editAction;
 
-        return [
-//            DeleteActionOnlyIcon::make()
-//                ->label('Delete')
-//                ->icon('heroicon-o-trash')
-//                ->size('xl')
-//                ->onlyIconAndTooltip()
-//                ->outlined(),
 
-            $editAction,
-
-            Actions\EditAction::make()
+        $actions[] =  Actions\EditAction::make()
                 ->action('saveContent')
                 ->icon('mw-save')
                 ->size('xl')
                 ->label('Save')
-                ->color('success'),
-        ];
+                ->color('success');
+
+
+        $isMultilanguageEnabled = true; // TODO
+        if ($isMultilanguageEnabled) {
+            $actions[] =  Actions\LocaleSwitcher::make();
+        }
+
+        return $actions;
     }
 
     protected function getFormActions(): array
