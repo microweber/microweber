@@ -39,7 +39,7 @@ class MultilanguageFilamentPlugin implements Plugin
         try {
             if (Schema::hasTable('multilanguage_supported_locales')) {
                 $getSupportedLocales = DB::table('multilanguage_supported_locales')
-                   // ->where('is_active', 'y')
+                    ->where('is_active', 1)
                     ->get();
                 if ($getSupportedLocales->count() > 0) {
                     foreach ($getSupportedLocales as $locale) {
