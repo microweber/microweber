@@ -20,6 +20,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
 use Livewire\Component;
+use MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales;
 use Modules\Multilanguage\Models\Language;
 
 class LanguagesTable extends Component implements HasForms, HasTable
@@ -31,7 +32,7 @@ class LanguagesTable extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Language::query())
+            ->query(MultilanguageSupportedLocales::query())
             ->columns([
                 TextColumn::make('locale')
                     ->label('Locale')
