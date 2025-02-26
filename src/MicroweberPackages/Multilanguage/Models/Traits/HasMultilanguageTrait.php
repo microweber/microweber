@@ -61,6 +61,8 @@ trait HasMultilanguageTrait
     public static function bootHasMultilanguageTrait()
     {
 
+        MultilanguageHelpers::setMultilanguageEnabled(true);
+
         static::saving(function ($model) {
 
             if (!MultilanguageHelpers::multilanguageIsEnabled()) {
@@ -364,16 +366,14 @@ trait HasMultilanguageTrait
         if ($key == null) {
             return [
                 'title' => [
-                    'en' => 'testValue_en',
-                    'de' => 'testValue_de',
-                    'bg' => 'testValue_bg',
+                    'en_US' => 'testValue_en',
+                    'bg_BG' => 'testValue_bg',
                 ],
             ];
         }
         return [
-            'en' => 'testValue_en',
-            'bg' => 'testValue_bg',
-            'fr' => 'testValue_fr',
+            'en_US' => 'testValue_en',
+            'bg_BG' => 'testValue_bg'
         ];
     }
 
