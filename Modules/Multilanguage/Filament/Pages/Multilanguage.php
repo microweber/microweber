@@ -6,12 +6,17 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Notifications\Notification;
 
 class Multilanguage extends Page
 {
+    use InteractsWithForms;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'modules.multilanguage::filament.pages.multilanguage';
@@ -37,22 +42,42 @@ class Multilanguage extends Page
                 Section::make('Multilanguage Settings')
                     ->columns(2)
                     ->schema([
-                        Checkbox::make('is_active')
+                        Toggle::make('is_active')
                             ->label('Multilanguage is active?')
+                            ->live()
+                            ->afterStateUpdated(function($state) {
+                                save_option('is_active', $state ? 'y' : 'n', 'multilanguage_settings');
+                                $this->notify('success', 'Setting updated');
+                            })
                             ->columnSpan(1),
 
                         Select::make('homepage_language')
                             ->label('Homepage language')
                             ->options($this->getSupportedLanguages())
                             ->placeholder('Select Language')
+                            ->live()
+                            ->afterStateUpdated(function($state) {
+                                save_option('homepage_language', $state, 'website');
+                                $this->notify('success', 'Setting updated');
+                            })
                             ->columnSpan(1),
 
-                        Checkbox::make('add_prefix_for_all_languages')
+                        Toggle::make('add_prefix_for_all_languages')
                             ->label('Add prefix for all languages')
+                            ->live()
+                            ->afterStateUpdated(function($state) {
+                                save_option('add_prefix_for_all_languages', $state ? 'y' : 'n', 'multilanguage_settings');
+                                $this->notify('success', 'Setting updated');
+                            })
                             ->columnSpan(1),
 
-                        Checkbox::make('use_geolocation')
+                        Toggle::make('use_geolocation')
                             ->label('Switch language by IP Geolocation')
+                            ->live()
+                            ->afterStateUpdated(function($state) {
+                                save_option('use_geolocation', $state ? 'y' : 'n', 'multilanguage_settings');
+                                $this->notify('success', 'Setting updated');
+                            })
                             ->columnSpan(1),
 
                         Select::make('geolocation_provider')
@@ -65,29 +90,41 @@ class Multilanguage extends Page
                                 'microweber' => 'Microweber Geo Api',
                                 'ipstack_com' => 'IpStack.com',
                             ])
+                            ->live()
+                            ->afterStateUpdated(function($state) {
+                                save_option('geolocation_provider', $state, 'multilanguage_settings');
+                                $this->notify('success', 'Setting updated');
+                            })
                             ->columnSpan(1),
 
                         TextInput::make('ipstack_api_access_key')
                             ->label('IpStack.com API Access Key')
                             ->visible(fn (callable $get) => $get('geolocation_provider') === 'ipstack_com')
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function($state) {
+                                save_option('ipstack_api_access_key', $state, 'multilanguage_settings');
+                                $this->notify('success', 'API key updated');
+                            })
                             ->columnSpan(1),
                     ]),
             ])
             ->statePath('data');
     }
 
-    public function save(): void
+    protected function notify(string $status, string $message): void
     {
-        $data = $this->form->getState();
+        Notification::make()
+            ->title($message)
+            ->status($status)
+            ->send();
+    }
 
-        save_option('is_active', $data['is_active'] ? 'y' : 'n', 'multilanguage_settings');
-        save_option('homepage_language', $data['homepage_language'], 'website');
-        save_option('add_prefix_for_all_languages', $data['add_prefix_for_all_languages'] ? 'y' : 'n', 'multilanguage_settings');
-        save_option('use_geolocation', $data['use_geolocation'] ? 'y' : 'n', 'multilanguage_settings');
-        save_option('geolocation_provider', $data['geolocation_provider'], 'multilanguage_settings');
-        save_option('ipstack_api_access_key', $data['ipstack_api_access_key'], 'multilanguage_settings');
+    public function testGeoApi(): void
+    {
+        // This method will be called from the button in the template
+        $this->notify('info', 'Testing Geo API...');
 
-        $this->notify('success', 'Settings saved successfully');
+        // You could add additional logic here if needed
     }
 
     private function getSupportedLanguages(): array

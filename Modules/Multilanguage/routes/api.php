@@ -20,3 +20,4 @@ Route::post('/multilanguage/geolocaiton_test', [MultilanguageApiController::clas
 //Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 //    Route::apiResource('multilanguage', MultilanguageController::class)->names('multilanguage');
 //});
+ 
