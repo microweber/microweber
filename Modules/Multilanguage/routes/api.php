@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Multilanguage\Http\Controllers\MultilanguageController;
+use Modules\Multilanguage\Http\Controllers\MultilanguageApiController;
 
 /*
  *--------------------------------------------------------------------------
@@ -13,6 +14,8 @@ use Modules\Multilanguage\Http\Controllers\MultilanguageController;
  * is assigned the "api" middleware group. Enjoy building your API!
  *
 */
+
+Route::post('/multilanguage/geolocaiton_test', [MultilanguageApiController::class, 'geolocaitonTest']);
 
 //Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 //    Route::apiResource('multilanguage', MultilanguageController::class)->names('multilanguage');
