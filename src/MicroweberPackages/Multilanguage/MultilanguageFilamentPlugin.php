@@ -37,9 +37,10 @@ class MultilanguageFilamentPlugin implements Plugin
         $defaultLocales = [];
 
         try {
-            if (Schema::hasTable('multilanguage_locales')) {
+            if (Schema::hasTable('multilanguage_supported_locales')) {
                 $getSupportedLocales = DB::table('multilanguage_supported_locales')
-                    ->where('is_active', 'y')->get();
+                   // ->where('is_active', 'y')
+                    ->get();
                 if ($getSupportedLocales->count() > 0) {
                     foreach ($getSupportedLocales as $locale) {
                         $defaultLocales[] = $locale->locale;
@@ -49,7 +50,6 @@ class MultilanguageFilamentPlugin implements Plugin
         } catch (\Exception $e) {
             $defaultLocales = [];
         }
-
 
         if (empty($defaultLocales)) {
             //@todo disable multilanguage
