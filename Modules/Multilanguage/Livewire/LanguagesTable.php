@@ -45,10 +45,6 @@ class LanguagesTable extends Component implements HasForms, HasTable
                 ToggleColumn::make('is_active')
                     ->label('Active')
                     ->sortable(),
-                TextColumn::make('is_default')
-                    ->label('Default')
-                    ->badge()
-                    ->sortable(),
             ])
             ->filters([
                 // You can add filters here if needed
@@ -64,19 +60,7 @@ class LanguagesTable extends Component implements HasForms, HasTable
                             ->maxLength(50),
                         Toggle::make('is_active')
                             ->label('Active'),
-                        Toggle::make('is_default')
-                            ->label('Default')
-                            ->helperText('Setting this as default will unset any other default language'),
                     ])
-                    ->mutateRecordDataUsing(function (array $data): array {
-                        // Handle default language logic
-                        if ($data['is_default']) {
-                            MultilanguageSupportedLocales::where('is_default', true)
-                                ->where('id', '!=', $data['id'] ?? 0)
-                                ->update(['is_default' => false]);
-                        }
-                        return $data;
-                    })
                     ->successNotification(
                         Notification::make()
                             ->success()
@@ -108,17 +92,9 @@ class LanguagesTable extends Component implements HasForms, HasTable
                         Toggle::make('is_active')
                             ->label('Active')
                             ->default(true),
-                        Toggle::make('is_default')
-                            ->label('Default')
-                            ->helperText('Setting this as default will unset any other default language'),
                     ])
                     ->action(function (array $data): void {
-                        // Handle default language logic
-                        if ($data['is_default']) {
-                            MultilanguageSupportedLocales::where('is_default', true)->update(['is_default' => false]);
-                        }
-
-                        MultilanguageSupportedLocales::create($data);
+                        MultilanguageSupportedLocales::create($data); 
 
                         Notification::make()
                             ->success()
