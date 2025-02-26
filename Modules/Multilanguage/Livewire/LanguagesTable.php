@@ -94,7 +94,7 @@ class LanguagesTable extends Component implements HasForms, HasTable
                             ->default(true),
                     ])
                     ->action(function (array $data): void {
-                        MultilanguageSupportedLocales::create($data); 
+                        MultilanguageSupportedLocales::create($data);
 
                         Notification::make()
                             ->success()
