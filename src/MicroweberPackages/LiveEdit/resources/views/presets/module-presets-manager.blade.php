@@ -1,26 +1,10 @@
 <div>
 
-
     <script type="text/javascript" wire:ignore>
-
-        const initPresetsManagerData = {
-            showEditTab: 'main'
-        }
-
-        window.initPresetsManagerData = initPresetsManagerData
-
-        mw.initPresetsManager = function () {
-
-            window.Livewire.on('switchToMainTab', () => {
-                window.initPresetsManagerData.showEditTab = 'main'
-            })
-
-            window.Livewire.on('editItemById', (itemId) => {
-                window.initPresetsManagerData.showEditTab = 'editItemById'
-                Livewire.dispatch('onEditItemById', itemId);
-            })
-
-            window.Livewire.on('saveModuleAsPreset', function () {
+        // Simplified JavaScript for preset manager
+        document.addEventListener('DOMContentLoaded', function() {
+            // Save module as preset
+            window.saveModuleAsPreset = function() {
                 var el = mw.top().app.canvas.getWindow().$('#{{$this->moduleId}}')[0];
                 if(!el){
                     el = mw.top().app.canvas.getWindow().$('[data-module-original-id="{{$this->moduleId}}"]')[0];
@@ -40,23 +24,61 @@
                 }
 
                 Livewire.dispatch('onSaveAsNewPreset', attrsObj);
-            })
+            };
 
+            // Listen for applyPreset event
+            window.addEventListener('applyPreset', function(event) {
+                var applyToModuleId = event.detail.moduleId;
+                var preset = event.detail.preset;
+                
+                var json = preset.module_attrs;
+                var obj = JSON.parse(json);
 
-            window.Livewire.on('showConfirmDeleteItemById', (itemId) => {
-                Livewire.dispatch('onShowConfirmDeleteItemById', {itemId: itemId});
-            })
-
-            window.Livewire.on('removeSelectedPresetForModule', (applyToModuleId) => {
                 var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
                 if (el !== null) {
-                     mw.top().app.registerChangedState(el);
+                    mw.top().app.registerChangedState(el);
                 }
 
+                var orig_id = mw.top().app.canvas.getWindow().$(el).attr("id");
+                var have_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
+                var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
+                
+                if(!have_orig_attr) {
+                    var attrsEl = mw.top().tools.getAttrs(el);
+                    var orig_attrs_encoded = window.btoa(JSON.stringify(attrsEl));
+                    if (orig_attrs_encoded) {
+                        mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs", orig_attrs_encoded);
+                    }
+                }
+                
+                if (obj) {
+                    for (var key in obj) {
+                        var val = obj[key];
+                        if (key != 'id') {
+                            mw.top().app.canvas.getWindow().$(el).attr(key, val);
+                        }
+                    }
+                }
+                
+                mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", preset.module_id);
+                
+                if(!have_orig_id){
+                    mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id", applyToModuleId);
+                }
+                
+                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}));
+            });
 
+            // Listen for removeSelectedPresetForModule event
+            window.addEventListener('removeSelectedPresetForModule', function(event) {
+                var applyToModuleId = event.detail.moduleId;
+                
+                var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
+                if (el !== null) {
+                    mw.top().app.registerChangedState(el);
+                }
 
                 var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
-
                 var have_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
 
                 if (have_orig_attr) {
@@ -64,14 +86,11 @@
                     if (obj) {
                         for (var key in obj) {
                             var val = obj[key];
-                            if (key == 'id') {
-                                //   mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", val);
-                            } else {
+                            if (key != 'id') {
                                 mw.top().app.canvas.getWindow().$(el).attr(key, val);
                             }
                         }
                     }
-
                 }
 
                 if(have_orig_id){
@@ -82,161 +101,140 @@
                 mw.top().app.canvas.getWindow().$(el).removeAttr("data-module-original-id");
                 mw.top().app.canvas.getWindow().$(el).removeAttr("data-module-id-from-preset");
                 mw.top().app.canvas.getWindow().$(el).removeAttr("data-module-original-attrs");
-                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}))
-
-
-            })
-
-
-            window.Livewire.on('applyPreset', (applyToModuleId, preset) => {
-
-                var json = preset.module_attrs;
-                var obj = JSON.parse(json);
-
-
-                var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
-                if (el == null) {
-                    //      var el = mw.top().app.canvas.getWindow().$('[data-module-original-id="' + applyToModuleId+'"]')[0];
-                }
-                if (el !== null) {
-                    mw.top().app.registerChangedState(el);
-                }
-
-
-                var orig_id = mw.top().app.canvas.getWindow().$(el).attr("id");
-                // var set_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset");
-               var have_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
-
-
-                var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
-                //
-                if(!have_orig_attr) {
-                    var attrsEl = mw.top().tools.getAttrs(el);
-                 //   var orig_attrs_encoded = window.btoa(JSON.stringify(obj));
-                    var orig_attrs_encoded = window.btoa(JSON.stringify(attrsEl));
-                    if (orig_attrs_encoded) {
-                        mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs", orig_attrs_encoded);
-                    }
-                }
-                //
-                // mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id", orig_id);
-                //
-                if (obj) {
-                    for (var key in obj) {
-                        var val = obj[key];
-                        if (key == 'id') {
-                         //   mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", val);
-                        } else {
-                            mw.top().app.canvas.getWindow().$(el).attr(key, val);
-                        }
-                    }
-                }
-                mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", preset.module_id);
-            //    mw.top().app.canvas.getWindow().$(el).attr("module-id", preset.module_id);
-
-                if(!have_orig_id){
-                    mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id", applyToModuleId);
-                }
-
-                //   mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': preset.module_id}))
-                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}))
-
+                mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}));
             });
 
-        }
+            // Remove selected preset
+            window.removeSelectedPresetForModule = function(applyToModuleId) {
+                Livewire.dispatch('onRemoveSelectedPresetForModule', { moduleId: applyToModuleId });
+            };
 
+            // Apply preset
+            window.selectPresetForModule = function(presetId, moduleId) {
+                Livewire.dispatch('onSelectPresetForModule', { id: presetId });
+            };
+
+            // Delete preset
+            window.confirmDeletePreset = function(itemId) {
+                Livewire.dispatch('onShowConfirmDeleteItemById', { itemId: itemId });
+            };
+
+            // Edit preset
+            window.editPreset = function(itemId) {
+                Livewire.dispatch('onEditItemById', { id: itemId });
+            };
+        });
     </script>
 
+    <!-- Main View -->
+    <div class="preset-manager-container">
+        <!-- Save as preset button -->
+        @if($isAlreadySavedAsPreset)
+            <div class="alert alert-info mb-4">
+                This module is already saved as preset.
+                To use the preset, place new module of type <kbd>{{ $moduleType }}</kbd> on the page and select this preset from the list.
+            </div>
+        @else
+            <button class="btn btn-primary mb-4" type="button" onclick="saveModuleAsPreset()">
+                Save as preset
+            </button>
+        @endif
 
-    <div x-data="{
-...initPresetsManagerData,
-}" x-init="mw.initPresetsManager">
+        <!-- Presets List -->
+        <div class="presets-list mb-4">
+            <h5>Available Presets</h5>
 
+            @if(is_array($items) && count($items) > 0)
+                <div class="list-group">
+                    @foreach($items as $item)
+                        @php
+                            $itemId = isset($item['id']) ? $item['id'] : false;
+                            if(!$itemId) continue;
+                        @endphp
 
-        <div x-show="initPresetsManagerData.showEditTab=='main'"
-             x-transition:enter-end="tab-pane-slide-left-active"
-             x-transition:enter="tab-pane-slide-left-active">
+                        <div class="list-group-item d-flex justify-content-between align-items-center p-3 mb-2">
+                            <div class="preset-info" onclick="editPreset('{{ $itemId }}')">
+                                <strong>{{ $item['name'] ?? 'Unnamed Preset' }}</strong>
+                            </div>
 
+                            <div class="preset-actions d-flex gap-2">
+                                <!-- Delete button -->
+                                <button class="btn btn-sm btn-outline-danger" onclick="confirmDeletePreset('{{ $itemId }}')">
+                                    Delete
+                                </button>
 
-            @if($isAlreadySavedAsPreset)
+                                <!-- Edit button -->
+                                <button class="btn btn-sm btn-outline-primary" onclick="editPreset('{{ $itemId }}')">
+                                    Edit
+                                </button>
 
-                <div class="alert alert-info">
-                    This module is already saved as preset
-                    To use the preset , place new module of type <kbd>{{ $moduleType  }}</kbd> on the page and select
-                    this
-                    preset from the presets list
+                                <!-- Use preset button -->
+                                @if($moduleIdFromPreset == $item['module_id'])
+                                    <span class="badge bg-warning">Current preset</span>
+                                    <button class="btn btn-sm btn-warning" onclick="removeSelectedPresetForModule('{{ $moduleId }}')">
+                                        Clear preset
+                                    </button>
+                                @elseif($moduleId == $item['module_id'])
+                                    <span class="badge bg-success">Current module</span>
+                                @else
+                                    <button class="btn btn-sm btn-primary" onclick="selectPresetForModule('{{ $itemId }}', '{{ $moduleId }}')">
+                                        Use preset
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             @else
-                <x-microweber-ui::button class="btn btn-primary-outline" type="button"
-                                         @click="$dispatch('saveModuleAsPreset')">@lang('Save as preset')</x-microweber-ui::button>
+                <div class="alert alert-light">
+                    No presets available. Create your first preset by clicking the "Save as preset" button.
+                </div>
             @endif
-
-
-            @include('microweber-live-edit::module-items-editor-list-items')
-
         </div>
 
-
-        <div>
-
-
-            <div
-
-                x-show="initPresetsManagerData.showEditTab=='editItemById'"
-                x-transition:enter-end="tab-pane-slide-right-active"
-                x-transition:enter="tab-pane-slide-right-active">
-
+        <!-- Edit Preset Form -->
+        @if(isset($itemState['id']))
+            <div class="edit-preset-form mt-4 p-4 border rounded">
+                <h5>Edit Preset</h5>
                 <form wire:submit.prevent="submit">
-
-                    <div class="d-flex align-items-center justify-content-between">
-
-                        <x-microweber-ui::button-animation
-                            type="submit">@lang('Save')</x-microweber-ui::button-animation>
+                    <div class="mb-3">
+                        <label for="preset-name" class="form-label">Preset Name</label>
+                        <input type="text" class="form-control" id="preset-name" wire:model.defer="itemState.name" required>
+                        @error('itemState.name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
+                    <!-- Hidden fields -->
+                    <input type="hidden" wire:model.defer="itemState.module">
+                    <input type="hidden" wire:model.defer="itemState.module_attrs">
+                    <input type="hidden" wire:model.defer="itemState.module_id">
+                    <input type="hidden" wire:model.defer="itemState.position">
 
-                    @if (isset($editorSettings['schema']))
-                        @include('microweber-live-edit::module-items-editor-edit-item-schema-render')
-                    @endif
-
-
-                    <div class="d-flex align-items-center justify-content-between">
-
-                        <x-microweber-ui::button-animation
-                            type="submit">@lang('Save')</x-microweber-ui::button-animation>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-outline-secondary" wire:click="$dispatch('switchToMainTab')">Cancel</button>
                     </div>
                 </form>
-
             </div>
-
-        </div>
-
-
+        @endif
     </div>
 
+    <!-- Delete Confirmation Modal -->
     <div>
         <x-microweber-ui::dialog-modal wire:model.live="areYouSureDeleteModalOpened">
             <x-slot name="title">
                 <?php _e('Are you sure?'); ?>
             </x-slot>
             <x-slot name="content">
-                <?php _e('Are you sure want to delete this?'); ?>
+                <?php _e('Are you sure you want to delete this preset?'); ?>
             </x-slot>
-
             <x-slot name="footer">
-                <x-microweber-ui::button-animation @click="$dispatch('onCloseConfirmDeleteItemByIdModal')"
-                                                   wire:loading.attr="disabled">
+                <button class="btn btn-outline-secondary" wire:click="$set('areYouSureDeleteModalOpened', false)">
                     <?php _e('Cancel'); ?>
-                </x-microweber-ui::button-animation>
-                <x-microweber-ui::button-animation class="text-danger" @click="$dispatch('onConfirmDeleteSelectedItems')"
-                                                   wire:loading.attr="disabled">
+                </button>
+                <button class="btn btn-danger" wire:click="confirmDeleteSelectedItems">
                     <?php _e('Delete'); ?>
-                </x-microweber-ui::button-animation>
+                </button>
             </x-slot>
         </x-microweber-ui::dialog-modal>
     </div>
 </div>
-
-
-
-

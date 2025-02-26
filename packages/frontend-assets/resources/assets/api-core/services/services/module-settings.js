@@ -258,7 +258,26 @@ export class ModuleSettings extends MicroweberBaseClass {
                 if (typeof mw.settings.liveEditModuleSettingsUrls === 'object' && mw.settings.liveEditModuleSettingsUrls[moduleType]) {
                     settingsUrl = mw.settings.liveEditModuleSettingsUrls[moduleType];
                 }
+            } else  if (typeof mw !== 'undefined' && typeof mw.settings !== 'undefined' && typeof(mw.settings.liveEditModuleSettingsComponents) === 'object' && mw.settings.liveEditModuleSettingsComponents[moduleType]) {
+                var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
+                var moduleSettingsComponent = mw.settings.liveEditModuleSettingsComponents[moduleType];
+                var eventDetail = {
+                    moduleType: moduleType,
+                    moduleId: moduleId,
+                    moduleSettingsComponent: moduleSettingsComponent,
+                    params: attrsForSettings
+                };
+                if (typeof liveEditIframeData !== 'undefined') {
+                    eventDetail.liveEditIframeData = liveEditIframeData;
+                }
+                var event = new CustomEvent('openModuleSettingsAction', {
+                    detail: eventDetail
+                });
+                window.dispatchEvent(event);
+                return;
             }
+
+
         }
 
         var src = settingsUrl + "?" + json2url(attrsForSettings);
