@@ -9,18 +9,12 @@
             isCompleted: false,
             percentage: 0,
             sessionId: null,
-            restoreFile: null,
-            restoreType: null,
             log: null,
 
             async restoreBackup() {
                 while (!this.isCompleted) {
                     try {
-                        const response = await $wire.runRestoreStep({
-                            sessionId: this.sessionId,
-                            restoreFile: this.restoreFile,
-                            restoreType: this.restoreType,
-                        });
+                        const response = await $wire.runRestoreStep(this.sessionId);
                         // console.log('Restore response:', response);
                         if (response && response.done) {
                             this.isCompleted = true;
@@ -47,8 +41,6 @@
             init() {
                 this.$wire.on('restoreIsStarted', (data) => {
                     this.sessionId = data.sessionId;
-                    this.restoreFile = data.restoreFile;
-                    this.restoreType = data.restoreType;
                     console.log('Restore started event received');
                     this.restoreBackup();
                 });

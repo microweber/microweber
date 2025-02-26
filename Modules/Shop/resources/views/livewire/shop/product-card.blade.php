@@ -1,8 +1,9 @@
-<a class="text-decoration-none" href="{{content_link($product->id)}}">
-        <div class="background-image-holder" style="background-image: url('{{$product->thumbnail(1000,1000)}}'); height: 450px; background-size: contain;">
+<div class="mw-online-shop-skin-1-product">
+    <a class="text-decoration-none" href="{{content_link($product->id)}}">
+        <div class="background-image-holder" style="background-image: url('{{$product->thumbnail(1000,1000)}}'); height: 450px; background-size: cover;">
 
             <div @if($product->getContentDataByFieldName('label-color'))
-                 style="background-color: {{$product->getContentDataByFieldName('label-color')}} "
+                     style="background-color: {{$product->getContentDataByFieldName('label-color')}} "
                 @endif >
                 @if($product->getContentDataByFieldName('label-type') == 'percent')
                     <div class="discount-label">
@@ -22,11 +23,10 @@
             </div>
 
         </div>
-        <h6 class="mt-3">{{$product->title}}</h6>
+        <h4 class="mt-3">{{$product->title}}</h4>
     </a>
-
-
-    <p>{{$product->content_text}}</p>
+    
+    <p>{{ Str::limit($product->description, 150) }}</p>
 
     <div class="d-flex items-center text-center align-items-center price-holder">
 
@@ -42,3 +42,4 @@
     @foreach($product->tags as $tag)
         <span class="badge badge-lg"><a href="?tags[]={{$tag->slug}}">{{$tag->name}}</a></span>
     @endforeach
+</div>

@@ -9,4 +9,14 @@ class MultilanguageSupportedLocales extends Model
 {
     public $timestamps = false;
     use CacheableQueryBuilderTrait;
+
+    protected $fillable = [
+        'locale',
+        'language',
+        'display_locale',
+        'display_name',
+        'display_icon',
+        'position',
+        'is_active',
+    ];
 }
