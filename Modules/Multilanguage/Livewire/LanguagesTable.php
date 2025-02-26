@@ -45,9 +45,9 @@ class LanguagesTable extends Component implements HasForms, HasTable
                 ToggleColumn::make('is_active')
                     ->label('Active')
                     ->sortable(),
-                IconColumn::make('is_default')
+                TextColumn::make('is_default')
                     ->label('Default')
-                    ->boolean()
+                    ->badge()
                     ->sortable(),
             ])
             ->filters([

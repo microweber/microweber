@@ -46,11 +46,16 @@ class Multilanguage extends Page
             ->schema([
                 Tabs::make('Multilanguage')
                     ->tabs([
+
+                        Tab::make('Languages')
+                            ->schema([
+                                Livewire::make(LanguagesTable::class)
+                            ]),
+
+
                         Tab::make('Settings')
                             ->schema([
-                                Section::make('Multilanguage Settings')
-                                    ->columns(2)
-                                    ->schema([
+
                                         Toggle::make('is_active')
                                             ->label('Multilanguage is active?')
                                             ->live()
@@ -115,25 +120,13 @@ class Multilanguage extends Page
                                                 $this->notify('success', 'API key updated');
                                             })
                                             ->columnSpan(1),
-                                    ]),
 
-                                Section::make()
-                                    ->schema([
                                         \Filament\Forms\Components\Actions::make([
                                             \Filament\Forms\Components\Actions\Action::make('testGeoApi')
                                                 ->label('Test Geo API')
                                                 ->action(fn () => $this->testGeoApi())
                                         ])
-                                    ]),
-                            ]),
-
-                        Tab::make('Languages')
-                            ->schema([
-                                Section::make('Manage Languages')
-                                    ->schema([
-                                       Livewire::make(LanguagesTable::class)
-                                    ])
-                            ]),
+                                ]),
                     ])
             ])
             ->statePath('data');
