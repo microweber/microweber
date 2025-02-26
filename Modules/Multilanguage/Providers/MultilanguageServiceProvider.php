@@ -5,10 +5,12 @@ namespace Modules\Multilanguage\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use Modules\Multilanguage\Filament\Pages\Multilanguage;
+use Modules\Multilanguage\Livewire\LanguagesTable;
 
 
 class MultilanguageServiceProvider extends BaseModuleServiceProvider
@@ -22,8 +24,8 @@ class MultilanguageServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-
-
+        // Register Livewire components
+        Livewire::component('modules.multilanguage::languages-table', LanguagesTable::class);
     }
 
     /**
@@ -43,7 +45,5 @@ class MultilanguageServiceProvider extends BaseModuleServiceProvider
 
         // Register Microweber module
         // Microweber::module(\Modules\Multilanguage\Microweber\MultilanguageModule::class);
-
     }
-
 }

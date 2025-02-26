@@ -3,15 +3,20 @@
 namespace Modules\Multilanguage\Filament\Pages;
 
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Livewire;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Notifications\Notification;
+use Modules\Multilanguage\Livewire\LanguagesTable;
+use Modules\Multilanguage\Models\Language;
 
 class Multilanguage extends Page
 {
@@ -39,74 +44,97 @@ class Multilanguage extends Page
     {
         return $form
             ->schema([
-                Section::make('Multilanguage Settings')
-                    ->columns(2)
-                    ->schema([
-                        Toggle::make('is_active')
-                            ->label('Multilanguage is active?')
-                            ->live()
-                            ->afterStateUpdated(function($state) {
-                                save_option('is_active', $state ? 'y' : 'n', 'multilanguage_settings');
-                                $this->notify('success', 'Setting updated');
-                            })
-                            ->columnSpan(1),
+                Tabs::make('Multilanguage')
+                    ->tabs([
+                        Tab::make('Settings')
+                            ->schema([
+                                Section::make('Multilanguage Settings')
+                                    ->columns(2)
+                                    ->schema([
+                                        Toggle::make('is_active')
+                                            ->label('Multilanguage is active?')
+                                            ->live()
+                                            ->afterStateUpdated(function($state) {
+                                                save_option('is_active', $state ? 'y' : 'n', 'multilanguage_settings');
+                                                $this->notify('success', 'Setting updated');
+                                            })
+                                            ->columnSpan(1),
 
-                        Select::make('homepage_language')
-                            ->label('Homepage language')
-                            ->options($this->getSupportedLanguages())
-                            ->placeholder('Select Language')
-                            ->live()
-                            ->afterStateUpdated(function($state) {
-                                save_option('homepage_language', $state, 'website');
-                                $this->notify('success', 'Setting updated');
-                            })
-                            ->columnSpan(1),
+                                        Select::make('homepage_language')
+                                            ->label('Homepage language')
+                                            ->options($this->getSupportedLanguages())
+                                            ->placeholder('Select Language')
+                                            ->live()
+                                            ->afterStateUpdated(function($state) {
+                                                save_option('homepage_language', $state, 'website');
+                                                $this->notify('success', 'Setting updated');
+                                            })
+                                            ->columnSpan(1),
 
-                        Toggle::make('add_prefix_for_all_languages')
-                            ->label('Add prefix for all languages')
-                            ->live()
-                            ->afterStateUpdated(function($state) {
-                                save_option('add_prefix_for_all_languages', $state ? 'y' : 'n', 'multilanguage_settings');
-                                $this->notify('success', 'Setting updated');
-                            })
-                            ->columnSpan(1),
+                                        Toggle::make('add_prefix_for_all_languages')
+                                            ->label('Add prefix for all languages')
+                                            ->live()
+                                            ->afterStateUpdated(function($state) {
+                                                save_option('add_prefix_for_all_languages', $state ? 'y' : 'n', 'multilanguage_settings');
+                                                $this->notify('success', 'Setting updated');
+                                            })
+                                            ->columnSpan(1),
 
-                        Toggle::make('use_geolocation')
-                            ->label('Switch language by IP Geolocation')
-                            ->live()
-                            ->afterStateUpdated(function($state) {
-                                save_option('use_geolocation', $state ? 'y' : 'n', 'multilanguage_settings');
-                                $this->notify('success', 'Setting updated');
-                            })
-                            ->columnSpan(1),
+                                        Toggle::make('use_geolocation')
+                                            ->label('Switch language by IP Geolocation')
+                                            ->live()
+                                            ->afterStateUpdated(function($state) {
+                                                save_option('use_geolocation', $state ? 'y' : 'n', 'multilanguage_settings');
+                                                $this->notify('success', 'Setting updated');
+                                            })
+                                            ->columnSpan(1),
 
-                        Select::make('geolocation_provider')
-                            ->label('Geolocation Provider')
-                            ->helperText('Choose your preferred geolocation IP detector')
-                            ->options([
-                                'browser_detection' => 'Browser Detection',
-                                'domain_detection' => 'Domain Detection',
-                                'geoip_browser_detection' => 'GEO-IP + Browser Detection',
-                                'microweber' => 'Microweber Geo Api',
-                                'ipstack_com' => 'IpStack.com',
-                            ])
-                            ->live()
-                            ->afterStateUpdated(function($state) {
-                                save_option('geolocation_provider', $state, 'multilanguage_settings');
-                                $this->notify('success', 'Setting updated');
-                            })
-                            ->columnSpan(1),
+                                        Select::make('geolocation_provider')
+                                            ->label('Geolocation Provider')
+                                            ->helperText('Choose your preferred geolocation IP detector')
+                                            ->options([
+                                                'browser_detection' => 'Browser Detection',
+                                                'domain_detection' => 'Domain Detection',
+                                                'geoip_browser_detection' => 'GEO-IP + Browser Detection',
+                                                'microweber' => 'Microweber Geo Api',
+                                                'ipstack_com' => 'IpStack.com',
+                                            ])
+                                            ->live()
+                                            ->afterStateUpdated(function($state) {
+                                                save_option('geolocation_provider', $state, 'multilanguage_settings');
+                                                $this->notify('success', 'Setting updated');
+                                            })
+                                            ->columnSpan(1),
 
-                        TextInput::make('ipstack_api_access_key')
-                            ->label('IpStack.com API Access Key')
-                            ->visible(fn (callable $get) => $get('geolocation_provider') === 'ipstack_com')
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function($state) {
-                                save_option('ipstack_api_access_key', $state, 'multilanguage_settings');
-                                $this->notify('success', 'API key updated');
-                            })
-                            ->columnSpan(1),
-                    ]),
+                                        TextInput::make('ipstack_api_access_key')
+                                            ->label('IpStack.com API Access Key')
+                                            ->visible(fn (callable $get) => $get('geolocation_provider') === 'ipstack_com')
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(function($state) {
+                                                save_option('ipstack_api_access_key', $state, 'multilanguage_settings');
+                                                $this->notify('success', 'API key updated');
+                                            })
+                                            ->columnSpan(1),
+                                    ]),
+
+                                Section::make()
+                                    ->schema([
+                                        \Filament\Forms\Components\Actions::make([
+                                            \Filament\Forms\Components\Actions\Action::make('testGeoApi')
+                                                ->label('Test Geo API')
+                                                ->action(fn () => $this->testGeoApi())
+                                        ])
+                                    ]),
+                            ]),
+
+                        Tab::make('Languages')
+                            ->schema([
+                                Section::make('Manage Languages')
+                                    ->schema([
+                                       Livewire::make(LanguagesTable::class)
+                                    ])
+                            ]),
+                    ])
             ])
             ->statePath('data');
     }
