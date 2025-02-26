@@ -71,7 +71,7 @@ class LanguagesTable extends Component implements HasForms, HasTable
                     ->mutateRecordDataUsing(function (array $data): array {
                         // Handle default language logic
                         if ($data['is_default']) {
-                            Language::where('is_default', true)
+                            MultilanguageSupportedLocales::where('is_default', true)
                                 ->where('id', '!=', $data['id'] ?? 0)
                                 ->update(['is_default' => false]);
                         }
@@ -115,10 +115,10 @@ class LanguagesTable extends Component implements HasForms, HasTable
                     ->action(function (array $data): void {
                         // Handle default language logic
                         if ($data['is_default']) {
-                            Language::where('is_default', true)->update(['is_default' => false]);
+                            MultilanguageSupportedLocales::where('is_default', true)->update(['is_default' => false]);
                         }
 
-                        Language::create($data);
+                        MultilanguageSupportedLocales::create($data);
 
                         Notification::make()
                             ->success()

@@ -13,7 +13,10 @@ class MultilanguageSupportedLocales extends Model
     protected $fillable = [
         'locale',
         'language',
+        'display_locale',
+        'display_name',
+        'display_icon',
+        'position',
         'is_active',
-        'is_default',
     ];
 }
