@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
-use Modules\Multilanguage\Filament\Pages\MultilanguagePage;
+use Modules\Multilanguage\Filament\Pages\Multilanguage;
 
 
 class MultilanguageServiceProvider extends BaseModuleServiceProvider
@@ -38,7 +38,7 @@ class MultilanguageServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
         // Register filament page for Microweber module settings
-         FilamentRegistry::registerPage(MultilanguagePage::class);
+         FilamentRegistry::registerPage(Multilanguage::class);
 
         // Register Microweber module
         // Microweber::module(\Modules\Multilanguage\Microweber\MultilanguageModule::class);
