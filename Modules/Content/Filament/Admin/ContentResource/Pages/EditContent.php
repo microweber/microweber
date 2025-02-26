@@ -3,7 +3,6 @@
 namespace Modules\Content\Filament\Admin\ContentResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Actions\DeleteAction;
@@ -15,11 +14,11 @@ use Modules\Content\Models\Content;
 
 class EditContent extends EditRecord
 {
-    use Translatable;
+    use EditRecord\Concerns\Translatable;
     use HasEditContentForms;
     use ModifyComponentData;
 
-    public $activeLocale;
+//    public $activeLocale;
 
 //    protected static string $view = 'modules.content::filament.admin.edit-record';
 
