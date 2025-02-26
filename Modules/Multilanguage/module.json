@@ -1,0 +1,11 @@
+{
+    "name": "Multilanguage",
+    "alias": "multilanguage",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Multilanguage\\Providers\\MultilanguageServiceProvider"
+    ],
+    "files": []
+}

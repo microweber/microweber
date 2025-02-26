@@ -1,0 +1,30 @@
+{
+    "name": "modules/multilanguage",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Multilanguage\\": "",
+            "Modules\\Multilanguage\\Database\\Factories\\": "database/factories/",
+            "Modules\\Multilanguage\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Multilanguage\\Tests\\": "Tests/"
+        }
+    }
+}
