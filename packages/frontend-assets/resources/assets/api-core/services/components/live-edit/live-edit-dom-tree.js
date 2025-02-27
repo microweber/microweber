@@ -51,6 +51,7 @@ class LiveEditDOMTree extends MicroweberBaseClass {
         this.dispatch("hide", this)
     }
     buildTree() {
+        let shouldScroll = true;
         this.tree = new this.settings.target.DomTree({
             element: this.box.boxContent,
             resizable: false,
@@ -75,13 +76,115 @@ class LiveEditDOMTree extends MicroweberBaseClass {
 
             },
             onSelect: (e, target, node, element) => {
+
                 this.settings.target.app.dispatch('mw.elementStyleEditor.selectNode', node);
-                if (node.ownerDocument.defaultView.mw) {
-                    node.ownerDocument.defaultView.mw.tools.scrollTo(node, false, 100);
+                if(shouldScroll) {
+                    node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
                 }
+
 
             }
         });
+
+        mw.app.state.on('change', (data) => {
+
+            console.log(data );
+
+            if(data.active && data.active.target) {
+                if( data.active.target === '$multistate') {
+                    data.active.value.forEach(obj => {
+                        this.tree.refresh(obj.target);
+                        this.tree.select(obj.target);
+                    })
+                } else if(data.active.target.nodeName) {
+
+                    this.tree.refresh(data.active.target);
+                    this.tree.select(data.active.target);
+                }
+            }
+        });
+
+        let _activeSortStartData = null,
+            _activeSortStartStateData = null;
+
+        this.tree.on("sortStart", data => {
+            _activeSortStartData = {...data};
+            const startEdit = mw.tools.firstParentOrCurrentWithAnyOfClasses(_activeSortStartData.target, ['edit']);
+            if(startEdit) {
+                _activeSortStartStateData = {
+                    target:  startEdit,
+                    value: startEdit.innerHTML,
+                };
+            } else {
+                _activeSortStartStateData = null
+            }
+
+
+        })
+        this.tree.on("sort", data => {
+            if(data.targetPrev) {
+                data.targetPrev.after(data.target)
+            } else if(data.targetNext) {
+                data.targetNext.before(data.target)
+            } else if(data.targetParent) {
+                data.targetParent.appendChild(data.target)
+            }
+            mw.top().app.liveEdit.handles.hide();
+
+
+
+            if(_activeSortStartData) {
+
+                const endEdit = mw.tools.firstParentOrCurrentWithAnyOfClasses(data.target, ['edit']);
+                if( endEdit && _activeSortStartStateData) {
+                    mw.app.state.record({
+                        target: "$multistate",
+                        value: [
+
+                            _activeSortStartStateData,
+                            {
+                                target:  endEdit,
+                                value: endEdit.innerHTML,
+                            }
+                        ]
+                    });
+                }
+
+
+            }
+
+
+
+
+        })
+
+        const handleTargetChange = target => {
+
+            const targetParent = mw.top().tools.firstParentOrCurrentWithAnyOfClasses(target, ['element', 'edit', 'module']);
+
+
+            if(targetParent) {
+                this.tree.refresh(targetParent);
+                this.tree.select(targetParent);
+            }
+        }
+
+        mw.top().app.on('dragEnd', target => {
+            handleTargetChange(target.parentElement)
+        });
+
+        mw.top().app.on('moduleInserted', data => {
+
+            handleTargetChange(data.target.parentElement)
+
+        })
+        mw.top().app.liveEdit.handles.get('element').on('targetChange', target => {
+            shouldScroll = false;
+            this.tree.select(target);
+            shouldScroll = true;
+        });
+
+
     }
     init() {
         this.buildBox();

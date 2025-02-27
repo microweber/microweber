@@ -204,7 +204,7 @@ export class FreeDraggableElementManager extends FreeDraggableElementManagerTool
                     element.classList.remove("mce-content-focus");
                 })
 
-            console.log(document)
+
         }
 
         mw.top().app.state.on('undo', () => {

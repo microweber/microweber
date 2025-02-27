@@ -93,8 +93,8 @@ export default {
             this.showModal = true;
             this.filterModules();
         },
-        getModulesList() {
-            return mw.app.modules.list();
+        getModulesList(cb) {
+            return mw.app.modules.list(cb);
         },
         insertModule(moduleItem) {
             return this[this.insertModuleMode](moduleItem)
@@ -165,6 +165,9 @@ export default {
 
             await mw.app.editor.insertModule(module, options, insertLocation, this.target);
 
+
+            // mw.top().app.dispatch('moduleInserted', {module, options, insertLocation, target:this.target})
+
             mw.app.registerChangedState(edit, true)
             this.showModal = false;
         },
@@ -226,7 +229,7 @@ export default {
 
         mw.app.on('ready', () => {
 
-            this.getModulesList().then(function (data) {
+            this.getModulesList(function (data) {
                 instance.modulesList = data.modules;
                 instance.filterModules();
 
