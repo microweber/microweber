@@ -20,6 +20,7 @@ use Modules\CustomFields\Traits\CustomFieldsTrait;
 use Modules\Media\Traits\MediaTrait;
 use Modules\Menu\Concerns\HasMenuItem;
 use Modules\Tag\Traits\TaggableTrait;
+use Spatie\Translatable\HasTranslations;
 
 //use Kirschbaum\PowerJoins\PowerJoins;
 

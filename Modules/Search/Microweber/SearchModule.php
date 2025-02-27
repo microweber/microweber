@@ -2,6 +2,7 @@
 
 namespace Modules\Search\Microweber;
 
+use Illuminate\View\View;
 use MicroweberPackages\Microweber\Abstract\BaseModule;
 use Modules\Search\Filament\SearchSettings;
 
@@ -25,6 +26,12 @@ class SearchModule extends BaseModule
         $viewData['autocomplete'] = $viewData['options']['autocomplete'] ?? false;
         $viewData['seach_prefix'] = crc32($viewData['id']);
 
+        $viewData['searchWidth'] = $viewData['options']['searchWidth'] ?? '300';
+        $viewData['searchHeight'] = $viewData['options']['searchHeight'] ?? '30';
+        $viewData['searchPosition'] = $viewData['options']['searchPosition'] ?? 'center';
+
+
+
         // Get template from options or use default
         $template = $viewData['template'] ?? 'default';
 
@@ -39,4 +46,5 @@ class SearchModule extends BaseModule
 
         return view(static::$templatesNamespace . '.' . $template, $viewData);
     }
+
 }

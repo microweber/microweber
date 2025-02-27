@@ -124,7 +124,7 @@ class Multilanguage extends Page
                                         \Filament\Forms\Components\Actions::make([
                                             \Filament\Forms\Components\Actions\Action::make('testGeoApi')
                                                 ->label('Test Geo API')
-                                                ->action(fn () => $this->testGeoApi())
+                                                ->extraAttributes(['onclick' => 'window.testGeoApi(); return false;'])
                                         ])
                                 ]),
                     ])

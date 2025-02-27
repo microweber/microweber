@@ -2,7 +2,7 @@
     <div class="mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="mb-3">{{ _e('Categories') }}</h5>
+                <h5>{{ _e('Categories') }}</h5>
                 <div class="d-flex flex-column gap-2">
                     @php
                         $categories = \Modules\Category\Models\Category::where('parent_id', 0)

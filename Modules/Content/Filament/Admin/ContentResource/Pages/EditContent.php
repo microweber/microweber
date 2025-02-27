@@ -3,7 +3,6 @@
 namespace Modules\Content\Filament\Admin\ContentResource\Pages;
 
 use Filament\Actions;
-use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Actions\DeleteAction;
@@ -15,11 +14,11 @@ use Modules\Content\Models\Content;
 
 class EditContent extends EditRecord
 {
-    use Translatable;
+    use EditRecord\Concerns\Translatable;
     use HasEditContentForms;
     use ModifyComponentData;
 
-    public $activeLocale;
+//    public $activeLocale;
 
 //    protected static string $view = 'modules.content::filament.admin.edit-record';
 
@@ -46,6 +45,7 @@ class EditContent extends EditRecord
     protected function getHeaderActions(): array
     {
 
+        $actions = [];
 
         $editAction =  Actions\EditAction::make()->action('saveContentAndGoLiveEdit');
         if (request()->header('Sec-Fetch-Dest') === 'iframe') {
@@ -59,27 +59,27 @@ class EditContent extends EditRecord
 
 
 
+        $actions[]  =  DeleteActionOnlyIcon::make()
+            ->label('Delete')
+            ->icon('heroicon-o-trash')
+            ->size('xl')
+            ->onlyIconAndTooltip()
+            ->outlined();
 
+        $actions[] = $editAction;
+        $actions[] = Actions\EditAction::make()
+            ->action('saveContent')
+            ->icon('mw-save')
+            ->size('xl')
+            ->label('Save')
+            ->color('success');
 
-        return [
-            //   Actions\LocaleSwitcher::make(),
-            //   Actions\DeleteAction::make()
-            DeleteActionOnlyIcon::make()
-                ->label('Delete')
-                ->icon('heroicon-o-trash')
-                ->size('xl')
-                ->onlyIconAndTooltip()
-                ->outlined(),
+        $isMultilanguageEnabled = true; // TODO
+        if ($isMultilanguageEnabled) {
+            $actions[] =  Actions\LocaleSwitcher::make();
+        }
 
-            $editAction,
-
-            Actions\EditAction::make()
-                ->action('saveContent')
-                ->icon('mw-save')
-                ->size('xl')
-                ->label('Save')
-                ->color('success'),
-        ];
+        return $actions;
     }
 
 

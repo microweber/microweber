@@ -6,6 +6,7 @@ description: Default Search template
 */
 @endphp
 
+@include('modules.search::components.custom-css')
 
 
 

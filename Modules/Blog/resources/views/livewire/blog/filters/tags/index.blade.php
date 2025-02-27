@@ -2,7 +2,7 @@
     <div class="mb-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="mb-3">{{ _e('Tags') }}</h5>
+                <h5>{{ _e('Tags') }}</h5>
                 <div class="d-flex flex-wrap gap-2">
                     @php
                         $tags = \Modules\Tag\Models\Tag::where('rel_type', morph_name(\Modules\Content\Models\Content::class))

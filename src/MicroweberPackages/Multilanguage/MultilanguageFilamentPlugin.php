@@ -37,9 +37,10 @@ class MultilanguageFilamentPlugin implements Plugin
         $defaultLocales = [];
 
         try {
-            if (Schema::hasTable('multilanguage_locales')) {
+            if (Schema::hasTable('multilanguage_supported_locales')) {
                 $getSupportedLocales = DB::table('multilanguage_supported_locales')
-                    ->where('is_active', 'y')->get();
+                    ->where('is_active', 1)
+                    ->get();
                 if ($getSupportedLocales->count() > 0) {
                     foreach ($getSupportedLocales as $locale) {
                         $defaultLocales[] = $locale->locale;
@@ -50,16 +51,19 @@ class MultilanguageFilamentPlugin implements Plugin
             $defaultLocales = [];
         }
 
-
         if (empty($defaultLocales)) {
             //@todo disable multilanguage
             $defaultLocales = ['en_US'];
         }
 
         if (mw_is_installed()) {
+
             $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
             $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));
             $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
+
+            // TODO
+            MultilanguageHelpers::setMultilanguageEnabled(true);
 
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
                 self::configureLanguageSwitch();
@@ -92,6 +96,7 @@ class MultilanguageFilamentPlugin implements Plugin
     {
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+
             $langs = get_supported_languages();
 
             if ($langs) {

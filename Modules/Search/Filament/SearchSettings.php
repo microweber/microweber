@@ -34,18 +34,42 @@ class SearchSettings extends LiveEditModuleSettings
                                     ->options(function () {
                                         $pages = get_content('content_type=page&subtype=dynamic&limit=1000');
                                         $options = [0 => 'All pages'];
-                                        
+
                                         if (!empty($pages)) {
                                             foreach ($pages as $page) {
                                                 $options[$page['id']] = $page['title'];
                                             }
                                         }
-                                        
+
                                         return $options;
                                     })
                                     ->helperText('Select which page to search in. Select "All pages" to search in all content.')
                                     ->live()
                                     ->default(0),
+
+                                Select::make('options.searchPosition')
+                                    ->label('Choose the position of the search bar')
+                                    ->options(function () {
+
+                                        $options = ['start' => 'Left', 'center' => 'Center' , 'end' => 'Right'];
+
+                                        return $options;
+                                    })
+                                    ->helperText('Select where to be positioned the search bar.')
+                                    ->live()
+                                    ->default(1),
+
+                                TextInput::make('options.searchWidth')
+                                    ->label('Choose the width of the search bar')
+                                    ->helperText('Enter the width of the search bar in px.')
+                                    ->live()
+                                    ->default('500'),
+
+                                TextInput::make('options.searchHeight')
+                                    ->label('Choose the height of the search bar')
+                                    ->helperText('Enter the height of the search bar in px.')
+                                    ->live()
+                                    ->default('100'),
 
                                 Toggle::make('options.autocomplete')
                                     ->label('Enable Autocomplete')

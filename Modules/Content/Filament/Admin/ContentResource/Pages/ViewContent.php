@@ -8,6 +8,8 @@ use Modules\Content\Filament\Admin\ContentResource;
 
 class ViewContent extends ViewRecord
 {
+    use ViewRecord\Concerns\Translatable;
+
     protected static string $resource = ContentResource::class;
 
     protected function getHeaderActions(): array
