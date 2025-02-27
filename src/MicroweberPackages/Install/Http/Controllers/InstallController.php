@@ -481,6 +481,14 @@ class InstallController extends Controller
                             @symlink(storage_path('app/public'), public_path('storage'));
                         }
                     }
+
+                    // migrate again
+                    $output = new BufferedOutput();
+                    $output->setDecorated(false);
+                    Artisan::call('migrate', ['--force' => true], $output);
+                    $this->log($output->fetch());
+
+
                 }
 
 
