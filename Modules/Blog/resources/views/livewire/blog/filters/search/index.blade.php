@@ -5,7 +5,7 @@
                 <input
                     type="text"
                     wire:model.live="search"
-                    class="form-control"
+                    class="form-control" style="border: none;"
                     placeholder="{{ _e('Search posts...') }}">
                 @if($search)
                     <button
