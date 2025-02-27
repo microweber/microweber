@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use MicroweberPackages\App\Traits\LiveEditTrait;
 use MicroweberPackages\Install\Http\Controllers\InstallController;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\View\MicroweberModuleTagCompiler;
 use MicroweberPackages\View\StringBlade;
 use MicroweberPackages\View\View;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -94,6 +95,8 @@ class FrontendController extends Controller
         }
 
         event_trigger('mw.controller.index');
+        MicroweberModuleTagCompiler::disableModuleProcessing();
+
 
         $isAjax = app()->url_manager->is_ajax();
         $urlString = app()->url_manager->string();
@@ -203,6 +206,8 @@ class FrontendController extends Controller
             $page_url = app()->url_manager->param_unset('mw_quick_edit', $page_url);
         }
         $is_preview_template = app()->url_manager->param('preview_template');
+
+
         if (!$is_preview_template) {
             $is_preview_template = false;
             if ($this->return_data == false) {

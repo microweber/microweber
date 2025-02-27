@@ -962,7 +962,7 @@ class ContentManager
             return $site_url;
         }
 
-        if (!isset($link['url']) or strval($link['url']) == '') {
+        if (!isset($link['url']) or (is_string($link['url']) and $link['url'] == '')) {
             $link = $this->get_by_url($id);
         }
         if (!$link) {
