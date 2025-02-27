@@ -1,6 +1,7 @@
 @media screen, print {
 	:root {
 		--mw-font-family-sans-serif: Jost, sans-serif;
+		--mw-header-background-color: #b61f1f;
 	}
 	#mw-element-1726563274711 {
 		max-width: 100%;

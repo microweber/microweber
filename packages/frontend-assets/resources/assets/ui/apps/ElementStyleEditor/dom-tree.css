@@ -76,6 +76,8 @@
     width: calc(100% - 20px);
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
 }
 
 .mw-domtree{

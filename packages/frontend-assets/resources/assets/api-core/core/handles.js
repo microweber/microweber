@@ -133,8 +133,10 @@ export const Handles = function (handles) {
                 scope.dragging = false;
                 handle.show();
 
-                mw.top().app.registerChange(handle.getTarget())
-            })
+
+                mw.top().app.dispatch('dragEnd', handle.getTarget());
+                mw.top().app.registerChange(handle.getTarget());
+            });
         })
     }
 

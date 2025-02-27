@@ -103,7 +103,9 @@ export const Handle = function (options) {
         this.draggable.on('dragEnd', function () {
 
             scope.wrapper.removeClass('mw-handle-item-dragging');
-            scope.position(scope.getTarget())
+            scope.position(scope.getTarget());
+
+
         });
 
     };

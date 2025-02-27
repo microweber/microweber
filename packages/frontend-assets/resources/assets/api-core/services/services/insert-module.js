@@ -35,7 +35,7 @@ export const insertModule = (target = null, module, options = {}, insertLocation
             }
 
 
-        mw.top().win.mw.app.dispatch('moduleInserted')
+        mw.top().app.dispatch('moduleInserted', {target, module, options, insertLocation})
         resolve(itm);
 
         afterLayoutChange(target)

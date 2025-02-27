@@ -3,21 +3,29 @@ import axios from 'axios';
 export const Modules = {
 
     modulesListData: null,
-    modulesListDataCalledFinished: true,
 
-    list: async function () {
+
+    list:   function (cb) {
 
         if (this.modulesListData) {
+            if (cb) {
+                cb.call(undefined, this.modulesListData)
+            }
             return this.modulesListData;
         }
 
-        await axios.get(route('api.module.list') + '?layout_type=module')
-            .then((response) => {
-                this.modulesListData = response.data;
-                this.modulesListDataCalledFinished = false;
-            });
+        axios.get(route('api.module.list') + '?layout_type=module')
+        .then((response) => {
 
-        return this.modulesListData;
+            this.modulesListData = response.data;
+
+
+            if (cb) {
+                cb.call(undefined, this.modulesListData)
+            }
+        });
+
+
 
     },
     modulesSkinsData: [],
@@ -37,15 +45,14 @@ export const Modules = {
 
     },
 
-    getModuleInfo: function (module) {
-        var moduleData = null;
+    getModuleInfo:   function (module) {
 
-        if (!this.modulesListData && !this.modulesListDataCalledFinished) {
-            this.list();
-        }
 
-        if (this.modulesListDataCalledFinished && this.modulesListData && this.modulesListData.modules) {
+
+
+        if ( this.modulesListData && this.modulesListData.modules) {
             var foundModule = this.modulesListData.modules.find(function (element) {
+
                 return element.module == module;
             });
 
@@ -57,3 +64,6 @@ export const Modules = {
     }
 
 }
+
+
+Modules.list();

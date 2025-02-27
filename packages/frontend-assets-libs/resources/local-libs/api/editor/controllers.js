@@ -328,7 +328,7 @@ MWEditor.controllers = {
                 var aiTextGeneratorHtml = `
                 <div class="ai-text-generator-container">
                     <div class="d-flex gap-2">
-                        <input placeholder="Write instructions. e.g.: Make it sound casual" autocomplete="off" class="form-control" id="ai-text-generator-topic" />
+                        <input placeholder="Write instructions. e.g.: Make it sound casual" autocomplete="off" class="form-control w-100" id="ai-text-generator-topic" />
                         <button class="btn" id="ai-text-generator-submit" type="button"> ${aiIconSVG} Generate </button>
                     </div>
                     <div class="mt-2" id="ai-text-generator-options">
@@ -365,7 +365,7 @@ MWEditor.controllers = {
                     overlay: true,
                     overlayClose: true,
                     autoCenter: false,
-                    width: 500,
+                    width: 670,
                     /*position: {
                         x: rectActionTarget.left,
                         y: (rectActionTarget.top + 110)
