@@ -1,12 +1,14 @@
 <div class="card h-100">
     <a class="text-decoration-none" href="{{content_link($post->id)}}">
-        <img src="{{app()->content_repository->getThumbnail($post->id,800,500, true)}}" 
-             alt="{{ $post->title }}" 
+        <img src="{{app()->content_repository->getThumbnail($post->id,900,900, true)}}"
+             alt="{{ $post->title }}"
+             height="350px"
+             width="100%"
              class="card-img-top">
         <div class="card-body">
             <h4 class="card-title">{{$post->title}}</h4>
             <p class="card-text">{!! $post->shortDescription(220) !!}</p>
-            
+
             @if($post->categoryItems->count() > 0)
                 <div class="post-categories mb-2">
                     @foreach($post->categoryItems as $categoryItem)

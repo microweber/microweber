@@ -894,7 +894,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply ms-5;
 }
 
-.fi-resource-list-records-page .fi-header, .fi-resource-create-record-page .fi-header {
+.fi-resource-list-records-page .fi-header, .fi-resource-create-record-page .fi-header, .fi-resource-edit-record-page .fi-header {
     @apply sticky top-[60px] bg-white py-[30px] z-10;
 }
 

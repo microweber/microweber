@@ -16,7 +16,6 @@
         }
 
         .card-img-top {
-            height: 200px;
             object-fit: cover;
         }
 
