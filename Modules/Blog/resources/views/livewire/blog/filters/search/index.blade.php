@@ -1,16 +1,16 @@
 <div class="mb-4">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body p-0 border-none shadow-none">
             <div class="input-group">
-                <input 
-                    type="text" 
-                    wire:model.live="search" 
-                    class="form-control" 
+                <input
+                    type="text"
+                    wire:model.live="search"
+                    class="form-control"
                     placeholder="{{ _e('Search posts...') }}">
                 @if($search)
-                    <button 
-                        class="btn btn-outline-secondary" 
-                        wire:click="$set('search', '')" 
+                    <button
+                        class="btn btn-outline-secondary"
+                        wire:click="$set('search', '')"
                         type="button">
                         <i class="fa fa-times"></i>
                     </button>
