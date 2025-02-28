@@ -3,5 +3,5 @@
 @endphp
 
 <div class="module-shop">
-    <livewire:module-shop :module-id="$moduleId" />
+    <livewire:module-shop :module-id="$moduleId" template="skin-1" />
 </div>

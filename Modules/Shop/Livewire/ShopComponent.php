@@ -22,7 +22,8 @@ class ShopComponent extends Component
     public array $settings = [];
     public string $moduleId = "";
     public string $moduleType = "";
-    public string $moduleTemplateNamespace = 'modules.shop::livewire.shop.index';
+    public string $moduleTemplateNamespace = 'modules.shop::livewire.shop';
+    public string $template = 'default';
 
     public $keywords;
     public $sort;
@@ -46,7 +47,8 @@ class ShopComponent extends Component
         'direction',
         'priceFrom',
         'priceTo',
-        'offers'
+        'offers',
+        'template'
     ];
 
 
@@ -257,10 +259,11 @@ class ShopComponent extends Component
         }
 
         $products = $productsQuery->paginate($limit);
-
-        if (empty($this->moduleTemplateNamespace)) {
-            $this->moduleTemplateNamespace = 'shop::livewire.shop.index';
+        $viewName = 'modules.shop::livewire.shop.' . $this->template;
+        if(!view()->exists($viewName)) {
+            $viewName = 'modules.shop::livewire.shop.default';
         }
+
 
         $filteredCategory = $this->getCategory();
 
@@ -291,7 +294,7 @@ class ShopComponent extends Component
             }
         }
 
-        return view($this->moduleTemplateNamespace, [
+        return view($viewName, [
             'breadcrumb' => $breadcrumb,
             'products' => $products,
             'productCardSettings' => $productCardSettings,
