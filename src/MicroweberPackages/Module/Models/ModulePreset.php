@@ -14,7 +14,7 @@ class ModulePreset extends Model
         'name',
         'module',
         'position',
-        'module_attrs',
+
 
     ];
 

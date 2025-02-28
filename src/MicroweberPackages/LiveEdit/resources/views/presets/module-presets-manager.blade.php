@@ -28,11 +28,12 @@
 
             // Listen for applyPreset event
             window.addEventListener('applyPreset', function(event) {
+
+
+
                 var applyToModuleId = event.detail.moduleId;
                 var preset = event.detail.preset;
-                
-                var json = preset.module_attrs;
-                var obj = JSON.parse(json);
+
 
                 var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
                 if (el !== null) {
@@ -42,7 +43,7 @@
                 var orig_id = mw.top().app.canvas.getWindow().$(el).attr("id");
                 var have_orig_id = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id");
                 var have_orig_attr = mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs");
-                
+
                 if(!have_orig_attr) {
                     var attrsEl = mw.top().tools.getAttrs(el);
                     var orig_attrs_encoded = window.btoa(JSON.stringify(attrsEl));
@@ -50,29 +51,21 @@
                         mw.top().app.canvas.getWindow().$(el).attr("data-module-original-attrs", orig_attrs_encoded);
                     }
                 }
-                
-                if (obj) {
-                    for (var key in obj) {
-                        var val = obj[key];
-                        if (key != 'id') {
-                            mw.top().app.canvas.getWindow().$(el).attr(key, val);
-                        }
-                    }
-                }
-                
+
+
                 mw.top().app.canvas.getWindow().$(el).attr("data-module-id-from-preset", preset.module_id);
-                
+
                 if(!have_orig_id){
                     mw.top().app.canvas.getWindow().$(el).attr("data-module-original-id", applyToModuleId);
                 }
-                
+
                 mw.top().app.editor.dispatch('onModuleSettingsChanged', ({'moduleId': applyToModuleId}));
             });
 
             // Listen for removeSelectedPresetForModule event
             window.addEventListener('removeSelectedPresetForModule', function(event) {
                 var applyToModuleId = event.detail.moduleId;
-                
+
                 var el = mw.top().app.canvas.getWindow().$('#' + applyToModuleId)[0];
                 if (el !== null) {
                     mw.top().app.registerChangedState(el);
@@ -205,8 +198,7 @@
 
                     <!-- Hidden fields -->
                     <input type="hidden" wire:model.defer="itemState.module">
-                    <input type="hidden" wire:model.defer="itemState.module_attrs">
-                    <input type="hidden" wire:model.defer="itemState.module_id">
+                     <input type="hidden" wire:model.defer="itemState.module_id">
                     <input type="hidden" wire:model.defer="itemState.position">
 
                     <div class="d-flex gap-2">

@@ -61,7 +61,7 @@ trait HasMultilanguageTrait
     public static function bootHasMultilanguageTrait()
     {
 
-        MultilanguageHelpers::setMultilanguageEnabled(true);
+        //MultilanguageHelpers::setMultilanguageEnabled(true);
 
         static::saving(function ($model) {
 

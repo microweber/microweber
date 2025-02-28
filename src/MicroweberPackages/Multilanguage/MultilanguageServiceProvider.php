@@ -26,8 +26,7 @@ use MicroweberPackages\Multilanguage\View\Components\FormElements\InputText;
 use MicroweberPackages\Multilanguage\View\Components\FormElements\InputTextarea;
 
 
-class
-MultilanguageServiceProvider extends ServiceProvider
+class MultilanguageServiceProvider extends ServiceProvider
 {
     /**
      * The application instance.
@@ -104,11 +103,11 @@ MultilanguageServiceProvider extends ServiceProvider
                 return new MultilanguagePermalinkManager();
             });
 
-            // $this->app->register(MultilanguageEventServiceProvider::class);
-            $this->app->bind(FormElementBuilder::class, function ($app) {
-                $container = $app->make(Container::class);
-                return new MultilanguageFormElementBuilder($container);
-            });
+//            // $this->app->register(MultilanguageEventServiceProvider::class);
+//            $this->app->bind(FormElementBuilder::class, function ($app) {
+//                $container = $app->make(Container::class);
+//                return new MultilanguageFormElementBuilder($container);
+//            });
 
             $this->bootTranslateManager();
 

@@ -27,6 +27,9 @@ class MultilanguageHelpers
 
     public static function setMultilanguageEnabled($enabled)
     {
+
+
+
         return self::$isEnabled = $enabled;
     }
 

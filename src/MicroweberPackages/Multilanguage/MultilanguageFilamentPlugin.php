@@ -63,7 +63,7 @@ class MultilanguageFilamentPlugin implements Plugin
             $panel->plugin(FilamentTranslatableFieldsPlugin::make()->supportedLanguages(get_supported_languages()));
 
             // TODO
-            MultilanguageHelpers::setMultilanguageEnabled(true);
+           // MultilanguageHelpers::setMultilanguageEnabled(true);
 
             if (MultilanguageHelpers::multilanguageIsEnabled()) {
                 self::configureLanguageSwitch();

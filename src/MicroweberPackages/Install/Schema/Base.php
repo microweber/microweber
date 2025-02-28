@@ -51,7 +51,7 @@ class Base
                 'module_id' => 'text',
                 'name' => 'text',
                 'module' => 'text',
-                'module_attrs' => 'text',
+
                 'position' => 'integer',
 
             ],

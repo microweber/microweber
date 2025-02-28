@@ -53,7 +53,7 @@ class Init extends Migration {
                 'module_id' => 'longText',
                 'name' => 'longText',
                 'module' => 'longText',
-                'module_attrs' => 'longText',
+
                 'position' => 'integer',
 
 

@@ -63,7 +63,7 @@
                             $('body').removeClass('mw-livewire-loading')
                         }, 5000);
                     });
-                    if(self.frameElement){
+                    if(self.frameElement && mw.tools && mw.tools.iframeAutoHeight){
                         mw.tools.iframeAutoHeight(self.frameElement);
                     }
 
