@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin;
 
 
-use MicroweberPackages\Modules\Newsletter\ImportSubscribersFileReader;
+use Modules\Newsletter\Services\ImportSubscribersFileReader;
 use Modules\FileManager\Http\Controllers\PluploadController;
 
 class NewsletterUploadSubscribersListController extends PluploadController {

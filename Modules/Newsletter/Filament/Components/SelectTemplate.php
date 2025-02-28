@@ -44,12 +44,12 @@ class SelectTemplate extends Field
     {
         $emailTemplates = [];
 
-        $templatesPath = modules_path() .'newsletter/src/resources/views/email-templates';
-        $templates = glob($templatesPath . '/*.json');
+        $templatesPath = normalize_path(module_path('newsletter'). '/resources/views/email-templates',true);
+        $templates = glob($templatesPath . '*.json');
 
         foreach ($templates as $template) {
             $filename = basename($template, '.json');
-            $screenshotUrl = modules_url() . 'newsletter/src/resources/views/email-templates/' . $filename . '.png';
+            $screenshotUrl = asset('modules/newsletter/img/' . $filename . '.png');
             $emailTemplates[] = [
                 'name' => $filename,
                 'filename' => $filename,

@@ -1,11 +1,11 @@
 <?php
 
-namespace MicroweberPackages\Modules\Newsletter;
+namespace Modules\Newsletter\Services;
 
 use Illuminate\Support\Facades\App;
-use MicroweberPackages\Export\Formats\Helpers\SpreadsheetHelper;
+use Modules\Export\Formats\Helpers\SpreadsheetHelper;
 use Modules\Backup\SessionStepper;
-use MicroweberPackages\Restore\Formats\CsvReader;
+use Modules\Restore\Formats\CsvReader;
 
 class ImportSubscribersFileReader
 {
@@ -15,7 +15,7 @@ class ImportSubscribersFileReader
         $environment = app()->environment();
         $folder = storage_path('newsletter_subscribers_list/') . ('default' . DIRECTORY_SEPARATOR);
 
-        if(mw_is_multisite()) {
+        if (mw_is_multisite()) {
             $folder = storage_path('newsletter_subscribers_list/') . ($environment . DIRECTORY_SEPARATOR);
         }
 
@@ -78,7 +78,8 @@ class ImportSubscribersFileReader
         return true;
     }
 
-    private function readContentFromCsv(string $filename)  {
+    private function readContentFromCsv(string $filename)
+    {
 
         $reader = new CsvReader($filename);
         $subscribersList = $reader->readData();

@@ -126,7 +126,7 @@ class EditCampaign extends Page
     }
     public function startWithTemplate($template)
     {
-        $templateJson = file_get_contents(modules_path() . 'newsletter/src/resources/views/email-templates/' . $template. '.json');
+        $templateJson = file_get_contents(module_path('newsletter'). '/resources/views/email-templates/' . $template. '.json');
         if (!$templateJson) {
             return;
         }

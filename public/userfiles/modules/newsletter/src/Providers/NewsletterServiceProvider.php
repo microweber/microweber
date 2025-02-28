@@ -31,7 +31,6 @@ class NewsletterServiceProvider extends PackageServiceProvider
         parent::boot();
 
 
-
 //        Livewire::component('admin-newsletter-subscribers-list', NewsletterSubscribersList::class);
 //        Livewire::component('admin-newsletter-choose-template-modal', NewsletterChooseTemplateModal::class);
 //        Livewire::component('admin-newsletter-process-campaigns-modal', NewsletterProcessCampaignsModal::class);
@@ -42,9 +41,7 @@ class NewsletterServiceProvider extends PackageServiceProvider
 
 //
 
-       // ModuleAdmin::registerAdminUrl('newsletter', admin_url('newsletter'));
-
-
+        // ModuleAdmin::registerAdminUrl('newsletter', admin_url('newsletter'));
 
 
     }
@@ -54,27 +51,23 @@ class NewsletterServiceProvider extends PackageServiceProvider
         parent::register();
 
 
+        //   $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
+        //   $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/web.php');
 
 
-
-
-        $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/admin.php');
-        $this->loadRoutesFrom((dirname(__DIR__)) . '/routes/web.php');
-
-
-    //    Event::listen(ServingFilament::class, function () {
-      //  });
-     //   FilamentRegistry::registerPage(TemplateEditor::class,NewsletterFilamentAdminPanelProvider::class);
+        //    Event::listen(ServingFilament::class, function () {
+        //  });
+        //   FilamentRegistry::registerPage(TemplateEditor::class,NewsletterFilamentAdminPanelProvider::class);
 //        ModuleAdmin::registerFilamentPage(Homepage::class);
 //        ModuleAdmin::registerFilamentPage(SenderAccounts::class);
 //        ModuleAdmin::registerFilamentPage(Templates::class);
 //        ModuleAdmin::registerFilamentPage(Subscribers::class);
 //        ModuleAdmin::registerFilamentPage(Lists::class);
 //        ModuleAdmin::registerFilamentPage(Campaigns::class);
-  //      ModuleAdmin::registerFilamentPage(TemplateEditor::class);
+        //      ModuleAdmin::registerFilamentPage(TemplateEditor::class);
 //       // ModuleAdmin::registerFilamentPage(CreateTemplate::class);
 //        ModuleAdmin::registerFilamentPage(CreateCampaign::class);
-      //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);
+        //  ModuleAdmin::registerPanelResource(SenderAccountResource::class);
 
 
     }

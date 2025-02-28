@@ -3,7 +3,7 @@
 namespace Modules\Newsletter\Livewire\Admin;
 
 use MicroweberPackages\Admin\Http\Livewire\AdminModalComponent;
-use MicroweberPackages\Modules\Newsletter\ImportSubscribersFileReader;
+use Modules\Newsletter\Services\ImportSubscribersFileReader;
 use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterSubscriberList;
