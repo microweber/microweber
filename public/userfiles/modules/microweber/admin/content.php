@@ -1,1 +1,0 @@
-<module type="content/backend" id="mw-content-backend" />

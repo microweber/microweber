@@ -482,13 +482,13 @@ class ModuleController extends Controller
         $res = $this->app->parser->process($tags, $opts);
         $res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
 
-        if ($embed != false) {
+   /*     if ($embed != false) {
             $p_index = mw_includes_path().'api/index.php';
             $p_index = normalize_path($p_index, false);
             $l = new \MicroweberPackages\View\View($p_index);
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
-        }
+        }*/
 
         $aj = $this->app->url_manager->is_ajax();
 
@@ -538,7 +538,7 @@ class ModuleController extends Controller
         return $this->module();
     }
 
-    public function editor_tools()
+/*    public function editor_tools()
     {
         if (!defined('IN_ADMIN')) {
             define('IN_ADMIN', true);
@@ -813,7 +813,7 @@ class ModuleController extends Controller
         //header("HTTP/1.0 404 Not Found");
         //$v = new \MicroweberPackages\View\View(MW_ADMIN_VIEWS_DIR . '404.php');
         //echo $v;
-    }
+    }*/
 
     public function robotstxt()
     {
@@ -856,7 +856,5 @@ class ModuleController extends Controller
         }
     }
 
-    public function __destruct()
-    {
-    }
+
 }

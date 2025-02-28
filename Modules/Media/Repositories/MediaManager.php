@@ -104,9 +104,7 @@ class MediaManager
 
     public function upload($data)
     {
-        if ($this->app->user_manager->is_admin() == false) {
-            mw_error('not logged in as admin');
-        }
+
         $files_utils = new Files();
 
 

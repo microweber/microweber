@@ -65,31 +65,19 @@ class AdminTemplateStyle
 
     public function getAdminTemplates()
     {
-        $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
-        $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
 
-        $dirs = scandir($themes_dir);
-        $templates = [];
-        if ($dirs) {
-            foreach ($dirs as $dir) {
-                if ($dir != '.' and $dir != '..') {
-                    if (is_file($themes_dir . $dir . '/_bootswatch.scss')) {
-                        $templates[] = $dir;
-                    }
-                }
-            }
-        }
-
-
-        return $templates;
+//todo
+        return [];
     }
 
     public function getAdminTemplateVars($theme)
     {
+        //todo
+        return [];
         if (!$theme) {
             return;
         }
-
+/*
         $ui_root_dir = mw_includes_path() . 'api/libs/mw-ui/';
         $themes_dir = $ui_root_dir . 'grunt/plugins/ui/css/bootswatch/themes/';
         $theme = sanitize_path($theme);
@@ -115,7 +103,7 @@ class AdminTemplateStyle
 
             }
             return $vars;
-        }
+        }*/
     }
 
     public function getLiveEditTemplateHeadHtml()

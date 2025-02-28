@@ -912,7 +912,7 @@ class MenuManager
         $params = parse_params($id);
 
         if (!isset($params['id'])) {
-            mw_error('Error: id param is required.');
+            return false;
         }
 
         $id = $params['id'];

@@ -150,11 +150,11 @@ class TemplateManager
         return $this->stylesheet_adapter->getStylesheet($path, $default_stylesheet, $cache);
     }
 
-
+/*
     public function get_apijs_url()
     {
         return $this->js_adapter->get_apijs_url();
-    }
+    }*/
 
 
     public function get_apijs_settings_url()
@@ -163,10 +163,7 @@ class TemplateManager
     }
 
 
-    public function get_liveeditjs_url()
-    {
-        return $this->js_adapter->get_liveeditjs_url();
-    }
+
 
 
     public function get_apijs_combined_url()

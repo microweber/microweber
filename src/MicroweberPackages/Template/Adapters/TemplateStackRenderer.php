@@ -85,8 +85,8 @@ class TemplateStackRenderer
         $html_out = '';
 
         $internals_js = array(
-            app()->template_manager->get_apijs_settings_url(),
-            app()->template_manager->get_apijs_url()
+         //   app()->template_manager->get_apijs_settings_url(),
+          //  app()->template_manager->get_apijs_url()
         );
 
         $css = array();

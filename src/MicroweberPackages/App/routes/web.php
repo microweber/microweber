@@ -124,19 +124,20 @@ Route::get('test-lang', function () {
 
 });
 */
+
 use  \Illuminate\Support\Facades\Route;
 
 
 Route::group([
-    'middleware' =>"web",
+    'middleware' => "web",
     //'middleware' => \MicroweberPackages\App\Http\Middleware\SessionlessMiddleware::class,
-   // 'namespace' => '\MicroweberPackages\App\Http\Controllers'
+    // 'namespace' => '\MicroweberPackages\App\Http\Controllers'
 ], function () {
-    Route::any('/apijs', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs');
-    Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs'))->where('all', '.*');
-    Route::any('/apijs_settings', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs_settings');
-    Route::any('/apijs_combined', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs_combined');
-    Route::any('/apijs_liveedit', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs_liveedit');
+    //Route::any('/apijs', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs');
+    Route::any('apijs/{all}', array('as' => 'apijs', 'uses' => \MicroweberPackages\App\Http\Controllers\JsCompileController::class . '@apijs'))->where('all', '.*');
+    Route::any('/apijs_settings', \MicroweberPackages\App\Http\Controllers\JsCompileController::class . '@apijs_settings');
+    Route::any('/apijs_combined', \MicroweberPackages\App\Http\Controllers\JsCompileController::class . '@apijs_combined');
+    //Route::any('/apijs_liveedit', \MicroweberPackages\App\Http\Controllers\JsCompileController::class.'@apijs_liveedit');
 
 
     Route::get('/api/set_app_lang', function () {
@@ -152,7 +153,7 @@ Route::group([
 
 });
 
-Route::get('login', '\MicroweberPackages\User\Http\Controllers\UserLoginController@loginForm')->name('login');
+Route::get('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@loginForm')->name('login');
 
 
 Route::post('/csrf-validate-token', function () {
@@ -180,7 +181,7 @@ Route::post('/csrf-validate-token', function () {
     'web',
     \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
     \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class,
-  //  \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
+    //  \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
     \MicroweberPackages\App\Http\Middleware\VerifyCsrfToken::class,
 ])->name('csrf-validate-token');
 
@@ -202,7 +203,7 @@ Route::post('/csrf', function () {
     'web',
     \MicroweberPackages\App\Http\Middleware\SameSiteRefererMiddleware::class,
     \MicroweberPackages\App\Http\Middleware\IsAjaxMiddleware::class,
- //   \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
+    //   \MicroweberPackages\App\Http\Middleware\EncryptCookies::class,
 
 ])->name('csrf');
 

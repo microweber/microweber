@@ -1,1 +1,0 @@
-<span style="color:#B3B3B3"> &nbsp;- - - - </span>

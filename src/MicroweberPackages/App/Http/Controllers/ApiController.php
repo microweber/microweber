@@ -1128,17 +1128,17 @@ class ApiController  extends FrontendController
         $res = $this->app->parser->process($tags, $opts);
         $res = preg_replace('~<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>\s*~i', '', $res);
 
-        if ($embed != false) {
+       /* if ($embed != false) {
             $p_index = mw_includes_path() . 'api/index.php';
             $p_index = normalize_path($p_index, false);
             $l = new View($p_index);
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
-        }
+        }*/
 
         $aj = app()->url_manager->is_ajax();
 
-        if ((isset($request_data['live_edit']) or isset($request_data['admin'])) and $aj == false) {
+    /*    if ((isset($request_data['live_edit']) or isset($request_data['admin'])) and $aj == false) {
             $p_index = mw_includes_path() . DS . 'toolbar' . DS . 'editor_tools' . DS . 'module_settings' . DS . 'index.php';
             $p_index = normalize_path($p_index, false);
             $l = new View($p_index);
@@ -1146,7 +1146,7 @@ class ApiController  extends FrontendController
             $layout = $l->__toString();
             $res = str_replace('{content}', $res, $layout);
             $res = $this->app->parser->process($res, $options = false);
-        }
+        }*/
 
         $res = app()->template_manager->process_stacks($res);
 

@@ -9,7 +9,7 @@ function userfiles_path()
 
 
     if (!$folder) {
-       // $folder = normalize_path(base_path() . DIRECTORY_SEPARATOR);
+        // $folder = normalize_path(base_path() . DIRECTORY_SEPARATOR);
         //if(MW_USERFILES_FOLDER_NAME){
         $folder = normalize_path(public_path() . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
         //  }
@@ -17,7 +17,9 @@ function userfiles_path()
 
     return $folder;
 }
-function userfiles_folder_name(){
+
+function userfiles_folder_name()
+{
     return MW_USERFILES_FOLDER_NAME;
 }
 
@@ -38,8 +40,6 @@ function userfiles_url()
 
     return $folder;
 }
-
-
 
 
 function modules_path()
@@ -88,11 +88,12 @@ function modules_url()
 
     return $folder;
 }
+
 function templates_dir()
 {
     static $folder;
     if (!$folder) {
-      //  $folder = (userfiles_path() . MW_TEMPLATES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+        //  $folder = (userfiles_path() . MW_TEMPLATES_FOLDER_NAME . DIRECTORY_SEPARATOR);
         $folder = (base_path('Templates') . DIRECTORY_SEPARATOR);
     }
 
@@ -104,7 +105,7 @@ function templates_dir()
  */
 function templates_path()
 {
-         return templates_dir();
+    return templates_dir();
 }
 
 function templates_url()
@@ -117,8 +118,8 @@ function templates_url()
 //            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
 //        }
 
-       // $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
-      //  $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
+        // $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
+        //  $folder = site_url(MW_USERFILES_FOLDER_NAME . '/' . MW_TEMPLATES_FOLDER_NAME . '/');
 
         $folder = site_url('templates' . '/');
     }
@@ -153,6 +154,7 @@ function mw_cache_path()
     return storage_path() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR;
 }
 
+/* @deprecated */
 function mw_includes_url()
 {
     static $folder;
@@ -163,11 +165,14 @@ function mw_includes_url()
     return $folder;
 }
 
+/* @deprecated */
 function mw_includes_path()
 {
     static $folder;
     if (!$folder) {
-        $folder = modules_path() . MW_SYSTEM_MODULE_FOLDER . '/';
+        // $folder = modules_path() . MW_SYSTEM_MODULE_FOLDER . '/';
+        $folder = base_path() . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'MicroweberPackages' . DIRECTORY_SEPARATOR . 'App' . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR;
+
     }
 
     return $folder;

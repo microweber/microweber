@@ -4,6 +4,7 @@ namespace MicroweberPackages\App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Response;
 use MicroweberPackages\Template\Adapters\RenderHelpers\CsrfTokenRequestInlineJsScriptGenerator;
 use MicroweberPackages\Template\Adapters\RenderHelpers\ZiggyInlineJsRouteGenerator;
 use MicroweberPackages\View\View;
@@ -38,7 +39,7 @@ class JsCompileController extends Controller
     }
 
 
-    public function apijs()
+    public function apijs111()
     {
         if (!defined('MW_NO_SESSION')) {
             define('MW_NO_SESSION', 1);
@@ -144,20 +145,20 @@ class JsCompileController extends Controller
 
         }
 
-        $response = \Response::make($l);
+        $response = Response::make($l);
 
         $response->header('Content-Type', 'application/javascript');
         return $response;
 
     }
 
-    public function apijs_combined_get_hash()
+    public function apijs_combined_get_hash(): string
     {
         $suffix = 'public';
         if (is_admin()) {
             $suffix = 'admin';
             if (defined('mw_admin_prefix_url()')) {
-                $suffix = 'admin_' . crc32(mw_admin_prefix_url_legacy());
+                $suffix = 'admin_' . crc32(admin_url());
             }
         }
         $hash = crc32(site_url() . template_dir() . current_lang()) . '.' . $suffix . '.' . MW_VERSION;
@@ -199,84 +200,14 @@ class JsCompileController extends Controller
             }
         }
 
-        $response = \Response::make($layout);
+        $response = Response::make($layout);
         $response->header('Content-Type', 'application/javascript');
 
         return $response;
     }
 
-    public function apijs_liveedit()
-    {
-        if (!defined('MW_NO_SESSION')) {
-            define('MW_NO_SESSION', 1);
-        }
 
-        $file = mw_includes_path() . 'api' . DS . 'liveedit.js';
-
-        $last_modified_time = $lastModified = filemtime($file);
-
-        $ifModifiedSince = (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
-        $etagHeader = (isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
-        if (defined('MW_VERSION')) {
-            $etag = md5(filemtime($file) . MW_VERSION);
-        } else {
-            $etag = filemtime($file);
-        }
-
-
-        $l = new View($file);
-
-        $l = $l->__toString();
-        $l = str_replace('{SITE_URL}', $this->app->url_manager->site(), $l);
-        $l = str_replace('{MW_SITE_URL}', $this->app->url_manager->site(), $l);
-        $l = str_replace('%7BSITE_URL%7D', $this->app->url_manager->site(), $l);
-
-
-        $compile_assets = $this->_should_compile_assets;   //$compile_assets =  \Config::get('microweber.compile_assets');
-        if ($compile_assets and defined('MW_VERSION')) {
-            $l = $this->minify_js($l);
-
-            $userfiles_dir = userfiles_path();
-            $hash = $this->apijs_combined_get_hash();
-            $userfiles_cache_dir = normalize_path($userfiles_dir . 'cache' . DS . 'apijs');
-            $userfiles_cache_filename = $userfiles_cache_dir . 'api.liveedit.' . $hash . '.js';
-            if (!is_file($userfiles_cache_filename)) {
-                if (!defined('MW_NO_OUTPUT_CACHE')) {
-                    define('MW_NO_OUTPUT_CACHE', true);
-                }
-                if (!is_dir($userfiles_cache_dir)) {
-                    mkdir_recursive($userfiles_cache_dir);
-                }
-                if (is_dir($userfiles_cache_dir)) {
-                    if (is_writable($userfiles_cache_filename)) {
-                        @file_put_contents($userfiles_cache_filename, $l);
-                    }
-                }
-            } else {
-                $fmd5 = md5_file($userfiles_cache_filename);
-                $fmd = md5($l);
-                if ($fmd5 != $fmd) {
-                    if (is_writable($userfiles_cache_filename)) {
-                        @file_put_contents($userfiles_cache_filename, $l);
-                    }
-                }
-            }
-        }
-
-        $response = \Response::make($l);
-        $response->header('Content-Type', 'application/javascript');
-        if (!$this->app->make('config')->get('app.debug')) {
-            // enable caching if in not in debug mode
-            $response->header('Etag', $etag);
-            $response->header('Last-Modified', gmdate('D, d M Y H:i:s', $last_modified_time) . ' GMT');
-            $response->setTtl(30);
-        }
-
-        return $response;
-    }
-
-
-    public function get_apijs_url()
+/*    public function get_apijs_url()
     {
 
      // return public_asset('public/vendor/microweber-packages/frontend-assets/js/core.js');
@@ -294,7 +225,7 @@ class JsCompileController extends Controller
         }
 
         return $url;
-    }
+    }*/
 
 
     public function get_apijs_settings_url()
@@ -305,11 +236,11 @@ class JsCompileController extends Controller
 
         if ($compile_assets and defined('MW_VERSION')) {
             $userfiles_dir = userfiles_path();
-            $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
-            $mtime = false;
-            if (is_file($file)) {
-                $mtime = filemtime($file);
-            }
+         //   $file = mw_includes_path() . 'api' . DS . 'api_settings.js';
+//            $mtime = false;
+//            if (is_file($file)) {
+//                $mtime = filemtime($file);
+//            }
 
             $hash = $this->apijs_combined_get_hash();
 

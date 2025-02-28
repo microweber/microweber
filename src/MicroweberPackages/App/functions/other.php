@@ -625,15 +625,10 @@ function captcha($params = false)
 //	return Microweber\Utils\Captcha::url($params);
 //}
 
-function mw_error($e, $f = false, $l = false)
+function mw_error($e)
 {
-    $f = mw_includes_path() . 'error.php';
-
-    $v = new \MicroweberPackages\View\View($f);
-    $v->e = $e;
-    $v->f = $f;
-    $v->l = $l;
-    die($v);
+    print $e;
+    exit(1);
 }
 
 api_expose_admin('mw_composer_save_package');
