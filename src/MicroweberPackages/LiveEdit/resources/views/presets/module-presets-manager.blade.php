@@ -193,8 +193,8 @@
                 <h5>Edit Preset</h5>
                 <form wire:submit.prevent="submit">
                     <div class="mb-3">
-                        <label for="preset-name" class="form-label">Preset Name</label>
-                        <input type="text" class="form-control" id="preset-name" wire:model.defer="itemState.name"
+                        <label for="preset-name mb-2" class="form-label d-block mb-2">Preset Name</label>
+                        <input type="text" class="form-control w-100" @style(['border-color: #cdcdcd']) id="preset-name" wire:model.defer="itemState.name"
                                required>
                         @error('itemState.name') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
