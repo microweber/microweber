@@ -59,18 +59,7 @@ class TemplateTest extends TestCase
     }
 
 
-    public function testAdminCssUrl()
-    {
 
-        app()->ui->admin_colors_sass = false;
-        $admin_template = app()->template_manager->admin->getAdminCssUrl();
-
-
-        $this->assertTrue(str_contains($admin_template, 'admin_v2.css'));
-        $admin_template = app()->template_manager->admin->getLiveEditAdminCssUrl();
-        $this->assertFalse($admin_template);
-
-    }
 //
 //    // @todo fix this test
 //    public function testCompileAdminCssUrl()

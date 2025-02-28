@@ -9,9 +9,6 @@
     <?php get_favicon_tag(); ?>
     <meta name="robots" content="noindex">
 
-    <link type="text/css" rel="stylesheet" media="all" href="<?php print mw_includes_url(); ?>default.css"/>
-    <link type="text/css" rel="stylesheet" media="all"
-          href="<?php print(app()->template_manager->get_admin_system_ui_css_url()); ?>"/>
 
     <script src="<?php print(app()->template_manager->get_apijs_combined_url()); ?>"></script>
 

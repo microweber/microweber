@@ -14,8 +14,7 @@
     </script>
 
 
-    <link rel="stylesheet" href="<?php print mw_includes_url(); ?>css/fonts/fonts.css">
-     <?php print mw_admin_header_scripts() ;    ?>
+      <?php print mw_admin_header_scripts() ;    ?>
 
     <script type="text/javascript">
 
@@ -65,8 +64,7 @@
                 }
             });
         });
-        // mw.require("<?php print mw_includes_url(); ?>css/ui.css");
-        mw.require("fonts.js");
+         mw.require("fonts.js");
 
 
     </script>
