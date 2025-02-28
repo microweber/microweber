@@ -151,7 +151,12 @@
 
             }
         ],
-
+        nouislider: [
+            function () {
+                mw.require(mw.settings.libs_url + 'nouislider/nouislider.js');
+                mw.require(mw.settings.libs_url + 'nouislider/nouislider.css');
+            }
+        ],
 
 
     };

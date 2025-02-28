@@ -206,6 +206,18 @@
                 mw.require(mw.settings.libs_url + 'easymde/easymde.min.css');
             }
         ],
+
+        nouislider: [
+            function () {
+                mw.require(mw.settings.libs_url + 'nouislider/nouislider.js');
+                mw.require(mw.settings.libs_url + 'nouislider/nouislider.css');
+            }
+        ],
+
+
+
+
+
         "async-alpine": [
             function () {
                 mw.require(mw.settings.libs_url + 'async-alpine/async-alpine.script.js');
