@@ -17,9 +17,9 @@ Route::name('web.newsletter.')
             $redirectTo = urldecode($redirectTo);
 
             if ($campaignId) {
-                $findCampaign = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
+                $findCampaign = \Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
                 if ($findCampaign) {
-                    $newsletterCampaignClickedLink = new \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignClickedLink();
+                    $newsletterCampaignClickedLink = new \Modules\Newsletter\Models\NewsletterCampaignClickedLink();
                     $newsletterCampaignClickedLink->campaign_id = $campaignId;
                     $newsletterCampaignClickedLink->email = $requestEmail;
                     $newsletterCampaignClickedLink->ip = $requestIp;
@@ -36,9 +36,9 @@ Route::name('web.newsletter.')
 
             $campaignId = request()->get('campaign_id');
             if ($campaignId) {
-                $findCampaign = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
+                $findCampaign = \Modules\Newsletter\Models\NewsletterCampaign::where('id', $campaignId)->first();
                 if ($findCampaign) {
-                    $newsletterCampaignPixel = new \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaignPixel();
+                    $newsletterCampaignPixel = new \Modules\Newsletter\Models\NewsletterCampaignPixel();
                     $newsletterCampaignPixel->campaign_id = $campaignId;
                     $newsletterCampaignPixel->email = request()->get('email');
                     $newsletterCampaignPixel->ip = request()->ip();

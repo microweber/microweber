@@ -2,7 +2,7 @@
 namespace MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
+use Modules\Newsletter\Models\NewsletterTemplate;
 
 class AdminController extends \MicroweberPackages\Admin\Http\Controllers\AdminController {
 

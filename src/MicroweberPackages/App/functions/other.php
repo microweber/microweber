@@ -687,30 +687,6 @@ if (!function_exists('titlelize')) {
 }
 
 
-/**
- * Shows a section of the help file.
- *
- * @internal its used on the help in the admin
- */
-function show_help($section = 'main')
-{
-    $lang = current_lang();
-
-    $lang = sanitize_path($lang);
-    if (trim($lang) == '') {
-        $lang = 'en';
-    }
-
-    $lang_file = mw_includes_path() . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
-    $lang_file_en = mw_includes_path() . 'help' . DIRECTORY_SEPARATOR . $lang . '.php';
-    $lang_file = normalize_path($lang_file, false);
-
-    if (is_file($lang_file)) {
-        include $lang_file;
-    } elseif (is_file($lang_file_en)) {
-        return $lang_file_en;
-    }
-}
 
 
 function get_date_format()

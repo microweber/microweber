@@ -8,7 +8,7 @@ api_expose_admin('newsletter_get_template');
 function newsletter_get_template($data) {
     $data = ['id' => $data['id'], 'single' => true];
 
-    $findNewsletterTemplate = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::where('id', $data['id'])->first();
+    $findNewsletterTemplate = \Modules\Newsletter\Models\NewsletterTemplate::where('id', $data['id'])->first();
     if ($findNewsletterTemplate) {
         return $findNewsletterTemplate->toArray();
     }
@@ -34,7 +34,7 @@ function newsletter_delete_template($params) {
 api_expose('newsletter_get_templates');
 function newsletter_get_templates() {
 
-    $getTemplates = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::query();
+    $getTemplates = \Modules\Newsletter\Models\NewsletterTemplate::query();
     $getTemplates = $getTemplates->orderBy('id', 'desc');
     $getTemplates = $getTemplates->get();
 

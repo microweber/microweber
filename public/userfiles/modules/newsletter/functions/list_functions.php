@@ -31,7 +31,7 @@ api_expose('newsletter_delete_list');
 function newsletter_delete_list($params) {
 	if (isset($params['id'])) {
 
-        $list = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSubscriberList::where('list_id', $params['id'])->first();
+        $list = \Modules\Newsletter\Models\NewsletterSubscriberList::where('list_id', $params['id'])->first();
         if ($list) {
             $list->delete();
         }
