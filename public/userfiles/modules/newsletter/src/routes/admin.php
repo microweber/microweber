@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign;
-use MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount;
-use MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate;
-use MicroweberPackages\Modules\Newsletter\Senders\NewsletterMailSender;
+use Modules\Newsletter\Models\NewsletterCampaign;
+use Modules\Newsletter\Models\NewsletterSenderAccount;
+use Modules\Newsletter\Models\NewsletterTemplate;
+use Modules\Newsletter\Senders\NewsletterMailSender;
 
 Route::name('admin.newsletter.')
     ->prefix(mw_admin_prefix_url() . '/modules/newsletter')
@@ -25,7 +25,7 @@ Route::name('admin.newsletter.')
 
         Route::get('/templates/preview/{id}', function ($id) {
 
-            $template = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::find($id);
+            $template = \Modules\Newsletter\Models\NewsletterTemplate::find($id);
             if (!$template) {
                 return;
             }
@@ -37,7 +37,7 @@ Route::name('admin.newsletter.')
         Route::get('/preview-campaign-email', function() {
 
             $newsletterCampaignId = request()->get('id');
-            $campaign = \MicroweberPackages\Modules\Newsletter\Models\NewsletterCampaign::where('id', $newsletterCampaignId)->first();
+            $campaign = \Modules\Newsletter\Models\NewsletterCampaign::where('id', $newsletterCampaignId)->first();
             if (!$campaign) {
                 return;
             }
@@ -67,7 +67,7 @@ Route::name('admin.newsletter.')
         Route::get('/preview-email-template-saved', function() {
 
             $templateId = request()->get('id');
-            $emailTemplate = \MicroweberPackages\Modules\Newsletter\Models\NewsletterTemplate::where('id', $templateId)->first();
+            $emailTemplate = \Modules\Newsletter\Models\NewsletterTemplate::where('id', $templateId)->first();
             if (!$emailTemplate) {
                 return;
             }
@@ -98,7 +98,7 @@ Route::name('admin.newsletter.')
 //                return;
 //            }
 
-            $render = new \MicroweberPackages\Modules\Newsletter\EmailTemplateRendering\Render();
+            $render = new \Modules\Newsletter\EmailTemplateRendering\Render();
             $templateHtml = $render->html($templateJson);
 
             return view('microweber-module-newsletter::email-templates.preview', [

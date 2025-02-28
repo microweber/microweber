@@ -6,7 +6,7 @@
 api_expose_admin('newsletter_get_sender');
 function newsletter_get_sender($data) {
 
-    $query = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount::query();
+    $query = \Modules\Newsletter\Models\NewsletterSenderAccount::query();
     if (isset($data['id'])) {
         $query->where('id', $data['id']);
     }
@@ -21,7 +21,7 @@ function newsletter_get_sender($data) {
 api_expose_admin('newsletter_get_senders');
 function newsletter_get_senders() {
 
-    $get = \MicroweberPackages\Modules\Newsletter\Models\NewsletterSenderAccount::all();
+    $get = \Modules\Newsletter\Models\NewsletterSenderAccount::all();
     if ($get) {
         return $get->toArray();
     }

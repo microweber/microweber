@@ -146,7 +146,7 @@ trait LiveEditTrait
         $layoutToolbar = $layoutToolbar->__toString();
 
         if ($layoutToolbar != '') {
-            $layoutToolbar = app()->parser->process($layoutToolbar);
+         //   $layoutToolbar = app()->parser->process($layoutToolbar);
             $c = 1;
             $html = str_ireplace('</body>', $layoutToolbar . '</body>', $html, $c);
         }
