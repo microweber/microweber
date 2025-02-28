@@ -15,6 +15,8 @@ class BlogComponent extends Component
     public $postsPerPage = 10;
     public $layout = 'grid';
     public $moduleType = 'blog';
+    public $moduleTemplateNamespace = 'modules.blog::livewire.blog';
+    public $template = 'default';
     public $showCategories = true;
     public $showTags = true;
     public $search = '';
@@ -24,6 +26,16 @@ class BlogComponent extends Component
     public $sortOrder = 'desc';
     public $limit = 10;
     public $activeFilters = [];
+
+    protected $queryString = [
+        'search',
+        'selectedCategory',
+        'selectedTags',
+        'sortBy',
+        'sortOrder',
+        'limit',
+        'template'
+    ];
 
     public function mount($moduleId = null)
     {
@@ -137,7 +149,12 @@ class BlogComponent extends Component
     {
         $posts = $this->getPosts();
 
-        return view('modules.blog::livewire.blog.index', [
+        $viewName = $this->moduleTemplateNamespace . '.' . $this->template;
+        if (!view()->exists($viewName)) {
+            $viewName = $this->moduleTemplateNamespace . '.default';
+        }
+
+        return view($viewName, [
             'posts' => $posts,
             'total' => $posts->total(),
             'count' => $posts->count(),
