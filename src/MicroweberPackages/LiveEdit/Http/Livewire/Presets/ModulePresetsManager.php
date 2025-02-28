@@ -84,7 +84,6 @@ class ModulePresetsManager extends AdminComponent
         ];
 
 
-
         if (isset($this->itemState['id'])) {
             $savePreset['id'] = $this->itemState['id'];
         }
@@ -95,7 +94,7 @@ class ModulePresetsManager extends AdminComponent
         $this->dispatch('settingsChanged', [
             'moduleId' => $this->moduleId,
             'moduleType' => $this->moduleType,
-         ]);
+        ]);
 
         return $this->render();
     }
@@ -138,25 +137,26 @@ class ModulePresetsManager extends AdminComponent
         ];
 
 
-
         return $this->submit();
     }
 
-    public function removeSelectedPresetForModule($applyToModuleId)
+    public function removeSelectedPresetForModule($moduleId)
     {
+        $applyToModuleId = $moduleId;
+
+
         // Handle both direct ID and object with moduleId property
         $moduleId = is_array($applyToModuleId) && isset($applyToModuleId['moduleId']) ? $applyToModuleId['moduleId'] : $applyToModuleId;
 
         $this->moduleIdFromPreset = '';
         $this->selectedPreset = [];
-        $this->dispatch('removeSelectedPresetForModule', ['moduleId' => $moduleId]);
+        $this->dispatch('removeSelectedPresetForModule', moduleId: $moduleId);
     }
 
     public function selectPresetForModule($id)
     {
         // Handle both direct ID and object with ID property
         $presetId = is_array($id) && isset($id['id']) ? $id['id'] : $id;
-
 
 
         $applyToModuleId = $this->moduleId;
@@ -169,9 +169,8 @@ class ModulePresetsManager extends AdminComponent
                     $this->moduleIdFromPreset = $preset['module_id'];
 
 
-
                     $this->dispatch('applyPreset',
-                        moduleId :$applyToModuleId,
+                        moduleId: $applyToModuleId,
                         preset: $preset
                     );
                     break;
