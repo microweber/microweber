@@ -78,17 +78,15 @@ export default {
                             return false;
                         }
 
-
                         return true;
                     },
                     onHover: function (e, target, node, element) {
 
                     },
                     onSelect: (e, target, node, element) => {
+
                         targetMW.app.dispatch('mw.elementStyleEditor.selectNode', node);
-                        if (node.ownerDocument.defaultView.mw) {
-                            node.ownerDocument.defaultView.mw.tools.scrollTo(node, false, 100);
-                        }
+                        node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
 
                     }
            });

@@ -94,7 +94,7 @@ const assets = [
     },
 
     {
-        target: `mdi/font`,
+        target: `mdi/fonts`,
         path: [
             `node_modules/@mdi/font/fonts`,
 

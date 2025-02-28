@@ -1,4 +1,6 @@
 
+
+
 mw.DomTree = function (options) {
     var scope = this;
 
@@ -16,6 +18,7 @@ mw.DomTree = function (options) {
 
     this.getNodeIconAndTitle = function (node) {
         var icon = false;
+
         var title = false;
         if (mw.tools.hasClass(node, 'row')) {
             title = "Row";
@@ -68,9 +71,17 @@ mw.DomTree = function (options) {
             title = "Icon";
             icon = '<span class="mdi mdi-emoticon-wink-outline mdi-18px"></span>';
         }
+
+
+        if(!title) {
+            title = node.nodeName.toLowerCase();
+        }
+
         var data = {};
+
         data.icon = icon;
         data.title = title;
+
         return data;
     },
         this.prepare = function () {
@@ -89,9 +100,11 @@ mw.DomTree = function (options) {
                         }
                     },
                     {
-                        label: function (node) {
+                        label:   function (node) {
                             if (mw.top().app.modules) {
-                                var info = mw.top().app.modules.getModuleInfo(node.getAttribute('data-type'));
+                                var info =   mw.top().app.modules.getModuleInfo(node.getAttribute('data-type'));
+
+
                                 var display = '';
                                 if (info && info.name) {
                                     display = info.name;
@@ -120,12 +133,7 @@ mw.DomTree = function (options) {
                             return mw.tools.hasClass(node, 'module');
                         }
                     },
-                    // {
-                    //     label: 'Image',
-                    //     test: function (node) {
-                    //         return node.nodeName === 'IMG';
-                    //     }
-                    // },
+
                     {
                         label: function (node) {
 
@@ -174,6 +182,10 @@ mw.DomTree = function (options) {
     };
 
     this.select = function (node) {
+        if(node && node.id && node.parentNode && node.ownerDocument) {
+            // in case dom is modified from the state manager
+            node = node.ownerDocument.getElementById(node.id)
+        }
         var el = this.getByNode(node);
         if (el) {
             this.selected(el);
@@ -374,11 +386,12 @@ mw.DomTree = function (options) {
 
         return display;
     };
-    this.getComponentLabel = function (node) {
+    this.getComponentLabel =  function (node) {
         var all = this.settings.componentMatch, i = 0;
         for (; i < all.length; i++) {
+
             if (all[i].test(node)) {
-                return typeof all[i].label === 'string' ? all[i].label : all[i].label.call(this, node);
+                return typeof all[i].label === 'string' ? all[i].label :   all[i].label.call(this, node);
             }
         }
     };
@@ -461,10 +474,23 @@ mw.DomTree = function (options) {
                 axis: 'y',
                 items: "> li",
                 containment: "parent",
+                start: ( event, ui ) => {
+                    const node = ui.item.get(0);
+                    this.dispatch('sortStart', {
+                        node,
+                        target: node._value,
+
+                    });
+                },
                 update: ( event, ui ) => {
                     const node = ui.item.get(0);
+                    const parent = mw.tools.firstParentWithTag(node, 'li');
                     this.dispatch('sort', {
-                        node, target: node._value
+                        node,
+                        target: node._value,
+                        targetPrev: node.previousElementSibling?._value,
+                        targetNext: node.nextElementSibling?._value,
+                        targetParent: parent ? parent._value : null,
                     });
                 },
             })
