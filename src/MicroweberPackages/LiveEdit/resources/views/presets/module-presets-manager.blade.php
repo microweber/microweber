@@ -118,7 +118,7 @@
     </script>
 
     <!-- Main View -->
-    <div class="preset-manager-container">
+    <div class="preset-manager-container p-5">
         <!-- Save as preset button -->
         @if($isAlreadySavedAsPreset)
             <div class="alert alert-info mb-4">
@@ -127,7 +127,7 @@
                 preset from the list.
             </div>
         @else
-            <button class="btn btn-primary mb-4" type="button" onclick="saveModuleAsPreset()">
+            <button class="btn btn-outline-primary mb-4" type="button" onclick="saveModuleAsPreset()">
                 Save as preset
             </button>
         @endif
@@ -144,12 +144,12 @@
                             if(!$itemId) continue;
                         @endphp
 
-                        <div class="list-group-item d-flex justify-content-between align-items-center p-3 mb-2">
+                        <div class="list-group-item d-flex justify-content-between align-items-center mb-2">
                             <div class="preset-info" onclick="editPreset('{{ $itemId }}')">
-                                <strong>{{ $item['name'] ?? 'Unnamed Preset' }}</strong>
+                                <span>{{ $item['name'] ?? 'Unnamed Preset' }}</strong>
                             </div>
 
-                            <div class="preset-actions d-flex gap-2">
+                            <div class="preset-actions d-flex align-items-center gap-2">
                                 <!-- Delete button -->
                                 <button class="btn btn-sm btn-outline-danger"
                                         onclick="confirmDeletePreset('{{ $itemId }}')">
@@ -169,7 +169,7 @@
                                         Clear preset
                                     </button>
                                 @elseif($moduleId == $item['module_id'])
-                                    <span class="badge bg-success">Current module</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="14px" viewBox="0 -960 960 960" width="14px" fill="currentColor"><path d="M640-80 240-480l400-400 71 71-329 329 329 329-71 71Z"/></svg>
                                 @else
                                     <button class="btn btn-sm btn-primary"
                                             onclick="selectPresetForModule('{{ $itemId }}', '{{ $moduleId }}')">
