@@ -1,0 +1,30 @@
+{
+    "name": "modules/pagination",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Pagination\\": "",
+            "Modules\\Pagination\\Database\\Factories\\": "database/factories/",
+            "Modules\\Pagination\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Pagination\\Tests\\": "Tests/"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Pagination",
+    "alias": "pagination",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Pagination\\Providers\\PaginationServiceProvider"
+    ],
+    "files": []
+}
