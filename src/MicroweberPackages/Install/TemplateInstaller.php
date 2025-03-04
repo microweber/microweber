@@ -14,21 +14,43 @@ use Modules\Restore\Restore;
 class TemplateInstaller
 {
     public $logger = null;
+    public $installDefaultContent = null;
+    public $selectedTemplate = null;
     public $language = 'en';
 
-    public function setLanguage($abr) {
+    public function setLanguage($abr)
+    {
         $this->language = $abr;
     }
+
+    public function setInstallDefaultContent($installDefaultContent)
+    {
+        $this->installDefaultContent = $installDefaultContent;
+    }
+
+    public function setSelectedTemplate($selectedTemplate)
+    {
+        $this->selectedTemplate = $selectedTemplate;
+    }
+
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
+    }
+
 
     public function run()
     {
         $this->log('Performing template install');
+        $this->log('Installing template: ' . $this->selectedTemplate);
 
-        $selected_template = Config::get('microweber.install_default_template');
-        $default_content = Config::get('microweber.install_default_template_content');
+        $selected_template = $this->selectedTemplate ? $this->selectedTemplate : Config::get('microweber.install_default_template');
+        $default_content = $this->installDefaultContent ? $this->installDefaultContent : Config::get('microweber.install_default_content');
         $this->setDefaultTemplate($selected_template);
         $create_default_fallback = false;
         if ($default_content) {
+
+            $this->log('Installing default content for template: ' . $selected_template);
             $have = $this->installTemplateContent($selected_template);
             if ($have == false) {
                 $create_default_fallback = true;
@@ -87,7 +109,7 @@ class TemplateInstaller
         }
 
         if (is_file($default_content_file)) {
-           // ob_start();
+            // ob_start();
             $sessionId = SessionStepper::generateSessionId(1);
             $manager = new Restore();
             $manager->setSessionId($sessionId);
@@ -103,10 +125,10 @@ class TemplateInstaller
             }
             $manager->start();
 
-           // ob_get_clean();
-        	return true;
+            // ob_get_clean();
+            return true;
         } else {
-        	return false;
+            return false;
         }
     }
 

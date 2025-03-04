@@ -474,11 +474,21 @@ class InstallController extends Controller
                         }
                         // $isPublicStorageExists = is_dir(public_path('storage'));
                         if (is_dir(public_path('storage')) && !is_link(public_path('storage'))) {
-                            rename(public_path('storage'), public_path('storage_backup'));
+                            //rename(public_path('storage'), public_path('storage_backup'));
                         }
                         if (!is_link(public_path('storage'))) {
                             $this->log('Linking storage');
-                            @symlink(storage_path('app/public'), public_path('storage'));
+                            $output = new BufferedOutput();
+                            $output->setDecorated(false);
+                            try {
+                                Artisan::call('storage:link', [], $output);
+
+                                $this->log($output->fetch());
+                            } catch (\Exception $e) {
+                                $this->log('Error linking storage');
+                            }
+
+                            // @symlink(storage_path('app/public'), public_path('storage'));
                         }
                     }
 
@@ -518,6 +528,13 @@ class InstallController extends Controller
                     $installer = new Install\TemplateInstaller();
                     if (isset($input['site_lang'])) {
                         $installer->setLanguage($input['site_lang']);
+                    }
+                    $installer->setLogger($this);
+                    if (isset($input['default_template']) and $input['default_template']) {
+                        $installer->setSelectedTemplate($input['default_template']);
+                    }
+                    if (isset($input['with_default_content']) and $input['with_default_content']) {
+                        $installer->setInstallDefaultContent($input['with_default_content']);
                     }
                     $installer->logger = $this;
                     $installer->run();
