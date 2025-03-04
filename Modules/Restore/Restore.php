@@ -195,11 +195,11 @@ class Restore
                 return $readedData;
             }
 
-            $this->logger->setLogInfo('Reading data from file ' . basename($this->file));
+            $this->log('Reading data from file ' . basename($this->file));
 
             if (!empty($readedData)) {
                 $successMessages = count($readedData, COUNT_RECURSIVE) . ' items are read.';
-                $this->logger->setLogInfo($successMessages);
+                $this->log($successMessages);
                 return array(
                     'success' => $successMessages,
                     'imoport_type' => $this->type,
@@ -209,7 +209,7 @@ class Restore
         }
 
         $formatNotSupported = 'Restore format not supported';
-        $this->logger->setLogInfo($formatNotSupported);
+        $this->log($formatNotSupported);
 
         throw new \Exception($formatNotSupported);
     }
@@ -217,7 +217,7 @@ class Restore
     public function readContent()
     {
         if (SessionStepper::isFirstStep()) {
-            $this->logger->setLogInfo('Start importing session..');
+            $this->log('Start importing session..');
         }
 
         return $this->restoreAsType($this->file);
@@ -263,6 +263,15 @@ class Restore
         }
 
         return $readyTables;
+    }
+
+    public function log($msg)
+    {
+        if ($this->logger and method_exists($this->logger, 'setLogInfo')) {
+            $this->logger->setLogInfo($msg);
+        } else if ($this->logger and method_exists($this->logger, 'info')) {
+            $this->logger->info($msg);
+        }
     }
 
 }

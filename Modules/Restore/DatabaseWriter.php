@@ -106,7 +106,7 @@ class DatabaseWriter
         if ($this->overwriteById) {
             if (isset($item['price'])) {
                 $itemIdDatabase = DatabaseSave::saveProduct($item);
-                $this->logger->setLogInfo('Saving product.. item id: ' . $itemIdDatabase);
+                $this->log('Saving product.. item id: ' . $itemIdDatabase);
 
                 return array('item' => $item, 'itemIdDatabase' => $itemIdDatabase);
             }
@@ -118,10 +118,10 @@ class DatabaseWriter
                 $findUser = DB::table($item['save_to_table'])->where('email', $item['email'])->first();
                 $findUserByUsername = DB::table($item['save_to_table'])->where('username', $item['username'])->first();
                 if ($findUser) {
-                    $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  User email: ' . $findUser->email);
+                    $this->log('Skip overwriting "' . $item['save_to_table'] . '"  User email: ' . $findUser->email);
                     return array('item' => $item, 'itemIdDatabase' => $findUser->id);
                 } elseif ($findUserByUsername) {
-                    $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  Username: ' . $findUserByUsername->username);
+                    $this->log('Skip overwriting "' . $item['save_to_table'] . '"  Username: ' . $findUserByUsername->username);
                     return array('item' => $item, 'itemIdDatabase' => $findUserByUsername->id);
                 } else {
                     $findUserIsAdmin = DB::table($item['save_to_table'])
@@ -129,14 +129,14 @@ class DatabaseWriter
                         ->where('id', $item['id'])
                         ->first();
                     if ($findUserIsAdmin) {
-                        $this->logger->setLogInfo('Skip overwriting "' . $item['save_to_table'] . '"  User is admin: ' . $findUserIsAdmin->email);
+                        $this->log('Skip overwriting "' . $item['save_to_table'] . '"  User is admin: ' . $findUserIsAdmin->email);
                         return array('item' => $item, 'itemIdDatabase' => $findUserIsAdmin->id);
                     }
                 }
             }
 
             $itemIdDatabase = DatabaseSave::save($item['save_to_table'], $item);
-            $this->logger->setLogInfo('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
+            $this->log('Saving in table "' . $item['save_to_table'] . '"  Item id: ' . $itemIdDatabase);
 
             return array('item' => $item, 'itemIdDatabase' => $itemIdDatabase);
         }
@@ -225,9 +225,9 @@ class DatabaseWriter
 
         $checkItemIsExists = db_get($item['save_to_table'], $dbSelectParams);
         if ($checkItemIsExists) {
-            $this->logger->setLogInfo('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+            $this->log('Update item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
         } else {
-            $this->logger->setLogInfo('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
+            $this->log('Save item ' . $this->_getItemFriendlyName($item) . ' in ' . $item['save_to_table']);
         }
 
         $saveItem = $this->_unsetItemFields($item);
@@ -297,24 +297,24 @@ class DatabaseWriter
         try {
             DB::beginTransaction();
 
-            $this->logger->clearLog();
+            $this->clearLog();
             $this->_deleteOldCssFiles();
             $this->_deleteOldContent();
 
 
             if (isset($this->content->__table_structures)) {
-                $this->logger->setLogInfo('Building database tables');
+                $this->log('Building database tables');
 
                 app()->database_manager->build_tables($this->content->__table_structures);
             }
             $success = array();
             foreach ($this->content as $table => $items) {
 
-                if (!\Schema::hasTable($table)) {
+                if (!Schema::hasTable($table)) {
                     continue;
                 }
 
-                $this->logger->setLogInfo('Importing in table: ' . $table);
+                $this->log('Importing in table: ' . $table);
 
                 if (!empty($items)) {
                     foreach ($items as $item) {
@@ -341,11 +341,11 @@ class DatabaseWriter
 
         if ($currentStep == 1) {
             // Clear old log file
-            $this->logger->clearLog();
+            $this->clearLog();
             $this->_deleteOldContent();
         }
 
-        $this->logger->setLogInfo('Importing database batch: ' . $currentStep . '/' . $totalSteps);
+        $this->log('Importing database batch: ' . $currentStep . '/' . $totalSteps);
 
         if (empty($this->content)) {
             $this->_finishUp('runWriterWithBatchNothingToImport');
@@ -371,17 +371,17 @@ class DatabaseWriter
                     $item['save_to_table'] = $table;
                     if (isset($item['content_type']) && $item['content_type'] == 'page') {
                         $topItemsForSave[] = $item;
-                    }  else if (isset($item['content_type']) && $item['content_type'] == 'users') {
+                    } else if (isset($item['content_type']) && $item['content_type'] == 'users') {
                         $lastItemsForSave[] = $item;
                     } else {
                         $otherItemsForSave[] = $item;
                     }
                 }
             }
-            $this->logger->setLogInfo('Prepare content for table: ' . $table);
+            $this->log('Prepare content for table: ' . $table);
         }
 
-        $itemsForSave = array_merge($topItemsForSave, $otherItemsForSave,$lastItemsForSave);
+        $itemsForSave = array_merge($topItemsForSave, $otherItemsForSave, $lastItemsForSave);
 
         if (!empty($itemsForSave)) {
 
@@ -402,7 +402,7 @@ class DatabaseWriter
             }
 
             if (SessionStepper::isFinished() && !isset($itemsBatch[$selectBatch])) {
-                $this->logger->setLogInfo('No items in batch for current step.');
+                $this->log('No items in batch for current step.');
                 $this->_finishUp();
                 return array("success" => "Done! All steps are finished.");
             }
@@ -411,10 +411,10 @@ class DatabaseWriter
             foreach ($itemsBatch[$selectBatch] as $item) {
                 try {
                     $success[] = $this->_saveItem($item);
-                    $this->logger->setLogInfo('Save content to table: ' . $item['save_to_table']);
+                    $this->log('Save content to table: ' . $item['save_to_table']);
                 } catch (\Exception $e) {
-                    $this->logger->setLogInfo('Error when save in table: ' . $item['save_to_table']);
-                    $this->logger->setLogInfo($e->getMessage());
+                    $this->log('Error when save in table: ' . $item['save_to_table']);
+                    $this->log($e->getMessage());
                 }
             }
 
@@ -425,8 +425,13 @@ class DatabaseWriter
 
     public function getRestoreLog()
     {
-        $logContent = $this->logger->getLog();
-        $logContent = str_replace("\n", "<br>", $logContent);
+        $logContent = '';
+        if($this->logger and method_exists($this->logger, 'getLog')) {
+            $logContent = $this->logger->getLog();
+            $logContent = str_replace("\n", "<br>", $logContent);
+        }
+
+
 
         $log = array();
         $log['current_step'] = SessionStepper::currentStep();
@@ -445,7 +450,7 @@ class DatabaseWriter
             // Finish up
             $this->_finishUp('getRestoreLog');
             // Clear log file
-            $this->logger->clearLog();
+            $this->clearLog();
         }
 
         return $log;
@@ -475,11 +480,11 @@ class DatabaseWriter
                         continue;
                     }
                     if (Schema::hasTable($table)) {
-                        $this->logger->setLogInfo('Truncate table: ' . $table);
+                        $this->log('Truncate table: ' . $table);
                         try {
                             DB::table($table)->truncate();
                         } catch (\Exception $e) {
-                            $this->logger->setLogInfo('Can\'t truncate table: ' . $table);
+                            $this->log('Can\'t truncate table: ' . $table);
                         }
                     }
                 }
@@ -493,19 +498,36 @@ class DatabaseWriter
     private function _finishUp($callFrom = '')
     {
 
-        $this->logger->setLogInfo('Call from: ' . $callFrom);
+        $this->log('Call from: ' . $callFrom);
 
         if (function_exists('mw_post_update')) {
             mw_post_update();
         }
 
-        $this->logger->setLogInfo('Cleaning up system cache');
+        $this->log('Cleaning up system cache');
 
         mw()->cache_manager->clear();
 
         $zipReader = new ZipReader();
         $zipReader->clearCache();
 
-        $this->logger->setLogInfo('Done!');
+        $this->log('Done!');
+    }
+
+
+    public function log($msg)
+    {
+        if ($this->logger and method_exists($this->logger, 'setLogInfo')) {
+            $this->logger->setLogInfo($msg);
+        } else if ($this->logger and method_exists($this->logger, 'info')) {
+            $this->logger->info($msg);
+        }
+    }
+
+    public function clearLog()
+    {
+        if ($this->logger and method_exists($this->logger, 'clearLog')) {
+            $this->logger->clearLog();
+        }
     }
 }

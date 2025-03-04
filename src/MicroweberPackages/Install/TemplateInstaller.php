@@ -98,6 +98,7 @@ class TemplateInstaller
             if (function_exists('templates_path')) {
                 $template_dir = templates_dir() . DS . $template_name;
                 $template_dir = normalize_path($template_dir, true);
+
                 if (is_dir($template_dir)) {
                     $template_default_content = $template_dir . 'mw_default_content.zip';
                     if (is_file($template_default_content) and is_readable($template_default_content)) {
@@ -114,12 +115,10 @@ class TemplateInstaller
             $manager = new Restore();
             $manager->setSessionId($sessionId);
             $manager->setFile($default_content_file);
-            $manager->setBatchImporting(false);
+         //   $manager->setBatchImporting(false);
             $manager->setToDeleteOldContent(false);
             $manager->setOvewriteById(true);
-            if ($this->logger) {
-                $manager->setLogger($this->logger);
-            }
+
             if ($this->language) {
                 $manager->setLanguage($this->language);
             }
