@@ -22,7 +22,9 @@
 }
 
 
-
+.fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar) {
+    @apply !rounded-sm;
+}
 
 .bg-white {
     @apply dark:bg-slate-800;
