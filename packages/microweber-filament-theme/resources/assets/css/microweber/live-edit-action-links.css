@@ -1,49 +1,34 @@
-.mw-admin-action-links {
+.mw-admin-action-links,
+.fi-tabs .fi-tabs-item, .fi-tabs .fi-tabs-item .fi-tabs-item-label {
     @apply relative no-underline !font-bold text-black dark:text-white hover:cursor-pointer text-[1rem];
 }
 
-.mw-admin-action-links:disabled {
+
+.mw-admin-action-links:disabled,
+.fi-tabs .fi-tabs-item:disabled {
     @apply opacity-30 pointer-events-none;
 }
 
-.mw-admin-action-links.mw-adm-liveedit-tabs {
-    @apply !font-bold pb-[10px] text-[14px];
-}
-
-.mw-admin-action-links.mw-adm-liveedit-tabs:active,
-.mw-admin-action-links.mw-adm-liveedit-tabs:focus,
-.mw-admin-action-links.mw-adm-liveedit-tabs.active {
-    @apply !font-bold;
-}
-
-.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger {
-    @apply text-red-500 !important;
-}
-
-.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger:after {
-    @apply bg-red-500;
-}
-
-.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger:hover {
-    @apply text-red-500 !important;
-}
-
-.mw-admin-action-links.mw-liveedit-button-animation-component {
-    @apply bg-transparent border-none;
-}
-
-.mw-admin-action-links:after {
+.mw-admin-action-links:after,
+.fi-tabs .fi-tabs-item:after {
     @apply absolute bottom-[5px] left-0 h-[2px] w-0 bg-black dark:bg-white opacity-0;
     content: '';
     transition: .5s;
 }
 
-.modules-list-categories li,
+.fi-tabs .fi-tabs-item:after {
+   @apply !bottom-0;
+}
+
 .mw-admin-action-links:hover,
 .mw-admin-action-links:active,
 .mw-admin-action-links:focus,
 .mw-admin-action-links.active,
-.mw-admin-action-links.mw-action-links-with-accordion:not(.collapsed) {
+.mw-admin-action-links.mw-action-links-with-accordion:not(.collapsed),
+.fi-tabs .fi-tabs-item.fi-tabs-item-label:hover,
+.fi-tabs .fi-tabs-item.fi-tabs-item-label:active,
+.fi-tabs .fi-tabs-item.fi-tabs-item-label:focus,
+.fi-tabs .fi-tabs-item.fi-tabs-item-label.active {
     @apply !text-black dark:!text-white font-medium;
 }
 
@@ -51,10 +36,49 @@
 .mw-admin-action-links:active:after,
 .mw-admin-action-links:focus:after,
 .mw-admin-action-links.active:after,
-.mw-admin-action-links.mw-action-links-with-accordion:not(.collapsed):after {
+.mw-admin-action-links.mw-action-links-with-accordion:not(.collapsed):after,
+.fi-tabs .fi-tabs-item:hover:after,
+.fi-tabs .fi-tabs-item:active:after,
+.fi-tabs .fi-tabs-item:focus:after,
+.fi-tabs .fi-tabs-item.active:after {
     @apply w-full opacity-100;
 }
 
-.mw-admin-action-links:not(.mw-admin-action-links.btn) {
+.mw-admin-action-links:not(.mw-admin-action-links.btn),
+.fi-tabs .fi-tabs-item:not(.fi-tabs .fi-tabs-item.btn) {
     @apply pb-[12px] leading-6;
+}
+
+.mw-admin-action-links.mw-adm-liveedit-tabs,
+.fi-tabs .fi-tabs-item {
+    @apply !font-bold pb-[10px] text-[14px];
+}
+
+.mw-admin-action-links.mw-adm-liveedit-tabs:active,
+.mw-admin-action-links.mw-adm-liveedit-tabs:focus,
+.mw-admin-action-links.mw-adm-liveedit-tabs.active,
+.fi-tabs .fi-tabs-item:active,
+.fi-tabs .fi-tabs-item:focus,
+.fi-tabs .fi-tabs-item.active {
+    @apply !font-bold;
+}
+
+.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger,
+.fi-tabs .fi-tabs-item.text-danger {
+    @apply text-red-500 !important;
+}
+
+.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger:after,
+.fi-tabs .fi-tabs-item.text-danger:after {
+    @apply bg-red-500;
+}
+
+.mw-admin-action-links.mw-adm-liveedit-tabs.text-danger:hover,
+.fi-tabs .fi-tabs-item.text-danger:hover {
+    @apply text-red-500 !important;
+}
+
+.mw-admin-action-links.mw-liveedit-button-animation-component,
+.fi-tabs .fi-tabs-item {
+    @apply bg-transparent border-none;
 }
