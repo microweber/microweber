@@ -11,7 +11,7 @@ class NewsletterSubscriber extends Model
     protected $fillable = [
         'email',
         'name',
-        'is_subscribed'
+       'is_subscribed'
     ];
 
     public function lists()

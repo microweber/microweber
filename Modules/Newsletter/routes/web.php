@@ -2,12 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::name('web.newsletter.')
-    ->prefix('/web/modules/newsletter')
+Route::name('modules.newsletter.')
     ->middleware(['web'])
     ->group(function () {
 
-        Route::get('/click-link', function() {
+        Route::get('/click-link', function () {
 
             $campaignId = request()->get('campaign_id');
             $requestEmail = request()->get('email');
@@ -32,7 +31,7 @@ Route::name('web.newsletter.')
             return redirect($redirectTo);
         })->name('click-link');
 
-        Route::get('/pixel', function() {
+        Route::get('/pixel', function () {
 
             $campaignId = request()->get('campaign_id');
             if ($campaignId) {
@@ -47,7 +46,7 @@ Route::name('web.newsletter.')
                 }
             }
 
-            return response()->stream(function() {
+            return response()->stream(function () {
                 $png = imagecreatetruecolor(1, 1);
                 imagepng($png);
             }, 200, ['Content-type' => 'image/png']);
@@ -55,9 +54,10 @@ Route::name('web.newsletter.')
         })->name('pixel');
 
 
-        Route::get('/unsubscribe', function() {
+        Route::get('/unsubscribe', function () {
             return view('microweber-module-newsletter::unsubscribe');
 
         })->name('unsubscribe');
+        Route::post('subscribe', \Modules\Newsletter\Http\NewsletterController::class . '@subscribe')->name('subscribe');
 
     });

@@ -212,7 +212,8 @@ class LiveEditServiceProvider extends PackageServiceProvider
             ->addChild('Website Settings', [
                 'attributes' => [
                     'id' => 'js-live-edit-admin-settings-link',
-                    'route' => 'admin.settings.index',
+                    //'route' => 'admin.settings.index',
+                    'url' => admin_url('settiings'),
                     'target' => '_blank',
                     'icon' => '<svg viewBox="0 0 40 40">
                                                         <path

@@ -13,6 +13,7 @@ use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
 use MicroweberPackages\Module\Facades\ModuleAdmin;
+use Modules\Newsletter\Filament\NewsletterModuleSettings;
 use Modules\Newsletter\Livewire\Admin\Filament\NewsletterImportSubscribersActionButton;
 use Modules\Newsletter\Livewire\UnsubscribePage;
 use Modules\Newsletter\Console\Commands\ProcessCampaigns;
@@ -65,10 +66,10 @@ class NewsletterServiceProvider extends BaseModuleServiceProvider
 
 
         // Register filament page for Microweber module settings
-        // FilamentRegistry::registerPage(NewsletterModuleSettings::class);
+         FilamentRegistry::registerPage(NewsletterModuleSettings::class);
 
         // Register Microweber module
-        // Microweber::module(\Modules\Newsletter\Microweber\NewsletterModule::class);
+        Microweber::module(\Modules\Newsletter\Microweber\NewsletterModule::class);
 
         if (is_cli()) {
             $this->commands(ProcessCampaigns::class);

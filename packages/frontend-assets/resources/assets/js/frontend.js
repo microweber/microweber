@@ -5,6 +5,7 @@ import "../core/modules.js";
 import "../core/url.js";
 import "../core/objects.js";
 import "../core/events.js";
+
 import "../core/reload-module.js";
 
 import "../widgets/hamburger.js";
@@ -21,6 +22,7 @@ import "../components/notification.js";
 import "../components/icon_selector.js";
 import "../api-core/core/core/forms.js";
 import "../api-core/core/core/files.js";
+import "../api-core/core/core/session.js";
 
 import "../core/_.js";
 import "./animations.js";

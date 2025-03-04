@@ -17,7 +17,7 @@ description: Default
     <p><?php _e('Subscribe to our newsletter and stay tuned.'); ?></p>
     <form method="post" id="newsletters-form-<?php print $params['id'] ?>">
         <?php print csrf_form(); ?>
-        
+
          <div class="form-group hide-on-success">
             <label class="control-label requiredField" for="name1">
                 <?php _e('Name'); ?>
@@ -29,17 +29,17 @@ description: Default
         <div class="form-group hide-on-success">
             <label class="control-label requiredField" for="email1">
                 <?php _e('Email'); ?>
-                <span class="asteriskField">*</span> 
+                <span class="asteriskField">*</span>
             </label>
             <input class="form-control" required="true" name="email" placeholder="name@email.com" type="text"/>
         </div>
-        
+
          <div class="form-group hide-on-success">
             <label class="control-label requiredField" for="email1">
                 <?php _e('List'); ?>
                 <span class="asteriskField">*</span>
             </label>
-            <?php 
+            <?php
             $list_params = array();
             $list_params['no_limit'] = true;
             $list_params['order_by'] = "created_at desc";
