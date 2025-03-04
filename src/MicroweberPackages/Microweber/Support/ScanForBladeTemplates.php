@@ -272,13 +272,26 @@ class ScanForBladeTemplates
                 if (isset($to_return_temp['type']) && $to_return_temp['type'] == 'layout') {
                     $screenshotType = 'layouts';
                 }
+                $img_name = $to_return_temp['layout_file'].'.jpg';
+                $img_path =  $screenshotType.'/templates/'. $to_return_temp['layout_file'].'.jpg';
 
-                $screenshotPublic = asset(str_replace('.', '/', $templatesNamespace))
-                                        . '/screenshots/modules/' .$screenshotType.'/templates/'. $to_return_temp['layout_file'].'.jpg';
+                $img_path_for_update_screenshot =$to_return_temp['directory'] . $img_name;
 
-                $screen2 = url2dir($screenshotPublic);
+                $img_path_for_update_screenshot = str_replace(DS, '/', $img_path_for_update_screenshot);
+                $img_path_for_update_screenshot = str_replace('//', '/', $img_path_for_update_screenshot);
+                $img_path_for_update_screenshot = str_replace('resources/views/', 'resources/assets/img/screenshots/', $img_path_for_update_screenshot);
+
+
+                $path =$img_path;
+
+                $screenshotPublic = asset($path);
+
+                $screen2 = public_path($path);
 
                 $to_return_temp['screenshot_public_url'] = $screenshotPublic;
+                $to_return_temp['screenshot_path_lookup'] = $screen2;
+                $to_return_temp['screenshot_path_lookup_public'] = $screen2;
+                $to_return_temp['screenshot_path_for_update_screenshot'] =  $img_path_for_update_screenshot;
 
 
                 if (is_file($skin_settings_json)) {
@@ -288,13 +301,15 @@ class ScanForBladeTemplates
 
                 if (is_file($screen2)) {
                     $to_return_temp['screenshot_file'] = $screen2;
-                } elseif (is_file($screen_jpg2)) {
+                }
+
+              /*  elseif (is_file($screen_jpg2)) {
                     $to_return_temp['screenshot_file'] = $screen_jpg2;
                 } elseif (is_file($screen_jpg)) {
                     $to_return_temp['screenshot_file'] = $screen_jpg;
                 } elseif (is_file($screen)) {
                     $to_return_temp['screenshot_file'] = $screen;
-                }
+                }*/
 
                 if(isset($to_return_temp['screenshot_file'])){
                     $to_return_temp['screenshot_file'] = normalize_path($to_return_temp['screenshot_file'], false);
