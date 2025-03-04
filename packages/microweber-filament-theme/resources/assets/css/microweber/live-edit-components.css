@@ -1,6 +1,2 @@
 .mw_modal_live_edit_settings {
 }
-.fi-input {
-    @apply !rounded-none !border-none bg-transparent;
-    border-radius: 0!important;
-}
