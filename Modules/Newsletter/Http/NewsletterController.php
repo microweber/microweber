@@ -5,7 +5,9 @@ namespace Modules\Newsletter\Http;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Modules\Newsletter\Models\NewsletterList;
 use Modules\Newsletter\Models\NewsletterSubscriber;
+use Modules\Newsletter\Models\NewsletterSubscriberList;
 
 class NewsletterController extends Controller
 {
@@ -49,10 +51,29 @@ class NewsletterController extends Controller
             ]
         );
 
-        if($list_id){
-            //attach to list
-
+        // Check if list_id exists
+        $list = null;
+        if ($list_id) {
+            $list = NewsletterList::find($list_id);
         }
+        
+        // If list_id is not provided or not found, create or find the Default list
+        if (!$list) {
+            $list = NewsletterList::firstOrCreate(['name' => 'Default']);
+            $list_id = $list->id;
+        }
+        
+        // Attach subscriber to the list
+        NewsletterSubscriberList::updateOrCreate(
+            [
+                'subscriber_id' => $subscriber->id,
+                'list_id' => $list_id
+            ],
+            [
+                'subscriber_id' => $subscriber->id,
+                'list_id' => $list_id
+            ]
+        );
 
 
         return response()->json([
