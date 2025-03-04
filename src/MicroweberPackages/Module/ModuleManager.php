@@ -1732,6 +1732,7 @@ class ModuleManager
         return $this->scan_for_modules($options);
     }
 
+    /* @deprecated */
     public function get_modules_from_current_site_template()
     {
         if (!defined('ACTIVE_TEMPLATE_DIR')) {

@@ -162,7 +162,7 @@ class ModulesApiLiveEdit extends Controller
                     $modules = array_merge($modules, $module_layouts);
                 }
             }
-
+/*
             $modules_from_template = mw()->module_manager->get_modules_from_current_site_template();
             if (!empty($modules_from_template)) {
                 if (!is_array($modules)) {
@@ -178,7 +178,7 @@ class ModulesApiLiveEdit extends Controller
                     }
                 }
                 $modules = array_merge($modules, $modules_from_template);
-            }
+            }*/
 
             if ($modules) {
                 foreach ($modules as $modk => $module) {
@@ -302,7 +302,7 @@ class ModulesApiLiveEdit extends Controller
         }
 
         $moduleListJson = [];
-
+/*
         if (isset($dynamic_layouts) and is_array($dynamic_layouts)) {
 
 
@@ -339,6 +339,11 @@ class ModulesApiLiveEdit extends Controller
             }
 
         }
+
+
+        */
+       // $template_config = app()->template_manager->get_config($active_site_template);
+      //dd($templpate_config);
 
         if (isset($module_layouts_skins) and is_array($module_layouts_skins)) {
 
@@ -433,9 +438,14 @@ class ModulesApiLiveEdit extends Controller
                         if (isset($template_composer['extra']['premium_layouts'])
                             && !empty($template_composer['extra']['premium_layouts'])) {
                             foreach ($template_composer['extra']['premium_layouts'] as $composerPremiumLayout) {
+
+                                $composerPremiumLayout = str_replace('.blade.php', '', $composerPremiumLayout);
+                                $composerPremiumLayout = str_replace('.php', '', $composerPremiumLayout);
+
                                 if (strpos($composerPremiumLayout, $dynamic_layout['layout_file']) !== false) {
                                     $dynamic_layout['icon'] = 'fa fa-lock';
                                     $dynamic_layout['locked'] = $lockedLayouts;
+
                                 }
                             }
                         }
