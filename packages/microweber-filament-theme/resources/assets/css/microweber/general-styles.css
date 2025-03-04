@@ -22,6 +22,8 @@
 }
 
 
+
+
 .fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar) {
     @apply !rounded-sm;
 }
