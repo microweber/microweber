@@ -14,7 +14,7 @@
     }
 </style>
 
-<script type="module" crossorigin src="{{modules_url()}}newsletter/js/email-editor.js"></script>
+<script type="module" crossorigin src="{{asset('modules/newsletter/js/email-editor.js')}}"></script>
 
 
 @php

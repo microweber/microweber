@@ -1,0 +1,19 @@
+{
+    "name": "microweber-modules-newsletter",
+    "version": "1.0.0",
+    "description": "",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/microweber-modules/newsletter.git"
+    },
+    "private": true,
+    "scripts": {
+        "build": "cpy resources/assets/js ../../public/modules/newsletter/js --flat && cpy resources/assets/css ../../public/modules/newsletter/css --flat && cpy resources/assets/img ../../public/modules/newsletter/img --flat",
+        "dev": "chokidar resources/assets/ -c \"npm run build\""
+    },
+    "devDependencies": {
+        "chokidar-cli": "^3.0.0",
+        "cpy-cli": "^5.0.0"
+    }
+}
