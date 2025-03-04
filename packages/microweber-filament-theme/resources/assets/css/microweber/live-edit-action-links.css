@@ -1,6 +1,6 @@
 .mw-admin-action-links,
 .fi-tabs .fi-tabs-item, .fi-tabs .fi-tabs-item .fi-tabs-item-label {
-    @apply relative no-underline !font-bold text-primary-400 dark:text-white hover:cursor-pointer text-[1rem];
+    @apply relative no-underline !font-bold text-black dark:text-white hover:cursor-pointer text-[1rem];
 }
 
 
@@ -11,7 +11,7 @@
 
 .mw-admin-action-links:after,
 .fi-tabs .fi-tabs-item:after {
-    @apply absolute bottom-[5px] left-0 h-[2px] w-0 bg-primary-400 dark:bg-white opacity-0;
+    @apply absolute bottom-[5px] left-0 h-[2px] w-0 bg-black dark:bg-white opacity-0;
     content: '';
     transition: .5s;
 }
@@ -29,7 +29,7 @@
 .fi-tabs .fi-tabs-item.fi-tabs-item-label:active,
 .fi-tabs .fi-tabs-item.fi-tabs-item-label:focus,
 .fi-tabs .fi-tabs-item.fi-tabs-item-label.active {
-    @apply !text-primary-400 dark:!text-white font-medium;
+    @apply !text-black dark:!text-white font-medium;
 }
 
 .mw-admin-action-links:hover:after,
