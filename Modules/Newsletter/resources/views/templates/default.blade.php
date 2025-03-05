@@ -18,20 +18,23 @@ description: Default
     <form method="post" id="newsletters-form-{{ $params['id'] }}">
         {!! csrf_field() !!}
 
-        <div class="form-group hide-on-success">
-            <label class="control-label requiredField" for="name1">
-                {{ __('Name') }}
-                <span class="asteriskField">*</span>
-            </label>
-            <input class="form-control" required="true" name="name" placeholder="Your Name" type="text"/>
-        </div>
+        <div class="col-xl-8 col-lg-10 col-12">
+            <div class="form-group hide-on-success my-2">
+                <label class="control-label requiredField" for="name1">
+                    {{ __('Name') }}
+                    <span class="asteriskField">*</span>
+                </label>
+                <input class="form-control" required="true" name="name" placeholder="Your Name" type="text"/>
+            </div>
 
-        <div class="form-group hide-on-success">
-            <label class="control-label requiredField" for="email1">
-                {{ __('Email') }}
-                <span class="asteriskField">*</span>
-            </label>
-            <input class="form-control" required="true" name="email" placeholder="name@email.com" type="text"/>
+            <div class="form-group hide-on-success my-2">
+                <label class="control-label requiredField" for="email1">
+                    {{ __('Email') }}
+                    <span class="asteriskField">*</span>
+                </label>
+                <input class="form-control" required="true" name="email" placeholder="name@email.com" type="text"/>
+            </div>
+
         </div>
 
         @if($list_id)
@@ -46,8 +49,7 @@ description: Default
             </div>
         @endif
 
-
-        <div class="form-group hide-on-success">
+        <div class="form-group hide-on-success mt-4">
             <div>
                 <button class="btn btn-primary" name="submit" type="submit">
                     {{ __('Submit') }}
