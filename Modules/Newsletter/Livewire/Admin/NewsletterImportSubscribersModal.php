@@ -120,7 +120,7 @@ class NewsletterImportSubscribersModal extends AdminModalComponent
         $allowedExt = ['csv','xlsx','xls'];
         $fileExt = pathinfo($url, PATHINFO_EXTENSION);
 
-        $dir = NewsletterImportSubscribersModal . phpstorage_path() . DS . 'newsletter_subscribers';
+        $dir = storage_path() . DS . 'newsletter_subscribers';
 
         $filename = $dir . DS . md5($url) . '.txt';
         if (in_array($fileExt, $allowedExt)) {

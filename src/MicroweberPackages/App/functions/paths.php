@@ -11,7 +11,8 @@ function userfiles_path()
     if (!$folder) {
         // $folder = normalize_path(base_path() . DIRECTORY_SEPARATOR);
         //if(MW_USERFILES_FOLDER_NAME){
-        $folder = normalize_path(public_path() . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+      //  $folder = normalize_path(public_path() . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+        $folder = normalize_path(storage_path('app/public/') . DIRECTORY_SEPARATOR . MW_USERFILES_FOLDER_NAME . DIRECTORY_SEPARATOR);
         //  }
     }
 
@@ -34,7 +35,8 @@ function userfiles_url()
 //        } else {
 //            $folder = site_url(MW_USERFILES_FOLDER_NAME . '/');
 //        }
-        $folder = site_url(MW_USERFILES_FOLDER_NAME . '/');
+      //  $folder = site_url(MW_USERFILES_FOLDER_NAME . '/');
+        $folder = site_url('storage/'.MW_USERFILES_FOLDER_NAME . '/');
 
     }
 
