@@ -20,8 +20,8 @@ if(isset($templateViewsName) and !empty($templateViewsName)) {
 
 @section('content')
 
-    <div id="preview-layout-file">
-        <module id="preview-layout-<?php echo md5($layoutFile); ?>-layout" type="layouts" template="<?php echo $layoutFile; ?>" />
+    <div id="preview-skin-file">
+        <module id="module-preview-<?php echo md5($skin); ?>-module" type="<?php echo $module; ?>" template="<?php echo $skin; ?>" />
     </div>
 
 

@@ -8,9 +8,11 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('template/preview-layout', function () {
 
-        $layout = request()->get('layout');
-        $layout = str_replace('..', '', $layout);
-        $layout = str_replace('/', '', $layout);
+
+        $module = request()->get('module') ?? 'layouts';
+        $skin = request()->get('skin') ?? 'default';
+        $skin = str_replace('..', '', $skin);
+        $skin = str_replace('/', '', $skin);
         $template = app()->template_manager->name();
 
         $is_laravel_template = app()->template_manager->is_laravel_template($template);
@@ -22,7 +24,11 @@ Route::group(['middleware' => 'web'], function () {
         $laravelTemplate = app()->templates->find($template);
         $lowerName = $laravelTemplate->getLowerName();
 
-        return view('microweber-live-edit::preview-layout.layout_render', ['layoutFile' => $layout, 'templateViewsName' => $lowerName,'template' => $template]);
+        return view('microweber-live-edit::preview-layout.layout_render', [
+            'module' => $module,
+            'skin' => $skin,
+            'templateViewsName' => $lowerName
+            ,'template' => $template]);
 
     });
 
