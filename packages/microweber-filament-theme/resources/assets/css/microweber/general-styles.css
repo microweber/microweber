@@ -22,9 +22,11 @@
 }
 
 
+.fi-radio-input {
+    @apply mt-1;
+}
 
-
-.fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar) {
+.fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input) {
     @apply !rounded-sm;
 }
 
