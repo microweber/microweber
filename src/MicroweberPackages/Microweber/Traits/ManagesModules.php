@@ -164,7 +164,7 @@ trait ManagesModules
 
                     $templatesNamespace = $moduleClass::getTemplatesNamespace();
                     $scanTemplates = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
-                    $templatesForModule = $scanTemplates->scan($templatesNamespace);
+                    $templatesForModule = $scanTemplates->scan($templatesNamespace,$moduleType);
 
                     if ($activeSiteTemplate) {
                         // we will check for module templates in the active site template
@@ -176,7 +176,7 @@ trait ManagesModules
 
 
                             $scanTemplatesInActiveSiteTemplate = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
-                            $templatesForModuleInActiveSiteTemplate = $scanTemplatesInActiveSiteTemplate->scan($templatesNamespaceInActiveSiteTemplate);
+                            $templatesForModuleInActiveSiteTemplate = $scanTemplatesInActiveSiteTemplate->scan($templatesNamespaceInActiveSiteTemplate,$moduleType, $checkIfActiveSiteTemplateLowerName);
                             if ($templatesForModuleInActiveSiteTemplate) {
                                 foreach ($templatesForModuleInActiveSiteTemplate as $templatesForModuleInActiveSiteTemplateKey => $templatesForModuleInActiveSiteTemplateValue) {
                                     if (!$templatesForModule) {

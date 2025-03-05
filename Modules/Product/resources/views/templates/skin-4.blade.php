@@ -88,8 +88,11 @@
                                 @endif
 
                                 @php
-                                    $itemPrices = $item['prices'];
-                                    $firstPrice = reset($itemPrices);
+                                    $firstPrice = false;
+                                    if(isset($item['prices']) and $item['prices']){
+                                        $itemPrices = $item['prices'];
+                                        $firstPrice = reset($itemPrices);
+                                    }
                                 @endphp
                                 @if ($firstPrice !== false && $firstPrice > 0)
                                     <div class="price-holder justify-content-center">
