@@ -32,14 +32,12 @@
 </style>
 
 @php
-    if (!isset($tabs) || $tabs == false) {
+    if (!isset($tabs) || empty($tabs)) {
         echo lnotif(_e('Click to edit tabs', true));
         return;
     }
 
-    if (!isset($tabs) || count($tabs) == 0) {
-        $tabs = array(0 => $defaults);
-    }
+
 @endphp
 
 <script>

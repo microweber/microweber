@@ -11,7 +11,7 @@
 @endphp
 
 @php
-    if ($tabs == false) {
+      if (!isset($tabs) || empty($tabs)) {
         echo lnotif(_e('Click to edit tabs', true));
         return;
     }

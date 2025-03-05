@@ -119,8 +119,8 @@ abstract class DuskTestCase extends BaseTestCase
 
 
         return RemoteWebDriver::create(
-            //$_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
-                $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:4444/wd/hub',
+           $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:9515',
+              //  $_ENV['DUSK_DRIVER_URL'] ?? 'http://localhost:4444/wd/hub',
             DesiredCapabilities::chrome()->setCapability(
                 ChromeOptions::CAPABILITY, $options
             ), 90000, 90000

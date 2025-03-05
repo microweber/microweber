@@ -280,7 +280,7 @@ class ScanForBladeTemplates
 
 
                 $img_name = $to_return_temp['layout_file'].'.png';
-                $img_path = 'modules/'. $screenshotType.'/templates/'.$img_name;
+                $img_path_modules =  $img_path = 'modules/'. $screenshotType.'/templates/'.$img_name;
 
                 if($activeSiteTemplateLowerName){
                     $img_path = 'templates/'.$activeSiteTemplateLowerName.'/img/screenshots/modules/'. $screenshotType.'/templates/'. $img_name;
@@ -293,7 +293,7 @@ class ScanForBladeTemplates
 
                     $checkIfActiveSiteTemplatePath = $checkIfActiveSiteTemplate->get('path');
 
-                    $img_path_for_update_screenshot =$checkIfActiveSiteTemplatePath. '/resources/assets/img/screenshots/' . $img_name;
+                    $img_path_for_update_screenshot =$checkIfActiveSiteTemplatePath. '/resources/assets/img/screenshots/' . $img_path_modules;
 
                     //  app()->laravel_templates->setActiveTemplate($activeSiteTemplateLowerName);
                 }

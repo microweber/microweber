@@ -11,10 +11,10 @@
 @endphp
 
 @php
-    if ($tabs == false) {
-        echo lnotif(_e('Click to edit tabs', true));
-        return;
-    }
+    if (!isset($tabs) || empty($tabs)) {
+       echo lnotif(_e('Click to edit tabs', true));
+       return;
+   }
 
 //    if (!isset($tabs) || count($tabs) == 0) {
 //        $tabs = $defaults;
