@@ -859,7 +859,7 @@ html[dir="rtl"] .mw-text-start{
     min-height: none !important;
 }
 
- .mw-empty-element {
+ .mw-live-edit .mw-empty-element:empty {
      background: #FFFFB9;
      color: #0088CC;
      position: relative;
@@ -868,7 +868,7 @@ html[dir="rtl"] .mw-text-start{
      text-align: left;
  }
 
-.mw-empty-element:after {
+.mw-live-edit .mw-empty-element:empty:after {
     content: 'Enter text or drop element';
     position: relative;
     top: 10px;
