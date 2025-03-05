@@ -55,7 +55,7 @@ class LiveEditDOMTree extends MicroweberBaseClass {
         this.tree = new this.settings.target.DomTree({
             element: this.box.boxContent,
             resizable: false,
-            sortable: true,
+            sortable: false,
 
             targetDocument: mw.app.canvas.getDocument(),
 
@@ -79,7 +79,13 @@ class LiveEditDOMTree extends MicroweberBaseClass {
 
                 this.settings.target.app.dispatch('mw.elementStyleEditor.selectNode', node);
                 if(shouldScroll) {
-                    node.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});
+                    node.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+                    if(node.classList.contains('element')) {
+                        mw.app.liveEdit.handles.set('element', node)
+                    } else if(node.classList.contains('module')) {
+                        mw.app.liveEdit.handles.set('module', node)
+                    }
+
                 }
 
 
@@ -88,11 +94,13 @@ class LiveEditDOMTree extends MicroweberBaseClass {
 
         mw.app.state.on('change', (data) => {
 
-            console.log(data );
+
 
             if(data.active && data.active.target) {
                 if( data.active.target === '$multistate') {
                     data.active.value.forEach(obj => {
+
+
                         this.tree.refresh(obj.target);
                         this.tree.select(obj.target);
                     })
@@ -177,11 +185,19 @@ class LiveEditDOMTree extends MicroweberBaseClass {
 
             handleTargetChange(data.target.parentElement)
 
-        })
-        mw.top().app.liveEdit.handles.get('element').on('targetChange', target => {
+        });
+
+        const liveEditHandleTargetChange = target => {
             shouldScroll = false;
             this.tree.select(target);
             shouldScroll = true;
+        }
+
+        mw.top().app.liveEdit.handles.get('module').on('targetChange', target => {
+            liveEditHandleTargetChange(target)
+        })
+        mw.top().app.liveEdit.handles.get('element').on('targetChange', target => {
+            liveEditHandleTargetChange(target)
         });
 
 

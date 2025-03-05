@@ -417,7 +417,7 @@ export const Handle = function (options) {
 
             var isCol = false;
             if (target.classList) {
-                var isCol = target.classList.contains('mw-col');
+                isCol = target.classList.contains('mw-col');
             }
             if (isCol) {
                 const row = DomService.firstParentOrCurrentWithClass(target, 'mw-row');
@@ -455,7 +455,7 @@ export const Handle = function (options) {
 
 
             var isCol = target.classList.contains('mw-col');
-            if(isCol) {
+            if(isCol && false) {
                 const next = target.nextElementSibling;
                 const prev = target.previousElementSibling;
                 if(next) {

@@ -64,7 +64,7 @@ export default {
            const tree = new targetMW.DomTree({
                     element: targetMW.__controlBoxDomTree.boxContent,
                     resizable: false,
-                    sortable: true,
+                    sortable: false,
 
                     targetDocument: mw.app.canvas.getDocument(),
 

@@ -361,9 +361,7 @@ export class StylesheetEditor extends MicroweberBaseClass {
             }
         }
         this.save(res);
-        //if(fromSelector.indexOf("mw-element-1716884817110") !== -1) {
-            console.log(9991,  res)
-        //}
+
         return res;
 
     }
