@@ -183,9 +183,11 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@publish-assets"
+
         ],
         "post-install-cmd": [
-            "php artisan vendor:publish --tag=public --force --ansi"
+            "php artisan vendor:publish --tag=public --force --ansi",
+            "@php artisan storage:link"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
@@ -200,7 +202,7 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi",
-            "@php artisan storage:link"
+
         ],
         "test": [
             "Composer\\Config::disableProcessTimeout",
