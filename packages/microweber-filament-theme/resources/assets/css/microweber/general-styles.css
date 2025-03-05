@@ -23,10 +23,10 @@
 
 
 .fi-radio-input {
-    @apply mt-1;
+    @apply mt-1.5;
 }
 
-.fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input) {
+.fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview) {
     @apply !rounded-sm;
 }
 
