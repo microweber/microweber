@@ -118,7 +118,7 @@ class TemplateInstaller
          //   $manager->setBatchImporting(false);
             $manager->setToDeleteOldContent(false);
             $manager->setOvewriteById(true);
-
+            $manager->setBatchRestoring(false);
             if ($this->language) {
                 $manager->setLanguage($this->language);
             }

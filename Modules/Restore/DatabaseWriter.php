@@ -60,7 +60,11 @@ class DatabaseWriter
 
     public $content = [];
 
+
     public $logger;
+
+
+
 
     public function setContent($content)
     {
@@ -308,6 +312,8 @@ class DatabaseWriter
                 app()->database_manager->build_tables($this->content->__table_structures);
             }
             $success = array();
+
+
             foreach ($this->content as $table => $items) {
 
                 if (!Schema::hasTable($table)) {
@@ -316,9 +322,12 @@ class DatabaseWriter
 
                 $this->log('Importing in table: ' . $table);
 
+
                 if (!empty($items)) {
                     foreach ($items as $item) {
                         $item['save_to_table'] = $table;
+
+
                         $success[] = $this->_saveItem($item);
                     }
                 }
@@ -363,7 +372,7 @@ class DatabaseWriter
 
         foreach ($this->content as $table => $items) {
 
-            if (!\Schema::hasTable($table)) {
+            if (!Schema::hasTable($table)) {
                 continue;
             }
             if (!empty($items)) {
@@ -426,11 +435,10 @@ class DatabaseWriter
     public function getRestoreLog()
     {
         $logContent = '';
-        if($this->logger and method_exists($this->logger, 'getLog')) {
+        if ($this->logger and method_exists($this->logger, 'getLog')) {
             $logContent = $this->logger->getLog();
             $logContent = str_replace("\n", "<br>", $logContent);
         }
-
 
 
         $log = array();

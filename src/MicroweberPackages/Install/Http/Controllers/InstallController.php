@@ -536,6 +536,7 @@ class InstallController extends Controller
                     if (isset($input['with_default_content']) and $input['with_default_content']) {
                         $installer->setInstallDefaultContent($input['with_default_content']);
                     }
+
                    // $installer->logger = $this;
                     $installer->run();
                 }

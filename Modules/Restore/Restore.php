@@ -38,6 +38,16 @@ class Restore
     public $logger;
     public $writeOnDatabase = true;
 
+    public $tablesToFixRelType = [
+        'content',
+        'categories',
+        'categories_items',
+        'content_fields',
+        'custom_fields',
+        'media',
+        'menus',
+    ];
+
     public function __construct()
     {
         $this->logger = new RestoreLogger();
@@ -136,7 +146,9 @@ class Restore
 
         $readContent = $this->readContent();
         $content = [];
+        $contentData = [];
         if (isset($readContent['data'])) {
+            $contentData = $readContent['data'];
             $readContentKey = key($readContent['data']);
             if (isset($readContent['data'][$readContentKey])) {
                 $content = $readContent['data'][$readContentKey];
@@ -151,12 +163,42 @@ class Restore
             return $content;
         }
 
+
+        if (!empty($contentData)) {
+            $tablesToFixRelType = $this->tablesToFixRelType;
+            $contentDataReady = [];
+            foreach ($contentData as $table => $items) {
+
+                foreach ($items as $key=>$item) {
+
+                    //fix the rel_type for
+
+                    if (in_array($table, $tablesToFixRelType)) {
+
+                        if (isset($item['rel_type']) && $item['rel_type']) {
+                            $item['rel_type'] = morph_name($item['rel_type']);
+
+                            $items[$key] = $item;
+                        }
+
+                    }
+                }
+
+                $contentDataReady[$table] = $items;
+
+
+
+            }
+            $contentData = $contentDataReady;
+         }
+
         $log = [];
         $log['data'] = [];
 
         if ($this->writeOnDatabase) {
             $writer = new DatabaseWriter();
-            $writer->setContent($content);
+
+            $writer->setContent($contentData);
             $writer->setOverwriteById($this->ovewriteById);
             $writer->setDeleteOldContent($this->deleteOldContent);
             $writer->setDeleteOldCssFiles($this->deleteOldCssFiles);
