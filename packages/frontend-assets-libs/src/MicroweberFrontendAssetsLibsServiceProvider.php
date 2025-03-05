@@ -20,10 +20,12 @@ class MicroweberFrontendAssetsLibsServiceProvider extends PackageServiceProvider
     public function register(): void
     {
         parent::register();
-        $this->publishes([
-            __DIR__ . '/../resources/dist' => public_path('vendor/microweber-packages/frontend-assets-libs'),
-        ], 'public');
+        if(is_dir( __DIR__ . '/../resources/dist')) {
 
+            $this->publishes([
+                __DIR__ . '/../resources/dist' => public_path('vendor/microweber-packages/frontend-assets-libs'),
+            ], 'public');
+        }
 
     }
 
