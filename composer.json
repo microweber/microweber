@@ -1,308 +1,317 @@
 {
-    "name": "microweber/microweber",
-    "type": "application",
-    "description": "New generation CMS with drag and drop",
-    "keywords": [
-        "cms",
-        "drag and drop",
-        "shop",
-        "blog",
-        "framework",
-        "laravel",
-        "php",
-        "ecommerce",
-        "website",
-        "builder",
-        "microweber",
-        "filament"
+  "name": "microweber/microweber",
+  "type": "application",
+  "description": "New generation CMS with drag and drop",
+  "keywords": [
+    "cms",
+    "drag and drop",
+    "shop",
+    "blog",
+    "framework",
+    "laravel",
+    "php",
+    "ecommerce",
+    "website",
+    "builder",
+    "microweber",
+    "filament"
+  ],
+  "homepage": "http://microweber.com",
+  "license": "MIT",
+  "support": {
+    "email": "support@microweber.com",
+    "irc": "irc://irc.freenode.org/microweber"
+  },
+  "require": {
+    "php": "^8.2",
+    "ext-pdo": "*",
+    "ext-zip": "*",
+    "composer-runtime-api": "^2.1",
+    "laravel/framework": "^11",
+    "filament/actions": "^3.2",
+    "filament/filament": "^3.2",
+    "filament/forms": "^3.2",
+    "filament/tables": "^3.2",
+    "filament/infolists": "^3.2",
+    "filament/spatie-laravel-translatable-plugin": "^3.2",
+    "filament/support": "^3.2",
+    "microweber-deps/eloquent-serialize": "^1.2",
+    "microweber-deps/wire-elements-modal": "^1.0",
+    "microweber-deps/l5-swagger": "v1.0.0",
+    "akaunting/laravel-money": "*",
+    "alexwestergaard/php-ga4": "dev-master",
+    "barryvdh/laravel-debugbar": "v3.14.10",
+    "barryvdh/laravel-dompdf": "v3.1.0",
+    "bezhansalleh/filament-language-switch": "dev-main",
+    "bobimicroweber/accordion": "*",
+    "bobimicroweber/filament-dropdown-column": "dev-main",
+    "bobimicroweber/filament-flatpickr": "*",
+    "butschster/meta-tags": "v3.1.2",
+    "calebporzio/sushi": "^2.5",
+    "composer/composer": "v2.7.7",
+    "composer/installers": "dev-master#3f4f464",
+    "coolsam/flatpickr": "*",
+    "coolsam/modules": "4",
+    "doctrine/dbal": "4.2.2",
+    "dompdf/dompdf": "*",
+    "enshrined/svg-sanitize": "0.16.0",
+    "erusev/parsedown": "1.7.4",
+    "ezyang/htmlpurifier": "*",
+    "finlet/flexmail": "dev-master",
+    "florianv/swap": "^4.3",
+    "flowframe/laravel-trend": "^0.2.0",
+    "geoip2/geoip2": "~2.0",
+    "graham-campbell/markdown": "*",
+    "graham-campbell/security-core": "*",
+    "hydrat/filament-table-layout-toggle": "dev-main",
+    "jaocero/radio-deck": "^1.2",
+    "jenssegers/agent": "^3.0@dev",
+    "kirschbaum-development/eloquent-power-joins": "4.0.*",
+    "knplabs/knp-menu": "^3.2@dev",
+    "laracasts/presenter": "dev-master",
+    "laravel/cashier": "*",
+    "laravel/dusk": "*",
+    "laravel/fortify": "*",
+    "laravel/passport": "*",
+    "laravel/sanctum": "*",
+    "laravel/socialite": "*",
+    "laravel/tinker": "^2.9",
+    "lcobucci/jwt": "*",
+    "league/omnipay": "^3.2",
+    "livewire/livewire": "*",
+    "mtrajano/laravel-swagger": "0.6.4",
+    "nunomaduro/collision": "^8.0",
+    "nwidart/laravel-modules": "v11.1.4",
+    "omnipay/authorizenet": "*",
+    "omnipay/mollie": "*",
+    "omnipay/paypal": "^3.0",
+    "omnipay/stripe": "^3.2",
+    "opis/closure": "^3.6@dev",
+    "phenx/php-svg-lib": "0.5.2",
+    "phpdocumentor/reflection-docblock": "^5.0@dev",
+    "phpoffice/phpspreadsheet": "3.8.0",
+    "phpseclib/phpseclib": "~3.0",
+    "predis/predis": "*",
+    "rappasoft/laravel-livewire-tables": "*",
+    "rtconner/laravel-tagging": "4.1.4",
+    "scssphp/scssphp": "1.10.0",
+    "simshaun/recurr": "*",
+    "solution-forest/filament-translate-field": "1.x-dev",
+    "spatie/laravel-googletagmanager": "dev-main",
+    "spatie/laravel-medialibrary": "v11.12.1",
+    "spatie/laravel-menu": "dev-main",
+    "spatie/laravel-package-tools": "*",
+    "spatie/laravel-permission": "*",
+    "spatie/schema-org": "dev-main",
+    "squirephp/countries": "*",
+    "squirephp/countries-en": "^3.6",
+    "squirephp/currencies-en": "^3.6",
+    "squirephp/model": "^3.6",
+    "squirephp/repository": "^3.6",
+    "squirephp/timezones-en": "^3.6",
+    "symfony/console": "^7.0.3",
+    "symfony/css-selector": "^7.0.3",
+    "symfony/event-dispatcher": "^7.0.3",
+    "symfony/filesystem": "^7.0.3",
+    "symfony/html-sanitizer": "^7.0.3",
+    "symfony/http-client": "^7.0.3",
+    "symfony/intl": "^7.0.3",
+    "symfony/options-resolver": "^7.0.3",
+    "symfony/psr-http-message-bridge": "^7.0.3",
+    "symfony/stopwatch": "^7.0.3",
+    "symfony/string": "^7.0.3",
+    "symfony/translation": "^7.0.3",
+    "symfony/var-dumper": "^7.0.3",
+    "torann/laravel-repository": "*",
+    "tucker-eric/eloquentfilter": "*",
+    "twig/twig": "3.*",
+    "whitecube/lingua": "1.1.0",
+    "wikimedia/composer-merge-plugin": "dev-master",
+    "wikimedia/less.php": "3.1.",
+    "microweber-packages/composer-client": "2.2",
+    "mailerlite/mailerlite-api-v2-php-sdk": "*",
+    "microweber-deps/image-comparator": "dev-master",
+    "microweber-deps/seo-helper": "dev-master",
+    "microweber-deps/ziggy": "1.0",
+    "microweber-dev/omnipay-przelewy24": "0.2",
+    "microweber-packages/frontend-assets": "*",
+    "microweber-packages/frontend-assets-libs": "*",
+    "microweber-packages/laravel-helper-functions": "*",
+    "microweber-packages/microweber-filament-theme": "*",
+    "microweber-packages/laravel-config-extended": "*",
+    "openai-php/laravel": "^0.10.2",
+    "intervention/image-laravel": "^1.4",
+    "tapp/filament-timezone-field": "*",
+    "league/flysystem-bundle": "^3.4",
+    "league/flysystem-aws-s3-v3": "^3.29"
+  },
+  "require-dev": {
+    "fakerphp/faker": "^1.24",
+    "phpunit/phpunit": "^11.0.1",
+    "spatie/ignition": "1.15.0",
+    "mockery/mockery": "^1.6",
+    "staudenmeir/dusk-updater": "^1.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Microweber\\": "src/Microweber/",
+      "MicroweberPackages\\": "src/MicroweberPackages/",
+      "Modules\\": "Modules/",
+      "Templates\\": "Templates/",
+      "Database\\Factories\\": "database/factories/",
+      "Database\\Seeders\\": "database/seeders/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Database\\Factories\\": "database/factories/",
+      "Database\\Seeders\\": "database/seeders/",
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "publish-assets": [
+      "@php artisan livewire:publish --assets",
+      "@php artisan filament:assets",
+      "@php artisan vendor:publish --tag=public --force --ansi",
+      "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+      "@php artisan module:publish --all",
+      "@php artisan template:publish --all"
     ],
-    "homepage": "http://microweber.com",
-    "license": "MIT",
-    "support": {
-        "email": "support@microweber.com",
-        "irc": "irc://irc.freenode.org/microweber"
-    },
-    "require": {
-        "php": "^8.2",
-        "ext-pdo": "*",
-        "ext-zip": "*",
-        "composer-runtime-api": "^2.1",
-        "laravel/framework": "^11",
-        "filament/actions": "^3.2",
-        "filament/filament": "^3.2",
-        "filament/forms": "^3.2",
-        "filament/tables": "^3.2",
-        "filament/infolists": "^3.2",
-        "filament/spatie-laravel-translatable-plugin": "^3.2",
-        "filament/support": "^3.2",
-        "microweber-deps/eloquent-serialize": "^1.2",
-        "microweber-deps/wire-elements-modal": "^1.0",
-        "microweber-deps/l5-swagger": "v1.0.0",
-        "akaunting/laravel-money": "*",
-        "alexwestergaard/php-ga4": "dev-master",
-        "barryvdh/laravel-debugbar": "v3.14.10",
-        "barryvdh/laravel-dompdf": "v3.1.0",
-        "bezhansalleh/filament-language-switch": "dev-main",
-        "bobimicroweber/accordion": "*",
-        "bobimicroweber/filament-dropdown-column": "dev-main",
-        "bobimicroweber/filament-flatpickr": "*",
-        "butschster/meta-tags": "v3.1.2",
-        "calebporzio/sushi": "^2.5",
-        "composer/composer": "v2.7.7",
-        "composer/installers": "dev-master#3f4f464",
-        "coolsam/flatpickr": "*",
-        "coolsam/modules": "4",
-        "doctrine/dbal": "4.2.2",
-        "dompdf/dompdf": "*",
-        "enshrined/svg-sanitize": "0.16.0",
-        "erusev/parsedown": "1.7.4",
-        "ezyang/htmlpurifier": "*",
-        "finlet/flexmail": "dev-master",
-        "florianv/swap": "^4.3",
-        "flowframe/laravel-trend": "^0.2.0",
-        "geoip2/geoip2": "~2.0",
-        "graham-campbell/markdown": "*",
-        "graham-campbell/security-core": "*",
-        "hydrat/filament-table-layout-toggle": "dev-main",
-        "jaocero/radio-deck": "^1.2",
-        "jenssegers/agent": "^3.0@dev",
-        "kirschbaum-development/eloquent-power-joins": "4.0.*",
-        "knplabs/knp-menu": "^3.2@dev",
-        "laracasts/presenter": "dev-master",
-        "laravel/cashier": "*",
-        "laravel/dusk": "*",
-        "laravel/fortify": "*",
-        "laravel/passport": "*",
-        "laravel/sanctum": "*",
-        "laravel/socialite": "*",
-        "laravel/tinker": "^2.9",
-        "lcobucci/jwt": "*",
-        "league/omnipay": "^3.2",
-        "livewire/livewire": "*",
-        "mtrajano/laravel-swagger": "0.6.4",
-        "nunomaduro/collision": "^8.0",
-        "nwidart/laravel-modules": "v11.1.4",
-        "omnipay/authorizenet": "*",
-        "omnipay/mollie": "*",
-        "omnipay/paypal": "^3.0",
-        "omnipay/stripe": "^3.2",
-        "opis/closure": "^3.6@dev",
-        "phenx/php-svg-lib": "0.5.2",
-        "phpdocumentor/reflection-docblock": "^5.0@dev",
-        "phpoffice/phpspreadsheet": "3.8.0",
-        "phpseclib/phpseclib": "~3.0",
-        "predis/predis": "*",
-        "rappasoft/laravel-livewire-tables": "*",
-        "rtconner/laravel-tagging": "4.1.4",
-        "scssphp/scssphp": "1.10.0",
-        "simshaun/recurr": "*",
-        "solution-forest/filament-translate-field": "1.x-dev",
-        "spatie/laravel-googletagmanager": "dev-main",
-        "spatie/laravel-medialibrary": "v11.12.1",
-        "spatie/laravel-menu": "dev-main",
-        "spatie/laravel-package-tools": "*",
-        "spatie/laravel-permission": "*",
-        "spatie/schema-org": "dev-main",
-        "squirephp/countries": "*",
-        "squirephp/countries-en": "^3.6",
-        "squirephp/currencies-en": "^3.6",
-        "squirephp/model": "^3.6",
-        "squirephp/repository": "^3.6",
-        "squirephp/timezones-en": "^3.6",
-        "symfony/console": "^7.0.3",
-        "symfony/css-selector": "^7.0.3",
-        "symfony/event-dispatcher": "^7.0.3",
-        "symfony/filesystem": "^7.0.3",
-        "symfony/html-sanitizer": "^7.0.3",
-        "symfony/http-client": "^7.0.3",
-        "symfony/intl": "^7.0.3",
-        "symfony/options-resolver": "^7.0.3",
-        "symfony/psr-http-message-bridge": "^7.0.3",
-        "symfony/stopwatch": "^7.0.3",
-        "symfony/string": "^7.0.3",
-        "symfony/translation": "^7.0.3",
-        "symfony/var-dumper": "^7.0.3",
-        "torann/laravel-repository": "*",
-        "tucker-eric/eloquentfilter": "*",
-        "twig/twig": "3.*",
-        "whitecube/lingua": "1.1.0",
-        "wikimedia/composer-merge-plugin": "dev-master",
-        "wikimedia/less.php": "3.1.",
-        "microweber-packages/composer-client": "2.2",
-        "mailerlite/mailerlite-api-v2-php-sdk": "*",
-        "microweber-deps/image-comparator": "dev-master",
-        "microweber-deps/seo-helper": "dev-master",
-        "microweber-deps/ziggy": "1.0",
-        "microweber-dev/omnipay-przelewy24": "0.2",
-        "microweber-packages/frontend-assets": "self.version",
-        "microweber-packages/frontend-assets-libs": "self.version",
-        "microweber-packages/laravel-config-extended": "self.version",
-        "microweber-packages/laravel-helper-functions": "self.version",
-        "microweber-packages/microweber-filament-theme": "self.version",
-        "openai-php/laravel": "^0.10.2",
-        "intervention/image-laravel": "^1.4",
-        "tapp/filament-timezone-field": "*",
-        "league/flysystem-bundle": "^3.4",
-        "league/flysystem-aws-s3-v3": "^3.29"
-    },
-    "require-dev": {
-        "fakerphp/faker": "^1.24",
-        "phpunit/phpunit": "^11.0.1",
-        "spatie/ignition": "1.15.0",
-        "mockery/mockery": "^1.6",
-        "staudenmeir/dusk-updater": "^1.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/",
-            "Microweber\\": "src/Microweber/",
-            "MicroweberPackages\\": "src/MicroweberPackages/",
-            "Modules\\": "Modules/",
-            "Templates\\": "Templates/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/",
-            "Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "publish-assets": [
-            "@php artisan livewire:publish --assets",
-            "@php artisan filament:assets",
-            "@php artisan vendor:publish --tag=public --force --ansi",
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan module:publish --all",
-            "@php artisan template:publish --all"
-        ],
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi",
-            "@publish-assets"
-        ],
-        "post-install-cmd": [
-            "php artisan vendor:publish --tag=public --force --ansi",
-            "@php artisan storage:link"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan livewire:publish --assets",
-            "@php artisan vendor:publish --tag=public --force --ansi"
-        ],
-        "post-root-package-install": [
-
-        ],
-        "post-create-project-cmd": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "@php artisan key:generate --ansi",
-            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\""
-        ],
-        "test": [
-            "Composer\\Config::disableProcessTimeout",
-            "@php artisan test"
-        ],
-        "test-coverage": [
-            "Composer\\Config::disableProcessTimeout",
-            "php -d xdebug.mode=coverage artisan test --coverage -c \"phpunit-coverage.xml\""
-        ],
-        "test-dusk": [
-            "Composer\\Config::disableProcessTimeout",
-            "@php artisan dusk"
-        ]
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": [
-                "nwidart/laravel-modules",
-                "microweber-packages/microweber-app",
-                "microweber-packages/laravel-config-extended",
-                "laravel/passport",
-                "laravel/sanctum",
-                "laravel/cashier",
-                "laravel/fortify",
-                "wire-elements/modal",
-                "rappasoft/laravel-livewire-tables",
-                "mhmiton/laravel-modules-livewire",
-                "coolsam/modules",
-                "rtconner/laravel-tagging",
-                "butschster/meta-tags"
-            ]
-        },
-        "merge-plugin": {
-            "require": [
-                "src/MicroweberPackages/*/composer.json",
-                "Modules/*/composer.json",
-                "Templates/*/composer.json"
-            ],
-            "merge-extra": false,
-            "merge-extra-deep": false,
-            "merge-scripts": false
-        }
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": false,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "composer/installers": true,
-            "php-http/discovery": true,
-            "wikimedia/composer-merge-plugin": true
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.microweberapi.com/packages.json"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/peter-mw/installers",
-            "canonical": true,
-            "only": [
-                "composer/installers"
-            ]
-        },
-        {
-            "type": "path",
-            "url": "packages/microweber-filament-theme",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "packages/frontend-assets-libs",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "packages/frontend-assets",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "packages/laravel-helper-functions",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "packages/laravel-config-extended",
-            "options": {
-                "symlink": true
-            }
-        }
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover --ansi",
+      "@publish-assets"
+    ],
+    "post-install-cmd": [
+      "php artisan vendor:publish --tag=public --force --ansi",
+      "@php artisan storage:link"
+    ],
+    "post-update-cmd": [
+      "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+      "@php artisan livewire:publish --assets",
+      "@php artisan vendor:publish --tag=public --force --ansi"
+    ],
+    "post-root-package-install": [
+    ],
+    "post-create-project-cmd": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+      "@php artisan key:generate --ansi",
+      "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\""
+    ],
+    "test": [
+      "Composer\\Config::disableProcessTimeout",
+      "@php artisan test"
+    ],
+    "test-coverage": [
+      "Composer\\Config::disableProcessTimeout",
+      "php -d xdebug.mode=coverage artisan test --coverage -c \"phpunit-coverage.xml\""
+    ],
+    "test-dusk": [
+      "Composer\\Config::disableProcessTimeout",
+      "@php artisan dusk"
     ]
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": [
+        "nwidart/laravel-modules",
+        "microweber-packages/microweber-app",
+        "microweber-packages/laravel-config-extended",
+        "laravel/passport",
+        "laravel/sanctum",
+        "laravel/cashier",
+        "laravel/fortify",
+        "wire-elements/modal",
+        "rappasoft/laravel-livewire-tables",
+        "mhmiton/laravel-modules-livewire",
+        "coolsam/modules",
+        "rtconner/laravel-tagging",
+        "butschster/meta-tags"
+      ]
+    },
+    "merge-plugin": {
+      "require": [
+        "src/MicroweberPackages/*/composer.json",
+        "Modules/*/composer.json",
+        "Templates/*/composer.json"
+      ],
+      "merge-extra": false,
+      "merge-extra-deep": false,
+      "merge-scripts": false
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": false,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true,
+      "composer/installers": true,
+      "php-http/discovery": true,
+      "wikimedia/composer-merge-plugin": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.microweberapi.com/packages.json"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/peter-mw/installers",
+      "canonical": true,
+      "only": [
+        "composer/installers"
+      ]
+    },
+    {
+      "type": "path",
+      "url": "packages/microweber-filament-theme",
+      "options": {
+        "reference": "config",
+
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "packages/frontend-assets-libs",
+      "options": {
+        "reference": "config",
+
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "packages/frontend-assets",
+      "options": {
+        "reference": "config",
+
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "packages/laravel-helper-functions",
+      "options": {
+        "reference": "config",
+
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "packages/laravel-helper-functions",
+      "options": {
+        "reference": "config",
+
+        "symlink": true
+      }
+    }
+  ]
 }

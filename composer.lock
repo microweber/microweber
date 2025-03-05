@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e501d065ab8aafde7a33a90f1b92e37",
+    "content-hash": "5069897a4719c51db30d4146f71a8922",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -9004,11 +9004,11 @@
         },
         {
             "name": "microweber-packages/frontend-assets",
-            "version": "dev-master",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "71b7aaac4ab7cf20203e95ad0f43b74a38cce6eb"
+                "reference": "7bc3df8e4a400abec277f6ab111597f45dd0f997"
             },
             "type": "library",
             "extra": {
@@ -9045,11 +9045,11 @@
         },
         {
             "name": "microweber-packages/frontend-assets-libs",
-            "version": "dev-master",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets-libs",
-                "reference": "2aa6810c19bb3d28bbf7a7cd1ef384548003f56f"
+                "reference": "fedbd34d4d9763321ad7c7a1582eb594a2ceb1c6"
             },
             "require": {
                 "php": "^8.1"
@@ -9093,11 +9093,27 @@
         },
         {
             "name": "microweber-packages/laravel-config-extended",
-            "version": "dev-master",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/microweber-packages/laravel-config-extended.git",
+                "reference": "170763141281d6f99d6ea81a695d63094e3933ee"
+            },
             "dist": {
-                "type": "path",
-                "url": "packages/laravel-config-extended",
-                "reference": "516a568a2aa30279a042f293ed2c680f3d5d9a25"
+                "type": "zip",
+                "url": "https://api.github.com/repos/microweber-packages/laravel-config-extended/zipball/170763141281d6f99d6ea81a695d63094e3933ee",
+                "reference": "170763141281d6f99d6ea81a695d63094e3933ee",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/collections": "^11.0",
+                "illuminate/contracts": "^11.0",
+                "illuminate/database": "^11.0",
+                "microweber-packages/laravel-helper-functions": "*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^9.0",
+                "phpunit/phpunit": "*"
             },
             "type": "library",
             "extra": {
@@ -9112,16 +9128,7 @@
                     "MicroweberPackages\\LaravelConfigExtended\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "MicroweberPackages\\LaravelConfigExtended\\Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -9142,20 +9149,19 @@
             "description": "Config rewrite for Laravel. Allows to save key and values in config files.",
             "homepage": "http://microweber.com",
             "support": {
-                "email": "support@microweber.com"
+                "email": "support@microweber.com",
+                "issues": "https://github.com/microweber-packages/laravel-config-extended/issues",
+                "source": "https://github.com/microweber-packages/laravel-config-extended/tree/v1.1"
             },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "time": "2024-05-29T09:12:05+00:00"
         },
         {
             "name": "microweber-packages/laravel-helper-functions",
-            "version": "dev-master",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "packages/laravel-helper-functions",
-                "reference": "de6619b6fd346a97d2b8b95cc2ef717cd3fb474c"
+                "reference": "090b3c421c44f89496e09862357291f8617a46f0"
             },
             "type": "library",
             "autoload": {
@@ -9183,11 +9189,11 @@
         },
         {
             "name": "microweber-packages/microweber-filament-theme",
-            "version": "dev-master",
+            "version": "dev-filament",
             "dist": {
                 "type": "path",
                 "url": "packages/microweber-filament-theme",
-                "reference": "0fff13c667e305ad9b65f15f1f18186fc9d12a25"
+                "reference": "cabe3621fa181480ade757ccb4968eaca2eecee1"
             },
             "require": {
                 "php": "^8.1"
@@ -22157,12 +22163,7 @@
         "spatie/schema-org": 20,
         "wikimedia/composer-merge-plugin": 20,
         "microweber-deps/image-comparator": 20,
-        "microweber-deps/seo-helper": 20,
-        "microweber-packages/frontend-assets": 20,
-        "microweber-packages/frontend-assets-libs": 20,
-        "microweber-packages/laravel-config-extended": 20,
-        "microweber-packages/laravel-helper-functions": 20,
-        "microweber-packages/microweber-filament-theme": 20
+        "microweber-deps/seo-helper": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
