@@ -6,7 +6,7 @@ class ScanForBladeTemplates
 {
 
 
-    public function scan($templatesNamespace)
+    public function scan($templatesNamespace,$moduleType=false, $activeSiteTemplateLowerName=false)
     {
 
         $viewsHints = app('view')->getFinder()->getHints();
@@ -30,7 +30,7 @@ class ScanForBladeTemplates
                         $folder = $hint . '/' . $templatesNamespaceSubfolder;
                     }
 
-                    $scanTemplatesResult = $this->scanFolder($folder, $templatesNamespace);
+                    $scanTemplatesResult = $this->scanFolder($folder, $templatesNamespace,$moduleType, $activeSiteTemplateLowerName);
 
                     if ($scanTemplatesResult) {
                         $templatesForModule = array_merge($templatesForModule, $scanTemplatesResult);
@@ -42,7 +42,7 @@ class ScanForBladeTemplates
         return $templatesForModule;
     }
 
-    public function scanFolder($folder, $templatesNamespace)
+    public function scanFolder($folder, $templatesNamespace,$moduleType=false, $activeSiteTemplateLowerName=false)
     {
 
         //legacy code from the old function, must be refactored
@@ -261,32 +261,51 @@ class ScanForBladeTemplates
                 $to_return_temp['filename'] = $filename;
                 //$to_return_temp['layout_file'] = $layout_file;
                 $screen = str_ireplace('.blade.php', '.png', $filename);
-                $screen_jpg = str_ireplace('.blade.php', '.jpg', $filename);
+                $screen_jpg = str_ireplace('.blade.php', '.png', $filename);
 
                 $screen2 = str_ireplace('.php', '.png', $filename);
-                $screen_jpg2 = str_ireplace('.php', '.jpg', $filename);
+                $screen_jpg2 = str_ireplace('.php', '.png', $filename);
                 $skin_settings_json = str_ireplace('.blade.php', '.json', $filename);
                 $skin_settings_json = str_ireplace('.php', '.json', $skin_settings_json);
 
                 $screenshotType = 'modules';
                 if (isset($to_return_temp['type']) && $to_return_temp['type'] == 'layout') {
-                    $screenshotType = 'layouts';
+                   $screenshotType = 'layouts';
                 }
-                $img_name = $to_return_temp['layout_file'].'.jpg';
-                $img_path =  $screenshotType.'/templates/'. $to_return_temp['layout_file'].'.jpg';
+
+                if($moduleType){
+                    $screenshotType = $moduleType;
+                }
+
+
+
+                $img_name = $to_return_temp['layout_file'].'.png';
+                $img_path = 'modules/'. $screenshotType.'/templates/'.$img_name;
+
+                if($activeSiteTemplateLowerName){
+                    $img_path = 'templates/'.$activeSiteTemplateLowerName.'/img/screenshots/modules/'. $screenshotType.'/templates/'. $img_name;
+                }
+
 
                 $img_path_for_update_screenshot =$to_return_temp['directory'] . $img_name;
+                if($activeSiteTemplateLowerName){
+                    $checkIfActiveSiteTemplate = app()->templates->find($activeSiteTemplateLowerName);
+
+                    $checkIfActiveSiteTemplatePath = $checkIfActiveSiteTemplate->get('path');
+
+                    $img_path_for_update_screenshot =$checkIfActiveSiteTemplatePath. '/resources/assets/img/screenshots/' . $img_name;
+
+                    //  app()->laravel_templates->setActiveTemplate($activeSiteTemplateLowerName);
+                }
 
                 $img_path_for_update_screenshot = str_replace(DS, '/', $img_path_for_update_screenshot);
                 $img_path_for_update_screenshot = str_replace('//', '/', $img_path_for_update_screenshot);
                 $img_path_for_update_screenshot = str_replace('resources/views/', 'resources/assets/img/screenshots/', $img_path_for_update_screenshot);
 
-
                 $path =$img_path;
 
                 $screenshotPublic = asset($path);
-
-                $screen2 = public_path($path);
+                 $screen2 = public_path($path);
 
                 $to_return_temp['screenshot_public_url'] = $screenshotPublic;
                 $to_return_temp['screenshot_path_lookup'] = $screen2;
