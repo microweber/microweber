@@ -15,6 +15,7 @@ use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\Multilanguage\MultilanguagePermalinkManager;
 use MicroweberPackages\User\Models\User;
+use PHPUnit\Framework\Attributes\BeforeClass;
 use Tests\Browser\Components\AdminMakeInstall;
 use Tests\Browser\Components\BaseComponent;
 use Tests\Browser\Components\ChekForJavascriptErrors;
@@ -41,24 +42,15 @@ abstract class DuskTestCase extends BaseTestCase
             define('MW_SITE_URL', $this->siteUrl);
         }
         parent::setUp();
-    }
 
-    /**
-     * Prepare for Dusk test execution.
-     *
-     * @beforeClass
-     * @return void
-     */
-    public static function prepare()
-    {
         if (!static::runningInSail()) {
             static::startChromeDriver();
         }
 
         \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
-
     }
+
 
     /**
      * Create the RemoteWebDriver instance.
