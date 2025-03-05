@@ -30,8 +30,17 @@
     @apply mt-1.5;
 }
 
-.fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview, .rounded-full) {
+
+.fi-panel-admin *:not([class*="rounded-sm"]):not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview, .rounded-full, .fi-input .rounded-full) {
     @apply !rounded-sm;
+}
+
+.fi-panel-admin .rounded-full {
+    @apply !rounded-full;
+}
+
+.rounded-full {
+    @apply !rounded-full;
 }
 
 .bg-white {
