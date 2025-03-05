@@ -23,7 +23,7 @@
     <div class="col-md-9">
         @include('modules.shop::livewire.shop.filters.top.index')
 
-        <div class="row mt-4">
+        <div class="row mt-7">
             @foreach($products as $product)
                 <div class="col-xl-6 col-lg-6 col-sm-12 mb-5">
                     @include('modules.shop::livewire.shop.product-card-skin-1')

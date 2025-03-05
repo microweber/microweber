@@ -60,26 +60,26 @@ description: Small
         {!! csrf_field() !!}
 
         <div class="form-group hide-on-success">
-            <div class="mw-flex-row">
-                <div class="mw-flex-col-md-2 mw-flex-col-sm-12 mw-flex-col-xs-12">
+            <div class="row">
+                <div class="col-md-2 col-sm-12 col-xs-12">
                     <label class="control-label" for="name">
                         {{ __('Name') }}
                     </label>
                 </div>
-                <div class="mw-flex-col-md-10 mw-flex-col-sm-12 mw-flex-col-xs-12">
+                <div class="col-md-10 col-sm-12 col-xs-12">
                     <input class="form-control" required="true" name="name" placeholder="Your Name" type="text"/>
                 </div>
             </div>
         </div>
 
         <div class="form-group hide-on-success">
-            <div class="mw-flex-row">
-                <div class="mw-flex-col-md-2 mw-flex-col-sm-2 mw-flex-col-xs-12">
+            <div class="row">
+                <div class="col-md-2 col-sm-2 col-xs-12">
                     <label class="control-label" for="email">
                         {{ __('Email') }}
                     </label>
                 </div>
-                <div class="mw-flex-col-md-10 mw-flex-col-sm-10 mw-flex-col-xs-12">
+                <div class="col-md-10 col-sm-10 col-xs-12">
                     <input class="form-control" required="true" name="email" placeholder="name@email.com" type="text"/>
                 </div>
             </div>
@@ -90,9 +90,9 @@ description: Small
             <input type="hidden" name="list_id" value="{{ $list_id }}" />
         @endif
 
-        <div class="form-group hide-on-success">
-            <div class="mw-flex-row">
-                <div class="mw-flex-col-md-8 mw-flex-col-sm-8 mw-flex-col-xs-12">
+        <div class="form-group hide-on-success mt-4">
+            <div class="row">
+                <div class="col-md-8 col-sm-8 col-xs-12">
                     @if($require_terms)
                         <div class="module-users-terms">
                             <label class="control-label" for="terms">
@@ -102,7 +102,7 @@ description: Small
                         </div>
                     @endif
                 </div>
-                <div class="mw-flex-col-md-4 mw-flex-col-sm-4 mw-flex-col-xs-12">
+                <div class="col-md-4 col-sm-4 col-xs-12">
                     <div class="control-group">
                         <button type="submit" class="btn btn-default">
                             {{ __('Subscribe') }}
