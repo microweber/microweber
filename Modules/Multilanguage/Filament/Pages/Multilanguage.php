@@ -25,7 +25,7 @@ class Multilanguage extends Page
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'modules.multilanguage::filament.pages.multilanguage';
-
+    protected static ?int $navigationSort = 9000;
     public ?array $data = [];
 
     public function mount(): void
