@@ -90,7 +90,7 @@ $limit = 40;
             @foreach ($testimonials as $item)
                 <div class="tony-template-testimonial testimonials-background-variable testimonialBorderVariable mx-3 p-5">
                     <div class="py-3 mb-4">
-                        <img loading="lazy" height="20" width="auto" src="{{ asset('templates/big2/assets/img/layouts/tony/testimonials-stars.png') }}" class=""/>
+                        <img loading="lazy" height="20" width="auto" src="{{ asset('templates/big2/img/layouts/tony/testimonials-stars.png') }}" class=""/>
                     </div>
                     <p class="testimonials-tony-p mb-8"> {{ \Illuminate\Support\Str::limit($item['content'], 250) }}</p>
 

@@ -81,7 +81,7 @@ $limit = 40;
                                 <div class="img-as-background h-500">
                                     <img loading="lazy" src="{{ thumbnail($item['client_image'], 800) }}" class="position-relative"/>
                                 </div>
-                                <img loading="lazy" src="{{ asset('templates/big2/assets/img/layouts/action/action-blog-quote.png') }}" class="position-absolute action-blog-quote"/>
+                                <img loading="lazy" src="{{ asset('templates/big2/img/layouts/action/action-blog-quote.png') }}" class="position-absolute action-blog-quote"/>
                             @endif
                         </div>
 

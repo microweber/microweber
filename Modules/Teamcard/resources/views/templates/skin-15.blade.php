@@ -32,7 +32,7 @@ description: Skin-15
                         <img loading="lazy" class="flower-team-card-img card-img-top" style="height: 350px;
     object-fit: cover;" src="{{ thumbnail($member['file'], 800) }}"/>
                     @else
-                        <img loading="lazy" class="flower-team-card-img card-img-top" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                        <img loading="lazy" class="flower-team-card-img card-img-top" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
                     @endif
 
                     <div class="card-body">

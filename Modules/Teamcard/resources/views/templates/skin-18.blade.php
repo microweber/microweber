@@ -107,7 +107,7 @@ description: Skin-18
         background-position: center center;
     }"/>
                             @else
-                                <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                                <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
                             @endif
                         </div>
 

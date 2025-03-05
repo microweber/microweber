@@ -140,7 +140,7 @@ class PicturesModule extends BaseModule
         for ($i = 1; $i <= 3; $i++) {
             $defaults[] = new Media([
                 'id' => $i,
-                'filename' => "modules/pictures/default-images/gallery-1-{$i}.jpg",
+                'filename' => asset("modules/pictures/default-images/gallery-1-{$i}.jpg"),
                 'media_type' => 'picture',
                 'rel_type' => $relType,
                 'rel_id' => $relId,

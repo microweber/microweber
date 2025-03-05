@@ -154,19 +154,19 @@ $limit = 40;
 </style>
 
 <div class="py-5 position-relative">
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-1" src="{{ asset('templates/big2/assets/img/layouts/testimonials-image-for-change-1.png') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-2" src="{{ asset('templates/big2/assets/img/layouts/testimonials-image-for-change-2.png') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-3" src="{{ asset('templates/big2/assets/img/layouts/testimonials-image-for-change-3.png') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-4" src="{{ asset('templates/big2/assets/img/layouts/testimonials-image-for-change-4.png') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-5" src="{{ asset('templates/big2/assets/img/layouts/testimonials-image-for-change-5.png') }}"/>
-    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-6" src="{{ asset('templates/big2/assets/img/layouts/testimonials-image-for-change-6.png') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-1" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-1.png') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-2" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-2.png') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-3" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-3.png') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-4" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-4.png') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-5" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-5.png') }}"/>
+    <img loading="lazy" class="mw-testimonials-item-faces-image-for-change mw-testimonials-item-faces-image-for-change-6" src="{{ asset('templates/big2/img/layouts/testimonials-image-for-change-6.png') }}"/>
 
     <h2 class="edit safe-mode col-md-10 text-center mx-auto mb-5" style="font-weight: 700;" field="testimonial-skin-16-title" rel="module">Trusted by Agencies <br> & Store Owners</h2>
 
     <div class="testimonials-faces-wrapper position-relative">
         <div class="slick-arrows-1 position-relative">
-            <img loading="lazy" class="mw-testimonials-item-faces-img-group33" src="{{ asset('templates/big2/assets/img/layouts/testimonials-Group-33.png') }}"/>
-            <img loading="lazy" class="mw-testimonials-item-faces-img-group41" src="{{ asset('templates/big2/assets/img/layouts/testimonials-Group-41.png') }}"/>
+            <img loading="lazy" class="mw-testimonials-item-faces-img-group33" src="{{ asset('templates/big2/img/layouts/testimonials-Group-33.png') }}"/>
+            <img loading="lazy" class="mw-testimonials-item-faces-img-group41" src="{{ asset('templates/big2/img/layouts/testimonials-Group-41.png') }}"/>
             <div class="testimonials-wrapper mx-auto">
                 <div class="mw-testimonials mw-testimonials-faces slickslider" data-slick='{"slidesToShow": 1, "slidesToScroll": 1, "dots": false, "arrows": true}'>
                     @if($testimonials->isEmpty())

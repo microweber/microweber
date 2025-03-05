@@ -103,7 +103,7 @@ description: Skin-19
                 @if ($member['file'])
                     <img class="transition-on-hover team-image" loading="lazy" src="{{ thumbnail($member['file'], 1350, 1350) }}"/>
                 @else
-                    <img class="transition-on-hover team-image" loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                    <img class="transition-on-hover team-image" loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
                 @endif
 
                 <div class="team-thumb">
