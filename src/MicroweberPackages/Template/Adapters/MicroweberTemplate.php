@@ -471,8 +471,6 @@ class MicroweberTemplate
         }
 
 
-
-
         if (isset($config)) {
 
 
@@ -611,8 +609,17 @@ class MicroweberTemplate
                 $render_file_module_temp = normalize_path($render_file_module_temp, false);
 
 
+                //legacy view files migration
+                $try_to_resolve_from_legacy = $page['layout_file'];
+                $try_to_resolve_from_legacy = str_replace('__', '/', $try_to_resolve_from_legacy);
+                $try_to_resolve_from_legacy = str_replace('layouts/', '', $try_to_resolve_from_legacy);
+                $try_to_resolve_from_legacy = str_replace('.php', '.blade.php', $try_to_resolve_from_legacy);
+
                 $laravel_template_view = templates_dir() . $template_d . '/resources/views/' . $page['layout_file'];
                 $laravel_template_view = normalize_path($laravel_template_view, false);
+
+                $laravel_template_view_from_legacy = templates_dir() . $template_d . '/resources/views/' . $try_to_resolve_from_legacy;
+                $laravel_template_view_from_legacy = normalize_path($laravel_template_view_from_legacy, false);
 
                 $laravel_template_view_clean = templates_dir() . $template_d . '/resources/views/clean.blade.php';
                 $laravel_template_view_clean = normalize_path($laravel_template_view_clean, false);
@@ -632,6 +639,8 @@ class MicroweberTemplate
 
                 if ($is_laravel_template and is_file($laravel_template_view)) {
                     $render_file = $laravel_template_view;
+                } else if (is_file($laravel_template_view_from_legacy)) {
+                    $render_file = $laravel_template_view_from_legacy;
                 } else if (is_file($legacy_filename_migration_view)) {
                     $render_file = $legacy_filename_migration_view;
                 } else if (is_file($render_file_temp)) {

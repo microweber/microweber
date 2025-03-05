@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
 use MicroweberPackages\App\Traits\LiveEditTrait;
@@ -1353,7 +1354,7 @@ class FrontendController extends Controller
 
                 if ($redirect != '' and $redirect != site_url() and $redirect . '/' != site_url()) {
                     $redirectUrl = $redirect;
-                    return \Redirect::to($redirectUrl);
+                    return Redirect::to($redirectUrl);
 
 //                    if (headers_sent()) {
 //                        echo '<meta http-equiv="refresh" content="0;url=' . $redirectUrl . '">';
@@ -1622,12 +1623,6 @@ class FrontendController extends Controller
         exit;
     }
 
-    public function show_404()
-    {
-        header('HTTP/1.0 404 Not Found');
-        $v = new View(MW_ADMIN_VIEWS_DIR . '404.php');
-        echo $v;
-    }
 
     public function __get($name)
     {
