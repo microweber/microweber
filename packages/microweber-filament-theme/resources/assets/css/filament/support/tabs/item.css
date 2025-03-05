@@ -3,12 +3,12 @@
  */
 
 .fi-tabs-item {
-    @apply rounded-md px-2 py-3;
+    @apply px-2 py-3;
 }
 
-/*.fi-tabs-item:focus-visible {*/
-/*    @apply outline-2 -outline-offset-2 outline-primary-600 dark:outline-primary-400;*/
-/*}*/
+.fi-tabs-item:focus-visible {
+    @apply outline-none;
+}
 
 .fi-tabs-item:not(.fi-active) {
     @apply border-transparent hover:border-gray-300 hover:bg-transparent focus-visible:bg-transparent dark:hover:border-gray-600 dark:hover:bg-transparent dark:focus-visible:bg-transparent;
