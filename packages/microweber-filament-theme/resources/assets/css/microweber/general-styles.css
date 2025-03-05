@@ -21,12 +21,16 @@
     }
 }
 
+.fi-color-danger svg {
+    fill: red;
+}
+
 
 .fi-radio-input {
     @apply mt-1.5;
 }
 
-.fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview) {
+.fi-panel-admin *:not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview, .rounded-full) {
     @apply !rounded-sm;
 }
 
