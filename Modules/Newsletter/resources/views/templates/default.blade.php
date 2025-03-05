@@ -18,7 +18,7 @@ description: Default
     <form method="post" id="newsletters-form-{{ $params['id'] }}">
         {!! csrf_field() !!}
 
-        <div class="col-xl-8 col-lg-10 col-12">
+        <div class="col-xl-6 col-md-8 col-12">
             <div class="form-group hide-on-success my-2">
                 <label class="control-label requiredField" for="name1">
                     {{ __('Name') }}
