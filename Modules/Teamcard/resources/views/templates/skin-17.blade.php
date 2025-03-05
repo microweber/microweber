@@ -31,7 +31,7 @@ description: Skin-17
                         @if ($member['file'])
                             <img loading="lazy" src="{{ thumbnail($member['file'], 800) }}" />
                         @else
-                            <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                            <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
                         @endif
                         <span class="category">{{ $member['role'] }}</span>
                         <h4>{{ $member['name'] }}</h4>

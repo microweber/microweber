@@ -34,7 +34,7 @@ description: Skin-4
                         </div>
                     @else
                         <div class="img-as-background square">
-                            <img loading="lazy" src="{{ asset('templates/big2/modules/teamcard/templates/default-image.svg') }}"/>
+                            <img loading="lazy" src="{{ asset('modules/teamcard/default-content/default-image.svg') }}"/>
                         </div>
                     @endif
 

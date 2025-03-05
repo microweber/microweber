@@ -22,7 +22,7 @@ description: Skin-3
                 </div>
                 <?php } else { ?>
                 <div class="img-as-background square">
-                    <img loading="lazy" src="<?php print asset('templates/big2/modules/teamcard/templates/default-image.svg'); ?>"/>
+                    <img loading="lazy" src="<?php print asset('modules/teamcard/default-content/default-image.svg'); ?>"/>
                 </div>
                 <?php } ?>
 
