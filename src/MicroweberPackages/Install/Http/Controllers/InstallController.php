@@ -263,8 +263,9 @@ class InstallController extends Controller
                     $input['db_name_relative'] = str_replace(database_path(), '', $input['db_name']);
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '\\');
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '/');
-                    //DB_DATABASE_FILENAME
-                    $envToSave['DB_DATABASE_FILENAME'] = $input['db_name_relative'];
+                    // DB_DATABASE_FILENAME
+                    //$envToSave['DB_DATABASE_FILENAME'] = $input['db_name_relative'];
+                    $envToSave['DB_DATABASE'] = $input['db_name_relative'];
                     $sqlite_filename = database_path($input['db_name_relative']);
                     if (!is_file($sqlite_filename)) {
                         touch($sqlite_filename);
