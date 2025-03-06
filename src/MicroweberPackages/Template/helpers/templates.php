@@ -28,6 +28,11 @@ function template_config($templateName = false)
     return app()->template_manager->get_config($templateName);
 }
 
+function current_template()
+{
+    return template_name();
+
+}
 
 
 function template_parent($templateName = false)
