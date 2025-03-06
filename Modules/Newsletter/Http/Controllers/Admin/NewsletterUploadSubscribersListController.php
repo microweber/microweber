@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin;
+namespace Modules\Newsletter\Http\Controllers\Admin;
 
 
 use Modules\Newsletter\Services\ImportSubscribersFileReader;
