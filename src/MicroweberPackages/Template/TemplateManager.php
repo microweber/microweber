@@ -992,6 +992,10 @@ class TemplateManager
     {
         return $this->templateAdapter->getMainPageId();
     }
+    public function getParentTemplate($templateName=false)
+    {
+        return $this->templateAdapter->getParentTemplate($templateName);
+    }
 
 
     public $isBooted = false;

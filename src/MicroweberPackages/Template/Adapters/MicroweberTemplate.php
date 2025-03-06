@@ -1554,4 +1554,18 @@ class MicroweberTemplate
 
     }
 
+
+
+
+
+    public function getParentTemplate($template)
+    {
+        $config = $this->getConfig($template);
+        if (isset($config['parent_template']) and $config['parent_template']) {
+            return $config['parent_template'];
+        }
+        return false;
+    }
+
+
 }

@@ -156,6 +156,11 @@ trait ManagesModules
             $activeSiteTemplate = template_name();
         }
 
+        $templateParent = template_parent($activeSiteTemplate);
+        if($templateParent and $templateParent != $activeSiteTemplate){
+            $activeSiteTemplate = $templateParent;
+        }
+
         if ($moduleClass) {
             if (class_exists($moduleClass)) {
                 /** @var BaseModule $moduleClass */
@@ -176,7 +181,7 @@ trait ManagesModules
 
 
                             $scanTemplatesInActiveSiteTemplate = new \MicroweberPackages\Microweber\Support\ScanForBladeTemplates();
-                            $templatesForModuleInActiveSiteTemplate = $scanTemplatesInActiveSiteTemplate->scan($templatesNamespaceInActiveSiteTemplate,$moduleType, $checkIfActiveSiteTemplateLowerName);
+                            $templatesForModuleInActiveSiteTemplate = $scanTemplatesInActiveSiteTemplate->scan($templatesNamespaceInActiveSiteTemplate,$moduleType,$activeSiteTemplate, $checkIfActiveSiteTemplateLowerName);
                             if ($templatesForModuleInActiveSiteTemplate) {
                                 foreach ($templatesForModuleInActiveSiteTemplate as $templatesForModuleInActiveSiteTemplateKey => $templatesForModuleInActiveSiteTemplateValue) {
                                     if (!$templatesForModule) {

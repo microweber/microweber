@@ -6,7 +6,7 @@ class ScanForBladeTemplates
 {
 
 
-    public function scan($templatesNamespace,$moduleType=false, $activeSiteTemplateLowerName=false)
+    public function scan($templatesNamespace,$moduleType=false,$activeSiteTemplate=false, $activeSiteTemplateLowerName=false)
     {
 
         $viewsHints = app('view')->getFinder()->getHints();
@@ -35,6 +35,9 @@ class ScanForBladeTemplates
                     if ($scanTemplatesResult) {
                         $templatesForModule = array_merge($templatesForModule, $scanTemplatesResult);
                     }
+
+
+
 
                 }
             }

@@ -446,10 +446,10 @@ function lnotif($text, $class = 'success')
     }
 }
 
-function random_color()
-{
-    return '#' . sprintf('%02X%02X%02X', mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
-}
+//function random_color()
+//{
+//    return '#' . sprintf('%02X%02X%02X', mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
+//}
 
 function mw_error_handler($errno, $errstr, $errfile, $errline)
 {
@@ -508,7 +508,7 @@ if (!function_exists('powered_by_link')) {
     }
 }
 
-function get_all_functions_files_for_modules($options = false)
+/*function get_all_functions_files_for_modules($options = false)
 {
     if (mw_is_installed() == false) {
         return false;
@@ -558,21 +558,8 @@ function get_all_functions_files_for_modules($options = false)
     return $configs;
 }
 
+*/
 
-function template_dir($param = false)
-{
-    return app()->template_manager->dir($param);
-}
-
-function template_url($param = false)
-{
-    return app()->template_manager->url($param);
-}
-
-function template_name()
-{
-    return app()->template_manager->folder_name();
-}
 
 //
 //api_expose_admin('current_template_save_custom_css');
@@ -594,28 +581,28 @@ function mw_logo_svg()
 }
 
 
-api_expose_admin('system_log_reset');
-
-function system_log_reset($data = false)
-{
-    return mw()->log_manager->reset();
-}
-
-api_expose_admin('delete_log_entry');
-
-function delete_log_entry($data)
-{
-    return mw()->log_manager->delete_entry($data);
-}
+//api_expose_admin('system_log_reset');
+//
+//function system_log_reset($data = false)
+//{
+//    return mw()->log_manager->reset();
+//}
+//
+//api_expose_admin('delete_log_entry');
+//
+//function delete_log_entry($data)
+//{
+//    return mw()->log_manager->delete_entry($data);
+//}
 
 
 /**
  * Returns PNG Image.
  */
-function captcha($params = false)
-{
-    return mw()->captcha_manager->render($params);
-}
+//function captcha($params = false)
+//{
+//    return mw()->captcha_manager->render($params);
+//}
 
 ///**
 // * Returns captcha URL

@@ -8,6 +8,34 @@ function template_option_group()
     return 'mw-template-' . app()->template_manager->folder_name();
 }
 
+function template_dir($param = false)
+{
+    return app()->template_manager->dir($param);
+}
+
+function template_url($param = false)
+{
+    return app()->template_manager->url($param);
+}
+
+function template_name()
+{
+    return app()->template_manager->folder_name();
+}
+
+function template_config($templateName = false)
+{
+    return app()->template_manager->get_config($templateName);
+}
+
+
+
+function template_parent($templateName = false)
+{
+    return app()->template_manager->getParentTemplate($templateName);
+
+}
+
 //
 //api_expose('template_stylesheet_reset_and_get_link' , function (){
 //

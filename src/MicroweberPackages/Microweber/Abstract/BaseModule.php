@@ -86,6 +86,12 @@ abstract class BaseModule
         }
 
         $activeTemplate = template_name();
+
+        $templateParent = template_parent($activeTemplate);
+        if ($templateParent and $templateParent != $activeTemplate) {
+            $activeTemplate = $templateParent;
+        }
+
         if ($activeTemplate) {
             $activeTemplate = str_replace(' ', '_', $activeTemplate);
             $activeTemplate = str_replace('-', '_', $activeTemplate);
@@ -102,10 +108,7 @@ abstract class BaseModule
                 if (view()->exists($templatesNamespaceInActiveSiteTemplate)) {
                     $viewName = $templatesNamespaceInActiveSiteTemplate;
                 }
-
-
             }
-
 
         }
 
