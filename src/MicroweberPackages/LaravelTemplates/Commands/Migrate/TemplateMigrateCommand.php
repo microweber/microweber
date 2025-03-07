@@ -95,11 +95,11 @@ class TemplateMigrateCommand extends BaseCommand
 
         $this->call('migrate', array_filter([
             '--path' => $paths->toArray(),
-            '--database' => $this->option('database'),
-            '--pretend' => $this->option('pretend'),
+          //  '--database' => $this->option('database'),
+          //  '--pretend' => $this->option('pretend'),
            // '--force' => $this->option('force'),
             '--force' =>true,
-            '--realpath' => true,
+           // '--realpath' => true,
         ]));
 
 //        if ($this->option('seed')) {
