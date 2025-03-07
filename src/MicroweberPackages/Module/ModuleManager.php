@@ -251,7 +251,7 @@ class ModuleManager
 
                 $this->log('Migrating template: ' . $name);
                 $autoload = $module->getComposerAttr('autoload', $json);
-                Artisan::call('template:migrate', ['module' => $name, '--force' => true], $output);
+                Artisan::call('template:migrate', ['module' => $name, '--force'], $output);
                 $this->log($output->fetch());
 
                 $output = new BufferedOutput();
@@ -347,7 +347,7 @@ class ModuleManager
                 $autoload = $module->getComposerAttr('autoload', $json);
                 $this->log('Migrating module: ' . $name);
 
-                Artisan::call('module:migrate', ['module' => $name, '--force'=>true], $output);
+                Artisan::call('module:migrate', ['module' => $name, '--force'], $output);
 
                 $this->log($output->fetch());
 
