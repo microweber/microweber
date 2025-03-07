@@ -116,6 +116,7 @@ class InstallController extends Controller
         $install_step = false;
         $save_to_env = true;
         $save_to_config = false;
+        $is_cli_install = false;
 
 //        if (isset($input['config_save_method']) and $input['config_save_method'] == 'env') {
 //            $save_to_env = true;
@@ -134,7 +135,9 @@ class InstallController extends Controller
         if ($is_installed) {
             return 'Microweber is already installed!';
         }
-
+        if (isset($input['is_cli_install'])) {
+            $is_cli_install = $input['is_cli_install'];
+        }
         if (isset($input['save_license'])) {
             $license = new License();
             $saveLicense = $license->saveLicense($input['license_key'], $input['license_rel_type']);
@@ -685,7 +688,9 @@ class InstallController extends Controller
             }
             // if (!is_cli() and isset($admin_user_id)) {
             if (isset($admin_user_id) and $admin_user_id) {
-                mw()->user_manager->make_logged($admin_user_id, true);
+                if(!$is_cli_install) {
+                    mw()->user_manager->make_logged($admin_user_id, true);
+                }
             }
 
             event_trigger('mw.install.complete', $input);

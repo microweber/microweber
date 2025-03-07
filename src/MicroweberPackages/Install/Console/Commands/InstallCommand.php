@@ -148,6 +148,7 @@ class InstallCommand extends Command
         }
 
         $input['default_template'] = $templateFound;
+        $input['is_cli_install'] = true;
 
         $this->info('Installing Microweber...');
         $this->info('Environment: ' . app()->environment());
