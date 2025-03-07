@@ -283,6 +283,8 @@ class ScanForBladeTemplates
 
 
                 $img_name = $to_return_temp['layout_file'].'.png';
+                $img_name = str_replace('/', '.', $img_name);
+                $img_name = str_replace('\\', '.', $img_name);
                 $img_path_modules =  $img_path = 'modules/'. $screenshotType.'/templates/'.$img_name;
 
                 if($activeSiteTemplateLowerName){
@@ -306,8 +308,7 @@ class ScanForBladeTemplates
                 $img_path_for_update_screenshot = str_replace('resources/views/', 'resources/assets/img/screenshots/', $img_path_for_update_screenshot);
 
                 $path =$img_path;
-
-                $screenshotPublic = asset($path);
+                 $screenshotPublic = asset($path);
                  $screen2 = public_path($path);
 
                 $to_return_temp['screenshot_public_url'] = $screenshotPublic;
