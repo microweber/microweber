@@ -16,6 +16,10 @@
         $iconSpacing = $iconSpacing . 'px!important;';
     }
 
+    if (isset($iconFlex) and $iconFlex) {
+        $iconFlex = $iconFlex . '!important;';
+    }
+
 @endphp
 
 <style>
@@ -23,7 +27,6 @@
         width: {{$iconSize}};
         height: {{$iconSize}};
         color: {{$iconColor}};
-        margin-inline: {{$iconSpacing}};
 
         &:hover {
             color: {{$iconHoverColor}};
@@ -31,7 +34,8 @@
     }
 
     #{{ $params['id'] }} .mw-socialLinks {
-        @apply flex items-center gap-2;
+        display: {{$iconFlex}};
+        gap: {{$iconSpacing}};
     }
 
 </style>

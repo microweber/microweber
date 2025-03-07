@@ -41,6 +41,17 @@
                 "max": 200,
                 "step": 0.5
             }
+        },
+        {
+            "type": "select",
+            "label": "Icon position",
+            "name": "iconFlex",
+            "placeholder": "Select icon position",
+            "help": "The position of the icon",
+            "options": {
+                "flex": "Horizontal",
+                "block": "Vertical"
+            }
         }
 
     ]
