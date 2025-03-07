@@ -1,7 +1,7 @@
 <?php
 namespace Modules\Restore\Formats;
 
-use Modules\Export\Formats\Helpers\SpreadsheetHelper;
+use Modules\Restore\Formats\Helpers\SpreadsheetHelper;
 
 class XlsxReader extends DefaultReader
 {

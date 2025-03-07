@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5069897a4719c51db30d4146f71a8922",
+    "content-hash": "e69132fd1e5e7f31dfb6ad23b0d2e78c",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -318,16 +318,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.341.0",
+            "version": "3.342.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8b82bdb43b202fd8c596a096ddcc9915f59f780a"
+                "reference": "8a4ba50aa12ce509d0e598a7fd65d6b9309c39dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8b82bdb43b202fd8c596a096ddcc9915f59f780a",
-                "reference": "8b82bdb43b202fd8c596a096ddcc9915f59f780a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8a4ba50aa12ce509d0e598a7fd65d6b9309c39dd",
+                "reference": "8a4ba50aa12ce509d0e598a7fd65d6b9309c39dd",
                 "shasum": ""
             },
             "require": {
@@ -409,9 +409,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.341.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.342.1"
             },
-            "time": "2025-03-04T19:13:46+00:00"
+            "time": "2025-03-06T19:17:36+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -550,83 +550,6 @@
                 }
             ],
             "time": "2024-12-23T10:10:42+00:00"
-        },
-        {
-            "name": "barryvdh/laravel-dompdf",
-            "version": "v3.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/barryvdh/laravel-dompdf.git",
-                "reference": "8d698b4aec2be91fe1e47ba71ba258acbf23357d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-dompdf/zipball/8d698b4aec2be91fe1e47ba71ba258acbf23357d",
-                "reference": "8d698b4aec2be91fe1e47ba71ba258acbf23357d",
-                "shasum": ""
-            },
-            "require": {
-                "dompdf/dompdf": "^3.0",
-                "illuminate/support": "^9|^10|^11",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "larastan/larastan": "^2.7.0",
-                "orchestra/testbench": "^7|^8|^9",
-                "phpro/grumphp": "^2.5",
-                "squizlabs/php_codesniffer": "^3.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "PDF": "Barryvdh\\DomPDF\\Facade\\Pdf",
-                        "Pdf": "Barryvdh\\DomPDF\\Facade\\Pdf"
-                    },
-                    "providers": [
-                        "Barryvdh\\DomPDF\\ServiceProvider"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Barryvdh\\DomPDF\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "A DOMPDF Wrapper for Laravel",
-            "keywords": [
-                "dompdf",
-                "laravel",
-                "pdf"
-            ],
-            "support": {
-                "issues": "https://github.com/barryvdh/laravel-dompdf/issues",
-                "source": "https://github.com/barryvdh/laravel-dompdf/tree/v3.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://fruitcake.nl",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/barryvdh",
-                    "type": "github"
-                }
-            ],
-            "time": "2025-01-21T20:24:00+00:00"
         },
         {
             "name": "bezhansalleh/filament-language-switch",
@@ -1422,16 +1345,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.5.5",
+            "version": "1.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "08c50d5ec4c6ced7d0271d2862dec8c1033283e6"
+                "reference": "f65c239c970e7f072f067ab78646e9f0b2935175"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/08c50d5ec4c6ced7d0271d2862dec8c1033283e6",
-                "reference": "08c50d5ec4c6ced7d0271d2862dec8c1033283e6",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/f65c239c970e7f072f067ab78646e9f0b2935175",
+                "reference": "f65c239c970e7f072f067ab78646e9f0b2935175",
                 "shasum": ""
             },
             "require": {
@@ -1478,7 +1401,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.5.5"
+                "source": "https://github.com/composer/ca-bundle/tree/1.5.6"
             },
             "funding": [
                 {
@@ -1494,7 +1417,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-08T16:17:16+00:00"
+            "time": "2025-03-06T14:30:56+00:00"
         },
         {
             "name": "composer/class-map-generator",
@@ -3132,161 +3055,6 @@
                 }
             ],
             "time": "2024-02-05T11:56:58+00:00"
-        },
-        {
-            "name": "dompdf/dompdf",
-            "version": "v3.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "a51bd7a063a65499446919286fb18b518177155a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/a51bd7a063a65499446919286fb18b518177155a",
-                "reference": "a51bd7a063a65499446919286fb18b518177155a",
-                "shasum": ""
-            },
-            "require": {
-                "dompdf/php-font-lib": "^1.0.0",
-                "dompdf/php-svg-lib": "^1.0.0",
-                "ext-dom": "*",
-                "ext-mbstring": "*",
-                "masterminds/html5": "^2.0",
-                "php": "^7.1 || ^8.0"
-            },
-            "require-dev": {
-                "ext-gd": "*",
-                "ext-json": "*",
-                "ext-zip": "*",
-                "mockery/mockery": "^1.3",
-                "phpunit/phpunit": "^7.5 || ^8 || ^9 || ^10 || ^11",
-                "squizlabs/php_codesniffer": "^3.5",
-                "symfony/process": "^4.4 || ^5.4 || ^6.2 || ^7.0"
-            },
-            "suggest": {
-                "ext-gd": "Needed to process images",
-                "ext-gmagick": "Improves image processing performance",
-                "ext-imagick": "Improves image processing performance",
-                "ext-zlib": "Needed for pdf stream compression"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Dompdf\\": "src/"
-                },
-                "classmap": [
-                    "lib/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.1"
-            ],
-            "authors": [
-                {
-                    "name": "The Dompdf Community",
-                    "homepage": "https://github.com/dompdf/dompdf/blob/master/AUTHORS.md"
-                }
-            ],
-            "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
-            "homepage": "https://github.com/dompdf/dompdf",
-            "support": {
-                "issues": "https://github.com/dompdf/dompdf/issues",
-                "source": "https://github.com/dompdf/dompdf/tree/v3.1.0"
-            },
-            "time": "2025-01-15T14:09:04+00:00"
-        },
-        {
-            "name": "dompdf/php-font-lib",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dompdf/php-font-lib.git",
-                "reference": "6137b7d4232b7f16c882c75e4ca3991dbcf6fe2d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/php-font-lib/zipball/6137b7d4232b7f16c882c75e4ca3991dbcf6fe2d",
-                "reference": "6137b7d4232b7f16c882c75e4ca3991dbcf6fe2d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": "^7.1 || ^8.0"
-            },
-            "require-dev": {
-                "symfony/phpunit-bridge": "^3 || ^4 || ^5 || ^6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FontLib\\": "src/FontLib"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.1-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "The FontLib Community",
-                    "homepage": "https://github.com/dompdf/php-font-lib/blob/master/AUTHORS.md"
-                }
-            ],
-            "description": "A library to read, parse, export and make subsets of different types of font files.",
-            "homepage": "https://github.com/dompdf/php-font-lib",
-            "support": {
-                "issues": "https://github.com/dompdf/php-font-lib/issues",
-                "source": "https://github.com/dompdf/php-font-lib/tree/1.0.1"
-            },
-            "time": "2024-12-02T14:37:59+00:00"
-        },
-        {
-            "name": "dompdf/php-svg-lib",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dompdf/php-svg-lib.git",
-                "reference": "eb045e518185298eb6ff8d80d0d0c6b17aecd9af"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/php-svg-lib/zipball/eb045e518185298eb6ff8d80d0d0c6b17aecd9af",
-                "reference": "eb045e518185298eb6ff8d80d0d0c6b17aecd9af",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": "^7.1 || ^8.0",
-                "sabberworm/php-css-parser": "^8.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Svg\\": "src/Svg"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "The SvgLib Community",
-                    "homepage": "https://github.com/dompdf/php-svg-lib/blob/master/AUTHORS.md"
-                }
-            ],
-            "description": "A library to read, parse and export to PDF SVG files.",
-            "homepage": "https://github.com/dompdf/php-svg-lib",
-            "support": {
-                "issues": "https://github.com/dompdf/php-svg-lib/issues",
-                "source": "https://github.com/dompdf/php-svg-lib/tree/1.0.0"
-            },
-            "time": "2024-04-29T13:26:35+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
@@ -5566,16 +5334,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.3.3",
+            "version": "v1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "d14a1c24553d7024a577ebc2bd8667de1033be68"
+                "reference": "d3b7ff28994e1b0de764ab7412fa269a79634ff3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/d14a1c24553d7024a577ebc2bd8667de1033be68",
-                "reference": "d14a1c24553d7024a577ebc2bd8667de1033be68",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/d3b7ff28994e1b0de764ab7412fa269a79634ff3",
+                "reference": "d3b7ff28994e1b0de764ab7412fa269a79634ff3",
                 "shasum": ""
             },
             "require": {
@@ -5612,9 +5380,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.3.3"
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.3.4"
             },
-            "time": "2025-02-26T18:40:58+00:00"
+            "time": "2025-03-05T23:12:10+00:00"
         },
         {
             "name": "jenssegers/agent",
@@ -6181,16 +5949,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v11.44.0",
+            "version": "v11.44.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e9a33da34815ac1ed46c7e4c477a775f4592f0a7"
+                "reference": "0883d4175f4e2b5c299e7087ad3c74f2ce195c6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e9a33da34815ac1ed46c7e4c477a775f4592f0a7",
-                "reference": "e9a33da34815ac1ed46c7e4c477a775f4592f0a7",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/0883d4175f4e2b5c299e7087ad3c74f2ce195c6d",
+                "reference": "0883d4175f4e2b5c299e7087ad3c74f2ce195c6d",
                 "shasum": ""
             },
             "require": {
@@ -6298,7 +6066,7 @@
                 "league/flysystem-read-only": "^3.25.1",
                 "league/flysystem-sftp-v3": "^3.25.1",
                 "mockery/mockery": "^1.6.10",
-                "orchestra/testbench-core": "^9.9.4",
+                "orchestra/testbench-core": "^9.11.2",
                 "pda/pheanstalk": "^5.0.6",
                 "php-http/discovery": "^1.15",
                 "phpstan/phpstan": "^2.0",
@@ -6392,7 +6160,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-02-24T13:08:54+00:00"
+            "time": "2025-03-05T15:34:10+00:00"
         },
         {
             "name": "laravel/passport",
@@ -9008,7 +8776,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "7bc3df8e4a400abec277f6ab111597f45dd0f997"
+                "reference": "5d901bb50e63f264f72c6734cef9315030eb4277"
             },
             "type": "library",
             "extra": {
@@ -9049,7 +8817,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets-libs",
-                "reference": "fedbd34d4d9763321ad7c7a1582eb594a2ceb1c6"
+                "reference": "a08522943045c24ed88e499a9804d9e74d9a7150"
             },
             "require": {
                 "php": "^8.1"
@@ -11882,19 +11650,20 @@
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "3.8.0",
+            "version": "3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "949c799c3538f3158bcf6c5f4d8a403027be0fbd"
+                "reference": "414f8a2aa1d8b974b39f577c0677d5ebc96fab36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/949c799c3538f3158bcf6c5f4d8a403027be0fbd",
-                "reference": "949c799c3538f3158bcf6c5f4d8a403027be0fbd",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/414f8a2aa1d8b974b39f577c0677d5ebc96fab36",
+                "reference": "414f8a2aa1d8b974b39f577c0677d5ebc96fab36",
                 "shasum": ""
             },
             "require": {
+                "composer/pcre": "^3.3",
                 "ext-ctype": "*",
                 "ext-dom": "*",
                 "ext-fileinfo": "*",
@@ -11980,9 +11749,9 @@
             ],
             "support": {
                 "issues": "https://github.com/PHPOffice/PhpSpreadsheet/issues",
-                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/3.8.0"
+                "source": "https://github.com/PHPOffice/PhpSpreadsheet/tree/3.9.0"
             },
-            "time": "2025-01-12T03:48:58+00:00"
+            "time": "2025-01-26T05:10:24+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -20675,16 +20444,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.11",
+            "version": "11.5.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3946ac38410be7440186c6e74584f31b15107fc7"
+                "reference": "d42785840519401ed2113292263795eb4c0f95da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3946ac38410be7440186c6e74584f31b15107fc7",
-                "reference": "3946ac38410be7440186c6e74584f31b15107fc7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d42785840519401ed2113292263795eb4c0f95da",
+                "reference": "d42785840519401ed2113292263795eb4c0f95da",
                 "shasum": ""
             },
             "require": {
@@ -20705,7 +20474,7 @@
                 "phpunit/php-timer": "^7.0.1",
                 "sebastian/cli-parser": "^3.0.2",
                 "sebastian/code-unit": "^3.0.2",
-                "sebastian/comparator": "^6.3.0",
+                "sebastian/comparator": "^6.3.1",
                 "sebastian/diff": "^6.0.2",
                 "sebastian/environment": "^7.2.0",
                 "sebastian/exporter": "^6.3.0",
@@ -20756,7 +20525,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.11"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.12"
             },
             "funding": [
                 {
@@ -20772,7 +20541,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-05T07:36:02+00:00"
+            "time": "2025-03-07T07:31:03+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -20946,16 +20715,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "6.3.0",
+            "version": "6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "d4e47a769525c4dd38cea90e5dcd435ddbbc7115"
+                "reference": "24b8fbc2c8e201bb1308e7b05148d6ab393b6959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/d4e47a769525c4dd38cea90e5dcd435ddbbc7115",
-                "reference": "d4e47a769525c4dd38cea90e5dcd435ddbbc7115",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/24b8fbc2c8e201bb1308e7b05148d6ab393b6959",
+                "reference": "24b8fbc2c8e201bb1308e7b05148d6ab393b6959",
                 "shasum": ""
             },
             "require": {
@@ -20974,7 +20743,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "6.2-dev"
+                    "dev-main": "6.3-dev"
                 }
             },
             "autoload": {
@@ -21014,7 +20783,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
                 "security": "https://github.com/sebastianbergmann/comparator/security/policy",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/6.3.0"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/6.3.1"
             },
             "funding": [
                 {
@@ -21022,7 +20791,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-06T10:28:19+00:00"
+            "time": "2025-03-07T06:57:01+00:00"
         },
         {
             "name": "sebastian/complexity",

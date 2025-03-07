@@ -3,7 +3,7 @@
 namespace Modules\Backup\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Modules\Export\Formats\Helpers\SpreadsheetHelper;
+use Modules\Restore\Formats\Helpers\SpreadsheetHelper;
 
 class LanguageController
 {

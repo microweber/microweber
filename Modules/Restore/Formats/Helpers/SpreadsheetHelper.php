@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Export\Formats\Helpers;
+namespace Modules\Restore\Formats\Helpers;
 
 use Exception;
 use function MicroweberPackages\Backup\Exporters\mb_substr;

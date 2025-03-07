@@ -3,7 +3,7 @@
 namespace Modules\Newsletter\Services;
 
 use Illuminate\Support\Facades\App;
-use Modules\Export\Formats\Helpers\SpreadsheetHelper;
+use Modules\Restore\Formats\Helpers\SpreadsheetHelper;
 use Modules\Backup\SessionStepper;
 use Modules\Restore\Formats\CsvReader;
 
