@@ -21,21 +21,13 @@
     @endif
 
     <script>
-
-
-
-
         mw
             .iconLoader()
             .addIconSet('iconsMindLine')
             .addIconSet('iconsMindSolid')
             .addIconSet('fontAwesome')
             .addIconSet('materialDesignIcons');
-
-
     </script>
-
-
 </head>
 
 <body class="{!! helper_body_classes() !!}">
@@ -45,7 +37,7 @@
     <div class="navigation-holder">
         <module type="layouts" template="menus/skin-4" template-filter="menus" id="header-layout"/>
     </div>
-    
+
     @yield('content')
 
     <module type="layouts" template="footers/skin-1" id="footer-layout" template-filter="footers" />
