@@ -1,5 +1,5 @@
 <?php
-namespace MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin;
+namespace Modules\Newsletter\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Modules\Newsletter\Models\NewsletterTemplate;

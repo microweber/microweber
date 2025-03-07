@@ -12,16 +12,16 @@ Route::name('admin.newsletter.')
     ->group(function () {
 
         Route::post('/upload-subscribers-list',
-            MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\NewsletterUploadSubscribersListController::class . '@upload')->name('upload-subscribers-list');
+            \Modules\Newsletter\Http\Controllers\Admin\NewsletterUploadSubscribersListController::class . '@upload')->name('upload-subscribers-list');
 
-        Route::get('/', MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@index')->name('index');
-        Route::get('/subscribers', MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@subscribers')->name('subscribers');
-        Route::get('/lists', MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@lists')->name('lists');
-        Route::get('/templates', MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@templates')->name('templates');
-        Route::get('/sender-accounts', MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@senderAccounts')->name('sender-accounts');
-        Route::get('/settings', MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@settings')->name('settings');
+        Route::get('/', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@index')->name('index');
+        Route::get('/subscribers', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@subscribers')->name('subscribers');
+        Route::get('/lists', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@lists')->name('lists');
+        Route::get('/templates', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@templates')->name('templates');
+        Route::get('/sender-accounts', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@senderAccounts')->name('sender-accounts');
+        Route::get('/settings', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@settings')->name('settings');
 
-        Route::post('/templates/edit/{id}', MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@templatesEdit')->name('templates.edit');
+        Route::post('/templates/edit/{id}', \Modules\Newsletter\Http\Controllers\Admin\AdminController::class . '@templatesEdit')->name('templates.edit');
 
         Route::get('/templates/preview/{id}', function ($id) {
 
@@ -112,6 +112,6 @@ Route::name('admin.newsletter.')
 
         })->name('preview-email-template');
 
-        Route::post('sender-accounts/save', MicroweberPackages\Modules\Newsletter\Http\Controllers\Admin\NewsletterSenderAccountController::class . '@save')->name('sender-accounts.save');
+        Route::post('sender-accounts/save', \Modules\Newsletter\Http\Controllers\Admin\NewsletterSenderAccountController::class . '@save')->name('sender-accounts.save');
 
     });
