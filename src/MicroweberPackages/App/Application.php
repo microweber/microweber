@@ -84,7 +84,6 @@ use Modules\Shop\Services\ShopManager;
  * @property \Modules\Tax\Services\TaxManager $tax_manager
  * @property CheckoutManager $checkout_manager
  * @property CountryManager $country_manager
- * @property ShippingMethodManager $shipping_method_manager
  * @property OptionManager $option_manager
  * @property OptionRepository $option_repository
  * @property CacheManager $cache_manager

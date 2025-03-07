@@ -325,11 +325,12 @@ class InstallController extends Controller
                 // $envToSave['MW_VERSION'] = MW_VERSION;
             }
 
-            if (isset($input['default_template']) and $input['default_template'] != false) {
+            if (isset($input['default_template']) and $input['default_template']) {
                 Config::set('microweber.install_default_template', $input['default_template']);
                 $envToSave['MW_DEFAULT_TEMPLATE'] = $input['default_template'];
             }
-            if (isset($input['with_default_content']) and $input['with_default_content'] != false) {
+
+            if (isset($input['with_default_content']) and $input['with_default_content']) {
                 Config::set('microweber.install_default_template_content', 1);
                 $envToSave['MW_DEFAULT_TEMPLATE_CONTENT'] = true;
             }
@@ -390,8 +391,9 @@ class InstallController extends Controller
 
 
             if ($save_to_config) {
-                $this->log('Saving config');
-                Config::save($allowed_configs);
+                //legacy
+            //    $this->log('Saving config');
+            //    Config::save($allowed_configs);
             }
 //            if ($save_to_env) {
 //                $this->log('Saving env');
@@ -525,6 +527,10 @@ class InstallController extends Controller
                 }
 
                 if (!$install_step or $install_step == 4) {
+
+
+
+
                     $this->log('Setting up template');
                     $installer = new Install\TemplateInstaller();
                     if (isset($input['site_lang'])) {
