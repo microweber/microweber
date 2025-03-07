@@ -39,7 +39,7 @@
     @yield('content')
 
     <module type="layouts" template="footers/skin-1" id="footer-layout" template-filter="footers" />
-    
+
 </div>
     {{-- Vite JS --}}
     <script src="{{ asset('templates/bootstrap/dist/build/app.js') }}"></script>
