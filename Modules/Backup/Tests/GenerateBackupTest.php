@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Backup\tests;
+namespace Modules\Backup\Tests;
 
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\GenerateBackup;
