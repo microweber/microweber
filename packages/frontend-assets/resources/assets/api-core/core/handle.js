@@ -422,7 +422,7 @@ export const Handle = function (options) {
             if (isCol) {
                 const row = DomService.firstParentOrCurrentWithClass(target, 'mw-row');
                 if (row) {
-                    Array.from(row.children).forEach(col => col.style.width = ((100 / row.offsetWidth) * col.offsetWidth) + '%');
+                    // Array.from(row.children).forEach(col => col.style.width = ((100 / row.offsetWidth) * col.offsetWidth) + '%');
                 }
             }
             if (target) {

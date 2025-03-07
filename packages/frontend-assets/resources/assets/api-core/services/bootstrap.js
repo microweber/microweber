@@ -73,6 +73,15 @@ mw.app.singleFilePickerComponent = options => {
 
 mw.app.livewireHooksReloadModule = new LivewireHooksReloadModule();
 
+let _strictMode = false;
+
+mw.app.strictMode = val => {
+    if(typeof val === "boolean") {
+        _strictMode = val;
+    }
+    return _strictMode;
+};
+
 
 let sameUrlDialog = false;
 

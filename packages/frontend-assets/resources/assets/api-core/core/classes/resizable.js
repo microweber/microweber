@@ -229,6 +229,15 @@ export class Resizable  {
         })
     }
 
+    handleBlur() {
+        this._blur = () => {
+            this.mouseUpHandler();
+        }
+        this.document.defaultView.addEventListener('blur', this._blur)
+        this.document.defaultView.addEventListener('visibilitychange', this._blur)
+        this.document.addEventListener('keypress', this._blur)
+    }
+
     mount() {
         if(!this.element) { return this; }
         if(this.element.dataset.resizable) { return this; }
@@ -259,6 +268,8 @@ export class Resizable  {
 
         }
 
+
+
         this.dispatch('ready', { height: this.element.offsetHeight, width: this.element.offsetWidth });
         return this;
     }
@@ -273,6 +284,8 @@ export class Resizable  {
                 this.mouseDownHandler(e)
             });
         });
+        this.document.defaultView.removeEventListener('blur', this._blur)
+        this.document.defaultView.removeEventListener('visibilitychange', this._blur)
         return this;
     }
 

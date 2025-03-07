@@ -876,3 +876,13 @@ html[dir="rtl"] .mw-text-start{
     color: #1111114a;
     font-weight: bold;
 }
+
+
+.mw-row{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.mw-col{
+    max-width: 100%;
+}

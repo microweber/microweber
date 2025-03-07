@@ -75,6 +75,9 @@ mw.DomTree = function (options) {
 
         if(!title) {
             title = node.nodeName.toLowerCase();
+            if(title === 'div') {
+                title = getComputedStyle(node).getPropertyValue('display');
+            }
         }
 
         var data = {};
