@@ -1,0 +1,30 @@
+{
+    "name": "modules/restore",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Restore\\": "",
+            "Modules\\Restore\\Database\\Factories\\": "database/factories/",
+            "Modules\\Restore\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Restore\\Tests\\": "Tests/"
+        }
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Restore",
+    "alias": "restore",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Restore\\Providers\\RestoreServiceProvider"
+    ],
+    "files": []
+}
