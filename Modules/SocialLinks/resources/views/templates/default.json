@@ -44,13 +44,25 @@
         },
         {
             "type": "select",
-            "label": "Icon position",
+            "label": "Icon flex",
             "name": "iconFlex",
-            "placeholder": "Select icon position",
-            "help": "The position of the icon",
+            "placeholder": "Select icon flex",
+            "help": "The flex of the icon",
             "options": {
                 "flex": "Horizontal",
                 "block": "Vertical"
+            }
+        },
+        {
+            "type": "select",
+            "label": "Icon position",
+            "name": "iconPosition",
+            "placeholder": "Select icon position",
+            "help": "The position of the icon",
+            "options": {
+                "start": "left",
+                "center": "center",
+                "end": "right"
             }
         }
 

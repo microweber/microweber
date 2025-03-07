@@ -36,6 +36,7 @@
     #{{ $params['id'] }} .mw-socialLinks {
         display: {{$iconFlex}};
         gap: {{$iconSpacing}};
+        justify-content: {{$iconPosition}};
     }
 
 </style>

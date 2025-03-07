@@ -48,6 +48,7 @@ class SocialLinksModule extends BaseModule
         $viewData['iconSize'] = $viewData['options']['iconSize'] ?? '24';
         $viewData['iconSpacing'] = $viewData['options']['iconSpacing'] ?? '10';
         $viewData['iconFlex'] = $viewData['options']['iconFlex'] ?? 'flex';
+        $viewData['iconPosition'] = $viewData['options']['iconPosition'] ?? 'center';
 
 
         return view($viewName, $viewData);
