@@ -31,8 +31,6 @@
 </head>
 
 <body class="{!! helper_body_classes() !!}">
-<module type="logo" id="header-logo" class="w-100"/>
-
 <div class="main">
     <div class="navigation-holder">
         <module type="layouts" template="menus/skin-4" template-filter="menus" id="header-layout"/>
@@ -41,8 +39,7 @@
     @yield('content')
 
     <module type="layouts" template="footers/skin-1" id="footer-layout" template-filter="footers" />
-
-
+    
 </div>
     {{-- Vite JS --}}
     <script src="{{ asset('templates/bootstrap/dist/build/app.js') }}"></script>
