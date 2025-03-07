@@ -253,8 +253,11 @@ class InstallController extends Controller
                 if (isset($input['db_name_sqlite'])) {
                     $input['db_name'] = $input['db_name_sqlite'];
                     $input['db_name'] = str_replace(':.', '.', $input['db_name']);
+                }else  if (isset($input['db_host'])) {
+                    $input['db_name'] = $input['db_host'];
+                    $input['db_name'] = str_replace(':.', '.', $input['db_host']);
                 }
-                //$input['db_name'] = str_replace('\\', '/', $input['db_name']);
+                $input['db_name'] = str_replace('\\', '/', $input['db_name']);
 
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
                 if (isset($input['db_name']) and $input['db_name'] != ':memory:' and !file_exists($input['db_name'])) {
@@ -464,7 +467,8 @@ class InstallController extends Controller
                     $output->setDecorated(false);
                     Artisan::call('migrate', ['--force' => true], $output);
                     $this->log($output->fetch());
-                    $this->log('Running install of laravel modules');
+
+              $this->log('Running install of laravel modules');
                     app()->module_manager->reload_laravel_modules();
                     $this->log('Running install of laravel templates');
                     app()->module_manager->reload_laravel_templates();
@@ -507,7 +511,6 @@ class InstallController extends Controller
 
                 }
 
-
                 if (!$install_step or $install_step == 1) {
                     $this->log('Setting up database');
                     $installer = new Install\DbInstaller();
@@ -522,11 +525,11 @@ class InstallController extends Controller
 
                 if (!$install_step or $install_step == 3) {
 
-
+/*
                     $this->log('Setting up modules');
                     $installer = new Install\ModulesInstaller();
                     $installer->logger = $this;
-                    $installer->run();
+                    $installer->run();*/
                 }
 
                 if (!$install_step or $install_step == 4) {
@@ -580,10 +583,10 @@ class InstallController extends Controller
                         if (defined('TEMPLATE_DIR')) {
 //                            app()->template_manager->boot_template();
                         }
-                        $this->log('Running migrations after install for template' . $selected_template);
+              /*          $this->log('Running migrations after install for template' . $selected_template);
                         $installer = new Install\DbInstaller();
                         $installer->logger = $this;
-                        $installer->createSchema();
+                        $installer->createSchema();*/
 
 
 //                         language is moved to json files and does not require install anymore
@@ -593,6 +596,7 @@ class InstallController extends Controller
                     }
 
                     // load all providers and run migrations
+                    // legacy
                     load_all_functions_files_for_modules();
                     load_all_service_providers_for_modules();
                     load_functions_files_for_template();
@@ -600,9 +604,7 @@ class InstallController extends Controller
 
                     $migrator = app()->mw_migrator->run(app()->migrator->paths());
 
-                    $installer = new Install\DbInstaller();
-                    $installer->logger = $this;
-                    $installer->createSchema();
+
 
 
 //                    app()->module_manager->logger = $this;
