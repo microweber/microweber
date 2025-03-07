@@ -116,6 +116,7 @@ class InstallController extends Controller
         $install_step = false;
         $save_to_env = true;
         $save_to_config = false;
+        $is_cli_install = false;
 
 //        if (isset($input['config_save_method']) and $input['config_save_method'] == 'env') {
 //            $save_to_env = true;
@@ -134,7 +135,9 @@ class InstallController extends Controller
         if ($is_installed) {
             return 'Microweber is already installed!';
         }
-
+        if (isset($input['is_cli_install'])) {
+            $is_cli_install = $input['is_cli_install'];
+        }
         if (isset($input['save_license'])) {
             $license = new License();
             $saveLicense = $license->saveLicense($input['license_key'], $input['license_rel_type']);
@@ -325,11 +328,12 @@ class InstallController extends Controller
                 // $envToSave['MW_VERSION'] = MW_VERSION;
             }
 
-            if (isset($input['default_template']) and $input['default_template'] != false) {
+            if (isset($input['default_template']) and $input['default_template']) {
                 Config::set('microweber.install_default_template', $input['default_template']);
                 $envToSave['MW_DEFAULT_TEMPLATE'] = $input['default_template'];
             }
-            if (isset($input['with_default_content']) and $input['with_default_content'] != false) {
+
+            if (isset($input['with_default_content']) and $input['with_default_content']) {
                 Config::set('microweber.install_default_template_content', 1);
                 $envToSave['MW_DEFAULT_TEMPLATE_CONTENT'] = true;
             }
@@ -390,8 +394,9 @@ class InstallController extends Controller
 
 
             if ($save_to_config) {
-                $this->log('Saving config');
-                Config::save($allowed_configs);
+                //legacy
+            //    $this->log('Saving config');
+            //    Config::save($allowed_configs);
             }
 //            if ($save_to_env) {
 //                $this->log('Saving env');
@@ -525,6 +530,10 @@ class InstallController extends Controller
                 }
 
                 if (!$install_step or $install_step == 4) {
+
+
+
+
                     $this->log('Setting up template');
                     $installer = new Install\TemplateInstaller();
                     if (isset($input['site_lang'])) {
@@ -679,7 +688,9 @@ class InstallController extends Controller
             }
             // if (!is_cli() and isset($admin_user_id)) {
             if (isset($admin_user_id) and $admin_user_id) {
-                mw()->user_manager->make_logged($admin_user_id, true);
+                if(!$is_cli_install) {
+                    mw()->user_manager->make_logged($admin_user_id, true);
+                }
             }
 
             event_trigger('mw.install.complete', $input);

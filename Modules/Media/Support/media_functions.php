@@ -52,8 +52,8 @@ if (!function_exists('media_base_url')) {
         static $folder;
 
         if (!$folder) {
-            //    $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
-            $folder = asset('storage/' . MW_MEDIA_FOLDER_NAME) . '/';
+              $folder = userfiles_url() . (MW_MEDIA_FOLDER_NAME . '/');
+           // $folder = asset('storage/' . MW_MEDIA_FOLDER_NAME) . '/';
         }
 
         return $folder;
@@ -65,8 +65,8 @@ if (!function_exists('media_base_path')) {
     {
         static $folder;
         if (!$folder) {
-            // $folder = userfiles_path() . (MW_MEDIA_FOLDER_NAME . DIRECTORY_SEPARATOR);
-            $folder = storage_path('app/public/' . MW_MEDIA_FOLDER_NAME . '/');
+           $folder = userfiles_path() . (MW_MEDIA_FOLDER_NAME . DIRECTORY_SEPARATOR);
+           // $folder = storage_path('app/public/' . MW_MEDIA_FOLDER_NAME . '/');
         }
 
         return $folder;

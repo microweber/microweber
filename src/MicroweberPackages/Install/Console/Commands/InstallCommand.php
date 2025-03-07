@@ -119,14 +119,14 @@ class InstallCommand extends Command
         }
 
         if ($lazy_install) {
-            $input['default_template'] = (getenv('DEFAULT_TEMPLATE') ?: 'liteness');
+            $input['default_template'] = (getenv('DEFAULT_TEMPLATE') ?: 'Bootstrap');
             $input['with_default_content'] = true;
         }
         $input['subscribe_for_update_notification'] = true;
 
 
         $templateFound = false;
-        if (is_file(templates_dir() . $input['default_template'] . DS . 'config.php')) {
+        if (is_file(templates_dir() . $input['default_template'] . DS . 'composer.json')) {
             $templateFound = $input['default_template'];
         }
 
@@ -148,6 +148,7 @@ class InstallCommand extends Command
         }
 
         $input['default_template'] = $templateFound;
+        $input['is_cli_install'] = true;
 
         $this->info('Installing Microweber...');
         $this->info('Environment: ' . app()->environment());
