@@ -429,5 +429,87 @@
     @apply text-xs;
 }
 
+.rounded-circle {
+    @apply !rounded-full;
+}
 
+/* Form Control */
+.form-control {
+    @apply block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none;
+}
 
+.form-control:disabled {
+    @apply bg-gray-200 opacity-70;
+}
+
+/* Form Control Large */
+.form-control-lg {
+    @apply px-4 py-2 text-xl;
+}
+
+/* Form Control Small */
+.form-control-sm {
+    @apply px-2 py-1 text-sm;
+}
+
+/* Form Label */
+.form-label {
+    @apply inline-block mb-2 text-gray-700;
+}
+
+/* Form Text */
+.form-text {
+    @apply mt-1 text-sm text-gray-600;
+}
+
+/* Form Check */
+.form-check {
+    @apply flex items-center;
+}
+
+.form-check-input {
+    @apply w-4 h-4 mt-1 mr-2 align-top bg-white bg-center bg-no-repeat bg-contain border border-gray-300 rounded appearance-none cursor-pointer focus:outline-none transition duration-200;
+}
+
+.form-check-label {
+    @apply inline-block text-gray-800;
+}
+
+/* Form Check Inline */
+.form-check-inline {
+    @apply flex items-center mr-4;
+}
+
+/* Form Select */
+.form-select {
+    @apply block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none;
+}
+
+/* Form Range */
+.form-range {
+    @apply w-full h-2 p-0 bg-gray-200 rounded-lg appearance-none cursor-pointer;
+}
+
+.form-range:focus {
+    @apply outline-none;
+}
+
+/* Valid Feedback */
+.valid-feedback {
+    @apply text-green-600 mt-1 text-sm;
+}
+
+/* Invalid Feedback */
+.invalid-feedback {
+    @apply text-red-600 mt-1 text-sm;
+}
+
+/* Valid Tooltip */
+.valid-tooltip {
+    @apply absolute z-10 hidden w-auto p-2 text-sm text-white bg-green-600 rounded;
+}
+
+/* Invalid Tooltip */
+.invalid-tooltip {
+    @apply absolute z-10 hidden w-auto p-2 text-sm text-white bg-red-600 rounded;
+}

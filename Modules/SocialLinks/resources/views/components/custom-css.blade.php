@@ -30,4 +30,8 @@
         }
     }
 
+    #{{ $params['id'] }} .mw-socialLinks {
+        @apply flex items-center gap-2;
+    }
+
 </style>
