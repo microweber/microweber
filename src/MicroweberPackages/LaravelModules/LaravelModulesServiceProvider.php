@@ -7,6 +7,7 @@ use Illuminate\Foundation\Console\AboutCommand;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\LaravelModules\Contracts\LaravelModulesCacheRepositoryContract;
 use MicroweberPackages\LaravelModules\Helpers\SplClassLoader;
+use MicroweberPackages\LaravelModules\Providers\ModulesConsoleServiceProvider;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesCacheRepository;
 use MicroweberPackages\LaravelModules\Repositories\LaravelModulesFileRepository;
 use Nwidart\Modules\Contracts\ActivatorInterface;
@@ -14,7 +15,6 @@ use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Exceptions\InvalidActivatorClass;
 use Nwidart\Modules\Laravel\LaravelFileRepository;
 use Nwidart\Modules\Providers\BootstrapServiceProvider;
-use Nwidart\Modules\Providers\ConsoleServiceProvider;
 use Nwidart\Modules\Providers\ContractsServiceProvider;
 use Nwidart\Modules\Support\Stub;
 
@@ -117,7 +117,7 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
 
     protected function registerProviders()
     {
-        $this->app->register(ConsoleServiceProvider::class);
+        $this->app->register(ModulesConsoleServiceProvider::class);
         $this->app->bind(RepositoryInterface::class, LaravelModulesFileRepository::class);
 
         //  $this->app->register(ContractsServiceProvider::class);

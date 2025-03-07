@@ -97,7 +97,8 @@ class TemplateMigrateCommand extends BaseCommand
             '--path' => $paths->toArray(),
             '--database' => $this->option('database'),
             '--pretend' => $this->option('pretend'),
-            '--force' => $this->option('force'),
+           // '--force' => $this->option('force'),
+            '--force' =>true,
             '--realpath' => true,
         ]));
 
