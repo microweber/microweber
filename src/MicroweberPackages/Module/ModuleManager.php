@@ -243,16 +243,30 @@ class ModuleManager
 
                 $name = $module->getName();
                 //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
-                $module->enable();
+                //$module->enable();
                 //$module->registerProviders();
+
+                if(!$module->isEnabled()){
+                    $module->enable();
+                    $module->register();
+                    $module->boot();
+                }
 
                 $output = new BufferedOutput();
                 $output->setDecorated(false);
 
-                $this->log('Migrating template: ' . $name);
                 $autoload = $module->getComposerAttr('autoload', $json);
-                Artisan::call('template:migrate', ['module' => $name, '--force'], $output);
-                $this->log($output->fetch());
+
+                if(is_dir($modulePath . DS . 'database/migrations')){
+                    $this->log('Migrating template: ' . $name);
+
+                  //  app()->mw_migrator->run([ $modulePath . DS . 'database/migrations']);
+                     Artisan::call('template:migrate', ['module' => $name, '--force'], $output);
+                      $this->log($output->fetch());
+                }
+
+
+
 
                 $output = new BufferedOutput();
                 $output->setDecorated(false);
@@ -338,18 +352,35 @@ class ModuleManager
                 }
 
                 //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
-                $module->enable();
+
+                if(!$module->isEnabled()){
+                    $module->enable();
+                    $module->register();
+                    $module->boot();
+                }
+
+                //$module->enable();
+
+
+               // $module->register();
+
                 //$module->registerProviders();
                 $name = $module->getName();
                 $output = new BufferedOutput();
                 $output->setDecorated(false);
 
                 $autoload = $module->getComposerAttr('autoload', $json);
-                $this->log('Migrating module: ' . $name);
 
-                Artisan::call('module:migrate', ['module' => $name, '--force'], $output);
+                if(is_dir($modulePath . DS . 'database/migrations')){
+                    $this->log('Migrating module: ' . $name);
 
-                $this->log($output->fetch());
+                   // app()->mw_migrator->run([ $modulePath . DS . 'database/migrations']);
+                   Artisan::call('module:migrate', ['module' => $name, '--force'], $output);
+                  $this->log($output->fetch());
+                }
+
+
+
 
                 $output = new BufferedOutput();
                 $output->setDecorated(false);

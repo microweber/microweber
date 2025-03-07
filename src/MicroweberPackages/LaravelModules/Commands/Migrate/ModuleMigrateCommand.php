@@ -33,7 +33,7 @@ class ModuleMigrateCommand extends MigrateCommand
 
         $this->migrator = app('migrator');
         $this->migration_list = collect($this->migrator->paths());
-    }
+     }
 
     public function executeAction($name): void
     {
@@ -50,10 +50,11 @@ class ModuleMigrateCommand extends MigrateCommand
 
         $this->call('migrate', array_filter([
             '--path' => $paths->toArray(),
-        //    '--database' => $this->option('database'),
-         //   '--pretend' => $this->option('pretend'),
-            '--force' => true,
-          //  '--realpath' => true,
+             '--database' => $this->option('database'),
+            '--pretend' => $this->option('pretend'),
+         //   '--force' => $this->option('force'),
+            '--force' =>true,
+            '--realpath' => true,
         ]));
 
         if ($this->option('seed')) {

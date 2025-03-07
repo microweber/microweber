@@ -263,4 +263,14 @@ class LaravelModule extends Module
             include_once($file);
         }
     }
+
+    public function isEnabled(): bool
+    {
+        if($this->activator == null){
+            return false;
+        }
+
+
+        return $this->activator->hasStatus($this, true);
+    }
 }

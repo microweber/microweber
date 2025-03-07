@@ -113,4 +113,14 @@ class LaravelTemplate extends LaravelModule
         $this->cache->store(config('templates.cache.driver'))->flush();
 
     }
+
+    public function isEnabled(): bool
+    {
+        if($this->activator == null){
+            return false;
+        }
+
+
+        return $this->activator->hasStatus($this, true);
+    }
 }
