@@ -1,0 +1,30 @@
+{
+    "name": "modules/spacer",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Spacer\\": "",
+            "Modules\\Spacer\\Database\\Factories\\": "database/factories/",
+            "Modules\\Spacer\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Spacer\\Tests\\": "Tests/"
+        }
+    }
+}
