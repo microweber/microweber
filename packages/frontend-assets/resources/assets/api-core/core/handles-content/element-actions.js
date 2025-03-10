@@ -195,6 +195,13 @@ export class ElementActions extends MicroweberBaseClass {
 
         mw.app.liveEdit.handles.get('element').set(null);
         mw.app.liveEdit.handles.get('element').set(el);
+
+
+
+        mw.top().app.domTree.tree.refresh(newNode.parentNode)
+        mw.top().app.domTree.tree.select(newNode)
+
+
     }
 
     removeLink(el) {

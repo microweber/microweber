@@ -17,7 +17,7 @@
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option {
-    @apply text-black dark:text-white;
+    @apply text-black dark:text-white  dark:bg-[#0e0e0e];
 }
 
 .form-control-live-edit-label-wrapper .v-slider-thumb__surface.elevation-2 {

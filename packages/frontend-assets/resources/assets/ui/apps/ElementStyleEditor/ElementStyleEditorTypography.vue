@@ -125,7 +125,7 @@ export default {
             "fontStylesOptions": [
                 {"key": "normal", "value": "Normal"},
                 {"key": "italic", "value": "Italic"},
-                {"key": "oblique", "value": "Oblique"}
+
             ],
 
             "textOrientationOptions": [

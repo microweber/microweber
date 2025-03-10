@@ -1,2 +1,2 @@
-@import 'account-widget';
-@import 'filament-info-widget';
+@import './account-widget';
+@import './filament-info-widget';
