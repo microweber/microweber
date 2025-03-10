@@ -28,6 +28,9 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 
 <section class="section <?php print $layout_classes; ?> edit" field="layout-blog-skin-3-{{ $params['id'] }}" rel="module">
     <div class="container">
+
+        <h2>Blog posts</h2>
+
         <module type="posts" />
 
     </div>
