@@ -34,29 +34,40 @@
   </style>
   <script type="text/javascript">
     $(document).ready(function() {
+        $('.js-update-log').html('Welcome to the Microweber Standalone Updater. Click the "Start Update" button to begin the update process.');
 
-        $('.js-update-log').html('Loading...');
-
-        // Check is started
-        $.get("actions.php?isStarted=1&format=json", function(data) {
+        // Check if update is already in progress
+        $.get("?isStarted=1&format=json", function(data) {
             if (data.started) {
-                // If is started we want to read log file
-                $.get("actions.php?getLogfile=1&format=json", function(data) {
+                // If update is already started, read log file and continue
+                $('.start-update-btn').hide();
+                $('.js-update-log').html('Update already in progress...');
+                $.get("?getLogfile=1&format=json", function(data) {
                     readLog(data.logfile);
                 });
             } else {
-                // else not started we want to start the process
-                $.get("actions.php?startSession=1&format=json&installVersion=<?php echo $_GET['installVersion']; ?>", function(data) {
-                   // and now we can read log
-                    $.get("actions.php?getLogfile=1&format=json", function(data) {
-                        readLog(data.logfile);
-                    });
-                    // Start updating
-                    setTimeout(function() {
-                        execStartUpdating();
-                    }, 800);
-                });
+                // Show the start button
+                $('.start-update-btn').show();
             }
+        });
+
+        // Start update button click handler
+        $('.start-update-btn').on('click', function() {
+            $(this).prop('disabled', true).text('Update in progress...');
+            $('.js-update-log').html('Starting update process...');
+
+            // Start the session
+            $.get("?startSession=1&format=json&installVersion=<?php echo isset($_GET['installVersion']) ? $_GET['installVersion'] : 'latest'; ?>", function(data) {
+                // Read log
+                $.get("?getLogfile=1&format=json", function(data) {
+                    readLog(data.logfile);
+                });
+
+                // Start updating
+                setTimeout(function() {
+                    execStartUpdating();
+                }, 800);
+            });
         });
     });
 
@@ -66,7 +77,7 @@
 
         $.ajax({
                 type: "GET",
-                url: "actions.php?startUpdating=1&format=json",
+                url: "?startUpdating=1&format=json",
                 error: function(xhr, statusText) {
                     //wait for the backend  to be ready
                     setInterval(function () {
@@ -97,15 +108,15 @@
     }
 
     function execCleanupStepAjax() {
-          $.get('actions.php?replaceFilesExecCleanupStep=1&format=json', function(data) {
+          $.get('?replaceFilesExecCleanupStep=1&format=json', function(data) {
 
         });
     }
 
     function startUnzipAjaxOnSingleStep() {
-        $.get("actions.php?unzippApp=1&format=json", function (data) {
+        $.get("?unzippApp=1&format=json", function (data) {
             if (data.unzipping.unzipped) {
-                $.get("actions.php?replaceFilesPrepareStepsNeeded=1&format=json", function (data) {
+                $.get("?replaceFilesPrepareStepsNeeded=1&format=json", function (data) {
                     if (data.replace_steps.steps_needed) {
                         execReplaceStepsAjax(data.replace_steps.steps_needed)
                     } else {
@@ -121,7 +132,7 @@
     }
 
     function startUnzipAjaxOnMultiSteps() {
-        $.get("actions.php?unzippAppGetNumberOfStepsNeeded=1&format=json", function (data) {
+        $.get("?unzippAppGetNumberOfStepsNeeded=1&format=json", function (data) {
             if (data.unzipping.unzip_steps_needed) {
                 execUnzipChunkStepsAjax(data.unzipping.unzip_steps_needed)
             } else {
@@ -159,7 +170,7 @@
 
 
         $.ajax({
-            url: 'actions.php?unzipAppExecStep=' + step + '&format=json',
+            url: '?unzipAppExecStep=' + step + '&format=json',
             type: 'GET',
             data: {
                 format: 'json'
@@ -179,7 +190,7 @@
                             $('.js-update-log').html("Preparing to replace files...");
 
 
-                            $.get("actions.php?replaceFilesPrepareStepsNeeded=1&format=json", function (data) {
+                            $.get("?replaceFilesPrepareStepsNeeded=1&format=json", function (data) {
                                 if (data.replace_steps.steps_needed) {
                                     execReplaceStepsAjax(data.replace_steps.steps_needed)
                                 } else {
@@ -230,7 +241,7 @@
           $('.js-updating-the-software-text').html("Replacing files " + progressPrecent + "%" + bar);
 
           $.ajax({
-            url: 'actions.php?replaceFilesExecStep='+step+'&format=json',
+            url: '?replaceFilesExecStep='+step+'&format=json',
             type: 'GET',
 
             data: {
@@ -608,8 +619,9 @@
             </defs>
         </svg>
         <div class="mw-standalone-text p-5 text-center">
-            <h4 class="mb-2 js-updating-the-software-text">Updating the software</h4>
+            <h4 class="mb-2 js-updating-the-software-text">Microweber Standalone Updater</h4>
             <h6 class="js-update-log">Loading...</h6>
+            <button class="btn btn-light mt-4 start-update-btn" style="display:none;">Start Update</button>
         </div>
     </div>
 </div>
