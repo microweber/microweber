@@ -1,4 +1,4 @@
-@import 'group';
+@import './group';
 
 .fi-btn {
     @apply !rounded-[0.3rem];

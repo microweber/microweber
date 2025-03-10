@@ -1,4 +1,4 @@
-@import 'item';
+@import './item';
 
 .fi-tabs {
     @apply gap-x-3 shadow-[inset_0_-1px_theme(colors.gray.200)] dark:shadow-[inset_0_-1px_theme(colors.gray.700)];

@@ -1,5 +1,5 @@
-@import 'group';
-@import 'item';
+@import './group';
+@import './item';
 
 .fi-sidebar {
     @apply !ring-0 !border-0 lg:!bg-white lg:dark:!bg-gray-950;

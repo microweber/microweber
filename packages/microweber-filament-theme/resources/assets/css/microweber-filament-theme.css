@@ -1,2 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 @import './index.css';
 @import './admin.scss';

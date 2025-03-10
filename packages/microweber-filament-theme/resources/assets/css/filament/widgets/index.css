@@ -1,2 +1,2 @@
-@import 'chart-widget';
-@import 'stats-overview-widget';
+@import './chart-widget';
+@import './stats-overview-widget';

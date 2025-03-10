@@ -1,4 +1,4 @@
-@import 'item';
+@import './item';
 
 .fi-topbar {
     @apply !border-0 !px-0;
