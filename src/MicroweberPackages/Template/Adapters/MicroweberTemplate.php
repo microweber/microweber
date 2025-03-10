@@ -442,7 +442,23 @@ class MicroweberTemplate
     }
 
     public $templateConfigCache = array();
+    public function getComposerJson($template = false) : array
+    {
 
+        if($template == false){
+            $template = $this->getTemplateFolderName();
+        }
+        $is_laravel_template = $this->isLaravelTemplate($template);
+        $dir = templates_dir() . $template . DS;
+        $file = $dir . 'composer.json';
+        if (is_file($file)) {
+            $composerContent = file_get_contents($file);
+            $composerContent = @json_decode($composerContent, true);
+            return $composerContent;
+        }
+        return [];
+
+    }
     public function getConfig($template = false)
     {
 

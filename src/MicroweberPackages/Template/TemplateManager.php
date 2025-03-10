@@ -150,20 +150,17 @@ class TemplateManager
         return $this->stylesheet_adapter->getStylesheet($path, $default_stylesheet, $cache);
     }
 
-/*
-    public function get_apijs_url()
-    {
-        return $this->js_adapter->get_apijs_url();
-    }*/
+    /*
+        public function get_apijs_url()
+        {
+            return $this->js_adapter->get_apijs_url();
+        }*/
 
 
     public function get_apijs_settings_url()
     {
         return $this->js_adapter->get_apijs_settings_url();
     }
-
-
-
 
 
     public function get_apijs_combined_url()
@@ -195,12 +192,10 @@ class TemplateManager
 //    }
 
 
-
-
     /**
      * @deprecated must be moved to the MetaTags package
      */
-    public function frontend_append_meta_tags($layout,$is_laravel_template=false)
+    public function frontend_append_meta_tags($layout, $is_laravel_template = false)
     {
 
 
@@ -208,13 +203,13 @@ class TemplateManager
 
         //   $layout = $this->append_livewire_to_layout($layout);
         //  $layout = $this->append_api_js_to_layout($layout);
-       if($is_laravel_template){
-           $meta = '';
+        if ($is_laravel_template) {
+            $meta = '';
 
-       } else {
-           $meta = mw_header_scripts();
+        } else {
+            $meta = mw_header_scripts();
 
-       }
+        }
 
         $layout = Str::replaceFirst('<head>', '<head>' . $meta, $layout);
 
@@ -225,7 +220,7 @@ class TemplateManager
         if ($liveEditTagsHtml) {
             $layout = Str::replaceFirst('</head>', $liveEditTagsHtml . '</head>', $layout);
         }
-        if(!$is_laravel_template) {
+        if (!$is_laravel_template) {
             $meta = mw_footer_scripts();
             $layout = Str::replaceFirst('</body>', $meta . '</body>', $layout);
         }
@@ -309,6 +304,7 @@ class TemplateManager
         }
 
     }
+
     public function is_laravel_template($template = false)
     {
         return $this->templateAdapter->isLaravelTemplate($template);
@@ -317,6 +313,11 @@ class TemplateManager
     public function get_config($template = false)
     {
         return $this->templateAdapter->getConfig($template);
+    }
+
+    public function get_composer_json($template = false) : array
+    {
+        return $this->templateAdapter->getComposerJson($template);
     }
 
     public function getStyleSettings($template = false)
@@ -485,8 +486,8 @@ class TemplateManager
 
     public function get_default_system_ui_css_url()
     {
-       // $url = mw_includes_url() . 'default.css';
-         $url = asset('vendor/microweber-packages/frontend-assets/build/default.css');
+        // $url = mw_includes_url() . 'default.css';
+        $url = asset('vendor/microweber-packages/frontend-assets/build/default.css');
         return $url;
     }
 
@@ -960,7 +961,7 @@ class TemplateManager
 
     public function defineTemplateConstants(): void
     {
-          $this->templateAdapter->defineTemplateConstants();
+        $this->templateAdapter->defineTemplateConstants();
     }
 
     public function getContentId()
@@ -992,7 +993,8 @@ class TemplateManager
     {
         return $this->templateAdapter->getMainPageId();
     }
-    public function getParentTemplate($templateName=false)
+
+    public function getParentTemplate($templateName = false)
     {
         return $this->templateAdapter->getParentTemplate($templateName);
     }

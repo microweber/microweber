@@ -238,6 +238,9 @@ export default {
                 if(liveEditIframeData && liveEditIframeData.template_name){
                     attrsForSettings.template_name = liveEditIframeData.template_name;
                 }
+                if(liveEditIframeData && liveEditIframeData.template_composer  && liveEditIframeData.template_composer.name){
+                    attrsForSettings.package_name = liveEditIframeData.template_composer.name;
+                }
 
                 var dialog = mw.app.moduleSettings.openSettingsModal(attrsForSettings, attrsForSettings.id, 'Unlock package')
 

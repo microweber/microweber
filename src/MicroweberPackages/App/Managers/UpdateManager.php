@@ -503,7 +503,8 @@ class UpdateManager
 
             $findSystemLicense = SystemLicenses::where('local_key', $licenseLocalKey)->first();
             if ($findSystemLicense !== null) {
-                return array('is_invalid' => true, 'warning' => _e('License key already exist', true));
+                return array('id' => $findSystemLicense->id, 'success' => 'License key already saved', 'is_active' => true);
+
             }
 
             if (!isset($consumeLicense['servers']) || empty($consumeLicense['servers'])) {

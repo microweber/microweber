@@ -13,13 +13,15 @@ description: Default
 ?>
 
 
+@php
+
+$packageName = $params['package_name'] ?? 'microweber-modules/white_label';
+
+@endphp
 
 
 
 <div>
-
-
-    @dump($params)
 
 
     <script>
@@ -29,7 +31,7 @@ description: Default
                 mw.top().app.license.save(licenseKey).then(function (response) {
                     if (response.data.success) {
                         mw.notification.success('License key saved');
-                        mw.top().admin.admin_package_manager.install_composer_package_by_package_name('microweber-templates/big', 'latest');
+                        mw.top().admin.admin_package_manager.install_composer_package_by_package_name('<?php echo $packageName; ?>');
                     } else if (response.data.warning) {
                         mw.notification.warning(response.data.warning);
                     } else {
@@ -41,7 +43,6 @@ description: Default
         });
     </script>
 
-
     <div class="row">
         <div class="col-md-8 mt-4">
 
@@ -51,7 +52,7 @@ description: Default
             <div>
                 <small class="text-muted d-block mb-2">
                     Don't have a license key? You can get it from here:
-                    <a class="btn btn-link" target="_blank" href="https://microweber.org/go/market?prefix=modules/white_label">Get license key</a>
+                    <a class="btn btn-link" target="_blank" href="https://microweber.org/go/market?prefix={{ $packageName }}">Get license key</a>
                 </small>
             </div>
 
@@ -64,7 +65,7 @@ description: Default
                 </form>
             </div>
             <div>
-                <small>Have a problem with your White Label license key?
+                <small>Have a problem with your license key?
                     <a href="javascript:;" onmousedown="mw.contactForm();">Contact us.</a>
                 </small>
             </div>

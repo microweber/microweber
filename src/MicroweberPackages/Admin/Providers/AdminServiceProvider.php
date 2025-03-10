@@ -23,6 +23,9 @@ class AdminServiceProvider extends ServiceProvider
 {
     public function register()
     {
+
+        $this->app->register(AdminRouteServiceProvider::class);
+
         // Register Microweber Icons set
         $this->callAfterResolving(Factory::class, function (Factory $factory) {
             $factory->add('mw', [
