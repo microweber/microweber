@@ -417,12 +417,12 @@ export const Handle = function (options) {
 
             var isCol = false;
             if (target.classList) {
-                var isCol = target.classList.contains('mw-col');
+                isCol = target.classList.contains('mw-col');
             }
             if (isCol) {
                 const row = DomService.firstParentOrCurrentWithClass(target, 'mw-row');
                 if (row) {
-                    Array.from(row.children).forEach(col => col.style.width = ((100 / row.offsetWidth) * col.offsetWidth) + '%');
+                    // Array.from(row.children).forEach(col => col.style.width = ((100 / row.offsetWidth) * col.offsetWidth) + '%');
                 }
             }
             if (target) {
@@ -455,7 +455,7 @@ export const Handle = function (options) {
 
 
             var isCol = target.classList.contains('mw-col');
-            if(isCol) {
+            if(isCol && false) {
                 const next = target.nextElementSibling;
                 const prev = target.previousElementSibling;
                 if(next) {

@@ -1119,7 +1119,7 @@ var MWEditor = function (options) {
 
         var safeTop = ctop;
 
-        ctop = Math.max(ctop, scope.settings.document.defaultView.scrollY + 25 );
+        ctop = Math.max(ctop, scope.settings.document.defaultView?.scrollY + 25 );
 
         if(ctop > off.offsetTop + target.offsetHeight) {
             ctop = safeTop

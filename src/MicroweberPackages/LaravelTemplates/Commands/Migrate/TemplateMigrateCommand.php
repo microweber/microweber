@@ -93,12 +93,13 @@ class TemplateMigrateCommand extends BaseCommand
         $paths = $this->migration_list
             ->filter(fn($path) => str_starts_with($path, $module_path));
 
-        $this->call('migrate', array_filter([
+        $this->call('migrate', arguments: array_filter([
             '--path' => $paths->toArray(),
             '--database' => $this->option('database'),
-            '--pretend' => $this->option('pretend'),
-            '--force' => $this->option('force'),
-            '--realpath' => true,
+             '--pretend' => $this->option('pretend'),
+          //  '--force' => $this->option('force'),
+            '--force' =>true,
+             '--realpath' => true,
         ]));
 
 //        if ($this->option('seed')) {

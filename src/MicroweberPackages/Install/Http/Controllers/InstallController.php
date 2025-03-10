@@ -256,6 +256,7 @@ class InstallController extends Controller
                 }else  if (isset($input['db_host'])) {
                     $input['db_name'] = $input['db_host'];
                     $input['db_name'] = str_replace(':.', '.', $input['db_host']);
+              // unset($input['db_host']);
                 }
                 $input['db_name'] = str_replace('\\', '/', $input['db_name']);
 
@@ -296,8 +297,9 @@ class InstallController extends Controller
 
 
             $envToSave['DB_CONNECTION'] = $dbDriver;
-            $envToSave['DB_HOST'] = $input['db_host'];
-
+            if(isset($input['db_host'])) {
+                $envToSave['DB_HOST'] = $input['db_host'];
+            }
             if ($dbDriver != 'sqlite') {
                 if ($input['db_name'] != ':memory:'
                     and $input['db_name'] != database_path('database.sqlite')) {
@@ -308,11 +310,21 @@ class InstallController extends Controller
             $envToSave['DB_PASSWORD'] = $input['db_password'];
             $envToSave['DB_PREFIX'] = $input['db_prefix'];
 
-            Config::set("database.connections.$dbDriver.host", $input['db_host']);
-            Config::set("database.connections.$dbDriver.username", $input['db_username']);
-            Config::set("database.connections.$dbDriver.password", $input['db_password']);
-            Config::set("database.connections.$dbDriver.database", $input['db_name']);
-            Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
+            if(isset($input['db_host'])) {
+                Config::set("database.connections.$dbDriver.host", $input['db_host']);
+            }
+            if(isset($input['db_username'])) {
+                Config::set("database.connections.$dbDriver.username", $input['db_username']);
+            }
+            if(isset($input['db_password'])) {
+                Config::set("database.connections.$dbDriver.password", $input['db_password']);
+            }
+            if(isset($input['db_name'])) {
+                Config::set("database.connections.$dbDriver.database", $input['db_name']);
+            }
+            if(isset($input['db_prefix'])) {
+                Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
+            }
 
             DB::purge($dbDriver);
             DB::reconnect();
@@ -564,10 +576,10 @@ class InstallController extends Controller
                 }
 
                 if (!$install_step or $install_step == 6) {
-                    $this->log('Setting up modules after template install');
+             /*       $this->log('Setting up modules after template install');
                     $installer = new Install\ModulesInstaller();
                     $installer->logger = $this;
-                    $installer->run();
+                    $installer->run();*/
 
 
                 }
