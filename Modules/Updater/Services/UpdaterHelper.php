@@ -27,10 +27,10 @@ class UpdaterHelper
     {
 
         $messages = [];
-        $projectMainDir = dirname(dirname(dirname(dirname(__DIR__))));
+        $projectMainDir = base_path();
 
         if (is_dir($projectMainDir . DS . '.git')) {
-            $messages[] = 'The git repository is recognized on your server.';
+            $messages[] = 'A .git folder is present on your server. Please remove it before updating.';
         }
 
         if (!class_exists('ZipArchive')) {
@@ -49,11 +49,11 @@ class UpdaterHelper
             $messages[] = 'The src folder must be writable.';
         }
 
-        if (!is_writable($projectMainDir . DS . 'userfiles')) {
+        if (!is_writable(userfiles_path())) {
             $messages[] = 'The userfiles folder must be writable.';
         }
 
-        if (!is_writable($projectMainDir . DS . 'storage')) {
+        if (!is_writable(storage_path())) {
             $messages[] = 'The storage folder must be writable.';
         }
 
