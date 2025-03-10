@@ -51,14 +51,14 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
                 <a class="btn btn-primary get-license-btn" target="_blank" href="https://microweber.org/go/market?prefix={{ $packageName }}">Get license key</a>
            </div>
 
-            <form class="d-flex align-items-center">
+            <form class="d-flex align-items-center gap-3">
                 <input type="text" id="js-unlock-package-license-key-<?php echo $params['id'];?>" name="local_key" autocomplete="on" autofocus="true" class="form-control my-3" placeholder="License key">
                 <div class="ms-md-3">
-                    <button id="js-unlock-package-save-license-<?php echo $params['id'];?>" type="button" class="btn btn-outline-primary unlock-big-template-btn">Unlock</button>
+                    <button id="js-unlock-package-save-license-<?php echo $params['id'];?>" type="button" class="btn unlock-big-template-btn">Unlock</button>
                 </div>
             </form>
 
-            <p class="font-weight-bold">Have a problem with your White Label license key?
+            <p class="font-weight-bold mt-3">Have a problem with your White Label <br> license key?
                 <a class="text-orange" href="javascript:;" onmousedown="mw.contactForm();">Contact us.</a>
             </p>
        </div>
@@ -69,7 +69,7 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
 
 
 
-            <div class="ps-5" style="padding-top: 200px;">
+            <div class="ps-5" style="padding-top: 160px;">
                 <h1 class="d-flex gap-2">
                     <span class="font-weight-bold">350+</span>
                     <span class="font-weight-normal">Layouts</span>
