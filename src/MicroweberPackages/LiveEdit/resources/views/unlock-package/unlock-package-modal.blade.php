@@ -47,7 +47,7 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
         <div class="col-md-8 mt-4">
 
             <h1>Unlock the power of Microweber</h1>
-            <h4>Get all premium feautures of Microweber and make awesome websites!</h4>
+            <h4>Get all premium features of Microweber and make awesome websites!</h4>
 
             <div>
                 <small class="text-muted d-block mb-2">
