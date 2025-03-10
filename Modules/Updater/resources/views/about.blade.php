@@ -1,4 +1,3 @@
-<module type="updater/delete_temp" />
 
 <style>
     .about-markdown h1 {

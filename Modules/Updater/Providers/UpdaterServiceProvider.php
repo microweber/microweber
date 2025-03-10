@@ -102,7 +102,9 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
     private function getLatestVersion()
     {
         return cache()->remember('standalone_updater_latest_version', 1440, function () {
-            $updateApi = 'http://updater.microweberapi.com/builds/master/version.txt';
+            // Get the default branch from config
+            $branch = config('modules.updater.branch') ?? 'master';
+            $updateApi = 'http://updater.microweberapi.com/builds/' . $branch . '/version.txt';
             $version = app()->url_manager->download($updateApi);
             if ($version) {
                 $version = trim($version);

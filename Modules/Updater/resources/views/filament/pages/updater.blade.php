@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-                    <h3 class="mb-4 text-lg font-medium">Latest Version</h3>
+                    <h3 class="mb-4 text-lg font-medium">Latest Version ({{ $selectedBranch }} branch)</h3>
                     <div class="flex items-center space-x-2">
                         <span class="text-2xl font-bold">{{ $latestVersion }}</span>
                     </div>

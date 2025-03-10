@@ -4,6 +4,7 @@ namespace Modules\Updater\Filament\Pages;
 
 use Filament\Pages\Page;
 use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -22,10 +23,12 @@ class UpdaterPage extends Page
     public $updateAvailable = false;
     public $canUpdate = true;
     public $updateMessages = [];
+    public $selectedBranch = 'master';
 
     public function mount(): void
     {
         $this->currentVersion = MW_VERSION;
+        $this->selectedBranch = config('modules.updater.branch') ?? 'master'; // Default to first branch or master
         $this->latestVersion = $this->getLatestVersion();
 
         if (\Composer\Semver\Comparator::greaterThan($this->latestVersion, $this->currentVersion)) {
@@ -41,6 +44,43 @@ class UpdaterPage extends Page
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('select_branch')
+                ->label('Select Branch')
+                ->icon('heroicon-o-code-bracket')
+                ->form([
+                    Select::make('branch')
+                        ->label('Branch')
+                        ->options(config('modules.updater.branches'))
+                        ->default($this->selectedBranch)
+                        ->required(),
+                ])
+                ->action(function (array $data): void {
+                    $this->selectedBranch = $data['branch'];
+
+                    // Clear the cache to force a fresh check
+                    cache()->forget('standalone_updater_latest_version');
+                    cache()->forget('standalone_updater_latest_version_composer_json');
+
+                    // Refresh the data with the new branch
+                    $this->latestVersion = $this->getLatestVersion();
+
+                    if (\Composer\Semver\Comparator::greaterThan($this->latestVersion, $this->currentVersion)) {
+                        $this->updateAvailable = true;
+                        Notification::make()
+                            ->title('Update available')
+                            ->body("A new version ({$this->latestVersion}) is available for download from the {$this->selectedBranch} branch.")
+                            ->success()
+                            ->send();
+                    } else {
+                        $this->updateAvailable = false;
+                        Notification::make()
+                            ->title('No updates available')
+                            ->body("You are running the latest version from the {$this->selectedBranch} branch.")
+                            ->success()
+                            ->send();
+                    }
+                }),
+
             Action::make('check_for_updates')
                 ->label('Check for Updates')
                 ->icon('heroicon-o-arrow-path')
@@ -56,14 +96,14 @@ class UpdaterPage extends Page
                         $this->updateAvailable = true;
                         Notification::make()
                             ->title('Update available')
-                            ->body("A new version ({$this->latestVersion}) is available for download.")
+                            ->body("A new version ({$this->latestVersion}) is available for download from the {$this->selectedBranch} branch.")
                             ->success()
                             ->send();
                     } else {
                         $this->updateAvailable = false;
                         Notification::make()
                             ->title('No updates available')
-                            ->body('You are running the latest version.')
+                            ->body("You are running the latest version from the {$this->selectedBranch} branch.")
                             ->success()
                             ->send();
                     }
@@ -73,14 +113,14 @@ class UpdaterPage extends Page
                 ->label('Update Now')
                 ->icon('heroicon-o-arrow-path')
                 ->color('primary')
-                ->url(fn () => route('api.updater.update-now'))
+                ->url(fn () => route('api.updater.update-now', ['version' => $this->selectedBranch]))
                 ->visible(fn () => $this->updateAvailable && $this->canUpdate),
 
             Action::make('reinstall')
                 ->label('Reinstall')
                 ->icon('heroicon-o-arrow-path')
                 ->color('gray')
-                ->url(fn () => route('api.updater.update-now'))
+                ->url(fn () => route('api.updater.update-now', ['version' => $this->selectedBranch]))
                 ->visible(fn () => !$this->updateAvailable && $this->canUpdate),
 
             Action::make('copy_standalone')
@@ -105,7 +145,7 @@ class UpdaterPage extends Page
     private function getLatestVersion()
     {
         return cache()->remember('standalone_updater_latest_version', 1440, function () {
-            $updateApi = 'http://updater.microweberapi.com/builds/master/version.txt';
+            $updateApi = 'http://updater.microweberapi.com/builds/' . $this->selectedBranch . '/version.txt';
             $version = app()->url_manager->download($updateApi);
             if ($version) {
                 $version = trim($version);
