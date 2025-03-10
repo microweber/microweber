@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use Modules\Updater\Http\Controllers\UpdaterController;
+
 Route::name('api.updater.')
     ->prefix('api/updater')
     ->middleware(['api', 'admin'])
-    ->namespace('Modules\Updater\Http\Controllers')
     ->group(function () {
-        Route::get('delete-temp', 'UpdaterController@deleteTemp')->name('delete-temp');
-        Route::post('update-now', 'UpdaterController@updateNow')->name('update-now');
+        Route::get('delete-temp', UpdaterController::class . '@deleteTemp')->name('delete-temp');
+        Route::any('update-now', UpdaterController::class . '@updateNow')->name('update-now');
         Route::get('remove-dashboard-notice', function () {
             return save_option('last_update_check_time', \Carbon\Carbon::parse('+24 hours'), 'standalone-updater');
         })->name('remove-dashboard-notice');

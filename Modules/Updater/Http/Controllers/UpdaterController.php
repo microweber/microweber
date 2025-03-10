@@ -25,31 +25,32 @@ class UpdaterController extends AdminController
 
     public function prepareUpdateTempFolder()
     {
-        $updateCacheFolderName = 'standalone-update' . DS . rand(222, 444) . time() . DS;
+        $updateCacheFolderName = 'standalone-updater' . DS . rand(222, 444) . time() . DS;
         $updateCacheDir = userfiles_path() . $updateCacheFolderName;
 
-        $this->deleteRecursive(userfiles_path() . 'standalone-update');
+        $this->deleteRecursive(userfiles_path() . 'standalone-updater');
         mkdir_recursive($updateCacheDir);
 
         $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'), true);
         $this->deleteRecursive($bootstrap_cached_folder);
 
-        $standaloneUpdaterMainPath = module_path('Updater') . DS . 'src' . DS . 'standalone-installation-setup';
+        // Use the new stubs location
+        $stubsPath = module_path('Updater') . DS . 'Stubs';
 
-        $sourceActions = file_get_contents($standaloneUpdaterMainPath . '/actions.source.phps');
+        $sourceActions = file_get_contents($stubsPath . DS . 'actions.source.php.stub');
         $saveActions = file_put_contents($updateCacheDir . DS . 'actions.php', $sourceActions);
 
-        $sourceUpdater = file_get_contents($standaloneUpdaterMainPath . '/index.source.phps');
+        $sourceUpdater = file_get_contents($stubsPath . DS . 'index.source.php.stub');
         $saveIndex = file_put_contents($updateCacheDir . DS . 'index.php', $sourceUpdater);
 
-        $sourceUnzip = file_get_contents($standaloneUpdaterMainPath . '/Modules\Updater\resources\stubs\standalone-installation-setup\Unzip.source.phps');
-        $saveUnzip = file_put_contents($updateCacheDir . DS . 'Modules\Updater\resources\stubs\standalone-installation-setup\Unzip.php', $sourceUnzip);
+        $sourceUnzip = file_get_contents($stubsPath . DS . 'Unzip.source.php.stub');
+        $saveUnzip = file_put_contents($updateCacheDir . DS . 'Unzip.php', $sourceUnzip);
 
-        $source = file_get_contents($standaloneUpdaterMainPath . '/Modules\Updater\resources\stubs\standalone-installation-setup\StandaloneUpdateExecutor.source.phps');
-        $save = file_put_contents($updateCacheDir . DS . 'Modules\Updater\resources\stubs\standalone-installation-setup\StandaloneUpdateExecutor.php', $source);
+        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateExecutor.source.php.stub');
+        $save = file_put_contents($updateCacheDir . DS . 'StandaloneUpdateExecutor.php', $source);
 
-        $source = file_get_contents($standaloneUpdaterMainPath . '/Modules\Updater\resources\stubs\standalone-installation-setup\StandaloneUpdateReplacer.source.phps');
-        $save = file_put_contents($updateCacheDir . DS . 'Modules\Updater\resources\stubs\standalone-installation-setup\StandaloneUpdateReplacer.php', $source);
+        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateReplacer.source.php.stub');
+        $save = file_put_contents($updateCacheDir . DS . 'StandaloneUpdateReplacer.php', $source);
 
         return $updateCacheFolderName;
     }
@@ -82,7 +83,7 @@ class UpdaterController extends AdminController
 
     public function deleteTemp()
     {
-        $path = userfiles_path() . 'standalone-update';
+        $path = userfiles_path() . 'standalone-updater';
         if (!is_dir($path)) {
             return false;
         }
@@ -110,9 +111,9 @@ class UpdaterController extends AdminController
 
         chdir($folder);
 
-        include $folder . '/Modules\Updater\resources\stubs\standalone-installation-setup\StandaloneUpdateExecutor.php';
-        include $folder . '/Modules\Updater\resources\stubs\standalone-installation-setup\StandaloneUpdateReplacer.php';
-        include $folder . '/Modules\Updater\resources\stubs\standalone-installation-setup\Unzip.php';
+        include $folder . '/StandaloneUpdateExecutor.php';
+        include $folder . '/StandaloneUpdateReplacer.php';
+        include $folder . '/Unzip.php';
 
         $executor = new setup\StandaloneUpdateExecutor();
 

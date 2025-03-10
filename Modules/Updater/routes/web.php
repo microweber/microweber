@@ -15,9 +15,9 @@ use Modules\Updater\Http\Controllers\UpdaterController;
 */
 
 Route::name('updater.')
-    ->prefix(ADMIN_PREFIX . '/updater')
+    ->prefix(mw_admin_prefix_url() . '/updater')
     ->middleware(['admin'])
-    ->namespace('Modules\Updater\Http\Controllers')
+    ->namespace( )
     ->group(function () {
-        Route::get('about-new-version', 'UpdaterController@aboutNewVersion')->name('about-new-version');
+        Route::get('about-new-version', Modules\Updater\Http\Controllers\UpdaterController::class.'@aboutNewVersion')->name('about-new-version');
     });

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Updater\resources\stubs\standalone-installation - setup;
+use Modules\Updater\Stubs;
 
 class StandaloneUpdateReplacer
 {

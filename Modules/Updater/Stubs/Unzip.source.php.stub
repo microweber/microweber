@@ -1,12 +1,7 @@
 <?php
 
-namespace Modules\Updater\resources\stubs\standaloneuse Filecontent;
-use none;
-use Unziped;
-use function mkdir_recursive;
-use function normalize_path;
+use Modules\Updater\Stubs;
 
--installation - setup;
 
 /**
  * UnZip Class.

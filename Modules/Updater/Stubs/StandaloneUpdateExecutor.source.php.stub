@@ -1,10 +1,9 @@
 <?php
 
-namespace Modules\Updater\resources\stubs\standalone-installation - setup;
 
-use Modules\Updater\resources\stubs\standaloneuse;
+use Modules\Updater\Stubs;
 
-Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneclass StandaloneUpdateExecutor
+StandaloneUpdateExecutor
 {
 
     public

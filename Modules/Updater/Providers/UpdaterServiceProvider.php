@@ -5,7 +5,7 @@ namespace Modules\Updater\Providers;
 use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
-use Modules\Updater\Filament\Resources\UpdaterResource;
+use Modules\Updater\Filament\Pages\UpdaterPage;
 
 class UpdaterServiceProvider extends BaseModuleServiceProvider
 {
@@ -21,9 +21,9 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-
-        // Register filament resource
-        FilamentRegistry::registerResource(UpdaterResource::class);
+        $this->registerRoutes();
+        // Register filament page
+        FilamentRegistry::registerPage(UpdaterPage::class);
     }
 
     /**
@@ -32,11 +32,6 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
     public function boot(): void
     {
 
-        $this->registerTranslations();
-        $this->registerConfig();
-        $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-        $this->registerRoutes();
 
         // Register event listeners
         $this->app['events']->listen('mw.admin', function ($params = false) {
@@ -63,7 +58,7 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
 
                     if ($mustUpdate) {
                         $this->app['events']->listen('mw.admin.dashboard.start', function ($item) use ($newVersionNumber) {
-                            echo '<div type="updater/dashboard_notice" new-version="' . $newVersionNumber . '" class="mw-lazy-load-module"></div>';
+                            // show notification
                         });
                     } else {
                         save_option('last_update_check_time', \Carbon\Carbon::parse('+24 hours'), 'standalone-updater');
@@ -82,8 +77,6 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
     }
-
-
 
 
     /**

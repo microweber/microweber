@@ -1,8 +1,9 @@
 <?php
 
-use Modules\Updater\resources\stubs\standaloneuse;
+use Modules\Updater\Stubs;
 
-Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneuse Modules\Updater\resources\stubs\standaloneini_set('display_errors', 1);
+
+ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 define("INI_SYSTEM_CHECK_DISABLED", ini_get('disable_functions'));
@@ -16,9 +17,9 @@ if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'date_default_timezone_set')) {
     date_default_timezone_set('America/Los_Angeles');
 }
 
-include(__DIR__ . '/Modules\Updater\resources\stubs\standalone-installation-setup\Unzip.php');
-include(__DIR__ . '/Modules\Updater\resources\stubs\standalone-installation-setup\StandaloneUpdateExecutor.php');
-include(__DIR__ . '/Modules\Updater\resources\stubs\standalone-installation-setup\StandaloneUpdateReplacer.php');
+include(__DIR__ . '/Unzip.php');
+include(__DIR__ . '/StandaloneUpdateExecutor.php');
+include(__DIR__ . '/StandaloneUpdateReplacer.php');
 
 
 
