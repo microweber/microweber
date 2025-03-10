@@ -940,19 +940,21 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 /*UNLOCK PACKAGE */
 .unlock-package-wrapper {
-    .unlock-package-wrapper input {
+    input {
         background-color: #f5f5f5;
         border: 1px solid black;
+        padding:  10px 30px;
+
     }
 
-    .unlock-package-wrapper .get-license-btn {
+    .get-license-btn {
         padding:  10px 30px;
         border-radius: 30px;
         background-color: #f26227;
         color: #fff;
     }
 
-    .unlock-package-wrapper .unlock-big-template-btn {
+    .unlock-big-template-btn {
         padding:  10px 30px;
         border-radius: 30px;
         background-color: #fff;
@@ -995,7 +997,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 #mw-dialog-holder-module-quick-setting-dialog-mw_unlock_package_modal {
-    @apply dark:bg-slate-800 dark:text-white !w-[800px] !h-[600px];
+    @apply dark:bg-slate-800 dark:text-white !w-[800px];
 
     .mw-dialog-footer {
         @apply hidden;
