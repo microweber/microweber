@@ -25,6 +25,7 @@ class UpdaterHelper
      */
     public function getCanUpdateMessages(): array
     {
+
         $messages = [];
         $projectMainDir = dirname(dirname(dirname(dirname(__DIR__))));
 

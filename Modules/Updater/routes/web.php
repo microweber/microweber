@@ -19,5 +19,5 @@ Route::name('updater.')
     ->middleware(['admin'])
     ->namespace( )
     ->group(function () {
-        Route::get('about-new-version', Modules\Updater\Http\Controllers\UpdaterController::class.'@aboutNewVersion')->name('about-new-version');
+   //     Route::get('about-new-version', Modules\Updater\Http\Controllers\UpdaterController::class.'@aboutNewVersion')->name('about-new-version');
     });
