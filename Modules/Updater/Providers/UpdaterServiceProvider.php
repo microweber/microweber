@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use Modules\Updater\Filament\Pages\UpdaterPage;
+use Modules\Updater\Services\UpdaterHelper;
 
 class UpdaterServiceProvider extends BaseModuleServiceProvider
 {
@@ -20,8 +21,14 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        //$this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->registerRoutes();
+        
+        // Register services
+        $this->app->singleton(UpdaterHelper::class, function ($app) {
+            return new UpdaterHelper();
+        });
+        
         // Register filament page
         FilamentRegistry::registerPage(UpdaterPage::class);
     }
@@ -101,15 +108,8 @@ class UpdaterServiceProvider extends BaseModuleServiceProvider
      */
     private function getLatestVersion()
     {
-        return cache()->remember('standalone_updater_latest_version', 1440, function () {
-            // Get the default branch from config
-            $branch = config('modules.updater.branch') ?? 'master';
-            $updateApi = 'http://updater.microweberapi.com/builds/' . $branch . '/version.txt';
-            $version = app()->url_manager->download($updateApi);
-            if ($version) {
-                $version = trim($version);
-                return $version;
-            }
-        });
+        $updaterHelper = app(UpdaterHelper::class);
+        $branch = config('modules.updater.branch') ?? 'master';
+        return $updaterHelper->getLatestVersion($branch);
     }
 }

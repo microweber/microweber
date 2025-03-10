@@ -28,11 +28,12 @@ class UpdaterController extends AdminController
         $updateCacheFolderName = 'standalone-updater' . DS . rand(222, 444) . time() . DS;
         $updateCacheDir = userfiles_path() . $updateCacheFolderName;
 
-        $this->deleteRecursive(userfiles_path() . 'standalone-updater');
+        $updaterHelper = app(\Modules\Updater\Services\UpdaterHelper::class);
+        $updaterHelper->deleteRecursive(userfiles_path() . 'standalone-updater');
         mkdir_recursive($updateCacheDir);
 
         $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'), true);
-        $this->deleteRecursive($bootstrap_cached_folder);
+        $updaterHelper->deleteRecursive($bootstrap_cached_folder);
 
         // Use the new stubs location
         $stubsPath = module_path('Updater') . DS . 'Stubs';
@@ -87,16 +88,8 @@ class UpdaterController extends AdminController
         if (!is_dir($path)) {
             return false;
         }
-        try {
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
-            foreach ($files as $fileinfo) {
-                $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
-                @$todo($fileinfo->getRealPath());
-            }
-            @rmdir($path);
-        } catch (\Exception $e) {
-            //
-        }
+        $updaterHelper = app(\Modules\Updater\Services\UpdaterHelper::class);
+        $updaterHelper->deleteRecursive($path);
     }
 
     public function updateFromCli($branch = 'master')
@@ -148,25 +141,4 @@ class UpdaterController extends AdminController
         return true;
     }
 
-    /**
-     * Delete a directory recursively
-     */
-    private function deleteRecursive($dir)
-    {
-        if (!is_dir($dir)) {
-            return;
-        }
-
-        try {
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
-            foreach ($files as $fileinfo) {
-                $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
-                @$todo($fileinfo->getRealPath());
-            }
-        } catch (\Exception $e) {
-            // Cant remove files from this path
-        }
-
-        @rmdir($dir);
-    }
 }
