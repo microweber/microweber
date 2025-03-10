@@ -1,6 +1,6 @@
 
 
-StandaloneUpdateExecutor
+class StandaloneUpdateExecutor
 {
 
     public

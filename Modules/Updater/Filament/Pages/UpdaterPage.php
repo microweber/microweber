@@ -267,6 +267,8 @@ if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'date_default_timezone_set')) {
 {$actionsContent}
 
 // Display the UI
+?>
+
 {$indexContent}
 EOT;
 
