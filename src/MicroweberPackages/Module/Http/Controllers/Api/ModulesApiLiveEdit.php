@@ -409,6 +409,10 @@ class ModulesApiLiveEdit extends Controller
             }
             $module_layouts_skins_grouped_ordered = array_merge($module_layouts_skins_grouped_ordered, $module_layouts_skins_grouped);
             $module_layouts_skins_grouped = $module_layouts_skins_grouped_ordered;
+            $unlocked_layouts_skins = false;
+            if(isset($template_config['unlocked_layouts_skins']) and is_array($template_config['unlocked_layouts_skins']) and !empty($template_config['unlocked_layouts_skins'])) {
+                $unlocked_layouts_skins = $template_config['unlocked_layouts_skins'];
+            }
 
 
             foreach ($module_layouts_skins_grouped as $dynamic_layouts_group_name => $dynamic_layouts_grouped) {
@@ -435,6 +439,25 @@ class ModulesApiLiveEdit extends Controller
 
                         $dynamic_layout['locked'] = false;
 
+                        if($unlocked_layouts_skins){
+                            $dynamic_layout['locked'] = true;
+
+                            foreach ($unlocked_layouts_skins as $unlocked_layout) {
+                                $unlocked_layout = str_replace('.blade.php', '', $unlocked_layout);
+                                $unlocked_layout = str_replace('/', '.', $unlocked_layout);
+                                $dynamic_layout_file = str_replace('.blade.php', '', $dynamic_layout['layout_file']);
+                                $dynamic_layout_file = str_replace('/', '.',$dynamic_layout_file);
+
+                                if (strpos($unlocked_layout, $dynamic_layout_file) !== false) {
+                                    $dynamic_layout['locked'] = false;
+                                }
+                            }
+
+                        }
+
+
+
+
                         if (isset($template_composer['extra']['premium_layouts'])
                             && !empty($template_composer['extra']['premium_layouts'])) {
                             foreach ($template_composer['extra']['premium_layouts'] as $composerPremiumLayout) {
@@ -449,6 +472,14 @@ class ModulesApiLiveEdit extends Controller
                                 }
                             }
                         }
+
+
+                        //unlocked_layouts_skins
+
+
+
+
+
 
                         if (isset($dynamic_layout['hidden'])) {
                             if ($dynamic_layout['hidden'] == true || $dynamic_layout['hidden'] == 1) {
