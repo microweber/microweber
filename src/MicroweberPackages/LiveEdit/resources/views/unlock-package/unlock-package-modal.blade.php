@@ -59,17 +59,14 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
             </form>
 
             <p class="font-weight-bold mt-3">Have a problem with your White Label <br> license key?
-                <a class="text-orange" href="javascript:;" onmousedown="mw.contactForm();">Contact us.</a>
+                <a class="text-orange" target="_blank" href="https://microweber.org/go/feedback/" >Contact us.</a>
             </p>
        </div>
     </div>
 
-    <div class="col-md-4 px-0 unlock-package-columns pt-0" style="background-color: #f5f5f5;">
+    <div class="col-md-4 px-0 unlock-package-columns pt-0 mb-3" style="background-color: #f5f5f5;">
         <div class="unlock-package-right-side-img" style="background-image: url('{{ asset('vendor/microweber-packages/frontend-assets-libs/img/right-banner.jpg') }}')">
-
-
-
-            <div class="ps-5" style="padding-top: 160px;">
+            <div class="ps-5" style="padding-top: 200px;">
                 <h1 class="d-flex gap-2">
                     <span class="font-weight-bold">350+</span>
                     <span class="font-weight-normal">Layouts</span>
