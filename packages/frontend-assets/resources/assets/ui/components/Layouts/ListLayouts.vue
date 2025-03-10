@@ -222,34 +222,44 @@ export default {
             if(!target) {
                 target = this.$data.target
             }
-
+            var liveEditIframeData = mw.top().app.canvas.getLiveEditData();
             if (layout.locked) {
 
                 var attrsForSettings = {};
                 attrsForSettings.live_edit = true;
                 attrsForSettings.module_settings = true;
                 attrsForSettings.id = 'mw_unlock_package_modal';
-                attrsForSettings.type = 'unlock-package/index';
+               // attrsForSettings.type = 'unlock-package/index';
+                attrsForSettings.type = 'editor/unlock_package';
                 attrsForSettings.iframe = true;
                 attrsForSettings.from_url = mw.app.canvas.getWindow().location.href;
-//
-                var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+               // attrsForSettings.rel_type='layout';
 
-                var dialog = mw.top().dialogIframe({
-                    url: src,
-                    height: 'auto',
-                    width: 800,
-                    className: 'mw-unlock-package-modal',
-                    closeOnEscape: true,
-                    overlay: true,
-                    overlayClose: true
-                });
-                dialog.dialogHeader.style.display = 'none';
-                dialog.iframe.addEventListener('load', () => {
-                    dialog.iframe.contentWindow.document.getElementById('js-modal-livewire-ui-close').addEventListener('click', () => {
-                        dialog.remove();
-                    });
-                });
+                if(liveEditIframeData && liveEditIframeData.template_name){
+                    attrsForSettings.template_name = liveEditIframeData.template_name;
+                }
+
+                var dialog = mw.app.moduleSettings.openSettingsModal(attrsForSettings, attrsForSettings.id, 'Unlock package')
+
+
+//
+//                 var src = route('live_edit.module_settings') + "?" + json2url(attrsForSettings);
+//
+//                 var dialog = mw.top().dialogIframe({
+//                     url: src,
+//                     height: 'auto',
+//                     width: 800,
+//                     className: 'mw-unlock-package-modal',
+//                     closeOnEscape: true,
+//                     overlay: true,
+//                     overlayClose: true
+//                 });
+//                 dialog.dialogHeader.style.display = 'none';
+//                 dialog.iframe.addEventListener('load', () => {
+//                     dialog.iframe.contentWindow.document.getElementById('js-modal-livewire-ui-close').addEventListener('click', () => {
+//                         dialog.remove();
+//                     });
+//                 });
 
                 return;
             }

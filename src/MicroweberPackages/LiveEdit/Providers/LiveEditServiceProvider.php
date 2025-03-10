@@ -25,6 +25,7 @@ use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\CodeEditorModul
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\FontsManagerModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ModulePresetsModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Filament\Admin\Pages\EditorTools\ResetContentModuleSettingsPage;
+use MicroweberPackages\LiveEdit\Filament\Admin\Pages\UnlockPackage\UnlockPackageModuleSettingsPage;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorEditItemComponent;
 use MicroweberPackages\LiveEdit\Http\Livewire\ItemsEditor\ModuleSettingsItemsEditorListComponent;
@@ -84,6 +85,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
         FilamentRegistry::registerPage(FontsManagerModuleSettingsPage::class);
         FilamentRegistry::registerPage(AddContentModalPage::class);
         FilamentRegistry::registerPage(ModulePresetsModuleSettingsPage::class);
+        FilamentRegistry::registerPage(UnlockPackageModuleSettingsPage::class);
       //  FilamentRegistry::registerResource(ModulePresetsResource::class);
 
 
@@ -120,6 +122,7 @@ class LiveEditServiceProvider extends PackageServiceProvider
             $panelId = Filament::getCurrentPanel()->getId();
             if ($panelId == 'admin') {
                 ModuleAdmin::registerLiveEditSettingsUrl('editor/module_presets', ModulePresetsModuleSettingsPage::getUrl());
+                ModuleAdmin::registerLiveEditSettingsUrl('editor/unlock_package', UnlockPackageModuleSettingsPage::getUrl());
 
                // ModuleAdmin::registerSettingsComponent('editor/module_presets', 'microweber-live-edit::module-presets-manager');
                // ModuleAdmin::registerSettingsComponent('editor/module_presets',ModulePresetsResource::class);
