@@ -39,6 +39,14 @@ jobs:
           cache-dependency-path: ./package-lock.json
       - run: npm install
       - run: npm run build
+      - name: Copy env
+        run: |
+          rm -f .env
+          cp .env.dusk .env
+          rm -f .env.testing
+          rm -f .env.dusk
+          sed -i 's/APP_ENV=local/APP_ENV=testing/g' .env
+          sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
       - name: Test before build
         run: composer test
 
@@ -138,6 +146,7 @@ jobs:
           rm -rf .idea
           rm -rf .nmp
           rm -rf node_modules
+          find . -name "node_modules" -type d -prune -exec rm -rfv {} +
           rm -rf .phpunit.cache
           rm -rf vendor/composer/tmp-*.zip
           rm -rf userfiles/modules/microweber/api/libs/mw-ui/grunt/plugins/tabler-ui/demo

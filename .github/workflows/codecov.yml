@@ -49,6 +49,16 @@ jobs:
         cache-dependency-path: ./package-lock.json
     - run: npm install
     - run: npm run build
+
+    - name: Copy env
+      run: |
+        rm -f .env
+        cp .env.dusk .env
+        rm -f .env.testing
+        rm -f .env.dusk
+        sed -i 's/APP_ENV=local/APP_ENV=testing/g' .env
+        sed -i 's/APP_ENV=production/APP_ENV=testing/g' .env
+
     - name: Run PHPUnit
       run: composer test-coverage
     - name: Code Cov
