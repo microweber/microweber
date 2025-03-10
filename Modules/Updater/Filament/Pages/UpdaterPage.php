@@ -83,6 +83,14 @@ class UpdaterPage extends Page
                             ->send();
                     }
                 }),
+                
+            Action::make('open_branch_updater')
+                ->label('Open Branch Updater')
+                ->icon('heroicon-o-link')
+                ->color('success')
+                ->url(fn () => route('api.updater.update-now', ['version' => $this->selectedBranch, 'branch' => $this->selectedBranch]))
+                ->openUrlInNewTab()
+                ->visible(fn () => $this->canUpdate),
 
             Action::make('check_for_updates')
                 ->label('Check for Updates')

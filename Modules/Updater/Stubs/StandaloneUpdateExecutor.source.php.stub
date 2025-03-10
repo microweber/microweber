@@ -4,9 +4,9 @@ class StandaloneUpdateExecutor
 {
 
     public
-    $branch = 'master';
-
-
+    $branch = 'master'; // Default branch
+    
+    
     public
     function getLogfile()
     {
@@ -60,48 +60,58 @@ class StandaloneUpdateExecutor
     }
 
     public
-    function latestVersion()
+    function getBranchUrl($branch = null)
     {
-
-        $latestMasterVersionZip = 'http://updater.microweberapi.com/microweber-master.zip';
-
-        return ['url' => $latestMasterVersionZip];
+        $branch = $branch ?: $this->branch;
+        $branch = $this->sanitizeString($branch);
+        
+        return 'http://updater.microweberapi.com/microweber-' . $branch . '.zip';
+    }
+    
+    public
+    function latestVersion($branch = null)
+    {
+        $branch = $branch ?: $this->branch;
+        return ['url' => $this->getBranchUrl($branch)];
     }
 
     public
     function latestDevVersion()
     {
-
-        $latestDevVersionZip = 'http://updater.microweberapi.com/microweber-dev.zip';
-
-        return ['url' => $latestDevVersionZip];
+        return $this->latestVersion('dev');
     }
 
     public
     function latestDevUnstableVersion()
     {
-        $latestDevVersionZip = 'http://updater.microweberapi.com/microweber-dev-unstable.zip';
-
-        return ['url' => $latestDevVersionZip];
+        return $this->latestVersion('dev-unstable');
     }
 
     public
     function startUpdating()
     {
-        $version = 'latest';
-
-        if (isset($_COOKIE['install_session_version']) && $_COOKIE['install_session_version'] == 'dev') {
-            $version = 'developer';
-            $installVersion = $this->latestDevVersion();
-        } else if (isset($_COOKIE['install_session_version']) && $_COOKIE['install_session_version'] == 'dev_unstable') {
-            $version = 'developer unstable';
-            $installVersion = $this->latestDevUnstableVersion();
-        } else {
-            $installVersion = $this->latestVersion();
-            if (!$installVersion['url']) {
-                $this->log("We can't download latest version right now.");
-                return ['status' => 'failed', 'downloaded' => false];
+        // Check if a specific branch was requested
+        if (isset($_GET['branch']) && !empty($_GET['branch'])) {
+            $this->branch = $this->sanitizeString($_GET['branch']);
+        }
+        
+        $version = $this->branch;
+        
+        // For backward compatibility
+        if (isset($_COOKIE['install_session_version'])) {
+            if ($_COOKIE['install_session_version'] == 'dev') {
+                $version = 'dev';
+                $this->branch = 'dev';
+            } else if ($_COOKIE['install_session_version'] == 'dev_unstable') {
+                $version = 'dev-unstable';
+                $this->branch = 'dev-unstable';
             }
+        }
+        
+        $installVersion = $this->latestVersion($this->branch);
+        if (!$installVersion['url']) {
+            $this->log("We can't download version from branch '{$this->branch}' right now.");
+            return ['status' => 'failed', 'downloaded' => false];
         }
 
         $this->log('Downloading ' . $version . ' version of system.');
