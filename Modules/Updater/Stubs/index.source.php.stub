@@ -34,29 +34,40 @@
   </style>
   <script type="text/javascript">
     $(document).ready(function() {
-
-        $('.js-update-log').html('Loading...');
-
-        // Check is started
+        $('.js-update-log').html('Welcome to the Microweber Standalone Updater. Click the "Start Update" button to begin the update process.');
+        
+        // Check if update is already in progress
         $.get("actions.php?isStarted=1&format=json", function(data) {
             if (data.started) {
-                // If is started we want to read log file
+                // If update is already started, read log file and continue
+                $('.start-update-btn').hide();
+                $('.js-update-log').html('Update already in progress...');
                 $.get("actions.php?getLogfile=1&format=json", function(data) {
                     readLog(data.logfile);
                 });
             } else {
-                // else not started we want to start the process
-                $.get("actions.php?startSession=1&format=json&installVersion=<?php echo $_GET['installVersion']; ?>", function(data) {
-                   // and now we can read log
-                    $.get("actions.php?getLogfile=1&format=json", function(data) {
-                        readLog(data.logfile);
-                    });
-                    // Start updating
-                    setTimeout(function() {
-                        execStartUpdating();
-                    }, 800);
-                });
+                // Show the start button
+                $('.start-update-btn').show();
             }
+        });
+        
+        // Start update button click handler
+        $('.start-update-btn').on('click', function() {
+            $(this).prop('disabled', true).text('Update in progress...');
+            $('.js-update-log').html('Starting update process...');
+            
+            // Start the session
+            $.get("actions.php?startSession=1&format=json&installVersion=<?php echo isset($_GET['installVersion']) ? $_GET['installVersion'] : 'latest'; ?>", function(data) {
+                // Read log
+                $.get("actions.php?getLogfile=1&format=json", function(data) {
+                    readLog(data.logfile);
+                });
+                
+                // Start updating
+                setTimeout(function() {
+                    execStartUpdating();
+                }, 800);
+            });
         });
     });
 
@@ -608,8 +619,9 @@
             </defs>
         </svg>
         <div class="mw-standalone-text p-5 text-center">
-            <h4 class="mb-2 js-updating-the-software-text">Updating the software</h4>
+            <h4 class="mb-2 js-updating-the-software-text">Microweber Standalone Updater</h4>
             <h6 class="js-update-log">Loading...</h6>
+            <button class="btn btn-light mt-4 start-update-btn" style="display:none;">Start Update</button>
         </div>
     </div>
 </div>
