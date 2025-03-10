@@ -15,7 +15,7 @@ description: Blog
 @extends('templates.bootstrap::layouts.master')
 
 @section('content')
-    
+
 
     <div class="edit main-content" data-layout-container rel="content" field="content">
         <module type="layouts" template="content/skin-6"/>
