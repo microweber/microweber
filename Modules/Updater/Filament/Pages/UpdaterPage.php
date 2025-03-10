@@ -226,6 +226,9 @@ class UpdaterPage extends Page
         $executorContent = file_get_contents($stubsPath . DS . 'StandaloneUpdateExecutor.source.php.stub');
         $replacerContent = file_get_contents($stubsPath . DS . 'StandaloneUpdateReplacer.source.php.stub');
 
+
+
+
         // Create the standalone updater file
         $standaloneUpdaterContent = <<<EOT
 <?php

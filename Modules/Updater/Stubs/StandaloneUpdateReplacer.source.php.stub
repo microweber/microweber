@@ -1,6 +1,5 @@
-<?php
 
-use Modules\Updater\Stubs;
+
 
 class StandaloneUpdateReplacer
 {
