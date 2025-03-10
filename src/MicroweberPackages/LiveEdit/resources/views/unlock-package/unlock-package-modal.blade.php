@@ -48,7 +48,7 @@ $packageName = $params['package_name'] ?? 'microweber-modules/white_label';
                <h4>Buy license key "Big Template" and unlock 300 more layouts,</h4>
                <h4>only for $59 per year or $169 lifetime license</h4>
 
-                <a class="btn btn-primary get-license-btn" target="_blank" href="https://microweber.org/go/market?prefix={{ $packageName }}">Get license key</a>
+                <a class="btn get-license-btn" target="_blank" href="https://microweber.org/go/market?prefix={{ $packageName }}">Get license key</a>
            </div>
 
             <form class="d-flex align-items-center gap-3">

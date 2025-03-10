@@ -940,22 +940,24 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 /*UNLOCK PACKAGE */
 .unlock-package-wrapper {
-    .unlock-package-wrapper input {
+    input {
         background-color: #f5f5f5;
         border: 1px solid black;
+        padding:  10px 30px;
+
     }
 
-    .unlock-package-wrapper .get-license-btn {
+    .get-license-btn {
         padding:  10px 30px;
         border-radius: 30px;
         background-color: #f26227;
         color: #fff;
     }
 
-    .unlock-package-wrapper .unlock-big-template-btn {
+    .unlock-big-template-btn {
         padding:  10px 30px;
         border-radius: 30px;
-        background-color: #f26227;
+        background-color: #fff;
         color: #000;
         border: 2px solid #f26227;
     }
