@@ -1,1 +1,7 @@
+.fi-ta-header {
 
+
+    & + * {
+        @apply !border-t-0;
+    }
+}
