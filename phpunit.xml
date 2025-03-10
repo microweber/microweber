@@ -27,88 +27,30 @@
 
 
         <testsuite name="Core">
-            <directory>./src/MicroweberPackages/Core/</directory>
+            <directory>./src/MicroweberPackages/*/</directory>
         </testsuite>
 
         <testsuite name="Modules">
             <directory>Modules/*/Tests</directory>
+            <exclude>Modules/*/Tests/Browser</exclude>
+
         </testsuite>
 
         <testsuite name="Templates">
             <directory>Templates/*/Tests</directory>
-        </testsuite>
-
-
-        <testsuite name="MicroweberModulesTests">
-            <directory>./public/userfiles/modules/*/tests/</directory>
-            <exclude>./public/userfiles/templates/*/src/tests/Browser/</exclude>
-            <exclude>./public/userfiles/modules/*/src/tests/Browser/</exclude>
-        </testsuite>
-
-        <testsuite name="MicroweberTemplatesTests">
-            <directory>./public/userfiles/templates/*/tests/</directory>
-            <directory>./public/userfiles/templates/*/src/tests/</directory>
-            <exclude>./public/userfiles/templates/*/src/tests/Browser/</exclude>
-            <exclude>./public/userfiles/modules/admin/import_export_tool/src/tests/</exclude>
-        </testsuite>
-
-        <testsuite name="MicroweberCoreTestsAll">
-            <directory>./src/MicroweberPackages/*/tests/</directory>
-
-            <directory>./public/userfiles/modules/*/*/src/tests/</directory>
-            <exclude>./src/MicroweberPackages/Multilanguage/tests/*</exclude>
-            <exclude>./src/MicroweberPackages/Helper/tests/*</exclude>
-            <exclude>./src/MicroweberPackages/User/tests/*</exclude>
-            <exclude>./public/userfiles/modules/admin/import_export_tool/src/tests/</exclude>
-            <exclude>./public/userfiles/modules/*/src/tests/Browser/</exclude>
-            <exclude>./src/MicroweberPackages/*/tests/Browser/</exclude>
+            <exclude>Templates/*/Tests/Browser</exclude>
 
         </testsuite>
 
-
-        <testsuite name="MicroweberModulesImportToolTests">
-            <directory>./public/userfiles/modules/admin/import_export_tool/src/tests/</directory>
-            <exclude>./public/userfiles/modules/*/src/tests/Browser/</exclude>
+        <testsuite name="ModulesBrowserTests">
+            <directory>Modules/*/Tests/Browser</directory>
 
         </testsuite>
 
-<!--        <testsuite name="MicroweberTestMultilanguage">-->
-<!--            <directory>./src/MicroweberPackages/Multilanguage/tests/</directory>-->
-<!--            -->
-<!--        </testsuite>-->
-<!--        <testsuite name="MicroweberTestUser">-->
-<!--            <directory>./src/MicroweberPackages/User/tests/</directory>-->
-<!--        </testsuite>-->
-        <testsuite name="MicroweberModuleListTests">
-            <directory>./src/MicroweberPackages/Module/slow_tests/</directory>
-            <exclude>./src/MicroweberPackages/*/tests/Browser/</exclude>
-
-            <exclude>./public/userfiles/modules/*/tests/Browser/</exclude>
-
-
+        <testsuite name="TemplatesBrowserTests">
+            <directory>Templates/*/Tests/Browser</directory>
         </testsuite>
 
-
-        <testsuite name="MicroweberModulesTests">
-            <directory>./public/userfiles/modules/*/tests/</directory>
-            <directory>./public/userfiles/modules/*/src/tests/</directory>
-            <exclude>./src/MicroweberPackages/*/tests/Browser/</exclude>
-            <exclude>./src/MicroweberPackages/*/src/tests/Browser/</exclude>
-
-            <exclude>./public/userfiles/modules/admin/import_export_tool/src/tests/</exclude>
-            <exclude>./public/userfiles/modules/*/tests/Browser/</exclude>
-            <exclude>./public/userfiles/modules/*/src/tests/Browser/</exclude>
-
-        </testsuite>
-
-        <testsuite name="MicroweberSlowTests">
-            <directory>./src/MicroweberPackages/Helper/tests/*</directory>
-            <directory>./src/MicroweberPackages/App/tests/*</directory>
-            <exclude>./src/MicroweberPackages/*/tests/Browser/</exclude>
-
-            <exclude>./public/userfiles/modules/*/tests/Browser/</exclude>
-
-        </testsuite>
     </testsuites>
     <source>
         <include>
