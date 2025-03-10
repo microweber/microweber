@@ -829,13 +829,13 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply !rounded-none;
 }
 
-.fi-section-header {
-    @apply bg-gray-50 dark:bg-slate-800 !py-3 m-0 border;
+.fi-section-header, .fi-ta-header {
+    @apply bg-gray-50 dark:bg-slate-800 !p-3 m-0 border;
 
     border-bottom: none;
 
-    .fi-section-header-heading {
-        @apply mb-0;
+    .fi-section-header-heading, .fi-ta-header-heading {
+        @apply mb-0 !border-none;
     }
 }
 
@@ -1003,4 +1003,3 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
         @apply hidden;
     }
 }
-
