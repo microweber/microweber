@@ -31,7 +31,7 @@ class UpdaterPage extends Page
         $this->currentVersion = MW_VERSION;
         $this->selectedBranch = config('modules.updater.branch') ?? 'master';
         $this->branches = config('modules.updater.branches') ?? ['master' => 'Master'];
-        
+
         $updaterHelper = app(UpdaterHelper::class);
         $this->latestVersion = $updaterHelper->getLatestVersion($this->selectedBranch);
 
@@ -78,7 +78,6 @@ class UpdaterPage extends Page
     {
         return redirect()->route('api.updater.update-now', [
             'version' => $this->selectedBranch,
-            'branch' => $this->selectedBranch
         ]);
     }
 

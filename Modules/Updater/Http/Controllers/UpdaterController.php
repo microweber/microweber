@@ -14,7 +14,6 @@ class UpdaterController extends AdminController
     public function updateNow(Request $request)
     {
         $version = $request->get('version', 'master');
-        $branch = $request->get('branch', 'master');
 
         $updaterHelper = app(UpdaterHelper::class);
 
@@ -37,6 +36,6 @@ class UpdaterController extends AdminController
         $updaterHelper->copyStandaloneUpdater($updateCacheDir);
 
         // Redirect to the standalone updater
-        return redirect($updateCacheDirRedicrect.'index.php?branch=' . $branch);
+        return redirect($updateCacheDirRedicrect.'index.php?branch=' . $version . '&installVersion=' . $version);
     }
 }

@@ -5,8 +5,8 @@ class StandaloneUpdateExecutor
 
     public
     $branch = 'master'; // Default branch
-    
-    
+
+
     public
     function getLogfile()
     {
@@ -64,10 +64,10 @@ class StandaloneUpdateExecutor
     {
         $branch = $branch ?: $this->branch;
         $branch = $this->sanitizeString($branch);
-        
-        return 'http://updater.microweberapi.com/microweber-' . $branch . '.zip';
+
+        return 'http://updater.microweberapi.com/builds/' . $branch . '/microwerber.zip';
     }
-    
+
     public
     function latestVersion($branch = null)
     {
@@ -94,9 +94,9 @@ class StandaloneUpdateExecutor
         if (isset($_GET['branch']) && !empty($_GET['branch'])) {
             $this->branch = $this->sanitizeString($_GET['branch']);
         }
-        
+
         $version = $this->branch;
-        
+
         // For backward compatibility
         if (isset($_COOKIE['install_session_version'])) {
             if ($_COOKIE['install_session_version'] == 'dev') {
@@ -105,9 +105,12 @@ class StandaloneUpdateExecutor
             } else if ($_COOKIE['install_session_version'] == 'dev_unstable') {
                 $version = 'dev-unstable';
                 $this->branch = 'dev-unstable';
+            } else {
+                $version = $_COOKIE['install_session_version'];
+                $this->branch = $version;
             }
         }
-        
+
         $installVersion = $this->latestVersion($this->branch);
         if (!$installVersion['url']) {
             $this->log("We can't download version from branch '{$this->branch}' right now.");
