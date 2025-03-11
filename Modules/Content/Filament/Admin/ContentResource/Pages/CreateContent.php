@@ -26,6 +26,9 @@ class CreateContent extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
+        if($this->activeLocale) {
+            $data['lang'] = $this->activeLocale;
+        }
         $record =  static::getModel()::create($data);
 
 

@@ -32,6 +32,7 @@ trait HasMultilanguageTrait
     public function initializeHasMultilanguageTrait()
     {
         $this->fillable[] = 'multilanguage';
+        $this->fillable[] = 'lang';
     }
 
     private static $__getDefaultLocale = false;
@@ -102,17 +103,22 @@ trait HasMultilanguageTrait
                                 unset($model->attributes['option_value']);
                             }
                         }
-
                     }
 
-
-                    if (isset($model->attributes['lang'])) {
-                        unset($model->attributes['lang']);
-                    }
                     if (isset($model->attributes['multilanguage'])) {
                         unset($model->attributes['multilanguage']);
                     }
 
+                } else if (isset($model->attributes['lang']) and $model->attributes['lang'] != $defaultLocale) {
+
+                    if (isset($model->translatable)) {
+                        foreach ($model->translatable as $translatableField) {
+                            if (isset($model->attributes[$translatableField])) {
+                                $model->_addMultilanguage[$translatableField][$model->attributes['lang']] = $model->attributes[$translatableField];
+                                unset($model->attributes[$translatableField]);
+                            }
+                        }
+                    }
                 }
 
                 if (isset($model->attributes['lang'])) {
