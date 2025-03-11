@@ -177,7 +177,6 @@ class MicroweberServiceProvider extends ServiceProvider
        // $this->app->register(ContentFilterServiceProvider::class);
      //   $this->app->register(BlogServiceProvider::class);
 
-        $this->app->register(MultilanguageServiceProvider::class);
         $this->app->register(LiveEditServiceProvider::class);
       //   Debugbar::startMeasure('modules_load_service_providers', 'Loading modules');
 
@@ -198,6 +197,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
         $this->app->register(UpdateMigratorServiceProvider::class);
 
+        $this->app->register(MultilanguageServiceProvider::class);
 
             // $this->app->register(FilamentLiveEditPanelProvider::class);
 

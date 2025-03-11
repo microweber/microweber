@@ -40,16 +40,12 @@ class MenuServiceProvider extends BaseModuleServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
-        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(Menu::class, function () {
-                return new MenuRepository();
-            });
-        });
+
         /**
          * @property MenuRepository $menu_repository
          */
         $this->app->bind('menu_repository', function ($app) {
-            return $this->app->repository_manager->driver(Menu::class);;
+            return new MenuRepository();
         });
 
         /**

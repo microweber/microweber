@@ -24,8 +24,7 @@ class MultilanguageServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-        // Register Livewire components
-        Livewire::component('modules.multilanguage::languages-table', LanguagesTable::class);
+
     }
 
     /**
@@ -39,6 +38,12 @@ class MultilanguageServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
         $this->loadRoutesFrom(module_path($this->moduleName, 'routes/api.php'));
+
+
+        // Register Livewire components
+        Livewire::component('modules.multilanguage::languages-table', LanguagesTable::class);
+
+
 
         // Register filament page for Microweber module settings
          FilamentRegistry::registerPage(Multilanguage::class);

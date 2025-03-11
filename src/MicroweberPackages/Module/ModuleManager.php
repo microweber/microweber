@@ -900,13 +900,13 @@ class ModuleManager
 
 
         if (app()->bound('modules')) {
+
             if (app()->modules->find($module_name)) {
                 return true;
             }
         }
 
-
-        global $mw_loaded_mod_memory;
+         global $mw_loaded_mod_memory;
 
         if (!isset($mw_loaded_mod_memory[$module_name])) {
             $ch = $this->locate($module_name, $custom_view = false);

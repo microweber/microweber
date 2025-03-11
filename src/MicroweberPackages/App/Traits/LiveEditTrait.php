@@ -72,10 +72,10 @@ trait LiveEditTrait
         $multiLanguageIsEnabled = false;
         $current_lang = false;
         $multiLanguageEnabledLanguages = [];
-
-        if (MultilanguageHelpers::multilanguageIsEnabled()) {
+         if (MultilanguageHelpers::multilanguageIsEnabled()) {
             $multiLanguageIsEnabled = true;
             $multiLanguageEnabledLanguages = MultilanguageHelpers::getSupportedLanguages();
+
             $current_lang = current_lang();
         }
         $multiLanguageEnabledLanguages = json_encode($multiLanguageEnabledLanguages);

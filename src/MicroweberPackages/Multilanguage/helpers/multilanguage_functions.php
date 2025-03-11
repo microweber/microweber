@@ -325,7 +325,7 @@ if (!function_exists('get_supported_languages')) {
 
         $getSupportedLocalesQuery = DB::table('multilanguage_supported_locales');
         if ($only_active) {
-            $getSupportedLocalesQuery->where('is_active', 'y');
+            $getSupportedLocalesQuery->where('is_active', '1');
         }
         $getSupportedLocalesQuery->where('locale', '!=', '');
         $getSupportedLocalesQuery->whereNotNull('locale');

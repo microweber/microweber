@@ -50,6 +50,22 @@ class MultilanguageServiceProvider extends ServiceProvider
 
         include_once(__DIR__ . '/helpers/multilanguage_functions.php');
 
+        if (!mw_is_installed()) {
+            return;
+        }
+
+
+
+        /**
+         * @property MultilanguageRepository $multilanguage_repository
+         */
+
+        $this->app->singleton('multilanguage_repository', function () {
+            return new MultilanguageRepository();
+        });
+
+
+
     }
 
 
@@ -66,7 +82,6 @@ class MultilanguageServiceProvider extends ServiceProvider
         if (!mw_is_installed()) {
             return;
         }
-
         $isMultilanguageActive = false;
 
         if (is_module('multilanguage')
@@ -74,19 +89,12 @@ class MultilanguageServiceProvider extends ServiceProvider
             && get_option('is_active', 'multilanguage_settings') === 'y') {
             $isMultilanguageActive = true;
         }
-
         if (defined('MW_DISABLE_MULTILANGUAGE')) {
             $isMultilanguageActive = false;
         }
-        /**
-         * @property MultilanguageRepository $multilanguage_repository
-         */
 
-        $this->app->singleton('multilanguage_repository', function () {
-            return new MultilanguageRepository();
-        });
 
-        $getSupportedLocales = $this->app->multilanguage_repository->getSupportedLocales(true);
+        $getSupportedLocales = get_supported_languages(true);
 
         if (empty($getSupportedLocales)) {
             $isMultilanguageActive = false;
@@ -94,6 +102,7 @@ class MultilanguageServiceProvider extends ServiceProvider
 
         MultilanguageHelpers::setMultilanguageEnabled($isMultilanguageActive);
 
+      //  $isMultilanguageActive = MultilanguageHelpers::multilanguageIsEnabled();
         if ($isMultilanguageActive) {
 
             $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
