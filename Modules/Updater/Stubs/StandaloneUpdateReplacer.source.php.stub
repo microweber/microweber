@@ -116,8 +116,8 @@ class StandaloneUpdateReplacer
         $this->deleteDirectoryRecursive($this->microweberPath . 'bootstrap ' . DIRECTORY_SEPARATOR . 'cache');
         $this->deleteDirectoryRecursive($this->microweberPath . 'storage' . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'cache');
         $this->deleteDirectoryRecursive($this->microweberPath . 'storage' . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'views');
-        $this->deleteDirectoryRecursive($this->microweberPath . 'userfiles' . DIRECTORY_SEPARATOR . 'cache');
-        $this->deleteDirectoryRecursive($this->microweberPath . 'userfiles' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'admin-css');
+        $this->deleteDirectoryRecursive($this->microweberPath . 'storage/public/userfiles' . DIRECTORY_SEPARATOR . 'cache');
+        $this->deleteDirectoryRecursive($this->microweberPath . 'storage/public/userfiles' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'admin-css');
 
     }
 

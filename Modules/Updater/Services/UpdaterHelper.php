@@ -88,7 +88,7 @@ class UpdaterHelper
     /**
      * Copy the standalone updater files to the public directory
      */
-    public function copyStandaloneUpdater($updateCacheDir)
+    public function copyStandaloneUpdater($updateCacheDir,$skipUi=false)
     {
 
         if(!is_dir($updateCacheDir)){
@@ -104,7 +104,7 @@ class UpdaterHelper
         $stubsPath = module_path('Updater') . DS . 'Stubs';
 
         // Create the standalone-updater.php file which contains all necessary code
-        $standaloneUpdaterContent = $this->generateStandaloneUpdaterFile($stubsPath);
+        $standaloneUpdaterContent = $this->generateStandaloneUpdaterFile($stubsPath,$skipUi);
         file_put_contents($updateCacheDir . DS . 'index.php', $standaloneUpdaterContent);
 
         return true;
@@ -113,7 +113,7 @@ class UpdaterHelper
     /**
      * Generate the standalone updater file content
      */
-    public function generateStandaloneUpdaterFile($stubsPath)
+    public function generateStandaloneUpdaterFile($stubsPath, $skipUi = false)
     {
         // Read the source files
         $actionsContent = file_get_contents($stubsPath . DS . 'actions.source.php.stub');
@@ -121,6 +121,7 @@ class UpdaterHelper
         $unzipContent = file_get_contents($stubsPath . DS . 'Unzip.source.php.stub');
         $executorContent = file_get_contents($stubsPath . DS . 'StandaloneUpdateExecutor.source.php.stub');
         $replacerContent = file_get_contents($stubsPath . DS . 'StandaloneUpdateReplacer.source.php.stub');
+
 
         // Create the standalone updater file
         $standaloneUpdaterContent = <<<EOT
@@ -160,10 +161,19 @@ if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'date_default_timezone_set')) {
 {$actionsContent}
 
 // Display the UI
-?>
 
-{$indexContent}
 EOT;
+
+
+        if(!$skipUi){
+            $standaloneUpdaterContent .= <<<EOT
+
+?>
+{$indexContent}
+
+EOT;
+
+        }
 
         return $standaloneUpdaterContent;
     }

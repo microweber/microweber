@@ -72,7 +72,7 @@ class UpdaterController extends AdminController
         }
 
         // Copy the standalone updater files
-        $updaterHelper->copyStandaloneUpdater($updateCacheDir);
+        $updaterHelper->copyStandaloneUpdater($updateCacheDir, true);
 
         // Change to the updater directory
         $currentDir = getcwd();
