@@ -17,7 +17,4 @@ use Modules\Multilanguage\Http\Controllers\MultilanguageApiController;
 
 Route::post('/multilanguage/geolocaiton_test', [MultilanguageApiController::class, 'geolocaitonTest']);
 
-//Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-//    Route::apiResource('multilanguage', MultilanguageController::class)->names('multilanguage');
-//});
- 
+

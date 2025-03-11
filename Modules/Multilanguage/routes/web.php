@@ -14,6 +14,4 @@ use Modules\Multilanguage\Http\Controllers\MultilanguageController;
 |
 */
 
-//Route::group([], function () {
-//    Route::resource('multilanguage', MultilanguageController::class)->names('multilanguage');
-//});
+
