@@ -40,7 +40,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </div>
         </div>
         <div class="overflow-hidden" style="max-height: 30vh;">
-            <div class="container px-5">
+            <div class="container mw-layout-container px-5">
                 <img src="<?php print template_url(); ?>img/bootstrap5/bootstrap-docs.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
             </div>
         </div>

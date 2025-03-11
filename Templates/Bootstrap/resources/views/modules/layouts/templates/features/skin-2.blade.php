@@ -30,7 +30,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
 
-    <div class="container px-4 py-5" id="hanging-icons">
+    <div class="container mw-layout-container px-4 py-5" id="hanging-icons">
         <h2 class="pb-2 border-bottom">Hanging icons</h2>
         <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
             <div class="col d-flex align-items-start">

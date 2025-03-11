@@ -29,7 +29,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 <section class="section <?php print $layout_classes; ?> edit safe-mode nodrop" field="layout-text-block-skin-7-{{ $params['id'] }}" rel="module">
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container">
+    <div class="container mw-layout-container">
         <div class="row d-flex justify-content-center justify-content-md-between">
             <div class="col-12 col-sm-10 col-md-6 col-lg-5 mb-4">
                 <div class="allow-drop">

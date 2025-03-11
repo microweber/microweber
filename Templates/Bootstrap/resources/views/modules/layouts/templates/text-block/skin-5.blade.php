@@ -29,7 +29,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 <section class="section <?php print $layout_classes; ?> edit safe-mode nodrop" field="layout-text-block-skin-5-{{ $params['id'] }}" rel="module">
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container">
+    <div class="container mw-layout-container">
         <div class="row">
             <div class="col-10 mx-auto allow-drop">
                 <p class="lead">The moon works its way into our way of thinking, our feelings about romance, our poetry and literature and even how we feel about our day in day out lives in many cases. It is not only primitive societies that ascribe mood swings, changes in social conduct and changes in weather to the moon. Even today, a full moon can have a powerful effect on these forces which we acknowledge even if we cannot explain them scientifically.</p>

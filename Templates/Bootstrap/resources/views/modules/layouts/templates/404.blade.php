@@ -24,7 +24,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 ?>
 
 <section class="section <?php print $layout_classes; ?> edit safe-mode" field="layout-404-{{ $params['id'] }}" rel="module">
-    <div class="container">
+    <div class="container mw-layout-container">
         <div class="row">
             <div class="not_found_text col-4 align-self-center">
                 <h1><?php _lang("Oops", "templates/new-world"); ?>!</h1>

@@ -32,7 +32,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 <section class="section <?php print $layout_classes; ?> edit safe-mode nodrop" field="layout-blog-skin-3-{{ $params['id'] }}" rel="module">
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container">
+    <div class="container mw-layout-container">
 
         <!-- Jumbotron -->
         <div id="intro" class="my-5 p-5 text-center bg-light">
