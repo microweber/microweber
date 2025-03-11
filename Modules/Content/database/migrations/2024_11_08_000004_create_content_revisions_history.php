@@ -20,16 +20,16 @@ return new class extends Migration {
 
         Schema::create('content_revisions_history', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('rel_type');
-            $table->string('rel_id');
-            $table->text('field');
-            $table->longText('value');
-            $table->integer('created_by');
-            $table->integer('edited_by');
-            $table->string('user_ip');
-            $table->string('checksum');
-            $table->string('session_id');
-            $table->longText('url');
+            $table->string('rel_type')->nullable();
+            $table->string('rel_id')->nullable();
+            $table->text('field')->nullable();
+            $table->longText('value')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('edited_by')->nullable();
+            $table->string('user_ip')->nullable();
+            $table->string('checksum')->nullable();
+            $table->string('session_id')->nullable();
+            $table->longText('url')->nullable();
             $table->timestamps();
         });
     }
