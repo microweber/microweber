@@ -15,19 +15,24 @@ class UpdaterController extends AdminController
     {
         $version = $request->get('version', 'master');
         $branch = $request->get('branch', 'master');
-        
+
         $updaterHelper = app(UpdaterHelper::class);
-        
+
         // Check if we can update
         $updateMessages = $updaterHelper->getCanUpdateMessages();
         if (!empty($updateMessages)) {
             return redirect()->back()->with('error', 'Cannot update: ' . implode(', ', $updateMessages));
         }
-        
+
+        $updateCacheFolderName = 'standalone-updater/' .  rand(222, 444) . time() . '/';
+        $updateCacheDir = public_path() . '/' .$updateCacheFolderName;
+        $updateCacheDirRedicrect = site_url() . $updateCacheFolderName;
+
+
         // Create standalone updater
-        $updaterHelper->copyStandaloneUpdater();
-        
+        $updaterHelper->copyStandaloneUpdater($updateCacheDir);
+
         // Redirect to the standalone updater
-        return redirect('/standalone-updater.php?branch=' . $branch);
+        return redirect($updateCacheDirRedicrect.'index.php?branch=' . $branch);
     }
 }

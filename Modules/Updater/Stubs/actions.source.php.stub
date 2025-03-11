@@ -13,7 +13,7 @@ if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'ini_set')) {
 }
 
 if (!strstr(INI_SYSTEM_CHECK_DISABLED, 'date_default_timezone_set')) {
-    date_default_timezone_set('America/Los_Angeles');
+    date_default_timezone_set('UTC');
 }
 
 

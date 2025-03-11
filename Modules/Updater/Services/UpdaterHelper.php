@@ -84,14 +84,13 @@ class UpdaterHelper
     /**
      * Copy the standalone updater files to the public directory
      */
-    public function copyStandaloneUpdater()
+    public function copyStandaloneUpdater($updateCacheDir)
     {
-        $updateCacheFolderName = 'standalone-updater' . DS . rand(222, 444) . time() . DS;
-        $updateCacheDir = userfiles_path() . $updateCacheFolderName;
 
-        // Delete existing standalone updater directory if it exists
-        $this->deleteRecursive(userfiles_path() . 'standalone-updater');
-        mkdir_recursive($updateCacheDir);
+        if(!is_dir($updateCacheDir)){
+            mkdir_recursive($updateCacheDir);
+        }
+
 
         // Clear bootstrap cache
         $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'), true);
@@ -117,7 +116,8 @@ class UpdaterHelper
 
         // Create the standalone-updater.php file in the public directory
         $standaloneUpdaterContent = $this->generateStandaloneUpdaterFile($stubsPath);
-        file_put_contents(public_path() . DS . 'standalone-updater.php', $standaloneUpdaterContent);
+       // file_put_contents(public_path() . DS . 'standalone-updater.php', $standaloneUpdaterContent);
+        file_put_contents($updateCacheDir . DS . 'standalone-updater.php', $standaloneUpdaterContent);
 
         return true;
     }
