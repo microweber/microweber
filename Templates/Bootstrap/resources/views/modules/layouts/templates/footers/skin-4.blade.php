@@ -46,7 +46,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     </div>
     <?php //include('footer_cart.php'); ?>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
-    
+
 
 </section>
 
