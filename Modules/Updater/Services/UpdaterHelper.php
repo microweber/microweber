@@ -99,20 +99,20 @@ class UpdaterHelper
         // Copy files from the new stubs location
         $stubsPath = module_path('Updater') . DS . 'Stubs';
 
-//        $sourceActions = file_get_contents($stubsPath . DS . 'actions.source.php.stub');
-//        file_put_contents($updateCacheDir . DS . 'actions.php', $sourceActions);
-//
-//        $sourceUpdater = file_get_contents($stubsPath . DS . 'index.source.php.stub');
-//        file_put_contents($updateCacheDir . DS . 'index.php', $sourceUpdater);
-//
-//        $sourceUnzip = file_get_contents($stubsPath . DS . 'Unzip.source.php.stub');
-//        file_put_contents($updateCacheDir . DS . 'Unzip.php', $sourceUnzip);
-//
-//        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateExecutor.source.php.stub');
-//        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateExecutor.php', $source);
-//
-//        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateReplacer.source.php.stub');
-//        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateReplacer.php', $source);
+        $sourceActions = file_get_contents($stubsPath . DS . 'actions.source.php.stub');
+        file_put_contents($updateCacheDir . DS . 'actions.php', $sourceActions);
+
+        $sourceUpdater = file_get_contents($stubsPath . DS . 'index.source.php.stub');
+        file_put_contents($updateCacheDir . DS . 'index.php', $sourceUpdater);
+
+        $sourceUnzip = file_get_contents($stubsPath . DS . 'Unzip.source.php.stub');
+        file_put_contents($updateCacheDir . DS . 'Unzip.php', $sourceUnzip);
+
+        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateExecutor.source.php.stub');
+        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateExecutor.php', $source);
+
+        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateReplacer.source.php.stub');
+        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateReplacer.php', $source);
 
         // Create the standalone-updater.php file in the public directory
         $standaloneUpdaterContent = $this->generateStandaloneUpdaterFile($stubsPath);

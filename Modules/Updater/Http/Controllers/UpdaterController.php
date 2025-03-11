@@ -33,6 +33,6 @@ class UpdaterController extends AdminController
         $updaterHelper->copyStandaloneUpdater($updateCacheDir);
 
         // Redirect to the standalone updater
-        return redirect($updateCacheDirRedicrect.'standalone-updater.php?branch=' . $branch);
+        return redirect($updateCacheDirRedicrect.'index.php?branch=' . $branch);
     }
 }
