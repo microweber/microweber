@@ -27,6 +27,8 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 
 
 <section class="section py-0 edit safe-mode nodrop" field="layout-text-block-skin-14-{{ $params['id'] }}" rel="module" data-background-position="center center" data-overlay-black="true" data-overlay="5">
+    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <div class="background-image-holder mh-100vh d-flex align-items-center" style="background-image: url('<?php print template_url(); ?>img/layouts/text-blocks-1.jpg')" >
         <div class="container <?php print $layout_classes; ?>">
             <div class="row text-center">
@@ -37,4 +39,5 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </div>
         </div>
     </div>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
 </section>

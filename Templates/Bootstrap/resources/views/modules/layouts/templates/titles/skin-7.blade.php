@@ -29,6 +29,8 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 
 
 <section class="edit safe-mode nodrop" field="layout-titles-skin-7-{{ $params['id'] }}" rel="module" data-parallax="true" data-overlay-x="1">
+    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <div class="background-image-holder mh-450 d-flex align-items-end" style="background-image: url('<?php print template_url(); ?>img/layouts/title-7.jpg')">
         <div class="container">
             <div class="row text-center nodrop" style="padding-bottom: 150px; padding-top: 150px;">
@@ -39,4 +41,5 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </div>
         </div>
    </div>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
 </section>

@@ -27,6 +27,8 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 
 
 <section class="section <?php print $layout_classes; ?> edit safe-mode nodrop" field="layout-pricing-skin-1-{{ $params['id'] }}" rel="module">
+    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <div class="container py-3">
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
             <h1 class="display-4 fw-normal">Pricing</h1>
@@ -143,4 +145,5 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </table>
         </div>
     </div>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
 </section>

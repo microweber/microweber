@@ -27,6 +27,8 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 
 
 <section class="section <?php print $layout_classes; ?> edit safe-mode nodrop" field="layout-text-block-skin-12-{{ $params['id'] }}" rel="module">
+    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <div class="container">
         <div class="row text-center nodrop">
             <div class="mw-default-layout-background-text col-8 mx-auto allow-drop">
@@ -36,4 +38,5 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
             </div>
         </div>
     </div>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
 </section>
