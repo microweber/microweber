@@ -84,14 +84,13 @@ class UpdaterHelper
     /**
      * Copy the standalone updater files to the public directory
      */
-    public function copyStandaloneUpdater()
+    public function copyStandaloneUpdater($updateCacheDir)
     {
-        $updateCacheFolderName = 'standalone-updater' . DS . rand(222, 444) . time() . DS;
-        $updateCacheDir = userfiles_path() . $updateCacheFolderName;
 
-        // Delete existing standalone updater directory if it exists
-        $this->deleteRecursive(userfiles_path() . 'standalone-updater');
-        mkdir_recursive($updateCacheDir);
+        if(!is_dir($updateCacheDir)){
+            mkdir_recursive($updateCacheDir);
+        }
+
 
         // Clear bootstrap cache
         $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'), true);
@@ -100,24 +99,25 @@ class UpdaterHelper
         // Copy files from the new stubs location
         $stubsPath = module_path('Updater') . DS . 'Stubs';
 
-        $sourceActions = file_get_contents($stubsPath . DS . 'actions.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'actions.php', $sourceActions);
-
-        $sourceUpdater = file_get_contents($stubsPath . DS . 'index.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'index.php', $sourceUpdater);
-
-        $sourceUnzip = file_get_contents($stubsPath . DS . 'Unzip.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'Unzip.php', $sourceUnzip);
-
-        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateExecutor.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateExecutor.php', $source);
-
-        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateReplacer.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateReplacer.php', $source);
+//        $sourceActions = file_get_contents($stubsPath . DS . 'actions.source.php.stub');
+//        file_put_contents($updateCacheDir . DS . 'actions.php', $sourceActions);
+//
+//        $sourceUpdater = file_get_contents($stubsPath . DS . 'index.source.php.stub');
+//        file_put_contents($updateCacheDir . DS . 'index.php', $sourceUpdater);
+//
+//        $sourceUnzip = file_get_contents($stubsPath . DS . 'Unzip.source.php.stub');
+//        file_put_contents($updateCacheDir . DS . 'Unzip.php', $sourceUnzip);
+//
+//        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateExecutor.source.php.stub');
+//        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateExecutor.php', $source);
+//
+//        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateReplacer.source.php.stub');
+//        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateReplacer.php', $source);
 
         // Create the standalone-updater.php file in the public directory
         $standaloneUpdaterContent = $this->generateStandaloneUpdaterFile($stubsPath);
-        file_put_contents(public_path() . DS . 'standalone-updater.php', $standaloneUpdaterContent);
+       // file_put_contents(public_path() . DS . 'standalone-updater.php', $standaloneUpdaterContent);
+        file_put_contents($updateCacheDir . DS . 'standalone-updater.php', $standaloneUpdaterContent);
 
         return true;
     }
