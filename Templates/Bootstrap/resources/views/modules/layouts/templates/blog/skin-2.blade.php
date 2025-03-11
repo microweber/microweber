@@ -26,7 +26,12 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 ?>
 
 
+
+
+
 <section class="section <?php print $layout_classes; ?> edit safe-mode nodrop" field="layout-blog-skin-3-{{ $params['id'] }}" rel="module">
+    <module type="background" id="background-layout--{{ $params['id'] }}"/>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <div class="container">
 
         <!-- Jumbotron -->
@@ -36,4 +41,6 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
         <!-- Jumbotron -->
         <module type="posts" template="skin-2"/>
     </div>
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom" />
 </section>
+

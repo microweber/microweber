@@ -27,6 +27,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 
 <section class="  footer-background <?php print $layout_classes; ?> edit safe-mode  "
          field="layout-footer-skin-1-{{ $params['id'] }}" rel="module">
+    <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <!-- Footer -->
     <div class="container">
        <div class="row d-flex justify-content-center text-center">
@@ -56,6 +57,9 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
        </div>
     </div>
     <?php //include('footer_cart.php'); ?>
+
+
+
 </section>
 
 <section class="py-2" style="background-color: #f5f5f5;">
@@ -66,3 +70,5 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
         </div>
     </div>
 </section>
+
+<module type="spacer" id="spacer-layout--{{ $params['id'] }}-bottom"/>
