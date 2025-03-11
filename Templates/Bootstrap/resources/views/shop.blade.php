@@ -20,7 +20,7 @@ position: 4
 </div>
 
 
-<section class="py-5 container-fluid">
+<section class="py-5 container">
 
     <module type="shop" />
 
