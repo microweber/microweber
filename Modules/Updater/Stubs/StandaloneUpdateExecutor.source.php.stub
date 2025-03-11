@@ -296,6 +296,15 @@ class StandaloneUpdateExecutor
     function replaceFilesExecCleanupStep()
     {
 
+        $zipFile = isset($_REQUEST['install_version_zip_file']) ? $_REQUEST['install_version_zip_file'] : $_COOKIE['install_version_zip_file'];
+        if($zipFile){
+            $zipFile = $this->sanitizeString($zipFile);
+            if(is_file(__DIR__ . DIRECTORY_SEPARATOR . $zipFile)){
+                @unlink(__DIR__ . DIRECTORY_SEPARATOR . $zipFile);
+            }
+        }
+
+
         $replace = new StandaloneUpdateReplacer();
         $replace->logger = $this;
         $step = $replace->replaceFilesExecCleanupStep();
