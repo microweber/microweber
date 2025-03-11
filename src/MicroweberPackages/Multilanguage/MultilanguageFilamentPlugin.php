@@ -56,7 +56,7 @@ class MultilanguageFilamentPlugin implements Plugin
             $defaultLocales = ['en_US'];
         }
 
-        if (mw_is_installed()) {
+        if (mw_is_installed() and function_exists('get_supported_languages')) {
 
             $panel->plugin(SpatieLaravelTranslatablePlugin::make()->defaultLocales($defaultLocales));
             $panel->plugin(FilamentTranslateFieldPlugin::make()->defaultLocales($defaultLocales));

@@ -6,6 +6,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Menu\Filament\Admin\MenuFilamentPlugin;
 use Modules\Menu\Filament\MenuModuleSettings;
 use Modules\Menu\Livewire\Admin\MenusList;
@@ -25,8 +26,10 @@ class MenuServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        if (app()->bound('translate_manager')) {
+            app()->translate_manager->addTranslateProvider(TranslateMenu::class);
+        }
 
-        $this->app->translate_manager->addTranslateProvider(TranslateMenu::class);
 
     }
 

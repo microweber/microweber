@@ -9,6 +9,7 @@ use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\CustomFields\Filament\Admin\ListCustomFields;
 use Modules\CustomFields\Filament\CustomFieldsModuleSettings;
 use Modules\CustomFields\Repositories\CustomFieldRepository;
@@ -28,8 +29,12 @@ class CustomFieldsServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-        app()->translate_manager->addTranslateProvider(TranslateCustomFields::class);
-        app()->translate_manager->addTranslateProvider(TranslateCustomFieldsValues::class);
+        if(app()->bound('translate_manager')) {
+            app()->translate_manager->addTranslateProvider(TranslateCustomFields::class);
+            app()->translate_manager->addTranslateProvider(TranslateCustomFieldsValues::class);
+        }
+
+
 
     }
 

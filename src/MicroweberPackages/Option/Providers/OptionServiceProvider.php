@@ -13,6 +13,7 @@ namespace MicroweberPackages\Option\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Multilanguage\TranslateManager;
 use MicroweberPackages\Option\Facades\Option as OptionFacade;
 use MicroweberPackages\Option\GlobalOptions;
 use MicroweberPackages\Option\Models\Option;
@@ -20,6 +21,7 @@ use MicroweberPackages\Option\Models\Option as OptionModel;
 use MicroweberPackages\Option\OptionManager;
 use MicroweberPackages\Option\Repositories\OptionRepository;
 use MicroweberPackages\Option\TranslateTables\TranslateOption;
+use Modules\ContentField\TranslateTables\TranslateContentField;
 
 
 class OptionServiceProvider extends ServiceProvider
@@ -46,11 +48,6 @@ class OptionServiceProvider extends ServiceProvider
         });
 
 
-        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(Option::class, function () {
-                return new OptionRepository();
-            });
-        });
 
         /**
          * @property OptionRepository   $option_repository
@@ -69,7 +66,9 @@ class OptionServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        $this->app->translate_manager->addTranslateProvider(TranslateOption::class);
+        if(app()->bound('translate_manager')) {
+             app()->translate_manager->addTranslateProvider(TranslateOption::class);
+        }
 
         $aliasLoader = AliasLoader::getInstance();
         $aliasLoader->alias('Option', OptionFacade::class);

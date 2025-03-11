@@ -1,9 +1,12 @@
 <template>
     <div class="mw-live-edit-right-sidebar-wrapper mx-2" v-if="isReady">
         <div class="dropdown btn-icon live-edit-toolbar-buttons ">
-            <a role="button" id="dropdownLiveEditMenuLinkmultilanguageSwticherSettings" data-bs-toggle="dropdown"
-               aria-expanded="false">
+            <a role="button" id="dropdownLiveEditMenuLinkmultilanguageSwticherSettings"
+               :aria-expanded="dropdownOpen.toString()" @click.prevent="toggleDropdown">
                 <span :class="flagClass"></span>
+                {{ currentLanguage }}
+
+
 
                 <!--                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
                                     <path
@@ -54,6 +57,7 @@ export default {
             languages: {},
             languagesIcons: {},
             currentLanguage: false,
+            dropdownOpen: false
         }
     },
     computed: {
@@ -63,14 +67,22 @@ export default {
     },
     components: {},
     methods: {
+        toggleDropdown() {
+            if (this.$refs.multilanguageSwticherSettingsDropdown && this.$refs.multilanguageSwticherSettingsDropdown.classList) {
+                this.$refs.multilanguageSwticherSettingsDropdown.classList.toggle('show');
+                this.dropdownOpen = !this.dropdownOpen;
+            }
+        },
         hideLangDropdown() {
             if (this.$refs.multilanguageSwticherSettingsDropdown && this.$refs.multilanguageSwticherSettingsDropdown.classList) {
                 this.$refs.multilanguageSwticherSettingsDropdown.classList.remove('show');
+                this.dropdownOpen = false;
             }
         },
         showLangSettings() {
             if (this.$refs.multilanguageSwticherSettingsDropdown && this.$refs.multilanguageSwticherSettingsDropdown.classList) {
                 this.$refs.multilanguageSwticherSettingsDropdown.classList.remove('show');
+                this.dropdownOpen = false;
             }
             mw.tools.open_global_module_settings_modal('multilanguage/admin');
         },
