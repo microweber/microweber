@@ -152,6 +152,7 @@ class Multilanguage extends Page
     {
         $langs = [];
         $langs['none'] = 'None';
+        $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
 
         foreach (get_supported_languages(1) as $supported_language) {
             $langs[$supported_language['locale']] = $supported_language['language'] . ' [' . $supported_language['locale'] . ']';

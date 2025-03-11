@@ -29,10 +29,19 @@ class LanguagesTable extends Component implements HasForms, HasTable
     use InteractsWithTable;
     use InteractsWithForms;
 
+    public $selectedLanguageCode = null;
+    public $selectedLocale = null;
+
+
+
     public function table(Table $table): Table
     {
+
+        $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+
         return $table
             ->query(MultilanguageSupportedLocales::query())
+            ->reorderable()
             ->columns([
                 TextColumn::make('locale')
                     ->label('Locale')
@@ -40,6 +49,10 @@ class LanguagesTable extends Component implements HasForms, HasTable
                     ->sortable(),
                 TextColumn::make('language')
                     ->label('Language')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('display_name')
+                    ->label('Language Name')
                     ->searchable()
                     ->sortable(),
                 ToggleColumn::make('is_active')
@@ -52,12 +65,64 @@ class LanguagesTable extends Component implements HasForms, HasTable
             ->actions([
                 EditAction::make()
                     ->form([
-                        TextInput::make('locale')
+                        Select::make('language')
                             ->required()
-                            ->maxLength(10),
-                        TextInput::make('language')
+                            ->searchable()
+                            ->preload(true)
+                            ->native(false)
+                            ->reactive()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                // When language changes, update the locale options
+                                $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+                                foreach ($languages as $language) {
+                                    if ($language['language'] === $state) {
+                                        $set('locale', $language['locale']);
+                                        break;
+                                    }
+                                }
+                            })
+                            ->options(function () {
+                                $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+                                $options = [];
+                                foreach ($languages as $language) {
+                                    $options[$language['language']] = $language['name'];
+                                }
+                                return $options;
+                            }),
+                        Select::make('locale')
                             ->required()
-                            ->maxLength(50),
+                            ->reactive()
+                            ->searchable()
+                            ->preload(true)
+                            ->native(false)
+                            ->options(function (callable $get) {
+                                $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+                                $options = [];
+                                $selectedLanguage = $get('language');
+
+                                if ($selectedLanguage) {
+                                    // Filter locales based on selected language
+                                    foreach ($languages as $language) {
+                                        if ($language['language'] === $selectedLanguage) {
+                                            $options[$language['locale']] = $language['locale'] . ' (' . $language['name'] . ')';
+
+                                            // Add all available locales for this language
+                                            if (isset($language['locales']) && is_array($language['locales'])) {
+                                                foreach ($language['locales'] as $keyLocale => $locale) {
+                                                    $options[$keyLocale] = $locale . ' (' . $language['name'] . ')';
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    // If no language selected, show all locales
+                                    foreach ($languages as $language) {
+                                        $options[$language['locale']] = $language['locale'] . ' (' . $language['name'] . ')';
+                                    }
+                                }
+
+                                return $options;
+                            }),
                         Toggle::make('is_active')
                             ->label('Active'),
                     ])
@@ -83,17 +148,86 @@ class LanguagesTable extends Component implements HasForms, HasTable
                 Action::make('create')
                     ->label('Add Language')
                     ->form([
-                        TextInput::make('locale')
+                        Select::make('language')
                             ->required()
-                            ->maxLength(10),
-                        TextInput::make('language')
+                            ->reactive()
+                            ->preload(true)
+                            ->native(false)
+                            ->searchable()
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                // When language changes, update the locale options
+                                $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+                                foreach ($languages as $language) {
+                                    if ($language['language'] === $state) {
+                                        $set('locale', $language['locale']);
+                                        break;
+                                    }
+                                }
+                            })
+                            ->options(function () {
+                                $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+                                $options = [];
+                                foreach ($languages as $language) {
+                                    $options[$language['language']] = $language['name'];
+                                }
+                                return $options;
+                            }),
+                        Select::make('locale')
                             ->required()
-                            ->maxLength(50),
+                            ->reactive()
+                            ->preload(true)
+                            ->native(false)
+                            ->searchable()
+                            ->options(function (callable $get) {
+                                $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+                                $options = [];
+                                $selectedLanguage = $get('language');
+
+                                if ($selectedLanguage) {
+                                    // Filter locales based on selected language
+                                    foreach ($languages as $language) {
+                                        if ($language['language'] === $selectedLanguage) {
+                                            $options[$language['locale']] = $language['locale'] . ' (' . $language['name'] . ')';
+
+                                            // Add all available locales for this language
+                                            if (isset($language['locales']) && is_array($language['locales'])) {
+                                                foreach ($language['locales'] as $locale) {
+                                                    $options[$locale] = $locale . ' (' . $language['name'] . ')';
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    // If no language selected, show all locales
+                                    foreach ($languages as $language) {
+                                        $options[$language['locale']] = $language['locale'] . ' (' . $language['name'] . ')';
+                                    }
+                                }
+
+
+                                return $options;
+                            }),
                         Toggle::make('is_active')
                             ->label('Active')
                             ->default(true),
                     ])
                     ->action(function (array $data): void {
+                        $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
+
+                        // Find the language name based on the language code
+                        $languageName = null;
+                        foreach ($languages as $language) {
+                            if ($language['language'] === $data['language']) {
+                                $languageName = $language['name'];
+                                break;
+                            }
+                        }
+
+                        // Add the language name to the data
+                        if ($languageName) {
+                            $data['display_name'] = $languageName;
+                        }
+
                         MultilanguageSupportedLocales::create($data);
 
                         Notification::make()
