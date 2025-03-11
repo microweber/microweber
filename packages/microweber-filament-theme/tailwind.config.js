@@ -16,6 +16,7 @@ module.exports = {
             fontFamily: {
                 sans: ['var(--font-family)', ...defaultTheme.fontFamily.sans],
             },
+
             colors: {
                 blue: {
                     50: '#edf5ff',

@@ -22,7 +22,7 @@
 
         "@tailwindcss/typography": "^0.5.16",
 
-        "autoprefixer": "^10.4.14",
+        "autoprefixer": "^10.4.21",
 
         "copy-webpack-plugin": "^12.0.2",
 
@@ -38,9 +38,11 @@
 
         "mix-tailwindcss": "^1.3.0",
 
-        "postcss": "^8.4.26",
+        "postcss": "^8.5.3",
 
         "postcss-import": "^15.1.0",
+
+        "postcss-nested": "^7.0.2",
 
         "tailwind-variants": "^0.3.1",
 
