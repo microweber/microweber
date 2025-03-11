@@ -80,11 +80,12 @@ class StandaloneUpdateReplacer
         //add other files
         //$newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'templates'));
        // $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'modules'));
-      //  $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'elements'));
+       //  $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'userfiles' . DIRECTORY_SEPARATOR . 'elements'));
         $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'src'));
-        $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'vendor'));
-        $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'build'));
+        //$newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'build'));
         $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'vendor'));
+        $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'css'));
+        $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'js'));
         $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'modules'));
         $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'templates'));
         $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'resources'));
@@ -100,6 +101,10 @@ class StandaloneUpdateReplacer
         $newFilesForCopy[] = ['realPath' => $this->newMicroweberPath . DIRECTORY_SEPARATOR . 'ABOUT.md', 'targetPath' => 'ABOUT.md'];
         $newFilesForCopy[] = ['realPath' => $this->newMicroweberPath . DIRECTORY_SEPARATOR . 'README.md', 'targetPath' => 'README.md'];
         $newFilesForCopy[] = ['realPath' => $this->newMicroweberPath . DIRECTORY_SEPARATOR . 'CHANGELOG.md', 'targetPath' => 'CHANGELOG.md'];
+
+        // vendor is last
+        $newFilesForCopy = array_merge($newFilesForCopy, $this->getFilesFromPath($this->newMicroweberPath . DIRECTORY_SEPARATOR . 'vendor'));
+
 
 
         return $newFilesForCopy;
