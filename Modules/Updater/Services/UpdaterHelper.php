@@ -9,15 +9,17 @@ class UpdaterHelper
      */
     public function getLatestVersion($selectedBranch = 'master')
     {
-        return cache()->remember('standalone_updater_latest_version', 1440, function () use ($selectedBranch) {
+        $key = 'standalone_updater_latest_version__'.$selectedBranch;
+      return cache()->remember($key, 1440, function () use ($selectedBranch) {
             $updateApi = 'http://updater.microweberapi.com/builds/' . $selectedBranch . '/version.txt';
+
             $version = app()->url_manager->download($updateApi);
             if ($version) {
                 $version = trim($version);
                 return $version;
             }
             return MW_VERSION;
-        });
+       });
     }
 
     /**

@@ -2,17 +2,32 @@
 
 namespace Modules\Updater\Http\Controllers;
 
-use GrahamCampbell\Markdown\Facades\Markdown;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
+use Modules\Updater\Services\UpdaterHelper;
+use Illuminate\Http\Request;
 
 class UpdaterController extends AdminController
 {
-
-
-    public function updateFromCli($branch = 'master')
+    /**
+     * Start the update process
+     */
+    public function updateNow(Request $request)
     {
-
-        throw new \Exception(' updateFromCli is not implemented yet');
-     }
-
+        $version = $request->get('version', 'master');
+        $branch = $request->get('branch', 'master');
+        
+        $updaterHelper = app(UpdaterHelper::class);
+        
+        // Check if we can update
+        $updateMessages = $updaterHelper->getCanUpdateMessages();
+        if (!empty($updateMessages)) {
+            return redirect()->back()->with('error', 'Cannot update: ' . implode(', ', $updateMessages));
+        }
+        
+        // Create standalone updater
+        $updaterHelper->copyStandaloneUpdater();
+        
+        // Redirect to the standalone updater
+        return redirect('/standalone-updater.php?branch=' . $branch);
+    }
 }
