@@ -16,7 +16,7 @@ class UpdaterController extends AdminController
         $version = $request->get('version', 'master');
 
         $updaterHelper = app(UpdaterHelper::class);
-
+$rand =  rand(222, 444) . time();
         // Check if we can update
         $updateMessages = $updaterHelper->getCanUpdateMessages();
         if (!empty($updateMessages)) {
@@ -36,6 +36,6 @@ class UpdaterController extends AdminController
         $updaterHelper->copyStandaloneUpdater($updateCacheDir);
 
         // Redirect to the standalone updater
-        return redirect($updateCacheDirRedicrect.'index.php?branch=' . $version . '&installVersion=' . $version);
+        return redirect($updateCacheDirRedicrect.'index.php?branch=' . $version . '&installVersion=' . $version.'&install_session_id='.$rand);
     }
 }
