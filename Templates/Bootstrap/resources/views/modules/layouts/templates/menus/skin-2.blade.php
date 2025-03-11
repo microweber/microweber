@@ -16,7 +16,7 @@
 
 
 <section class="header-background">
-    <div class="container">
+    <div class="container mw-layout-container">
         <nav class="nav-pills d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
 
             <module type="logo" id="header-logo-<?php print $params['id']; ?>" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"/>

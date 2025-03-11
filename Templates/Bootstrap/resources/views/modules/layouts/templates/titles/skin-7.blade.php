@@ -32,7 +32,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <div class="background-image-holder mh-450 d-flex align-items-end" style="background-image: url('<?php print template_url(); ?>img/layouts/title-7.jpg')">
-        <div class="container">
+        <div class="container mw-layout-container">
             <div class="row text-center nodrop" style="padding-bottom: 150px; padding-top: 150px;">
                 <div class="col-8 col-md-6 mx-auto allow-drop" style="background-color: #FFFFFF; padding: 80px 50px">
                     <h3>The future is here and belongs to you.</h3>

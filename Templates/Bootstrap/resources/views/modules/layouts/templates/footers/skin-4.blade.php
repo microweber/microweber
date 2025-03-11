@@ -28,7 +28,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 <section class=" footer-background <?php print $layout_classes; ?> safe-mode">
 
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container-fluid">
+    <div class="container mw-layout-container-fluid">
         <div class="row gap-y align-items-center">
             <div class="col-md-3 text-center text-md-start">
                 <small class="edit" field="footer-reserved-skin-4-{{ $params['id'] }}" rel="module">© All Rights Reserved. Your Website Design</small>

@@ -29,7 +29,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 <section class="section <?php print $layout_classes; ?> edit safe-mode  " field="layout-content-skin-3-{{ $params['id'] }}" rel="module">
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container col-xxl-8 px-4 py-5">
+    <div class="container mw-layout-container col-xxl-8 px-4 py-5">
         <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
             <div class="col-10 col-sm-8 col-lg-6">
                 <img src="<?php print template_url(); ?>img/bootstrap5/bootstrap-themes.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">

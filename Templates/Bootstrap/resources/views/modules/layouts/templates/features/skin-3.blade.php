@@ -29,7 +29,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 <section class="section <?php print $layout_classes; ?> edit safe-mode   " field="layout-features-skin-3-{{ $params['id'] }}" rel="module">
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
-    <div class="container px-4 py-5" id="custom-cards">
+    <div class="container mw-layout-container px-4 py-5" id="custom-cards">
         <h2 class="pb-2 border-bottom">Custom cards</h2>
 
         <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">

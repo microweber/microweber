@@ -14,7 +14,7 @@
 
 ?>
 <section class="header-background">
-    <div class="container">
+    <div class="container mw-layout-container">
         <nav class="nav-pills">
             <div class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
                 <module type="menu" name="header_menu" id="header_menu" template="navbar" class="d-flex flex-direction-row nav-holder"/>

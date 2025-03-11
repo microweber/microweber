@@ -17,7 +17,7 @@
 
 <section class="header-background">
     <nav class="p-3 bg-dark nav-pills text-white">
-        <div class="container">
+        <div class="container mw-layout-container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <module type="logo" id="header-logo-<?php print $params['id']; ?>" class="px-3 d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"/>
 

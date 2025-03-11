@@ -30,7 +30,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
     <module type="background" id="background-layout--{{ $params['id'] }}"/>
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <div class="mh-100vh d-flex align-items-center background-image-holder">
-        <div class="container <?php print $layout_classes; ?>">
+        <div class="container mw-layout-container <?php print $layout_classes; ?>">
             <div class="row text-center">
                 <div class="col-12 col-lg-10 mx-auto  allow-drop">
                     <p class="lead-2 text-white">Lorem Ipsum is simply dummy text of the printing. </p>

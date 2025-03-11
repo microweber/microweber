@@ -30,7 +30,7 @@ $layout_classes = $layout_classes ?? ''; $layout_classes .= ' ' . $classes['padd
 
     <module type="spacer" id="spacer-layout--{{ $params['id'] }}-top"/>
     <!-- Footer -->
-    <div class="container">
+    <div class="container mw-layout-container">
        <div class="text-center">
            <module type="logo" id="footer-logo-<?php print $params['id']; ?>" />
        </div>
