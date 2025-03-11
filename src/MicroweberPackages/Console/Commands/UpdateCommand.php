@@ -3,6 +3,8 @@
 namespace MicroweberPackages\Console\Commands;
 
 use Illuminate\Console\Command;
+use Modules\Updater\Http\Controllers\UpdaterController;
+
 
 class UpdateCommand extends Command
 {
@@ -19,7 +21,7 @@ class UpdateCommand extends Command
     public function handle()
     {
 
-        if (!class_exists('MicroweberPackages\Modules\StandaloneUpdater\StandaloneUpdaterServiceProvider', false)) {
+        if (!class_exists(\Modules\Updater\Providers\UpdaterServiceProvider::class, false)) {
             $this->error('Standalone updater module is not installed');
             return;
         }
@@ -39,7 +41,7 @@ class UpdateCommand extends Command
                 $branch = 'master';
             }
 
-            $contoller = new \MicroweberPackages\Modules\StandaloneUpdater\Http\Controllers\StandaloneUpdaterController;
+            $contoller = new UpdaterController();
 
             try {
                 $update = $contoller->updateFromCli($branch);
