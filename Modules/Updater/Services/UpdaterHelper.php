@@ -9,15 +9,17 @@ class UpdaterHelper
      */
     public function getLatestVersion($selectedBranch = 'master')
     {
-        return cache()->remember('standalone_updater_latest_version', 1440, function () use ($selectedBranch) {
+        $key = 'standalone_updater_latest_version__'.$selectedBranch;
+      return cache()->remember($key, 1440, function () use ($selectedBranch) {
             $updateApi = 'http://updater.microweberapi.com/builds/' . $selectedBranch . '/version.txt';
+
             $version = app()->url_manager->download($updateApi);
             if ($version) {
                 $version = trim($version);
                 return $version;
             }
             return MW_VERSION;
-        });
+       });
     }
 
     /**
@@ -27,10 +29,10 @@ class UpdaterHelper
     {
 
         $messages = [];
-        $projectMainDir = dirname(dirname(dirname(dirname(__DIR__))));
+        $projectMainDir = base_path();
 
         if (is_dir($projectMainDir . DS . '.git')) {
-            $messages[] = 'The git repository is recognized on your server.';
+            $messages[] = 'A .git folder is present on your server. Please remove it before updating.';
         }
 
         if (!class_exists('ZipArchive')) {
@@ -49,11 +51,11 @@ class UpdaterHelper
             $messages[] = 'The src folder must be writable.';
         }
 
-        if (!is_writable($projectMainDir . DS . 'userfiles')) {
+        if (!is_writable(userfiles_path())) {
             $messages[] = 'The userfiles folder must be writable.';
         }
 
-        if (!is_writable($projectMainDir . DS . 'storage')) {
+        if (!is_writable(storage_path())) {
             $messages[] = 'The storage folder must be writable.';
         }
 
