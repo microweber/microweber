@@ -57,7 +57,7 @@
             $('.js-update-log').html('Starting update process...');
 
             // Start the session
-            $.get("?startSession=1&format=json&installVersion=<?php echo isset($_GET['installVersion']) ? $_GET['installVersion'] : 'latest'; ?>", function(data) {
+            $.get("?startSession=1&format=json&installVersion=<?php echo isset($_REQUEST['installVersion']) ? $_REQUEST['installVersion'] : 'latest'; ?>", function(data) {
                 // Read log
                 $.get("?getLogfile=1&format=json", function(data) {
                     readLog(data.logfile);

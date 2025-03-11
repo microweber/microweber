@@ -5,8 +5,8 @@ class StandaloneUpdateExecutor
 
     public
     $branch = 'master'; // Default branch
-    
-    
+
+
     public
     function getLogfile()
     {
@@ -22,19 +22,21 @@ class StandaloneUpdateExecutor
     public
     function getInstallSessionId()
     {
-        return $_COOKIE['install_session_id'];
+        return isset($_REQUEST['install_session_id']) ? $_REQUEST['install_session_id'] : (isset($_COOKIE['install_session_id']) ? $_COOKIE['install_session_id'] : null);
     }
 
     public
     function startSession()
     {
-        if (!isset($_COOKIE['install_session_id'])) {
-            $this->setCookie('install_session_id', rand(2222, 4444));
-            $this->log('Starting the installation session..');
-            return true;
-        }
+        // Generate a new session ID
+        $sessionId = rand(2222, 4444);
 
-        return false;
+        // Store in both $_REQUEST and cookie for backward compatibility
+        $_REQUEST['install_session_id'] = $sessionId;
+        $this->setCookie('install_session_id', $sessionId);
+
+        $this->log('Starting the installation session..');
+        return true;
     }
 
     public
@@ -47,13 +49,14 @@ class StandaloneUpdateExecutor
     public
     function setInstallVersion($version = 'latest')
     {
+        $_REQUEST['install_session_version'] = $version;
         setcookie('install_session_version', $version, time() + (1800), "/");
     }
 
     public
     function isStarted()
     {
-        if (!isset($_COOKIE['install_session_id'])) {
+        if (!isset($_REQUEST['install_session_id'])) {
             return false;
         }
         return true;
@@ -64,10 +67,10 @@ class StandaloneUpdateExecutor
     {
         $branch = $branch ?: $this->branch;
         $branch = $this->sanitizeString($branch);
-        
+
         return 'http://updater.microweberapi.com/microweber-' . $branch . '.zip';
     }
-    
+
     public
     function latestVersion($branch = null)
     {
@@ -94,20 +97,26 @@ class StandaloneUpdateExecutor
         if (isset($_GET['branch']) && !empty($_GET['branch'])) {
             $this->branch = $this->sanitizeString($_GET['branch']);
         }
-        
+
         $version = $this->branch;
-        
-        // For backward compatibility
-        if (isset($_COOKIE['install_session_version'])) {
-            if ($_COOKIE['install_session_version'] == 'dev') {
+
+        // For backward compatibility - check both $_REQUEST and $_COOKIE
+        $installSessionVersion = isset($_REQUEST['install_session_version']) ? $_REQUEST['install_session_version'] :
+                                (isset($_COOKIE['install_session_version']) ? $_COOKIE['install_session_version'] : null);
+
+        if ($installSessionVersion) {
+            if ($installSessionVersion == 'dev') {
                 $version = 'dev';
                 $this->branch = 'dev';
-            } else if ($_COOKIE['install_session_version'] == 'dev_unstable') {
+            } else if ($installSessionVersion == 'dev_unstable') {
                 $version = 'dev-unstable';
                 $this->branch = 'dev-unstable';
+            } else {
+                $version = $installSessionVersion;
+                $this->branch = $version;
             }
         }
-        
+
         $installVersion = $this->latestVersion($this->branch);
         if (!$installVersion['url']) {
             $this->log("We can't download version from branch '{$this->branch}' right now.");
@@ -123,6 +132,8 @@ class StandaloneUpdateExecutor
             $this->log('The ' . $version . ' version of the system has been downloaded successfully!');
         }
 
+        $_REQUEST['install_version_source'] = $version;
+        $_REQUEST['install_version_zip_file'] = $zipFile;
         $this->setCookie('install_version_source', $version);
         $this->setCookie('install_version_zip_file', $zipFile);
 
@@ -132,8 +143,8 @@ class StandaloneUpdateExecutor
     public
     function unzippAppGetNumberOfStepsNeeded()
     {
-        $version = $_COOKIE['install_version_source'];
-        $zipFile = $_COOKIE['install_version_zip_file'];
+        $version = isset($_REQUEST['install_version_source']) ? $_REQUEST['install_version_source'] : $_COOKIE['install_version_source'];
+        $zipFile = isset($_REQUEST['install_version_zip_file']) ? $_REQUEST['install_version_zip_file'] : $_COOKIE['install_version_zip_file'];
 
         $version = $this->sanitizeString($version);
         $zipFile = $this->sanitizeString($zipFile);
@@ -191,8 +202,8 @@ class StandaloneUpdateExecutor
     function unzipAppExecStep($step)
     {
         $step = intval($step);
-        $version = $_COOKIE['install_version_source'];
-        $zipFile = $_COOKIE['install_version_zip_file'];
+        $version = isset($_REQUEST['install_version_source']) ? $_REQUEST['install_version_source'] : $_COOKIE['install_version_source'];
+        $zipFile = isset($_REQUEST['install_version_zip_file']) ? $_REQUEST['install_version_zip_file'] : $_COOKIE['install_version_zip_file'];
         $version = $this->sanitizeString($version);
         $zipFile = $this->sanitizeString($zipFile);
         $extractToFolder = __DIR__ . DIRECTORY_SEPARATOR . 'mw-app-unziped';
@@ -236,8 +247,8 @@ class StandaloneUpdateExecutor
     public
     function unzippApp()
     {
-        $version = $_COOKIE['install_version_source'];
-        $zipFile = $_COOKIE['install_version_zip_file'];
+        $version = isset($_REQUEST['install_version_source']) ? $_REQUEST['install_version_source'] : $_COOKIE['install_version_source'];
+        $zipFile = isset($_REQUEST['install_version_zip_file']) ? $_REQUEST['install_version_zip_file'] : $_COOKIE['install_version_zip_file'];
         $version = $this->sanitizeString($version);
         $zipFile = $this->sanitizeString($zipFile);
 
@@ -305,13 +316,13 @@ class StandaloneUpdateExecutor
         $message = 'You are up to date!';
 
         /*
-        if (!empty($_COOKIE['site_url'])) {
-            $siteUrl = $_COOKIE['site_url'];
+        if (!empty($_REQUEST['site_url']) || !empty($_COOKIE['site_url'])) {
+            $siteUrl = !empty($_REQUEST['site_url']) ? $_REQUEST['site_url'] : $_COOKIE['site_url'];
             $message .= '<br /><a href="'.$siteUrl.'">Visit your website</a>';
         }*/
 
-        if (!empty($_COOKIE['admin_url'])) {
-            $adminUrl = $_COOKIE['admin_url'];
+        if (!empty($_REQUEST['admin_url']) || !empty($_COOKIE['admin_url'])) {
+            $adminUrl = !empty($_REQUEST['admin_url']) ? $_REQUEST['admin_url'] : $_COOKIE['admin_url'];
             $message .= '<br /><a href="' . $adminUrl . '" class="btn btn-link" style="color:#fff">Back to admin</a>';
         }
 
@@ -336,8 +347,11 @@ class StandaloneUpdateExecutor
         );
 
 
-        if (isset($_COOKIE['max_receive_speed_download']) && $_COOKIE['max_receive_speed_download'] > 0) {
-            $speedLimit = (intval($_COOKIE['max_receive_speed_download']) * 1024 * 1024);
+        if ((isset($_REQUEST['max_receive_speed_download']) && $_REQUEST['max_receive_speed_download'] > 0) ||
+            (isset($_COOKIE['max_receive_speed_download']) && $_COOKIE['max_receive_speed_download'] > 0)) {
+            $speedLimit = isset($_REQUEST['max_receive_speed_download']) ?
+                (intval($_REQUEST['max_receive_speed_download']) * 1024 * 1024) :
+                (intval($_COOKIE['max_receive_speed_download']) * 1024 * 1024);
             $options[CURLOPT_MAX_RECV_SPEED_LARGE] = $speedLimit;
         }
 

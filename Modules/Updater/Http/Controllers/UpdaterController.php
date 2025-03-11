@@ -14,14 +14,17 @@ class UpdaterController extends AdminController
     public function updateNow(Request $request)
     {
         $version = $request->get('version', 'master');
-        $branch = $request->get('branch', 'master');
 
         $updaterHelper = app(UpdaterHelper::class);
-
+$rand =  rand(222, 444) . time();
         // Check if we can update
         $updateMessages = $updaterHelper->getCanUpdateMessages();
         if (!empty($updateMessages)) {
             return redirect()->back()->with('error', 'Cannot update: ' . implode(', ', $updateMessages));
+        }
+
+        if(is_dir( public_path() . '/standalone-updater')){
+            rmdir_recursive(public_path() . '/standalone-updater',false);
         }
 
         $updateCacheFolderName = 'standalone-updater/' .  rand(222, 444) . time() . '/';
@@ -33,6 +36,6 @@ class UpdaterController extends AdminController
         $updaterHelper->copyStandaloneUpdater($updateCacheDir);
 
         // Redirect to the standalone updater
-        return redirect($updateCacheDirRedicrect.'index.php?branch=' . $branch);
+        return redirect($updateCacheDirRedicrect.'index.php?branch=' . $version . '&installVersion=' . $version.'&install_session_id='.$rand);
     }
 }

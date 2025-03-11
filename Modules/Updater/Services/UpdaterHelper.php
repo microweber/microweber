@@ -59,6 +59,10 @@ class UpdaterHelper
             $messages[] = 'The storage folder must be writable.';
         }
 
+        if (!is_writable(public_path())) {
+            $messages[] = 'The public folder must be writable.';
+        }
+
         if (is_link($projectMainDir . DS . 'vendor')) {
             $messages[] = 'The vendor folder must not be a symlink.';
         }
@@ -94,30 +98,14 @@ class UpdaterHelper
 
         // Clear bootstrap cache
         $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'), true);
-        $this->deleteRecursive($bootstrap_cached_folder);
+        rmdir_recursive($bootstrap_cached_folder);
 
         // Copy files from the new stubs location
         $stubsPath = module_path('Updater') . DS . 'Stubs';
 
-        $sourceActions = file_get_contents($stubsPath . DS . 'actions.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'actions.php', $sourceActions);
-
-        $sourceUpdater = file_get_contents($stubsPath . DS . 'index.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'index.php', $sourceUpdater);
-
-        $sourceUnzip = file_get_contents($stubsPath . DS . 'Unzip.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'Unzip.php', $sourceUnzip);
-
-        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateExecutor.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateExecutor.php', $source);
-
-        $source = file_get_contents($stubsPath . DS . 'StandaloneUpdateReplacer.source.php.stub');
-        file_put_contents($updateCacheDir . DS . 'StandaloneUpdateReplacer.php', $source);
-
-        // Create the standalone-updater.php file in the public directory
+        // Create the standalone-updater.php file which contains all necessary code
         $standaloneUpdaterContent = $this->generateStandaloneUpdaterFile($stubsPath);
-       // file_put_contents(public_path() . DS . 'standalone-updater.php', $standaloneUpdaterContent);
-        file_put_contents($updateCacheDir . DS . 'standalone-updater.php', $standaloneUpdaterContent);
+        file_put_contents($updateCacheDir . DS . 'index.php', $standaloneUpdaterContent);
 
         return true;
     }
@@ -180,25 +168,5 @@ EOT;
         return $standaloneUpdaterContent;
     }
 
-    /**
-     * Delete a directory recursively
-     */
-    public function deleteRecursive($dir)
-    {
-        if (!is_dir($dir)) {
-            return;
-        }
 
-        try {
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
-            foreach ($files as $fileinfo) {
-                $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
-                @$todo($fileinfo->getRealPath());
-            }
-        } catch (\Exception $e) {
-            // Cant remove files from this path
-        }
-
-        @rmdir($dir);
-    }
 }

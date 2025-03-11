@@ -25,57 +25,57 @@ if (isset($_REQUEST['format']) && $_REQUEST['format'] == "json") {
     $json = [];
     header('Content-Type: application/json');
 
-    if (isset($_GET['startSession']) && $_GET['startSession'] == 1) {
+    if (isset($_REQUEST['startSession']) && $_REQUEST['startSession'] == 1) {
         $update = new StandaloneUpdateExecutor();
-        $update->setInstallVersion($_GET['installVersion']);
+        $update->setInstallVersion(isset($_REQUEST['installVersion']) ? $_REQUEST['installVersion'] : 'latest');
         $json['start'] = $update->startSession();
     }
 
-    if (isset($_GET['startUpdating']) && $_GET['startUpdating'] == 1) {
+    if (isset($_REQUEST['startUpdating']) && $_REQUEST['startUpdating'] == 1) {
         $update = new StandaloneUpdateExecutor();
         $json['updating'] = $update->startUpdating();
     }
 
-    if (isset($_GET['unzippApp']) && $_GET['unzippApp']) {
+    if (isset($_REQUEST['unzippApp']) && $_REQUEST['unzippApp']) {
         $update = new StandaloneUpdateExecutor();
         $json['unzipping'] = $update->unzippApp();
     }
 
 
-    if (isset($_GET['unzipAppExecStep'])) {
+    if (isset($_REQUEST['unzipAppExecStep'])) {
         $update = new StandaloneUpdateExecutor();
-        $json['unzipping'] = $update->unzipAppExecStep(intval($_GET['unzipAppExecStep']));
+        $json['unzipping'] = $update->unzipAppExecStep(intval($_REQUEST['unzipAppExecStep']));
     }
 
 
-    if (isset($_GET['unzippAppGetNumberOfStepsNeeded']) && $_GET['unzippAppGetNumberOfStepsNeeded'] == 1) {
+    if (isset($_REQUEST['unzippAppGetNumberOfStepsNeeded']) && $_REQUEST['unzippAppGetNumberOfStepsNeeded'] == 1) {
         $update = new StandaloneUpdateExecutor();
         $json['unzipping'] = $update->unzippAppGetNumberOfStepsNeeded();
     }
 
-    if (isset($_GET['replaceFiles']) && $_GET['replaceFiles'] == 1) {
+    if (isset($_REQUEST['replaceFiles']) && $_REQUEST['replaceFiles'] == 1) {
         $update = new StandaloneUpdateExecutor();
         $json['replacing'] = $update->replaceFiles();
     }
-    if (isset($_GET['replaceFilesPrepareStepsNeeded']) && $_GET['replaceFilesPrepareStepsNeeded'] == 1) {
+    if (isset($_REQUEST['replaceFilesPrepareStepsNeeded']) && $_REQUEST['replaceFilesPrepareStepsNeeded'] == 1) {
         $update = new StandaloneUpdateExecutor();
         $json['replace_steps'] = $update->replaceFilesPrepareStepsNeeded();
     }
-    if (isset($_GET['replaceFilesExecStep'])) {
+    if (isset($_REQUEST['replaceFilesExecStep'])) {
         $update = new StandaloneUpdateExecutor();
-        $json['replace_step_result'] = $update->replaceFilesExecStep(intval($_GET['replaceFilesExecStep']));
+        $json['replace_step_result'] = $update->replaceFilesExecStep(intval($_REQUEST['replaceFilesExecStep']));
     }
-    if (isset($_GET['replaceFilesExecCleanupStep'])) {
+    if (isset($_REQUEST['replaceFilesExecCleanupStep'])) {
         $update = new StandaloneUpdateExecutor();
         $json['clean_step_result'] = $update->replaceFilesExecCleanupStep();
     }
 
-    if (isset($_GET['isStarted']) && $_GET['isStarted'] == 1) {
+    if (isset($_REQUEST['isStarted']) && $_REQUEST['isStarted'] == 1) {
         $update = new StandaloneUpdateExecutor();
         $json['started'] = $update->isStarted();
     }
 
-    if (isset($_GET['getLogfile']) && $_GET['getLogfile'] == 1) {
+    if (isset($_REQUEST['getLogfile']) && $_REQUEST['getLogfile'] == 1) {
         $update = new StandaloneUpdateExecutor();
         $json['logfile'] = $update->getLogfile();
     }
@@ -83,5 +83,3 @@ if (isset($_REQUEST['format']) && $_REQUEST['format'] == "json") {
     print(json_encode($json));
     exit;
 }
-
-
