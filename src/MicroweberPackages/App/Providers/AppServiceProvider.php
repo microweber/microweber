@@ -520,9 +520,10 @@ class AppServiceProvider extends ServiceProvider
             load_all_functions_files_for_modules();
             load_service_providers_for_template();
             load_functions_files_for_template();
-
             $this->setupAppLocale();
+            if(function_exists('is_lang_correct')) {
 
+            }
             if (is_cli()) {
 
                 $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');

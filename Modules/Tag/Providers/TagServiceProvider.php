@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Tag\Filament\Resources\TagGroupResource;
 use Modules\Tag\Filament\Resources\TaggedResource;
 use Modules\Tag\Filament\Resources\TagResource;
@@ -26,10 +27,13 @@ class TagServiceProvider extends BaseModuleServiceProvider
 
     public function boot(): void
     {
+        if(app()->bound('translate_manager')) {
+            app()->translate_manager->addTranslateProvider(TranslateTaggingTags::class);
+            app()->translate_manager->addTranslateProvider(TranslateTaggingTagged::class);
+        }
 
 
-        app()->translate_manager->addTranslateProvider(TranslateTaggingTags::class);
-        app()->translate_manager->addTranslateProvider(TranslateTaggingTagged::class);
+
     }
 
     /**
@@ -43,7 +47,7 @@ class TagServiceProvider extends BaseModuleServiceProvider
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/tagging.php'), 'tagging');
         // Register filament page for Microweber module settings
         FilamentRegistry::registerPage(TagsModuleSettings::class);
-        
+
         // Register Filament resources
         FilamentRegistry::registerResource(TagResource::class);
         FilamentRegistry::registerResource(TagGroupResource::class);

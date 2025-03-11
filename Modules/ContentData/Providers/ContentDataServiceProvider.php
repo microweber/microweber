@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
+use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\ContentData\Repositories\DataFieldsManager;
 use Modules\ContentData\TranslateTables\TranslateContentData;
 
@@ -16,8 +17,12 @@ class ContentDataServiceProvider extends BaseModuleServiceProvider
     protected string $moduleNameLower = 'contentdata';
     public function boot()
     {
-        app()->translate_manager->addTranslateProvider(TranslateContentData::class);
-    }
+        if(app()->bound('translate_manager')) {
+            app()->translate_manager->addTranslateProvider(TranslateContentData::class);
+        }
+
+
+     }
 
     /**
      * Register the service provider.

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\Multilanguage\TranslateManager;
+use MicroweberPackages\Option\TranslateTables\TranslateOption;
 use Modules\ContentField\Filament\ContentFieldModuleSettings;
 use Modules\ContentField\Microweber\ContentFieldModule;
 use Modules\ContentField\TranslateTables\TranslateContentField;
@@ -23,8 +25,10 @@ class ContentFieldServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
+        if(app()->bound('translate_manager')) {
+            app()->translate_manager->addTranslateProvider(TranslateContentField::class);
+        }
 
-        $this->app->translate_manager->addTranslateProvider(TranslateContentField::class);
 
     }
 

@@ -44,9 +44,7 @@ class MultilanguageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
-        $this->app->singleton('translate_manager', function ($app) {
-            return new TranslateManager();
-        });
+
 
         include_once(__DIR__ . '/helpers/multilanguage_functions.php');
 
@@ -54,7 +52,9 @@ class MultilanguageServiceProvider extends ServiceProvider
             return;
         }
 
-
+        $this->app->singleton('translate_manager', function ($app) {
+            return new TranslateManager();
+        });
 
         /**
          * @property MultilanguageRepository $multilanguage_repository
@@ -63,7 +63,8 @@ class MultilanguageServiceProvider extends ServiceProvider
         $this->app->singleton('multilanguage_repository', function () {
             return new MultilanguageRepository();
         });
-
+        $this->loadRoutesFrom(__DIR__ . '/routes/api_public.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
 
 
     }
@@ -76,8 +77,7 @@ class MultilanguageServiceProvider extends ServiceProvider
         Blade::component('microweber-ml::input-text', InputText::class);
         Blade::component('microweber-ml::input-textarea', InputTextarea::class);
 
-        $this->loadRoutesFrom(__DIR__ . '/routes/api_public.php');
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+
 
         if (!mw_is_installed()) {
             return;
@@ -109,6 +109,7 @@ class MultilanguageServiceProvider extends ServiceProvider
 
 
             $this->app->bind('permalink_manager', function () {
+
                 return new MultilanguagePermalinkManager();
             });
 
@@ -150,6 +151,7 @@ class MultilanguageServiceProvider extends ServiceProvider
             if ($currentUrl !== api_url('multilanguage/change_language')) {
                 if (!defined('MW_DISABLE_MULTILANGUAGE')) {
                     if (MultilanguageHelpers::multilanguageIsEnabled()) {
+
                         run_translate_manager();
                     }
                 }

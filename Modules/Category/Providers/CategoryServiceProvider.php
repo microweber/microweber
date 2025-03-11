@@ -5,6 +5,7 @@ namespace Modules\Category\Providers;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Category\Filament\CategoryModuleSettings;
 use Modules\Category\Models\Category;
 use Modules\Category\Repositories\CategoryManager;
@@ -23,9 +24,10 @@ class CategoryServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-        app()->translate_manager->addTranslateProvider(TranslateCategory::class);
 
-
+        if(app()->bound('translate_manager')) {
+            app()->translate_manager->addTranslateProvider(TranslateCategory::class);
+         }
     }
 
     /**

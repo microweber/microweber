@@ -6,6 +6,7 @@ use Livewire\Livewire;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use MicroweberPackages\Multilanguage\TranslateManager;
 use Modules\Content\Filament\Admin\ContentResource;
 use Modules\Content\Filament\ContentModuleSettings;
 use Modules\Content\Filament\ContentTableList;
@@ -26,8 +27,12 @@ class ContentServiceProvider extends BaseModuleServiceProvider
      */
     public function boot(): void
     {
-        app()->translate_manager->addTranslateProvider(TranslateContent::class);
-        app()->translate_manager->addTranslateProvider(TranslateContentFields::class);
+        if(app()->bound('translate_manager')) {
+            app()->translate_manager->addTranslateProvider(TranslateContent::class);
+            app()->translate_manager->addTranslateProvider(TranslateContentFields::class);
+        }
+
+
 
     }
 
