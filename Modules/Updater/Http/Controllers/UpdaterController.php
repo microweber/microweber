@@ -24,6 +24,10 @@ class UpdaterController extends AdminController
             return redirect()->back()->with('error', 'Cannot update: ' . implode(', ', $updateMessages));
         }
 
+        if(is_dir( public_path() . '/standalone-updater')){
+            rmdir_recursive(public_path() . '/standalone-updater',false);
+        }
+
         $updateCacheFolderName = 'standalone-updater/' .  rand(222, 444) . time() . '/';
         $updateCacheDir = public_path() . '/' .$updateCacheFolderName;
         $updateCacheDirRedicrect = site_url() . $updateCacheFolderName;

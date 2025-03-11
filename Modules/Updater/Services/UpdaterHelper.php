@@ -59,6 +59,10 @@ class UpdaterHelper
             $messages[] = 'The storage folder must be writable.';
         }
 
+        if (!is_writable(public_path())) {
+            $messages[] = 'The public folder must be writable.';
+        }
+
         if (is_link($projectMainDir . DS . 'vendor')) {
             $messages[] = 'The vendor folder must not be a symlink.';
         }
@@ -94,7 +98,7 @@ class UpdaterHelper
 
         // Clear bootstrap cache
         $bootstrap_cached_folder = normalize_path(base_path('bootstrap/cache/'), true);
-        $this->deleteRecursive($bootstrap_cached_folder);
+        rmdir_recursive($bootstrap_cached_folder);
 
         // Copy files from the new stubs location
         $stubsPath = module_path('Updater') . DS . 'Stubs';
@@ -180,25 +184,5 @@ EOT;
         return $standaloneUpdaterContent;
     }
 
-    /**
-     * Delete a directory recursively
-     */
-    public function deleteRecursive($dir)
-    {
-        if (!is_dir($dir)) {
-            return;
-        }
 
-        try {
-            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::CHILD_FIRST);
-            foreach ($files as $fileinfo) {
-                $todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
-                @$todo($fileinfo->getRealPath());
-            }
-        } catch (\Exception $e) {
-            // Cant remove files from this path
-        }
-
-        @rmdir($dir);
-    }
 }
