@@ -133,6 +133,8 @@ class UpdaterController extends AdminController
         // Change back to the original directory
         chdir($currentDir);
 
+        @unlink($updateCacheDir . 'index.php');
+
         return true;
     }
 }
