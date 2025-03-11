@@ -18,7 +18,7 @@ class EditContent extends EditRecord
     use HasEditContentForms;
     use ModifyComponentData;
 
-//    public $activeLocale;
+ //  public ?string $activeLocale;
 
 //    protected static string $view = 'modules.content::filament.admin.edit-record';
 
@@ -26,6 +26,11 @@ class EditContent extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
+
+        if($this->activeLocale) {
+            $data['lang'] = $this->activeLocale;
+        }
+
          $record->update($data);
 
         if (isset($data['is_home']) and $data['is_home']) {
