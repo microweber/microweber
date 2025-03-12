@@ -10,12 +10,15 @@ use Filament\Tables\Table;
 use Modules\Comments\Models\Comment;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
+use Illuminate\Database\Eloquent\Model;
+use Filament\Actions\Action;
 
 class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
     protected static ?string $navigationGroup = 'Content';
+    protected static ?string $recordTitleAttribute = 'comment_subject';
 
     public static function form(Form $form): Form
     {
@@ -154,4 +157,59 @@ class CommentResource extends Resource
         ];
     }
 
+    /**
+     * Get the attributes that should be searchable globally.
+     *
+     * @return array
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['comment_name', 'comment_email', 'comment_subject', 'comment_body', 'content.title'];
+    }
+
+    /**
+     * Get the title for the global search result.
+     *
+     * @param Model $record
+     * @return string
+     */
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->comment_subject ?: 'Comment by ' . $record->comment_name;
+    }
+
+    /**
+     * Get the details for the global search result.
+     *
+     * @param Model $record
+     * @return array
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Author' => $record->comment_name,
+            'Email' => $record->comment_email,
+            'Content' => $record->content?->title ?? 'N/A',
+            'Comment' => \Illuminate\Support\Str::limit($record->comment_body, 50),
+            'Status' => $record->is_moderated ? 'Approved' : ($record->is_spam ? 'Spam' : 'Pending'),
+            'Date' => $record->created_at?->format('Y-m-d H:i'),
+        ];
+    }
+
+    /**
+     * Get the actions for the global search result.
+     *
+     * @param Model $record
+     * @return array
+     */
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('edit')
+                ->url(static::getUrl('edit', ['record' => $record])),
+            Action::make('approve')
+                ->visible(fn() => !$record->is_moderated && !$record->is_spam)
+                ->url(static::getUrl('edit', ['record' => $record])),
+        ];
+    }
 }

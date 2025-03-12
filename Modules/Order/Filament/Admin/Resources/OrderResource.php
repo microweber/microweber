@@ -29,6 +29,8 @@ class OrderResource extends Resource
     protected static ?string $navigationGroup = 'Shop';
     protected static ?int $navigationSort = 2;
 
+    protected static ?string $recordTitleAttribute = 'order_reference_id';
+
     public static function getNavigationBadgeTooltip(): ?string
     {
         return 'New orders';
@@ -498,4 +500,58 @@ class OrderResource extends Resource
 //        return parent::getEloquentQuery()->withoutGlobalScope(SoftDeletingScope::class);
 //    }
 
+    /**
+     * Get the attributes that should be searchable globally.
+     *
+     * @return array
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['order_reference_id', 'id', 'amount', 'customer.email', 'customer.name'];
+    }
+
+    /**
+     * Get the title for the global search result.
+     *
+     * @param Model $record
+     * @return string
+     */
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return 'Order #' . $record->order_reference_id;
+    }
+
+    /**
+     * Get the details for the global search result.
+     *
+     * @param Model $record
+     * @return array
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Amount' => $record->amount . ' ' . ($record->currency ?? ''),
+            'Customer' => $record->customer?->name ?? $record->customer?->email ?? 'N/A',
+            'Status' => $record->order_status,
+            'Completed' => $record->order_completed ? 'Yes' : 'No',
+            'Paid' => $record->is_paid ? 'Yes' : 'No',
+            'Date' => $record->created_at?->format('Y-m-d H:i'),
+        ];
+    }
+
+    /**
+     * Get the actions for the global search result.
+     *
+     * @param Model $record
+     * @return array
+     */
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            \Filament\Actions\Action::make('edit')
+                ->url(static::getUrl('edit', ['record' => $record])),
+            \Filament\Actions\Action::make('view')
+                ->url(static::getUrl('edit', ['record' => $record])),
+        ];
+    }
 }
