@@ -93,7 +93,7 @@ if (!function_exists('change_language_by_locale')) {
         if (!$isCli and $set_cookie) {
             $skip = false;
 
-            $cookie = \Cookie::get('lang');
+            $cookie = \Illuminate\Support\Facades\Cookie::get('lang');
 
             if ($cookie and $cookie == $locale) {
                 $skip = true;

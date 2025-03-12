@@ -41,7 +41,9 @@ class LanguagesTable extends Component implements HasForms, HasTable
 
         return $table
             ->query(MultilanguageSupportedLocales::query())
-            ->reorderable()
+             ->reorderable('position')
+            ->defaultSort('position', 'asc')
+
             ->columns([
                 TextColumn::make('locale')
                     ->label('Locale')
@@ -49,11 +51,13 @@ class LanguagesTable extends Component implements HasForms, HasTable
                     ->sortable(),
                 TextColumn::make('language')
                     ->label('Language')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('display_name')
                     ->label('Language Name')
                     ->searchable()
+
                     ->sortable(),
                 ToggleColumn::make('is_active')
                     ->label('Active')
