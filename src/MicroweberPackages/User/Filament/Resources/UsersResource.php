@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use MicroweberPackages\User\Models\User;
+use Filament\Actions\Action;
 
 class UsersResource extends Resource
 {
@@ -22,6 +23,8 @@ class UsersResource extends Resource
     protected static ?string $navigationGroup = 'Users';
 
     protected static ?int $navigationSort = 98;
+
+    protected static ?string $recordTitleAttribute = 'username';
 
     public static function form(Form $form): Form
     {
@@ -115,6 +118,58 @@ class UsersResource extends Resource
             'index' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\ListUsers::route('/'),
 //            'create' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\CreateUsers::route('/create'),
 //            'edit' => \MicroweberPackages\User\Filament\Resources\UsersResource\Pages\EditUsers::route('/{record}/edit'),
+        ];
+    }
+
+    /**
+     * Get the attributes that should be searchable globally.
+     *
+     * @return array
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['username', 'email', 'first_name', 'last_name', 'phone'];
+    }
+
+    /**
+     * Get the title for the global search result.
+     *
+     * @param Model $record
+     * @return string
+     */
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->username;
+    }
+
+    /**
+     * Get the details for the global search result.
+     *
+     * @param Model $record
+     * @return array
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Name' => $record->first_name . ' ' . $record->last_name,
+            'Email' => $record->email,
+            'Phone' => $record->phone,
+            'Admin' => $record->is_admin ? 'Yes' : 'No',
+            'Status' => $record->is_active ? 'Active' : 'Inactive',
+        ];
+    }
+
+    /**
+     * Get the actions for the global search result.
+     *
+     * @param Model $record
+     * @return array
+     */
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('edit')
+                ->url(static::getUrl('index', ['record' => $record->id])),
         ];
     }
 }

@@ -8,7 +8,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
+use Filament\Actions\Action;
 use Modules\Customer\Filament\CustomerResource\Pages\ManageCustomers;
 use Modules\Customer\Models\Company;
 use Modules\Customer\Models\Customer;
@@ -20,6 +22,8 @@ class CustomerResource extends Resource
     protected static ?string $navigationGroup = 'Shop';
 
     protected static ?int $navigationSort = 3;
+
+    protected static ?string $recordTitleAttribute = 'name';
 
 
     public static function form(Form $form): Forms\Form
@@ -143,6 +147,59 @@ class CustomerResource extends Resource
     {
         return [
             'index' => ManageCustomers::route('/'),
+        ];
+    }
+
+    /**
+     * Get the attributes that should be searchable globally.
+     *
+     * @return array
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name', 'first_name', 'last_name', 'email', 'phone', 'company.name'];
+    }
+
+    /**
+     * Get the title for the global search result.
+     *
+     * @param Model $record
+     * @return string
+     */
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->name;
+    }
+
+    /**
+     * Get the details for the global search result.
+     *
+     * @param Model $record
+     * @return array
+     */
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Email' => $record->email,
+            'Phone' => $record->phone,
+            'Company' => $record->company?->name,
+            'Status' => $record->active ? 'Active' : 'Inactive',
+        ];
+    }
+
+    /**
+     * Get the actions for the global search result.
+     *
+     * @param Model $record
+     * @return array
+     */
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('edit')
+                ->url(static::getUrl('index', ['record' => $record->id, 'activeTab' => 'edit'])),
+            Action::make('view')
+                ->url(static::getUrl('index', ['record' => $record->id])),
         ];
     }
 }

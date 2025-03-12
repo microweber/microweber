@@ -8,8 +8,11 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
+use Filament\GlobalSearch\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use MicroweberPackages\Filament\Forms\Components\MwMediaBrowser;
 use MicroweberPackages\Filament\Forms\Components\MwTree;
 use Modules\Category\Models\Category;
@@ -20,6 +23,8 @@ class CategoryResource extends Resource
     use Translatable;
     
     protected static ?string $model = Category::class;
+    
+    protected static ?string $recordTitleAttribute = 'title';
 
     //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -189,6 +194,45 @@ class CategoryResource extends Resource
             'index' => \Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\ListCategories::route('/'),
             'create' => \Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\CreateCategory::route('/create'),
             'edit' => \Modules\Category\Filament\Admin\Resources\CategoryResource\Pages\EditCategory::route('/{record}/edit'),
+        ];
+    }
+    
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'description', 'url', 'category_meta_title', 'category_meta_description'];
+    }
+    
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->title;
+    }
+    
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        $details = [];
+        
+        if ($record->parent_id) {
+            $parentCategory = Category::find($record->parent_id);
+            if ($parentCategory) {
+                $details['Parent Category'] = $parentCategory->title;
+            }
+        }
+        
+        if ($record->description) {
+            $details['Description'] = Str::limit($record->description, 50);
+        }
+        
+        return $details;
+    }
+    
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('edit')
+                ->url(static::getUrl('edit', ['record' => $record])),
+            Action::make('view')
+                ->url(fn () => $record->url ? url($record->url) : null)
+                ->visible(fn () => $record->url),
         ];
     }
 }

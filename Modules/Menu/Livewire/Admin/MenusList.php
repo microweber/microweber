@@ -38,7 +38,6 @@ class MenusList extends Component implements HasForms, HasActions
                 ->live()
                 ->native(false)
                 ->selectablePlaceholder(false)
-                ->reactive()
                 ->default(function (Component $component, Get $get) {
 
                     return $get('menu_id');

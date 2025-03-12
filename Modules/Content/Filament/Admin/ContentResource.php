@@ -2,8 +2,6 @@
 
 namespace Modules\Content\Filament\Admin;
 
-use App\Filament\Admin\Resources\ContentResource\Pages;
-use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownActionsColumn;
 use BobiMicroweber\FilamentDropdownColumn\Columns\DropdownColumn;
 use Filament\Forms;
 use Filament\Forms\Components\Livewire;
@@ -11,6 +9,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Form;
 use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
+use Filament\GlobalSearch\Actions\Action;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\FontWeight;
 use Filament\Support\Enums\MaxWidth;
@@ -32,6 +31,8 @@ use Modules\Post\Models\Post;
 class ContentResource extends Resource
 {
     use Translatable;
+    
+    protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $model = \Modules\Content\Models\Content::class;
 
@@ -811,6 +812,34 @@ class ContentResource extends Resource
             'create' => \Modules\Content\Filament\Admin\ContentResource\Pages\CreateContent::route('/create'),
             'view' => \Modules\Content\Filament\Admin\ContentResource\Pages\ViewContent::route('/{record}'),
             'edit' => \Modules\Content\Filament\Admin\ContentResource\Pages\EditContent::route('/{record}/edit'),
+        ];
+    }
+    
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'description', 'content_body', 'url'];
+    }
+    
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->title;
+    }
+    
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Type' => ucfirst($record->content_type),
+            'Status' => $record->is_active ? 'Published' : 'Unpublished',
+        ];
+    }
+    
+    public static function getGlobalSearchResultActions(Model $record): array
+    {
+        return [
+            Action::make('edit')
+                ->url(static::getUrl('edit', ['record' => $record])),
+            Action::make('view')
+                ->url($record->link()),
         ];
     }
 }
