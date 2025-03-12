@@ -70,7 +70,19 @@ class NewsletterSubscriberImporter extends Importer
         }
 
         $listIds = [];
+
+
+
         if (isset($this->options['select_list'])) {
+
+            if(array_key_exists('new_list_name', $this->options)) {
+                if(!($this->options['new_list_name'])) {
+                    $this->options['new_list_name'] = 'New List ' . date('Y-m-d') . ' ' . uniqid();
+                }
+            }
+
+
+
             if (isset($this->options['new_list_name']) && $this->options['select_list'] == 'import_to_new_list') {
                 $findList = NewsletterList::where('name', $this->options['new_list_name'])->first();
                 if (!$findList) {
