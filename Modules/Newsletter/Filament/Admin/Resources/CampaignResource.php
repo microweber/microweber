@@ -149,6 +149,10 @@ class CampaignResource extends Resource
                                 return;
                             }
 
+                            $subscriberIds = array_unique($subscriberIds);
+
+
+
                             $newCampaignName = $campaign->name . ' - Opened';
                             $newCampaignListName = $campaign->name . ' - List of opened';
 
@@ -213,6 +217,7 @@ class CampaignResource extends Resource
                                     ->send();
                                 return;
                             }
+                            $subscriberIds = array_unique($subscriberIds);
 
                             $newCampaignName = $campaign->name . ' - Clicked';
                             $newCampaignListName = $campaign->name . ' - List of clicked';

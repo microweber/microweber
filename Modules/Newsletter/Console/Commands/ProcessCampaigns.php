@@ -69,10 +69,10 @@ class ProcessCampaigns extends Command
                 $scheduledAt = Carbon::parse($scheduledCampaign->scheduled_at,
                     $scheduledCampaign->scheduled_timezone);
                 if ($timeNowByTimezone->gte($scheduledAt)) {
-                    $this->info('Processing scheduled campaign: ' .$scheduledCampaign->name);
+                    $this->info('Processing scheduled campaign: ' . $scheduledCampaign->name);
                     $this->info('Marking campaign as pending');
                     $scheduledCampaign->status = NewsletterCampaign::STATUS_PENDING;
-                    $scheduledCampaign->status_log  = 'Scheduled campaign is now pending';
+                    $scheduledCampaign->status_log = 'Scheduled campaign is now pending';
                     $scheduledCampaign->save();
                 }
             }
@@ -92,7 +92,6 @@ class ProcessCampaigns extends Command
             return $this->_processCampaign($processingCampaign);
         }
     }
-
 
 
     private function _processCampaign($campaign)
@@ -123,24 +122,26 @@ class ProcessCampaigns extends Command
             return 0;
         }
 
+        $limit = 100;
         $allSubscribersCount = NewsletterSubscriberList::where('list_id', $campaign->list_id)->count();
 
         $batchList = NewsletterSubscriberList::where('list_id', $campaign->list_id)
             ->whereDoesntHave('campaignsSendLog', function ($query) use ($campaign) {
                 $query->where('campaign_id', $campaign->id);
             })
-            ->limit(100)
+            ->limit($limit)
             ->get();
 
         $countSentLog = NewsletterCampaignsSendLog::where('campaign_id', $campaign->id)->count();
         $remainingSubscribersCount = $allSubscribersCount - $countSentLog;
-
+        $delay = 1;
         foreach ($batchList as $subscriber) {
-            dispatch(new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id));
+            $delay++;
+            dispatch(new ProcessCampaignSubscriber($subscriber->subscriber_id, $campaign->id))->delay(now()->addSeconds($delay));
         }
 
-        $campaignProgress =  ($remainingSubscribersCount / $allSubscribersCount) * 100;
-        $campaign->jobs_progress = round((100 - $campaignProgress), 2);
+        $campaignProgress = ($remainingSubscribersCount / $allSubscribersCount) * 100;
+        $campaign->jobs_progress = round(($limit - $campaignProgress), 2);
 
         if ($campaign->jobs_progress == 100) {
             $campaign->status = NewsletterCampaign::STATUS_FINISHED;
