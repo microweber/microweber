@@ -269,7 +269,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if ($is_installed) {
-            load_all_service_providers_for_modules();
+            //load_all_service_providers_for_modules();
         }
         $this->app->register(MicroweberFilamentServiceProvider::class);
 

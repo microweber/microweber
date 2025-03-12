@@ -451,24 +451,7 @@ if (!function_exists('class_basename')) {
     }
 }
 
-if (!function_exists('class_uses_recursive')) {
-    /**
-     * Returns all traits used by a class, it's subclasses and trait of their traits
-     *
-     * @param  string $class
-     * @return array
-     */
-    function class_uses_recursive($class)
-    {
-        $results = [];
 
-        foreach (array_merge([$class => $class], class_parents($class)) as $class) {
-            $results += trait_uses_recursive($class);
-        }
-
-        return array_unique($results);
-    }
-}
 
 if (!function_exists('data_get')) {
     /**
@@ -515,18 +498,6 @@ if (!function_exists('data_get')) {
     }
 }
 
-if (!function_exists('e')) {
-    /**
-     * Escape HTML entities in a string.
-     *
-     * @param  string $value
-     * @return string
-     */
-    function e($value)
-    {
-        return htmlentities($value, ENT_QUOTES, 'UTF-8', false);
-    }
-}
 
 if (!function_exists('ends_with')) {
     /**
@@ -1421,31 +1392,28 @@ if (!function_exists('trait_uses_recursive')) {
     }
 }
 
-if (!function_exists('value')) {
+if (!function_exists('str_contains')) {
     /**
-     * Return the default value of the given value.
+     * Determine if a given string contains a given substring.
      *
-     * @param  mixed $value
-     * @return mixed
+     * @param  string $haystack
+     * @param  string|array $needles
+     * @return bool
      */
-    function value($value)
+    function str_contains($haystack, $needles)
     {
-        return $value instanceof Closure ? $value() : $value;
+
+        foreach ((array)$needles as $needle) {
+            if ($needle != '' && strpos($haystack, $needle) !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
-if (!function_exists('with')) {
-    /**
-     * Return the given object. Useful for chaining.
-     *
-     * @param  mixed $object
-     * @return mixed
-     */
-    function with($object)
-    {
-        return $object;
-    }
-}
+
 
 /**
  * Helper functions for the helper functions, that can still be used standalone
@@ -1641,21 +1609,6 @@ if (!function_exists('bcrypt')) {
     }
 }
 
-if (!function_exists('tap')) {
-    /**
-     * Call the given Closure with the given value then return the value.
-     *
-     * @param  mixed $value
-     * @param  callable $callback
-     * @return mixed
-     */
-    function tap($value, $callback)
-    {
-        $callback($value);
-
-        return $value;
-    }
-}
 
 if (!function_exists('dd')) {
     /**

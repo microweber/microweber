@@ -33,10 +33,10 @@ class LivewireComponentsAccessTest extends UserLivewireComponentsAccessTest
 
         }
 
-        load_all_service_providers_for_modules();
-        load_all_functions_files_for_modules();
-        load_service_providers_for_template();
-        load_functions_files_for_template();
+       // load_all_service_providers_for_modules();
+       // load_all_functions_files_for_modules();
+       // load_service_providers_for_template();
+       // load_functions_files_for_template();
 
         $migrator = app()->mw_migrator->run(app()->migrator->paths());
 

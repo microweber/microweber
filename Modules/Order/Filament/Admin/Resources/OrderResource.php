@@ -34,10 +34,10 @@ class OrderResource extends Resource
         return 'New orders';
     }
 
-    public static function getNavigationBadge(): ?string
+/*    public static function getNavigationBadge(): ?string
     {
         return static::getModel()::where('order_status', OrderStatus::New)->count();
-    }
+    }*/
 
     public static function form(Form $form): Form
     {
