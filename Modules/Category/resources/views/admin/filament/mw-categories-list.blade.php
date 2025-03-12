@@ -29,15 +29,14 @@
         <script>
 
 
-            document.addEventListener('livewire:initialized', async () => {
-
-
+        (async function () {
+            const tree = async (params = {} )=> {
                 var skip = [];
                 var selectedData = [];
                 var options = {
 
 
-                };
+                }
 
                 @if(isset($singleSelect) and $singleSelect)
 
@@ -78,27 +77,57 @@
 
 
                 var opts = {
-                    options
+                    options,
+                    params
                 };
 
 
+                const target = document.querySelector('#mw-tree-edit-content-{{$suffix}}');
+                target.innerHTML = '';
 
 
-                // let pagesTree = await mw.widget.tree('#mw-tree-edit-content-{{$suffix}}', opts);
+                 mw.spinner({
+                    element: target,
+                    size: 30
+                }).show();
 
-                let pagesTree = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}', opts);
-         //       let pagesTree2 = await mw.admin.categoriesTree('#mw-tree-edit-content-{{$suffix}}2', {...opts, skin: 'default'});
+                let pagesTree = await mw.admin.categoriesTree(target, opts);
 
-                const hasData = pagesTree.options.data?.length;
 
+                mw.spinner({
+                    element: target,
+                    size: 30
+                }).remove();
+
+                 console.log(pagesTree)
 
                 pagesTree.tree.on('selectionChange', e => {
                     let result = pagesTree.tree.getSelected();
                     this.state = result;
                 })
+            };
 
 
-            })
+
+
+
+            document.addEventListener('livewire:initialized', async () => {
+                    tree();
+            });
+
+            document.addEventListener('livewire:treeLanguageChanged', async () => {
+                    const query = {
+                        language: document.querySelector('#activeLocale').value
+                    };
+                    tree(query);
+            });
+
+
+
+
+
+
+        })();
         </script>
 
         @endscript
