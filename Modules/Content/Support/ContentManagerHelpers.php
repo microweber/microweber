@@ -798,7 +798,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 }
             }
 
-            if (isset($ref_page2)) {
+            /*if (isset($ref_page2)) {
                 if ($ref_page2 == false) {
                     $ustr = $this->app->url_manager->string(1);
 
@@ -808,7 +808,7 @@ class ContentManagerHelpers extends ContentManagerCrud
                 } else {
                     $ref_page = $ref_page2;
                 }
-            }
+            }*/
 
 
             if (isset($ustr) and trim($ustr) == 'favicon.ico') {
@@ -1225,11 +1225,14 @@ class ContentManagerHelpers extends ContentManagerCrud
                                     $cont_id = $content_id_for_con_field;
                                     $cont_field['is_draft'] = 1;
                                     $cont_field['rel_type'] = $rel_ch;
+                                    $cont_field['rel_id'] = $content_id_for_con_field;
+                                    $cont_field['checksum'] = '';
                                     $cont_field['url'] = $url;
+
                                     $to_save_draft = true;
                                     if (isset($cont_field['value'])) {
                                         $draftmd5 = md5($cont_field['value']);
-
+                                        $cont_field['checksum'] = $draftmd5;
                                         $draftmd5_last = $this->app->user_manager->session_get('content_draft_save_md5');
                                         if ($draftmd5_last == $draftmd5) {
                                             $to_save_draft = false;
@@ -1359,7 +1362,11 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $history_draft = $cont_field;
                                 $history_draft['is_draft'] = 1;
                                 $history_draft['url'] = $this->app->url_manager->string(true);
-
+                                $history_draft['is_draft'] = 1;
+                                $history_draft['rel_type'] = $rel_ch;
+                                $history_draft['rel_id'] = $cont_field['rel_id'];
+                                $history_draft['checksum'] = '';
+                                $history_draft['url'] = $url;
                                 $cont_field_revision = $this->app->content_manager->save_content_field($history_draft);
 
                                 $json_print[] = $cont_field;
