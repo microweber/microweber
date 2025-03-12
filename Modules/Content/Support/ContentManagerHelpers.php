@@ -1366,7 +1366,6 @@ class ContentManagerHelpers extends ContentManagerCrud
                                 $history_draft['rel_type'] = $rel_ch;
                                 $history_draft['rel_id'] = $cont_field['rel_id'];
                                 $history_draft['checksum'] = '';
-                                $history_draft['url'] = $url;
                                 $cont_field_revision = $this->app->content_manager->save_content_field($history_draft);
 
                                 $json_print[] = $cont_field;

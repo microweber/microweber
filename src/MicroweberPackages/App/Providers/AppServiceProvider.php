@@ -742,8 +742,8 @@ class AppServiceProvider extends ServiceProvider
 
                         if (!in_array($linkSegments[0], $skip_items)) {
                             $localeSettings = app()->multilanguage_repository->getSupportedLocale($linkSegments[0]);
-
-                            if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active']) && $localeSettings['is_active'] == 'y') {
+ 
+                            if ($localeSettings and isset($localeSettings['locale']) && isset($localeSettings['is_active'])) {
                                 $isLocaleChangedFromMultilanguageLogics = true;
 
                                 $needToChangeLocale = true;

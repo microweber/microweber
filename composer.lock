@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8fff90fed816b740e2fa06713cf1c841",
+    "content-hash": "fd3841772dc632ada19900040e25652c",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -5883,57 +5883,6 @@
             "time": "2025-02-28T08:21:46+00:00"
         },
         {
-            "name": "laracasts/presenter",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laracasts/Presenter.git",
-                "reference": "fa70a699d58982e660a8f63629dabbb7b066ac7b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laracasts/Presenter/zipball/fa70a699d58982e660a8f63629dabbb7b066ac7b",
-                "reference": "fa70a699d58982e660a8f63629dabbb7b066ac7b",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.0|~6.0|~7.0|~8.0|^9.0|^10.0|^11.0",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9|^1.6",
-                "phpspec/phpspec": "~2.0|^7.5"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Laracasts\\Presenter": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeffrey Way",
-                    "email": "jeffrey@laracasts.com"
-                }
-            ],
-            "description": "Simple view presenters",
-            "keywords": [
-                "laravel",
-                "presenter",
-                "view"
-            ],
-            "support": {
-                "issues": "https://github.com/laracasts/Presenter/issues",
-                "source": "https://github.com/laracasts/Presenter/tree/0.2.7"
-            },
-            "time": "2024-05-10T00:35:07+00:00"
-        },
-        {
             "name": "laravel/cashier",
             "version": "v15.6.2",
             "source": {
@@ -8989,7 +8938,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets",
-                "reference": "5d901bb50e63f264f72c6734cef9315030eb4277"
+                "reference": "7bc3df8e4a400abec277f6ab111597f45dd0f997"
             },
             "type": "library",
             "extra": {
@@ -9030,7 +8979,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/frontend-assets-libs",
-                "reference": "a08522943045c24ed88e499a9804d9e74d9a7150"
+                "reference": "fedbd34d4d9763321ad7c7a1582eb594a2ceb1c6"
             },
             "require": {
                 "php": "^8.1"
@@ -21890,7 +21839,6 @@
         "hydrat/filament-table-layout-toggle": 20,
         "jenssegers/agent": 20,
         "knplabs/knp-menu": 20,
-        "laracasts/presenter": 20,
         "opis/closure": 20,
         "phpdocumentor/reflection-docblock": 20,
         "solution-forest/filament-translate-field": 20,

@@ -67,7 +67,6 @@
     "jenssegers/agent": "^3.0@dev",
     "kirschbaum-development/eloquent-power-joins": "4.0.*",
     "knplabs/knp-menu": "^3.2@dev",
-    "laracasts/presenter": "dev-master",
     "laravel/cashier": "*",
     "laravel/dusk": "*",
     "laravel/fortify": "*",
