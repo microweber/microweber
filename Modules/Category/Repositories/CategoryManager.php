@@ -962,6 +962,12 @@ class CategoryManager
 
     public function get_admin_js_tree_json($params)
     {
+
+        if(isset($params['lang']) and method_exists('change_language_by_locale')){
+            change_language_by_locale($params['lang'],false);
+        }
+
+
         $tree = new \Modules\Category\Helpers\AdminJsCategoryTree();
         $tree->filters($params);
 

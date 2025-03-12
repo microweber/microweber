@@ -113,14 +113,23 @@
 
             document.addEventListener('livewire:initialized', async () => {
                     tree();
-            });
 
-            document.addEventListener('livewire:treeLanguageChanged', async () => {
+
+                Livewire.on('treeLanguageChanged', async (lang) => {
+
+                    if(!lang.locale){
+                        return;
+
+                    }
+
                     const query = {
-                        language: document.querySelector('#activeLocale').value
+                        lang: lang.locale
                     };
                     tree(query);
+                });
+
             });
+
 
 
 
