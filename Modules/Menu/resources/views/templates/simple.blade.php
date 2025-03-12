@@ -18,7 +18,7 @@ if(isset($params['data-class'])){
     $class = $params['data-class'];
 }
 $menu_filter['class'] = "footer-skin-default";
-$menu_filter['ul_class'] =  "list-unstyled";
+$menu_filter['ul_class'] =  "list-unstyled gap-2";
 $menu_filter['ul_class_deep'] = '';
 $menu_filter['li_class'] = 'nav-item';
 $menu_filter['a_class'] = 'nav-link' . ' ';
