@@ -58,6 +58,11 @@ class FontPickerModalComponent extends ModalComponent
             save_option("enabled_custom_fonts", json_encode([]), "template");
         }
 
+        $this->dispatch('fontRemovedFromFavorites',
+            fontFamily:$fontFamily
+        );
+
+
     }
 
     public function favorite($fontFamily)
@@ -96,9 +101,9 @@ class FontPickerModalComponent extends ModalComponent
 
         save_option("enabled_custom_fonts", json_encode($newFavorites), "template");
 
-        $this->dispatch('fontAddedToFavorites', [
-            'fontFamily' => $fontFamily
-        ]);
+        $this->dispatch('fontAddedToFavorites',
+            fontFamily:$fontFamily
+        );
 
     }
 

@@ -43,23 +43,26 @@
             }
 
 
-            document.addEventListener('mw-option-saved', function () {
+
+                mw.top().app.on('fontsChanged', function ($event) {
 
 
-                if (mw.top().app.fontManager) {
-                    mw.top().app.fontManager.reloadLiveEdit();
-                }
+
+                    if (mw.top().app.fontManager) {
+                        mw.top().app.fontManager.reloadLiveEdit();
+                    }
 
 
-                // var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
-                // if (customFontsStylesheet != null) {
-                //     var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
-                //     customFontsStylesheet.href = customFontsStylesheetRestyle;
-                // }
+                    // var customFontsStylesheet = mw.top().app.canvas.getDocument().getElementById("mw-custom-user-css");
+                    // if (customFontsStylesheet != null) {
+                    //     var customFontsStylesheetRestyle = mw.settings.api_url + 'template/print_custom_css?time=' + Math.random(0, 10000);
+                    //     customFontsStylesheet.href = customFontsStylesheetRestyle;
+                    // }
 
-                setTimeout(function () {
-                    mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
-                }, 1000);
+                    setTimeout(function () {
+                        mw.top().app.templateSettings.reloadStylesheet('{{$styleSheetSourceFile}}', '{{$optionGroupLess}}');
+                    }, 1000);
+
 
             });
         </script>

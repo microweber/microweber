@@ -83,9 +83,20 @@
 
             <script>
                 document.addEventListener('fontAddedToFavorites', function (e) {
-                    if (mw.top().app.fontManager) {
-                        mw.top().app.fontManager.selectFont(e.detail.fontFamily);
+
+                    if(e.detail.fontFamily) {
+
+                        if (mw.top().app.fontManager) {
+                            mw.top().app.fontManager.selectFont(e.detail.fontFamily);
+                        }
+                        loadFontFamily(e.detail.fontFamily);
                     }
+                    mw.top().app.dispatch('fontsChanged')
+                });
+
+                document.addEventListener('fontRemovedFromFavorites', function (e) {
+
+                    mw.top().app.dispatch('fontsChanged')
                 });
             </script>
 
