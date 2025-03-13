@@ -6605,9 +6605,7 @@ li:hover > .show-on-hover {
   font-family: Microweber;
   font-size: 12px;
 }
-.mw-dialog-skin-default .mw-dialog-container {
-  padding: 10px 25px;
-}
+
 .mw-dialog-skin-default.mw-dialog-iframe-loading iframe {
   opacity: 0;
   min-height: 100px;
