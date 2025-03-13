@@ -1,83 +1,5 @@
 <?php
 
-function load_all_service_providers_for_modules()
-{
-
-
-  //  $modules = mw()->module_manager->get('ui=any&installed=1&limit=99999order_by=position asc');
-    $modules = app()->module_repository->getAllModules();
-
-    if (!empty($modules)) {
-
-        // load service providers
-        // Register module service providers
-
-            foreach ($modules as $module) {
-
-
-                if (isset($module['settings']) and $module['settings'] and isset($module['settings']['service_provider']) and $module['settings']['service_provider']) {
-                    app()->module_manager->boot_module($module);
-
-                }
-            }
-
-
-
-    }
-}
-function load_service_providers_for_template()
-{
-
-   return  app()->template_manager->boot();
-}
-function load_functions_files_for_template()
-{
-    $template = app()->template_manager->get_config();
-
-
- //   $load_template_functions = template_dir() . 'functions.php';
-    if(defined('TEMPLATE_DIR')) {
-        $load_template_functions = TEMPLATE_DIR . 'functions.php';
-        if (is_file($load_template_functions)) {
-            include_once $load_template_functions;
-        }
-    }
-
-
-
-//    if (is_file($load_template_functions)) {
-//        include_once $load_template_functions;
-//    }
-}
-function load_all_functions_files_for_modules()
-{
-
-
-    $is_installed = mw_is_installed();
-    if (!$is_installed) {
-
-        return;
-    }
-    $modules = app()->module_repository->getAllModules();
-
-    $files = array();
-    if (!empty($modules)) {
-        foreach ($modules as $module) {
-            if (isset($module['module'])) {
-                $is_function = normalize_path(modules_path() . $module['module'] . DS . 'functions.php', false);
-                if (is_file($is_function)) {
-                    include_once $is_function;
-                    $files[] = ($is_function);
-                }
-
-            }
-        }
-
-        return $files;
-    }
-}
-
-
 function module_info($module_name)
 {
     return mw()->module_manager->info($module_name);
@@ -197,32 +119,13 @@ function locate_module($module_name, $custom_view = false, $no_fallback_to_view 
     return mw()->module_manager->locate($module_name, $custom_view, $no_fallback_to_view);
 }
 
-api_expose_admin('uninstall_module');
-
-function uninstall_module($params)
-{
-    return mw()->module_manager->uninstall($params);
-}
 
 //event_bind('mw_db_init_modules', 're_init_modules_db');
 
-function re_init_modules_db()
-{
 
-    //return mw()->module_manager->update_db();
-}
 
-api_expose_admin('install_module');
 
-function install_module($params)
-{
-    return mw()->module_manager->set_installed($params);
-}
 
-function save_module_to_db($data_to_save)
-{
-    return mw()->module_manager->save($data_to_save);
-}
 
 function get_saved_modules_as_template($params)
 {
@@ -235,6 +138,3 @@ function delete_module_as_template($data)
     return mw()->module_manager->delete_module_as_template($data);
 }
 
-api_bind_admin('module/reorder_modules', function ($data) {
-    return mw()->module_manager->reorder_modules($data);
-});

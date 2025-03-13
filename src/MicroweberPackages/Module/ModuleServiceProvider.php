@@ -19,7 +19,9 @@ use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
 use MicroweberPackages\Admin\Facades\AdminManager;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
+use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
+use MicroweberPackages\Module\Filament\Resources\ModuleResource\ModuleResource;
 use MicroweberPackages\Module\Http\Livewire\Admin\AskForModuleUninstallModal;
 use MicroweberPackages\Module\Http\Livewire\Admin\ListModules;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\AligmentOption;
@@ -69,18 +71,13 @@ class ModuleServiceProvider extends ServiceProvider
             return new ModuleManager();
         });
 
-        $this->app->resolving(\MicroweberPackages\Repository\RepositoryManager::class, function (\MicroweberPackages\Repository\RepositoryManager $repositoryManager) {
-            $repositoryManager->extend(\MicroweberPackages\Module\Models\Module::class, function () {
-                return new \MicroweberPackages\Module\Repositories\ModuleRepository();
-            });
-        });
-
+FilamentRegistry::registerResource(ModuleResource::class);
 
         /**
          * @property ModuleRepository $module_repository
          */
         $this->app->bind('module_repository', function () {
-            return $this->app->repository_manager->driver(\MicroweberPackages\Module\Models\Module::class);;
+            return new \MicroweberPackages\Module\Repositories\ModuleRepository();
         });
 
         $this->registerLivewireComponents();

@@ -191,7 +191,7 @@ trait ParserLoadModuleTrait
            return Livewire::mount($customViewComponent, ['params' => $attrs, 'id' => $id], $id);
         }
 
-
+/*
         $module_in_template_dir = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '';
         $module_in_template_dir = normalize_path($module_in_template_dir, 1);
         $module_in_template_file = ACTIVE_TEMPLATE_DIR . 'modules/' . $module_name . '.php';
@@ -493,7 +493,7 @@ trait ParserLoadModuleTrait
             //define($cache_content, FALSE);
             // $mw_loaded_mod_memory[$function_cache_id] = false;
             return false;
-        }
+        }*/
     }
 
     public function replace_non_cached_modules_with_placeholders($layout)

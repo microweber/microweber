@@ -82,7 +82,7 @@ class Module extends Model
         $iconUrl = $this->icon;
         if (!$this->icon and isset($this->type)) {
             if ($this->type == 'laravel-module') {
-                $iconUrlLocationFromConfig = config($this->module . '.icon');
+                /*$iconUrlLocationFromConfig = config($this->module . '.icon');
 
                 if ($iconUrlLocationFromConfig) {
                     $this->icon = $iconUrlLocationFromConfig;
@@ -90,7 +90,7 @@ class Module extends Model
                     return '<img src="' . $iconUrl . '" />';
                 } else {
                     return '';
-                }
+                }*/
             }
         }
 

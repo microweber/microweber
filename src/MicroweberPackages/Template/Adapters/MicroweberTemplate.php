@@ -42,7 +42,7 @@ class MicroweberTemplate
 
         if ($templateConfig and isset($templateConfig['settings']['service_provider'])) {
 
-            app()->module_manager->boot_module($templateConfig);
+           // app()->module_manager->boot_module($templateConfig);
         }
     }
 

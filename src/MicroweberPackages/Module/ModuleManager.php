@@ -246,7 +246,7 @@ class ModuleManager
                 //$module->enable();
                 //$module->registerProviders();
 
-                if(!$module->isEnabled()){
+                if (!$module->isEnabled()) {
                     $module->enable();
                     $module->register();
                     $module->boot();
@@ -257,15 +257,13 @@ class ModuleManager
 
                 $autoload = $module->getComposerAttr('autoload', $json);
 
-                if(is_dir($modulePath . DS . 'database/migrations')){
+                if (is_dir($modulePath . DS . 'database/migrations')) {
                     $this->log('Migrating template: ' . $name);
 
-                  //  app()->mw_migrator->run([ $modulePath . DS . 'database/migrations']);
-                     Artisan::call('template:migrate', ['module' => $name, '--force'], $output);
-                      $this->log($output->fetch());
+                    //  app()->mw_migrator->run([ $modulePath . DS . 'database/migrations']);
+                    Artisan::call('template:migrate', ['module' => $name, '--force'], $output);
+                    $this->log($output->fetch());
                 }
-
-
 
 
                 $output = new BufferedOutput();
@@ -353,7 +351,7 @@ class ModuleManager
 
                 //  StaticModuleCreator::registerNamespacesFromComposer($composerPath);
 
-                if(!$module->isEnabled()){
+                if (!$module->isEnabled()) {
                     $module->enable();
                     $module->register();
                     $module->boot();
@@ -362,7 +360,7 @@ class ModuleManager
                 //$module->enable();
 
 
-               // $module->register();
+                // $module->register();
 
                 //$module->registerProviders();
                 $name = $module->getName();
@@ -371,15 +369,13 @@ class ModuleManager
 
                 $autoload = $module->getComposerAttr('autoload', $json);
 
-                if(is_dir($modulePath . DS . 'database/migrations')){
+                if (is_dir($modulePath . DS . 'database/migrations')) {
                     $this->log('Migrating module: ' . $name);
 
-                   // app()->mw_migrator->run([ $modulePath . DS . 'database/migrations']);
-                   Artisan::call('module:migrate', ['module' => $name, '--force'], $output);
-                  $this->log($output->fetch());
+                    // app()->mw_migrator->run([ $modulePath . DS . 'database/migrations']);
+                    Artisan::call('module:migrate', ['module' => $name, '--force'], $output);
+                    $this->log($output->fetch());
                 }
-
-
 
 
                 $output = new BufferedOutput();
@@ -606,7 +602,7 @@ class ModuleManager
                     } else {
                         $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
                     }
-                    $config['icon']  = '';
+                    $config['icon'] = '';
                     $config['icon'] = str_replace(site_url(), '{SITE_URL}', $config['icon']);
 
                     if (isset($config['ui'])) {
@@ -906,7 +902,7 @@ class ModuleManager
             }
         }
 
-         global $mw_loaded_mod_memory;
+        global $mw_loaded_mod_memory;
 
         if (!isset($mw_loaded_mod_memory[$module_name])) {
             $ch = $this->locate($module_name, $custom_view = false);
@@ -1118,8 +1114,8 @@ class ModuleManager
             $microweberModule = app()->microweber->hasModule($module_name);
             $templates = [];
 
-             if ($microweberModule) {
-                 $templates = app()->microweber->getTemplates($module_name, $template_name);
+            if ($microweberModule) {
+                $templates = app()->microweber->getTemplates($module_name, $template_name);
                 return $templates;
             }
 
@@ -1127,154 +1123,6 @@ class ModuleManager
         }
 
 
-        $module_name = str_replace('admin', '', $module_name);
-        $module_name_l = $this->locate($module_name);
-        $replace_paths = array();
-        if ($module_name_l == false) {
-            $module_name_l = modules_path() . DS . $module_name . DS;
-            $module_name_l = normalize_path($module_name_l, 1);
-            $replace_paths[] = $module_name_l;
-        } else {
-            $module_name_l = dirname($module_name_l) . DS . 'templates' . DS;
-            $module_name_l = normalize_path($module_name_l, 1);
-            $replace_paths[] = $module_name_l;
-        }
-        $module_name_l_theme = false;
-
-        $default_template_dir = template_dir();
-        if ($template_dir && is_dir($template_dir)) {
-            $default_template_dir = $template_dir;
-        }
-        $template_dir = $default_template_dir;
-
-        $module_name_l_theme = $template_dir . 'modules' . DS . $module_name . DS . 'templates' . DS;
-        $module_name_l_theme = normalize_path($module_name_l_theme, 1);
-        $replace_paths[] = $module_name_l_theme;
-        $replace_paths[] = normalize_path('modules' . '/' . $module_name . '/' . 'templates' . '/', 1);
-
-        $template_config = app()->template_manager->get_config();
-
-
-        if (!is_dir($module_name_l) /*and !is_dir($module_name_l_theme)*/) {
-            return false;
-        } else {
-            if ($template_name == false) {
-                $options = array();
-                $options['for_modules'] = 1;
-                $options['no_cache'] = 1;
-                $options['path'] = $module_name_l;
-                $module_name_l = $this->app->layouts_manager->scan($options);
-
-                //  $module_name_l  = array();
-
-                if (is_dir($module_name_l_theme)) {
-                    $options['path'] = $module_name_l_theme;
-                    $module_skins_from_theme = $this->app->layouts_manager->scan($options);
-
-                    if (is_array($module_skins_from_theme)) {
-                        if (!is_array($module_name_l)) {
-                            $module_name_l = array();
-                        }
-                        $file_names_found = array();
-                        if (is_array($module_skins_from_theme)) {
-
-
-                            if (isset($template_config['standalone_module_skins']) and $template_config['standalone_module_skins']) {
-                                $comb = $module_skins_from_theme;
-
-                            } else {
-                                $comb = array_merge($module_skins_from_theme, $module_name_l);
-                            }
-
-                            // $comb = array_merge($module_skins_from_theme, $module_name_l);
-                            if (is_array($comb) and !empty($comb)) {
-                                foreach ($comb as $k1 => $itm) {
-//                                    if (isset($itm['layout_file']) and $itm['layout_file']) {
-//
-//                                            foreach ($replace_paths as $replace_path) {
-//                                                $replace_path2  = str_replace(DS, '/', $replace_path );
-//
-//                                                $itm['layout_file']  = str_replace(DS, '/', $itm['layout_file'] );
-//
-//                                                $itm['layout_file'] = str_ireplace($replace_path, '', $itm['layout_file']);
-//                                                $itm['layout_file'] = str_ireplace($replace_path2, '', $itm['layout_file']);
-//
-//                                                $itm['layout_file'] = str_ireplace(normalize_path($replace_path), '', $itm['layout_file']);
-//                                            }
-//                                      //
-//
-//                                        $itm['layout_file'] = normalize_path($itm['layout_file'],false);
-//
-//                                    }
-                                    if (!in_array($itm['layout_file'], $file_names_found)) {
-                                        if (isset($itm['visible'])) {
-                                            if ($itm['visible'] == 'false'
-                                                or $itm['visible'] == 'no'
-                                                or $itm['visible'] == 'n'
-                                            ) {
-                                                // skip
-                                            } else {
-                                                $file_names_found[] = $itm['layout_file'];
-                                            }
-                                        } else {
-                                            $file_names_found[] = $itm['layout_file'];
-                                        }
-                                    } else {
-                                        unset($comb[$k1]);
-                                    }
-                                }
-                            }
-                            $module_name_l = ($comb);
-                        }
-                    }
-                }
-
-                return $module_name_l;
-            } else {
-                $template_name = sanitize_path($template_name);
-                $template_name_orig = $template_name;
-
-                if ($get_settings_file == true) {
-                    $is_dot_php = get_file_extension($template_name);
-                    if ($is_dot_php != false and $is_dot_php == 'php') {
-                        $template_name = str_ireplace('.php', '', $template_name);
-                    }
-                    $template_name = $template_name . '_settings';
-                }
-
-                $is_dot_php = get_file_extension($template_name);
-                if ($is_dot_php != false and $is_dot_php != 'php') {
-                    $template_name = $template_name . '.php';
-                }
-
-
-                $tf_mw_default = $module_name_l . 'default.php';
-                $tf = normalize_path($module_name_l . $template_name, false);
-                $tf_theme = $module_name_l_theme . $template_name;
-                $tf_from_other_theme = templates_dir() . $template_name;
-                $tf_from_other_theme = normalize_path($tf_from_other_theme, false);
-
-                $tf_other_module = modules_path() . $template_name;
-                $tf_other_module = normalize_path($tf_other_module, false);
-
-
-                if ($template_name == 'mw_default.php' and is_file($tf)) {
-                    return $tf;
-                } else if ($template_name == 'mw_default.php' and is_file($tf_mw_default)) {
-                    return normalize_path($tf_mw_default, false);
-                } else if (strstr($tf_from_other_theme, 'modules') and is_file($tf_from_other_theme)) {
-                    return normalize_path($tf_from_other_theme, false);
-                } elseif (is_file($tf_theme)) {
-                    return normalize_path($tf_theme, false);
-                } elseif (is_file($tf)) {
-                    return normalize_path($tf, false);
-                } elseif (strtolower($template_name_orig) != 'default' and is_file($tf_other_module)) {
-                    return normalize_path($tf_other_module, false);
-                } else {
-                    return false;
-                }
-            }
-        }
     }
 
     /* @deprecated */
@@ -1356,43 +1204,17 @@ class ModuleManager
     /* @deprecated */
     public function dir($module_name)
     {
-        if (!is_string($module_name)) {
-            return false;
+        $mod = app()->modules->find($module_name);
+        if ($mod) {
+            return $mod->getPath();
         }
-
-        $args = func_get_args();
-        $function_cache_id = '';
-        foreach ($args as $k => $v) {
-            $function_cache_id = $function_cache_id . serialize($k) . serialize($v);
-        }
-
-        $cache_id = $function_cache_id = __FUNCTION__ . crc32($function_cache_id);
-        $cache_group = 'modules/global';
-        $cache_content = $this->app->cache_manager->get($cache_id, $cache_group);
-        if (($cache_content) != false) {
-            return $cache_content;
-        }
-        $checked = array();
-        if (!isset($checked[$module_name])) {
-            $ch = $this->locate($module_name, $custom_view = false);
-            if ($ch != false) {
-                $ch = dirname($ch);
-                $ch = normalize_path($ch, 1);
-                $checked[$module_name] = $ch;
-            } else {
-                $checked[$module_name] = false;
-            }
-        }
-        $this->app->cache_manager->save($checked[$module_name], $function_cache_id, $cache_group);
-
-        return $checked[$module_name];
     }
 
     public function is_installed($module_name)
     {
 
         if (!mw_is_installed()) {
-            return true;
+            return false;
         }
         $module_name = trim($module_name);
         $module_namei = $module_name;
@@ -1401,14 +1223,11 @@ class ModuleManager
             $module_namei = str_ireplace('/admin', '', $module_namei);
         }
 
-
-
         if (app()->bound('microweber')) {
             if (app()->microweber->hasModule($module_name)) {
                 return true;
             }
         }
-
 
         if (app()->bound('modules')) {
             if (app()->modules->find($module_name)) {
@@ -1418,36 +1237,6 @@ class ModuleManager
 
 
 
-
-        // code bellow is deprecated and should be removed
-        // code bellow is deprecated and should be removed
-        // code bellow is deprecated and should be removed
-        // code bellow is deprecated and should be removed
-        // code bellow is deprecated and should be removed
-
-
-
-
-        //$uninstall_lock = $this->get('one=1&ui=any&module=' . $module_namei);
-        $uninstall_lock = app()->module_repository->getModule($module_namei);
-
-
-        if (!$uninstall_lock or empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
-            $root_mod = $this->locate_root_module($module_name);
-            if ($root_mod) {
-                //$uninstall_lock = $this->get('one=1&ui=any&module=' . $root_mod);
-                $uninstall_lock = app()->module_repository->getModule($root_mod);
-
-                if (empty($uninstall_lock) or (isset($uninstall_lock['installed']) and $uninstall_lock['installed'] != '' and intval($uninstall_lock['installed']) != 1)) {
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            return true;
-        }
     }
 
 
@@ -1476,63 +1265,6 @@ class ModuleManager
         // $this->db_init();
     }
 
-    /* @deprecated */
-    public function delete_all()
-    {
-        if ($this->app->user_manager->is_admin() == false) {
-            return false;
-        } else {
-            $table = 'modules';
-            $db_categories = $this->table_prefix . 'categories';
-            $db_categories_items = $this->table_prefix . 'categories_items';
-
-            $q = "DELETE FROM $table ";
-            $this->app->database_manager->q($q);
-
-            $q = "DELETE FROM $db_categories WHERE rel_type='modules' AND data_type='category' ";
-            $this->app->database_manager->q($q);
-
-            $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND data_type='category_item' ";
-            $this->app->database_manager->q($q);
-            $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
-            $this->app->cache_manager->delete('categories_items' . DIRECTORY_SEPARATOR . '');
-
-            $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
-        }
-        app()->module_repository->clearCache();
-    }
-
-    /* @deprecated */
-    public function icon_with_title($module_name, $link = true)
-    {
-        $params = array();
-        $to_print = '';
-        $params['module'] = $module_name;
-        $params['ui'] = 'any';
-        $params['limit'] = 1;
-
-        //  $data = $this->get($params);
-
-        $data = app()->module_repository->getModule($module_name);
-
-
-        $info = false;
-        if (isset($data[0])) {
-            $info = $data[0];
-        }
-        if ($link == true and $info != false) {
-            $href = admin_url() . 'module/view?type=' . module_name_encode($info['module']);
-        } else {
-            $href = '#';
-        }
-
-        if (isset($data[0])) {
-            $info = $data[0];
-            $tn_ico = thumbnail($info['icon'], 32, 32);
-            $to_print = '<a style="background-image:url(' . $tn_ico . ')" class="module-icon-title" href="' . $href . '">' . $info['name'] . '</a>';
-        }
-        echo $to_print;
-    }
 
     /* @deprecated */
     public function uninstall($params)
@@ -1640,45 +1372,7 @@ class ModuleManager
 
     }
 
-    /* @deprecated */
-    public function update_db()
-    {
-        if (isset($options['glob'])) {
-            $glob_patern = $options['glob'];
-        } else {
-            $glob_patern = 'config.php';
-        }
 
-        //$this->app->cache_manager->clear();
-        //clearstatcache();
-        $dir_name_mods = modules_path();
-        $modules_remove_old = false;
-        $dir = rglob($glob_patern, 0, $dir_name_mods);
-
-        if (!empty($dir)) {
-            $configs = array();
-            foreach ($dir as $value) {
-                $loc_of_config = $value;
-                if ($loc_of_config != false and is_file($loc_of_config)) {
-                    include $loc_of_config;
-                    if (isset($config)) {
-                        $cfg = $config;
-                        if (isset($config['tables']) and is_array($config['tables'])) {
-                            $tabl = $config['tables'];
-                            foreach ($tabl as $key1 => $fields_to_add) {
-                                $table = $this->app->database_manager->real_table_name($key1);
-                                $this->app->database_manager->build_table($table, $fields_to_add);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        app()->module_repository->clearCache();
-
-    }
-
-    /* @deprecated */
     public function get_saved_modules_as_template($params)
     {
         $params = parse_params($params);
@@ -1696,7 +1390,7 @@ class ModuleManager
         return $data;
     }
 
-    /* @deprecated */
+
     public function delete_module_as_template($data)
     {
         if ($this->app->user_manager->is_admin() == false) {
@@ -1885,42 +1579,6 @@ class ModuleManager
 
         }
 
-    }
-
-    /**
-     * @deprecated Templates and modules are booted from the Laravel modules and Templates service providers
-     */
-    public function boot_module($config)
-    {
-
-
-        if (isset($config['settings']) and $config['settings'] and isset($config['settings']['autoload_namespace']) and is_array($config['settings']['autoload_namespace']) and !empty($config['settings']['autoload_namespace'])) {
-            foreach ($config['settings']['autoload_namespace'] as $namespace_item) {
-                if (isset($namespace_item['path']) and isset($namespace_item['namespace'])) {
-                    $path = normalize_path($namespace_item['path'], 1);
-                    $namespace = $namespace_item['namespace'];
-                    if ($path and is_dir($path)) {
-                        autoload_add_namespace($path, $namespace);
-                    }
-                }
-            }
-        }
-
-
-        $loadProviders = [];
-        if (is_array($config['settings']['service_provider'])) {
-            foreach ($config['settings']['service_provider'] as $serviceProvider) {
-                $loadProviders[] = $serviceProvider;
-            }
-        } else {
-            $loadProviders[] = $config['settings']['service_provider'];
-        }
-
-        foreach ($loadProviders as $loadProvider) {
-            if (class_exists($loadProvider)) {
-                app()->register($loadProvider);
-            }
-        }
     }
 
 

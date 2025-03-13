@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\Admin\Resources\ModuleResource\Pages;
+namespace MicroweberPackages\Module\Filament\Resources\ModuleResource\Pages;
 
-use App\Filament\Admin\Resources\ModuleResource;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use MicroweberPackages\Module\Filament\Resources\ModuleResource\ModuleResource;
 
 class ListModules extends ListRecords
 {

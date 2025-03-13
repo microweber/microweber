@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace MicroweberPackages\Module\Filament\Resources\ModuleResource;
 
-use App\Filament\Admin\Resources\ModuleResource\Pages\ListModules;
 use Filament\Actions\Action;
-use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Tables\Columns\ClickableColumn;
-use MicroweberPackages\Filament\Tables\Columns\ImageUrlColumn;
 use MicroweberPackages\Filament\Tables\Columns\SVGColumn;
+use MicroweberPackages\Module\Filament\Resources\ModuleResource\Pages\ListModules;
 use MicroweberPackages\Module\Models\Module;
 
 class ModuleResource extends Resource

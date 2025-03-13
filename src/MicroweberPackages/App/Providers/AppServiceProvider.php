@@ -18,15 +18,22 @@ use MicroweberPackages\App\Console\Commands\ServeTestCommand;
 use MicroweberPackages\App\Http\Middleware\AuthenticateSessionForUser;
 use MicroweberPackages\App\Http\Middleware\TrimStrings;
 use MicroweberPackages\App\Utils\Parser;
+use MicroweberPackages\Console\Commands\AddLicenseKeyCommand;
+use MicroweberPackages\Console\Commands\ModuleCommand;
+use MicroweberPackages\Console\Commands\PackageInstallCommand;
+use MicroweberPackages\Console\Commands\ReloadDatabaseCommand;
+use MicroweberPackages\Console\Commands\UpdateCommand;
 use MicroweberPackages\Core\Providers\CoreServiceProvider;
 use MicroweberPackages\Dusk\DuskServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentRegistryServiceProvider;
 use MicroweberPackages\Filament\Providers\MicroweberFilamentServiceProvider;
 use MicroweberPackages\Helper\Format;
+use MicroweberPackages\Install\Console\Commands\InstallCommand;
 use MicroweberPackages\Install\MicroweberMigrator;
 use MicroweberPackages\Microweber\Providers\MicroweberServiceProvider;
 use MicroweberPackages\Multilanguage\Http\Middleware\MultilanguageMiddleware;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
+use MicroweberPackages\Option\Console\Commands\OptionCommand;
 use MicroweberPackages\Utils\Http\Http;
 use MicroweberPackages\Utils\System\ClassLoader;
 use Modules\Content\Models\Content;
@@ -516,27 +523,27 @@ class AppServiceProvider extends ServiceProvider
             }
 
             //    load_all_functions_files_for_modules();
-            load_all_service_providers_for_modules();
-            load_all_functions_files_for_modules();
-            load_service_providers_for_template();
-            load_functions_files_for_template();
+            //load_all_service_providers_for_modules();
+            //load_all_functions_files_for_modules();
+            //load_service_providers_for_template();
+            //load_functions_files_for_template();
 
             if(function_exists('is_lang_correct')) {
                 $this->setupAppLocale();
             }
             if (is_cli()) {
 
-                $this->commands('MicroweberPackages\Option\Console\Commands\OptionCommand');
-                $this->commands('MicroweberPackages\Console\Commands\UpdateCommand');
-                $this->commands('MicroweberPackages\Console\Commands\ModuleCommand');
-                $this->commands('MicroweberPackages\Console\Commands\ReloadDatabaseCommand');
-                $this->commands('MicroweberPackages\Console\Commands\PackageInstallCommand');
-                $this->commands('MicroweberPackages\Console\Commands\AddLicenseKeyCommand');
+                $this->commands(OptionCommand::class);
+                $this->commands(UpdateCommand::class);
+                $this->commands(ModuleCommand::class);
+                $this->commands(ReloadDatabaseCommand::class);
+                $this->commands(PackageInstallCommand::class);
+                $this->commands(AddLicenseKeyCommand::class);
 
             }
         } else {
             // Otherwise register the install command
-            $this->commands('MicroweberPackages\Install\Console\Commands\InstallCommand');
+            $this->commands(InstallCommand::class);
         }
 
     //    $this->app->register(AdminRouteServiceProvider::class);
