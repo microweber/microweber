@@ -192,7 +192,7 @@ class MicroweberServiceProvider extends ServiceProvider
         }
 
 
-   //     $this->app->register(LaravelTemplatesServiceProvider::class);
+        $this->app->register(LaravelTemplatesServiceProvider::class);
 
        //  Debugbar::stopMeasure('modules_load_service_providers');
 
@@ -208,8 +208,7 @@ class MicroweberServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->app->register(LaravelModulesServiceProvider::class);
-        $this->app->register(LaravelTemplatesServiceProvider::class);
+
         // FrontendServiceProvider must be loaded after all other providers on boot as it has catch all routes
         $this->app->register(FrontendServiceProvider::class);
 
