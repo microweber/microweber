@@ -19,7 +19,6 @@ class ListCategories extends ListRecords
       $this->dispatch('treeLanguageChanged', locale:$this->activeLocale);
 
 
-
     }
     protected function getHeaderActions(): array
     {
