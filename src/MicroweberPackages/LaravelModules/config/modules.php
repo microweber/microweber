@@ -25,9 +25,9 @@ return [
     */
     'stubs' => [
         'enabled' => false,
-        'path' =>  dirname(dirname(__FILE__)).'/stubs',
-      //  'path' => base_path('src/MicroweberPackages/Module/stubs'),
-       // 'path' => base_path('vendor/nwidart/laravel-modules/src/Commands/stubs'),
+        'path' => dirname(dirname(__FILE__)) . '/stubs',
+        //  'path' => base_path('src/MicroweberPackages/Module/stubs'),
+        // 'path' => base_path('vendor/nwidart/laravel-modules/src/Commands/stubs'),
         'files' => [
             'routes/web' => 'routes/web.php',
             'routes/api' => 'routes/api.php',
@@ -50,7 +50,7 @@ return [
             'README' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE', 'PROVIDER_NAMESPACE'],
             'views/index' => ['LOWER_NAME', 'STUDLY_NAME'],
             'views/master' => ['LOWER_NAME', 'STUDLY_NAME'],
-            'scaffold/config' => ['STUDLY_NAME','LOWER_NAME'],
+            'scaffold/config' => ['STUDLY_NAME', 'LOWER_NAME'],
             'composer' => [
                 'LOWER_NAME',
                 'STUDLY_NAME',
@@ -200,11 +200,11 @@ return [
     'scan' => [
         'enabled' => false,
         'paths' => [
-          //  base_path('vendor/*/*'),
+            //  base_path('vendor/*/*'),
             base_path('Modules/'),
-           // base_path('Modules/*/*'),
-           // base_path('userfiles/modules/*/*'),
-           // base_path('userfiles/modules/*'),
+            // base_path('Modules/*/*'),
+            // base_path('userfiles/modules/*/*'),
+            // base_path('userfiles/modules/*'),
 
         ],
     ],
@@ -267,14 +267,19 @@ return [
     */
     'activators' => [
         'file' => [
-          //  'class' => FileActivator::class,
             'class' => \MicroweberPackages\LaravelModules\Activators\LaravelModulesFileActivator::class,
 
             'statuses-file' => storage_path('modules_statuses.json'),
             'cache-key' => 'activator.installed',
             'cache-lifetime' => 604800,
         ],
+        'database' => [
+            'class' => \MicroweberPackages\LaravelModules\Activators\LaravelModulesDatabaseActivator::class,
+            'table' => 'system_modules',
+            'cache-key' => 'activator.installed',
+            'cache-lifetime' => 604800,
+        ],
     ],
 
-    'activator' => 'file',
+    'activator' => env('MODULES_ACTIVATOR', 'file'),
 ];

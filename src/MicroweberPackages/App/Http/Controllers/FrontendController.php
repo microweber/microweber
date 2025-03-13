@@ -326,6 +326,10 @@ class FrontendController extends Controller
 
         }
 
+        if(!app()->bound('content_manager')) {
+            return 'Error: "Content" module is not installed';
+        }
+
 
         if (isset($request_params['content_id']) and intval($request_params['content_id']) != 0) {
             $page = $this->app->content_manager->get_by_id($request_params['content_id']);

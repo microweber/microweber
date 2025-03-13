@@ -48,7 +48,8 @@ function modules_path()
 {
     static $folder;
     if (!$folder) {
-        $folder = (userfiles_path() . MW_MODULES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+      //  $folder = (userfiles_path() . MW_MODULES_FOLDER_NAME . DIRECTORY_SEPARATOR);
+        $folder = normalize_path(base_path(MW_MODULES_FOLDER_NAME), true);
     }
 
     return $folder;
@@ -64,15 +65,7 @@ function elements_path()
     return $folder;
 }
 
-function elements_url()
-{
-    static $folder;
-    if (!$folder) {
-        $folder = (userfiles_url() . MW_ELEMENTS_FOLDER_NAME . '/');
-    }
 
-    return $folder;
-}
 
 function modules_url()
 {

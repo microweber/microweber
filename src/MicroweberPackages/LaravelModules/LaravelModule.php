@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Translation\Translator;
 use MicroweberPackages\LaravelModules\Helpers\StaticModuleCreator;
+use Nwidart\Modules\Constants\ModuleEvent;
 use Nwidart\Modules\Contracts\ActivatorInterface;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Json;
@@ -97,20 +98,7 @@ class LaravelModule extends Module
         return $this->activator->hasStatus($this, $status);
     }
 
-    public function enable(): void
-    {
-        if ($this->activator == null) {
-            return;
-        }
 
-
-        $this->fireEvent('enabling');
-
-        $this->activator->enable($this);
-        $this->flushCache();
-
-        $this->fireEvent('enabled');
-    }
 
     /**
      * Get json contents from the cache, setting as needed.
@@ -167,6 +155,7 @@ class LaravelModule extends Module
         //new ModuleJsonFromArray($this->getPath() . '/' . $file, $this->files,$data);
 
         $json = Arr::get($this->moduleJson, $file, function () use ($file, $path) {
+
             return $this->moduleJson[$file] = new Json($path, $this->files);
         });
 
@@ -262,6 +251,30 @@ class LaravelModule extends Module
 
             include_once($file);
         }
+    }
+
+    public function enable(): void
+    {
+        if ($this->activator == null) {
+            return;
+        }
+
+
+        $this->fireEvent('enabling');
+
+        $this->activator->enable($this);
+        $this->flushCache();
+
+        $this->fireEvent('enabled');
+    }
+    public function disable(): void
+    {
+        $this->fireEvent(ModuleEvent::DISABLING);
+
+        $this->activator->disable($this);
+
+        $this->fireEvent(ModuleEvent::DISABLED);
+        $this->flushCache();
     }
 
     public function isEnabled(): bool

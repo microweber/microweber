@@ -49,6 +49,9 @@ class LaravelModulesServiceProvider extends \Nwidart\Modules\LaravelModulesServi
         $this->mergeConfigFrom(__DIR__ . '/config/modules.php', 'modules');
        // $this->app->singleton(RepositoryInterface::class, LaravelModulesFileRepository::class);
 
+
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
         $this->registerServices();
         $this->setupStubPath();
         $this->registerProviders();

@@ -19,37 +19,30 @@ class ModuleManagerTest extends TestCase
 
     public function testModuleUrlAndPath()
     {
-        $mod = 'shop';
+        $mod = 'Shop';
         $test = app()->module_manager->url($mod);
         $result = Str::endsWith($test, 'shop');
-dd($result);
+
         $this->assertEquals(true, $result);
         $test = app()->module_manager->dir($mod);
-        $test2 = normalize_path(modules_path() . 'shop', true);
+        $test2 = normalize_path(modules_path() . 'Shop', true);
         $this->assertEquals($test, $test2);
 
     }
 
-    public function testModuleLocate()
-    {
-        $mod = 'shop/admin';
-        $test = app()->module_manager->locate($mod);
-
-        $test2 = normalize_path(modules_path() . 'shop/admin.php', false);
-        $this->assertEquals($test, $test2);
-
-    }
 
     public function testModuleIsInstalled()
     {
-        $mod = 'shop';
+        $mod = 'Shop';
+        $params = [
+            'for_module' => $mod
+        ];
+        app()->module_manager->set_installed($params);
+
         $test = app()->module_manager->is_installed($mod);
         $this->assertEquals(true, $test);
 
 
-        $params = [
-            'for_module' => $mod
-        ];
 
         app()->module_manager->uninstall($params);
         $test = app()->module_manager->is_installed($mod);

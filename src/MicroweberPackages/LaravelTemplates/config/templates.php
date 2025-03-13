@@ -18,7 +18,7 @@ return [
 
 
     // default template if there is no template chosen
-    'fallback' => 'Default',
+    'fallback' => 'Bootstrap',
 
     /*
     |--------------------------------------------------------------------------
@@ -219,7 +219,13 @@ return [
             'cache-key' => 'activator.installed',
             'cache-lifetime' => 604800,
         ],
+        'database' => [
+            'class' => \MicroweberPackages\LaravelTemplates\Activators\LaravelTemplatesDatabaseActivator::class,
+            'table' => 'system_templates',
+            'cache-key' => 'activator.installed',
+            'cache-lifetime' => 604800,
+        ],
     ],
 
-    'activator' => 'file'
+    'activator' => env('TEMPLATES_ACTIVATOR', 'file')
 ];
