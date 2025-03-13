@@ -143,10 +143,7 @@ function load_module($module_name, $attrs = array())
     return mw()->module_manager->load($module_name, $attrs);
 }
 
-function element_display($element_filename, $attrs = array())
-{
-    return mw()->layouts_manager->element_display($element_filename, $attrs);
-}
+
 
 function module_css_class($module_name)
 {
@@ -174,34 +171,13 @@ function template_var($key, $new_val = false)
     return false;
 }
 
-api_expose_admin('save_form_list');
 function save_form_list($params)
 {
     return mw()->forms_manager->save_list($params);
 }
 
-function system_config_get($key = false)
-{
-    return mw()->config($key);
-}
 
-api_expose_admin('delete_forms_list');
-function delete_forms_list($data)
-{
-    return mw()->forms_manager->delete_list($data);
-}
 
-api_expose_admin('delete_form_entry');
-function delete_form_entry($data)
-{
-    return mw()->forms_manager->delete_entry($data);
-}
-
-api_expose_admin('forms_list_export_to_excel');
-function forms_list_export_to_excel($params)
-{
-    return mw()->forms_manager->export_to_excel($params);
-}
 
 function get_form_entires($params)
 {
@@ -213,36 +189,6 @@ function get_form_lists($params)
     return mw()->forms_manager->get_lists($params);
 }
 
-//event_bind('mw_admin_settings_menu', 'mw_print_admin_backup_settings_link');
-
-function mw_print_admin_backup_settings_link()
-{
-    if (mw()->module_manager->is_installed('admin/backup')) {
-        $active = mw()->url_manager->param('view');
-        $cls = '';
-        $mname = module_name_encode('admin/backup/small');
-        if ($active == $mname) {
-            $cls = ' class="active" ';
-        }
-        $notif_html = '';
-        $url = admin_url('module/view?type=' . $mname);
-        echo '<li><a class="item-' . $mname . '" href="?group=' . $mname . '">Backup</a></li>';
-        //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
-    }
-
-    if (mw()->module_manager->is_installed('admin/import')) {
-        $active = mw()->url_manager->param('view');
-        $cls = '';
-        $mname = module_name_encode('admin/import');
-        if ($active == $mname) {
-            $cls = ' class="active" ';
-        }
-        $notif_html = '';
-        $url = admin_url('module/view?type=' . $mname);
-        echo '<li><a class="item-' . $mname . '" href="?group=' . $mname . '">Restore</a></li>';
-        //print "<li><a class=\"item-".$mname."\" href=\"".$url."\">Backup</a></li>";
-    }
-}
 
 function mw_post_update()
 {
@@ -294,45 +240,8 @@ function mw_apply_updates($params)
     return $update_api->apply_updates($params);
 }
 
-api_expose_admin('mw_apply_updates_queue');
-function mw_apply_updates_queue($params)
-{
-    $update_api = mw('update');
 
-    return $update_api->apply_updates_queue($params);
-}
 
-api_expose_admin('mw_set_updates_queue');
-function mw_set_updates_queue($params)
-{
-    $update_api = mw('update');
-
-    return $update_api->set_updates_queue($params);
-}
-
-function mw_updates_count()
-{
-    $count = 0;
-    $upd_count = mw_check_for_update();
-    if (isset($upd_count['count'])) {
-        return intval($upd_count['count']);
-    } else {
-        return false;
-    }
-}
-
-$mw_avail_updates = false;
-function mw_check_for_update()
-{
-    global $mw_avail_updates;
-    if ($mw_avail_updates == false) {
-        $update_api = mw('update');
-        $iudates = $update_api->check();
-        $mw_avail_updates = $iudates;
-    }
-
-    return $mw_avail_updates;
-}
 
 /* END OF DEPRECATED */
 /* END OF DEPRECATED */
@@ -446,48 +355,7 @@ function lnotif($text, $class = 'success')
     }
 }
 
-//function random_color()
-//{
-//    return '#' . sprintf('%02X%02X%02X', mt_rand(0, 255), mt_rand(0, 255), mt_rand(0, 255));
-//}
 
-function mw_error_handler($errno, $errstr, $errfile, $errline)
-{
-    if (!(error_reporting() & $errno)) {
-        // This error code is not included in error_reporting
-        return;
-    }
-
-    switch ($errno) {
-        case E_USER_ERROR:
-            if (!headers_sent()) {
-                header('Content-Type:text/plain');
-            }
-            echo "<b>ERROR</b> [$errno] $errstr<br />\n";
-            echo "  Fatal error on line $errline in file $errfile";
-            echo ', PHP ' . PHP_VERSION . ' (' . PHP_OS . ")<br />\n";
-            print_r(debug_backtrace());
-            echo "Aborting...<br />\n";
-            exit(1);
-            break;
-
-        case E_USER_WARNING:
-            echo "<b>WARNING</b> [$errno] $errstr<br />\n";
-            break;
-
-        case E_USER_NOTICE:
-            // echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
-            break;
-
-        default:
-            // echo "Unknown error type: [$errno] $errstr<br />\n";
-            break;
-    }
-
-    /* Don't execute PHP internal error handler */
-
-    return true;
-}
 
 if (!function_exists('params_stripslashes_array')) {
     function params_stripslashes_array($array)
@@ -618,23 +486,6 @@ function mw_error($e)
     exit(1);
 }
 
-api_expose_admin('mw_composer_save_package');
-function mw_composer_save_package($params)
-{
-    $update_api = mw('update');
-
-    return $update_api->composer_save_package($params);
-}
-
-api_expose_admin('mw_composer_run_update');
-function mw_composer_run_update($params)
-{
-    $update_api = mw('update');
-
-    return $update_api->composer_run($params);
-}
-
-
 api_expose('mw_composer_install_package_by_name');
 function mw_composer_install_package_by_name($params)
 {
@@ -649,13 +500,6 @@ function mw_composer_install_package_by_name($params)
     return $update_api->composer_install_package_by_name($params);
 }
 
-api_expose_admin('mw_composer_replace_vendor_from_cache');
-function mw_composer_replace_vendor_from_cache($params)
-{
-    $update_api = mw('update');
-
-    return $update_api->composer_replace_vendor_from_cache($params);
-}
 
 
 if (!function_exists('br2nl')) {
@@ -709,41 +553,7 @@ if (!function_exists('get_class_protected_property_value')) {
 
 function mw_save_framework_config_file($params)
 {
-    $saveOnlyKeys = [
-        'developer_mode',
-        'force_https',
-        'update_channel',
-        'compile_assets',
-    ];
 
-    if (empty($params) or !is_admin()) {
-        return;
-    }
-
-    $save_configs = array();
-    foreach ($params as $k => $item) {
-        if ($k != 'microweber') {
-            continue;
-        }
-        if (is_array($item) and !empty($item)) {
-            foreach ($item as $config_k => $config) {
-                if (is_string($config_k)) {
-                    if (is_numeric($config)) {
-                        $config = intval($config);
-                    }
-
-                    if (in_array($config_k, $saveOnlyKeys)) {
-                        \Illuminate\Support\Facades\Config::set($k . '.' . $config_k, $config);
-                        $save_configs[] = $k;
-                    }
-                }
-            }
-        }
-    }
-    if (!empty($save_configs)) {
-        \Illuminate\Support\Facades\Config::save($save_configs);
-        return array('success' => 'Config is changed!');
-    }
 }
 
 

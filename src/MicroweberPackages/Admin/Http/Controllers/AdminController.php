@@ -72,63 +72,14 @@ class AdminController extends Controller
         return $this->render();
     }
 
-//    public function webAppManifest()
-//    {
-//        $website_name = get_option('website_name', 'website');
-//        $hostname = site_hostname();
-//        if (!$website_name) {
-//            $website_name = 'Microweber';
-//        }
-//        $favicon_image = get_favicon_image();
-//        if (!$favicon_image) {
-//            $favicon_image = site_url('favicon.ico');
-//        }
-//
-//
-//        $maskable_icon = get_option('maskable_icon', 'website');
-//        if (!$maskable_icon) {
-//            $maskable_icon = asset('vendor/microweber-packages/frontend-assets/img/logo-mobile.svg');
-//        }
-//        $manifest_app_icon = get_option('manifest_app_icon', 'website');
-//        if (!$manifest_app_icon) {
-//            $manifest_app_icon = modules_url() . 'microweber/api/libs/mw-ui/assets/img/logo-144x144.png';
-//        }
-//
-//        $manifest = [
-//            "name" => "$website_name on $hostname",
-//            "short_name" => $website_name,
-//            "description" => $website_name . " Admin",
-//            "start_url" => admin_url(),
-//            "scope" => site_url(),
-//            "background_color" => "#2196f3",
-//            "theme_color" => "#2196f3",
-//            "icons" => [
-//                [
-//                    "src" => $manifest_app_icon,
-//                    "sizes" => "144x144",
-//                    "type" => "image/png",
-//                    "purpose" => "any"
-//                ],
-//
-//                [
-//                    "src" => $maskable_icon,
-//                    "purpose" => "maskable"
-//                ], [
-//                    "src" => $favicon_image,
-//                    "purpose" => "any"
-//                ],
-//            ],
-//            "display" => "standalone"
-//        ];
-//
-//        $manifestJson = json_encode($manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-//
-//        return response($manifestJson)->header('Content-Type', 'application/manifest+json');
-//    }
 
 
     public function render()
     {
+
+
+
+
 
         $is_installed = mw_is_installed();
 

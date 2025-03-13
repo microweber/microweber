@@ -28,39 +28,8 @@ class ModuleRepository extends AbstractRepository
      */
     public function getAllModules(): array
     {
-        if (!empty(self::$_getAllModules)) {
-            return self::$_getAllModules;
-        }
 
-        $modules = $this->cacheCallback(__FUNCTION__, func_get_args(), function () {
-
-            if(!Schema::hasTable('modules')) {
-                return [];
-            }
-
-
-
-            $getModules = DB::table('modules')->get();
-            $allModules = collect($getModules)->map(function ($item) {
-
-                if (!empty($item->settings) and is_string($item->settings)) {
-                    $item->settings = json_decode($item->settings, true);
-                }
-
-                return (array)$item;
-
-            })->toArray();
-
-            if (!empty($allModules)) {
-                $allModules = app()->url_manager->replace_site_url_back($allModules);
-            }
-
-            return $allModules;
-
-        });
-
-        self::$_getAllModules = $modules;
-        return $modules;
+        return app()->modules->all();
     }
 
 
@@ -85,7 +54,9 @@ class ModuleRepository extends AbstractRepository
         $all = $this->getAllModules();
         if ($all) {
             foreach ($all as $module_item) {
-                if (isset($module_item['module']) and $module_item['module'] == $module) {
+
+                if (isset($module_item->name) and strtolower($module_item->name) == strtolower($module)) {
+
                     return $module_item;
                 }
             }

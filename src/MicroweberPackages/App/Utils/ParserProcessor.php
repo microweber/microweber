@@ -6,6 +6,7 @@ namespace MicroweberPackages\App\Utils;
 
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Doctrine\DBAL\Connection;
+use Illuminate\Support\Str;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserLayoutItem;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItem;
 use MicroweberPackages\App\Utils\ParserHelpers\ParserModuleItemCollection;
@@ -485,7 +486,7 @@ class ParserProcessor
                                     continue;
                                 } else if (isset($module_name)) {
                                     $module_class = $this->module_css_class($module_name);
-                                    $module_title = module_info($module_name);
+                                    $module_title = Str::headline($module_name);
 
 
                                     if (!isset($attrs['id'])) {

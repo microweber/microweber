@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Illuminate\Support\HtmlString;
 use MicroweberPackages\Admin\Filament\Pages\Abstract\AdminSettingsPage;
 
@@ -69,10 +70,6 @@ class AdminAdvancedPage extends AdminSettingsPage
                     ]),
 
 
-                Section::make('Development settings')
-                ->description('If you are developer you will find great tools to make your website.')
-                    ->view('filament-forms::sections.section')
-                ->schema([]),
 
                   Section::make('Other settings')
                 ->description('Other settings for your website.')
@@ -106,16 +103,20 @@ class AdminAdvancedPage extends AdminSettingsPage
                                         Toggle::make('microweber.developer_mode')->inline()
                                     ])->action(function ($data) {
                                         // Handle the action...
-                                        mw_save_framework_config_file($data);
+
+                                        // Save the settings
+
+                                        // Return a response...
+
+                                        Notification::make()
+                                            ->title('Settings saved')
+                                            ->message('The settings have been saved successfully.')
+                                            ->success()
+                                            ->send();
                                     }),
                             ])
 
                         ]),
-                    Section::make('Live Edit settings')
-                        ->description('Configure Live Edit settings')
-                        ->schema([
-                            // ...
-                        ])
 
                 ]),
 

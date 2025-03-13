@@ -483,247 +483,8 @@ class ModuleManager
                 return $cache_content;
             }
         }
-        if (isset($options['glob'])) {
-            $glob_patern = $options['glob'];
-        } else {
-            $glob_patern = '*config.php';
-        }
 
 
-        if (php_can_use_func('ini_set')) {
-            ini_set('memory_limit', '-1');
-        }
-
-
-        $dir = rglob($glob_patern, 0, $dir_name);
-
-        //  var_dump($dir);
-
-        $dir_name_mods = modules_path();
-        $dir_name_mods2 = elements_path();
-        $saved_ids = array();
-        if (!empty($dir)) {
-            $configs = array();
-            foreach ($dir as $key => $value) {
-                $skip_module = false;
-                if (isset($options['skip_admin']) and $options['skip_admin'] == true) {
-                    if (strstr($value, 'admin')) {
-                        $skip_module = true;
-                    }
-                }
-
-                if ($skip_module == false) {
-                    $config = array();
-                    $value = normalize_path($value, false);
-
-                    $moduleDir = $mod_name = str_replace('_config.php', '', $value);
-                    $moduleDir = $mod_name = str_replace('config.php', '', $moduleDir);
-                    $moduleDir = $mod_name = str_replace('index.php', '', $moduleDir);
-
-                    $moduleDir = $mod_name_dir = str_replace($dir_name_mods, '', $moduleDir);
-                    $moduleDir = $mod_name_dir = str_replace($dir_name_mods2, '', $moduleDir);
-
-                    $def_icon = modules_path() . 'default.svg';
-
-                    ob_start();
-
-                    $is_mw_ignore = dirname($value) . DS . '.mwignore';
-                    if (!is_file($is_mw_ignore) and is_file($value)) {
-                        include $value;
-                    }
-
-                    $content = ob_get_contents();
-                    ob_end_clean();
-                    if ($list_as_element == true) {
-                        $moduleDir = str_replace(elements_path(), '', $moduleDir);
-                    } else {
-                        $moduleDir = str_replace(modules_path(), '', $moduleDir);
-                    }
-
-                    $replace_root = modules_path();
-
-                    $moduleDir = str_replace($replace_root, '', $moduleDir);
-
-                    $replace_root = dirname(dirname(MW_PATH)) . DS . 'userfiles' . DS . 'modules' . DS;
-                    $moduleDir = str_replace($replace_root, '', $moduleDir);
-
-                    $moduleDir = rtrim($moduleDir, '\\');
-                    $moduleDir = rtrim($moduleDir, '/');
-                    $moduleDir = str_replace('\\', '/', $moduleDir);
-                    $moduleDir = str_replace(modules_path(), '', $moduleDir);
-
-                    $config['module'] = $moduleDir;
-                    $config['module'] = rtrim($config['module'], '\\');
-                    $config['module'] = rtrim($config['module'], '/');
-
-                    $config['module_base'] = str_replace('admin/', '', $moduleDir);
-                    $main_try_icon = false;
-
-                    $config['is_symlink'] = false;
-                    if (is_link(normalize_path($moduleDir, false))) {
-                        $config['is_symlink'] = true;
-                    }
-
-                    if (is_dir($mod_name)) {
-                        $bname = basename($mod_name);
-                        $t1 = modules_path() . $config['module'] . DS . $bname;
-
-                        if (is_file($t1 . '.svg')) {
-                            $try_icon = $t1 . '.svg';
-                        } elseif (is_file($t1 . '.png')) {
-                            $try_icon = $t1 . '.png';
-                        } else {
-                            $try_icon = $t1 . '.jpg';
-                        }
-                        $main_try_icon = modules_path() . $config['module'] . DS . 'icon.svg';
-                        $main_try_icon2 = modules_path() . $config['module'] . DS . 'icon.png';
-                    } else {
-                        if (is_file($mod_name . '.svg')) {
-                            $try_icon = $mod_name . '.svg';
-                        } elseif (is_file($mod_name . '.png')) {
-                            $try_icon = $mod_name . '.png';
-                        } else {
-                            $try_icon = $mod_name . '.jpg';
-                        }
-                        $main_try_icon = modules_path() . $mod_name . DS . 'icon.svg';
-                        $main_try_icon2 = modules_path() . $mod_name . DS . 'icon.png';
-
-                    }
-
-                    $try_icon = normalize_path($try_icon, false);
-
-                    if ($main_try_icon and is_file($main_try_icon)) {
-                        $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon);
-                    } else if ($main_try_icon2 and is_file($main_try_icon2)) {
-                        $config['icon'] = $this->app->url_manager->link_to_file($main_try_icon2);
-                    } elseif (is_file($try_icon)) {
-
-                        $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
-                    } else {
-                        $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
-                    }
-                    $config['icon'] = '';
-                    $config['icon'] = str_replace(site_url(), '{SITE_URL}', $config['icon']);
-
-                    if (isset($config['ui'])) {
-                        $config['ui'] = intval($config['ui']);
-                    } else {
-                        $config['ui'] = 0;
-                    }
-
-                    if (isset($config['is_system'])) {
-                        $config['is_system'] = intval($config['is_system']);
-                    } else {
-                        $config['is_system'] = 0;
-                    }
-
-                    if (isset($config['is_integration'])) {
-                        $config['is_integration'] = intval($config['is_integration']);
-                    } else {
-                        $config['is_integration'] = 0;
-                    }
-
-                    if (isset($config['ui_admin'])) {
-                        $config['ui_admin'] = intval($config['ui_admin']);
-                    } else {
-                        $config['ui_admin'] = 0;
-                    }
-
-                    if (isset($config['no_cache']) and $config['no_cache'] == true) {
-                        $config['allow_caching'] = 0;
-                    } else {
-                        $config['allow_caching'] = 1;
-                    }
-
-                    if (isset($config['name']) and $skip_save !== true and $skip_module == false) {
-                        if (trim($config['module']) != '') {
-                            if ($list_as_element == true) {
-
-
-                                $this->app->layouts_manager->save($config);
-                            } else {
-                                $this->log('Installing module: ' . $config['name']);
-                                $config['installed'] = 'auto';
-                                $tablesData = false;
-                                $schemaFileName = modules_path() . $moduleDir . '/schema.json';
-                                if (isset($config['tables']) && is_array($config['tables']) && !empty($config['tables'])) {
-                                    $tablesData = $config['tables'];
-                                } elseif (isset($config['tables']) && is_callable($config['tables'])) {
-                                    call_user_func($config['tables']);
-                                    unset($config['tables']);
-                                } elseif (file_exists($schemaFileName)) {
-                                    $json = file_get_contents($schemaFileName);
-                                    $json = @json_decode($json, true);
-                                    $tablesData = $json;
-                                }
-                                $saved_ids[] = $this->save($config);
-
-                                if ($tablesData) {
-                                    $this->log('Installing module DB: ' . $config['name']);
-                                    (new DbUtils())->build_tables($tablesData);
-                                }
-                            }
-                        }
-                    }
-
-                    $configs[] = $config;
-                }
-            }
-
-
-            if ($skip_save == true) {
-                return $configs;
-            }
-
-            $cfg_ordered = array();
-            $cfg_ordered2 = array();
-            $cfg = $configs;
-            foreach ($cfg as $k => $item) {
-                if (isset($item['position'])) {
-                    $cfg_ordered2[$item['position']][] = $item;
-                    unset($cfg[$k]);
-                }
-            }
-            ksort($cfg_ordered2);
-            foreach ($cfg_ordered2 as $k => $item) {
-                foreach ($item as $ite) {
-                    $cfg_ordered[] = $ite;
-                }
-            }
-            if ($modules_remove_old == true) {
-                $table = 'options';
-                $uninstall_lock = $this->get('ui=any');
-
-                if (is_array($uninstall_lock) and !empty($uninstall_lock)) {
-                    foreach ($uninstall_lock as $value) {
-                        $ism = $this->exists($value['module']);
-                        if ($ism == false) {
-                            $this->delete_module($value['id']);
-                            $mn = $value['module'];
-                            $table_options = 'options';
-                            $this->app->database_manager->delete_by_id($table_options, $mn, 'option_group');
-                        }
-                    }
-                }
-            }
-
-
-//            if ($modules_remove_old or isset($options['cleanup_db']) == true) {
-//                // Run post update to reload modules migrations
-//                mw_post_update();
-//            }
-
-
-            $c2 = array_merge($cfg_ordered, $cfg);
-
-            $this->app->cache_manager->save($c2, $cache_id, $cache_group);
-
-            if (isset($options['reload_modules']) == true and $options['reload_modules'] == true) {
-                clearcache();
-            }
-
-            return $c2;
-        }
     }
 
     public function save($data_to_save)
@@ -1019,17 +780,6 @@ class ModuleManager
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
     }
 
-    /* @deprecated */
-    public function info($module_name)
-    {
-        $module_name = preg_replace('/admin$/', '', $module_name);
-        $module_name = rtrim($module_name, '/');
-
-        $data = app()->module_repository->getModule($module_name);
-
-        return $data;
-    }
-
     public function ui($name, $arr = false)
     {
         return $this->app->ui->module($name, $arr);
@@ -1143,10 +893,18 @@ class ModuleManager
                     return $mod_data['url_to_module'];
                 }
             }
+
         }
 
         if (!is_string($module_name)) {
             return false;
+        }
+        $laravelModule = app()->modules->find($module_name);
+
+        if ($laravelModule) {
+            $lowerName = $laravelModule->getLowerName();
+
+            return asset('modules/' . $lowerName) . '/';
         }
 
         $secure_connection = false;
@@ -1236,7 +994,6 @@ class ModuleManager
         }
 
 
-
     }
 
 
@@ -1320,55 +1077,28 @@ class ModuleManager
         $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
         $this->app->cache_manager->clear();
         app()->module_repository->clearCache();
-
-//
-//        $this_module = $this->get('ui=any&one=1&id=' . $id);
-//dd($this_module);
     }
 
-    /* @deprecated */
+
     public function set_installed($params)
     {
 
 
-        if (isset($params['for_module'])) {
-            $this_module = $this->get('ui=any&one=1&module=' . $params['for_module']);
-            if (isset($this_module['id'])) {
-                $params['id'] = $this_module['id'];
-            }
+        if (is_array($params) and isset($params['for_module'])) {
+            $module_name = $params['for_module'];
+        } else {
+            $module_name = $params;
         }
 
-        if (isset($params['id'])) {
-            $id = intval($params['id']);
-            $this_module = $this->get('ui=any&one=1&id=' . $id);
-            if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
-                $module_name = $this_module['module'];
-
-                if (trim($module_name) == '') {
-                    return false;
+        if (app()->bound('modules')) {
+            $module = app()->modules->find($module_name);
+            if ($module) {
+                if (!$module->isEnabled()) {
+                    $module->enable();
+                    app()->module_repository->clearCache();
                 }
-                $loc_of_config = $this->locate($module_name, 'config');
-                $res = array();
-                $loc_of_functions = $this->locate($module_name, 'functions');
-                $cfg = false;
-                if (is_file($loc_of_config)) {
-                    include $loc_of_config;
-                    if (isset($config)) {
-                        $cfg = $config;
-                    }
-                    if (is_array($cfg) and !empty($cfg)) {
-                        app()->module_repository->setInstalled($module_name);
-                    }
-                }
-                $to_save = array();
-                $to_save['id'] = $id;
-                $to_save['installed'] = 1;
-                $this->_install_mode = true;
-                $this->save($to_save);
             }
         }
-        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
-        app()->module_repository->clearCache();
 
     }
 
@@ -1440,87 +1170,12 @@ class ModuleManager
         return $save;
     }
 
+    /* @deprecated */
     public function scan_for_elements($options = array())
     {
-        if (is_string($options)) {
-            $params = parse_str($options, $params2);
-            $options = $params2;
-        }
-
-        $options['is_elements'] = 1;
-        $options['dir_name'] = normalize_path(elements_path());
-
-        if (isset($options['cleanup_db'])) {
-            $this->app->layouts_manager->delete_all();
-        }
-
-        return $this->scan_for_modules($options);
+        /* @deprecated */
     }
 
-    /* @deprecated */
-    public function get_modules_from_current_site_template()
-    {
-        if (!defined('ACTIVE_TEMPLATE_DIR')) {
-            $this->app->content_manager->define_constants();
-        }
-
-        $dir_name = ACTIVE_TEMPLATE_DIR . 'modules' . DS;
-
-
-        if (is_dir($dir_name)) {
-            $configs = array();
-
-            $glob_patern = '*config.php';
-
-            $dir = rglob($glob_patern, 0, $dir_name);
-            $replace_root = normalize_path($dir_name);
-            $def_icon = modules_path() . 'default.svg';
-            if (!empty($dir)) {
-                foreach ($dir as $module) {
-                    $module_dir = dirname($module);
-                    $module_dir = normalize_path($module_dir);
-                    $config = array();
-                    include $module;
-                    $module_name = str_replace($replace_root, '', $module_dir);
-
-                    $module_name = rtrim($module_name, '\\');
-                    $module_name = rtrim($module_name, '/');
-                    $config['module'] = $module_name;
-
-                    $config['module'] = rtrim($config['module'], '\\');
-                    $config['module'] = rtrim($config['module'], '/');
-
-                    $try_icon = $module_dir . $module_name . '.png';
-                    $try_icon_svg = $module_dir . $module_name . '.svg';
-                    $config['icon'] = '';
-//                    if (is_file($try_icon_svg)) {
-//                        $config['icon'] = $this->app->url_manager->link_to_file($try_icon_svg);
-//                    } elseif (is_file($try_icon)) {
-//                        $config['icon'] = $this->app->url_manager->link_to_file($try_icon);
-//                    } elseif (is_file($module_dir . $module_name . '.jpg')) {
-//                        $config['icon'] = $this->app->url_manager->link_to_file($module_dir . $module_name . '.jpg');
-//                    } else {
-//                        $config['icon'] = $this->app->url_manager->link_to_file($def_icon);
-//                    }
-
-                    if (isset($config['ui'])) {
-                        $config['ui'] = intval($config['ui']);
-                    } else {
-                        $config['ui'] = 0;
-                    }
-
-                    if ($config['ui'] == 0) {
-                        continue;
-                    }
-
-
-                    $configs[] = $config;
-                }
-            }
-
-            return $configs;
-        }
-    }
 
     public $logger = null;
 
@@ -1530,55 +1185,6 @@ class ModuleManager
         if (is_object($this->logger) and method_exists($this->logger, 'log')) {
             $this->logger->log($text);
         }
-    }
-
-
-    public $_module_locations_root_cache = array();
-
-    /* @deprecated */
-    public function locate_root_module($module_name)
-    {
-        if (isset($this->_module_locations_root_cache[$module_name])) {
-            return $this->_module_locations_root_cache[$module_name];
-        }
-
-
-        $module_name_parts = explode('/', $module_name);
-
-
-        if ($module_name_parts and is_array($module_name_parts)) {
-            $folders_to_check = array();
-            $module_name_parts_count = count($module_name_parts) - 1;
-
-            if ($module_name_parts_count) {
-                for ($id = $module_name_parts_count; $id > 0; $id--) {
-                    unset($module_name_parts[$id]);
-                    if ($module_name_parts) {
-                        $folders_to_check[] = implode('/', $module_name_parts);
-                    }
-                }
-            }
-
-            if ($folders_to_check) {
-
-                foreach ($folders_to_check as $module_name_check) {
-                    $modules_dir_default = modules_path() . $module_name_check;
-                    $modules_dir_default = normalize_path($modules_dir_default, true);
-                    if (is_dir($modules_dir_default) and is_file($modules_dir_default . 'config.php')) {
-                        $this->_module_locations_root_cache[$module_name] = $module_name_check;
-                        return $module_name_check;
-//                        $is_installed = $this->app->module_manager->is_installed($module_name_check);
-//                        if (!$is_installed) {
-//                            return '';
-//                        }
-                    }
-
-                }
-
-            }
-
-        }
-
     }
 
 
