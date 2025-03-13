@@ -373,7 +373,9 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply !m-[10px];
 }
 
-
+.mw-dialog-skin-default .mw-dialog-container {
+    @apply !p-0;
+}
 
 .mw-dialog-container {
     @apply bg-white dark:bg-slate-800 dark:text-white;
