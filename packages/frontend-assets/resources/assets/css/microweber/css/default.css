@@ -721,7 +721,7 @@ html[dir="rtl"] .mw-gallery-prev{
     font-size: 12px;
 }
 .mw-dialog-skin-default .mw-dialog-container {
-    padding: 10px 25px;
+    padding: 10px 0;
 }
 .mw-dialog-skin-default.mw-dialog-iframe-loading iframe {
     opacity: 0;
