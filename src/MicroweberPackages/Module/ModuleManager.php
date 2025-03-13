@@ -682,6 +682,10 @@ class ModuleManager
     public function locate($module_name, $custom_view = false, $no_fallback_to_view = false)
     {
 
+        return $this->dir($module_name);
+
+
+
         $template_dir = templates_dir() . 'default/';
 
         if (defined('ACTIVE_TEMPLATE_DIR')) {
@@ -758,27 +762,7 @@ class ModuleManager
         return $try_file1;
     }
 
-    /* @deprecated */
-    public function delete_module($id)
-    {
-        if ($this->app->user_manager->is_admin() == false) {
-            return false;
-        }
-        $id = intval($id);
 
-        $table = 'modules';
-
-        $db_categories = get_table_prefix() . 'categories';
-        $db_categories_items = get_table_prefix() . 'categories_items';
-
-        $this->app->database_manager->delete_by_id($table, $id);
-
-        $q = "DELETE FROM $db_categories_items WHERE rel_type='modules' AND rel_id={$id}";
-        $this->app->database_manager->q($q);
-        $this->app->cache_manager->delete('categories' . DIRECTORY_SEPARATOR . '');
-
-        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
-    }
 
     public function ui($name, $arr = false)
     {
@@ -904,7 +888,7 @@ class ModuleManager
         if ($laravelModule) {
             $lowerName = $laravelModule->getLowerName();
 
-            return asset('modules/' . $lowerName) . '/';
+            return asset('modules/' . $lowerName) ;
         }
 
         $secure_connection = false;
@@ -964,7 +948,7 @@ class ModuleManager
     {
         $mod = app()->modules->find($module_name);
         if ($mod) {
-            return $mod->getPath();
+            return normalize_path($mod->getPath());
         }
     }
 
@@ -988,7 +972,8 @@ class ModuleManager
         }
 
         if (app()->bound('modules')) {
-            if (app()->modules->find($module_name)) {
+            $module = app()->modules->find($module_name);
+            if ($module && $module->isEnabled()) {
                 return true;
             }
         }
@@ -1026,55 +1011,23 @@ class ModuleManager
     /* @deprecated */
     public function uninstall($params)
     {
-        if (isset($params['for_module'])) {
-            $this_module = $this->get('ui=any&one=1&module=' . $params['for_module']);
-            if (isset($this_module['id'])) {
-                $params['id'] = $this_module['id'];
+        if (is_array($params) and isset($params['for_module'])) {
+            $module_name = $params['for_module'];
+        } else {
+            $module_name = $params;
+        }
+
+        if (app()->bound('modules')) {
+            $module = app()->modules->find($module_name);
+            if ($module) {
+                if ($module->isEnabled()) {
+                    $module->disable();
+                    app()->module_repository->clearCache();
+                }
             }
         }
 
 
-        if (isset($params['id'])) {
-            $id = intval($params['id']);
-            $this_module = $this->get('ui=any&one=1&id=' . $id);
-            if ($this_module != false and is_array($this_module) and isset($this_module['id'])) {
-                $module_name = $this_module['module'];
-
-                if (trim($module_name) == '') {
-                    return false;
-                }
-                $loc_of_config = $this->locate($module_name, 'config');
-                $res = array();
-                $loc_of_functions = $this->locate($module_name, 'functions');
-                $cfg = false;
-                if (is_file($loc_of_config)) {
-                    include $loc_of_config;
-                    if (isset($config)) {
-                        $cfg = $config;
-                    }
-                    if (is_array($cfg) and !empty($cfg)) {
-                        if (isset($cfg['on_uninstall'])) {
-                            $func = $cfg['on_uninstall'];
-                            if (!function_exists($func)) {
-                                if (is_file($loc_of_functions)) {
-                                    include_once $loc_of_functions;
-                                }
-                            }
-                            if (function_exists($func)) {
-                                $res = $func();
-                                // return $res;
-                            }
-                        }
-                    }
-                }
-                $to_save = array();
-                $this->_install_mode = true;
-                $to_save['id'] = $id;
-                $to_save['installed'] = '0';
-                $this->save($to_save);
-            }
-        }
-        $this->app->cache_manager->delete('modules' . DIRECTORY_SEPARATOR . '');
         $this->app->cache_manager->clear();
         app()->module_repository->clearCache();
     }

@@ -39,7 +39,7 @@ if (!defined('MW_USERFILES_FOLDER_NAME')) {
 
 }
 if (!defined('MW_MODULES_FOLDER_NAME')) {
-    define('MW_MODULES_FOLDER_NAME', 'modules'); //relative to userfiles dir
+    define('MW_MODULES_FOLDER_NAME', 'Modules'); //relative to userfiles dir
 }
 if (!defined('MW_ELEMENTS_FOLDER_NAME')) {
     define('MW_ELEMENTS_FOLDER_NAME', 'elements'); //relative to userfiles dir
@@ -49,7 +49,7 @@ if (!defined('MW_MEDIA_FOLDER_NAME')) {
 }
 
 if (!defined('MW_TEMPLATES_FOLDER_NAME')) {
-    define('MW_TEMPLATES_FOLDER_NAME', 'templates'); //relative to userfiles dir
+    define('MW_TEMPLATES_FOLDER_NAME', 'Templates'); //relative to userfiles dir
 }
 if (!defined('MW_SYSTEM_MODULE_FOLDER')) {
     define('MW_SYSTEM_MODULE_FOLDER', 'microweber'); //relative to modules dir

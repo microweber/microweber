@@ -34,6 +34,9 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
     public function register()
     {
 
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+
         $this->app->singleton(LaravelTemplatesCacheRepositoryContract::class,LaravelTemplatesCacheRepository::class);
 
         $this->mergeConfigFrom(__DIR__ . '/config/templates.php', 'templates');
@@ -54,6 +57,7 @@ class LaravelTemplatesServiceProvider extends \Nwidart\Modules\LaravelModulesSer
 
             return new $class($app);
         });
+
 
         $this->registerServices();
      //   $this->setupStubPath();
