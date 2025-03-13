@@ -31,8 +31,8 @@
 }
 
 
-.fi-panel-admin *:not([class*="rounded-full"]):not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview, .rounded-full, .fi-input .rounded-full, .noUi-touch-area, .noUi-handle-lower) {
-    @apply !rounded-sm;
+.fi .fi-body .fi-panel-admin .fi-layout *:not([class*="rounded-full"]):not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview, .rounded-full, .fi-input .rounded-full, .noUi-touch-area, .noUi-handle-lower) {
+    @apply rounded-sm;
 }
 
 .fi-panel-admin .rounded-full {
