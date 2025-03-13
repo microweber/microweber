@@ -31,7 +31,7 @@
 }
 
 
-.fi-panel-admin *:not([class*="rounded-full"]):not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview, .rounded-full, .fi-input .rounded-full) {
+.fi-panel-admin *:not([class*="rounded-full"]):not(.fi-fo-toggle, .fi-fo-toggle span, .fi-avatar, .fi-radio-input, .fi-fo-color-picker-preview, .rounded-full, .fi-input .rounded-full, .noUi-touch-area, .noUi-handle-lower) {
     @apply !rounded-sm;
 }
 
