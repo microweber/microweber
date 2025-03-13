@@ -20,7 +20,7 @@
         <input type="button" style="
           width: 30px;
           height: 30px;
-          border-radius: 50%;
+          border-radius: 50% !important;
           background: #fff;
           font-size:0px;
           cursor: pointer;
