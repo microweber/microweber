@@ -95,8 +95,34 @@ const assets = [
 
 ];
 
+const modifyIcons = async (data) => {
+    const fs = require('fs');
+    const targetFiles = [
+        `${data.target}/flag-icons.min.css`,
+        `${data.target}/flag-icons.css`,
+    ];
+    await Promise.all(targetFiles.map(targetFile => {
+        return new Promise(resolve => {
+            fs.readFile(targetFile, 'utf8', function (err,data) {
+                if (err) {
+                    resolve()
+                    return console.log(err);
+                }
+                var result = data.replace(/.fi/g, '.mw-flag-icon');
+                setTimeout((result, targetFile) => {
+                    fs.writeFile(targetFile, result, 'utf8', function (err) {
+                        resolve()
+                        if (err) return console.log(err);
+                    });
+                  }, 2120, result, targetFile);
+            });
+        })
+    }))
+
+}
+
 const copy = [
-    {target: `flag-icons/css`, path: `node_modules/flag-icons/css`},
+    {target: `flag-icons/css`, path: `node_modules/flag-icons/css`, afterCopy: modifyIcons},
     {target: `flag-icons/flags`, path: `node_modules/flag-icons/flags`},
     {target: `flag-icons/country.json`, path: `node_modules/flag-icons/country.json`},
     {target: `api/`, path: `resources/local-libs/api`},

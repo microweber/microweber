@@ -29,10 +29,20 @@ const isFolder = path => {
     return arr.length > 1 && arr.pop().length < 5;
 };
 
-const copy = (target, path) => {
+const copy = async (target, path, afterCopy) => {
     const _isFolder = isFolder(target);
     const action = _isFolder ? 'copyDirectory' : 'copy';
-    mix[action](path, `./resources/dist/${target}${!isFolder ? '/' + path.split('/').pop() : ''}`);
+    const targetFolder = `./resources/dist/${target}${!isFolder ? '/' + path.split('/').pop() : ''}`;
+    mix[action](path, targetFolder);
+
+
+
+    if(typeof afterCopy === 'function') {
+       await  afterCopy({
+            path,
+            targetFolder
+        })
+    }
 }
 
 const js = async (target, path) => {
@@ -43,6 +53,8 @@ const js = async (target, path) => {
 };
 
 
+const afterBuild = [];
+
 
 
 ;[
@@ -51,7 +63,7 @@ const js = async (target, path) => {
     ...config.copy,
     ...config.assets,
 
-].forEach((conf) => {
+].forEach( async (conf) => {
 
     let action = 'copy';
     if(conf.process) {
@@ -59,11 +71,21 @@ const js = async (target, path) => {
     }
     const actions = {js, copy};
     if(Array.isArray(conf.path)) {
-        conf.path.forEach((path) => {
-            actions[action](conf.target, path)
+        conf.path.forEach(async (path) => {
+            if(conf.afterCopy) {
+                afterBuild.push(
+                    conf
+                )
+            }
+            await actions[action](conf.target, path/*, conf.afterCopy*/)
         });
     } else {
-        actions[action](conf.target, conf.path)
+        if(conf.afterCopy) {
+            afterBuild.push(
+                conf
+            )
+        }
+        await actions[action](conf.target, conf.path/*, conf.afterCopy*/)
     }
 });
 
@@ -73,9 +95,16 @@ const js = async (target, path) => {
 mix.copyDirectory(`./resources/local-libs/mw-icons-mind`, `./resources/dist/mw-icons-mind`);
 
 
-mix.after(() => {
+mix.after(async () => {
     const from = './resources/dist';
     const to = '../../public/vendor/microweber-packages/frontend-assets-libs';
+
+    for (let i = 0; i < afterBuild.length; i++ ) {
+        const conf = afterBuild[i];
+        conf.target = `${from}/${conf.target}`;
+        await conf.afterCopy(conf);
+    }
+
     fs.removeSync(to);
     fs.copySync(from, to);
 });
