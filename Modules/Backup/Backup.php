@@ -183,11 +183,11 @@ class Backup
             }
 
             if ($this->backupModules) {
-            //    $zipExport->setBackupModules($this->backupModules);
+              $zipExport->setBackupModules($this->backupModules);
             }
 
             if ($this->backupTemplates) {
-             //   $zipExport->setBackupTemplates($this->backupTemplates);
+             $zipExport->setBackupTemplates($this->backupTemplates);
             }
 
             if ($this->backupOnlyTemplate) {
@@ -229,8 +229,12 @@ class Backup
 
             if ($exportSingleFile && isset($backup['files']) && !empty($backup['files'])) {
                 $response = $backup['files'][0];
+
                 $response['success'] = 'Items are exported';
                 $response['export_type'] = $this->type;
+                $response['data']['filepath'] = $response['filepath'];
+                $response['data']['filename'] = $response['filename'];
+                $response['data']['downloadUrl'] = $response['downloadUrl'];
 
                 return $response;
             } else {

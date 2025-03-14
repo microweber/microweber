@@ -158,7 +158,11 @@ class ZipBatchBackup extends DefaultBackup
                 return $this->getExportLog();
             }
 
-            return $zipFileName;
+            // Return with data structure for consistency
+            return [
+                'success' => 'Items are exported',
+                'data' => $zipFileName
+            ];
         }
 
         foreach ($filesBatch[$selectBatch] as $file) {
@@ -195,14 +199,21 @@ class ZipBatchBackup extends DefaultBackup
         $log['percentage'] = SessionStepper::percentage();
         $log['session_id'] = SessionStepper::$sessionId;
 
-        $log['data'] = false;
+        // Initialize data with the filepath if we're on the last step
+        if (SessionStepper::isFinished()) {
+            $zipFileName = $this->_getZipFileName();
+            $log['data'] = [
+                'filepath' => $zipFileName['filepath'],
+                'filename' => $zipFileName['filename'],
+                'download' => $zipFileName['download']
+            ];
+            $log['done'] = true;
+        } else {
+            $log['data'] = false;
+        }
 
         if (SessionStepper::isFirstStep()) {
             $log['started'] = true;
-        }
-
-        if (SessionStepper::isFinished()) {
-            $log['done'] = true;
         }
 
         return $log;
@@ -290,10 +301,11 @@ class ZipBatchBackup extends DefaultBackup
         $allModulesFiles = array();
         $modulesFilesReady = array();
 
-        $userFilesPathModules = userfiles_path() . DIRECTORY_SEPARATOR . 'modules';
+   //     $userFilesPathModules = userfiles_path() . DIRECTORY_SEPARATOR . 'modules';
+        $userFilesPathModules = modules_path();
 
         foreach ($this->backupModules as $module) {
-            $moduleDir = $userFilesPathModules . DIRECTORY_SEPARATOR . $module;
+            $moduleDir = $userFilesPathModules .  $module;
             $moduleFiles = $this->_getDirContents($moduleDir);
 
             $allModulesFiles = array_merge($allModulesFiles, $moduleFiles);
@@ -301,7 +313,8 @@ class ZipBatchBackup extends DefaultBackup
 
         foreach ($allModulesFiles as $filePath) {
 
-            $dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+           // $dataFile = str_replace(userfiles_path() . DIRECTORY_SEPARATOR, false, $filePath);
+            $dataFile = str_replace(modules_path(), 'Modules/', $filePath);
 
             $dataFile = normalize_path($dataFile, false);
             $filePath = normalize_path($filePath, false);
