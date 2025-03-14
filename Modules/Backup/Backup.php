@@ -336,6 +336,7 @@ class Backup
         }
 
         $exportTablesReady = $backupTables->getAllTableItems();
+
         $exportTablesReady['__table_structures'] = $tablesStructures;
 
         // Show only requried content ids

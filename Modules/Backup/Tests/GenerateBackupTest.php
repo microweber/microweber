@@ -24,13 +24,28 @@ class GenerateBackupTest extends TestCase
     {
 
         Config::set('microweber.allow_php_files_upload', true);
-        $stepsNum = 1115; //very large number invalid steps
+        $stepsNum = 1115; //very large number invalid steps on purpose
         $sessionId = SessionStepper::generateSessionId($stepsNum);
+
+
+        $originalModulePath = modules_path() . 'Logo' . DIRECTORY_SEPARATOR;
+        //count the files in path
+
+        $originalModulePathCount  = 0;
+        //rerucive iterator
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($originalModulePath));
+        foreach ($iterator as $file) {
+            if ($file->isFile()) {
+                $originalModulePathCount++;
+            }
+        }
+
 
         for ($i = 0; $i <= $stepsNum; $i++) {
             $backup = new Backup();
             $backup->setSessionId($sessionId);
             $backup->setBackupWithZip(true);
+            $backup->setBackupTables(['content']);
             $backup->setBackupModules([
                 'Logo',
             ]);
@@ -58,6 +73,8 @@ class GenerateBackupTest extends TestCase
             $allFiles[] = $zip->getNameIndex($i);
         }
         $this->assertNotEmpty($allFiles);
+
+        $this->assertEquals($originalModulePathCount+1, count($allFiles));
 
         $moduleInZip1 = $zip->getFromName('Modules/Logo/module.json');
         $moduleInZip2 = $zip->getFromName('Modules/Logo/Filament/LogoModuleSettings.php');
