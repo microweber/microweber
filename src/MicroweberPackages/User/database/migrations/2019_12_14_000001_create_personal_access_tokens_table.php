@@ -31,12 +31,18 @@ class CreatePersonalAccessTokensTable extends Migration
 
             //tryto add idnex
 
-            try {
-                $table->unique(['token']);
-            } catch (\Exception $e) {
-                // do nothing
-            }
+
         });
+
+
+        Schema::table('personal_access_tokens', function (Blueprint $table) {
+        try {
+            $table->unique(['token']);
+        } catch (\Exception $e) {
+            // do nothing
+        }
+        });
+
     }
 
     /**

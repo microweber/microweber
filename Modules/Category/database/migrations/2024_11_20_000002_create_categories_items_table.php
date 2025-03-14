@@ -21,7 +21,17 @@ return new class extends Migration {
             $table->integer('rel_id')->nullable();
             $table->timestamps();
 
-            $table->index(['rel_id', 'parent_id']);
+
+        });
+        Schema::table('categories_items', function (Blueprint $table) {
+
+            try {
+                $table->unique(['rel_id', 'parent_id']);
+            } catch (\Exception $e) {
+                // do nothing
+            }
+
+
         });
     }
 

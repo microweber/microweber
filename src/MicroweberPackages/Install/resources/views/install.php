@@ -706,7 +706,7 @@
                                                 // $templates_opts = array('remove_hidden_from_install_screen' => true);
                                                 // $templates = site_templates($templates_opts);
                                                 // moved by ajax
-                                                $templates = [['dir_name' => 'default', 'name' => 'Default']]
+                                                $templates = [['dir_name' => 'Bootstrap', 'name' => 'Bootstrap']]
                                                 ?>
 
                                                 <?php if (is_array($templates) and !empty($templates)): ?>
