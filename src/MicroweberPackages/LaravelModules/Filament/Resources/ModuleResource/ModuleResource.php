@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\Module\Filament\Resources\ModuleResource;
+namespace MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource;
 
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -13,12 +13,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Filament\Tables\Columns\ClickableColumn;
 use MicroweberPackages\Filament\Tables\Columns\SVGColumn;
-use MicroweberPackages\Module\Filament\Resources\ModuleResource\Pages\ListModules;
-use MicroweberPackages\Module\Models\Module;
+use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\Pages\ListModules;
+use MicroweberPackages\LaravelModules\Models\SystemModulesSushi;
 
 class ModuleResource extends Resource
 {
-    protected static ?string $model = Module::class;
+    protected static ?string $model = SystemModulesSushi::class;
 
     protected static ?string $navigationIcon = 'mw-modules';
 
@@ -42,23 +42,23 @@ class ModuleResource extends Resource
             ])
             ->columns([
 
-                    ClickableColumn::make([
-                        SVGColumn::make('icon')
-                            ->state(function (Module $module) {
-                                return $module->getIconInline();
-                            })
-                            ->grow(false),
+                ClickableColumn::make([
+                    SVGColumn::make('icon')
+                        ->state(function (SystemModulesSushi $module) {
+                            return $module->getIconInline();
+                        })
+                        ->grow(false),
 
-                        Tables\Columns\TextColumn::make('name')
-                            ->searchable()
-                            ->weight(FontWeight::Bold)
-//                        ->action(function (Module $module) {
+                    Tables\Columns\TextColumn::make('name')
+                        ->searchable()
+                        ->weight(FontWeight::Bold)
+//                        ->action(function (SystemModulesSushi $module) {
 //                            return redirect($module->adminUrl());
 //                        })
-                            ->grow(false),
-                    ])->url(function (Module $module) {
-                        return $module->adminUrl();
-                    }),
+                        ->grow(false),
+                ])->url(function (SystemModulesSushi $module) {
+                    return $module->adminUrl();
+                }),
 
 
             ])
@@ -83,30 +83,23 @@ class ModuleResource extends Resource
                     ->form([
                         Forms\Components\Select::make('type')
                             ->options([
-                            'live_edit' => 'Live Edit Modules',
-                            'admin' => 'Admin Modules',
-                            'all' => 'All Modules',
-                            'elements' => 'Elements',
-                        ])->default('admin'),
+                                'all' => 'All Modules',
+
+                            ])->default('1'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         if (isset($data['type'])) {
-                            if ($data['type'] == 'live_edit') {
-                                $query->where('ui', 1);
-                            }
-                            if ($data['type'] == 'admin') {
-                                $query->where('ui_admin', 1);
-                            }
-                            if ($data['type'] == 'elements') {
-                                $query->where('as_element', 1);
+
+                            if ($data['type'] == 'all') {
+                                //$query->where('type', 1);
                             }
                         }
                         return $query;
                     }),
 
-            ],layout: Tables\Enums\FiltersLayout::Modal)
+            ], layout: Tables\Enums\FiltersLayout::Modal)
             ->filtersTriggerAction(
-                fn (Tables\Actions\Action $action) => $action
+                fn(Tables\Actions\Action $action) => $action
                     ->slideOver()
             )
             ->actions([
@@ -116,6 +109,7 @@ class ModuleResource extends Resource
 
             ]);
     }
+
     public static function getGloballySearchableAttributes(): array
     {
         return ['name'];
@@ -123,7 +117,7 @@ class ModuleResource extends Resource
 
     public static function getGlobalSearchResultDetails(Model $record): array
     {
-        /** @var Module $record */
+        /** @var SystemModulesSushi $record */
 
         return [
             'Module' => $record->name,
@@ -138,7 +132,7 @@ class ModuleResource extends Resource
         ];
     }
 
-    /** @return Builder<Module> */
+    /** @return Builder<SystemModulesSushi> */
     public static function getGlobalSearchEloquentQuery(): Builder
     {
         return parent::getGlobalSearchEloquentQuery();

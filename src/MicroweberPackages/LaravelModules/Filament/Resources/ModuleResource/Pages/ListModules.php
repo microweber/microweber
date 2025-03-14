@@ -1,12 +1,12 @@
 <?php
 
-namespace MicroweberPackages\Module\Filament\Resources\ModuleResource\Pages;
+namespace MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\Pages;
 
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
-use MicroweberPackages\Module\Filament\Resources\ModuleResource\ModuleResource;
+use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
 
 class ListModules extends ListRecords
 {
@@ -35,9 +35,9 @@ class ListModules extends ListRecords
     public function getTabs(): array
     {
         return [
-            //   null => Tab::make('All'),
-            'Installed' => Tab::make()->query(fn ($query) => $query->where('installed', 1)),
-            'Not Installed' => Tab::make()->query(fn ($query) => $query->where('installed', 0))
+         //      null => Tab::make('All'),
+            'Installed' => Tab::make()->query(fn ($query) => $query->where('status', 1)),
+            'Not Installed' => Tab::make()->query(fn ($query) => $query->where('status', 0))
         ];
     }
 

@@ -17,14 +17,14 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use MicroweberPackages\Admin\Events\ServingAdmin;
-use MicroweberPackages\Admin\Facades\AdminManager;
 use MicroweberPackages\Core\Providers\Concerns\MergesConfig;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
+use MicroweberPackages\LaravelModules\Filament\Resources\ModuleResource\ModuleResource;
 use MicroweberPackages\Marketplace\Http\Livewire\Admin\Marketplace;
-use MicroweberPackages\Module\Filament\Resources\ModuleResource\ModuleResource;
 use MicroweberPackages\Module\Http\Livewire\Admin\AskForModuleUninstallModal;
 use MicroweberPackages\Module\Http\Livewire\Admin\ListModules;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\AligmentOption;
+use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxSingleOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\ColorPickerOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\DropdownOption;
@@ -37,7 +37,6 @@ use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\MediaPickerOption
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\NumericOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RadioModernOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RadioOption;
-use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\CheckboxOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\RangeSliderOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\SelectPageOption;
 use MicroweberPackages\Module\Http\Livewire\Admin\ModuleOption\SelectTagsOption;
@@ -71,7 +70,6 @@ class ModuleServiceProvider extends ServiceProvider
             return new ModuleManager();
         });
 
-FilamentRegistry::registerResource(ModuleResource::class);
 
         /**
          * @property ModuleRepository $module_repository
