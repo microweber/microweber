@@ -270,13 +270,13 @@ return [
             'class' => \MicroweberPackages\LaravelModules\Activators\LaravelModulesFileActivator::class,
 
             'statuses-file' => storage_path('modules_statuses.json'),
-            'cache-key' => 'activator.installed',
+            'cache-key' => 'modules_activator.installed',
             'cache-lifetime' => 604800,
         ],
         'database' => [
             'class' => \MicroweberPackages\LaravelModules\Activators\LaravelModulesDatabaseActivator::class,
             'table' => 'system_modules',
-            'cache-key' => 'activator.installed',
+            'cache-key' => 'modules_activator.installed',
             'cache-lifetime' => 604800,
         ],
     ],

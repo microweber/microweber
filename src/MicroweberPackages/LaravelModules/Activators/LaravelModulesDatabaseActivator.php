@@ -36,52 +36,52 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      *
      * @var CacheManager
      */
-    private $cache;
+    public $cache;
 
     /**
      * Laravel database connection.
      *
      * @var ConnectionInterface
      */
-    private $connection;
+    public $connection;
 
     /**
      * Laravel config instance.
      *
      * @var Config
      */
-    private $config;
+    public $config;
 
     /**
      * Laravel log instance.
      *
      * @var LogManager
      */
-    private $logger;
+    public $logger;
 
     /**
      * @var string
      */
-    private $cacheKey;
+    public $cacheKey;
 
     /**
      * @var string
      */
-    private $cacheLifetime;
+    public $cacheLifetime;
 
     /**
      * Array of modules activation statuses.
      *
      * @var array
      */
-    private $modulesStatuses;
+    public $modulesStatuses;
 
     /**
      * Database table name.
      *
      * @var string
      */
-    private $table;
+    public $table;
 
     /**
      * Create a new DatabaseActivator instance.
@@ -196,7 +196,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
     /**
      * Writes the activation statuses to the database.
      */
-    private function writeStatus(): void
+    public function writeStatus(): void
     {
         if (empty($this->getTableName())) {
             return;
@@ -225,7 +225,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      *
      * @return array
      */
-    private function readStatus(): array
+    public function readStatus(): array
     {
         $statuses = [];
         if (empty($this->getTableName())) {
@@ -259,7 +259,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      *
      * @return array
      */
-    private function getModulesStatuses(): array
+    public function getModulesStatuses(): array
     {
 
         if (!$this->config->get($this->configPrefix . '.cache.enabled')) {
@@ -279,7 +279,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      * @param mixed $default
      * @return mixed
      */
-    private function config(string $key, $default = null)
+    public function config(string $key, $default = null)
     {
         return $this->config->get($this->configPrefix . '.activators.database.' . $key, $default);
     }
@@ -287,7 +287,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
     /**
      * Flushes the modules activation statuses cache.
      */
-    private function flushCache(): void
+    public function flushCache(): void
     {
         if (app()->bound('modules')) {
             app('modules')->flushCache();
@@ -303,7 +303,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
      *
      * @param array $modules
      */
-    private function syncModule(array $modules): void
+    public function syncModule(array $modules): void
     {
         if (empty($this->getTableName())) {
             return;
@@ -352,7 +352,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
         SystemModules::setConnectionResolver($this->app['db']);
         SystemModules::resolveConnection($this->connection->getName());
     }
-    
+
     /**
      * Scan for module.json files without using the module repository.
      * This prevents recursive loops when the activator is called during module scanning.
@@ -363,17 +363,17 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
     {
         $modules = [];
         $paths = $this->app['config']->get($this->configPrefix . '.paths', []);
-        
+
         $files = new Filesystem();
-        
+
         foreach ($paths as $path) {
             $manifests = $files->glob("{$path}/*/module.json");
-            
+
             is_array($manifests) || $manifests = [];
-            
+
             foreach ($manifests as $manifest) {
                 $name = Json::make($manifest)->get('name');
-                
+
                 if ($name) {
                     $modules[$name] = $this->app->make('modules.factory')->make(
                         $name,
@@ -382,17 +382,17 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
                 }
             }
         }
-        
+
         if ($modules) {
             uasort($modules, function (Module $a, Module $b) {
                 if ($a->get('priority') === $b->get('priority')) {
                     return 0;
                 }
-                
+
                 return $a->get('priority') > $b->get('priority') ? 1 : -1;
             });
         }
-        
+
         return $modules;
     }
 }

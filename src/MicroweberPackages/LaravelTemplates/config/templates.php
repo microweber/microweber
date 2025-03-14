@@ -216,13 +216,13 @@ return [
         'file' => [
             'class' => \MicroweberPackages\LaravelTemplates\Activators\TemplatesFileActivator::class,
             'statuses-file' => storage_path('templates_statuses.json'),
-            'cache-key' => 'activator.installed',
+            'cache-key' => 'templates_activator.installed',
             'cache-lifetime' => 604800,
         ],
         'database' => [
             'class' => \MicroweberPackages\LaravelTemplates\Activators\LaravelTemplatesDatabaseActivator::class,
             'table' => 'system_templates',
-            'cache-key' => 'activator.installed',
+            'cache-key' => 'templates_activator.installed',
             'cache-lifetime' => 604800,
         ],
     ],
