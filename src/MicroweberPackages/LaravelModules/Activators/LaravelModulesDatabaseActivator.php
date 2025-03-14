@@ -262,6 +262,10 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
     public function getModulesStatuses(): array
     {
 
+        if(function_exists('mw_is_installed') && !mw_is_installed()){
+            return [];
+        }
+
         if (!$this->config->get($this->configPrefix . '.cache.enabled')) {
             return $this->readStatus();
         }
@@ -318,7 +322,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
                         [
                             'version' => $module->get('version'),
                             'type' => $module->get('type', 1),
-                            'path' => $module->getPath()
+                            'path' => $module->getRelativePath()
                         ]
                     );
 
@@ -331,7 +335,7 @@ class LaravelModulesDatabaseActivator implements ActivatorInterface
                         'name' => $module->getName(),
                         'alias' => $module->getLowerName(),
                         'description' => $module->getDescription(),
-                        'path' => $module->getPath(),
+                        'path' => $module->getRelativePath(),
                         'version' => $module->get('version', 'dev'),
                         'type' => $module->get('type', '1'),
                         'priority' => $module->get('priority', '1024'),

@@ -99,7 +99,6 @@ class LaravelModule extends Module
     }
 
 
-
     /**
      * Get json contents from the cache, setting as needed.
      *
@@ -267,6 +266,7 @@ class LaravelModule extends Module
 
         $this->fireEvent('enabled');
     }
+
     public function disable(): void
     {
         $this->fireEvent(ModuleEvent::DISABLING);
@@ -277,9 +277,21 @@ class LaravelModule extends Module
         $this->flushCache();
     }
 
+    public function getRelativePath(): string
+    {
+        $path = normalize_path($this->getPath());
+        $basePath = normalize_path(base_path());
+
+        $relativePath = str_replace($basePath, '', $path);
+        $relativePath = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
+        $relativePath = ltrim($relativePath, '/');
+        return $relativePath;
+
+    }
+
     public function isEnabled(): bool
     {
-        if($this->activator == null){
+        if ($this->activator == null) {
             return false;
         }
 

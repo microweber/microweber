@@ -169,6 +169,9 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
      */
     public function getTemplatesStatuses(): array
     {
+        if(function_exists('mw_is_installed') && !mw_is_installed()){
+            return [];
+        }
         if (!$this->config->get($this->configPrefix . '.cache.enabled')) {
             return $this->readStatus();
         }
@@ -197,7 +200,7 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
                     [
                         'version' => $template->get('version'),
                         'type' => $template->get('type', 1),
-                        'path' => $template->getPath()
+                        'path' => $template->getRelativePath()
                     ]
                 );
 
@@ -210,7 +213,7 @@ class LaravelTemplatesDatabaseActivator extends LaravelModulesDatabaseActivator 
                     'name' => $template->getName(),
                     'alias' => $template->getLowerName(),
                     'description' => $template->getDescription(),
-                    'path' => $template->getPath(),
+                    'path' => $template->getRelativePath(),
                     'version' => $template->get('version', 'dev'),
                     'type' => $template->get('type', '1'),
                     'priority' => $template->get('priority', '1024'),
