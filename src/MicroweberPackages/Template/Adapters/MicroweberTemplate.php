@@ -537,7 +537,7 @@ class MicroweberTemplate
         $fallback_render_internal_file = false;
         $site_template_settings = app()->option_manager->get('current_template', 'template') ?? $this->fallbackTempleteFolderName;
 
-       dd($site_template_settings,$this->getFallbackTemplateFolderName(),$page,$site_template_settings);
+     //  dd($site_template_settings,$this->getFallbackTemplateFolderName(),$page,$site_template_settings);
         if (!isset($page['active_site_template']) and !$site_template_settings) {
             $page['active_site_template'] = $this->getFallbackTemplateFolderName();
         } elseif (isset($page['active_site_template']) and $page['active_site_template'] == '') {
