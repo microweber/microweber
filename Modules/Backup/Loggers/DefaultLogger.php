@@ -29,7 +29,6 @@ abstract class DefaultLogger
 
     public static function setLogInfo($log)
     {
-
         if (static::$logger) {
             $loggerClass = new static::$logger();
             if (method_exists($loggerClass, 'log')) {
@@ -50,7 +49,6 @@ abstract class DefaultLogger
 
     public static function addNew($fileName, $line, $max = 15)
     {
-
         $logPath = dirname($fileName);
         if (!is_dir($logPath)) {
             mkdir_recursive($logPath);
@@ -58,7 +56,7 @@ abstract class DefaultLogger
 
         if (is_file($fileName)) {
             $countLines = file_get_contents($fileName);
-            $countLines = substr_count($countLines, "\n");;
+            $countLines = substr_count($countLines, "\n");
 
             if ($countLines > $max) {
                 @file_put_contents($fileName, '');

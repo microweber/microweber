@@ -125,23 +125,88 @@ class ZipBatchBackup extends DefaultBackup
         }
 
         $totalFilesForZip = sizeof($filesForZip);
-        $totalFilesForBatch = (int) ceil($totalFilesForZip / $totalSteps);
-
-        if ($totalFilesForBatch > 0) {
-            $filesBatch = array_chunk($filesForZip, $totalFilesForBatch);
-        } else {
+        
+        // For single-step backups, process all files at once
+        if ($totalSteps == 1) {
             $filesBatch = array();
-            $filesBatch[] = $filesForZip;
+            $filesBatch[0] = $filesForZip;
+        } else {
+            // For multi-step backups, divide files into batches
+            $totalFilesForBatch = (int) ceil($totalFilesForZip / $totalSteps);
+            
+            if ($totalFilesForBatch > 0) {
+                $filesBatch = array_chunk($filesForZip, $totalFilesForBatch);
+            } else {
+                $filesBatch = array();
+                $filesBatch[] = $filesForZip;
+            }
         }
 
         $selectBatch = ($currentStep - 1);
 
+        // If the current batch doesn't exist, we're done
         if (!isset($filesBatch[$selectBatch])) {
-           SessionStepper::finish();
+            SessionStepper::finish();
         }
 
+        // For single-step operations, process all files
+        if ($totalSteps == 1) {
+            $this->logger->setLogInfo('Processing single-step backup with ' . count($filesBatch[0]) . ' files');
+            
+            // Process all files
+            foreach ($filesBatch[0] as $file) {
+                $ext = get_file_extension($file['filepath']);
+                $file['filename'] = str_replace('\\', '/', $file['filename']);
+                $file['filepath'] = str_replace('\\', '/', $file['filepath']);
+
+                if ($ext == 'css') {
+                    $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
+                    $csscont = file_get_contents($file['filepath']);
+                    $csscont = app()->url_manager->replace_site_url($csscont);
+                    $zip->addFromString($file['filename'], $csscont);
+                } else {
+                    $this->logger->setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
+                    $zip->addFile($file['filepath'], $file['filename']);
+                }
+            }
+            
+            $this->logger->setLogInfo('Finishing single-step backup');
+            $this->_finishUp();
+
+            if (method_exists($zip, 'setCompressionIndex')) {
+                $zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
+            }
+
+            $zip->close();
+            
+            // Add an empty file to make sure the zip is not empty
+            if (count($filesBatch[0]) === 0) {
+                $zip = new \ZipArchive();
+                $zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
+                $zip->addFromString('README.txt', 'Microweber backup file');
+                $zip->close();
+            }
+
+            // VALIDATE ZIP
+            $validateZip = new \ZipArchive();
+            $validateZipOpen = $validateZip->open($zipFileName['filepath'], \ZipArchive::CHECKCONS);
+            if ($validateZipOpen !== true) {
+                $this->logger->setLogInfo('Error validating zip file: ' . $zipFileName['filepath']);
+                return $this->getExportLog();
+            }
+            
+            $this->logger->setLogInfo('Successfully created zip file at: ' . $zipFileName['filepath']);
+
+            // Return with data structure for consistency
+            return [
+                'success' => 'Items are exported',
+                'data' => $zipFileName
+            ];
+        }
+        
+        // For finished multi-step operations
         if (SessionStepper::isFinished()) {
-            $this->logger->setLogInfo('No files in batch for current step.');
+            $this->logger->setLogInfo('Finishing multi-step backup');
             $this->_finishUp();
 
             if (method_exists($zip, 'setCompressionIndex')) {
@@ -154,9 +219,11 @@ class ZipBatchBackup extends DefaultBackup
             $validateZip = new \ZipArchive();
             $validateZipOpen = $validateZip->open($zipFileName['filepath'], \ZipArchive::CHECKCONS);
             if ($validateZipOpen !== true) {
-                $this->logger->setLogError('Error validating zip file.');
+                $this->logger->setLogInfo('Error validating zip file: ' . $zipFileName['filepath']);
                 return $this->getExportLog();
             }
+            
+            $this->logger->setLogInfo('Successfully created zip file at: ' . $zipFileName['filepath']);
 
             // Return with data structure for consistency
             return [
@@ -199,13 +266,24 @@ class ZipBatchBackup extends DefaultBackup
         $log['percentage'] = SessionStepper::percentage();
         $log['session_id'] = SessionStepper::$sessionId;
 
-        // Initialize data with the filepath if we're on the last step
-        if (SessionStepper::isFinished()) {
+        // For single-step operations, always provide the filepath
+        if (SessionStepper::totalSteps() == 1) {
             $zipFileName = $this->_getZipFileName();
             $log['data'] = [
                 'filepath' => $zipFileName['filepath'],
                 'filename' => $zipFileName['filename'],
-                'download' => $zipFileName['download']
+                'download' => $zipFileName['downloadUrl']
+            ];
+            $log['done'] = true;
+            $log['success'] = 'Items are exported';
+        }
+        // For multi-step operations, only provide filepath on the last step
+        else if (SessionStepper::isFinished()) {
+            $zipFileName = $this->_getZipFileName();
+            $log['data'] = [
+                'filepath' => $zipFileName['filepath'],
+                'filename' => $zipFileName['filename'],
+                'download' => $zipFileName['downloadUrl']
             ];
             $log['done'] = true;
         } else {

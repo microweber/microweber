@@ -193,4 +193,70 @@ class GenerateBackupTest extends TestCase
 
     }
 
+
+
+    public function testMediaBackupOneStepTest()
+    {
+        Config::set('microweber.allow_php_files_upload', true);
+        // Use a single step for the backup
+        $stepsNum = 1;
+        $sessionId = SessionStepper::generateSessionId($stepsNum);
+
+        $originalFilesPath = userfiles_path();
+        //count the files in path
+
+        $originalFilesPathCount = 0;
+        //recursive iterator with same settings as in ZipBatchBackup class
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($originalFilesPath, \RecursiveDirectoryIterator::SKIP_DOTS)
+        );
+        foreach ($iterator as $file) {
+            if (!$file->isDir()) {
+                $originalFilesPathCount++;
+            }
+        }
+
+        // Run the backup
+        $backup = new Backup();
+        $backup->setSessionId($sessionId);
+        $backup->setBackupWithZip(true);
+        $backup->setBackupAllData(true);
+        $backup->setBackupTables(['content']);
+
+        // First step
+        $status = $backup->start();
+
+
+
+        // If we need to run a second step
+        if (isset($status['data']) && $status['data'] === false) {
+            // Run the second step to complete the backup
+            $status = $backup->start();
+        }
+
+        $this->assertTrue(isset($status['data']), 'Status data not found');
+        $this->assertTrue(isset($status['data']['filepath']), 'Filepath not found in status data');
+
+        $filepath = $status['data']['filepath'];
+        $this->assertNotNull($filepath, 'Filepath is null');
+        $this->assertTrue(is_file($filepath), 'File not found at: ' . $filepath);
+
+        $zip = new \ZipArchive();
+        $zip->open($filepath);
+
+        // List files in the zip
+        $allFiles = [];
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $allFiles[] = $zip->getNameIndex($i);
+        }
+        $this->assertNotEmpty($allFiles);
+
+        $this->assertEquals(
+            $originalFilesPathCount + 1,
+            count($allFiles),
+            'File count in backup zip should match expected count'
+        );
+    }
+
+
 }

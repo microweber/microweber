@@ -206,23 +206,63 @@ class Backup
 
             $zipExportReady = $zipExport->start();
 
-            if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
+            // For single-step operations or when export is done
+            if ((isset($zipExportReady['done']) && $zipExportReady['done'] === true) || 
+                (isset($zipExportReady['data']) && !empty($zipExportReady['data']))) {
+                
+                // If we have a direct file download path already
+                if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
+                    // Delete unused ziped files
+                    array_map('unlink', glob("$exportCacheLocation/*.*"));
+                    rmdir($exportCacheLocation);
 
-                // Delete unused ziped files
-                array_map('unlink', glob("$exportCacheLocation/*.*"));
-                rmdir($exportCacheLocation);
-
-                return array(
-                    'success' => 'Items are exported',
-                    'export_type' => $this->type,
-                    'filepath' => $zipExportReady['filepath'],
-                    'filename' => $zipExportReady['filename'],
-                    'downloadUrl' => $zipExportReady['download'],
-                    'data' => $zipExportReady
-                );
-            } else {
-                return $zipExportReady;
+                    return array(
+                        'success' => 'Items are exported',
+                        'export_type' => $this->type,
+                        'filepath' => $zipExportReady['filepath'],
+                        'filename' => $zipExportReady['filename'],
+                        'downloadUrl' => $zipExportReady['download'],
+                        'data' => $zipExportReady
+                    );
+                } 
+                // For single-step operations where data is returned directly
+                else if (isset($zipExportReady['data']) && 
+                        isset($zipExportReady['data']['filepath']) && 
+                        isset($zipExportReady['data']['filename']) && 
+                        (isset($zipExportReady['data']['download']) || isset($zipExportReady['data']['downloadUrl']))) {
+                    
+                    // Make sure to use the correct key for download URL
+                    $downloadUrl = isset($zipExportReady['data']['downloadUrl']) ? 
+                        $zipExportReady['data']['downloadUrl'] : 
+                        $zipExportReady['data']['download'];
+                    
+                    // Make sure the file exists
+                    if (!is_file($zipExportReady['data']['filepath'])) {
+                        $this->logger->setLogInfo('Warning: Expected zip file not found at ' . $zipExportReady['data']['filepath']);
+                    }
+                    
+                    // Only delete cache if the file exists
+                    if (is_file($zipExportReady['data']['filepath']) && is_dir($exportCacheLocation)) {
+                        // Delete unused ziped files
+                        array_map('unlink', glob("$exportCacheLocation/*.*"));
+                        if (is_dir($exportCacheLocation)) {
+                            rmdir($exportCacheLocation);
+                        }
+                    }
+                    
+                    return array(
+                        'success' => 'Items are exported',
+                        'export_type' => $this->type,
+                        'filepath' => $zipExportReady['data']['filepath'],
+                        'filename' => $zipExportReady['data']['filename'],
+                        'downloadUrl' => $downloadUrl,
+                        'data' => $zipExportReady['data']
+                    );
+                }
             }
+            
+            // For multi-step operations that are still in progress
+            return $zipExportReady;
         }
 
         if (  isset($backup['files'])) {
