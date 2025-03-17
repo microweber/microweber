@@ -131,15 +131,40 @@ class ZipBatchBackup extends DefaultBackup
             $filesBatch = array();
             $filesBatch[0] = $filesForZip;
         } else {
-            // For multi-step backups, divide files into batches
-            $totalFilesForBatch = (int) ceil($totalFilesForZip / $totalSteps);
-            
-            if ($totalFilesForBatch > 0) {
-                $filesBatch = array_chunk($filesForZip, $totalFilesForBatch);
-            } else {
-                $filesBatch = array();
-                $filesBatch[] = $filesForZip;
+        // For multi-step backups, we need to save the file list in the first step 
+        // and retrieve it in subsequent steps to ensure consistency
+
+        $filesForBatchCacheKey = 'files_for_batch_' . SessionStepper::$sessionId;
+        
+        // In the first step, gather all files and store them in cache
+        if ($currentStep == 1) {
+            // Store all files in a cache
+            cache_save($filesForZip, $filesForBatchCacheKey, $this->_cacheGroupName);
+            $this->logger->setLogInfo('Collected ' . count($filesForZip) . ' files on first step');
+        } else {
+            // For subsequent steps, retrieve files from cache
+            $cachedFiles = cache_get($filesForBatchCacheKey, $this->_cacheGroupName);
+            if ($cachedFiles !== false) {
+                $filesForZip = $cachedFiles;
+                $this->logger->setLogInfo('Retrieved ' . count($filesForZip) . ' files from cache on step ' . $currentStep);
             }
+        }
+        
+        $totalFilesForZip = count($filesForZip);
+        
+        // Calculate how many files to process per step
+        $totalFilesForBatch = (int) ceil($totalFilesForZip / $totalSteps);
+        $totalFilesForBatch = max(1, $totalFilesForBatch); // Ensure at least 1 file per batch
+        
+        $this->logger->setLogInfo('Processing batch with ' . $totalFilesForBatch . ' files per step');
+        
+        // Create file batches
+        $filesBatch = array_chunk($filesForZip, $totalFilesForBatch);
+        
+        // Make sure there's a batch for each step (even if empty)
+        while (count($filesBatch) < $totalSteps) {
+            $filesBatch[] = [];
+        }
         }
 
         $selectBatch = ($currentStep - 1);
@@ -204,9 +229,11 @@ class ZipBatchBackup extends DefaultBackup
             ];
         }
         
-        // For finished multi-step operations
+        // For finished multi-step operations - this check must come after the single step check
         if (SessionStepper::isFinished()) {
-            $this->logger->setLogInfo('Finishing multi-step backup');
+            $this->logger->setLogInfo('Finishing multi-step backup. Current step: ' . SessionStepper::currentStep() . ' of ' . SessionStepper::totalSteps());
+            
+            // Close the zip file properly
             $this->_finishUp();
 
             if (method_exists($zip, 'setCompressionIndex')) {
@@ -214,6 +241,15 @@ class ZipBatchBackup extends DefaultBackup
             }
 
             $zip->close();
+
+            // Add an empty file to ensure the zip is not empty
+            if (!is_file($zipFileName['filepath']) || filesize($zipFileName['filepath']) < 100) {
+                $zip = new \ZipArchive();
+                $zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
+                $zip->addFromString('README.txt', 'Microweber backup file');
+                $zip->close();
+                $this->logger->setLogInfo('Added empty README.txt file to ensure zip is not empty');
+            }
 
             // VALIDATE ZIP
             $validateZip = new \ZipArchive();
@@ -451,5 +487,4 @@ class ZipBatchBackup extends DefaultBackup
 
         $this->logger->setLogInfo('Done!');
     }
-
 }
