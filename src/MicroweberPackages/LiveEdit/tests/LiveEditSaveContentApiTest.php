@@ -105,6 +105,13 @@ class LiveEditSaveContentApiTest extends TestCase
 
         $this->assertNotEmpty($page);
 
+
+
+        $render_file = app()->template_manager->get_layout($page);
+
+        dd($render_file);
+
+
         $frontRender = new FrontendController();
         $html = $frontRender->frontend($params);
         $contentFieldHtml = $saved_content;
