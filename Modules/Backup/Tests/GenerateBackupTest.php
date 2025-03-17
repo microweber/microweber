@@ -296,10 +296,7 @@ class GenerateBackupTest extends TestCase
             $backup->setBackupTables(['content']);
 
             $status = $backup->start();
-            
-            // Echo status for debugging
-            echo "\nStep " . ($i+1) . " Status: " . print_r($status, true);
-            
+             
             // If success is set, we're done
             if (isset($status['success'])) {
                 break;

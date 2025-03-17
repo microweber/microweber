@@ -125,17 +125,17 @@ class ZipBatchBackup extends DefaultBackup
         }
 
         $totalFilesForZip = sizeof($filesForZip);
-        
+
         // For single-step backups, process all files at once
         if ($totalSteps == 1) {
             $filesBatch = array();
             $filesBatch[0] = $filesForZip;
         } else {
-        // For multi-step backups, we need to save the file list in the first step 
+        // For multi-step backups, we need to save the file list in the first step
         // and retrieve it in subsequent steps to ensure consistency
 
         $filesForBatchCacheKey = 'files_for_batch_' . SessionStepper::$sessionId;
-        
+
         // In the first step, gather all files and store them in cache
         if ($currentStep == 1) {
             // Store all files in a cache
@@ -149,18 +149,18 @@ class ZipBatchBackup extends DefaultBackup
                 $this->logger->setLogInfo('Retrieved ' . count($filesForZip) . ' files from cache on step ' . $currentStep);
             }
         }
-        
+
         $totalFilesForZip = count($filesForZip);
-        
+
         // Calculate how many files to process per step
         $totalFilesForBatch = (int) ceil($totalFilesForZip / $totalSteps);
         $totalFilesForBatch = max(1, $totalFilesForBatch); // Ensure at least 1 file per batch
-        
+
         $this->logger->setLogInfo('Processing batch with ' . $totalFilesForBatch . ' files per step');
-        
+
         // Create file batches
         $filesBatch = array_chunk($filesForZip, $totalFilesForBatch);
-        
+
         // Make sure there's a batch for each step (even if empty)
         while (count($filesBatch) < $totalSteps) {
             $filesBatch[] = [];
@@ -177,7 +177,7 @@ class ZipBatchBackup extends DefaultBackup
         // For single-step operations, process all files
         if ($totalSteps == 1) {
             $this->logger->setLogInfo('Processing single-step backup with ' . count($filesBatch[0]) . ' files');
-            
+
             // Process all files
             foreach ($filesBatch[0] as $file) {
                 $ext = get_file_extension($file['filepath']);
@@ -194,7 +194,7 @@ class ZipBatchBackup extends DefaultBackup
                     $zip->addFile($file['filepath'], $file['filename']);
                 }
             }
-            
+
             $this->logger->setLogInfo('Finishing single-step backup');
             $this->_finishUp();
 
@@ -203,7 +203,7 @@ class ZipBatchBackup extends DefaultBackup
             }
 
             $zip->close();
-            
+
             // Add an empty file to make sure the zip is not empty
             if (count($filesBatch[0]) === 0) {
                 $zip = new \ZipArchive();
@@ -219,7 +219,7 @@ class ZipBatchBackup extends DefaultBackup
                 $this->logger->setLogInfo('Error validating zip file: ' . $zipFileName['filepath']);
                 return $this->getExportLog();
             }
-            
+
             $this->logger->setLogInfo('Successfully created zip file at: ' . $zipFileName['filepath']);
 
             // Return with data structure for consistency
@@ -228,11 +228,11 @@ class ZipBatchBackup extends DefaultBackup
                 'data' => $zipFileName
             ];
         }
-        
+
         // For finished multi-step operations - this check must come after the single step check
         if (SessionStepper::isFinished()) {
             $this->logger->setLogInfo('Finishing multi-step backup. Current step: ' . SessionStepper::currentStep() . ' of ' . SessionStepper::totalSteps());
-            
+
             // Close the zip file properly
             $this->_finishUp();
 
@@ -258,7 +258,7 @@ class ZipBatchBackup extends DefaultBackup
                 $this->logger->setLogInfo('Error validating zip file: ' . $zipFileName['filepath']);
                 return $this->getExportLog();
             }
-            
+
             $this->logger->setLogInfo('Successfully created zip file at: ' . $zipFileName['filepath']);
 
             // Return with data structure for consistency
@@ -450,7 +450,7 @@ class ZipBatchBackup extends DefaultBackup
         $userFilesReady = array();
 
         foreach ($userFilesScanned as $filePath) {
-            $dataFile = str_replace($userFilesPath, 'userfiles', $filePath);
+            $dataFile = str_replace($userFilesPath, 'userfiles/', $filePath);
             $userFilesReady[] = array(
                 'filename' => $dataFile,
                 'filepath' => $filePath
@@ -466,7 +466,7 @@ class ZipBatchBackup extends DefaultBackup
             return array();
         }
 
-        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, 
+        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path,
             \RecursiveDirectoryIterator::SKIP_DOTS));
 
         $files = array();
