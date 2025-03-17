@@ -330,20 +330,20 @@ class ZipBatchBackup extends DefaultBackup
 
     protected function _getUserFilesPaths()
     {
-        $userFilesPath = storage_path() . DS . 'app' . DS . 'public';
+        $userFilesPath = userfiles_path();
         $userFilesScanned = $this->_getDirContents($userFilesPath);
 
         $userFilesReady = array();
 
         foreach ($userFilesScanned as $filePath) {
+            $dataFile = str_replace($userFilesPath, 'userfiles', $filePath);
             $userFilesReady[] = array(
-                'filename' => basename($filePath),
+                'filename' => $dataFile,
                 'filepath' => $filePath
             );
         }
 
         return $userFilesReady;
-
     }
 
     protected function _getDirContents($path)
@@ -352,7 +352,8 @@ class ZipBatchBackup extends DefaultBackup
             return array();
         }
 
-        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+        $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, 
+            \RecursiveDirectoryIterator::SKIP_DOTS));
 
         $files = array();
         foreach ($rii as $file) {

@@ -24,14 +24,14 @@ class GenerateBackupTest extends TestCase
     {
 
         Config::set('microweber.allow_php_files_upload', true);
-        $stepsNum = 1115; //very large number invalid steps on purpose
+        $stepsNum = 1115; //very large number on purpose
         $sessionId = SessionStepper::generateSessionId($stepsNum);
 
 
         $originalModulePath = modules_path() . 'Logo' . DIRECTORY_SEPARATOR;
         //count the files in path
 
-        $originalModulePathCount  = 0;
+        $originalModulePathCount = 0;
         //rerucive iterator
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($originalModulePath));
         foreach ($iterator as $file) {
@@ -74,7 +74,7 @@ class GenerateBackupTest extends TestCase
         }
         $this->assertNotEmpty($allFiles);
 
-        $this->assertEquals($originalModulePathCount+1, count($allFiles));
+        $this->assertEquals($originalModulePathCount + 1, count($allFiles));
 
         $moduleInZip1 = $zip->getFromName('Modules/Logo/module.json');
         $moduleInZip2 = $zip->getFromName('Modules/Logo/Filament/LogoModuleSettings.php');
@@ -111,7 +111,7 @@ class GenerateBackupTest extends TestCase
         $status = $backup->start();
 
         // Get filepath from the data array
-        $filepath =  $status['data']['filepath'];
+        $filepath = $status['data']['filepath'];
 
         $this->assertNotNull($filepath, 'Filepath not found in status data');
         $content = file_get_contents($filepath);
@@ -125,4 +125,72 @@ class GenerateBackupTest extends TestCase
 
 
     }
+
+
+    public function testMediaBackup()
+    {
+
+        Config::set('microweber.allow_php_files_upload', true);
+        // Use a much higher number of steps to ensure all files are processed
+        $stepsNum = 5000;
+        $sessionId = SessionStepper::generateSessionId($stepsNum);
+
+
+        $originalFilesPath = userfiles_path();
+        //count the files in path
+
+        $originalFilesPathCount = 0;
+        //recursive iterator with same settings as in ZipBatchBackup class
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($originalFilesPath, \RecursiveDirectoryIterator::SKIP_DOTS)
+        );
+        foreach ($iterator as $file) {
+            if (!$file->isDir()) {
+                $originalFilesPathCount++;
+            }
+        }
+
+
+        for ($i = 0; $i <= $stepsNum; $i++) {
+            $backup = new Backup();
+            $backup->setSessionId($sessionId);
+            $backup->setBackupWithZip(true);
+            $backup->setBackupAllData(true);
+
+            $backup->setBackupTables(['content']);
+
+
+            $status = $backup->start();
+
+
+            if (isset($status['success'])) {
+                break;
+            }
+
+        }
+
+        $filepath = $status['data']['filepath'];
+
+        $this->assertNotNull($filepath, 'Filepath not found in status');
+        $this->assertTrue(is_file($filepath), 'File not found');
+
+        $zip = new \ZipArchive();
+        $zip->open($filepath);
+
+        //list
+
+        $allFiles = [];
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $allFiles[] = $zip->getNameIndex($i);
+        }
+        $this->assertNotEmpty($allFiles);
+
+        $this->assertEquals(
+            $originalFilesPathCount + 1,
+            count($allFiles),
+            'File count in backup zip should match expected count'
+        );
+
+    }
+
 }

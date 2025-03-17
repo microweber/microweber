@@ -3,14 +3,14 @@
 namespace Modules\Backup\Tests;
 
 use MicroweberPackages\Core\tests\TestCase;
-use Modules\Backup\GenerateBackup;
+
+use MicroweberPackages\User\Models\User;
+use Modules\Backup\Backup;
+use Modules\Backup\SessionStepper;
 use Modules\Content\Models\Content;
-use Modules\Export\Export;
-use Modules\Export\SessionStepper;
-use Modules\Import\DatabaseSave;
-use Modules\Multilanguage\tests\MultilanguageTest;
+
 use Modules\Post\Models\Post;
-use Modules\User\Models\User;
+use Modules\Restore\Restore;
 
 
 /**
@@ -71,12 +71,12 @@ class RestoreBackupTest extends TestCase
 
           //  echo "Step: #" . $i . PHP_EOL;
 
-            $backup = new GenerateBackup();
+            $backup = new  Backup();
             $backup->setSessionId($sessionId);
             //  $backup->setExportAllData(true);
-            $backup->setExportData('tables', $exportTableData);
-            $backup->setExportMedia(false);
-            $backup->setExportWithZip(true);
+            $backup->setBackupTables($exportTableData );
+            $backup->setBackupMedia(false);
+            $backup->setBackupWithZip(true);
             $backup->setAllowSkipTables(false);
 
             $backupStart = $backup->start();
@@ -106,7 +106,7 @@ class RestoreBackupTest extends TestCase
         // Restore
         $sessionId = SessionStepper::generateSessionId(1);
 
-        $restore = new \Modules\Backup\Restore();
+        $restore = new  Restore();
         $restore->setFile($exportedFile);
         $restore->setOvewriteById(true);
         $restore->setWriteOnDatabase(true);

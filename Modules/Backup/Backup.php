@@ -109,15 +109,21 @@ class Backup
         $backupWithZip = ($this->backupAllData ? true : false);
         $backupMediaUserFiles = ($this->backupAllData ? true : false);
 
-     /*   if (array_key_exists('media', $data)) {
-            $backupMediaUserFiles = true;
+        // If we're backing up all data, make sure media is included
+        if ($this->backupAllData) {
             $this->backupMedia = true;
-        }*/
+            $backupMediaUserFiles = true;
+        }
+
+        /*   if (array_key_exists('media', $data)) {
+               $backupMediaUserFiles = true;
+               $this->backupMedia = true;
+           }*/
 
         if (!empty($this->backupData['contentIds'])) {
             $this->backupMedia = true;
-			$backupMediaUserFiles = true;
-			$backupWithZip = true;
+            $backupMediaUserFiles = true;
+            $backupWithZip = true;
         }
 
         $exportedDataCacheId = 'exportedData' . $this->sessionId;
@@ -219,7 +225,7 @@ class Backup
             }
         }
 
-        if (isset($backup['files'])) {
+        if (  isset($backup['files'])) {
 
             $exportSingleFile = false;
 

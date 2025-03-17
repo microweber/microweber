@@ -24,20 +24,8 @@ class SessionStepper
     {
         self::$sessionId = $sessionId;
 
-        // Create the session file if it doesn't exist
         if (!is_file(self::sessionFilepath())) {
-            // Instead of throwing an exception, create the session file
-            file_put_contents(self::sessionFilepath(), json_encode([
-                'started_at' => date('Y-m-d H:i:s'),
-                'session_id' => $sessionId,
-                'total_steps' => 5, // Default value
-                'step' => 0,
-                'data' => [],
-            ]));
-            
-            if (!is_file(self::sessionFilepath())) {
-                throw new \Exception('Failed to create session file.');
-            }
+            throw new \Exception('Failed to create session file.');
         }
     }
 
