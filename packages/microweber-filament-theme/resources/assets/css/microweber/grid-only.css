@@ -1,3 +1,7 @@
+body {
+    background: red !important;
+}
+
 /*!
  * Bootstrap v5.0.1 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
@@ -17,21 +21,59 @@
     margin-inline-end: auto;
     margin-inline-start: auto; }
 
+@media (min-width: 480px) {
+    .container, .container-sm {
+        max-width: 480px;
+    }
+}
+
 @media (min-width: 576px) {
     .container, .container-sm {
-        max-width: 540px; } }
+        max-width: 540px;
+    }
+}
+
 @media (min-width: 768px) {
     .container, .container-sm, .container-md {
-        max-width: 720px; } }
+        max-width: 720px;
+    }
+}
+
 @media (min-width: 992px) {
     .container, .container-sm, .container-md, .container-lg {
-        max-width: 960px; } }
+        max-width: 960px;
+    }
+}
+
 @media (min-width: 1200px) {
     .container, .container-sm, .container-md, .container-lg, .container-xl {
-        max-width: 1140px; } }
+        max-width: 1140px;
+    }
+}
+
 @media (min-width: 1400px) {
     .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
-        max-width: 1320px; } }
+        max-width: 1320px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+        max-width: 1440px;
+    }
+}
+
+@media (min-width: 1800px) {
+    .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+        max-width: 1560px;
+    }
+}
+
+@media (min-width: 2000px) {
+    .container, .container-sm, .container-md, .container-lg, .container-xl, .container-xxl {
+        max-width: 1680px;
+    }
+}
 .row {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 0;
