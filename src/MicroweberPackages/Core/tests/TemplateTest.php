@@ -5,7 +5,7 @@ namespace MicroweberPackages\Core\tests;
 
 class TemplateTest extends TestCase
 {
-    public $template_name = 'default';
+    public $template_name = 'Bootstrap';
 
     public function testGetTemplateName()
     {

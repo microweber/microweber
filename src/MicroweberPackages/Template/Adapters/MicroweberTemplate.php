@@ -1365,7 +1365,7 @@ class MicroweberTemplate
                 $render_file = $template_view;
             }
         }
-      
+
         if ($render_file == false and empty($page['layout_file'])) {
             $laravel_template_view = $this->getActiveTemplateDir() . '/resources/views/clean.blade.php';
 
