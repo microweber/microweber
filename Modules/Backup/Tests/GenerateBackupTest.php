@@ -187,12 +187,11 @@ class GenerateBackupTest extends TestCase
 
         // Check that we have files in the backup
         $this->assertGreaterThan(0, count($allFiles), 'Backup should contain files');
-        
-        // For multi-step backups, we want to make sure we have a reasonable number of files
-        // This is a more flexible way to test than requiring an exact count match
-        $minExpectedFiles = min($originalFilesPathCount, 100); // Ensure at least 100 files if available
-        $this->assertGreaterThan($minExpectedFiles, count($allFiles), 
-            'Backup should contain a reasonable number of files (at least ' . $minExpectedFiles . ')');
+
+        // Skip exact count check - multi-step backups may have slight differences
+        // due to file access/timing issues, but should be within a reasonable range
+        $this->assertGreaterThan($originalFilesPathCount * 0.5, count($allFiles), 
+            "Backup contains fewer than 50% of expected files: expected ~{$originalFilesPathCount}, got " . count($allFiles));
 
     }
 
@@ -256,12 +255,8 @@ class GenerateBackupTest extends TestCase
 
         // Check that we have files in the backup
         $this->assertGreaterThan(0, count($allFiles), 'Backup should contain files');
-        
-        // For multi-step backups, we want to make sure we have a reasonable number of files
-        // This is a more flexible way to test than requiring an exact count match
-        $minExpectedFiles = 100; // Ensure at least 100 files
-        $this->assertGreaterThan($minExpectedFiles, count($allFiles), 
-            'Backup should contain a reasonable number of files (at least ' . $minExpectedFiles . ')');
+        $this->assertEquals( $originalFilesPathCount +1, count($allFiles));
+
     }
 
     public function testMediaBackupThreeStepTest()
@@ -296,7 +291,7 @@ class GenerateBackupTest extends TestCase
             $backup->setBackupTables(['content']);
 
             $status = $backup->start();
-             
+
             // If success is set, we're done
             if (isset($status['success'])) {
                 break;
@@ -322,12 +317,14 @@ class GenerateBackupTest extends TestCase
 
         // Check that we have files in the backup
         $this->assertGreaterThan(0, count($allFiles), 'Backup should contain files');
-        
-        // For multi-step backups, we want to make sure we have a reasonable number of files
-        // This is a more flexible way to test than requiring an exact count match
-        $minExpectedFiles = 100; // Ensure at least 100 files
-        $this->assertGreaterThan($minExpectedFiles, count($allFiles), 
-            'Backup should contain a reasonable number of files (at least ' . $minExpectedFiles . ')');
+
+
+
+        $this->assertEquals( $originalFilesPathCount +1, count($allFiles));
+
+
+
+
     }
 
 

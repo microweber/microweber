@@ -210,47 +210,28 @@ class Backup
             if ((isset($zipExportReady['done']) && $zipExportReady['done'] === true) || 
                 (isset($zipExportReady['data']) && !empty($zipExportReady['data']))) {
                 
-                // If we have a direct file download path already
+                // Handle different response formats consistently
                 if (isset($zipExportReady['download']) && !empty($zipExportReady['download'])) {
-                    // Delete unused ziped files
-                    array_map('unlink', glob("$exportCacheLocation/*.*"));
-                    rmdir($exportCacheLocation);
-
-                    return array(
+                    // Format 1: Direct properties at top level
+                    $result = array(
                         'success' => 'Items are exported',
                         'export_type' => $this->type,
                         'filepath' => $zipExportReady['filepath'],
                         'filename' => $zipExportReady['filename'],
                         'downloadUrl' => $zipExportReady['download'],
-                        'data' => $zipExportReady
+                        'data' => array(
+                            'filepath' => $zipExportReady['filepath'],
+                            'filename' => $zipExportReady['filename'],
+                            'download' => $zipExportReady['download']
+                        )
                     );
-                } 
-                // For single-step operations where data is returned directly
-                else if (isset($zipExportReady['data']) && 
-                        isset($zipExportReady['data']['filepath']) && 
-                        isset($zipExportReady['data']['filename']) && 
-                        (isset($zipExportReady['data']['download']) || isset($zipExportReady['data']['downloadUrl']))) {
-                    
-                    // Make sure to use the correct key for download URL
+                } else if (isset($zipExportReady['data']) && is_array($zipExportReady['data'])) {
+                    // Format 2: Properties inside data array
                     $downloadUrl = isset($zipExportReady['data']['downloadUrl']) ? 
                         $zipExportReady['data']['downloadUrl'] : 
-                        $zipExportReady['data']['download'];
+                        (isset($zipExportReady['data']['download']) ? $zipExportReady['data']['download'] : '');
                     
-                    // Make sure the file exists
-                    if (!is_file($zipExportReady['data']['filepath'])) {
-                        $this->logger->setLogInfo('Warning: Expected zip file not found at ' . $zipExportReady['data']['filepath']);
-                    }
-                    
-                    // Only delete cache if the file exists
-                    if (is_file($zipExportReady['data']['filepath']) && is_dir($exportCacheLocation)) {
-                        // Delete unused ziped files
-                        array_map('unlink', glob("$exportCacheLocation/*.*"));
-                        if (is_dir($exportCacheLocation)) {
-                            rmdir($exportCacheLocation);
-                        }
-                    }
-                    
-                    return array(
+                    $result = array(
                         'success' => 'Items are exported',
                         'export_type' => $this->type,
                         'filepath' => $zipExportReady['data']['filepath'],
@@ -258,7 +239,25 @@ class Backup
                         'downloadUrl' => $downloadUrl,
                         'data' => $zipExportReady['data']
                     );
+                } else {
+                    // Fallback for unexpected format
+                    $result = array(
+                        'success' => 'Items are exported',
+                        'export_type' => $this->type,
+                        'data' => $zipExportReady
+                    );
                 }
+                
+                // Clean up cache directory if backup was successful
+                if (isset($result['filepath']) && is_file($result['filepath']) && is_dir($exportCacheLocation)) {
+                    // Delete unused zipped files
+                    array_map('unlink', glob("$exportCacheLocation/*.*"));
+                    if (is_dir($exportCacheLocation)) {
+                        rmdir($exportCacheLocation);
+                    }
+                }
+                
+                return $result;
             }
             
             // For multi-step operations that are still in progress

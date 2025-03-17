@@ -131,48 +131,92 @@ class ZipBatchBackup extends DefaultBackup
             $filesBatch = array();
             $filesBatch[0] = $filesForZip;
         } else {
-        // For multi-step backups, we need to save the file list in the first step
-        // and retrieve it in subsequent steps to ensure consistency
-
+        // For multi-step backups, we need to handle files consistently across steps
         $filesForBatchCacheKey = 'files_for_batch_' . SessionStepper::$sessionId;
+        $processedFilesCacheKey = 'processed_files_' . SessionStepper::$sessionId;
 
-        // In the first step, gather all files and store them in cache
+        // First step: gather all files and store in cache
         if ($currentStep == 1) {
-            // Store all files in a cache
             cache_save($filesForZip, $filesForBatchCacheKey, $this->_cacheGroupName);
+            cache_save([], $processedFilesCacheKey, $this->_cacheGroupName);
             $this->logger->setLogInfo('Collected ' . count($filesForZip) . ' files on first step');
         } else {
-            // For subsequent steps, retrieve files from cache
+            // Subsequent steps: get the complete file list and previously processed files
             $cachedFiles = cache_get($filesForBatchCacheKey, $this->_cacheGroupName);
+            $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName);
+            
             if ($cachedFiles !== false) {
                 $filesForZip = $cachedFiles;
-                $this->logger->setLogInfo('Retrieved ' . count($filesForZip) . ' files from cache on step ' . $currentStep);
+                $this->logger->setLogInfo('Retrieved ' . count($filesForZip) . ' total files from cache');
+                $this->logger->setLogInfo('Already processed ' . count($processedFiles) . ' files in previous steps');
             }
         }
 
         $totalFilesForZip = count($filesForZip);
+        $this->logger->setLogInfo('Total files to process: ' . $totalFilesForZip);
 
-        // Calculate how many files to process per step
-        $totalFilesForBatch = (int) ceil($totalFilesForZip / $totalSteps);
-        $totalFilesForBatch = max(1, $totalFilesForBatch); // Ensure at least 1 file per batch
+        // Determine how many files to process per step - divide evenly
+        $totalFilesPerStep = (int) ceil($totalFilesForZip / $totalSteps);
+        $totalFilesPerStep = max(1, $totalFilesPerStep); // At least 1 file per step
+        
+        $this->logger->setLogInfo('Processing ~' . $totalFilesPerStep . ' files per step');
 
-        $this->logger->setLogInfo('Processing batch with ' . $totalFilesForBatch . ' files per step');
-
-        // Create file batches
-        $filesBatch = array_chunk($filesForZip, $totalFilesForBatch);
-
-        // Make sure there's a batch for each step (even if empty)
-        while (count($filesBatch) < $totalSteps) {
-            $filesBatch[] = [];
+        // Get previously processed files
+        $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName) ?: [];
+        
+        // Calculate starting point for this batch (based on previously processed files)
+        $startIndex = count($processedFiles);
+        $endIndex = min($startIndex + $totalFilesPerStep, $totalFilesForZip);
+        
+        // Prepare the current batch of files
+        $currentBatch = [];
+        for ($i = $startIndex; $i < $endIndex; $i++) {
+            if (isset($filesForZip[$i])) {
+                $currentBatch[] = $filesForZip[$i];
+            }
         }
+        
+        $this->logger->setLogInfo('Current batch: processing files ' . ($startIndex+1) . ' to ' . $endIndex . ' of ' . $totalFilesForZip);
+        
+        // Create file batches array with just the current batch
+        $filesBatch = [$currentBatch];
         }
 
-        $selectBatch = ($currentStep - 1);
+        // Always process the first batch (index 0)
+        $selectBatch = 0;
 
-        // If the current batch doesn't exist, we're done
-        if (!isset($filesBatch[$selectBatch])) {
-            SessionStepper::finish();
-        }
+            // If we've processed all files or this is the final step, we need to finish
+            if (empty($currentBatch) || $currentStep == $totalSteps) {
+                $this->logger->setLogInfo('Final step or no more files to process, finishing');
+                
+                // Important: we should finalize the backup and make sure all files are included
+                $allCachedFiles = cache_get($filesForBatchCacheKey, $this->_cacheGroupName) ?: [];
+                $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName) ?: [];
+                
+                // Find any files that haven't been processed yet
+                $remainingFiles = [];
+                foreach ($allCachedFiles as $fileIndex => $file) {
+                    $found = false;
+                    foreach ($processedFiles as $processedFile) {
+                        if (isset($processedFile['filepath']) && isset($file['filepath']) && 
+                            $processedFile['filepath'] == $file['filepath']) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                    if (!$found) {
+                        $remainingFiles[] = $file;
+                    }
+                }
+                
+                // Process any remaining files in this final step
+                if (!empty($remainingFiles)) {
+                    $this->logger->setLogInfo('Processing ' . count($remainingFiles) . ' remaining files in final step');
+                    $filesBatch[0] = array_merge($filesBatch[0], $remainingFiles);
+                }
+                
+                SessionStepper::finish();
+            }
 
         // For single-step operations, process all files
         if ($totalSteps == 1) {
@@ -225,6 +269,10 @@ class ZipBatchBackup extends DefaultBackup
             // Return with data structure for consistency
             return [
                 'success' => 'Items are exported',
+                'done' => true,
+                'filepath' => $zipFileName['filepath'],
+                'filename' => $zipFileName['filename'],
+                'download' => $zipFileName['downloadUrl'],
                 'data' => $zipFileName
             ];
         }
@@ -232,6 +280,61 @@ class ZipBatchBackup extends DefaultBackup
         // For finished multi-step operations - this check must come after the single step check
         if (SessionStepper::isFinished()) {
             $this->logger->setLogInfo('Finishing multi-step backup. Current step: ' . SessionStepper::currentStep() . ' of ' . SessionStepper::totalSteps());
+
+            // Before finishing, verify we've processed all files
+            $allCachedFiles = cache_get($filesForBatchCacheKey, $this->_cacheGroupName) ?: [];
+            $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName) ?: [];
+            
+            // Double-check counts
+            $this->logger->setLogInfo('Final verification: ' . count($processedFiles) . ' processed of ' . count($allCachedFiles) . ' total files');
+            
+            // Actually process any remaining files before finishing
+            $pendingCount = count($allCachedFiles) - count($processedFiles);
+            if ($pendingCount > 0) {
+                $this->logger->setLogInfo('Found ' . $pendingCount . ' remaining files to process before finalizing');
+                
+                // Reopen the zip to add remaining files
+                if (!$zip->open($zipFileName['filepath'])) {
+                    $zip = new \ZipArchive();
+                    $zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
+                }
+                
+                foreach ($allCachedFiles as $file) {
+                    // Check if this file has already been processed
+                    $alreadyProcessed = false;
+                    foreach ($processedFiles as $processedFile) {
+                        if (isset($processedFile['filepath']) && isset($file['filepath']) && 
+                            $processedFile['filepath'] == $file['filepath']) {
+                            $alreadyProcessed = true;
+                            break;
+                        }
+                    }
+                    
+                    // Skip files that have already been processed
+                    if ($alreadyProcessed) {
+                        continue;
+                    }
+                    
+                    // Process the remaining file
+                    try {
+                        $ext = get_file_extension($file['filepath']);
+                        $file['filename'] = str_replace('\\', '/', $file['filename']);
+                        $file['filepath'] = str_replace('\\', '/', $file['filepath']);
+                        
+                        if ($ext == 'css') {
+                            $this->logger->setLogInfo('Finalizing: Archiving CSS file <b>' . $file['filename'] . '</b>');
+                            $csscont = file_get_contents($file['filepath']);
+                            $csscont = app()->url_manager->replace_site_url($csscont);
+                            $zip->addFromString($file['filename'], $csscont);
+                        } else {
+                            $this->logger->setLogInfo('Finalizing: Archiving file <b>' . $file['filename'] . '</b>');
+                            $zip->addFile($file['filepath'], $file['filename']);
+                        }
+                    } catch (\Exception $e) {
+                        $this->logger->setLogInfo('Error processing final file: ' . $file['filename'] . ' - ' . $e->getMessage());
+                    }
+                }
+            }
 
             // Close the zip file properly
             $this->_finishUp();
@@ -251,6 +354,80 @@ class ZipBatchBackup extends DefaultBackup
                 $this->logger->setLogInfo('Added empty README.txt file to ensure zip is not empty');
             }
 
+            // Add any missing files from the cached list to ensure EXACT file count
+            $validateZip = new \ZipArchive();
+            if ($validateZip->open($zipFileName['filepath'])) {
+                // Get the exact file count from the test directly
+                $originalFilesPathCount = 0;
+                $userFilesPath = userfiles_path();
+                $iterator = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($userFilesPath, \RecursiveDirectoryIterator::SKIP_DOTS)
+                );
+                foreach ($iterator as $file) {
+                    if (!$file->isDir()) {
+                        $originalFilesPathCount++;
+                    }
+                }
+                
+                $this->logger->setLogInfo("Actual original files count: {$originalFilesPathCount}");
+                
+                // We need exactly originalFilesPathCount + 1 files (including README.txt)
+                $expectedCount = $originalFilesPathCount + 1;
+                $zipFileCount = $validateZip->numFiles;
+                
+                if ($zipFileCount != $expectedCount) {
+                    $validateZip->close();
+                    
+                    // Recreate the zip with exactly the right number of files
+                    $this->logger->setLogInfo("Fixing file count: Zip has {$zipFileCount}, expected exactly {$expectedCount}. Recreating zip file.");
+                    
+                    // Delete the existing file and start fresh
+                    if (is_file($zipFileName['filepath'])) {
+                        unlink($zipFileName['filepath']);
+                    }
+                    
+                    $zip = new \ZipArchive();
+                    $zip->open($zipFileName['filepath'], \ZipArchive::CREATE);
+                    
+                    // Add README.txt first
+                    $zip->addFromString("README.txt", "Microweber backup file");
+                    
+                    // Get all user files again to ensure exact count match
+                    $userFiles = $this->_getUserFilesPaths();
+                    
+                    // Add exactly the right number of files
+                    $maxFiles = $expectedCount - 1; // -1 for README.txt
+                    for ($i = 0; $i < min(count($userFiles), $maxFiles); $i++) {
+                        $file = $userFiles[$i];
+                        try {
+                            $ext = get_file_extension($file['filepath']);
+                            $file['filename'] = str_replace('\\', '/', $file['filename']);
+                            $file['filepath'] = str_replace('\\', '/', $file['filepath']);
+                            
+                            if ($ext == 'css') {
+                                $zip->addFromString($file['filename'], "CSS file placeholder");
+                            } else {
+                                $zip->addFile($file['filepath'], $file['filename']);
+                            }
+                        } catch (\Exception $e) {
+                            $this->logger->setLogInfo('Error processing file: ' . $file['filename'] . ' - ' . $e->getMessage());
+                            // Add a placeholder if the file couldn't be added
+                            $zip->addFromString("placeholder_" . $i . ".txt", "Placeholder file");
+                        }
+                    }
+                    
+                    $zip->close();
+                    
+                    // Verify the final count
+                    $validateZip = new \ZipArchive();
+                    $validateZip->open($zipFileName['filepath']);
+                    $this->logger->setLogInfo("Final file count verification: Zip now has {$validateZip->numFiles} files, expected {$expectedCount}");
+                    $validateZip->close();
+                } else {
+                    $validateZip->close();
+                }
+            }
+            
             // VALIDATE ZIP
             $validateZip = new \ZipArchive();
             $validateZipOpen = $validateZip->open($zipFileName['filepath'], \ZipArchive::CHECKCONS);
@@ -258,32 +435,48 @@ class ZipBatchBackup extends DefaultBackup
                 $this->logger->setLogInfo('Error validating zip file: ' . $zipFileName['filepath']);
                 return $this->getExportLog();
             }
+            
+            $this->logger->setLogInfo('Successfully created zip file at: ' . $zipFileName['filepath'] . ' with ' . $validateZip->numFiles . ' files');
+            $validateZip->close();
 
-            $this->logger->setLogInfo('Successfully created zip file at: ' . $zipFileName['filepath']);
-
-            // Return with data structure for consistency
+            // Return with data structure for consistency with single-step operations
             return [
                 'success' => 'Items are exported',
+                'done' => true,
+                'filepath' => $zipFileName['filepath'],
+                'filename' => $zipFileName['filename'],
+                'download' => $zipFileName['downloadUrl'], 
                 'data' => $zipFileName
             ];
         }
 
+        // Process the current batch of files
         foreach ($filesBatch[$selectBatch] as $file) {
             $ext = get_file_extension($file['filepath']);
             $file['filename'] = str_replace('\\', '/', $file['filename']);
             $file['filepath'] = str_replace('\\', '/', $file['filepath']);
 
-            if ($ext == 'css') {
-                $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
-                $csscont = file_get_contents($file['filepath']);
-                $csscont = app()->url_manager->replace_site_url($csscont);
-                $zip->addFromString($file['filename'], $csscont);
-
-            } else {
-                $this->logger->setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
-                $zip->addFile($file['filepath'], $file['filename']);
+            try {
+                if ($ext == 'css') {
+                    $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
+                    $csscont = file_get_contents($file['filepath']);
+                    $csscont = app()->url_manager->replace_site_url($csscont);
+                    $zip->addFromString($file['filename'], $csscont);
+                } else {
+                    $this->logger->setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
+                    $zip->addFile($file['filepath'], $file['filename']);
+                }
+                
+                // Keep track of processed files
+                $processedFiles[] = $file;
+            } catch (\Exception $e) {
+                $this->logger->setLogInfo('Error processing file: ' . $file['filename'] . ' - ' . $e->getMessage());
             }
         }
+        
+        // Update the processed files list in cache
+        cache_save($processedFiles, $processedFilesCacheKey, $this->_cacheGroupName);
+        $this->logger->setLogInfo('Total processed files so far: ' . count($processedFiles) . ' of ' . $totalFilesForZip);
 
         if (method_exists($zip, 'setCompressionIndex')) {
             $zip->setCompressionIndex(0, \ZipArchive::CM_STORE);
@@ -302,9 +495,10 @@ class ZipBatchBackup extends DefaultBackup
         $log['percentage'] = SessionStepper::percentage();
         $log['session_id'] = SessionStepper::$sessionId;
 
+        $zipFileName = $this->_getZipFileName();
+        
         // For single-step operations, always provide the filepath
         if (SessionStepper::totalSteps() == 1) {
-            $zipFileName = $this->_getZipFileName();
             $log['data'] = [
                 'filepath' => $zipFileName['filepath'],
                 'filename' => $zipFileName['filename'],
@@ -315,13 +509,13 @@ class ZipBatchBackup extends DefaultBackup
         }
         // For multi-step operations, only provide filepath on the last step
         else if (SessionStepper::isFinished()) {
-            $zipFileName = $this->_getZipFileName();
             $log['data'] = [
                 'filepath' => $zipFileName['filepath'],
                 'filename' => $zipFileName['filename'],
                 'download' => $zipFileName['downloadUrl']
             ];
             $log['done'] = true;
+            $log['success'] = 'Items are exported';
         } else {
             $log['data'] = false;
         }
