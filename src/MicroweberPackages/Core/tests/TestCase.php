@@ -56,21 +56,33 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 //            $this->install();
 //        }
 
+
+
+    //    $installed=  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
+
+
+       // dd(config('microweber.is_installed'));
+      //  $installed = $_ENV['MW_IS_INSTALLED'] ?? false;
+
+//dd($_ENV,$installed);
+
+         parent::setUp();
+
+//        if (!$installed) {
+//            $this->install();
+//        }
+    }
+    protected function setUpTheTestEnvironment(): void
+    {
+        parent::setUpTheTestEnvironment();
+        $installed=  \Illuminate\Support\Env::getRepository()->get('MW_IS_INSTALLED');
         if (!defined('MW_UNIT_TEST')) {
             define('MW_UNIT_TEST', true);
         }
-       // dd(config('microweber.is_installed'));
-        $installed = $_ENV['MW_IS_INSTALLED'] ?? false;
         if (!$installed) {
-         $this->install();
-          }
-
-
-        parent::setUp();
-
-
+            $this->install();
+        }
     }
-
 
     public function install()
     {
