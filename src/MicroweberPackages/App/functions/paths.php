@@ -96,7 +96,7 @@ function templates_dir()
 }
 
 /**
- * @deprecated Use templates_dir() instead.
+ * @alias Use templates_dir() instead.
  */
 function templates_path()
 {

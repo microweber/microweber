@@ -29,7 +29,7 @@ jobs:
           coverage: xdebug
 
       - name: Install Dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
+        run: composer install
 
       - name: Npm install
         uses: actions/setup-node@v3

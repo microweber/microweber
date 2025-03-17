@@ -56,10 +56,14 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 //            $this->install();
 //        }
 
-
-        // if (!$installed) {
-        //$this->install();
-        // }
+        if (!defined('MW_UNIT_TEST')) {
+            define('MW_UNIT_TEST', true);
+        }
+       // dd(config('microweber.is_installed'));
+        $installed = $_ENV['MW_IS_INSTALLED'] ?? false;
+        if (!$installed) {
+         $this->install();
+          }
 
 
         parent::setUp();
@@ -74,9 +78,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         ini_set('memory_limit', '4024M');
         ini_set('max_execution_time', '3000');
 
-        if (!defined('MW_UNIT_TEST')) {
-            define('MW_UNIT_TEST', true);
-        }
+
 
         //    \Illuminate\Support\Env::getRepository()->set('APP_ENV', 'testing');
 
@@ -228,6 +230,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
             $output->setDecorated(false);
             $install = Artisan::call('microweber:install', $install_params, $output);
             $outputString = $output->fetch();
+
             $this->assertEquals(0, $install);
             $this->assertStringContainsString('Environment: testing', $outputString);
             $this->assertStringContainsString('done', $outputString);
@@ -262,7 +265,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         //  $this->app = $app;
         return $app;
     }
-
+/*
     public static function setUpBeforeClass(): void
     {
 
@@ -276,7 +279,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         parent::setUpBeforeClass();
 
-    }
+    }*/
 
 
     private function normalizePath($path, $slash_it = true)

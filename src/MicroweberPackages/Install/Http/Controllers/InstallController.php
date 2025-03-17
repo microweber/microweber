@@ -253,10 +253,10 @@ class InstallController extends Controller
                 if (isset($input['db_name_sqlite'])) {
                     $input['db_name'] = $input['db_name_sqlite'];
                     $input['db_name'] = str_replace(':.', '.', $input['db_name']);
-                }else  if (isset($input['db_host'])) {
+                } else if (isset($input['db_host'])) {
                     $input['db_name'] = $input['db_host'];
                     $input['db_name'] = str_replace(':.', '.', $input['db_host']);
-              // unset($input['db_host']);
+                    // unset($input['db_host']);
                 }
                 $input['db_name'] = str_replace('\\', '/', $input['db_name']);
 
@@ -297,7 +297,7 @@ class InstallController extends Controller
 
 
             $envToSave['DB_CONNECTION'] = $dbDriver;
-            if(isset($input['db_host'])) {
+            if (isset($input['db_host'])) {
                 $envToSave['DB_HOST'] = $input['db_host'];
             }
             if ($dbDriver != 'sqlite') {
@@ -310,19 +310,19 @@ class InstallController extends Controller
             $envToSave['DB_PASSWORD'] = $input['db_password'];
             $envToSave['DB_PREFIX'] = $input['db_prefix'];
 
-            if(isset($input['db_host'])) {
+            if (isset($input['db_host'])) {
                 Config::set("database.connections.$dbDriver.host", $input['db_host']);
             }
-            if(isset($input['db_username'])) {
+            if (isset($input['db_username'])) {
                 Config::set("database.connections.$dbDriver.username", $input['db_username']);
             }
-            if(isset($input['db_password'])) {
+            if (isset($input['db_password'])) {
                 Config::set("database.connections.$dbDriver.password", $input['db_password']);
             }
-            if(isset($input['db_name'])) {
+            if (isset($input['db_name'])) {
                 Config::set("database.connections.$dbDriver.database", $input['db_name']);
             }
-            if(isset($input['db_prefix'])) {
+            if (isset($input['db_prefix'])) {
                 Config::set("database.connections.$dbDriver.prefix", $input['db_prefix']);
             }
 
@@ -410,8 +410,8 @@ class InstallController extends Controller
 
             if ($save_to_config) {
                 //legacy
-            //    $this->log('Saving config');
-            //    Config::save($allowed_configs);
+                //    $this->log('Saving config');
+                //    Config::save($allowed_configs);
             }
 //            if ($save_to_env) {
 //                $this->log('Saving env');
@@ -421,7 +421,7 @@ class InstallController extends Controller
 //                    }
 //                }
 //
-            $this->saveEnvValues($envToSave);
+            //     $this->saveEnvValues($envToSave);
 //                try {
 //                    Artisan::call('optimize:clear');
 //                } catch (\Exception $e) {
@@ -480,7 +480,7 @@ class InstallController extends Controller
                     Artisan::call('migrate', ['--force' => true], $output);
                     $this->log($output->fetch());
 
-              $this->log('Running install of laravel modules');
+                    $this->log('Running install of laravel modules');
                     app()->module_manager->reload_laravel_modules();
                     $this->log('Running install of laravel templates');
                     app()->module_manager->reload_laravel_templates();
@@ -537,16 +537,14 @@ class InstallController extends Controller
 
                 if (!$install_step or $install_step == 3) {
 
-/*
-                    $this->log('Setting up modules');
-                    $installer = new Install\ModulesInstaller();
-                    $installer->logger = $this;
-                    $installer->run();*/
+                    /*
+                                        $this->log('Setting up modules');
+                                        $installer = new Install\ModulesInstaller();
+                                        $installer->logger = $this;
+                                        $installer->run();*/
                 }
 
                 if (!$install_step or $install_step == 4) {
-
-
 
 
                     $this->log('Setting up template');
@@ -562,7 +560,7 @@ class InstallController extends Controller
                         $installer->setInstallDefaultContent($input['with_default_content']);
                     }
 
-                   // $installer->logger = $this;
+                    // $installer->logger = $this;
                     $installer->run();
                 }
 
@@ -576,10 +574,10 @@ class InstallController extends Controller
                 }
 
                 if (!$install_step or $install_step == 6) {
-             /*       $this->log('Setting up modules after template install');
-                    $installer = new Install\ModulesInstaller();
-                    $installer->logger = $this;
-                    $installer->run();*/
+                    /*       $this->log('Setting up modules after template install');
+                           $installer = new Install\ModulesInstaller();
+                           $installer->logger = $this;
+                           $installer->run();*/
 
 
                 }
@@ -595,10 +593,10 @@ class InstallController extends Controller
                         if (defined('TEMPLATE_DIR')) {
 //                            app()->template_manager->boot_template();
                         }
-              /*          $this->log('Running migrations after install for template' . $selected_template);
-                        $installer = new Install\DbInstaller();
-                        $installer->logger = $this;
-                        $installer->createSchema();*/
+                        /*          $this->log('Running migrations after install for template' . $selected_template);
+                                  $installer = new Install\DbInstaller();
+                                  $installer->logger = $this;
+                                  $installer->createSchema();*/
 
 
 //                         language is moved to json files and does not require install anymore
@@ -610,13 +608,11 @@ class InstallController extends Controller
                     // load all providers and run migrations
                     // legacy
                     //load_all_functions_files_for_modules();
-                   // load_all_service_providers_for_modules();
-                   // load_functions_files_for_template();
-                   // load_service_providers_for_template();
+                    // load_all_service_providers_for_modules();
+                    // load_functions_files_for_template();
+                    // load_service_providers_for_template();
 
                     $migrator = app()->mw_migrator->run(app()->migrator->paths());
-
-
 
 
 //                    app()->module_manager->logger = $this;
@@ -690,7 +686,16 @@ class InstallController extends Controller
 
                 if ($save_to_env) {
                     if (!$install_step or $install_step == 7) {
-                        $this->saveEnvValues($envToSave);
+                        if (!defined('MW_UNIT_TEST')) {
+                            // artisan restarts the server on env save, so we save it on terminating
+                            app()->terminating(function () use ($envToSave) {
+                                $this->saveEnvValues($envToSave);
+                            });
+                        } else {
+                            // the unit test needs the env saved as the terminating occur too late on the testing
+                            $this->saveEnvValues($envToSave);
+                        }
+
                     }
                 }
 
@@ -702,7 +707,7 @@ class InstallController extends Controller
             }
             // if (!is_cli() and isset($admin_user_id)) {
             if (isset($admin_user_id) and $admin_user_id) {
-                if(!$is_cli_install) {
+                if (!$is_cli_install) {
                     mw()->user_manager->make_logged($admin_user_id, true);
                 }
             }
@@ -858,59 +863,41 @@ class InstallController extends Controller
     {
         $envFile = app()->environmentFilePath();
 
-        app()->terminating(function () use ($values, $envFile) {
-            // Read existing .env content
-            $content = file_get_contents($envFile);
-            if ($content === false) {
-                return false;
+
+        // Read existing .env content
+        $content = file_get_contents($envFile);
+        if ($content === false) {
+            return false;
+        }
+
+        // Split into lines
+        $lines = preg_split('/\r\n|\r|\n/', $content);
+        $newLines = [];
+        $existingKeys = [];
+
+        // Process existing lines
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line) || strpos($line, '#') === 0) {
+                $newLines[] = $line;
+                continue;
             }
 
-            // Split into lines
-            $lines = preg_split('/\r\n|\r|\n/', $content);
-            $newLines = [];
-            $existingKeys = [];
+            if (strpos($line, '=') !== false) {
+                list($key) = explode('=', $line, 2);
+                $key = trim($key);
 
-            // Process existing lines
-            foreach ($lines as $line) {
-                $line = trim($line);
-                if (empty($line) || strpos($line, '#') === 0) {
-                    $newLines[] = $line;
-                    continue;
+                // First, check if we've already processed this key
+                if (isset($existingKeys[$key]) and isset($values[$key])) {
+                    continue; // Skip all duplicates after the first occurrence
                 }
 
-                if (strpos($line, '=') !== false) {
-                    list($key) = explode('=', $line, 2);
-                    $key = trim($key);
+                // If this key is one we're updating, add the new value
+                if (isset($values[$key])) {
+                    $existingKeys[$key] = true;
+                    $value = $values[$key];
 
-                    // Skip if this is a duplicate key that we're going to update
-                    if (isset($values[$key])) {
-                        if (isset($existingKeys[$key])) {
-                            continue; // Skip duplicate
-                        }
-                        $existingKeys[$key] = true;
-                        $value = $values[$key];
-
-                        // Handle special characters
-                        if (strpos($value, ' ') !== false ||
-                            strpos($value, '#') !== false ||
-                            strpos($value, '"') !== false ||
-                            strpos($value, "'") !== false) {
-                            $value = '"' . str_replace('"', '\\"', $value) . '"';
-                        }
-
-                        $newLines[] = "{$key}={$value}";
-                    } else {
-                        $newLines[] = $line;
-                    }
-                } else {
-                    $newLines[] = $line;
-                }
-            }
-
-            // Add any new values that weren't in the original file
-            foreach ($values as $key => $value) {
-                if (!isset($existingKeys[$key])) {
-                    // Handle special characters for new values
+                    // Handle special characters
                     if (strpos($value, ' ') !== false ||
                         strpos($value, '#') !== false ||
                         strpos($value, '"') !== false ||
@@ -918,25 +905,52 @@ class InstallController extends Controller
                         $value = '"' . str_replace('"', '\\"', $value) . '"';
                     }
 
-                    $newLines[] = "{$key}={$value}";
+                    // Only add non-empty values
+                    if (!empty($value)) {
+                        $newLines[] = "{$key}={$value}";
+                    } else {
+                        // If value is empty but we need to maintain the key with empty value
+                        // $newLines[] = "{$key}=";
+                    }
+                } else {
+                    $existingKeys[$key] = true;
+                     $newLines[] = $line;
                 }
+            } else {
+               // $newLines[] = $line;
             }
+        }
 
-            // Remove empty lines at the end
-            while (!empty($newLines) && empty(trim(end($newLines)))) {
-                array_pop($newLines);
-            }
-
-            // Ensure single newline at the end
-            $newContent = implode("\n", $newLines) . "\n";
-
-            // Only write if content has changed
-            if ($content !== $newContent) {
-                if (!file_put_contents($envFile, $newContent)) {
-                    return false;
+        // Add any new values that weren't in the original file
+        foreach ($values as $key => $value) {
+            if (!isset($existingKeys[$key])) {
+                // Handle special characters for new values
+                if (strpos($value, ' ') !== false ||
+                    strpos($value, '#') !== false ||
+                    strpos($value, '"') !== false ||
+                    strpos($value, "'") !== false) {
+                    $value = '"' . str_replace('"', '\\"', $value) . '"';
                 }
+
+                $newLines[] = "{$key}={$value}";
             }
-        });
+        }
+
+        // Remove empty lines at the end
+        while (!empty($newLines) && empty(trim(end($newLines)))) {
+            array_pop($newLines);
+        }
+
+        // Ensure single newline at the end
+        $newContent = implode("\n", $newLines) . "\n";
+
+        // Only write if content has changed
+        if ($content !== $newContent) {
+            if (!file_put_contents($envFile, $newContent)) {
+                return false;
+            }
+        }
+
 
         return true;
     }
