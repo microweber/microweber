@@ -250,10 +250,10 @@ class InstallController extends Controller
 
             Config::set('database.default', $dbDriver);
             if ($dbDriver == 'sqlite') {
-                if (isset($input['db_name_sqlite'])) {
+                if (isset($input['db_name_sqlite']) and $input['db_name_sqlite']) {
                     $input['db_name'] = $input['db_name_sqlite'];
                     $input['db_name'] = str_replace(':.', '.', $input['db_name']);
-                } else if (isset($input['db_host'])) {
+                } else if (isset($input['db_host']) and $input['db_host']) {
                     $input['db_name'] = $input['db_host'];
                     $input['db_name'] = str_replace(':.', '.', $input['db_host']);
                     // unset($input['db_host']);
@@ -421,7 +421,9 @@ class InstallController extends Controller
 //                    }
 //                }
 //
-            //     $this->saveEnvValues($envToSave);
+
+
+         //    $this->saveEnvValues($envToSave);
 //                try {
 //                    Artisan::call('optimize:clear');
 //                } catch (\Exception $e) {

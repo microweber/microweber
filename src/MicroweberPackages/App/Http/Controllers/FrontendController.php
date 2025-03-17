@@ -958,7 +958,6 @@ class FrontendController extends Controller
 //            $render_file = $this->app->template_manager->get_layout($content);
 //        }
 
-
         $render_file = $this->app->template_manager->get_layout($content);
 
        // $render_file = $this->app->template_manager->get_layout($content);

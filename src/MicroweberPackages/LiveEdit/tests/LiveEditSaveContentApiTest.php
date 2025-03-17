@@ -102,6 +102,7 @@ class LiveEditSaveContentApiTest extends TestCase
         $params = [];
         $params['content_id'] = $saved_id;
         $page = app()->content_manager->get_by_id($saved_id);
+
         $this->assertNotEmpty($page);
 
         $frontRender = new FrontendController();
