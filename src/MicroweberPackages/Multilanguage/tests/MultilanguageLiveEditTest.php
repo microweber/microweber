@@ -2,6 +2,7 @@
 namespace MicroweberPackages\Multilanguage\tests;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use MicroweberPackages\User\Models\User;
 use Modules\Page\Models\Page;
@@ -30,8 +31,11 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
         save_option('language','en_US', 'website');
 
+        $getSupportedLocalesQuery = DB::table('multilanguage_supported_locales')->get();
+
         $activeLanguages = get_supported_languages(true);
         $this->assertNotEmpty($activeLanguages);
+        $this->assertNotEmpty($getSupportedLocalesQuery);
 
         $user = User::where('is_admin', '=', '1')->first();
         Auth::login($user);

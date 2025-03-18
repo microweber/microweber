@@ -2,7 +2,9 @@
 
 namespace MicroweberPackages\Template\Http\Livewire\Admin;
 
-use MicroweberPackages\Marketplace\Http\Livewire\Admin\MarketplaceItemModal;
+
+
+use Modules\Marketplace\Livewire\Admin\MarketplaceItemModal;
 
 class AdminTemplateUpdateModal extends MarketplaceItemModal
 {
