@@ -19,7 +19,9 @@ class SaveOptionApiController
         ]
     ];
 
-    public $whitelistedModulesKeys = [];
+    public $whitelistedModulesKeys = [
+        'video' => ['embed_url']
+    ];
 
     public function __construct()
     {

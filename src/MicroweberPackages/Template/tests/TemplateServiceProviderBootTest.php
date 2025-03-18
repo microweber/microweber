@@ -12,14 +12,14 @@ use MicroweberPackages\User\Models\User;
 use PHPUnit\Framework\Attributes\PreserveGlobalState;
 use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Templates\Bootstrap\Providers\BootstrapServiceProvider;
 
-#[RunTestsInSeparateProcesses]
+
 class TemplateServiceProviderBootTest extends TestCase
 {
-    public $template_name = 'big';
+    public $template_name = 'Bootstrap5';
 
-    #[PreserveGlobalState(false)]
-    #[RunInSeparateProcess]
+
     public function testTemplateServiceProviderIsLoaded()
     {
 
@@ -53,7 +53,7 @@ class TemplateServiceProviderBootTest extends TestCase
         app()->content_manager->define_constants(['id' => $newCleanPageId]);
         app()->template_manager->boot_template();
         $this->assertEquals($templateName, app()->template_manager->folder_name());
-        $expected = 'MicroweberPackages\Template\Big\TemplateServiceProvider';
+        $expected = BootstrapServiceProvider::class;
         $this->assertNotEmpty(app()->getProviders($expected));
         $found = false;
         $loaded = app()->getLoadedProviders();
@@ -64,14 +64,6 @@ class TemplateServiceProviderBootTest extends TestCase
         }
         $this->assertTrue($found);
 
-        $installer = new DbInstaller();
-         $installer->createSchema();
-
-
-        // check for migration in db table
-        $files = ['2021_08_24_132521_update_new_world_template_edit_field_names','2021_03_04_000001_update_template_edit_field_names'];
-        $check = DB::table('migrations')->whereIn('migration', $files)->first();
-        $this->assertNotEmpty($check);
      }
 
 

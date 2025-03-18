@@ -60,8 +60,15 @@ class BootstrapTemplateLayoutTest extends TestCase
             'is_home' => 1,
             'is_active' => 1,
         ]);
+        $content = get_content_by_id($newCleanPageId);
+        $this->assertEquals('page', $content['content_type']);
+        $this->assertEquals($templateName, $content['active_site_template']);
+        $this->assertEquals($content['is_home'], 1);
+        $this->assertEquals($content['is_active'], 1);
+
 
         $template_render_file = app()->template_manager->get_layout(['id' => $newCleanPageId]);
+
         $this->assertTrue(str_ends_with($template_render_file, 'index.blade.php'));
     }
 
