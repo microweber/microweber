@@ -560,7 +560,7 @@ class FrontendController extends Controller
                     $page_url = $preview_module;
                 }
                 if ($the_active_site_template == false or $the_active_site_template == '') {
-                    $the_active_site_template = 'default';
+                    $the_active_site_template = app()->template_manager->name();
                 }
 
                 if ($page_exact == false and $found_mod == false and $this->app->module_manager->is_installed($page_url) and $page_url != 'settings' and $page_url != 'admin') {

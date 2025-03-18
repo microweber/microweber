@@ -219,7 +219,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 }
 
             }
-
+            $template_name = 'Bootstrap';
             // make fresh install
             $install_params = array(
                 '--username' => 'test' . uniqid(),
@@ -230,6 +230,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 '--db-username' => $db_user,
                 '--db-password' => $db_pass,
                 '--db-name' => $db_name,
+                '--template' => $template_name,
                 //  '--db-prefix' => $db_prefix,
                 //  '--db-name' => ':memory:',
                 '--env' => $environment,

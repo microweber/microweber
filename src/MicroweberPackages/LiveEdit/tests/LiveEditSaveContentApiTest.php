@@ -52,7 +52,7 @@ class LiveEditSaveContentApiTest extends TestCase
         $newCleanPage = save_content([
             'subtype' => 'static',
             'content_type' => 'page',
-             'title' => 'LiveEditPage',
+            'title' => 'LiveEditPage',
             'url' => 'liveedittestsavetest',
 
             'is_active' => 1,
@@ -106,10 +106,8 @@ class LiveEditSaveContentApiTest extends TestCase
         $this->assertNotEmpty($page);
 
 
-
         $render_file = app()->template_manager->get_layout($page);
-
-        dd($render_file);
+        $this->assertTrue(str_contains($render_file, 'clean.'));
 
 
         $frontRender = new FrontendController();

@@ -67,7 +67,7 @@ class RestoreBackupTest extends TestCase
 
         $sessionId = SessionStepper::generateSessionId(4);
 
-        for ($i = 1; $i <= 3; $i++) {
+        for ($i = 0; $i <=4; $i++) {
 
           //  echo "Step: #" . $i . PHP_EOL;
 

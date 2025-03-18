@@ -244,13 +244,13 @@ class Restore
                 $this->log($successMessages);
                 return array(
                     'success' => $successMessages,
-                    'imoport_type' => $this->type,
+                    'import_type' => $this->type,
                     'data' => $readedData
                 );
             }
         }
 
-        $formatNotSupported = 'Restore format not supported';
+        $formatNotSupported = 'Restore format not supported ' . $this->type;
         $this->log($formatNotSupported);
 
         throw new \Exception($formatNotSupported);

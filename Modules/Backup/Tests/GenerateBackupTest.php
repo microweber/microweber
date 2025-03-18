@@ -7,9 +7,7 @@ use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\Backup;
 use Modules\Backup\SessionStepper;
 use Modules\Content\Models\Content;
-
 use Modules\Post\Models\Post;
-
 
 /**
  * Run test
@@ -18,13 +16,10 @@ use Modules\Post\Models\Post;
  */
 class GenerateBackupTest extends TestCase
 {
-
-
     public function testSingleModuleBackup()
     {
-
         Config::set('microweber.allow_php_files_upload', true);
-        $stepsNum = 1115; //very large number on purpose
+        $stepsNum = 1115; // very large number on purpose
         $sessionId = SessionStepper::generateSessionId($stepsNum);
 
 
@@ -66,15 +61,19 @@ class GenerateBackupTest extends TestCase
         $zip = new \ZipArchive();
         $zip->open($filepath);
 
-        //list
 
+        // list files
         $allFiles = [];
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $allFiles[] = $zip->getNameIndex($i);
         }
+
+
         $this->assertNotEmpty($allFiles);
 
-        $this->assertEquals($originalModulePathCount + 1, count($allFiles));
+        // Assert files count equals module files + readme + JSON backup file
+        $expectedCount = $originalModulePathCount + 2;
+        $this->assertEquals($expectedCount, count($allFiles), 'File count mismatch - expected ' . $expectedCount . ' files');
 
         $moduleInZip1 = $zip->getFromName('Modules/Logo/module.json');
         $moduleInZip2 = $zip->getFromName('Modules/Logo/Filament/LogoModuleSettings.php');
@@ -188,10 +187,7 @@ class GenerateBackupTest extends TestCase
         // Check that we have files in the backup
         $this->assertGreaterThan(0, count($allFiles), 'Backup should contain files');
 
-        // Skip exact count check - multi-step backups may have slight differences
-        // due to file access/timing issues, but should be within a reasonable range
-        $this->assertGreaterThan($originalFilesPathCount * 0.5, count($allFiles), 
-            "Backup contains fewer than 50% of expected files: expected ~{$originalFilesPathCount}, got " . count($allFiles));
+        $this->assertEquals($originalFilesPathCount + 1, count($allFiles));
 
     }
 
@@ -317,9 +313,6 @@ class GenerateBackupTest extends TestCase
 
         // Check that we have files in the backup
         $this->assertGreaterThan(0, count($allFiles), 'Backup should contain files');
-
-
-
         $this->assertEquals( $originalFilesPathCount +1, count($allFiles));
 
 

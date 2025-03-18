@@ -343,148 +343,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         return array('success' => 'Content is moved');
     }
 
-    public function create_default_content($what)
-    {
-        if (defined('MW_NO_DEFAULT_CONTENT')) {
-            return true;
-        }
-
-        switch ($what) {
-            case 'shop' :
-                $is_shop = $this->get('content_type=page&is_shop=0');
-                //$is_shop = false;
-                $new_shop = false;
-                if ($is_shop == false) {
-                    $add_page = array();
-                    $add_page['id'] = 0;
-                    $add_page['parent'] = 0;
-                    $add_page['is_active'] = 1;
-
-                    $add_page['title'] = _e('Online shop', true);
-                    $add_page['url'] = 'shop';
-                    $add_page['content_type'] = 'page';
-                    $add_page['subtype'] = 'dynamic';
-                    $add_page['is_shop'] = '1';
-                    $add_page['active_site_template'] = 'default';
-                    $find_layout = $this->app->layouts_manager->scan();
-                    if (is_array($find_layout)) {
-                        foreach ($find_layout as $item) {
-                            if (isset($item['layout_file']) and isset($item['is_shop'])) {
-                                $add_page['layout_file'] = $item['layout_file'];
-                                if (isset($item['name'])) {
-                                    $add_page['title'] = $item['name'];
-                                }
-                            }
-                        }
-                    }
-                    $new_shop = $this->app->database_manager->save('content', $add_page);
-                    $this->app->cache_manager->delete('content');
-                    $this->app->cache_manager->delete('categories');
-                    $this->app->cache_manager->delete('custom_fields');
-
-                    //
-                } else {
-                    if (isset($is_shop[0])) {
-                        $new_shop = $is_shop[0]['id'];
-                    }
-                }
-
-                $posts = $this->get('content_type=post&parent=' . $new_shop);
-                if ($posts == false and $new_shop != false) {
-                    $add_page = array();
-                    $add_page['id'] = 0;
-                    $add_page['parent'] = $new_shop;
-                    $add_page['title'] = 'My product';
-                    $add_page['url'] = 'my-product';
-                    $add_page['content_type'] = 'post';
-                    $add_page['subtype'] = 'product';
-                    $add_page['is_active'] = 1;
-                    //$new_shop = $this->save_content($add_page);
-                    //$this->app->cache_manager->delete('content');
-                    //$this->app->cache_manager->clear();
-                }
-
-                break;
-
-            case 'blog' :
-                $is_shop = $this->get('is_deleted=0&content_type=page&subtype=dynamic&is_shop=1&limit=1');
-                //$is_shop = false;
-                $new_shop = false;
-                if ($is_shop == false) {
-                    $add_page = array();
-                    $add_page['id'] = 0;
-                    $add_page['parent'] = 0;
-                    $add_page['is_active'] = 1;
-                    $add_page['title'] = _e('Blog', true);
-                    $add_page['url'] = 'blog';
-                    $add_page['content_type'] = 'page';
-                    $add_page['subtype'] = 'dynamic';
-                    $add_page['is_shop'] = 0;
-                    $add_page['active_site_template'] = 'default';
-                    $find_layout = $this->app->layouts_manager->scan();
-                    if (is_array($find_layout)) {
-                        foreach ($find_layout as $item) {
-                            if (!isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {
-                                $add_page['layout_file'] = $item['layout_file'];
-                                if (isset($item['name'])) {
-                                    $add_page['title'] = $item['name'];
-                                }
-                            }
-                        }
-
-                        foreach ($find_layout as $item) {
-                            if (isset($item['name']) and stristr($item['name'], 'blog') and !isset($item['is_shop']) and isset($item['layout_file']) and isset($item['content_type']) and trim(strtolower($item['content_type'])) == 'dynamic') {
-                                $add_page['layout_file'] = $item['layout_file'];
-                                if (isset($item['name'])) {
-                                    $add_page['title'] = $item['name'];
-                                }
-                            }
-                        }
-                    }
-
-                    $new_shop = $this->app->database_manager->save('content', $add_page);
-                    $this->app->cache_manager->delete('content');
-                    $this->app->cache_manager->delete('categories');
-                    $this->app->cache_manager->delete('content_fields');
-
-                    //
-                } else {
-                    if (isset($is_shop[0])) {
-                        $new_shop = $is_shop[0]['id'];
-                    }
-                }
-
-                break;
-
-            case 'default' :
-            case 'install' :
-                $any = $this->get('count=1&content_type=page&limit=1');
-                if (intval($any) == 0) {
-                    $table = 'content';
-                    mw_var('FORCE_SAVE_CONTENT', $table);
-                    mw_var('FORCE_SAVE', $table);
-
-                    $add_page = array();
-                    $add_page['id'] = 0;
-                    $add_page['parent'] = 0;
-                    $add_page['title'] = 'Home';
-                    $add_page['url'] = 'home';
-                    $add_page['content_type'] = 'page';
-                    $add_page['subtype'] = 'static';
-                    $add_page['is_shop'] = 0;
-                    //$add_page['debug'] = 1;
-                    $add_page['is_active'] = 1;
-                    $add_page['is_home'] = 1;
-                    $add_page['active_site_template'] = 'default';
-                    $new_shop = $this->save_content($add_page);
-                }
-
-                break;
-
-            default :
-                break;
-        }
-    }
 
     public function copy($data)
     {
@@ -712,8 +570,7 @@ class ContentManagerHelpers extends ContentManagerCrud
         }
 
 
-
-         $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
+        $multilanguageIsActive = MultilanguageHelpers::multilanguageIsEnabled();
 
         if ($multilanguageIsActive) {
             $lang_from_url = detect_lang_from_url($ref_page_url);
@@ -721,13 +578,13 @@ class ContentManagerHelpers extends ContentManagerCrud
                 and ($post_data['lang'])
             ) {
 
-                change_language_by_locale($post_data['lang'] ,true);
+                change_language_by_locale($post_data['lang'], true);
                 unset($post_data['lang']);
             } else if (isset($lang_from_url['target_locale'])
                 and isset($lang_from_url['target_locale'])
             ) {
 
-                change_language_by_locale($lang_from_url['target_locale'],true);
+                change_language_by_locale($lang_from_url['target_locale'], true);
             }
 
 
@@ -883,7 +740,7 @@ class ContentManagerHelpers extends ContentManagerCrud
 //                       }
 //               }
 
-                if($from_url == site_url()){
+                if ($from_url == site_url()) {
                     $pd = $this->app->content_manager->homepage();
 
                 }
@@ -1510,7 +1367,6 @@ class ContentManagerHelpers extends ContentManagerCrud
         $table_drafts = 'content_revisions_history';
 
 
-
         if (!is_array($data)) {
             $data = array();
         }
@@ -1555,7 +1411,7 @@ class ContentManagerHelpers extends ContentManagerCrud
             }
         }
         if (!isset($data['rel_type']) or !isset($data['rel_id'])) {
-          //  mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
+            //  mw_error('Error: ' . __FUNCTION__ . ' rel and rel_id is required');
 
             return false;
         }
