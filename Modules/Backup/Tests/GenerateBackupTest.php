@@ -3,6 +3,7 @@
 namespace Modules\Backup\Tests;
 
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
 use Modules\Backup\Backup;
 use Modules\Backup\SessionStepper;
@@ -28,7 +29,7 @@ class GenerateBackupTest extends TestCase
 
         $originalModulePathCount = 0;
         //rerucive iterator
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($originalModulePath,\RecursiveDirectoryIterator::SKIP_DOTS));
+        $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($originalModulePath, \RecursiveDirectoryIterator::SKIP_DOTS));
         foreach ($iterator as $file) {
             if ($file->isFile()) {
                 $originalModulePathCount++;
@@ -192,7 +193,6 @@ class GenerateBackupTest extends TestCase
     }
 
 
-
     public function testUserfilesOneStepTest()
     {
         Config::set('microweber.allow_php_files_upload', true);
@@ -225,7 +225,6 @@ class GenerateBackupTest extends TestCase
         $status = $backup->start();
 
 
-
         // If we need to run a second step
         if (isset($status['data']) && $status['data'] === false) {
             // Run the second step to complete the backup
@@ -251,7 +250,7 @@ class GenerateBackupTest extends TestCase
 
         // Check that we have files in the backup
         $this->assertGreaterThan(0, count($allFiles), 'Backup should contain files');
-        $this->assertEquals( $originalFilesPathCount +1, count($allFiles));
+        $this->assertEquals($originalFilesPathCount + 1, count($allFiles));
 
     }
 
@@ -313,69 +312,106 @@ class GenerateBackupTest extends TestCase
 
         // Check that we have files in the backup
         $this->assertGreaterThan(0, count($allFiles), 'Backup should contain files');
-        $this->assertEquals( $originalFilesPathCount +1, count($allFiles));
-
-
+        $this->assertEquals($originalFilesPathCount + 1, count($allFiles));
 
 
     }
 
-  public function testBackupOnAllTablesTest()
-  {
-      Config::set('microweber.allow_php_files_upload', true);
-      $stepsNum = 5; // Use multiple steps to ensure complete backup
-      $sessionId = SessionStepper::generateSessionId($stepsNum);
+    public function testBackupOnAllTablesTest()
+    {
+        Config::set('microweber.allow_php_files_upload', true);
+        $stepsNum = 5; // Use multiple steps to ensure complete backup
+        $sessionId = SessionStepper::generateSessionId($stepsNum);
 
-      // Get all database tables for verification later
-      $allDbTables = app()->database_manager->get_tables_list();
-      $this->assertNotEmpty($allDbTables, 'No database tables found');
+        // Get all database tables for verification later
+        $allDbTables = app()->database_manager->get_tables_list();
+        $this->assertNotEmpty($allDbTables, 'No database tables found');
 
-      $status = null;
-      for ($i = 0; $i < $stepsNum; $i++) {
-          $backup = new Backup();
-          $backup->setSessionId($sessionId);
-          $backup->setBackupWithZip(true);
-          $backup->setBackupAllData(true); // Changed to true to backup all tables
-          $backup->setAllowSkipTables(false); // Don't skip any tables
+        // Count records in each table before backup
+        $originalTableCounts = [];
+        foreach ($allDbTables as $table) {
+            $originalTableCounts[$table] = DB::table($table)->count();
+        }
 
-          $status = $backup->start();
+        $status = null;
+        for ($i = 0; $i < $stepsNum; $i++) {
+            $backup = new Backup();
+            $backup->setSessionId($sessionId);
+            $backup->setBackupWithZip(true);
+            $backup->setBackupAllData(true);
+            $backup->setAllowSkipTables(false); // Don't skip any tables
 
-          // If success is set, we're done
-          if (isset($status['success'])) {
-              break;
-          }
-      }
+            $status = $backup->start();
 
-      $this->assertTrue(isset($status['success']), 'Backup process did not complete successfully');
-      $this->assertTrue(isset($status['data']['filepath']), 'Filepath not found in status data');
+            // If success is set, we're done
+            if (isset($status['success'])) {
+                break;
+            }
+        }
 
-      $filepath = $status['data']['filepath'];
-      $this->assertNotNull($filepath, 'Filepath is null');
-      $this->assertTrue(is_file($filepath), 'Backup file not found at: ' . $filepath);
+        $this->assertTrue(isset($status['success']), 'Backup process did not complete successfully');
+        $this->assertTrue(isset($status['data']['filepath']), 'Filepath not found in status data');
 
-      // Open the zip file to verify its contents
-      $zip = new \ZipArchive();
-      $zip->open($filepath);
+        $filepath = $status['data']['filepath'];
+        $this->assertNotNull($filepath, 'Filepath is null');
+        $this->assertTrue(is_file($filepath), 'Backup file not found at: ' . $filepath);
 
-      // Check for backup.json which contains database data
-      $backupContent = $zip->getFromName('backup.json');
-      $this->assertNotEmpty($backupContent, 'backup.json not found in zip archive');
+        // Open the zip file to verify its contents
+        $zip = new \ZipArchive();
+        $zip->open($filepath);
 
-      // Parse backup content
-      $backupData = json_decode($backupContent, true);
-      $this->assertNotEmpty($backupData, 'Backup data is empty');
+        // Check for backup.json which contains database data
+        $backupContent = $zip->getFromName('backup.json');
+        $this->assertNotEmpty($backupContent, 'backup.json not found in zip archive');
 
-      // Verify table structures exist
-      $this->assertArrayHasKey('__table_structures', $backupData, 'Table structures not found in backup');
+        // Parse backup content
+        $backupData = json_decode($backupContent, true);
+        $this->assertNotEmpty($backupData, 'Backup data is empty');
 
-      // Check that at least some essential tables are included
-      $essentialTables = ['content', 'categories', 'options'];
-      foreach ($essentialTables as $table) {
-          $this->assertArrayHasKey($table, $backupData['__table_structures'], "Table '$table' structure not found in backup");
-      }
+        // Verify table structures exist
+        $this->assertArrayHasKey('__table_structures', $backupData, 'Table structures not found in backup');
 
-      $zip->close();
-  }
+        // Check that at least some essential tables are included
+        $essentialTables = ['content', 'categories', 'options'];
+        foreach ($essentialTables as $table) {
+            $this->assertArrayHasKey($table, $backupData['__table_structures'], "Table '$table' structure not found in backup");
+        }
 
+        // Verify the table count matches the original database
+        $backupTableCount = count($backupData['__table_structures']);
+        $originalTableCount = count($allDbTables);
+
+        $this->assertGreaterThan(0, $backupTableCount, 'No tables found in the backup');
+        $this->assertEquals($originalTableCount, $backupTableCount,
+            'Backup contains different table count than the original database');
+
+        // Verify record counts for each table
+        $recordCountMismatches = [];
+        foreach ($allDbTables as $table) {
+            // Skip the __table_structures entry as it's not a real table
+            if ($table === '__table_structures') {
+                continue;
+            }
+
+            // Check if the table exists in backup data
+            if (isset($backupData[$table])) {
+                $backupRecordCount = count($backupData[$table]);
+                $originalRecordCount = $originalTableCounts[$table];
+
+                // If counts don't match, add to mismatches list
+                if ($backupRecordCount != $originalRecordCount) {
+                    $recordCountMismatches[$table] = [
+                        'original' => $originalRecordCount,
+                        'backup' => $backupRecordCount
+                    ];
+                }
+            }
+        }
+
+        $this->assertEmpty($recordCountMismatches,
+            'Record count mismatches found: ' . json_encode($recordCountMismatches));
+
+        $zip->close();
+    }
 
 }
