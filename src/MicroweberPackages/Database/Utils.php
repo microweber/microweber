@@ -184,6 +184,10 @@ class Utils
 
         return $assoc_name;
     }
+    public function listTables($only_cms_tables = false)
+    {
+        return $this->get_tables_list($only_cms_tables);
+    }
 
     public function get_tables_list($only_cms_tables = false)
     {

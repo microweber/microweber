@@ -3,6 +3,7 @@ namespace MicroweberPackages\Export\tests;
 
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Backup\Backup;
 use Modules\Backup\SessionStepper;
 use Modules\Post\Models\Post;
 use Modules\Restore\Restore;
@@ -51,22 +52,24 @@ class ZExportTest extends TestCase
 		clearcache();
         $sessionId = SessionStepper::generateSessionId(3);
 
-        $manager = new \MicroweberPackages\Export\Backup();
+        $manager = new  Backup();
         $manager->setSessionId($sessionId);
-		$manager->setExportAllData(true);
+        $manager->setBackupAllData(true);
+
         $step = $manager->start();
         dump($step);
 
-        $manager = new \MicroweberPackages\Export\Backup();
+        $manager = new  Backup();
         $manager->setSessionId($sessionId);
-        $manager->setExportAllData(true);
+        $manager->setBackupAllData(true);
+
         $step = $manager->start();
         dump($step);
 
 
-        $manager = new \MicroweberPackages\Export\Backup();
+        $manager = new  Backup();
         $manager->setSessionId($sessionId);
-        $manager->setExportAllData(true);
+        $manager->setBackupAllData(true);
 
         dd($manager->start());
 

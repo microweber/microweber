@@ -131,6 +131,7 @@ class Backup
         if ($isFirstStep) {
             $backup = new JsonBackup($data);
             $backup->setType($this->type);
+            $backup->setFilenameForJsonBackup('backup');  // This will create backup.json
             $backup = $backup->start();
             cache_save($backup, $exportedDataCacheId,$readyDataCacheGroup);
         } else {
