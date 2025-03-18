@@ -64,7 +64,7 @@ Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->namespace('\
 
 
 // OLD API SAVE USER
-Route::post('api/save_user', function (Request $request) {
+Route::post('api/save_user', function (\Illuminate\Http\Request $request) {
     if (!defined('MW_API_CALL')) {
         define('MW_API_CALL', true);
     }
@@ -72,19 +72,19 @@ Route::post('api/save_user', function (Request $request) {
         App::abort(403, 'Unauthorized action.');
     }
 
-    $input = Input::all();
+    $input = $request->all();
 
     return save_user($input);
 })->middleware(['api'])->name('api.save_user');
 
-Route::post('api/delete_user', function (Request $request) {
+Route::post('api/delete_user', function (\Illuminate\Support\Facades\Request $request) {
     if (!defined('MW_API_CALL')) {
         define('MW_API_CALL', true);
     }
     if(!is_admin()){
         App::abort(403, 'Unauthorized action.');
     }
-    $input = Input::all();
+    $input = $request->all();
     return delete_user($input);
 })->middleware(['api']);
 
