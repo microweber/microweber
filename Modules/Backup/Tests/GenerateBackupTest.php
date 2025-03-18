@@ -68,10 +68,6 @@ class GenerateBackupTest extends TestCase
             $allFiles[] = $zip->getNameIndex($i);
         }
 
-        echo "\nDEBUG: Files in zip: " . count($allFiles);
-        if (count($allFiles) > 0) {
-            echo "\nDEBUG: First file in zip: " . $allFiles[0];
-        }
 
         $this->assertNotEmpty($allFiles);
 
@@ -191,10 +187,7 @@ class GenerateBackupTest extends TestCase
         // Check that we have files in the backup
         $this->assertGreaterThan(0, count($allFiles), 'Backup should contain files');
 
-        // Skip exact count check - multi-step backups may have slight differences
-        // due to file access/timing issues, but should be within a reasonable range
-        $this->assertGreaterThan($originalFilesPathCount * 0.5, count($allFiles),
-            "Backup contains fewer than 50% of expected files: expected ~{$originalFilesPathCount}, got " . count($allFiles));
+        $this->assertEquals($originalFilesPathCount + 1, count($allFiles));
 
     }
 
