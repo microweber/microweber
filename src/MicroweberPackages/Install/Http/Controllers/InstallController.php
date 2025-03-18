@@ -267,15 +267,27 @@ class InstallController extends Controller
 
                 //make parth relative
                 if (str_starts_with($input['db_name'], database_path())) {
-                    $input['db_name_relative'] = str_replace(database_path(), '', $input['db_name']);
+                    $input['db_name_relative'] = str_replace(database_path(), 'database', $input['db_name']);
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '\\');
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '/');
                     // DB_DATABASE_FILENAME
                     //$envToSave['DB_DATABASE_FILENAME'] = $input['db_name_relative'];
                     $envToSave['DB_DATABASE'] = $input['db_name_relative'];
-                    $sqlite_filename = database_path($input['db_name_relative']);
+                    $sqlite_filename = ($input['db_name_relative']);
                     if (!is_file($sqlite_filename)) {
-                        touch($sqlite_filename);
+                        touch(base_path($sqlite_filename));
+                    }
+
+                } else  if (str_starts_with($input['db_name'], storage_path())) {
+                    $input['db_name_relative'] = str_replace(storage_path(), 'storage', $input['db_name']);
+                    $input['db_name_relative'] = ltrim($input['db_name_relative'], '\\');
+                    $input['db_name_relative'] = ltrim($input['db_name_relative'], '/');
+                    // DB_DATABASE_FILENAME
+                    //$envToSave['DB_DATABASE_FILENAME'] = $input['db_name_relative'];
+                    $envToSave['DB_DATABASE'] = $input['db_name_relative'];
+                    $sqlite_filename = ($input['db_name_relative']);
+                    if (!is_file($sqlite_filename)) {
+                        touch(base_path($sqlite_filename));
                     }
 
                 } else {
@@ -284,7 +296,6 @@ class InstallController extends Controller
 
 
             }
-
 
             if (isset($input['force_https']) and $input['force_https'] == 1) {
                 $envToSave['FORCE_HTTPS'] = true;
