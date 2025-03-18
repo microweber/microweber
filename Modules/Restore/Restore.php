@@ -6,6 +6,7 @@ use MicroweberPackages\Multilanguage\MultilanguageHelpers;
 use Modules\Backup\SessionStepper;
 use Modules\Restore\Formats\ZipReader;
 use Modules\Restore\Loggers\RestoreLogger;
+use Modules\Restore\DatabaseWriter;
 
 class Restore
 {
@@ -229,31 +230,31 @@ class Restore
         $reader->setLanguage($this->language);
         $data = $reader->readData();
 
-        $readedData = $this->_recognizeDataTableName($data);
-
-        if ($readedData) {
-
-            if (isset($readedData['must_choice_language']) && $readedData['must_choice_language']) {
-                return $readedData;
+        if ($data) {
+            if (isset($data['must_choice_language']) && $data['must_choice_language']) {
+                return $data;
             }
 
-            $this->log('Reading data from file ' . basename($this->file));
+            $readedData = $this->_recognizeDataTableName($data);
 
-            if (!empty($readedData)) {
-                $successMessages = count($readedData, COUNT_RECURSIVE) . ' items are read.';
-                $this->log($successMessages);
-                return array(
-                    'success' => $successMessages,
-                    'import_type' => $this->type,
-                    'data' => $readedData
-                );
+            if ($readedData) {
+                $this->log('Reading data from file ' . basename($this->file));
+
+                if (!empty($readedData)) {
+                    $successMessages = count($readedData, COUNT_RECURSIVE) . ' items are read.';
+                    $this->log($successMessages);
+                    return array(
+                        'success' => $successMessages,
+                        'import_type' => $this->type,
+                        'data' => $readedData
+                    );
+                }
             }
         }
 
-        $formatNotSupported = 'Restore format not supported ' . $this->type;
-        $this->log($formatNotSupported);
-
-        throw new \Exception($formatNotSupported);
+        return array(
+            'error' => 'No data could be read from the backup file'
+        );
     }
 
     public function readContent()
