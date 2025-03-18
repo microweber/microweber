@@ -161,7 +161,9 @@ export default {
             var insertLocation = this.insertModulePosition;
 
             const edit = mw.top().tools.firstParentOrCurrentWithClass(this.target, 'edit')
-            mw.app.registerChangedState(edit, true)
+            mw.app.registerChangedState(edit, true);
+
+            this.showModal = false;
 
             await mw.app.editor.insertModule(module, options, insertLocation, this.target);
 

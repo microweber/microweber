@@ -95,7 +95,7 @@ export const  SystemDialogsService = {
                       data.modules_ids = [module_id];
 
                       var childs_arr = [];
-                      mw.$('#'+module_id).andSelf().find('.edit').each(function (i) {
+                      mw.$('#'+module_id).find('.edit').each(function (i) {
                           var some_child = {};
                           mw.tools.removeClass(this, 'changed')
                           some_child.rel = mw.$(this).attr('rel');
@@ -104,7 +104,7 @@ export const  SystemDialogsService = {
                       });
 
 
-                      mw.$('#'+module_id).andSelf().find('.module').each(function (i) {
+                      mw.$('#'+module_id).find('.module').each(function (i) {
 
                           var some_child = mw.$(this).attr('id');
 

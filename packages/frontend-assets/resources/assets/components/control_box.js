@@ -14,7 +14,7 @@ const css = `
     }
     .mw-control-box {
         position: fixed;
-
+        max-width: 100%;
         z-index: 99;
     }
     .mw-control-box-default {
@@ -74,7 +74,7 @@ const css = `
 `;
 
 export class ControlBox extends BaseComponent {
-    constructor(options) {
+    constructor(options = {}) {
         super(options);
         this.config(options);
         this.init();
@@ -83,17 +83,18 @@ export class ControlBox extends BaseComponent {
     #active = false;
 
     config(options) {
-        this.options = options;
+
         this.defaults = {
             position: 'bottom',
             content: '',
             skin: 'default',
-            id: this.options.id || 'mw-control-box-' + mw.random(),
-            closeButton: true
-        };
-        this.id = this.options.id;
-        this.settings = Object.assign({}, this.defaults, this.options);
+            id:  'mw-control-box-' + mw.random(),
+            closeButton: true,
+            closeButtonAction: 'hide',
 
+        };
+        this.settings = Object.assign({}, this.defaults, options);
+        this.id = this.settings.id;
         this.css('mwControlBox', css, false);
     }
 
@@ -103,6 +104,10 @@ export class ControlBox extends BaseComponent {
         this.box.id = this.id;
         this.boxContent = document.createElement('div');
         this.boxContent.className = 'mw-control-box-content';
+        if(this.settings.width) {
+            this.boxContent.style.width = this.settings.width;
+        }
+
         if(this.settings.title) {
             const title = document.createElement("h3");
             title.className = "mw-control-box-title";
@@ -126,12 +131,12 @@ export class ControlBox extends BaseComponent {
     }
 
     createCloseButton() {
-        if (!this.options.closeButton) return;
+        if (!this.settings.closeButton) return;
         this.closeButton = document.createElement('span');
         this.closeButton.className = 'mw-control-boxclose';
         this.closeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>';
         this.box.appendChild(this.closeButton);
-        this.closeButton.addEventListener("click", e => this.hide());
+        this.closeButton.addEventListener("click", e => this[this.settings.closeButtonAction]());
     }
 
     setContentByUrl() {
@@ -159,9 +164,31 @@ export class ControlBox extends BaseComponent {
         return !this.visible();
     }
 
+    zIndexManager() {
+        let i = 0 ,
+        all = document.querySelectorAll('.mw-control-box.active'),
+        max = 0;
+        for ( ; i < all.length; i++) {
+            if(all[i] === this.box) {
+                continue;
+            }
+            const css = getComputedStyle(all[i]);
+            const zi = parseFloat(css.zIndex);
+            if(!isNaN(zi) && zi > max) {
+                max = zi;
+            }
+        }
+        if(max) {
+            max++;
+            this.box.style.zIndex = max;
+        }
+
+    }
+
     show() {
         this.#active = true;
         mw.$(this.box).addClass('active');
+        this.zIndexManager();
         this.dispatch('show');
     }
 

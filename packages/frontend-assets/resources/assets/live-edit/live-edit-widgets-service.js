@@ -41,12 +41,16 @@ export class LiveEditWidgetsService extends BaseComponent{
         this.#zIndex()
     }
 
-    #closeQuickEditComponentBox = null
+    #closeQuickEditComponentBox = null;
 
 
     closeQuickEditComponent() {
-        this.quickEditComponent.destroyEditor()
-        this.#closeQuickEditComponentBox?.remove()
+        if( this.status.quickEditComponent ) {
+            this.quickEditComponent.destroyEditor()
+            this.#closeQuickEditComponentBox?.remove();
+            this.status.quickEditComponent = false;
+        }
+
     }
 
     openQuickEditComponent() {
@@ -58,14 +62,24 @@ export class LiveEditWidgetsService extends BaseComponent{
             position:  'right',
             id: 'mw-live-edit-quickEditComponent-box',
             closeButton: true,
-            title: mw.lang('Quick Edit')
+            closeButtonAction: 'remove',
+            title: mw.lang('Quick Edit'),
+            width: 'var(--sidebar-end-size)'
         });
 
         this.#closeQuickEditComponentBox = box;
 
         box.boxContent.appendChild(this.quickEditComponent.editor());
 
-        box.show()
+        box.show();
+        this.status.quickEditComponent = true;
+
+        box.on('remove', () => {
+
+            this.quickEditComponent.destroyEditor()
+
+            this.status.quickEditComponent = false;
+        })
 
         this.dispatch('openQuickEditComponent');
         return this;
