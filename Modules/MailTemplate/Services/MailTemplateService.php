@@ -99,8 +99,11 @@ class MailTemplateService
     /**
      * Get a mail template by ID
      */
-    public function getTemplateById(int $id): ?MailTemplate
+    public function getTemplateById($id): ?MailTemplate
     {
+        if(!$id){
+            return null;
+        }
         return MailTemplate::find($id);
     }
 

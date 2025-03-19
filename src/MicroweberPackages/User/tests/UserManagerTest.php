@@ -17,7 +17,6 @@ use MicroweberPackages\User\Notifications\VerifyEmail;
 use MicroweberPackages\User\UserManager;
 use Modules\Customer\Models\Address;
 use Modules\Customer\Models\Customer;
-use function GuzzleHttp\Psr7\str;
 
 /**
  * Run test
@@ -206,7 +205,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $requestStatus = $userManager->send_forgot_password($userDetails);
- 
+
         $this->assertArrayHasKey('success', $requestStatus);
         $this->assertTrue($requestStatus['success']);
 
@@ -278,7 +277,7 @@ class UserManagerTest extends TestCase
 
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
-        $this->assertArrayHasKey('error', $registerStatus);
+        $this->assertArrayHasKey('errors', $registerStatus);
 
     }
 
@@ -393,6 +392,7 @@ class UserManagerTest extends TestCase
         $userManager = new UserManager();
         $registerStatus = $userManager->register($newUser);
         $this->assertArrayHasKey('success', $registerStatus);
+
         $user = User::find($registerStatus['data']['id']);
 
 
