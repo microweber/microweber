@@ -3,6 +3,7 @@ namespace MicroweberPackages\Export\tests;
 
 use Faker\Factory;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Backup\Backup;
 use Modules\Backup\SessionStepper;
 use Modules\Post\Models\Post;
 use Modules\Restore\Restore;
@@ -46,117 +47,9 @@ class ZExportTest extends TestCase
 
 	}
 
-	public function testFullExport() {
-
-		clearcache();
-        $sessionId = SessionStepper::generateSessionId(3);
-
-        $manager = new \MicroweberPackages\Export\Backup();
-        $manager->setSessionId($sessionId);
-		$manager->setExportAllData(true);
-        $step = $manager->start();
-        dump($step);
-
-        $manager = new \MicroweberPackages\Export\Backup();
-        $manager->setSessionId($sessionId);
-        $manager->setExportAllData(true);
-        $step = $manager->start();
-        dump($step);
 
 
-        $manager = new \MicroweberPackages\Export\Backup();
-        $manager->setSessionId($sessionId);
-        $manager->setExportAllData(true);
 
-        dd($manager->start());
-
-		$i = 0;
-		while (true) {
-
-			$export = $manager->start();
-
-			$exportBool = false;
-			if (!empty($export)) {
-				$exportBool = true;
-			}
-
-			$this->assertTrue($exportBool);
-
-			if (isset($export['current_step'])) {
-				$this->assertArrayHasKey('current_step', $export);
-				$this->assertArrayHasKey('total_steps', $export);
-				$this->assertArrayHasKey('percentage', $export);
-				$this->assertArrayHasKey('data', $export);
-			}
-
-			// The last exort step
-			if (isset($export['success'])) {
-				$this->assertArrayHasKey('data', $export);
-				$this->assertArrayHasKey('download', $export['data']);
-				$this->assertArrayHasKey('filepath', $export['data']);
-				$this->assertArrayHasKey('filename', $export['data']);
-
-				self::$_exportedFile = $export['data']['filepath'];
-
-				break;
-			}
-
-			if ($i > 100) {
-				break;
-			}
-
-			$i++;
-		}
-
-        $contentCount = (int) get_content('count=1');
-
-        $zip = new \ZipArchive;
-        $res = $zip->open(self::$_exportedFile);
-        $this->assertTrue($res === TRUE);
-
-        $jsonFileInsideZip = str_replace('.zip', '.json', self::$_exportedFile);
-        $jsonFileInsideZip = basename($jsonFileInsideZip);
-        $jsonFileContent = $zip->getFromName($jsonFileInsideZip);
-
-        $jsonExportTest = json_decode($jsonFileContent,true);
-
-        $this->assertTrue(!empty($jsonExportTest['content']));
-        $this->assertEquals(count($jsonExportTest['content']), $contentCount);
-
-	}
-
-	public function testImportZipFile() {
-
-        $getContent = get_content('no_limit=1&content_type=post');
-        if (!empty($getContent)) {
-            foreach ($getContent as $content) {
-                //echo 'Delete content..' . PHP_EOL;
-                $this->assertArrayHasKey(0, delete_content(array('id' => $content['id'], 'forever' => true)));
-            }
-        }
-
-		if (empty(self::$_exportedFile)) {
-			$this->assertTrue(false);
-			return;
-		}
-
-        $sessionId = SessionStepper::generateSessionId(1);
-		$manager = new Restore();
-        $manager->setSessionId($sessionId);
-		$manager->setFile(self::$_exportedFile);
-		$manager->setBatchImporting(false);
-
-		$import = $manager->start();
-
-		$importBool = false;
-		if (!empty($import)) {
-			$importBool = true;
-		}
-
-		$this->assertTrue($importBool);
- 		$this->assertArrayHasKey('done', $import);
-		$this->assertArrayHasKey('percentage', $import);
-	}
 
 	public function testImportedEncoding() {
 

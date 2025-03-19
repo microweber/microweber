@@ -12,7 +12,7 @@ class TemplateInstallerTest extends TestCase
     {
         $logger = new MyCustomLogger();
 
-        Config::set('microweber.install_default_template', 'new-world');
+        Config::set('microweber.install_default_template', 'Bootstrap5');
         Config::set('microweber.install_default_template_content', 1);
 
         $installer = new TemplateInstaller();

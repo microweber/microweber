@@ -25,6 +25,7 @@ class UserForgotPasswordController extends Controller
     {
         event_trigger('mw.init');
     }
+
     public function showForgotForm()
     {
         return app()->parser->process(view('user::auth.forgot-password'));
@@ -36,13 +37,13 @@ class UserForgotPasswordController extends Controller
         if (get_option('captcha_disabled', 'users') !== 'y') {
             $rules['captcha'] = 'captcha';
         }
-        $inputs = $request->only(['captcha','email','username']);
+        $inputs = $request->only(['captcha', 'email', 'username','format']);
         if (is_admin()) {
             unset($rules['captcha']);
         }
 
 
-        if(!isset($inputs['email']) and isset($inputs['username'])){
+        if (!isset($inputs['email']) and isset($inputs['username'])) {
 
             $rules['username'] = 'required:min:1|max:255';
 
@@ -53,7 +54,7 @@ class UserForgotPasswordController extends Controller
 
         $user_id = false;
 
-        if(!$user_id and !isset($inputs['email']) and isset($inputs['username'])) {
+        if (!$user_id and !isset($inputs['email']) and isset($inputs['username'])) {
             $email_user = User::where('username', $inputs['username'])->first();
             if ($email_user) {
                 $user_id = $email_user->id;
@@ -80,10 +81,10 @@ class UserForgotPasswordController extends Controller
             }
         }
 
-       $validation = $request->validate($rules);
+        $validation = $request->validate($rules);
 
-        if(!$user_id){
-            return response()->json(['error'=>true,'message' => __('passwords.user')], 422);
+        if (!$user_id) {
+            return response()->json(['error' => true, 'message' => __('passwords.user')], 422);
         }
 
 
@@ -108,15 +109,21 @@ class UserForgotPasswordController extends Controller
             }
 
         );
-
-
+        $returnJson = false;
+        if (isset($inputs['format']) and $inputs['format'] == 'json') {
+            $returnJson = true;
+        }
         if ($request->expectsJson()) {
+            $returnJson = true;
+        }
+
+        if ($returnJson) {
             if ($status === Password::RESET_LINK_SENT) {
-                return response()->json(['success'=>true, 'message' => __($status)], 200);
+                return response()->json(['success' => true, 'message' => __($status)], 200);
             } else if ($status == 'passwords.throttled') {
-                return response()->json(['error'=>true,'message' => __('passwords.throttled')], 422);
+                return response()->json(['error' => true, 'message' => __('passwords.throttled')], 422);
             } else {
-                return response()->json(['success'=>true, 'message' => __($status)], 422);
+                return response()->json(['success' => true, 'message' => __($status)], 422);
             }
         }
 
@@ -158,8 +165,8 @@ class UserForgotPasswordController extends Controller
             }
         }
 
-        if($abort){
-               DB::table('password_resets')
+        if ($abort) {
+            DB::table('password_resets')
                 ->where('email', '=', $request->email)
                 ->delete();
 
@@ -200,11 +207,11 @@ class UserForgotPasswordController extends Controller
             $user = User::where('email', $request->get('email'))->first();
             if ($user != null) {
 
-               tap($user->forceFill([
+                tap($user->forceFill([
                     'password' => Hash::make($request->get('password')),
                 ]))->save();
 
-               //Auth::logoutOtherDevices($request->get('password'));
+                //Auth::logoutOtherDevices($request->get('password'));
 
                 event(new PasswordReset($request->get('email')));
 

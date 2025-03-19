@@ -28,6 +28,8 @@
 
         <testsuite name="Core">
             <directory>./src/MicroweberPackages/*/</directory>
+            <exclude>src/MicroweberPackages/*/Tests/Browser</exclude>
+
         </testsuite>
 
         <testsuite name="Modules">
@@ -39,6 +41,11 @@
         <testsuite name="Templates">
             <directory>Templates/*/Tests</directory>
             <exclude>Templates/*/Tests/Browser</exclude>
+
+        </testsuite>
+        <testsuite name="CoreBrowserTests">
+            <directory>src/MicroweberPackages/*/Tests/Browser</directory>
+            <exclude>./src/MicroweberPackages/*/</exclude>
 
         </testsuite>
 

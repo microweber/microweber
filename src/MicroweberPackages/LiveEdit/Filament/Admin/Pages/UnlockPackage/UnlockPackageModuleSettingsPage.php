@@ -22,11 +22,15 @@ class UnlockPackageModuleSettingsPage extends LiveEditModuleSettings
             $params = array_merge($params, $request);
         }
 
+
+
         return $form
             ->schema([
                 View::make('microweber-live-edit::unlock-package.unlock-package-modal')
                     ->viewData(['params' => $params])
-
+                    ->visible(function () use ($params) {
+                        return !empty($params);
+                    })
             ]);
     }
 }

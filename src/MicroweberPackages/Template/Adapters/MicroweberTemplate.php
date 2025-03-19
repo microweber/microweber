@@ -591,6 +591,18 @@ class MicroweberTemplate
 
         $is_laravel_template = app()->template_manager->is_laravel_template($page['active_site_template']);
 
+
+
+
+        if ($render_file == false and $is_laravel_template and empty($page['layout_file']) and isset($page['is_home']) and $page['is_home'] == 1) {
+            $laravel_template_view = $this->getActiveTemplateDir() . '/resources/views/index.blade.php';
+
+            $template_view = normalize_path($laravel_template_view, false);
+            if (is_file($template_view) == true) {
+                $render_file = $template_view;
+            }
+        }
+
         if ($render_file == false) {
 
             // if ($render_file == false and (isset($page['content_type']) and ($page['content_type']) != '')) {
@@ -1365,6 +1377,7 @@ class MicroweberTemplate
                 $render_file = $template_view;
             }
         }
+
 
         if ($render_file == false and empty($page['layout_file'])) {
             $laravel_template_view = $this->getActiveTemplateDir() . '/resources/views/clean.blade.php';

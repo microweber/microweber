@@ -63,6 +63,9 @@ class SaveUserApiTest extends TestCase
                 'profile_url' => 'test',
             ]
         );
+
+
+
         $this->assertSame(intval($saveUserId->getContent()), intval($userData->data->id));
 
         $getUser = get_user_by_id($userData->data->id);

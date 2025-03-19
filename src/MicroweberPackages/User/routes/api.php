@@ -33,7 +33,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
     $tablesList = mw()->database_manager->get_tables_list(true);
     foreach ($tablesList as $table) {
         $table = str_replace($prefix, false, $table);
-        $columns  = Schema::getColumnListing($table);
+        $columns  = \Illuminate\Support\Facades\Schema::getColumnListing($table);
         if (in_array('created_by', $columns)) {
             $exportFromTables[] = $table;
         }
@@ -47,7 +47,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
         }
     }
 
-    $json = new \MicroweberPackages\Export\Formats\JsonBackup($exportData);
+    $json = new \Modules\Backup\Formats\JsonBackup($exportData);
     $getJson = $json->start();
 
     if (isset($getJson['files'][0]['filepath'])) {
@@ -57,14 +57,14 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
 })->name('api.users.export_my_data');
 
 // Admin web
-Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-    Route::get('login', 'UserLoginController@index')->name('admin.login')->middleware(['allowed_ips']);
+Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->group(function () {
+    Route::get('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@index')->name('admin.login')->middleware(['allowed_ips']);
 });
 
 
 
 // OLD API SAVE USER
-Route::post('api/save_user', function (Request $request) {
+Route::post('api/save_user', function (\Illuminate\Http\Request $request) {
     if (!defined('MW_API_CALL')) {
         define('MW_API_CALL', true);
     }
@@ -72,19 +72,19 @@ Route::post('api/save_user', function (Request $request) {
         App::abort(403, 'Unauthorized action.');
     }
 
-    $input = Input::all();
+    $input = $request->all();
 
     return save_user($input);
 })->middleware(['api'])->name('api.save_user');
 
-Route::post('api/delete_user', function (Request $request) {
+Route::post('api/delete_user', function (\Illuminate\Support\Facades\Request $request) {
     if (!defined('MW_API_CALL')) {
         define('MW_API_CALL', true);
     }
     if(!is_admin()){
         App::abort(403, 'Unauthorized action.');
     }
-    $input = Input::all();
+    $input = $request->all();
     return delete_user($input);
 })->middleware(['api']);
 

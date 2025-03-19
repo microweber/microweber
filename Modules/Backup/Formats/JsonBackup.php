@@ -28,6 +28,11 @@ class JsonBackup extends DefaultBackup
         $this->filename = $filename;
     }
 
+    public function setFilenameForJsonBackup($filename) {
+        $this->filename = $filename;
+        $this->type = 'json';
+    }
+
     public function getDump()
     {
         $data = $dump = $this->data;
@@ -54,5 +59,3 @@ class JsonBackup extends DefaultBackup
     }
 
 }
-
-

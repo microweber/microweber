@@ -152,7 +152,7 @@ if (!function_exists('add_supported_language')) {
             $findSupportedLocales = new \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales();
             $findSupportedLocales->locale = $locale;
             $findSupportedLocales->language = $language;
-            $findSupportedLocales->is_active = 'y';
+            $findSupportedLocales->is_active = '1';
             $position = 1;
             $getLastLagnuage = DB::table('multilanguage_supported_locales')->orderBy('position', 'desc')->first();
             if ($getLastLagnuage != null) {
@@ -325,7 +325,7 @@ if (!function_exists('get_supported_languages')) {
 
         $getSupportedLocalesQuery = DB::table('multilanguage_supported_locales');
         if ($only_active) {
-            $getSupportedLocalesQuery->where('is_active', '1');
+            $getSupportedLocalesQuery->where('is_active', '1')->orWhere('is_active', 'y');
         }
         $getSupportedLocalesQuery->where('locale', '!=', '');
         $getSupportedLocalesQuery->whereNotNull('locale');

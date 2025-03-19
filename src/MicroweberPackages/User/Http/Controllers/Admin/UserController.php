@@ -5,8 +5,8 @@ namespace MicroweberPackages\User\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use MicroweberPackages\Admin\Http\Controllers\AdminController;
 use MicroweberPackages\Admin\Http\Controllers\AdminDefaultController;
-use MicroweberPackages\Export\Formats\XlsxExport;
 use MicroweberPackages\User\Models\User;
+use Modules\Backup\Formats\CsvBackup;
 
 class UserController extends AdminController
 {
@@ -44,7 +44,7 @@ class UserController extends AdminController
                 $exportedUsers[] = $exportedUser;
             }
 
-            $exportExcel = new XlsxExport();
+            $exportExcel = new CsvBackup();
             $exportExcel->data['mw_export_users_' . date('Y-m-d-H-i-s')] = $exportedUsers;
             $exportExcel = $exportExcel->start();
             $exportExcelFile = $exportExcel['files']['0']['filepath'];

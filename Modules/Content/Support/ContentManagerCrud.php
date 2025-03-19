@@ -795,16 +795,14 @@ class ContentManagerCrud extends Crud
         }
 
         if (isset($data_to_save['is_home']) and $data_to_save['is_home'] == 1) {
-            $data_to_save['is_home'] = strval($data_to_save['is_home']);
-            if ($adm == true) {
+            $data_to_save['is_home'] = intval($data_to_save['is_home']);
+
                 $q = Content::where('is_home', 1)
                     ->update(array(
                         'is_home' => 0,
                     ));
-            } else {
-                $data_to_save['is_home'] = 0;
-            }
-            //
+
+
         }
 
         if (isset($data_to_save['content_type']) and strval($data_to_save['content_type']) == 'post') {
