@@ -129,18 +129,3 @@ if (!function_exists('db_delete')) {
         return app()->database_manager->delete_by_id($table_name, $id, $field_name);
     }
 }
-
-if (!function_exists('collection_to_array')) {
-    function collection_to_array($data)
-    {
-        if (
-            $data instanceof \Illuminate\Database\Eloquent\Collection
-            or $data instanceof \Illuminate\Support\Collection
-            or $data instanceof \Illuminate\Database\Eloquent\Model
-        ) {
-            return $data->toArray();
-        }
-        return $data;
-
-    }
-}

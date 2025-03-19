@@ -658,8 +658,12 @@ class UserManager
 
         $response = $controller->register($request);
 
-        if (is_object($response)) {
-            $response = collect($response->getData())->toArray();
+        if (is_object($response) and method_exists($response, 'getData')) {
+            $data = $response->getData();
+            $response = (collection_to_array($data));
+
+            return $response;
+
         }
 
         return $response;
