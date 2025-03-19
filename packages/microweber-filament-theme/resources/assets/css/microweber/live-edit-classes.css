@@ -787,9 +787,13 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .mw_modal_live_edit_settings .mw-dialog-holder {
-    @apply bg-white p-2;
+    @apply bg-white;
 
     box-shadow: rgba(0, 0, 0, .24) 0 3px 8px;
+}
+
+.mw-dialog-holder {
+    @apply p-4;
 }
 
 
