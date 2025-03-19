@@ -17,17 +17,21 @@ class BackgroundModule extends BaseModule
 
     public function getViewData(): array
     {
-        $background_image_option = $this->getOption('background_image' );
-        $background_size_option = $this->getOption('background_size' );
-        $background_color_option = $this->getOption('background_color' );
-        $background_video_option = $this->getOption('background_video' );
+        $background_image_option = $this->getOption('data-background-image' );
+        $background_size_option = $this->getOption('data-background-size' );
+        $background_color_option = $this->getOption('data-background-color' );
+        $background_video_option = $this->getOption('data-background-video' );
+        if($background_video_option == 'none'){
+            $background_video_option = '';
+        }
+
+
         $background_image = $background_image_option ?? $this->params['data-background-image'] ?? $this->params['background-image'] ?? '';
         $background_size = $background_size_option ?? $this->params['data-background-size'] ?? $this->params['background-size'] ?? '';
         $background_color = $background_color_option ?? $this->params['data-background-color'] ?? $this->params['background-color'] ?? '';
         $background_video = $background_video_option ?? $this->params['data-background-video'] ?? $this->params['background-video'] ?? '';
         $style_attributes_overlay = [];
         $style_attributes = [];
-
 
         if ($background_image == 'none') {
             $background_image = '';
