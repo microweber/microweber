@@ -33,7 +33,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
     $tablesList = mw()->database_manager->get_tables_list(true);
     foreach ($tablesList as $table) {
         $table = str_replace($prefix, false, $table);
-        $columns  = Schema::getColumnListing($table);
+        $columns  = \Illuminate\Support\Facades\Schema::getColumnListing($table);
         if (in_array('created_by', $columns)) {
             $exportFromTables[] = $table;
         }
@@ -47,9 +47,9 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
         }
     }
 
-    $json = new \MicroweberPackages\Export\Formats\JsonBackup($exportData);
+    $json = new \Modules\Backup\Formats\JsonBackup($exportData);
     $getJson = $json->start();
-
+dd($getJson);
     if (isset($getJson['files'][0]['filepath'])) {
         return response()->download($getJson['files'][0]['filepath'])->deleteFileAfterSend(true);
     }
@@ -57,8 +57,8 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
 })->name('api.users.export_my_data');
 
 // Admin web
-Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->namespace('\MicroweberPackages\User\Http\Controllers')->group(function () {
-    Route::get('login', 'UserLoginController@index')->name('admin.login')->middleware(['allowed_ips']);
+Route::prefix(mw_admin_prefix_url_legacy())->middleware(['admin'])->group(function () {
+    Route::get('login', \MicroweberPackages\User\Http\Controllers\UserLoginController::class.'@index')->name('admin.login')->middleware(['allowed_ips']);
 });
 
 
