@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
  * @author Bobi Microweber
  * @command php phpunit.phar --filter RestoreTest
  */
-#[RunTestsInSeparateProcesses]
+
 class RestoreTest extends TestCase
 {
 

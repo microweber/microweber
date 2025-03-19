@@ -49,7 +49,7 @@ Route::get('api/users/export_my_data', function (\Illuminate\Http\Request $reque
 
     $json = new \Modules\Backup\Formats\JsonBackup($exportData);
     $getJson = $json->start();
-dd($getJson);
+
     if (isset($getJson['files'][0]['filepath'])) {
         return response()->download($getJson['files'][0]['filepath'])->deleteFileAfterSend(true);
     }

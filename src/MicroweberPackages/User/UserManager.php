@@ -222,8 +222,18 @@ class UserManager
 
         $response = $controller->login($request);
 
-        if ($response and is_object($response)) {
-            $response = collect($response->getData())->toArray();
+        if ($response and is_object($response) and !is_array($response)) {
+            if(is_array($response)){
+                return $response;
+            }
+            if(is_object($response) and method_exists($response, 'getData')) {
+             $response = $response->getData();
+            }
+
+            $response = collect($response);
+            if(is_object($response)){
+                $response = $response->toArray();
+            }
         }
         return $response;
 
@@ -1224,6 +1234,7 @@ class UserManager
 
 
         $request = new Request();
+        $params['format'] = 'json';
 
         $request->merge($params);
 
@@ -1237,7 +1248,7 @@ class UserManager
             return $response;
 
         }
-        return [];
+        return $response;
 
 
         //  return RequestRoute::postJson(route('api.user.password.email'), $params);
