@@ -19,4 +19,7 @@ use MicroweberPackages\Content\Models\Content;
 Route::get('xx', function () {
 
 
+    dump( asset('templates/big2/dist/build/app.css'));
+
+
 });
