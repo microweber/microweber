@@ -113,6 +113,25 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
         $templateDir = template_dir();
 
         $getStyleSettings = app()->template_manager->getStyleSettings($templateDir);
+
+
+        if (!$getStyleSettings) {
+            // check if we are in child template
+            $parentTemplate = app()->template_manager->getParentTemplate();
+            if ($parentTemplate) {
+
+
+                if ($parentTemplate) {
+                    $templateDir = templates_dir() . $parentTemplate.'/';
+                    if(is_dir($templateDir)){
+                        $getStyleSettings = app()->template_manager->getStyleSettings($templateDir);
+                    }
+
+                }
+            }
+        }
+
+
         if (isset($getStyleSettings['settings'])) {
             if (!empty($getStyleSettings['settings']) && is_array($getStyleSettings['settings'])) {
 

@@ -320,9 +320,9 @@ class TemplateManager
         return $this->templateAdapter->getComposerJson($template);
     }
 
-    public function getStyleSettings($template = false)
+    public function getStyleSettings($templateDir = false)
     {
-        return $this->templateAdapter->getStyleSettings($template);
+        return $this->templateAdapter->getStyleSettings($templateDir);
     }
 
 
@@ -997,6 +997,11 @@ class TemplateManager
     public function getParentTemplate($templateName = false)
     {
         return $this->templateAdapter->getParentTemplate($templateName);
+    }
+
+    public function getConfig($templateName = false)
+    {
+        return $this->get_config($templateName);
     }
 
 

@@ -42,7 +42,7 @@ class MicroweberTemplate
 
         if ($templateConfig and isset($templateConfig['settings']['service_provider'])) {
 
-           // app()->module_manager->boot_module($templateConfig);
+            // app()->module_manager->boot_module($templateConfig);
         }
     }
 
@@ -442,10 +442,11 @@ class MicroweberTemplate
     }
 
     public $templateConfigCache = array();
-    public function getComposerJson($template = false) : array
+
+    public function getComposerJson($template = false): array
     {
 
-        if($template == false){
+        if ($template == false) {
             $template = $this->getTemplateFolderName();
         }
         $is_laravel_template = $this->isLaravelTemplate($template);
@@ -459,6 +460,7 @@ class MicroweberTemplate
         return [];
 
     }
+
     public function getConfig($template = false)
     {
 
@@ -537,7 +539,7 @@ class MicroweberTemplate
         $fallback_render_internal_file = false;
         $site_template_settings = app()->option_manager->get('current_template', 'template') ?? $this->fallbackTempleteFolderName;
 
-     //  dd($site_template_settings,$this->getFallbackTemplateFolderName(),$page,$site_template_settings);
+        //  dd($site_template_settings,$this->getFallbackTemplateFolderName(),$page,$site_template_settings);
         if (!isset($page['active_site_template']) and !$site_template_settings) {
             $page['active_site_template'] = $this->getFallbackTemplateFolderName();
         } elseif (isset($page['active_site_template']) and $page['active_site_template'] == '') {
@@ -590,8 +592,6 @@ class MicroweberTemplate
         }
 
         $is_laravel_template = app()->template_manager->is_laravel_template($page['active_site_template']);
-
-
 
 
         if ($render_file == false and $is_laravel_template and empty($page['layout_file']) and isset($page['is_home']) and $page['is_home'] == 1) {
@@ -1324,9 +1324,6 @@ class MicroweberTemplate
         }
 
 
-
-
-
 //        if ($render_file == false and isset($page['active_site_template']) and strtolower($page['active_site_template']) != 'default') {
 //            $template_view = $this->getActiveTemplateDir() . 'index.html';
 //            if (is_file($template_view) == true) {
@@ -1395,12 +1392,16 @@ class MicroweberTemplate
 
     public function getStyleSettings($templateDir = false)
     {
+
+
         if (!$templateDir) {
             $templateDir = $this->getActiveTemplateDir();
         }
-
+        $templateDir = normalize_path($templateDir, true);
         $styleSettingReader = new TemplateStylesSettingsReader($templateDir);
         $getStyleSettings = $styleSettingReader->getStyleSettings();
+
+
 
         return $getStyleSettings;
     }
@@ -1595,9 +1596,6 @@ class MicroweberTemplate
         }
 
     }
-
-
-
 
 
     public function getParentTemplate($template)
