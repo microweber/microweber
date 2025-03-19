@@ -70,7 +70,7 @@ export default {
 
             this.$refs.moreSettingsDropdown.classList.remove('show');
 
-            console.log(name)
+
 
             if(name !== 'style-editor') {
                 CSSGUIService.hide()

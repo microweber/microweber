@@ -241,7 +241,7 @@ export class QuickEditComponent extends MicroweberBaseClass {
         const defaults = {
             document: mw.top().app.canvas.getDocument(),
             nodesSelector: 'p,h1,h2,h3,h4,h5,h6',
-            editsSelector: '.edit',
+            editsSelector: '.edit[rel][field][id]',
             aiAdapter: defaultAiAdapter
         }
         this.settings = Object.assign({}, defaults, options);
