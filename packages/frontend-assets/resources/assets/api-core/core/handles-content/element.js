@@ -531,6 +531,25 @@ export class ElementHandleContent {
                 },
             },
             {
+                title: 'Edit with AI',
+                text: '',
+                icon: this.handleIcons.icon('ai'),
+
+                className: 'mw-handle-element-open-image-editor-fine-tune-button',
+
+                action: (el) => {
+
+                    this.elementActions.editImageWithAI(el);
+
+
+                },
+                onTarget: (target, selfBtn) => {
+                    var selfVisible = this.elementHandleButtonsVisibility.shouldShowEditImageButton(target);
+
+                    this.setMenuVisible(selfVisible, selfBtn);
+                },
+            },
+            {
                 title: ' Image options',
                 text: '',
                 icon: this.handleIcons.icon('settings'),
