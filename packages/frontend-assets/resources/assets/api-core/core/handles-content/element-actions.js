@@ -418,6 +418,97 @@ export class ElementActions extends MicroweberBaseClass {
         });
     }
 
+    editImageWithAI(element) {
+
+        function toDataURL(image, callback) {
+
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+
+            const size = 200;
+
+            let maxWidth = size, maxHeight = size
+
+
+            img.onload = function() {
+
+                const originalWidth = img.width;
+                const originalHeight = img.height;
+
+
+                const aspectRatio = originalWidth / originalHeight;
+
+                let newWidth, newHeight;
+
+
+                if (originalWidth > maxWidth || originalHeight > maxHeight) {
+                    if (originalWidth / maxWidth > originalHeight / maxHeight) {
+
+                        newWidth = maxWidth;
+                        newHeight = maxWidth / aspectRatio;
+                    } else {
+
+                        newHeight = maxHeight;
+                        newWidth = maxHeight * aspectRatio;
+                    }
+                } else {
+
+                    newWidth = originalWidth;
+                    newHeight = originalHeight;
+                }
+
+
+                const canvas = document.createElement('canvas');
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+
+                const base64String = canvas.toDataURL();
+
+
+                callback(base64String);
+            };
+
+            img.src = image;
+        }
+
+        const content = `
+            <div>
+                <img id="ai-image-editor--image" src="${element.src}" style="max-height:300px">
+                <textarea id="ai-image-editor--field"></textarea>
+                <br>
+                <button disabled type="button" id="ai-image-editor--button">Submit</button>
+                <br><br>
+            </div>
+        `;
+
+        const dlg = mw.dialog({
+            content
+        });
+
+        const img = dlg.dialogContainer.querySelector('#ai-image-editor--image');
+        const area = dlg.dialogContainer.querySelector('#ai-image-editor--field');
+        const button = dlg.dialogContainer.querySelector('#ai-image-editor--button');
+
+        area.addEventListener('input', e => {
+            button.disabled = !area.value.trim();
+        });
+        button.addEventListener('click', e => {
+            toDataURL(img.src, b64 => {
+                $.post('http://localhost:777/app/xtest', {
+                    prompt: area.value,
+                    url: b64
+                }, data => {
+                    img.src = 'data:image/png;base64,'+ data.resp.data
+                })
+            })
+        })
+
+    }
+
     editImageWithEditor(element) {
         mw.app.editImageDialog.editImage(element.src, (imgData) => {
             if (typeof imgData !== 'undefined' && imgData.src) {

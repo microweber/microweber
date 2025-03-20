@@ -216,7 +216,12 @@
 
 
 
-
+        "justified-gallery": [
+            function () {
+                mw.require(mw.settings.libs_url + 'justified-gallery/justified-gallery.js');
+                mw.require(mw.settings.libs_url + 'justified-gallery/justified-gallery.css');
+            }
+        ],
 
         "async-alpine": [
             function () {
