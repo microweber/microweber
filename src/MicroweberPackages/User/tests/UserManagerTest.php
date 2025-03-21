@@ -518,8 +518,10 @@ class UserManagerTest extends TestCase
     public function testUserRegistrationWelcomeCustomEmailTemplate()
     {
         \Config::set('mail.transport', 'array');
+        \Config::set('queue.default', 'sync');
         $this->_enableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
+        $this->_disableEmailVerify();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
@@ -537,7 +539,7 @@ class UserManagerTest extends TestCase
         // Save custom mail template and test it
         $templateId = save_mail_template([
             'type' => 'new_user_registration',
-            'message' => 'Hey {{username}}, We are so exited you are joining us. {{username}}--unit-testing-welcome-{{email}}'
+            'message' => 'Hey {{username}}  , We are so exited you are joining us. {{username}}--unit-testing-welcome-{{email}}'
         ]);
         Option::setValue('new_user_registration_mail_template', $templateId, 'users');
 
@@ -552,6 +554,7 @@ class UserManagerTest extends TestCase
         $checkMailIsFound = false;
         $findUsername = false;
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
+
         foreach ($emails as $email) {
 
 
@@ -560,13 +563,16 @@ class UserManagerTest extends TestCase
             $subject = $emailArray['subject'];
             $body = $emailArray['body'];
 
-            if ($subject == 'New Registration') {
+            if ($subject == 'New User Registration') {
+
+           
+
                 $checkMailIsFound = true;
-                if (strpos($body, '--unit-testing-welcome-') !== false) {
+                if (str_contains($body, '--unit-testing-welcome-')) {
                     $findUnitTestingText = true;
                 }
 
-                if (strpos($body, $newUser['email']) !== false) {
+                if (str_contains($body, $newUser['username'])) {
                     $findUsername = true;
                 }
             }

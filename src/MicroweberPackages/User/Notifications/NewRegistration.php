@@ -67,6 +67,7 @@ class NewRegistration extends Notification implements ShouldQueue
                     'created_at' => date('Y-m-d H:i:s')
                 ]
             );
+
             $mail->subject($template['subject']);
             $mail->view('app::email.simple', ['content' => $parsedEmail]);
         } else {
