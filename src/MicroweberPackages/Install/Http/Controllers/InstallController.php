@@ -265,9 +265,13 @@ class InstallController extends Controller
                     touch($input['db_name']);
                 }
 
+                $db_sqlite_full_path = normalize_path( $input['db_name'], false);
+                $db_sqlite_full_database_path = normalize_path(database_path(), true);
+                $db_sqlite_full_database_storage_path = normalize_path(storage_path(), true);
+
                 //make parth relative
-                if (str_starts_with($input['db_name'], database_path())) {
-                    $input['db_name_relative'] = str_replace(database_path(), 'database', $input['db_name']);
+                if (str_starts_with($db_sqlite_full_path, $db_sqlite_full_database_path)) {
+                    $input['db_name_relative'] = str_replace($db_sqlite_full_database_path, 'database/', $db_sqlite_full_path);
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '\\');
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '/');
                     // DB_DATABASE_FILENAME
@@ -278,8 +282,8 @@ class InstallController extends Controller
                         touch(base_path($sqlite_filename));
                     }
 
-                } else  if (str_starts_with($input['db_name'], storage_path())) {
-                    $input['db_name_relative'] = str_replace(storage_path(), 'storage', $input['db_name']);
+                } else  if (str_starts_with($db_sqlite_full_path, $db_sqlite_full_database_storage_path)) {
+                    $input['db_name_relative'] = str_replace($db_sqlite_full_database_storage_path, 'storage/', $db_sqlite_full_path);
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '\\');
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '/');
                     // DB_DATABASE_FILENAME
