@@ -901,13 +901,13 @@
                             _selectedUI();
                             scope.dispatch('selectionChanged', scope.getSelected());
                         });
-                        /*row.on('dblclick', function(e){
+                        row.on('dblclick', function(e){
                             scope['select'](item);
                             var val = scope.getSelected();
                             scope.dispatch('insertByValue', scope.getSelected());
                             e.stopPropagation();
                             e.preventDefault();
-                        });*/
+                        });
                     }
                     check.input.on('change', function () {
                          scope[!this.checked ? 'unselect' : 'select'](item);
