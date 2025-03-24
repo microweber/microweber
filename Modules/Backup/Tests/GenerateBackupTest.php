@@ -136,7 +136,8 @@ class GenerateBackupTest extends TestCase
         $sessionId = SessionStepper::generateSessionId($stepsNum);
 
 
-        $originalFilesPath = userfiles_path();
+      //  $originalFilesPath = userfiles_path();
+        $originalFilesPath = storage_path('app/public/');
         //count the files in path
 
         $originalFilesPathCount = 0;
@@ -200,7 +201,10 @@ class GenerateBackupTest extends TestCase
         $stepsNum = 1;
         $sessionId = SessionStepper::generateSessionId($stepsNum);
 
-        $originalFilesPath = userfiles_path();
+      //  $originalFilesPath = userfiles_path();
+
+        $originalFilesPath = storage_path('app/public/');
+
         //count the files in path
 
         $originalFilesPathCount = 0;
@@ -261,8 +265,9 @@ class GenerateBackupTest extends TestCase
         $stepsNum = 3;
         $sessionId = SessionStepper::generateSessionId($stepsNum);
 
-        $originalFilesPath = userfiles_path();
+      //  $originalFilesPath = userfiles_path();
         //count the files in path
+        $originalFilesPath = storage_path('app/public/');
 
         $originalFilesPathCount = 0;
         //recursive iterator with same settings as in ZipBatchBackup class

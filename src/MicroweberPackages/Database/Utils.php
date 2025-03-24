@@ -184,137 +184,65 @@ class Utils
 
         return $assoc_name;
     }
-    public function listTables($only_cms_tables = false)
+    public function listTables($only_cms_tables = true,$with_prefix=false)
     {
-        return $this->get_tables_list($only_cms_tables);
+        return $this->get_tables_list($only_cms_tables,$with_prefix);
     }
 
-    public function get_tables_list($only_cms_tables = false)
-    {
+ public function get_tables_list($only_cms_tables = true,$with_prefix=false)
+ {
+     $system_tables = [
+         "sqlite_sequence", "information_schema", "columns_priv", "db",
+         "engine_cost", "event", "func", "general_log", "gtid_executed",
+         "help_category", "help_keyword", "help_relation", "help_topic",
+         "innodb_index_stats", "innodb_table_stats", "ndb_binlog_index",
+         "plugin", "proc", "procs_priv", "proxies_priv", "server_cost",
+         "servers", "slave_master_info", "slave_relay_log_info",
+         "slave_worker_info", "slow_log", "tables_priv", "time_zone",
+         "time_zone_leap_second", "time_zone_name", "time_zone_transition",
+         "time_zone_transition_type", "user"
+     ];
 
-        $system_tables = [
-            "sqlite_sequence",
-            "information_schema",
-            "columns_priv",
-            "db",
-            "engine_cost",
-            "event",
-            "func",
-            "general_log",
-            "gtid_executed",
-            "help_category",
-            "help_keyword",
-            "help_relation",
-            "help_topic",
-            "innodb_index_stats",
-            "innodb_table_stats",
-            "ndb_binlog_index",
-            "plugin",
-            "proc",
-            "procs_priv",
-            "proxies_priv",
-            "server_cost",
-            "servers",
-            "slave_master_info",
-            "slave_relay_log_info",
-            "slave_worker_info",
-            "slow_log",
-            "tables_priv",
-            "time_zone",
-            "time_zone_leap_second",
-            "time_zone_name",
-            "time_zone_transition",
-            "time_zone_transition_type",
-            "user"
-        ];
+     // Get tables using Schema builder
+     $tableObjects = DB::connection()->getSchemaBuilder()->getTables();
 
-        $tables = array();
-        $engine = $this->get_sql_engine();
+     // Extract table names from the objects
+     $tables = [];
+     foreach ($tableObjects as $index => $tableInfo) {
+         if (isset($tableInfo['name'])) {
+             $tables[$index] = $tableInfo['name'];
+         }
+     }
 
-        if ($engine == 'sqlite') {
-            $sql = DB::select("SELECT * FROM sqlite_master WHERE type='table';");
-            if (is_array($sql) and !empty($sql)) {
-                foreach ($sql as $item) {
-                    $item = (array)$item;
-                    $val = false;
-                    if (isset($item['tbl_name'])) {
-                        $val = $item['tbl_name'];
-                    } elseif (isset($item['name'])) {
-                        $val = $item['name'];
-                    }
-                    if ($val and $val != 'sqlite_sequence') {
-                        $tables[] = $val;
-                    }
+     // Filter for CMS tables if needed
+     if ($only_cms_tables && $tables) {
+         $cms_tables = [];
+         $local_prefix = $this->get_prefix();
 
-                }
-            }
-        } else if ($engine == 'pgsql') {
-            // http://stackoverflow.com/a/29232803/731166
-            // ? AND table_name NOT LIKE 'valid%'
-            $result = DB::select('
-            SELECT table_name FROM information_schema.tables
-              WHERE table_schema NOT IN (\'pg_catalog\', \'information_schema\')
-                AND table_type = \'BASE TABLE\' ;
-            ');
+         foreach ($tables as $k => $v) {
+             if (in_array($v, $system_tables)) {
+                 continue;
+             }
 
-            if (!empty($result)) {
-                foreach ($result as $item) {
-                    $item = (array)$item;
-                    if (count($item) > 0) {
-                        $item_vals = (array_values($item));
-                        //  dd($item_vals);
-                        $tables[] = $item_vals[0];
-                    }
-                }
-            }
-        } else {
-            $result = DB::select('SHOW TABLES');
-            if (!empty($result)) {
-                foreach ($result as $item) {
-                    $item = (array)$item;
-                    if (count($item) > 0) {
-                        $item_vals = (array_values($item));
-                        $tables[] = $item_vals[0];
-                    }
-                }
-            }
-        }
+             if ($local_prefix) {
+                 $starts_with = substr($v, 0, strlen($local_prefix)) === $local_prefix;
+                 if(!$with_prefix) {
+                     $v = substr($v, strlen($local_prefix));
+                 }
+                 if ($starts_with) {
+                     $cms_tables[$k] = $v;
+                 }
 
-        if ($only_cms_tables and $tables) {
-            $cms_tables = array();
-            $local_prefix = $this->get_prefix();
+             } else {
+                 $cms_tables[$k] = $v;
+             }
+         }
 
+         return $cms_tables;
+     }
 
-            foreach ($tables as $k => $v) {
-
-                if (in_array($k, $system_tables)) {
-                    continue;
-                }
-
-                if ($local_prefix) {
-                    //   $starts_with = starts_with($local_prefix, $v);
-                    $starts_with = substr($v, 0, strlen($local_prefix)) === $local_prefix;
-
-                    if ($starts_with) {
-                        $v1 = str_replace_first($local_prefix, '', $v);
-                        $cms_tables[$k] = $v;
-                    } else {
-                        //  $cms_tables[$k] = $v;
-                    }
-                } else {
-
-                    $cms_tables[$k] = $v;
-
-                }
-
-            }
-
-            return $cms_tables;
-        }
-
-        return $tables;
-    }
-
+     return $tables;
+ }
     public function get_table_ddl($full_table_name)
     {
         $engine = $this->get_sql_engine();
