@@ -14,10 +14,10 @@ class BackgroundModuleFrontendTest extends TestCase
     public function testDefaultViewRendering()
     {
         $params = array(
-            'id' => 'test-background-id' . uniqid(),
-            'background_image' => 'https://example.com/background.jpg',
-            'background_video' => 'https://example.com/video.mp4',
-            'background_color' => '#ffffff',
+            'id' => 'test-background-id-testDefaultViewRendering' . uniqid(),
+            'data-background-image' => 'https://example.com/background.jpg',
+            'data-background-video' => 'https://example.com/video.mp4',
+            'data-background-color' => '#ffffff',
         );
         $moduleId = $params['id'];
         $moduleType = 'background';
@@ -54,10 +54,10 @@ class BackgroundModuleFrontendTest extends TestCase
     public function testDefaultViewRenderingInBlock()
     {
         $params = array(
-            'id' => 'test-background-id' . uniqid(),
-            'background_image' => 'https://example.com/background.jpg',
-            'background_video' => 'https://example.com/video.mp4',
-            'background_color' => '#ffffff',
+            'id' => 'test-background-id-testDefaultViewRenderingInBlock' . uniqid(),
+            'data-background-image' => 'https://example.com/background.jpg',
+            'data-background-video' => 'https://example.com/video.mp4',
+            'data-background-color' => '#ffffff',
         );
         $moduleId = $params['id'];
         $moduleType = 'background';
