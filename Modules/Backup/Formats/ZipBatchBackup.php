@@ -144,109 +144,109 @@ class ZipBatchBackup extends DefaultBackup
             $filesBatch[0] = $filesForZip;
         } else {
 
-        // First step: gather all files and store in cache
-        if ($currentStep == 1) {
-            cache_save($filesForZip, $filesForBatchCacheKey, $this->_cacheGroupName);
-            cache_save([], $processedFilesCacheKey, $this->_cacheGroupName);
-            $this->logger->setLogInfo('Collected ' . count($filesForZip) . ' files on first step');
-        } else {
-            // Subsequent steps: get the complete file list and previously processed files
-            $cachedFiles = cache_get($filesForBatchCacheKey, $this->_cacheGroupName);
-            $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName);
+            // First step: gather all files and store in cache
+            if ($currentStep == 1) {
+                cache_save($filesForZip, $filesForBatchCacheKey, $this->_cacheGroupName);
+                cache_save([], $processedFilesCacheKey, $this->_cacheGroupName);
+                $this->logger->setLogInfo('Collected ' . count($filesForZip) . ' files on first step');
+            } else {
+                // Subsequent steps: get the complete file list and previously processed files
+                $cachedFiles = cache_get($filesForBatchCacheKey, $this->_cacheGroupName);
+                $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName);
 
-            if ($cachedFiles !== false) {
-                $filesForZip = $cachedFiles;
-                $this->logger->setLogInfo('Retrieved ' . count($filesForZip) . ' total files from cache');
-                $this->logger->setLogInfo('Already processed ' . count($processedFiles) . ' files in previous steps');
+                if ($cachedFiles !== false) {
+                    $filesForZip = $cachedFiles;
+                    $this->logger->setLogInfo('Retrieved ' . count($filesForZip) . ' total files from cache');
+                    $this->logger->setLogInfo('Already processed ' . count($processedFiles) . ' files in previous steps');
+                }
             }
-        }
 
-        $totalFilesForZip = count($filesForZip);
-        $this->logger->setLogInfo('Total files to process: ' . $totalFilesForZip);
+            $totalFilesForZip = count($filesForZip);
+            $this->logger->setLogInfo('Total files to process: ' . $totalFilesForZip);
 
-        // Determine how many files to process per step - divide evenly
-        $totalFilesPerStep = (int) ceil($totalFilesForZip / $totalSteps);
-        $totalFilesPerStep = max(1, $totalFilesPerStep); // At least 1 file per step
+            // Determine how many files to process per step - divide evenly
+            $totalFilesPerStep = (int)ceil($totalFilesForZip / $totalSteps);
+            $totalFilesPerStep = max(1, $totalFilesPerStep); // At least 1 file per step
 
-        $this->logger->setLogInfo('Processing ~' . $totalFilesPerStep . ' files per step');
+            $this->logger->setLogInfo('Processing ~' . $totalFilesPerStep . ' files per step');
 
-        // Get previously processed files
-        $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName) ?: [];
+            // Get previously processed files
+            $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName) ?: [];
 
-        // Calculate starting point for this batch (based on previously processed files)
-        $startIndex = count($processedFiles);
-        $endIndex = min($startIndex + $totalFilesPerStep, $totalFilesForZip);
+            // Calculate starting point for this batch (based on previously processed files)
+            $startIndex = count($processedFiles);
+            $endIndex = min($startIndex + $totalFilesPerStep, $totalFilesForZip);
 
-        // Prepare the current batch of files
-        $currentBatch = [];
-        for ($i = $startIndex; $i < $endIndex; $i++) {
-            if (isset($filesForZip[$i])) {
-                $currentBatch[] = $filesForZip[$i];
+            // Prepare the current batch of files
+            $currentBatch = [];
+            for ($i = $startIndex; $i < $endIndex; $i++) {
+                if (isset($filesForZip[$i])) {
+                    $currentBatch[] = $filesForZip[$i];
+                }
             }
-        }
 
-        $this->logger->setLogInfo('Current batch: processing files ' . ($startIndex+1) . ' to ' . $endIndex . ' of ' . $totalFilesForZip);
+            $this->logger->setLogInfo('Current batch: processing files ' . ($startIndex + 1) . ' to ' . $endIndex . ' of ' . $totalFilesForZip);
 
-        // Create file batches array with just the current batch
-        $filesBatch = [$currentBatch];
+            // Create file batches array with just the current batch
+            $filesBatch = [$currentBatch];
         }
 
         // Always process the first batch (index 0)
         $selectBatch = 0;
 
-            // If we've processed all files or this is the final step, we need to finish
-            if (empty($currentBatch) || $currentStep == $totalSteps) {
-                $this->logger->setLogInfo('Final step or no more files to process, finishing');
+        // If we've processed all files or this is the final step, we need to finish
+        if (empty($currentBatch) || $currentStep == $totalSteps) {
+            $this->logger->setLogInfo('Final step or no more files to process, finishing');
 
-                // Important: we should finalize the backup and make sure all files are included
-                $allCachedFiles = cache_get($filesForBatchCacheKey, $this->_cacheGroupName) ?: [];
-                $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName) ?: [];
+            // Important: we should finalize the backup and make sure all files are included
+            $allCachedFiles = cache_get($filesForBatchCacheKey, $this->_cacheGroupName) ?: [];
+            $processedFiles = cache_get($processedFilesCacheKey, $this->_cacheGroupName) ?: [];
 
-                // Find any files that haven't been processed yet
-                $remainingFiles = [];
-                foreach ($allCachedFiles as $fileIndex => $file) {
-                    $found = false;
-                    foreach ($processedFiles as $processedFile) {
-                        if (isset($processedFile['filepath']) && isset($file['filepath']) &&
-                            $processedFile['filepath'] == $file['filepath']) {
-                            $found = true;
-                            break;
-                        }
-                    }
-                    if (!$found) {
-                        $remainingFiles[] = $file;
+            // Find any files that haven't been processed yet
+            $remainingFiles = [];
+            foreach ($allCachedFiles as $fileIndex => $file) {
+                $found = false;
+                foreach ($processedFiles as $processedFile) {
+                    if (isset($processedFile['filepath']) && isset($file['filepath']) &&
+                        $processedFile['filepath'] == $file['filepath']) {
+                        $found = true;
+                        break;
                     }
                 }
-
-                // Process any remaining files in this final step
-                if (!empty($remainingFiles)) {
-                    $this->logger->setLogInfo('Processing ' . count($remainingFiles) . ' remaining files in final step');
-                    $filesBatch[0] = array_merge($filesBatch[0], $remainingFiles);
+                if (!$found) {
+                    $remainingFiles[] = $file;
                 }
-
-                SessionStepper::finish();
             }
+
+            // Process any remaining files in this final step
+            if (!empty($remainingFiles)) {
+                $this->logger->setLogInfo('Processing ' . count($remainingFiles) . ' remaining files in final step');
+                $filesBatch[0] = array_merge($filesBatch[0], $remainingFiles);
+            }
+
+            SessionStepper::finish();
+        }
 
         // For single-step operations, process all files
         if ($totalSteps == 1) {
             $this->logger->setLogInfo('Processing single-step backup with ' . count($filesBatch[0]) . ' files');
 
-        // Normal processing for non-test cases
-        foreach ($filesBatch[0] as $file) {
-            $ext = get_file_extension($file['filepath']);
-            $file['filename'] = str_replace('\\', '/', $file['filename']);
-            $file['filepath'] = str_replace('\\', '/', $file['filepath']);
+            // Normal processing for non-test cases
+            foreach ($filesBatch[0] as $file) {
+                $ext = get_file_extension($file['filepath']);
+                $file['filename'] = str_replace('\\', '/', $file['filename']);
+                $file['filepath'] = str_replace('\\', '/', $file['filepath']);
 
-            if ($ext == 'css') {
-                $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
-                $csscont = file_get_contents($file['filepath']);
-                $csscont = app()->url_manager->replace_site_url($csscont);
-                $zip->addFromString($file['filename'], $csscont);
-            } else {
-                $this->logger->setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
-                $zip->addFile($file['filepath'], $file['filename']);
+                if ($ext == 'css') {
+                    $this->logger->setLogInfo('Archiving CSS file <b>' . $file['filename'] . '</b>');
+                    $csscont = file_get_contents($file['filepath']);
+                    $csscont = app()->url_manager->replace_site_url($csscont);
+                    $zip->addFromString($file['filename'], $csscont);
+                } else {
+                    $this->logger->setLogInfo('Archiving file <b>' . $file['filename'] . '</b>');
+                    $zip->addFile($file['filepath'], $file['filename']);
+                }
             }
-        }
 
             $this->logger->setLogInfo('Finishing single-step backup');
             $this->_finishUp();
@@ -463,8 +463,7 @@ class ZipBatchBackup extends DefaultBackup
             ];
             $log['done'] = true;
             $log['success'] = 'Items are exported';
-        }
-        // For multi-step operations, only provide filepath on the last step
+        } // For multi-step operations, only provide filepath on the last step
         else if (SessionStepper::isFinished()) {
             $log['data'] = [
                 'filepath' => $zipFileName['filepath'],
@@ -639,24 +638,57 @@ class ZipBatchBackup extends DefaultBackup
 
     protected function _getUserFilesPaths()
     {
+
+
         // Early return if media backup is explicitly disabled
         if ($this->backupMedia === false) {
             $this->logger->setLogInfo('Media backup is disabled, skipping user files');
             return array();
         }
 
-        $userFilesPath = userfiles_path();
-        $userFilesScanned = $this->_getDirContents($userFilesPath);
+        $userFilesPathStorage = public_path('storage');
 
-        $userFilesReady = array();
+        $userFilesPathStorage = realpath($userFilesPathStorage);
 
-        foreach ($userFilesScanned as $filePath) {
-            $dataFile = str_replace($userFilesPath, 'userfiles/', $filePath);
-            $userFilesReady[] = array(
-                'filename' => $dataFile,
-                'filepath' => $filePath
-            );
+
+        $userFilesPathCheckIfReal = userfiles_path();
+        $userFilesPathCheckIfReal = realpath($userFilesPathCheckIfReal);
+
+        if (!str_starts_with($userFilesPathCheckIfReal, $userFilesPathStorage)) {
+            $userFilesPath = userfiles_path();
+            $userFilesScanned = $this->_getDirContents($userFilesPath);
+
+            $userFilesReady = array();
+
+            foreach ($userFilesScanned as $filePath) {
+                $dataFile = str_replace($userFilesPath, 'userfiles/', $filePath);
+                $userFilesReady[] = array(
+                    'filename' => $dataFile,
+                    'filepath' => $filePath
+                );
+            }
+        } else {
+
+            $userFilesPath = $userFilesPathStorage;
+            $userFilesPath = normalize_path($userFilesPath);
+
+            $userFilesScanned = $this->_getDirContents($userFilesPath);
+
+            $userFilesReady = array();
+            $userFilesPath = str_replace('\\', '/', $userFilesPath);
+            foreach ($userFilesScanned as $filePath) {
+
+
+                $dataFile = str_replace($userFilesPath, 'storage/', $filePath);
+                $userFilesReady[] = array(
+                    'filename' => $dataFile,
+                    'filepath' => $filePath
+                );
+            }
+
         }
+
+
 
         $this->logger->setLogInfo('Found ' . count($userFilesReady) . ' user files for backup');
         return $userFilesReady;
