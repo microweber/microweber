@@ -122,7 +122,7 @@ class CategoryTest extends TestCase
         $mainCategory = new Category();
         $mainCategory->parent_id = 0;
         $mainCategory->rel_id = $page->id;
-        $mainCategory->rel_type = 'content';
+        $mainCategory->rel_type = morph_name(Content::class);
         $mainCategory->title = $mainCategoryTitle;
         $mainCategory->save();
 
@@ -155,7 +155,7 @@ class CategoryTest extends TestCase
 
         $options = array();
         $options['rel_id'] = $page->id;
-        $options['rel_type'] = 'content';
+        $options['rel_type'] = morph_name(\Modules\Content\Models\Content::class);
         $options['active_ids'] = $mainCategory->id;
         $options['use_cache'] = false;
         $options['return_data'] = 1;

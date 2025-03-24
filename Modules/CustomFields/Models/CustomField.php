@@ -145,6 +145,9 @@ class CustomField extends Model
         $setBackMultileValuesAttrbuteAfterSave = null;
 
         if (isset($this->value) and !empty($this->value)) {
+            //cleaup the old value
+            CustomFieldValue::where('custom_field_id', $this->id)->delete();
+
             $setBackValueAttrbuteAfterSave = $this->value;
             if (is_collection($this->value)) {
                 $customFieldValueToSave = $this->value->toArray();
@@ -157,6 +160,7 @@ class CustomField extends Model
         }
 
         if (isset($this->values) and !empty($this->values)) {
+
             if (is_collection($this->values)) {
                 $customFieldValueToSave = $this->values->toArray();
             } else {
@@ -187,10 +191,8 @@ class CustomField extends Model
 
 
             if (is_array($customFieldValueToSave)) {
-                foreach ($customFieldValueToSave as $val) {
 
-                    $this->createCustomFieldValue($this->id, $val);
-                }
+                $this->createCustomFieldValueMultiple($this->id, $customFieldValueToSave);
             } else {
                 $this->createCustomFieldValue($this->id, $customFieldValueToSave);
             }
@@ -206,10 +208,24 @@ class CustomField extends Model
         return $saved;
     }
 
+    private function createCustomFieldValueMultiple($customFieldId, $vals)
+    {
+        CustomFieldValue::where('custom_field_id', $customFieldId)->delete();
+
+        foreach ($vals as $val) {
+            $findValue = new CustomFieldValue();
+            $findValue->custom_field_id = $customFieldId;
+            $findValue->value = $val;
+            $findValue->save();
+        }
+
+
+    }
+
     private function createCustomFieldValue($customFieldId, $val)
     {
 
-        $findValue = CustomFieldValue::where('custom_field_id', $customFieldId)->where('value', $val)->first();
+        $findValue = CustomFieldValue::where('custom_field_id', $customFieldId)->first();
         if (!$findValue) {
             $findValue = new CustomFieldValue();
         }
