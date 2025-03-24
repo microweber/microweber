@@ -727,6 +727,7 @@ class LayoutsManager
                 $this_template_url = THIS_TEMPLATE_URL;
 
                 $template_folder = userfiles_path() . 'css' . DS . $template . DS;
+                $template_folder_url = userfiles_url() . 'css' . '/' . $template . '/';
                 if (!is_dir($template_folder)) {
                     mkdir_recursive($template_folder);
                 }
@@ -742,9 +743,10 @@ class LayoutsManager
 
                 app()->template_manager->liveEditCssAdapter->saveLiveEditCssContent($css_cont_new, $template);
                 $saveCustomCssPath = app()->template_manager->liveEditCssAdapter->getLiveEditCssPath($template);
+                $saveCustomCssUrl = app()->template_manager->liveEditCssAdapter->getLiveEditCssUrl($template);
 
                 $resp = array();
-                $resp['url'] = $this->app->url_manager->link_to_file($saveCustomCssPath);
+                $resp['url'] =$saveCustomCssUrl;
 
 
                 $resp['content'] = $css_cont_new;

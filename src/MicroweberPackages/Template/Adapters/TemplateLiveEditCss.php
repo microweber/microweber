@@ -71,8 +71,9 @@ class TemplateLiveEditCss
         $liv_ed_css = '';
         if (is_file($custom_live_edit_css_path)) {
             $custom_live_editmtime = filemtime($custom_live_edit_css_path);
-            $custom_live_edit_link = app()->url_manager->link_to_file($custom_live_edit_css_path);
-
+         //   $custom_live_edit_link = app()->url_manager->link_to_file($custom_live_edit_css_path);
+            $template_folder_url = userfiles_url() . 'css' . '/' . $the_active_site_template . '/';
+            $custom_live_edit_link = $template_folder_url . $this->getLiveEditCssFilename();
             $live_edit_css_url = $custom_live_edit_link . '?version=' . $custom_live_editmtime;
 
             return $live_edit_css_url;
