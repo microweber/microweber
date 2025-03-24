@@ -15,17 +15,19 @@ class FaqModuleFrontendTest extends TestCase
     public function testDefaultViewRendering()
     {
         // Create a test FAQ in the database
+     $id = 'test-faq-id-' . uniqid();
+
+        $params = [
+            'id' =>$id ,
+        ];
         $faq = Faq::create([
             'question' => 'What is this?',
             'answer' => 'This is a test answer.',
             'position' => 0,
+            'rel_type' => 'module',
+            'rel_id' => $id,
             'is_active' => true
         ]);
-
-        $params = [
-            'id' => 'test-faq-id-' . uniqid(),
-        ];
-
         $faqModule = new FaqModule($params);
         $viewOutput = $faqModule->render();
 

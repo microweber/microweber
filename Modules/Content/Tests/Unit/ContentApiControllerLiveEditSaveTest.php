@@ -543,19 +543,7 @@ HTML;
 
     private function cleanupAndPrepare()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        if (!$user) {
-            // mak user
-            $user = new User();
-            $user->username = 'admin';
-            $user->email = 'info@example.com';
-            $user->password = bcrypt('admin');
-            $user->is_admin = 1;
-            $user->is_active = 1;
-            $user->save();
-        }
-
-        Auth::login($user);
+       $this->loginAsAdmin();
         Config::set('microweber.disable_model_cache', 1);
 
 

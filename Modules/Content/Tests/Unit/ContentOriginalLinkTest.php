@@ -14,8 +14,7 @@ class ContentOriginalLinkTest extends TestCase
 {
     public function testContentOriginalLinkRedirect()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
         mw()->database_manager->extended_save_set_permission(true);
 
         $title = 'My test page testContentOriginalLinkParentRedirect' . uniqid();
