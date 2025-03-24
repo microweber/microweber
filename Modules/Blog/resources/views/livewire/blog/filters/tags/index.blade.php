@@ -1,4 +1,4 @@
-@if($showTags)
+@if(isset($showTags) and $showTags)
     <div class="mb-4">
         <div class="card">
             <div class="card-body">

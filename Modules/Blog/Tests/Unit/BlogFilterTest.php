@@ -2,8 +2,8 @@
 namespace Modules\Blog\Tests\Unit;
 
 use Illuminate\Support\Facades\App;
-use MicroweberPackages\Blog\Http\Controllers\BlogController;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Blog\Livewire\BlogComponent;
 use Modules\Page\Models\Page;
 use Modules\Post\Models\Post;
 
@@ -43,26 +43,24 @@ class BlogFilterTest extends TestCase
         $request = new \Illuminate\Http\Request();
         $request->merge($params);
 
-        $controller = App::make(BlogController::class);
-        $controller->setModuleParams($params);
-        $controller->setModuleConfig([
-            'module'=> 'blog'
-        ]);
-        $controller->registerModule();
-
-        $html = $controller->index($request);
-        $htmlString = $html->__toString();
+        $controller = App::make(BlogComponent::class);
+        $controller->mount($moduleId);
+        $htmlString = $controller->render();
+        $htmlString = $htmlString->__toString();
 
         foreach ($posts as $post) {
             $findPostTitle = (str_contains($htmlString, $post->title) !== false);
             $this->assertTrue($findPostTitle);
         }
 
-        $findJs = (str_contains($htmlString, 'filter.js') !== false);
-        $this->assertTrue($findJs);
+//        $findJs = (str_contains($htmlString, 'filter.js') !== false);
+//        $this->assertTrue($findJs);
+//
+//        $findCss = (str_contains($htmlString, 'filter.css') !== false);
+//        $this->assertTrue($findCss);
 
-        $findCss = (str_contains($htmlString, 'filter.css') !== false);
-        $this->assertTrue($findCss);
+        $findJs = (str_contains($htmlString, 'wire:model.live') !== false);
+        $this->assertTrue($findJs);
 
     }
 }

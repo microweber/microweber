@@ -20,9 +20,9 @@ class CustomFieldRenderTest extends TestCase
 
         $field->setData($customField->toArray());
 
-        ob_start();
-        $field->render();
-        $output = ob_get_clean();
+
+        $output = $field->render();
+
 
         $this->assertStringContainsString('type="text"', $output);
         $this->assertStringContainsString('name="test-text-field"', $output);
@@ -44,9 +44,7 @@ class CustomFieldRenderTest extends TestCase
         $field = new \Modules\CustomFields\Fields\Text();
         $field->setData($customField->toArray());
 
-        ob_start();
-        $field->render();
-        $output = ob_get_clean();
+        $output = $field->render();
 
         $this->assertStringContainsString('<textarea', $output);
         $this->assertStringContainsString('rows="5"', $output);
@@ -64,9 +62,8 @@ class CustomFieldRenderTest extends TestCase
         $field = new \Modules\CustomFields\Fields\Email();
         $field->setData($customField->toArray());
 
-        ob_start();
-        $field->render();
-        $output = ob_get_clean();
+
+        $output = $field->render();
 
         $this->assertStringContainsString('type="email"', $output);
         $this->assertStringContainsString('value="test@email.com"', $output);
@@ -83,9 +80,8 @@ class CustomFieldRenderTest extends TestCase
         $field = new \Modules\CustomFields\Fields\Number();
         $field->setData($customField->toArray());
 
-        ob_start();
-        $field->render();
-        $output = ob_get_clean();
+
+        $output =   $field->render();
 
         $this->assertStringContainsString('type="number"', $output);
         $this->assertStringContainsString('value="42"', $output);
@@ -104,9 +100,9 @@ class CustomFieldRenderTest extends TestCase
         $field = new \Modules\CustomFields\Fields\Checkbox();
         $field->setData($customField->toArray());
 
-        ob_start();
-        $field->render();
-        $output = ob_get_clean();
+
+        $output = $field->render();
+
 
         $this->assertStringContainsString('type="checkbox"', $output);
         $this->assertStringContainsString('value="Yes"', $output);
@@ -128,9 +124,9 @@ class CustomFieldRenderTest extends TestCase
         $field = new \Modules\CustomFields\Fields\Dropdown();
         $field->setData($customField->toArray());
 
-        ob_start();
-        $field->render();
-        $output = ob_get_clean();
+
+        $output =  $field->render();
+
 
         $this->assertStringContainsString('<select', $output);
         $this->assertStringContainsString('Option 1', $output);
@@ -148,9 +144,9 @@ class CustomFieldRenderTest extends TestCase
         $field = new \Modules\CustomFields\Fields\Date();
         $field->setData($customField->toArray());
 
-        ob_start();
-        $field->render();
-        $output = ob_get_clean();
+
+        $output = $field->render();
+
 
         $this->assertStringContainsString('type="date"', $output);
         $this->assertStringContainsString('value="2024-03-20"', $output);
@@ -167,9 +163,9 @@ class CustomFieldRenderTest extends TestCase
         $field = new \Modules\CustomFields\Fields\Color();
         $field->setData($customField->toArray());
 
-        ob_start();
-        $field->render();
-        $output = ob_get_clean();
+
+        $output =  $field->render();
+
 
         $this->assertStringContainsString('type="color"', $output);
         $this->assertStringContainsString('value="#FF0000"', $output);
