@@ -7,7 +7,7 @@
                     wire:model.live="search"
                     class="form-control" style="border: none;"
                     placeholder="{{ _e('Search posts...') }}">
-                @if($search)
+                @if(isset($search) and !empty($search))
                     <button
                         class="btn btn-outline-secondary"
                         wire:click="$set('search', '')"

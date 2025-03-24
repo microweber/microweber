@@ -11,13 +11,13 @@ return new class extends Migration
         if (!Schema::hasTable('mail_templates')) {
             Schema::create('mail_templates', function (Blueprint $table) {
                 $table->id();
-                $table->string('name');
-                $table->string('type');
-                $table->string('from_name');
-                $table->string('from_email');
+                $table->string('name')->nullable();;
+                $table->string('type')->nullable();;
+                $table->string('from_name')->nullable();;
+                $table->string('from_email')->nullable();;
                 $table->string('copy_to')->nullable();
-                $table->string('subject');
-                $table->text('message');
+                $table->string('subject')->nullable();;
+                $table->text('message')->nullable();;
                 $table->boolean('is_active')->default(true);
                 $table->timestamps();
             });

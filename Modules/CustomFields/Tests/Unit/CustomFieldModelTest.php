@@ -67,7 +67,8 @@ class CustomFieldModelTest extends TestCase
         $customField->value = 'Test Value';
         $customField->save();
 
-        $customFieldFind = CustomField::find($customField->id);
+        $customFieldFind = CustomField::where('id', $customField->id)->first();
+
         $this->assertEquals($customField->value, $customFieldFind->value);
 
     }

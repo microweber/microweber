@@ -41,6 +41,8 @@ $limit = 40;
 <style>
     #{{ $params['id'] }} .slick-track {
         display: flex !important;
+
+
     }
 
     #{{ $params['id'] }} .slick-list {
@@ -76,7 +78,7 @@ $limit = 40;
             <p class="mw-pictures-clean">No testimonials added to the module. Please add your testimonials to see the content..</p>
         @else
             @foreach ($testimonials as $item)
-                <div class="border testimonials-background-variable testimonialBorderVariable mx-3 h-100 p-5">
+                <div class="border testimonials-background-variable testimonialBorderVariable mx-3 h-100 p-5 gap-3">
                     @if (isset($item['client_image']))
                         <img loading="lazy" src="{{ thumbnail($item['client_image'], 130) }}" class="d-block mb-3"/>
                     @endif

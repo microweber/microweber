@@ -157,6 +157,12 @@
                 mw.require(mw.settings.libs_url + 'nouislider/nouislider.css');
             }
         ],
+        "justified-gallery": [
+            function () {
+                mw.require(mw.settings.libs_url + 'justified-gallery/justified-gallery.js');
+                mw.require(mw.settings.libs_url + 'justified-gallery/justified-gallery.css');
+            }
+        ],
 
 
     };

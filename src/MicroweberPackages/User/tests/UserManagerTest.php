@@ -23,8 +23,6 @@ use Modules\Customer\Models\Customer;
  * @author Bobi Slaveykvo Microweber
  * @command php artisan test --filter UserManager
  */
-
-
 class UserManagerTest extends TestCase
 {
     use UserTestHelperTrait;
@@ -195,7 +193,7 @@ class UserManagerTest extends TestCase
         $this->_disableLoginCaptcha();
         $this->_disableRegistrationApprovalByAdmin();
 
-        $user = 'testuseraddress' . uniqid().'@example.com';
+        $user = 'testuseraddress' . uniqid() . '@example.com';
         $pass = 'testuseraddress' . uniqid();
 
         $this->_registerUserWithEmail($user, $pass);
@@ -209,8 +207,8 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('success', $requestStatus);
         $this->assertTrue($requestStatus['success']);
 
-        $this->assertTrue(str_contains($requestStatus['message'],'We have emailed your password reset link!'));
-        $this->assertTrue(str_contains($requestStatus['message'],'reset link'));
+        $this->assertTrue(str_contains($requestStatus['message'], 'We have emailed your password reset link!'));
+        $this->assertTrue(str_contains($requestStatus['message'], 'reset link'));
 
         $userDetails['email'] = 'wrong@gmail.com';
 
@@ -219,7 +217,7 @@ class UserManagerTest extends TestCase
 
         $this->assertArrayHasKey('error', $requestStatus);
         $this->assertTrue($requestStatus['error']);
-        $this->assertTrue(str_contains($requestStatus['message'],'user with that'));
+        $this->assertTrue(str_contains($requestStatus['message'], 'user with that'));
 
 
     }
@@ -318,8 +316,7 @@ class UserManagerTest extends TestCase
 
         $this->assertArrayHasKey('error', $loginStatus);
 
-        $this->assertTrue(str_contains($loginStatus['error'],'verify'));
-
+        $this->assertTrue(str_contains($loginStatus['error'], 'verify'));
 
 
         $user = User::find($registerStatus['data']['id']);
@@ -338,8 +335,8 @@ class UserManagerTest extends TestCase
         $this->assertEquals(!isset($user_array['password_reset_hash']), true);
 
 
-        $shotUsername  = get_username_short($user->id);
-        $this->assertEquals('bo',$shotUsername);
+        $shotUsername = get_username_short($user->id);
+        $this->assertEquals('bo', $shotUsername);
 
 
     }
@@ -365,9 +362,10 @@ class UserManagerTest extends TestCase
         $registerStatus = $userManager->register($newUser);
 
 
-        $this->assertTrue($registerStatus['error']);
+        $this->assertNotEmpty($registerStatus['errors']);
         $this->assertArrayHasKey('errors', $registerStatus);
         $this->assertArrayHasKey('username', $registerStatus['errors']);
+        $this->assertNotSame($registerStatus['errors']['username'], $newUser['username']);
 
 
     }
@@ -404,8 +402,7 @@ class UserManagerTest extends TestCase
         $this->assertTrue($forgotPass['success']);
 
 
-        $this->assertTrue(str_contains($forgotPass['message'],'reset link'));
-
+        $this->assertTrue(str_contains($forgotPass['message'], 'reset link'));
 
 
         $check = DB::table('password_resets')
@@ -427,7 +424,7 @@ class UserManagerTest extends TestCase
 
         $this->assertTrue($updatePasswordWithToken['success']);
 
-        $this->assertTrue(str_contains($updatePasswordWithToken['message'],'has been reset'));
+        $this->assertTrue(str_contains($updatePasswordWithToken['message'], 'has been reset'));
 
         logout();
 
@@ -453,7 +450,7 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('error', $updatePasswordWithToken);
         $this->assertTrue($updatePasswordWithToken['error']);
 
-        $this->assertTrue(str_contains($updatePasswordWithToken['message'],'token is invalid'));
+        $this->assertTrue(str_contains($updatePasswordWithToken['message'], 'token is invalid'));
 
     }
 
@@ -477,6 +474,12 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('success', $registerStatus);
         $user = User::find($registerStatus['data']['id']);
 
+
+        $templateId = get_mail_template_by_type('forgot_password');
+        if ($templateId) {
+            delete_mail_template_by_id($templateId);
+
+        }
         // Save custom mail template and test it
         $templateId = save_mail_template([
             'type' => 'forgot_password',
@@ -490,8 +493,7 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('success', $forgotPass);
         $this->assertTrue($forgotPass['success']);
 
-        $this->assertTrue(str_contains($forgotPass['message'],'reset link'));
-
+        $this->assertTrue(str_contains($forgotPass['message'], 'reset link'));
 
 
         $findResetPasswordLink = false;
@@ -502,7 +504,7 @@ class UserManagerTest extends TestCase
             $emailArray = $this->getEmailDataAsArrayFromObject($email);
             $body = $emailArray['body'];
 
-             if (str_contains($body, '--unit-testingRESET_passwordlink-') !== false) {
+            if (str_contains($body, '--unit-testingRESET_passwordlink-') !== false) {
                 if (str_contains($body, '?email') !== false) {
                     $findResetPasswordLink = true;
                 }
@@ -516,8 +518,10 @@ class UserManagerTest extends TestCase
     public function testUserRegistrationWelcomeCustomEmailTemplate()
     {
         \Config::set('mail.transport', 'array');
+        \Config::set('queue.default', 'sync');
         $this->_enableUserRegistration();
         $this->_disableRegistrationApprovalByAdmin();
+        $this->_disableEmailVerify();
         $this->_enableRegisterWelcomeEmail();
         $this->_disableCaptcha();
         $this->_disableLoginCaptcha();
@@ -527,11 +531,15 @@ class UserManagerTest extends TestCase
         $newUser['email'] = uniqid() . '@mail.test';
         $newUser['password'] = uniqid();
 
+        $templateId = get_mail_template_by_type('new_user_registration');
+        if ($templateId) {
+            delete_mail_template_by_id($templateId);
 
+        }
         // Save custom mail template and test it
         $templateId = save_mail_template([
             'type' => 'new_user_registration',
-            'message' => 'Hey {{username}}, We are so exited you are joining us. {{username}}--unit-testing-welcome-{{email}}'
+            'message' => 'Hey {{username}}  , We are so exited you are joining us. {{username}}--unit-testing-welcome-{{email}}'
         ]);
         Option::setValue('new_user_registration_mail_template', $templateId, 'users');
 
@@ -546,6 +554,7 @@ class UserManagerTest extends TestCase
         $checkMailIsFound = false;
         $findUsername = false;
         $emails = app()->make('mailer')->getSymfonyTransport()->messages();
+
         foreach ($emails as $email) {
 
 
@@ -554,13 +563,16 @@ class UserManagerTest extends TestCase
             $subject = $emailArray['subject'];
             $body = $emailArray['body'];
 
-            if ($subject == 'New Registration') {
+            if ($subject == 'New User Registration') {
+
+           
+
                 $checkMailIsFound = true;
-                if (strpos($body, '--unit-testing-welcome-') !== false) {
+                if (str_contains($body, '--unit-testing-welcome-')) {
                     $findUnitTestingText = true;
                 }
 
-                if (strpos($body, $newUser['email']) !== false) {
+                if (str_contains($body, $newUser['username'])) {
                     $findUsername = true;
                 }
             }

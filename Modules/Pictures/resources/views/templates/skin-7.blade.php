@@ -9,8 +9,7 @@ description: Pictures Skin 7 - Justify
 @endphp
 
 <script>
-    mw.require('{{ template_url() }}js/justified/justifiedGallery.js');
-    mw.require('{{ template_url() }}js/justified/justifiedGallery.min.css');
+    mw.lib.require('justified-gallery');
 </script>
 
 <script>

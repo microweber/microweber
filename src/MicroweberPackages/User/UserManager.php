@@ -636,6 +636,9 @@ class UserManager
 
     public function register($params)
     {
+        $params = xss_clean($params);
+
+
         $controller = new UserRegisterController();
 
         $request = new RegisterRequest($params);
