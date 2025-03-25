@@ -15,7 +15,7 @@ description: Default
     }
 </style>
 
-<div class="team-card-holder d-flex flex-wrap">
+<div class="team-card-holder row">
     @php
         $count = 0;
     @endphp
@@ -25,8 +25,8 @@ description: Default
             @php
                 $count++;
             @endphp
-            <div class="team-card-item col-md-6 col-12 mb-3 overflow-hidden text-start my-5 d-flex flex-wrap">
-                <div class="col-md-6 pe-2">
+            <div class="row col-lg-6 col-12 mx-auto team-card-item mb-3 overflow-hidden text-lg-start text-center justify-content-center my-5">
+                <div class="col-sm-4 pe-2">
                     @if ($member['file'])
                         <div class="team-card-item-image rounded-circle" style="background-image: url('{{ thumbnail($member['file'], 800) }}');"></div>
                     @else
@@ -36,7 +36,7 @@ description: Default
                     @endif
                 </div>
 
-                <div class="col-md-6 ps-2">
+                <div class="col-lg-8 col-12 ps-2">
                     <h3 class="team-card-item-name">
                         {{$member['name']}}
                     </h3>
