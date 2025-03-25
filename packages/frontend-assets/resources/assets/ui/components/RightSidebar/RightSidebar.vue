@@ -29,12 +29,12 @@
 <!--                    </div>-->
                 </div>
 
-                <div class="tab-content" v-show="showTemplateSettings">
+                <div class="tab-content" data-show="showTemplateSettings" v-show="true">
                     <div class="tab-pane active tab-pane-slide-right" id="style-edit-global-template-settings-holder"
                          role="tabpanel">
                         <div>
 
-                            <iframe :x-src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
+                            <iframe :src="buildIframeUrlTemplateSettings()" style="width:100%;height:100vh;"
                                     frameborder="0"
                                     allowfullscreen></iframe>
 
@@ -206,7 +206,7 @@ export default {
     data() {
         return {
             showSidebar: false,
-            showTemplateSettings: false,
+            showTemplateSettings: true,
             buttonIsActive: false,
             isReady: false,
             showElementStyleEditor: false

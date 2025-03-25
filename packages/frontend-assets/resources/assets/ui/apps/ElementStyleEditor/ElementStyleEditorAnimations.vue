@@ -12,17 +12,24 @@
           </span>
       </div>
 
-      <div v-if="showAnimations">
+      <div v-if="showAnimations" class="mb-4">
 
       <!-- <DropdownSmall v-model="selectedAnimation" :options="animations" :label="'Animation'"/> -->
 
         <div class="animations-selector">
-            <div
-                v-for="animation in animations"
-                class="animation-item"
-                @click="selectAnimation(animation.key)"
-                :class="{active: selectedAnimation === animation.key}">
-                <span class="animation-title">{{ animation.value }}</span>
+            <div class="animation-item-wrapper"  v-for="animation in animations">
+                <div
+
+                    class="animation-item"
+                    @douchstart="demo"
+                    @touchend="demo"
+                    @mouseenter="demo"
+                    @mouseleave="demo"
+                    :data-animation="animation.key"
+                    @click="selectAnimation(animation.key)"
+                    :class="{active: selectedAnimation === animation.key}">
+                    <span class="animation-title">{{ animation.value }}</span>
+                </div>
             </div>
         </div>
 
@@ -55,11 +62,20 @@
     scrollbar-width: thin;
 }
 
-.animation-item{
-    position: relative;
-    border-radius: 0.25rem;
+
+
+.animation-item-wrapper{
     width: calc(25% - 20px);
     aspect-ratio: 1 / 1;
+    position: relative;
+}
+.animation-item{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,7 +94,8 @@
 .animation-title {
     position: absolute;
     inset-inline: 0;
-    top: calc(100% + 5px);
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 12px;
     text-align: center;
 }
@@ -90,6 +107,8 @@
 import DropdownSmall from "./components/DropdownSmall.vue";
 import SliderSmall from "./components/SliderSmall.vue";
 import ElementStyleAnimationsApplier from "./ElementStyleAnimationsApplier";
+
+let demoAnimation = null;
 
 
 const viewSize = () => {
@@ -161,13 +180,13 @@ export default {
         {"key": "lightSpeedInRight", "value": "LightSpeed In Right"},
         {"key": "lightSpeedInLeft", "value": "LightSpeed In Left"},
         {"key": "rotateIn", "value": "Rotate In"},
-        {"key": "rotateInDownLeft", "value": "Rotate In Down Left"},
+        /*{"key": "rotateInDownLeft", "value": "Rotate In Down Left"},
         {"key": "rotateInDownRight", "value": "Rotate In Down Right"},
         {"key": "zoomIn", "value": "Zoom In"},
         {"key": "zoomInDown", "value": "Zoom In Down"},
         {"key": "zoomInLeft", "value": "Zoom In Left"},
         {"key": "zoomInRight", "value": "Zoom In Right"},
-        {"key": "zoomInUp", "value": "Zoom In Up"},
+        {"key": "zoomInUp", "value": "Zoom In Up"},*/
         {"key": "slideInDown", "value": "Slide In Down"},
         {"key": "slideInLeft", "value": "Slide In Left"},
         {"key": "slideInRight", "value": "Slide In Right"},
@@ -208,6 +227,25 @@ export default {
       } else {
         this.selectedAnimationWhenAppear = null;
       }
+    },
+
+    demo(e) {
+        clearTimeout(demoAnimation);
+        const triggers = ['mouseenter', 'touchstart'];
+        if (triggers.indexOf(e.type) !== -1) {
+            const target = e.target;
+            demoAnimation = setTimeout((target) => {
+                const animation = target.dataset.animation.trim();
+                target.classList.add('animate__animated', `animate__${animation}`);
+
+                setTimeout( () => {
+
+                    target.classList.remove('animate__animated', `animate__${animation}`);
+
+                }, 600);
+
+            }, 300, target);
+        }
     },
     selectAnimation(animation) {
 

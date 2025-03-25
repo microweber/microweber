@@ -49,6 +49,8 @@ export class LiveEditWidgetsService extends BaseComponent{
             this.quickEditComponent.destroyEditor()
             this.#closeQuickEditComponentBox?.remove();
             this.status.quickEditComponent = false;
+            mw.top().doc.documentElement.classList.remove('live-edit-gui-editor-opened');
+
         }
 
     }
@@ -56,6 +58,8 @@ export class LiveEditWidgetsService extends BaseComponent{
     openQuickEditComponent() {
         this.closeAll();
         this.status.quickEditComponent = true;
+
+        mw.top().doc.documentElement.classList.add('live-edit-gui-editor-opened');
 
         const box = new (mw.top()).controlBox({
             content:``,
@@ -131,17 +135,23 @@ export class LiveEditWidgetsService extends BaseComponent{
 
     }
 
-    closeLayers() {
-        if(!this.status.layersOpened) {
-            return this;
-        }
+    closeLayersSidebar() {
         this.status.layersOpened = false;
-        mw.top().app.domTree.hide();
+
         if(!this.#hasOpened()) {
             mw.top().doc.documentElement.classList.remove( 'mw-live-edit-sidebar-start');
 
         }
         this.dispatch('layersClose');
+    }
+    closeLayers() {
+        if(!this.status.layersOpened) {
+            return this;
+        }
+
+        mw.top().app.domTree.hide();
+        this.closeLayersSidebar()
+
         return this;
 
     }

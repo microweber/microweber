@@ -226,6 +226,9 @@ class LiveEditDOMTree extends MicroweberBaseClass {
 
     mw.top().app.dispatch("DOMTreeReady", mw.top().app.domTree);
 
+    mw.top().app.domTree.on('hide', () => {
+        mw.top().app.liveEditWidgets.closeLayersSidebar()
+    })
 
 
 })();

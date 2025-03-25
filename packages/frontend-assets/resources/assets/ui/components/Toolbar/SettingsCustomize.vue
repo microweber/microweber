@@ -76,13 +76,13 @@ export default {
                 CSSGUIService.hide()
             }
             if(name === 'template-settings') {
-                mw.top().app.templateSettingsBox.toggle();
+                //mw.top().app.templateSettingsBox.toggle();
 
 
 
 
 
-return;
+//return;
                 if(!this.buttonIsActive){
                     this.buttonIsActive = true;
                     this.buttonIsActiveStyleEditor = false;

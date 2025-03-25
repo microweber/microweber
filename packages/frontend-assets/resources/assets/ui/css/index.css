@@ -36,6 +36,7 @@ a {
     color: #2b2b2b;
 }
 
+
 #live-edit-frame-holder {
     position: fixed;
     top: var(--toolbar-height);
@@ -83,10 +84,7 @@ html.mw-live-edit-sidebar-start #live_edit_side_holder {
     left: var(--sidebar-start-size);
     max-width: calc(100% - var(--sidebar-start-size));
 }
-html.mw-live-edit-sidebar-start #toolbar {
-    left: var(--sidebar-start-size);
-    max-width: calc(100% - var(--sidebar-start-size));
-}
+
 
 @media (min-width: 1050px) {
     .add-content-button-svg {

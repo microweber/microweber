@@ -127,7 +127,7 @@
     </style>
         <div id="live-edit-global-template-settings-component-wrapper" style="display:none;">
 
-            <livewire:live-edit-template-settings-sidebar />
+
         </div>
 
         <template>

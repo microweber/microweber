@@ -3,8 +3,8 @@
 
     <div>
         <Toolbar></Toolbar>
-        <LeftSidebar></LeftSidebar>
-        <!--<RightSidebar></RightSidebar>-->
+        <!-- <LeftSidebar></LeftSidebar>-->
+        <RightSidebar></RightSidebar>
         <ListLayouts></ListLayouts>
         <ListModules></ListModules>
        <ElementSettingsModal></ElementSettingsModal>

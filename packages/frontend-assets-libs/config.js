@@ -6,6 +6,7 @@ const localScripts = [
 
      {target: `jquery-nested-sortable`, path: `./resources/local-libs/nested-sortable/jquery.mjs.nestedSortable.js`},
      {target: `slick`, path: `./resources/local-libs/mw-slick.js`},
+     {target: `justified-gallery`, path: `./resources/local-libs/justified-gallery/justified-gallery.js`},
 
 ];
 
@@ -63,7 +64,7 @@ const css = [
     {target: `swiper`, path: `node_modules/swiper/swiper-bundle.min.css`},
     {target: `easymde`, path: `node_modules/easymde/dist/easymde.min.css` },
     {target: `async-alpine`, path: `node_modules/async-alpine/dist/async-alpine.script.js` },
-
+    {target: `justified-gallery`, path: `./resources/local-libs/justified-gallery/justified-gallery.css`},
 
 ];
 
