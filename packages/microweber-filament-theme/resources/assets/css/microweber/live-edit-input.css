@@ -54,7 +54,7 @@
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider {
-    @apply bg-transparent max-w-[45px] h-[35px] min-h-[unset];
+    @apply bg-transparent max-w-[60px] h-[35px] min-h-[unset];
 }
 
 .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,

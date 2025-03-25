@@ -16,7 +16,7 @@
 
 <style>
     .logo-module {
-        text-align: center;
+        /*text-align: center;*/
         margin: 20px 0;
     }
     .logo-text {
