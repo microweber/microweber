@@ -45,19 +45,17 @@
                 class="w-full flex flex-col p-3 items-center justify-center border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
 
                 <button
-
                     class="w-full py-6 full flex flex-col items-center justify-center"
                     type="button" x-on:click="()=> {
 
-                mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => {
-                        if(!Array.isArray(url)) {
-                            url = [url];
-                        }
-                        $wire.dispatchFormEvent('mwMediaBrowser::addMediaItem','{{ $statePath }}', {
-                                data: { url: url }
-                            })
-
-                });
+                    mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => {
+                            if(!Array.isArray(url)) {
+                                url = [url];
+                            }
+                            $wire.dispatchFormEvent('mwMediaBrowser::addMediaItemMultiple','{{ $statePath }}', {
+                                    data: { urls: url }
+                                })
+                    });
 
                 }">
 
@@ -70,7 +68,7 @@
 
 
                 <div class="w-full mb-3">
-                    @if($mediaItems and !empty($mediaItems))
+
 
                         <div
 
@@ -86,6 +84,7 @@
 
                             x-on:end="
 
+
                                 itemsSortedIds = $event.target.querySelectorAll('[x-sortable-item]');
 
                                 itemsSortedIdsArray = [];
@@ -100,17 +99,25 @@
                             class="admin-thumbs-holder-wrapper"
                         >
 
+                @if($mediaItems and !empty($mediaItems))
 
-                            <div x-show="mediaIds && mediaIds.length > 0 && selectedImages && selectedImages.length > 0"
-                                 class="admin-thumbs-holder-bulk-actions">
 
-                                <x-filament::button size="xs" icon="heroicon-m-trash" color="danger" @click="bulkDeleteSelectedMedia()">
-                                    Delete selected
-                                </x-filament::button>
 
-                            </div>
+                                <div class="mw-media-browser-delete-btn-wrapper" x-show="mediaIds && mediaIds.length > 0">
+                                    <div x-show="selectedImages && selectedImages.length > 0"
+                                         class="admin-thumbs-holder-bulk-actions">
 
-                            <div class="admin-thumbs-holder" x-sortable>
+                                        <x-filament::button size="xs" icon="heroicon-m-trash" color="danger" @click="bulkDeleteSelectedMedia()">
+                                            Delete selected
+                                        </x-filament::button>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="admin-thumbs-holder" x-sortable>
                                 @foreach($mediaItems as $item)
 
                                     <div
@@ -174,10 +181,10 @@
 
 
                             </div>
-
+                            @endif
 
                         </div>
-                    @endif
+
 
                 </div>
             </div>

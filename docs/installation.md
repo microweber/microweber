@@ -4,6 +4,10 @@ If you haveven't downloaded the zip file get it from here [https://microweber.co
 
 You can also download Microweber via Composer
 
+```
+composer create-project microweber/microweber:dev-filament example_project 
+```
+
 You can install Microweber directly from the command line interface. This may be useful in shell scripts that automate the site creation process. 
 
 

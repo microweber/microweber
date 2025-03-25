@@ -15,17 +15,19 @@ class FaqModuleFrontendTest extends TestCase
     public function testDefaultViewRendering()
     {
         // Create a test FAQ in the database
+     $id = 'test-faq-id-' . uniqid();
+
+        $params = [
+            'id' =>$id ,
+        ];
         $faq = Faq::create([
             'question' => 'What is this?',
             'answer' => 'This is a test answer.',
             'position' => 0,
+            'rel_type' => 'module',
+            'rel_id' => $id,
             'is_active' => true
         ]);
-
-        $params = [
-            'id' => 'test-faq-id-' . uniqid(),
-        ];
-
         $faqModule = new FaqModule($params);
         $viewOutput = $faqModule->render();
 
@@ -36,11 +38,14 @@ class FaqModuleFrontendTest extends TestCase
 
     public function testRelationBasedViewRendering()
     {
+        $id = 'test-faq-id-' . uniqid();
         // Create FAQs with different relations
         $generalFaq = Faq::create([
             'question' => 'General FAQ',
             'answer' => 'General answer',
             'position' => 0,
+            'rel_id' => 'testRelationBasedViewRendering',
+            'rel_type' => 'module',
             'is_active' => true
         ]);
 
@@ -49,12 +54,12 @@ class FaqModuleFrontendTest extends TestCase
             'answer' => 'Product answer',
             'position' => 0,
             'is_active' => true,
-            'rel_type' => 'product',
-            'rel_id' => 1
+            'rel_type' => 'module',
+            'rel_id' => $id
         ]);
 
         // Test general FAQs
-        $params = ['id' => 'test-faq-id-' . uniqid()];
+        $params = ['id' => 'testRelationBasedViewRendering'];
         $faqModule = new FaqModule($params);
         $viewOutput = $faqModule->render();
 
@@ -64,8 +69,8 @@ class FaqModuleFrontendTest extends TestCase
         // Test product-specific FAQs
         $params = [
             'id' => 'test-faq-id-' . uniqid(),
-            'rel_type' => 'product',
-            'rel_id' => 1
+            'rel_type' => 'module',
+            'rel_id' => $id
         ];
         $faqModule = new FaqModule($params);
         $viewOutput = $faqModule->render();
