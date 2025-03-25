@@ -55,7 +55,7 @@ abstract class LiveEditModuleSettingsTable extends LiveEditModuleSettings
     public function getRelIdOptions($rel_type = false): array
     {
 
-        $vals = $this->modelName::query()->select('rel_id');
+        $vals = $this->modelName::query()->select('rel_id')->whereNotNull('rel_type')->whereNotNull('rel_id');
         if ($rel_type) {
             $vals->where('rel_type', $rel_type);
         }
@@ -65,7 +65,7 @@ abstract class LiveEditModuleSettingsTable extends LiveEditModuleSettings
 
     public function getRelTypeOptions(): array
     {
-        $vals = $this->modelName::query()->select('rel_type')->distinct()->pluck('rel_type')->toArray();
+        $vals = $this->modelName::query()->select('rel_type')->whereNotNull('rel_type')->whereNotNull('rel_id')->distinct()->pluck('rel_type')->toArray();
         return array_combine($vals, $vals);
     }
 }

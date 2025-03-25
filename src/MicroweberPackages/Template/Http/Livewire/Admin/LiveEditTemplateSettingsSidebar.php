@@ -6,16 +6,21 @@ use MicroweberPackages\Admin\Http\Livewire\AdminComponent;
 
 class LiveEditTemplateSettingsSidebar extends AdminComponent
 {
-    protected $listeners = ['refreshComponent' => '$refresh'];
+    protected $listeners = ['refreshComponent' => '$refresh', 'LiveEditTemplateSettingsSidebar::openTemplateSettings'=> 'openTemplateSettings'];
 
     public $styleSheetSourceFile;
     public $settingsGroups;
     public $options;
     public $optionGroup;
     public $optionGroupLess;
+    public $isOpened = false;
 
     public $styleSettings = [];
+    public function openTemplateSettings()
+    {
 
+        $this->isOpened = true;
+    }
     public function getSettings()
     {
 
@@ -145,6 +150,11 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
 
     public function render()
     {
+        if(!$this->isOpened){
+            return view('template::livewire.live-edit.template-settings-sidebar-closed');
+        }
+
+
         return view('template::livewire.live-edit.template-settings-sidebar');
     }
 }
