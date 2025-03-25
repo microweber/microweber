@@ -32,6 +32,13 @@ class MwMediaBrowser extends Field
                     }
                 },
             ],
+            'mwMediaBrowser::addMediaItemMultiple' => [
+                function ($component, $statePath, $params) {
+                    if (isset($params['data']) && isset($params['data']['urls'])) {
+                        return $this->addMediaItemMultiple($params['data']['urls']);
+                    }
+                },
+            ],
             'mwMediaBrowser::deleteMediaItemById' => [
                 function ($component, $statePath, $params) {
                     if (isset($params['id'])) {
@@ -145,7 +152,20 @@ class MwMediaBrowser extends Field
         }
 
     }
+    public function addMediaItemMultiple($urls = [])
+    {
+        if (!is_array($urls) || empty($urls)) {
+            return;
+        }
 
+        foreach ($urls as $url) {
+            $this->addMediaItemSingle($url);
+        }
+
+        $this->refreshMediaData();
+
+        $this->state($this->mediaIds);
+    }
     public function addMediaItem($data = [])
     {
         $url = false;

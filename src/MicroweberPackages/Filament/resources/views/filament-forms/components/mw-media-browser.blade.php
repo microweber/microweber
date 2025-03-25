@@ -45,19 +45,17 @@
                 class="w-full flex flex-col p-3 items-center justify-center border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
 
                 <button
-
                     class="w-full py-6 full flex flex-col items-center justify-center"
                     type="button" x-on:click="()=> {
 
-                mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => {
-                        if(!Array.isArray(url)) {
-                            url = [url];
-                        }
-                        $wire.dispatchFormEvent('mwMediaBrowser::addMediaItem','{{ $statePath }}', {
-                                data: { url: url }
-                            })
-
-                });
+                    mw.filePickerDialog({pickerOptions: {multiple: true}}, (url) => {
+                            if(!Array.isArray(url)) {
+                                url = [url];
+                            }
+                            $wire.dispatchFormEvent('mwMediaBrowser::addMediaItemMultiple','{{ $statePath }}', {
+                                    data: { urls: url }
+                                })
+                    });
 
                 }">
 
