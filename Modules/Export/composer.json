@@ -1,0 +1,30 @@
+{
+    "name": "modules/export",
+    "description": "",
+    "authors": [
+        {
+            "name": "Microweber Team",
+            "email": "info@microweber.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Export\\": "",
+            "Modules\\Export\\Database\\Factories\\": "database/factories/",
+            "Modules\\Export\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Export\\Tests\\": "Tests/"
+        }
+    }
+}

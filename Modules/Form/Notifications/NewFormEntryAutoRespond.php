@@ -33,7 +33,7 @@ class NewFormEntryAutoRespond extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -44,10 +44,9 @@ class NewFormEntryAutoRespond extends Notification
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail()
     {
         $formId = $this->formEntry->rel_id;
 
@@ -61,7 +60,15 @@ class NewFormEntryAutoRespond extends Notification
 
             if ($appendFilesAll) {
                 foreach ($appendFilesAll as $appendFile) {
+                    $files_utils = new \MicroweberPackages\Utils\System\Files();
+                    $is_allowed_file = $files_utils->is_allowed_file($appendFile);
+                    if (!$is_allowed_file) {
+                        continue;
+                    }
                     $appendFilePath = url2dir($appendFile);
+                    $appendFilePath = public_path($appendFilePath);
+                    $appendFilePath = normalize_path($appendFilePath, false);
+
                     $mail->attach($appendFilePath, [
                         'as' => basename($appendFilePath),
                         'mime' => \Illuminate\Support\Facades\File::mimeType($appendFilePath),
@@ -89,7 +96,7 @@ class NewFormEntryAutoRespond extends Notification
         $twig = new \MicroweberPackages\View\TwigView();
         $string = $autoRespondSettings['emailContent'];
 
-        if($string == strip_tags($string)) {
+        if ($string == strip_tags($string)) {
             // emailContent is plain text so we add br tags
             $autoRespondSettings['emailContent'] = nl2br($autoRespondSettings['emailContent']);
         }
@@ -109,7 +116,7 @@ class NewFormEntryAutoRespond extends Notification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
      * @return array
      */
     public function toArray($notifiable)

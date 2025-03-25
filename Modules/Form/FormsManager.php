@@ -5,7 +5,7 @@ namespace Modules\Form;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use MicroweberPackages\Export\Formats\XlsxExport;
+use Modules\Export\Formats\XlsxExport;
 use Modules\Form\Models\FormData;
 use Modules\Form\Models\FormDataValue;
 use Modules\Form\Models\FormRecipient;
@@ -652,7 +652,7 @@ class FormsManager
                     }
 
 
-                    $target_path_name = FormsManager . phpmd5($file['name'] . time()) . $target_path_name;
+                    $target_path_name = md5($file['name'] . time()) . $target_path_name;
                     $targetFileName = $target_path_name . '/' . $file['name'];
                     if (is_file($target_path . '/' . $file['name'])) {
                         $targetFileName = $target_path_name . '/' . date('Ymd-His') . $file['name'];
@@ -818,6 +818,7 @@ class FormsManager
                                 $findFormRecipient->email = $userEmail;
                                 $findFormRecipient->save();
                             }
+
                             if (isset($formModel)) {
                                 $findFormRecipient->notifyNow((new NewFormEntryAutoRespond($formModel)));
                             }

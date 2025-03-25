@@ -3,6 +3,8 @@
 namespace Modules\Form\Tests;
 
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Form\Models\FormData;
+use Modules\Form\Notifications\NewFormEntryAutoRespond;
 use Symfony\Component\Mime\Part\Multipart\MixedPart;
 use Symfony\Component\Mime\Part\TextPart;
 
@@ -31,154 +33,172 @@ class ContactFormTest extends TestCase
 
     }
 
-    public function testContactFormWithGlobalSettingsSubmit()
-    {
-        $optionGroup = md5(time().'mw'.rand(1111,9999));
-        $formName = md5(time().'mw'.rand(1111,9999));
+  public function testContactFormWithGlobalSettingsSubmit()
+  {
+      $this->loginAsAdmin();
 
-        \Config::set('mail.transport', 'array');
+      $optionGroup = md5(time().'mw'.rand(1111,9999));
+      $formName = md5(time().'mw'.rand(1111,9999));
 
-        // Save global options
-        $customReceivers = ['GlobalContactFormEmailTo1@UnitTest.com','GlobalContactFormEmailTo2@UnitTest.com','GlobalContactFormEmailTo3@UnitTest.com','GlobalContactFormEmailTo4@UnitTest.com'];
-        save_option(array(
-            'option_group' => 'contact_form_default',
-            'option_key' => 'email_to',
-            'option_value' => implode(',', $customReceivers)
-        ));
+      \Config::set('mail.transport', 'array');
 
-        save_option(array(
-            'option_group' => 'contact_form_default',
-            'option_key' => 'disable_captcha',
-            'option_value' => 'y'
-        ));
+      // Save global options
+      $customReceivers = ['GlobalContactFormEmailTo1@UnitTest.com','GlobalContactFormEmailTo2@UnitTest.com','GlobalContactFormEmailTo3@UnitTest.com','GlobalContactFormEmailTo4@UnitTest.com'];
+      save_option(array(
+          'option_group' => 'contact_form_default',
+          'option_key' => 'email_to',
+          'option_value' => implode(',', $customReceivers)
+      ));
 
-        /**
-         * GLOBAL SENDER
-         */
-        save_option(array(
-            'option_group' => 'contact_form_default',
-            'option_key' => 'email_custom_sender',
-            'option_value' => 'y'
-        ));
-        save_option(array(
-            'option_group' => 'contact_form_default',
-            'option_key' => 'email_from',
-            'option_value' => 'global-sender-email-from@unittest.bg'
-        ));
-        save_option(array(
-            'option_group' => 'contact_form_default',
-            'option_key' => 'email_from_name',
-            'option_value' => 'Global Sender Test Email Name'
-        ));
+      save_option(array(
+          'option_group' => 'contact_form_default',
+          'option_key' => 'disable_captcha',
+          'option_value' => 'y'
+      ));
 
-        /**
-         * ENABLE AUTORESPOND
-         */
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_autorespond_enable',
-            'option_value' => 1
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_autorespond',
-            'option_value' => 'This is the autorespond text - global'
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_autorespond_subject',
-            'option_value' => 'This is the autorespond subject - global'
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_autorespond_append_files',
-            'option_value' => modules_path() . 'contact_form/contact_form.png'
-        ));
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'email_autorespond_reply_to',
-            'option_value' => 'AutoRespondEmailReply1Global@UnitTest.com'
-        ));
+      /**
+       * GLOBAL SENDER
+       */
+      save_option(array(
+          'option_group' => 'contact_form_default',
+          'option_key' => 'email_custom_sender',
+          'option_value' => 'y'
+      ));
+      save_option(array(
+          'option_group' => 'contact_form_default',
+          'option_key' => 'email_from',
+          'option_value' => 'global-sender-email-from@unittest.bg'
+      ));
+      save_option(array(
+          'option_group' => 'contact_form_default',
+          'option_key' => 'email_from_name',
+          'option_value' => 'Global Sender Test Email Name'
+      ));
 
-        // Current form settings
-        save_option(array(
-            'option_group' => $optionGroup,
-            'option_key' => 'form_name',
-            'option_value' => $formName
-        ));
+      /**
+       * ENABLE AUTORESPOND
+       */
+      save_option(array(
+          'option_group' => $optionGroup,
+          'option_key' => 'email_autorespond_enable',
+          'option_value' => 1
+      ));
+      save_option(array(
+          'option_group' => $optionGroup,
+          'option_key' => 'email_autorespond',
+          'option_value' => 'This is the autorespond text - global'
+      ));
+      save_option(array(
+          'option_group' => $optionGroup,
+          'option_key' => 'email_autorespond_subject',
+          'option_value' => 'This is the autorespond subject - global'
+      ));
+      save_option(array(
+          'option_group' => $optionGroup,
+          'option_key' => 'email_autorespond_append_files',
+          'option_value' => asset('modules/form/img/contact_form.png')
+      ));
+      save_option(array(
+          'option_group' => $optionGroup,
+          'option_key' => 'email_autorespond_reply_to',
+          'option_value' => 'AutoRespondEmailReply1Global@UnitTest.com'
+      ));
 
-        $params = array();
-        $params['for_id'] = $optionGroup;
-        $params['for'] = 'contact-form-global-settings-test-module';
-        $params['message'] = 'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE <a href="https://evil.com">Click Me </a> <script>alert("Hello")</script>';
-        $params['email'] = 'unit.b.slaveykov@unittest-global.com';
-        $params['Company'] = 'CloudVisionLtd-Global';
-        $params['Phone'] = '0885451012-Global';
-        $params['Your Name'] = 'Bozhidar Veselinov Slaveykov';
-        $params['module_name'] = 'contact_form_global_settings';
+      // Current form settings
+      save_option(array(
+          'option_group' => $optionGroup,
+          'option_key' => 'form_name',
+          'option_value' => $formName
+      ));
 
-        $response = app()->forms_manager->post($params);
-        $this->assertArrayHasKey('success', $response);
+      $params = array();
+      $params['for_id'] = $optionGroup;
+      $params['for'] = 'contact-form-global-settings-test-module';
+      $params['message'] = 'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE <a href="https://evil.com">Click Me </a> <script>alert("Hello")</script>';
+      $params['email'] = 'unit.b.slaveykov@unittest-global.com';
+      $params['Company'] = 'CloudVisionLtd-Global';
+      $params['Phone'] = '0885451012-Global';
+      $params['Your Name'] = 'Bozhidar Veselinov Slaveykov';
+      $params['module_name'] = 'contact_form_global_settings';
 
-
-        $getFormSaved = app()->forms_manager->get_entires('limit=1&for_id=' . $optionGroup);
-        $getFormSavedCustomFields = $getFormSaved[0]['custom_fields'];
-
-        $this->assertEquals($getFormSavedCustomFields['message'], 'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE <a href="https://evil.com">Click Me </a> ');
-
-        $mailToUser = [];
-        $mailToReceivers = [];
-
-        $emails = app()->make('mailer')->getSymfonyTransport()->messages();
-
-        foreach ($emails as $email) {
-
-            $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
+      $response = app()->forms_manager->post($params);
+      $this->assertArrayHasKey('success', $response);
+      $formModel = FormData::with('formDataValues')->find($response['id']);
+      $formModelData = $formModel->toArray();
+      $this->assertEquals($formModelData['rel_id'], $optionGroup);
+      $this->assertEquals($formModelData['rel_type'], 'contact-form-global-settings-test-module');
+      $this->assertEquals($formModelData['module_name'], 'contact_form_global_settings');
 
 
-            if (str_contains($emailAsArray['subject'], 'This is the autorespond subject') !== false) {
-                // Mail to user
-                $mailToUser[] = $emailAsArray;
-            }
+     $notification = new NewFormEntryAutoRespond($formModel);
 
-            if (str_contains($emailAsArray['subject'], $formName) !== false) {
-                // Mail to receivers
-                $mailToReceivers[] = $emailAsArray;
-            }
-        }
+
+      $mail = $notification->toMail();
+      $mail = $mail->toArray();
+       $this->assertEquals($mail['subject'], 'This is the autorespond subject - global');
 
 
 
-        // The User must receive auto respond data
-        $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
 
-        $body = $mailToUser[0]['body'];
+      $autoRespondSettings = app()->forms_manager->getAutoRespondSettings($optionGroup);
+      $this->assertEquals($autoRespondSettings['emailContent'], 'This is the autorespond text - global');
+      $this->assertEquals($autoRespondSettings['emailSubject'], 'This is the autorespond subject - global');
+      $this->assertEquals($autoRespondSettings['emailReplyTo'], 'AutoRespondEmailReply1Global@UnitTest.com');
+      $this->assertEquals($autoRespondSettings['emailFrom'], 'global-sender-email-from@unittest.bg');
+      $this->assertEquals($autoRespondSettings['emailFromName'], 'Global Sender Test Email Name');
 
-        $this->assertTrue(str_contains($body, 'This is the autorespond text - global'));
-        $this->assertSame($mailToUser[0]['subject'], 'This is the autorespond subject - global');
-        $this->assertSame($mailToUser[0]['replyTo'], 'AutoRespondEmailReply1Global@UnitTest.com');
-        $this->assertSame($mailToUser[0]['to'], 'unit.b.slaveykov@unittest-global.com');
-        $this->assertSame($mailToUser[0]['from'], 'global-sender-email-from@unittest.bg');
+      $getFormSaved = app()->forms_manager->get_entires('limit=1&for_id=' . $optionGroup);
+      $getFormSavedCustomFields = $getFormSaved[0]['custom_fields'];
 
+      $this->assertEquals($getFormSavedCustomFields['message'], 'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE <a href="https://evil.com">Click Me </a> ');
 
-        // Receivers must receive the contact form data
-        $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
+      $mailToUser = [];
+      $mailToReceivers = [];
 
-        foreach ($mailToReceivers as $email) {
-            $body = $email['body'];
-            $this->assertTrue(str_contains($body,'unit.b.slaveykov@unittest-global.com'));
-            $this->assertTrue(str_contains($body,'0885451012-Global'));
-            $this->assertTrue(str_contains($body,'CloudVisionLtd-Global'));
-            $this->assertTrue(str_contains($body,'Bozhidar Veselinov Slaveykov'));
-            $this->assertTrue(str_contains($body,'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE'));
+      $emails = app()->make('mailer')->getSymfonyTransport()->messages();
 
-        }
+      foreach ($emails as $email) {
+          $emailAsArray = $this->getEmailDataAsArrayFromObject($email);
 
-        // test the export
-        $export = app()->forms_manager->export_to_excel(['id'=>0]);
-        $this->assertTrue(isset($export['success']));
-        $this->assertTrue(isset($export['download']));
-    }
+          if (str_contains($emailAsArray['subject'], 'This is the autorespond subject')) {
+              // Mail to user
+              $mailToUser[] = $emailAsArray;
+          }
+
+          if (str_contains($emailAsArray['subject'], $formName) ) {
+              // Mail to receivers
+              $mailToReceivers[] = $emailAsArray;
+          }
+      }
+
+      // The User must receive auto respond data
+      $this->assertEquals(count($mailToUser), 1); //  1 user autorespond
+
+      $body = $mailToUser[0]['body'];
+
+      $this->assertTrue(str_contains($body, 'This is the autorespond text - global'));
+      $this->assertSame($mailToUser[0]['subject'], 'This is the autorespond subject - global');
+      $this->assertSame($mailToUser[0]['replyTo'], 'AutoRespondEmailReply1Global@UnitTest.com');
+      $this->assertSame($mailToUser[0]['to'], 'unit.b.slaveykov@unittest-global.com');
+      $this->assertSame($mailToUser[0]['from'], 'global-sender-email-from@unittest.bg');
+
+      // Receivers must receive the contact form data
+      $this->assertEquals(count($mailToReceivers), 4); // 4 custom receivers
+
+      foreach ($mailToReceivers as $email) {
+          $body = $email['body'];
+          $this->assertTrue(str_contains($body,'unit.b.slaveykov@unittest-global.com'));
+          $this->assertTrue(str_contains($body,'0885451012-Global'));
+          $this->assertTrue(str_contains($body,'CloudVisionLtd-Global'));
+          $this->assertTrue(str_contains($body,'Bozhidar Veselinov Slaveykov'));
+          $this->assertTrue(str_contains($body,'HELLO CONTACT FORM GLBOAL! THIS IS MY GLOBAL MESSAGE'));
+      }
+
+      // test the export
+      $export = app()->forms_manager->export_to_excel(['id'=>0]);
+      $this->assertTrue(isset($export['success']));
+      $this->assertTrue(isset($export['download']));
+  }
 
     public function testCustomContactFormSettingsRequiredSubmit()
     {
@@ -292,7 +312,7 @@ class ContactFormTest extends TestCase
         save_option(array(
             'option_group' => $optionGroup,
             'option_key' => 'email_autorespond_append_files',
-            'option_value' => modules_path() . 'contact_form/contact_form.png'
+            'option_value' => asset('modules/form/img/contact_form.png')
         ));
         save_option(array(
             'option_group' => $optionGroup,
