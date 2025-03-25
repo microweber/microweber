@@ -68,7 +68,7 @@
 
 
                 <div class="w-full mb-3">
-                    @if($mediaItems and !empty($mediaItems))
+
 
                         <div
 
@@ -84,6 +84,7 @@
 
                             x-on:end="
 
+
                                 itemsSortedIds = $event.target.querySelectorAll('[x-sortable-item]');
 
                                 itemsSortedIdsArray = [];
@@ -98,17 +99,25 @@
                             class="admin-thumbs-holder-wrapper"
                         >
 
+                @if($mediaItems and !empty($mediaItems))
 
-                            <div x-show="mediaIds && mediaIds.length > 0 && selectedImages && selectedImages.length > 0"
-                                 class="admin-thumbs-holder-bulk-actions">
 
-                                <x-filament::button size="xs" icon="heroicon-m-trash" color="danger" @click="bulkDeleteSelectedMedia()">
-                                    Delete selected
-                                </x-filament::button>
 
-                            </div>
+                                <div class="mw-media-browser-delete-btn-wrapper" x-show="mediaIds && mediaIds.length > 0">
+                                    <div x-show="selectedImages && selectedImages.length > 0"
+                                         class="admin-thumbs-holder-bulk-actions">
 
-                            <div class="admin-thumbs-holder" x-sortable>
+                                        <x-filament::button size="xs" icon="heroicon-m-trash" color="danger" @click="bulkDeleteSelectedMedia()">
+                                            Delete selected
+                                        </x-filament::button>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="admin-thumbs-holder" x-sortable>
                                 @foreach($mediaItems as $item)
 
                                     <div
@@ -172,10 +181,10 @@
 
 
                             </div>
-
+                            @endif
 
                         </div>
-                    @endif
+
 
                 </div>
             </div>
