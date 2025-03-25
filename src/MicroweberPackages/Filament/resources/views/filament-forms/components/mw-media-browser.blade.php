@@ -103,8 +103,8 @@
 
 
 
-                                <div class="mw-media-browser-delete-btn-wrapper" x-show="mediaIds && mediaIds.length > 0">
-                                    <div x-show="selectedImages && selectedImages.length > 0"
+                                <div class="mw-media-browser-delete-btn-wrapper">
+                                    <div x-show="showBulkDeleteButton"
                                          class="admin-thumbs-holder-bulk-actions">
 
                                         <x-filament::button size="xs" icon="heroicon-m-trash" color="danger" @click="bulkDeleteSelectedMedia()">

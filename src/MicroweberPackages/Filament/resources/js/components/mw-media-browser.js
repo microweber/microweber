@@ -2,31 +2,36 @@ export default function mwMediaManagerComponent({mediaIds}) {
     return {
         mediaIds,
         modalImageSettingsOpen: false,
+        showBulkDeleteButton: false,
         selectedImages: [],
 
         init() {
 
 
+            this.$watch('selectedImages', (value) => {
+                this.showBulkDeleteButton = value.length > 0 && this.selectedImages && this.selectedImages.length > 0;
+            });
         },
 
         editMediaOptionsById(id) {
             this.$wire.mountAction('editAction', {id: id})
         },
 
-        async bulkDeleteSelectedMedia() {
-            const dialogConfirm = await mw.confirm('Are you sure you want to delete selected images?').promise()
-            if (dialogConfirm) {
-                $wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemsByIds','{{ $statePath }}',
-                    { ids: this.selectedImages }
-                )
+        bulkDeleteSelectedMedia() {
+            if (this.selectedImages && this.selectedImages.length > 0) {
+                if (confirm('Are you sure you want to delete the selected images?')) {
+                    this.$wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemsByIds', '{{ $statePath }}', {
+                        ids: this.selectedImages
+                    });
+                    this.selectedImages = [];
+                }
             }
         },
-
         async deleteMediaById(id) {
 
             const dialogConfirm = await mw.confirm('Are you sure you want to delete this image?').promise()
             if (dialogConfirm) {
-                $wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemById','{{ $statePath }}',
+                this.$wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemById','{{ $statePath }}',
                     { id: id }
                 )
             }
@@ -35,7 +40,7 @@ export default function mwMediaManagerComponent({mediaIds}) {
 
             const editedImage = await mw.top().app.editImageDialog.editImageUrl(url);
 
-            $wire.dispatchFormEvent('mwMediaBrowser::updateImageFilename','{{ $statePath }}', {
+            this.$wire.dispatchFormEvent('mwMediaBrowser::updateImageFilename','{{ $statePath }}', {
                 data: { id: id, filename: editedImage }
             })
 
