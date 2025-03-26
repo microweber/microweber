@@ -1,5 +1,4 @@
 
-mw.require('uploader.js');
 
 
 var fileUploadProgress = function (fileName, progress, target) {
@@ -19,7 +18,9 @@ var fileUploadProgress = function (fileName, progress, target) {
 };
 
 
-mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) => {
+mw.filePickerDialog  = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) => {
+
+
 
     if(typeof conf === 'function') {
         callback = conf;
@@ -56,7 +57,16 @@ mw.filePickerDialog = (conf = {pickerOptions: {}, dialogOptions: {}}, callback) 
                 dialog.remove();
                 return
             }
-            url = url.toString();
+            if(typeof url === "string" || url instanceof String) {
+                url = url.toString();
+            }
+
+            if(Array.isArray(url)) {
+                if(url.length === 1) {
+                    url = url[0];
+                }
+            }
+
             result = url
             dialog.remove();
 
@@ -138,6 +148,10 @@ mw.filePicker = function (options) {
     this.$root = $('<div class="'+ (this.settings.boxed ? ('card mb-3') : '') +' mw-filepicker-root form-control-live-edit-label-wrapper"></div>');
     this.root = this.$root[0];
 
+    $.each(this.settings.components, function (i) {
+        this['index'] = i;
+    });
+
 
     const _okLabel = (val) => {
         val =  typeof scope.settings.okLabel === 'function' ? scope.settings.okLabel(val, scope) : scope.settings.okLabel;
@@ -147,27 +161,20 @@ mw.filePicker = function (options) {
         return val
     }
 
-    $.each(this.settings.components, function (i) {
-        this['index'] = i;
-    });
-
-
-
-
-
     this.components = {
         _$inputWrapper: function (label) {
-            var html = '<div class="mw-ui-field-holder">' +
+            var html = '<div class="form-control-live-edit-label-wrapper">' +
                 /*'<label>' + label + '</label>' +*/
                 '</div>';
             return mw.$(html);
         },
         url: function () {
-            var $input = $('<input class="form-control" placeholder="http://example.com/image.jpg">');
+            var $input = $('<input class="form-control-live-edit-input" placeholder="http://example.com/image.jpg">');
             scope.$urlInput = $input;
             var $wrap = this._$inputWrapper(scope._getComponentObject('url').label);
             $wrap.append($input);
-            $input.before('<label class="form-label">'+mw.lang('Insert file url')+'</label>');
+            $input.before('<label class="live-edit-label">'+mw.lang('Insert file url')+'</label>');
+            $input.after('<span class="form-control-live-edit-bottom-effect"></span>' );
 
             $input.on('input', function () {
                 var val = this.value.trim();
@@ -209,6 +216,7 @@ mw.filePicker = function (options) {
             _setdesktopType();
 
             $wrap.append(scope.uploaderHolder);
+            let _uploadTempResult = [];
             scope.uploader = mw.upload({
                 element: $wrap[0],
                 multiple: scope.settings.multiple,
@@ -222,14 +230,20 @@ mw.filePicker = function (options) {
                     },
                     fileAdded: function (file) {
                         $(scope).trigger('FileAdded', [file]);
+                        _uploadTempResult = [];
+                    },
+                    filesUploaded: function () {
+                        if ( !scope.settings.disableFileAutoSelect ) {
+                            scope.result(_uploadTempResult.map(o => o.src));
+                        }
                     },
                     fileUploaded: function (file) {
                         scope.setSectionValue(file);
+                        console.log(scope)
+                        _uploadTempResult.push(file)
 
                         $(scope).trigger('FileUploaded', [file]);
-                        if ( !scope.settings.disableFileAutoSelect ) {
-                            scope.result();
-                        }
+
                         if (scope.settings.fileUploaded) {
                             scope.settings.fileUploaded(file);
                         }
@@ -343,7 +357,7 @@ mw.filePicker = function (options) {
 
             var ul = $('<div class="form-control-live-edit-label-wrapper d-flex mw-live-edit-resolutions-wrapper mx-0 w-100" />');
             this.settings.components.forEach(function (item) {
-                ul.append('<a href="javascript:;" class="js-filepicker-pick-type-tab-'+item.type+'   btn btn-icon tblr-body-color live-edit-toolbar-buttons w-100" data-type="'+item.type+'">'+item.label+'</a>');
+                ul.append('<a href="javascript:;" class="js-filepicker-pick-type-tab-'+item.type+' tblr-body-color live-edit-toolbar-buttons w-100" data-type="'+item.type+'">'+item.label+'</a>');
             });
             this._navigationHolder.appendChild(this._navigationHeader);
             this._navigationHeader.appendChild(ul[0]);
@@ -468,12 +482,16 @@ mw.filePicker = function (options) {
         });
     };
 
-    this.result = function () {
+    this.result = function (result) {
         var activeSection = this.activeSection();
-        if(this.settings.onResult) {
-            this.settings.onResult.call(this, activeSection._filePickerValue);
+        if(!result) {
+            result = activeSection._filePickerValue
         }
-        $(scope).trigger('Result', [activeSection._filePickerValue]);
+        if(this.settings.onResult) {
+            this.settings.onResult.call(this, result);
+        }
+        result = Array.isArray(result) ? result : [result];
+        $(scope).trigger('Result', [...result]);
     };
 
     this.getValue = function () {

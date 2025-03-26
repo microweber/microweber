@@ -216,6 +216,7 @@ mw.filePicker = function (options) {
             _setdesktopType();
 
             $wrap.append(scope.uploaderHolder);
+            let _uploadTempResult = [];
             scope.uploader = mw.upload({
                 element: $wrap[0],
                 multiple: scope.settings.multiple,
@@ -229,14 +230,20 @@ mw.filePicker = function (options) {
                     },
                     fileAdded: function (file) {
                         $(scope).trigger('FileAdded', [file]);
+                        _uploadTempResult = [];
+                    },
+                    filesUploaded: function () {
+                        if ( !scope.settings.disableFileAutoSelect ) {
+                            scope.result(_uploadTempResult.map(o => o.src));
+                        }
                     },
                     fileUploaded: function (file) {
                         scope.setSectionValue(file);
+                        console.log(scope)
+                        _uploadTempResult.push(file)
 
                         $(scope).trigger('FileUploaded', [file]);
-                        if ( !scope.settings.disableFileAutoSelect ) {
-                            scope.result();
-                        }
+
                         if (scope.settings.fileUploaded) {
                             scope.settings.fileUploaded(file);
                         }
@@ -475,12 +482,16 @@ mw.filePicker = function (options) {
         });
     };
 
-    this.result = function () {
+    this.result = function (result) {
         var activeSection = this.activeSection();
-        if(this.settings.onResult) {
-            this.settings.onResult.call(this, activeSection._filePickerValue);
+        if(!result) {
+            result = activeSection._filePickerValue
         }
-        $(scope).trigger('Result', [activeSection._filePickerValue]);
+        if(this.settings.onResult) {
+            this.settings.onResult.call(this, result);
+        }
+        result = Array.isArray(result) ? result : [result];
+        $(scope).trigger('Result', [...result]);
     };
 
     this.getValue = function () {
