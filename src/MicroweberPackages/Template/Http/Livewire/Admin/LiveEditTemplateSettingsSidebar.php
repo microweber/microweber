@@ -13,7 +13,7 @@ class LiveEditTemplateSettingsSidebar extends AdminComponent
     public $options;
     public $optionGroup;
     public $optionGroupLess;
-    public $isOpened = false;
+    public $isOpened = true;
 
     public $styleSettings = [];
     public function openTemplateSettings()
