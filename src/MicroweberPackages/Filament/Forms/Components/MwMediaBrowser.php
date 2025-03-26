@@ -121,7 +121,15 @@ class MwMediaBrowser extends Field
         $this->refreshMediaData();
 
     }
+    public function deleteMediaItemById($id = false)
+    {
+        if (!$id) {
+            return;
+        }
+        Media::where('id', $id)->delete();
 
+        $this->refreshMediaData();
+    }
     public function addMediaItemSingle($url) {
         $itemsQuery = $this->getQueryBuilder();
         $itemsQuery = $itemsQuery->where('filename', $url);
