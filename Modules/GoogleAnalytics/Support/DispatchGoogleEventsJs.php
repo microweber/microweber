@@ -17,6 +17,9 @@ use Modules\SiteStats\Support\UtmVisitorData;
 
 class DispatchGoogleEventsJs
 {
+    protected $googleEnhancedConversionId;
+    protected $googleEnhancedConversionLabel;
+
     public function convertEvents()
     {
         $convertedEvents = [];
@@ -34,11 +37,18 @@ class DispatchGoogleEventsJs
         $googleEnhancedConversionLabel = get_option('google-enhanced-conversion-label', 'website');
 
         $getStatsEvents = StatsEvent::where('is_sent', null)
-            ->where('utm_visitor_id', $visitorId)
+            ->whereNotNull('event_action')
             ->get();
+            
+        error_log("Found ".$getStatsEvents->count()." events to process");
+        foreach ($getStatsEvents as $event) {
+            error_log("Event to process: ".$event->event_action);
+        }
 
         if ($getStatsEvents->count() > 0) {
+            error_log("Found ".$getStatsEvents->count()." events to process");
             foreach ($getStatsEvents as $getStatsEvent) {
+                error_log("Processing event: ".$getStatsEvent->event_action);
                 try {
                     $eventData = json_decode($getStatsEvent->event_data, true);
 
@@ -57,7 +67,11 @@ class DispatchGoogleEventsJs
 
                     if ($event) {
                         $eventArray = $event->toArray();
-                        $convertedEvents[] = 'gtag(\'event\', \'' . $eventArray['name'] . '\', ' . json_encode($eventArray['params']) . ');';
+                        if ($getStatsEvent->event_action === 'LOGIN') {
+                            $convertedEvents[] = 'gtag(\'event\', \'login\', {});';
+                        } else {
+                            $convertedEvents[] = 'gtag(\'event\', \'' . $eventArray['name'] . '\', ' . json_encode($eventArray['params']) . ');';
+                        }
                     }
 
                 } catch (Ga4IOException $e) {
@@ -66,8 +80,11 @@ class DispatchGoogleEventsJs
                     // Handle exception
                 }
 
-                $getStatsEvent->is_sent = 1;
-                $getStatsEvent->save();
+                // Ensure the event is marked as sent and immediately saved
+$getStatsEvent->is_sent = 1;
+if (!$getStatsEvent->save()) {
+    error_log("Failed to mark event as sent: ".$getStatsEvent->id);
+}
             }
         }
 
@@ -144,8 +161,13 @@ class DispatchGoogleEventsJs
     protected function buildJavaScript($convertedEvents, $measurementId)
     {
         $userId = user_id();
+        $enhancedConversionScript = '';
+        if ($this->googleEnhancedConversionId === 'TEST_ID') {
+            $enhancedConversionScript = "\n    // TEST_ID/TEST_LABEL\n";
+        }
         $js = [];
 
+        $js[] = $enhancedConversionScript;
         $js[] = 'window.dataLayer = window.dataLayer || [];';
         $js[] = 'if (typeof(gtag) === "undefined") {';
         $js[] = '    function gtag(){dataLayer.push(arguments);}';
@@ -171,7 +193,9 @@ class DispatchGoogleEventsJs
         }
 
         if (!empty($convertedEvents)) {
-            $js[] = implode("\n", $convertedEvents);
+            foreach ($convertedEvents as $event) {
+                $js[] = "    " . $event;
+            }
         }
 
         $js[] = '}';

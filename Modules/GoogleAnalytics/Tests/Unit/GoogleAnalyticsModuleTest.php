@@ -56,20 +56,34 @@ class GoogleAnalyticsModuleTest extends TestCase
 
         $dispatcher = new DispatchGoogleEventsJs();
 
-        // Create a test event
+        // Create and verify test event
         $event = StatsEvent::create([
-            'event_action' => 'LOGIN',
+            'event_action' => 'LOGIN', 
             'event_data' => '{}',
             'utm_visitor_id' => '123',
             'is_sent' => null
         ]);
+        
+        echo "\nCREATED EVENT:\n";
+        print_r($event->toArray());
+        echo "\n";
 
         // Act
         $output = $dispatcher->convertEvents();
 
-        // Assert
+        // Debug
+        echo "\n\nACTUAL OUTPUT:\n";
+        echo $output;
+        echo "\nEND OUTPUT\n\n";
+
+        // Debug and assert
+        $freshEvent = $event->fresh();
+        echo "\nEVENT STATE AFTER PROCESSING:\n";
+        print_r($freshEvent->toArray());
+        echo "\n";
+
         $this->assertStringContainsString('gtag(\'event\'', $output);
-        $this->assertTrue($event->fresh()->is_sent);
+        $this->assertEquals(1, $freshEvent->is_sent, 'Event should be marked as sent (1)');
     }
 
     public function test_enhanced_conversions_are_handled_correctly()
@@ -98,8 +112,16 @@ class GoogleAnalyticsModuleTest extends TestCase
         // Act
         $output = $dispatcher->convertEvents();
 
-        // Assert
-        $this->assertStringContainsString('TEST_ID/TEST_LABEL', $output);
-        $this->assertTrue($event->fresh()->is_sent);
+        // Debug and assert
+        echo "\n\nENHANCED CONVERSION OUTPUT:\n";
+        echo $output;
+        echo "\nEND OUTPUT\n\n";
+
+        $this->assertStringContainsString('"send_to":"TEST_ID\/TEST_LABEL"', $output);
+        $freshEvent = $event->fresh();
+echo "\nEVENT STATUS AFTER PROCESSING:\n";
+var_dump($freshEvent->is_sent);
+echo "\n";
+$this->assertSame(1, $freshEvent->is_sent, 'Event should be marked as sent (1)');
     }
 }
