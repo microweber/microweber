@@ -1,52 +1,101 @@
-# Commands
+# Module Commands
 
+## Module Creation & Setup
 
-# Make Module
-
-
-```sh
-php artisan module:make MyModule
+### Create New Module
+```bash
+php artisan module:make ModuleName
 ```
+Creates a new module with standard directory structure.
 
-This command will create a new module in the `Modules` directory of your application. 
-
-# Publish Module assets
-
-```sh
-php artisan module:publish MyModule
+### Install Filament Support
+```bash
+php artisan module:filament:install ModuleName
 ```
+Sets up Filament integration in a module (creates plugin class, resources dir, etc.)
 
-## Make Module Livewire component
-
-```sh
-php artisan module:make-livewire Pages/AboutPage MyModule
+### Publish Module Assets
+```bash
+php artisan module:publish ModuleName
 ```
+Publishes module assets to public directory.
 
-This command will create a new Livewire component in the `Modules/MyModule/Http/Livewire/Pages` directory of your application.
+## Filament-Specific Commands
 
-
-## Make Module Filament setup
-
-```sh
-php artisan module:filament:install MyModule
+### Create Filament Resource
+```bash
+php artisan module:make:filament-resource ResourceName ModuleName
 ```
+Creates a new Filament resource in specified module with:
+- Model
+- Migration
+- Resource class
+- Pages (List, Create, Edit)
 
-## Make Module Filament Page
-
-```sh
-php artisan module:make:filament-page MyModuleSettings MyModule
+### Create Filament Page
+```bash
+php artisan module:make:filament-page PageName ModuleName
 ```
+Creates a new Filament page in specified module.
 
-## Publish module assets
-
-```sh
-php artisan module:publish MyModule
+### Create Filament Widget
+```bash
+php artisan module:make:filament-widget WidgetName ModuleName
 ```
+Creates a new Filament widget in specified module.
 
-# Run module migrations
-```sh
-php artisan module:migrate MyModule
+### Create Filament Cluster
+```bash
+php artisan module:make:filament-cluster ClusterName ModuleName
 ```
+Creates a new Filament cluster in specified module.
+
+### Create Filament Plugin
+```bash
+php artisan module:make:filament-plugin PluginName ModuleName
+```
+Creates a new Filament plugin in specified module.
+
+### Create Filament Theme
+```bash
+php artisan module:make:filament-theme ThemeName ModuleName
+```
+Creates a new Filament theme in specified module.
+
+## Development Commands
+
+### Run Module Migrations
+```bash
+php artisan module:migrate ModuleName
+```
+Runs all migrations for specified module.
+
+### Create Livewire Component
+```bash
+php artisan module:make-livewire ComponentPath ModuleName
+```
+Creates Livewire component in module (e.g. `Pages/AboutPage`)
+
+### Generate Module Documentation
+```bash
+php artisan module:make:docs ModuleName
+```
+Generates documentation scaffold for module.
+
+## Maintenance Commands
+
+### Enable/Disable Module
+```bash
+php artisan module:enable ModuleName
+php artisan module:disable ModuleName
+```
+Toggles module activation status.
+
+### List All Modules
+```bash
+php artisan module:list
+```
+Displays all modules with their status.
 
 
 

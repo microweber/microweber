@@ -1,54 +1,118 @@
-### Installation via Command Line
+# Microweber Installation Guide
 
-If you haveven't downloaded the zip file get it from here [https://microweber.com/download.php](https://microweber.com/download.php "") 
+## Prerequisites
+- PHP 8.0+
+- Composer 2.0+
+- Node.js 16+
+- Database (MySQL/SQLite/PostgreSQL)
 
-You can also download Microweber via Composer
+## Installation Methods
 
+### Via Composer (Recommended)
+```bash
+composer create-project microweber/microweber:dev-filament your_project_name
+cd your_project_name
 ```
-composer create-project microweber/microweber:dev-filament example_project 
+
+### From Zip File
+Download from [microweber.com/download.php](https://microweber.com/download.php)
+```bash
+unzip microweber.zip -d your_project_name
+cd your_project_name
 ```
 
-You can install Microweber directly from the command line interface. This may be useful in shell scripts that automate the site creation process. 
+## Command Line Installation
 
-
-Here's an example of what the command looks like:
+Microweber provides a powerful CLI installer for automated deployments. Here's the basic syntax:
 
 ```bash
-php artisan microweber:install --email=admin@example.com --username=admin --password=password --db-name=storage/database.sqlite --db-password=nopass --db-driver=sqlite --db-prefix=site_ --template=Bootstrap --default-content=1
+php artisan microweber:install \
+  --email=admin@example.com \
+  --username=admin \
+  --password=password \
+  --db-name=storage/database.sqlite \
+  --db-password=nopass \
+  --db-driver=sqlite \
+  --db-prefix=site_ \
+  --template=Bootstrap \
+  --default-content=1
 ```
 
+### Post-Installation Setup
+1. Install frontend dependencies:
+```bash
+npm install && npm run build
+```
+
+2. Set permissions:
+```bash
+chmod -R 755 storage/ bootstrap/cache/
+```
+
+## Running Tests
+Microweber includes a comprehensive test suite. To run tests:
+
+1. Install testing dependencies:
+```bash
+composer require --dev phpunit/phpunit
+```
+
+2. Run all tests:
+```bash
+php artisan test
+```
+
+3. Run specific test groups:
+```bash
+# Run contact form tests
+php artisan test --filter ContactFormTest
+
+# Run module tests
+php artisan test --group modules
+
+# Run with coverage report
+php artisan test --coverage-html coverage/
+```
+
+### Available Test Groups
+- `modules` - Core module functionality
+- `forms` - Form builder tests
+- `api` - API endpoint tests
 
 
-This would initialize the Microweber database on localhost in database "site_db" using user "root" with password "secret" for the connections. In case the database user doesn't have a password you can skip setting that argument (and also be ashamed of your attitude to security). All tables will be prefixed by "site_". After the schema initialization an admin user will be created with credentials "admin"/"pass" and email "admin@site.com".
-All arguments until the database password are required and need to be present in that exact order.
 
- 
+### Installation Options
 
-#### Arguments:
-| Argument | Description
-|----------| ---
-| email    | Admin account email
-| username | Admin account username
-| password | Admin account password
-| db-host  | Database host address
-| db-name  | Database schema name
-| db-username  | Database username
-| db-driver  | Database driver 
-| db-password  | Database password (optional)
-| db-prefix  | Database table prefix (optional)
-| db-prefix  | Database table prefix (optional)
-| template | Set the template name
-| default-content | Set to install default content
-| config-only | Set to prepare configuration without install
-| language | Set the language of the install
- 
+#### Required Arguments
+| Argument    | Description                          |
+|-------------|--------------------------------------|
+| email       | Administrator email address         |
+| username    | Administrator username               |
+| password    | Administrator password               |
+| db-name     | Database name/path                   |
+| db-driver   | Database type (mysql/sqlite/pgsql)   |
 
-#### Laravel Options:
-|      Option  | Description
-|          --- | ---
-|--help (-h)   | Display this help message.
-|--quiet (-q)  | Do not output any message.
-|--env         | The environment the command should run under.
+#### Optional Arguments
+| Argument         | Description                          |
+|------------------|--------------------------------------|
+| db-host          | Database host (default: localhost)   |
+| db-user          | Database username                    |
+| db-pass          | Database password                    |
+| db-prefix        | Table prefix                         |
+| template         | Default template to install          |
+| default-content  | Install demo content (1/0)           |
+| config-only      | Prepare config without install (1/0) |
+
+#### Command Options
+| Option          | Description                          |
+|-----------------|--------------------------------------|
+| --help (-h)     | Show help message                    |
+| --quiet (-q)    | Suppress output messages             |
+| --env           | Set environment name                 |
+| --debug         | Show debug information               |
+
+**SQLite Note**: For SQLite databases, specify path as:
+`--db-name=storage/database.sqlite`
 
 
 
