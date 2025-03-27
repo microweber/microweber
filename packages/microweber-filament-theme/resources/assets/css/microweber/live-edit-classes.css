@@ -871,10 +871,6 @@ h1,h2,h3,h4,h5,h6 {
         @apply !bg-[#f5f5f5] dark:!bg-slate-700;
     }
 
-    &:placehoder {
-        inset: 20px;
-    }
-
     @apply pl-[40px];
 }
 
