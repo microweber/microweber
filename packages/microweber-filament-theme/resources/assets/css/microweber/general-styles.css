@@ -54,12 +54,12 @@
 
 .fi-panel-admin .rounded-full {
     @apply !rounded-full;
-    border-radius: 999px;
+    border-radius: 999px !important;
 }
 
 .rounded-full {
     @apply !rounded-full;
-    border-radius: 999px;
+    border-radius: 999px !important;
 }
 
 .bg-white {
