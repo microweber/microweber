@@ -453,14 +453,14 @@ function mw_logo_svg()
 //
 //function system_log_reset($data = false)
 //{
-//    return mw()->log_manager->reset();
+//    return app()->log_manager->reset();
 //}
 //
 //api_expose_admin('delete_log_entry');
 //
 //function delete_log_entry($data)
 //{
-//    return mw()->log_manager->delete_entry($data);
+//    return app()->log_manager->delete_entry($data);
 //}
 
 

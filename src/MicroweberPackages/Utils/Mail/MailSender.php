@@ -386,7 +386,7 @@ class MailSender
 //            $exceptionMessage .= 'File: ' . $e->getFile() . "\n";
 //            $exceptionMessage .= 'Line: ' . $e->getLine() . "\n";
 //
-//            mw()->log_manager->save('is_system=y&field=action&rel=mail_sender&title=Can\'t send test email&content=' . $exceptionMessage);
+//            app()->log_manager->save('is_system=y&field=action&rel=mail_sender&title=Can\'t send test email&content=' . $exceptionMessage);
 //
 //            if ($this->silent_exceptions) {
 //                return false;

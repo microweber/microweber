@@ -423,13 +423,13 @@ class PluploadController extends Controller
 
         if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
             $filename_log = mw()->url_manager->slug($fileName);
-            $check = mw()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . user_ip());
+            $check = app()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . user_ip());
             $upl_size_log = $_SERVER['CONTENT_LENGTH'];
             if (is_array($check) and isset($check['id'])) {
                 $upl_size_log = intval($upl_size_log) + intval($check['value']);
-                mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip() . '&id=' . $check['id']);
+                app()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip() . '&id=' . $check['id']);
             } else {
-                mw()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip());
+                app()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip());
             }
         }
 
@@ -719,8 +719,8 @@ class PluploadController extends Controller
                 }
             }
 
-            mw()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
-            mw()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
+            app()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
+            app()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
         }
 
         $f_name = explode(DS, $filePath);

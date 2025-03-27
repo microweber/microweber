@@ -26,7 +26,7 @@ class LogTest extends TestCase
         $data['value'] = $this->value;
         $data['field'] = 'log_test';
         $data['rel_type'] = 'log_unit_test';
-        $save = mw()->log_manager->save($data);
+        $save = app()->log_manager->save($data);
 
         $this->assertEquals(true, $save > 0);
     }
@@ -34,12 +34,12 @@ class LogTest extends TestCase
     public function testLogRead()
     {
         $this->set_values();
-        mw()->log_manager->save($this->data);
+        app()->log_manager->save($this->data);
 
         $data = array();
         $data['field'] = 'log_test';
         $data['value'] = $this->value;
-        $get = mw()->log_manager->get($data);
+        $get = app()->log_manager->get($data);
         foreach ($get as $item) {
             $this->assertEquals($this->value, $item['value']);
         }
@@ -48,20 +48,20 @@ class LogTest extends TestCase
     public function testDelete()
     {
         $this->set_values();
-        mw()->log_manager->save($this->data);
+        app()->log_manager->save($this->data);
 
         $data = array();
         $data['field'] = 'log_test';
-        $get = mw()->log_manager->get($data);
+        $get = app()->log_manager->get($data);
         $deleted = array();
         foreach ($get as $item) {
             $deleted[] = $item['id'];
-            $del = mw()->log_manager->delete_entry($item);
+            $del = app()->log_manager->delete_entry($item);
             $this->assertEquals($del, $item['id']);
         }
         $data = array();
         $data['ids'] = $deleted;
-        $get = mw()->log_manager->get($data);
+        $get = app()->log_manager->get($data);
         $this->assertEquals(false, $get);
     }
 }
