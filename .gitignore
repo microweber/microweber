@@ -105,3 +105,4 @@ Modules/*/mix-manifest.json
 Modules/*/package-lock.json
 Modules/*/resources/assets/dist/*
 packages/*/mix-manifest.json
+/127.0.0.1

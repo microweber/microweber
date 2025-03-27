@@ -104,15 +104,36 @@
 
 
                                 <div class="mw-media-browser-delete-btn-wrapper">
+
+
                                     <div x-show="showBulkDeleteButton"
+
                                          class="admin-thumbs-holder-bulk-actions">
+
+                                        <x-filament::button size="xs" icon="heroicon-m-check-circle" color="success" @click="selectAllMedia()">
+                                            Select All
+                                        </x-filament::button>
+
+                                        <x-filament::button size="xs" icon="heroicon-m-x-circle" color="warning" @click="deselectAllMedia()">
+                                            Deselect All
+                                        </x-filament::button>
 
                                         <x-filament::button size="xs" icon="heroicon-m-trash" color="danger" @click="bulkDeleteSelectedMedia()">
                                             Delete selected
                                         </x-filament::button>
 
                                     </div>
+
+
+
                                 </div>
+
+
+
+
+
+
+
 
 
 
@@ -136,45 +157,40 @@
 
 
                             </span>
-                                        <div class="flex gap-2 items-center mw-post-media-img--header bg-black p-1 cursor-pointer z-10 items-center">
 
 
-                                            <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
-                                               class="image-settings settings-img  " x-data="{}" x-tooltip="{
-                                                                                            content: 'Edit Image',
-                                                                                            theme: $store.theme,
-                                                                                        }"
-                                            >
-                                                @svg('mw-image-edit')
-                                            </a>
 
+                                  <div class="flex gap-2 items-center mw-post-media-img--header bg-black p-1 cursor-pointer z-10 items-center">
+                                      <a @click="editImageFilename('{{ $item->id }}','{{ $item->filename }}')"
+                                         class="image-settings settings-img" x-data="{}" x-tooltip="{
+                                                                              content: 'Edit Image',
+                                                                              theme: $store.theme,
+                                                                          }">
+                                          @svg('mw-image-edit')
+                                      </a>
 
-                                            <a
-                                                x-on:click="{{ '$wire.mountFormComponentAction(\'' . $statePath . '\', \'edit\', { id: \'' . $item->id . '\' })' }}"
-                                               class="image-settings settings-img  " x-data="{}" x-tooltip="{
-                                                                                            content: 'Image Settings',
-                                                                                            theme: $store.theme,
-                                                                                        }">
-                                                @svg('mw-media-item-edit-small')
-                                            </a>
+                                      <a @click="editMediaOptionsById('{{ $item->id }}')"
+                                         class="image-settings settings-img" x-data="{}" x-tooltip="{
+                                                                              content: 'Image Settings',
+                                                                              theme: $store.theme,
+                                                                          }">
+                                          @svg('mw-media-item-edit-small')
+                                      </a>
 
-                                            <a
-                                                x-on:click="{{ '$wire.mountFormComponentAction(\'' . $statePath . '\', \'delete\', { id: \'' . $item->id . '\' })' }}"
+                                      <a @click="deleteMediaById('{{ $item->id }}')"
+                                         class="image-settings settings-img" x-data="{}" x-tooltip="{
+                                                                              content: 'Delete Image',
+                                                                              theme: $store.theme,
+                                                                          }">
+                                          @svg('mw-media-item-delete-small')
+                                      </a>
 
-                                               class="image-settings settings-img  " x-data="{}" x-tooltip="{
-                                                                                            content: 'Delete Image',
-                                                                                            theme: $store.theme,
-                                                                                        }"
-                                            >
-                                                @svg('mw-media-item-delete-small')
-                                            </a>
+                                      <label class="form-check form-check-inline">
+                                          <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
+                                                 class="form-check-input">
+                                      </label>
+                                  </div>
 
-                                            <label class="form-check form-check-inline">
-                                                <input type="checkbox" x-model="selectedImages" value="{{ $item->id }}"
-                                                       class="form-check-input">
-                                            </label>
-
-                                        </div>
                                     </div>
 
                                 @endforeach

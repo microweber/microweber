@@ -9,7 +9,7 @@ use function MicroweberPackages\Backup\Exporters\mb_substr;
  *
  * @author      Nick Tsai <myintaer@gmail.com>
  * @version     1.3.6
- * @filesource 	PhpSpreadsheet <https://github.com/PHPOffice/PhpSpreadsheet>
+ * @filesource  PhpSpreadsheet <https://github.com/PHPOffice/PhpSpreadsheet>
  * @see         https://github.com/yidas/phpspreadsheet-helper
  * @example
  *  \yidas\phpSpreadsheet\Helper::newExcel()
@@ -341,7 +341,8 @@ class SpreadsheetHelper
                 // Cached column alpha
                 $colAlpha = self::num2alpha($posCol);
                 // Set value
-                $sheetObj->setCellValueByColumnAndRow($posCol, self::$_offsetRow, $value);
+                $coordinate = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($posCol) . self::$_offsetRow;
+                $sheetObj->setCellValue($coordinate, $value);
                 // Setting the column's width
                 if ($width) {
 
@@ -393,8 +394,9 @@ class SpreadsheetHelper
                 // Skip option
                 $posCol += $skip;
             } else {
-                $sheetObj->setCellValueByColumnAndRow($posCol, self::$_offsetRow, $cell);
-
+                // New PhpSpreadsheet 2.0+ compatible cell setting
+                $coordinate = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($posCol) . self::$_offsetRow;
+                $sheetObj->setCellValue($coordinate, $cell);
                 $posCol++;
             }
         }
