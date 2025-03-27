@@ -3,9 +3,8 @@
 namespace Modules\Log\Services;
 
 use Illuminate\Support\Facades\DB;
-use MicroweberPackages\App\Managers\LogManager as BaseLogManager;
 
-class LogManager extends BaseLogManager
+class LogManager
 {
     public $app;
 
@@ -48,7 +47,7 @@ class LogManager extends BaseLogManager
     {
         $adm = $this->app->user_manager->is_admin();
         if (defined('MW_API_CALL') and $adm == false) {
-            return array('error' => 'Error: not logged in as admin.'.__FILE__.__LINE__);
+            return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
         $table = 'log';
         DB::table($table)->truncate();
@@ -73,7 +72,7 @@ class LogManager extends BaseLogManager
                 $this->app->database_manager->delete_by_id('log', $c_id);
             }
         }
-        $this->app->cache_manager->delete('log'.DIRECTORY_SEPARATOR.'global');
+        $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
 
         return true;
     }
@@ -87,7 +86,7 @@ class LogManager extends BaseLogManager
 
         $save = $this->app->database_manager->save($params);
         $id = $save;
-        $this->app->cache_manager->delete('log'.DIRECTORY_SEPARATOR.'global');
+        $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
 
         return $id;
     }
@@ -106,7 +105,7 @@ class LogManager extends BaseLogManager
             $old = date('Y-m-d H:i:s', strtotime('-1 month'));
             mw()->database_manager->table($table)->where('created_at', '<', $old)->delete();
             mw()->database_manager->table($table)->where('id', '=', $c_id)->delete();
-            $this->app->cache_manager->delete('log'.DIRECTORY_SEPARATOR.$c_id);
+            $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . $c_id);
 
             return $c_id;
         }
