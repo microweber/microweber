@@ -5,7 +5,6 @@ namespace MicroweberPackages\App;
 use MicroweberPackages\App\Managers\CacheManager;
 use MicroweberPackages\App\Managers\ConfigurationManager;
 use MicroweberPackages\App\Managers\Helpers\Lang;
-use MicroweberPackages\App\Managers\LogManager;
 use MicroweberPackages\App\Managers\NotificationsManager;
 use MicroweberPackages\App\Managers\PermalinkManager;
 use MicroweberPackages\App\Managers\Ui;
@@ -91,8 +90,7 @@ use Modules\Shop\Services\ShopManager;
  * @property DatabaseManager $database_manager
  * @property NotificationsManager $notifications_manager
  * @property LayoutsManager $layouts_manager
- * @property LogManager $log_manager
- * @property  FieldsManager $fields_manager
+ * @property FieldsManager $fields_manager
  * @property Event $event_manager
  * @property ConfigurationManager $config_manager
  * @property TemplateManager $template_manager
