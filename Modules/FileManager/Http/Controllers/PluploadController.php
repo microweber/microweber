@@ -352,6 +352,7 @@ class PluploadController extends Controller
         $chunks = isset($_REQUEST['chunks']) ? intval($_REQUEST['chunks']) : 0;
         $fileName = isset($_REQUEST['name']) ? $_REQUEST['name'] : '';
 
+
 // Clean the fileName for security reasons
         $fileNameExtension = get_file_extension($fileName);
         $fileName = \MicroweberPackages\Helper\URLify::filter($fileName);
@@ -366,26 +367,27 @@ class PluploadController extends Controller
         $fileName = str_replace('..', '-', $fileName);
         $fileName = strtolower($fileName);
         $fileName = mw()->url_manager->clean_url_wrappers($fileName);
-        $fileName = substr($fileName, 0, -(strlen($fileNameExtension)));
+        $fileName = get_file_extension($fileName);
         $fileName = $fileName . '.' . $fileNameExtension;
+
 
 
         $fileName_uniq = date('ymdhis') . uniqid() . $fileName;
 // Make sure the fileName is unique but only if chunking is disabled
         if ($chunks < 2 && file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
             $ext = strrpos($fileName, '.');
+//
+//            $fileName_a = substr($fileName, 0, $ext);
+//
+//            $fileName_b = substr($fileName, $ext);
+//
+//            $fileName_b = strtolower($fileName_b);
 
-            $fileName_a = substr($fileName, 0, $ext);
-            $fileName_b = substr($fileName, $ext);
 
-            $fileName_b = strtolower($fileName_b);
 
-            $count = 1;
-            while (file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName_a . '_' . $count . $fileName_b)) {
-                ++$count;
-            }
+         //   $fileName = $fileName_a . '_' . uniqid() . '_' . $fileName_b;
+            $fileName = $fileName_uniq;
 
-            $fileName = $fileName_a . '_' . $count . $fileName_b;
         }
 
         $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
@@ -439,6 +441,8 @@ class PluploadController extends Controller
         if (isset($_SERVER['CONTENT_TYPE'])) {
             $contentType = $_SERVER['CONTENT_TYPE'];
         }
+
+
 
 // Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
         $is_image = false;
@@ -527,8 +531,12 @@ class PluploadController extends Controller
 // Check if file has been uploaded
         if (!$chunks || $chunk == $chunks - 1) {
             // Strip the temp .part suffix off
+
+
             $newfile = $filePath;
+            $newfile = normalize_path($newfile,false);
             if (is_file($newfile)) {
+
                 $newfile = $filePath_uniq;
             }
 
