@@ -3,7 +3,9 @@
 namespace Modules\GoogleAnalytics\Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Modules\GoogleAnalytics\Microweber\GoogleAnalyticsModule;
 use Modules\GoogleAnalytics\Support\DispatchGoogleEventsJs;
+use Modules\SiteStats\Models\StatsEvent;
 use Tests\TestCase;
 
 class GoogleAnalyticsModuleTest extends TestCase
@@ -14,9 +16,11 @@ class GoogleAnalyticsModuleTest extends TestCase
     {
         // Arrange
         save_option('google-measurement-enabled', 'n', 'website');
-
+        $checkOption = get_option('google-measurement-enabled', 'website');
+        $this->assertEquals($checkOption, 'n');
         // Act
-        $module = app()->make('Modules\GoogleAnalytics\Microweber\GoogleAnalyticsModule');
+        $module = app()->make(GoogleAnalyticsModule::class);
+        $module->setParams(['id' => 'GoogleAnalyticsModule']);
         $output = $module->render();
 
         // Assert
@@ -29,8 +33,14 @@ class GoogleAnalyticsModuleTest extends TestCase
         save_option('google-measurement-enabled', 'y', 'website');
         save_option('google-measurement-id', 'G-TEST123', 'website');
 
+        $checkOption = get_option('google-measurement-enabled', 'website');
+        $this->assertEquals($checkOption, 'y');
+        $checkOption = get_option('google-measurement-id', 'website');
+        $this->assertEquals($checkOption, 'G-TEST123');
+
         // Act
-        $module = app()->make('Modules\GoogleAnalytics\Microweber\GoogleAnalyticsModule');
+        $module = app()->make(GoogleAnalyticsModule::class);
+        $module->setParams(['id' => 'GoogleAnalyticsModule']);
         $output = $module->render();
 
         // Assert
@@ -47,7 +57,7 @@ class GoogleAnalyticsModuleTest extends TestCase
         $dispatcher = new DispatchGoogleEventsJs();
 
         // Create a test event
-        $event = \MicroweberPackages\Modules\SiteStats\Models\StatsEvent::create([
+        $event = StatsEvent::create([
             'event_action' => 'LOGIN',
             'event_data' => '{}',
             'utm_visitor_id' => '123',
@@ -73,7 +83,7 @@ class GoogleAnalyticsModuleTest extends TestCase
         $dispatcher = new DispatchGoogleEventsJs();
 
         // Create a test conversion event
-        $event = \MicroweberPackages\Modules\SiteStats\Models\StatsEvent::create([
+        $event = StatsEvent::create([
             'event_action' => 'CONVERSION',
             'event_data' => json_encode([
                 'order' => [

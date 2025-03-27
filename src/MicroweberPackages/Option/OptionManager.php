@@ -344,6 +344,7 @@ class OptionManager
 
         $this->clear_memory();
         app()->option_repository->clearCache();
+        app()->database_manager->clearCache();
 
         $option_group = false;
         if (is_array($data)) {
