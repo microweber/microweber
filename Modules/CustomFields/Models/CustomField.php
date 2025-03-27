@@ -145,6 +145,7 @@ class CustomField extends Model
         $setBackMultileValuesAttrbuteAfterSave = null;
 
         if (isset($this->value) and !empty($this->value)) {
+
             //cleaup the old value
             CustomFieldValue::where('custom_field_id', $this->id)->delete();
 
@@ -158,7 +159,9 @@ class CustomField extends Model
 
             unset($this->value);
         }
-
+        if (isset($this->value)){
+            unset($this->value);
+        }
         if (isset($this->values) and !empty($this->values)) {
 
             if (is_collection($this->values)) {
