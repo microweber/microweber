@@ -40,15 +40,14 @@ class DispatchGoogleEventsJs
             ->whereNotNull('event_action')
             ->get();
             
-        error_log("Found ".$getStatsEvents->count()." events to process");
+        // Debug logging removed
         foreach ($getStatsEvents as $event) {
-            error_log("Event to process: ".$event->event_action);
         }
 
         if ($getStatsEvents->count() > 0) {
-            error_log("Found ".$getStatsEvents->count()." events to process");
+            
             foreach ($getStatsEvents as $getStatsEvent) {
-                error_log("Processing event: ".$getStatsEvent->event_action);
+                
                 try {
                     $eventData = json_decode($getStatsEvent->event_data, true);
 
@@ -83,7 +82,7 @@ class DispatchGoogleEventsJs
                 // Ensure the event is marked as sent and immediately saved
 $getStatsEvent->is_sent = 1;
 if (!$getStatsEvent->save()) {
-    error_log("Failed to mark event as sent: ".$getStatsEvent->id);
+    // Failed to mark event as sent
 }
             }
         }
