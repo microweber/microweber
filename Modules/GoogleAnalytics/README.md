@@ -61,7 +61,55 @@ Once configured, the module will automatically:
 - Track e-commerce events if you're using Microweber's shop features
 - Send enhanced conversion data when available
 
-No additional code is required for basic tracking. The module integrates with Microweber's event system to automatically track relevant actions.
+### Technical Implementation
+
+The module works by:
+
+1. **Event Tracking**:
+   - Listens to Microweber's event system
+   - Maps events to GA4 measurement protocol
+   - Uses the `DispatchGoogleEventsJs` class to handle event conversion
+
+2. **Enhanced Conversions**:
+   - Requires Conversion ID and Label
+   - Validates e-commerce data before sending
+   - Uses the `StatsEvent` model to track conversion status
+
+3. **Testing**:
+   ```php
+   public function test_enhanced_conversions_are_handled_correctly()
+   {
+       // Tests verify:
+       // 1. Correct payload structure
+       // 2. Conversion marking
+       // 3. Data validation
+   }
+   ```
+
+### Manual Event Tracking
+
+For custom events, use:
+
+```php
+use Microweber\Modules\GoogleAnalytics\Support\GoogleAnalyticsEvents;
+
+GoogleAnalyticsEvents::trackEvent('event_name', [
+    'param1' => 'value1',
+    'param2' => 'value2' 
+]);
+```
+
+### Debugging
+
+Enable debug mode in config to log events:
+```php
+'debug' => env('GOOGLE_ANALYTICS_DEBUG', false)
+```
+
+Debug logs will show:
+- Event payloads
+- API responses
+- Conversion status
 
 ## License
 

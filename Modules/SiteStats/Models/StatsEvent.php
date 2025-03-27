@@ -9,6 +9,23 @@ use Modules\SiteStats\Support\UtmVisitorData;
 class StatsEvent extends Model
 {
     protected $table = 'stats_events';
+    
+    protected $fillable = [
+        'event_category',
+        'event_action', 
+        'event_label',
+        'event_value',
+        'user_id',
+        'session_id',
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content',
+        'utm_visitor_id',
+        'event_data',
+        'event_timestamp'
+    ];
 
     public static function saveNewUtm(UtmEvent $event) {
 
