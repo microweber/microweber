@@ -126,17 +126,35 @@ php artisan dusk:install
 php artisan dusk:chrome-driver --detect
 ```
 
-### Note on Parallel Testing
-We recommend against parallel Dusk execution because:
-1. Browser tests require sequential execution
-2. Shared state causes flaky results
-3. Debugging parallel failures is difficult
+### Important Testing Notes
 
-For better results:
-- Use `APP_ENV=dusk.local` for headless mode
-- Optimize test speed individually
-- Split large test suites
-- Scale CI resources vertically
+#### Parallel Testing
+Avoid parallel execution for Dusk tests because:
+- Browser tests must run sequentially (stateful operations)
+- Parallel runs cause resource contention and flaky results
+- Failure debugging becomes extremely difficult
+- Not supported by Dusk's architecture
+
+Instead:
+1. Run tests headlessly: `APP_ENV=dusk.local`
+2. Optimize individual test speed
+3. Split test suites logically (by module/feature)
+4. Scale CI resources vertically
+
+#### Test Suite Names
+The actual test suite names are defined in `phpunit.xml` and may differ from:
+- The group names used in `@group` annotations
+- The terminology used in documentation
+- The CLI filter patterns
+
+Always verify suite names in:
+```xml
+<!-- phpunit.xml -->
+<testsuites>
+    <testsuite name="Unit">...</testsuite>
+    <testsuite name="Feature">...</testsuite>
+    <testsuite name="Modules">...</testsuite>
+</testsuites>
 ```
 
 
