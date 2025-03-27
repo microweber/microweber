@@ -1,10 +1,11 @@
 <?php
 
-namespace MicroweberPackages\App\Managers;
+namespace Modules\Log\Services;
 
-use DB;
+use Illuminate\Support\Facades\DB;
+use MicroweberPackages\App\Managers\LogManager as BaseLogManager;
 
-class LogManager
+class LogManager extends BaseLogManager
 {
     public $app;
 
