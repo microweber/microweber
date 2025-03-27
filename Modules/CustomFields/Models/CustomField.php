@@ -144,7 +144,7 @@ class CustomField extends Model
         $setBackValueAttrbuteAfterSave = null;
         $setBackMultileValuesAttrbuteAfterSave = null;
 
-        if (isset($this->value) and !empty($this->value)) {
+        if (isset($this->value)) {
 
             //cleaup the old value
             CustomFieldValue::where('custom_field_id', $this->id)->delete();
@@ -160,6 +160,7 @@ class CustomField extends Model
             unset($this->value);
         }
         if (isset($this->value)){
+
             unset($this->value);
         }
         if (isset($this->values) and !empty($this->values)) {
@@ -190,7 +191,7 @@ class CustomField extends Model
 
         $saved = parent::save($options);
 
-        if (isset($customFieldValueToSave) and !empty($customFieldValueToSave)) {
+        if (isset($customFieldValueToSave)) {
 
 
             if (is_array($customFieldValueToSave)) {
