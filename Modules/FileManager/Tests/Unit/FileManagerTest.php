@@ -11,8 +11,7 @@ class FileManagerTest extends TestCase
 
     public function testList()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+       $this->loginAsAdmin();
 
         // Create new folder
         $lastCreatedFolderName = rand(111, 999) . 'folder';
@@ -126,8 +125,7 @@ class FileManagerTest extends TestCase
 
     public function testDeleteFile()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+     $this->loginAsAdmin();
 
         // Create new file
         $randFileName = rand(111, 999) . 'randFileName.txt';
@@ -135,7 +133,7 @@ class FileManagerTest extends TestCase
         if (!is_dir($path)) {
             mkdir_recursive($path);
         }
-
+ 
         file_put_contents($path . $randFileName, time());
         $fileManagerParams = ['path' => media_uploads_path_relative()];
 
@@ -197,8 +195,7 @@ class FileManagerTest extends TestCase
 
     public function testDeleteAllTestingFiles()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
 
         $path = media_uploads_path();
         rmdir_recursive($path, false);
@@ -210,6 +207,7 @@ class FileManagerTest extends TestCase
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
+
         $listedFiles = json_decode($content, true);
 
         $this->assertEmpty($listedFiles['data']);

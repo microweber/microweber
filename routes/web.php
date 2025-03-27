@@ -18,8 +18,23 @@ use MicroweberPackages\Content\Models\Content;
 
 Route::get('xx', function () {
 
+$req  =  request();
 
-    dump( asset('templates/big2/dist/build/app.css'));
+    $fileManagerParams = ['path' => media_uploads_path_relative()];
+
+    $req->merge($fileManagerParams);
+
+    $controller = new \Modules\FileManager\Http\Controllers\Api\FileManagerApiController();
+    $path = media_uploads_path();
+    $lsit = $controller->list($req);
+dd($path,$lsit);
+    // List files
+    $response = $this->call('GET', route('api.file-manager.list', $fileManagerParams));
+
+
+
+
+    //dump( asset('templates/big2/dist/build/app.css'));
 
 
 });

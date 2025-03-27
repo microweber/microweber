@@ -35,10 +35,10 @@ if (!function_exists('media_uploads_path_relative')) {
     function media_uploads_path_relative()
     {
         $environment = app()->environment();
-        $folder = MW_MEDIA_FOLDER_NAME  . DIRECTORY_SEPARATOR. ('default' . DIRECTORY_SEPARATOR);
+        $folder = MW_USERFILES_FOLDER_NAME.DIRECTORY_SEPARATOR. MW_MEDIA_FOLDER_NAME  . DIRECTORY_SEPARATOR. ('default' . DIRECTORY_SEPARATOR);
 
         if (mw_is_multisite()) {
-            $folder = MW_MEDIA_FOLDER_NAME . DIRECTORY_SEPARATOR . ($environment . DIRECTORY_SEPARATOR);
+            $folder = MW_USERFILES_FOLDER_NAME .DIRECTORY_SEPARATOR. MW_MEDIA_FOLDER_NAME . DIRECTORY_SEPARATOR . ($environment . DIRECTORY_SEPARATOR);
         }
 
         return $folder;
