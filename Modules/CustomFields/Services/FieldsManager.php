@@ -720,10 +720,7 @@ class FieldsManager
      */
     public function delete($id)
     {
-        $uid = $this->app->user_manager->is_admin();
-        if (defined('MW_API_CALL') and $uid == false) {
-            exit('Error: not logged in as admin.' . __FILE__ . __LINE__);
-        }
+
         if (is_array($id)) {
             extract($id);
         }

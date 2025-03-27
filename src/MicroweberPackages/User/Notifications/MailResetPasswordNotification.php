@@ -55,7 +55,7 @@ class MailResetPasswordNotification extends ResetPassword {
             $template['subject'] = _e('Reset Password Notification', true);
         }
 
-        if ($template) {
+        if ($template and isset($template['message'])) {
 
             $twig = new \MicroweberPackages\View\TwigView();
             $parsedEmail = $twig->render($template['message'], [

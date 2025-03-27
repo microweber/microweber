@@ -85,7 +85,6 @@
     "omnipay/paypal": "^3.0",
     "omnipay/stripe": "^3.2",
     "opis/closure": "^3.6@dev",
-    "phenx/php-svg-lib": "0.5.2",
     "phpdocumentor/reflection-docblock": "^5.0@dev",
     "phpoffice/phpspreadsheet": "^4.1",
     "phpseclib/phpseclib": "~3.0",

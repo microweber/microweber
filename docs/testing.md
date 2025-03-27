@@ -164,7 +164,8 @@ Always verify suite names in:
 ### Common Issues
 - Database connection errors: Ensure test database is configured
 - Environment variables: Verify .env.testing is properly set up
-- Timeouts: Increase timeout with `--process-timeout=60`
+- Timeouts: Increase timeout with `--process-timeout=6000`
+- Check the error log at `storage/logs/laravel.log`
 
 ### Debugging Tests
 ```bash
@@ -173,4 +174,5 @@ php -d xdebug.mode=debug artisan test --filter FailingTest
 
 # With dump statements
 php artisan test --filter FailingTest --debug
+
 ```

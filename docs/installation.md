@@ -74,10 +74,7 @@ php artisan test --group modules
 php artisan test --coverage-html coverage/
 ```
 
-### Available Test Groups
-- `modules` - Core module functionality
-- `forms` - Form builder tests
-- `api` - API endpoint tests
+
 
 
 
@@ -92,6 +89,7 @@ php artisan test --coverage-html coverage/
 | db-name     | Database name/path                   |
 | db-driver   | Database type (mysql/sqlite/pgsql)   |
 
+
 #### Optional Arguments
 | Argument         | Description                          |
 |------------------|--------------------------------------|
@@ -102,6 +100,7 @@ php artisan test --coverage-html coverage/
 | template         | Default template to install          |
 | default-content  | Install demo content (1/0)           |
 | config-only      | Prepare config without install (1/0) |
+
 
 #### Command Options
 | Option          | Description                          |
@@ -121,9 +120,7 @@ php artisan test --coverage-html coverage/
 ### Sqlite
  
 ``` bash
-
 php artisan microweber:install --email=admin@example.com --username=admin --password=mypassword --db-name=storage/database.sqlite --db-password=nopass --db-driver=sqlite --db-prefix=site_ --template=Bootstrap --default-content=1
-
 ```
 
 ### Mysql
@@ -135,7 +132,7 @@ php artisan microweber:install --email=admin@example.com --username=admin --pass
 
 
 
-#### Config only, and let user to complete the install from browser
+#### Config only, and let user complete the installation from browser
 
 To let the user complete the intall from browser and select a template you must pass the parameter `--config-only=1` to the install script. 
 
@@ -144,6 +141,7 @@ php artisan microweber:install --config-only=1 --email=admin@example.com --usern
 ```
 
 #### Multi domain scripted installation
+
 To make multi domain install you must create an empty folder within the `config` folder with the name of your domain and put empty file at `config/example.com/microweber.php`
 
 Then on the scriptted install you must pass the domain name as a `--env` parameter. For example: 
@@ -156,4 +154,9 @@ php artisan microweber:install --env=example.com  --config-only=1 --email=admin@
 #### Update command
 
 `php artisan microweber:update`
+
+
+## Troubleshooting
+
+You can check the error log at `storage/logs/laravel.log` 
 
