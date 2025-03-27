@@ -390,7 +390,7 @@ dd(debug_backtrace(1));
             if ($is_log == 'log_') {
                 $is_sys_log = 1;
                 $is_log_id = str_ireplace('log_', '', $params['id']);
-                $log_entr = $this->app->log_manager->get_entry_by_id($is_log_id);
+                $log_entr = app()->log_manager->get_entry_by_id($is_log_id);
                 if ($log_entr != false and isset($params['one'])) {
                     return $log_entr;
                 } elseif ($log_entr != false) {

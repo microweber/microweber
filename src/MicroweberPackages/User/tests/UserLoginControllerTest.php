@@ -136,12 +136,12 @@ class UserLoginControllerTest extends TestCase
             [
                 'username' => $email,
                 'password' => $password,
-                'where_to' => 'home',
+                'redirect' => 'home',
             ]
         );
 
         $userData = $response->getData(true);
-
+ 
         $this->assertArrayHasKey("redirect", $userData);
         $this->assertArrayHasKey("success", $userData);
 

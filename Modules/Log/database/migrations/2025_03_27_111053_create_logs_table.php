@@ -14,18 +14,25 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->string('level')->nullable();
+            $table->string('level')->nullable();
             $table->text('message')->nullable();
-            $table->text('context')->nullable();
-            $table->string('channel')->default('default');
-            $table->timestamp('logged_at')->useCurrent();
+            $table->text('rel_type')->nullable();
+            $table->text('rel_id')->nullable();
+            $table->string('channel')->default('default')->nullable();
+            $table->timestamp('logged_at')->useCurrent()->nullable();
+
+            //legacy fileds
+            $table->text('is_system')->nullable();
+            $table->text('field')->nullable();
+            $table->text('rel')->nullable();
+            $table->text('value')->nullable();
+
+
+
             $table->timestamps();
-            $table->index('level');
-            $table->index('channel');
-            $table->index('logged_at');
         });
     }
-
-    /**
+     /**
      * Reverse the migrations.
      */
     public function down(): void
