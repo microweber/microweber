@@ -136,7 +136,7 @@ class UserLoginControllerTest extends TestCase
             [
                 'username' => $email,
                 'password' => $password,
-                'where_to' => 'home',
+                'redirect' => 'home',
             ]
         );
 

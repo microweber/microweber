@@ -29,8 +29,8 @@ class SocialLinksSettingsFilamentTest extends TestCase
             ->set($params)
             ->assertFormFieldExists('options.facebook_enabled')
             ->assertFormFieldExists('options.facebook_url')
-            ->assertFormFieldExists('options.twitter_enabled')
-            ->assertFormFieldExists('options.twitter_url')
+            ->assertFormFieldExists('options.x_enabled')
+            ->assertFormFieldExists('options.x_url')
             ->assertFormFieldExists('options.pinterest_enabled')
             ->assertFormFieldExists('options.pinterest_url')
             ->assertFormFieldExists('options.linkedin_enabled')
@@ -43,8 +43,8 @@ class SocialLinksSettingsFilamentTest extends TestCase
         $data = [
             'options.facebook_enabled' => true,
             'options.facebook_url' => 'https://facebook.com/example',
-            'options.twitter_enabled' => true,
-            'options.twitter_url' => 'https://twitter.com/example',
+            'options.x_enabled' => true,
+            'options.x_url' => 'https://x.com/example',
             'options.pinterest_enabled' => true,
             'options.pinterest_url' => 'https://pinterest.com/example',
             'options.linkedin_enabled' => true,

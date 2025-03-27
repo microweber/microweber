@@ -80,7 +80,7 @@ trait FilterByPriceTrait
                         $query3->whereBetween('value', [$minPrice, $maxPrice]);
                     }
 
-                    return $query3;
+
                 });
                 return $query2;
 

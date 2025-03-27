@@ -419,7 +419,7 @@ class AppServiceProvider extends ServiceProvider
             'cache_manager' => 'CacheManager',
             'config_manager' => 'ConfigurationManager',
             'notifications_manager' => 'NotificationsManager',
-            'log_manager' => 'LogManager',
+        //    'log_manager' => 'LogManager',
             'permalink_manager' => 'PermalinkManager',
             //    'layouts_manager' => 'LayoutsManager',
             'lang_helper' => 'Helpers\\Lang'

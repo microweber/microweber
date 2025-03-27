@@ -39,8 +39,6 @@ class LogServiceProvider extends BaseModuleServiceProvider
         $this->app->singleton('log_manager', function ($app) {
             return new \Modules\Log\Services\LogManager();
         });
-        $this->app->bind(\MicroweberPackages\App\Managers\LogManager::class, \Modules\Log\Services\LogManager::class);
-
         // Register filament page for Microweber module settings
         // FilamentRegistry::registerPage(LogModuleSettings::class);
 

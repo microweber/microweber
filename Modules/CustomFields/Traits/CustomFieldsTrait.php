@@ -170,7 +170,7 @@ trait CustomFieldsTrait
 
             $query->whereHas('customField', function ($query) use ($whereArr, $fieldName, $fieldValue) {
 
-                $query->where('name_key', \Str::slug($fieldName, '-'))->whereHas('fieldValue', function ($query) use ($fieldValue) {
+                $query->where('name_key', Str::slug($fieldName, '-'))->whereHas('fieldValue', function ($query) use ($fieldValue) {
                     if (is_array($fieldValue)) {
                         $query->whereIn('value', $fieldValue);
                     } else {

@@ -46,7 +46,7 @@ use Modules\Order\Repositories\OrderManager;
 use Modules\Order\Repositories\OrderRepository;
 use Modules\Payment\Services\PaymentMethodManager;
 use Modules\Shipping\Services\ShippingMethodManager;
-use Modules\Shipping\ShippingManager;
+use Modules\Log\Services\LogManager;
 use Modules\Shop\Services\ShopManager;
 
 
@@ -109,9 +109,10 @@ use Modules\Shop\Services\ShopManager;
  * @property TranslateManager $translate_manager
  * @property  MicroweberRepository $microweber
  * @property PaymentMethodManager $payment_method_manager
- * @property \Modules\Shipping\Services\ShippingMethodManager $shipping_method_manager
+ * @property ShippingMethodManager $shipping_method_manager
  * @property LaravelTemplatesFileRepository $templates
  * @property LaravelModulesFileRepository $modules
+ * @property LogManager $log_manager
  */
 class Application
 {

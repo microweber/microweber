@@ -4,6 +4,7 @@ namespace Modules\FileManager\Http\Controllers;
 
 
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use MicroweberPackages\App\Http\Controllers\Controller;
 
@@ -421,17 +422,23 @@ class PluploadController extends Controller
         }
 
 
-        if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
-            $filename_log = mw()->url_manager->slug($fileName);
-            $check = app()->log_manager->get('one=true&no_cache=true&is_system=y&created_at=[mt]30 min ago&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&user_ip=' . user_ip());
-            $upl_size_log = $_SERVER['CONTENT_LENGTH'];
-            if (is_array($check) and isset($check['id'])) {
-                $upl_size_log = intval($upl_size_log) + intval($check['value']);
-                app()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip() . '&id=' . $check['id']);
-            } else {
-                app()->log_manager->save('no_cache=true&is_system=y&field=upload_size&rel=uploader&rel_id=' . $filename_log . '&value=' . $upl_size_log . '&user_ip=' . user_ip());
-            }
-        }
+       if (isset($_SERVER['CONTENT_LENGTH']) and isset($_FILES['file'])) {
+           $filename_log = mw()->url_manager->slug($fileName);
+           $cacheKey = 'upload_size_' . $filename_log . '_' . user_ip();
+           $upl_size_log = $_SERVER['CONTENT_LENGTH'];
+
+           if (app()->bound('cache')) {
+               $cachedSize = Cache::get($cacheKey);
+
+               if ($cachedSize) {
+                   // Add current upload size to existing cached value
+                   $upl_size_log = intval($upl_size_log) + intval($cachedSize);
+               }
+
+               // Store the updated size in cache with 30 minutes TTL
+               Cache::put($cacheKey, $upl_size_log, 30 * 60);
+           }
+       }
 
 // Look for the content type header
         if (isset($_SERVER['HTTP_CONTENT_TYPE'])) {
@@ -718,9 +725,10 @@ class PluploadController extends Controller
                     return response()->json($error_json, 422);;
                 }
             }
-
-            app()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
-            app()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
+            if(app()->bound('log_manager')) {
+                app()->log_manager->delete('is_system=y&rel=uploader&created_at=[lt]30 min ago');
+                app()->log_manager->delete('is_system=y&rel=uploader&session_id=' . mw()->user_manager->session_id());
+            }
         }
 
         $f_name = explode(DS, $filePath);
