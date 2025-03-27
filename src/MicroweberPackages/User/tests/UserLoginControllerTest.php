@@ -141,7 +141,7 @@ class UserLoginControllerTest extends TestCase
         );
 
         $userData = $response->getData(true);
- 
+
         $this->assertArrayHasKey("redirect", $userData);
         $this->assertArrayHasKey("success", $userData);
 

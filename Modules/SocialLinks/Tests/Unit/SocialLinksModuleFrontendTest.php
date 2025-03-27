@@ -16,8 +16,8 @@ class SocialLinksModuleFrontendTest extends TestCase
             'id' => 'test-socialLinks-id' . uniqid(),
             'facebook_enabled' => true,
             'facebook_url' => 'https://facebook.com/example',
-            'twitter_enabled' => true,
-            'twitter_url' => 'https://twitter.com/example',
+            'x_enabled' => true,
+            'x_url' => 'https://x.com/example',
             'pinterest_enabled' => true,
             'pinterest_url' => 'https://pinterest.com/example',
             'linkedin_enabled' => true,
@@ -50,7 +50,7 @@ class SocialLinksModuleFrontendTest extends TestCase
         $this->assertTrue(View::exists('modules.social_links::templates.default'));
         $this->assertStringContainsString('example', $viewOutput);
         $this->assertStringContainsString('facebook.com', $viewOutput);
-        $this->assertStringContainsString('twitter.com', $viewOutput);
+        $this->assertStringContainsString('x.com', $viewOutput);
         $this->assertStringContainsString('pinterest.com', $viewOutput);
         $this->assertStringContainsString('linkedin.com', $viewOutput);
         $this->assertStringContainsString('viber.com', $viewOutput);
