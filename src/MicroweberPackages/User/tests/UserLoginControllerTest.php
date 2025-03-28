@@ -31,9 +31,12 @@ class UserLoginControllerTest extends TestCase
         $username = 'testuser_' . uniqid();
         $password = 'pass__' . uniqid();
 
+        logout();
+
+
         $user = $this->_registerUserWithUsername($username, $password);
 
- 
+
 
         $response = $this->json(
             'POST',
