@@ -1,13 +1,17 @@
 <?php
+
 namespace Modules\GoogleAnalytics\Tests\Unit;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Modules\GoogleAnalytics\Microweber\GoogleAnalyticsModule;
 use Modules\GoogleAnalytics\Support\DispatchGoogleEventsJs;
 use Modules\SiteStats\Models\StatsEvent;
 use Tests\TestCase;
+
 class GoogleAnalyticsModuleTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_tracking_code_is_not_rendered_when_disabled()
     {
         // Arrange
@@ -21,6 +25,7 @@ class GoogleAnalyticsModuleTest extends TestCase
         // Assert
         $this->assertEmpty($output);
     }
+
     public function test_tracking_code_is_rendered_when_enabled()
     {
         // Arrange
@@ -38,6 +43,7 @@ class GoogleAnalyticsModuleTest extends TestCase
         $this->assertStringContainsString('G-TEST123', $output);
         $this->assertStringContainsString('googletagmanager.com/gtag/js', $output);
     }
+
     public function test_events_are_converted_correctly()
     {
         // Arrange
@@ -46,7 +52,7 @@ class GoogleAnalyticsModuleTest extends TestCase
         $dispatcher = new DispatchGoogleEventsJs();
         // Create and verify test event
         $event = StatsEvent::create([
-            'event_action' => 'LOGIN', 
+            'event_action' => 'LOGIN',
             'event_data' => '{}',
             'utm_visitor_id' => '123',
             'is_sent' => null
@@ -55,9 +61,12 @@ class GoogleAnalyticsModuleTest extends TestCase
         $output = $dispatcher->convertEvents();
         // Debug
         // Debug and assert
+        $freshEvent = StatsEvent::where('id', $event->id)->first();
+
         $this->assertStringContainsString('gtag(\'event\'', $output);
         $this->assertEquals(1, $freshEvent->is_sent, 'Event should be marked as sent (1)');
     }
+
     public function test_enhanced_conversions_are_handled_correctly()
     {
         // Arrange
@@ -82,6 +91,6 @@ class GoogleAnalyticsModuleTest extends TestCase
         $output = $dispatcher->convertEvents();
         // Assert
         $this->assertStringContainsString('"send_to":"TEST_ID\/TEST_LABEL"', $output);
-$this->assertSame(1, $event->fresh()->is_sent, 'Event should be marked as sent (1)');
+        $this->assertSame(1, $event->fresh()->is_sent, 'Event should be marked as sent (1)');
     }
 }
