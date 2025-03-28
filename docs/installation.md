@@ -153,8 +153,16 @@ php artisan microweber:install --env=example.com  --config-only=1 --email=admin@
 
 #### Update command
 
-`php artisan microweber:update`
+Update from stable branch
+``` bash
+php artisan microweber:update`
+```
 
+Update from dev branch
+
+``` bash
+php artisan microweber:update`--branch=dev
+```
 
 ## Troubleshooting
 

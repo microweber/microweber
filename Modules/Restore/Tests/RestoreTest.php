@@ -29,7 +29,7 @@ class RestoreTest extends TestCase
         $manager->setSessionId($sessionId);
         $manager->setFile($sample);
         $manager->setType('csv');
-        $manager->setBatchImporting(false);
+        $manager->setBatchRestoring(false);
 
         $importStatus = $manager->start();
 
@@ -49,7 +49,7 @@ class RestoreTest extends TestCase
         $manager->setSessionId($sessionId);
         $manager->setFile($sample);
 
-        $manager->setBatchImporting(false);
+        $manager->setBatchRestoring(false);
 
         $importStatus = $manager->start();
 
@@ -68,7 +68,7 @@ class RestoreTest extends TestCase
         $manager = new Restore();
         $manager->setSessionId($sessionId);
         $manager->setFile($sample);
-        $manager->setBatchImporting(false);
+        $manager->setBatchRestoring(false);
 
         $importStatus = $manager->start();
 
@@ -83,25 +83,22 @@ class RestoreTest extends TestCase
 
         $manager = new Restore();
         $manager->setSessionId($sessionId);
-        
+
         try {
             $manager->setFile('wrongfile.txt');
-            $manager->setBatchImporting(false);
+            $manager->setBatchRestoring(false);
             $importStatus = $manager->start();
             $this->fail("Expected exception not thrown");
         } catch (\Exception $e) {
             $this->assertStringContainsString('Invalid file', $e->getMessage());
         }
     }
-
+/*
     public function testImportZipFile() {
-        $this->markTestSkipped('Sample zip file contains no importable content - expected behavior');
-        return;
 
-        $template_folder = 'big';
-        if(!is_dir(templates_dir(). $template_folder)){
-            $template_folder = 'new-world';
-        }
+
+        $template_folder = 'Bootstrap';
+
 
         $sample = __DIR__.'/../resources/samples/other_cms.zip';
         $sample = normalize_path($sample, false);
@@ -117,7 +114,7 @@ class RestoreTest extends TestCase
         $manager = new Restore();
         $manager->setSessionId($sessionId);
         $manager->setFile($sample);
-        $manager->setBatchImporting(false);
+        $manager->setBatchRestoring(false);
 
         $importStatus = $manager->start();
         $data = $importStatus['data'];
@@ -137,40 +134,7 @@ class RestoreTest extends TestCase
             return;
         }
 
-        // First check for "Nothing to import" message
-        if ($data === 'Nothing to import.') {
-            $this->markTestSkipped('No importable content found in zip file');
-            return;
-        }
 
-        // Then verify data format
-        if (!is_array($data)) {
-            $this->fail('Invalid import data format: ' . gettype($data));
-        }
-
-        // Skip if empty array
-        if (empty($data)) {
-            $this->markTestSkipped('Empty import data array');
-            return;
-        }
-
-        if (!is_array($data)) {
-            $this->fail('Invalid import data format: ' . gettype($data));
-        }
-
-        // Convert string data if needed
-        if (is_string($data)) {
-            $data = json_decode($data, true);
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                $this->fail('Failed to decode JSON data: ' . json_last_error_msg());
-            }
-        }
-
-        // Skip if no valid data to process
-        if ($data === 'Nothing to import.' || empty($data)) {
-            $this->markTestSkipped('No importable content found - expected behavior');
-            return;
-        }
 
         $optionsCheck = [];
         foreach ($data as $itemObject){
@@ -179,7 +143,7 @@ class RestoreTest extends TestCase
 
             $this->assertArrayHasKey('itemIdDatabase', $itemObject);
             $this->assertArrayHasKey('item', $itemObject);
-            
+
             $item = $itemObject['item'];
             $this->assertArrayHasKey('save_to_table', $item);
 
@@ -209,7 +173,7 @@ class RestoreTest extends TestCase
         $this->assertSame(true, $importStatus['done']);
         $this->assertSame(100, $importStatus['percentage']);
         $this->assertSame($importStatus['current_step'], $importStatus['total_steps']);
-    }
+    }*/
 
 }
 
