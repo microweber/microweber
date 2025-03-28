@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->string('level')->nullable();
-            $table->string('level')->nullable();
             $table->text('message')->nullable();
             $table->text('rel_type')->nullable();
             $table->text('rel_id')->nullable();
