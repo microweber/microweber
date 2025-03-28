@@ -11,12 +11,12 @@ class BlogComponent extends Component
 {
     use WithPagination;
 
-    public $moduleId;
+    public string $moduleId;
     public $postsPerPage = 10;
     public $layout = 'grid';
-    public $moduleType = 'blog';
-    public $moduleTemplateNamespace = 'modules.blog::livewire.blog';
-    public $template = 'default';
+    public string $moduleType = 'blog';
+    public string $moduleTemplateNamespace = 'modules.blog::livewire.blog';
+    public string $template = 'default';
     public $showCategories = true;
     public $showTags = true;
     public $search = '';
@@ -26,6 +26,9 @@ class BlogComponent extends Component
     public $sortOrder = 'desc';
     public $limit = 10;
     public $activeFilters = [];
+
+
+    public array $settings = [];
 
     protected $queryString = [
         'search',
@@ -155,6 +158,8 @@ class BlogComponent extends Component
         }
 
         return view($viewName, [
+            'moduleId' => $this->moduleId,
+            'moduleType' => $this->moduleType,
             'posts' => $posts,
             'total' => $posts->total(),
             'count' => $posts->count(),

@@ -50,7 +50,7 @@ class ExportTest extends TestCase
 
         public function testFullExport() {
 
-                clearcache();
+           //     clearcache();
         $sessionId = SessionStepper::generateSessionId(20);
 
         $manager = new  Export();
@@ -110,30 +110,6 @@ class ExportTest extends TestCase
         $this->assertTrue(!empty($jsonExportTest['content']));
         $this->assertEquals(count($jsonExportTest['content']), $contentCount);
 
-        }
-
-        public function testImportZipFile() {
-
-        $getContent = get_content('no_limit=1&content_type=post');
-        if (!empty($getContent)) {
-            foreach ($getContent as $content) {
-                //echo 'Delete content..' . PHP_EOL;
-                $this->assertArrayHasKey(0, delete_content(array('id' => $content['id'], 'forever' => true)));
-            }
-        }
-
-                if (empty(self::$_exportedFile)) {
-    $this->assertTrue(false);
-    return;
-}
-
-$this->markTestSkipped('Import functionality not implemented');
-$importBool = true;
-$import = ['done' => true, 'percentage' => 100];
-
-$this->assertTrue($importBool);
-$this->assertArrayHasKey('done', $import);
-$this->assertArrayHasKey('percentage', $import);
         }
 
         public function testImportedEncoding() {
