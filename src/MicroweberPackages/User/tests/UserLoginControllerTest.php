@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\Utils\Mail\MailSender;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
+use PHPUnit\Framework\Attributes\Test;
 
 
 class UserLoginControllerTest extends TestCase
@@ -14,7 +16,7 @@ class UserLoginControllerTest extends TestCase
 
     public function testUserLoginWithUsername()
     {
-
+        $this->loginAsAdmin();
         $data['option_value'] = 'y';
         $data['option_key'] = 'enable_user_microweber_registration';
         $data['option_group'] = 'users';
@@ -30,6 +32,8 @@ class UserLoginControllerTest extends TestCase
         $password = 'pass__' . uniqid();
 
         $user = $this->_registerUserWithUsername($username, $password);
+
+ 
 
         $response = $this->json(
             'POST',

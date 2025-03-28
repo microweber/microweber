@@ -120,31 +120,37 @@ class UserManager
             $params = parse_params($params);
         }
         if(app()->bound('log_manager')) {
-            $check = app()->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . user_ip());
-            $url = $this->app->url->current(1);
-            if ($check == 5) {
-                $url_href = "<a href='$url' target='_blank'>$url</a>";
-                app()->log_manager->save('title=User IP ' . user_ip() . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . user_ip());
-            }
-            if ($check > 5) {
-                $check = $check - 1;
-                return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
-            }
 
-            $check2 = app()->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . user_ip());
-            if ($check2 > 25) {
-                return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
-            }
+            try {
+                $check = app()->log_manager->get('no_cache=1&count=1&updated_at=[mt]1 min ago&is_system=y&rel_type=login_failed&user_ip=' . user_ip());
+                $url = $this->app->url->current(1);
+                if ($check == 5) {
+                    $url_href = "<a href='$url' target='_blank'>$url</a>";
+                    app()->log_manager->save('title=User IP ' . user_ip() . ' is blocked for 1 minute for 5 failed logins.&content=Last login url was ' . $url_href . '&is_system=n&rel_type=login_failed&user_ip=' . user_ip());
+                }
+                if ($check > 5) {
+                    $check = $check - 1;
+                    return array('error' => 'There are ' . $check . ' failed login attempts from your IP in the last minute. Try again in 1 minute!');
+                }
 
-            // check by server REMOTE_ADDR , if the an atacker spoofs the user headers such as HTTP_X_FORWARDED or HTTP_CLIENT_IP
-            if (isset($_SERVER['REMOTE_ADDR'])) {
-                if (user_ip() != $_SERVER['REMOTE_ADDR']) {
-                    $check3 = app()->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]15 min ago&updated_at=[lt]15 min&rel_type=login_failed&user_ip=' . $_SERVER['REMOTE_ADDR']);
-                    if ($check3 > 100) {
-                        return array('error' => 'There are ' . $check3 . ' failed login attempts from your IP in the last 15 minutes. You are blocked for 15 minutes!');
+                $check2 = app()->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]10 min ago&updated_at=[lt]10 min&rel_type=login_failed&user_ip=' . user_ip());
+                if ($check2 > 25) {
+                    return array('error' => 'There are ' . $check2 . ' failed login attempts from your IP in the last 10 minutes. You are blocked for 10 minutes!');
+                }
+
+                // check by server REMOTE_ADDR , if the an atacker spoofs the user headers such as HTTP_X_FORWARDED or HTTP_CLIENT_IP
+                if (isset($_SERVER['REMOTE_ADDR'])) {
+                    if (user_ip() != $_SERVER['REMOTE_ADDR']) {
+                        $check3 = app()->log_manager->get('no_cache=1&is_system=y&count=1&created_at=[mt]15 min ago&updated_at=[lt]15 min&rel_type=login_failed&user_ip=' . $_SERVER['REMOTE_ADDR']);
+                        if ($check3 > 100) {
+                            return array('error' => 'There are ' . $check3 . ' failed login attempts from your IP in the last 15 minutes. You are blocked for 15 minutes!');
+                        }
                     }
                 }
+            }  catch (\Exception $e) {
+
             }
+
         }
 
 
@@ -696,6 +702,7 @@ class UserManager
         $this->app->notifications_manager->save($notif);
 
         if(app()->bound('log_manager')) {
+
             app()->log_manager->save($notif);
             $this->register_email_send($user_id);
         }

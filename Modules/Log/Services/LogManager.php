@@ -79,16 +79,26 @@ class LogManager
 
     public function save($params)
     {
-        $table = 'log';
-        $params = parse_params($params);
-        $params['user_ip'] = user_ip();
-        $params['table'] = $table;
 
-        $save = $this->app->database_manager->save($params);
-        $id = $save;
-        $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
+        try {
+            $table = 'log';
+            $params = parse_params($params);
+            $params['user_ip'] = user_ip();
+            $params['table'] = $table;
 
-        return $id;
+            $save = $this->app->database_manager->save($params);
+            $id = $save;
+            $this->app->cache_manager->delete('log' . DIRECTORY_SEPARATOR . 'global');
+
+            return $id;
+        }catch (\Exception $e) {
+
+        }
+
+
+
+
+
     }
 
     public function delete_entry($data)
