@@ -10,11 +10,7 @@
                 "btn": "Normal",
                 "btn-primary": "Primary",
                 "btn-secondary": "Secondary",
-                "btn-outline": "Outline",
-                "btn-danger": "Danger",
-                "btn-warning": "Warning",
-                "btn-info": "Info",
-                "btn-link": "Link"
+                "btn-outline": "Outline"
             }
         },
         {
@@ -24,14 +20,12 @@
             "placeholder": "Select button size",
             "help": "The size of the button",
             "options": {
-                "btn-sm": "Small",
                 "": "Normal",
                 "btn-lg": "Large",
-                "btn-block": "Block",
-                "btn-default-large btn-lg": "Large",
-                "btn-default-medium btn-md": "Medium",
-                "btn-default-small btn-sm": "Small",
-                "btn-default-mini btn-xs": "Mini"
+                "btn-lg": "Large",
+                "btn-md": "Medium",
+                "btn-sm": "Small",
+                "btn-xs": "Mini"
             }
         }
     ]
