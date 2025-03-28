@@ -2,12 +2,10 @@
 
 namespace Modules\Content\Tests\Unit;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\Helper\XSSClean;
 use MicroweberPackages\Multilanguage\MultilanguageHelpers;
-use MicroweberPackages\User\Models\User;
 use Modules\Page\Models\Page;
 
 
@@ -246,7 +244,6 @@ HTML;
         $newCleanMlPage = save_content([
             'subtype' => 'static',
             'content_type' => 'page',
-            'layout_file' => 'clean.php',
             'title' => 'xss-test-' . $unique,
             'preview_layout_file' => 'clean.php',
             'is_active' => 1,
