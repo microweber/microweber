@@ -31,7 +31,7 @@ class LogManager
     public function get($params)
     {
         $params = parse_params($params);
-        $table = 'log';
+        $table = 'logs';
         $params['table'] = $table;
 
         if (is_admin() == false) {
@@ -49,7 +49,7 @@ class LogManager
         if (defined('MW_API_CALL') and $adm == false) {
             return array('error' => 'Error: not logged in as admin.' . __FILE__ . __LINE__);
         }
-        $table = 'log';
+        $table = 'logs';
         DB::table($table)->truncate();
         $cg = 'log';
         $this->app->cache_manager->delete($cg);
@@ -60,7 +60,7 @@ class LogManager
     public function delete($params)
     {
         $params = parse_params($params);
-        $table = 'log';
+        $table = 'logs';
         $params['table'] = $table;
         if (is_admin() == false) {
             $params['user_ip'] = user_ip();
@@ -81,7 +81,7 @@ class LogManager
     {
 
         try {
-            $table = 'log';
+            $table = 'logs';
             $params = parse_params($params);
             $params['user_ip'] = user_ip();
             $params['table'] = $table;
@@ -111,7 +111,7 @@ class LogManager
         }
         if ($id > 0) {
             $c_id = intval($id);
-            $table = 'log';
+            $table = 'logs';
             $old = date('Y-m-d H:i:s', strtotime('-1 month'));
             mw()->database_manager->table($table)->where('created_at', '<', $old)->delete();
             mw()->database_manager->table($table)->where('id', '=', $c_id)->delete();
