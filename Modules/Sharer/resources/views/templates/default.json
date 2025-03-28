@@ -19,7 +19,7 @@
             }
         },
         {
-            "type": "slider",
+            "type": "number",
             "label": "Icon font size",
             "name": "iconSize",
             "placeholder": "Select icon size",
@@ -31,7 +31,7 @@
             }
         },
         {
-            "type": "slider",
+            "type": "number",
             "label": "Icon spacing",
             "name": "iconSpacing",
             "placeholder": "Select icon spacing",
