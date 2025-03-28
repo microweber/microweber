@@ -22,7 +22,7 @@
                 "btn-sm": "Small",
                 "": "Normal",
                 "btn-lg": "Large",
-                "btn-block": "Full width"
+                "d-block": "Full width"
             }
         }
     ]
