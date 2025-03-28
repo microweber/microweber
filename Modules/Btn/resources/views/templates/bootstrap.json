@@ -20,12 +20,10 @@
             "placeholder": "Select button size",
             "help": "The size of the button",
             "options": {
+                "btn-sm": "Small",
                 "": "Normal",
                 "btn-lg": "Large",
-                "btn-lg": "Large",
-                "btn-md": "Medium",
-                "btn-sm": "Small",
-                "btn-xs": "Mini"
+                "btn-block": "Full width"
             }
         }
     ]
