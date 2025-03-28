@@ -27,36 +27,24 @@
 
 
         <testsuite name="Core">
-            <directory>./src/MicroweberPackages/*/</directory>
             <exclude>src/MicroweberPackages/*/Tests/Browser</exclude>
+            <directory>./src/MicroweberPackages/*/</directory>
 
         </testsuite>
 
         <testsuite name="Modules">
-            <directory>Modules/*/Tests</directory>
             <exclude>Modules/*/Tests/Browser</exclude>
+            <directory>Modules/*/Tests</directory>
 
         </testsuite>
 
         <testsuite name="Templates">
-            <directory>Templates/*/Tests</directory>
             <exclude>Templates/*/Tests/Browser</exclude>
-
-        </testsuite>
-        <testsuite name="CoreBrowserTests">
-            <directory>src/MicroweberPackages/*/Tests/Browser</directory>
-            <exclude>./src/MicroweberPackages/*/</exclude>
+            <directory>Templates/*/Tests</directory>
 
         </testsuite>
 
-        <testsuite name="ModulesBrowserTests">
-            <directory>Modules/*/Tests/Browser</directory>
 
-        </testsuite>
-
-        <testsuite name="TemplatesBrowserTests">
-            <directory>Templates/*/Tests/Browser</directory>
-        </testsuite>
 
     </testsuites>
     <source>
