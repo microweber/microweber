@@ -226,6 +226,10 @@ class Restore
      */
     public function restoreAsType($file)
     {
+        if(!is_file($file)){
+            throw new \Exception('Invalid file: The zip file "'.$file.'" does not exist.');
+        }
+
         $reader = new ZipReader($file);
         $reader->setLanguage($this->language);
         $data = $reader->readData();

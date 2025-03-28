@@ -3,67 +3,45 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          stopOnFailure="true"
-         stopOnError="true"
-         colors="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         stopOnSkipped="false"
+         stopOnRisky="false"
+         stopOnIncomplete="false"
+         stopOnDeprecation="false"
+         failOnEmptyTestSuite="false"
+         failOnDeprecation="false"
+         failOnIncomplete="false"
+         failOnNotice="false"
+         failOnRisky="false"
+         failOnSkipped="false"
+         failOnWarning="false"
+
+
 >
     <testsuites>
-
-        <testsuite name="MicroweberAdminTest">
-            <directory suffix="Test.php">./tests/Browser/Admin</directory>
-        </testsuite>
-
-        <testsuite name="MicroweberCoreTests">
-            <directory suffix="Test.php">./tests/Browser</directory>
-            <exclude>./tests/Browser/Admin</exclude>
-            <exclude>./tests/Browser/Example</exclude>
-            <exclude>./tests/Browser/Multilanguage</exclude>
-            <exclude>./tests/Browser/LiveEdit</exclude>
-            <exclude>./tests/Browser/Pages</exclude>
-            <exclude>./tests/Browser/ShopTests</exclude>
-            <exclude>./tests/Browser/SlowTests</exclude>
-            <exclude>./tests/Browser/FlakyTests</exclude>
-            <exclude>./tests/Browser/LastTests</exclude>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
         </testsuite>
 
 
+        <testsuite name="CoreBrowserTests">
+            <directory>src/MicroweberPackages/*/Tests/Browser</directory>
+            <exclude>./src/MicroweberPackages/*/</exclude>
 
-        <testsuite name="MicroweberMultilanguageTests">
-            <directory suffix="Test.php">./tests/Browser/Multilanguage</directory>
         </testsuite>
 
-        <testsuite name="MicroweberTemplatesTests">
-            <directory>./Templates/*/Tests/Browser</directory>
-            <directory>./Templates/*/src/tests/Browser</directory>
+        <testsuite name="ModulesBrowserTests">
+            <directory>Modules/*/Tests/Browser</directory>
+
         </testsuite>
 
-        <testsuite name="MicroweberSlowTests">
-            <directory>./tests/Browser/SlowTests</directory>
-        </testsuite>
-
-
-        <testsuite name="MicroweberShopTests">
-            <directory suffix="Test.php">./tests/Browser/ShopTests</directory>
-        </testsuite>
-        <testsuite name="MicroweberPagesTests">
-            <directory suffix="Test.php">./tests/Browser/Pages</directory>
-        </testsuite>
-
-        <testsuite name="MicroweberLiveEditTest">
-            <directory suffix="Test.php">./tests/Browser/LiveEdit</directory>
-        </testsuite>
-
-
-        <testsuite name="MicroweberFlakyTests">
-            <directory>./tests/Browser/FlakyTests</directory>
-        </testsuite>
-
-
-        <testsuite name="MicroweberLastTests">
-            <directory>./tests/Browser/LastTests</directory>
+        <testsuite name="TemplatesBrowserTests">
+            <directory>Templates/*/Tests/Browser</directory>
         </testsuite>
 
     </testsuites>
-
     <source>
         <include>
             <directory>app</directory>
@@ -78,8 +56,11 @@
         <env name="MAIL_DRIVER" value="array"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
-        <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+        <ini name="display_errors" value="On"/>
+        <ini name="display_startup_errors" value="On"/>
+
     </php>
 
 

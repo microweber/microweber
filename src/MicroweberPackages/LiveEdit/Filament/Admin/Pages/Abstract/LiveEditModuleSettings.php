@@ -478,6 +478,7 @@ abstract class LiveEditModuleSettings extends Page
 
     public function save(): void
     {
+
         $validator = Validator::make(['data' => $this->form->getState()], $this->getRules());
         if (!count($validator->invalid())) {
             $data = ($this->form->getState());

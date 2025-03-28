@@ -39,15 +39,12 @@ class DispatchGoogleEventsJs
         $getStatsEvents = StatsEvent::where('is_sent', null)
             ->whereNotNull('event_action')
             ->get();
-            
-        // Debug logging removed
-        foreach ($getStatsEvents as $event) {
-        }
+
 
         if ($getStatsEvents->count() > 0) {
-            
+
             foreach ($getStatsEvents as $getStatsEvent) {
-                
+
                 try {
                     $eventData = json_decode($getStatsEvent->event_data, true);
 
@@ -80,10 +77,9 @@ class DispatchGoogleEventsJs
                 }
 
                 // Ensure the event is marked as sent and immediately saved
-$getStatsEvent->is_sent = 1;
-if (!$getStatsEvent->save()) {
-    // Failed to mark event as sent
-}
+                $getStatsEvent->is_sent = 1;
+                $getStatsEvent->save();
+                $getStatsEvent->refresh();
             }
         }
 
@@ -110,7 +106,7 @@ if (!$getStatsEvent->save()) {
             case 'CONVERSION':
                 if ($isGoogleEnhancedConversions) {
                     $event = Conversion::new();
-                    $event->setSendTo($googleEnhancedConversionId.'/'.$googleEnhancedConversionLabel);
+                    $event->setSendTo($googleEnhancedConversionId . '/' . $googleEnhancedConversionLabel);
 
                     if (isset($eventData['order']['email'])) {
                         $event->setEmail($eventData['order']['email']);

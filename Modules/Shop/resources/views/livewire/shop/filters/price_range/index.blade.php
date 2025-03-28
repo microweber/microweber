@@ -1,5 +1,5 @@
 @php
-$randId = 'shpr'.md5($this->moduleId . $this->moduleType);
+$randId = 'shpr'.md5($moduleId . $moduleType);
 @endphp
 <div wire:ignore>
     <div class="my-4">

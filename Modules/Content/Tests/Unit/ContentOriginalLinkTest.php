@@ -7,11 +7,16 @@ use MicroweberPackages\App\Http\Controllers\FrontendController;
 use MicroweberPackages\Core\tests\TestCase;
 use MicroweberPackages\User\Models\User;
 use Modules\Content\Models\Content;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use PHPUnit\Framework\Attributes\Test;
 
 
 class ContentOriginalLinkTest extends TestCase
 {
+
+    #[Test, RunInSeparateProcess]
+
     public function testContentOriginalLinkRedirect()
     {
         $this->loginAsAdmin();

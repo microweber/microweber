@@ -346,6 +346,9 @@ class ContentManagerTest extends TestCase
 
     public function testNextPrev()
     {
+
+        $clean = Content::truncate();
+
         $params = array(
             'title' => 'this is my test next prev post',
             'content_type' => 'post',

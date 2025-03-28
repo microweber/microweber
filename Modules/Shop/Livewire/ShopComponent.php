@@ -4,6 +4,7 @@ namespace Modules\Shop\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Modules\Blog\Livewire\BlogComponent;
 use Modules\Shop\Livewire\Traits\ShopCategoriesTrait;
 use Modules\Shop\Livewire\Traits\ShopCustomFieldsTrait;
 use Modules\Shop\Livewire\Traits\ShopTagsTrait;
@@ -12,7 +13,7 @@ use Modules\Category\Models\Category;
 use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
 
-class ShopComponent extends Component
+class ShopComponent extends BlogComponent
 {
     use WithPagination;
     use ShopTagsTrait;
@@ -295,8 +296,14 @@ class ShopComponent extends Component
         }
 
         return view($viewName, [
+            'moduleId' => $this->moduleId,
+            'moduleType' => $this->moduleType,
             'breadcrumb' => $breadcrumb,
             'products' => $products,
+            'minPrice' => $minPrice,
+            'maxPrice' => $maxPrice,
+            'priceFrom' => $priceFrom,
+            'priceTo' => $priceTo,
             'productCardSettings' => $productCardSettings,
             'filteredPriceFrom' => $priceFrom,
             'filteredPriceTo' => $priceTo,

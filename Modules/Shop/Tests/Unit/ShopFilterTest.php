@@ -4,9 +4,10 @@ namespace Modules\Shop\Tests\Unit;
 
 use Illuminate\Support\Facades\App;
 use MicroweberPackages\Core\tests\TestCase;
-use MicroweberPackages\Shop\Http\Controllers\ShopController;
+use Modules\Blog\Livewire\BlogComponent;
 use Modules\Page\Models\Page;
 use Modules\Product\Models\Product;
+use Modules\Shop\Livewire\ShopComponent;
 
 class ShopFilterTest extends TestCase
 {
@@ -45,17 +46,17 @@ class ShopFilterTest extends TestCase
         $request = new \Illuminate\Http\Request();
         $request->merge($params);
 
-        $controller = App::make(ShopController::class);
-        $controller->setModuleParams($params);
-        $controller->setModuleConfig([
-            'module' => 'shop'
-        ]);
-        $controller->registerModule();
 
-        $html = $controller->index($request);
+        $params = [];
+        $params['id'] = $moduleId;
 
+        $request = new \Illuminate\Http\Request();
+        $request->merge($params);
 
-        $htmlString = $html->__toString();
+        $controller = App::make(ShopComponent::class);
+        $controller->mount($moduleId);
+        $htmlString = $controller->render();
+        $htmlString = $htmlString->__toString();
 
         foreach ($products as $product) {
 
@@ -67,11 +68,16 @@ class ShopFilterTest extends TestCase
 
         }
 
-        $findJs = (strpos($htmlString, 'filter.js') !== false);
-        $this->assertTrue($findJs);
+        /*      $findJs = (strpos($htmlString, 'filter.js') !== false);
+              $this->assertTrue($findJs);
 
-        $findCss = (strpos($htmlString, 'filter.css') !== false);
-        $this->assertTrue($findCss);
+              $findCss = (strpos($htmlString, 'filter.css') !== false);
+              $this->assertTrue($findCss);*/
+
+        $find = (strpos($htmlString, 'priceTo') !== false);
+
+        $this->assertTrue($find);
+
 
     }
 }

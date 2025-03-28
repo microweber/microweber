@@ -11,7 +11,7 @@ class FileManagerTest extends TestCase
 
     public function testList()
     {
-       $this->loginAsAdmin();
+        $this->loginAsAdmin();
 
         // Create new folder
         $lastCreatedFolderName = rand(111, 999) . 'folder';
@@ -46,8 +46,7 @@ class FileManagerTest extends TestCase
 
     public function testListWithManyFolderCreations()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
 
         // Create new folder
         $lastCreatedFolderNames = [];
@@ -90,8 +89,7 @@ class FileManagerTest extends TestCase
 
     public function testListWithPagination()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
 
         // Create new folders
         for ($i = 1; $i <= 50; $i++) {
@@ -125,7 +123,7 @@ class FileManagerTest extends TestCase
 
     public function testDeleteFile()
     {
-     $this->loginAsAdmin();
+        $this->loginAsAdmin();
 
         // Create new file
         $randFileName = rand(111, 999) . 'randFileName.txt';
@@ -133,7 +131,7 @@ class FileManagerTest extends TestCase
         if (!is_dir($path)) {
             mkdir_recursive($path);
         }
- 
+
         file_put_contents($path . $randFileName, time());
         $fileManagerParams = ['path' => media_uploads_path_relative()];
 
