@@ -325,7 +325,8 @@ class FileManagerApiController extends Controller {
             $fnPath = normalize_path($fnNewFolderPath_new, false);
 
             if (!$storageInstance->directoryExists($fnPath)) {
-                $storageInstance->createDirectory($fnPath);
+                 $storageInstance->makeDirectory($fnPath);
+                //mkdir_recursive($fnPath);
                 $resp = array('success' => 'Folder ' . $fnPath . ' is created');
             } else {
                 $resp = array('error' => 'Folder ' . $fnNewFolderPath . ' already exists');
