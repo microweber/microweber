@@ -119,4 +119,30 @@ class FilamentRegistryManager
         return [];
     }
 
+    public array $filamentClusterRegistry = [];
+
+    public function registerCluster(string $cluster, string $scope = FilamentAdminPanelProvider::class, string $panelId = 'admin'): array
+    {
+        return $this->filamentClusterRegistry[$panelId][] = [
+            'cluster' => $cluster,
+            'scope' => $scope,
+        ];
+    }
+
+    public function getClusters(string $scope = \MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider::class, $panelId = 'admin'): array
+    {
+        if (isset($this->filamentClusterRegistry[$panelId]) and !empty($this->filamentClusterRegistry[$panelId])) {
+            $results = [];
+            if ($scope) {
+                foreach ($this->filamentClusterRegistry[$panelId] as $cluster) {
+                    if ($cluster['scope'] == $scope) {
+                        $results[] = $cluster['cluster'];
+                    }
+                }
+                return $results;
+            }
+        }
+        return [];
+    }
+
 }

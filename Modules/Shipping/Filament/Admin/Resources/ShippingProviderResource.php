@@ -14,7 +14,7 @@ class ShippingProviderResource extends Resource
 {
     protected static ?string $model = \Modules\Shipping\Models\ShippingProvider::class;
 
-    protected static ?string $navigationGroup = 'Shop';
+    protected static ?string $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 5;
 
     public static function getAvailableToSetup()

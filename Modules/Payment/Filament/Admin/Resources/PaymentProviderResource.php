@@ -20,7 +20,7 @@ class PaymentProviderResource extends Resource
 
     // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Shop';
+    protected static ?string $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 4;
 
 

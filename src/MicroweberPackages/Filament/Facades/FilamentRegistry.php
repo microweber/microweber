@@ -16,6 +16,8 @@ use MicroweberPackages\Filament\FilamentRegistryManager;
  * @method static array getWidgets(string $scope = \MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider::class, string $panelId = 'admin')
  * @method static array registerPlugin(string $plugin, string $scope = \MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider::class, string $panelId = 'admin')
  * @method static array getPlugins(string $scope = \MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider::class, string $panelId = 'admin')
+ * @method static array registerCluster(string $plugin, string $scope = \MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider::class, string $panelId = 'admin')
+ * @method static array getClusters(string $scope = \MicroweberPackages\Admin\Filament\FilamentAdminPanelProvider::class, string $panelId = 'admin')
  *
  * @mixin \MicroweberPackages\Filament\FilamentRegistryManager
  * @see \MicroweberPackages\Filament\FilamentRegistryManager

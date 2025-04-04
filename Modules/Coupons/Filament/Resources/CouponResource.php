@@ -15,7 +15,7 @@ use Modules\Coupons\Filament\Resources\CouponResource\RelationManagers;
 class CouponResource extends Resource
 {
     protected static ?string $model = Coupon::class;
-    protected static ?string $navigationGroup = 'Shop';
+    protected static ?string $navigationGroup = 'Shop Settings';
     protected static ?int $navigationSort = 12;
     public static function form(Form $form): Form
     {

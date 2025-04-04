@@ -62,6 +62,11 @@ class FilamentAdminPanelProvider extends PanelProvider
         return FilamentRegistry::getResources(self::class, $this->filamentId);
     }
 
+    public function getPanelClusters(): array
+    {
+        return FilamentRegistry::getClusters(self::class, $this->filamentId);
+    }
+
     public function getPanelMiddlewares(): array
     {
         return [
@@ -84,13 +89,14 @@ class FilamentAdminPanelProvider extends PanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->databaseNotifications()
             ->default()
-          /*  ->spa()
-            ->spaUrlExceptions(fn (): array => [
-                 AdminLiveEditPage::getUrl(),
-            ])*/
+            /*  ->spa()
+              ->spaUrlExceptions(fn (): array => [
+                   AdminLiveEditPage::getUrl(),
+              ])*/
             ->login()
-            ->registration()
+            // ->registration()
             ->font('Inter')
+           // ->sidebarCollapsibleOnDesktop()
             ->brandLogoHeight('34px')
             ->brandLogo(function () {
                 return mw()->ui->admin_logo();
@@ -147,6 +153,7 @@ class FilamentAdminPanelProvider extends PanelProvider
                     ->group('Other')
                     ->sort(2)
                     ->icon('heroicon-o-megaphone'),
+
             ])
             ->widgets([
                 // Widgets\AccountWidget::class,
@@ -190,7 +197,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $tableToggle = new TableLayoutTogglePlugin();
         $tableToggle->defaultLayout('grid');
-       // $tableToggle->persistLayoutInLocalStorage(true);
+        // $tableToggle->persistLayoutInLocalStorage(true);
         $tableToggle->shareLayoutBetweenPages(false);
         $tableToggle->displayToggleAction();
         $tableToggle->toggleActionHook('tables::toolbar.search.after');
@@ -200,7 +207,7 @@ class FilamentAdminPanelProvider extends PanelProvider
 
         $panel->plugin(new MicroweberFilamentTheme());
         $panel->plugin(new UsersFilamentPlugin());
-      //    $panel->plugin(new MarketplaceFilamentPlugin());
+        //    $panel->plugin(new MarketplaceFilamentPlugin());
         $panel->plugin(new MultilanguageFilamentPlugin());
 
         if ($registeredPlugins) {
@@ -210,14 +217,17 @@ class FilamentAdminPanelProvider extends PanelProvider
                 $panel->plugin($plugin);
             }
         }
-
+//getPanelClusters
 
         $panel->resources($this->getPanelResources())
             ->pages($this->getPanelPages())
+            ->livewireComponents($this->getPanelClusters())
+
             ->discoverResources(
                 in: app_path('Filament/Admin/Resources'),
                 for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+            ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->discoverPages(in: app_path('MicroweberPackages/Menu/Filament/Admin/Pages'), for: 'MicroweberPackages\\Menu\\Filament\\Admin\\Pages')
             ->discoverWidgets(
                 in: app_path('Filament/Admin/Widgets'),

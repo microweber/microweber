@@ -9,6 +9,7 @@ use Livewire\Livewire;
 use MicroweberPackages\LaravelModules\Providers\BaseModuleServiceProvider;
 use MicroweberPackages\Filament\Facades\FilamentRegistry;
 use MicroweberPackages\Microweber\Facades\Microweber;
+use Modules\Shop\Filament\Clusters\ShopSettings;
 use Modules\Shop\Filament\ShopModuleSettings;
 use Modules\Shop\Livewire\ShopComponent;
 use Modules\Shop\Services\ShopManager;
