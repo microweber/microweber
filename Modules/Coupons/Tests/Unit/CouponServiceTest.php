@@ -46,7 +46,11 @@ class CouponServiceTest extends TestCase
 
         // Test clearing
         $this->couponService->clearCouponSession();
-        $this->assertNull($this->couponService->getCouponSession());
+        $this->assertEquals([
+    'coupon_code' => null,
+    'discount_value' => null,
+    'coupon_data' => null
+], $this->couponService->getCouponSession());
     }
 
     public function testExpiredCoupon()
