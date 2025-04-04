@@ -13,6 +13,10 @@ class AuthenticateAdmin extends Middleware
     public function handle($request, \Closure $next, ...$guards)
     {
 
+        if (!mw_is_installed()) {
+            return $next($request);
+        }
+
         if (is_admin()) {
             return $next($request);
         }
