@@ -17,7 +17,10 @@ class Coupon extends Model
         'total_amount',
         'uses_per_coupon',
         'uses_per_customer',
-        'is_active'
+        'is_active',
+        'valid_from',
+        'valid_to',
+        'product_ids'
     ];
 
     protected $casts = [
@@ -25,7 +28,9 @@ class Coupon extends Model
         'discount_value' => 'decimal:2',
         'total_amount' => 'decimal:2',
         'uses_per_coupon' => 'integer',
-        'uses_per_customer' => 'integer'
+        'uses_per_customer' => 'integer',
+        'valid_from' => 'datetime',
+        'valid_to' => 'datetime'
     ];
 
     public function logs(): HasMany
@@ -40,6 +45,15 @@ class Coupon extends Model
         }
 
         if ($this->uses_per_coupon > 0 && $this->logs()->count() >= $this->uses_per_coupon) {
+            return false;
+        }
+
+        $now = now();
+        if ($this->valid_from && $now->lt($this->valid_from)) {
+            return false;
+        }
+
+        if ($this->valid_to && $now->gt($this->valid_to)) {
             return false;
         }
 
