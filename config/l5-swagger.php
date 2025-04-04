@@ -33,6 +33,8 @@ return [
                 'annotations' => [
                    // base_path('src/MicroweberPackages/OpenApi'),
                      base_path('src/MicroweberPackages'),
+                     base_path('Modules'),
+                     base_path('Templates'),
                 ],
 
             ],
