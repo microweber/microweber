@@ -8,16 +8,19 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticateAdmin extends Middleware
 {
-    protected function authenticate($request, array $guards)
+
+
+    public function handle($request, \Closure $next, ...$guards)
     {
-         abort_if(!is_admin(), 403, 'You are not allowed to access this page, please login as admin');
 
+        if (is_admin()) {
+            return $next($request);
+        }
 
-//        if (!is_admin()) {
-//            return $this->redirectTo($request);
-//        }
+        return redirect($this->redirectTo($request));
 
     }
+
 
     protected function redirectTo($request): string
     {
