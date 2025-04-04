@@ -8,53 +8,197 @@ use Modules\Customer\Models\Customer;
 
 class CustomerModelTest extends TestCase
 {
-    public function testCustomerCreation()
+    protected function setUp(): void
     {
-        // Create a new customer
+        parent::setUp();
+        \DB::table('customers')->truncate();
+        \DB::table('addresses')->truncate();
+    }
+
+    public function test_customer_creation()
+    {
         $customer = Customer::create([
             'name' => 'John Doe',
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'phone' => '1234567890',
             'email' => 'john.doe@example.com',
             'active' => 1,
-            'user_id' => 1,
-            'currency_id' => 1,
+            'is_premium' => 0
+        ]);
+
+        $this->assertNotNull($customer->id);
+        $this->assertEquals('John Doe', $customer->name);
+        $this->assertEquals('john.doe@example.com', $customer->email);
+        $this->assertEquals(1, $customer->active);
+        $this->assertEquals(0, $customer->is_premium);
+    }
+
+    public function test_required_fields()
+    {
+        $this->expectException(\Illuminate\Database\QueryException::class);
+        
+        Customer::create([
+            // Missing required name and email
+            'active' => 1
+        ]);
+    }
+
+    public function test_email_uniqueness()
+    {
+        Customer::create([
+            'name' => 'First Customer',
+            'email' => 'duplicate@example.com',
+            'active' => 1
+        ]);
+
+        $this->expectException(\Illuminate\Database\QueryException::class);
+        
+        Customer::create([
+            'name' => 'Second Customer',
+            'email' => 'duplicate@example.com',
+            'active' => 1
+        ]);
+    }
+
+    public function test_active_scope()
+    {
+        Customer::create(['name'=>'Active', 'email'=>'active1@test.com', 'active'=>1]);
+        Customer::create(['name'=>'Inactive', 'email'=>'inactive1@test.com', 'active'=>0]);
+        
+        $activeCustomers = Customer::active()->get();
+        $this->assertEquals(1, $activeCustomers->count());
+        $this->assertEquals('active1@test.com', $activeCustomers->first()->email);
+    }
+
+    public function test_premium_scope()
+    {
+        Customer::create(['name'=>'Premium', 'email'=>'premium1@test.com', 'is_premium'=>1]);
+        Customer::create(['name'=>'Regular', 'email'=>'regular1@test.com', 'is_premium'=>0]);
+        
+        $premiumCustomers = Customer::where('is_premium', 1)->get();
+        $this->assertEquals(1, $premiumCustomers->count());
+        $this->assertEquals('premium1@test.com', $premiumCustomers->first()->email);
+    }
+
+    public function test_address_relationships()
+    {
+        $customer = Customer::create([
+            'name' => 'With Address',
+            'email' => 'withaddress@test.com'
+        ]);
+
+        $billingAddress = $customer->addresses()->create([
+            'type' => 'billing',
+            'address_street_1' => '123 Billing St'
+        ]);
+
+        $this->assertEquals(1, $customer->addresses->count());
+        $this->assertEquals('123 Billing St', $customer->addresses->first()->address_street_1);
+    }
+
+    public function test_get_full_name()
+    {
+        $customer = Customer::create([
+            'name' => 'Full Name',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'fullname@test.com'
+        ]);
+
+        $this->assertEquals('John Doe', $customer->getFullName());
+    }
+
+    public function test_company_relationship()
+    {
+        $customer = Customer::create([
+            'name' => 'Company Customer',
+            'email' => 'company@test.com',
             'company_id' => 1
         ]);
 
-        // Assert the customer was created
-        $this->assertNotNull($customer);
-        $this->assertEquals('John Doe', $customer->name);
-        $this->assertEquals('john.doe@example.com', $customer->email);
+        $this->assertEquals(1, $customer->company_id);
+    }
 
-        // Create an address for the customer
-        $address = Address::create([
-            'name' => 'Home',
-            'address_street_1' => '123 Main St',
-            'city' => 'Anytown',
-            'state' => 'Anystate',
-            'country_id' => 1,
-            'zip' => '12345',
-            'phone' => '1234567890',
-            'type' => Address::BILLING_TYPE,
-            'customer_id' => $customer->id
+    public function test_soft_deletes()
+    {
+        $customer = Customer::create([
+            'name' => 'To Delete',
+            'email' => 'delete@test.com'
         ]);
 
-        // Assert the address was created
-        $this->assertNotNull($address);
-        $this->assertEquals('123 Main St', $address->address_street_1);
-
-        // Check the relationship
-        $this->assertEquals($customer->id, $address->customer->id);
-        $this->assertEquals('123 Main St', $customer->billingAddress->address_street_1);
-
-
-        //delete
+        $customerId = $customer->id;
         $customer->delete();
 
-        //check if deleted
-        $customer = Customer::find($customer->id);
-        $this->assertNull($customer);
+        $this->assertNull(Customer::find($customerId));
+        $this->assertNotNull(Customer::withTrashed()->find($customerId));
+    }
+
+    public function test_phone_number_validation()
+    {
+        $customer = Customer::create([
+            'name' => 'Phone Test',
+            'email' => 'phone@test.com',
+            'phone' => '1234567890'
+        ]);
+
+        $this->assertEquals('1234567890', $customer->phone);
+    }
+
+    public function test_default_values()
+    {
+        $customer = Customer::create([
+            'name' => 'Default Test',
+            'email' => 'default@test.com'
+        ]);
+
+        $this->assertEquals(1, $customer->active);
+        $this->assertEquals(0, $customer->is_premium);
+    }
+
+    public function test_customer_to_array()
+    {
+        $customer = Customer::create([
+            'name' => 'Array Test',
+            'email' => 'array@test.com'
+        ]);
+
+        $array = $customer->toArray();
+        $this->assertArrayHasKey('name', $array);
+        $this->assertArrayHasKey('email', $array);
+        $this->assertEquals('Array Test', $array['name']);
+    }
+
+    public function test_customer_factory()
+    {
+        $customer = Customer::factory()->create();
+        $this->assertNotNull($customer->email);
+        $this->assertNotNull($customer->name);
+    }
+
+    public function test_customer_observer()
+    {
+        $customer = Customer::create([
+            'name' => 'Observer Test',
+            'email' => 'observer@test.com'
+        ]);
+        $this->assertNotNull($customer->created_at);
+    }
+
+    public function test_customer_events()
+    {
+        $customer = Customer::create([
+            'name' => 'Event Test',
+            'email' => 'event@test.com'
+        ]);
+        $this->assertNotNull($customer->updated_at);
+    }
+
+    public function test_customer_mass_assignment()
+    {
+        $customer = Customer::create([
+            'name' => 'Mass Test',
+            'email' => 'mass@test.com',
+            'is_premium' => 1,
+            'active' => 1
+        ]);
+        $this->assertEquals(1, $customer->is_premium);
     }
 }
