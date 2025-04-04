@@ -90,21 +90,27 @@ class FileManagerTest extends TestCase
     public function testListWithPagination()
     {
         $this->loginAsAdmin();
-
+        $path = media_uploads_path();
+        if (!is_dir($path)) {
+            mkdir_recursive($path);
+        }
         // Create new folders
         for ($i = 1; $i <= 50; $i++) {
             $randFileName = rand(111, 999) . 'randFileName.txt';
-            $path = media_uploads_path();
 
-            if (!is_dir($path)) {
-                mkdir_recursive($path);
-            }
+
+
 
             file_put_contents($path . $randFileName, time());
         }
 
         // List files
-        $response = $this->call('GET', route('api.file-manager.list'), ['limit' => 10]);
+        $response = $this->call('GET',
+            route('api.file-manager.list'),
+            [
+                'path' => media_uploads_path_relative(),
+                'limit' => 10
+            ]);
         $this->assertEquals(200, $response->status());
 
         $content = $response->getContent();
