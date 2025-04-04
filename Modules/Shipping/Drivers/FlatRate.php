@@ -20,7 +20,7 @@ class FlatRate extends AbstractShippingMethod
         if (!$model) {
             return 0;
         }
-        $shipping_cost = $model->settings['shipping_cost'] ? floatval($model->settings['shipping_cost']) : 0;
+        $shipping_cost = isset($model->settings['shipping_cost']) ? floatval($model->settings['shipping_cost']) : 0;
         return $shipping_cost;
     }
 
