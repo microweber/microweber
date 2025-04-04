@@ -1,6 +1,6 @@
 <?php
 
-namespace MicroweberPackages\MetaTags\tests\Browser;
+namespace Tests\Browser\LiveEdit;
 
 use Facebook\WebDriver\WebDriverBy;
 use Laravel\Dusk\Browser;

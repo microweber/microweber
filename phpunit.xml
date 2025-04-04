@@ -28,6 +28,7 @@
 
         <testsuite name="Core">
             <exclude>src/MicroweberPackages/*/Tests/Browser</exclude>
+            <exclude>src/MicroweberPackages/*/tests/Browser</exclude>
             <directory>./src/MicroweberPackages/*/</directory>
 
         </testsuite>
