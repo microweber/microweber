@@ -3,6 +3,7 @@
 namespace Modules\Newsletter\Tests\Unit;
 
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Modules\Newsletter\Models\NewsletterSubscriber;
@@ -21,17 +22,14 @@ class CampaignSendingTest extends TestCase
         Mail::fake();
     }
 
-    /**
- * @test 
- * @todo Migrate to PHPUnit attributes when supported in this environment
- */
+    #[Test]
     public function it_sends_to_active_subscribers()
     {
         $list = NewsletterList::factory()->create();
         $subscribers = NewsletterSubscriber::factory()
             ->count(3)
             ->create(['list_id' => $list->id, 'status' => 'active']);
-            
+
         $campaign = NewsletterCampaign::factory()->create([
             'list_id' => $list->id,
             'status' => 'sending'
@@ -45,10 +43,7 @@ class CampaignSendingTest extends TestCase
         Mail::assertSent(NewsletterMail::class, 3);
     }
 
-    /**
- * @test 
- * @todo Migrate to PHPUnit attributes when supported in this environment
- */
+    #[Test]
     public function it_does_not_send_to_unsubscribed()
     {
         $list = NewsletterList::factory()->create();
@@ -56,7 +51,7 @@ class CampaignSendingTest extends TestCase
             'list_id' => $list->id,
             'status' => 'unsubscribed'
         ]);
-        
+
         $campaign = NewsletterCampaign::factory()->create([
             'list_id' => $list->id
         ]);

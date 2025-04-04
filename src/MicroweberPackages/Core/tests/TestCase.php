@@ -418,11 +418,17 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     protected function afterRefreshingDatabase()
     {
-//        $migrator = app()->mw_migrator->run(app()->migrator->paths());
-//dd(333);
-//        $installer = new DbInstaller();
-//        $installer->logger = $this;
-//        $installer->createSchema();
+
+
+        $migrator = app()->mw_migrator->run(app()->migrator->paths());
+
+        $installer = new DbInstaller();
+        $installer->logger = $this;
+        $installer->createSchema();
+
+        Artisan::call('migrate', ['--force' => true]);
+
+
     }
 
     protected function loginAsAdmin()
@@ -445,6 +451,8 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
 
     }
+
+
 
 }
 
