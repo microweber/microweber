@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Modules\Newsletter\Models\NewsletterCampaign;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -10,7 +11,7 @@ class NewsletterCampaignTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_can_create_a_campaign()
     {
         $campaign = NewsletterCampaign::factory()->create([
@@ -24,7 +25,7 @@ class NewsletterCampaignTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_can_change_status()
     {
         $campaign = NewsletterCampaign::factory()->create(['status' => 'draft']);

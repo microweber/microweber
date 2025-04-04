@@ -2,6 +2,7 @@
 
 namespace Modules\Newsletter\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Modules\Newsletter\Models\NewsletterSubscriber;
 use Modules\Newsletter\Models\NewsletterList;
@@ -11,7 +12,7 @@ class NewsletterSubscriberTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_can_subscribe_email()
     {
         $list = NewsletterList::factory()->create();
@@ -28,7 +29,7 @@ class NewsletterSubscriberTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it_enforces_unique_emails_per_list()
     {
         $list = NewsletterList::factory()->create();
