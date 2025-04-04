@@ -2,11 +2,15 @@
 
 namespace Modules\Newsletter\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Newsletter\Livewire\Admin\NewsletterSubscribersList;
+use Modules\Newsletter\Database\Factories\NewsletterCampaignFactory;
 
 class NewsletterCampaign extends Model
 {
+    use HasFactory;
+
     public $table = 'newsletter_campaigns';
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PROCESSING = 'processing';
@@ -48,6 +52,11 @@ class NewsletterCampaign extends Model
     public $casts = [
         'email_attached_files' => 'array',
     ];
+
+    protected static function newFactory()
+    {
+        return NewsletterCampaignFactory::new();
+    }
 
     public function senderAccount()
     {
