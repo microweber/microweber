@@ -8,13 +8,24 @@ use Illuminate\Support\Facades\Session;
 
 class CouponService
 {
+    public function isEnabled(): bool
+    {
+        return (bool) get_option('enable_coupons', 'shop');
+    }
+
+    public function setEnabled(bool $enabled): void
+    {
+        save_option('enable_coupons', $enabled ? 1 : 0, 'shop');
+    }
+
     public function applyCoupon(string $code, float $cartTotal, ?string $customerEmail = null, ?string $customerIp = null): array
     {
-//        if (!get_option('enable_coupons', 'shop')) {
-//            return [
-//                'success' => false,
-//                'message' => __('The coupon code usage is disabled.')
-//            ];
+if (!$this->isEnabled()) {
+    return [
+        'success' => false,
+        'message' => __('Coupons are currently disabled')
+    ];
+}
 //        }
 
         $coupon = Coupon::where('coupon_code', $code)
@@ -32,6 +43,22 @@ class CouponService
             return [
                 'error' => true,
                 'message' => lang('The coupon can\'t be applied because the minimum total amount is ') . currency_format($coupon->total_amount)
+            ];
+        }
+
+        // Date validation
+        $now = now();
+        if ($coupon->start_date && $now->lt($coupon->start_date)) {
+            return [
+                'error' => true,
+                'message' => lang('This coupon is not yet valid.')
+            ];
+        }
+
+        if ($coupon->end_date && $now->gt($coupon->end_date)) {
+            return [
+                'error' => true,
+                'message' => lang('This coupon has expired.')
             ];
         }
 

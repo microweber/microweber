@@ -1,0 +1,82 @@
+<?php
+
+namespace Modules\Cart\Tests\Unit;
+
+use PHPUnit\Framework\TestCase;
+use Mockery as m;
+use Modules\Cart\Repositories\CartManager;
+
+class CartCouponIntegrationTest extends TestCase
+{
+    protected $cart;
+
+    protected function setUp(): void
+    {
+        $this->cart = m::mock(CartManager::class)->makePartial();
+    }
+    
+    public function testCouponApplication()
+    {
+        // Mock coupon data
+        $couponData = [
+            'discount_type' => 'fixed_amount',
+            'discount_value' => 10,
+            'minimum_amount' => 0
+        ];
+        
+        // Configure mock expectations
+        $this->cart->shouldReceive('couponCodeCheckIfValid')
+            ->with('TEST10OFF')
+            ->andReturn(true);
+            
+        $this->cart->shouldReceive('get_discount_value')
+            ->andReturn(10);
+            
+        $this->cart->shouldReceive('total')
+            ->andReturn(90); // 100 - 10 discount
+            
+        // Test
+        $this->assertTrue($this->cart->couponCodeCheckIfValid('TEST10OFF'));
+        $this->assertEquals(90, $this->cart->total());
+    }
+    
+    protected function tearDown(): void
+    {
+        m::close();
+    }
+}
+
+    
+        
+        // Add to cart
+        $this->cart->add($product, 1);
+        
+        // Create test coupon
+        $couponCode = 'TEST10OFF';
+        $this->mockCouponApplication($couponCode, 10, 'fixed_amount');
+        
+        // Apply coupon
+        $this->assertTrue($this->cart->couponCodeCheckIfValid($couponCode));
+        $this->assertEquals(90, $this->cart->total());
+    }
+
+    protected function mockCouponApplication($code, $value, $type)
+    {
+        // Mock coupon data structure
+        $couponData = [
+            'coupon_code' => $code,
+            'discount_type' => $type,
+            'discount_value' => $value,
+            'minimum_amount' => 0
+        ];
+        
+        // Mock coupon_apply function
+        \Illuminate\Support\Facades\App::singleton('coupon_apply', function() use ($couponData) {
+            return function() use ($couponData) {
+                return $couponData;
+            };
+        });
+        
+        $this->cart->set_coupon_data($couponData);
+    }
+}

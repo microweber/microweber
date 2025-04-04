@@ -20,6 +20,8 @@ class CouponFactory extends Factory
             'uses_per_coupon' => $this->faker->numberBetween(1, 100),
             'uses_per_customer' => $this->faker->numberBetween(1, 5),
             'is_active' => true,
+            'start_date' => null,
+            'end_date' => null,
         ];
     }
 
@@ -27,7 +29,9 @@ class CouponFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_active' => false
+                'start_date' => now()->subDays(14),
+                'end_date' => now()->subDays(7),
+                'is_active' => true
             ];
         });
     }
