@@ -1,8 +1,9 @@
 <?php
 
-namespace Modules\Customer\Models;
+namespace Modules\Company\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
 class Company extends Model
 {
     protected $table = 'companies';
@@ -19,6 +20,8 @@ class Company extends Model
         'country',
         'website',
         'logo',
+        'rel_type',
+        'rel_id',
     ];
 
 }

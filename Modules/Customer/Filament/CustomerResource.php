@@ -2,7 +2,7 @@
 
 namespace Modules\Customer\Filament;
 
-use Akaunting\Money\Currency;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -10,9 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
-use Filament\Actions\Action;
 use Modules\Customer\Filament\CustomerResource\Pages\ManageCustomers;
-use Modules\Customer\Models\Company;
 use Modules\Customer\Models\Customer;
 
 class CustomerResource extends Resource
