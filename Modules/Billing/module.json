@@ -1,0 +1,13 @@
+{
+    "name": "Billing",
+    "alias": "billing",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Billing\\Providers\\BillingServiceProvider"
+    ],
+    "files": [
+        "Support/helpers.php"
+    ]
+}
