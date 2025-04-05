@@ -13,8 +13,7 @@ class CategoryApiControllerTest extends TestCase
     public function testAddCategoriesFromController()
     {
 
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+      $this->loginAsAdmin();
 
         $title = 'category controller test ! - ' . rand();
         $title2 = 'category controller test2 ! - ' . rand();

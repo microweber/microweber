@@ -45,6 +45,21 @@ class CouponService
             ];
         }
 
+        if($coupon->uses_per_customer and $coupon->uses_per_customer > 0 and  $customerEmail) {
+            $usageCount = \Modules\Coupons\Models\CouponLog::where('coupon_code', $code)
+                ->where('customer_email', $customerEmail)
+                ->count();
+
+            if ($usageCount >= $coupon->uses_per_customer) {
+                return [
+                    'error' => true,
+                    'message' => lang('The coupon has reached its maximum usage limit for this customer.')
+                ];
+            }
+        }
+
+
+
         // Check date validity
         $now = now();
         if ($coupon->valid_from && $now->lt($coupon->valid_from)) {
