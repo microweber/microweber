@@ -26,6 +26,9 @@ phpinfo.php
 .idea
 .settings
 .env
+.env.testing
+.env.example
+.env.dusk
 dwsync.xml
 /userfiles/backup
 /userfiles/*.log
@@ -58,10 +61,7 @@ node_modules/
 /.rnd
 config/app.php
 config/database.php
-bootstrap/cache/services.8.32.1.php
-bootstrap/cache/packages.8.32.1.php
-bootstrap/cache/packages.8.25.0.php
-bootstrap/cache/services.8.25.0.php
+bootstrap/cache/*
 userfiles/modules/standalone-updater/
 /standalone-update
 /userfiles/standalone-update
