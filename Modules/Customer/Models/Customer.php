@@ -16,8 +16,11 @@ class Customer extends Model
     use Filterable;
     use CacheableQueryBuilderTrait;
 
-    public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users'];
+    public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users','companies'];
 
+    protected $attributes = [
+        'active' => 1
+    ];
 
     public $fillable = [
         'name',
@@ -26,11 +29,14 @@ class Customer extends Model
         'phone',
         'email',
         'active',
+        'customer_data',
         'user_id',
         'currency_id',
         'company_id'
     ];
-
+    protected $casts = [
+        'customer_data' => 'array'
+    ];
     public $translatable = ['first_name', 'last_name'];
 
 

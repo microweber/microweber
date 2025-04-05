@@ -12,8 +12,8 @@ class TextTypeSettingsFilamentTest extends TestCase
     public function testFormSchema()
     {
         $settings = new TextTypeModuleSettings();
-
-        $form = $settings->form(new Form());
+dd($settings->get());
+        $form = $settings->form(new Form($settings));
 
         $this->assertCount(3, $form->getSchema());
 

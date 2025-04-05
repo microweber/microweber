@@ -38,4 +38,15 @@ class Address extends Model
     {
         return $this->belongsTo(\Modules\Country\Models\Country::class);
     }
+
+
+    public function isBilling()
+    {
+        return $this->type === self::BILLING_TYPE;
+    }
+
+    public function isShipping()
+    {
+        return $this->type === self::SHIPPING_TYPE;
+    }
 }
