@@ -624,12 +624,16 @@ class UserManagerTest extends TestCase
             $findCustomerByUser = $createNewCustomer;
         }
 
-        $findCustomerAddressByCustomerId = Address::where('customer_id', $findCustomerByUser->id)->first();
+        $findCustomerAddressByCustomerId = Address::where('rel_id', $findCustomerByUser->id)
+            ->where('rel_type', Customer::class)
+            ->first();
         if (!$findCustomerAddressByCustomerId) {
             $findCustomerAddressByCustomerId = Address::create([
                 'name' => 'Default',
                 'type' => 'shipping',
-                'customer_id' => $findCustomerByUser->id,
+                'rel_type' => Customer::class,
+                'rel_id' => $findCustomerByUser->id,
+
                 //    'country' => $address['country'],
                 'city' => $address['city'],
                 'street' => $address['street'],

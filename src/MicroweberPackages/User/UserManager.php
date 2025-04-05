@@ -18,6 +18,7 @@ use MicroweberPackages\User\Http\Requests\LoginRequest;
 use MicroweberPackages\User\Http\Requests\RegisterRequest;
 use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Socialite\MicroweberProvider;
+use Modules\Customer\Models\Customer;
 
 class UserManager
 {
@@ -1848,7 +1849,12 @@ class UserManager
         if ($this->is_logged()) {
             $findCustomer = \Modules\Customer\Models\Customer::where('user_id', Auth::id())->first();
             if ($findCustomer) {
-                $findAddressShipping = \Modules\Address\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+                $findAddressShipping = \Modules\Address\Models\Address::where('type', 'shipping')
+
+                    ->where('rel_id', $findCustomer->id)
+                    ->where('rel_type', Customer::class)
+
+                    ->first();
                 if ($findAddressShipping) {
                     $country_from_shipping_addr = $findAddressShipping->country()->first();
                     foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {

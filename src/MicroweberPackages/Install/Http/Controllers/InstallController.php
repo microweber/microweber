@@ -265,7 +265,7 @@ class InstallController extends Controller
                     touch($input['db_name']);
                 }
 
-                $db_sqlite_full_path = normalize_path( $input['db_name'], false);
+                $db_sqlite_full_path = normalize_path($input['db_name'], false);
                 $db_sqlite_full_database_path = normalize_path(database_path(), true);
                 $db_sqlite_full_database_storage_path = normalize_path(storage_path(), true);
 
@@ -282,7 +282,7 @@ class InstallController extends Controller
                         touch(base_path($sqlite_filename));
                     }
 
-                } else  if (str_starts_with($db_sqlite_full_path, $db_sqlite_full_database_storage_path)) {
+                } else if (str_starts_with($db_sqlite_full_path, $db_sqlite_full_database_storage_path)) {
                     $input['db_name_relative'] = str_replace($db_sqlite_full_database_storage_path, 'storage/', $db_sqlite_full_path);
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '\\');
                     $input['db_name_relative'] = ltrim($input['db_name_relative'], '/');
@@ -438,7 +438,7 @@ class InstallController extends Controller
 //
 
 
-         //    $this->saveEnvValues($envToSave);
+            //    $this->saveEnvValues($envToSave);
 //                try {
 //                    Artisan::call('optimize:clear');
 //                } catch (\Exception $e) {
@@ -880,7 +880,6 @@ class InstallController extends Controller
     {
         $envFile = app()->environmentFilePath();
 
-
         // Read existing .env content
         $content = file_get_contents($envFile);
         if ($content === false) {
@@ -890,28 +889,44 @@ class InstallController extends Controller
         // Split into lines
         $lines = preg_split('/\r\n|\r|\n/', $content);
         $newLines = [];
-        $existingKeys = [];
+        $processedKeys = []; // Track which keys we've already processed
+        $lastLineEmpty = false; // Track if the last added line was empty
 
         // Process existing lines
         foreach ($lines as $line) {
             $line = trim($line);
-            if (empty($line) || strpos($line, '#') === 0) {
-                $newLines[] = $line;
+
+            // Handle empty lines - only allow one consecutive empty line
+            if (empty($line)) {
+                if (!$lastLineEmpty) {
+                    $newLines[] = '';
+                    $lastLineEmpty = true;
+                }
                 continue;
             }
 
+            // Handle comments
+            if (strpos($line, '#') === 0) {
+                $newLines[] = $line;
+                $lastLineEmpty = false;
+                continue;
+            }
+
+            // Process key=value lines
             if (strpos($line, '=') !== false) {
                 list($key) = explode('=', $line, 2);
                 $key = trim($key);
 
-                // First, check if we've already processed this key
-                if (isset($existingKeys[$key]) and isset($values[$key])) {
-                    continue; // Skip all duplicates after the first occurrence
+                // Skip if we've already processed this key
+                if (isset($processedKeys[$key])) {
+                    continue;
                 }
 
-                // If this key is one we're updating, add the new value
+                // Mark this key as processed
+                $processedKeys[$key] = true;
+
+                // If this key is one we're updating, add with new value
                 if (isset($values[$key])) {
-                    $existingKeys[$key] = true;
                     $value = $values[$key];
 
                     // Handle special characters
@@ -922,25 +937,22 @@ class InstallController extends Controller
                         $value = '"' . str_replace('"', '\\"', $value) . '"';
                     }
 
-                    // Only add non-empty values
-                    if (!empty($value)) {
-                        $newLines[] = "{$key}={$value}";
-                    } else {
-                        // If value is empty but we need to maintain the key with empty value
-                        // $newLines[] = "{$key}=";
-                    }
+                    $newLines[] = "{$key}={$value}";
                 } else {
-                    $existingKeys[$key] = true;
-                     $newLines[] = $line;
+                    // Keep existing line for keys we're not updating
+                    $newLines[] = $line;
                 }
+                $lastLineEmpty = false;
             } else {
-               // $newLines[] = $line;
+                // Keep other non-key=value lines
+                $newLines[] = $line;
+                $lastLineEmpty = false;
             }
         }
 
         // Add any new values that weren't in the original file
         foreach ($values as $key => $value) {
-            if (!isset($existingKeys[$key])) {
+            if (!isset($processedKeys[$key])) {
                 // Handle special characters for new values
                 if (strpos($value, ' ') !== false ||
                     strpos($value, '#') !== false ||
@@ -948,8 +960,8 @@ class InstallController extends Controller
                     strpos($value, "'") !== false) {
                     $value = '"' . str_replace('"', '\\"', $value) . '"';
                 }
-
                 $newLines[] = "{$key}={$value}";
+                $lastLineEmpty = false;
             }
         }
 
@@ -963,15 +975,11 @@ class InstallController extends Controller
 
         // Only write if content has changed
         if ($content !== $newContent) {
-            if (!file_put_contents($envFile, $newContent)) {
-                return false;
-            }
+            return file_put_contents($envFile, $newContent) !== false;
         }
-
 
         return true;
     }
-
 
     public function log($text)
     {
