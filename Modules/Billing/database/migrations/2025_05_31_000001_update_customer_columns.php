@@ -10,6 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
+
+
+
         Schema::table('customers', function (Blueprint $table) {
             $table->string('stripe_id')->nullable()->index();
             $table->string('pm_type')->nullable();

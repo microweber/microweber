@@ -3,7 +3,7 @@
     "alias": "billing",
     "description": "",
     "keywords": [],
-    "priority": 0,
+    "priority": 3000,
     "providers": [
         "Modules\\Billing\\Providers\\BillingServiceProvider"
     ],
