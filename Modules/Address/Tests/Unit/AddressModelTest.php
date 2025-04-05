@@ -1,9 +1,10 @@
 <?php
 
-namespace Modules\Customer\Tests\Unit;
+namespace Modules\Address\Tests\Unit;
 
+use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
-use Modules\Customer\Models\Address;
+use Modules\Address\Models\Address;
 use Modules\Customer\Models\Customer;
 
 class AddressModelTest extends TestCase
@@ -11,8 +12,8 @@ class AddressModelTest extends TestCase
     public function testAddressTypesAndRelationships()
     {
         // Ensure clean test environment
-        \DB::table('addresses')->truncate();
-        \DB::table('customers')->truncate();
+        DB::table('addresses')->truncate();
+        DB::table('customers')->truncate();
 
         $customer = Customer::create([
             'name' => 'Address Test Customer',

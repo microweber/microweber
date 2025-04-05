@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\SocialiteManager;
-use MicroweberPackages\App\Http\RequestRoute;
 use MicroweberPackages\App\LoginAttempt;
 use MicroweberPackages\User\Http\Controllers\UserForgotPasswordController;
 use MicroweberPackages\User\Http\Controllers\UserLoginController;
@@ -1849,7 +1848,7 @@ class UserManager
         if ($this->is_logged()) {
             $findCustomer = \Modules\Customer\Models\Customer::where('user_id', Auth::id())->first();
             if ($findCustomer) {
-                $findAddressShipping = \Modules\Customer\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
+                $findAddressShipping = \Modules\Address\Models\Address::where('type', 'shipping')->where('customer_id', $findCustomer->id)->first();
                 if ($findAddressShipping) {
                     $country_from_shipping_addr = $findAddressShipping->country()->first();
                     foreach ($findAddressShipping->toArray() as $addressKey => $addressValue) {

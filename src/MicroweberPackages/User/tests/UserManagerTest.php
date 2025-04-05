@@ -15,7 +15,7 @@ use MicroweberPackages\User\Models\User;
 use MicroweberPackages\User\Notifications\NewRegistration;
 use MicroweberPackages\User\Notifications\VerifyEmail;
 use MicroweberPackages\User\UserManager;
-use Modules\Customer\Models\Address;
+use Modules\Address\Models\Address;
 use Modules\Customer\Models\Customer;
 
 /**
@@ -565,7 +565,7 @@ class UserManagerTest extends TestCase
 
             if ($subject == 'New User Registration') {
 
-           
+
 
                 $checkMailIsFound = true;
                 if (str_contains($body, '--unit-testing-welcome-')) {

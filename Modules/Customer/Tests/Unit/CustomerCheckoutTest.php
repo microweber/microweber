@@ -5,11 +5,10 @@ namespace Modules\Customer\Tests\Unit;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use MicroweberPackages\Core\tests\TestCase;
+use Modules\Address\Models\Address;
 use Modules\Checkout\Repositories\CheckoutManager;
-use Modules\Customer\Models\Address;
 use Modules\Customer\Models\Customer;
 use Modules\MailTemplate\Models\MailTemplate;
-use Modules\MailTemplate\Services\MailTemplateService;
 
 /**
  * Run test

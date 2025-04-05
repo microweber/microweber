@@ -5,6 +5,7 @@ namespace Modules\Customer\Models;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
+use Modules\Address\Models\Address;
 use Modules\Currency\Models\Currency;
 use Modules\Customer\Models\ModelFilters\CustomerFilter;
 use Modules\Order\Models\Order;

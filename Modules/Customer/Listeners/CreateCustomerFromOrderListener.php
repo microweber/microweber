@@ -2,7 +2,7 @@
 
 namespace Modules\Customer\Listeners;
 
-use Modules\Customer\Models\Address;
+use Modules\Address\Models\Address;
 use Modules\Customer\Models\Customer;
 use Modules\Order\Models\Order;
 

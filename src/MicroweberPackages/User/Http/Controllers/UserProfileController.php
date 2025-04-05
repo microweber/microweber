@@ -5,7 +5,7 @@ namespace MicroweberPackages\User\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Modules\Customer\Models\Address;
+use Modules\Address\Models\Address;
 use Modules\Customer\Models\Customer;
 
 class UserProfileController extends Controller

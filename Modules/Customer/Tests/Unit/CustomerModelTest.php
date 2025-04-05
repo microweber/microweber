@@ -4,7 +4,7 @@ namespace Modules\Customer\Tests\Unit;
 
 use Illuminate\Support\Facades\DB;
 use MicroweberPackages\Core\tests\TestCase;
-use Modules\Customer\Models\Address;
+use Modules\Address\Models\Address;
 use Modules\Customer\Models\Customer;
 
 class CustomerModelTest extends TestCase

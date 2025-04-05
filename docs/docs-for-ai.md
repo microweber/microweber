@@ -1690,7 +1690,7 @@ $customer->delete();
 To add an address to a customer, you can use the following example:
 
 ```php
-use Modules\Customer\Models\Address;
+use Modules\Address\Models\Address;
 
 $address = Address::create([
     'name' => 'Home',
