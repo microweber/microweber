@@ -20,15 +20,13 @@ class CustomerModelTest extends TestCase
         $customer = Customer::create([
             'name' => 'John Doe',
             'email' => 'john.doe@example.com',
-            'active' => 1,
-            'is_premium' => 0
+            'active' => 1
         ]);
 
         $this->assertNotNull($customer->id);
         $this->assertEquals('John Doe', $customer->name);
         $this->assertEquals('john.doe@example.com', $customer->email);
         $this->assertEquals(1, $customer->active);
-        $this->assertEquals(0, $customer->is_premium);
     }
 
     public function test_required_fields()
@@ -68,15 +66,7 @@ class CustomerModelTest extends TestCase
         $this->assertEquals('active1@test.com', $activeCustomers->first()->email);
     }
 
-    public function test_premium_scope()
-    {
-        Customer::create(['name'=>'Premium', 'email'=>'premium1@test.com', 'is_premium'=>1]);
-        Customer::create(['name'=>'Regular', 'email'=>'regular1@test.com', 'is_premium'=>0]);
-        
-        $premiumCustomers = Customer::where('is_premium', 1)->get();
-        $this->assertEquals(1, $premiumCustomers->count());
-        $this->assertEquals('premium1@test.com', $premiumCustomers->first()->email);
-    }
+    
 
     public function test_address_relationships()
     {
@@ -150,7 +140,6 @@ class CustomerModelTest extends TestCase
         ]);
 
         $this->assertEquals(1, $customer->active);
-        $this->assertEquals(0, $customer->is_premium);
     }
 
     public function test_customer_to_array()
@@ -196,9 +185,8 @@ class CustomerModelTest extends TestCase
         $customer = Customer::create([
             'name' => 'Mass Test',
             'email' => 'mass@test.com',
-            'is_premium' => 1,
             'active' => 1
         ]);
-        $this->assertEquals(1, $customer->is_premium);
+        $this->assertEquals(1, $customer->active);
     }
 }

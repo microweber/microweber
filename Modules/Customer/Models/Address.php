@@ -7,13 +7,22 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class Address extends Model
 {
+    const BILLING_TYPE = 'billing';
+    const SHIPPING_TYPE = 'shipping';
+
+    public function isBilling()
+    {
+        return $this->type === self::BILLING_TYPE;
+    }
+
+    public function isShipping()
+    {
+        return $this->type === self::SHIPPING_TYPE;
+    }
     public $table = 'addresses';
 
     use CacheableQueryBuilderTrait;
     public $cacheTagsToClear = [ 'addresses', 'customers', 'users','countries'];
-
-    const BILLING_TYPE = 'billing';
-    const SHIPPING_TYPE = 'shipping';
 
     protected $fillable = [
         'name',

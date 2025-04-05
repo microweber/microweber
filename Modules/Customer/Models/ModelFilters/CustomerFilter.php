@@ -16,6 +16,16 @@ class CustomerFilter extends ModelFilter
 
     use FilterByDateBetweenTrait;
 
+    public function active($active)
+    {
+        return $this->query->where('active', $active);
+    }
+
+    public function isPremium($isPremium)
+    {
+        return $this->query->where('is_premium', $isPremium);
+    }
+
     public function keyword($keyword)
     {
         $model = $this->getModel();
