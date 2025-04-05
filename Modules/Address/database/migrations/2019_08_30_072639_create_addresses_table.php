@@ -32,11 +32,9 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('type')->nullable();
 
-            $table->integer('customer_id')->unsigned()->nullable();
-            $table->integer('company_id')->unsigned()->nullable();
 
-
-
+            $table->string('rel_type')->nullable();
+            $table->string('rel_id')->nullable();
 
             $table->integer('created_by')->nullable();
 

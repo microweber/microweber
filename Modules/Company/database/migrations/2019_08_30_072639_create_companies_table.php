@@ -21,6 +21,7 @@ return new class extends Migration {
         Schema::create('companies', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->nullable();
+            $table->string('description')->nullable();
             $table->string('company_number')->nullable();
             $table->string('vat_number')->nullable();
             $table->string('phone')->nullable();

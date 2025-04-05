@@ -18,7 +18,7 @@ class Customer extends Model
     use Filterable;
     use CacheableQueryBuilderTrait;
 
-    public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users','companies'];
+    public $cacheTagsToClear = ['countries', 'addresses', 'customers', 'users', 'companies'];
 
     protected $attributes = [
         'active' => 1
@@ -47,13 +47,13 @@ class Customer extends Model
         return $this->provideFilter(CustomerFilter::class);
     }
 
-   /* public function getActiveAttribute($attribute)
-    {
-        $activeOptions = $this->activeOptions();
-        if (isset($activeOptions[$attribute])) {
-            return $activeOptions[$attribute];
-        }
-    }*/
+    /* public function getActiveAttribute($attribute)
+     {
+         $activeOptions = $this->activeOptions();
+         if (isset($activeOptions[$attribute])) {
+             return $activeOptions[$attribute];
+         }
+     }*/
 
     public function scopeActive($query)
     {
@@ -67,7 +67,8 @@ class Customer extends Model
 
     public function addresses()
     {
-        return $this->hasMany(Address::class);
+        //  return $this->hasMany(Address::class);
+        return $this->morphMany(Address::class, 'rel', 'rel_type', 'rel_id');
     }
 
 //    public function currency()
@@ -77,12 +78,12 @@ class Customer extends Model
 
     public function billingAddress()
     {
-        return $this->hasOne(Address::class)->where('type', Address::BILLING_TYPE);
+        return $this->morphOne(Address::class, 'rel')->where('type', Address::BILLING_TYPE);
     }
 
     public function shippingAddress()
     {
-        return $this->hasOne(Address::class)->where('type', Address::SHIPPING_TYPE);
+        return $this->morphOne(Address::class, 'rel')->where('type', Address::SHIPPING_TYPE);
     }
 
 //    public function payments()
@@ -237,18 +238,20 @@ class Customer extends Model
         }
         $findUser = $this->user()->first();
         if ($findUser) {
-           if (isset($findUser->phone) && !empty($findUser->phone)) {
-               return $findUser->phone;
-           }
+            if (isset($findUser->phone) && !empty($findUser->phone)) {
+                return $findUser->phone;
+            }
         }
         return '...';
     }
 
-    public function company(){
+    public function company()
+    {
         return $this->belongsTo(Company::class);
     }
 
-    public function currency(){
+    public function currency()
+    {
         return $this->belongsTo(Currency::class);
     }
 

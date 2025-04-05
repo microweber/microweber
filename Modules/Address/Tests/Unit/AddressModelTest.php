@@ -24,17 +24,20 @@ class AddressModelTest extends TestCase
 
         // Create billing address
         $billingAddress = Address::create([
-            'customer_id' => $customer->id,
+         //   'customer_id' => $customer->id,
             'type' => Address::BILLING_TYPE,
             'address_street_1' => '123 Billing St'
         ]);
 
+        $customer->addresses()->save($billingAddress);
+
         // Create shipping address
         $shippingAddress = Address::create([
-            'customer_id' => $customer->id,
+         //   'customer_id' => $customer->id,
             'type' => Address::SHIPPING_TYPE,
             'address_street_1' => '456 Shipping Ave'
         ]);
+        $customer->addresses()->save($shippingAddress);
 
 
         // Test relationships

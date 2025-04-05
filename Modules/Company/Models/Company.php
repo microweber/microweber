@@ -10,16 +10,19 @@ class Company extends Model
 
     public $fillable = [
         'name',
-        'company_number',
-        'vat_number',
-        'phone',
+        'website',
+        'description',
         'email',
-        'address',
+        'logo',
+
+        'country',
         'city',
         'zip',
-        'country',
-        'website',
-        'logo',
+        'address',
+        'phone',
+        'company_number',
+        'vat_number',
+
         'rel_type',
         'rel_id',
     ];

@@ -30,12 +30,18 @@ class Address extends Model
         'phone',
         'type',
         'customer_id',
+        'rel_type',
+        'rel_id',
 
     ];
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+      //  return $this->belongsTo(Customer::class);
+       return $this->belongsTo(Customer::class,'rel_id');
+
+      //  return $this->morphMany(Customer::class, 'rel');
+
     }
 
     public function country()
