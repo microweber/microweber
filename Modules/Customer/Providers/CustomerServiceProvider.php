@@ -35,9 +35,30 @@ class CustomerServiceProvider extends BaseModuleServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
        // $this->loadRoutesFrom(module_path($this->moduleName, 'routes/web.php'));
 
+        // Register services
+        $this->app->singleton(
+            \Modules\Customer\Services\CustomerManager::class,
+            \Modules\Customer\Services\CustomerManager::class
+        );
+        $this->app->singleton(
+            \Modules\Customer\Repositories\CustomerRepository::class,
+            \Modules\Customer\Repositories\EloquentCustomerRepository::class
+        );
 
+        // Register event provider and resources
         $this->app->register(CustomerEventServiceProvider::class);
         FilamentRegistry::registerResource(CustomerResource::class);
+
+        // Register factories
+        $this->app->singleton(
+            \Modules\Customer\Models\CustomerFactory::class,
+            function () {
+                return \Database\Factories\CustomerFactory::new();
+            }
+        );
+
+
+        
     }
 
 }

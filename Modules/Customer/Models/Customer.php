@@ -4,14 +4,26 @@ namespace Modules\Customer\Models;
 
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 use Modules\Currency\Models\Currency;
+use Database\Factories\CustomerFactory;
 use Modules\Customer\Models\ModelFilters\CustomerFilter;
 use Modules\Order\Models\Order;
 
 class Customer extends Model
 {
+    use SoftDeletes;
+
+    protected static function newFactory()
+    {
+        return \Database\Factories\CustomerFactory::new();
+    }
     protected $table = 'customers';
+
+    protected $attributes = [
+        'active' => 1
+    ];
 
     use Filterable;
     use CacheableQueryBuilderTrait;
@@ -26,10 +38,27 @@ class Customer extends Model
         'phone',
         'email',
         'active',
+        'customer_data',
         'user_id',
         'currency_id',
         'company_id'
     ];
+
+protected $casts = [
+    'customer_data' => 'array'
+];
+
+public function getIsPremiumAttribute()
+{
+    return $this->customer_data['is_premium'] ?? false;
+}
+
+public function setIsPremiumAttribute($value)
+{
+    $data = $this->customer_data ?? [];
+    $data['is_premium'] = (bool)$value;
+    $this->customer_data = $data;
+}
 
     public $translatable = ['first_name', 'last_name'];
 
