@@ -137,7 +137,9 @@ class CustomerCheckoutTest extends TestCase
         $this->assertEquals($customer->phone, $checkoutDetails['phone']);
 
         // Find customer
-        $address = Address::where('customer_id', $customer->id)->first();
+        $address = Address::where('rel_id', $customer->id)
+            ->where('rel_type', Customer::class)
+            ->first();
 
         $this->assertEquals($address->phone, $checkoutDetails['phone']);
         $this->assertEquals($address->address_street_1, $checkoutDetails['address']);
@@ -190,7 +192,9 @@ class CustomerCheckoutTest extends TestCase
         $this->assertNotEquals($customer->phone, $checkoutDetails['phone']);
 
         // Find customer
-        $address = Address::where('customer_id', $customer->id)->first();
+        $address = Address::where('rel_id', $customer->id)
+            ->where('rel_type', Customer::class)
+            ->first();
 
         $this->assertNotEquals($address->phone, $checkoutDetails['phone']);
         $this->assertNotEquals($address->address_street_1, $checkoutDetails['address']);
