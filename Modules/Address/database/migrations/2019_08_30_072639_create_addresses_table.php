@@ -26,15 +26,23 @@ return new class extends Migration
             $table->string('address_street_2')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
-            $table->string('country_code')->nullable();
+            $table->string('country')->nullable();
             $table->integer('country_id')->unsigned()->nullable();
             $table->string('zip')->nullable();
             $table->string('phone')->nullable();
-            $table->string('fax')->nullable();
             $table->string('type')->nullable();
 
             $table->integer('customer_id')->unsigned()->nullable();
             $table->integer('company_id')->unsigned()->nullable();
+
+
+            $table->string('rel_type')->nullable();
+            $table->string('rel_id')->nullable();
+
+            $table->integer('created_by')->nullable();
+
+
+
 
             $table->timestamps();
         });

@@ -12,10 +12,11 @@ class Address extends Model
 
     public $table = 'addresses';
 
-    public $cacheTagsToClear = ['addresses', 'customers', 'users', 'countries','companies'];
+    public $cacheTagsToClear = ['addresses', 'customers', 'users', 'countries', 'companies'];
 
     const BILLING_TYPE = 'billing';
     const SHIPPING_TYPE = 'shipping';
+    const OTHER_TYPE = 'other';
 
     protected $fillable = [
         'name',
@@ -23,12 +24,15 @@ class Address extends Model
         'address_street_2',
         'city',
         'state',
+        'country',
         'country_id',
         'zip',
         'phone',
-        'fax',
         'type',
-        'customer_id'
+        'customer_id',
+        'rel_type',
+        'rel_id',
+
     ];
 
     public function customer()

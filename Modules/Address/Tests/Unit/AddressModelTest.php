@@ -36,10 +36,13 @@ class AddressModelTest extends TestCase
             'address_street_1' => '456 Shipping Ave'
         ]);
 
+
         // Test relationships
         $this->assertEquals(2, $customer->addresses->count());
         $this->assertEquals($customer->id, $billingAddress->customer->id);
-
+        /*
+         * @var Address $billingAddress;
+         */
         // Test address type methods
         $this->assertTrue($billingAddress->isBilling());
         $this->assertFalse($billingAddress->isShipping());
