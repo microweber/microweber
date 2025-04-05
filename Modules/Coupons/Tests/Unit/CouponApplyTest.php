@@ -70,9 +70,7 @@ class CouponApplyTest extends TestCase
 
         // Verify coupon was logged immediately after application
         $initialLog = CartCouponLog::where('coupon_code', $code)->first();
-        echo "\nDEBUG - CartCouponLog entries: " . json_encode(CartCouponLog::all()->toArray()) . "\n";
-        echo "DEBUG - Applied coupon result: " . json_encode($result) . "\n";
-        $this->assertNotNull($initialLog, 'Coupon should be logged immediately after application');
+         $this->assertNotNull($initialLog, 'Coupon should be logged immediately after application');
         $this->assertSame($initialLog->coupon_code, $code);
         $this->assertSame($initialLog->coupon_id, $couponId);
         $this->assertSame($initialLog->discount_type, 'fixed_amount');
@@ -88,7 +86,6 @@ class CouponApplyTest extends TestCase
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
 
-        echo "\nDEBUG - Checkout Response: " . json_encode($checkoutStatus) . "\n";
 
         // Verify coupon is still logged after checkout
         $postCheckoutLog = CartCouponLog::where('coupon_code', $code)->first();
@@ -144,7 +141,6 @@ class CouponApplyTest extends TestCase
 
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
-        echo "\nDEBUG - Full Checkout Response: " . json_encode($checkoutStatus) . "\n";
 
         // Verify coupon was logged and applied correctly
         $couponLog = CartCouponLog::where('coupon_code', $code)->first();
@@ -203,7 +199,7 @@ class CouponApplyTest extends TestCase
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
 
-        $this->assertSame($checkoutStatus['coupon_code'] ?? null, $code);
+        $this->assertSame($checkoutStatus['promo_code'] ?? null, $code);
         $this->assertSame($checkoutStatus['coupon_id'] ?? null, $couponId);
         $this->assertSame($checkoutStatus['discount_type'] ?? null, 'percentage');
         $this->assertSame($checkoutStatus['discount_value'] ?? null, floatval('50.00'));
@@ -260,7 +256,7 @@ class CouponApplyTest extends TestCase
         $checkout = new CheckoutManager();
         $checkoutStatus = $checkout->checkout($checkoutDetails);
 
-        $this->assertSame($checkoutStatus['coupon_code'] ?? null, $code);
+        $this->assertSame($checkoutStatus['promo_code'] ?? null, $code);
         $this->assertSame($checkoutStatus['coupon_id'] ?? null, $couponId);
         $this->assertSame($checkoutStatus['discount_type'] ?? null, 'percentage');
         $this->assertSame($checkoutStatus['discount_value'] ?? null, floatval('5000.00'));

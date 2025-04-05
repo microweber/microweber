@@ -1267,8 +1267,12 @@ class CartManager extends Crud
 
     public function couponCodeGetDataFromSession()
     {
-        $coupon_code = $this->app->user_manager->session_get('coupon_code');
-        if ($coupon_code and !$this->couponCodeCheckIfValid($coupon_code)) {
+        $coupon_code_session = coupons_get_session();
+
+        $coupon_code=$coupon_code_session['coupon_code'] ?? false;
+
+         if ($coupon_code and !$this->couponCodeCheckIfValid($coupon_code)) {
+
             //check if coupon is valid
             if (function_exists('coupons_delete_session')) {
                 coupons_delete_session();

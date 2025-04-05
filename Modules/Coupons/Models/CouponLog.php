@@ -15,6 +15,10 @@ class CouponLog extends Model
         'customer_email',
         'customer_ip',
         'uses_count',
+        'discount_type',
+        'discount_amount',
+        'discount_value',
+        'cart_total',
         'use_date'
     ];
 
@@ -34,10 +38,17 @@ class CouponLog extends Model
             'coupon_id' => $coupon->id,
             'customer_email' => $customerEmail,
             'customer_ip' => $customerIp,
+            'discount_type' => $coupon->discount_type,
+            'discount_amount' => $coupon->calculateDiscount(cart_total()),
+            'discount_value' => $coupon->discount_value,
+            'cart_total' => cart_total(),
         ]);
 
         if (!$log->exists) {
             $log->coupon_code = $coupon->coupon_code;
+            $log->customer_email = $customerEmail;
+            $log->discount_type = $coupon->discount_type;
+
             $log->uses_count = 0;
         }
 

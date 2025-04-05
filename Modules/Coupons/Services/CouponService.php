@@ -27,7 +27,7 @@ class CouponService
     {
         Session::forget([
             'applied_coupon',
-            'coupon_discount', 
+            'coupon_discount',
             'coupon_data'
         ]);
     }
@@ -79,12 +79,12 @@ class CouponService
             $requiredProducts = array_map('trim', explode(',', $coupon->product_ids));
             $cartItems = app('cart_manager')->get_cart([]);
             $cartProductIds = array_map('strval', array_column($cartItems, 'rel_id'));
-            
+
             $hasRequiredProduct = !empty(array_intersect(
-                $requiredProducts, 
+                $requiredProducts,
                 $cartProductIds
             ));
-            
+
             if (!$hasRequiredProduct) {
                 return [
                     'error' => true,
@@ -94,7 +94,7 @@ class CouponService
         }
 
         $discountAmount = $coupon->calculateDiscount($cartTotal);
-        
+
         // Store coupon in session and log
         Session::put([
             'applied_coupon' => $coupon->coupon_code,
@@ -122,5 +122,47 @@ class CouponService
         ];
     }
 
-    // ... [rest of the file content remains unchanged]
+
+
+    public function consumeCoupon(string $code, string $customerEmail, string $customerIp): void
+    {
+        $coupon = Coupon::where('coupon_code', $code)->first();
+        if (!$coupon) {
+            return;
+        }
+
+        CouponLog::logUsage($coupon, $customerEmail, $customerIp);
+        $this->clearCouponSession();
+    }
+
+
+    private function storeCouponInSession(Coupon $coupon): void
+    {
+        Session::put([
+            'coupon_code' => $coupon->coupon_code,
+            'coupon_id' => $coupon->id,
+            'discount_value' => $coupon->discount_value,
+            'discount_type' => $coupon->discount_type,
+            'applied_coupon_data' => $coupon->toArray()
+        ]);
+    }
+
+
+    public function getAppliedCoupon(): ?array
+    {
+        return Session::get('applied_coupon_data');
+    }
+
+
+    public function getAppliedDiscount(float $cartTotal): float
+    {
+        $appliedCoupon = $this->getAppliedCoupon();
+        if (!$appliedCoupon) {
+            return 0;
+        }
+
+        $coupon = new Coupon($appliedCoupon);
+        return $coupon->calculateDiscount($cartTotal);
+    }
+
 }
