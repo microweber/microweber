@@ -75,6 +75,7 @@ class BillingServiceProvider extends BaseModuleServiceProvider
         Livewire::component('billing::subscription-plan-groups', SubscriptionPlanGroups::class);
         Livewire::component('billing::subscription-plan-edit-modal', SubscriptionPlanEditModal::class);
         Livewire::component('billing::subscription-plan-group-edit-modal', SubscriptionPlanGroupEditModal::class);
+        $this->app->register(BillingEventServiceProvider::class);
 
         $this->app->register(BillingFilamentAdminPanelProvider::class);
         $this->commands([
