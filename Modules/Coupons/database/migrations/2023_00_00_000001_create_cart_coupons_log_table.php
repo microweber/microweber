@@ -15,6 +15,7 @@ return new class extends Migration {
                 $table->integer('coupon_id')->nullable();
                 $table->string('customer_email')->nullable();
                 $table->string('customer_id')->nullable();
+                $table->string('customer_ip')->nullable();
 
                 $table->string('coupon_code')->nullable();
                 $table->string('discount_type')->nullable();

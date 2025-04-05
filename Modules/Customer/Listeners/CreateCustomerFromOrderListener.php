@@ -45,15 +45,18 @@ class CreateCustomerFromOrderListener
                 $findOrder->save();
             }
 
-            $findCustomerAddressByCustomerId = Address::where('customer_id', $findCustomer->id)
-                ->where('city', $order->city)
-                ->where('address_street_1', $order->address)
-                ->first();
+            $findCustomerAddressByCustomerId =
+                Address::where('rel_id', $findCustomer->id)
+                    ->where('rel_type', Customer::class)
+                    ->where('city', $order->city)
+                    ->where('address_street_1', $order->address)
+                    ->first();
             if (!$findCustomerAddressByCustomerId) {
-                Address::create([
+                $address = Address::create([
                     'name' => 'Default',
                     'type' => 'shipping',
-                    'customer_id' => $findCustomer->id,
+                    'rel_type' => Customer::class,
+                    'rel_id' => $findCustomer->id,
                     'city' => $order->city,
                     'phone' => $order->phone,
                     'address_street_1' => $order->address,
@@ -61,6 +64,8 @@ class CreateCustomerFromOrderListener
                     'state' => $order->state,
                     'zip' => $order->zip
                 ]);
+
+
             }
 
         }
