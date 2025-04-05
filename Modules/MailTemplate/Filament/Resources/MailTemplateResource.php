@@ -22,12 +22,14 @@ class MailTemplateResource extends Resource
 {
     protected static ?string $model = MailTemplate::class;
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationGroup = 'System';
+
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     public static function form(Form $form): Form
     {
         $service = app(MailTemplateService::class);
-        
+
         return $form
             ->schema([
                 Section::make('Template Details')
@@ -111,7 +113,7 @@ class MailTemplateResource extends Resource
                                     $content .= "<div><code class='text-primary-600'>{$var}</code> - {$desc}</div>";
                                 }
                                 $content .= '</div>';
-                                
+
                                 return new \Illuminate\Support\HtmlString($content);
                             })
                             ->columnSpanFull(),

@@ -5,6 +5,7 @@ namespace Modules\Comments\Filament\Resources\CommentResource\Pages;
 use Modules\Comments\Filament\Resources\CommentResource;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Actions\Action;
+use Filament\Actions;
 
 class ListComments extends ListRecords
 {
@@ -13,6 +14,7 @@ class ListComments extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\CreateAction::make(),
             Action::make('settings')
                 ->label('Comments Settings')
                 ->url(route('filament.admin.pages.comments-module-settings-admin'))

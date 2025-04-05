@@ -17,8 +17,11 @@ class CommentResource extends Resource
 {
     protected static ?string $model = Comment::class;
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
-    protected static ?string $navigationGroup = 'Content';
+    protected static ?string $navigationGroup = 'Other';
     protected static ?string $recordTitleAttribute = 'comment_subject';
+    protected static bool $shouldRegisterNavigation = true;
+
+
 
     public static function form(Form $form): Form
     {
@@ -46,6 +49,26 @@ class CommentResource extends Resource
                 Forms\Components\Toggle::make('is_spam')
                     ->label('Mark as Spam')
                     ->default(false),
+
+                Forms\Components\Select::make('rel_type')
+                    ->label('Related To')
+                    ->options([
+                        morph_name(\Modules\Content\Models\Content::class) => 'Content',
+                    ])
+                    ->searchable()
+                    ->reactive()
+                    ->afterStateUpdated(function (callable $set, $state) {
+                        if ($state === morph_name(\Modules\Content\Models\Content::class)) {
+                            $set('rel_id', null);
+                        }
+                    }),
+                Forms\Components\Select::make('rel_id')
+                    ->label('Related ID')
+                    ->relationship('content', 'title')
+                    ->searchable()
+                    ->preload()
+                    ->visible(fn($get) => $get('rel_type') === morph_name(\Modules\Content\Models\Content::class))
+                    ->required(fn($get) => $get('rel_type') === morph_name(\Modules\Content\Models\Content::class)),
             ]);
     }
 

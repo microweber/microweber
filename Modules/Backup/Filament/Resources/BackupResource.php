@@ -20,6 +20,8 @@ use Modules\Backup\SessionStepper;
 
 class BackupResource extends Resource
 {
+    protected static ?string $navigationGroup = 'System';
+
     protected static ?string $model = Backup::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-uturn-left';

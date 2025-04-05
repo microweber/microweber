@@ -21,7 +21,7 @@ class FaqModuleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
 
-    protected static ?string $navigationGroup = 'Content';
+    protected static ?string $navigationGroup = 'Other';
 
     protected static ?int $navigationSort = 100;
 

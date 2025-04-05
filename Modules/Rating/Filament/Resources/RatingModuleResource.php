@@ -19,9 +19,10 @@ class RatingModuleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-star';
 
-    protected static ?string $navigationGroup = 'Content';
+    protected static ?string $navigationGroup = 'Other';
 
     protected static ?int $navigationSort = 100;
+    protected static bool $shouldRegisterNavigation = true;
 
     public static function form(Form $form): Form
     {
