@@ -223,8 +223,7 @@ class CategoryTest extends TestCase
 
     public function testCategoriesSameSlug()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+         $this->loginAsAdmin();
 
 
         $title = 'New cat for my slug test ' . uniqid();
@@ -291,6 +290,7 @@ class CategoryTest extends TestCase
 
     public function testCategoriesSlugToAcceptIdnChars()
     {
+        $this->loginAsAdmin();
         $uidRoot = 'Root' . uniqid();
         $slugs = [
             'category-1' => 'category-1',
@@ -329,8 +329,7 @@ class CategoryTest extends TestCase
 
     public function testCategoriesSameItemsIfSamePostIsSavedTwice()
     {
-        $user = User::where('is_admin', '=', '1')->first();
-        Auth::login($user);
+        $this->loginAsAdmin();
 
 
         $save = [];
