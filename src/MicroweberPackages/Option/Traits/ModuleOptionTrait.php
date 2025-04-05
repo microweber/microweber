@@ -15,20 +15,32 @@ trait ModuleOptionTrait
             return $this->memoryModuleOptionGroup[$optionGroup];
         }
 
-        if ($optionGroup) {
+        try {
 
-            $allOptions = ModuleOption::where('option_group', $optionGroup);
+            if ($optionGroup) {
 
-            if ($module) {
-                $allOptions->where('module', $module);
+                $allOptions = ModuleOption::where('option_group', $optionGroup);
+
+                if ($module) {
+                    $allOptions->where('module', $module);
+                }
+
+                $allOptions = $allOptions->get()->toArray();
+                if (!$module) {
+                    $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
+                }
+                return $allOptions;
             }
 
-            $allOptions = $allOptions->get()->toArray();
-            if (!$module) {
-                $this->memoryModuleOptionGroup[$optionGroup] = $allOptions;
-            }
-            return $allOptions;
+
+        } catch (\Exception $e) {
+            return false;
         }
+
+
+
+
+
 
         return false;
     }

@@ -30,8 +30,6 @@ class Address extends Model
         'phone',
         'type',
         'customer_id',
-        'rel_type',
-        'rel_id',
 
     ];
 

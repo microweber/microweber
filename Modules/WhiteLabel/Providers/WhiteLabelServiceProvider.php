@@ -25,8 +25,10 @@ class WhiteLabelServiceProvider extends BaseModuleServiceProvider
       if (mw_is_installed()) {
 
             // Bind event for applying white label settings
-            event_bind('mw.after.boot', function () {
-
+            event_bind('mw.front', function () {
+                app(WhiteLabelService::class)->applyWhiteLabelSettings();
+            });
+            event_bind('mw.admin', function () {
                 app(WhiteLabelService::class)->applyWhiteLabelSettings();
             });
         }
